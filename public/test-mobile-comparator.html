@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Mobile Comparator - MaximusSCPI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 30px 20px;
+    }
+
+    .info-card {
+      background: #f8fafc;
+      border-left: 4px solid #059669;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .info-card h2 {
+      font-size: 18px;
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+
+    .info-card p {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .features {
+      display: grid;
+      gap: 15px;
+      margin: 30px 0;
+    }
+
+    .feature {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      padding: 15px;
+      background: #fff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .feature:hover {
+      border-color: #059669;
+      transform: translateX(4px);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .feature-text {
+      flex: 1;
+    }
+
+    .feature-text h3 {
+      font-size: 16px;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .feature-text p {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+      transition: all 0.3s;
+      margin-top: 30px;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.5);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 0;
+      }
+
+      .container {
+        border-radius: 0;
+        min-height: 100vh;
+      }
+
+      .header {
+        padding: 30px 20px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📱 Mobile-First SCPI Comparator</h1>
+      <p>Une nouvelle expérience de comparaison mobile</p>
+    </div>
+
+    <div class="content">
+      <div class="info-card">
+        <h2>🎯 Objectif</h2>
+        <p>
+          Résoudre les problèmes d'ergonomie des tableaux traditionnels sur mobile
+          en utilisant une approche "Card Design" moderne et intuitive.
+        </p>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🃏</div>
+          <div class="feature-text">
+            <h3>Design en Cartes</h3>
+            <p>Chaque SCPI affichée dans une carte claire et lisible</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div class="feature-text">
+            <h3>Divulgation Progressive</h3>
+            <p>Détails secondaires masqués par défaut, affichables sur demande</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🎛️</div>
+          <div class="feature-text">
+            <h3>Filtres Modaux</h3>
+            <p>Interface de filtrage plein écran pour une meilleure expérience</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">✅</div>
+          <div class="feature-text">
+            <h3>Sélection Multiple</h3>
+            <p>Footer flottant pour comparer jusqu'à plusieurs SCPI</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📱</div>
+          <div class="feature-text">
+            <h3>Touch-Optimized</h3>
+            <p>Zones tactiles de 44px minimum, parfait pour les doigts</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <div class="feature-text">
+            <h3>Design Fintech</h3>
+            <p>Esthétique moderne avec accent Emerald Green</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="/comparateur-mobile" class="cta-button">
+        Accéder au Comparateur Mobile →
+      </a>
+
+      <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+        <p style="color: #92400e; font-size: 13px; line-height: 1.6;">
+          <strong>💡 Note technique :</strong> Ce comparateur utilise React avec Vite, Tailwind CSS,
+          et Lucide React pour les icônes. L'architecture est mobile-first avec une adaptation
+          responsive pour desktop.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>MaximusSCPI &copy; 2025 - Mobile Comparator Prototype</p>
+    </div>
+  </div>
+
+  <script>
+    // Smooth scroll effect
+    document.querySelectorAll('a[href^="/"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        console.log('Navigation to:', link.href);
+      });
+    });
+
+    // Feature hover effect enhancement
+    document.querySelectorAll('.feature').forEach(feature => {
+      feature.addEventListener('mouseenter', () => {
+        feature.style.backgroundColor = '#f8fafc';
+      });
+      feature.addEventListener('mouseleave', () => {
+        feature.style.backgroundColor = '#fff';
+      });
+    });
+  </script>
+</body>
+</html>

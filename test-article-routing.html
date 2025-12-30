@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Article Routing</title>
+</head>
+<body>
+    <h1>Test du Routing des Articles</h1>
+
+    <h2>1. Test Configuration</h2>
+    <div id="config-test"></div>
+
+    <h2>2. Test Routing</h2>
+    <div id="routing-test"></div>
+
+    <h2>3. Navigation</h2>
+    <button onclick="testNavigation()">Tester Navigation vers fonds-euros-ou-scpi</button>
+    <div id="nav-result"></div>
+
+    <script>
+        // Test 1: Vérifier que le slug existe
+        const slugToTest = 'fonds-euros-ou-scpi';
+        document.getElementById('config-test').innerHTML = `
+            <p>Slug à tester: <code>${slugToTest}</code></p>
+            <p>Status: En attente du chargement React...</p>
+        `;
+
+        // Test 2: Vérifier le routing
+        document.getElementById('routing-test').innerHTML = `
+            <p>Path actuel: <code>${window.location.pathname}</code></p>
+            <p>Hash: <code>${window.location.hash}</code></p>
+        `;
+
+        // Test 3: Navigation
+        function testNavigation() {
+            const targetPath = '/fonds-euros-ou-scpi';
+            document.getElementById('nav-result').innerHTML = `
+                <p>Tentative de navigation vers: <code>${targetPath}</code></p>
+                <p>Méthode: window.history.pushState</p>
+            `;
+
+            window.history.pushState({}, '', targetPath);
+
+            setTimeout(() => {
+                document.getElementById('nav-result').innerHTML += `
+                    <p>✅ Navigation effectuée</p>
+                    <p>Path actuel: <code>${window.location.pathname}</code></p>
+                    <p><strong>Rechargez la page pour voir le contenu React</strong></p>
+                `;
+            }, 100);
+        }
+    </script>
+</body>
+</html>

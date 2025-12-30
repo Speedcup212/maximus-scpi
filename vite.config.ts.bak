@@ -1,0 +1,148 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { copyFileSync, existsSync, readdirSync } from 'fs';
+import { resolve, join } from 'path';
+import { execSync } from 'child_process';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react(),
+    {
+      name: 'async-optimization',
+      transformIndexHtml(html) {
+        // Convert CSS to preload for faster loading
+        html = html.replace(
+          /<link rel="stylesheet" crossorigin href="([^"]*\.css)">/g,
+          '<link rel="preload" href="$1" as="style" onload="this.onload=null;this.rel=\'stylesheet\'">\n    <noscript><link rel="stylesheet" crossorigin href="$1"></noscript>'
+        );
+
+        // Defer non-critical JS
+        html = html.replace(
+          /<script type="module" crossorigin src="([^"]*)"><\/script>/g,
+          (match, src) => {
+            // Keep main entry point with normal loading
+            if (src.includes('/main') || src.includes('/index')) {
+              return match;
+            }
+            // Defer other scripts
+            return `<script type="module" crossorigin src="${src}" defer></script>`;
+          }
+        );
+
+        // Inject global functions script BEFORE React loads
+        const globalScript = `
+    <!-- Global functions for static pages -->
+    <script>
+      // Initialize comparison table queue
+      window.comparisonTableQueue = [];
+
+      // Define function immediately (will be overridden by React when it loads)
+      window.openComparisonTable = function(scpiList) {
+        console.log('[Global] openComparisonTable called with', scpiList.length, 'SCPI');
+        // Queue the call until React is ready
+        window.comparisonTableQueue.push(scpiList);
+      };
+
+      window.openRdvModal = function() {
+        console.log('[Global] openRdvModal called');
+      };
+    </script>`;
+
+        html = html.replace('<div id="root"></div>', `<div id="root"></div>${globalScript}`);
+
+        return html;
+      }
+    },
+    {
+      name: 'copy-static-files',
+      closeBundle() {
+        const distDir = resolve(__dirname, 'dist');
+        if (!existsSync(distDir)) {
+          console.warn('dist directory not found, skipping file copy');
+          return;
+        }
+
+        // Copy redirects if exists
+        const redirectsPath = resolve(__dirname, 'public/_redirects');
+        if (existsSync(redirectsPath)) {
+          copyFileSync(redirectsPath, resolve(distDir, '_redirects'));
+        }
+
+        // Copy headers if exists
+        const headersPath = resolve(__dirname, 'public/_headers');
+        if (existsSync(headersPath)) {
+          copyFileSync(headersPath, resolve(distDir, '_headers'));
+        }
+
+        // Copy logo SVG if exists
+        const logoPath = resolve(__dirname, 'public/Maximus logo 250x50 4.svg');
+        if (existsSync(logoPath)) {
+          copyFileSync(logoPath, resolve(distDir, 'Maximus logo 250x50 4.svg'));
+        }
+      }
+    }
+  ],
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'lucide-react'],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            // Group ALL React-related packages together (including scheduler)
+            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+              return 'react-vendor';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons';
+            }
+            if (id.includes('jspdf') || id.includes('html2canvas')) {
+              return 'pdf-generator';
+            }
+            if (id.includes('@supabase')) {
+              return 'supabase';
+            }
+            return 'vendor';
+          }
+          // Split PieChart component separately
+          if (id.includes('PieChart')) {
+            return 'charts';
+          }
+          // Split data files into separate chunks
+          if (id.includes('thematicLandingPages')) {
+            return 'thematic-data';
+          }
+          if (id.includes('educationArticles')) {
+            return 'education-data';
+          }
+          if (id.includes('SCPI_complet') || id.includes('SCPI_comparateur') || id.includes('SCPI_REFERENCE')) {
+            return 'scpi-data';
+          }
+          if (id.includes('src/data/')) {
+            return 'data';
+          }
+          if (id.includes('src/components/landing/')) {
+            return 'landing-components';
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 600,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+    target: 'es2020',
+    sourcemap: false,
+    reportCompressedSize: false,
+  },
+  server: {
+    hmr: {
+      overlay: false
+    },
+    watch: {
+      usePolling: true,
+      interval: 100
+    }
+  }
+});

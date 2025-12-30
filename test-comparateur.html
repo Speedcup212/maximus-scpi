@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Comparateur SCPI</title>
+</head>
+<body>
+  <h1>Test de Navigation vers /comparateur-scpi</h1>
+
+  <button onclick="window.location.href='/comparateur-scpi'">
+    Aller vers /comparateur-scpi
+  </button>
+
+  <hr>
+
+  <h2>Debug Info:</h2>
+  <pre id="debug"></pre>
+
+  <script>
+    const debug = document.getElementById('debug');
+    const info = {
+      'Current URL': window.location.href,
+      'Pathname': window.location.pathname,
+      'Hash': window.location.hash,
+      'Search': window.location.search,
+      'Path cleaned': window.location.pathname.replace(/^\/|\/$/, '')
+    };
+
+    debug.textContent = JSON.stringify(info, null, 2);
+  </script>
+</body>
+</html>

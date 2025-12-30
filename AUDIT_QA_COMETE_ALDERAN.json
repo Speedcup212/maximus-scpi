@@ -1,0 +1,228 @@
+{
+  "url": "https://www.maximusscpi.com/scpi-comete-alderan",
+  "type_page": "fiche_scpi",
+  "date_audit": "2025-10-08",
+  "identite": {
+    "url_slug": "scpi-comete-alderan",
+    "route_attendue": "/scpi-comete",
+    "meta_title": "MaximusSCPI - La plateforme la plus performante pour investir en SCPI",
+    "h1": "Pourquoi choisir la SCPI Comète ?",
+    "scpi_ciblee": "Comète",
+    "societe_gestion": "Alderan",
+    "incoherences_noms": [],
+    "flags": [
+      {
+        "level": "P1",
+        "reason": "URL slug incohérent: route réelle 'scpi-comete' mais URL attendue 'scpi-comete-alderan'"
+      },
+      {
+        "level": "P2",
+        "reason": "Meta title générique - devrait mentionner 'SCPI Comète Alderan' pour le SEO"
+      }
+    ]
+  },
+  "kpis": {
+    "taux_distribution_%": "11.18",
+    "TOF_%": "93.6",
+    "prix_part_€": "250",
+    "valeur_retrait_€": "225",
+    "frais_entree_%": "10",
+    "frais_gestion_%": "11",
+    "endettement_%": "30",
+    "decote_%": "-3.27",
+    "capitalisation": "121 M€",
+    "nombre_immeubles": "9",
+    "periodicite_revenus": "Trimestriel",
+    "label_ISR": "Oui",
+    "sfdr": "Article 8",
+    "annee_creation": "2023",
+    "duree_detention_recommandee": "8-10 ans",
+    "minimum_souscription": "5000 €",
+    "date_source": "UNKNOWN",
+    "coherence_interne_ok": true,
+    "verification_source_json": {
+      "fichier": "SCPI_complet_avec_SFDR_Profil.json",
+      "ligne": 301,
+      "correspondance": "100%",
+      "notes": "Tous les chiffres correspondent exactement entre landingPagesData.ts et SCPI_complet_avec_SFDR_Profil.json"
+    }
+  },
+  "conformite": {
+    "disclaimer_rendement_non_garanti": true,
+    "risque_perte_capital": true,
+    "long_terme_liquidite": true,
+    "mention_performances_passees": true,
+    "duree_placement_visible": true,
+    "promesses_trompeuses": [
+      "Rendement exceptionnel de 11,18%",
+      "revenus garantis"
+    ],
+    "wording_problematique": {
+      "ligne_53": "Rendement exceptionnel de 11,18%",
+      "ligne_58": "rendement exceptionnel de 11,18%",
+      "ligne_61": "Rendement exceptionnel : 11,18%",
+      "ligne_113": "garantissant des revenus réguliers",
+      "ligne_169": "garantissant des revenus réguliers"
+    },
+    "disclaimer_position": {
+      "footer": true,
+      "proximite_kpis": false,
+      "above_cta": false
+    },
+    "flags": [
+      {
+        "level": "P0",
+        "reason": "Usage du mot 'exceptionnel' (3 occurrences) - wording promotionnel excessif pour Google Ads"
+      },
+      {
+        "level": "P0",
+        "reason": "Usage du mot 'garantissant' (2 occurrences) - suggère une garantie de revenus, interdit par l'AMF"
+      },
+      {
+        "level": "P1",
+        "reason": "Disclaimers seulement en footer - doivent être à proximité immédiate des KPIs"
+      },
+      {
+        "level": "P1",
+        "reason": "Absence de date/source des chiffres affichés"
+      }
+    ]
+  },
+  "conversion_tracking": {
+    "cta_above_fold": true,
+    "formulaire_present": true,
+    "calendly_present": false,
+    "click_tel_present": false,
+    "boutons_cta_identifies": [
+      "Commencer l'analyse (hero)",
+      "Prendre RDV (expert section)",
+      "Formulaire de contact (bas de page)"
+    ],
+    "tracking_google_ads": {
+      "conversion_id": "AW-CONVERSION_ID/SCPI_COMETE",
+      "event_name": "conversion",
+      "implementation": "gtag",
+      "valeur_transmise": true
+    },
+    "tracking_google_analytics": {
+      "event_lead_form": true,
+      "parametres_utm": true,
+      "gclid_tracking": true
+    },
+    "supabase_integration": {
+      "table": "crm_leads",
+      "champs_utm": true,
+      "gclid": true,
+      "statut_lead": "nouveau"
+    },
+    "events_attendus": [
+      "lead_form_submit",
+      "engaged_90s",
+      "scroll_depth_75",
+      "cta_click"
+    ],
+    "flags": [
+      {
+        "level": "P2",
+        "reason": "Pas de Calendly intégré - limitation pour la prise de RDV directe"
+      },
+      {
+        "level": "P2",
+        "reason": "Pas de click-to-call - opportunité manquée sur mobile"
+      }
+    ]
+  },
+  "editorial": {
+    "clarte_ok": true,
+    "structure_logique": true,
+    "sections_identifiees": [
+      "Hero avec KPIs",
+      "Expert Eric Bellaiche",
+      "Pourquoi investir",
+      "Répartitions géo/sectorielles",
+      "Points d'attention",
+      "FAQ",
+      "Formulaire de contact"
+    ],
+    "duplication": [],
+    "typos": [],
+    "coherence_ton": true,
+    "repartition_geographique": {
+      "Espagne": 31,
+      "Royaume-Uni": 26,
+      "Pays-Bas": 24,
+      "Italie": 19,
+      "total": 100,
+      "coherence": true
+    },
+    "repartition_sectorielle": {
+      "Bureaux": 28,
+      "Loisir": 24,
+      "Locaux mixtes": 15,
+      "Logistique": 13,
+      "Commerces": 12,
+      "Hôtellerie": 9,
+      "total": 101,
+      "coherence": false,
+      "note": "Total = 101% (arrondi acceptable)"
+    },
+    "flags": [
+      {
+        "level": "P2",
+        "reason": "Total répartition sectorielle = 101% (arrondi mineur)"
+      }
+    ]
+  },
+  "seo": {
+    "meta_title_optimise": false,
+    "h1_contient_scpi_nom": true,
+    "url_slug_propre": true,
+    "structure_hn_correcte": true,
+    "flags": [
+      {
+        "level": "P1",
+        "reason": "Meta title trop générique - doit inclure 'SCPI Comète Alderan | Rendement 11.18% | MaximusSCPI'"
+      }
+    ]
+  },
+  "decision": "À CORRIGER AVANT DIFFUSION",
+  "priorites_correctifs": [
+    {
+      "prio": "P0",
+      "action": "Remplacer TOUTES les occurrences de 'rendement exceptionnel' par 'taux de distribution publié de' ou 'rendement annualisé de'"
+    },
+    {
+      "prio": "P0",
+      "action": "Supprimer le mot 'garantissant' et remplacer par 'permettant' ou 'générant'"
+    },
+    {
+      "prio": "P1",
+      "action": "Ajouter disclaimers immédiatement après le bloc KPIs du hero (pas seulement en footer)"
+    },
+    {
+      "prio": "P1",
+      "action": "Ajouter date et source des chiffres : '(Source : Alderan, données au 31/12/2024)' sous chaque KPI"
+    },
+    {
+      "prio": "P1",
+      "action": "Optimiser meta title : 'SCPI Comète Alderan - Rendement 11.18% | Investissement Européen ISR'"
+    },
+    {
+      "prio": "P2",
+      "action": "Ajouter Calendly pour prise de RDV directe avec Eric"
+    },
+    {
+      "prio": "P2",
+      "action": "Ajouter click-to-call : <a href='tel:+33...'>Appeler maintenant</a>"
+    }
+  ],
+  "synthese_executive": {
+    "verdict": "À CORRIGER",
+    "nb_problemes_bloquants": 2,
+    "nb_problemes_importants": 3,
+    "nb_ameliorations": 3,
+    "temps_correction_estime": "2-3 heures",
+    "risque_rejet_google_ads": "ÉLEVÉ",
+    "note_globale": "6/10"
+  }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Article Fonds Euros ou SCPI</title>
+</head>
+<body>
+    <h1>Test Navigation Article</h1>
+    <p>Cliquez sur le lien ci-dessous pour tester la navigation vers l'article :</p>
+    <ul>
+        <li><a href="/articles">Page Liste Articles</a></li>
+        <li><a href="/fonds-euros-ou-scpi">Article: Fonds euros ou SCPI</a></li>
+        <li><a href="/scpi-en-direct-ou-assurance-vie">Article: SCPI en direct ou assurance vie</a></li>
+    </ul>
+
+    <h2>Test Configuration</h2>
+    <div id="test-results"></div>
+
+    <script type="module">
+        // Test si l'article existe dans la config
+        import { getTemplateBySlug } from '../src/data/articleTemplatesConfig.ts';
+
+        const testSlugs = [
+            'fonds-euros-ou-scpi',
+            'scpi-en-direct-ou-assurance-vie',
+            'scpi-a-credit-effet-levier'
+        ];
+
+        const results = document.getElementById('test-results');
+        results.innerHTML = '<h3>Résultats des tests:</h3>';
+
+        testSlugs.forEach(slug => {
+            const template = getTemplateBySlug(slug);
+            const li = document.createElement('div');
+            li.innerHTML = `<strong>${slug}:</strong> ${template ? '✅ TROUVÉ - ' + template.title : '❌ NON TROUVÉ'}`;
+            li.style.padding = '10px';
+            li.style.margin = '5px 0';
+            li.style.backgroundColor = template ? '#d4edda' : '#f8d7da';
+            li.style.border = template ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+            li.style.borderRadius = '5px';
+            results.appendChild(li);
+        });
+    </script>
+</body>
+</html>

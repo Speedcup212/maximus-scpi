@@ -1,0 +1,361 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Responsive optimizations */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent layout shift on page load */
+  * {
+    box-sizing: border-box;
+  }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Mobile touch optimizations */
+@layer utilities {
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Style pour les sliders (input range) */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Piste du slider pour Webkit/Blink */
+input[type="range"]::-webkit-slider-track {
+  background: rgb(229, 231, 235);
+  height: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -6px;
+  background-color: rgb(16, 185, 129);
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Piste du slider pour Firefox */
+input[type="range"]::-moz-range-track {
+  background: rgb(229, 231, 235);
+  height: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: rgb(16, 185, 129);
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* Piste du slider pour IE */
+input[type="range"]::-ms-track {
+  background: rgb(229, 231, 235);
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type="range"]::-ms-thumb {
+  background-color: rgb(16, 185, 129);
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* Mode sombre */
+.dark input[type="range"]::-webkit-slider-track {
+  background: rgb(55, 65, 81);
+}
+
+.dark input[type="range"]::-moz-range-track {
+  background: rgb(55, 65, 81);
+}
+
+.dark input[type="range"]::-ms-track {
+  background: rgb(55, 65, 81);
+}
+
+/* Masquer les dates des avis Google Reviews */
+.elfsight-app .eapps-review__date {
+    display: none !important;
+}
+
+/* Supprimer les flèches des inputs number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Style des options du select en mode sombre */
+select option {
+  background-color: white;
+  color: #111827;
+}
+
+.dark select option {
+  background-color: #111827;
+  color: #f3f4f6;
+}
+
+/* Styles pour le slider du questionnaire */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.slider::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Animation pour les graphiques */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideInUp 0.5s ease-out;
+}
+
+/* Animation pour le cookie consent */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out;
+}
+
+/* Optimisations pour les petits écrans */
+@media (max-width: 640px) {
+  /* Prévenir les débordements horizontaux */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Conteneurs principaux - ZERO overflow */
+  main,
+  section,
+  article {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Grilles et conteneurs */
+  .grid {
+    max-width: 100%;
+  }
+  
+  /* Réduire les espacements sur mobile */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  /* Optimiser les tableaux sur mobile */
+  table {
+    font-size: 0.7rem;
+    min-width: 100%;
+    table-layout: auto;
+    width: 100%;
+  }
+  
+  /* Colonnes du tableau responsive */
+  th, td {
+    padding: 0.375rem 0.25rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    vertical-align: top;
+  }
+  
+  /* Optimisations spécifiques pour le tableau SCPI */
+  .scpi-table-container {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Améliorer la lisibilité des badges */
+  .badge-mobile {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.25rem;
+    line-height: 1;
+  }
+  
+  /* Améliorer la lisibilité des boutons */
+  button {
+    min-height: 40px; /* Taille minimum recommandée pour le touch */
+  }
+  
+  /* Boutons du tableau plus compacts */
+  .table-button {
+    min-height: 36px;
+    font-size: 0.625rem;
+    padding: 0.375rem 0.5rem;
+  }
+  
+  /* Prévenir les débordements des modales et fixed - ZERO overflow */
+  .fixed,
+  [class*="fixed"] {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Modales et overlays sûrs */
+  [role="dialog"],
+  .modal,
+  [class*="modal"] {
+    max-width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  
+  /* Conteneurs avec scroll horizontal */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  /* Masquer la scrollbar sur mobile pour plus d'espace */
+  .overflow-x-auto::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  
+  .overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+  }
+}
+
+/* Optimisations pour les tablettes - Responsive fluide */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Ajustements spécifiques tablettes */
+  body,
+  main,
+  section {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .grid-cols-1.lg\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Conteneurs tablette */
+  .container,
+  [class*="container"] {
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+  }
+}
+
+/* Desktop - Conteneurs intelligents */
+@media (min-width: 1025px) {
+  /* Conteneur max-width avec padding fluide */
+  .container,
+  [class*="container"] {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1.5rem, 4vw, 3rem);
+    padding-right: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  /* Prévention overflow même en desktop */
+  body,
+  main {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Ultra-wide - Limitation intelligente */
+@media (min-width: 1920px) {
+  .container,
+  [class*="container"] {
+    max-width: 1536px;
+  }
+}

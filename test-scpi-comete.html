@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Page SCPI Comète</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+        .status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🧪 Test de Navigation - SCPI Comète</h1>
+        <p>Cette page teste la navigation vers la landing page SCPI Comète.</p>
+        
+        <h2>Méthode 1 : Navigation directe</h2>
+        <button onclick="testNavigation1()">Tester window.location.href</button>
+        <div id="status1" class="status"></div>
+        
+        <h2 style="margin-top: 30px;">Méthode 2 : Lien HTML</h2>
+        <a href="/scpi-comete" style="display: inline-block; background: #10b981; color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px;">
+            Cliquer pour aller à SCPI Comète
+        </a>
+        
+        <h2 style="margin-top: 30px;">Méthode 3 : Ouvrir dans nouvel onglet</h2>
+        <button onclick="testNavigation3()">Ouvrir dans nouvel onglet</button>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h2>URLs disponibles</h2>
+        <ul style="line-height: 2;">
+            <li><a href="/" style="color: #6366f1;">/ (Accueil)</a></li>
+            <li><a href="/scpi-comete" style="color: #6366f1;">/scpi-comete (SCPI Comète)</a></li>
+            <li><a href="/investir-scpi" style="color: #6366f1;">/investir-scpi (Google Ads)</a></li>
+            <li><a href="/scpi-rentable" style="color: #6366f1;">/scpi-rentable (Google Ads variante)</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function testNavigation1() {
+            const status = document.getElementById('status1');
+            status.className = 'status success';
+            status.textContent = '✅ Navigation en cours vers /scpi-comete...';
+            
+            setTimeout(() => {
+                window.location.href = '/scpi-comete';
+            }, 1000);
+        }
+        
+        function testNavigation3() {
+            window.open('/scpi-comete', '_blank');
+        }
+        
+        // Log sur console
+        console.log('📍 Page de test chargée');
+        console.log('🔗 URLs disponibles:');
+        console.log('  - /scpi-comete');
+        console.log('  - /investir-scpi');
+        console.log('  - /scpi-rentable');
+    </script>
+</body>
+</html>
