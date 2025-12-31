@@ -646,15 +646,13 @@ const App: React.FC = () => {
 
   const handleBackToHome = () => {
     console.log('🏠 handleBackToHome appelé - Navigation vers home');
-    // Ne pas réinitialiser si on est déjà sur la page d'accueil
-    if (currentView !== 'home') {
-      setCurrentView('home');
-      setSelectedCategory(null);
-      setSelectedArticle(null);
-      setSelectedLandingPage(null);
-      setSelectedScpiKey(null);
-      setSelectedThematicPage(null);
-    }
+    // Toujours réinitialiser pour forcer le re-render
+    setCurrentView('home');
+    setSelectedCategory(null);
+    setSelectedArticle(null);
+    setSelectedLandingPage(null);
+    setSelectedScpiKey(null);
+    setSelectedThematicPage(null);
     window.history.pushState({}, '', '/');
     window.scrollTo(0, 0);
     console.log('✅ Navigation vers home terminée');

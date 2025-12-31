@@ -20,7 +20,7 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick }) => {
 
         {/* H1 - Main Headline */}
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-black mb-3 leading-tight px-2 text-white max-w-4xl mx-auto">
-          Faites travailler votre argent <span className="font-black text-green-400">plus efficacement</span> grâce aux SCPI
+          Faites travailler votre argent plus efficacement grâce aux SCPI - test
         </h1>
 
         {/* Trust Indicators - Compact */}

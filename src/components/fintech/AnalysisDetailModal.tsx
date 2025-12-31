@@ -35,21 +35,19 @@ const CustomTooltip = ({ active, payload }: any) => {
 const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onNavigateHome }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
-  const [isClosing, setIsClosing] = useState<boolean>(false);
 
   const handleClose = () => {
-    setIsClosing(true);
-    // Attendre la fin de l'animation avant de fermer complètement
+    // Naviguer vers l'accueil d'abord
+    if (onNavigateHome) {
+      onNavigateHome();
+    }
+    // Fermer le modal après un court délai pour laisser la navigation se faire
     setTimeout(() => {
       onClose();
-      setIsClosing(false);
-      if (onNavigateHome) {
-        onNavigateHome();
-      }
-    }, 200);
+    }, 100);
   };
 
-  if (!isOpen && !isClosing) return null;
+  if (!isOpen) return null;
 
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
   const actualInvestment = numberOfShares * scpi.price;
@@ -83,9 +81,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
   return (
     <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ${
-        isClosing ? 'opacity-0' : 'opacity-100'
-      }`}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           handleClose();
