@@ -2235,10 +2235,8 @@ const App: React.FC = () => {
               setIsAnalysisModalOpen(false);
               setSelectedScpiForAnalysis(null);
 
-              // Sur mobile, retourner à l'accueil
-              if (window.innerWidth < 768) {
-                handleBackToHome();
-              }
+              // Retourner à l'accueil lors de la fermeture
+              handleBackToHome();
             }}
             onAddToPortfolio={toggleScpiSelection}
           />
