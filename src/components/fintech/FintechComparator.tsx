@@ -13,7 +13,11 @@ import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 
 type ViewMode = 'grid' | 'list';
 
-const FintechComparatorContent: React.FC = () => {
+interface FintechComparatorContentProps {
+  onNavigateHome?: () => void;
+}
+
+const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onNavigateHome }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
@@ -456,6 +460,7 @@ const FintechComparatorContent: React.FC = () => {
           isOpen={!!analysisScpi}
           onClose={() => setAnalysisScpi(null)}
           scpi={analysisScpi}
+          onNavigateHome={onNavigateHome}
         />
       )}
 
@@ -471,10 +476,14 @@ const FintechComparatorContent: React.FC = () => {
   );
 };
 
-const FintechComparator: React.FC = () => {
+interface FintechComparatorProps {
+  onNavigateHome?: () => void;
+}
+
+const FintechComparator: React.FC<FintechComparatorProps> = ({ onNavigateHome }) => {
   return (
     <AllocationProvider>
-      <FintechComparatorContent />
+      <FintechComparatorContent onNavigateHome={onNavigateHome} />
     </AllocationProvider>
   );
 };

@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "npx vite",
-    "prebuild": "npx tsx scripts/generateSitemapFromDB.ts && NODE_ENV=production npx tsx scripts/generateRobotsTxt.ts && node scripts/generateRedirectsSSG.js",
+    "prebuild": "npx tsx scripts/generateSitemapFromDB.ts && cross-env NODE_ENV=production npx tsx scripts/generateRobotsTxt.ts && node scripts/generateRedirectsSSG.js",
     "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateThematicPages.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js",
     "lint": "eslint .",
     "preview": "npx vite preview",
-    "force-reload": "node scripts/force-reload-simple.cjs"
+    "force-reload": "node scripts/force-reload-simple.cjs",
+    "deploy": "npm run build && npx netlify deploy --prod --dir=dist"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
@@ -29,6 +30,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.18",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",

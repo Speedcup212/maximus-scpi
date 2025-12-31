@@ -7,6 +7,7 @@ interface AnalysisDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   scpi: SCPIExtended;
+  onNavigateHome?: () => void;
 }
 
 const GRADIENT_IDS = {
@@ -31,11 +32,24 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi }) => {
+const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onNavigateHome }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
+  const [isClosing, setIsClosing] = useState<boolean>(false);
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    setIsClosing(true);
+    // Attendre la fin de l'animation avant de fermer complètement
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+      if (onNavigateHome) {
+        onNavigateHome();
+      }
+    }, 200);
+  };
+
+  if (!isOpen && !isClosing) return null;
 
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
   const actualInvestment = numberOfShares * scpi.price;
@@ -68,7 +82,16 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div 
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          handleClose();
+        }
+      }}
+    >
       <div className="bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 z-10 bg-slate-800 border-b border-slate-700 px-6 pt-12 pb-6 flex items-center justify-between">
           <div>
@@ -84,7 +107,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
           >
             <X className="w-6 h-6 text-slate-400" />
@@ -588,7 +611,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
         <div className="sticky bottom-0 bg-slate-800 border-t border-slate-700 px-6 py-4">
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="w-full px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold transition-colors"
           >
             Fermer l'Analyse
