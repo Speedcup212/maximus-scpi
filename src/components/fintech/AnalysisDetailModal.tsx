@@ -35,16 +35,22 @@ const CustomTooltip = ({ active, payload }: any) => {
 const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onNavigateHome }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
-    // Naviguer vers l'accueil d'abord
-    if (onNavigateHome) {
-      onNavigateHome();
-    }
-    // Fermer le modal après un court délai pour laisser la navigation se faire
+    // Marquer comme en cours de fermeture pour l'animation
+    setIsClosing(true);
+    
+    // Fermer le modal immédiatement pour éviter le backdrop noir
+    onClose();
+    
+    // Naviguer vers l'accueil après un court délai pour laisser le modal se fermer visuellement
     setTimeout(() => {
-      onClose();
-    }, 100);
+      if (onNavigateHome) {
+        onNavigateHome();
+      }
+      setIsClosing(false);
+    }, 150);
   };
 
   if (!isOpen) return null;
@@ -81,14 +87,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           handleClose();
         }
       }}
     >
-      <div className="bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+      <div className={`bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto transition-transform duration-200 ${
+        isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+      }`}>
         <div className="sticky top-0 z-10 bg-slate-800 border-b border-slate-700 px-6 pt-12 pb-6 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-white flex items-center gap-3">
