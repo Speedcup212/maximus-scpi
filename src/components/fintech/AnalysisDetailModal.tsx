@@ -37,22 +37,26 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   const [investmentYears, setInvestmentYears] = useState<number>(15);
   const [isClosing, setIsClosing] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (e?: React.MouseEvent) => {
+    // Empêcher la propagation si c'est un événement de clic
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     // Marquer comme en cours de fermeture pour l'animation
     setIsClosing(true);
     
-    // Fermer le modal après un court délai pour l'animation
+    // Fermer le modal immédiatement pour éviter les conflits
+    onClose();
+    
+    // Naviguer vers l'accueil après un court délai
     setTimeout(() => {
-      onClose();
-      
-      // Naviguer vers l'accueil après la fermeture du modal
-      setTimeout(() => {
-        if (onNavigateHome) {
-          onNavigateHome();
-        }
-        setIsClosing(false);
-      }, 50);
-    }, 200);
+      if (onNavigateHome) {
+        onNavigateHome();
+      }
+      setIsClosing(false);
+    }, 100);
   };
 
   if (!isOpen) return null;
@@ -90,17 +94,31 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   return (
     <div 
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ${
-        isClosing ? 'opacity-0' : 'opacity-100'
+        isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          handleClose();
+          handleClose(e);
         }
       }}
+      onWheel={(e) => {
+        // Empêcher le scroll de fermer le modal accidentellement
+        e.stopPropagation();
+      }}
     >
-      <div className={`bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto transition-transform duration-200 ${
-        isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
-      }`}>
+      <div 
+        className={`bg-slate-800 rounded-2xl border border-slate-700 shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto transition-transform duration-200 ${
+          isClosing ? 'scale-95 opacity-0 pointer-events-none' : 'scale-100 opacity-100'
+        }`}
+        onClick={(e) => {
+          // Empêcher la propagation des clics à l'intérieur du modal
+          e.stopPropagation();
+        }}
+        onWheel={(e) => {
+          // Empêcher le scroll de se propager au backdrop
+          e.stopPropagation();
+        }}
+      >
         <div className="sticky top-0 z-10 bg-slate-800 border-b border-slate-700 px-6 pt-12 pb-6 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-white flex items-center gap-3">
@@ -115,8 +133,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </div>
           </div>
           <button
-            onClick={handleClose}
+            onClick={(e) => handleClose(e)}
             className="p-2 hover:bg-slate-700 rounded-lg transition-colors"
+            type="button"
           >
             <X className="w-6 h-6 text-slate-400" />
           </button>
@@ -619,8 +638,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
         <div className="sticky bottom-0 bg-slate-800 border-t border-slate-700 px-6 py-4">
           <button
-            onClick={handleClose}
+            onClick={(e) => handleClose(e)}
             className="w-full px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold transition-colors"
+            type="button"
           >
             Fermer l'Analyse
           </button>
