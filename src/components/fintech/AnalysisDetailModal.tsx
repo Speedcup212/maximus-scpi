@@ -41,16 +41,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     // Marquer comme en cours de fermeture pour l'animation
     setIsClosing(true);
     
-    // Fermer le modal immédiatement pour éviter le backdrop noir
-    onClose();
-    
-    // Naviguer vers l'accueil après un court délai pour laisser le modal se fermer visuellement
+    // Fermer le modal après un court délai pour l'animation
     setTimeout(() => {
-      if (onNavigateHome) {
-        onNavigateHome();
-      }
-      setIsClosing(false);
-    }, 150);
+      onClose();
+      
+      // Naviguer vers l'accueil après la fermeture du modal
+      setTimeout(() => {
+        if (onNavigateHome) {
+          onNavigateHome();
+        }
+        setIsClosing(false);
+      }, 50);
+    }, 200);
   };
 
   if (!isOpen) return null;
