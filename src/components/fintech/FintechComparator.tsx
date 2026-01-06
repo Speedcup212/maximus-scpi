@@ -459,15 +459,20 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
         <AnalysisDetailModal
           isOpen={!!analysisScpi}
           onClose={() => {
+            // Fermer le modal d'abord
             setAnalysisScpi(null);
             // Retourner à l'accueil après fermeture du modal
+            // Utiliser un délai pour s'assurer que le state est bien mis à jour
             if (onCloseAnalysis) {
-              // Utiliser requestAnimationFrame pour s'assurer que le DOM est mis à jour
-              requestAnimationFrame(() => {
-                setTimeout(() => {
+              setTimeout(() => {
+                try {
                   onCloseAnalysis();
-                }, 150);
-              });
+                } catch (error) {
+                  console.error('Erreur lors du retour à l\'accueil:', error);
+                  // Fallback: navigation directe si le callback échoue
+                  window.location.href = '/';
+                }
+              }, 200);
             }
           }}
           scpi={analysisScpi}

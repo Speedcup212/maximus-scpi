@@ -650,7 +650,16 @@ const App: React.FC = () => {
     setSelectedCategory(null);
     setSelectedArticle(null);
     setSelectedLandingPage(null);
-    window.history.pushState({}, '', '/');
+    // Utiliser replaceState au lieu de pushState pour éviter les problèmes de mutation
+    // et ne pas ajouter d'entrée à l'historique
+    try {
+      window.history.replaceState(null, '', '/');
+    } catch (error) {
+      // Fallback: utiliser window.location si replaceState échoue
+      console.warn('replaceState failed, using location.href:', error);
+      window.location.href = '/';
+      return;
+    }
     window.scrollTo(0, 0);
     console.log('✅ Navigation vers home terminée');
   };
