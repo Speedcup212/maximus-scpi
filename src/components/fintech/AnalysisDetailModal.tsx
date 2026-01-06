@@ -244,7 +244,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       </linearGradient>
                     </defs>
                     <Pie
-                      data={scpi.sectors}
+                      data={[...scpi.sectors]}
                       cx="50%"
                       cy="50%"
                       innerRadius="50%"
@@ -334,7 +334,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       </linearGradient>
                     </defs>
                     <Pie
-                      data={scpi.geography}
+                      data={[...scpi.geography]}
                       cx="50%"
                       cy="50%"
                       innerRadius="50%"
@@ -403,7 +403,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
               </div>
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={projectionData}>
+              <BarChart data={[...projectionData]}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
                 <XAxis dataKey="year" stroke="#94a3b8" />
                 <YAxis stroke="#94a3b8" tickFormatter={(value) => `${(value / 1000).toFixed(0)}k€`} />

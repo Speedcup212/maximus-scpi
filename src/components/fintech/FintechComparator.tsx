@@ -119,8 +119,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     return true;
   };
 
+  // Créer une copie profonde pour éviter les mutations sur des tableaux gelés en production
   const filteredData = sortSCPIByTaxOptimization(
-    scpiDataExtended.filter(scpi =>
+    [...scpiDataExtended].filter(scpi =>
       (scpi.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       scpi.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       scpi.managementCompany.toLowerCase().includes(searchQuery.toLowerCase())) &&
