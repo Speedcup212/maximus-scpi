@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Debug - Meilleures SCPI Rendement</title>
+</head>
+<body>
+    <h1>Test Page - Meilleures SCPI Rendement</h1>
+    <div id="debug"></div>
+
+    <script>
+        const debugInfo = {
+            currentPath: window.location.pathname,
+            currentHash: window.location.hash,
+            currentSearch: window.location.search,
+            thematicPage: window.__THEMATIC_PAGE__,
+            initialPath: window.__INITIAL_PATH__
+        };
+
+        document.getElementById('debug').innerHTML = '<pre>' + JSON.stringify(debugInfo, null, 2) + '</pre>';
+
+        // Test si on peut accéder aux données
+        fetch('/assets/index-DHkhgZ3A.js')
+            .then(r => r.text())
+            .then(js => {
+                const hasMeilleures = js.includes('meilleures-scpi-rendement');
+                document.getElementById('debug').innerHTML += '<p>Route in bundle: ' + hasMeilleures + '</p>';
+            });
+    </script>
+</body>
+</html>

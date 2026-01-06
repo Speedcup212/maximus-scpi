@@ -1,0 +1,80 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const generateComprendreScpiPage = () => {
+  const distDir = path.join(__dirname, '../dist');
+
+  if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir, { recursive: true });
+  }
+
+  const htmlContent = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprendre les SCPI : Guide Complet 2025 | Maximus SCPI</title>
+  <meta name="description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs, méthodes d'investissement et fiscalité. Tout ce qu'il faut savoir avant d'investir.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.maximus-scpi.com/comprendre-les-scpi">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.maximus-scpi.com/comprendre-les-scpi">
+  <meta property="og:title" content="Comprendre les SCPI : Guide Complet 2025">
+  <meta property="og:description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs et méthodes d'investissement.">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://www.maximus-scpi.com/comprendre-les-scpi">
+  <meta property="twitter:title" content="Comprendre les SCPI : Guide Complet 2025">
+  <meta property="twitter:description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs et méthodes d'investissement.">
+
+  <!-- Google Consent Mode v2 - Configuration AVANT tout chargement -->
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
+  <!-- End Google Tag Manager -->
+
+  <script type="module" crossorigin src="/assets/index.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index.css">
+
+  <style>
+    body { margin: 0; padding: 0; }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <div id="root"></div>
+  <script>
+    // Set initial page state for React App
+    window.__INITIAL_PAGE__ = 'comprendre';
+    window.history.replaceState({ page: 'comprendre' }, '', '/comprendre-les-scpi');
+  </script>
+</body>
+</html>`;
+
+  const pagePath = path.join(distDir, 'comprendre-les-scpi.html');
+  fs.writeFileSync(pagePath, htmlContent, 'utf-8');
+
+  console.log('✅ Page statique comprendre-les-scpi.html générée avec succès');
+};
+
+// Execute
+try {
+  generateComprendreScpiPage();
+} catch (error) {
+  console.error('❌ Erreur lors de la génération de la page comprendre-les-scpi:', error);
+  process.exit(1);
+}

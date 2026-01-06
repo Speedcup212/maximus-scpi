@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>QA Tracking — MaximusSCPI</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .qa {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .qa h1 {
+      font-size: 28px;
+      margin: 0 0 8px;
+      color: #1a202c;
+    }
+    .qa .subtitle {
+      color: #6b7280;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+    .section {
+      margin: 24px 0;
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 5px solid #10b981;
+    }
+    .section h2 {
+      font-size: 18px;
+      margin: 0 0 12px;
+      color: #10b981;
+      font-weight: 600;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+    .qa button {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      background: #10b981;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .qa button:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+    }
+    .qa button.secondary {
+      background: #667eea;
+    }
+    .qa button.secondary:hover {
+      background: #5a67d8;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 4px 4px 4px 0;
+    }
+    .ok { background: #d1fae5; color: #065f46; }
+    .ko { background: #fee2e2; color: #991b1b; }
+    .warning { background: #fef3c7; color: #92400e; }
+    .log {
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      white-space: pre-wrap;
+      background: #0b1020;
+      color: #e5e7eb;
+      padding: 16px;
+      border-radius: 8px;
+      max-height: 400px;
+      overflow: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .status-card {
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .status-card label {
+      display: block;
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .status-card .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+    .info-box {
+      background: #dbeafe;
+      border-left: 4px solid #3b82f6;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 12px 0;
+      font-size: 13px;
+      color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="qa">
+    <h1>🧪 QA Tracking Dashboard</h1>
+    <p class="subtitle">Test et validation de l'intégration Google Analytics 4 & GTM</p>
+
+        <div class="section">
+      <h2>📊 Statut Intégration</h2>
+      <div id="status" class="row"></div>
+      <div class="status-grid" id="statusGrid"></div>
+    </div>
+
+        <div class="section">
+      <h2>🎯 Tests de Conversion</h2>
+      <p style="color: #6b7280; font-size: 14px; margin-bottom: 12px;">
+        Cliquez sur les boutons pour simuler des événements et vérifiez GA4 Temps Réel.
+      </p>
+      <div class="row">
+        <button id="btn-lead">[TEST] lead_submit</button>
+        <button id="btn-cal" class="secondary">[TEST] calendly.event_scheduled</button>
+        <button id="btn-pageview" class="secondary">[TEST] page_view manuel</button>
+      </div>
+      <div class="info-box">
+        ℹ️ Après chaque test, ouvrez <strong>GTM (Mode Preview)</strong> pour voir les événements.
+      </div>
+    </div>
+
+        <div class="section" style="border-left-color: #667eea;">
+      <h2 style="color: #667eea;">📝 Console de Logs</h2>
+      <div class="log" id="log"></div>
+      <button onclick="document.getElementById('log').textContent=''; console.clear();"
+              style="margin-top: 12px; background: #6b7280;">
+        Effacer les logs
+      </button>
+    </div>
+
+        <div class="section" style="border-left-color: #f59e0b;">
+      <h2 style="color: #f59e0b;">📚 Instructions de Test</h2>
+      <ol style="line-height: 2; margin-left: 20px; color: #4b5563;">
+        <li><strong>GTM Preview</strong> : Ouvrir <a href="https://tagmanager.google.com" target="_blank" style="color: #3b82f6;">tagmanager.google.com</a> → Conteneur GTM-N2JLWKH → Mode Preview</li>
+        <li><strong>Vérifier GTM</strong> : Voir la balise GTM (GTM-N2JLWKH) se charger</li>
+        <li><strong>Vérifier GA4 (dans GTM)</strong> : Voir la balise GA4 (G-DGHDZHQER5) se déclencher sur "All Pages"</li>
+        <li><strong>Test Lead</strong> : Cliquer [TEST] lead_submit → Voir "lead_submit" dans GTM</li>
+        <li><strong>Test Calendly</strong> : Cliquer [TEST] calendly.event_scheduled → Voir "event_scheduled"</li>
+        <li><strong>Vérifier Ads (dans GTM)</strong> : Vérifier que la balise Ads (AW-932681130) se déclenche sur le bon événement</li>
+      </ol>
+    </div>
+  </div>
+
+      <script>
+    (function(){
+      if (window.__calendlyListenerAttached) return;
+      window.__calendlyListenerAttached = true;
+      window.addEventListener("message", function(e){
+        if (e && e.data && e.data.event === "calendly.event_scheduled") {
+          console.log('[QA-GTM] 📅 Calendly event détecté:', e.data);
+          
+          // Pousse l'événement dans le dataLayer pour que GTM le gère
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'event_scheduled', // Nom d'événement que GTM va écouter
+            event_category: 'Calendly',
+            event_label: 'RDV Test QA',
+            calendly_payload: e.data.payload 
+          });
+          console.log('[QA-GTM] ✅ event_scheduled poussé dans dataLayer');
+        }
+      });
+    })();
+  </script>
+
+    <script>
+    (function(){
+      if (window.onLeadSubmitSuccess) return;
+      window.onLeadSubmitSuccess = function(data){
+        try{
+          console.log('[QA-GTM] 🎯 onLeadSubmitSuccess appelé avec:', data);
+          
+          // Prépare Enhanced Conversions (GTM s'en servira)
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'set_user_data',
+            user_data: {
+              email: (data && data.email) || '',
+              phone_number: (data && data.phone) || '',
+              address: {
+                first_name: (data && data.first_name) || '',
+                last_name:  (data && data.last_name)  || '',
+                postal_code:(data && data.postal_code)|| '',
+                country:    ((data && data.country) || 'FR').toUpperCase()
+              }
+            }
+          });
+          console.log('[QA-GTM] 📧 Enhanced Conversions user_data poussé dans dataLayer');
+
+          // Pousse l'événement de conversion (GTM va l'attraper)
+          window.dataLayer.push({
+            event: 'lead_submit',
+            page_location: location.href,
+            event_category: 'Lead Generation',
+            event_label: 'Test QA'
+          });
+      *     console.log('[QA-GTM] ✅ lead_submit poussé dans dataLayer');
+        
+        }catch(e){
+          console.error('[QA-GTM] ❌ Erreur onLeadSubmitSuccess:', e);
+        }
+      };
+    })();
+  </script>
+
+    <script>
+  (function(){
+    const logEl = document.getElementById('log');
+  S   const statusEl = document.getElementById('status');
+    const statusGridEl = document.getElementById('statusGrid');
+
+    const log = (...args) => {
+      const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
+      console.log('[QA-GTM]', ...args);
+      logEl.textContent += msg + '\n';
+      logEl.scrollTop = logEl.scrollHeight;
+    };
+
+    function badge(label, ok, warning = false) {
+      const span = document.createElement('span');
+      span.className = 'badge ' + (warning ? 'warning' : (ok ? 'ok' : 'ko'));
+      span.textContent = label + ': ' + (ok ? '✓ OK' : (warning ? '⚠ WARNING' : '✗ KO'));
+      statusEl.appendChild(span);
+    }
+
+    function statusCard(label, value, ok = true) {
+      const card = document.createElement('div');
+      card.className = 'status-card';
+      card.innerHTML = `<label>${label}</label><div class="value ${ok ? 'ok' : 'ko'}">${value}</div>`;
+      statusGridEl.appendChild(card);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // DÉTECTION & VÉRIFICATION
+    // ═══════════════════════════════════════════════════════════════════════
+
+    log('🚀 Initialisation QA Dashboard...');
+    log('═══════════════════════════════════════════════════════════════════════');
+
+    // Détection GTM
+    const hasGTM = !!(window.dataLayer && window.dataLayer.filter(i => i['gtm.start']).length > 0);
+    badge('GTM (GTM-N2JLWKH)', hasGTM);
+    log(hasGTM ? '✅ Google Tag Manager (GTM-N2JLWKH) détecté' : '❌ GTM NON détecté');
+    
+    // Détection dataLayer
+    const hasDL = !!window.dataLayer && Array.isArray(window.dataLayer);
+    badge('dataLayer', hasDL);
+    log(hasDL ? '✅ dataLayer détecté' : '❌ dataLayer NON détecté');
+
+    // Détection gtag (ne devrait pas exister si GTM est seul)
+    const hasGtag = typeof window.gtag === 'function';
+    badge('gtag() [hardcodé]', !hasGtag, hasGtag);
+    log(hasGtag ? '❌ Conflit: gtag() hardcodé DÉTECTÉ' : '✅ gtag() non hardcodé (GTM gère)');
+
+    // Détection hooks
+    const hasLeadHook = typeof window.onLeadSubmitSuccess === 'function';
+    badge('onLeadSubmitSuccess', hasLeadHook);
+    log(hasLeadHook ? '✅ Hook onLeadSubmitSuccess installé' : '❌ Hook onLeadSubmitSuccess NON installé');
+
+    const hasCalendlyFlag = !!window.__calendlyListenerAttached;
+    badge('Calendly Listener', hasCalendlyFlag);
+    log(hasCalendlyFlag ? '✅ Listener Calendly attaché' : '❌ Listener Calendly NON attaché');
+
+    // Status Cards
+    statusCard('GTM Container ID', 'GTM-N2JLWKH', true);
+    statusCard('Integration Type', 'Google Tag Manager', true);
+    statusCard('dataLayer Events (init)', hasDL ? window.dataLayer.length : '0', hasDL);
+
+    log('═══════════════════════════════════════════════════════════════════════');
+
+    // Hook dataLayer.push pour logger tous les événements
+    if (hasDL) {
+      const origPush = window.dataLayer.push;
+      window.dataLayer.push = function() {
+        const args = Array.from(arguments);
+        args.forEach(item => {
+          if (item && item.event) {
+            log(`📤 dataLayer.push → event: "${item.event}"`, item);
+          }
+        });
+        return origPush.apply(window.dataLayer, arguments);
+      };
+      log('✅ Hook dataLayer.push installé pour monitoring');
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // BOUTON TEST: lead_submit
+    // ═══════════════════════════════════════════════════════════════════════
+
+    document.getElementById('btn-lead').addEventListener('click', function(){
+      log('');
+      log('═══════════════════════════════════════════════════════════════════════');
+      log('🎯 TEST: lead_submit');
+      log('═══════════════════════════════════════════════════════════════════════');
+
+      try {
+        // Appeler le helper global (qui va pusher dans le dataLayer)
+        if (typeof window.onLeadSubmitSuccess === 'function') {
+          window.onLeadSubmitSuccess({
+            first_name: 'QA',
+            last_name: 'Test',
+            email: 'test+qa@maximusscpi.com',
+            phone: '+33612345678',
+            postal_code: '75001',
+            country: 'FR'
+          });
+  		  log('✅ onLeadSubmitSuccess() appelé. Vérifiez les logs [QA-GTM]');
+        } else {
+          log('⚠️ onLeadSubmitSuccess() NON défini');
+        }
+
+        log('');
+        log('📊 VÉRIFICATIONS À FAIRE:');
+        log('1. Ouvrir GTM → Mode Preview');
+        log('2. Chercher événement "lead_submit" dans la liste à gauche');
+        log('3. Vérifier que les balises GA4 et Ads se sont déclenchées');
+        log('4. Vérifier les données dans GA4 Temps Réel');
+        log('═══════════════════════════════════════════════════════════════════════');
+
+      } catch(e) {
+        log('❌ Erreur lors du test lead_submit:', e);
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // BOUTON TEST: calendly.event_scheduled
+    // ═══════════════════════════════════════════════════════════════════════
+
+    document.getElementById('btn-cal').addEventListener('click', function(){
+      log('');
+      log('═══════════════════════════════════════════════════════════════════════');
+      log('📅 TEST: calendly.event_scheduled');
+      log('═══════════════════════════════════════════════════════════════════════');
+
+      try {
+        const calendlyData = {
+          event: 'calendly.event_scheduled',
+          payload: {
+            event: {
+              name: 'RDV Test QA',
+              uri: 'https://calendly.com/test/qa-rdv',
+              start_time: new Date().toISOString()
+            },
+            invitee: {
+              name: 'QA Test',
+              email: 'qa@maximusscpi.com',
+        _       uri: 'https://calendly.com/invitees/test-qa'
+            }
+          }
+        };
+
+        // Envoyer postMessage (comme le ferait Calendly)
+        window.postMessage(calendlyData, '*');
+        log('✅ postMessage "calendly.event_scheduled" envoyé');
+        log('📦 Payload:', JSON.stringify(calendlyData.payload, null, 2));
+
+        log('');
+        log('📊 VÉRIFICATIONS À FAIRE:');
+        log('1. Ouvrir GTM → Mode Preview');
+        log('2. Chercher événement "event_scheduled" dans la liste à gauche');
+        log('3. Vérifier que les balises GA4 et Ads se sont déclenchées');
+        log('4. Vérifier les données dans GA4 Temps Réel');
+        log('═══════════════════════════════════════════════════════════════════════');
+
+      } catch(e) {
+        log('❌ Erreur lors du test calendly:', e);
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // BOUTON TEST: page_view manuel
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    document.getElementById('btn-pageview').addEventListener('click', function(){
+      log('');
+      log('═══════════════════════════════════════════════════════════════════════');
+      log('📄 TEST: page_view manuel');
+      log('═══════════════════════════════════════════════════════════════════════');
+
+      try {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'page_view',
+          page_title: 'QA Tracking Dashboard',
+          page_location: window.location.href,
+          page_path: '/qa-tracking.html'
+        });
+        log('✅ Event "page_view" poussé dans dataLayer');
+        log('📊 Vérifier dans GTM Preview et GA4 Temps Réel');
+        log('═══════════════════════════════════════════════════════════════════════');
+      } catch(e) {
+        log('❌ Erreur page_view:', e);
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // RAPPORT FINAL
+    // ═══════════════════════════════════════════════════════════════════════
+
+    log('');
+    log('📋 RAPPORT QA INITIAL:');
+    log('─────────────────────────────────────────────────────────────────────');
+    log(`✓ GTM (GTM-N2JLWKH): ${hasGTM ? 'OK' : 'KO'}`);
+    log(`✓ dataLayer: ${hasDL ? 'OK' : 'KO'} (${hasDL ? window.dataLayer.length + ' événements' : '0'})`);
+    log(`✓ gtag() [hardcodé]: ${!hasGtag ? 'OK (Non détecté)' : 'KO (Conflit détecté)'}`);
+    log(`✓ onLeadSubmitSuccess: ${hasLeadHook ? 'OK' : 'KO'}`);
+    log(`✓ Calendly Listener: ${hasCalendlyFlag ? 'OK' : 'KO'}`);
+    log('─────────────────────────────────────────────────────────────────────');
+    log('');
+    log('⚠️ TODO DANS GTM-N2JLWKH:');
+    log('[ ] Installer balise GA4 (G-DGHDZHQER5) sur "All Pages"');
+    log('[ ] Créer action de conversion dans Ads (AW-932681130)');
+    log('[ ] Installer balise Ads Conversion (AW-932681130 / NOUVEAU_LIBELLÉ)');
+    log('[ ] Créer déclencheur "event_scheduled" (Custom Event)');
+    log('[ ] Lier balise Ads Conversion à ce déclencheur');
+    log('');
+    log('🎯 PRÊT POUR LES TESTS! (Après configuration GTM)');
+    log('═══════════════════════════════════════════════════════════════════════');
+
+  })();
+  </script>
+</body>
+</html>

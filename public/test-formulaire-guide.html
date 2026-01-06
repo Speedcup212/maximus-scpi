@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Formulaire Guide Comparatif</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f3f4f6;
+    }
+    .test-panel {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #111827;
+      margin-bottom: 10px;
+    }
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-weight: 500;
+    }
+    .success { background: #d1fae5; color: #065f46; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .info { background: #dbeafe; color: #1e40af; }
+    button {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 5px;
+    }
+    button:hover { background: #059669; }
+    button:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-top: 12px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .checkbox-label input {
+      width: auto;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-panel">
+    <h1>🧪 Test Formulaire Guide Comparatif</h1>
+    <p>Test de la soumission du formulaire vers Supabase</p>
+
+    <div id="status" class="status info">
+      Prêt pour le test
+    </div>
+
+    <form id="testForm">
+      <label>Prénom *</label>
+      <input type="text" id="prenom" value="Jean" required>
+
+      <label>Nom *</label>
+      <input type="text" id="nom" value="Dupont" required>
+
+      <label>Email *</label>
+      <input type="email" id="email" value="test@example.com" required>
+
+      <div class="checkbox-label">
+        <input type="checkbox" id="consent" required checked>
+        <label for="consent">J'accepte de recevoir des communications *</label>
+      </div>
+
+      <button type="submit" id="submitBtn">Tester l'envoi</button>
+    </form>
+
+    <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+
+    <h3>Tests automatiques:</h3>
+    <button onclick="testConnection()">1. Test connexion Supabase</button>
+    <button onclick="testTableStructure()">2. Test structure table</button>
+    <button onclick="testInsertData()">3. Test insertion données</button>
+    <button onclick="runAllTests()">▶️ Tous les tests</button>
+  </div>
+
+  <div class="test-panel" id="results" style="display: none;">
+    <h2>📊 Résultats des tests</h2>
+    <div id="testResults"></div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL ||
+                       window.location.origin.includes('localhost')
+                       ? 'YOUR_SUPABASE_URL'
+                       : window.SUPABASE_URL;
+
+    const supabaseKey = import.meta.env?.VITE_SUPABASE_ANON_KEY ||
+                       window.location.origin.includes('localhost')
+                       ? 'YOUR_SUPABASE_KEY'
+                       : window.SUPABASE_ANON_KEY;
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    window.supabase = supabase;
+
+    function setStatus(message, type = 'info') {
+      const statusDiv = document.getElementById('status');
+      statusDiv.textContent = message;
+      statusDiv.className = `status ${type}`;
+    }
+
+    function addResult(test, passed, message) {
+      const resultsDiv = document.getElementById('testResults');
+      document.getElementById('results').style.display = 'block';
+      const resultHTML = `
+        <div class="status ${passed ? 'success' : 'error'}">
+          ${passed ? '✅' : '❌'} ${test}: ${message}
+        </div>
+      `;
+      resultsDiv.innerHTML += resultHTML;
+    }
+
+    window.testConnection = async function() {
+      setStatus('Test de connexion en cours...', 'info');
+      try {
+        const { data, error } = await supabase.from('leads_pdf_comparatif').select('count');
+        if (error) throw error;
+        addResult('Connexion Supabase', true, 'Connexion réussie');
+        setStatus('Connexion Supabase OK', 'success');
+      } catch (error) {
+        addResult('Connexion Supabase', false, error.message);
+        setStatus('Erreur de connexion: ' + error.message, 'error');
+      }
+    };
+
+    window.testTableStructure = async function() {
+      setStatus('Vérification de la structure de la table...', 'info');
+      try {
+        const { data, error } = await supabase
+          .from('leads_pdf_comparatif')
+          .select('*')
+          .limit(1);
+
+        if (error) throw error;
+
+        const requiredFields = ['email', 'prenom', 'nom', 'source_page', 'consentement_marketing'];
+        addResult('Structure table', true, `Champs requis présents: ${requiredFields.join(', ')}`);
+        setStatus('Structure de la table OK', 'success');
+      } catch (error) {
+        addResult('Structure table', false, error.message);
+        setStatus('Erreur structure: ' + error.message, 'error');
+      }
+    };
+
+    window.testInsertData = async function() {
+      setStatus('Test d\'insertion...', 'info');
+      try {
+        const testData = {
+          email: `test-${Date.now()}@example.com`,
+          prenom: 'Test',
+          nom: 'Automatique',
+          source_page: 'Guide Comparatif Iroko Zen vs Novaxia Neo',
+          consentement_marketing: true,
+          consentement_date: new Date().toISOString(),
+          source: 'Test Automatique'
+        };
+
+        const { data, error } = await supabase
+          .from('leads_pdf_comparatif')
+          .insert([testData])
+          .select();
+
+        if (error) throw error;
+
+        addResult('Insertion données', true, `Lead test créé avec succès: ${testData.email}`);
+        setStatus('Insertion réussie', 'success');
+      } catch (error) {
+        addResult('Insertion données', false, error.message);
+        setStatus('Erreur insertion: ' + error.message, 'error');
+      }
+    };
+
+    window.runAllTests = async function() {
+      document.getElementById('testResults').innerHTML = '';
+      await testConnection();
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await testTableStructure();
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await testInsertData();
+    };
+
+    document.getElementById('testForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours...';
+
+      setStatus('Soumission du formulaire...', 'info');
+
+      try {
+        const formData = {
+          email: document.getElementById('email').value,
+          prenom: document.getElementById('prenom').value,
+          nom: document.getElementById('nom').value,
+          source_page: 'Guide Comparatif Iroko Zen vs Novaxia Neo',
+          consentement_marketing: true,
+          consentement_date: new Date().toISOString(),
+          source: 'Lead Magnet - Guide Comparatif'
+        };
+
+        const { data, error } = await supabase
+          .from('leads_pdf_comparatif')
+          .insert([formData])
+          .select();
+
+        if (error) throw error;
+
+        setStatus(`✅ Lead enregistré avec succès ! ID: ${data[0].id}`, 'success');
+        addResult('Formulaire', true, `Lead créé: ${formData.prenom} ${formData.nom} (${formData.email})`);
+
+        setTimeout(() => {
+          if (confirm('Rediriger vers la page de remerciement ?')) {
+            window.location.href = '/merci-guide-comparatif.html';
+          }
+        }, 1000);
+
+      } catch (error) {
+        setStatus('❌ Erreur: ' + error.message, 'error');
+        addResult('Formulaire', false, error.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Tester l\'envoi';
+      }
+    });
+  </script>
+</body>
+</html>
