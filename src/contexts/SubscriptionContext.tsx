@@ -336,129 +336,78 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const submitPreDossier = useCallback(async () => {
     try {
-      // Générer token unique
-      const token = `predossier_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
-      // Enregistrer en base
-      const { supabase } = await import('../supabaseClient');
-      const { error } = await supabase
-        .from('leads_souscription')
-        .insert([{
-          token,
-          context_accepted: state.contextAccepted,
-          // Projet
-          primary_objective: state.primaryObjective,
-          secondary_objectives: state.secondaryObjectives,
-          horizon: state.horizon,
-          amount: state.amount,
-          funding_mode: state.fundingMode,
-          risk_tolerance: state.riskTolerance,
-          risk_reaction: state.riskReaction,
-          scpi_knowledge: state.scpiKnowledge,
-          // Identité
-          civility: state.civility,
-          first_name: state.firstName,
-          last_name: state.lastName,
-          birth_last_name: state.birthLastName || null,
-          birth_date: (() => {
-            // Convertir JJ/MM/AAAA en YYYY-MM-DD pour la base de données
-            if (!state.birthDate) return null;
-            const parts = state.birthDate.split('/');
-            if (parts.length === 3) {
-              return `${parts[2]}-${parts[1]}-${parts[0]}`;
-            }
-            // Si déjà au format YYYY-MM-DD, le garder tel quel
-            if (/^\d{4}-\d{2}-\d{2}$/.test(state.birthDate)) {
-              return state.birthDate;
-            }
-            return null;
-          })(),
-          birth_country: state.birthCountry,
-          birth_city: state.birthCity,
-          nationality: state.nationality,
-          legal_personality: state.legalPersonality,
-          address: state.address,
-          postal_code: state.postalCode,
-          city: state.city,
-          country: state.country,
-          email: state.email,
-          phone: state.phone,
-          // Situation
-          marital_status: state.maritalStatus,
-          marital_regime: state.maritalRegime,
-          dependent_children: state.dependentChildren,
-          profession: state.profession,
-          activity_sector: state.activitySector,
-          employer: state.employer || null,
-          activity_outside_eu: state.activityOutsideEU,
-          // Fiscale
-          housing_situation: state.housingSituation,
-          tax_residence: state.taxResidence,
-          tax_residence_country: state.taxResidenceCountry || null,
-          nif: state.nif,
-          average_tax_rate: state.averageTaxRate || null,
-          us_person: state.usPerson,
-          pep: state.pep,
-          // Patrimoniale
-          primary_residence: state.primaryResidence,
-          secondary_residence: state.secondaryResidence,
-          rental_real_estate: state.rentalRealEstate,
-          securities: state.securities,
-          assurance_vie: state.assuranceVie,
-          liquidities: state.liquidities,
-          livrets: state.livrets,
-          or: state.or,
-          collection: state.collection,
-          objets_art: state.objetsArt,
-          actifs_professionnels: state.actifsProfessionnels,
-          forets: state.forets,
-          debts: state.debts,
-          other_assets: state.otherAssets,
-          salary: state.salary,
-          rental_income: state.rentalIncome,
-          financial_income: state.financialIncome,
-          pensions: state.pensions,
-          other_income: state.otherIncome,
-          rent: state.rent,
-          credits_residences: state.creditsResidences,
-          credits_locatif: state.creditsLocatif,
-          credits_consommation: state.creditsConsommation,
-          income_tax: state.incomeTax,
-          ifi: state.ifi,
-          other_charges: state.otherCharges,
-          // Origine fonds
-          primary_fund_origin: state.primaryFundOrigin,
-          fund_amount: state.fundAmount,
-          multiple_origins: state.multipleOrigins,
-          secondary_origins: state.secondaryOrigins || [],
-          fund_origin_country: state.fundOriginCountry,
-          // SCPI
-          scpis: state.selectedScpis.map(s => ({ 
-            id: s.id, 
-            name: s.name,
-            yield: s.yield,
-            price: s.price
-          })),
-          allocation: state.allocation,
-          // Consentements
-          electronic_documents: state.electronicDocuments,
-          email_consent: state.emailConsent,
-          sms_consent: state.smsConsent,
-          // Validations
-          information_accuracy: state.informationAccuracy,
-          risk_understanding: state.riskUnderstanding,
-          cif_analysis_agreement: state.cifAnalysisAgreement,
-          subscription_understanding: state.subscriptionUnderstanding,
-          status: 'pending_cif',
-          created_at: new Date().toISOString(),
-        }]);
-
-      if (error) {
-        console.error('Erreur enregistrement:', error);
-        throw error;
+      // Vérifier que l'email et le téléphone sont présents
+      if (!state.email || !state.phone) {
+        throw new Error('L\'email et le téléphone sont obligatoires pour la soumission.');
       }
 
-      // Mettre à jour le state
+      // Extraire email et téléphone pour les colonnes séparées
+      const { email, phone, ...restOfState } = state;
+      
+      // Préparer l'objet simulation_result avec TOUT le reste de l'état
+      // Inclure aussi email et phone dans simulation_result pour avoir une trace complète
+      const token = `predossier_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const simulationResult = {
+        ...restOfState,
+        // Inclure email et phone dans simulation_result aussi pour avoir une trace complète
+        email,
+        phone,
+        // Convertir la date de naissance au format ISO si nécessaire (pour faciliter les requêtes)
+        birthDateFormatted: (() => {
+          if (!state.birthDate) return null;
+          const parts = state.birthDate.split('/');
+          if (parts.length === 3) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+          }
+          if (/^\d{4}-\d{2}-\d{2}$/.test(state.birthDate)) {
+            return state.birthDate;
+          }
+          return state.birthDate; // Garder la valeur originale si le format n'est pas reconnu
+        })(),
+        // Métadonnées de soumission
+        submittedAt: new Date().toISOString(),
+        token
+      };
+      
+      // Enregistrer en base dans la table prospects
+      const { supabase } = await import('../supabaseClient');
+      
+      const { data, error } = await supabase
+        .from('prospects')
+        .insert([{
+          email: email,
+          telephone: phone,
+          simulation_result: simulationResult
+        }])
+        .select();
+
+      if (error) {
+        console.error('Erreur Supabase lors de l\'enregistrement:', {
+          code: error.code,
+          message: error.message,
+          details: error.details,
+          hint: error.hint
+        });
+        
+        // Créer un message d'erreur plus détaillé
+        let errorMessage = 'Une erreur est survenue lors de l\'enregistrement.';
+        if (error.code === '23505') {
+          errorMessage = 'Cet email existe déjà dans notre base de données.';
+        } else if (error.code === 'PGRST116') {
+          errorMessage = 'Erreur de connexion à la base de données. Veuillez réessayer.';
+        } else if (error.message) {
+          errorMessage = `Erreur: ${error.message}`;
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      // Vérifier que les données ont bien été insérées
+      if (!data || data.length === 0) {
+        throw new Error('Aucune donnée n\'a été enregistrée. Veuillez réessayer.');
+      }
+
+      // Mettre à jour le state avec le token
       setState(prev => ({ ...prev, subscriptionToken: token, submittedAt: new Date() }));
 
       // Tracking
@@ -471,9 +420,16 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
         });
       }
 
-    } catch (error) {
+      return { success: true, token, data };
+
+    } catch (error: any) {
       console.error('Erreur lors de la soumission:', error);
-      throw error;
+      
+      // Re-lancer l'erreur avec un message formaté
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error('Une erreur inattendue est survenue lors de la soumission.');
     }
   }, [state]);
 

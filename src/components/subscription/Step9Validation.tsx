@@ -11,6 +11,7 @@ const Step9Validation: React.FC<Step9ValidationProps> = ({ onClose }) => {
   const { state, updateState, goToStep, validateStep, submitPreDossier } = useSubscription();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string>('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async () => {
     if (!validateStep(9)) {
@@ -20,14 +21,34 @@ const Step9Validation: React.FC<Step9ValidationProps> = ({ onClose }) => {
 
     setIsSubmitting(true);
     setError('');
+    setIsSuccess(false);
 
     try {
-      await submitPreDossier();
-      // Le pré-dossier est soumis, on pourrait rediriger vers une page de confirmation
-      // ou afficher un message de succès
-    } catch (err) {
+      const result = await submitPreDossier();
+      
+      if (result && result.success) {
+        setIsSuccess(true);
+        
+        // Afficher une alerte de succès
+        alert('✅ Votre pré-dossier a été enregistré avec succès !\n\nVotre conseiller vous contactera sous 24-48h pour finaliser votre projet ensemble.');
+        
+        // Rediriger vers la page d'accueil après 2 secondes
+        setTimeout(() => {
+          if (onClose) {
+            onClose();
+          } else {
+            window.location.href = '/';
+          }
+        }, 2000);
+      }
+    } catch (err: any) {
       console.error('Erreur soumission:', err);
-      setError('Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.');
+      
+      // Afficher une alerte d'erreur
+      const errorMessage = err?.message || 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.';
+      alert(`❌ Erreur lors de l'enregistrement\n\n${errorMessage}`);
+      
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -148,8 +169,22 @@ const Step9Validation: React.FC<Step9ValidationProps> = ({ onClose }) => {
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-6">
-            <p className="text-sm text-red-400">{error}</p>
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-6 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-red-400 mb-1">Erreur lors de l'enregistrement</p>
+              <p className="text-sm text-red-300">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {isSuccess && (
+          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-6 flex items-start gap-3">
+            <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-semibold text-emerald-400 mb-1">Pré-dossier enregistré avec succès !</p>
+              <p className="text-sm text-emerald-300">Votre conseiller vous contactera sous 24-48h. Redirection en cours...</p>
+            </div>
           </div>
         )}
 

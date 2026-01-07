@@ -223,7 +223,7 @@ export interface SubscriptionContextType {
   updateState: (updates: Partial<SubscriptionState>) => void;
   goToStep: (step: number) => void;
   validateStep: (step: number) => boolean;
-  submitPreDossier: () => Promise<void>;
+  submitPreDossier: () => Promise<{ success: boolean; token: string; data: any }>;
   reset: () => void;
 }
 
