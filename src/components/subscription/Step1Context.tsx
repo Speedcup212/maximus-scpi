@@ -34,6 +34,7 @@ const Step1Context: React.FC<Step1ContextProps> = ({ onClose }) => {
           </div>
           <h1 className="text-3xl font-bold mb-2">Votre accompagnement</h1>
           <p className="text-slate-400">Préparons ensemble votre projet d'investissement SCPI</p>
+          <p className="text-sm text-orange-400 font-semibold mt-2">⏱️ Durée estimée : 15 minutes</p>
         </div>
 
         {/* Accompagnement */}

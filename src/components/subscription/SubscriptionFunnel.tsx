@@ -116,9 +116,12 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
                 <p className="text-xs uppercase tracking-wide text-slate-400">
                   Parcours de souscription SCPI
                 </p>
-                <p className="text-sm text-slate-300">
-                  Étape {state.currentStep} sur 9
-                </p>
+                <div className="flex items-center gap-3">
+                  <p className="text-sm text-slate-300">
+                    Étape {state.currentStep} sur 9
+                  </p>
+                  <span className="text-xs text-orange-400 font-semibold">⏱️ 15 minutes</span>
+                </div>
               </div>
               {onClose && (
                 <button
