@@ -210,13 +210,22 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
   // Fonction pour mettre à jour le co-souscripteur
   const updateCoSubscriber = useCallback((updates: Partial<CoSubscriberState>) => {
     setState(prev => {
-      if (!prev.coSubscriber) {
-        return prev;
+      // Si le type de souscription est 'biens_communs' mais que coSubscriber n'existe pas, l'initialiser
+      if (prev.subscriptionType === 'biens_communs' && !prev.coSubscriber) {
+        return {
+          ...prev,
+          coSubscriber: { ...getInitialCoSubscriberState(), ...updates }
+        };
       }
-      return {
-        ...prev,
-        coSubscriber: { ...prev.coSubscriber, ...updates }
-      };
+      // Si coSubscriber existe, le mettre à jour
+      if (prev.coSubscriber) {
+        return {
+          ...prev,
+          coSubscriber: { ...prev.coSubscriber, ...updates }
+        };
+      }
+      // Sinon, retourner l'état tel quel
+      return prev;
     });
   }, []);
 
@@ -442,6 +451,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       value={{
         state,
         updateState,
+        updateCoSubscriber,
         goToStep,
         validateStep,
         submitPreDossier,
