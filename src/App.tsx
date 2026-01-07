@@ -56,7 +56,6 @@ const ThematicLandingPage = lazy(() => import('./components/ThematicLandingPage'
 const OptimizedScpiLandingPage = lazy(() => import('./components/OptimizedScpiLandingPage'));
 const OptimizedThematicLandingPage = lazy(() => import('./components/OptimizedThematicLandingPage'));
 const StaticScpiPage = lazy(() => import('./components/StaticScpiPage'));
-const ComparateurScpi = lazy(() => import('./components/ComparateurScpi'));
 const FintechComparator = lazy(() => import('./components/fintech/FintechComparator'));
 const ComparisonTable = lazy(() => import('./components/ComparisonTable'));
 const TestSenderReact = lazy(() => import('./components/TestSenderReact'));
@@ -192,21 +191,7 @@ const App: React.FC = () => {
     // Si la page est chargée depuis un fichier statique avec __INITIAL_ROUTE__
     if (initialRoute) {
       console.log('[DEBUG Routing] Loading from static file with __INITIAL_ROUTE__:', initialRoute);
-      const routePath = initialRoute.replace(/^\/|\/$/, '');
-
-      if (routePath === 'scpi-iroko-zen-iroko') {
-        setSelectedScpiKey('iroko-zen');
-        setCurrentView('scpi-optimized');
-        return;
-      } else if (routePath === 'scpi-remake-live-remake') {
-        setSelectedScpiKey('remake-live');
-        setCurrentView('scpi-optimized');
-        return;
-      } else if (routePath === 'scpi-novaxia-neo-novaxia') {
-        setSelectedScpiKey('novaxia-neo');
-        setCurrentView('scpi-optimized');
-        return;
-      }
+      // Les routes SCPI individuelles sont maintenant gérées par le routing générique ci-dessous
     }
 
     // Si la page est chargée depuis un fichier statique avec __INITIAL_PAGE__
@@ -225,6 +210,7 @@ const App: React.FC = () => {
     }
 
     if (path) {
+      console.log('[Routing Initial] Path détecté:', path);
       if (path === 'faq') {
         setCurrentView('faq');
       } else if (path === 'comprendre-les-scpi') {
@@ -319,48 +305,6 @@ const App: React.FC = () => {
         setCurrentView('article-scpi-jeune-actif');
       } else if (path === 'simulateur-fonds-euros-scpi') {
         setCurrentView('life-to-scpi');
-      } else if (path === 'scpi-comete-alderan') {
-        setSelectedScpiKey('comete');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-transitions-europe-arkea-reim') {
-        setSelectedScpiKey('transitions-europe');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-epargne-pierre-europe-atland-voisin') {
-        setSelectedScpiKey('epargne-pierre-europe');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-optimale-la-francaise-rem') {
-        setSelectedScpiKey('optimale');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-iroko-zen-iroko') {
-        setSelectedScpiKey('iroko-zen');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-remake-live-remake') {
-        setSelectedScpiKey('remake-live');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-novaxia-neo-novaxia') {
-        setSelectedScpiKey('novaxia-neo');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-altixia-cadence-12-altixia-reim') {
-        setSelectedScpiKey('altixia-cadence-12');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-credit-mutuel-pierre-1-la-francaise-rem') {
-        setSelectedScpiKey('credit-mutuel-pierre-1');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-efimmo-1-sofidy') {
-        setSelectedScpiKey('efimmo-1');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-novapierre-1-paref-gestion') {
-        setSelectedScpiKey('novapierre-1');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-perial-o2-perial-asset-management') {
-        setSelectedScpiKey('perial-o2');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-selectinvest-1-la-francaise-rem') {
-        setSelectedScpiKey('selectinvest-1');
-        setCurrentView('scpi-optimized');
-      } else if (path === 'scpi-selectipierre-2-fiducial-gerance') {
-        setSelectedScpiKey('selectipierre-2');
-        setCurrentView('scpi-optimized');
       } else if (path === 'meilleures-scpi-rendement') {
         setSelectedThematicPage('meilleures-scpi-rendement');
         setCurrentView('thematic-optimized');
@@ -430,16 +374,27 @@ const App: React.FC = () => {
           setCurrentView('thematic-optimized');
         } else {
           // D'abord, chercher dans les landing pages SCPI optimisées
-          const scpiKey = Object.keys(scpiLandingPages).find(key => scpiLandingPages[key].slug === path);
+          console.log('[Routing] Recherche de la SCPI pour le path:', path);
+          console.log('[Routing] Clés disponibles dans scpiLandingPages:', Object.keys(scpiLandingPages));
+          const scpiKey = Object.keys(scpiLandingPages).find(key => {
+            const slug = scpiLandingPages[key].slug;
+            console.log(`[Routing] Vérification: key="${key}", slug="${slug}", path="${path}"`);
+            return slug === path || key === path;
+          });
+          console.log('[Routing] Clé trouvée:', scpiKey);
           if (scpiKey) {
+            console.log('[Routing] Utilisation de scpi-optimized avec la clé:', scpiKey);
             setSelectedScpiKey(scpiKey);
-            setCurrentView('scpi-landing');
+            setCurrentView('scpi-optimized');
           } else {
+            // Vérifier si c'est une landing page générique (pas une SCPI)
             const landingPage = getLandingPageBySlug(path);
-            if (landingPage) {
+            if (landingPage && landingPage.type !== 'scpi') {
+              // C'est une landing page sectorielle ou géographique, pas une SCPI
               setSelectedLandingPage(path);
               setCurrentView('landing');
             } else {
+              console.log('[Routing] Fallback vers scpi-static pour:', path);
               setSelectedScpiKey(path);
               setCurrentView('scpi-static');
             }
@@ -841,8 +796,27 @@ const App: React.FC = () => {
   };
 
   const handleScpiClick = (slug: string) => {
-    setSelectedScpiKey(slug);
-    setCurrentView('scpi-static');
+    console.log('[handleScpiClick] Slug reçu:', slug);
+    
+    // Vérifier si la SCPI existe dans scpiLandingPages (OptimizedScpiLandingPage)
+    const scpiKey = Object.keys(scpiLandingPages).find(key => 
+      scpiLandingPages[key].slug === slug || key === slug
+    );
+    
+    console.log('[handleScpiClick] Clé trouvée:', scpiKey);
+    
+    if (scpiKey) {
+      // Utiliser OptimizedScpiLandingPage avec le comparateur FintechComparator
+      console.log('[handleScpiClick] Utilisation de scpi-optimized');
+      setSelectedScpiKey(scpiKey);
+      setCurrentView('scpi-optimized');
+    } else {
+      // Fallback vers StaticScpiPage si la SCPI n'est pas dans scpiLandingPages
+      console.log('[handleScpiClick] Utilisation de scpi-static (fallback)');
+      setSelectedScpiKey(slug);
+      setCurrentView('scpi-static');
+    }
+    
     setSelectedCategory(null);
     setSelectedArticle(null);
     setSelectedLandingPage(null);
@@ -1710,8 +1684,8 @@ const App: React.FC = () => {
     return (
       <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <SEOHead
-          title="Comparateur SCPI - Comparez 51 SCPI en temps réel | Maximus SCPI"
-          description="Comparez toutes les SCPI du marché : rendement, capitalisation, TOF, frais. Données officielles 2024 actualisées en temps réel."
+          title="Portefeuille SCPI : outil d’analyse & construction | MaximusSCPI"
+          description="Un outil pour analyser l’équilibre de votre portefeuille SCPI : diversification, risque, répartition et horizon, au‑delà du simple rendement."
           canonical="https://www.maximusscpi.com/comparateur-scpi"
         />
         <Header
@@ -1775,7 +1749,7 @@ const App: React.FC = () => {
             onNavigateToFaq={handleFaqClick}
             onNavigateToAbout={handleAboutUsClick}
             onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleLandingPageClick}
+            onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}
@@ -1801,7 +1775,7 @@ const App: React.FC = () => {
             onNavigateToFaq={handleFaqClick}
             onNavigateToAbout={handleAboutUsClick}
             onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleLandingPageClick}
+            onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}
@@ -1827,7 +1801,7 @@ const App: React.FC = () => {
             onNavigateToFaq={handleFaqClick}
             onNavigateToAbout={handleAboutUsClick}
             onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleLandingPageClick}
+            onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}

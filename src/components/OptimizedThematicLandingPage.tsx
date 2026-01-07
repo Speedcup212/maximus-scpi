@@ -9,7 +9,7 @@ import { thematicLandingPages, ThematicLandingPageData } from '../data/thematicL
 import { getSemanticLinks } from '../data/semanticCocon';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
-import ComparateurScpi from './ComparateurScpi';
+import FintechComparator from './fintech/FintechComparator';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
 import SemanticLinks from './SemanticLinks';
@@ -497,17 +497,9 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
       {/* Section Comparateur pour la page comparateur-scpi */}
       {console.log('[DEBUG] Checking if pageKey === comparateur-scpi:', pageKey === 'comparateur-scpi', 'pageKey:', pageKey)}
       {pageKey === 'comparateur-scpi' && (
-        <div className="bg-gray-50 py-16">
+        <div className="bg-slate-900 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <h2 className="text-4xl font-bold text-gray-900 text-center mb-4">
-                Comparateur de SCPI
-              </h2>
-              <p className="text-xl text-gray-600 text-center">
-                Comparez les 51 SCPI du marché français
-              </p>
-            </div>
-            <ComparateurScpi onScpiClick={onNavigateToScpi} />
+            <FintechComparator onCloseAnalysis={onNavigateHome} />
           </div>
         </div>
       )}

@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import Header from './Header';
 import EricAvatar from './EricAvatar';
 import MaximusLogoFooter from './MaximusLogoFooter';
+import LoadingSpinner from './LoadingSpinner';
+
+const FintechComparator = lazy(() => import('./fintech/FintechComparator'));
 
 interface StaticScpiPageProps {
   slug: string;
@@ -282,6 +285,15 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
           Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
         </p>
       </section>
+
+      {/* Section Comparateur Fintech */}
+      <div className="bg-slate-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<LoadingSpinner />}>
+            <FintechComparator onCloseAnalysis={onNavigateHome} />
+          </Suspense>
+        </div>
+      </div>
 
       <footer className="bg-black text-white py-8">
         <div className="max-w-7xl mx-auto px-6 text-center">

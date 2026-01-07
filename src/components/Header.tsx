@@ -373,8 +373,22 @@ const Header: React.FC<HeaderProps> = ({
 
                   {/* Footer */}
                   <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                      {scpiPages.length} SCPI disponibles
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
+                        {scpiPages.length} SCPI disponibles
+                      </div>
+                      <button
+                        onClick={() => {
+                          resetAllHeaderStates();
+                          if (onComparateurClick) {
+                            onComparateurClick();
+                          }
+                        }}
+                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <TrendingUp className="w-4 h-4" />
+                        Voir toutes les SCPI
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -714,6 +728,26 @@ const Header: React.FC<HeaderProps> = ({
                             </div>
                           </>
                         )}
+                      </div>
+                    </div>
+                    {/* Footer Mobile */}
+                    <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 sticky bottom-0">
+                      <div className="flex flex-col gap-2">
+                        <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
+                          {scpiPages.length} SCPI disponibles
+                        </div>
+                        <button
+                          onClick={() => {
+                            resetAllHeaderStates();
+                            if (onComparateurClick) {
+                              onComparateurClick();
+                            }
+                          }}
+                          className="w-full px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 active:scale-[0.98] touch-manipulation"
+                        >
+                          <TrendingUp className="w-4 h-4" />
+                          Voir toutes les SCPI
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Search, SlidersHorizontal, ShoppingBag, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { AllocationProvider } from '../../contexts/AllocationContext';
+import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import SCPICardDark from './SCPICardDark';
 import SCPITableRow from './SCPITableRow';
 import SelectionSidebar from './SelectionSidebar';
@@ -46,6 +47,12 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
       const exists = prev.find(s => s.id === scpi.id);
       if (exists) {
         return prev.filter(s => s.id !== scpi.id);
+      }
+      if (prev.length >= 6) {
+        if (typeof window !== 'undefined') {
+          window.alert('Vous pouvez sélectionner jusqu’à 6 SCPI maximum dans votre portefeuille.');
+        }
+        return prev;
       }
       return [...prev, scpi];
     });
@@ -155,14 +162,14 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     (filters.priceRange !== 'all' ? 1 : 0) +
     filters.geographies.length +
     filters.sectors.length +
-    (filters.hasISR !== null ? 1 : 0) +
+    (filters.hasISR !== null && filters.hasISR !== undefined ? 1 : 0) +
     (filters.noEntryFees ? 1 : 0) +
-    (filters.expertMode && (
+    (filters.expertMode ? (
       (filters.discountRange[0] !== -15 || filters.discountRange[1] !== 10 ? 1 : 0) +
       (filters.minRanDays > 0 ? 1 : 0) +
       (filters.maxLtv < 100 ? 1 : 0) +
       (filters.noWaitingShares ? 1 : 0)
-    ));
+    ) : 0);
 
   return (
     <div className="min-h-screen bg-slate-900">
@@ -499,7 +506,9 @@ interface FintechComparatorProps {
 const FintechComparator: React.FC<FintechComparatorProps> = ({ onCloseAnalysis }) => {
   return (
     <AllocationProvider>
-      <FintechComparatorContent onCloseAnalysis={onCloseAnalysis} />
+      <SubscriptionProvider>
+        <FintechComparatorContent onCloseAnalysis={onCloseAnalysis} />
+      </SubscriptionProvider>
     </AllocationProvider>
   );
 };

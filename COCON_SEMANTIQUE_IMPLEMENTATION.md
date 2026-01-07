@@ -7,8 +7,8 @@ Ce document explique comment utiliser le système de maillage intelligent automa
 ## 📊 Architecture des Silos
 
 ### Têtes de Cocon (Priority 10)
-1. **/** - Comparateur SCPI (Hub Central)
-2. **/meilleures-scpi-rendement** - Top 10 Performances
+1. **/** - Portefeuille SCPI (Hub central)
+2. **/meilleures-scpi-rendement** - Analyse portefeuille rendement
 3. **/comprendre-scpi** - Guide Éducatif
 
 ### Niveau 2 - Pages Sectorielles/Thématiques (Priority 8)

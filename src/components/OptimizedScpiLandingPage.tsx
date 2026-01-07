@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import {
   TrendingUp, Shield, Phone, Mail, User, Euro,
   ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
@@ -16,6 +16,9 @@ import { scpiData } from '../data/scpiData';
 import scpiCompleteJson from '../data/SCPI_complet_avec_SFDR_Profil.json';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
+import LoadingSpinner from './LoadingSpinner';
+
+const FintechComparator = lazy(() => import('./fintech/FintechComparator'));
 
 interface OptimizedScpiLandingPageProps {
   scpiKey: string;
@@ -1179,6 +1182,15 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
               <span>Sans engagement</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Section Comparateur Fintech */}
+      <div className="bg-slate-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Suspense fallback={<LoadingSpinner />}>
+            <FintechComparator onCloseAnalysis={onNavigateHome} />
+          </Suspense>
         </div>
       </div>
 

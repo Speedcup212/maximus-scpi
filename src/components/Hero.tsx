@@ -15,36 +15,34 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick }) => {
       <div className="relative max-w-5xl mx-auto text-center w-full">
         {/* Eyebrow - Tagline */}
         <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-blue-400/30 shadow-lg shadow-blue-500/10 text-blue-300">
-          🚀 Réinventer la façon d'investir en SCPI
+          Outil d’analyse de portefeuille SCPI
         </div>
 
-        {/* H1 - Main Headline */}
+        {/* H1 - Main Headline (positionnement de marque) */}
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-black mb-3 leading-tight px-2 text-white max-w-4xl mx-auto">
-          Faites travailler votre argent <span className="font-black text-green-400">plus efficacement</span> grâce aux SCPI
+          Ne cherchez pas la meilleure SCPI.{" "}
+          <span className="font-black text-green-400">Construisez le bon portefeuille.</span>
         </h1>
 
-        {/* Trust Indicators - Compact */}
+        {/* Trust Indicators - Compact, orientés méthode et accompagnement */}
         <div className="flex flex-wrap gap-4 justify-center items-center text-xs text-slate-400 mb-4">
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
-            <span>10k+ analyses IA/jour</span>
+            <span>Analyse multi‑critères de votre portefeuille SCPI</span>
           </div>
           <div className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
-            <span>51 SCPI analysées</span>
+            <span>Équilibre rendement, risque et diversification</span>
           </div>
-          <a
-            href="/meilleures-scpi-rendement"
-            className="flex items-center gap-1.5 hover:text-white transition-colors"
-          >
-            <CheckCircle2 className="w-3.5 h-3.5 text-orange-400" />
-            <span>🔥 Top 5 Meilleurs Rendements</span>
-          </a>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+            <span>Accompagnement personnalisé par un conseiller</span>
+          </div>
         </div>
 
-        {/* H2 - Subtitle */}
+        {/* H2 - Subtitle (promesse : outil + portefeuille + équilibre) */}
         <h2 className="text-lg sm:text-lg md:text-xl font-semibold mb-4 max-w-3xl mx-auto leading-relaxed px-4 text-slate-300">
-          Comparez les meilleures SCPI pour viser +2.3% de performance.
+          Un outil pour analyser l’équilibre de votre portefeuille SCPI, au‑delà du simple rendement.
         </h2>
 
         {/* Secondary CTA - Subtle Link */}
@@ -53,7 +51,7 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick }) => {
             onClick={onCalendlyClick}
             className="text-slate-400 hover:text-white text-sm font-medium underline decoration-slate-600 hover:decoration-white underline-offset-4 transition-all duration-200"
           >
-            ...ou constituer mon portefeuille avec un expert
+            Préparer mon portefeuille avec un conseiller expert
           </button>
         </div>
       </div>

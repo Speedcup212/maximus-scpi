@@ -11,13 +11,17 @@ export const usePortfolio = () => {
     if (existingIndex >= 0) {
       setSelectedScpi(prev => prev.filter(s => s.id !== scpi.id));
     } else {
-      if (selectedScpi.length < 6) {
-        const newScpi = { ...scpi, allocation: Math.round(100 / (selectedScpi.length + 1)) };
-        setSelectedScpi(prev => {
-          const updated = [...prev, newScpi];
-          return redistributeAllocations(updated);
-        });
+      if (selectedScpi.length >= 6) {
+        if (typeof window !== 'undefined') {
+          window.alert('Vous pouvez sélectionner jusqu’à 6 SCPI maximum dans votre portefeuille.');
+        }
+        return;
       }
+      const newScpi = { ...scpi, allocation: Math.round(100 / (selectedScpi.length + 1)) };
+      setSelectedScpi(prev => {
+        const updated = [...prev, newScpi];
+        return redistributeAllocations(updated);
+      });
     }
   };
 
