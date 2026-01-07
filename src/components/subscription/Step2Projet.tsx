@@ -164,14 +164,12 @@ const Step2Projet: React.FC<Step2ProjetProps> = ({ onClose }) => {
                   className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                     selected
                       ? 'border-orange-500 bg-orange-500/20 text-white shadow-lg shadow-orange-500/20'
-                      : !isStepValid && (state.primaryObjective.trim() === '' && state.secondaryObjectives.length === 0)
-                      ? 'border-orange-500 hover:border-orange-600 text-white'
                       : isDisabled
                       ? 'border-slate-800 bg-slate-800/50 text-slate-500 cursor-not-allowed'
                       : 'border-slate-700 hover:border-slate-600 text-white'
                   }`}
                 >
-                  <span className={`font-medium ${selected ? 'text-white' : ''}`}>{obj}</span>
+                  <span className="font-medium text-white">{obj}</span>
                 </button>
               );
             })}
