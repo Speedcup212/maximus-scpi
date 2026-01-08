@@ -64,7 +64,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>10+ ans d'expérience</strong> en conseil financier et investissement immobilier</span>
+                    <span><strong>15 ans d'expérience</strong> en conseil financier et investissement immobilier</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -86,7 +86,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>50M€+ investis</strong> via nos conseils (estimation basée sur 500 clients)</span>
+                    <span><strong>25 millions d'euros investis</strong> via nos conseils (350 clients)</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -116,10 +116,16 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                   <strong>Statut :</strong> Conseiller en Investissement Financier (CIF)
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  <strong>Numéro ORIAS :</strong> En cours d'enregistrement
+                  <strong>Numéro ORIAS :</strong> 13001580
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <strong>Membre de :</strong> CNCEF PATRIMOINE (Association agréée par l'AMF)
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <strong>Numéro CIF :</strong> D016571
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <strong>Vérification :</strong> <a href="https://www.orias.fr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.orias.fr</a>
+                  <strong>Vérification :</strong> <a href="https://www.orias.fr/welcome" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">www.orias.fr</a>
                 </p>
               </div>
             </div>
@@ -128,11 +134,13 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
               <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Assurance Responsabilité Civile</h3>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  Conformément à la réglementation, MaximusSCPI dispose d'une assurance Responsabilité Civile Professionnelle.
+                  Conformément à la réglementation, Eric Bellaiche dispose d'une assurance Responsabilité Civile Professionnelle.
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Assureur : [À compléter]<br/>
-                  Police N° : [À compléter]
+                  <strong>Assureur :</strong> Matrisk Assurance<br/>
+                  <strong>Police N° :</strong> MRCSFGP202305FR00000000050302A00<br/>
+                  <strong>Adresse :</strong> 22, rue de la maison Rouge, 77185 Lognes<br/>
+                  <strong>Garantie CIF :</strong> 600 000 € par sinistre
                 </p>
               </div>
 
@@ -152,10 +160,13 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
             </h2>
 
             <div className="space-y-4">
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border-l-4 border-green-600">
-                <h3 className="font-bold text-green-900 dark:text-green-200 mb-2">✅ Indépendance Totale</h3>
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border-l-4 border-blue-600">
+                <h3 className="font-bold text-blue-900 dark:text-blue-200 mb-2">ℹ️ Conseil Non-Indépendant</h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                  Eric Bellaiche exerce en qualité de <strong>Conseiller en Investissement Financier (CIF) non indépendant</strong>. Dans le cadre d'une prestation de conseil fournie à titre non indépendant, Eric Bellaiche peut percevoir des rémunérations, commissions ou avantages monétaires ou non monétaires en rapport avec la fourniture de la prestation de conseil, versés ou fournis par un tiers ou par une personne agissant pour le compte d'un tiers.
+                </p>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  MaximusSCPI est <strong>100% indépendant</strong> des sociétés de gestion SCPI. Nous ne percevons <strong>aucune commission</strong> sur les ventes de parts. Notre rémunération provient uniquement des honoraires de conseil facturés aux clients.
+                  Cette rémunération non indépendante est soumise au respect des règles sur les avantages et rémunérations imposant l'information du client, l'obligation d'amélioration du service et le respect de l'obligation d'agir au mieux des intérêts du client.
                 </p>
               </div>
 
@@ -187,13 +198,21 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
               </p>
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  <strong>Médiateur :</strong> [À compléter - ex: Médiateur de l'AMF]
+                  <strong>Au titre de l'activité CIF :</strong>
                 </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  <strong>Adresse :</strong> [À compléter]
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 ml-4">
+                  Le Médiateur - Autorité des marchés financiers<br/>
+                  17, place de la Bourse<br/>
+                  75082 PARIS CEDEX 02
                 </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  <strong>Site web :</strong> <a href="#" className="text-blue-600 hover:underline">[À compléter]</a>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 mt-4">
+                  <strong>Au titre des autres activités :</strong>
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2 ml-4">
+                  CNPM - MÉDIATION DE LA CONSOMMATION<br/>
+                  27, Avenue de la Libération<br/>
+                  42400 SAINT CHAMOND<br/>
+                  <a href="http://cnpm-mediation-consommation.eu" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">cnpm-mediation-consommation.eu</a>
                 </p>
               </div>
             </div>
@@ -209,23 +228,23 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
                 <Mail className="w-8 h-8 text-blue-600 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Email</p>
-                <a href="mailto:contact@maximusscpi.com" className="text-sm text-blue-600 hover:underline">
-                  contact@maximusscpi.com
+                <a href="mailto:eric.bellaiche@gmail.com" className="text-sm text-blue-600 hover:underline">
+                  eric.bellaiche@gmail.com
                 </a>
               </div>
 
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
                 <Phone className="w-8 h-8 text-blue-600 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Téléphone</p>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  [À compléter]
-                </p>
+                <a href="tel:0652565654" className="text-sm text-blue-600 hover:underline">
+                  06 52 56 56 54
+                </a>
               </div>
 
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
                 <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Prendre RDV</p>
-                <a href="https://calendly.com/maximusscpi" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
                   Calendly
                 </a>
               </div>

@@ -926,6 +926,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -958,6 +959,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -995,6 +997,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1034,6 +1037,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1074,6 +1078,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1114,6 +1119,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1148,6 +1154,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1178,6 +1185,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1207,6 +1215,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1236,6 +1245,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1266,6 +1276,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1296,6 +1307,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1326,6 +1338,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1356,6 +1369,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1386,6 +1400,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1417,6 +1432,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1448,6 +1464,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1566,6 +1583,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1597,6 +1615,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1661,6 +1680,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1700,6 +1720,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
@@ -1925,6 +1946,7 @@ const App: React.FC = () => {
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}

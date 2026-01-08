@@ -117,6 +117,39 @@ const AboutUsPage: React.FC = () => {
                     Détenteur de plusieurs certifications reconnues en finance et en gestion de patrimoine, Éric a développé une <span className="font-bold text-gray-900 dark:text-white">méthodologie d'analyse exclusive</span> alliant expertise humaine et intelligence artificielle.
                   </p>
 
+                  <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-5 mt-4 border border-emerald-200 dark:border-emerald-800">
+                    <h4 className="font-bold text-gray-900 dark:text-white mb-3">Certifications et Immatriculations</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Conseiller en Investissements Financiers (CIF)</strong> - ORIAS N° 13001580</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Courtier d'assurance (COA)</strong> - ORIAS N° 13001580</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Mandataire Intermédiaire en Opérations de Banque (MIOBSP)</strong> - ORIAS N° 13001580</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Agent commercial en Immobilier</strong> - Carte professionnelle CPI</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Consultant en Gestion de Projets Immobiliers</strong></span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-emerald-600 font-bold">•</span>
+                        <span><strong>Membre de la CNCEF PATRIMOINE</strong> - Association agréée par l'AMF</span>
+                      </li>
+                    </ul>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-3">
+                      Vérification ORIAS : <a href="https://www.orias.fr/welcome" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">www.orias.fr</a>
+                    </p>
+                  </div>
+
                   <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mt-6 border border-blue-200 dark:border-blue-800">
                     <p className="font-bold text-gray-900 dark:text-white flex items-start gap-2">
                       <Target className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -124,7 +157,20 @@ const AboutUsPage: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="pt-4">
+                  <div className="pt-4 space-y-3">
+                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
+                      <h4 className="font-bold text-gray-900 dark:text-white mb-2 text-sm">Informations Légales</h4>
+                      <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                        <li><strong>Dénomination :</strong> Eric Bellaiche</li>
+                        <li><strong>Forme sociale :</strong> Entreprise individuelle</li>
+                        <li><strong>RCS :</strong> Grenoble</li>
+                        <li><strong>SIREN :</strong> 441861135</li>
+                        <li><strong>Code APE (NAF) :</strong> 6619B</li>
+                        <li><strong>Adresse :</strong> 1020, route de Saint-Jean, M1, 38500 Coublevie</li>
+                        <li><strong>Téléphone :</strong> 06 52 56 56 54</li>
+                        <li><strong>Email :</strong> eric.bellaiche@gmail.com</li>
+                      </ul>
+                    </div>
                     <p className="text-sm text-gray-600 dark:text-gray-400 italic">
                       Auteur du livre « Boostez vos réseaux d'affaires: avec l'échelle de Clubinaire », fondateur et ancien président d'un club d'affaires réunissant plus de 40 dirigeants dans l'agglomération de Grenoble.
                     </p>
@@ -234,6 +280,46 @@ const AboutUsPage: React.FC = () => {
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Service gratuit pour tous
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Assurance et Garanties */}
+        <div className="max-w-6xl mx-auto mb-20">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+              <Shield className="w-8 h-8 text-emerald-600" />
+              Assurance et Garanties Financières
+            </h2>
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-6 border border-emerald-200 dark:border-emerald-800">
+                <h3 className="font-bold text-gray-900 dark:text-white mb-4">Responsabilité Civile Professionnelle</h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                  Eric Bellaiche dispose d'une couverture en Responsabilité Civile Professionnelle conforme aux exigences réglementaires.
+                </p>
+                <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                  <li><strong>Assureur :</strong> Matrisk Assurance</li>
+                  <li><strong>Police N° :</strong> MRCSFGP202305FR00000000050302A00</li>
+                  <li><strong>Adresse :</strong> 22, rue de la maison Rouge, 77185 Lognes</li>
+                </ul>
+              </div>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2 text-sm">Conseiller en Investissements Financiers</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Garantie par sinistre :</p>
+                  <p className="text-lg font-bold text-emerald-600">600 000 €</p>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2 text-sm">Intermédiaire en Assurance</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Garantie par sinistre :</p>
+                  <p className="text-lg font-bold text-emerald-600">1 500 000 €</p>
+                </div>
+                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-2 text-sm">Transaction Immobilière</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Garantie par sinistre :</p>
+                  <p className="text-lg font-bold text-emerald-600">600 000 €</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { X, TrendingUp, DollarSign, Calendar, BarChart3 } from 'lucide-react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
+import { X, TrendingUp, DollarSign, Calendar, BarChart3, FileText } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
 import PortfolioSummaryHeader from './PortfolioSummaryHeader';
@@ -9,6 +9,9 @@ import ProjectionChart from './ProjectionChart';
 import SectorAllocation from './SectorAllocation';
 import GeographyAllocation from './GeographyAllocation';
 import RdvModal from '../RdvModal';
+import LoadingSpinner from '../LoadingSpinner';
+
+const SubscriptionFunnel = lazy(() => import('../subscription/SubscriptionFunnel'));
 
 interface SimulationModalProps {
   isOpen: boolean;
@@ -19,6 +22,7 @@ interface SimulationModalProps {
 const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, selectedScpis }) => {
   const { totalInvestment, setTotalInvestment, distributeEqually } = useAllocation();
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
+  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
 
   console.log('✅ SimulationModal avec bouton SOUSCRIRE - Version 2025-12-20');
 
@@ -134,7 +138,7 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
             <p className="text-sm text-slate-400">
               Les résultats sont indicatifs et basés sur les performances passées
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={onClose}
                 className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-semibold transition-colors"
@@ -142,10 +146,17 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
                 Retour
               </button>
               <button
-                onClick={() => setIsRdvModalOpen(true)}
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-emerald-500/20"
+                onClick={() => setIsSubscriptionOpen(true)}
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
               >
-                Souscrire
+                <FileText className="w-5 h-5" />
+                <span>Commencer ma souscription</span>
+              </button>
+              <button
+                onClick={() => setIsRdvModalOpen(true)}
+                className="px-6 py-3 bg-slate-600 hover:bg-slate-500 text-white rounded-xl font-semibold transition-colors"
+              >
+                Prendre RDV
               </button>
             </div>
           </div>
@@ -158,6 +169,16 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
         onClose={() => setIsRdvModalOpen(false)}
         selectedScpi={selectedScpis}
       />
+
+      {/* Tunnel de souscription */}
+      {isSubscriptionOpen && (
+        <Suspense fallback={<LoadingSpinner fullScreen />}>
+          <SubscriptionFunnel
+            initialScpis={selectedScpis}
+            onClose={() => setIsSubscriptionOpen(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

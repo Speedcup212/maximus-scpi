@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Moon, Sun, Phone, Info, Star, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText } from 'lucide-react';
+import { Phone, Info, Star, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText } from 'lucide-react';
 import { scpiPages } from '../utils/landingPagesContent';
 import Logo from './Logo';
 
@@ -18,6 +18,7 @@ interface HeaderProps {
   onFaqClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
+  onAboutNavigation?: (path: string) => void;
   currentView?: string;
 }
 
@@ -36,12 +37,15 @@ const Header: React.FC<HeaderProps> = ({
   onFaqClick,
   onComparateurClick,
   onSimulateurClick,
+  onAboutNavigation,
   currentView
 }) => {
   const [isEducationOpen, setIsEducationOpen] = useState(false);
   const [isEducationMobileOpen, setIsEducationMobileOpen] = useState(false);
   const [isScpiMenuOpen, setIsScpiMenuOpen] = useState(false);
   const [isSimulateurMenuOpen, setIsSimulateurMenuOpen] = useState(false);
+  const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
+  const [isAboutMobileOpen, setIsAboutMobileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scpiSearch, setScpiSearch] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -49,6 +53,8 @@ const Header: React.FC<HeaderProps> = ({
   const scpiMobileRef = useRef<HTMLDivElement>(null);
   const simulateurDropdownRef = useRef<HTMLDivElement>(null);
   const educationMobileRef = useRef<HTMLDivElement>(null);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
+  const aboutMobileRef = useRef<HTMLDivElement>(null);
 
   // Fonction pour réinitialiser tous les états du header lors d'une navigation
   const resetAllHeaderStates = () => {
@@ -57,6 +63,8 @@ const Header: React.FC<HeaderProps> = ({
     setIsSimulateurMenuOpen(false);
     setIsEducationOpen(false);
     setIsEducationMobileOpen(false);
+    setIsAboutMenuOpen(false);
+    setIsAboutMobileOpen(false);
   };
 
   // Réinitialiser les états du header à chaque changement de vue
@@ -89,9 +97,19 @@ const Header: React.FC<HeaderProps> = ({
       if (educationMobileRef.current && !educationMobileRef.current.contains(event.target as Node)) {
         setIsEducationMobileOpen(false);
       }
+
+      // Close about menu if click is outside
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
+        setIsAboutMenuOpen(false);
+      }
+
+      // Close about mobile menu if click is outside
+      if (aboutMobileRef.current && !aboutMobileRef.current.contains(event.target as Node)) {
+        setIsAboutMobileOpen(false);
+      }
     };
 
-    if (isEducationOpen || isScpiMenuOpen || isSimulateurMenuOpen || isEducationMobileOpen) {
+    if (isEducationOpen || isScpiMenuOpen || isSimulateurMenuOpen || isEducationMobileOpen || isAboutMenuOpen || isAboutMobileOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
@@ -542,17 +560,82 @@ const Header: React.FC<HeaderProps> = ({
               <span className="hidden md:inline">FAQ</span>
             </button>
 
-            <button
-              onClick={() => {
-                resetAllHeaderStates();
-                if (onAboutClick) onAboutClick();
-              }}
-              className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
-              aria-label="Qui sommes-nous"
-            >
-              <Info className="w-4 h-4" />
-              <span className="hidden lg:inline">Qui sommes-nous</span>
-            </button>
+            {/* Qui sommes-nous Dropdown - Desktop */}
+            <div className="relative" ref={aboutDropdownRef}>
+              <button
+                onClick={() => {
+                  setIsAboutMenuOpen(!isAboutMenuOpen);
+                  setIsScpiMenuOpen(false);
+                  setIsSimulateurMenuOpen(false);
+                  setIsEducationOpen(false);
+                }}
+                className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+                aria-label="Qui sommes-nous"
+              >
+                <Info className="w-4 h-4" />
+                <span className="hidden lg:inline">Qui sommes-nous</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isAboutMenuOpen && (
+                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] max-w-64 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
+                  <button
+                    onClick={() => {
+                      resetAllHeaderStates();
+                      if (onAboutClick) onAboutClick();
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <Info className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      Qui sommes-nous
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      resetAllHeaderStates();
+                      if (onAboutNavigation) {
+                        onAboutNavigation('/expertise-orias-cif');
+                      }
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-sm">🏆</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      Expertise ORIAS/CIF
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      resetAllHeaderStates();
+                      if (onAboutNavigation) {
+                        onAboutNavigation('/methodologie-donnees-scpi');
+                      }
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-sm">📊</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      Méthodologie des données
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      resetAllHeaderStates();
+                      if (onAboutNavigation) {
+                        onAboutNavigation('/avertissements-risques-scpi');
+                      }
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-sm">⚠️</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      Avertissements et risques
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
 
             <button
               onClick={onContactClick}
@@ -562,18 +645,6 @@ const Header: React.FC<HeaderProps> = ({
               <Phone className="w-4 h-4" />
               <span className="hidden sm:inline">Prendre RDV</span>
               <span className="sm:hidden">RDV</span>
-            </button>
-
-            <button
-              onClick={toggleTheme}
-              className="p-1.5 sm:p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? (
-                <Sun className="w-4 h-4 sm:w-5 sm:h-5" />
-              ) : (
-                <Moon className="w-4 h-4 sm:w-5 sm:h-5" />
-              )}
             </button>
           </div>
         </div>
@@ -888,16 +959,73 @@ const Header: React.FC<HeaderProps> = ({
                 <span>FAQ</span>
               </button>
 
-              <button
-                onClick={() => {
-                  resetAllHeaderStates();
-                  onAboutClick();
-                }}
-                className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
-              >
-                <Info className="w-4 h-4" />
-                <span>Qui sommes-nous</span>
-              </button>
+              {/* Qui sommes-nous Section Mobile */}
+              <div className="px-4" ref={aboutMobileRef}>
+                <button
+                  onClick={() => {
+                    setIsAboutMobileOpen(!isAboutMobileOpen);
+                  }}
+                  className="w-full flex items-center justify-between py-2 text-gray-700 dark:text-gray-200 font-medium touch-manipulation"
+                  aria-expanded={isAboutMobileOpen}
+                  aria-label="Menu Qui sommes-nous"
+                >
+                  <div className="flex items-center gap-2">
+                    <Info className="w-4 h-4" />
+                    <span>Qui sommes-nous</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isAboutMobileOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isAboutMobileOpen && (
+                  <div className="mt-2 ml-6 space-y-2 border-l-2 border-blue-500 dark:border-blue-400 pl-4">
+                    <button
+                      onClick={() => {
+                        resetAllHeaderStates();
+                        if (onAboutClick) onAboutClick();
+                      }}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <Info className="w-4 h-4" />
+                      <span className="text-sm font-medium">Qui sommes-nous</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetAllHeaderStates();
+                        if (onAboutNavigation) {
+                          onAboutNavigation('/expertise-orias-cif');
+                        }
+                      }}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">🏆</span>
+                      <span className="text-sm font-medium">Expertise ORIAS/CIF</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetAllHeaderStates();
+                        if (onAboutNavigation) {
+                          onAboutNavigation('/methodologie-donnees-scpi');
+                        }
+                      }}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">📊</span>
+                      <span className="text-sm font-medium">Méthodologie des données</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        resetAllHeaderStates();
+                        if (onAboutNavigation) {
+                          onAboutNavigation('/avertissements-risques-scpi');
+                        }
+                      }}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">⚠️</span>
+                      <span className="text-sm font-medium">Avertissements et risques</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <button
                 onClick={() => {
