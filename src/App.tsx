@@ -922,7 +922,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -954,7 +954,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -991,7 +991,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1030,7 +1030,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1070,7 +1070,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1110,7 +1110,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1144,7 +1144,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1174,7 +1174,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1203,7 +1203,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1232,7 +1232,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1262,7 +1262,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1292,7 +1292,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1322,7 +1322,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1352,7 +1352,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1382,7 +1382,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1413,7 +1413,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1444,7 +1444,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1477,7 +1477,7 @@ const App: React.FC = () => {
             onReviewsClick={() => setIsReviewsModalOpen(true)}
             onLogoClick={handleBackToHome}
             onFaqClick={handleFaqClick}
-            onScpiPageClick={handleLandingPageClick}
+            onScpiPageClick={handleScpiClick}
             onUnderstandingClick={handleComprendreClick}
             onAboutSectionClick={handleAboutUsClick}
             onComparateurClick={handleComparateurClick}
@@ -1562,7 +1562,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1593,7 +1593,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1657,7 +1657,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1696,7 +1696,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1728,7 +1728,7 @@ const App: React.FC = () => {
             onNavigateToFaq={handleFaqClick}
             onNavigateToAbout={handleAboutUsClick}
             onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleLandingPageClick}
+            onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onReviewsClick={() => setIsReviewsModalOpen(true)}
           />
@@ -1844,7 +1844,7 @@ const App: React.FC = () => {
             onReviewsClick={() => setIsReviewsModalOpen(true)}
             onEducationClick={handleEducationClick}
             onLogoClick={handleBackToHome}
-            onScpiPageClick={handleLandingPageClick}
+            onScpiPageClick={handleScpiClick}
             onFaqClick={handleFaqClick}
             onUnderstandingClick={handleComprendreClick}
             onAboutSectionClick={handleAboutUsClick}
@@ -1899,7 +1899,7 @@ const App: React.FC = () => {
             onNavigateToFaq={handleFaqClick}
             onNavigateToAbout={handleAboutUsClick}
             onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleLandingPageClick}
+            onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onReviewsClick={() => setIsReviewsModalOpen(true)}
           />
@@ -1921,7 +1921,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onFaqClick={handleFaqClick}
           onUnderstandingClick={handleComprendreClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -1990,7 +1990,7 @@ const App: React.FC = () => {
               onAboutClick={handleAboutUsClick}
               onReviewsClick={() => setIsReviewsModalOpen(true)}
               onEducationClick={handleEducationClick}
-              onScpiPageClick={handleLandingPageClick}
+              onScpiPageClick={handleScpiClick}
               onContactClick={() => setIsRdvModalOpen(true)}
               onFaqClick={handleFaqClick}
               onUnderstandingClick={handleComprendreClick}
@@ -2018,7 +2018,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onUnderstandingClick={handleComprendreClick}
           onFaqClick={handleFaqClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -2055,7 +2055,7 @@ const App: React.FC = () => {
           onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
-          onScpiPageClick={handleLandingPageClick}
+          onScpiPageClick={handleScpiClick}
           onUnderstandingClick={handleComprendreClick}
           onFaqClick={handleFaqClick}
           onAboutSectionClick={handleAboutUsClick}
@@ -2094,7 +2094,7 @@ const App: React.FC = () => {
         onReviewsClick={() => setIsReviewsModalOpen(true)}
         onEducationClick={handleEducationClick}
         onLogoClick={handleBackToHome}
-        onScpiPageClick={handleLandingPageClick}
+        onScpiPageClick={handleScpiClick}
         onFaqClick={handleFaqClick}
         onUnderstandingClick={handleComprendreClick}
         onAboutSectionClick={handleAboutUsClick}
