@@ -2,7 +2,7 @@
   # Fix Sender trigger with hardcoded project URL
 
   1. Changes
-    - Use hardcoded Supabase project URL (eldvbqqgelifxkbyytip.supabase.co)
+    - Use hardcoded Supabase project URL (ygvsddcpohsnaowofuwc.supabase.co)
     - Remove dynamic URL detection that was failing
     - Simplified error handling
   
@@ -36,7 +36,7 @@ BEGIN
 
   -- Make HTTP call to Edge Function (hardcoded URL)
   SELECT net.http_post(
-    url := 'https://eldvbqqgelifxkbyytip.supabase.co/functions/v1/sender-add-contact',
+    url := 'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/sender-add-contact',
     headers := jsonb_build_object(
       'Content-Type', 'application/json'
     ),

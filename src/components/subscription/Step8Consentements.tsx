@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight, Mail, MessageSquare, FileText } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Mail, FileText } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 
 interface Step8ConsentementsProps {
@@ -72,24 +72,6 @@ const Step8Consentements: React.FC<Step8ConsentementsProps> = ({ onClose }) => {
                 </div>
               </div>
             </label>
-
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={state.smsConsent}
-                onChange={(e) => updateState({ smsConsent: e.target.checked })}
-                className="mt-1 w-5 h-5 accent-emerald-500"
-              />
-              <div className="flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-green-400" />
-                <div>
-                  <span className="text-sm font-medium text-white">Informations par SMS</span>
-                  <p className="text-xs text-slate-400 mt-1">
-                    J'accepte de recevoir des informations concernant mon projet d'investissement par SMS.
-                  </p>
-                </div>
-              </div>
-            </label>
           </div>
         </div>
 
@@ -122,6 +104,7 @@ const Step8Consentements: React.FC<Step8ConsentementsProps> = ({ onClose }) => {
 };
 
 export default Step8Consentements;
+
 
 
 

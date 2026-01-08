@@ -10,6 +10,7 @@ interface Step3IdentiteProps {
 
 const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
+  const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
   
   // S'assurer que coSubscriber est initialisé si subscriptionType est 'biens_communs'
   React.useEffect(() => {
@@ -21,6 +22,7 @@ const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
   }, [state.subscriptionType, state.coSubscriber, updateState]);
 
   const handleContinue = () => {
+    setHasAttemptedValidation(true);
     if (!validateStep(3)) {
       return;
     }
@@ -32,7 +34,7 @@ const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {
     const baseClasses = "w-full px-4 py-3 bg-slate-700 border-2 rounded-lg text-white focus:outline-none";
-    if (!isStepValid && isEmpty) {
+    if (hasAttemptedValidation && isEmpty) {
       return `${baseClasses} border-orange-500 focus:border-orange-500`;
     }
     return `${baseClasses} border-slate-600 focus:border-emerald-500`;

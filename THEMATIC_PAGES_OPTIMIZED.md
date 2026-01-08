@@ -2,9 +2,9 @@
 
 ## ✅ Pages Générées (37)
 
-1. **[Portefeuille SCPI Rendement 2025 | Analyse & Équilibre](https://www.maximusscpi.com/meilleures-scpi-rendement)**
+1. **[Meilleures SCPI de Rendement 2025 | Top 5 des SCPI les Plus Performantes](https://www.maximusscpi.com/meilleures-scpi-rendement)**
    - URL: `/meilleures-scpi-rendement`
-   - Meta: Analysez la place des SCPI de rendement dans votre portefeuille. Lecture globale rendement / risque / diversification, basée sur les données officielles des sociétés de gestion.
+   - Meta: Découvrez notre classement des meilleures SCPI de rendement 2025. Comparatif dét...
 
 2. **[SCPI Fiscales 2025 | Réduire ses Impôts avec Malraux et Déficit Foncier](https://www.maximusscpi.com/scpi-fiscales)**
    - URL: `/scpi-fiscales`
@@ -18,25 +18,25 @@
    - URL: `/revenu-complementaire-scpi`
    - Meta: Générez un revenu complémentaire régulier avec les SCPI. Percevez des loyers men...
 
-5. **[Portefeuille SCPI 2025 | Outil d’Analyse Globale](https://www.maximusscpi.com/comparateur-scpi)**
+5. **[Comparateur SCPI 2025 | Comparez 51 SCPI en Direct](https://www.maximusscpi.com/comparateur-scpi)**
    - URL: `/comparateur-scpi`
-   - Meta: Analysez l’équilibre de votre portefeuille SCPI : répartition sectorielle et géographique, indicateurs de risque et cohérence globale. Données officielles mises à jour.
+   - Meta: Comparez toutes les SCPI du marché : rendement, TOF, secteur, prix. Données offi...
 
-6. **[Portefeuille SCPI Bureaux 2025 | Répartition & Diversification](https://www.maximusscpi.com/scpi-bureaux-investissement)**
+6. **[Investir SCPI Bureaux 2025 | Obtenez votre Sélection Personnalisée](https://www.maximusscpi.com/scpi-bureaux-investissement)**
    - URL: `/scpi-bureaux-investissement`
-   - Meta: Analysez la part des SCPI de bureaux dans votre portefeuille : diversification géographique, typologie des locataires et niveau de risque associé.
+   - Meta: Découvrez les meilleures SCPI spécialisées en bureaux. Rendements attractifs, di...
 
-7. **[Portefeuille SCPI Commerces 2025 | Structure & Exposition](https://www.maximusscpi.com/scpi-commerces-investissement)**
+7. **[Investir SCPI Commerces 2025 | Sélection Expert Personnalisée](https://www.maximusscpi.com/scpi-commerces-investissement)**
    - URL: `/scpi-commerces-investissement`
-   - Meta: Analysez votre exposition aux SCPI commerces : pieds d'immeubles, retail parks, galeries commerciales. Lecture des flux de loyers et de la diversification.
+   - Meta: Investissez dans les meilleures SCPI commerces. Pieds d\...
 
 8. **[Investir SCPI Santé 2025 | Conseil Gratuit et Sélection sur Mesure](https://www.maximusscpi.com/scpi-sante-investissement)**
    - URL: `/scpi-sante-investissement`
    - Meta: Investissez dans les SCPI santé : cliniques, EHPAD, résidences seniors. Secteur ...
 
-9. **[Portefeuille SCPI France 2025 | Exposition Géographique](https://www.maximusscpi.com/scpi-france-investissement)**
+9. **[Investir SCPI France 2025 | Votre Portefeuille Personnalisé Gratuit](https://www.maximusscpi.com/scpi-france-investissement)**
    - URL: `/scpi-france-investissement`
-   - Meta: Analysez la part de la France dans votre portefeuille SCPI : Paris, grandes métropoles régionales et territoires. Focus sur la diversification géographique et sectorielle.
+   - Meta: Découvrez les meilleures SCPI investies en France. Paris, Lyon, Marseille, Borde...
 
 10. **[SCPI Sans Frais VS Avec Frais 2025 | Comparatif et Conseils](https://www.maximusscpi.com/scpi-sans-frais)**
    - URL: `/scpi-sans-frais`
@@ -226,4 +226,4 @@ Les pages sont automatiquement générées dans `dist/`.
 
 ---
 
-Généré le 20/12/2025 12:35:56
+Généré le 07/01/2026 17:39:51

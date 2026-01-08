@@ -41,7 +41,7 @@ BEGIN
 
   -- Make authenticated HTTP call to Edge Function
   SELECT net.http_post(
-    url := 'https://eldvbqqgelifxkbyytip.supabase.co/functions/v1/sender-add-contact',
+    url := 'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/sender-add-contact',
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
       'Authorization', 'Bearer ' || anon_key

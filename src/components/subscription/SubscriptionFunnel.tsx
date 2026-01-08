@@ -51,9 +51,8 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
     { id: 5, label: 'Fiscalité' },
     { id: 6, label: 'Patrimoine' },
     { id: 7, label: 'Origine des fonds' },
-    { id: 8, label: 'Justificatifs' },
-    { id: 9, label: 'Consentements' },
-    { id: 10, label: 'Validation finale' },
+    { id: 8, label: 'Consentements' },
+    { id: 9, label: 'Validation finale' },
   ];
 
   // Initialiser avec les SCPI sélectionnées
@@ -118,7 +117,7 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
                 </p>
                 <div className="flex items-center gap-3">
                   <p className="text-sm text-slate-300">
-                    Étape {state.currentStep} sur 9
+                    Étape {state.currentStep} sur {steps.length}
                   </p>
                   <span className="text-xs text-orange-400 font-semibold">⏱️ 15 minutes</span>
                 </div>

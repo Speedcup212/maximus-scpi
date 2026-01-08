@@ -291,13 +291,17 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       case 4: {
         const mainValid = state.maritalStatus !== undefined &&
                state.profession.trim() !== '' &&
-               state.activitySector.trim() !== '';
+               state.activitySector.trim() !== '' &&
+               state.dependentChildren !== undefined &&
+               state.employer.trim() !== '';
         
         // Si co-souscripteur, valider aussi ses données
         if (state.subscriptionType === 'biens_communs' && state.coSubscriber) {
           const coValid = state.coSubscriber.maritalStatus !== undefined &&
                  state.coSubscriber.profession.trim() !== '' &&
-                 state.coSubscriber.activitySector.trim() !== '';
+                 state.coSubscriber.activitySector.trim() !== '' &&
+                 state.coSubscriber.dependentChildren !== undefined &&
+                 state.coSubscriber.employer.trim() !== '';
           return mainValid && coValid;
         }
         
@@ -307,13 +311,13 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       case 5: {
         const mainValid = state.housingSituation !== undefined &&
                state.taxResidence !== '' &&
-               validateNif(state.nif);
+               state.taxResidenceSameAsPrincipal !== null;
         
         // Si co-souscripteur, valider aussi ses données
         if (state.subscriptionType === 'biens_communs' && state.coSubscriber) {
           const coValid = state.coSubscriber.housingSituation !== undefined &&
                  state.coSubscriber.taxResidence !== '' &&
-                 validateNif(state.coSubscriber.nif);
+                 state.coSubscriber.taxResidenceSameAsPrincipal !== null;
           return mainValid && coValid;
         }
         
@@ -356,8 +360,22 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // Préparer l'objet simulation_result avec TOUT le reste de l'état
       // Inclure aussi email et phone dans simulation_result pour avoir une trace complète
       const token = `predossier_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const simulationResult = {
+      
+      // Forcer les valeurs pour NIF et TMI (champs retirés du formulaire)
+      const stateWithDefaults = {
         ...restOfState,
+        nif: restOfState.nif || 'A voir en RDV',
+        averageTaxRate: restOfState.averageTaxRate || 0,
+        // Si co-souscripteur, forcer aussi ses valeurs
+        coSubscriber: restOfState.coSubscriber ? {
+          ...restOfState.coSubscriber,
+          nif: restOfState.coSubscriber.nif || 'A voir en RDV',
+          averageTaxRate: restOfState.coSubscriber.averageTaxRate || 0,
+        } : undefined,
+      };
+      
+      const simulationResult = {
+        ...stateWithDefaults,
         // Inclure email et phone dans simulation_result aussi pour avoir une trace complète
         email,
         phone,
@@ -380,6 +398,10 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       
       // Enregistrer en base dans la table prospects
       const { supabase } = await import('../supabaseClient');
+      
+      // DEBUG - Vérification de la connexion Supabase
+      console.log("DEBUG SubscriptionContext - Tentative d'insertion dans 'prospects'");
+      console.log("DEBUG SubscriptionContext - Supabase URL utilisée:", import.meta.env.VITE_SUPABASE_URL);
       
       const { data, error } = await supabase
         .from('prospects')

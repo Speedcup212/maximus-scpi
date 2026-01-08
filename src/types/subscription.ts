@@ -85,6 +85,36 @@ export interface CoSubscriberState {
   incomeTax: number;
   ifi: number;
   otherCharges: number;
+}
+
+// Interface pour les patrimoines séparés en co-souscription
+export interface PatrimoineSepare {
+  primaryResidence: number;
+  secondaryResidence: number;
+  rentalRealEstate: number;
+  securities: number;
+  assuranceVie: number;
+  liquidities: number;
+  livrets: number;
+  or: number;
+  collection: number;
+  objetsArt: number;
+  actifsProfessionnels: number;
+  forets: number;
+  debts: number;
+  otherAssets: number;
+  salary: number;
+  rentalIncome: number;
+  financialIncome: number;
+  pensions: number;
+  otherIncome: number;
+  rent: number;
+  creditsResidences: number;
+  creditsLocatif: number;
+  creditsConsommation: number;
+  incomeTax: number;
+  ifi: number;
+  otherCharges: number;
   
   // Étape 7: Origine des fonds
   primaryFundOrigin: FundOrigin;
@@ -189,6 +219,11 @@ export interface SubscriptionState {
   incomeTax: number; // Montant de l'impôt sur le revenu de l'année précédente
   ifi: number; // Montant de IFI de l'année précédente
   otherCharges: number; // Autres charges
+  
+  // Patrimoines séparés pour co-souscription (optionnel)
+  patrimoineSouscripteur1?: PatrimoineSepare; // Patrimoine du souscripteur principal
+  patrimoineSouscripteur2?: PatrimoineSepare; // Patrimoine du co-souscripteur
+  patrimoineCommuns?: PatrimoineSepare; // Patrimoine commun
   
   // Étape 7: Origine des fonds (LCB-FT)
   primaryFundOrigin: FundOrigin;

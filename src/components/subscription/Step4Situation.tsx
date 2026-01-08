@@ -10,8 +10,10 @@ interface Step4SituationProps {
 
 const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
+  const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
 
   const handleContinue = () => {
+    setHasAttemptedValidation(true);
     if (!validateStep(4)) {
       return;
     }
@@ -23,7 +25,7 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {
     const baseClasses = "w-full px-4 py-3 bg-slate-700 border-2 rounded-lg text-white focus:outline-none";
-    if (!isStepValid && isEmpty) {
+    if (hasAttemptedValidation && isEmpty) {
       return `${baseClasses} border-orange-500 focus:border-orange-500`;
     }
     return `${baseClasses} border-slate-600 focus:border-emerald-500`;
@@ -51,7 +53,7 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
           <h2 className="text-xl font-bold mb-4">Situation familiale</h2>
           
           <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-300 mb-2">Situation matrimoniale</label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Situation matrimoniale *</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {(['celibataire', 'marie', 'pacs', 'divorce', 'veuf', 'concubinage'] as MaritalStatus[]).map(status => (
                 <button
@@ -60,6 +62,8 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
                   className={`p-3 rounded-lg border-2 transition-colors ${
                     state.maritalStatus === status
                       ? 'border-emerald-500 bg-emerald-500/10'
+                      : hasAttemptedValidation && state.maritalStatus === undefined
+                      ? 'border-orange-500 bg-orange-500/10'
                       : 'border-slate-700 hover:border-slate-600'
                   }`}
                 >
@@ -97,11 +101,11 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">Nombre d'enfants à charge</label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Nombre d'enfants à charge *</label>
             <select
               value={state.dependentChildren}
               onChange={(e) => updateState({ dependentChildren: Number(e.target.value) })}
-              className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
+              className={getFieldClasses(state.dependentChildren === undefined)}
             >
               {childrenCount.map((count) => (
                 <option key={count} value={count}>
@@ -154,12 +158,12 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-300 mb-2">Employeur</label>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Employeur *</label>
             <input
               type="text"
               value={state.employer}
               onChange={(e) => updateState({ employer: e.target.value })}
-              className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
+              className={getFieldClasses(state.employer.trim() === '')}
             />
           </div>
 
@@ -191,10 +195,11 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
               <div className="mb-4">
                 <label className="block text-sm font-medium text-slate-300 mb-2">Situation matrimoniale *</label>
                 <select
-                  value={state.coSubscriber.maritalStatus}
+                  value={state.coSubscriber.maritalStatus || ''}
                   onChange={(e) => updateCoSubscriber({ maritalStatus: e.target.value as MaritalStatus })}
                   className={getFieldClasses(state.coSubscriber.maritalStatus === undefined)}
                 >
+                  <option value="">Sélectionner</option>
                   <option value="celibataire">Célibataire</option>
                   <option value="marie">Marié(e)</option>
                   <option value="pacs">PACS</option>
@@ -229,7 +234,7 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
                 <select
                   value={state.coSubscriber.dependentChildren}
                   onChange={(e) => updateCoSubscriber({ dependentChildren: Number(e.target.value) })}
-                  className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
+                  className={getFieldClasses(state.coSubscriber.dependentChildren === undefined)}
                 >
                   {childrenCount.map((count) => (
                     <option key={count} value={count}>
@@ -282,12 +287,12 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-300 mb-2">Employeur</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Employeur *</label>
                 <input
                   type="text"
                   value={state.coSubscriber.employer}
                   onChange={(e) => updateCoSubscriber({ employer: e.target.value })}
-                  className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
+                  className={getFieldClasses(state.coSubscriber.employer.trim() === '')}
                 />
               </div>
 

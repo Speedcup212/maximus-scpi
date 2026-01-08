@@ -1,5 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
+// DEBUG - Vérification des variables d'environnement
+console.log("DEBUG Signup - URL:", import.meta.env.VITE_SUPABASE_URL);
+console.log("DEBUG Signup - KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
+
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL!,
   import.meta.env.VITE_SUPABASE_ANON_KEY!

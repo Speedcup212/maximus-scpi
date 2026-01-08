@@ -1,10 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// FORCE BRUTE - Valeurs hardcodées pour contourner le cache Vite
+const supabaseUrl = "https://ygvsddcpohsnaowofuwc.supabase.co";
+const supabaseAnonKey = "sb_publishable_Nto8vq-qBsKWvRCSQEgWdg_aNYyweuk";
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
+console.log("DEBUG - FORCE BRUTE ACTIVE: ", supabaseUrl);
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

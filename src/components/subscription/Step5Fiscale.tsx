@@ -1,8 +1,7 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, Receipt, Globe } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { countries, taxRates } from '../../utils/subscriptionLists';
-import { validateNif } from '../../utils/subscriptionValidation';
+import { countries } from '../../utils/subscriptionLists';
 import { PepStatus } from '../../types/subscription';
 
 interface Step5FiscaleProps {
@@ -11,8 +10,10 @@ interface Step5FiscaleProps {
 
 const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
+  const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
 
   const handleContinue = () => {
+    setHasAttemptedValidation(true);
     if (!validateStep(5)) {
       return;
     }
@@ -24,7 +25,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {
     const baseClasses = "w-full px-4 py-3 bg-slate-700 border-2 rounded-lg text-white focus:outline-none";
-    if (!isStepValid && isEmpty) {
+    if (hasAttemptedValidation && isEmpty) {
       return `${baseClasses} border-orange-500 focus:border-orange-500`;
     }
     return `${baseClasses} border-slate-600 focus:border-emerald-500`;
@@ -114,7 +115,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
 
           {/* Détail de la résidence fiscale */}
           <div className="mb-4 pt-4 border-t border-slate-700">
-            <h3 className="text-sm font-semibold text-slate-300 mb-3">Détail de la résidence fiscale</h3>
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">Détail de la résidence fiscale *</h3>
             <p className="text-xs text-slate-400 mb-3">
               Votre résidence fiscale est-elle la même que votre résidence principale ?
             </p>
@@ -124,6 +125,8 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
                   state.taxResidenceSameAsPrincipal === true
                     ? 'border-emerald-500 bg-emerald-500/10 text-white'
+                    : hasAttemptedValidation && state.taxResidenceSameAsPrincipal === null
+                    ? 'border-orange-500 bg-orange-500/10 text-white'
                     : 'border-slate-700 hover:border-slate-600 text-slate-300'
                 }`}
               >
@@ -134,6 +137,8 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition-colors ${
                   state.taxResidenceSameAsPrincipal === false
                     ? 'border-emerald-500 bg-emerald-500/10 text-white'
+                    : hasAttemptedValidation && state.taxResidenceSameAsPrincipal === null
+                    ? 'border-orange-500 bg-orange-500/10 text-white'
                     : 'border-slate-700 hover:border-slate-600 text-slate-300'
                 }`}
               >
@@ -142,38 +147,6 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-300 mb-2">NIF (Numéro d'identification fiscale) *</label>
-            <p className="text-xs text-slate-400 mb-2">
-              💡 Où le trouver ? Sur votre avis d'imposition, 1ère page
-            </p>
-            <input
-              type="text"
-              value={state.nif}
-              onChange={(e) => updateState({ nif: e.target.value })}
-              placeholder="Ex: 1 23 45 67 89 012 34"
-              className={getFieldClasses(!validateNif(state.nif))}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-slate-300 mb-2">Taux marginal d'imposition</label>
-            <p className="text-xs text-slate-400 mb-2">
-              💡 Où le trouver ? Sur votre avis d'imposition, dernière page
-            </p>
-            <select
-              value={state.averageTaxRate}
-              onChange={(e) => updateState({ averageTaxRate: Number(e.target.value) })}
-              className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
-            >
-              <option value="0">Sélectionner un taux</option>
-              {taxRates.map((rate) => (
-                <option key={rate.value} value={rate.value}>
-                  {rate.label}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
 
         {/* Statut fiscal – US Person */}
@@ -399,7 +372,8 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
 
               {/* Détail de la résidence fiscale Co-souscripteur */}
               <div className="mb-4">
-                <p className="text-sm text-slate-300 mb-3">Votre résidence fiscale est-elle la même que votre résidence principale ?</p>
+                <p className="text-sm font-semibold text-slate-300 mb-3">Détail de la résidence fiscale *</p>
+                <p className="text-xs text-slate-400 mb-3">Votre résidence fiscale est-elle la même que votre résidence principale ?</p>
                 <div className="flex gap-4">
                   <button
                     type="button"
@@ -407,6 +381,8 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-colors ${
                       state.coSubscriber.taxResidenceSameAsPrincipal === true
                         ? 'bg-emerald-600 text-white'
+                        : hasAttemptedValidation && state.coSubscriber.taxResidenceSameAsPrincipal === null
+                        ? 'bg-orange-600 text-white border-2 border-orange-500'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                     }`}
                   >
@@ -418,6 +394,8 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-colors ${
                       state.coSubscriber.taxResidenceSameAsPrincipal === false
                         ? 'bg-emerald-600 text-white'
+                        : hasAttemptedValidation && state.coSubscriber.taxResidenceSameAsPrincipal === null
+                        ? 'bg-orange-600 text-white border-2 border-orange-500'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                     }`}
                   >
@@ -427,42 +405,6 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Informations fiscales Co-souscripteur */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-4 text-blue-300">Informations fiscales</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">NIF (Numéro d'identification fiscale) *</label>
-                  <p className="text-xs text-slate-400 mb-2">
-                    💡 Où le trouver ? Sur votre avis d'imposition, 1ère page
-                  </p>
-                  <input
-                    type="text"
-                    value={state.coSubscriber.nif}
-                    onChange={(e) => updateCoSubscriber({ nif: e.target.value })}
-                    className={getFieldClasses(!validateNif(state.coSubscriber.nif))}
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Taux marginal d'imposition</label>
-                  <p className="text-xs text-slate-400 mb-2">
-                    💡 Où le trouver ? Sur votre avis d'imposition, dernière page
-                  </p>
-                  <select
-                    value={state.coSubscriber.averageTaxRate}
-                    onChange={(e) => updateCoSubscriber({ averageTaxRate: Number(e.target.value) })}
-                    className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
-                  >
-                    {taxRates.map((rate) => (
-                      <option key={rate.value} value={rate.value}>
-                        {rate.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
 
             {/* US Person et PEP Co-souscripteur - Deux blocs séparés */}
             <div className="space-y-6">

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle, AlertTriangle, FileCheck, UserCheck } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import EricAvatar from '../EricAvatar';
+import { DossierPdfDownload } from '../pdf/DossierPdf';
+import { FicheSaisiePdfDownload } from '../pdf/FicheSaisiePdf';
 
 interface Step9ValidationProps {
   onClose?: () => void;
@@ -179,11 +181,20 @@ const Step9Validation: React.FC<Step9ValidationProps> = ({ onClose }) => {
         )}
 
         {isSuccess && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-6 flex items-start gap-3">
-            <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-semibold text-emerald-400 mb-1">Pré-dossier enregistré avec succès !</p>
-              <p className="text-sm text-emerald-300">Votre conseiller vous contactera sous 24-48h. Redirection en cours...</p>
+          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3 mb-4">
+              <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-emerald-400 mb-1">Pré-dossier enregistré avec succès !</p>
+                <p className="text-sm text-emerald-300">Votre conseiller vous contactera sous 24-48h.</p>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-emerald-500/30">
+              <p className="text-sm text-emerald-300 mb-3">Téléchargez votre dossier récapitulatif :</p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <DossierPdfDownload formData={state} />
+                <FicheSaisiePdfDownload formData={state} />
+              </div>
             </div>
           </div>
         )}

@@ -19,11 +19,22 @@ function injectEnvVars(filePath) {
   let content = readFileSync(filePath, 'utf-8');
   let modified = false;
 
-  // Replace hardcoded Supabase URL
-  if (content.includes('https://eldvbqqgelifxkbyytip.supabase.co')) {
+  // Replace hardcoded Supabase URL (any Supabase URL pattern)
+  const supabaseUrlPattern = /const supabaseUrl = ['"]https:\/\/[a-z0-9]+\.supabase\.co['"];?/g;
+  if (supabaseUrlPattern.test(content)) {
     content = content.replace(
-      /const supabaseUrl = ['"]https:\/\/eldvbqqgelifxkbyytip\.supabase\.co['"];?/g,
+      supabaseUrlPattern,
       `const supabaseUrl = '${SUPABASE_URL}';`
+    );
+    modified = true;
+  }
+  
+  // Also replace in createClient calls with URL as first parameter
+  const createClientUrlPattern = /createClient\s*\(\s*['"]https:\/\/[a-z0-9]+\.supabase\.co['"]/g;
+  if (createClientUrlPattern.test(content)) {
+    content = content.replace(
+      createClientUrlPattern,
+      `createClient('${SUPABASE_URL}'`
     );
     modified = true;
   }
