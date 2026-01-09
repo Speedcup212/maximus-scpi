@@ -188,37 +188,27 @@ const App: React.FC = () => {
     const thematicPage = (window as any).__THEMATIC_PAGE__;
     const initialPage = (window as any).__INITIAL_PAGE__;
     const initialRoute = (window as any).__INITIAL_ROUTE__;
-    console.log('[DEBUG Routing] Current path:', path);
-    console.log('[DEBUG Routing] window.__THEMATIC_PAGE__:', thematicPage);
-    console.log('[DEBUG Routing] window.__INITIAL_PAGE__:', initialPage);
-    console.log('[DEBUG Routing] window.__INITIAL_ROUTE__:', initialRoute);
-
     // Si la page est chargée depuis un fichier statique avec __INITIAL_ROUTE__
     if (initialRoute) {
-      console.log('[DEBUG Routing] Loading from static file with __INITIAL_ROUTE__:', initialRoute);
       // Les routes SCPI individuelles sont maintenant gérées par le routing générique ci-dessous
     }
 
     // Si la page est chargée depuis un fichier statique avec __INITIAL_PAGE__
     if (initialPage) {
-      console.log('[DEBUG Routing] Loading from static file with __INITIAL_PAGE__:', initialPage);
       setCurrentView(initialPage as any);
       return;
     }
 
     // Si la page est chargée depuis un fichier statique avec __THEMATIC_PAGE__
     if (thematicPage) {
-      console.log('[DEBUG Routing] Loading from static file, thematicPage:', thematicPage);
       setSelectedThematicPage(thematicPage);
       setCurrentView('thematic-optimized');
       return;
     }
 
     if (path) {
-      console.log('[Routing Initial] Path détecté:', path);
       // Ne pas gérer /souscription dans le routing initial car c'est géré par le tunnel
       if (path === 'souscription') {
-        console.log('[Routing] Path /souscription détecté - laisser le tunnel gérer');
         return; // Ne pas changer la vue, laisser le tunnel s'ouvrir
       }
       if (path === 'faq') {
@@ -328,7 +318,6 @@ const App: React.FC = () => {
         setSelectedThematicPage('revenu-complementaire-scpi');
         setCurrentView('thematic-optimized');
       } else if (path === 'comparateur-scpi') {
-        console.log('[DEBUG Routing] Detected comparateur-scpi, setting view to thematic-optimized');
         setSelectedThematicPage('comparateur-scpi');
         setCurrentView('thematic-optimized');
       } else if (path === 'scpi-bureaux-investissement') {
@@ -363,7 +352,6 @@ const App: React.FC = () => {
         // Check if it's a dynamic article from articleTemplatesConfig
         const articleTemplate = getTemplateBySlug(path);
         if (articleTemplate) {
-          console.log('[DEBUG Routing] Found article template for slug:', path);
           setCurrentArticleSlug(path);
           setCurrentView('dynamic-article');
           return;
@@ -386,16 +374,11 @@ const App: React.FC = () => {
           setCurrentView('thematic-optimized');
         } else {
           // D'abord, chercher dans les landing pages SCPI optimisées
-          console.log('[Routing] Recherche de la SCPI pour le path:', path);
-          console.log('[Routing] Clés disponibles dans scpiLandingPages:', Object.keys(scpiLandingPages));
           const scpiKey = Object.keys(scpiLandingPages).find(key => {
             const slug = scpiLandingPages[key].slug;
-            console.log(`[Routing] Vérification: key="${key}", slug="${slug}", path="${path}"`);
             return slug === path || key === path;
           });
-          console.log('[Routing] Clé trouvée:', scpiKey);
           if (scpiKey) {
-            console.log('[Routing] Utilisation de scpi-optimized avec la clé:', scpiKey);
             setSelectedScpiKey(scpiKey);
             setCurrentView('scpi-optimized');
           } else {
@@ -406,7 +389,6 @@ const App: React.FC = () => {
               setSelectedLandingPage(path);
               setCurrentView('landing');
             } else {
-              console.log('[Routing] Fallback vers scpi-static pour:', path);
               setSelectedScpiKey(path);
               setCurrentView('scpi-static');
             }
@@ -430,16 +412,13 @@ const App: React.FC = () => {
   useEffect(() => {
     // Éviter les installations multiples
     if (isWrapperInstalledRef.current) {
-      console.log('⚠️ Wrapper déjà installé, skip');
       return;
     }
 
-    console.log('🔧 Installation du wrapper pushState');
     isWrapperInstalledRef.current = true;
     
     const updateLocation = () => {
       const currentState = window.history.state;
-      console.log('🔄 updateLocation (popstate) - pathname:', window.location.pathname, 'state:', currentState);
       setLocation({
         pathname: window.location.pathname,
         state: currentState
@@ -451,33 +430,25 @@ const App: React.FC = () => {
     // Écouter aussi les changements de pushState
     originalPushStateRef.current = window.history.pushState;
     window.history.pushState = function(state, title, url) {
-      console.log('📝 [pushState wrapper] pushState appelé - state:', state, 'url:', url);
-      console.log('📝 [pushState wrapper] state.scpis?.length:', state?.scpis?.length || 0);
       if (originalPushStateRef.current) {
         originalPushStateRef.current.apply(window.history, [state, title, url]);
       }
       // Utiliser directement le state passé en paramètre (plus fiable que window.history.state)
       // Normaliser l'URL pour correspondre à window.location.pathname
       const normalizedPath = typeof url === 'string' ? url : window.location.pathname;
-      console.log('⏰ [pushState wrapper] Mise à jour location avec state passé:', state, 'pathname:', normalizedPath);
       // Mettre à jour immédiatement le location state
       setLocation({
         pathname: normalizedPath,
         state: state
       });
-      // Vérifier que le state est bien passé
-      console.log('✅ [pushState wrapper] Location mis à jour, window.history.state:', window.history.state);
-      console.log('✅ [pushState wrapper] window.history.state.scpis?.length:', window.history.state?.scpis?.length || 0);
       // Forcer un re-render en dispatchant un popstate event personnalisé
       // Cela garantit que tous les listeners sont notifiés
       setTimeout(() => {
-        console.log('📢 [pushState wrapper] Dispatch popstate event après pushState');
         window.dispatchEvent(new PopStateEvent('popstate'));
       }, 0);
     };
 
     return () => {
-      console.log('🧹 Nettoyage du wrapper pushState');
       isWrapperInstalledRef.current = false;
       if (updateLocationRef.current) {
         window.removeEventListener('popstate', updateLocationRef.current);
@@ -490,34 +461,21 @@ const App: React.FC = () => {
 
   // Ouverture automatique du tunnel sur la route /souscription
   useEffect(() => {
-    console.log('🔍 [useEffect /souscription] location.pathname:', location.pathname, 'location.state:', location.state);
-    console.log('🔍 [useEffect /souscription] window.history.state:', window.history.state);
     if (location.pathname === '/souscription') {
-      console.log('🧭 Route /souscription détectée → ouverture tunnel');
       // Essayer d'abord location.state, puis window.history.state en fallback
       const scpis = location.state?.scpis ?? window.history.state?.scpis ?? [];
-      console.log('📦 SCPI trouvées:', scpis.length, scpis);
       if (scpis.length > 0) {
-        console.log('✅ [useEffect /souscription] Mise à jour des états avec', scpis.length, 'SCPI');
         // Mettre à jour les SCPI et ouvrir le tunnel IMMÉDIATEMENT
         setSelectedScpiForSubscription(scpis);
         setIsSubscriptionOpen(true);
-        console.log('✅ [useEffect /souscription] Tunnel ouvert avec', scpis.length, 'SCPI');
       } else {
-        console.warn('⚠️ Aucune SCPI trouvée dans location.state ni window.history.state');
-        console.warn('⚠️ Le tunnel ne peut pas s\'ouvrir sans SCPI. Assurez-vous de passer par le bouton "Commencer ma souscription en ligne".');
         // Si on est sur /souscription mais sans SCPI, peut-être qu'on vient d'arriver
         // Attendre un peu pour voir si le state arrive (augmenter le délai pour laisser le temps au pushState)
         const timeoutId = setTimeout(() => {
           const delayedScpis = window.history.state?.scpis ?? [];
-          console.log('🔍 Vérification après délai (500ms) - window.history.state:', window.history.state);
           if (delayedScpis.length > 0) {
-            console.log('📦 SCPI trouvées après délai:', delayedScpis.length);
             setSelectedScpiForSubscription(delayedScpis);
             setIsSubscriptionOpen(true);
-          } else {
-            console.warn('⚠️ Toujours aucune SCPI après délai. Le tunnel ne peut pas s\'ouvrir.');
-            console.warn('⚠️ Pour ouvrir le tunnel, vous devez cliquer sur "Commencer ma souscription en ligne" depuis la page des résultats.');
           }
         }, 500);
         return () => clearTimeout(timeoutId);
@@ -525,7 +483,6 @@ const App: React.FC = () => {
     } else {
       // Si on quitte /souscription, fermer le tunnel (seulement si ouvert)
       if (isSubscriptionOpen) {
-        console.log('🔒 Fermeture du tunnel (quitte /souscription)');
         setIsSubscriptionOpen(false);
         setSelectedScpiForSubscription([]);
       }
@@ -533,7 +490,7 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, location.state]);
 
-  // Hooks
+  // Hooks - DOIT être appelé AVANT tous les retours conditionnels
   const { filteredScpi: filteredByFilters, activeQuickFilter, setQuickFilter, filters, updateFilter } = useScpiFilters(scpiData);
   const { selectedScpi, investmentAmount, setInvestmentAmount, toggleScpiSelection, removeScpi, portfolioStats } = usePortfolio();
 
@@ -596,7 +553,6 @@ const App: React.FC = () => {
   useEffect(() => {
     (window as any).openRdvModal = () => setIsRdvModalOpen(true);
     (window as any).openComparisonTable = (scpiList: Scpi[]) => {
-      console.log('[App] openComparisonTable called with', scpiList.length, 'SCPI');
       setSelectedScpiForComparison(scpiList);
       setIsComparisonTableOpen(true);
     };
@@ -604,7 +560,6 @@ const App: React.FC = () => {
     // Process queued comparison table calls
     const queue = (window as any).comparisonTableQueue || [];
     if (queue.length > 0) {
-      console.log('[App] Processing', queue.length, 'queued comparison calls');
       const scpiList = queue[0];
       setSelectedScpiForComparison(scpiList);
       setIsComparisonTableOpen(true);
@@ -620,47 +575,68 @@ const App: React.FC = () => {
   // Handle browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname.replace(/^\/|\/$/, '');
-      console.log('[Navigation] Popstate event, path:', path);
+      // Normaliser le pathname : enlever le slash initial et final
+      const rawPath = window.location.pathname;
+      const path = rawPath.startsWith('/') ? rawPath.slice(1) : rawPath;
+      const normalizedPath = path.endsWith('/') ? path.slice(0, -1) : path;
 
       // Route to the correct view based on URL
-      if (!path || path === '') {
+      if (!normalizedPath || normalizedPath === '') {
         setCurrentView('home');
         setSelectedCategory(null);
         setSelectedArticle(null);
         setSelectedLandingPage(null);
         setSelectedScpiKey(null);
         setSelectedThematicPage(null);
-      } else if (path === 'articles') {
+      } else if (normalizedPath === 'articles') {
         setCurrentView('articles-list');
         setSelectedCategory(null);
         setSelectedArticle(null);
-      } else if (path === 'faq') {
+      } else if (normalizedPath === 'faq') {
         setCurrentView('faq');
-      } else if (path === 'comprendre-les-scpi') {
+      } else if (normalizedPath === 'comprendre-les-scpi') {
         setCurrentView('comprendre');
-      } else if (path === 'qui-sommes-nous') {
+      } else if (normalizedPath === 'qui-sommes-nous') {
         setCurrentView('about-us');
-      } else if (path === 'reclamation') {
+        setSelectedCategory(null);
+        setSelectedArticle(null);
+        setSelectedLandingPage(null);
+        setSelectedScpiKey(null);
+        setSelectedThematicPage(null);
+      } else if (normalizedPath === 'reclamation') {
         setCurrentView('reclamation');
-      } else if (path === 'conditions-utilisation') {
+      } else if (normalizedPath === 'conditions-utilisation') {
         setCurrentView('conditions');
-      } else if (path === 'expertise-orias-cif') {
+      } else if (normalizedPath === 'expertise-orias-cif') {
         setCurrentView('expertise-orias');
-      } else if (path === 'methodologie-donnees-scpi') {
+      } else if (normalizedPath === 'methodologie-donnees-scpi') {
         setCurrentView('methodologie-donnees');
-      } else if (path === 'avertissements-risques-scpi') {
+      } else if (normalizedPath === 'avertissements-risques-scpi') {
         setCurrentView('avertissements-risques');
-      } else if (path === 'investir-en-scpi') {
+      } else if (normalizedPath === 'investir-en-scpi') {
         setCurrentView('investir-scpi');
-      } else if (path === 'rendement-scpi') {
+      } else if (normalizedPath === 'rendement-scpi') {
         setCurrentView('rendement-scpi');
-      } else if (path === 'fiscalite-scpi') {
+      } else if (normalizedPath === 'fiscalite-scpi') {
         setCurrentView('fiscalite-scpi');
-      } else if (path === 'acheter-scpi') {
+      } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
-      } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
+      } else if (normalizedPath === 'parcours-guide' || normalizedPath === 'guided-journey' || normalizedPath.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
+      } else if (normalizedPath === 'simulateur-fonds-euros-scpi') {
+        setCurrentView('life-to-scpi');
+      } else if (normalizedPath === 'simulateur-revenus-nets-scpi') {
+        setCurrentView('simulateur-revenus-nets');
+      } else if (normalizedPath === 'simulateur-credit-scpi') {
+        setCurrentView('simulateur-credit');
+      } else if (normalizedPath === 'simulateur-demembrement-scpi') {
+        setCurrentView('simulateur-demembrement');
+      } else if (normalizedPath === 'simulateur-enveloppes-scpi') {
+        setCurrentView('simulateur-enveloppes');
+      } else if (normalizedPath === 'comparateur-demembrement-scpi') {
+        setCurrentView('comparateur-demembrement');
+      } else if (normalizedPath === 'articles') {
+        setCurrentView('articles-list');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -718,6 +694,44 @@ const App: React.FC = () => {
     alert(`✅ ${result.selectedScpi.length} SCPI recommandées ajoutées selon votre objectif "${objective}" et TMI ${tmi}%`);
   };
 
+  // Helper function pour standardiser la navigation
+  const navigateToView = (view: string, path: string, options?: {
+    selectedCategory?: string | null;
+    selectedArticle?: Article | null;
+    selectedLandingPage?: string | null;
+    selectedScpiKey?: string | null;
+    selectedThematicPage?: string | null;
+    currentArticleSlug?: string | null;
+  }) => {
+    console.log('[Navigation] navigateToView appelé:', { view, path, options });
+    
+    // Mettre à jour la vue immédiatement
+    setCurrentView(view as any);
+    
+    // Nettoyer ou mettre à jour les états
+    setSelectedCategory(options?.selectedCategory ?? null);
+    setSelectedArticle(options?.selectedArticle ?? null);
+    setSelectedLandingPage(options?.selectedLandingPage ?? null);
+    setSelectedScpiKey(options?.selectedScpiKey ?? null);
+    setSelectedThematicPage(options?.selectedThematicPage ?? null);
+    if (options?.currentArticleSlug !== undefined) {
+      setCurrentArticleSlug(options.currentArticleSlug);
+    }
+    
+    // Mettre à jour l'URL
+    window.history.pushState({}, '', path);
+    console.log('[Navigation] pushState appelé, nouvelle URL:', window.location.pathname);
+    
+    // Déclencher le popstate event pour synchroniser avec le custom useLocation hook
+    setTimeout(() => {
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      console.log('[Navigation] popstate event dispatché');
+    }, 0);
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleEducationClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
     setCurrentView('category');
@@ -731,7 +745,6 @@ const App: React.FC = () => {
   };
 
   const handleBackToHome = () => {
-    console.log('🏠 handleBackToHome appelé - Navigation vers home');
     setCurrentView('home');
     setSelectedCategory(null);
     setSelectedArticle(null);
@@ -742,39 +755,24 @@ const App: React.FC = () => {
       window.history.replaceState(null, '', '/');
     } catch (error) {
       // Fallback: utiliser window.location si replaceState échoue
-      console.warn('replaceState failed, using location.href:', error);
       window.location.href = '/';
       return;
     }
     window.scrollTo(0, 0);
-    console.log('✅ Navigation vers home terminée');
   };
 
   const handleArticlesClick = () => {
-    console.log('[Navigation] Articles clicked, changing view to articles-list');
-    setCurrentView('articles-list');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/articles');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log('[Navigation] handleArticlesClick appelé');
+    navigateToView('articles-list', '/articles');
   };
 
   const handleDynamicArticleClick = (slug: string) => {
-    console.log('[Navigation] Dynamic article clicked:', slug);
-    setCurrentArticleSlug(slug);
-    setCurrentView('dynamic-article');
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', `/${slug}`);
-    window.scrollTo(0, 0);
+    navigateToView('dynamic-article', `/${slug}`, {
+      currentArticleSlug: slug
+    });
   };
 
   const handleArticleFromListClick = (slug: string) => {
-    console.log('[Navigation] Article clicked from list:', slug);
 
     // Redirige vers /education/slug pour tous les articles du template config
     const articleTemplate = getTemplateBySlug(slug);
@@ -800,51 +798,25 @@ const App: React.FC = () => {
   };
 
   const handleLandingPageClick = (slug: string) => {
-    console.log('Navigating to landing page:', slug);
-    setSelectedLandingPage(slug);
-    setCurrentView('landing');
-    window.history.pushState({}, '', `/${slug}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('landing', `/${slug}`, {
+      selectedLandingPage: slug
+    });
   };
 
   const handleFaqClick = () => {
-    console.log('[Navigation] FAQ clicked, changing view from', currentView, 'to faq');
-    setCurrentView('faq');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/faq');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('faq', '/faq');
   };
 
   const handleAboutUsClick = () => {
-    console.log('[Navigation] About us clicked, changing view from', currentView, 'to about-us');
-    setCurrentView('about-us');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/qui-sommes-nous');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    console.log('[Navigation] handleAboutUsClick appelé');
+    navigateToView('about-us', '/qui-sommes-nous');
   };
 
   const handleComprendreClick = () => {
-    console.log('[Navigation] Comprendre clicked, changing view from', currentView, 'to comprendre');
-    setCurrentView('comprendre');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/comprendre-les-scpi');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('comprendre', '/comprendre-les-scpi');
   };
 
   const handleGenericNavigation = (path: string) => {
-    console.log('[Navigation] Generic navigation to:', path);
 
     // Remove leading/trailing slashes
     const cleanPath = path.replace(/^\/|\/$/, '');
@@ -862,18 +834,11 @@ const App: React.FC = () => {
     };
 
     const targetView = pathMapping[cleanPath] || 'home';
-    setCurrentView(targetView as any);
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView(targetView, path);
   };
 
   const handleSimulateurClick = (simulateurId: string) => {
-    console.log('[Navigation] Simulateur clicked:', simulateurId, 'changing view from', currentView);
+    console.log('[Navigation] handleSimulateurClick appelé avec:', simulateurId);
 
     // Map simulateur IDs to views and routes
     const simulateurMapping: Record<string, { view: string; route: string }> = {
@@ -890,60 +855,34 @@ const App: React.FC = () => {
 
     const mapping = simulateurMapping[simulateurId];
     if (mapping) {
-      setCurrentView(mapping.view as any);
-      setSelectedCategory(null);
-      setSelectedArticle(null);
-      setSelectedLandingPage(null);
-      setSelectedScpiKey(null);
-      setSelectedThematicPage(null);
-      window.history.pushState({}, '', mapping.route);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      console.log('[Navigation] Mapping trouvé:', mapping);
+      navigateToView(mapping.view, mapping.route);
+    } else {
+      console.error('[Navigation] Aucun mapping trouvé pour simulateurId:', simulateurId);
     }
   };
 
   const handleComparateurClick = () => {
-    console.log('[Navigation] Comparateur clicked, changing view from', currentView, 'to comparateur');
-    setCurrentView('comparateur');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/comparateur-scpi');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('comparateur', '/comparateur-scpi');
   };
 
 
   const handleAnalyseArticleClick = (slug: string) => {
-    console.log('[Navigation] Analyse article clicked:', slug);
-    setCurrentView('fonds-euros-ou-scpi');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', `/${slug}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('fonds-euros-ou-scpi', `/${slug}`);
   };
 
   const handleScpiClick = (slug: string) => {
-    console.log('[handleScpiClick] Slug reçu:', slug);
-    
     // Vérifier si la SCPI existe dans scpiLandingPages (OptimizedScpiLandingPage)
     const scpiKey = Object.keys(scpiLandingPages).find(key => 
       scpiLandingPages[key].slug === slug || key === slug
     );
     
-    console.log('[handleScpiClick] Clé trouvée:', scpiKey);
-    
     if (scpiKey) {
       // Utiliser OptimizedScpiLandingPage avec le comparateur FintechComparator
-      console.log('[handleScpiClick] Utilisation de scpi-optimized');
       setSelectedScpiKey(scpiKey);
       setCurrentView('scpi-optimized');
     } else {
       // Fallback vers StaticScpiPage si la SCPI n'est pas dans scpiLandingPages
-      console.log('[handleScpiClick] Utilisation de scpi-static (fallback)');
       setSelectedScpiKey(slug);
       setCurrentView('scpi-static');
     }
@@ -957,31 +896,64 @@ const App: React.FC = () => {
   };
 
   const handleThematicPageClick = (slug: string) => {
-    console.log('[DEBUG handleThematicPageClick] Called with slug:', slug);
-    setSelectedThematicPage(slug);
-    setCurrentView('thematic-optimized');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    window.history.pushState({}, '', `/${slug}`);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('thematic-optimized', `/${slug}`, {
+      selectedThematicPage: slug
+    });
   };
 
   const handleUnderstandingClick = () => {
-    setCurrentView('comprendre');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    setSelectedScpiKey(null);
-    setSelectedThematicPage(null);
-    window.history.pushState({}, '', '/comprendre-les-scpi');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigateToView('comprendre', '/comprendre-les-scpi');
   };
 
   const handleReviewsClick = () => {
     setIsReviewsModalOpen(true);
   };
+
+  // handleStartSubscription doit être défini AVANT tous les returns conditionnels
+  const handleStartSubscription = useCallback(async (scpiIds: number[]) => {
+    try {
+      // Charger les données SCPI si nécessaire
+      let dataToUse = scpiData;
+      if (dataToUse.length === 0) {
+        const { scpiData: loadedData } = await import('./data/scpiData');
+        dataToUse = loadedData;
+        setScpiData(loadedData);
+      }
+      
+      // Convertir les IDs en objets SCPI complets
+      const selectedScpis = scpiIds
+        .map(id => dataToUse.find(scpi => scpi.id === id))
+        .filter((scpi): scpi is Scpi => scpi !== undefined);
+      
+      if (selectedScpis.length === 0) {
+        console.error('❌ [App.tsx] Aucune SCPI trouvée pour les IDs:', scpiIds);
+        return;
+      }
+      
+      // Convertir en SCPIExtended pour le tunnel
+      const { scpiDataExtended } = await import('./data/scpiDataExtended');
+      const extendedScpis = selectedScpis
+        .map(scpi => scpiDataExtended.find(ext => ext.id === scpi.id))
+        .filter((scpi): scpi is typeof scpiDataExtended[0] => scpi !== undefined);
+      
+      if (extendedScpis.length === 0) {
+        console.error('❌ [App.tsx] Aucune SCPI étendue trouvée pour les IDs:', scpiIds);
+        return;
+      }
+      
+      // Navigation vers /souscription avec les SCPI dans le state
+      window.history.pushState({ scpis: extendedScpis }, '', '/souscription');
+      
+      // Déclencher le popstate event pour que le custom useLocation hook détecte le changement
+      setTimeout(() => {
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, 0);
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('❌ [App.tsx] Erreur lors de l\'ouverture du tunnel de souscription:', error);
+    }
+  }, [scpiData]);
 
   const handleExportPDF = async () => {
     if (selectedScpi.length === 0) {
@@ -1517,6 +1489,7 @@ const App: React.FC = () => {
 
   // Render About Us view
   if (currentView === 'about-us') {
+    console.log('✅ [App.tsx] Rendu de la vue about-us');
     return (
       <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <Header
@@ -1868,70 +1841,6 @@ const App: React.FC = () => {
       </div>
     );
   }
-
-  // Fonction pour ouvrir le tunnel de souscription (définie au niveau du composant)
-  const handleStartSubscription = useCallback(async (scpiIds: number[]) => {
-      console.log('🚀 [App.tsx] handleStartSubscription appelé avec', scpiIds.length, 'IDs:', scpiIds);
-      try {
-        // Charger les données SCPI si nécessaire
-        let dataToUse = scpiData;
-        if (dataToUse.length === 0) {
-          console.log('📦 [App.tsx] Chargement des données SCPI...');
-          const { scpiData: loadedData } = await import('./data/scpiData');
-          dataToUse = loadedData;
-          setScpiData(loadedData);
-        }
-        
-        // Convertir les IDs en objets SCPI complets
-        const selectedScpis = scpiIds
-          .map(id => dataToUse.find(scpi => scpi.id === id))
-          .filter((scpi): scpi is Scpi => scpi !== undefined);
-        
-        console.log('📊 [App.tsx] SCPI trouvées:', selectedScpis.length, selectedScpis.map(s => ({ id: s.id, name: s.name })));
-        
-        if (selectedScpis.length === 0) {
-          console.error('❌ [App.tsx] Aucune SCPI trouvée pour les IDs:', scpiIds);
-          return;
-        }
-        
-        // Convertir en SCPIExtended pour le tunnel
-        console.log('📦 [App.tsx] Chargement des SCPI étendues...');
-        const { scpiDataExtended } = await import('./data/scpiDataExtended');
-        const extendedScpis = selectedScpis
-          .map(scpi => scpiDataExtended.find(ext => ext.id === scpi.id))
-          .filter((scpi): scpi is typeof scpiDataExtended[0] => scpi !== undefined);
-        
-        console.log('✅ [App.tsx] SCPI étendues chargées:', extendedScpis.length, extendedScpis.map(s => ({ id: s.id, name: s.name })));
-        
-        if (extendedScpis.length === 0) {
-          console.error('❌ [App.tsx] Aucune SCPI étendue trouvée pour les IDs:', scpiIds);
-          return;
-        }
-        
-        // NE PAS mettre à jour les états ici - laisser le useEffect gérer ça
-        // Navigation vers /souscription avec les SCPI dans le state
-        // Le useEffect détectera le changement de route et ouvrira le tunnel
-        console.log('🚀 [App.tsx] Navigation vers /souscription avec', extendedScpis.length, 'SCPI');
-        console.log('📋 [App.tsx] SCPI à passer:', extendedScpis.map(s => ({ id: s.id, name: s.name })));
-        
-        // Faire le pushState avec les SCPI dans le state
-        // Le wrapper pushState mettra à jour location.state automatiquement
-        window.history.pushState({ scpis: extendedScpis }, '', '/souscription');
-        console.log('✅ [App.tsx] pushState appelé, window.history.state:', window.history.state);
-        console.log('✅ [App.tsx] window.history.state.scpis:', window.history.state?.scpis?.length || 0);
-        
-        // Le wrapper pushState va mettre à jour location.pathname et location.state
-        // Le useEffect se déclenchera automatiquement et ouvrira le tunnel
-        // Pas besoin d'appeler setIsSubscriptionOpen ici - le useEffect le fera
-        
-        // Scroll vers le haut
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        console.log('✅ [App.tsx] handleStartSubscription terminé avec succès');
-        
-      } catch (error) {
-        console.error('❌ [App.tsx] Erreur lors de l\'ouverture du tunnel de souscription:', error);
-      }
-    }, [scpiData]);
 
   // Render Parcours Guidé
   if (currentView === 'guided-journey') {
@@ -2661,11 +2570,6 @@ const App: React.FC = () => {
           }
         >
           {(() => {
-            console.log('📤 App.tsx - Props passées à SubscriptionFunnel:', {
-              isSubscriptionOpen,
-              selectedScpiCount: selectedScpiForSubscription.length,
-              selectedScpiIds: selectedScpiForSubscription.map(s => s.id)
-            });
             return (
               <SubscriptionFunnel
                 isOpen={isSubscriptionOpen}

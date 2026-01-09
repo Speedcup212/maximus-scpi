@@ -16,13 +16,6 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
   onStartSubscription,
   onCalendlyClick
 }) => {
-  console.log('🎬 [GuidedJourney] Composant monté/rendu');
-  console.log('🔍 [GuidedJourney] Props reçues:', {
-    hasOnClose: !!onClose,
-    hasOnStartSubscription: !!onStartSubscription,
-    hasOnCalendlyClick: !!onCalendlyClick
-  });
-  
   // Restaurer le state depuis sessionStorage si disponible
   const getInitialState = () => {
     // Vérifier aussi l'URL pour savoir si on doit charger les résultats
@@ -42,9 +35,9 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
           };
         }
       }
-    } catch (e) {
-      console.error('Erreur lors de la restauration du state:', e);
-    }
+      } catch (e) {
+        // Erreur silencieuse lors de la restauration
+      }
     return {
       step: 'questionnaire' as const,
       recommendation: null as PortfolioRecommendation | null,
@@ -75,7 +68,7 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
           }
         }
       } catch (e) {
-        console.error('Erreur lors de la restauration du state:', e);
+        // Erreur silencieuse lors de la restauration
       }
     } else if (!isResultsPage && step === 'results') {
       // Si on n'est plus sur la page de résultats, nettoyer
@@ -98,7 +91,7 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
         answers: answersData
       }));
     } catch (e) {
-      console.error('Erreur lors de la sauvegarde du state:', e);
+      // Erreur silencieuse lors de la sauvegarde
     }
     
     // Mettre à jour le state
@@ -123,13 +116,6 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
   };
 
   if (step === 'results' && recommendation && answers) {
-    console.log('✅ [GuidedJourney] Affichage de la page des résultats');
-    console.log('🔍 [GuidedJourney] État:', {
-      step,
-      hasRecommendation: !!recommendation,
-      hasAnswers: !!answers,
-      hasOnStartSubscription: !!onStartSubscription
-    });
     return (
       <GuidedJourneyResults
         recommendation={recommendation}
@@ -141,7 +127,6 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
     );
   }
   
-  console.log('📋 [GuidedJourney] Affichage du questionnaire (step:', step, ')');
 
   return (
     <GuidedJourneyQuestionnaire

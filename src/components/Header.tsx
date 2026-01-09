@@ -486,9 +486,13 @@ const Header: React.FC<HeaderProps> = ({
             {/* Articles/Analyses & Actualités */}
             <button
               onClick={() => {
+                console.log('[Header] Clic sur Articles/Analyses & Actualités');
                 resetAllHeaderStates();
                 if (onArticlesClick) {
+                  console.log('[Header] onArticlesClick défini, appel...');
                   onArticlesClick();
+                } else {
+                  console.error('[Header] onArticlesClick non défini!');
                 }
               }}
               className="hidden lg:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
@@ -581,8 +585,14 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] max-w-64 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
                   <button
                     onClick={() => {
+                      console.log('[Header] Clic sur Qui sommes-nous');
                       resetAllHeaderStates();
-                      if (onAboutClick) onAboutClick();
+                      if (onAboutClick) {
+                        console.log('[Header] onAboutClick défini, appel...');
+                        onAboutClick();
+                      } else {
+                        console.error('[Header] onAboutClick non défini!');
+                      }
                     }}
                     className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
                   >

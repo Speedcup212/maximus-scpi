@@ -47,6 +47,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
       case 'strategies': return Target;
       case 'guides': return BookOpen;
       case 'marche': return AlertTriangle;
+      case 'analyse': return TrendingUp;
       default: return BookOpen;
     }
   };
@@ -88,6 +89,13 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         badgeClass: 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300',
         arrowClass: 'text-red-600'
       };
+      case 'analyse': return {
+        iconClass: 'text-indigo-600',
+        borderHoverClass: 'hover:border-indigo-500',
+        titleHoverClass: 'group-hover:text-indigo-600 dark:group-hover:text-indigo-400',
+        badgeClass: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300',
+        arrowClass: 'text-indigo-600'
+      };
       default: return {
         iconClass: 'text-gray-600',
         borderHoverClass: 'hover:border-gray-500',
@@ -111,7 +119,8 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     fiscalite: 'Fiscalité',
     strategies: 'Stratégies',
     guides: 'Guides Pratiques',
-    marche: 'Marché & Risques'
+    marche: 'Marché & Risques',
+    analyse: 'Analyses & Comparaisons'
   };
 
   return (

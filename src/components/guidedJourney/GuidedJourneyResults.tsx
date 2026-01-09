@@ -402,16 +402,6 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   onStartSubscription,
   onCalendlyClick,
 }) => {
-  console.log('🎯 [GuidedJourneyResults] Composant rendu');
-  console.log('🔍 [GuidedJourneyResults] Props reçues:', {
-    hasRecommendation: !!recommendation,
-    hasAnswers: !!answers,
-    hasOnBack: !!onBack,
-    hasOnStartSubscription: !!onStartSubscription,
-    hasOnCalendlyClick: !!onCalendlyClick,
-    onCalendlyClickType: typeof onCalendlyClick
-  });
-  
   const { portfolio, explanation } = recommendation;
 
   // État pour le montant d'investissement (utilise la valeur du questionnaire ou 50000 par défaut)
@@ -420,23 +410,15 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   // Récupérer les SCPI du portefeuille original
   const originalPortfolioScpis = useMemo(() => {
     if (!scpiData || scpiData.length === 0) {
-      console.warn('⚠️ scpiData est vide ou non chargé');
       return [];
     }
     
     const result = portfolio.scpis
       .map(p => {
         const scpi = scpiData.find(s => s.id === p.scpiId);
-        if (!scpi) {
-          console.warn(`⚠️ SCPI avec ID ${p.scpiId} non trouvée dans scpiData`);
-        }
         return scpi ? { scpi, allocation: p.allocation } : null;
       })
       .filter((item): item is { scpi: Scpi; allocation: number } => item !== null);
-    
-    if (result.length === 0) {
-      console.error('❌ Aucune SCPI trouvée dans originalPortfolioScpis');
-    }
     
     return result;
   }, [portfolio.scpis]);
@@ -542,13 +524,9 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       e.preventDefault();
       e.stopPropagation();
     }
-    console.log('📞 [GuidedJourneyResults] handleCalendlyClick appelé');
-    console.log('🔍 [GuidedJourneyResults] onCalendlyClick défini?', !!onCalendlyClick);
     if (onCalendlyClick) {
-      console.log('✅ [GuidedJourneyResults] Appel de onCalendlyClick');
       onCalendlyClick();
     } else {
-      console.log('⚠️ [GuidedJourneyResults] onCalendlyClick non défini, ouverture directe de Calendly');
       // Fallback : ouvrir Calendly directement
       window.open('https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone', '_blank');
     }
@@ -563,43 +541,32 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
 
     // Empêcher les clics multiples
     if (isLoading) {
-      console.log('⏳ [GuidedJourneyResults] Déjà en cours de chargement...');
       return;
     }
 
     try {
       setIsLoading(true);
-      console.log('🚀 [GuidedJourneyResults] Début de l\'ouverture du tunnel de souscription...');
-      console.log('🔍 [GuidedJourneyResults] onStartSubscription défini?', !!onStartSubscription);
 
       // Vérifier que portfolioScpis est défini et non vide
       if (!portfolioScpis || portfolioScpis.length === 0) {
-        console.error('❌ [GuidedJourneyResults] Aucune SCPI dans le portefeuille');
         alert('Erreur : Aucune SCPI sélectionnée. Veuillez réessayer.');
         setIsLoading(false);
         return;
       }
 
-      console.log('📊 [GuidedJourneyResults] Portfolio SCPIs:', portfolioScpis.map(p => ({ id: p.scpi.id, name: p.scpi.name })));
-
       // Extraire les IDs des SCPI
       const scpiIds = portfolioScpis.map(p => p.scpi.id);
-      console.log('✅ [GuidedJourneyResults] IDs SCPI extraits:', scpiIds);
 
       // Appeler la fonction onStartSubscription passée depuis App.tsx
       if (onStartSubscription) {
-        console.log('📞 [GuidedJourneyResults] Appel de onStartSubscription avec', scpiIds.length, 'SCPI');
         await onStartSubscription(scpiIds);
-        console.log('✅ [GuidedJourneyResults] onStartSubscription appelé avec succès');
       } else {
-        console.error('❌ [GuidedJourneyResults] onStartSubscription n\'est pas défini');
-        console.error('❌ [GuidedJourneyResults] Props reçues:', { onStartSubscription, onBack, onCalendlyClick });
         alert('Erreur : Impossible d\'ouvrir le tunnel. Veuillez réessayer.');
       }
       
       setIsLoading(false);
     } catch (error) {
-      console.error('❌ [GuidedJourneyResults] Erreur lors de l\'ouverture du tunnel:', error);
+      console.error('Erreur lors de l\'ouverture du tunnel:', error);
       alert('Une erreur est survenue. Veuillez réessayer.');
       setIsLoading(false);
     }
@@ -844,96 +811,61 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
           {/* BOUTONS D'ACTION EN BAS DE PAGE */}
           <div className="mt-6">
             <div className="flex flex-col sm:flex-row gap-3">
-              {/* Bouton Prendre RDV */}
-              {(() => {
-                console.log('🔍 [GuidedJourneyResults] Rendu du bouton Prendre RDV, onCalendlyClick:', !!onCalendlyClick);
-                return (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      console.log('🖱️🖱️🖱️ [GuidedJourneyResults] ⭐⭐⭐ CLIC SUR BOUTON "PRENDRE RDV" ⭐⭐⭐');
-                      console.error('🖱️🖱️🖱️ [GuidedJourneyResults] CLIC PRENDRE RDV - FORCE LOG');
-                      e.preventDefault();
-                      e.stopPropagation();
-                      console.log('🔍 [GuidedJourneyResults] État avant handleCalendlyClick:', {
-                        hasOnCalendlyClick: !!onCalendlyClick,
-                        onCalendlyClickType: typeof onCalendlyClick
-                      });
-                      handleCalendlyClick(e);
-                    }}
-                    style={{
-                      position: 'relative',
-                      zIndex: 1000,
-                      pointerEvents: 'auto'
-                    }}
-                    className="flex-1 px-6 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
-                  >
-                    <Phone className="w-5 h-5" />
-                    <span>Prendre RDV avec un conseiller</span>
-                  </button>
-                );
-              })()}
+            {/* Bouton Prendre RDV */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleCalendlyClick(e);
+              }}
+              style={{
+                position: 'relative',
+                zIndex: 1000,
+                pointerEvents: 'auto'
+              }}
+              className="flex-1 px-6 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
+            >
+              <Phone className="w-5 h-5" />
+              <span>Prendre RDV avec un conseiller</span>
+            </button>
 
               {/* Bouton Commencer ma souscription */}
-              {(() => {
-                const isDisabled = isLoading || !portfolioScpis || portfolioScpis.length === 0;
-                console.log('🔍 [GuidedJourneyResults] État du bouton:', {
-                  isLoading,
-                  hasPortfolioScpis: !!portfolioScpis,
-                  portfolioScpisLength: portfolioScpis?.length || 0,
-                  isDisabled,
-                  hasOnStartSubscription: !!onStartSubscription
-                });
-                return (
-                  <button
-                    type="button"
-                    onClick={async (e) => {
-                      console.log('🖱️🖱️🖱️ [GuidedJourneyResults] ⭐⭐⭐ CLIC DÉTECTÉ SUR LE BOUTON ⭐⭐⭐');
-                      console.error('🖱️🖱️🖱️ [GuidedJourneyResults] CLIC SUR BOUTON - FORCE LOG');
-                      e.preventDefault();
-                      e.stopPropagation();
-                      console.log('🔍 [GuidedJourneyResults] État avant clic:', {
-                        isLoading,
-                        portfolioScpisLength: portfolioScpis?.length || 0,
-                        hasOnStartSubscription: !!onStartSubscription,
-                        isDisabled
-                      });
-                      if (isDisabled) {
-                        console.warn('⚠️ [GuidedJourneyResults] Bouton désactivé, clic ignoré');
-                        alert('⚠️ Bouton désactivé ! Vérifiez que vous avez des SCPI dans le portefeuille.');
-                        return;
-                      }
-                      console.log('✅ [GuidedJourneyResults] Appel de handleStartSubscription...');
-                      try {
-                        await handleStartSubscription(e);
-                        console.log('✅ [GuidedJourneyResults] handleStartSubscription terminé');
-                      } catch (error) {
-                        console.error('❌ [GuidedJourneyResults] Erreur dans handleStartSubscription:', error);
-                        alert('Erreur lors de l\'ouverture du tunnel: ' + (error instanceof Error ? error.message : String(error)));
-                      }
-                    }}
-                    disabled={isDisabled}
-                    style={{ 
-                      position: 'relative',
-                      zIndex: 1000,
-                      pointerEvents: isDisabled ? 'none' : 'auto'
-                    }}
-                    className="flex-1 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 disabled:shadow-none"
-                  >
-                    {isLoading ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        <span>Ouverture du tunnel de souscription...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Commencer ma souscription en ligne</span>
-                        <ArrowRight className="w-5 h-5" />
-                      </>
-                    )}
-                  </button>
-                );
-              })()}
+              <button
+                type="button"
+                disabled={isLoading || !portfolioScpis || portfolioScpis.length === 0}
+                onClick={async (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (isLoading || !portfolioScpis || portfolioScpis.length === 0) {
+                    return;
+                  }
+                  try {
+                    await handleStartSubscription(e);
+                  } catch (error) {
+                    console.error('Erreur dans handleStartSubscription:', error);
+                    alert('Erreur lors de l\'ouverture du tunnel: ' + (error instanceof Error ? error.message : String(error)));
+                  }
+                }}
+                style={{ 
+                  position: 'relative',
+                  zIndex: 1000,
+                  pointerEvents: (isLoading || !portfolioScpis || portfolioScpis.length === 0) ? 'none' : 'auto'
+                }}
+                className="flex-1 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 disabled:shadow-none"
+              >
+                {isLoading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Ouverture du tunnel de souscription...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Commencer ma souscription en ligne</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
+              </button>
             </div>
             <p className="text-xs text-slate-400 text-center mt-3">
               Accédez au formulaire de souscription avec votre portefeuille pré-rempli

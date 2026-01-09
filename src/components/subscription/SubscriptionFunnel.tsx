@@ -25,25 +25,8 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
   isOpen,
   onClose 
 }) => {
-  // Log IMMÉDIAT des props reçues (avant tous les hooks)
-  console.log('🔍 SubscriptionFunnel - Props reçues:', { 
-    isOpen, 
-    initialScpisLength: initialScpis.length,
-    initialScpisIds: initialScpis.map(s => s.id)
-  });
-  console.log('🔍 SubscriptionFunnel - Condition de rendu:', {
-    isOpen,
-    hasInitialScpis: initialScpis.length > 0,
-    willRender: isOpen && initialScpis.length > 0
-  });
-
   const { state, updateState } = useSubscription();
   const containerRef = useRef<HTMLDivElement | null>(null);
-
-  // Log pour déboguer
-  useEffect(() => {
-    console.log('🔍 SubscriptionFunnel - isOpen:', isOpen, 'initialScpis.length:', initialScpis.length);
-  }, [isOpen, initialScpis.length]);
 
   // Empêcher le scroll de la page derrière le tunnel (éviter le double scroll)
   useEffect(() => {
@@ -83,11 +66,6 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
       });
     }
   }, [initialScpis, state.selectedScpis.length, updateState]);
-
-  // Log pour vérifier que le composant est rendu
-  useEffect(() => {
-    console.log('🎯 SubscriptionFunnel rendu avec', initialScpis.length, 'SCPI');
-  }, [initialScpis.length]);
 
   // Ne pas rendre si fermé ou si aucune SCPI (APRÈS tous les hooks pour respecter les règles React)
   if (!isOpen || initialScpis.length === 0) {
