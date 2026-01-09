@@ -16,25 +16,46 @@ import Step9Validation from './Step9Validation';
 
 interface SubscriptionFunnelProps {
   initialScpis?: SCPIExtended[];
+  isOpen: boolean;
   onClose?: () => void;
 }
 
 const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({ 
   initialScpis = [], 
+  isOpen,
   onClose 
 }) => {
+  // Log IMMÉDIAT des props reçues (avant tous les hooks)
+  console.log('🔍 SubscriptionFunnel - Props reçues:', { 
+    isOpen, 
+    initialScpisLength: initialScpis.length,
+    initialScpisIds: initialScpis.map(s => s.id)
+  });
+  console.log('🔍 SubscriptionFunnel - Condition de rendu:', {
+    isOpen,
+    hasInitialScpis: initialScpis.length > 0,
+    willRender: isOpen && initialScpis.length > 0
+  });
+
   const { state, updateState } = useSubscription();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Log pour déboguer
+  useEffect(() => {
+    console.log('🔍 SubscriptionFunnel - isOpen:', isOpen, 'initialScpis.length:', initialScpis.length);
+  }, [isOpen, initialScpis.length]);
+
   // Empêcher le scroll de la page derrière le tunnel (éviter le double scroll)
   useEffect(() => {
+    if (!isOpen) return;
+    
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [isOpen]);
 
   // Remonter en haut à chaque changement d'étape
   useEffect(() => {
@@ -42,18 +63,6 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
       containerRef.current.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [state.currentStep]);
-
-  const steps = [
-    { id: 1, label: 'Votre accompagnement' },
-    { id: 2, label: 'Projet & profil' },
-    { id: 3, label: 'Identité' },
-    { id: 4, label: 'Situation' },
-    { id: 5, label: 'Fiscalité' },
-    { id: 6, label: 'Patrimoine' },
-    { id: 7, label: 'Origine des fonds' },
-    { id: 8, label: 'Consentements' },
-    { id: 9, label: 'Validation finale' },
-  ];
 
   // Initialiser avec les SCPI sélectionnées
   useEffect(() => {
@@ -74,6 +83,28 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
       });
     }
   }, [initialScpis, state.selectedScpis.length, updateState]);
+
+  // Log pour vérifier que le composant est rendu
+  useEffect(() => {
+    console.log('🎯 SubscriptionFunnel rendu avec', initialScpis.length, 'SCPI');
+  }, [initialScpis.length]);
+
+  // Ne pas rendre si fermé ou si aucune SCPI (APRÈS tous les hooks pour respecter les règles React)
+  if (!isOpen || initialScpis.length === 0) {
+    return null;
+  }
+
+  const steps = [
+    { id: 1, label: 'Votre accompagnement' },
+    { id: 2, label: 'Projet & profil' },
+    { id: 3, label: 'Identité' },
+    { id: 4, label: 'Situation' },
+    { id: 5, label: 'Fiscalité' },
+    { id: 6, label: 'Patrimoine' },
+    { id: 7, label: 'Origine des fonds' },
+    { id: 8, label: 'Consentements' },
+    { id: 9, label: 'Validation finale' },
+  ];
 
   const renderStep = () => {
     switch (state.currentStep) {
@@ -103,7 +134,8 @@ const SubscriptionFunnel: React.FC<SubscriptionFunnelProps> = ({
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 bg-slate-900 overflow-y-auto pt-16 md:pt-24"
+      className="fixed inset-0 z-[10000] bg-slate-900 overflow-y-auto pt-16 md:pt-24"
+      style={{ zIndex: 10000 }}
     >
       {/* Progress Header + Timeline
           Affiché uniquement à partir de l'étape 2 ("Votre projet d'investissement") */}

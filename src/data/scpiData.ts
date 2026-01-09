@@ -224,6 +224,7 @@ export const scpiData: Scpi[] = scpiCompleteJson.Sheet1.map((scpi: any, index: n
     repartitionSector: cleanRepartition(sectorDistribution),
     repartitionGeo: cleanRepartition(geoDistribution),
     rating: recommended ? 5 : (isAtPar ? 4 : undefined),
-    isRecommended: recommended
+    isRecommended: recommended,
+    debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined
   };
 });

@@ -9,9 +9,10 @@ interface SCPITableRowProps {
   onToggleSelect: () => void;
   onAnalyze: () => void;
   userTmi?: TMIValue;
+  onGuidedJourneyClick?: () => void;
 }
 
-const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null }) => {
+const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const netYield = userTmi !== null ? calculateNetYield(scpi.yield, userTmi, isEuropean) : null;
@@ -74,34 +75,45 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
         <div className="text-sm font-semibold text-white truncate">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
       </td>
       <td className="px-4 py-3">
-        <div className="flex items-center gap-2 justify-end">
-          <button
-            onClick={onToggleSelect}
-            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
-              isSelected
-                ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white'
-            }`}
-          >
-            {isSelected ? (
-              <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Choisie</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-3.5 h-3.5" />
-                <span>Comparer</span>
-              </>
-            )}
-          </button>
-          <button
-            onClick={onAnalyze}
-            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
-          >
-            <BarChart3 className="w-3.5 h-3.5" />
-            <span>Analyser</span>
-          </button>
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onToggleSelect}
+              className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                isSelected
+                  ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                  : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white'
+              }`}
+            >
+              {isSelected ? (
+                <>
+                  <Check className="w-3.5 h-3.5" />
+                  <span>Choisie</span>
+                </>
+              ) : (
+                <>
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Comparer</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={onAnalyze}
+              className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
+            >
+              <BarChart3 className="w-3.5 h-3.5" />
+              <span>Analyser</span>
+            </button>
+          </div>
+          {onGuidedJourneyClick && (
+            <button
+              onClick={onGuidedJourneyClick}
+              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1 whitespace-nowrap"
+            >
+              <span>👉</span>
+              <span>Je préfère être guidé</span>
+            </button>
+          )}
         </div>
       </td>
     </tr>

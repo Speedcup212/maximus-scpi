@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Building, TrendingUp, PieChart, BarChart3, MapPin, Calendar,
   Download, User, Target, Award, Shield, DollarSign, Phone,
@@ -19,6 +19,7 @@ import { CookieConsent } from './components/CookieConsent';
 import SemanticLinks from './components/SemanticLinks';
 import { getSemanticLinks } from './data/semanticCocon';
 import ErrorBoundary from './components/ErrorBoundary';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import Hero from './components/Hero';
 import ScpiTable from './components/ScpiTable';
 import QuickFilters from './components/QuickFilters';
@@ -58,6 +59,8 @@ const OptimizedThematicLandingPage = lazy(() => import('./components/OptimizedTh
 const StaticScpiPage = lazy(() => import('./components/StaticScpiPage'));
 const FintechComparator = lazy(() => import('./components/fintech/FintechComparator'));
 const ComparisonTable = lazy(() => import('./components/ComparisonTable'));
+const GuidedJourney = lazy(() => import('./components/guidedJourney/GuidedJourney'));
+const SubscriptionFunnel = lazy(() => import('./components/subscription/SubscriptionFunnel'));
 const TestSenderReact = lazy(() => import('./components/TestSenderReact'));
 const LifeToScpiPage = lazy(() => import('./components/LifeToScpiPage'));
 const ScpiNetIncomeSimulator = lazy(() => import('./components/ScpiNetIncomeSimulator'));
@@ -156,6 +159,8 @@ const App: React.FC = () => {
   const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
+  const [selectedScpiForSubscription, setSelectedScpiForSubscription] = useState<any[]>([]);
   const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
   const [isObjectiveModalOpen, setIsObjectiveModalOpen] = useState(false);
   const [isPortfolioResultsOpen, setIsPortfolioResultsOpen] = useState(false);
@@ -170,7 +175,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -211,6 +216,11 @@ const App: React.FC = () => {
 
     if (path) {
       console.log('[Routing Initial] Path détecté:', path);
+      // Ne pas gérer /souscription dans le routing initial car c'est géré par le tunnel
+      if (path === 'souscription') {
+        console.log('[Routing] Path /souscription détecté - laisser le tunnel gérer');
+        return; // Ne pas changer la vue, laisser le tunnel s'ouvrir
+      }
       if (path === 'faq') {
         setCurrentView('faq');
       } else if (path === 'comprendre-les-scpi') {
@@ -347,6 +357,8 @@ const App: React.FC = () => {
         setCurrentView('scpi-objectifs-hub');
       } else if (path === 'scpi-europeennes') {
         setCurrentView('scpi-europeennes-hub');
+      } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
+        setCurrentView('guided-journey');
       } else {
         // Check if it's a dynamic article from articleTemplatesConfig
         const articleTemplate = getTemplateBySlug(path);
@@ -403,6 +415,123 @@ const App: React.FC = () => {
       }
     }
   }, []);
+
+  // Hook useLocation personnalisé (sans React Router)
+  const [location, setLocation] = React.useState({
+    pathname: window.location.pathname,
+    state: window.history.state
+  });
+
+  // Utiliser useRef pour stocker le wrapper original et éviter les re-installations
+  const originalPushStateRef = React.useRef<typeof window.history.pushState | null>(null);
+  const isWrapperInstalledRef = React.useRef(false);
+  const updateLocationRef = React.useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    // Éviter les installations multiples
+    if (isWrapperInstalledRef.current) {
+      console.log('⚠️ Wrapper déjà installé, skip');
+      return;
+    }
+
+    console.log('🔧 Installation du wrapper pushState');
+    isWrapperInstalledRef.current = true;
+    
+    const updateLocation = () => {
+      const currentState = window.history.state;
+      console.log('🔄 updateLocation (popstate) - pathname:', window.location.pathname, 'state:', currentState);
+      setLocation({
+        pathname: window.location.pathname,
+        state: currentState
+      });
+    };
+    updateLocationRef.current = updateLocation;
+
+    window.addEventListener('popstate', updateLocation);
+    // Écouter aussi les changements de pushState
+    originalPushStateRef.current = window.history.pushState;
+    window.history.pushState = function(state, title, url) {
+      console.log('📝 [pushState wrapper] pushState appelé - state:', state, 'url:', url);
+      console.log('📝 [pushState wrapper] state.scpis?.length:', state?.scpis?.length || 0);
+      if (originalPushStateRef.current) {
+        originalPushStateRef.current.apply(window.history, [state, title, url]);
+      }
+      // Utiliser directement le state passé en paramètre (plus fiable que window.history.state)
+      // Normaliser l'URL pour correspondre à window.location.pathname
+      const normalizedPath = typeof url === 'string' ? url : window.location.pathname;
+      console.log('⏰ [pushState wrapper] Mise à jour location avec state passé:', state, 'pathname:', normalizedPath);
+      // Mettre à jour immédiatement le location state
+      setLocation({
+        pathname: normalizedPath,
+        state: state
+      });
+      // Vérifier que le state est bien passé
+      console.log('✅ [pushState wrapper] Location mis à jour, window.history.state:', window.history.state);
+      console.log('✅ [pushState wrapper] window.history.state.scpis?.length:', window.history.state?.scpis?.length || 0);
+      // Forcer un re-render en dispatchant un popstate event personnalisé
+      // Cela garantit que tous les listeners sont notifiés
+      setTimeout(() => {
+        console.log('📢 [pushState wrapper] Dispatch popstate event après pushState');
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }, 0);
+    };
+
+    return () => {
+      console.log('🧹 Nettoyage du wrapper pushState');
+      isWrapperInstalledRef.current = false;
+      if (updateLocationRef.current) {
+        window.removeEventListener('popstate', updateLocationRef.current);
+      }
+      if (originalPushStateRef.current) {
+        window.history.pushState = originalPushStateRef.current;
+      }
+    };
+  }, []);
+
+  // Ouverture automatique du tunnel sur la route /souscription
+  useEffect(() => {
+    console.log('🔍 [useEffect /souscription] location.pathname:', location.pathname, 'location.state:', location.state);
+    console.log('🔍 [useEffect /souscription] window.history.state:', window.history.state);
+    if (location.pathname === '/souscription') {
+      console.log('🧭 Route /souscription détectée → ouverture tunnel');
+      // Essayer d'abord location.state, puis window.history.state en fallback
+      const scpis = location.state?.scpis ?? window.history.state?.scpis ?? [];
+      console.log('📦 SCPI trouvées:', scpis.length, scpis);
+      if (scpis.length > 0) {
+        console.log('✅ [useEffect /souscription] Mise à jour des états avec', scpis.length, 'SCPI');
+        // Mettre à jour les SCPI et ouvrir le tunnel IMMÉDIATEMENT
+        setSelectedScpiForSubscription(scpis);
+        setIsSubscriptionOpen(true);
+        console.log('✅ [useEffect /souscription] Tunnel ouvert avec', scpis.length, 'SCPI');
+      } else {
+        console.warn('⚠️ Aucune SCPI trouvée dans location.state ni window.history.state');
+        console.warn('⚠️ Le tunnel ne peut pas s\'ouvrir sans SCPI. Assurez-vous de passer par le bouton "Commencer ma souscription en ligne".');
+        // Si on est sur /souscription mais sans SCPI, peut-être qu'on vient d'arriver
+        // Attendre un peu pour voir si le state arrive (augmenter le délai pour laisser le temps au pushState)
+        const timeoutId = setTimeout(() => {
+          const delayedScpis = window.history.state?.scpis ?? [];
+          console.log('🔍 Vérification après délai (500ms) - window.history.state:', window.history.state);
+          if (delayedScpis.length > 0) {
+            console.log('📦 SCPI trouvées après délai:', delayedScpis.length);
+            setSelectedScpiForSubscription(delayedScpis);
+            setIsSubscriptionOpen(true);
+          } else {
+            console.warn('⚠️ Toujours aucune SCPI après délai. Le tunnel ne peut pas s\'ouvrir.');
+            console.warn('⚠️ Pour ouvrir le tunnel, vous devez cliquer sur "Commencer ma souscription en ligne" depuis la page des résultats.');
+          }
+        }, 500);
+        return () => clearTimeout(timeoutId);
+      }
+    } else {
+      // Si on quitte /souscription, fermer le tunnel (seulement si ouvert)
+      if (isSubscriptionOpen) {
+        console.log('🔒 Fermeture du tunnel (quitte /souscription)');
+        setIsSubscriptionOpen(false);
+        setSelectedScpiForSubscription([]);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, location.state]);
 
   // Hooks
   const { filteredScpi: filteredByFilters, activeQuickFilter, setQuickFilter, filters, updateFilter } = useScpiFilters(scpiData);
@@ -530,6 +659,8 @@ const App: React.FC = () => {
         setCurrentView('fiscalite-scpi');
       } else if (path === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
+      } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
+        setCurrentView('guided-journey');
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1738,6 +1869,126 @@ const App: React.FC = () => {
     );
   }
 
+  // Fonction pour ouvrir le tunnel de souscription (définie au niveau du composant)
+  const handleStartSubscription = useCallback(async (scpiIds: number[]) => {
+      console.log('🚀 [App.tsx] handleStartSubscription appelé avec', scpiIds.length, 'IDs:', scpiIds);
+      try {
+        // Charger les données SCPI si nécessaire
+        let dataToUse = scpiData;
+        if (dataToUse.length === 0) {
+          console.log('📦 [App.tsx] Chargement des données SCPI...');
+          const { scpiData: loadedData } = await import('./data/scpiData');
+          dataToUse = loadedData;
+          setScpiData(loadedData);
+        }
+        
+        // Convertir les IDs en objets SCPI complets
+        const selectedScpis = scpiIds
+          .map(id => dataToUse.find(scpi => scpi.id === id))
+          .filter((scpi): scpi is Scpi => scpi !== undefined);
+        
+        console.log('📊 [App.tsx] SCPI trouvées:', selectedScpis.length, selectedScpis.map(s => ({ id: s.id, name: s.name })));
+        
+        if (selectedScpis.length === 0) {
+          console.error('❌ [App.tsx] Aucune SCPI trouvée pour les IDs:', scpiIds);
+          return;
+        }
+        
+        // Convertir en SCPIExtended pour le tunnel
+        console.log('📦 [App.tsx] Chargement des SCPI étendues...');
+        const { scpiDataExtended } = await import('./data/scpiDataExtended');
+        const extendedScpis = selectedScpis
+          .map(scpi => scpiDataExtended.find(ext => ext.id === scpi.id))
+          .filter((scpi): scpi is typeof scpiDataExtended[0] => scpi !== undefined);
+        
+        console.log('✅ [App.tsx] SCPI étendues chargées:', extendedScpis.length, extendedScpis.map(s => ({ id: s.id, name: s.name })));
+        
+        if (extendedScpis.length === 0) {
+          console.error('❌ [App.tsx] Aucune SCPI étendue trouvée pour les IDs:', scpiIds);
+          return;
+        }
+        
+        // NE PAS mettre à jour les états ici - laisser le useEffect gérer ça
+        // Navigation vers /souscription avec les SCPI dans le state
+        // Le useEffect détectera le changement de route et ouvrira le tunnel
+        console.log('🚀 [App.tsx] Navigation vers /souscription avec', extendedScpis.length, 'SCPI');
+        console.log('📋 [App.tsx] SCPI à passer:', extendedScpis.map(s => ({ id: s.id, name: s.name })));
+        
+        // Faire le pushState avec les SCPI dans le state
+        // Le wrapper pushState mettra à jour location.state automatiquement
+        window.history.pushState({ scpis: extendedScpis }, '', '/souscription');
+        console.log('✅ [App.tsx] pushState appelé, window.history.state:', window.history.state);
+        console.log('✅ [App.tsx] window.history.state.scpis:', window.history.state?.scpis?.length || 0);
+        
+        // Le wrapper pushState va mettre à jour location.pathname et location.state
+        // Le useEffect se déclenchera automatiquement et ouvrira le tunnel
+        // Pas besoin d'appeler setIsSubscriptionOpen ici - le useEffect le fera
+        
+        // Scroll vers le haut
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        console.log('✅ [App.tsx] handleStartSubscription terminé avec succès');
+        
+      } catch (error) {
+        console.error('❌ [App.tsx] Erreur lors de l\'ouverture du tunnel de souscription:', error);
+      }
+    }, [scpiData]);
+
+  // Render Parcours Guidé
+  if (currentView === 'guided-journey') {
+    return (
+      <>
+        {/* Rendre GuidedJourney seulement si le tunnel n'est pas ouvert */}
+        {!isSubscriptionOpen && (
+          <Suspense fallback={<LoadingSpinner />}>
+            <GuidedJourney
+              onClose={handleBackToHome}
+              onStartSubscription={handleStartSubscription}
+              onCalendlyClick={() => setIsRdvModalOpen(true)}
+            />
+          </Suspense>
+        )}
+        
+        {/* Tunnel de souscription - Rendu ici pour être toujours accessible */}
+        <SubscriptionProvider>
+          <Suspense 
+            fallback={
+              isSubscriptionOpen && selectedScpiForSubscription.length > 0 ? (
+                <div 
+                  className="fixed inset-0 z-[10000] bg-slate-900 flex items-center justify-center"
+                  style={{ zIndex: 10000 }}
+                >
+                  <LoadingSpinner fullScreen />
+                </div>
+              ) : null
+            }
+          >
+            {(() => {
+              console.log('📤 App.tsx - Props passées à SubscriptionFunnel (dans GuidedJourney):', {
+                isSubscriptionOpen,
+                selectedScpiCount: selectedScpiForSubscription.length,
+                selectedScpiIds: selectedScpiForSubscription.map(s => s.id)
+              });
+              return (
+                <SubscriptionFunnel
+                  isOpen={isSubscriptionOpen}
+                  initialScpis={selectedScpiForSubscription}
+                  onClose={() => {
+                    console.log('🔒 Fermeture du tunnel');
+                    setIsSubscriptionOpen(false);
+                    setSelectedScpiForSubscription([]);
+                    window.history.pushState({}, '', '/');
+                  }}
+                />
+              );
+            })()}
+          </Suspense>
+        </SubscriptionProvider>
+        
+        {/* Modals globaux - Rendu ici pour être toujours accessible */}
+        {renderGlobalModals()}
+      </>
+    );
+  }
 
   // Render SCPI Example Page (Comète)
   if (currentView === 'scpi-example') {
@@ -2120,6 +2371,7 @@ const App: React.FC = () => {
         onFaqClick={handleFaqClick}
         onUnderstandingClick={handleComprendreClick}
         onAboutSectionClick={handleAboutUsClick}
+        onAboutNavigation={handleGenericNavigation}
         onComparateurClick={handleComparateurClick}
         onSimulateurClick={handleSimulateurClick}
         onArticlesClick={handleArticlesClick}
@@ -2129,23 +2381,95 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Hero Section */}
-        <Suspense fallback={<div className="h-64 flex items-center justify-center"><LoadingSpinner /></div>}>
-          {hasLandingParams && currentLandingPage ? (
-            <DynamicHero
-              onCalendlyClick={() => setIsRdvModalOpen(true)}
-              h1={currentLandingPage.h1}
-              description={currentLandingPage.description}
-            />
-          ) : (
-            <Hero onCalendlyClick={() => setIsRdvModalOpen(true)} />
-          )}
-        </Suspense>
-
-        {/* Nouveau Comparateur Fintech */}
-        <div id="comparator" data-comparator>
-          <Suspense fallback={<LoadingSpinner />}>
-            <FintechComparator onCloseAnalysis={handleBackToHome} />
+        <div className="mb-12 sm:mb-12">
+          <Suspense fallback={<div className="h-64 flex items-center justify-center"><LoadingSpinner /></div>}>
+            {hasLandingParams && currentLandingPage ? (
+              <DynamicHero
+                onCalendlyClick={() => setIsRdvModalOpen(true)}
+                h1={currentLandingPage.h1}
+                description={currentLandingPage.description}
+              />
+            ) : (
+              <Hero 
+                onCalendlyClick={() => setIsRdvModalOpen(true)}
+                onGuidedJourneyClick={() => {
+                  setCurrentView('guided-journey');
+                  window.history.pushState({}, '', '/parcours-guide');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            )}
           </Suspense>
+        </div>
+
+        {/* Encart Parcours Recommandé */}
+        <div className="mb-8 sm:mb-8">
+          <div className="relative bg-slate-900 rounded-lg p-6 sm:p-8 border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+            <div className="max-w-2xl mx-auto">
+              {/* Badge "Recommandé pour débuter" */}
+              <div className="flex justify-center mb-4">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  Recommandé pour débuter
+                </span>
+              </div>
+              
+              {/* Contenu principal */}
+              <div className="text-center">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-3">
+                  Vous débutez en SCPI ?
+                </h2>
+                <p className="text-base sm:text-lg text-slate-300 mb-6 leading-relaxed">
+                  Vous ne savez pas par où commencer, ni quoi comparer ?<br />
+                  Ce parcours guidé a été conçu pour les personnes qui découvrent les SCPI.
+                </p>
+                
+                {/* CTA */}
+                <div className="flex flex-col items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setCurrentView('guided-journey');
+                      window.history.pushState({}, '', '/parcours-guide');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/20"
+                  >
+                    Être guidé pour investir en SCPI
+                  </button>
+                  <p className="text-xs text-slate-400">
+                    Sans engagement – Aucune connaissance requise
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section Comparateur avec titre intégré */}
+        <div id="comparator" data-comparator>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Titre rattaché au comparateur */}
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Vous souhaitez comparer vous-même ?
+              </h2>
+              <p className="text-base text-slate-300 font-medium">
+                Accédez à l'ensemble de nos SCPI et analysez-les librement.
+              </p>
+            </div>
+            
+            {/* Comparateur */}
+            <Suspense fallback={<LoadingSpinner />}>
+              <FintechComparator 
+                onCloseAnalysis={handleBackToHome}
+                onGuidedJourneyClick={() => {
+                  setCurrentView('guided-journey');
+                  window.history.pushState({}, '', '/parcours-guide');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                hideTitle={true}
+              />
+            </Suspense>
+          </div>
         </div>
 
         {/* Value Proposition Cards */}
@@ -2321,6 +2645,44 @@ const App: React.FC = () => {
           />
         )}
       </Suspense>
+
+      {/* Tunnel de souscription global - Toujours monté, visible uniquement si isOpen */}
+      <SubscriptionProvider>
+        <Suspense 
+          fallback={
+            isSubscriptionOpen && selectedScpiForSubscription.length > 0 ? (
+              <div 
+                className="fixed inset-0 z-[10000] bg-slate-900 flex items-center justify-center"
+                style={{ zIndex: 10000 }}
+              >
+                <LoadingSpinner fullScreen />
+              </div>
+            ) : null
+          }
+        >
+          {(() => {
+            console.log('📤 App.tsx - Props passées à SubscriptionFunnel:', {
+              isSubscriptionOpen,
+              selectedScpiCount: selectedScpiForSubscription.length,
+              selectedScpiIds: selectedScpiForSubscription.map(s => s.id)
+            });
+            return (
+              <SubscriptionFunnel
+                isOpen={isSubscriptionOpen}
+                initialScpis={selectedScpiForSubscription}
+                onClose={() => {
+                  console.log('🔒 Fermeture du tunnel');
+                  setIsSubscriptionOpen(false);
+                  setSelectedScpiForSubscription([]);
+                  window.history.pushState({}, '', '/');
+                }}
+              />
+            );
+          })()}
+        </Suspense>
+      </SubscriptionProvider>
+      
+      
 
       {/* Cookie Consent Banner */}
       <CookieConsent />

@@ -9,9 +9,10 @@ interface SCPICardDarkProps {
   onToggleSelect: () => void;
   onAnalyze: () => void;
   userTmi?: TMIValue;
+  onGuidedJourneyClick?: () => void;
 }
 
-const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null }) => {
+const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isEuropean = isEuropeanSCPI(scpi);
@@ -278,35 +279,48 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
       </button>
 
       {/* Action Buttons - Compact */}
-      <div className="p-3 grid grid-cols-2 gap-2 bg-slate-900/30">
-        <button
-          onClick={onToggleSelect}
-          className={`py-2.5 px-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
-            isSelected
-              ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30'
-              : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-lg shadow-emerald-500/20'
-          } active:scale-95`}
-        >
-          {isSelected ? (
-            <>
-              <Check className="w-4 h-4" />
-              <span>Choisie</span>
-            </>
-          ) : (
-            <>
-              <Plus className="w-4 h-4" />
-              <span>Comparer</span>
-            </>
-          )}
-        </button>
+      <div className="p-3 space-y-2 bg-slate-900/30">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={onToggleSelect}
+            className={`py-2.5 px-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
+              isSelected
+                ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30'
+                : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+            } active:scale-95`}
+          >
+            {isSelected ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span>Choisie</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-4 h-4" />
+                <span>Comparer</span>
+              </>
+            )}
+          </button>
 
-        <button
-          onClick={onAnalyze}
-          className="py-2.5 px-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-slate-500 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 active:scale-95"
-        >
-          <BarChart3 className="w-4 h-4" />
-          <span>Analyser</span>
-        </button>
+          <button
+            onClick={onAnalyze}
+            className="py-2.5 px-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-slate-500 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+          >
+            <BarChart3 className="w-4 h-4" />
+            <span>Analyser</span>
+          </button>
+        </div>
+        
+        {/* Lien vers parcours guidé */}
+        {onGuidedJourneyClick && (
+          <button
+            onClick={onGuidedJourneyClick}
+            className="w-full py-2 px-3 text-xs font-medium text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 rounded-lg transition-all flex items-center justify-center gap-1.5 border border-emerald-500/20 hover:border-emerald-500/40"
+          >
+            <span>👉</span>
+            <span>Je préfère être guidé</span>
+          </button>
+        )}
       </div>
     </div>
   );

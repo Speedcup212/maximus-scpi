@@ -324,18 +324,18 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
         </div>
       </header>
 
-      {/* Hero Section avec Formulaire en 2 colonnes */}
-      <div className="bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 text-white">
+      {/* Section Hero - En-tête principal avec formulaire */}
+      <section aria-labelledby="hero-title" className="bg-gradient-to-br from-blue-600 via-indigo-700 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Colonne Gauche - Contenu */}
+            {/* Colonne Gauche - Contenu principal */}
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg">
-                <Zap className="w-5 h-5" />
+              <div className="inline-flex items-center gap-2 bg-yellow-400 text-gray-900 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg" role="status" aria-label="Badge de catégorie">
+                <Zap className="w-5 h-5" aria-hidden="true" />
                 {getBadgeText()}
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+              <h1 id="hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
                 {pageData.heroTitle}
                 {pageData.heroTitleHighlight && (
                   <span className="block text-3xl sm:text-4xl lg:text-5xl text-blue-100 mt-3">
@@ -348,11 +348,11 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                 {pageData.heroSubtitle}
               </p>
 
-              {/* Key Metrics */}
+              {/* Métriques clés */}
               {pageData.keyMetrics && pageData.keyMetrics.length > 0 && (
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-3 gap-4" role="list" aria-label="Métriques clés">
                   {pageData.keyMetrics.map((metric, index) => (
-                    <div key={index} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center">
+                    <div key={index} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center" role="listitem">
                       <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{metric.value}</div>
                       <div className="text-sm text-blue-100 mt-1">{metric.label}</div>
                     </div>
@@ -360,21 +360,21 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                 </div>
               )}
 
-              {/* Benefits avec Checkmarks */}
+              {/* Avantages avec Checkmarks */}
               {pageData.benefits && pageData.benefits.length > 0 && (
-                <div className="space-y-4">
+                <ul className="space-y-4" aria-label="Avantages principaux">
                   {pageData.benefits.slice(0, 5).map((benefit, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" aria-hidden="true" />
                       <span className="text-blue-50 text-lg">{benefit}</span>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
             </div>
 
-            {/* Colonne Droite - Formulaire Sticky */}
-            <div className="bg-white rounded-3xl shadow-2xl p-8 lg:sticky lg:top-4">
+            {/* Colonne Droite - Formulaire de contact */}
+            <aside className="bg-white rounded-3xl shadow-2xl p-8 lg:sticky lg:top-4" role="complementary" aria-label="Formulaire de contact">
               {/* Lead Magnet uniquement pour la page scpi-sans-frais */}
               {pageKey === 'scpi-sans-frais' ? (
                 <LeadMagnetEmailForm />
@@ -489,27 +489,47 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                   </div>
                 </>
               )}
-            </div>
+            </aside>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Section Comparateur pour la page comparateur-scpi */}
-      {console.log('[DEBUG] Checking if pageKey === comparateur-scpi:', pageKey === 'comparateur-scpi', 'pageKey:', pageKey)}
-      {pageKey === 'comparateur-scpi' && (
-        <div className="bg-slate-900 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <FintechComparator onCloseAnalysis={onNavigateHome} />
-          </div>
-        </div>
-      )}
+      {/* Section Comparateur pour toutes les pages secteurs, géographie et comparateur */}
+      {(() => {
+        // Page comparateur
+        const isComparateur = pageKey === 'comparateur-scpi';
+        
+        // Détecter les pages secteurs (bureaux, commerces, sante, logistique, residentiel, hotellerie)
+        const secteurKeywords = ['bureaux', 'commerces', 'sante', 'logistique', 'residentiel', 'hotellerie', 'mixte'];
+        const isSecteur = secteurKeywords.some(keyword => 
+          pageKey.includes(keyword) && (pageKey.startsWith('scpi-') || pageKey.includes('-investissement'))
+        );
+        
+        // Détecter les pages géographie (france, europe, europeennes, international)
+        const geographieKeywords = ['france', 'europe', 'europeennes', 'international'];
+        const isGeographie = geographieKeywords.some(keyword => 
+          pageKey.includes(keyword) && (pageKey.startsWith('scpi-') || pageKey.includes('-investissement'))
+        );
+        
+        // Afficher le comparateur pour comparateur, secteurs et géographie
+        if (isComparateur || isSecteur || isGeographie) {
+          return (
+            <section id="comparator" aria-labelledby="comparator-section-title" className="bg-slate-900 py-16">
+              <h2 id="comparator-section-title" className="sr-only">Comparateur de SCPI</h2>
+              <FintechComparator onCloseAnalysis={onNavigateHome} />
+            </section>
+          );
+        }
+        
+        return null;
+      })()}
 
       {/* Section Pourquoi Choisir */}
       {pageData.pourquoiChoisir && (
-        <div className="bg-white py-16">
+        <section aria-labelledby="why-choose-title" className="bg-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="why-choose-title" className="text-4xl font-bold text-gray-900 mb-4">
                 {pageData.pourquoiChoisir.title}
               </h2>
               <p className="text-xl text-gray-600">
@@ -529,15 +549,15 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
               ))}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Répartition Géographique et Sectorielle */}
+      {/* Section Répartition Géographique et Sectorielle */}
       {(pageData.geographie || pageData.secteurs) && (
-        <div className="bg-gray-50 py-16">
+        <section aria-labelledby="allocation-title" className="bg-gray-50 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="allocation-title" className="text-4xl font-bold text-gray-900 mb-4">
                 Exemple de répartition d'un portefeuille
               </h2>
               <p className="text-xl text-gray-600">
@@ -629,13 +649,14 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
               )}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Simulateur de Revenus */}
+      {/* Section Simulateur de Revenus */}
       {pageData.simulator && (
-        <div className="bg-white py-16">
+        <section aria-labelledby="simulator-title" className="bg-white py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="simulator-title" className="sr-only">Simulateur de revenus</h2>
             <ThematicSimulator
               defaultInvestment={pageData.simulator.defaultInvestment}
               defaultYield={pageData.simulator.defaultYield}
@@ -644,11 +665,11 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
               theme={pageData.simulator.theme}
             />
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Bloc Présentation Éric Bellaiche */}
-      <div className="bg-white py-16">
+      {/* Section Présentation Éric Bellaiche */}
+      <section aria-labelledby="expert-presentation-title" className="bg-white py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 md:p-12 shadow-lg">
             <div className="flex flex-col md:flex-row items-center gap-8">
@@ -659,7 +680,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
 
               {/* Contenu */}
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                <h3 id="expert-presentation-title" className="text-3xl font-bold text-gray-900 mb-2">
                   Éric Bellaiche
                 </h3>
                 <p className="text-lg text-blue-700 font-semibold mb-3">
@@ -686,13 +707,13 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Témoignages Clients */}
-      <div className="bg-gray-50 py-16">
+      {/* Section Témoignages Clients */}
+      <section aria-labelledby="testimonials-title" className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 id="testimonials-title" className="text-4xl font-bold text-gray-900 mb-4">
               Ce que disent nos clients
             </h2>
             <p className="text-xl text-gray-600">
@@ -767,12 +788,12 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* CTA Final */}
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-blue-800 py-16">
+      {/* Section CTA Final */}
+      <section aria-labelledby="cta-title" className="bg-gradient-to-r from-blue-600 via-indigo-700 to-blue-800 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 id="cta-title" className="text-4xl font-bold text-white mb-6">
             Prêt à investir en SCPI ?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
@@ -806,13 +827,13 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* FAQ */}
+      {/* Section FAQ */}
       {pageData.faq && pageData.faq.length > 0 && (
-        <div className="bg-white py-16">
+        <section aria-labelledby="faq-title" className="bg-white py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+            <h2 id="faq-title" className="text-4xl font-bold text-center mb-12 text-gray-900">
               Questions Fréquentes
             </h2>
             <div className="space-y-4">
@@ -829,16 +850,16 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
               ))}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Informations Légales */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
+      {/* Section Informations Légales */}
+      <section aria-labelledby="legal-info-title" className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-start gap-4">
             <Shield className="w-8 h-8 text-yellow-400 flex-shrink-0 mt-1" />
             <div>
-              <h3 className="text-xl font-bold mb-4">Informations importantes</h3>
+              <h3 id="legal-info-title" className="text-xl font-bold mb-4">Informations importantes</h3>
               <div className="space-y-3 text-gray-300 text-sm">
                 <p>
                   <strong>Risques :</strong> L'investissement en SCPI présente des risques de perte en capital et de liquidité. Les performances passées ne préjugent pas des performances futures.
@@ -853,19 +874,19 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Liens Sémantiques - Cocon SEO */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Section Liens Sémantiques - Cocon SEO */}
+      <nav aria-label="Navigation sémantique" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SemanticLinks
           currentPage={`/${pageData.slug}`}
           links={getSemanticLinks(`/${pageData.slug}`)}
           title="Continuez votre découverte des SCPI"
         />
-      </div>
+      </nav>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer role="contentinfo" className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center mb-8">
             <MaximusLogoFooter className="h-12 w-auto" />

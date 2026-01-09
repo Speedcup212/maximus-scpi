@@ -1,11 +1,9 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import EricAvatar from '../EricAvatar';
-
-const SubscriptionFunnel = lazy(() => import('../subscription/SubscriptionFunnel'));
 
 interface SelectionSidebarProps {
   selectedScpis: SCPIExtended[];
@@ -69,7 +67,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   onClear,
   onVisualize
 }) => {
-  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
   if (selectedScpis.length === 0) {
     return (
@@ -844,7 +841,9 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               <button
                 onClick={() => {
                   setIsResultOpen(false);
-                  setIsSubscriptionOpen(true);
+                  window.history.pushState({ scpis: selectedScpis }, '', '/souscription');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 className="flex-1 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold transition-colors flex items-center justify-center gap-2"
               >
@@ -856,15 +855,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
         </div>
       )}
 
-      {/* Tunnel de souscription */}
-      {isSubscriptionOpen && (
-        <Suspense fallback={<LoadingSpinner fullScreen />}>
-          <SubscriptionFunnel
-            initialScpis={selectedScpis}
-            onClose={() => setIsSubscriptionOpen(false)}
-          />
-        </Suspense>
-      )}
     </div>
   );
 };

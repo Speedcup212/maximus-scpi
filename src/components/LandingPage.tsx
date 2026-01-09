@@ -18,6 +18,7 @@ const RdvModal = lazy(() => import('./RdvModal'));
 const AnalysisModal = lazy(() => import('./AnalysisModal'));
 const PortfolioWidget = lazy(() => import('./PortfolioWidget'));
 const PortfolioResultsModal = lazy(() => import('./PortfolioResultsModal'));
+const FintechComparator = lazy(() => import('./fintech/FintechComparator'));
 
 interface LandingPageProps {
   content: LandingPageContent;
@@ -169,16 +170,21 @@ const LandingPage: React.FC<LandingPageProps> = ({
         currentView="landing"
       />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-6 font-semibold transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Retour à l'accueil
-        </button>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8" role="main">
+        {/* Navigation retour */}
+        <nav aria-label="Navigation de retour">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-6 font-semibold transition-colors"
+            aria-label="Retour à la page d'accueil"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Retour à l'accueil
+          </button>
+        </nav>
 
-        <div className="bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white rounded-2xl p-8 sm:p-12 lg:pr-4 mb-8">
+        {/* Section Hero - En-tête principal */}
+        <section aria-labelledby="page-title" className="bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white rounded-2xl p-8 sm:p-12 lg:pr-4 mb-8">
           <div className="flex flex-col lg:flex-row gap-8 items-start">
             <div className="flex-1 max-w-4xl">
               <div className="flex items-center gap-3 mb-4 flex-wrap">
@@ -202,7 +208,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
                 )}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight mb-4">
+              <h1 id="page-title" className="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight mb-4">
                 {content.h1}
               </h1>
 
@@ -234,151 +240,256 @@ const LandingPage: React.FC<LandingPageProps> = ({
               </button>
             </div>
           </div>
-        </div>
+        </section>
 
+        {/* Section Introduction - Pourquoi investir - Pleine largeur */}
+        {!content.urlFilter.scpi && (
+          <section aria-labelledby="why-invest-title" className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-gray-600 mb-8">
+            <h2 id="why-invest-title" className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+              <Target className="w-7 h-7 text-blue-600" aria-hidden="true" />
+              Pourquoi investir ?
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+              {content.introduction}
+            </p>
+
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+              <CheckCircle className="w-6 h-6 text-green-600" />
+              Avantages clés
+            </h3>
+            <ul className="space-y-3 mb-6">
+              {content.advantages.map((advantage, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 dark:text-gray-300">{advantage}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+              <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                Profil investisseur idéal
+              </h3>
+              <p className="text-blue-800 dark:text-blue-200">
+                {content.targetProfile}
+              </p>
+            </div>
+
+            {/* Blocs Avertissement et Expertise pour pages secteurs/géographie */}
+            {(() => {
+              const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+                ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+              
+              if (isSecteurOuGeographie) {
+                return (
+                  <>
+                    {/* Section Avertissement */}
+                    <div className="mt-6">
+                      <DisclaimerBox />
+                    </div>
+
+                    {/* Section Contact Expert */}
+                    <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-blue-600" aria-hidden="true" />
+                        Expertise MaximusSCPI
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                        15 ans d'expérience en conseil patrimonial et analyses approfondies pour vous guider.
+                      </p>
+                      <button
+                        onClick={() => setIsRdvModalOpen(true)}
+                        className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                      >
+                        Être rappelé par un expert
+                      </button>
+                    </div>
+                  </>
+                );
+              }
+              return null;
+            })()}
+          </section>
+        )}
+
+        {/* Section Contenu Principal */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          <div className="lg:col-span-2">
-            {/* Si c'est une page SCPI individuelle, afficher ScpiDetailPage en premier */}
+          {/* Colonne principale - Contenu */}
+          <article className="lg:col-span-2" role="article">
+            {/* Section SCPI individuelle */}
             {detailScpi && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-gray-600 mb-8">
+              <section aria-labelledby="scpi-detail-title" className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-gray-600 mb-8">
                 <ScpiDetailPage
                   scpi={detailScpi}
                   onAddToPortfolio={toggleScpiSelection}
                   onTakeAppointment={() => setIsRdvModalOpen(true)}
                 />
-              </div>
+              </section>
             )}
 
-            {/* Si ce n'est pas une page SCPI individuelle, afficher le bloc d'introduction */}
-            {!content.urlFilter.scpi && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-gray-600 mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                  <Target className="w-7 h-7 text-blue-600" />
-                  Pourquoi investir ?
-                </h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  {content.introduction}
-                </p>
-
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-                  <CheckCircle className="w-6 h-6 text-green-600" />
-                  Avantages clés
-                </h3>
-                <ul className="space-y-3 mb-6">
-                  {content.advantages.map((advantage, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 dark:text-gray-300">{advantage}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
-                  <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    Profil investisseur idéal
-                  </h3>
-                  <p className="text-blue-800 dark:text-blue-200">
-                    {content.targetProfile}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Comparateur - affiché sur toutes les pages */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                    {content.urlFilter.scpi ? 'Comparer avec d\'autres SCPI' : 'SCPI Disponibles'}
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    {scpiData.length} SCPI disponibles • {filteredScpi.length} correspondent à vos critères
-                  </p>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <QuickFilters
-                  activeFilter={activeQuickFilter}
-                  onFilterChange={setQuickFilter}
-                />
-
-                <AdvancedFilters
-                  filters={filters}
-                  onFilterChange={updateFilter}
-                />
-              </div>
-
-              <ScpiTable
-                scpiList={paginatedScpi}
-                selectedScpi={selectedScpi}
-                onScpiToggle={toggleScpiSelection}
-                onAnalyzeClick={handleScpiAnalysis}
-                onRdvClick={() => setIsRdvModalOpen(true)}
-              />
-
-              {totalPages > 1 && (
-                <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="text-sm text-gray-600 dark:text-gray-300">
-                    Affichage de {startIndex + 1} à {Math.min(endIndex, displayScpi.length)} sur {displayScpi.length} SCPI
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={currentPage === 1}
-                      className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Précédent
-                    </button>
-                    <div className="text-gray-700 dark:text-gray-200 font-semibold">
-                      {currentPage} / {totalPages}
+            {/* Section Comparateur - ScpiTable pour les pages non secteurs/géographie */}
+            {(() => {
+              // Détecter si c'est une page secteur ou géographie
+              const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+                ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+              
+              // Ne pas afficher ScpiTable pour les pages secteurs/géographie (le comparateur sera affiché après la grille)
+              if (isSecteurOuGeographie) {
+                return null;
+              }
+              
+              // Utiliser ScpiTable pour les autres pages
+              return (
+                <section aria-labelledby="comparator-title" className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                    <div>
+                      <h2 id="comparator-title" className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        {content.urlFilter.scpi ? 'Comparer avec d\'autres SCPI' : 'SCPI Disponibles'}
+                      </h2>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {scpiData.length} SCPI disponibles • {filteredScpi.length} correspondent à vos critères
+                      </p>
                     </div>
-                    <button
-                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                      disabled={currentPage === totalPages}
-                      className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Suivant
-                    </button>
                   </div>
-                </div>
-              )}
-            </div>
-          </div>
 
-          <div className="lg:col-span-1">
+                  <div className="mb-6">
+                    <QuickFilters
+                      activeFilter={activeQuickFilter}
+                      onFilterChange={setQuickFilter}
+                    />
+
+                    <AdvancedFilters
+                      filters={filters}
+                      onFilterChange={updateFilter}
+                    />
+                  </div>
+
+                  <ScpiTable
+                    scpiList={paginatedScpi}
+                    selectedScpi={selectedScpi}
+                    onScpiToggle={toggleScpiSelection}
+                    onAnalyzeClick={handleScpiAnalysis}
+                    onRdvClick={() => setIsRdvModalOpen(true)}
+                  />
+
+                  {totalPages > 1 && (
+                    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                        Affichage de {startIndex + 1} à {Math.min(endIndex, displayScpi.length)} sur {displayScpi.length} SCPI
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                          disabled={currentPage === 1}
+                          className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                          Précédent
+                        </button>
+                        <div className="text-gray-700 dark:text-gray-200 font-semibold">
+                          {currentPage} / {totalPages}
+                        </div>
+                        <button
+                          onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                          disabled={currentPage === totalPages}
+                          className="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                          Suivant
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </section>
+              );
+            })()}
+          </article>
+
+          {/* Colonne latérale - Widgets et informations complémentaires */}
+          <aside className="lg:col-span-1" role="complementary" aria-label="Informations complémentaires">
             <div className="sticky top-24 space-y-6">
-              <Suspense fallback={<div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg animate-pulse"><div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div></div>}>
-                <PortfolioWidget
-                  selectedScpi={selectedScpi}
-                  investmentAmount={investmentAmount}
-                  onInvestmentChange={setInvestmentAmount}
-                  onRemoveScpi={removeScpi}
-                  onExportClick={() => setIsPortfolioResultsOpen(true)}
-                />
-              </Suspense>
+              {/* PortfolioWidget masqué pour les pages secteurs/géographie car FintechComparator a déjà SelectionSidebar */}
+              {(() => {
+                const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+                  ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+                
+                if (!isSecteurOuGeographie) {
+                  return (
+                    <Suspense fallback={<div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg animate-pulse"><div className="h-32 bg-gray-200 dark:bg-gray-700 rounded"></div></div>}>
+                      <PortfolioWidget
+                        selectedScpi={selectedScpi}
+                        investmentAmount={investmentAmount}
+                        onInvestmentChange={setInvestmentAmount}
+                        onRemoveScpi={removeScpi}
+                        onExportClick={() => setIsPortfolioResultsOpen(true)}
+                      />
+                    </Suspense>
+                  );
+                }
+                return null;
+              })()}
 
-              <DisclaimerBox />
+              {/* Section Avertissement - Affiché uniquement pour les pages non secteurs/géographie */}
+              {(() => {
+                const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+                  ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+                
+                if (!isSecteurOuGeographie) {
+                  return (
+                    <section aria-label="Avertissement légal">
+                      <DisclaimerBox />
+                    </section>
+                  );
+                }
+                return null;
+              })()}
 
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-blue-600" />
-                  Expertise MaximusSCPI
-                </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                  15 ans d'expérience en conseil patrimonial et analyses approfondies pour vous guider.
-                </p>
-                <button
-                  onClick={() => setIsRdvModalOpen(true)}
-                  className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                >
-                  Être rappelé par un expert
-                </button>
-              </div>
+              {/* Section Contact Expert - Affichée uniquement pour les pages non secteurs/géographie */}
+              {(() => {
+                const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+                  ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+                
+                if (!isSecteurOuGeographie) {
+                  return (
+                    <section aria-labelledby="expert-section-title" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
+                      <h3 id="expert-section-title" className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <Shield className="w-5 h-5 text-blue-600" aria-hidden="true" />
+                        Expertise MaximusSCPI
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                        15 ans d'expérience en conseil patrimonial et analyses approfondies pour vous guider.
+                      </p>
+                      <button
+                        onClick={() => setIsRdvModalOpen(true)}
+                        className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                      >
+                        Être rappelé par un expert
+                      </button>
+                    </section>
+                  );
+                }
+                return null;
+              })()}
             </div>
-          </div>
+          </aside>
         </div>
+
+        {/* Section Comparateur Fintech pour pages secteurs et géographie */}
+        {(() => {
+          const isSecteurOuGeographie = content.type === 'sector' || content.type === 'geography' || 
+            ['scpi-bureaux', 'scpi-commerces', 'scpi-sante', 'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-france', 'scpi-europe'].includes(content.slug);
+          
+          if (isSecteurOuGeographie) {
+            return (
+              <section id="comparator" data-comparator aria-labelledby="comparator-section-title" className="mt-12">
+                <h2 id="comparator-section-title" className="sr-only">Comparateur de SCPI</h2>
+                <Suspense fallback={<div className="h-64 bg-slate-800 rounded-lg animate-pulse"></div>}>
+                  <FintechComparator onCloseAnalysis={onBack} />
+                </Suspense>
+              </section>
+            );
+          }
+          return null;
+        })()}
       </main>
 
       {/* Footer avec mentions légales */}

@@ -189,7 +189,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 pt-8 overflow-y-auto" onClick={handleBackdropClick}>
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-[10001] p-4 pt-8 overflow-y-auto" onClick={handleBackdropClick} style={{ zIndex: 10001 }}>
       <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-3xl max-h-[90vh] shadow-2xl border border-gray-200 dark:border-gray-600 flex flex-col my-4">
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-600 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 flex-shrink-0">

@@ -9,7 +9,9 @@
     "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateThematicPages.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js",
     "lint": "eslint .",
     "preview": "npx vite preview",
-    "force-reload": "node scripts/force-reload-simple.cjs"
+    "force-reload": "node scripts/force-reload-simple.cjs",
+    "deploy": "npm run build && gh-pages -d dist",
+    "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.2",
@@ -35,6 +37,7 @@
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.11",
+    "gh-pages": "^6.3.0",
     "globals": "^15.9.0",
     "postcss": "^8.4.35",
     "sharp": "^0.34.4",

@@ -3,11 +3,12 @@ import { Building, CheckCircle2, Zap, TrendingUp, BarChart3 } from 'lucide-react
 
 interface HeroProps {
   onCalendlyClick: () => void;
+  onGuidedJourneyClick?: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onCalendlyClick }) => {
+const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onGuidedJourneyClick }) => {
   return (
-    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-8 px-4 sm:px-6 rounded-2xl sm:rounded-3xl mb-8 sm:mb-12 overflow-hidden w-full">
+    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-8 px-4 sm:px-6 rounded-2xl sm:rounded-3xl overflow-hidden w-full">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(148,163,184,0.1),transparent_50%)]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(100,116,139,0.08),transparent_50%)]"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-slate-700/10 via-slate-600/5 to-transparent"></div>
@@ -45,8 +46,8 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick }) => {
           Un outil pour analyser l’équilibre de votre portefeuille SCPI, au‑delà du simple rendement.
         </h2>
 
-        {/* Secondary CTA - Subtle Link */}
-        <div className="mb-2">
+        {/* Secondary CTA - Subtle Links */}
+        <div className="mb-2 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={onCalendlyClick}
             className="text-slate-400 hover:text-white text-sm font-medium underline decoration-slate-600 hover:decoration-white underline-offset-4 transition-all duration-200"

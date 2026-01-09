@@ -24,6 +24,7 @@ export interface Scpi {
   allocation?: number;
   rating?: number;
   isRecommended?: boolean;
+  debt?: number; // Ratio d'endettement en pourcentage
 }
 
 export type QuickFilterType = 'tous' | 'europeennes' | 'francaises' | 'isr' | 'high-yield';

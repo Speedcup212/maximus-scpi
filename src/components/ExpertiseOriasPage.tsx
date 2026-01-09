@@ -68,7 +68,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse de 51 fonds, accompagnement 500+ clients</span>
+                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse de 51 fonds, accompagnement 350+ clients</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -160,28 +160,25 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
             </h2>
 
             <div className="space-y-4">
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border-l-4 border-blue-600">
-                <h3 className="font-bold text-blue-900 dark:text-blue-200 mb-2">ℹ️ Conseil Non-Indépendant</h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  Eric Bellaiche exerce en qualité de <strong>Conseiller en Investissement Financier (CIF) non indépendant</strong>. Dans le cadre d'une prestation de conseil fournie à titre non indépendant, Eric Bellaiche peut percevoir des rémunérations, commissions ou avantages monétaires ou non monétaires en rapport avec la fourniture de la prestation de conseil, versés ou fournis par un tiers ou par une personne agissant pour le compte d'un tiers.
-                </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Cette rémunération non indépendante est soumise au respect des règles sur les avantages et rémunérations imposant l'information du client, l'obligation d'amélioration du service et le respect de l'obligation d'agir au mieux des intérêts du client.
-                </p>
-              </div>
-
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border-l-4 border-green-600">
-                <h3 className="font-bold text-green-900 dark:text-green-200 mb-2">✅ Transparence des Sources</h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Toutes nos données proviennent de <strong>sources officielles vérifiables</strong> : AMF, ASPIM, bulletins trimestriels SCPI. Consultez notre <a href="/methodologie-donnees-scpi" className="text-blue-600 hover:underline">méthodologie complète</a>.
-                </p>
-              </div>
-
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border-l-4 border-green-600">
-                <h3 className="font-bold text-green-900 dark:text-green-200 mb-2">✅ Analyse Objective</h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  Nous analysons <strong>51 SCPI</strong> sans parti pris. Nos recommandations sont basées uniquement sur votre profil (TMI, objectifs, horizon), pas sur des accords commerciaux.
-                </p>
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border-l-4 border-blue-600">
+                <h3 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">Conseil Non-Indépendant : Qu'est-ce qu'un Conseil en Investissement Non-Indépendant ?</h3>
+                <div className="space-y-4 text-gray-700 dark:text-gray-300">
+                  <p>
+                    Dans le secteur financier, un conseiller en investissement financier (CIF) peut opérer de manière indépendante ou non-indépendante. Lorsqu'on parle de conseil non-indépendant, cela signifie que le conseiller, tel qu'Éric Bellaiche, peut recevoir une rémunération sous forme de commissions ou de rétrocessions de la part des promoteurs des produits financiers qu'il recommande, ainsi que des intermédiaires financiers associés.
+                  </p>
+                  <p>
+                    Contrairement à un conseiller indépendant, qui doit se rémunérer uniquement par des honoraires facturés directement aux clients, un conseiller non-indépendant peut percevoir des commissions des émetteurs de produits financiers (comme des fonds d'investissement, des assurances-vie, etc.) pour la distribution de leurs produits.
+                  </p>
+                  <p>
+                    Dans le cas d'un conseil CIF dit non-indépendant, ou d'un acte d'intermédiation, d'une solution d'épargne ou d'investissement, Eric Bellaiche sera rémunéré par une fraction des frais initialement prélevés par le promoteur du produit et/ou les intermédiaires intercalés.
+                  </p>
+                  <p>
+                    Cette rémunération non indépendante n'affecte en aucun cas la qualité du conseil ou des services fournis aux clients. Elle reflète simplement un modèle de rémunération traditionnel dans le secteur financier, où le conseiller perçoit une commission pour les services d'intermédiation et de conseil liés à l'acquisition d'instruments financiers ou de produits d'épargne.
+                  </p>
+                  <p>
+                    Dans le cas d'un conseil en investissement financier fourni de manière non-indépendante, Eric Bellaiche peut conserver les commissions. Dans ce cadre Eric Bellaiche évalue un éventail restreint d'instruments financiers émis par une entité avec laquelle Eric Bellaiche entretient des relations étroites pouvant prendre la forme de liens capitalistiques, économiques ou contractuels.
+                  </p>
+                </div>
               </div>
             </div>
           </section>

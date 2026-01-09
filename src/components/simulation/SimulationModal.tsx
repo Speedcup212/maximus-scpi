@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, TrendingUp, DollarSign, Calendar, BarChart3, FileText } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
@@ -8,10 +8,7 @@ import KPICards from './KPICards';
 import ProjectionChart from './ProjectionChart';
 import SectorAllocation from './SectorAllocation';
 import GeographyAllocation from './GeographyAllocation';
-import RdvModal from '../RdvModal';
 import LoadingSpinner from '../LoadingSpinner';
-
-const SubscriptionFunnel = lazy(() => import('../subscription/SubscriptionFunnel'));
 
 interface SimulationModalProps {
   isOpen: boolean;
@@ -21,8 +18,6 @@ interface SimulationModalProps {
 
 const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, selectedScpis }) => {
   const { totalInvestment, setTotalInvestment, distributeEqually } = useAllocation();
-  const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
-  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(false);
 
   console.log('✅ SimulationModal avec bouton SOUSCRIRE - Version 2025-12-20');
 
@@ -146,39 +141,21 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
                 Retour
               </button>
               <button
-                onClick={() => setIsSubscriptionOpen(true)}
+                onClick={() => {
+                  window.history.pushState({ scpis: selectedScpis }, '', '/souscription');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
               >
                 <FileText className="w-5 h-5" />
                 <span>Commencer ma souscription</span>
-              </button>
-              <button
-                onClick={() => setIsRdvModalOpen(true)}
-                className="px-6 py-3 bg-slate-600 hover:bg-slate-500 text-white rounded-xl font-semibold transition-colors"
-              >
-                Prendre RDV
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modal Prendre RDV */}
-      <RdvModal
-        isOpen={isRdvModalOpen}
-        onClose={() => setIsRdvModalOpen(false)}
-        selectedScpi={selectedScpis}
-      />
-
-      {/* Tunnel de souscription */}
-      {isSubscriptionOpen && (
-        <Suspense fallback={<LoadingSpinner fullScreen />}>
-          <SubscriptionFunnel
-            initialScpis={selectedScpis}
-            onClose={() => setIsSubscriptionOpen(false)}
-          />
-        </Suspense>
-      )}
     </div>
   );
 };

@@ -18,7 +18,7 @@ interface FintechComparatorContentProps {
   onCloseAnalysis?: () => void;
 }
 
-const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onCloseAnalysis }) => {
+const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onCloseAnalysis, onGuidedJourneyClick, hideTitle = false }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
@@ -179,9 +179,16 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
           <div className="flex flex-col gap-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                  Comparez nos 51 SCPI
-                </h1>
+                {!hideTitle && (
+                  <>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                      Vous souhaitez comparer vous-même ?
+                    </h1>
+                    <p className="text-base text-slate-300 mt-2 font-medium">
+                      Accédez à l'ensemble de nos SCPI et analysez-les librement.
+                    </p>
+                  </>
+                )}
                 <p className="text-sm text-slate-400 mt-1">
                   {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
                 </p>
@@ -365,6 +372,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
                               onToggleSelect={() => toggleSelect(scpi)}
                               onAnalyze={() => handleAnalyze(scpi)}
                               userTmi={filters.tmi}
+                              onGuidedJourneyClick={onGuidedJourneyClick}
                             />
                           ))}
                         </tbody>
@@ -501,13 +509,15 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
 
 interface FintechComparatorProps {
   onCloseAnalysis?: () => void;
+  onGuidedJourneyClick?: () => void;
+  hideTitle?: boolean;
 }
 
-const FintechComparator: React.FC<FintechComparatorProps> = ({ onCloseAnalysis }) => {
+const FintechComparator: React.FC<FintechComparatorProps> = ({ onCloseAnalysis, onGuidedJourneyClick, hideTitle = false }) => {
   return (
     <AllocationProvider>
       <SubscriptionProvider>
-        <FintechComparatorContent onCloseAnalysis={onCloseAnalysis} />
+        <FintechComparatorContent onCloseAnalysis={onCloseAnalysis} onGuidedJourneyClick={onGuidedJourneyClick} hideTitle={hideTitle} />
       </SubscriptionProvider>
     </AllocationProvider>
   );

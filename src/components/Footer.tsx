@@ -84,6 +84,107 @@ const Footer: React.FC = () => {
           </p>
         </div>
 
+        {/* Plan du site - SEO */}
+        <div className="max-w-7xl mx-auto mb-8 border-t border-gray-700 pt-8">
+          <h3 className="text-lg font-bold text-white mb-6 text-center">Plan du site</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 text-sm">
+            {/* Accueil & Outils */}
+            <div>
+              <h4 className="font-semibold text-blue-400 mb-3">Accueil & Outils</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="/" className="hover:text-blue-400 transition-colors">Accueil</a>
+                </li>
+                <li>
+                  <a href="/comparateur-scpi" className="hover:text-blue-400 transition-colors">Comparateur SCPI</a>
+                </li>
+                <li>
+                  <a href="/meilleures-scpi-rendement" className="hover:text-blue-400 transition-colors">Meilleures SCPI</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Secteurs */}
+            <div>
+              <h4 className="font-semibold text-blue-400 mb-3">Secteurs</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="/scpi-bureaux" className="hover:text-blue-400 transition-colors">SCPI Bureaux</a>
+                </li>
+                <li>
+                  <a href="/scpi-commerces" className="hover:text-blue-400 transition-colors">SCPI Commerces</a>
+                </li>
+                <li>
+                  <a href="/scpi-sante" className="hover:text-blue-400 transition-colors">SCPI Santé</a>
+                </li>
+                <li>
+                  <a href="/scpi-logistique" className="hover:text-blue-400 transition-colors">SCPI Logistique</a>
+                </li>
+                <li>
+                  <a href="/scpi-residentiel" className="hover:text-blue-400 transition-colors">SCPI Résidentiel</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Géographie */}
+            <div>
+              <h4 className="font-semibold text-blue-400 mb-3">Géographie</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="/scpi-france" className="hover:text-blue-400 transition-colors">SCPI France</a>
+                </li>
+                <li>
+                  <a href="/scpi-europe" className="hover:text-blue-400 transition-colors">SCPI Europe</a>
+                </li>
+                <li>
+                  <a href="/scpi-fiscales" className="hover:text-blue-400 transition-colors">SCPI Fiscales</a>
+                </li>
+                <li>
+                  <a href="/preparer-retraite-scpi" className="hover:text-blue-400 transition-colors">Préparer sa retraite</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* À propos */}
+            <div>
+              <h4 className="font-semibold text-blue-400 mb-3">À propos</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="/qui-sommes-nous" className="hover:text-blue-400 transition-colors">Qui sommes-nous</a>
+                </li>
+                <li>
+                  <a href="/expertise-orias-cif" className="hover:text-blue-400 transition-colors">Expertise ORIAS/CIF</a>
+                </li>
+                <li>
+                  <a href="/methodologie-donnees-scpi" className="hover:text-blue-400 transition-colors">Méthodologie</a>
+                </li>
+                <li>
+                  <a href="/avertissements-risques-scpi" className="hover:text-blue-400 transition-colors">Avertissements</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Ressources */}
+            <div>
+              <h4 className="font-semibold text-blue-400 mb-3">Ressources</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="/comprendre-les-scpi" className="hover:text-blue-400 transition-colors">Comprendre les SCPI</a>
+                </li>
+                <li>
+                  <a href="/faq" className="hover:text-blue-400 transition-colors">FAQ</a>
+                </li>
+                <li>
+                  <a href="/articles" className="hover:text-blue-400 transition-colors">Articles & Guides</a>
+                </li>
+                <li>
+                  <a href="/investir-scpi" className="hover:text-blue-400 transition-colors">Investir en SCPI</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* Liens légaux et Copyright */}
         <div className="text-center space-y-4">
           <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-400">
