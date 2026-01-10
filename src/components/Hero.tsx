@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building, CheckCircle2, Zap, TrendingUp, BarChart3 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 interface HeroProps {
   onCalendlyClick: () => void;
@@ -16,7 +16,7 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onGuidedJourneyClick }) =>
       <div className="relative max-w-5xl mx-auto text-center w-full">
         {/* Eyebrow - Tagline */}
         <div className="inline-block px-4 py-1.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-blue-400/30 shadow-lg shadow-blue-500/10 text-blue-300">
-          Outil d’analyse de portefeuille SCPI
+          Outil d'analyse de portefeuille SCPI
         </div>
 
         {/* H1 - Main Headline (positionnement de marque) */}
@@ -42,9 +42,27 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onGuidedJourneyClick }) =>
         </div>
 
         {/* H2 - Subtitle (promesse : outil + portefeuille + équilibre) */}
-        <h2 className="text-lg sm:text-lg md:text-xl font-semibold mb-4 max-w-3xl mx-auto leading-relaxed px-4 text-slate-300">
-          Un outil pour analyser l’équilibre de votre portefeuille SCPI, au‑delà du simple rendement.
+        <h2 className="text-lg sm:text-lg md:text-xl font-semibold mb-6 max-w-3xl mx-auto leading-relaxed px-4 text-slate-300">
+          Un outil pour analyser l'équilibre de votre portefeuille SCPI, au‑delà du simple rendement.
         </h2>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          {onGuidedJourneyClick && (
+            <button
+              onClick={onGuidedJourneyClick}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
+            >
+              Démarrer l'analyse
+            </button>
+          )}
+          <button
+            onClick={onCalendlyClick}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+          >
+            Prendre rendez-vous
+          </button>
+        </div>
 
         {/* Secondary CTA - Subtle Links */}
         <div className="mb-2 flex flex-col sm:flex-row items-center justify-center gap-4">

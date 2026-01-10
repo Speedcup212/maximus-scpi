@@ -11,7 +11,6 @@ interface FondsEurosScpiArticleProps {
   onNavigateToAbout: () => void;
   onNavigateToUnderstanding: () => void;
   onContactClick: () => void;
-  onReviewsClick: () => void;
   onSimulateurClick: (simulateurId: string) => void;
   onComparateurClick: () => void;
 }
@@ -22,7 +21,6 @@ const FondsEurosScpiArticle: React.FC<FondsEurosScpiArticleProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onContactClick,
-  onReviewsClick,
   onSimulateurClick,
   onComparateurClick
 }) => {
@@ -40,7 +38,6 @@ const FondsEurosScpiArticle: React.FC<FondsEurosScpiArticleProps> = ({
         toggleTheme={() => {}}
         onContactClick={onContactClick}
         onAboutClick={onNavigateToAbout}
-        onReviewsClick={onReviewsClick}
         onEducationClick={() => {}}
         onLogoClick={onNavigateHome}
         onScpiPageClick={() => {}}

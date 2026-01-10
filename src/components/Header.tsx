@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Phone, Info, Star, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText } from 'lucide-react';
+import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText } from 'lucide-react';
 import { scpiPages } from '../utils/landingPagesContent';
 import Logo from './Logo';
 
@@ -8,7 +8,6 @@ interface HeaderProps {
   toggleTheme: () => void;
   onContactClick: () => void;
   onAboutClick: () => void;
-  onReviewsClick: () => void;
   onEducationClick?: (category: string, slug: string) => void;
   onArticlesClick?: () => void;
   onLogoClick?: () => void;
@@ -27,7 +26,6 @@ const Header: React.FC<HeaderProps> = ({
   toggleTheme,
   onContactClick,
   onAboutClick,
-  onReviewsClick,
   onEducationClick,
   onArticlesClick,
   onLogoClick,
@@ -205,9 +203,9 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-20 gap-0">
           {/* Logo */}
-          <div className="flex items-center min-w-0 flex-shrink-0">
+          <div className="flex items-center min-w-0 flex-shrink-0 max-w-[150px] lg:max-w-[200px]">
             <button
               onClick={() => {
                 resetAllHeaderStates();
@@ -239,7 +237,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1 sm:space-x-2 lg:space-x-4 min-w-0 flex-shrink-0">
+          <div className="hidden md:flex items-center flex-nowrap space-x-0 min-w-0 flex-shrink max-w-full">
             {/* SCPI Dropdown - Desktop */}
             <div className="relative" ref={scpiDropdownRef}>
               <button
@@ -247,7 +245,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsScpiMenuOpen(!isScpiMenuOpen);
                   setIsEducationOpen(false);
                 }}
-                className="hidden lg:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+                className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
                 aria-label="Nos SCPI"
               >
                 <TrendingUp className="w-4 h-4" />
@@ -256,7 +254,7 @@ const Header: React.FC<HeaderProps> = ({
               </button>
 
               {isScpiMenuOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[calc(100vw-2rem)] max-w-[32rem] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] max-h-[36rem] overflow-hidden flex flex-col">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[32rem] max-w-[min(32rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] max-h-[36rem] overflow-hidden flex flex-col">
                   {/* Search Bar */}
                   <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
                     <div className="relative">
@@ -421,7 +419,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsScpiMenuOpen(false);
                   setIsEducationOpen(false);
                 }}
-                className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+                className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
                 aria-label="Simulateurs"
               >
                 <Calculator className="w-4 h-4" />
@@ -430,7 +428,7 @@ const Header: React.FC<HeaderProps> = ({
               </button>
 
               {isSimulateurMenuOpen && (
-                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] max-w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
+                <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
                     <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                       Nos simulateurs
@@ -495,7 +493,7 @@ const Header: React.FC<HeaderProps> = ({
                   console.error('[Header] onArticlesClick non défini!');
                 }
               }}
-              className="hidden lg:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+              className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
               aria-label="Analyses & Actualités"
             >
               <FileText className="w-4 h-4" />
@@ -510,7 +508,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsScpiMenuOpen(false);
                   setIsSimulateurMenuOpen(false);
                 }}
-                className="hidden lg:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+                className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
                 aria-label="Comprendre les SCPI"
               >
                 <BookOpen className="w-4 h-4" />
@@ -519,7 +517,7 @@ const Header: React.FC<HeaderProps> = ({
               </button>
 
               {isEducationOpen && (
-                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] max-w-64 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
+                <div className="absolute top-full right-0 mt-2 w-64 max-w-[min(16rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
                   {educationCategories.map((category) => (
                     <button
                       key={category.id}
@@ -537,32 +535,24 @@ const Header: React.FC<HeaderProps> = ({
                       </span>
                     </button>
                   ))}
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                  <button
+                    onClick={() => {
+                      resetAllHeaderStates();
+                      if (onFaqClick) {
+                        onFaqClick();
+                      }
+                    }}
+                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <HelpCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      FAQ
+                    </span>
+                  </button>
                 </div>
               )}
             </div>
-
-            <button
-              onClick={onReviewsClick}
-              className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
-              aria-label="Consulter les avis clients"
-            >
-              <Star className="w-4 h-4" />
-              <span className="hidden md:inline">Avis</span>
-            </button>
-
-            <button
-              onClick={() => {
-                resetAllHeaderStates();
-                if (onFaqClick) {
-                  onFaqClick();
-                }
-              }}
-              className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
-              aria-label="Foire aux questions"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span className="hidden md:inline">FAQ</span>
-            </button>
 
             {/* Qui sommes-nous Dropdown - Desktop */}
             <div className="relative" ref={aboutDropdownRef}>
@@ -573,16 +563,16 @@ const Header: React.FC<HeaderProps> = ({
                   setIsSimulateurMenuOpen(false);
                   setIsEducationOpen(false);
                 }}
-                className="hidden md:flex px-3 sm:px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm sm:text-base"
+                className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
                 aria-label="Qui sommes-nous"
               >
-                <Info className="w-4 h-4" />
-                <span className="hidden lg:inline">Qui sommes-nous</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
+                <Info className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden lg:inline whitespace-nowrap">Qui sommes-nous</span>
+                <ChevronDown className={`w-4 h-4 transition-transform flex-shrink-0 ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isAboutMenuOpen && (
-                <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] max-w-64 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
+                <div className="absolute top-full right-0 mt-2 w-64 max-w-[min(16rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
                   <button
                     onClick={() => {
                       console.log('[Header] Clic sur Qui sommes-nous');
@@ -649,12 +639,12 @@ const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onContactClick}
-              className="px-2 sm:px-3 lg:px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-1 sm:gap-2 text-xs sm:text-sm lg:text-base flex-shrink-0"
+              className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-1 text-xs flex-shrink-0 h-[2.5rem] whitespace-nowrap"
               aria-label="Prendre rendez-vous avec un expert SCPI"
             >
-              <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">Prendre RDV</span>
-              <span className="sm:hidden">RDV</span>
+              <Phone className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline whitespace-nowrap">Prendre RDV</span>
+              <span className="sm:hidden whitespace-nowrap">RDV</span>
             </button>
           </div>
         </div>
@@ -941,33 +931,22 @@ const Header: React.FC<HeaderProps> = ({
                         <span className="text-sm font-medium">{category.label}</span>
                       </button>
                     ))}
+                    <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
+                    <button
+                      onClick={() => {
+                        resetAllHeaderStates();
+                        if (onFaqClick) {
+                          onFaqClick();
+                        }
+                      }}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <HelpCircle className="w-5 h-5" />
+                      <span className="text-sm font-medium">FAQ</span>
+                    </button>
                   </div>
                 )}
               </div>
-
-              <button
-                onClick={() => {
-                  resetAllHeaderStates();
-                  onReviewsClick();
-                }}
-                className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
-              >
-                <Star className="w-4 h-4" />
-                <span>Avis</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  resetAllHeaderStates();
-                  if (onFaqClick) {
-                    onFaqClick();
-                  }
-                }}
-                className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
-              >
-                <HelpCircle className="w-4 h-4" />
-                <span>FAQ</span>
-              </button>
 
               {/* Qui sommes-nous Section Mobile */}
               <div className="px-4" ref={aboutMobileRef}>

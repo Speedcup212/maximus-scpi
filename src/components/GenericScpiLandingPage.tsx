@@ -20,7 +20,6 @@ interface GenericScpiLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
 }
 
 const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
@@ -30,8 +29,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onNavigateToScpi,
-  onContactClick,
-  onReviewsClick
+  onContactClick
 }) => {
   const [formStep, setFormStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -284,7 +282,6 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         toggleTheme={() => setIsDarkMode(!isDarkMode)}
         onContactClick={handleContactClick}
         onAboutClick={() => {}}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={handleBackToHome}
         onScpiPageClick={onNavigateToScpi || ((slug) => window.location.href = `/${slug}`)}
         onUnderstandingClick={onNavigateToUnderstanding || (() => window.location.href = '/comprendre-les-scpi')}

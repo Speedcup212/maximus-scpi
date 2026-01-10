@@ -11,7 +11,6 @@ interface EducationArticlesIndexPageProps {
   toggleTheme: () => void;
   onContactClick: () => void;
   onAboutClick: () => void;
-  onReviewsClick: () => void;
   onLogoClick?: () => void;
   onFaqClick?: () => void;
   onScpiPageClick?: (slug: string) => void;
@@ -29,7 +28,6 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   toggleTheme,
   onContactClick,
   onAboutClick,
-  onReviewsClick,
   onLogoClick,
   onFaqClick,
   onScpiPageClick,
@@ -138,7 +136,6 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           toggleTheme={toggleTheme}
           onContactClick={onContactClick}
           onAboutClick={onAboutClick}
-          onReviewsClick={onReviewsClick}
           onLogoClick={onLogoClick}
           onFaqClick={onFaqClick}
           onScpiPageClick={onScpiPageClick}

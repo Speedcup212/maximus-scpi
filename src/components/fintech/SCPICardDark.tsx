@@ -297,7 +297,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
             ) : (
               <>
                 <Plus className="w-4 h-4" />
-                <span>Comparer</span>
+                <span>Ajouter</span>
               </>
             )}
           </button>

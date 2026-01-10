@@ -35,7 +35,6 @@ interface ThematicLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
 }
 
 const iconMap: Record<string, React.ReactElement> = {
@@ -69,8 +68,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onNavigateToScpi,
-  onContactClick,
-  onReviewsClick
+  onContactClick
 }) => {
   const [formData, setFormData] = useState({
     nom: '',
@@ -246,7 +244,6 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
         toggleTheme={() => setIsDarkMode(!isDarkMode)}
         onContactClick={handleContactClick}
         onAboutClick={() => {}}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={handleBackToHome}
         onScpiPageClick={onNavigateToScpi || ((slug) => window.location.href = `/${slug}`)}
         onUnderstandingClick={onNavigateToUnderstanding || (() => window.location.href = '/comprendre-les-scpi')}

@@ -26,7 +26,6 @@ interface LandingPageProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
   onAboutClick: () => void;
-  onReviewsClick: () => void;
   onEducationClick: (categoryId: string) => void;
   onScpiPageClick?: (slug: string) => void;
   onContactClick?: () => void;
@@ -44,7 +43,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
   isDarkMode,
   toggleTheme,
   onAboutClick,
-  onReviewsClick,
   onEducationClick,
   onScpiPageClick,
   onContactClick,
@@ -157,7 +155,6 @@ const LandingPage: React.FC<LandingPageProps> = ({
         toggleTheme={toggleTheme}
         onContactClick={onContactClick || (() => setIsRdvModalOpen(true))}
         onAboutClick={onAboutClick}
-        onReviewsClick={onReviewsClick}
         onEducationClick={onEducationClick}
         onLogoClick={onBack}
         onScpiPageClick={onScpiPageClick}

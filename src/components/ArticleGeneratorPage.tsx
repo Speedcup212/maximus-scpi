@@ -14,7 +14,6 @@ interface ArticleGeneratorPageProps {
   onNavigateToAbout: () => void;
   onNavigateToUnderstanding: () => void;
   onContactClick: () => void;
-  onReviewsClick: () => void;
   onSimulateurClick: (simulateurId: string) => void;
   onComparateurClick: () => void;
   onAnalyseActuClick: () => void;
@@ -26,7 +25,6 @@ const ArticleGeneratorPage: React.FC<ArticleGeneratorPageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onContactClick,
-  onReviewsClick,
   onSimulateurClick,
   onComparateurClick,
   onAnalyseActuClick
@@ -148,7 +146,6 @@ const ArticleGeneratorPage: React.FC<ArticleGeneratorPageProps> = ({
         toggleTheme={() => {}}
         onContactClick={onContactClick}
         onAboutClick={onNavigateToAbout}
-        onReviewsClick={onReviewsClick}
         onEducationClick={() => {}}
         onLogoClick={onNavigateHome}
         onScpiPageClick={() => {}}

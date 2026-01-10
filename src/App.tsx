@@ -905,10 +905,6 @@ const App: React.FC = () => {
     navigateToView('comprendre', '/comprendre-les-scpi');
   };
 
-  const handleReviewsClick = () => {
-    setIsReviewsModalOpen(true);
-  };
-
   // handleStartSubscription doit être défini AVANT tous les returns conditionnels
   const handleStartSubscription = useCallback(async (scpiIds: number[]) => {
     try {
@@ -1022,7 +1018,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1055,7 +1050,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1093,7 +1087,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1133,7 +1126,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1174,7 +1166,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1215,7 +1206,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1250,7 +1240,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1281,7 +1270,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1311,7 +1299,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1341,7 +1328,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1372,7 +1358,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1403,7 +1388,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1434,7 +1418,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1465,7 +1448,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1497,7 +1479,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1529,7 +1510,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1561,7 +1541,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1595,7 +1574,6 @@ const App: React.FC = () => {
             toggleTheme={toggleTheme}
             onContactClick={() => setIsRdvModalOpen(true)}
             onAboutClick={handleAboutUsClick}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
             onLogoClick={handleBackToHome}
             onFaqClick={handleFaqClick}
             onScpiPageClick={handleScpiClick}
@@ -1623,7 +1601,6 @@ const App: React.FC = () => {
           onNavigateToAbout={handleAboutUsClick}
           onNavigateToUnderstanding={handleComprendreClick}
           onContactClick={() => setIsRdvModalOpen(true)}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onSimulateurClick={handleSimulateurClick}
           onComparateurClick={handleComparateurClick}
         />
@@ -1662,7 +1639,6 @@ const App: React.FC = () => {
           onNavigateToAbout={handleAboutUsClick}
           onNavigateToUnderstanding={handleComprendreClick}
           onContactClick={() => setIsRdvModalOpen(true)}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onSimulateurClick={handleSimulateurClick}
           onComparateurClick={handleComparateurClick}
         />
@@ -1680,7 +1656,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1712,7 +1687,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1777,7 +1751,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1817,7 +1790,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -1911,7 +1883,6 @@ const App: React.FC = () => {
             onNavigateToUnderstanding={handleComprendreClick}
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
           />
         </Suspense>
         {renderGlobalModals()}
@@ -1932,7 +1903,6 @@ const App: React.FC = () => {
             onNavigateToUnderstanding={handleComprendreClick}
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
@@ -1958,7 +1928,6 @@ const App: React.FC = () => {
             onNavigateToUnderstanding={handleComprendreClick}
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
@@ -1984,7 +1953,6 @@ const App: React.FC = () => {
             onNavigateToUnderstanding={handleComprendreClick}
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
             onArticlesClick={handleArticlesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
@@ -2022,7 +1990,6 @@ const App: React.FC = () => {
             toggleTheme={toggleTheme}
             onContactClick={() => setIsRdvModalOpen(true)}
             onAboutClick={handleAboutUsClick}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
             onEducationClick={handleEducationClick}
             onLogoClick={handleBackToHome}
             onScpiPageClick={handleScpiClick}
@@ -2062,7 +2029,6 @@ const App: React.FC = () => {
           onNavigateToUnderstanding={handleUnderstandingClick}
           onNavigateToScpi={handleScpiClick}
           onContactClick={() => setIsRdvModalOpen(true)}
-          onReviewsClick={handleReviewsClick}
         />
       </Suspense>
     );
@@ -2082,7 +2048,6 @@ const App: React.FC = () => {
             onNavigateToUnderstanding={handleComprendreClick}
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
-            onReviewsClick={() => setIsReviewsModalOpen(true)}
           />
         </Suspense>
         {renderGlobalModals()}
@@ -2099,7 +2064,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -2170,7 +2134,6 @@ const App: React.FC = () => {
               isDarkMode={isDarkMode}
               toggleTheme={toggleTheme}
               onAboutClick={handleAboutUsClick}
-              onReviewsClick={() => setIsReviewsModalOpen(true)}
               onEducationClick={handleEducationClick}
               onScpiPageClick={handleScpiClick}
               onContactClick={() => setIsRdvModalOpen(true)}
@@ -2197,7 +2160,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -2234,7 +2196,6 @@ const App: React.FC = () => {
           toggleTheme={toggleTheme}
           onContactClick={() => setIsRdvModalOpen(true)}
           onAboutClick={handleAboutUsClick}
-          onReviewsClick={() => setIsReviewsModalOpen(true)}
           onEducationClick={handleEducationClick}
           onLogoClick={handleBackToHome}
           onScpiPageClick={handleScpiClick}
@@ -2273,7 +2234,6 @@ const App: React.FC = () => {
         toggleTheme={toggleTheme}
         onContactClick={() => setIsRdvModalOpen(true)}
         onAboutClick={handleAboutUsClick}
-        onReviewsClick={() => setIsReviewsModalOpen(true)}
         onEducationClick={handleEducationClick}
         onLogoClick={handleBackToHome}
         onScpiPageClick={handleScpiClick}
@@ -2309,6 +2269,55 @@ const App: React.FC = () => {
               />
             )}
           </Suspense>
+        </div>
+
+        {/* Product Spotlight - Dashboard Portfolio */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
+          {/* Style CSS pour perspective desktop uniquement */}
+          <style>{`
+            @media (min-width: 1024px) {
+              .product-spotlight-container {
+                transform: perspective(1200px) rotateX(3deg);
+                transform-style: preserve-3d;
+              }
+            }
+          `}</style>
+          
+          {/* Container principal avec fond gradient sombre */}
+          <div className="relative w-full flex justify-center px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-8">
+            {/* Fond gradient sombre pour détachement net */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.2) 50%, transparent 100%)',
+              }}
+            ></div>
+            
+            {/* Spotlight Halo - Effet lumineux emerald (identité MaximusSCPI) */}
+            {/* Blur large (120px) pour effet spotlight discret et premium */}
+            <div 
+              className="absolute inset-0 flex justify-center items-center pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 30%, transparent 70%)',
+                filter: 'blur(120px)',
+              }}
+            ></div>
+            
+            {/* Container image avec perspective desktop uniquement */}
+            <div className="relative w-full sm:w-[95%] lg:w-[90%] max-w-[1400px] product-spotlight-container">
+              {/* Image produit avec profondeur premium */}
+              {/* Border-radius élégant (rounded-3xl), bordure fine semi-transparente, ombre produit marquée */}
+              <img 
+                src="/images/image%20home.webp" 
+                alt="Dashboard d'analyse de portefeuille SCPI - Rendement, revenus mensuels, répartition sectorielle et géographique, projection sur 15 ans, avis expert"
+                className="w-full h-auto max-h-[700px] sm:max-h-[800px] lg:max-h-[1000px] object-contain rounded-3xl shadow-[0_25px_80px_-20px_rgba(0,0,0,0.4),0_0_60px_-15px_rgba(16,185,129,0.2),inset_0_1px_0_0_rgba(255,255,255,0.05)] border border-white/10 dark:border-white/5 backdrop-blur-sm"
+                loading="lazy"
+                style={{
+                  transform: 'translateZ(0)',
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Encart Parcours Recommandé */}
@@ -2354,15 +2363,15 @@ const App: React.FC = () => {
         </div>
 
         {/* Section Comparateur avec titre intégré */}
-        <div id="comparator" data-comparator>
+        <div id="comparator" data-comparator className="mt-16 sm:mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Titre rattaché au comparateur */}
             <div className="mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                Vous souhaitez comparer vous-même ?
+                Construisez votre portefeuille SCPI
               </h2>
               <p className="text-base text-slate-300 font-medium">
-                Accédez à l'ensemble de nos SCPI et analysez-les librement.
+                Accédez à l'ensemble des SCPI et analysez-les librement.
               </p>
             </div>
             

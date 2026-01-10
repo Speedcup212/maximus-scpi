@@ -20,7 +20,6 @@ interface IrokoZenLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
 }
 
 const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
@@ -29,8 +28,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onNavigateToScpi,
-  onContactClick,
-  onReviewsClick
+  onContactClick
 }) => {
   // Hero optimisé pour la conversion
   const [formStep, setFormStep] = useState(1);
@@ -207,7 +205,6 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         toggleTheme={() => setIsDarkMode(!isDarkMode)}
         onContactClick={handleContactClick}
         onAboutClick={() => {}}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={handleBackToHome}
         onScpiPageClick={onNavigateToScpi || ((slug) => window.location.href = `/${slug}`)}
         onUnderstandingClick={onNavigateToUnderstanding || (() => window.location.href = '/comprendre-les-scpi')}

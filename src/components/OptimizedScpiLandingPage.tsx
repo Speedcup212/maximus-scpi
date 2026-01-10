@@ -28,7 +28,6 @@ interface OptimizedScpiLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
   onArticlesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
@@ -44,7 +43,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   onNavigateToUnderstanding,
   onNavigateToScpi,
   onContactClick,
-  onReviewsClick,
   onArticlesClick,
   onComparateurClick,
   onSimulateurClick,
@@ -510,7 +508,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         toggleTheme={toggleTheme}
         onContactClick={onContactClick || (() => {})}
         onAboutClick={onNavigateToAbout || (() => {})}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={onNavigateHome}
         onFaqClick={onNavigateToFaq}
         onScpiPageClick={onNavigateToScpi}

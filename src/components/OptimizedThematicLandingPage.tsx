@@ -24,7 +24,6 @@ interface OptimizedThematicLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
 }
 
 const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> = ({
@@ -34,8 +33,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onNavigateToScpi,
-  onContactClick,
-  onReviewsClick
+  onContactClick
 }) => {
   console.log('[DEBUG OptimizedThematicLandingPage] Rendering with pageKey:', pageKey);
   const pageData: ThematicLandingPageData = thematicLandingPages[pageKey];

@@ -20,7 +20,6 @@ interface ScpiLandingPageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
   onArticlesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
@@ -36,7 +35,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
   onNavigateToUnderstanding,
   onNavigateToScpi,
   onContactClick,
-  onReviewsClick,
   onArticlesClick,
   onComparateurClick,
   onSimulateurClick,
@@ -208,7 +206,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         toggleTheme={toggleTheme}
         onContactClick={handleContactClick}
         onAboutClick={() => {}}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={handleBackToHome}
         onScpiPageClick={onNavigateToScpi || ((slug) => window.location.href = `/${slug}`)}
         onUnderstandingClick={onNavigateToUnderstanding || (() => window.location.href = '/comprendre-les-scpi')}

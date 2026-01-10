@@ -19,7 +19,6 @@ interface AnalyseActuPageProps {
   onNavigateToAbout: () => void;
   onNavigateToUnderstanding: () => void;
   onContactClick: () => void;
-  onReviewsClick: () => void;
   onSimulateurClick: (simulateurId: string) => void;
   onComparateurClick: () => void;
   onArticleClick: (slug: string) => void;
@@ -31,7 +30,6 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onContactClick,
-  onReviewsClick,
   onSimulateurClick,
   onComparateurClick,
   onArticleClick
@@ -80,7 +78,6 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
         toggleTheme={() => {}}
         onContactClick={onContactClick}
         onAboutClick={onNavigateToAbout}
-        onReviewsClick={onReviewsClick}
         onEducationClick={() => {}}
         onLogoClick={onNavigateHome}
         onScpiPageClick={() => {}}

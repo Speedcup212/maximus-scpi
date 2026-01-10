@@ -19,7 +19,6 @@ interface RichArticlePageProps {
   onNavigateToAbout: () => void;
   onNavigateToUnderstanding: () => void;
   onContactClick: () => void;
-  onReviewsClick: () => void;
   onSimulateurClick: (simulateurId: string) => void;
   onComparateurClick: () => void;
   onAnalyseActuClick?: () => void;
@@ -32,7 +31,6 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onContactClick,
-  onReviewsClick,
   onSimulateurClick,
   onComparateurClick,
   onAnalyseActuClick
@@ -77,7 +75,6 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
         toggleTheme={() => {}}
         onContactClick={onContactClick}
         onAboutClick={onNavigateToAbout}
-        onReviewsClick={onReviewsClick}
         onEducationClick={() => {}}
         onLogoClick={onNavigateHome}
         onScpiPageClick={() => {}}

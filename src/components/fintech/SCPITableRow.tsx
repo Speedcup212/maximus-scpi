@@ -93,7 +93,7 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
               ) : (
                 <>
                   <Plus className="w-3.5 h-3.5" />
-                  <span>Comparer</span>
+                  <span>Ajouter</span>
                 </>
               )}
             </button>

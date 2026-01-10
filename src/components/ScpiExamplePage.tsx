@@ -14,7 +14,6 @@ interface ScpiExamplePageProps {
   onNavigateToUnderstanding?: () => void;
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
-  onReviewsClick?: () => void;
 }
 
 const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
@@ -23,8 +22,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
   onNavigateToAbout,
   onNavigateToUnderstanding,
   onNavigateToScpi,
-  onContactClick,
-  onReviewsClick
+  onContactClick
 }) => {
   const [formData, setFormData] = useState({
     nom: '',
@@ -180,7 +178,6 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
         toggleTheme={() => setIsDarkMode(!isDarkMode)}
         onContactClick={handleContactClick}
         onAboutClick={() => {}}
-        onReviewsClick={onReviewsClick || (() => {})}
         onLogoClick={handleBackToHome}
         onScpiPageClick={onNavigateToScpi || ((slug) => window.location.href = `/${slug}`)}
         onUnderstandingClick={onNavigateToUnderstanding || (() => window.location.href = '/comprendre-les-scpi')}

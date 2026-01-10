@@ -108,26 +108,26 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
   const minInvestment = Math.max(...portfolioScpis.map(item => item.scpi.minInvestment || item.scpi.price));
 
   return (
-    <div className="bg-slate-900/80 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8 mb-6">
-      <h2 className="text-2xl font-bold text-white mb-3 flex items-center gap-2">
-        <BarChart3 className="w-6 h-6 text-emerald-400" />
-        Analyse détaillée du portefeuille (pour mieux comprendre)
+    <div className="bg-slate-900/80 border border-slate-700 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
+      <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
+        <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400 flex-shrink-0" />
+        <span className="break-words">Analyse détaillée du portefeuille (pour mieux comprendre)</span>
       </h2>
-      <p className="text-slate-300 mb-6 text-sm">
+      <p className="text-slate-300 mb-4 sm:mb-6 text-xs sm:text-sm">
         Les éléments ci-dessous vous permettent de mieux comprendre la construction de votre portefeuille recommandé.
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* Montant à Investir */}
-        <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 rounded-xl border border-emerald-500/20 p-6">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-emerald-400" />
+        <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 rounded-lg sm:rounded-xl border border-emerald-500/20 p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
             Montant à Investir
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-slate-300 mb-2 block">
+                <label className="text-xs sm:text-sm font-medium text-slate-300 mb-2 block">
                   Montant d'investissement
                 </label>
                 <div className="relative">
@@ -145,21 +145,21 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
                     min={0}
                     step={minPrice}
                     placeholder="Entrez un montant"
-                    className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 text-white rounded-lg text-xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-slate-700 border-2 border-slate-600 text-white rounded-lg text-lg sm:text-xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-lg">€</span>
+                  <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-base sm:text-lg">€</span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1">Minimum: {minInvestment.toLocaleString('fr-FR')}€</p>
               </div>
 
               <div>
                 <p className="text-xs text-slate-400 mb-2">Montants rapides:</p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                   {[10000, 25000, 50000, 100000, 200000, 500000].map((amount) => (
                     <button
                       key={amount}
                       onClick={() => setInvestmentAmount(amount)}
-                      className={`px-3 py-2 border rounded-lg text-sm font-semibold transition-all ${
+                      className={`px-2 sm:px-3 py-1.5 sm:py-2 border rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                         investmentAmount === amount
                           ? 'bg-emerald-600 border-emerald-500 text-white'
                           : 'bg-slate-700 hover:bg-emerald-600 border-slate-600 hover:border-emerald-500 text-white'
@@ -172,23 +172,23 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
+            <div className="space-y-2 sm:space-y-3">
+              <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 border border-slate-600">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-slate-400">Nombre de parts</span>
-                  <span className="text-2xl font-bold text-white">{totalShares}</span>
+                  <span className="text-xs sm:text-sm text-slate-400">Nombre de parts</span>
+                  <span className="text-xl sm:text-2xl font-bold text-white">{totalShares}</span>
                 </div>
               </div>
-              <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
+              <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-slate-300 font-medium">Investissement réel</span>
-                  <span className="text-2xl font-bold text-emerald-400">{actualInvestment.toLocaleString('fr-FR')}€</span>
+                  <span className="text-xs sm:text-sm text-slate-300 font-medium">Investissement réel</span>
+                  <span className="text-xl sm:text-2xl font-bold text-emerald-400 break-words">{actualInvestment.toLocaleString('fr-FR')}€</span>
                 </div>
               </div>
-              <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
+              <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 border border-slate-600">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-slate-400">Prix moyen par part</span>
-                  <span className="text-lg font-bold text-white">{averagePricePerShare.toFixed(0)}€</span>
+                  <span className="text-xs sm:text-sm text-slate-400">Prix moyen par part</span>
+                  <span className="text-base sm:text-lg font-bold text-white">{averagePricePerShare.toFixed(0)}€</span>
                 </div>
               </div>
             </div>
@@ -196,19 +196,19 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
         </div>
 
         {/* Répartitions Sectorielle et Géographique */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Répartition Sectorielle */}
-          <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
-            <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-              <PieChartIcon className="w-5 h-5 text-blue-400" />
+          <div className="bg-slate-700/30 rounded-lg sm:rounded-xl border border-slate-700 p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-bold text-white mb-2 flex items-center gap-2">
+              <PieChartIcon className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0" />
               Répartition Sectorielle
             </h3>
-            <p className="text-sm text-slate-300 mb-4">
+            <p className="text-xs sm:text-sm text-slate-300 mb-3 sm:mb-4">
               Cette répartition sectorielle permet de limiter la dépendance à un seul cycle immobilier. 
               En diversifiant les secteurs, vous réduisez l'impact d'une baisse temporaire dans un domaine spécifique.
             </p>
             <div className="relative">
-              <ResponsiveContainer width="100%" height={280}>
+              <ResponsiveContainer width="100%" height={220}>
                 <RechartsPie>
                   <defs>
                     {GRADIENT_IDS.sectors.map((id, index) => (
@@ -244,38 +244,38 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
                 </RechartsPie>
               </ResponsiveContainer>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                <div className="text-3xl font-bold text-white">{sectorData.length}</div>
-                <div className="text-sm text-slate-400">secteurs</div>
+                <div className="text-2xl sm:text-3xl font-bold text-white">{sectorData.length}</div>
+                <div className="text-xs sm:text-sm text-slate-400">secteurs</div>
               </div>
             </div>
-            <div className="mt-4 space-y-2">
+            <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
               {sectorData.map((sector, index) => (
-                <div key={sector.name} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
+                <div key={sector.name} className="flex items-center justify-between text-xs sm:text-sm">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div
-                      className="w-3 h-3 rounded-full"
+                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                       style={{ backgroundColor: sector.color }}
                     ></div>
-                    <span className="text-slate-300">{sector.name}</span>
+                    <span className="text-slate-300 truncate">{sector.name}</span>
                   </div>
-                  <span className="font-semibold text-white">{sector.value.toFixed(1)}%</span>
+                  <span className="font-semibold text-white ml-2 flex-shrink-0">{sector.value.toFixed(1)}%</span>
                 </div>
               ))}
             </div>
           </div>
 
               {/* Répartition Géographique */}
-              <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
-                <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                  <PieChartIcon className="w-5 h-5 text-green-400" />
+              <div className="bg-slate-700/30 rounded-lg sm:rounded-xl border border-slate-700 p-4 sm:p-6">
+                <h3 className="text-base sm:text-lg font-bold text-white mb-2 flex items-center gap-2">
+                  <PieChartIcon className="w-4 h-4 sm:w-5 sm:h-5 text-green-400 flex-shrink-0" />
                   Répartition Géographique
                 </h3>
-                <p className="text-sm text-slate-300 mb-4">
+                <p className="text-xs sm:text-sm text-slate-300 mb-3 sm:mb-4">
                   Cette répartition géographique réduit votre exposition aux risques locaux. 
                   En investissant dans plusieurs zones, vous bénéficiez de la stabilité de marchés complémentaires.
                 </p>
             <div className="relative">
-              <ResponsiveContainer width="100%" height={280}>
+              <ResponsiveContainer width="100%" height={220}>
                 <RechartsPie>
                   <defs>
                     {GRADIENT_IDS.geography.map((id, index) => (
@@ -311,21 +311,21 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
                 </RechartsPie>
               </ResponsiveContainer>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                <div className="text-3xl font-bold text-white">{geoData.length}</div>
-                <div className="text-sm text-slate-400">pays</div>
+                <div className="text-2xl sm:text-3xl font-bold text-white">{geoData.length}</div>
+                <div className="text-xs sm:text-sm text-slate-400">pays</div>
               </div>
             </div>
-            <div className="mt-4 space-y-2">
+            <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
               {geoData.map((geo, index) => (
-                <div key={geo.name} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
+                <div key={geo.name} className="flex items-center justify-between text-xs sm:text-sm">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div
-                      className="w-3 h-3 rounded-full"
+                      className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
                       style={{ backgroundColor: geo.color }}
                     ></div>
-                    <span className="text-slate-300">{geo.name}</span>
+                    <span className="text-slate-300 truncate">{geo.name}</span>
                   </div>
-                  <span className="font-semibold text-white">{geo.value.toFixed(1)}%</span>
+                  <span className="font-semibold text-white ml-2 flex-shrink-0">{geo.value.toFixed(1)}%</span>
                 </div>
               ))}
             </div>
@@ -333,18 +333,18 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
         </div>
 
         {/* Projection sur X ans */}
-        <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-orange-400" />
+        <div className="bg-slate-700/30 rounded-lg sm:rounded-xl border border-slate-700 p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+            <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400 flex-shrink-0" />
               Projection sur {investmentYears} ans
             </h3>
             <div className="flex items-center gap-2">
-              <label className="text-sm text-slate-400">Durée:</label>
+              <label className="text-xs sm:text-sm text-slate-400">Durée:</label>
               <select
                 value={investmentYears}
                 onChange={(e) => setInvestmentYears(Number(e.target.value))}
-                className="px-3 py-1.5 bg-slate-700 border border-slate-600 text-white rounded-lg text-sm focus:outline-none focus:border-emerald-500"
+                className="px-2 sm:px-3 py-1 sm:py-1.5 bg-slate-700 border border-slate-600 text-white rounded-lg text-xs sm:text-sm focus:outline-none focus:border-emerald-500"
               >
                 <option value={5}>5 ans</option>
                 <option value={10}>10 ans</option>
@@ -353,20 +353,20 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
               </select>
             </div>
           </div>
-          <div className="mb-4 space-y-2">
-            <p className="text-sm text-slate-300 leading-relaxed mb-3">
+          <div className="mb-3 sm:mb-4 space-y-2">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-2 sm:mb-3">
               Cette projection illustre l'évolution potentielle de votre investissement sur {investmentYears} ans, 
               en supposant un rendement constant. Elle vous aide à visualiser l'accumulation progressive des revenus 
               et l'évolution de votre patrimoine, sans garantie de résultat.
             </p>
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-2 sm:p-3">
               <p className="text-xs text-yellow-200 leading-relaxed">
                 <strong>Projection indicative basée sur des hypothèses.</strong> Les performances passées ne préjugent pas des performances futures. 
                 Les revenus peuvent varier et le capital n'est pas garanti.
               </p>
             </div>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={[...projectionData]}>
               <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
               <XAxis dataKey="year" stroke="#94a3b8" />
@@ -381,10 +381,10 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
               <Bar dataKey="revenus" name="Revenus cumulés" stackId="a" fill="#10b981" />
             </BarChart>
           </ResponsiveContainer>
-          <div className="mt-4 bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-            <div className="flex justify-between items-center">
-              <span className="text-slate-300">Patrimoine total après {investmentYears} ans</span>
-              <span className="text-2xl font-bold text-emerald-400">
+          <div className="mt-3 sm:mt-4 bg-slate-800/50 rounded-lg p-3 sm:p-4 border border-slate-600">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+              <span className="text-xs sm:text-sm text-slate-300">Patrimoine total après {investmentYears} ans</span>
+              <span className="text-xl sm:text-2xl font-bold text-emerald-400 break-words">
                 {(actualInvestment + annualRevenue * investmentYears).toLocaleString('fr-FR')}€
               </span>
             </div>
@@ -616,60 +616,61 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   }, [answers]);
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="min-h-screen bg-slate-900 text-slate-100 py-4 sm:py-12 px-2 sm:px-4">
+      <div className="max-w-4xl mx-auto bg-slate-900/60 border border-slate-700 rounded-xl sm:rounded-2xl shadow-xl p-3 sm:p-6 lg:p-8">
         {/* Header */}
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors"
+          className="flex items-center gap-2 text-slate-300 hover:text-white mb-4 sm:mb-6 transition-colors text-sm sm:text-base"
         >
-          <ArrowLeft className="w-5 h-5" />
-          Retour au questionnaire
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="hidden sm:inline">Retour au questionnaire</span>
+          <span className="sm:hidden">Retour</span>
         </button>
 
         {/* 1️⃣ SYNTHÈSE IMMÉDIATE - Au-dessus de la ligne de flottaison */}
-        <div className="bg-gradient-to-br from-emerald-600/20 to-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6 mb-6">
-          <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-emerald-600 rounded-full mb-4">
-              <CheckCircle className="w-7 h-7 text-white" />
+        <div className="bg-gradient-to-br from-emerald-600/20 to-emerald-500/10 border border-emerald-500/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
+          <div className="text-center mb-4 sm:mb-6">
+            <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-emerald-600 rounded-full mb-3 sm:mb-4">
+              <CheckCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
               Votre portefeuille recommandé
             </h1>
-            <p className="text-base text-slate-300">
+            <p className="text-sm sm:text-base text-slate-300">
               Adapté à votre situation
             </p>
           </div>
 
           {/* Synthèse en 3 points clés (simplifiée) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
             {/* Type de portefeuille */}
-            <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-700">
+            <div className="bg-slate-900/60 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-700">
               <div className="text-xs text-slate-400 mb-1">Portefeuille</div>
-              <div className="text-lg font-bold text-white">{portfolio.name}</div>
+              <div className="text-base sm:text-lg font-bold text-white break-words">{portfolio.name}</div>
             </div>
 
             {/* Objectif principal */}
-            <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-700">
+            <div className="bg-slate-900/60 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-700">
               <div className="text-xs text-slate-400 mb-1">Objectif</div>
-              <div className="text-sm text-slate-200 leading-tight">{humanSubtitle}</div>
+              <div className="text-xs sm:text-sm text-slate-200 leading-tight">{humanSubtitle}</div>
             </div>
 
             {/* Niveau de risque */}
-            <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-700">
+            <div className="bg-slate-900/60 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-slate-700">
               <div className="text-xs text-slate-400 mb-2">Risque</div>
               <div className="flex items-center gap-2 mb-2">
-                <span className={`px-3 py-1 rounded-full text-sm font-bold border-2 ${riskLevelColors[portfolio.riskLevel]}`}>
+                <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold border-2 ${riskLevelColors[portfolio.riskLevel]}`}>
                   {riskLevelLabels[portfolio.riskLevel]}
                 </span>
               </div>
               {/* Échelle de risque 1-7 */}
               <div className="mt-2">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs text-slate-400">Profil :</span>
-                  <div className="flex-1 flex flex-col gap-1">
+                <div className="flex items-center gap-1 sm:gap-2 mb-1">
+                  <span className="text-xs text-slate-400 hidden sm:inline">Profil :</span>
+                  <div className="flex-1 flex flex-col gap-0.5 sm:gap-1">
                     {/* 7 barres distinctes */}
-                    <div className="flex gap-1">
+                    <div className="flex gap-0.5 sm:gap-1">
                       {[1, 2, 3, 4, 5, 6, 7].map((num) => {
                         const isActive = num <= riskScore;
                         const barColor = riskScore === 3
@@ -681,21 +682,21 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                         return (
                           <div
                             key={num}
-                            className={`flex-1 h-5 rounded transition-all duration-500 ${barColor}`}
+                            className={`flex-1 h-4 sm:h-5 rounded transition-all duration-500 ${barColor}`}
                           />
                         );
                       })}
                     </div>
                     {/* Chiffres 1 à 7 en dessous */}
-                    <div className="flex gap-1">
+                    <div className="flex gap-0.5 sm:gap-1">
                       {[1, 2, 3, 4, 5, 6, 7].map((num) => (
                         <div key={num} className="flex-1 text-center">
-                          <span className="text-xs text-slate-400">{num}</span>
+                          <span className="text-[10px] sm:text-xs text-slate-400">{num}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-slate-300 min-w-[2rem] text-right">{riskScore}/7</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-300 min-w-[2rem] text-right">{riskScore}/7</span>
                 </div>
               </div>
             </div>
@@ -703,7 +704,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
         </div>
 
         {/* Portfolio Card - Détails */}
-        <div className="bg-slate-900/80 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8 mb-6">
+        <div className="bg-slate-900/80 border border-slate-700 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
 
           {/* NIVEAU 2 : JUSTIFICATION - Sections repliables */}
           
@@ -736,18 +737,18 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
             isExpanded={expandedSections.composition}
             onToggle={() => setExpandedSections(prev => ({ ...prev, composition: !prev.composition }))}
           >
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {portfolioScpis.map(({ scpi, allocation }) => (
                 <div
                   key={scpi.id}
-                  className="flex items-center justify-between p-4 bg-slate-900 rounded-lg border border-slate-700"
+                  className="flex items-center justify-between p-3 sm:p-4 bg-slate-900 rounded-lg border border-slate-700"
                 >
-                  <div className="flex-1">
-                    <div className="font-semibold text-slate-100">{scpi.name}</div>
-                    <div className="text-sm text-slate-400">{scpi.company}</div>
+                  <div className="flex-1 min-w-0 pr-2">
+                    <div className="font-semibold text-slate-100 text-sm sm:text-base truncate">{scpi.name}</div>
+                    <div className="text-xs sm:text-sm text-slate-400 truncate">{scpi.company}</div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-xl sm:text-2xl font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
                     <div className="text-xs text-slate-400">Répartition: {allocation.toFixed(1)}%</div>
                   </div>
                 </div>
@@ -780,24 +781,24 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
         </SectionRepliable>
 
         {/* 5️⃣ FIN DE PAGE - Transition vers l'action */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {/* Message de rassurance et ouverture */}
-          <div className="bg-emerald-500/10 border-l-4 border-emerald-500 rounded-lg p-4">
-            <h3 className="text-lg font-bold text-white mb-2">
+          <div className="bg-emerald-500/10 border-l-4 border-emerald-500 rounded-lg p-3 sm:p-4">
+            <h3 className="text-base sm:text-lg font-bold text-white mb-2">
               Prochaine étape
             </h3>
-            <p className="text-slate-200 leading-relaxed text-sm">
+            <p className="text-slate-200 leading-relaxed text-xs sm:text-sm">
               Cette recommandation constitue une base solide pour votre projet. 
               Un conseiller certifié peut vous accompagner pour la valider et affiner votre stratégie.
             </p>
           </div>
 
           {/* Avertissement réglementaire */}
-          <div className="bg-slate-900/80 border border-yellow-500/50 rounded-xl p-6">
-            <div className="flex items-start gap-3">
-              <Info className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-yellow-100">
-                <p className="font-semibold mb-2">Avertissement important</p>
+          <div className="bg-slate-900/80 border border-yellow-500/50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <Info className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 flex-shrink-0 mt-0.5" />
+              <div className="text-xs sm:text-sm text-yellow-100">
+                <p className="font-semibold mb-1 sm:mb-2">Avertissement important</p>
                 <p className="leading-relaxed">
                   Les investissements en SCPI présentent un risque de perte en capital et une liquidité non garantie. 
                   Les performances passées ne préjugent pas des performances futures. 
@@ -809,8 +810,8 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
           </div>
 
           {/* BOUTONS D'ACTION EN BAS DE PAGE */}
-          <div className="mt-6">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <div className="mt-4 sm:mt-6">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             {/* Bouton Prendre RDV */}
             <button
               type="button"
@@ -824,10 +825,11 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 zIndex: 1000,
                 pointerEvents: 'auto'
               }}
-              className="flex-1 px-6 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
+              className="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-sm sm:text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 hover:shadow-green-500/30"
             >
-              <Phone className="w-5 h-5" />
-              <span>Prendre RDV avec un conseiller</span>
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">Prendre RDV avec un conseiller</span>
+              <span className="sm:hidden">Prendre RDV</span>
             </button>
 
               {/* Bouton Commencer ma souscription */}
@@ -852,22 +854,24 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                   zIndex: 1000,
                   pointerEvents: (isLoading || !portfolioScpis || portfolioScpis.length === 0) ? 'none' : 'auto'
                 }}
-                className="flex-1 px-6 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 disabled:shadow-none"
+                className="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-sm sm:text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 disabled:shadow-none"
               >
                 {isLoading ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Ouverture du tunnel de souscription...</span>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="hidden sm:inline">Ouverture du tunnel de souscription...</span>
+                    <span className="sm:hidden">Ouverture...</span>
                   </>
                 ) : (
                   <>
-                    <span>Commencer ma souscription en ligne</span>
-                    <ArrowRight className="w-5 h-5" />
+                    <span className="hidden sm:inline">Commencer ma souscription en ligne</span>
+                    <span className="sm:hidden">Souscription</span>
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </>
                 )}
               </button>
             </div>
-            <p className="text-xs text-slate-400 text-center mt-3">
+            <p className="text-xs text-slate-400 text-center mt-2 sm:mt-3 px-2">
               Accédez au formulaire de souscription avec votre portefeuille pré-rempli
             </p>
           </div>
