@@ -1803,6 +1803,11 @@ const App: React.FC = () => {
           currentView={currentView}
         />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-6">
+            <p className="text-lg sm:text-xl text-slate-200 font-semibold mb-4 text-center">
+              Sélectionnez les SCPI que vous envisagez. Analysez leur équilibre rendement / risque / diversification en 2 minutes.
+            </p>
+          </div>
           <Suspense fallback={<LoadingSpinner />}>
             <FintechComparator onCloseAnalysis={handleBackToHome} />
           </Suspense>
