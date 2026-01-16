@@ -2266,10 +2266,11 @@ const App: React.FC = () => {
             ) : (
               <Hero 
                 onCalendlyClick={() => setIsRdvModalOpen(true)}
-                onGuidedJourneyClick={() => {
-                  setCurrentView('guided-journey');
-                  window.history.pushState({}, '', '/parcours-guide');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                onComparatorClick={() => {
+                  const comparatorElement = document.getElementById('comparator');
+                  if (comparatorElement) {
+                    comparatorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
                 }}
               />
             )}

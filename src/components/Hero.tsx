@@ -2,10 +2,10 @@ import React from 'react';
 
 interface HeroProps {
   onCalendlyClick: () => void;
-  onGuidedJourneyClick?: () => void;
+  onComparatorClick?: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onGuidedJourneyClick }) => {
+const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
   return (
     <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-8 px-4 sm:px-6 rounded-2xl sm:rounded-3xl overflow-hidden w-full">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(148,163,184,0.1),transparent_50%)]"></div>
@@ -26,9 +26,9 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onGuidedJourneyClick }) =>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {onGuidedJourneyClick && (
+          {onComparatorClick && (
             <button
-              onClick={onGuidedJourneyClick}
+              onClick={onComparatorClick}
               className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
             >
               Démarrer l'analyse

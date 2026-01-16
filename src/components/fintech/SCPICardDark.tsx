@@ -89,10 +89,16 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
     return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
   };
 
+  // Sort sectors once by value (descending)
+  const sortedSectors = scpi.sectors && scpi.sectors.length > 0
+    ? [...scpi.sectors].sort((a, b) => b.value - a.value)
+    : [];
+
   // Get top 3 sectors
-  const topSectors = scpi.sectors
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 3);
+  const topSectors = sortedSectors.slice(0, 3);
+
+  // Get main sector (highest percentage)
+  const mainSector = sortedSectors.length > 0 ? sortedSectors[0] : null;
 
   return (
     <div
@@ -122,11 +128,17 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
           )}
         </div>
 
-        {/* Category Badge & Tax Optimization Badge */}
+        {/* Main Sector Badge & Tax Optimization Badge */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
-            {scpi.category}
-          </span>
+          {mainSector ? (
+            <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border ${getSectorColor(mainSector.name).bg} ${getSectorColor(mainSector.name).text} ${getSectorColor(mainSector.name).border}`}>
+              {mainSector.name} {mainSector.value.toFixed(0)}%
+            </span>
+          ) : (
+            <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
+              {scpi.category}
+            </span>
+          )}
           {showTaxOptimization && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Sparkles className="w-3 h-3" />
@@ -220,14 +232,13 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
           </div>
 
           {/* All Sectors List */}
-          {scpi.sectors.length > 3 && (
+          {sortedSectors.length > 3 && (
             <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
               <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">
                 Tous les Secteurs
               </p>
               <div className="space-y-1">
-                {scpi.sectors
-                  .sort((a, b) => b.value - a.value)
+                {sortedSectors
                   .map((sector) => {
                     const Icon = getSectorIcon(sector.name);
                     const colors = getSectorColor(sector.name);

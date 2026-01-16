@@ -226,6 +226,18 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     return cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
   };
 
+  // Liste des termes géographiques à exclure de la répartition sectorielle
+  const geoKeywords = ['france', 'paris', 'région', 'europe', 'espagne', 'allemagne', 'italie',
+    'royaume', 'pays', 'belgique', 'portugal', 'étranger', 'international', 'idf', 'ile-de-france',
+    'atlantique', 'parisienne', 'dorsale', 'métropol', 'irlande', 'pologne', 'uk', 'pays-bas',
+    'netherlands', 'hollande', 'suisse', 'luxembourg', 'autriche', 'grèce', 'danemark', 'suède',
+    'norvège', 'finlande', 'tchéquie', 'hongrie', 'roumanie', 'bulgarie', 'croatie', 'slovénie'];
+
+  const isGeographicName = (name: string): boolean => {
+    const lowerName = name.toLowerCase();
+    return geoKeywords.some(keyword => lowerName.includes(keyword));
+  };
+
   // Calcul des répartitions agrégées du portefeuille (sans doublons)
   const calculateAggregatedSectors = () => {
     const sectorMap: Record<string, number> = {};
@@ -234,6 +246,9 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     selectedScpis.forEach(scpi => {
       if (scpi.sectors && scpi.sectors.length > 0) {
         scpi.sectors.forEach(sector => {
+          // Exclure les noms géographiques de la répartition sectorielle
+          if (isGeographicName(sector.name)) return;
+          
           const normalizedName = normalizeSectorName(sector.name);
           if (!sectorMap[normalizedName]) {
             sectorMap[normalizedName] = 0;

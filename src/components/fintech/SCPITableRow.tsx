@@ -28,6 +28,22 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
     return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
   };
 
+  const getSectorColor = (sectorName: string) => {
+    const name = sectorName.toLowerCase();
+    if (name.includes('santé') || name.includes('ehpad')) return 'bg-pink-500/20 text-pink-400 border-pink-500/30';
+    if (name.includes('résidentiel') || name.includes('habitation')) return 'bg-green-500/20 text-green-400 border-green-500/30';
+    if (name.includes('commerce') || name.includes('retail')) return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+    if (name.includes('logistique') || name.includes('entrepôt')) return 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+    if (name.includes('bureau')) return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+    if (name.includes('hôtel') || name.includes('tourisme')) return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+    return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+  };
+
+  // Get main sector (highest percentage)
+  const mainSector = scpi.sectors && scpi.sectors.length > 0 
+    ? [...scpi.sectors].sort((a, b) => b.value - a.value)[0]
+    : null;
+
   return (
     <tr
       className={`border-b transition-colors ${
@@ -44,9 +60,15 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
       </td>
       <td className="px-4 py-3">
         <div className="flex flex-col gap-1">
-          <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
-            {scpi.category}
-          </span>
+          {mainSector ? (
+            <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border ${getSectorColor(mainSector.name)}`}>
+              {mainSector.name} {mainSector.value.toFixed(0)}%
+            </span>
+          ) : (
+            <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
+              {scpi.category}
+            </span>
+          )}
           {showTaxOptimization && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 w-fit">
               <Sparkles className="w-3 h-3" />
