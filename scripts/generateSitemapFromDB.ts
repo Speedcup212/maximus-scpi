@@ -35,25 +35,44 @@ async function generateSitemap() {
 
   const today = new Date().toISOString().split('T')[0];
 
-  const { data: articles, error: articlesError } = await supabase
-    .from('articles_seo')
-    .select('slug, updated_at, category')
-    .eq('status', 'published')
-    .order('slug');
+  let articles: Article[] = [];
+  let scpiData: SCPI[] = [];
 
-  if (articlesError) {
-    console.error('❌ Erreur lors de la récupération des articles:', articlesError);
-    process.exit(1);
+  // Tentative de récupération des articles avec gestion d'erreur
+  try {
+    const { data, error: articlesError } = await supabase
+      .from('articles_seo')
+      .select('slug, updated_at, category')
+      .eq('status', 'published')
+      .order('slug');
+
+    if (articlesError) {
+      console.warn('⚠️ Erreur lors de la récupération des articles:', articlesError.message);
+      console.warn('⚠️ Génération d\'un sitemap minimal sans articles de la DB');
+    } else {
+      articles = data || [];
+    }
+  } catch (error: any) {
+    console.warn('⚠️ Erreur de connexion lors de la récupération des articles:', error.message || error);
+    console.warn('⚠️ Génération d\'un sitemap minimal sans articles de la DB');
   }
 
-  const { data: scpiData, error: scpiError } = await supabase
-    .from('scpi')
-    .select('nom')
-    .order('nom');
+  // Tentative de récupération des SCPI avec gestion d'erreur
+  try {
+    const { data, error: scpiError } = await supabase
+      .from('scpi')
+      .select('nom')
+      .order('nom');
 
-  if (scpiError) {
-    console.error('❌ Erreur lors de la récupération des SCPI:', scpiError);
-    process.exit(1);
+    if (scpiError) {
+      console.warn('⚠️ Erreur lors de la récupération des SCPI:', scpiError.message);
+      console.warn('⚠️ Génération d\'un sitemap minimal sans SCPI de la DB');
+    } else {
+      scpiData = data || [];
+    }
+  } catch (error: any) {
+    console.warn('⚠️ Erreur de connexion lors de la récupération des SCPI:', error.message || error);
+    console.warn('⚠️ Génération d\'un sitemap minimal sans SCPI de la DB');
   }
 
   const scpiSlugs = scpiData?.map((scpi: SCPI) => {
@@ -224,4 +243,21 @@ ${articles?.filter((a: Article) => !['Légal', 'À propos'].includes(a.category 
   console.log(`   📄 Fichier: ${outputPath}`);
 }
 
-generateSitemap().catch(console.error);
+generateSitemap().catch((error) => {
+  console.error('❌ Erreur fatale lors de la génération du sitemap:', error);
+  // Ne pas faire échouer le build, générer un sitemap minimal
+  const today = new Date().toISOString().split('T')[0];
+  const minimalSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${siteUrl}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`;
+  const outputPath = join(__dirname, '..', 'public', 'sitemap.xml');
+  fs.writeFileSync(outputPath, minimalSitemap);
+  console.log('⚠️ Sitemap minimal généré en fallback');
+  process.exit(0); // Sortir avec succès pour ne pas bloquer le build
+});
