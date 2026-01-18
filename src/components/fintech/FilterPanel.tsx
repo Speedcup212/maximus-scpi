@@ -3,12 +3,15 @@ import { X, SlidersHorizontal, MapPin, Building2, Award, TrendingUp, Euro, Crown
 
 export type TMIValue = 0 | 11 | 30 | 41 | 45 | null;
 
+export type SectorThreshold = 'any' | '10' | '25' | '50' | '80'; // any = ≥0%, 10 = ≥10%, 25 = ≥25%, 50 = ≥50%, 80 = Pure player ≥80%
+
 export interface FilterState {
   tmi: TMIValue;
   minYield: number;
   priceRange: 'all' | 'accessible' | 'standard' | 'premium';
   geographies: string[];
   sectors: string[];
+  sectorThreshold: SectorThreshold; // Seuil minimum de pondération sectorielle
   hasISR: boolean | null;
   noEntryFees: boolean;
   expertMode: boolean;
@@ -73,6 +76,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       priceRange: 'all',
       geographies: [],
       sectors: [],
+      sectorThreshold: '25',
       hasISR: null,
       noEntryFees: false,
       expertMode: false,
@@ -328,10 +332,45 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 <div className="flex items-center gap-2 mb-3">
                   <Building2 className="w-4 h-4 text-slate-400" />
                   <label className="text-sm font-semibold text-slate-300">
-                    Secteurs
+                    Secteurs d'activité
                   </label>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                
+                {/* Sélecteur de seuil de pondération */}
+                {filters.sectors.length > 0 && (
+                  <div className="mb-4 p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                    <label className="block text-xs font-semibold text-slate-300 mb-2">
+                      Seuil minimum d'exposition
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { value: 'any' as const, label: 'Toute exposition', desc: '≥0%' },
+                        { value: '10' as const, label: 'Modérée', desc: '≥10%' },
+                        { value: '25' as const, label: 'Significative', desc: '≥25%' },
+                        { value: '50' as const, label: 'Dominante', desc: '≥50%' },
+                        { value: '80' as const, label: 'Pure player', desc: '≥80%' }
+                      ].map(option => (
+                        <button
+                          key={option.value}
+                          onClick={() => updateFilters({ sectorThreshold: option.value })}
+                          className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border ${
+                            filters.sectorThreshold === option.value
+                              ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30'
+                              : 'bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600'
+                          }`}
+                        >
+                          <div className="text-center">
+                            <div className="font-semibold">{option.label}</div>
+                            <div className="text-[10px] opacity-80">{option.desc}</div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Boutons de sélection des secteurs */}
+                <div className="flex flex-wrap gap-2 mb-3">
                   {SECTOR_OPTIONS.map(sector => (
                     <button
                       key={sector.label}
@@ -345,6 +384,21 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                       {sector.label}
                     </button>
                   ))}
+                </div>
+
+                {/* Texte pédagogique */}
+                <div className="mt-3 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="text-xs text-blue-200 leading-relaxed">
+                      <p className="font-semibold mb-1">Allocation sectorielle intelligente</p>
+                      <p>
+                        Ce filtre vous permet de cibler les SCPI selon leur exposition réelle à un secteur. 
+                        Plus le seuil est élevé, plus la SCPI est spécialisée dans le secteur choisi. 
+                        Les résultats sont triés par pertinence pour faciliter votre analyse patrimoniale.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,6 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText } from 'lucide-react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin } from 'lucide-react';
 import { scpiPages } from '../utils/landingPagesContent';
+import { scpiDataExtended } from '../data/scpiDataExtended';
+import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
+import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
 import Logo from './Logo';
 
 interface HeaderProps {
@@ -116,13 +119,31 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, [isEducationOpen, isScpiMenuOpen, isSimulateurMenuOpen, isEducationMobileOpen]);
 
-  const topScpiPages = scpiPages
-    .sort((a, b) => {
-      const rendA = parseFloat(a.statistics?.find(s => s.label === 'Rendement 2024')?.value || '0');
-      const rendB = parseFloat(b.statistics?.find(s => s.label === 'Rendement 2024')?.value || '0');
-      return rendB - rendA;
-    })
-    .slice(0, 5);
+  // Mapper les scpiPages avec les données scpiDataExtended pour calculer le secteur dominant
+  const scpiPagesWithData = useMemo(() => {
+    return scpiPages.map(page => {
+      const scpiData = scpiDataExtended.find(
+        s => s.name.toLowerCase() === page.scpiName?.toLowerCase()
+      );
+      return {
+        page,
+        scpi: scpiData,
+        dominantSector: scpiData ? getDominantSector(scpiData) : null
+      };
+    });
+  }, []);
+
+  // Top 5 SCPI par rendement (indicateur isolé)
+  const topScpiPages = useMemo(() => {
+    return scpiPagesWithData
+      .sort((a, b) => {
+        const rendA = parseFloat(a.page.statistics?.find(s => s.label === 'Rendement 2024')?.value?.replace('%', '') || '0');
+        const rendB = parseFloat(b.page.statistics?.find(s => s.label === 'Rendement 2024')?.value?.replace('%', '') || '0');
+        return rendB - rendA;
+      })
+      .slice(0, 5)
+      .map(item => item.page);
+  }, [scpiPagesWithData]);
 
   const filteredScpiPages = scpiSearch
     ? scpiPages.filter(page =>
@@ -130,15 +151,31 @@ const Header: React.FC<HeaderProps> = ({
       )
     : scpiPages;
 
-  const scpisBySector: Record<string, typeof scpiPages> = {
-    'Bureaux': scpiPages.filter(p => p.urlFilter?.sector === 'bureaux'),
-    'Commerces': scpiPages.filter(p => p.urlFilter?.sector === 'commerces'),
-    'Logistique': scpiPages.filter(p => p.urlFilter?.sector === 'logistique'),
-    'Santé': scpiPages.filter(p => p.urlFilter?.sector === 'sante'),
-    'Résidentiel': scpiPages.filter(p => p.urlFilter?.sector === 'residentiel'),
-    'Hôtellerie': scpiPages.filter(p => p.urlFilter?.sector === 'hotellerie'),
-    'Européennes': scpiPages.filter(p => p.urlFilter?.geo === 'europe')
-  };
+  // Grouper les SCPI par secteur dominant
+  const scpisByDominantSector = useMemo(() => {
+    const itemsWithScpi = scpiPagesWithData
+      .filter(item => item.scpi !== undefined)
+      .map(item => ({
+        scpi: item.scpi!,
+        slug: item.page.slug,
+        scpiName: item.page.scpiName
+      }));
+
+    return groupScpisByDominantSector(itemsWithScpi);
+  }, [scpiPagesWithData]);
+
+  // Grouper les SCPI par géographie dominante
+  const scpisByDominantGeography = useMemo(() => {
+    const itemsWithScpi = scpiPagesWithData
+      .filter(item => item.scpi !== undefined)
+      .map(item => ({
+        scpi: item.scpi!,
+        slug: item.page.slug,
+        scpiName: item.page.scpiName
+      }));
+
+    return groupScpisByDominantGeography(itemsWithScpi);
+  }, [scpiPagesWithData]);
 
   const educationCategories = [
     { id: 'bases', label: 'Bases des SCPI', icon: '📚' },
@@ -310,78 +347,227 @@ const Header: React.FC<HeaderProps> = ({
                       )
                     ) : (
                       <>
-                        {/* Top 5 Rendements */}
+                        {/* Top 5 Rendements - Indicateur isolé */}
                         <div className="py-2">
-                          <div className="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 sticky top-0 flex items-center gap-2">
-                            <span>⭐</span> Top 5 Rendements 2024
+                          <div className="px-4 py-2.5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 sticky top-0 border-b border-blue-100 dark:border-blue-800/30">
+                            <div className="flex items-center gap-2 mb-1">
+                              <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                Top 5 par rendement
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                              Classement basé uniquement sur le rendement 2024. Indicateur isolé, ne constitue pas une recommandation d'investissement.
+                            </p>
                           </div>
-                          {topScpiPages.map((page, index) => (
-                            <button
-                              key={page.slug}
-                              onClick={() => {
-                                resetAllHeaderStates();
-                                if (onScpiPageClick) {
-                                  onScpiPageClick(page.slug);
-                                }
-                              }}
-                              className="block w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
-                            >
-                              <div className="flex items-center gap-3">
-                                <span className="text-lg font-bold text-green-600 dark:text-green-400 w-6">#{index + 1}</span>
-                                <div className="flex-1">
-                                  <div className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" translate="no">
-                                    {page.scpiName}
-                                  </div>
-                                  <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-3">
-                                    <span className="font-bold text-green-600 dark:text-green-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
-                                    <span>•</span>
-                                    <span>{page.statistics?.find(s => s.label === 'Capitalisation')?.value || 'N/A'}</span>
+                          {topScpiPages.map((page, index) => {
+                            const itemData = scpiPagesWithData.find(p => p.page.slug === page.slug);
+                            return (
+                              <button
+                                key={page.slug}
+                                onClick={() => {
+                                  resetAllHeaderStates();
+                                  if (onScpiPageClick) {
+                                    onScpiPageClick(page.slug);
+                                  }
+                                }}
+                                className="block w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400 w-6 flex-shrink-0">#{index + 1}</span>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
+                                      {page.scpiName}
+                                    </div>
+                                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
+                                      <span className="font-semibold text-blue-600 dark:text-blue-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                      {itemData?.dominantSector && (
+                                        <>
+                                          <span>•</span>
+                                          <span className="text-gray-500 dark:text-gray-500">{itemData.dominantSector.label}</span>
+                                        </>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </button>
-                          ))}
+                              </button>
+                            );
+                          })}
                         </div>
-                        {/* Par Secteur */}
+                        
+                        {/* SCPI par secteur dominant */}
                         <div className="py-2 border-t-2 border-gray-200 dark:border-gray-700">
-                          <div className="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-50 dark:bg-gray-900/50 sticky top-0">
-                            Par Secteur
+                          <div className="px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 sticky top-0 border-b border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center gap-2 mb-1">
+                              <Calculator className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                Par secteur dominant
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                              Classification selon le secteur représentant la plus forte pondération dans le patrimoine. Seuil de qualification : ≥40% pour "dominant", ≥80% pour "pure player".
+                            </p>
                           </div>
-                          {Object.entries(scpisBySector).map(([sector, pages]) => (
-                            pages.length > 0 && (
+                          {SECTOR_DISPLAY_ORDER.map((sector) => {
+                            const pages = scpisByDominantSector[sector];
+                            if (!pages || pages.length === 0) return null;
+
+                            // Calculer le label de qualification pour ce secteur
+                            const sampleScpi = pages[0]?.scpi;
+                            const dominantInfo = sampleScpi ? getDominantSector(sampleScpi) : null;
+                            const qualificationLabel = dominantInfo?.label || sector;
+
+                            return (
                               <details key={sector} className="group/sector" open>
-                                <summary className="px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors list-none flex items-center justify-between">
-                                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
-                                    {sector}
-                                    <span className="text-xs text-gray-500 dark:text-gray-500">({pages.length})</span>
-                                  </span>
-                                  <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform" />
+                                <summary className="px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors list-none flex items-center justify-between cursor-pointer">
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                                      {sector}
+                                    </span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-500 flex-shrink-0">
+                                      ({pages.length})
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      resetAllHeaderStates();
+                                      if (onComparateurClick) {
+                                        onComparateurClick();
+                                        // TODO: Filtrer le comparateur par secteur
+                                        // On pourrait passer un paramètre pour pré-remplir le filtre
+                                      }
+                                    }}
+                                    className="ml-2 px-2 py-1 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded flex items-center gap-1 transition-colors flex-shrink-0"
+                                    title="Voir dans le comparateur"
+                                  >
+                                    <ArrowRight className="w-3 h-3" />
+                                  </button>
+                                  <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform ml-2 flex-shrink-0" />
                                 </summary>
                                 <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
-                                  {pages.map((page) => (
-                                    <button
-                                      key={page.slug}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        resetAllHeaderStates();
-                                        if (onScpiPageClick) {
-                                          onScpiPageClick(page.slug);
-                                        }
-                                      }}
-                                      className="block w-full px-6 py-2.5 text-left hover:bg-green-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
-                                    >
-                                      <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" translate="no">
-                                        {page.scpiName}
-                                      </div>
-                                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">
-                                        {page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}
-                                      </div>
-                                    </button>
-                                  ))}
+                                  {pages.map((item) => {
+                                    const page = scpiPages.find(p => p.slug === item.slug);
+                                    const dominantInfo = getDominantSector(item.scpi);
+                                    return (
+                                      <button
+                                        key={item.slug}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          resetAllHeaderStates();
+                                          if (onScpiPageClick) {
+                                            onScpiPageClick(item.slug);
+                                          }
+                                        }}
+                                        className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
+                                      >
+                                        <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
+                                          {item.scpiName}
+                                        </div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
+                                          <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                          {dominantInfo.percentage > 0 && (
+                                            <>
+                                              <span>•</span>
+                                              <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                            </>
+                                          )}
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
                                 </div>
                               </details>
-                            )
-                          ))}
+                            );
+                          })}
+                        </div>
+                        
+                        {/* SCPI par géographie dominante */}
+                        <div className="py-2 border-t-2 border-gray-200 dark:border-gray-700">
+                          <div className="px-4 py-2.5 bg-gray-50 dark:bg-gray-900/50 sticky top-0 border-b border-gray-200 dark:border-gray-700">
+                            <div className="flex items-center gap-2 mb-1">
+                              <MapPin className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                Par géographie dominante
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                              Classification selon la zone géographique représentant la plus forte pondération. Seuil de qualification : ≥50% pour "dominant", ≥80% pour "pure player".
+                            </p>
+                          </div>
+                          {GEOGRAPHY_DISPLAY_ORDER.map((geography) => {
+                            const pages = scpisByDominantGeography[geography];
+                            if (!pages || pages.length === 0) return null;
+
+                            // Calculer le label de qualification pour cette géographie
+                            const sampleScpi = pages[0]?.scpi;
+                            const dominantInfo = sampleScpi ? getDominantGeography(sampleScpi) : null;
+                            const qualificationLabel = dominantInfo?.label || geography;
+
+                            return (
+                              <details key={geography} className="group/sector" open>
+                                <summary className="px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors list-none flex items-center justify-between cursor-pointer">
+                                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
+                                      {geography}
+                                    </span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-500 flex-shrink-0">
+                                      ({pages.length})
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      resetAllHeaderStates();
+                                      if (onComparateurClick) {
+                                        onComparateurClick();
+                                        // TODO: Filtrer le comparateur par géographie
+                                      }
+                                    }}
+                                    className="ml-2 px-2 py-1 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded flex items-center gap-1 transition-colors flex-shrink-0"
+                                    title="Voir dans le comparateur"
+                                  >
+                                    <ArrowRight className="w-3 h-3" />
+                                  </button>
+                                  <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform ml-2 flex-shrink-0" />
+                                </summary>
+                                <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
+                                  {pages.map((item) => {
+                                    const page = scpiPages.find(p => p.slug === item.slug);
+                                    const dominantInfo = getDominantGeography(item.scpi);
+                                    return (
+                                      <button
+                                        key={item.slug}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          resetAllHeaderStates();
+                                          if (onScpiPageClick) {
+                                            onScpiPageClick(item.slug);
+                                          }
+                                        }}
+                                        className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
+                                      >
+                                        <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
+                                          {item.scpiName}
+                                        </div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
+                                          <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                          {dominantInfo.percentage > 0 && (
+                                            <>
+                                              <span>•</span>
+                                              <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                            </>
+                                          )}
+                                        </div>
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </details>
+                            );
+                          })}
                         </div>
                       </>
                     )}
@@ -722,46 +908,74 @@ const Header: React.FC<HeaderProps> = ({
                           <>
                             {/* Top 5 Mobile */}
                             <div>
-                              <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-3 py-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                                ⭐ Top 5 Rendements 2024
+                              <div className="px-3 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-100 dark:border-blue-800/30">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <TrendingUp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                    Top 5 par rendement
+                                  </span>
+                                </div>
+                                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                                  Indicateur isolé, ne constitue pas une recommandation.
+                                </p>
                               </div>
                               <div className="mt-2 space-y-1">
-                                {topScpiPages.map((page, index) => (
-                                  <button
-                                    key={page.slug}
-                                    onClick={() => {
-                                      resetAllHeaderStates();
-                                      setScpiSearch('');
-                                      if (onScpiPageClick) {
-                                        onScpiPageClick(page.slug);
-                                      }
-                                    }}
-                                    className="block w-full text-left py-2.5 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
-                                  >
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-sm font-bold text-green-600 dark:text-green-400 min-w-[1.5rem]">#{index + 1}</span>
-                                      <div className="flex-1 min-w-0">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
-                                          {page.scpiName}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                          {page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}
+                                {topScpiPages.map((page, index) => {
+                                  const itemData = scpiPagesWithData.find(p => p.page.slug === page.slug);
+                                  return (
+                                    <button
+                                      key={page.slug}
+                                      onClick={() => {
+                                        resetAllHeaderStates();
+                                        setScpiSearch('');
+                                        if (onScpiPageClick) {
+                                          onScpiPageClick(page.slug);
+                                        }
+                                      }}
+                                      className="block w-full text-left py-2.5 px-3 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm font-bold text-blue-600 dark:text-blue-400 min-w-[1.5rem]">#{index + 1}</span>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
+                                            {page.scpiName}
+                                          </div>
+                                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
+                                            <span className="font-semibold text-blue-600 dark:text-blue-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                            {itemData?.dominantSector && (
+                                              <>
+                                                <span>•</span>
+                                                <span className="text-gray-400 dark:text-gray-500">{itemData.dominantSector.label}</span>
+                                              </>
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </button>
-                                ))}
+                                    </button>
+                                  );
+                                })}
                               </div>
                             </div>
 
-                            {/* Par Secteur Mobile */}
+                            {/* Par Secteur Dominant Mobile */}
                             <div>
-                              <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-3 py-2">
-                                Par Secteur
+                              <div className="px-3 py-2 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700 mb-2">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Calculator className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
+                                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                    Par secteur dominant
+                                  </span>
+                                </div>
+                                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                                  Classification selon la plus forte pondération. Seuil : ≥40% "dominant", ≥80% "pure player".
+                                </p>
                               </div>
-                              <div className="space-y-1 mt-2">
-                                {Object.entries(scpisBySector).map(([sector, pages]) => (
-                                  pages.length > 0 && (
+                              <div className="space-y-1">
+                                {SECTOR_DISPLAY_ORDER.map((sector) => {
+                                  const pages = scpisByDominantSector[sector];
+                                  if (!pages || pages.length === 0) return null;
+
+                                  return (
                                     <details key={sector} className="group/sector" open>
                                       <summary className="px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 list-none flex items-center justify-between active:scale-[0.98] touch-manipulation">
                                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -770,31 +984,106 @@ const Header: React.FC<HeaderProps> = ({
                                         <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform duration-200 flex-shrink-0" />
                                       </summary>
                                       <div className="mt-1 ml-3 space-y-1 pb-1">
-                                        {pages.map((page) => (
-                                          <button
-                                            key={page.slug}
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              resetAllHeaderStates();
-                                              setScpiSearch('');
-                                              if (onScpiPageClick) {
-                                                onScpiPageClick(page.slug);
-                                              }
-                                            }}
-                                            className="block w-full text-left py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
-                                          >
-                                            <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
-                                              {page.scpiName}
-                                            </div>
-                                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                              {page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}
-                                            </div>
-                                          </button>
-                                        ))}
+                                        {pages.map((item) => {
+                                          const page = scpiPages.find(p => p.slug === item.slug);
+                                          const dominantInfo = getDominantSector(item.scpi);
+                                          return (
+                                            <button
+                                              key={item.slug}
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                resetAllHeaderStates();
+                                                setScpiSearch('');
+                                                if (onScpiPageClick) {
+                                                  onScpiPageClick(item.slug);
+                                                }
+                                              }}
+                                              className="block w-full text-left py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
+                                            >
+                                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
+                                                {item.scpiName}
+                                              </div>
+                                              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-2">
+                                                <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                                {dominantInfo.percentage > 0 && (
+                                                  <>
+                                                    <span>•</span>
+                                                    <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                                  </>
+                                                )}
+                                              </div>
+                                            </button>
+                                          );
+                                        })}
                                       </div>
                                     </details>
-                                  )
-                                ))}
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* Par Géographie Dominante Mobile */}
+                            <div>
+                              <div className="px-3 py-2 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700 mb-2">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <MapPin className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" />
+                                  <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                    Par géographie dominante
+                                  </span>
+                                </div>
+                                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                                  Classification selon la plus forte pondération géographique. Seuil : ≥50% "dominant", ≥80% "pure player".
+                                </p>
+                              </div>
+                              <div className="space-y-1">
+                                {GEOGRAPHY_DISPLAY_ORDER.map((geography) => {
+                                  const pages = scpisByDominantGeography[geography];
+                                  if (!pages || pages.length === 0) return null;
+
+                                  return (
+                                    <details key={geography} className="group/sector" open>
+                                      <summary className="px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 list-none flex items-center justify-between active:scale-[0.98] touch-manipulation">
+                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                          {geography} <span className="text-xs text-gray-500">({pages.length})</span>
+                                        </span>
+                                        <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform duration-200 flex-shrink-0" />
+                                      </summary>
+                                      <div className="mt-1 ml-3 space-y-1 pb-1">
+                                        {pages.map((item) => {
+                                          const page = scpiPages.find(p => p.slug === item.slug);
+                                          const dominantInfo = getDominantGeography(item.scpi);
+                                          return (
+                                            <button
+                                              key={item.slug}
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                resetAllHeaderStates();
+                                                setScpiSearch('');
+                                                if (onScpiPageClick) {
+                                                  onScpiPageClick(item.slug);
+                                                }
+                                              }}
+                                              className="block w-full text-left py-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
+                                            >
+                                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
+                                                {item.scpiName}
+                                              </div>
+                                              <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-2">
+                                                <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                                {dominantInfo.percentage > 0 && (
+                                                  <>
+                                                    <span>•</span>
+                                                    <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                                  </>
+                                                )}
+                                              </div>
+                                            </button>
+                                          );
+                                        })}
+                                      </div>
+                                    </details>
+                                  );
+                                })}
                               </div>
                             </div>
                           </>

@@ -11,6 +11,7 @@ import AnalysisDetailModal from './AnalysisDetailModal';
 import { SimulationModal } from '../simulation';
 import FilterPanel, { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
+import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 
 type ViewMode = 'grid' | 'list';
 
@@ -33,6 +34,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     priceRange: 'all',
     geographies: [],
     sectors: [],
+    sectorThreshold: '25', // Par défaut : exposition significative (≥25%)
     hasISR: null,
     noEntryFees: false,
     expertMode: false,
@@ -91,45 +93,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     }
 
     if (filters.sectors.length > 0) {
-      // Mapping des secteurs avec leurs keywords
-      const sectorKeywords: Record<string, string[]> = {
-        'Bureaux': ['bureau', 'tertiaire'],
-        'Commerces': ['commerce', 'retail', 'alimentaire', 'galerie'],
-        'Logistique': ['logistique', 'entrepôt', 'entrepot', 'activité', 'activite', 'transport', 'messagerie'],
-        'Santé': ['santé', 'sante', 'ehpad', 'clinique', 'hôpital', 'hopital', 'médical', 'medical'],
-        'Résidentiel': ['résidentiel', 'residentiel', 'logement', 'habitation', 'résidence', 'residence'],
-        'Hôtellerie': ['hôtel', 'hotel', 'hotellerie', 'tourisme', 'loisir', 'séminaire', 'seminaire'],
-        'Éducation': ['éducation', 'education', 'enseignement', 'école', 'ecole', 'université', 'universite']
-      };
-
-      // Fonction helper pour normaliser les chaînes (enlever accents, minuscules)
-      const normalize = (str: string): string => {
-        return str.toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .trim();
-      };
-
-      // Vérifier si la catégorie correspond
-      const categoryMatch = filters.sectors.some(filterSector => {
-        const keywords = sectorKeywords[filterSector] || [filterSector.toLowerCase()];
-        return keywords.some(keyword => 
-          normalize(scpi.category).includes(normalize(keyword))
-        );
-      });
-
-      // Vérifier si les secteurs de la SCPI correspondent
-      const sectorsMatch = scpi.sectors.some(scpiSector => {
-        const normalizedSectorName = normalize(scpiSector.name);
-        return filters.sectors.some(filterSector => {
-          const keywords = sectorKeywords[filterSector] || [filterSector.toLowerCase()];
-          return keywords.some(keyword => 
-            normalizedSectorName.includes(normalize(keyword))
-          );
-        });
-      });
-
-      if (!categoryMatch && !sectorsMatch) return false;
+      // Utiliser la nouvelle logique de filtrage avec seuil
+      if (!matchesSectorFilter(scpi, filters.sectors, filters.sectorThreshold)) {
+        return false;
+      }
     }
 
     if (filters.expertMode) {
@@ -157,16 +124,29 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
   };
 
   // Créer une copie profonde pour éviter les mutations sur des tableaux gelés en production
-  const filteredData = sortSCPIByTaxOptimization(
-    [...scpiDataExtended].filter(scpi =>
-      (scpi.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      scpi.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      scpi.managementCompany.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      applyFilters(scpi)
-    ),
-    filters.tmi,
-    sortBy
+  let filteredData = [...scpiDataExtended].filter(scpi =>
+    (scpi.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    scpi.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    scpi.managementCompany.toLowerCase().includes(searchQuery.toLowerCase())) &&
+    applyFilters(scpi)
   );
+
+  // Si un filtre sectoriel est actif, trier par score de pertinence sectorielle
+  if (filters.sectors.length > 0) {
+    filteredData = filteredData.map(scpi => ({
+      scpi,
+      sectorScore: calculateSectorRelevanceScore(scpi, filters.sectors, filters.sectorThreshold)
+    })).sort((a, b) => {
+      // Trier d'abord par score sectoriel (décroissant), puis par optimisation fiscale
+      if (b.sectorScore !== a.sectorScore) {
+        return b.sectorScore - a.sectorScore;
+      }
+      return 0; // On garde l'ordre original pour les scores égaux
+    }).map(item => item.scpi);
+  }
+
+  // Appliquer le tri par optimisation fiscale
+  filteredData = sortSCPIByTaxOptimization(filteredData, filters.tmi, sortBy);
 
   const itemsPerPage = viewMode === 'grid' ? 9 : 15;
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -191,7 +171,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     (filters.minYield > 0 ? 1 : 0) +
     (filters.priceRange !== 'all' ? 1 : 0) +
     filters.geographies.length +
-    filters.sectors.length +
+    (filters.sectors.length > 0 ? 1 : 0) + // Compter le filtre sectoriel comme 1 même si plusieurs secteurs
+    (filters.sectorThreshold !== '25' ? 1 : 0) + // Compter si le seuil n'est pas le défaut
     (filters.hasISR !== null && filters.hasISR !== undefined ? 1 : 0) +
     (filters.noEntryFees ? 1 : 0) +
     (filters.expertMode ? (
@@ -204,9 +185,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
   return (
     <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-slate-800 border-b border-slate-700 shadow-xl">
+      <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pr-[25rem] py-4">
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between">
               <div>
                 {!hideTitle && (
@@ -273,7 +254,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
             </div>
 
             {/* Search Bar Wrapper */}
-            <div className="w-full max-w-4xl mx-auto mb-12 relative z-20">
+            <div className="w-full max-w-4xl mx-auto relative z-20">
               <div className="flex items-center gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
@@ -319,10 +300,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
       {/* Main Layout */}
       <div className="flex">
         {/* Main Content */}
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 pt-12 pb-24 lg:pb-6">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 pt-6 pb-24 lg:pb-6">
           <div className="max-w-7xl mx-auto">
-            {/* Spacer between search bar and results */}
-            <div className="w-full h-10 sm:h-12 my-4 shrink-0"></div>
 
             {filteredData.length === 0 ? (
               <div className="text-center py-16">
