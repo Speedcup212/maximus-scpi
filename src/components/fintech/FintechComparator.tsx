@@ -91,14 +91,44 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     }
 
     if (filters.sectors.length > 0) {
-      const categoryMatch = filters.sectors.some(sector =>
-        scpi.category.toLowerCase().includes(sector.toLowerCase())
-      );
-      const sectorsMatch = scpi.sectors.some(sector =>
-        filters.sectors.some(filterSector =>
-          sector.name.toLowerCase().includes(filterSector.toLowerCase())
-        )
-      );
+      // Mapping des secteurs avec leurs keywords
+      const sectorKeywords: Record<string, string[]> = {
+        'Bureaux': ['bureau', 'tertiaire'],
+        'Commerces': ['commerce', 'retail', 'alimentaire', 'galerie'],
+        'Logistique': ['logistique', 'entrepôt', 'entrepot', 'activité', 'activite', 'transport', 'messagerie'],
+        'Santé': ['santé', 'sante', 'ehpad', 'clinique', 'hôpital', 'hopital', 'médical', 'medical'],
+        'Résidentiel': ['résidentiel', 'residentiel', 'logement', 'habitation', 'résidence', 'residence'],
+        'Hôtellerie': ['hôtel', 'hotel', 'hotellerie', 'tourisme', 'loisir', 'séminaire', 'seminaire'],
+        'Éducation': ['éducation', 'education', 'enseignement', 'école', 'ecole', 'université', 'universite']
+      };
+
+      // Fonction helper pour normaliser les chaînes (enlever accents, minuscules)
+      const normalize = (str: string): string => {
+        return str.toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .trim();
+      };
+
+      // Vérifier si la catégorie correspond
+      const categoryMatch = filters.sectors.some(filterSector => {
+        const keywords = sectorKeywords[filterSector] || [filterSector.toLowerCase()];
+        return keywords.some(keyword => 
+          normalize(scpi.category).includes(normalize(keyword))
+        );
+      });
+
+      // Vérifier si les secteurs de la SCPI correspondent
+      const sectorsMatch = scpi.sectors.some(scpiSector => {
+        const normalizedSectorName = normalize(scpiSector.name);
+        return filters.sectors.some(filterSector => {
+          const keywords = sectorKeywords[filterSector] || [filterSector.toLowerCase()];
+          return keywords.some(keyword => 
+            normalizedSectorName.includes(normalize(keyword))
+          );
+        });
+      });
+
       if (!categoryMatch && !sectorsMatch) return false;
     }
 

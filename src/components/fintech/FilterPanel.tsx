@@ -27,7 +27,17 @@ interface FilterPanelProps {
 }
 
 const GEOGRAPHY_OPTIONS = ['France', 'Europe', 'International'];
-const SECTOR_OPTIONS = ['Santé', 'Logistique', 'Bureaux', 'Commerces', 'Résidentiel', 'Diversifiée'];
+
+// Secteurs principaux avec leurs variantes de noms
+const SECTOR_OPTIONS = [
+  { label: 'Bureaux', keywords: ['bureau', 'tertiaire'] },
+  { label: 'Commerces', keywords: ['commerce', 'retail', 'alimentaire', 'galerie'] },
+  { label: 'Logistique', keywords: ['logistique', 'entrepôt', 'entrepot', 'activité', 'activite', 'transport', 'messagerie'] },
+  { label: 'Santé', keywords: ['santé', 'sante', 'ehpad', 'clinique', 'hôpital', 'hopital', 'médical', 'medical'] },
+  { label: 'Résidentiel', keywords: ['résidentiel', 'residentiel', 'logement', 'habitation', 'résidence', 'residence'] },
+  { label: 'Hôtellerie', keywords: ['hôtel', 'hotel', 'hotellerie', 'tourisme', 'loisir', 'séminaire', 'seminaire'] },
+  { label: 'Éducation', keywords: ['éducation', 'education', 'enseignement', 'école', 'ecole', 'université', 'universite'] }
+];
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
   isOpen,
@@ -49,10 +59,10 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     updateFilters({ geographies: newGeographies });
   };
 
-  const toggleSector = (sector: string) => {
-    const newSectors = filters.sectors.includes(sector)
-      ? filters.sectors.filter(s => s !== sector)
-      : [...filters.sectors, sector];
+  const toggleSector = (sectorLabel: string) => {
+    const newSectors = filters.sectors.includes(sectorLabel)
+      ? filters.sectors.filter(s => s !== sectorLabel)
+      : [...filters.sectors, sectorLabel];
     updateFilters({ sectors: newSectors });
   };
 
@@ -324,15 +334,15 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 <div className="flex flex-wrap gap-2">
                   {SECTOR_OPTIONS.map(sector => (
                     <button
-                      key={sector}
-                      onClick={() => toggleSector(sector)}
+                      key={sector.label}
+                      onClick={() => toggleSector(sector.label)}
                       className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                        filters.sectors.includes(sector)
+                        filters.sectors.includes(sector.label)
                           ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/30'
                           : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                       }`}
                     >
-                      {sector}
+                      {sector.label}
                     </button>
                   ))}
                 </div>
