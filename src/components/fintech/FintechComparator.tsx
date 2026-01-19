@@ -158,10 +158,6 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     setCurrentPage(1);
   }, [searchQuery, sortBy, viewMode, filters]);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
-
   const handleAnalyze = (scpi: SCPIExtended) => {
     setAnalysisScpi(scpi);
   };
@@ -322,7 +318,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
             ) : (
               <>
                 {viewMode === 'grid' ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                     {paginatedData.map(scpi => (
                       <SCPICardDark
                         key={scpi.id}
@@ -353,7 +349,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
                               SCPI
                             </th>
                             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Géographie / Secteur
+                              Catégorie
                             </th>
                             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                               Rendement
@@ -391,7 +387,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
                 )}
 
                 {viewMode === 'list' && (
-                  <div className="md:hidden grid grid-cols-1 gap-6">
+                  <div className="md:hidden mt-16 grid grid-cols-1 gap-6">
                     {paginatedData.map(scpi => (
                       <SCPICardDark
                         key={scpi.id}
