@@ -694,7 +694,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
       {/* Pop-up de résultat de la sélection */}
       {isResultOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 flex items-center justify-center p-2 sm:p-4">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 flex items-start justify-center pt-12 sm:pt-20 px-2 sm:px-4">
           <div className="relative w-full max-w-4xl bg-slate-900 rounded-xl sm:rounded-2xl border border-slate-700 shadow-2xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
             <div className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4 border-b border-slate-700 flex-shrink-0">
               <h2 className="text-base sm:text-lg font-bold text-white">Résultat de votre sélection</h2>
@@ -706,7 +706,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               </button>
             </div>
 
-            <div className="px-3 sm:px-6 py-3 sm:py-4 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
+            <div className="px-3 sm:px-6 py-3 sm:py-4 mt-10 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
               {/* Avis Maximusscpi */}
               <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
@@ -884,8 +884,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       ) : (
                         <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point fort identifié</p>
                       )}
-                    </div>
-                    
+              </div>
+
                     {/* Inconvénients */}
                     <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
