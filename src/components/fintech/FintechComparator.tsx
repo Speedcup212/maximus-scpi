@@ -353,7 +353,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
                               SCPI
                             </th>
                             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Catégorie
+                              Géographie / Secteur
                             </th>
                             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                               Rendement

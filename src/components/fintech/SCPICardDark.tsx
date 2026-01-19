@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles, MapPin } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, calculateNetYield, shouldOptimizeForTax } from '../../utils/taxOptimization';
+import { getGeographyColorScheme, PERFORMANCE_COLORS, getSectorOutlineColor } from '../../utils/scpiColors';
+import { getDominantGeography } from '../../utils/dominantGeography';
 
 interface SCPICardDarkProps {
   scpi: SCPIExtended;
@@ -18,6 +20,10 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const netYield = userTmi !== null ? calculateNetYield(scpi.yield, userTmi, isEuropean) : null;
+  
+  // Système de couleurs basé sur la géographie dominante
+  const geoColors = getGeographyColorScheme(scpi);
+  const dominantGeo = getDominantGeography(scpi);
 
   const getSectorIcon = (sectorName: string) => {
     const name = sectorName.toLowerCase();
@@ -31,49 +37,14 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
     return TreePine;
   };
 
+  // Secteurs en mode discret (outline uniquement)
   const getSectorColor = (sectorName: string) => {
-    const name = sectorName.toLowerCase();
-    if (name.includes('santé') || name.includes('ehpad')) return {
-      bg: 'bg-pink-500/10',
-      text: 'text-pink-400',
-      border: 'border-pink-500/30',
-      icon: 'text-pink-400'
-    };
-    if (name.includes('résidentiel') || name.includes('habitation')) return {
-      bg: 'bg-green-500/10',
-      text: 'text-green-400',
-      border: 'border-green-500/30',
-      icon: 'text-green-400'
-    };
-    if (name.includes('commerce') || name.includes('retail')) return {
-      bg: 'bg-orange-500/10',
-      text: 'text-orange-400',
-      border: 'border-orange-500/30',
-      icon: 'text-orange-400'
-    };
-    if (name.includes('logistique') || name.includes('entrepôt')) return {
-      bg: 'bg-amber-500/10',
-      text: 'text-amber-400',
-      border: 'border-amber-500/30',
-      icon: 'text-amber-400'
-    };
-    if (name.includes('bureau')) return {
-      bg: 'bg-blue-500/10',
-      text: 'text-blue-400',
-      border: 'border-blue-500/30',
-      icon: 'text-blue-400'
-    };
-    if (name.includes('hôtel') || name.includes('tourisme')) return {
-      bg: 'bg-purple-500/10',
-      text: 'text-purple-400',
-      border: 'border-purple-500/30',
-      icon: 'text-purple-400'
-    };
+    const outline = getSectorOutlineColor(sectorName);
     return {
-      bg: 'bg-slate-500/10',
-      text: 'text-slate-400',
-      border: 'border-slate-500/30',
-      icon: 'text-slate-400'
+      bg: outline.bg,
+      text: outline.text,
+      border: outline.border,
+      icon: outline.text
     };
   };
 
@@ -106,39 +77,45 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
         isSelected ? 'border-orange-500 shadow-xl shadow-orange-500/20' : 'border-slate-700 hover:border-slate-600'
       }`}
     >
+      {/* Bandeau géographie dominante - Couleur principale */}
+      <div 
+        className="h-1.5"
+        style={{ backgroundColor: geoColors.primary }}
+      />
+
       {/* Header - Compact */}
       <div className={`p-3 border-b transition-colors ${
         isSelected ? 'bg-orange-500/10 border-orange-500/30' : 'bg-slate-900/50 border-slate-700'
       }`}>
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="flex items-center gap-2 flex-1">
-            <div className="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-emerald-400" />
+            <div 
+              className="w-10 h-10 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: `${geoColors.primary}20` }}
+            >
+              <Building2 className="w-5 h-5" style={{ color: geoColors.primary }} />
             </div>
-            <div>
-              <h3 className="text-base font-bold text-white leading-tight">{scpi.name}</h3>
-              <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-base font-bold text-white leading-tight truncate">{scpi.name}</h3>
+              <p className="text-xs text-slate-400 truncate">{scpi.managementCompany}</p>
             </div>
           </div>
           {isSelected && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-orange-500 text-white rounded-full text-xs font-bold">
+            <div className="flex items-center gap-1 px-2 py-1 bg-orange-500 text-white rounded-full text-xs font-bold flex-shrink-0">
               <Check className="w-3 h-3" />
               <span>Choisie</span>
             </div>
           )}
         </div>
 
-        {/* Main Sector Badge & Tax Optimization Badge */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {mainSector ? (
-            <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border ${getSectorColor(mainSector.name).bg} ${getSectorColor(mainSector.name).text} ${getSectorColor(mainSector.name).border}`}>
-              {mainSector.name} {mainSector.value.toFixed(0)}%
-            </span>
-          ) : (
-            <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
-              {scpi.category}
-            </span>
-          )}
+        {/* Badge Géographie Dominante */}
+        <div className="flex items-center gap-2 flex-wrap mb-2">
+          <span 
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-semibold border ${geoColors.badgeBg} ${geoColors.badgeText} ${geoColors.badgeBorder}`}
+          >
+            <MapPin className="w-3 h-3" />
+            {dominantGeo.label}
+          </span>
           {showTaxOptimization && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Sparkles className="w-3 h-3" />
@@ -146,10 +123,19 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
             </span>
           )}
         </div>
+
+        {/* Secteur principal - Discret (outline) */}
+        {mainSector && (
+          <div className="flex items-center gap-2">
+            <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-medium border ${getSectorColor(mainSector.name).border} ${getSectorColor(mainSector.name).text} bg-transparent`}>
+              {mainSector.name} {mainSector.value.toFixed(0)}%
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Hero Yield - Compact */}
-      <div className="bg-gradient-to-br from-emerald-600 to-emerald-500 p-4 text-white">
+      {/* Hero Yield - Performance (Vert uniquement) */}
+      <div className={`bg-gradient-to-br ${PERFORMANCE_COLORS.bgGradient} p-4 text-white`}>
         <div className="flex items-center justify-between">
           <div className="flex-1">
             <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
@@ -191,29 +177,40 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
       {/* Expandable Section */}
       {isExpanded && (
         <div className="p-3 bg-slate-900/50 border-t border-slate-700 space-y-3">
-          {/* Top Sectors - Moved from header */}
+          {/* Top Sectors - Mini barres horizontales discrètes */}
           <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
-              Secteurs Principaux
+              Répartition Sectorielle
             </p>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {topSectors.map((sector) => {
                 const Icon = getSectorIcon(sector.name);
                 const colors = getSectorColor(sector.name);
                 return (
                   <div
                     key={sector.name}
-                    className={`flex items-center gap-2 px-2 py-1.5 rounded-lg border ${colors.bg} ${colors.border}`}
+                    className="group relative"
+                    title={`${sector.name}: ${sector.value.toFixed(1)}%`}
                   >
-                    <Icon className={`w-4 h-4 ${colors.icon} flex-shrink-0`} />
-                    <div className="flex-1 min-w-0">
-                      <span className={`text-xs font-medium ${colors.text}`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Icon className={`w-3.5 h-3.5 ${colors.icon} flex-shrink-0`} />
+                      <span className={`text-xs font-medium ${colors.text} flex-1 truncate`}>
                         {sector.name}
                       </span>
+                      <span className={`text-xs font-semibold ${colors.text} flex-shrink-0`}>
+                        {sector.value.toFixed(0)}%
+                      </span>
                     </div>
-                    <span className={`text-xs font-bold ${colors.text}`}>
-                      {sector.value.toFixed(0)}%
-                    </span>
+                    {/* Mini barre horizontale */}
+                    <div className="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          width: `${sector.value}%`,
+                          backgroundColor: `${geoColors.primary}40`
+                        }}
+                      />
+                    </div>
                   </div>
                 );
               })}
@@ -231,31 +228,43 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
             </div>
           </div>
 
-          {/* All Sectors List */}
+          {/* All Sectors List - Mini barres */}
           {sortedSectors.length > 3 && (
             <div className="bg-slate-800 rounded-lg p-3 border border-slate-700">
               <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">
                 Tous les Secteurs
               </p>
-              <div className="space-y-1">
+              <div className="space-y-1.5">
                 {sortedSectors
+                  .slice(3)
                   .map((sector) => {
                     const Icon = getSectorIcon(sector.name);
                     const colors = getSectorColor(sector.name);
                     return (
                       <div
                         key={sector.name}
-                        className="flex items-center justify-between py-1"
+                        className="group relative"
+                        title={`${sector.name}: ${sector.value.toFixed(1)}%`}
                       >
-                        <div className="flex items-center gap-2">
-                          <Icon className={`w-3.5 h-3.5 ${colors.icon}`} />
-                          <span className="text-xs text-slate-300">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <Icon className={`w-3 h-3 ${colors.icon} flex-shrink-0`} />
+                          <span className="text-xs text-slate-400 flex-1 truncate">
                             {sector.name}
                           </span>
+                          <span className={`text-xs font-semibold ${colors.text} flex-shrink-0`}>
+                            {sector.value.toFixed(1)}%
+                          </span>
                         </div>
-                        <span className={`text-xs font-bold ${colors.text}`}>
-                          {sector.value.toFixed(1)}%
-                        </span>
+                        {/* Mini barre horizontale */}
+                        <div className="h-1 bg-slate-700 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all"
+                            style={{
+                              width: `${sector.value}%`,
+                              backgroundColor: `${geoColors.primary}30`
+                            }}
+                          />
+                        </div>
                       </div>
                     );
                   })}
@@ -297,7 +306,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
             className={`py-2.5 px-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
               isSelected
                 ? 'bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30'
-                : 'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white shadow-lg shadow-emerald-500/20'
+                : `${PERFORMANCE_COLORS.bgGradient} hover:from-emerald-700 hover:to-emerald-600 text-white shadow-lg ${PERFORMANCE_COLORS.shadow}`
             } active:scale-95`}
           >
             {isSelected ? (
@@ -326,7 +335,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
         {onGuidedJourneyClick && (
           <button
             onClick={onGuidedJourneyClick}
-            className="w-full py-2 px-3 text-xs font-medium text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 rounded-lg transition-all flex items-center justify-center gap-1.5 border border-emerald-500/20 hover:border-emerald-500/40"
+            className={`w-full py-2 px-3 text-xs font-medium ${PERFORMANCE_COLORS.text} hover:text-emerald-300 hover:${PERFORMANCE_COLORS.bgLight} rounded-lg transition-all flex items-center justify-center gap-1.5 border ${PERFORMANCE_COLORS.border} hover:border-emerald-500/40`}
           >
             <span>👉</span>
             <span>Je préfère être guidé</span>
