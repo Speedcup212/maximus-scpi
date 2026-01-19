@@ -84,6 +84,10 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   const [creditDeferred, setCreditDeferred] = useState<'none' | 'partial' | 'total'>('none');
   const [creditDeferredMonths, setCreditDeferredMonths] = useState(0); // Durée de différé en mois (0 = aucun)
   
+  // États temporaires pour la saisie libre des taux
+  const [creditRateInput, setCreditRateInput] = useState<string>('');
+  const [insuranceRateInput, setInsuranceRateInput] = useState<string>('');
+  
   // Paramètres du mode Démembrement
   const [demembrementType, setDemembrementType] = useState<'nue-propriete' | 'usufruit'>('nue-propriete');
   const [demembrementCleNp, setDemembrementCleNp] = useState(65); // % de nue-propriété
@@ -169,6 +173,14 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     const monthlyEffort = monthlyTotal - monthlyScpiIncome;
     const monthlyCashflow = monthlyScpiIncome - monthlyTotal;
 
+    // Calcul du coût mensuel du différé
+    const monthlyInterest = financedAmount * monthlyRate; // Intérêts mensuels
+    const monthlyDeferredCost = creditDeferred === 'partial' 
+      ? monthlyInterest + monthlyInsurance // Différé partiel : on paie intérêts + assurance
+      : creditDeferred === 'total'
+      ? monthlyInsurance // Différé total : on paie seulement l'assurance (intérêts capitalisés)
+      : 0; // Pas de différé
+
     // Approche pédagogique : approximation de la part de capital remboursé la 1ère année
     const annualInterestApprox = financedAmount * (creditRate / 100);
     const annualCreditPaid = monthlyCreditPayment * 12;
@@ -185,6 +197,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
       monthlyScpiIncome,
       monthlyEffort,
       monthlyCashflow,
+      monthlyDeferredCost,
       annualPrincipalRepaid,
       realReturnOnEquity
     };
@@ -194,7 +207,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     creditApport,
     creditDurationYears,
     creditRate,
-    insuranceRate
+    insuranceRate,
+    creditDeferred
   ]);
 
   // Calculs spécifiques au mode Démembrement
@@ -1005,7 +1019,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   </div>
                   
                   {/* Performance financière du portefeuille */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
+                  <div className={`grid grid-cols-1 ${investmentMode === 'credit' ? 'sm:grid-cols-4' : 'sm:grid-cols-3'} gap-2 sm:gap-4 mb-4 sm:mb-6`}>
                     <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                         <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
@@ -1045,6 +1059,19 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             })}€`}
                       </p>
                     </div>
+                    {investmentMode === 'credit' && (
+                      <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                        <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                          <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" />
+                          <p className="text-[10px] sm:text-xs text-slate-400">Revenus mensuels estimés</p>
+                        </div>
+                        <p className="text-xl sm:text-2xl font-bold text-green-400">
+                          {portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', {
+                            maximumFractionDigits: 0
+                          })}€
+                        </p>
+                      </div>
+                    )}
                     <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                         <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
@@ -1088,10 +1115,24 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         <div className="flex items-center gap-2">
                           <input
                             type="number"
-                            value={creditApport}
-                            onChange={(e) =>
-                              setCreditApport(Math.max(0, parseInt(e.target.value) || 0))
-                            }
+                            value={creditApport || ''}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (val === '' || val === '-') {
+                                setCreditApport(0);
+                              } else {
+                                const numVal = parseInt(val, 10);
+                                if (!isNaN(numVal) && numVal >= 0) {
+                                  setCreditApport(numVal);
+                                }
+                              }
+                            }}
+                            onBlur={(e) => {
+                              const val = parseInt(e.target.value, 10);
+                              if (isNaN(val) || val < 0) {
+                                setCreditApport(0);
+                              }
+                            }}
                             className="flex-1 px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                             min={0}
                             step={1000}
@@ -1136,15 +1177,44 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </div>
                       <div>
                         <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
-                          Taux d'intérêt (%)
+                          Taux d'intérêt (%) <span className="text-slate-500 font-normal">(défaut: 3.5%)</span>
                         </label>
                         <input
                           type="number"
-                          value={creditRate}
-                          onChange={(e) =>
-                            setCreditRate(Math.min(6, Math.max(0.5, parseFloat(e.target.value) || 0)))
-                          }
-                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          value={creditRateInput !== '' ? creditRateInput : creditRate}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setCreditRateInput(val);
+                            const numVal = parseFloat(val);
+                            if (!isNaN(numVal) && val !== '') {
+                              // Limiter seulement si la valeur dépasse les bornes
+                              if (numVal < 0.5) {
+                                setCreditRate(0.5);
+                              } else if (numVal > 6) {
+                                setCreditRate(6);
+                              } else {
+                                setCreditRate(numVal);
+                              }
+                            }
+                          }}
+                          onFocus={() => {
+                            setCreditRateInput(creditRate.toString());
+                          }}
+                          onBlur={(e) => {
+                            const val = e.target.value;
+                            const numVal = parseFloat(val);
+                            setCreditRateInput('');
+                            // Si vide ou invalide, restaurer la valeur par défaut
+                            if (val === '' || isNaN(numVal) || numVal < 0.5) {
+                              setCreditRate(3.5);
+                            } else if (numVal > 6) {
+                              setCreditRate(6);
+                            } else {
+                              setCreditRate(numVal);
+                            }
+                          }}
+                          placeholder="3.5"
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder:text-slate-500"
                           min={0.5}
                           max={6}
                           step={0.1}
@@ -1152,17 +1222,44 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </div>
                       <div>
                         <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
-                          Taux d'assurance (% annuel, optionnel)
+                          Taux d'assurance (% annuel, optionnel) <span className="text-slate-500 font-normal">(défaut: 0.3%)</span>
                         </label>
                         <input
                           type="number"
-                          value={insuranceRate}
-                          onChange={(e) =>
-                            setInsuranceRate(
-                              Math.min(1.5, Math.max(0, parseFloat(e.target.value) || 0))
-                            )
-                          }
-                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          value={insuranceRateInput !== '' ? insuranceRateInput : insuranceRate}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setInsuranceRateInput(val);
+                            const numVal = parseFloat(val);
+                            if (!isNaN(numVal) && val !== '') {
+                              // Limiter seulement si la valeur dépasse les bornes
+                              if (numVal < 0) {
+                                setInsuranceRate(0);
+                              } else if (numVal > 1.5) {
+                                setInsuranceRate(1.5);
+                              } else {
+                                setInsuranceRate(numVal);
+                              }
+                            }
+                          }}
+                          onFocus={() => {
+                            setInsuranceRateInput(insuranceRate.toString());
+                          }}
+                          onBlur={(e) => {
+                            const val = e.target.value;
+                            const numVal = parseFloat(val);
+                            setInsuranceRateInput('');
+                            // Si vide ou invalide, restaurer la valeur par défaut
+                            if (val === '' || isNaN(numVal) || numVal < 0) {
+                              setInsuranceRate(0.3);
+                            } else if (numVal > 1.5) {
+                              setInsuranceRate(1.5);
+                            } else {
+                              setInsuranceRate(numVal);
+                            }
+                          }}
+                          placeholder="0.3"
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder:text-slate-500"
                           min={0}
                           max={1.5}
                           step={0.05}
@@ -1237,10 +1334,31 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                               />
                               <span className="text-slate-400 text-xs sm:text-sm">mois</span>
                             </div>
-                            <p className="mt-1 text-[10px] sm:text-xs text-slate-500">
-                              Le différé permet de décaler une partie ou la totalité de vos remboursements
-                              pendant les premiers mois. Le calcul détaillé sera affiné lors de l'étude
-                              personnalisée avec un conseiller.
+                            {creditMetrics && creditMetrics.monthlyDeferredCost > 0 && (
+                              <div className="mt-3 p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] sm:text-xs text-slate-300 font-semibold">
+                                    Coût mensuel estimé pendant le différé :
+                                  </span>
+                                  <span className="text-sm sm:text-base font-bold text-amber-400">
+                                    {creditMetrics.monthlyDeferredCost.toLocaleString('fr-FR', {
+                                      maximumFractionDigits: 0
+                                    })}€ / mois
+                                  </span>
+                                </div>
+                                <p className="mt-1.5 text-[9px] sm:text-[10px] text-slate-400">
+                                  {creditDeferred === 'partial'
+                                    ? 'Intérêts + assurance (capital non remboursé)'
+                                    : 'Assurance uniquement (intérêts capitalisés)'}
+                                </p>
+                              </div>
+                            )}
+                            <p className="mt-2 text-[10px] sm:text-xs text-slate-500">
+                              {creditDeferred === 'partial'
+                                ? 'Pendant le différé partiel, vous ne remboursez que les intérêts et l\'assurance. Le capital est remboursé après la période de différé.'
+                                : creditDeferred === 'total'
+                                ? 'Pendant le différé total, vous ne remboursez ni le capital ni les intérêts. Seule l\'assurance est due. Les intérêts sont capitalisés et ajoutés au capital restant dû.'
+                                : 'Le différé permet de décaler une partie ou la totalité de vos remboursements pendant les premiers mois. Le calcul détaillé sera affiné lors de l\'étude personnalisée avec un conseiller.'}
                             </p>
                           </div>
                         )}
