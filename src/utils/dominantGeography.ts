@@ -90,6 +90,7 @@ export function getDominantGeography(scpi: SCPIExtended): DominantGeographyInfo 
 
 /**
  * Groupe les SCPI par géographie dominante
+ * Note: "Diversifiée géographiquement" est regroupée avec "Europe"
  */
 export function groupScpisByDominantGeography(
   scpis: Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>
@@ -98,7 +99,12 @@ export function groupScpisByDominantGeography(
 
   scpis.forEach(item => {
     const dominantGeography = getDominantGeography(item.scpi);
-    const geographyKey = dominantGeography.geographyName;
+    let geographyKey = dominantGeography.geographyName;
+
+    // Regrouper "Diversifiée géographiquement" avec "Europe"
+    if (geographyKey === 'Diversifiée géographiquement') {
+      geographyKey = 'Europe';
+    }
 
     if (!grouped[geographyKey]) {
       grouped[geographyKey] = [];
@@ -117,11 +123,11 @@ export function groupScpisByDominantGeography(
 
 /**
  * Ordre d'affichage des géographies dans le menu
+ * Note: "Diversifiée géographiquement" est regroupée avec "Europe"
  */
 export const GEOGRAPHY_DISPLAY_ORDER = [
   'France',
-  'Europe',
+  'Europe', // Inclut aussi les SCPI "Diversifiée géographiquement"
   'International',
-  'Diversifiée géographiquement',
   'Non spécifiée'
 ];
