@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders } from 'lucide-react';
+import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
@@ -69,9 +69,26 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
   
+  // Mode d'investissement : Comptant / Crédit / Démembrement
+  const [investmentMode, setInvestmentMode] = useState<'cash' | 'credit' | 'demembrement'>('cash');
+  
   // États pour le montant et les pourcentages modulables
   const [totalAmount, setTotalAmount] = useState(100000);
   const [scpiPercentages, setScpiPercentages] = useState<Record<string, number>>({});
+  
+  // Paramètres du mode Crédit
+  const [creditApport, setCreditApport] = useState(0);
+  const [creditDurationYears, setCreditDurationYears] = useState(20);
+  const [creditRate, setCreditRate] = useState(3.5); // Taux nominal annuel %
+  const [insuranceRate, setInsuranceRate] = useState(0.3); // Taux d'assurance annuel %
+  const [creditDeferred, setCreditDeferred] = useState<'none' | 'partial' | 'total'>('none');
+  const [creditDeferredMonths, setCreditDeferredMonths] = useState(0); // Durée de différé en mois (0 = aucun)
+  
+  // Paramètres du mode Démembrement
+  const [demembrementType, setDemembrementType] = useState<'nue-propriete' | 'usufruit'>('nue-propriete');
+  const [demembrementCleNp, setDemembrementCleNp] = useState(65); // % de nue-propriété
+  const [demembrementDurationYears, setDemembrementDurationYears] = useState(10);
+  const [demembrementRevalo, setDemembrementRevalo] = useState(1.0); // % de revalorisation annuelle
   
   // Initialiser les pourcentages à parts égales
   useEffect(() => {
@@ -123,6 +140,114 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
       totalMonthlyIncome
     };
   }, [selectedScpis, scpiPercentages, totalAmount]);
+  
+  // Calculs spécifiques au mode Crédit
+  const creditMetrics = useMemo(() => {
+    if (!portfolioAnalysis || investmentMode !== 'credit') {
+      return null;
+    }
+
+    const financedAmount = Math.max(0, portfolioAnalysis.totalAmount - creditApport);
+    const years = Math.max(1, creditDurationYears);
+    const n = years * 12;
+    const monthlyRate = creditRate > 0 ? (creditRate / 100) / 12 : 0;
+    const monthlyInsuranceRate = (insuranceRate / 100) / 12;
+
+    // Mensualité de crédit (hors assurance) – formule d'emprunt classique
+    let monthlyCreditPayment = 0;
+    if (monthlyRate > 0 && financedAmount > 0) {
+      const factor = Math.pow(1 + monthlyRate, -n);
+      monthlyCreditPayment = (financedAmount * monthlyRate) / (1 - factor);
+    } else if (financedAmount > 0) {
+      monthlyCreditPayment = financedAmount / n;
+    }
+
+    const monthlyInsurance = financedAmount * monthlyInsuranceRate;
+    const monthlyTotal = monthlyCreditPayment + monthlyInsurance;
+
+    const monthlyScpiIncome = portfolioAnalysis.totalMonthlyIncome;
+    const monthlyEffort = monthlyTotal - monthlyScpiIncome;
+    const monthlyCashflow = monthlyScpiIncome - monthlyTotal;
+
+    // Approche pédagogique : approximation de la part de capital remboursé la 1ère année
+    const annualInterestApprox = financedAmount * (creditRate / 100);
+    const annualCreditPaid = monthlyCreditPayment * 12;
+    const annualPrincipalRepaid = Math.max(0, annualCreditPaid - annualInterestApprox);
+    const annualCashflow = monthlyCashflow * 12;
+    const equity = Math.max(creditApport, 0.0001); // éviter division par 0
+    const realReturnOnEquity = ((annualCashflow + annualPrincipalRepaid) / equity) * 100;
+
+    return {
+      financedAmount,
+      monthlyCreditPayment,
+      monthlyInsurance,
+      monthlyTotal,
+      monthlyScpiIncome,
+      monthlyEffort,
+      monthlyCashflow,
+      annualPrincipalRepaid,
+      realReturnOnEquity
+    };
+  }, [
+    portfolioAnalysis,
+    investmentMode,
+    creditApport,
+    creditDurationYears,
+    creditRate,
+    insuranceRate
+  ]);
+
+  // Calculs spécifiques au mode Démembrement
+  const demembrementMetrics = useMemo(() => {
+    if (!portfolioAnalysis || investmentMode !== 'demembrement') {
+      return null;
+    }
+
+    const cleNp = Math.max(10, Math.min(90, demembrementCleNp));
+    const cleUs = 100 - cleNp;
+    const duree = Math.max(1, demembrementDurationYears);
+    const revalo = demembrementRevalo / 100;
+
+    const fullPropertyValueToday = portfolioAnalysis.totalAmount;
+    const priceNuePro = (fullPropertyValueToday * cleNp) / 100;
+    const priceUsufruit = (fullPropertyValueToday * cleUs) / 100;
+
+    const futureFullPropertyValue =
+      fullPropertyValueToday * Math.pow(1 + revalo, duree);
+
+    const annualGrossIncome = portfolioAnalysis.totalAnnualIncome;
+    // Version pédagogique : pas d'indexation fine des revenus
+    const totalIncomeUsufruit = annualGrossIncome * duree;
+
+    const rendementImpliciteNp =
+      priceNuePro > 0
+        ? (Math.pow(futureFullPropertyValue / priceNuePro, 1 / duree) - 1) * 100
+        : 0;
+
+    const rendementGlobalUsufruit =
+      priceUsufruit > 0
+        ? ((totalIncomeUsufruit / priceUsufruit) / duree) * 100
+        : 0;
+
+    return {
+      cleNp,
+      cleUs,
+      duree,
+      fullPropertyValueToday,
+      priceNuePro,
+      priceUsufruit,
+      futureFullPropertyValue,
+      totalIncomeUsufruit,
+      rendementImpliciteNp,
+      rendementGlobalUsufruit
+    };
+  }, [
+    portfolioAnalysis,
+    investmentMode,
+    demembrementCleNp,
+    demembrementDurationYears,
+    demembrementRevalo
+  ]);
   
   // Fonction pour ajuster un pourcentage
   const updatePercentage = (scpiId: string, newPercentage: number) => {
@@ -800,6 +925,52 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <h3 className="text-base sm:text-lg font-bold text-white">Configuration du portefeuille</h3>
                   </div>
                   
+                  {/* Mode d'investissement */}
+                  <div className="mb-4 sm:mb-5">
+                    <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">
+                      Mode d'investissement
+                    </label>
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setInvestmentMode('cash')}
+                        className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${
+                          investmentMode === 'cash'
+                            ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30'
+                            : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                        }`}
+                      >
+                        Comptant
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInvestmentMode('credit')}
+                        className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${
+                          investmentMode === 'credit'
+                            ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30'
+                            : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                        }`}
+                      >
+                        Crédit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInvestmentMode('demembrement')}
+                        className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${
+                          investmentMode === 'demembrement'
+                            ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30'
+                            : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                        }`}
+                      >
+                        Démembrement
+                      </button>
+                    </div>
+                    <p className="mt-2 text-[10px] sm:text-xs text-slate-400">
+                      Sélectionnez votre mode pour voir l'impact sur les revenus, le cash-flow ou la valeur future,
+                      sans modifier votre sélection de SCPI.
+                    </p>
+                  </div>
+                  
                   {/* Montant total à investir */}
                   <div className="mb-4 sm:mb-6">
                     <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5 sm:mb-2">
@@ -847,22 +1018,333 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                         <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" />
-                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus annuels estimés</p>
+                        <p className="text-[10px] sm:text-xs text-slate-400">
+                          {investmentMode === 'credit'
+                            ? 'Mensualité totale (crédit + assurance)'
+                            : investmentMode === 'demembrement'
+                            ? demembrementType === 'nue-propriete'
+                              ? 'Capital investi réel (nue-propriété)'
+                              : 'Capital investi réel (usufruit)'
+                            : 'Revenus annuels estimés'}
+                        </p>
                       </div>
                       <p className="text-xl sm:text-2xl font-bold text-blue-400">
-                        {portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€
+                        {investmentMode === 'credit' && creditMetrics
+                          ? `${creditMetrics.monthlyTotal.toLocaleString('fr-FR', {
+                              maximumFractionDigits: 0
+                            })}€ / mois`
+                          : investmentMode === 'demembrement' && demembrementMetrics
+                          ? `${
+                              (demembrementType === 'nue-propriete'
+                                ? demembrementMetrics.priceNuePro
+                                : demembrementMetrics.priceUsufruit
+                              ).toLocaleString('fr-FR', { maximumFractionDigits: 0 })
+                            }€`
+                          : `${portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', {
+                              maximumFractionDigits: 0
+                            })}€`}
                       </p>
                     </div>
                     <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
                       <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                         <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
-                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus mensuels estimés</p>
+                        <p className="text-[10px] sm:text-xs text-slate-400">
+                          {investmentMode === 'credit'
+                            ? "Effort d'épargne mensuel"
+                            : investmentMode === 'demembrement'
+                            ? demembrementType === 'nue-propriete'
+                              ? 'Valeur future estimée (pleine propriété)'
+                              : 'Revenus totaux sur la durée'
+                            : 'Revenus mensuels estimés'}
+                        </p>
                       </div>
                       <p className="text-xl sm:text-2xl font-bold text-purple-400">
-                        {portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€
+                        {investmentMode === 'credit' && creditMetrics
+                          ? `${creditMetrics.monthlyEffort.toLocaleString('fr-FR', {
+                              maximumFractionDigits: 0
+                            })}€`
+                          : investmentMode === 'demembrement' && demembrementMetrics
+                          ? demembrementType === 'nue-propriete'
+                            ? `${demembrementMetrics.futureFullPropertyValue.toLocaleString('fr-FR', {
+                                maximumFractionDigits: 0
+                              })}€`
+                            : `${demembrementMetrics.totalIncomeUsufruit.toLocaleString('fr-FR', {
+                                maximumFractionDigits: 0
+                              })}€`
+                          : `${portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', {
+                              maximumFractionDigits: 0
+                            })}€`}
                       </p>
                     </div>
                   </div>
+
+                  {/* Paramètres supplémentaires selon le mode */}
+                  {investmentMode === 'credit' && (
+                    <div className="mb-4 sm:mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Apport (optionnel)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            value={creditApport}
+                            onChange={(e) =>
+                              setCreditApport(Math.max(0, parseInt(e.target.value) || 0))
+                            }
+                            className="flex-1 px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                            min={0}
+                            step={1000}
+                          />
+                          <span className="text-slate-400 text-xs sm:text-sm">€</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Durée du crédit (années)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="number"
+                            value={creditDurationYears}
+                            onChange={(e) =>
+                              setCreditDurationYears(
+                                Math.min(30, Math.max(5, parseInt(e.target.value) || 0))
+                              )
+                            }
+                            className="w-20 px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                            min={5}
+                            max={30}
+                          />
+                          <div className="flex flex-wrap gap-1.5">
+                            {[10, 15, 20, 25].map((d) => (
+                              <button
+                                key={d}
+                                type="button"
+                                onClick={() => setCreditDurationYears(d)}
+                                className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs ${
+                                  creditDurationYears === d
+                                    ? 'bg-emerald-600 text-white'
+                                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                }`}
+                              >
+                                {d} ans
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Taux d'intérêt (%)
+                        </label>
+                        <input
+                          type="number"
+                          value={creditRate}
+                          onChange={(e) =>
+                            setCreditRate(Math.min(6, Math.max(0.5, parseFloat(e.target.value) || 0)))
+                          }
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          min={0.5}
+                          max={6}
+                          step={0.1}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Taux d'assurance (% annuel, optionnel)
+                        </label>
+                        <input
+                          type="number"
+                          value={insuranceRate}
+                          onChange={(e) =>
+                            setInsuranceRate(
+                              Math.min(1.5, Math.max(0, parseFloat(e.target.value) || 0))
+                            )
+                          }
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          min={0}
+                          max={1.5}
+                          step={0.05}
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Différé
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setCreditDeferred('none')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${
+                              creditDeferred === 'none'
+                                ? 'bg-slate-100 text-slate-900 border-slate-300'
+                                : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                            }`}
+                          >
+                            Aucun
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCreditDeferred('partial')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${
+                              creditDeferred === 'partial'
+                                ? 'bg-slate-100 text-slate-900 border-slate-300'
+                                : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                            }`}
+                          >
+                            Différé partiel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCreditDeferred('total')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${
+                              creditDeferred === 'total'
+                                ? 'bg-slate-100 text-slate-900 border-slate-300'
+                                : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                            }`}
+                          >
+                            Différé total
+                          </button>
+                        </div>
+                        {creditDeferred !== 'none' && (
+                          <div className="mt-3">
+                            <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                              Durée du différé (entre 1 et 24 mois)
+                            </label>
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="range"
+                                min={1}
+                                max={24}
+                                value={creditDeferredMonths || 1}
+                                onChange={(e) =>
+                                  setCreditDeferredMonths(parseInt(e.target.value) || 1)
+                                }
+                                className="flex-1"
+                              />
+                              <input
+                                type="number"
+                                min={1}
+                                max={24}
+                                value={creditDeferredMonths || 1}
+                                onChange={(e) =>
+                                  setCreditDeferredMonths(
+                                    Math.min(24, Math.max(1, parseInt(e.target.value) || 1))
+                                  )
+                                }
+                                className="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                              />
+                              <span className="text-slate-400 text-xs sm:text-sm">mois</span>
+                            </div>
+                            <p className="mt-1 text-[10px] sm:text-xs text-slate-500">
+                              Le différé permet de décaler une partie ou la totalité de vos remboursements
+                              pendant les premiers mois. Le calcul détaillé sera affiné lors de l'étude
+                              personnalisée avec un conseiller.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {investmentMode === 'demembrement' && (
+                    <div className="mb-4 sm:mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Type de démembrement
+                        </label>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setDemembrementType('nue-propriete')}
+                            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border ${
+                              demembrementType === 'nue-propriete'
+                                ? 'bg-emerald-600 text-white border-emerald-500'
+                                : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                            }`}
+                          >
+                            Nue-propriété
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDemembrementType('usufruit')}
+                            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border ${
+                              demembrementType === 'usufruit'
+                                ? 'bg-emerald-600 text-white border-emerald-500'
+                                : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'
+                            }`}
+                          >
+                            Usufruit
+                          </button>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Clé de démembrement (nue-propriété %)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="range"
+                            min={40}
+                            max={90}
+                            step={1}
+                            value={demembrementCleNp}
+                            onChange={(e) => setDemembrementCleNp(parseInt(e.target.value) || 0)}
+                            className="flex-1"
+                          />
+                          <input
+                            type="number"
+                            min={40}
+                            max={90}
+                            value={demembrementCleNp}
+                            onChange={(e) =>
+                              setDemembrementCleNp(
+                                Math.min(90, Math.max(40, parseInt(e.target.value) || 0))
+                              )
+                            }
+                            className="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          />
+                          <span className="text-slate-400 text-xs sm:text-sm">%</span>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Durée du démembrement (années)
+                        </label>
+                        <input
+                          type="number"
+                          min={5}
+                          max={30}
+                          value={demembrementDurationYears}
+                          onChange={(e) =>
+                            setDemembrementDurationYears(
+                              Math.min(30, Math.max(5, parseInt(e.target.value) || 0))
+                            )
+                          }
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">
+                          Hypothèse de revalorisation annuelle (%)
+                        </label>
+                        <input
+                          type="number"
+                          min={-1}
+                          max={2}
+                          step={0.1}
+                          value={demembrementRevalo}
+                          onChange={(e) =>
+                            setDemembrementRevalo(
+                              Math.min(2, Math.max(-1, parseFloat(e.target.value) || 0))
+                            )
+                          }
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        />
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Graphique de performance par SCPI */}
                   <div className="mb-4 sm:mb-6">
