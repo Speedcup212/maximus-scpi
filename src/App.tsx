@@ -24,6 +24,7 @@ import Hero from './components/Hero';
 import ScpiTable from './components/ScpiTable';
 import QuickFilters from './components/QuickFilters';
 import SearchBar from './components/SearchBar';
+import GuidedScpiEntryBlock from './components/GuidedScpiEntryBlock';
 
 // Lazy loaded components (loaded on demand)
 const DynamicHero = lazy(() => import('./components/DynamicHero'));
@@ -2277,8 +2278,58 @@ const App: React.FC = () => {
           </Suspense>
         </div>
 
-        {/* Product Spotlight - Dashboard Portfolio */}
+        {/* Bloc Parcours guidé SCPI (porte d'entrée principale) */}
+        <GuidedScpiEntryBlock
+          onStart={() => {
+            setCurrentView('guided-journey');
+            window.history.pushState({}, '', '/parcours-guide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+
+        {/* Section Comparateur avec titre intégré */}
+        <div id="comparator" data-comparator className="mt-16 sm:mt-20 mb-16 sm:mb-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Titre rattaché au comparateur */}
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Construisez votre portefeuille SCPI avec une approche professionnelle
+              </h2>
+              <p className="text-base text-slate-300 font-medium">
+                Accédez à l’ensemble des SCPI et analysez-les selon les critères des conseillers en gestion de patrimoine.
+              </p>
+              <p className="mt-1 text-xs text-slate-400">
+                Données objectives • Méthodologie indépendante • Aucune promesse de rendement
+              </p>
+            </div>
+            
+            {/* Comparateur */}
+            <Suspense fallback={<LoadingSpinner />}>
+              <FintechComparator 
+                onCloseAnalysis={handleBackToHome}
+                onGuidedJourneyClick={() => {
+                  setCurrentView('guided-journey');
+                  window.history.pushState({}, '', '/parcours-guide');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                hideTitle={true}
+              />
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Product Spotlight - Dashboard Portfolio (descendu sous le comparateur) */}
         <div className="mb-12 sm:mb-16 lg:mb-20">
+          {/* Titre au-dessus de l'image */}
+          <div className="mb-4 sm:mb-6 text-center">
+            <h2 className="text-xl sm:text-2xl font-semibold text-white">
+              Exemple de tableau d’analyse avancée généré par MaximusSCPI
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-slate-300">
+              Ces graphiques sont accessibles une fois votre sélection effectuée ou via le parcours guidé.
+            </p>
+          </div>
+
           {/* Style CSS pour perspective desktop uniquement */}
           <style>{`
             @media (min-width: 1024px) {
@@ -2323,76 +2374,6 @@ const App: React.FC = () => {
                 }}
               />
             </div>
-          </div>
-        </div>
-
-        {/* Encart Parcours Recommandé */}
-        <div className="mb-8 sm:mb-8">
-          <div className="relative bg-slate-900 rounded-lg p-6 sm:p-8 border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]">
-            <div className="max-w-2xl mx-auto">
-              {/* Badge "Recommandé pour débuter" */}
-              <div className="flex justify-center mb-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  Recommandé pour débuter
-                </span>
-              </div>
-              
-              {/* Contenu principal */}
-              <div className="text-center">
-                <h2 className="text-2xl sm:text-3xl font-semibold text-white mb-3">
-                  Vous débutez en SCPI ?
-                </h2>
-                <p className="text-base sm:text-lg text-slate-300 mb-6 leading-relaxed">
-                  Vous ne savez pas par où commencer, ni quoi comparer ?<br />
-                  Ce parcours guidé a été conçu pour les personnes qui découvrent les SCPI.
-                </p>
-                
-                {/* CTA */}
-                <div className="flex flex-col items-center gap-3">
-                  <button
-                    onClick={() => {
-                      setCurrentView('guided-journey');
-                      window.history.pushState({}, '', '/parcours-guide');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/20"
-                  >
-                    Être guidé pour investir en SCPI
-                  </button>
-                  <p className="text-xs text-slate-400">
-                    Sans engagement – Aucune connaissance requise
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Section Comparateur avec titre intégré */}
-        <div id="comparator" data-comparator className="mt-16 sm:mt-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Titre rattaché au comparateur */}
-            <div className="mb-6">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                Construisez votre portefeuille SCPI
-              </h2>
-              <p className="text-base text-slate-300 font-medium">
-                Accédez à l'ensemble des SCPI et analysez-les librement.
-              </p>
-            </div>
-            
-            {/* Comparateur */}
-            <Suspense fallback={<LoadingSpinner />}>
-              <FintechComparator 
-                onCloseAnalysis={handleBackToHome}
-                onGuidedJourneyClick={() => {
-                  setCurrentView('guided-journey');
-                  window.history.pushState({}, '', '/parcours-guide');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                hideTitle={true}
-              />
-            </Suspense>
           </div>
         </div>
 
