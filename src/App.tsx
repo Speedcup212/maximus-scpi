@@ -2293,10 +2293,10 @@ const App: React.FC = () => {
             {/* Titre rattaché au comparateur */}
             <div className="mb-6">
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                Construisez votre portefeuille SCPI avec une approche professionnelle
+                Construisez votre portefeuille SCPI en toute autonomie, avec des outils d’analyse complets
               </h2>
               <p className="text-base text-slate-300 font-medium">
-                Accédez à l’ensemble des SCPI et analysez-les selon les critères des conseillers en gestion de patrimoine.
+                Comparez l’ensemble des SCPI, filtrez selon vos critères et composez votre allocation librement.
               </p>
               <p className="mt-1 text-xs text-slate-400">
                 Données objectives • Méthodologie indépendante • Aucune promesse de rendement

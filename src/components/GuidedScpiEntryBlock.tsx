@@ -48,7 +48,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 id="guided-scpi-title"
                 className="mt-3 text-2xl sm:text-3xl lg:text-[30px] font-semibold tracking-tight text-white"
               >
-                Construisez votre portefeuille SCPI adapté à votre situation
+                Vous êtes débutant et ne savez pas quelle SCPI choisir ?
               </h2>
 
               <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-xl">
