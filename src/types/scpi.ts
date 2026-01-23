@@ -25,6 +25,19 @@ export interface Scpi {
   rating?: number;
   isRecommended?: boolean;
   debt?: number; // Ratio d'endettement en pourcentage
+  // Champs supplémentaires depuis le fichier Excel
+  delaiJouissance?: number; // Délai de jouissance en mois
+  versementLoyers?: string; // Fréquence de versement des loyers (ex: "Trimestriel", "Mensuel")
+  dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
+  fraisGestion?: number; // Frais de gestion (HT/%)
+  valeurRetrait?: number; // Valeur de retrait (€)
+  valeurReconstitution?: number; // Valeur de reconstitution (€)
+  valeurRealisation?: number; // Valeur de réalisation (€)
+  distribution?: number; // Distribution par part (€/part)
+  nbImmeubles?: number; // Nombre d'immeubles
+  sfdr?: string; // Classification SFDR (ex: "Article 8", "Article 9")
+  profilCible?: string; // Profil cible (ex: "Profil équilibré", "Profil prudent")
+  profilRisque?: number; // Profil de risque de 1 à 7
 }
 
 export type QuickFilterType = 'tous' | 'europeennes' | 'francaises' | 'isr' | 'high-yield';

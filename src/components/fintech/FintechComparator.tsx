@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
+import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import SCPICardDark from './SCPICardDark';
@@ -12,6 +13,7 @@ import { SimulationModal } from '../simulation';
 import FilterPanel, { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
+import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
 
 type ViewMode = 'grid' | 'list';
 
@@ -43,6 +45,11 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     maxLtv: 100,
     noWaitingShares: false
   });
+
+  // Enrichir les données SCPI avec les informations du fichier Excel
+  const enrichedScpiData = useMemo(() => {
+    return enrichScpiExtendedArray(scpiDataExtended, scpiData);
+  }, []);
 
   const toggleSelect = (scpi: SCPIExtended) => {
     setSelectedScpis(prev => {
@@ -124,7 +131,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
   };
 
   // Créer une copie profonde pour éviter les mutations sur des tableaux gelés en production
-  let filteredData = [...scpiDataExtended].filter(scpi =>
+  // Utiliser les données enrichies avec les informations du fichier Excel
+  let filteredData = [...enrichedScpiData].filter(scpi =>
     (scpi.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     scpi.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     scpi.managementCompany.toLowerCase().includes(searchQuery.toLowerCase())) &&

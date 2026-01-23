@@ -19,6 +19,16 @@ export interface SCPIExtended {
   entryFees?: number;
   managementFees?: number;
   assetsCount?: number;
+  // Champs supplémentaires depuis le fichier Excel
+  delaiJouissance?: number; // Délai de jouissance en mois
+  versementLoyers?: string; // Fréquence de versement des loyers
+  dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
+  valeurRetrait?: number; // Valeur de retrait (€)
+  valeurRealisation?: number; // Valeur de réalisation (€)
+  distribution?: number; // Distribution par part (€/part)
+  sfdr?: string; // Classification SFDR
+  profilCible?: string; // Profil cible
+  profilRisque?: number; // Profil de risque de 1 à 7
 }
 
 const baseSCPIData: SCPIExtended[] = [

@@ -1,5 +1,6 @@
 import { Scpi } from '../types/scpi';
 import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
+import scpiCompletJson from './scpi_complet.json';
 
 // Helper function to parse sectorial distribution from string or JSON
 const parseSectorDistribution = (sectorStr: string): Record<string, number> => {
@@ -195,10 +196,47 @@ const isRecommended = (scpi: any): boolean => {
   return hasTofAbove90 && hasDiscountOrPar && hasCapitalizationAbove100M && hasYieldAbove5 && hasDebtBelow30;
 };
 
+// Helper function to clean numeric values from Excel (handles "NC", null, undefined, strings)
+const cleanNumericValue = (value: any): number | undefined => {
+  if (value === null || value === undefined || value === '' || value === 'NC' || value === 'N/A') {
+    return undefined;
+  }
+  if (typeof value === 'number') {
+    return isNaN(value) ? undefined : value;
+  }
+  if (typeof value === 'string') {
+    // Remove any non-numeric characters except decimal point and minus sign
+    const cleaned = value.replace(/[^\d.,-]/g, '').replace(',', '.');
+    const num = parseFloat(cleaned);
+    return isNaN(num) ? undefined : num;
+  }
+  return undefined;
+};
+
 // Convert JSON data to Scpi format
-export const scpiData: Scpi[] = scpiCompleteJson.Sheet1.map((scpi: any, index: number) => {
-  const sectorDistribution = parseSectorDistribution(scpi['Répartition Sectorielle'] || '');
-  const geoDistribution = parseGeoDistribution(scpi['Répartition Géographique'] || '{}');
+// Utiliser le nouveau fichier scpi_complet.json s'il est disponible, sinon utiliser l'ancien
+const sourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompleteJson.Sheet1 || scpiCompleteJson);
+
+export const scpiData: Scpi[] = sourceData.map((scpi: any, index: number) => {
+  // Utiliser les champs JSON structurés s'ils existent (nouveau format), sinon parser les chaînes
+  let sectorDistribution: Record<string, number> = {};
+  let geoDistribution: Record<string, number> = {};
+  
+  if (scpi['Répartition Sectorielle JSON']) {
+    // Nouveau format : déjà un objet JSON
+    sectorDistribution = scpi['Répartition Sectorielle JSON'];
+  } else {
+    // Ancien format : parser la chaîne
+    sectorDistribution = parseSectorDistribution(scpi['Répartition Sectorielle'] || '');
+  }
+  
+  if (scpi['Répartition Géographique JSON']) {
+    // Nouveau format : déjà un objet JSON
+    geoDistribution = scpi['Répartition Géographique JSON'];
+  } else {
+    // Ancien format : parser la chaîne JSON
+    geoDistribution = parseGeoDistribution(scpi['Répartition Géographique'] || '{}');
+  }
 
   const sector = determineSector(scpi['Répartition Sectorielle'] || '', sectorDistribution);
   const geography = determineGeography(geoDistribution);
@@ -225,6 +263,25 @@ export const scpiData: Scpi[] = scpiCompleteJson.Sheet1.map((scpi: any, index: n
     repartitionGeo: cleanRepartition(geoDistribution),
     rating: recommended ? 5 : (isAtPar ? 4 : undefined),
     isRecommended: recommended,
-    debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined
+    debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined,
+    // Champs supplémentaires depuis le fichier Excel
+    delaiJouissance: cleanNumericValue(scpi['Délai de jouissance (mois)']),
+    versementLoyers: scpi['Versement des loyers'] || undefined,
+    dureeDetentionRecommandee: cleanNumericValue(scpi['Durée de détention recommandée (ans)']),
+    fraisGestion: cleanNumericValue(scpi['Frais de gestion (HT/%)']),
+    valeurRetrait: cleanNumericValue(scpi['Valeur de retrait (€)']),
+    valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution (€)']),
+    valeurRealisation: cleanNumericValue(scpi['Valeur de réalisation (€)']),
+    distribution: cleanNumericValue(scpi['Distribution (€/part)']),
+    nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
+    sfdr: scpi['SFDR'] || undefined,
+    profilCible: scpi['Profil cible'] || undefined,
+    // Profil de risque : chercher dans le nouveau format structuré ou l'ancien format
+    profilRisque: scpi['Profil_de_risque']?.SRRI !== null && scpi['Profil_de_risque']?.SRRI !== undefined
+      ? scpi['Profil_de_risque'].SRRI
+      : (cleanNumericValue(scpi['Profil de risque']) || 
+         cleanNumericValue(scpi['Profil risque']) ||
+         cleanNumericValue(scpi['Profil de risque (1-7)']) ||
+         cleanNumericValue(scpi['Risque (1-7)']))
   };
 });

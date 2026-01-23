@@ -95,14 +95,12 @@ export const getScpiPointsAttention = (scpi: Scpi): string[] => {
   concerns.push("Délai de revente (liquidité limitée)");
   
   // Troisième point selon les caractéristiques spécifiques
-  if (scpi.geography === 'international' || scpi.european) {
-    concerns.push("Double imposition potentielle sur l'international");
-  } else if (scpi.discount > 3) {
+  if (scpi.discount > 3) {
     concerns.push("Surcote/décote du prix de part");
   } else if (scpi.tof < 90) {
     concerns.push("RAN faible ou en diminution");
   } else if (scpi.creation >= 2020) {
-    concerns.push("Société de gestion jeune ou peu expérimentée");
+    concerns.push("Société de gestion jeune");
   } else if (scpi.sector === 'hotellerie') {
     concerns.push("Sensibilité aux taux d'intérêt et inflation");
   } else if (scpi.sector === 'commerces') {

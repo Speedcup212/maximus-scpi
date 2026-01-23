@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { scpiData } from '../../data/scpiData';
+import { getScpiAdvantages, getScpiPointsAttention } from '../../utils/scpiAnalysis';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -42,6 +44,90 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   };
 
   if (!isOpen) return null;
+
+  // Convertir SCPIExtended en Scpi pour utiliser les fonctions d'analyse
+  const scpiForAnalysis = useMemo(() => {
+    const matchingScpi = scpiData.find(s => s.name.toLowerCase() === scpi.name.toLowerCase());
+    return matchingScpi || null;
+  }, [scpi.name]);
+
+  // Récupérer les avantages et inconvénients
+  const advantages = scpiForAnalysis ? getScpiAdvantages(scpiForAnalysis) : [];
+  const pointsAttention = scpiForAnalysis ? getScpiPointsAttention(scpiForAnalysis) : [];
+
+  // Calculer la note sur 5 étoiles
+  const calculateRating = useMemo(() => {
+    if (!scpiForAnalysis) return 3; // Note par défaut si pas de données
+    
+    // Vérifier les critères pour une note minimale de 5/5
+    const capitalisationOk = scpiForAnalysis.capitalization >= 50000000; // 50 millions
+    const tofOk = scpiForAnalysis.tof >= 90;
+    
+    // Vérifier la décote (prix < valeur de reconstitution)
+    const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
+    const hasDiscount = reconstitutionVal > 0 && scpi.price < reconstitutionVal;
+    
+    // Vérifier le rendement selon la géographie
+    const isEurope = scpiForAnalysis.geography === 'europe' || scpiForAnalysis.european;
+    const rendementOk = isEurope 
+      ? scpiForAnalysis.yield >= 6 
+      : scpiForAnalysis.yield >= 5.5;
+    
+    // Vérifier l'endettement
+    const debt = scpiForAnalysis.debt || 0;
+    const endettementOk = debt <= 30;
+    
+    // Si tous les critères sont remplis, note minimale de 5/5
+    if (capitalisationOk && tofOk && hasDiscount && rendementOk && endettementOk) {
+      return 5;
+    }
+    
+    // Sinon, calculer la note normalement
+    let score = 0;
+    let maxScore = 0;
+
+    // Rendement (0-1.5 étoiles)
+    maxScore += 1.5;
+    if (scpiForAnalysis.yield >= 7) score += 1.5;
+    else if (scpiForAnalysis.yield >= 6) score += 1.2;
+    else if (scpiForAnalysis.yield >= 5) score += 1;
+    else if (scpiForAnalysis.yield >= 4) score += 0.7;
+    else if (scpiForAnalysis.yield >= 3) score += 0.4;
+
+    // TOF (0-1 étoile)
+    maxScore += 1;
+    if (scpiForAnalysis.tof >= 95) score += 1;
+    else if (scpiForAnalysis.tof >= 90) score += 0.7;
+    else if (scpiForAnalysis.tof >= 85) score += 0.4;
+
+    // Frais (0-0.5 étoile)
+    maxScore += 0.5;
+    if (scpiForAnalysis.fees === 0) score += 0.5;
+    else if (scpiForAnalysis.fees <= 3) score += 0.3;
+    else if (scpiForAnalysis.fees <= 5) score += 0.1;
+
+    // Qualité / Diversification (0-0.5 étoile)
+    maxScore += 0.5;
+    if (scpiForAnalysis.isr) score += 0.2;
+    if (scpiForAnalysis.repartitionSector && scpiForAnalysis.repartitionSector.length >= 3) score += 0.2;
+    if (scpiForAnalysis.capitalization >= 500000000) score += 0.1;
+
+    // Endettement (0-0.5 étoile)
+    maxScore += 0.5;
+    if (debt === 0) score += 0.5;
+    else if (debt <= 20) score += 0.4;
+    else if (debt <= 30) score += 0.2;
+
+    // Capitalisation / Liquidité (0-0.5 étoile)
+    maxScore += 0.5;
+    if (scpiForAnalysis.capitalization >= 1000000000) score += 0.5;
+    else if (scpiForAnalysis.capitalization >= 500000000) score += 0.3;
+    else if (scpiForAnalysis.capitalization >= 200000000) score += 0.1;
+
+    // Convertir le score en note sur 5
+    const rating = Math.round((score / maxScore) * 5);
+    return Math.max(1, Math.min(5, rating)); // Entre 1 et 5
+  }, [scpiForAnalysis, scpi]);
 
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
   const actualInvestment = numberOfShares * scpi.price;
@@ -101,105 +187,414 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
         </div>
 
         <div className="p-6 space-y-6">
-          <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 rounded-xl border border-emerald-500/20 p-6">
+          {/* 1. Chiffres clés - En premier */}
+          <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-emerald-400" />
-              Montant à Investir
+              <BarChart3 className="w-5 h-5 text-cyan-400" />
+              Chiffres clés
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-slate-300 mb-2 block">
-                    Montant d'investissement
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={investmentAmount}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '' || value === '0') {
-                          setInvestmentAmount(0);
-                        } else {
-                          setInvestmentAmount(Number(value));
-                        }
-                      }}
-                      min={0}
-                      step={scpi.price}
-                      placeholder="Entrez un montant"
-                      className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 text-white rounded-lg text-xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-lg">€</span>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">Minimum: {scpi.minInvestment.toLocaleString('fr-FR')}€</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {/* Rendement */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <div className="text-xs text-slate-400">Rendement</div>
                 </div>
+                <div className="text-2xl font-bold text-emerald-400">
+                  {scpi.yield.toFixed(2)}%
+                </div>
+              </div>
 
-                <div>
-                  <p className="text-xs text-slate-400 mb-2">Montants rapides:</p>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      onClick={() => setInvestmentAmount(10000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      10k€
-                    </button>
-                    <button
-                      onClick={() => setInvestmentAmount(25000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      25k€
-                    </button>
-                    <button
-                      onClick={() => setInvestmentAmount(50000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      50k€
-                    </button>
-                    <button
-                      onClick={() => setInvestmentAmount(100000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      100k€
-                    </button>
-                    <button
-                      onClick={() => setInvestmentAmount(200000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      200k€
-                    </button>
-                    <button
-                      onClick={() => setInvestmentAmount(500000)}
-                      className="px-3 py-2 bg-slate-700 hover:bg-emerald-600 border border-slate-600 hover:border-emerald-500 text-white rounded-lg text-sm font-semibold transition-all"
-                    >
-                      500k€
-                    </button>
+              {/* TOF */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="flex items-center gap-2 mb-2">
+                  <Percent className="w-4 h-4 text-blue-400" />
+                  <div className="text-xs text-slate-400">TOF</div>
+                </div>
+                <div className="text-2xl font-bold text-blue-400">
+                  {scpi.tof.toFixed(1)}%
+                </div>
+              </div>
+
+              {/* Décote/Surcote */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingDown className="w-4 h-4 text-slate-400" />
+                  <div className="text-xs text-slate-400">Décote/Surcote</div>
+                </div>
+                {(() => {
+                  const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
+                  const discountPremium = reconstitutionVal > 0 
+                    ? ((scpi.price - reconstitutionVal) / reconstitutionVal * 100)
+                    : 0;
+                  const isDiscount = discountPremium < 0;
+                  return (
+                    <div className={`text-2xl font-bold ${isDiscount ? 'text-emerald-400' : discountPremium > 0 ? 'text-red-400' : 'text-slate-400'}`}>
+                      {discountPremium > 0 ? '+' : ''}{discountPremium.toFixed(1)}%
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Capitalisation */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="flex items-center gap-2 mb-2">
+                  <Building2 className="w-4 h-4 text-purple-400" />
+                  <div className="text-xs text-slate-400">Capitalisation</div>
+                </div>
+                <div className="text-lg font-bold text-purple-400">
+                  {scpi.capitalization}
+                </div>
+              </div>
+
+              {/* Note */}
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="flex items-center gap-2 mb-2">
+                  <Star className="w-4 h-4 text-yellow-400" />
+                  <div className="text-xs text-slate-400">Note</div>
+                </div>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star
+                      key={star}
+                      className={`w-5 h-5 ${
+                        star <= calculateRating
+                          ? 'fill-yellow-400 text-yellow-400'
+                          : 'text-slate-600'
+                      }`}
+                    />
+                  ))}
+                  <span className="text-lg font-bold text-white ml-1">
+                    {calculateRating}/5
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Analyse MaximusSCPI - Avantages et Inconvénients */}
+          {(advantages.length > 0 || pointsAttention.length > 0) && (
+            <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-purple-400" />
+                Analyse MaximusSCPI
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Avantages */}
+                {advantages.length > 0 && (
+                  <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/20">
+                    <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Avantages
+                    </h4>
+                    <ul className="space-y-2">
+                      {advantages.map((advantage, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-slate-300">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                          <span>{advantage}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Inconvénients / Points d'attention */}
+                {pointsAttention.length > 0 && (
+                  <div className="bg-orange-500/10 rounded-lg p-4 border border-orange-500/20">
+                    <h4 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      Points d'attention
+                    </h4>
+                    <ul className="space-y-2">
+                      {pointsAttention.map((point, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm text-slate-300">
+                          <AlertCircle className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* 3. Tableau de Bord Technique */}
+          <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-cyan-400" />
+              Tableau de Bord Technique
+            </h3>
+            <div className="space-y-6">
+              <div>
+                <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
+                  <Percent className="w-4 h-4" />
+                  Structure & Frais
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Tag className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Frais d'entrée</div>
+                    </div>
+                    {scpi.entryFees !== undefined ? (
+                      scpi.entryFees === 0 ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg font-bold text-white">0%</span>
+                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded border border-emerald-500/30">Sans frais</span>
+                        </div>
+                      ) : (
+                        <div className="text-lg font-bold text-white">{scpi.entryFees}%</div>
+                      )
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <DollarSign className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Frais de gestion</div>
+                    </div>
+                    {(scpi.managementFees !== undefined || scpi.fraisGestion !== undefined) ? (
+                      <div className="text-lg font-bold text-white">
+                        {(scpi.managementFees ?? scpi.fraisGestion)}% TTC
+                      </div>
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Clock className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Délai de jouissance</div>
+                    </div>
+                    {scpi.delaiJouissance !== undefined ? (
+                      <div className="text-lg font-bold text-white">{scpi.delaiJouissance} mois</div>
+                    ) : scpi.withdrawalDelay ? (
+                      <div className="text-lg font-bold text-white">{scpi.withdrawalDelay}</div>
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Building2 className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Immeubles</div>
+                    </div>
+                    {(scpi.assetsCount !== undefined || scpi.nbImmeubles !== undefined) ? (
+                      <div className="text-lg font-bold text-white">
+                        {scpi.assetsCount ?? scpi.nbImmeubles}
+                      </div>
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  {scpi.versementLoyers && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Versement des loyers</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.versementLoyers}</div>
+                    </div>
+                  )}
+                  {scpi.dureeDetentionRecommandee !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Durée détention recommandée</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.dureeDetentionRecommandee} ans</div>
+                    </div>
+                  )}
+                  {scpi.sfdr && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Shield className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">SFDR</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.sfdr}</div>
+                    </div>
+                  )}
+                  {scpi.profilCible && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Tag className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Profil cible</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.profilCible}</div>
+                    </div>
+                  )}
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <DollarSign className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Minimum de souscription</div>
+                    </div>
+                    <div className="text-lg font-bold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
+                  </div>
+                  {scpi.profilRisque !== undefined && scpi.profilRisque !== null && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Shield className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Profil de risque (SRRI)</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 flex gap-1">
+                          {[1, 2, 3, 4, 5, 6, 7].map((level) => {
+                            const isActive = level <= scpi.profilRisque!;
+                            let colorClass = 'bg-slate-600';
+                            if (isActive) {
+                              if (level <= 3) {
+                                // Jusqu'à 3 : vert
+                                colorClass = 'bg-emerald-500';
+                              } else if (level === 4) {
+                                // 4 : orange clair
+                                colorClass = 'bg-orange-400';
+                              } else if (level <= 6) {
+                                // 5-6 : orange foncé
+                                colorClass = 'bg-orange-600';
+                              } else {
+                                // 7 : rouge
+                                colorClass = 'bg-red-500';
+                              }
+                            }
+                            return (
+                              <div
+                                key={level}
+                                className={`flex-1 h-8 rounded ${colorClass} transition-all ${
+                                  isActive ? 'opacity-100' : 'opacity-30'
+                                }`}
+                                title={`Niveau ${level}`}
+                              />
+                            );
+                          })}
+                        </div>
+                        <div className="ml-2 text-lg font-bold text-white min-w-[2rem] text-right">
+                          {scpi.profilRisque}/7
+                        </div>
+                      </div>
+                      <div className="mt-2 flex justify-between text-xs text-slate-400">
+                        <span>Prudent</span>
+                        <span>Équilibré</span>
+                        <span>Dynamique</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
+                  <TrendingDown className="w-4 h-4" />
+                  Valorisation & Risque
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Tag className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Val. Reconstitution</div>
+                    </div>
+                    {(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (
+                      <div className="text-lg font-bold text-white">
+                        {(scpi.reconstitutionValue ?? scpi.valeurReconstitution)?.toFixed(2)}€
+                      </div>
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  {(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Tag className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Val. Retrait</div>
+                      </div>
+                      {scpi.valeurRetrait !== undefined ? (
+                        <div className="text-lg font-bold text-white">{scpi.valeurRetrait.toFixed(2)}€</div>
+                      ) : (
+                        <div className="text-lg font-bold text-slate-500">N/A</div>
+                      )}
+                    </div>
+                  )}
+                  {scpi.valeurRealisation !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Tag className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Val. Réalisation</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.valeurRealisation.toFixed(2)}€</div>
+                    </div>
+                  )}
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingDown className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Décote / Surcote</div>
+                    </div>
+                    {(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (
+                      (() => {
+                        const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
+                        const discountPremium = ((scpi.price - reconstitutionVal) / reconstitutionVal * 100);
+                        const isDiscount = discountPremium < 0;
+                        return (
+                          <div className={`text-lg font-bold ${isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
+                            {discountPremium > 0 ? '+' : ''}{discountPremium.toFixed(1)}%
+                            <span className="text-xs ml-1">({isDiscount ? 'Décote' : 'Surcote'})</span>
+                          </div>
+                        );
+                      })()
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  {scpi.distribution !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="flex items-center gap-2 mb-2">
+                        <DollarSign className="w-4 h-4 text-slate-400" />
+                        <div className="text-xs text-slate-400">Distribution (€/part)</div>
+                      </div>
+                      <div className="text-lg font-bold text-white">{scpi.distribution.toFixed(2)}€</div>
+                    </div>
+                  )}
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Shield className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Report à Nouveau</div>
+                    </div>
+                    {scpi.ranDays !== undefined ? (
+                      <div className="text-lg font-bold text-white">{scpi.ranDays} jours</div>
+                    ) : (
+                      <div className="text-lg font-bold text-slate-500">N/A</div>
+                    )}
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Building2 className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Taux d'Occupation</div>
+                    </div>
+                    <div className="text-lg font-bold text-white">{scpi.tof}%</div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">Nombre de parts</span>
-                    <span className="text-2xl font-bold text-white">{numberOfShares}</span>
-                  </div>
-                </div>
-                <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-300 font-medium">Investissement réel</span>
-                    <span className="text-2xl font-bold text-emerald-400">{actualInvestment.toLocaleString('fr-FR')}€</span>
-                  </div>
-                </div>
-                <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">Prix par part</span>
-                    <span className="text-lg font-bold text-white">{scpi.price}€</span>
+              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                <div className="text-sm font-semibold text-slate-300 mb-2">Stratégie d'Investissement</div>
+                <p className="text-sm text-slate-400 leading-relaxed">{scpi.strategy}</p>
+              </div>
+
+              <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <div className="text-sm font-semibold text-blue-400 mb-1">Note importante</div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Les performances passées ne préjugent pas des performances futures. Les revenus sont estimés et peuvent varier selon le taux d'occupation réel et la politique de distribution.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* 2. Répartitions - Ensuite */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -378,218 +773,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <span className="font-semibold text-white">{geo.value}%</span>
                   </div>
                 ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-orange-400" />
-                Projection sur {investmentYears} ans
-              </h3>
-              <div className="flex items-center gap-2">
-                <label className="text-sm text-slate-400">Durée:</label>
-                <select
-                  value={investmentYears}
-                  onChange={(e) => setInvestmentYears(Number(e.target.value))}
-                  className="px-3 py-1.5 bg-slate-700 border border-slate-600 text-white rounded-lg text-sm focus:outline-none focus:border-emerald-500"
-                >
-                  <option value={5}>5 ans</option>
-                  <option value={10}>10 ans</option>
-                  <option value={15}>15 ans</option>
-                  <option value={20}>20 ans</option>
-                </select>
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={[...projectionData]}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
-                <XAxis dataKey="year" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" tickFormatter={(value) => `${(value / 1000).toFixed(0)}k€`} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
-                  labelStyle={{ color: '#fff' }}
-                  formatter={(value: number) => `${value.toLocaleString('fr-FR')}€`}
-                />
-                <Legend />
-                <Bar dataKey="capital" name="Capital investi" stackId="a" fill="#3b82f6" />
-                <Bar dataKey="revenus" name="Revenus cumulés" stackId="a" fill="#10b981" />
-              </BarChart>
-            </ResponsiveContainer>
-            <div className="mt-4 bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-              <div className="flex justify-between items-center">
-                <span className="text-slate-300">Patrimoine total après {investmentYears} ans</span>
-                <span className="text-2xl font-bold text-emerald-400">
-                  {(actualInvestment + annualRevenue * investmentYears).toLocaleString('fr-FR')}€
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-500/10 to-emerald-600/5 rounded-xl border border-green-500/20 p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-green-400" />
-              Revenus Estimés
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                <div className="text-sm text-slate-400 mb-1">Revenus Annuels Bruts</div>
-                <div className="text-2xl font-bold text-emerald-400">{annualRevenue.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</div>
-                <div className="text-xs text-slate-500 mt-1">Rendement {scpi.yield}%</div>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                <div className="text-sm text-slate-400 mb-1">Revenus Mensuels</div>
-                <div className="text-2xl font-bold text-green-400">{monthlyRevenue.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</div>
-                <div className="text-xs text-slate-500 mt-1">Par mois</div>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                <div className="text-sm text-slate-400 mb-1">Revenus Nets Estimés</div>
-                <div className="text-2xl font-bold text-green-400">{annualNetRevenue.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</div>
-                <div className="text-xs text-slate-500 mt-1">Après prélèvements sociaux</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-cyan-400" />
-              Tableau de Bord Technique
-            </h3>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
-                  <Percent className="w-4 h-4" />
-                  Structure & Frais
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Tag className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Frais d'entrée</div>
-                    </div>
-                    {scpi.entryFees !== undefined ? (
-                      scpi.entryFees === 0 ? (
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-white">0%</span>
-                          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded border border-emerald-500/30">Sans frais</span>
-                        </div>
-                      ) : (
-                        <div className="text-lg font-bold text-white">{scpi.entryFees}%</div>
-                      )
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <DollarSign className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Frais de gestion</div>
-                    </div>
-                    {scpi.managementFees !== undefined ? (
-                      <div className="text-lg font-bold text-white">{scpi.managementFees}% TTC</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Délai de jouissance</div>
-                    </div>
-                    {scpi.withdrawalDelay ? (
-                      <div className="text-lg font-bold text-white">{scpi.withdrawalDelay}</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Immeubles</div>
-                    </div>
-                    {scpi.assetsCount !== undefined ? (
-                      <div className="text-lg font-bold text-white">{scpi.assetsCount}</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
-                  <TrendingDown className="w-4 h-4" />
-                  Valorisation & Risque
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Tag className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Val. Reconstitution</div>
-                    </div>
-                    {scpi.reconstitutionValue !== undefined ? (
-                      <div className="text-lg font-bold text-white">{scpi.reconstitutionValue}€</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingDown className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Décote / Surcote</div>
-                    </div>
-                    {scpi.reconstitutionValue !== undefined ? (
-                      (() => {
-                        const discountPremium = ((scpi.price - scpi.reconstitutionValue) / scpi.reconstitutionValue * 100);
-                        const isDiscount = discountPremium < 0;
-                        return (
-                          <div className={`text-lg font-bold ${isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
-                            {discountPremium > 0 ? '+' : ''}{discountPremium.toFixed(1)}%
-                            <span className="text-xs ml-1">({isDiscount ? 'Décote' : 'Surcote'})</span>
-                          </div>
-                        );
-                      })()
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Shield className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Report à Nouveau</div>
-                    </div>
-                    {scpi.ranDays !== undefined ? (
-                      <div className="text-lg font-bold text-white">{scpi.ranDays} jours</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Taux d'Occupation</div>
-                    </div>
-                    <div className="text-lg font-bold text-white">{scpi.tof}%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                <div className="text-sm font-semibold text-slate-300 mb-2">Stratégie d'Investissement</div>
-                <p className="text-sm text-slate-400 leading-relaxed">{scpi.strategy}</p>
-              </div>
-
-              <div className="bg-blue-500/10 rounded-lg p-4 border border-blue-500/20">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-sm font-semibold text-blue-400 mb-1">Note importante</div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      Les performances passées ne préjugent pas des performances futures. Les revenus sont estimés et peuvent varier selon le taux d'occupation réel et la politique de distribution.
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
