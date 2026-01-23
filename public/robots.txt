@@ -1,27 +1,7 @@
-# MaximusSCPI - Production robots.txt
-# Site: https://maximusscpi.com
+# MaximusSCPI - Development/Preview robots.txt
+# AUCUNE INDEXATION EN ENVIRONNEMENT DE DÉVELOPPEMENT
 
 User-agent: *
-Allow: /
+Disallow: /
 
-# Sitemap
-Sitemap: https://maximusscpi.com/sitemap.xml
-
-# Crawl-delay pour éviter la surcharge
-Crawl-delay: 1
-
-# Interdire l'accès aux dossiers techniques
-Disallow: /api/
-Disallow: /*.json$
-Disallow: /test-*
-Disallow: /qa-*
-
-# Autoriser explicitement les pages importantes
-Allow: /scpi-*
-Allow: /fonds-euros-*
-Allow: /investir-*
-Allow: /meilleures-*
-Allow: /comparateur-*
-Allow: /qui-sommes-nous
-Allow: /faq
-Allow: /comprendre-les-scpi
+# Aucun sitemap en dev/preview

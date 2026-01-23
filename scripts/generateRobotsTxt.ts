@@ -29,11 +29,9 @@ Sitemap: ${siteUrl}/sitemap.xml
 # Crawl-delay pour éviter la surcharge
 Crawl-delay: 1
 
-# Interdire l'accès aux dossiers techniques
+# Interdire uniquement les ressources techniques critiques
 Disallow: /api/
 Disallow: /*.json$
-Disallow: /test-*
-Disallow: /qa-*
 
 # Autoriser explicitement les pages importantes
 Allow: /scpi-*
@@ -44,6 +42,8 @@ Allow: /comparateur-*
 Allow: /qui-sommes-nous
 Allow: /faq
 Allow: /comprendre-les-scpi
+Allow: /articles/*
+Allow: /education/*
 `;
   } else {
     robotsContent = `# MaximusSCPI - Development/Preview robots.txt
