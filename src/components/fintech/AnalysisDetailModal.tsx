@@ -272,6 +272,94 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </div>
           </div>
 
+          {/* 1b. Profil de Risque */}
+          {scpi.profilRisque !== undefined && scpi.profilRisque !== null && (
+            <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
+              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <Shield className="w-5 h-5 text-purple-400" />
+                Profil de Risque (SRRI)
+              </h3>
+              {/* Version mobile : compact */}
+              <div className="md:hidden">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5, 6, 7].map((level) => {
+                      const isActive = level <= scpi.profilRisque!;
+                      let colorClass = 'bg-slate-600';
+                      if (isActive) {
+                        if (level <= 3) {
+                          colorClass = 'bg-emerald-500';
+                        } else if (level === 4) {
+                          colorClass = 'bg-orange-400';
+                        } else if (level <= 6) {
+                          colorClass = 'bg-orange-600';
+                        } else {
+                          colorClass = 'bg-red-500';
+                        }
+                      }
+                      return (
+                        <div
+                          key={level}
+                          className={`w-5 h-6 rounded ${colorClass} transition-all flex items-center justify-center text-xs font-bold text-white ${
+                            isActive ? 'opacity-100' : 'opacity-30'
+                          }`}
+                          title={`Niveau ${level}`}
+                        >
+                          {level}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <span className="text-lg font-bold text-white ml-2">{scpi.profilRisque}/7</span>
+                </div>
+                <div className="text-xs text-slate-400 text-center">
+                  {scpi.profilRisque <= 3 ? 'Prudent' : scpi.profilRisque <= 5 ? 'Équilibré' : 'Dynamique'}
+                </div>
+              </div>
+              {/* Version desktop : large */}
+              <div className="hidden md:block">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex-1 flex gap-1">
+                    {[1, 2, 3, 4, 5, 6, 7].map((level) => {
+                      const isActive = level <= scpi.profilRisque!;
+                      let colorClass = 'bg-slate-600';
+                      if (isActive) {
+                        if (level <= 3) {
+                          colorClass = 'bg-emerald-500';
+                        } else if (level === 4) {
+                          colorClass = 'bg-orange-400';
+                        } else if (level <= 6) {
+                          colorClass = 'bg-orange-600';
+                        } else {
+                          colorClass = 'bg-red-500';
+                        }
+                      }
+                      return (
+                        <div
+                          key={level}
+                          className={`flex-1 h-8 rounded ${colorClass} transition-all flex items-center justify-center text-sm font-bold text-white ${
+                            isActive ? 'opacity-100' : 'opacity-30'
+                          }`}
+                          title={`Niveau ${level}`}
+                        >
+                          {level}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="ml-2 text-lg font-bold text-white min-w-[2rem] text-right">
+                    {scpi.profilRisque}/7
+                  </div>
+                </div>
+                <div className="flex justify-between text-xs text-slate-400">
+                  <span>Prudent</span>
+                  <span>Équilibré</span>
+                  <span>Dynamique</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* 2. Analyse MaximusSCPI - Avantages et Inconvénients */}
           {(advantages.length > 0 || pointsAttention.length > 0) && (
             <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6">
@@ -331,7 +419,25 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <Percent className="w-4 h-4" />
                   Structure & Frais
                 </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <DollarSign className="w-4 h-4 text-emerald-400" />
+                      <div className="text-xs text-emerald-400 font-semibold">Prix de la part</div>
+                    </div>
+                    <div className="text-lg font-bold text-emerald-400">
+                      {scpi.price.toFixed(2)}€
+                    </div>
+                  </div>
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Tag className="w-4 h-4 text-slate-400" />
+                      <div className="text-xs text-slate-400">Minimum souscription</div>
+                    </div>
+                    <div className="text-lg font-bold text-white">
+                      {scpi.minInvestment.toFixed(2)}€
+                    </div>
+                  </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                     <div className="flex items-center gap-2 mb-2">
                       <Tag className="w-4 h-4 text-slate-400" />
@@ -432,54 +538,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     </div>
                     <div className="text-lg font-bold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
                   </div>
-                  {scpi.profilRisque !== undefined && scpi.profilRisque !== null && (
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Shield className="w-4 h-4 text-slate-400" />
-                        <div className="text-xs text-slate-400">Profil de risque (SRRI)</div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 flex gap-1">
-                          {[1, 2, 3, 4, 5, 6, 7].map((level) => {
-                            const isActive = level <= scpi.profilRisque!;
-                            let colorClass = 'bg-slate-600';
-                            if (isActive) {
-                              if (level <= 3) {
-                                // Jusqu'à 3 : vert
-                                colorClass = 'bg-emerald-500';
-                              } else if (level === 4) {
-                                // 4 : orange clair
-                                colorClass = 'bg-orange-400';
-                              } else if (level <= 6) {
-                                // 5-6 : orange foncé
-                                colorClass = 'bg-orange-600';
-                              } else {
-                                // 7 : rouge
-                                colorClass = 'bg-red-500';
-                              }
-                            }
-                            return (
-                              <div
-                                key={level}
-                                className={`flex-1 h-8 rounded ${colorClass} transition-all ${
-                                  isActive ? 'opacity-100' : 'opacity-30'
-                                }`}
-                                title={`Niveau ${level}`}
-                              />
-                            );
-                          })}
-                        </div>
-                        <div className="ml-2 text-lg font-bold text-white min-w-[2rem] text-right">
-                          {scpi.profilRisque}/7
-                        </div>
-                      </div>
-                      <div className="mt-2 flex justify-between text-xs text-slate-400">
-                        <span>Prudent</span>
-                        <span>Équilibré</span>
-                        <span>Dynamique</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -491,11 +549,11 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                     <div className="flex items-center gap-2 mb-2">
-                      <Tag className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Val. Reconstitution</div>
+                      <DollarSign className="w-4 h-4 text-emerald-400" />
+                      <div className="text-xs text-emerald-400 font-semibold">Val. Reconstitution</div>
                     </div>
                     {(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (
-                      <div className="text-lg font-bold text-white">
+                      <div className="text-lg font-bold text-emerald-400">
                         {(scpi.reconstitutionValue ?? scpi.valeurReconstitution)?.toFixed(2)}€
                       </div>
                     ) : (
@@ -567,10 +625,10 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                     <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Taux d'Occupation</div>
+                      <Building2 className="w-4 h-4 text-emerald-400" />
+                      <div className="text-xs text-emerald-400 font-semibold">Taux d'Occupation</div>
                     </div>
-                    <div className="text-lg font-bold text-white">{scpi.tof}%</div>
+                    <div className="text-lg font-bold text-emerald-400">{scpi.tof}%</div>
                   </div>
                 </div>
               </div>
@@ -639,7 +697,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       </linearGradient>
                     </defs>
                     <Pie
-                      data={[...scpi.sectors]}
+                      data={[...scpi.sectors].sort((a, b) => b.value - a.value)}
                       cx="50%"
                       cy="50%"
                       innerRadius="50%"
@@ -650,7 +708,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       animationDuration={800}
                       animationEasing="ease-out"
                     >
-                      {scpi.sectors.map((entry, index) => (
+                      {scpi.sectors.sort((a, b) => b.value - a.value).map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={`url(#${GRADIENT_IDS.sectors[index % GRADIENT_IDS.sectors.length]})`}
@@ -669,7 +727,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 </div>
               </div>
               <div className="mt-4 space-y-2">
-                {scpi.sectors.map((sector, index) => (
+                {scpi.sectors.sort((a, b) => b.value - a.value).map((sector, index) => (
                   <div key={sector.name} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <div
@@ -729,7 +787,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       </linearGradient>
                     </defs>
                     <Pie
-                      data={[...scpi.geography]}
+                      data={[...scpi.geography].sort((a, b) => b.value - a.value)}
                       cx="50%"
                       cy="50%"
                       innerRadius="50%"
@@ -740,7 +798,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       animationDuration={800}
                       animationEasing="ease-out"
                     >
-                      {scpi.geography.map((entry, index) => (
+                      {scpi.geography.sort((a, b) => b.value - a.value).map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={`url(#${GRADIENT_IDS.geography[index % GRADIENT_IDS.geography.length]})`}
@@ -758,8 +816,8 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-sm text-slate-400">pays</div>
                 </div>
               </div>
-              <div className="mt-4 space-y-2">
-                {scpi.geography.map((geo, index) => (
+                <div className="mt-4 space-y-2">
+                  {scpi.geography.sort((a, b) => b.value - a.value).map((geo, index) => (
                   <div key={geo.name} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <div
