@@ -38,6 +38,15 @@ export interface Scpi {
   sfdr?: string; // Classification SFDR (ex: "Article 8", "Article 9")
   profilCible?: string; // Profil cible (ex: "Profil équilibré", "Profil prudent")
   profilRisque?: number; // Profil de risque de 1 à 7
+  // Données locatives extraites des bulletins trimestriels
+  nombreLocataires?: number; // Nombre total de locataires
+  walt?: number; // Weighted Average Lease Term (en années)
+  walb?: number; // Weighted Average Lease Break (en années)
+  // Données trimestrielles extraites des bulletins
+  collecteNetteTrimestre?: number; // Collecte nette du trimestre (en €)
+  nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
+  actualitesTrimestrielles?: string; // Actualités trimestrielles (séparées par " | ")
+  periodeBulletinTrimestriel?: string; // Période du dernier bulletin (ex: "T3 2025")
 }
 
 export type QuickFilterType = 'tous' | 'europeennes' | 'francaises' | 'isr' | 'high-yield';

@@ -328,7 +328,7 @@ const ScpiSecteursHubPage: React.FC = () => {
                       <div className={`text-2xl font-bold ${colors.text}`}>
                         {sector.stats.rendementMoyen}
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Rendement</div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">Taux de distribution</div>
                     </div>
                     <div className="text-center">
                       <div className={`text-2xl font-bold ${colors.text}`}>

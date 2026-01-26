@@ -178,7 +178,7 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                     {scpi.yield.toFixed(2)}%
                   </div>
                   <div className="text-sm font-bold text-green-700 dark:text-green-300">
-                    Rendement 2024
+                    Taux de distribution 2024
                   </div>
                 </div>
 

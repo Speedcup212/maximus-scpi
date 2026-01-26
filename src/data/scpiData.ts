@@ -217,7 +217,117 @@ const cleanNumericValue = (value: any): number | undefined => {
 // Utiliser le nouveau fichier scpi_complet.json s'il est disponible, sinon utiliser l'ancien
 const sourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompleteJson.Sheet1 || scpiCompleteJson);
 
-export const scpiData: Scpi[] = sourceData.map((scpi: any, index: number) => {
+// Fonction pour fusionner les entrées multiples d'une même SCPI
+// Priorité : entrée principale + données trimestrielles de l'entrée avec période bulletin
+function mergeScpiEntries(entries: any[]): any[] {
+  const merged: Record<string, any> = {};
+  
+  entries.forEach((entry) => {
+    const nom = entry['Nom SCPI'];
+    if (!nom) return;
+    
+    if (!merged[nom]) {
+      // Première entrée trouvée : créer l'entrée de base
+      merged[nom] = { ...entry };
+    } else {
+      // Entrée existante : fusionner les données
+      const existing = merged[nom];
+      
+      // Si cette entrée a une période bulletin trimestriel, prioriser ses données trimestrielles
+      if (entry['Période bulletin trimestriel'] && !existing['Période bulletin trimestriel']) {
+        // L'entrée existante est principale, l'entrée actuelle est trimestrielle
+        // Ajouter les données trimestrielles à l'entrée principale
+        if (entry['Actualités trimestrielles']) {
+          existing['Actualités trimestrielles'] = entry['Actualités trimestrielles'];
+        }
+        if (entry['Période bulletin trimestriel']) {
+          existing['Période bulletin trimestriel'] = entry['Période bulletin trimestriel'];
+        }
+        // Mettre à jour les données trimestrielles si elles sont plus récentes
+        if (entry['Nombre de locataires'] !== undefined) {
+          existing['Nombre de locataires'] = entry['Nombre de locataires'];
+        }
+        if (entry['WALT'] !== undefined) {
+          existing['WALT'] = entry['WALT'];
+        }
+        if (entry['WALB'] !== undefined) {
+          existing['WALB'] = entry['WALB'];
+        }
+        if (entry['Collecte nette trimestre'] !== undefined) {
+          existing['Collecte nette trimestre'] = entry['Collecte nette trimestre'];
+        }
+        if (entry['TOP (%)'] !== undefined) {
+          existing['TOP (%)'] = entry['TOP (%)'];
+        }
+        // Mettre à jour le nombre d'immeubles si présent dans l'entrée trimestrielle
+        const nbImmeublesKey = Object.keys(entry).find(k => k.includes('immeubles') || k.includes('Immeubles'));
+        if (nbImmeublesKey && entry[nbImmeublesKey] !== undefined) {
+          const existingKey = Object.keys(existing).find(k => k.includes('immeubles') || k.includes('Immeubles'));
+          if (existingKey) {
+            existing[existingKey] = entry[nbImmeublesKey];
+          } else {
+            existing[nbImmeublesKey] = entry[nbImmeublesKey];
+          }
+        }
+        // Mettre à jour les répartitions si elles sont plus détaillées dans l'entrée trimestrielle
+        if (entry['Répartition Sectorielle JSON'] && Object.keys(entry['Répartition Sectorielle JSON']).length > 0) {
+          existing['Répartition Sectorielle JSON'] = entry['Répartition Sectorielle JSON'];
+          if (entry['Répartition Sectorielle']) {
+            existing['Répartition Sectorielle'] = entry['Répartition Sectorielle'];
+          }
+        }
+        if (entry['Répartition Géographique JSON'] && Object.keys(entry['Répartition Géographique JSON']).length > 0) {
+          existing['Répartition Géographique JSON'] = entry['Répartition Géographique JSON'];
+          if (entry['Répartition Géographique']) {
+            existing['Répartition Géographique'] = entry['Répartition Géographique'];
+          }
+        }
+      } else if (!entry['Période bulletin trimestriel'] && existing['Période bulletin trimestriel']) {
+        // L'entrée actuelle est principale, l'existante est trimestrielle
+        // Remplacer l'existante par la principale et garder les données trimestrielles
+        const temp = { ...existing };
+        Object.assign(existing, entry);
+        // Conserver les données trimestrielles
+        if (temp['Actualités trimestrielles']) {
+          existing['Actualités trimestrielles'] = temp['Actualités trimestrielles'];
+        }
+        if (temp['Période bulletin trimestriel']) {
+          existing['Période bulletin trimestriel'] = temp['Période bulletin trimestriel'];
+        }
+        // Conserver les répartitions de l'entrée principale si elles sont plus détaillées
+        if (entry['Répartition Sectorielle JSON'] && Object.keys(entry['Répartition Sectorielle JSON']).length > 0) {
+          existing['Répartition Sectorielle JSON'] = entry['Répartition Sectorielle JSON'];
+          if (entry['Répartition Sectorielle']) {
+            existing['Répartition Sectorielle'] = entry['Répartition Sectorielle'];
+          }
+        }
+        if (entry['Répartition Géographique JSON'] && Object.keys(entry['Répartition Géographique JSON']).length > 0) {
+          existing['Répartition Géographique JSON'] = entry['Répartition Géographique JSON'];
+          if (entry['Répartition Géographique']) {
+            existing['Répartition Géographique'] = entry['Répartition Géographique'];
+          }
+        }
+        // Conserver le nombre d'immeubles de l'entrée principale
+        const entryNbImmeublesKey = Object.keys(entry).find(k => k.includes('immeubles') || k.includes('Immeubles'));
+        if (entryNbImmeublesKey && entry[entryNbImmeublesKey] !== undefined) {
+          const existingKey = Object.keys(existing).find(k => k.includes('immeubles') || k.includes('Immeubles'));
+          if (existingKey) {
+            existing[existingKey] = entry[entryNbImmeublesKey];
+          } else {
+            existing[entryNbImmeublesKey] = entry[entryNbImmeublesKey];
+          }
+        }
+      }
+    }
+  });
+  
+  return Object.values(merged);
+}
+
+// Fusionner les entrées multiples avant de les transformer
+const mergedData = mergeScpiEntries(sourceData);
+
+export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   // Utiliser les champs JSON structurés s'ils existent (nouveau format), sinon parser les chaînes
   let sectorDistribution: Record<string, number> = {};
   let geoDistribution: Record<string, number> = {};
@@ -274,6 +384,13 @@ export const scpiData: Scpi[] = sourceData.map((scpi: any, index: number) => {
     valeurRealisation: cleanNumericValue(scpi['Valeur de réalisation (€)']),
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
+    nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
+    walt: cleanNumericValue(scpi['WALT']),
+    walb: cleanNumericValue(scpi['WALB']),
+    collecteNetteTrimestre: cleanNumericValue(scpi['Collecte nette trimestre']),
+    nbCessionsTrimestre: cleanNumericValue(scpi['Nombre de cessions trimestre']),
+    actualitesTrimestrielles: scpi['Actualités trimestrielles'] || undefined,
+    periodeBulletinTrimestriel: scpi['Période bulletin trimestriel'] || undefined,
     sfdr: scpi['SFDR'] || undefined,
     profilCible: scpi['Profil cible'] || undefined,
     // Profil de risque : chercher dans le nouveau format structuré ou l'ancien format

@@ -29,6 +29,13 @@ export interface SCPIExtended {
   sfdr?: string; // Classification SFDR
   profilCible?: string; // Profil cible
   profilRisque?: number; // Profil de risque de 1 à 7
+  // Données locatives extraites des bulletins trimestriels
+  nombreLocataires?: number; // Nombre total de locataires
+  walt?: number; // Weighted Average Lease Term (en années)
+  walb?: number; // Weighted Average Lease Break (en années)
+  // Données trimestrielles extraites des bulletins
+  collecteNetteTrimestre?: number; // Collecte nette du trimestre (en €)
+  nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
 }
 
 const baseSCPIData: SCPIExtended[] = [
@@ -528,22 +535,34 @@ const baseSCPIData: SCPIExtended[] = [
     "capitalization": "385M€",
     "sectors": [
       {
-        "name": "Régions",
-        "value": 85.2
+        "name": "Bureaux",
+        "value": 51.08
       },
       {
-        "name": "Île-de-France",
-        "value": 14.8
+        "name": "Commerces",
+        "value": 29.62
+      },
+      {
+        "name": "Logistique et locaux d'activités",
+        "value": 17.47
+      },
+      {
+        "name": "Santé et éducation",
+        "value": 1.77
+      },
+      {
+        "name": "Alternatifs",
+        "value": 0.06
       }
     ],
     "geography": [
       {
-        "name": "Paris",
-        "value": 49.6
+        "name": "Régions",
+        "value": 86.0
       },
       {
-        "name": "Régions françaises",
-        "value": 50.4
+        "name": "Île-de-France",
+        "value": 14.0
       }
     ],
     "reconstitutionValue": 640,
@@ -1299,69 +1318,70 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 26,
     "name": "Iroko Zen",
-    "yield": 6.01,
-    "price": 202,
-    "minInvestment": 202,
+    "yield": 7.12,
+    "price": 204,
+    "minInvestment": 204,
     "category": "Bureaux",
     "managementCompany": "Iroko",
-    "tof": 97.7,
-    "capitalization": "1,1Md€",
+    "tof": 98.1,
+    "capitalization": "1,2Md€",
     "sectors": [
       {
-        "name": "Bureaux",
-        "value": 30
-      },
-      {
-        "name": "Hôtels",
-        "value": 3
-      },
-      {
         "name": "Commerces",
-        "value": 34
+        "value": 36.2
       },
       {
-        "name": "Entrepôts",
-        "value": 11
-      },
-      {
-        "name": "Enseignement",
-        "value": 1
+        "name": "Bureaux",
+        "value": 29.4
       },
       {
         "name": "Locaux d'activités",
-        "value": 21
+        "value": 15.1
+      },
+      {
+        "name": "Entrepôts",
+        "value": 10.4
+      },
+      {
+        "name": "Santé / Crèches / Éducation / Hôtellerie",
+        "value": 9.0
       }
     ],
     "geography": [
       {
         "name": "France",
-        "value": 44
-      },
-      {
-        "name": "Espagne",
-        "value": 10
-      },
-      {
-        "name": "Irlande",
-        "value": 12
-      },
-      {
-        "name": "Pays-Bas",
-        "value": 10
-      },
-      {
-        "name": "Allemagne",
-        "value": 8
+        "value": 29.5
       },
       {
         "name": "Royaume-Uni",
-        "value": 16
+        "value": 25.8
+      },
+      {
+        "name": "Pays-Bas",
+        "value": 13.3
+      },
+      {
+        "name": "Espagne",
+        "value": 11.5
+      },
+      {
+        "name": "Irlande",
+        "value": 10.9
+      },
+      {
+        "name": "Allemagne",
+        "value": 8.0
+      },
+      {
+        "name": "Italie",
+        "value": 1.0
       }
     ],
-    "reconstitutionValue": 220,
+    "reconstitutionValue": 213.65,
     "ranDays": 73,
-    "ltv": 13,
+    "ltv": 30.1,
     "hasWaitingShares": false,
+    "assetsCount": 164,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
@@ -1776,12 +1796,12 @@ const baseSCPIData: SCPIExtended[] = [
     "id": 36,
     "name": "Novaxia NEO",
     "yield": 6.01,
-    "price": 187,
+    "price": 182.79,
     "minInvestment": 748,
     "category": "Bureaux",
     "managementCompany": "Novaxia Investissement",
-    "tof": 97.7,
-    "capitalization": "428M€",
+    "tof": 91.8,
+    "capitalization": "427.9M€",
     "sectors": [
       {
         "name": "Bureaux",
@@ -1789,11 +1809,11 @@ const baseSCPIData: SCPIExtended[] = [
       },
       {
         "name": "Hôtels",
-        "value": 3
+        "value": 4
       },
       {
         "name": "Activités",
-        "value": 3
+        "value": 2
       },
       {
         "name": "Enseignement",
@@ -1803,21 +1823,30 @@ const baseSCPIData: SCPIExtended[] = [
     "geography": [
       {
         "name": "France",
-        "value": 85
+        "value": 54
       },
       {
-        "name": "Pays de l'OCDE",
-        "value": 5
+        "name": "Allemagne",
+        "value": 28
       },
       {
-        "name": "Europe hors zone Euro",
-        "value": 10
+        "name": "Espagne",
+        "value": 8
+      },
+      {
+        "name": "Irlande",
+        "value": 7
+      },
+      {
+        "name": "Belgique",
+        "value": 3
       }
     ],
-    "reconstitutionValue": 206,
+    "reconstitutionValue": 187,
     "ranDays": 59,
-    "ltv": 15,
+    "ltv": 35,
     "hasWaitingShares": false,
+    "assetsCount": 39,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {

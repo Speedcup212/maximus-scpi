@@ -14,6 +14,8 @@ import FilterPanel, { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
+import ComparisonWarning from '../ComparisonWarning';
+import Toast from '../Toast';
 
 type ViewMode = 'grid' | 'list';
 
@@ -30,6 +32,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [analysisScpi, setAnalysisScpi] = useState<SCPIExtended | null>(null);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [filters, setFilters] = useState<FilterState>({
     tmi: null,
     minYield: 0,
@@ -166,7 +171,11 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     setCurrentPage(1);
   }, [searchQuery, sortBy, viewMode, filters]);
 
+
   const handleAnalyze = (scpi: SCPIExtended) => {
+    // Sauvegarder la position de scroll avant d'ouvrir le modal
+    const currentScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    setSavedScrollPosition(currentScrollY);
     setAnalysisScpi(scpi);
   };
 
@@ -187,7 +196,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
     ) : 0);
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-900" id="comparator-container">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pr-[25rem] py-4">
@@ -462,13 +471,22 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
         </main>
 
         {/* Desktop Sidebar */}
-        <SelectionSidebar
-          selectedScpis={selectedScpis}
-          onRemove={(scpi) => toggleSelect(scpi)}
-          onClear={() => setSelectedScpis([])}
-          onVisualize={() => setIsSimulationOpen(true)}
-        />
+        <div id="selection-sidebar" className="scroll-mt-20">
+          <SelectionSidebar
+            selectedScpis={selectedScpis}
+            onRemove={(scpi) => toggleSelect(scpi)}
+            onClear={() => setSelectedScpis([])}
+            onVisualize={() => setIsSimulationOpen(true)}
+          />
+        </div>
       </div>
+
+      {/* Avertissement de comparaison si mélange France/Europe */}
+      {selectedScpis.length >= 2 && (
+        <div id="selection-section" className="scroll-mt-20">
+          <ComparisonWarning scpiList={selectedScpis} className="mx-4 mb-4" />
+        </div>
+      )}
 
       {/* Mobile Selection Bar */}
       <MobileSelectionBar
@@ -486,27 +504,41 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
       {/* Analysis Detail Modal */}
       {analysisScpi && (
         <AnalysisDetailModal
+          key={analysisScpi.id}
           isOpen={!!analysisScpi}
           onClose={() => {
-            // Fermer le modal d'abord
+            // Fermer le modal
             setAnalysisScpi(null);
-            // Retourner à l'accueil après fermeture du modal
-            // Utiliser un délai pour s'assurer que le state est bien mis à jour
-            if (onCloseAnalysis) {
-              setTimeout(() => {
-                try {
-                  onCloseAnalysis();
-                } catch (error) {
-                  console.error('Erreur lors du retour à l\'accueil:', error);
-                  // Fallback: navigation directe si le callback échoue
-                  window.location.href = '/';
-                }
-              }, 200);
-            }
+            // Restaurer la position de scroll exacte après fermeture du modal
+            setTimeout(() => {
+              window.scrollTo({
+                top: savedScrollPosition,
+                behavior: 'instant' // Utiliser 'instant' pour éviter tout effet de scroll visible
+              });
+            }, 50);
           }}
           scpi={analysisScpi}
+          onAdd={() => {
+            // Ajouter la SCPI à la sélection
+            toggleSelect(analysisScpi);
+            // Le modal se fermera automatiquement via onClose dans AnalysisDetailModal
+            // et restaurera la position de scroll exacte
+          }}
+          isSelected={selectedScpis.some(s => s.id === analysisScpi.id)}
+          onShowToast={(message) => {
+            setToastMessage(message);
+            setShowToast(true);
+          }}
         />
       )}
+
+      {/* Toast de confirmation */}
+      <Toast
+        message={toastMessage}
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+        duration={1000}
+      />
 
       {/* Filter Panel */}
       <FilterPanel

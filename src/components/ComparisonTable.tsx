@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X, TrendingUp, Building, Award, Target, Calendar, Phone, ChevronDown, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
+import ComparisonWarning from './ComparisonWarning';
+import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy ComparisonTable accordion to production NOW
 
 interface ComparisonTableProps {
@@ -205,12 +207,27 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
                     </button>
                   </div>
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Rendement</div>
-                      <div className={`text-xl font-black ${getPerformanceColor(scpi.yield)}`}>
-                        {scpi.yield.toFixed(2)}%
-                      </div>
-                    </div>
+                    {(() => {
+                      const yieldInfo = getYieldDisplayInfo(scpi);
+                      return (
+                        <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
+                          <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">{yieldInfo.primaryLabel}</div>
+                          <div className={`text-xl font-black ${getPerformanceColor(yieldInfo.primaryValue)}`}>
+                            {yieldInfo.primaryValue.toFixed(2)}%
+                          </div>
+                          {yieldInfo.secondaryValue && (
+                            <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
+                              {yieldInfo.secondaryLabel}: {yieldInfo.secondaryValue.toFixed(2)}%
+                            </div>
+                          )}
+                          {yieldInfo.netNotAvailable && (
+                            <div className="text-[10px] text-amber-600 dark:text-amber-400 font-medium mt-0.5">
+                              ⚠️ Net non communiqué
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
                     <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">TOF</div>
                       <div className={`text-xl font-black ${scpi.tof >= 95 ? 'text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}`}>
@@ -229,6 +246,11 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Avertissement de comparaison si mélange France/Europe */}
+        {selectedScpi.length >= 2 && (
+          <ComparisonWarning scpiList={selectedScpi} className="mb-4" />
+        )}
 
         <div className="border-b border-gray-200 dark:border-gray-600">
           <button
@@ -318,12 +340,38 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
         </h4>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
-            <div className="text-sm text-green-600 dark:text-green-400 mb-1">Rendement moyen</div>
-            <div className="text-xl font-bold text-green-800 dark:text-green-200">
-              {(selectedScpi.reduce((sum, scpi) => sum + scpi.yield, 0) / selectedScpi.length).toFixed(2)}%
-            </div>
-          </div>
+          {(() => {
+            // Calculer le rendement moyen selon les règles (brut pour France, net pour Europe)
+            const yields = selectedScpi.map(scpi => {
+              const yieldInfo = getYieldDisplayInfo(scpi);
+              return yieldInfo.primaryValue;
+            });
+            const avgYield = yields.reduce((sum, y) => sum + y, 0) / yields.length;
+            const hasMixed = selectedScpi.some((scpi, idx) => {
+              for (let i = idx + 1; i < selectedScpi.length; i++) {
+                const info1 = getYieldDisplayInfo(scpi);
+                const info2 = getYieldDisplayInfo(selectedScpi[i]);
+                return info1.isEuropean !== info2.isEuropean;
+              }
+              return false;
+            });
+            
+            return (
+              <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
+                <div className="text-sm text-green-600 dark:text-green-400 mb-1">
+                  {hasMixed ? 'Rendement moyen*' : 'Rendement moyen'}
+                </div>
+                <div className="text-xl font-bold text-green-800 dark:text-green-200">
+                  {avgYield.toFixed(2)}%
+                </div>
+                {hasMixed && (
+                  <div className="text-[10px] text-amber-600 dark:text-amber-400 mt-1">
+                    *Brut/Net mixte
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
             <div className="text-sm text-green-600 dark:text-green-400 mb-1">Cap. totale</div>

@@ -19,9 +19,23 @@ export function enrichScpiExtended(
     return scpiExtended;
   }
 
+  // Convertir les répartitions depuis scpiData (données mises à jour) en tableaux
+  const sectorsFromScpiData = matchingScpi.repartitionSector && matchingScpi.repartitionSector.length > 0
+    ? matchingScpi.repartitionSector
+    : scpiExtended.sectors;
+  
+  const geographyFromScpiData = matchingScpi.repartitionGeo && matchingScpi.repartitionGeo.length > 0
+    ? matchingScpi.repartitionGeo
+    : scpiExtended.geography;
+
   // Enrichir avec les données du fichier Excel
+  // PRIORITÉ aux données mises à jour depuis scpiData (JSON) pour les champs critiques
   return {
     ...scpiExtended,
+    // Répartitions : priorité aux données mises à jour depuis scpiData
+    sectors: sectorsFromScpiData,
+    geography: geographyFromScpiData,
+    
     // Valeurs de reconstitution/retrait/réalisation
     reconstitutionValue: scpiExtended.reconstitutionValue ?? matchingScpi.valeurReconstitution,
     valeurRetrait: matchingScpi.valeurRetrait ?? scpiExtended.valeurRetrait,
@@ -45,11 +59,26 @@ export function enrichScpiExtended(
     sfdr: matchingScpi.sfdr ?? scpiExtended.sfdr,
     profilCible: matchingScpi.profilCible ?? scpiExtended.profilCible,
     
-    // Endettement (LTV)
-    ltv: scpiExtended.ltv ?? matchingScpi.debt,
+    // Endettement (LTV) : PRIORITÉ aux données mises à jour depuis scpiData
+    ltv: matchingScpi.debt !== undefined ? matchingScpi.debt : scpiExtended.ltv,
+    
+    // TOF : PRIORITÉ aux données mises à jour depuis scpiData
+    tof: matchingScpi.tof !== undefined ? matchingScpi.tof : scpiExtended.tof,
+    
+    // Yield : PRIORITÉ aux données mises à jour depuis scpiData
+    yield: matchingScpi.yield !== undefined ? matchingScpi.yield : scpiExtended.yield,
     
     // Profil de risque
     profilRisque: matchingScpi.profilRisque ?? scpiExtended.profilRisque,
+    
+    // Données locatives extraites des bulletins trimestriels
+    nombreLocataires: matchingScpi.nombreLocataires ?? scpiExtended.nombreLocataires,
+    walt: matchingScpi.walt ?? scpiExtended.walt,
+    walb: matchingScpi.walb ?? scpiExtended.walb,
+    
+    // Données trimestrielles extraites des bulletins
+    collecteNetteTrimestre: matchingScpi.collecteNetteTrimestre ?? scpiExtended.collecteNetteTrimestre,
+    nbCessionsTrimestre: matchingScpi.nbCessionsTrimestre ?? scpiExtended.nbCessionsTrimestre,
   };
 }
 

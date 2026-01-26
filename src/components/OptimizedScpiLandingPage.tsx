@@ -547,7 +547,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                     <>
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Rendement 2024</div>
+                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution 2024</div>
                       </div>
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
@@ -820,7 +820,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Chiffres clés de performance</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Rendement 2024</div>
+                    <div className="text-sm text-gray-600 mb-1">Taux de distribution 2024</div>
                     <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{formatPercentage(realScpiData.yield)}</div>
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">

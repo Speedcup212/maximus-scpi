@@ -162,7 +162,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
       <div className="max-w-5xl mx-auto py-12 px-6">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
-            <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Rendement 2024</span>
+            <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Taux de distribution 2024</span>
             <span className="block text-3xl font-bold text-indigo-600">{scpi['Taux de distribution (%)']}%</span>
           </div>
           <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
@@ -199,7 +199,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
           <ul className="space-y-3 text-slate-700 text-lg">
             <li className="flex items-start">
               <span className="text-emerald-600 font-bold mr-3 text-xl">✓</span>
-              <span>Rendement {performanceLevel.toLowerCase()} de {scpi['Taux de distribution (%)']}% en 2024</span>
+              <span>Taux de distribution {performanceLevel.toLowerCase()} de {scpi['Taux de distribution (%)']}% en 2024</span>
             </li>
             <li className="flex items-start">
               <span className="text-emerald-600 font-bold mr-3 text-xl">✓</span>

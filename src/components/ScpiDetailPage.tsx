@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
-  Shield, Target, Calculator
+  Shield, Target, Calculator, FileText
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
 import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import { getLatestScpiScores } from '../utils/scpiScoringService';
+import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
@@ -93,8 +94,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       answer: `La SCPI ${scpi.name} est gérée par ${scpi.company} et investit dans le secteur ${scpi.sector}. Elle offre un rendement de ${scpi.yield.toFixed(2)}% avec un taux d'occupation financier de ${scpi.tof}%.`
     },
     {
-      question: `Quel est le rendement de la SCPI ${scpi.name} ?`,
-      answer: `Le rendement 2024 de la SCPI ${scpi.name} est de ${scpi.yield.toFixed(2)}%. Ce rendement est calculé sur la base des dividendes distribués sur l'année.`
+      question: `Quel est le taux de distribution de la SCPI ${scpi.name} ?`,
+      answer: `Le taux de distribution 2024 de la SCPI ${scpi.name} est de ${scpi.yield.toFixed(2)}%. Ce taux de distribution est calculé sur la base des dividendes distribués sur l'année.`
     },
     {
       question: `Quel est le prix d'une part de ${scpi.name} ?`,
@@ -225,15 +226,33 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           <div className="space-y-6">
             {/* Métriques principales */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-200 dark:border-green-800">
-                <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
-                <div className="text-2xl font-black text-green-600 dark:text-green-400 mb-1">
-                  {scpi.yield.toFixed(2)}%
-                </div>
-                <div className="text-sm font-bold text-green-700 dark:text-green-300">
-                  Rendement 2024
-                </div>
-              </div>
+              {(() => {
+                const yieldInfo = getYieldDisplayInfo(scpi);
+                return (
+                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-200 dark:border-green-800">
+                    <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
+                    <div className="text-2xl font-black text-green-600 dark:text-green-400 mb-1">
+                      {yieldInfo.primaryValue.toFixed(2)}%
+                    </div>
+                    <div className="text-sm font-bold text-green-700 dark:text-green-300 mb-1">
+                      {yieldInfo.primaryLabel}
+                    </div>
+                    {yieldInfo.secondaryValue && (
+                      <div className="text-xs text-green-600 dark:text-green-400 mt-1">
+                        {yieldInfo.secondaryLabel}: {yieldInfo.secondaryValue.toFixed(2)}%
+                      </div>
+                    )}
+                    {yieldInfo.netNotAvailable && (
+                      <div className="text-xs text-amber-600 dark:text-amber-400 mt-1 font-medium">
+                        ⚠️ Taux net non communiqué
+                      </div>
+                    )}
+                    <div className="text-[10px] text-green-600/70 dark:text-green-400/70 mt-2 leading-tight">
+                      {yieldInfo.legalNotice}
+                    </div>
+                  </div>
+                );
+              })()}
 
               <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl text-center border border-blue-200 dark:border-blue-800">
                 <Target className="w-6 h-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
@@ -437,6 +456,30 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
         {activeTab === 'analysis' && (
           <div className="space-y-6">
+            {/* Actualités Trimestrielles - EN PREMIER */}
+            {getScpiNews(scpi) && (
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 p-6 rounded-xl border-2 border-blue-300 dark:border-blue-600 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-blue-500/20 dark:bg-blue-500/30 rounded-lg border border-blue-400/50">
+                    <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-black text-gray-900 dark:text-white text-xl mb-1">Actualité Trimestrielle</h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">Données officielles du bulletin</p>
+                  </div>
+                  {scpi.periodeBulletinTrimestriel && (
+                    <div className="px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white rounded-full border-2 border-blue-400 dark:border-blue-300 shadow-md">
+                      <span className="text-xs font-bold">{scpi.periodeBulletinTrimestriel}</span>
+                    </div>
+                  )}
+                </div>
+                <div
+                  className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed bg-white/60 dark:bg-gray-800/60 rounded-lg p-5 border border-blue-200 dark:border-blue-700"
+                  dangerouslySetInnerHTML={{ __html: getScpiNews(scpi) }}
+                />
+              </div>
+            )}
+
             {/* Analyse experte */}
             <div className="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-xl border border-purple-200 dark:border-purple-800">
               <h4 className="font-black text-gray-900 dark:text-white mb-3 flex items-center gap-2 text-lg">

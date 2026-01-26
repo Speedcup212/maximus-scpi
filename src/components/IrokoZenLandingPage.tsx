@@ -233,7 +233,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
                     <TrendingUp className="w-8 h-8 text-emerald-600" />
                   </div>
                   <div className="text-4xl font-black text-emerald-600 mb-1">6,01%</div>
-                  <div className="text-sm text-gray-600 font-semibold">Rendement 2024</div>
+                  <div className="text-sm text-gray-600 font-semibold">Taux de distribution 2024</div>
                 </div>
 
                 <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-200 text-center hover:shadow-xl transition-shadow">

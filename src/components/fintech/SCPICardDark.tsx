@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, calculateNetYield, shouldOptimizeForTax } from '../../utils/taxOptimization';
+import { getYieldDisplayInfo } from '../../utils/yieldDisplay';
 
 interface SCPICardDarkProps {
   scpi: SCPIExtended;
@@ -156,32 +157,46 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
       </div>
 
       {/* Hero Yield - Compact */}
-      <div className={`${yieldBackgroundClass} p-4 text-white`}>
-        <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
-              Taux de Distribution
-            </p>
-            <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
-            {netYield !== null && (
-              <div className="mt-2 pt-2 border-t border-emerald-400/30">
+      {(() => {
+        const yieldInfo = getYieldDisplayInfo(scpi);
+        return (
+          <div className={`${yieldBackgroundClass} p-4 text-white`}>
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
                 <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
-                  Rendement Net Estimé (TMI {userTmi}%)
+                  {yieldInfo.primaryLabel}
                 </p>
-                <p className="text-2xl font-bold text-emerald-50">
-                  {netYield.toFixed(2)}%
-                </p>
-                {isEuropean && (
-                  <p className="text-xs text-emerald-100 mt-1 opacity-90">
-                    Fiscalité européenne favorable
-                  </p>
+                <p className="text-4xl font-bold">{yieldInfo.primaryValue.toFixed(2)}%</p>
+                {yieldInfo.secondaryValue && (
+                  <div className="mt-2 pt-2 border-t border-emerald-400/30">
+                    <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
+                      {yieldInfo.secondaryLabel}
+                    </p>
+                    <p className="text-2xl font-bold text-emerald-50">
+                      {yieldInfo.secondaryValue.toFixed(2)}%
+                    </p>
+                  </div>
+                )}
+                {yieldInfo.netNotAvailable && (
+                  <div className="mt-2 pt-2 border-t border-amber-400/30">
+                    <p className="text-xs text-amber-100 font-medium">
+                      ⚠️ Taux net non communiqué
+                    </p>
+                  </div>
+                )}
+                {isExpanded && (
+                  <div className="mt-2 pt-2 border-t border-emerald-400/20">
+                    <p className="text-[10px] text-emerald-100/80 leading-tight">
+                      {yieldInfo.legalNotice}
+                    </p>
+                  </div>
                 )}
               </div>
-            )}
+              <TrendingUp className="w-12 h-12 text-emerald-200 opacity-40" />
+            </div>
           </div>
-          <TrendingUp className="w-12 h-12 text-emerald-200 opacity-40" />
-        </div>
-      </div>
+        );
+      })()}
 
       {/* Primary Metrics - Compact */}
       <div className="p-3 grid grid-cols-2 gap-3 bg-slate-900/30">
