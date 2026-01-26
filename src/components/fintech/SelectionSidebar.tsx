@@ -295,7 +295,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               Votre Sélection
             </h3>
             <p className="text-sm text-slate-400">
-              Cliquez sur "Sélectionner" pour ajouter des SCPI à votre portefeuille
+              Cliquez sur <span className="text-amber-500 font-semibold">"Ajouter"</span> pour ajouter des SCPI à votre portefeuille
             </p>
           </div>
         </div>

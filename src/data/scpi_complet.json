@@ -4,7 +4,7 @@
     "Société de gestion": "Alderan",
     "Année de création": 2019,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 1310,
+    "Capitalisation (M€)": 1400,
     "Prix de souscription (€)": 610,
     "Valeur de retrait (€)": "545.34",
     "Surcote/décote (%)": 0,
@@ -12,33 +12,29 @@
     "Valeur de réalisation (€)": 507.28,
     "Taux de distribution (%)": 5.5,
     "Distribution (€/part)": "33.56",
-    "Endettement (%)": 0.6,
-    "TOF (%)": 94.8,
+    "Endettement (%)": 1.46,
+    "TOF (%)": 92.8,
     "Nombre d’immeubles": 183,
     "Minimum de souscription €": 6100,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10.6,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "France - Dorsale logistique (hors IDF) (45.5%), France - Autres régions (16%), Espagne (14%), France - Région parisienne (10%), France - Arc atlantique (9%), Italie (3%), Irlande (1%), Pays bas (1%), Allemagne (0.5%)",
-    "Répartition Sectorielle": "Entrepôts logistiques (51%), Locaux d'activités (32%), Logistique urbaine (9%), Transports (7%), Autres (1%)",
+    "Répartition Géographique": "France (78.2%), Espagne (13.8%), Portugal (4.2%), Italie (1.5%), Allemagne (1.0%), Autres (0.3%)",
+    "Répartition Sectorielle": "Entrepôts logistiques (51.0%), Locaux d'activités (31.0%), Logistique urbaine (10.0%), Transport (7.0%), Autres (1.0%)",
     "Répartition Géographique JSON": {
-      "France - Dorsale logistique hors IDF": 45.5,
-      "France - Autres régions": 16,
-      "Espagne": 14,
-      "France - Région parisienne": 10,
-      "France - Arc atlantique": 9,
-      "Italie": 3,
-      "Irlande": 1,
-      "Pays bas": 1,
-      "Allemagne": 0.5
+      "France": 78.2,
+      "Espagne": 13.8,
+      "Portugal": 4.2,
+      "Italie": 1.5,
+      "Allemagne": 1,
+      "Autres": 0.3
     },
     "Répartition Sectorielle JSON": {
       "Entrepôts logistiques": 51,
-      "Locaux d'activités": 32,
-      "Logistique urbaine": 9,
-      "Transports": 7,
+      "Locaux d'activités": 31,
+      "Logistique urbaine": 10,
+      "Transport": 7,
       "Autres": 1
     },
     "Profil_de_risque": {
@@ -46,7 +42,26 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12.72,
+    "Nombre d'immeubles": 186,
+    "Nombre d'associés": 28934,
+    "Nombre de parts": 2274353,
+    "WALT": 6.5,
+    "WALB": 3.6,
+    "Nombre de locataires": 372,
+    "Nombre de baux": 465,
+    "Surface gérée (m²)": 1393076,
+    "Loyers annuels en place (M€)": 77.3,
+    "Loyers encaissés trimestre (M€)": 21,
+    "Collecte nette trimestre (M€)": 22,
+    "Distribution trimestrielle T3 2025 (€/part)": 8.2,
+    "Distribution dividende T3 2025 (€/part)": 7.62,
+    "Distribution plus-value T3 2025 (€/part)": 0.58,
+    "Actualités trimestrielles": "Acquisition d'un entrepôt logistique à Oliveira do Bairro (Portugal) : date d'acquisition 04/08/2025, prix d'acquisition 9,3 M€ (hors droits), surface 18 531 m², rendement AEM 7,7%, bail 12 ans (8 ans fermes), potentiel d'extension du bâtiment, premier actif au Portugal | Cession de l'actif de Fretin (59, France) : date de cession 08/09/2025, prix de cession 10,0 M€ (hors droits), plus-value importante cristallisée, distribution exceptionnelle de plus-value de 0,58€ brut par part versée le 17/09/2025 | Livraison en juillet d'un entrepôt neuf d'environ 31 000 m² à Durtal (49), en cours de commercialisation avec prospect identifié pour 12 000 m² au T4 2025 ou début 2026 | TOF à 92,8% (en retrait de 0,5 point par rapport au trimestre précédent), expliqué par la révision des valeurs locatives de marché et l'impact temporaire du délai de mise en location de Durtal | Collecte nette T3 2025 : 22,0 M€ | Déploiement progressif de Gestion Technique du Bâtiment (GTB) sur plusieurs sites pour optimiser la performance énergétique | 11 actifs en travaux pour un montant de 6,3 M€ | Pipeline : 2 offres envoyées pour 42,8 M€, 16,0 M€ de collecte à investir",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 1,
+    "Nombre d'acquisitions trimestre": 1
   },
   {
     "Nom SCPI": "Aestiam Cap'Hebergimmo",
@@ -68,7 +83,6 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Étranger (42%), Régions (35%), Région Parisienne (23%)",
     "Répartition Sectorielle": "Hôtels (71%), Séminaires (27%), Loisirs (2%)",
@@ -87,7 +101,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Aestiam Pierre Rendement",
@@ -109,7 +124,6 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Paris (37%), Région Parisienne (30%), Métropoles Régionales (27%), Étranger (6%)",
     "Répartition Sectorielle": "Commerces (69%), Hôtels Séminaires (21%), Bureaux (7%), Enseignement (3%)",
@@ -130,32 +144,42 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
-    "Nom SCPI": "Aestiam Placement Pierre",
+    "Nom SCPI": "Aestiam Horizon",
     "Société de gestion": "Aestiam",
     "Année de création": 1986,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 380,
     "Prix de souscription (€)": 350,
     "Valeur de retrait (€)": "315.00",
-    "Surcote/décote (%)": 0,
-    "Valeur de reconstitution (€)": 348.04,
-    "Valeur de réalisation (€)": 288.64,
+    "Surcote/décote (%)": 11.11,
+    "Valeur de reconstitution (€)": 346.02,
+    "Valeur de réalisation (€)": 285.66,
+    "Valeur d'expertise au 30/06/2025 (M€)": 360,
+    "Valeur d'expertise au 30/06/2025 (€/part)": 331.19,
+    "Valeur d'expertise au 31/12/2024 (M€)": 364,
+    "Valeur d'expertise au 31/12/2024 (€/part)": 334.98,
+    "Valeur de réalisation au 31/12/2024 (M€)": 314,
+    "Valeur de réalisation au 31/12/2024 (€/part)": 288.64,
+    "Valeur de reconstitution au 31/12/2024 (M€)": 378,
+    "Valeur de reconstitution au 31/12/2024 (€/part)": 348.04,
+    "Rendement Global Immobilier (%)": 4.67,
+    "Report à Nouveau (jours/part)": 97,
     "Taux de distribution (%)": 5.4,
-    "Distribution (€/part)": "17.85",
-    "Endettement (%)": 13,
-    "TOF (%)": 90.4,
+    "Distribution (€/part)": "17.69",
+    "Endettement (%)": 12,
+    "TOF (%)": 86.5,
     "Nombre d’immeubles": 150,
     "Minimum de souscription €": 350,
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9.5,
     "Répartition Géographique": "Paris (20%), Région Parisienne (30%), Régions (39%), Etranger (11%)",
-    "Répartition Sectorielle": "Bureaux (77%), Commerces (16%), Hôtels (3%), Enseignement (2%), Locaux d'activités (2%)",
+    "Répartition Sectorielle": "Bureaux (76%), Commerces (16%), Hôtels (2%), Enseignement (4%), Locaux d'activités (2%)",
     "Répartition Géographique JSON": {
       "Paris": 20,
       "Région Parisienne": 30,
@@ -163,10 +187,10 @@
       "Etranger": 11
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": 77,
+      "Bureaux": 76,
       "Commerces": 16,
-      "Hôtels": 3,
-      "Enseignement": 2,
+      "Hôtels": 2,
+      "Enseignement": 4,
       "Locaux d'activités": 2
     },
     "Profil_de_risque": {
@@ -174,43 +198,59 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12,
+    "Nombre d'immeubles": 149,
+    "Nombre d'associés": 8557,
+    "Nombre de parts": 1086498,
+    "Nombre de baux": 235,
+    "Surface gérée (m²)": 160865,
+    "Loyers encaissés trimestre (M€)": 5.797,
+    "Distribution trimestrielle T3 2025 (€/part)": 4.05,
+    "Taux de distribution 2024 (%)": 5.4,
+    "Performance globale annuelle 2024 (%)": 5.4,
+    "WALB": 2.93,
+    "WALT": 4.58,
+    "TRI 20 ans (%)": 9.78,
+    "Parts en attente de retrait": 38761,
+    "Actualités trimestrielles": "Aucune acquisition ce trimestre. 2 relocations réalisées pour un loyer total de 219 K€. 11 libérations pour un loyer total de 616 K€. 1 cession d'actif : bureaux à Meylan (2,44 M€), acquis le 28/12/1989. Le marché du bureau en France reste très polarisé, avec des petites surfaces dynamiques tandis que les grandes peinent à convaincre. La SCPI est spécialisée dans les bureaux à taille humaine (valeur moyenne des immeubles : 2,4 M€), majoritairement situés à Paris intra-muros, dans le Croissant Ouest et dans les métropoles régionales. Aucun actif n'est situé à La Défense et l'exposition est très faible (2%) dans les secteurs difficiles de la Première Couronne Nord, Sud et Est. Distribution trimestrielle stable à 4,05 € par part. Distribution brute prévisionnelle 2025 maintenue entre 17,50 € et 17,90 € par part.",
+    "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "30/09/2025"
   },
   {
     "Nom SCPI": "Altixia Cadence 12",
     "Société de gestion": "ALTIXIA REIM",
     "Année de création": 2018,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 186.78,
+    "Capitalisation (M€)": 188.26,
     "Prix de souscription (€)": 200,
     "Valeur de retrait (€)": "182.00",
-    "Surcote/décote (%)": 0,
-    "Valeur de reconstitution (€)": 199.82,
-    "Valeur de réalisation (€)": 168.15,
+    "Surcote/décote (%)": -0.27,
+    "Valeur de reconstitution (€)": 200.54,
+    "Valeur de réalisation (€)": 165.11,
     "Taux de distribution (%)": 5.73,
-    "Distribution (€/part)": "2.72",
-    "Endettement (%)": 11.35,
-    "TOF (%)": 96.9,
+    "Distribution (€/part)": "2.54",
+    "Endettement (%)": 10.56,
+    "TOF (%)": 92.6,
     "Nombre d’immeubles": 29,
     "Minimum de souscription €": 2000,
-    "Délai de jouissance (mois)": 2,
+    "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 9,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "Régions (59%), Ile-de-France (23%), Espagne (9%), Irlande (6%), Paris (3%)",
-    "Répartition Sectorielle": "Commerces (38%), Activités (32%), Bureaux (26%), Logistique (4%)",
+    "Répartition Géographique": "Régions (56%), Ile-de-France (22%), Paris (3%), Espagne (13%), Irlande (6%)",
+    "Répartition Sectorielle": "Commerces (37%), Activités (30%), Bureaux (29%), Logistique (4%)",
     "Répartition Géographique JSON": {
-      "Régions": 59,
-      "Ile-de-France": 23,
-      "Espagne": 9,
-      "Irlande": 6,
-      "Paris": 3
+      "Régions": 56,
+      "Ile-de-France": 22,
+      "Paris": 3,
+      "Espagne": 13,
+      "Irlande": 6
     },
     "Répartition Sectorielle JSON": {
-      "Commerces": 38,
-      "Activités": 32,
-      "Bureaux": 26,
+      "Commerces": 37,
+      "Activités": 30,
+      "Bureaux": 29,
       "Logistique": 4
     },
     "Profil_de_risque": {
@@ -218,7 +258,19 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Nombre d'immeubles": 32,
+    "WALT": 6.29,
+    "WALB": 2.45,
+    "Nombre de locataires": 94,
+    "Surface gérée (m²)": 111238,
+    "Surface louée (m²)": 102237,
+    "Parts en attente de retrait": 734,
+    "Actualités trimestrielles": "Acquisition d'un ensemble de bureaux à Pozuelo de Alarcón (Madrid, Espagne), actif multilocataire certifié BREEAM, avec un rendement immobilier à l'acquisition supérieur à 8 % | Cession d'un actif de commerce à Rueil-Malmaison, générant une plus-value, avec complément de distribution évoqué dans le bulletin | Capitaux collectés intégralement investis au cours du trimestre | Mouvements locatifs enregistrés sur plusieurs actifs (entrées et sorties), détaillés dans le bulletin trimestriel",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 1,
+    "Nombre d'acquisitions trimestre": 1,
+    "Frais de souscription (TTC/%)": 10.8
   },
   {
     "Nom SCPI": "Altixia Commerces",
@@ -240,7 +292,6 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 2.5,
     "Frais de gestion (HT/%)": 15,
     "Répartition Géographique": "Régions (62%), Ile-de-France (29%), Paris (9%)",
     "Répartition Sectorielle": "Commerces en retail park (58%), Commerces en pied d'immeuble (38%), Bureaux et activités (4%)",
@@ -262,7 +313,8 @@
     },
     "Nombre de locataires": 67,
     "WALT": 10.4,
-    "WALB": 8.4
+    "WALB": 8.4,
+    "Frais de souscription (TTC/%)": 3
   },
   {
     "Nom SCPI": "Atream Hotel",
@@ -284,7 +336,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (33%), Allemagne (30%), Belgique (23%), Pays-Bas (14%)",
     "Répartition Sectorielle": "Hôtels (71%), Autres types d'hébergements touristiques (29%)",
@@ -303,7 +354,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Buroboutic Métropoles",
@@ -325,7 +377,6 @@
     "Délai de jouissance (mois)": 3,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9.5,
     "Répartition Géographique": "Régions (53.3%), Ile-de-France (31.9%), Paris (14.8%)",
     "Répartition Sectorielle": "Locaux commerciaux (50.8%), Bureaux (32.2%), Locaux d'activités (17.0%)",
@@ -344,7 +395,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Coeur de Région",
@@ -366,7 +418,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Régions (86,0%), Île-de-France (14,0%)",
     "Répartition Sectorielle": "Bureaux (51,08%), Commerces (29,62%), Logistique et locaux d'activités (17,47%), Santé et éducation (1,77%), Alternatifs (0,06%)",
@@ -393,7 +444,8 @@
     "Nombre de locataires": 184,
     "WALT": null,
     "WALB": null,
-    "Actualités trimestrielles": "Capitalisation de plus de 415 M€ au 30/09/2025 | Aucune cession au T3 2025 | 82 biens immobiliers et 184 entreprises locataires | Répartition: 86% en régions et 14% en Île-de-France | Taux d'occupation financier: 95,16% | Taux d'occupation physique: 96,01% | Distribution T3 2025: 10,29€/part | Taux de distribution 2024: 6,20% | Performance Globale Annuelle 2024: 6,20% | TRI 5 ans: 4,81% | Prix de souscription: 664€ | Valeur de reconstitution au 30/06/2025: 681,94€ | Montant des loyers encaissés T3 2025: 6 277 625€ | Taux de recouvrement des loyers T3 2025: 97,1% | Renouvellement de bail Zeeman à Hérouville-Saint-Clair (10 ans, dont 9 ans ferme) | Nouveau bail commercial avec DynamIT Service à Hallennes-Lez-Bourdins (4 ans ferme) | Renouvellement bail Société Générale à Clermont-Ferrand (6 ans ferme) | Nouveau locataire: société Envergure à Clermont-Ferrand | Renouvellements de baux avec Expleo Régions et CAVM à Famars"
+    "Actualités trimestrielles": "Capitalisation de plus de 415 M€ au 30/09/2025 | Aucune cession au T3 2025 | 82 biens immobiliers et 184 entreprises locataires | Répartition: 86% en régions et 14% en Île-de-France | Taux d'occupation financier: 95,16% | Taux d'occupation physique: 96,01% | Distribution T3 2025: 10,29€/part | Taux de distribution 2024: 6,20% | Performance Globale Annuelle 2024: 6,20% | TRI 5 ans: 4,81% | Prix de souscription: 664€ | Valeur de reconstitution au 30/06/2025: 681,94€ | Montant des loyers encaissés T3 2025: 6 277 625€ | Taux de recouvrement des loyers T3 2025: 97,1% | Renouvellement de bail Zeeman à Hérouville-Saint-Clair (10 ans, dont 9 ans ferme) | Nouveau bail commercial avec DynamIT Service à Hallennes-Lez-Bourdins (4 ans ferme) | Renouvellement bail Société Générale à Clermont-Ferrand (6 ans ferme) | Nouveau locataire: société Envergure à Clermont-Ferrand | Renouvellements de baux avec Expleo Régions et CAVM à Famars",
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Coeur de ville",
@@ -415,7 +467,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Province (84.4%), Paris (15.6%)",
     "Répartition Sectorielle": "Commerce alimentaire (46.12%), Commerce non alimentaire (29.23%), Services (21.43%), Santé et éducation (3.22%)",
@@ -434,7 +485,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Coeur d'Europe",
@@ -456,7 +508,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Portugal (36.8%), Espagne (35.9%), Belgique (20.4%), Allemagne (6.9%)",
     "Répartition Sectorielle": "Commerces (54.32%), Bureaux (26.68%), Logistique et locaux d'activités (14.62%), Santé et éducation (4.38%)",
@@ -484,7 +535,8 @@
     "Nombre de locataires": 129,
     "WALT": null,
     "WALB": null,
-    "Actualités trimestrielles": "Capitalisation dépasse 216 M€ au 30/09/2025 | 36 biens immobiliers diversifiés | 129 entreprises locataires | Taux d'occupation financier: 95,75% | Taux d'occupation physique: 99,11% | Aucune cession au T3 2025 | Distribution T3 2025: 2,54€/part | Taux de distribution 2024: 6,02% brut (5,25% net après fiscalité étrangère) | Performance Globale Annuelle 2024: 6,02% brut | Prix de la part revalorisé à 204€ au 1er juillet 2025 | Valeur de reconstitution: 212,39€ | Montant des loyers encaissés T3 2025: 2 807 412,69€ | Taux de recouvrement des loyers T3 2025: 93,04% | Nouvelle acquisition à Ovar (Portugal): ensemble commercial de 13 329 m² avec 60 entreprises locataires (Worten, Decathlon, Burger King) | Nouvelle acquisition à Porto (Portugal): immeuble de bureaux de 6 168 m² loué à Fidelidade"
+    "Actualités trimestrielles": "Capitalisation dépasse 216 M€ au 30/09/2025 | 36 biens immobiliers diversifiés | 129 entreprises locataires | Taux d'occupation financier: 95,75% | Taux d'occupation physique: 99,11% | Aucune cession au T3 2025 | Distribution T3 2025: 2,54€/part | Taux de distribution 2024: 6,02% brut (5,25% net après fiscalité étrangère) | Performance Globale Annuelle 2024: 6,02% brut | Prix de la part revalorisé à 204€ au 1er juillet 2025 | Valeur de reconstitution: 212,39€ | Montant des loyers encaissés T3 2025: 2 807 412,69€ | Taux de recouvrement des loyers T3 2025: 93,04% | Nouvelle acquisition à Ovar (Portugal): ensemble commercial de 13 329 m² avec 60 entreprises locataires (Worten, Decathlon, Burger King) | Nouvelle acquisition à Porto (Portugal): immeuble de bureaux de 6 168 m² loué à Fidelidade",
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Comète",
@@ -506,7 +558,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 11,
     "Répartition Géographique": "Royaume-Uni (43%), Espagne (23%), Pays-Bas (16%), Italie (12%), Irlande (6%), Belgique (3%)",
     "Répartition Sectorielle": "Commerce (26%), Bureau (21%), Mixte (17%), Hôtellerie (14%), Logistique (10%), Loisir (9%), Éducation (3%)",
@@ -539,7 +590,8 @@
     "Collecte nette trimestre": 103800000,
     "Nombre de cessions trimestre": 0,
     "Actualités trimestrielles": "Six nouvelles acquisitions représentant un montant total de 65,7 millions d'euros hors droits au cours du trimestre | Acquisition à Dun Laoghaire (Irlande, 5 032 m², 11,4M€) : ensemble de 11 cellules commerciales en pied d'immeuble, récentes et entièrement louées, situées au cœur de la station balnéaire prisée du sud de Dublin (commerce) | Acquisition à Cardiff (Royaume-Uni, 2 388 m², 6,0M€) : 5 cellules commerciales bénéficiant d'une localisation ultra-prime dans l'une des rues commerçantes les plus actives du cœur de Cardiff, offrant le plus grand rooftop de la capitale du Pays de Galles (commerce) | Acquisition à Aberdeen (Royaume-Uni, 5 608 m², 11,3M€) : actif logistique entièrement loué à un acteur majeur du secteur, bénéficiant d'un port d'importance nationale et base arrière de l'économie des activités off-shore (logistique) | Acquisition à Brescia (Italie, 3 796 m², 5,4M€) : lot commercial indépendant occupé par une enseigne internationale de premier plan, l'un des sites les plus performants en termes de chiffres d'affaires de l'enseigne (commerce) | Acquisition à Portlethen (Royaume-Uni, 6 652 m², 17,0M€) : immeuble de bureaux à proximité immédiate d'Aberdeen, capitale européenne du marché de l'énergie, combinant stabilité locative, forte rentabilité et potentiel de redéveloppement (bureaux) | Acquisition à Veenendaal (Pays-Bas, 18 488 m², 14,6M€) : grand magasin dédié à l'aménagement de la maison, situé dans l'une des meilleures zones de chalandise du pays par la taille du bassin de consommation et le pouvoir d'achat (commerce) | Ouverture d'un nouveau pays : l'Irlande avec l'acquisition de 11 cellules commerciales à Dun Laoghaire (5 032 m²) | Nouvelle région au Royaume-Uni : l'Écosse avec l'acquisition d'un actif logistique à Aberdeen (5 608 m²) | Rentabilité moyenne des acquisitions de 9,12% AEM, témoignant d'une approche rigoureuse et sélective | Collecte nette de 103,8M€ au cours du trimestre, témoignant de la confiance des investisseurs | Début de la commercialisation des surfaces vacantes de l'ensemble immobilier de Getafe, proposées en priorité aux locataires déjà en place | Travaux de rénovation des plateaux de bureaux à Assago se poursuivent conformément au calendrier prévu, visant la création de valeur | Aucune cession d'actif n'a été réalisée au cours du trimestre",
-    "Période bulletin trimestriel": "T3 2025"
+    "Période bulletin trimestriel": "T3 2025",
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Crédit Mutuel Pierre 1",
@@ -561,7 +613,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 8.5,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Paris (26.9%), Île-de-France (53.2%), Régions (16.8%), Allemagne (3.1%)",
     "Répartition Sectorielle": "Bureaux (80.1%), Locaux commerciaux (19.9%)",
@@ -580,7 +631,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 10.2
   },
   {
     "Nom SCPI": "Cristal Life",
@@ -602,7 +654,6 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Régions (78%), Île-de-France (14%), Étranger (8%)",
     "Répartition Sectorielle": "Commerce (42%), Bureaux (22%), Santé (14%), Éducation (10%), Résidentiel (12%)",
@@ -623,7 +674,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Edissimo",
@@ -645,7 +697,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9.6,
     "Répartition Géographique": "Paris (65%), Île-de-France (30%), Régions (5%)",
     "Répartition Sectorielle": "Bureaux (88%), Hôtellerie (9%), Logistique (3%)",
@@ -664,49 +715,86 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Efimmo 1",
     "Société de gestion": "Sofidy",
     "Année de création": 1987,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 3749.9,
-    "Prix de souscription (€)": 225,
-    "Valeur de retrait (€)": 190.8,
-    "Surcote/décote (%)": -6.07,
-    "Valeur de reconstitution (€)": 240.6,
-    "Valeur de réalisation (€)": 200.9,
-    "Taux de distribution (%)": 5.5,
-    "Distribution (€/part)": "12.00",
-    "Endettement (%)": 28.1,
-    "TOF (%)": 90.89,
+    "Capitalisation (M€)": 1745,
+    "Prix de souscription (€)": 212,
+    "Valeur de retrait (€)": "190.80",
+    "Surcote/décote (%)": 4.6,
+    "Valeur de reconstitution (€)": 202.65,
+    "Valeur de réalisation (€)": 168.78,
+    "Taux de distribution (%)": 5.07,
+    "Distribution (€/part)": "10.33",
+    "Endettement (%)": 20.2,
+    "TOF (%)": 87.67,
     "Nombre d’immeubles": 252,
-    "Minimum de souscription €": 2120,
+    "Minimum de souscription €": 212,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9.6,
-    "Répartition Géographique": "Ile-de-France (54.5%), Régions (36.1%), Paris (7.2%), Allemagne (2.2%)",
-    "Répartition Sectorielle": "Bureaux (78%), Commerces (18%), Logistique (4%)",
+    "Répartition Géographique": "France (74.5%) - dont Paris Centre (10.0%), Grand Paris (35.6%), Métropoles françaises (28.9%) | Étranger (25.5%) - dont Allemagne (10.0%), Pays-Bas (5.1%), Royaume-Uni (4.2%), Belgique (2.3%), Irlande (1.4%), Italie (1.2%), Espagne (0.6%), Reste de l'Europe (0.7%)",
+    "Répartition Sectorielle": "Bureaux (73.5%), Autres locaux commerciaux (9.3%), Divers (7.5%), Commerces de centre-ville et milieu urbain (5.2%), Éducation (4.5%)",
     "Répartition Géographique JSON": {
-      "Ile-de-France": 54.5,
-      "Régions": 36.1,
-      "Paris": 7.2,
-      "Allemagne": 2.2
+      "France": 74.5,
+      "Paris Centre": 10,
+      "Grand Paris": 35.6,
+      "Métropoles françaises": 28.9,
+      "Étranger": 25.5,
+      "Allemagne": 10,
+      "Pays-Bas": 5.1,
+      "Royaume-Uni": 4.2,
+      "Belgique": 2.3,
+      "Irlande": 1.4,
+      "Italie": 1.2,
+      "Espagne": 0.6,
+      "Reste de l'Europe": 0.7
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": 78,
-      "Commerces": 18,
-      "Logistique": 4
+      "Bureaux": 73.5,
+      "Autres locaux commerciaux": 9.3,
+      "Divers": 7.5,
+      "Commerces de centre-ville et milieu urbain": 5.2,
+      "Éducation": 4.5
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12,
+    "Nombre d'immeubles": 250,
+    "Nombre d'associés": 21483,
+    "Nombre de parts": 8231105,
+    "Loyers encaissés trimestre (M€)": 27,
+    "Loyers annuels facturés (M€)": 101,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.1,
+    "Distribution annuelle prévisionnelle 2025 (€/part)": 9.15,
+    "Taux de distribution prévisionnel 2025 (%)": 4.5,
+    "Collecte brute trimestre (M€)": 0.18656,
+    "Montant retiré trimestre (M€)": 3.904,
+    "Collecte nette trimestre (M€)": -3.72,
+    "Parts en attente de retrait": 430886,
+    "Valeur du patrimoine (M€)": 1696,
+    "Dette bancaire (M€)": 342,
+    "Taux moyen des emprunts (%)": 2.28,
+    "Maturité moyenne de la dette (ans)": 3.92,
+    "Nombre d'unités locatives": 1447,
+    "Vacance répartie sur (unités locatives)": 211,
+    "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Arbitrages du trimestre : 0,6 M€ portant sur 3 surfaces de bureaux et 1 surface d'activité (total 1 487 m²), générant une moins-value nette de fiscalité de 1,1 M€ | Arbitrages depuis début 2025 : 12,7 M€ de prix de vente total, 11,1 M€ de valeur d'expertise au 31/12/2024, prix de vente supérieur de +15,4% par rapport aux valeurs d'expertise, 14 actifs vendus, plus-value distribuable de 0,28€ par part versée en septembre 2025 | Gestion locative : relocation de l'intégralité (4 000 m²) de l'actif de bureaux Les Salorges à Nantes, programme de travaux permettant une réévaluation du loyer de +20% par rapport au locataire sortant, 52 063 m² reloués ou renouvelés au total depuis début 2025 représentant un loyer annuel de 7,7 M€, relocations et renouvellements négociés avec une baisse des loyers annuels de -10,1% mais sécurisant des flux locatifs sur durées fermes | Principaux renouvellements T3 : Combs-la-ville (77) - renouvellement et extension 18 720 m² activités (bail 5 ans, +1%), Montigny-le-Bretonneux (78) - renouvellement 3 215 m² bureaux (bail 6 ans, -28%), Bordeaux (33) - relocation 4 185 m² bureaux (montant stable), Aix-en-Provence (13) - renouvellement 1 140 m² bureaux (-20%) | Principales libérations T3 : 459 m² bureaux Montigny-le-Bretonneux (122 K€), 492 m² bureaux Vélizy-Villacoublay (120 K€), 1 188 m² espaces fitness Évreux (99 K€) | TOF à 87,67% au T3 2025, vacance répartie sur 211 unités locatives | Projets de cessions engagés au 30/09/2025 : 15,0 M€ | Projets d'investissement engagés au 30/09/2025 : 1,3 M€ sous forme de participations dans des sociétés immobilières",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 4,
+    "Nombre d'acquisitions trimestre": 0,
+    "Montant cessions trimestre (M€)": 0.6,
+    "Montant cessions depuis début 2025 (M€)": 12.7,
+    "Plus-value distribuable T3 2025 (€/part)": 0.28
   },
   {
     "Nom SCPI": "Patrimmo Croissance Impact",
@@ -728,7 +816,6 @@
     "Délai de jouissance (mois)": 1,
     "Versement des loyers": "NC",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 9.8,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Région parisienne (36.8%), Paris (32.6%), Régions (27.8%), Parts SCPI (2.8%)",
     "Répartition Sectorielle": "Logement : 100 %",
@@ -746,7 +833,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 11.76
   },
   {
     "Nom SCPI": "Perial Grand Paris",
@@ -768,7 +856,6 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 9.5,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Région Parisienne (75.4%), Paris (20.3%), Régions (4.3%)",
     "Répartition Sectorielle": "Bureaux (94.4%), Commerces (2.2%), Logistique et locaux d'activités (1.8%), Hôtels, tourisme, loisirs (1.6%)",
@@ -790,18 +877,19 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 11.4
   },
   {
     "Nom SCPI": "NCap Régions",
     "Société de gestion": "Norma Capital",
     "Année de création": 2015,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 972.8,
-    "Prix de souscription (€)": 670,
-    "Valeur de retrait (€)": 613.8,
-    "Surcote/décote (%)": -4.43,
-    "Valeur de reconstitution (€)": 701.06,
+    "Capitalisation (M€)": 1067.7,
+    "Prix de souscription (€)": 682,
+    "Valeur de retrait (€)": "613.80",
+    "Surcote/décote (%)": -2.78,
+    "Valeur de reconstitution (€)": 701.49,
     "Valeur de réalisation (€)": 576.68,
     "Taux de distribution (%)": 5.72,
     "Distribution (€/part)": "38.32",
@@ -812,25 +900,35 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "Grandes agglomérations de province, Ile-de-France",
-    "Répartition Sectorielle": "Bureaux, Activités, Commerces",
+    "Répartition Géographique": "Grandes agglomérations de province (65%), Ile-de-France (35%)",
+    "Répartition Sectorielle": "Bureaux (54%), Commerce (32%), Activités (14%), Hôtellerie (<0,5%)",
     "Répartition Géographique JSON": {
-      "Grandes agglomérations de province": null,
-      "Ile-de-France": null
+      "Grandes agglomérations de province": 65,
+      "Ile-de-France": 35
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": null,
-      "Activités": null,
-      "Commerces": null
+      "Bureaux": 54,
+      "Commerce": 32,
+      "Activités": 14,
+      "Hôtellerie": 0.5
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Actualités trimestrielles": "Acquisition d'un site d'activités à Blois (41) : actif industriel dans la zone des Onze Arpents, date d'acquisition 23/07/2025, prix d'acquisition AEM 8,6 M€, surface 12 330 m², locataire Enerflux | Acquisition d'un commerce alimentaire à Asnières-sur-Seine (92) : actif commercial en première couronne parisienne, date d'acquisition 04/09/2025, prix d'acquisition AEM 4,3 M€, surface 1 346 m², locataire Lidl | Lancement d'un projet hôtelier à Nantes (44) : hôtel 4 étoiles en VEFA, date d'acquisition 30/09/2025, prix d'acquisition AEM 23,1 M€, surface 4 784 m², 127 chambres, locataire Voco (InterContinental Hotels Group), bail ferme de 12 ans, livraison prévue au 4ème trimestre 2028, certifié BREEAM Very Good | Aucune cession significative réalisée au cours du trimestre | Collecte positive sur le trimestre | Une partie de la collecte a été investie, le solde restant en attente d'opportunités | Nouveaux baux : 6 nouveaux baux signés (Cabriès, Lyon, La Wantzenau, Escalquens, Saint-Herblain) | Taux de recouvrement : 97%",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Nombre d'acquisitions trimestre": 2,
+    "Nombre d'immeubles": 175,
+    "WALT": 5,
+    "Nombre de locataires": 429,
+    "Surface gérée (m²)": 478953,
+    "Distribution trimestrielle T3 2025 (€/part)": 9.5,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Novapierre 1",
@@ -852,7 +950,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Autres régions (30.8%), Paris (28.6%), 12 métropoles régionales (21.2%), Ile-de-France hors Paris (19.4%)",
     "Répartition Sectorielle": "Alimentaire (15.2%), Santé (9.8%), Équipement de la maison (30.3%), Restauration (15.7%), Services (12.5%), Culture et loisirs (6.6%), Autres (9.9%)",
@@ -876,7 +973,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Novapierre Résidentiel",
@@ -898,7 +996,6 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "NC",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 8.29,
     "Frais de gestion (HT/%)": 1.71,
     "Répartition Géographique": "Paris (77.8%), Région parisienne (19.9%), Nice (2.3%)",
     "Répartition Sectorielle": "Résidentiel (100%)",
@@ -915,7 +1012,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9.95
   },
   {
     "Nom SCPI": "Novaxia NEO",
@@ -937,7 +1035,6 @@
     "Délai de jouissance (mois)": "NC",
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 0,
     "Frais de gestion (HT/%)": 15,
     "Répartition Géographique": "France (54.0%), Allemagne (28.0%), Espagne (8.0%), Irlande (7.0%), Belgique (3.0%)",
     "Répartition Sectorielle": "Bureaux (93.00%), Hôtels (4.00%), Activités (2.00%), Enseignement (1.00%)",
@@ -961,12 +1058,14 @@
       "Verification": "Default"
     },
     "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "30/09/2025",
     "Collecte nette trimestre": 7900000,
     "Nombre de cessions trimestre": null,
     "Nombre de locataires": 129,
     "WALT": null,
     "WALB": 3.5,
-    "Actualités trimestrielles": "Capitalisation de 427,9 M€ au 30/09/2025 | 39 actifs immobiliers | 129 locataires | 230 279 m² de surface totale | 550 M€ de valeur du patrimoine | Taux d'occupation financier: 91,8% | Taux d'occupation physique: 94,2% | WALB moyenne: 3,5 ans | Distribution T3 2025: 2,50€/part net de fiscalité étrangère | Taux de distribution 2024: 6,01% | Fourchette prévisionnelle Taux de Distribution 2025: 5,25% - 5,75% (non garantie) | TRI sur 5 ans (30/09/2020 - 30/09/2025): 6,57% | Prix d'une part: 182,79€ | Valeur de reconstitution par part: 187,00€ | Valeur de réalisation par part: 155,95€ | Collecte nette T3 2025: 7,9 M€ | Retraits réalisés: 8,2 M€ | 71 643 parts en attente de retrait sur le trimestre (3,1% des parts totales) | Ratio d'endettement (méthode ASPIM): 35% | Durée moyenne d'endettement: 2 ans | 6 signatures de baux depuis le début de l'année | Renouvellement de bail avec FedEx à Hoofddorp (Pays-Bas) - 5 000 m², 1 349 000€ de loyer facial | Renouvellement de bail avec Soletanche Freyssinet à Rueil-Malmaison (France) - 15 443 m², signé début octobre | Renouvellement de bail avec Salta Group à Hilversum (Pays-Bas) - 8 733 m² | Promesse de vente signée sur l'actif de Nanterre (réitération prévue mi-novembre) | Programme d'amélioration énergétique prévu pour l'immeuble de Saragosse (Espagne) - plus de 200 000€ | Note ESG du portefeuille: 45/100 | Sans délai de jouissance du 1er septembre au 31 décembre 2025"
+    "Actualités trimestrielles": "Capitalisation de 427,9 M€ au 30/09/2025 | 39 actifs immobiliers | 129 locataires | 230 279 m² de surface totale | 550 M€ de valeur du patrimoine | Taux d'occupation financier: 91,8% | Taux d'occupation physique: 94,2% | WALB moyenne: 3,5 ans | Distribution T3 2025: 2,50€/part net de fiscalité étrangère | Taux de distribution 2024: 6,01% | Fourchette prévisionnelle Taux de Distribution 2025: 5,25% - 5,75% (non garantie) | TRI sur 5 ans (30/09/2020 - 30/09/2025): 6,57% | Prix d'une part: 182,79€ | Valeur de reconstitution par part: 187,00€ | Valeur de réalisation par part: 155,95€ | Collecte nette T3 2025: 7,9 M€ | Retraits réalisés: 8,2 M€ | 71 643 parts en attente de retrait sur le trimestre (3,1% des parts totales) | Ratio d'endettement (méthode ASPIM): 35% | Durée moyenne d'endettement: 2 ans | 6 signatures de baux depuis le début de l'année | Renouvellement de bail avec FedEx à Hoofddorp (Pays-Bas) - 5 000 m², 1 349 000€ de loyer facial | Renouvellement de bail avec Soletanche Freyssinet à Rueil-Malmaison (France) - 15 443 m², signé début octobre | Renouvellement de bail avec Salta Group à Hilversum (Pays-Bas) - 8 733 m² | Promesse de vente signée sur l'actif de Nanterre (réitération prévue mi-novembre) | Programme d'amélioration énergétique prévu pour l'immeuble de Saragosse (Espagne) - plus de 200 000€ | Note ESG du portefeuille: 45/100 | Sans délai de jouissance du 1er septembre au 31 décembre 2025",
+    "Frais de souscription (TTC/%)": 0
   },
   {
     "Nom SCPI": "Opportunité Immo",
@@ -976,36 +1075,54 @@
     "Capitalisation (M€)": 313.02,
     "Prix de souscription (€)": 203,
     "Valeur de retrait (€)": "184.73",
-    "Surcote/décote (%)": -7.79,
-    "Valeur de reconstitution (€)": 215.61,
-    "Valeur de réalisation (€)": 177.31,
+    "Surcote/décote (%)": -5.8,
+    "Valeur de reconstitution (€)": 215.4,
+    "Valeur de réalisation (€)": 175.34,
     "Taux de distribution (%)": 5.62,
     "Distribution (€/part)": "11.37",
-    "Endettement (%)": 30,
-    "TOF (%)": 97.5,
+    "Endettement (%)": 14.45,
+    "TOF (%)": 95.3,
     "Nombre d’immeubles": 45,
     "Minimum de souscription €": 203,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 9,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "France (70%), Europe (30%)",
-    "Répartition Sectorielle": "Logistique et locaux d'activités (70%), Bureaux et commerces (30%)",
+    "Répartition Géographique": "Île-de-France (47.82%), Régions (39.93%), Espagne (5.82%), Allemagne (4.50%), Royaume-Uni (1.93%)",
+    "Répartition Sectorielle": "Logistique et locaux d'activités (89.41%), Bureaux (10.59%)",
     "Répartition Géographique JSON": {
-      "France": 70,
-      "Europe": 30
+      "Île-de-France": 47.82,
+      "Régions": 39.93,
+      "Espagne": 5.82,
+      "Allemagne": 4.5,
+      "Royaume-Uni": 1.93
     },
     "Répartition Sectorielle JSON": {
-      "Logistique et locaux d'activités": 70,
-      "Bureaux et commerces": 30
+      "Logistique et locaux d'activités": 89.41,
+      "Bureaux": 10.59
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Nombre d'immeubles": 46,
+    "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Aucune cession réalisée au cours du trimestre | Activité locative : solde commercial positif avec résorption de 1 042 m² de locaux vacants | Principaux mouvements locatifs : Technoparc de Lamirault à Collégien (77) - arrivée de 4 nouveaux locataires sur 2 900 m², site totalement loué (11 600 m² sur 7 bâtiments) | Corbas (69) : principal locataire a signé un nouveau bail avec extension de 700 m² | Bobigny (93) : locataire unique se maintient pour 10 années supplémentaires | Taux d'occupation physique : 95,3% (vs 94,8% au trimestre précédent) | Taux d'occupation financier : 95,3% (vs 94,9% au 2e trimestre) | Baisse des mesures d'accompagnement allouées ce trimestre | Distribution T3 2025 maintenue à 2,85 € par part (même niveau que T1 et T2) | Collecte brute T3 2025 : 2,0 M€ | Parts en attente de retrait : 19 860 parts (3,7 M€)",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Nombre d'acquisitions trimestre": 0,
+    "WALB": 3.3,
+    "Nombre de locataires": 70,
+    "Surface gérée (m²)": 223872,
+    "Loyers encaissés trimestre (M€)": 4.2,
+    "Collecte brute trimestre (M€)": 2,
+    "Parts en attente de retrait": 19860,
+    "Montant parts en attente de retrait (M€)": 3.7,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.85,
+    "Nombre d'associés": 5974,
+    "Nombre de parts": 1541948,
+    "Frais de souscription (TTC/%)": 10.8
   },
   {
     "Nom SCPI": "Optimale",
@@ -1027,7 +1144,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Métropoles françaises",
     "Répartition Sectorielle": "Bureaux (43,2%), Commerces (29,1%), Activités & Logistique (23,4%), Santé & Éducation (4,3%)",
@@ -1052,8 +1168,9 @@
     "Nombre de locataires": 81,
     "WALT": null,
     "WALB": null,
-    "Actualités trimestrielles": "Deux nouvelles acquisitions représentant un montant total de 2,92 M€ au cours du trimestre | Acquisition à Sainte-Hélène-du-Lac (France, 660 m², 1,09M€) : immeuble d'activités et bureaux au Parc Alpespace, près de Chambéry, loué à Axians et Pyrite Ingénierie (activités) | Acquisition à Couëron (France, 910 m², 1,83M€) : immeuble d'activités à Couëron, près de Nantes, loué à ADN TANGUY Matériaux depuis 20 ans (activités) | Renforcement dans le sillon alpin avec l'acquisition à Sainte-Hélène-du-Lac, confirmant le positionnement sur des métiers à forte expertise technique | Stratégie d'Optimale : investir dans des actifs d'entreprise performants et bien localisés au cœur des grandes agglomérations régionales | Volume total investi de presque 93 M€ depuis le lancement, témoignant de la croissance soutenue du portefeuille | Taux de distribution T3 2025 de 1,62% brut (4,05€/part) et taux de distribution cumulé 2025 de 4,70% brut (11,75€/part) | Performance Globale Annuelle (PGA) cible 2025 de 8% et taux de distribution cible entre 6,30% et 6,50% | Taux d'occupation financier de 95,36%, témoignant d'une gestion locative active | Portefeuille compte désormais 36 actifs immobiliers pour une surface totale supérieure à 69 731 m² | 81 locataires répartis sur les métropoles françaises, renforçant la diversification locative | Loyers quittancés T3 2025 de 1 755 k€, confirmant la performance locative du portefeuille | Aucune cession d'actif n'a été réalisée au cours du trimestre",
-    "Nombre d'immeubles": 36
+    "Actualités trimestrielles": "Acquisition à Sainte-Hélène-du-Lac (France, 660 m², 1,09M€) : immeuble d'activités et bureaux au Parc Alpespace, près de Chambéry, loué à Axians et Pyrite Ingénierie (activités) | Deux nouvelles acquisitions représentant un montant total de 2,92 M€ au cours du trimestre | Acquisition à Couëron (France, 910 m², 1,83M€) : immeuble d'activités à Couëron, près de Nantes, loué à ADN TANGUY Matériaux depuis 20 ans (activités) | Stratégie d'Optimale : investir dans des actifs d'entreprise performants et bien localisés au cœur des grandes agglomérations régionales | Volume total investi de presque 93 M€ depuis le lancement, témoignant de la croissance soutenue du portefeuille | Taux de distribution T3 2025 de 1,62% brut (4,05€/part) et taux de distribution cumulé 2025 de 4,70% brut (11,75€/part) | Performance Globale Annuelle (PGA) cible 2025 de 8% et taux de distribution cible entre 6,30% et 6,50% | Taux d'occupation financier de 95,36%, témoignant d'une gestion locative active | Portefeuille compte désormais 36 actifs immobiliers pour une surface totale supérieure à 69 731 m² | 81 locataires répartis sur les métropoles françaises, renforçant la diversification locative | Loyers quittancés T3 2025 de 1 755 k€, confirmant la performance locative du portefeuille | Aucune cession d'actif n'a été réalisée au cours du trimestre",
+    "Nombre d'immeubles": 36,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Paref Evo",
@@ -1063,8 +1180,8 @@
     "Capitalisation (M€)": 47,
     "Prix de souscription (€)": 250,
     "Valeur de retrait (€)": "225.00",
-    "Surcote/décote (%)": 1.48,
-    "Valeur de reconstitution (€)": 246.35,
+    "Surcote/décote (%)": 0.8,
+    "Valeur de reconstitution (€)": 248,
     "Valeur de réalisation (€)": 214.15,
     "Taux de distribution (%)": 6,
     "Distribution (€/part)": "12.4",
@@ -1075,7 +1192,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 8.33,
     "Répartition Géographique": "Pologne (100%)",
     "Répartition Sectorielle": "Bureaux (89.7%), Locaux d'activité (10.3%)",
@@ -1091,50 +1207,65 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Actualités trimestrielles": "Aucune acquisition n'a été réalisée au cours du trimestre | Aucune cession d'actif n'a été réalisée au cours du trimestre | Prolongations et renouvellements de baux sur l'actif de Racławicka (Varsovie), sécurisant les loyers sur plusieurs années | 553 m² reloués en 2025, contribuant au maintien d'un TOF élevé",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Paref Hexa",
     "Société de gestion": "PAREF GESTION",
     "Année de création": 1991,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 267.6,
+    "Capitalisation (M€)": 245.6,
     "Prix de souscription (€)": 210,
     "Valeur de retrait (€)": "189.00",
-    "Surcote/décote (%)": 5.25,
-    "Valeur de reconstitution (€)": 199.52,
-    "Valeur de réalisation (€)": 163.32,
+    "Surcote/décote (%)": 7.1,
+    "Valeur de reconstitution (€)": 196.02,
+    "Valeur de réalisation (€)": 159.56,
     "Taux de distribution (%)": 6,
     "Distribution (€/part)": "12.58",
-    "Endettement (%)": 25.8,
-    "TOF (%)": 93.6,
+    "Endettement (%)": 26.6,
+    "TOF (%)": 90.5,
     "Nombre d’immeubles": 43,
     "Minimum de souscription €": 1050,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 8,
-    "Répartition Géographique": "12 métropoles régionales (56.3%), Ile-de-France (27.1%), Autres régions (11.5%), Paris (5.1%)",
-    "Répartition Sectorielle": "Bureaux (66.3%), Locaux d'activité (23.9%), Logistique et Messagerie (6.3%), Autres (3.5%)",
+    "Répartition Géographique": "Métropoles régionales (56.0%), Ile-de-France hors Paris (26.7%), Paris (5.3%), Autres régions (12.0%)",
+    "Répartition Sectorielle": "Bureaux (67.2%), Locaux d'activité (24.8%), Logistique et Messagerie (4.5%), Autres (3.5%)",
     "Répartition Géographique JSON": {
-      "12 métropoles régionales": 56.3,
-      "Ile-de-France": 27.1,
-      "Autres régions": 11.5,
-      "Paris": 5.1
+      "Métropoles régionales": 56,
+      "Ile-de-France hors Paris": 26.7,
+      "Paris": 5.3,
+      "Autres régions": 12
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": 66.3,
-      "Locaux d'activité": 23.9,
-      "Logistique et Messagerie": 6.3,
+      "Bureaux": 67.2,
+      "Locaux d'activité": 24.8,
+      "Logistique et Messagerie": 4.5,
       "Autres": 3.5
     },
     "Profil_de_risque": {
-      "SRRI": 3,
+      "SRRI": 2,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "WALB": 2.93,
+    "Nombre de baux": 76,
+    "Surface gérée (m²)": 148481,
+    "Nombre d'associés": 3717,
+    "Nombre de parts": 1169445,
+    "Parts en attente de retrait": 11557,
+    "Actualités trimestrielles": "Aucune acquisition n'a été réalisée au cours du trimestre | Cession à Vitry-sur-Seine (Val-de-Marne) : actif mixte bureaux / activité cédé pour 1,75 M€ (+2,5% par rapport à la dernière valeur d'expertise, +82% par rapport au prix d'acquisition, plus-value brute réalisée : 0,8 M€) | Distribution nette T3 2025 maintenue à 3,00 € par part | Poursuite du plan d'arbitrage engagé en 2024, visant à améliorer la liquidité et la performance | 1 prise d'effet : 70 m² – loyer annuel 9 000 € | 2 libérations : 1 193 m² – loyers annuels sortants 251 893 € | Lots vacants : 27 lots – 13 256 m²",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 1,
+    "Loyers encaissés trimestre (M€)": 4.7,
+    "Nombre d'immeubles": 41,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "GMA Essentialis",
@@ -1156,7 +1287,6 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (51%), Allemagne (49%)",
     "Répartition Sectorielle": "Alimentaire (90%), Tertiaire (10%)",
@@ -1173,7 +1303,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Grand Paris Résidentiel",
@@ -1195,7 +1326,6 @@
     "Délai de jouissance (mois)": 3,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Ile-de-France (87%), Régions (13%)",
     "Répartition Sectorielle": "Logement : 99,6 %, Commerces : 0,4 %",
@@ -1214,7 +1344,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Immorente",
@@ -1236,7 +1367,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Paris Centre (22.5%), Grand Paris (25%), Métropoles françaises (32.8%), Pays-Bas (7.9%), Allemagne (4.5%), Belgique (3%), Royaume-Uni (2.9%), Irlande (0.6%), Reste de l'Europe (0.8%)",
     "Répartition Sectorielle": "Bureaux (36.3%), Commerces de centre-ville et milieu urbain (24.1%), Galeries commerciales (13.7%), Autres (9.5%), Moyennes surfaces commerciales de périphéries (16.4%)",
@@ -1263,7 +1393,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Iroko Zen",
@@ -1285,7 +1416,6 @@
     "Délai de jouissance (mois)": 1,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 0,
     "Frais de gestion (HT/%)": 12.5,
     "Répartition Géographique": "France (29.5%), Royaume-Uni (25.8%), Pays-Bas (13.3%), Espagne (11.5%), Irlande (10.9%), Allemagne (8.0%), Italie (1.0%)",
     "Répartition Sectorielle": "Commerces (36.20%), Bureaux (29.40%), Locaux d'activités (15.10%), Entrepôts (10.40%), Santé / Crèches / Éducation / Hôtellerie (9.00%)",
@@ -1312,7 +1442,8 @@
       "Verification": "Default"
     },
     "Nombre d'immeubles": 164,
-    "Actualités trimestrielles": "Volume d'acquisition T3 2025: 217 M€ (hors droits, hors frais)"
+    "Actualités trimestrielles": "Volume d'acquisition T3 2025: 217 M€ (hors droits, hors frais)",
+    "Frais de souscription (TTC/%)": 0
   },
   {
     "Nom SCPI": "Iroko Zen",
@@ -1334,7 +1465,6 @@
     "Délai de jouissance (mois)": 1,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 0,
     "Frais de gestion (HT/%)": 12.5,
     "Répartition Géographique": "France (29.5%), Royaume-Uni (25.8%), Pays-Bas (13.3%), Espagne (11.5%), Irlande (10.9%), Allemagne (8.0%), Italie (1.0%)",
     "Répartition Sectorielle": "Commerces (36.20%), Bureaux (29.40%), Locaux d'activités (15.10%), Entrepôts (10.40%), Santé / Crèches / Éducation / Hôtellerie (9.00%)",
@@ -1367,7 +1497,8 @@
     "WALT": 9.1,
     "WALB": 7.6,
     "Actualités trimestrielles": "Quatorze nouvelles acquisitions représentant un volume total de 256.5 M€ hors droits au cours du trimestre | Acquisition à Londres (Royaume-Uni, 66,9M€) : bureaux avec durée ferme des baux de 13 ans et rendement AEM de 8,76% (bureaux) | Acquisition à Alcala de Guadaira (Espagne, 26,21M€) : commerces avec durée ferme des baux de 1,83 ans et rendement AEM de 8,47% (commerce) | Acquisition à Swords (Irlande, 24,5M€) : commerces avec durée ferme des baux de 15 ans et rendement AEM de 7,42% (commerce) | Acquisition à Noordwijkerhout (Pays-Bas, 22,15M€) : entrepôt avec durée ferme des baux de 15 ans et rendement AEM de 7,34% (logistique) | Acquisition à Reading (Royaume-Uni, 19,72M€) : bureaux avec durée ferme des baux de 10,54 ans et rendement AEM de 8,86% (bureaux) | Acquisition à Sheffield (Royaume-Uni, 19,33M€) : parking avec durée ferme des baux de 19,56 ans et rendement AEM de 8,3% (autre) | Acquisition à Wiesbaden (Allemagne, 17,10M€) : bureaux avec durée ferme des baux de 8,4 ans et rendement AEM de 7,04% (bureaux) | Acquisition à Bournemouth (Royaume-Uni, 12,01M€) : commerces avec durée ferme des baux de 9,56 ans et rendement AEM de 9,22% (commerce) | Acquisition à Getafe (Espagne, 11,16M€) : entrepôt avec durée ferme des baux de 4,1 ans et rendement AEM de 8,05% (logistique) | Acquisition à Croydon (Royaume-Uni, 9,394M€) : parking avec durée ferme des baux de 29 ans et rendement AEM de 7,74% (autre) | Acquisition à Guben (Allemagne, 7,25M€) : commerces avec durée ferme des baux de 19 ans et rendement AEM de 7,0-8,0% (commerce) | Acquisition à Échirolles (France, 7,23M€) : commerces avec durée ferme des baux de 4 ans et rendement AEM de 7,6% (commerce) | Acquisition à Londres (Royaume-Uni, 6,97M€) : commerces avec durée ferme des baux de 2,17 ans et rendement AEM de 7,35% (commerce) | Acquisition à Leeds (Royaume-Uni, 6,58M€) : école avec durée ferme des baux de 4 ans et rendement AEM de 7,84% (santé/éducation) | Collecte nette de 130M€ au cours du trimestre, portant la capitalisation à 1 237M€ au 30 septembre 2025 | Distribution T3 2025 de 3,73€ brut et 3,03€ net de fiscalité étrangère par part, confirmant la performance de distribution | Taux d'occupation financier de 98,1% et taux d'occupation physique de 97,6%, témoignant d'une gestion locative solide | Ratio d'endettement (LTV) de 30,1%, niveau modéré permettant une marge de manœuvre pour les investissements futurs | Durée moyenne ferme des baux (WALB) de 7,6 ans et durée moyenne totale (WALT) de 9,1 ans, assurant une visibilité de revenus à long terme | Portefeuille compte désormais 164 actifs immobiliers pour une surface totale de 981 138 m², répartis sur 7 pays européens | 46 nouveaux locataires intégrés au T3 2025, portant le total à 378 locataires, renforçant la diversification locative | Prix de souscription porté à 204€ le 1er août 2025 (en hausse de 2€ par rapport au trimestre précédent), reflétant la valorisation du patrimoine | Recommercialisations réalisées à Arras (Mobalpa, 261 m²), Barcelone (Action, 1 323 m²), Emmen Nijbracht (Brookhuis, 1 000 m²) et Ballymount (Cavalier Flooring, 172 m²) | Programme de relocation en cours pour Pantin (258 m², départ juillet 2026), Alcala de Guadaira (1 901 m², départ février 2026) et Brie Comte Robert (372 m², départ décembre 2025) | Renforcement des équipes avec l'arrivée de Killian Waeckel en tant qu'Asset Manager, renforçant les capacités de gestion | Création de Fyra, filiale de gestion locative premium, pour optimiser la gestion opérationnelle du portefeuille | Reprise du portefeuille espagnol par Iroko Iberia depuis juillet 2025, améliorant la gestion locale des actifs | Actions ESG : partenariat avec Tilt Energy et Thermosphr, installation d'une pompe à chaleur à Heerlen et d'un système GTB à Olivet | Aucune cession d'actif n'a été réalisée au cours du trimestre",
-    "TOP (%)": 97.6
+    "TOP (%)": 97.6,
+    "Frais de souscription (TTC/%)": 0
   },
   {
     "Nom SCPI": "Kyaneos Pierre",
@@ -1389,7 +1520,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 9.17,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (100%)",
     "Répartition Sectorielle": "Résidentiel (80%), Tertiaire (20%)",
@@ -1405,7 +1535,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 11
   },
   {
     "Nom SCPI": "LF Avenir Santé",
@@ -1427,7 +1558,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Paris (32.75%), Ile-de-France (5.58%), Régions (40.09%), Belgique (11.93%), Irlande (9.65%)",
     "Répartition Sectorielle": "Soins de ville (43%), Établissements sanitaires (41%), Solutions d'accueil générationnelles (16%)",
@@ -1448,7 +1578,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "LF Europimmo",
@@ -1470,7 +1601,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 8,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Allemagne : 71,6 %,  France : 16,3 %, Pays-Bas : 8,8 %, Belgique : 2,2 %, Espagne : 1,1 %",
     "Répartition Sectorielle": "Bureaux : 87 %, Commerces : 12 %, Résidences gérées : 1 %",
@@ -1496,7 +1626,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9.6
   },
   {
     "Nom SCPI": "LF Grand Paris Patrimoine",
@@ -1518,7 +1649,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 8,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Ile-de-France (85%), Régions (15%)",
     "Répartition Sectorielle": "Bureaux (75%), Commerces (25%)",
@@ -1535,7 +1665,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9.6
   },
   {
     "Nom SCPI": "Log In",
@@ -1557,7 +1688,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (37.3%), Allemagne (25.3%), Royaume-Uni (13.1%), Italie (7.6%), Pays-Bas (6.7%), Espagne (3.5%), Portugal (2.4%), Grèce (2.4%), Autres pays (1.7%)",
     "Répartition Sectorielle": "Logistique / Activité (36.9%), Bureaux (27.9%), Hôtellerie (8.7%), Résidentiel (7.7%), Éducation (7.5%), Commerces (5.5%), Santé (3.5%), Autres (2.3%)",
@@ -1589,7 +1719,8 @@
       "Verification": "Default"
     },
     "Actualités trimestrielles": "Deux acquisitions finalisées pour 9,6 M€ au cours du trimestre | Acquisition à Fossò (Italie, 3 346 m², 6,7M€) : site industriel entièrement rénové, livré clé en main et loué pour une durée ferme de 15 ans à TreZeta Group, acteur italien spécialisé dans la fabrication de semelles pour chaussures de luxe (locaux d'activités et sites de production) | Acquisition à Tychy (Pologne, 9 705 m², 2,9M€) : bâtiment industriel construit en 1997 et modernisé en 2016, comprenant 6 704 m² de production, 2 531 m² de bureaux (26%) et 470 m² d'entrepôts, occupé par BOS Automotive Product Polska, filiale du groupe allemand BOS GmbH, acteur mondial du secteur automobile (locaux d'activités et sites de production) | Première acquisition de LOG-IN en Pologne, marquant une étape importante dans le développement européen du portefeuille | Le site de Tychy bénéficie d'un emplacement stratégique à proximité de Katowice, au cœur du corridor Baltique-Adriatique TEN-T | L'ensemble des deux actifs italiens (Fossò et San Donato) représente désormais plus de 12 500 m², consolidant un partenariat stratégique de long terme avec un acteur de référence de l'industrie italienne | Taux de rendement global combiné des deux opérations italiennes s'élève à 8%, traduisant une excellente création de valeur | Collecte brute de 15,8M€ au cours du trimestre, portant la capitalisation à 207,8M€ au 30 septembre 2025 | Portefeuille compte désormais 16 actifs répartis dans 6 pays (Allemagne, Italie, Royaume-Uni, Espagne, Irlande et Pologne) | Taux d'occupation financier de 100% et durée ferme moyenne des baux (WALB) de 9,7 ans | Dividende trimestriel de 2,91€ par part (3,54€ brut de fiscalité étrangère), identique au trimestre précédent | LOG-IN reste en ligne avec son objectif 2025 de rendement brut entre 6% et 6,5% | À compter du 1er novembre 2025, le prix de souscription sera porté à 255€ par part | Aucune cession d'actif n'a été réalisée au cours du trimestre",
-    "Période bulletin trimestriel": "T3 2025"
+    "Période bulletin trimestriel": "T3 2025",
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "NCap Education Santé",
@@ -1611,7 +1742,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France, Zone euro et hors zone euro",
     "Répartition Sectorielle": "Santé / social (66%), Bien-être (16%), Éducation (16%), Environnement (2%)",
@@ -1630,18 +1760,19 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "NCap Régions",
     "Société de gestion": "Norma Capital",
     "Année de création": 2015,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 972.8,
-    "Prix de souscription (€)": 670,
-    "Valeur de retrait (€)": "I613,80",
-    "Surcote/décote (%)": -4.43,
-    "Valeur de reconstitution (€)": 701.06,
+    "Capitalisation (M€)": 1067.7,
+    "Prix de souscription (€)": 682,
+    "Valeur de retrait (€)": "613.80",
+    "Surcote/décote (%)": -2.78,
+    "Valeur de reconstitution (€)": 701.49,
     "Valeur de réalisation (€)": 576.68,
     "Taux de distribution (%)": 5.72,
     "Distribution (€/part)": "38.32",
@@ -1649,28 +1780,38 @@
     "TOF (%)": 92.7,
     "Nombre d’immeubles": 169,
     "Minimum de souscription €": 3350,
-    "Délai de jouissance (mois)": 5,
+    "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "Grandes agglomérations de province, Ile-de-France",
-    "Répartition Sectorielle": "Bureaux, Activités, Commerces",
+    "Répartition Géographique": "Grandes agglomérations de province (65%), Ile-de-France (35%)",
+    "Répartition Sectorielle": "Bureaux (54%), Commerce (32%), Activités (14%), Hôtellerie (<0,5%)",
     "Répartition Géographique JSON": {
-      "Grandes agglomérations de province": null,
-      "Ile-de-France": null
+      "Grandes agglomérations de province": 65,
+      "Ile-de-France": 35
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": null,
-      "Activités": null,
-      "Commerces": null
+      "Bureaux": 54,
+      "Commerce": 32,
+      "Activités": 14,
+      "Hôtellerie": 0.5
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Actualités trimestrielles": "Acquisition d'un site d'activités à Blois (41) : actif industriel dans la zone des Onze Arpents, date d'acquisition 23/07/2025, prix d'acquisition AEM 8,6 M€, surface 12 330 m², locataire Enerflux | Acquisition d'un commerce alimentaire à Asnières-sur-Seine (92) : actif commercial en première couronne parisienne, date d'acquisition 04/09/2025, prix d'acquisition AEM 4,3 M€, surface 1 346 m², locataire Lidl | Lancement d'un projet hôtelier à Nantes (44) : hôtel 4 étoiles en VEFA, date d'acquisition 30/09/2025, prix d'acquisition AEM 23,1 M€, surface 4 784 m², 127 chambres, locataire Voco (InterContinental Hotels Group), bail ferme de 12 ans, livraison prévue au 4ème trimestre 2028, certifié BREEAM Very Good | Aucune cession significative réalisée au cours du trimestre | Collecte positive sur le trimestre | Une partie de la collecte a été investie, le solde restant en attente d'opportunités | Nouveaux baux : 6 nouveaux baux signés (Cabriès, Lyon, La Wantzenau, Escalquens, Saint-Herblain) | Taux de recouvrement : 97%",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Nombre d'acquisitions trimestre": 2,
+    "Nombre d'immeubles": 175,
+    "WALT": 5,
+    "Nombre de locataires": 429,
+    "Surface gérée (m²)": 478953,
+    "Distribution trimestrielle T3 2025 (€/part)": 9.5,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Novapierre 1",
@@ -1692,7 +1833,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Autres régions (30.8%), Paris (28.6%), 12 métropoles régionales (21.2%), Ile-de-France hors Paris (19.4%)",
     "Répartition Sectorielle": "Alimentaire (15.2%), Santé (9.8%), Équipement de la maison (30.3%), Restauration (15.7%), Services (12.5%), Culture et loisirs (6.6%), Autres (9.9%)",
@@ -1716,7 +1856,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Novapierre Résidentiel",
@@ -1738,7 +1879,6 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "NC",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 8.29,
     "Frais de gestion (HT/%)": 1.71,
     "Répartition Géographique": "Paris (77.8%), Région parisienne (19.9%), Nice (2.3%)",
     "Répartition Sectorielle": "Résidentiel (100%)",
@@ -1755,7 +1895,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9.95
   },
   {
     "Nom SCPI": "Novaxia NEO",
@@ -1777,7 +1918,6 @@
     "Délai de jouissance (mois)": 0,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 0,
     "Frais de gestion (HT/%)": 15,
     "Répartition Géographique": "France, Europe hors zone Euro, pays de l'OCDE",
     "Répartition Sectorielle": "Bureaux (93%), Hôtels (3%), Activités (3%), Enseignement (1%)",
@@ -1797,7 +1937,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 0
   },
   {
     "Nom SCPI": "Opportunité Immo",
@@ -1807,36 +1948,54 @@
     "Capitalisation (M€)": 313.02,
     "Prix de souscription (€)": 203,
     "Valeur de retrait (€)": "184.73",
-    "Surcote/décote (%)": -7.79,
-    "Valeur de reconstitution (€)": 215.61,
-    "Valeur de réalisation (€)": 177.31,
+    "Surcote/décote (%)": -5.8,
+    "Valeur de reconstitution (€)": 215.4,
+    "Valeur de réalisation (€)": 175.34,
     "Taux de distribution (%)": 5.62,
     "Distribution (€/part)": "11.37",
-    "Endettement (%)": 30,
-    "TOF (%)": 97.5,
+    "Endettement (%)": 14.45,
+    "TOF (%)": 95.3,
     "Nombre d’immeubles": 45,
     "Minimum de souscription €": 203,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 9,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "France (70%), Europe (30%)",
-    "Répartition Sectorielle": "Logistique et locaux d'activités (70%), Bureaux et commerces (30%)",
+    "Répartition Géographique": "Île-de-France (47.82%), Régions (39.93%), Espagne (5.82%), Allemagne (4.50%), Royaume-Uni (1.93%)",
+    "Répartition Sectorielle": "Logistique et locaux d'activités (89.41%), Bureaux (10.59%)",
     "Répartition Géographique JSON": {
-      "France": 70,
-      "Europe": 30
+      "Île-de-France": 47.82,
+      "Régions": 39.93,
+      "Espagne": 5.82,
+      "Allemagne": 4.5,
+      "Royaume-Uni": 1.93
     },
     "Répartition Sectorielle JSON": {
-      "Logistique et locaux d'activités": 70,
-      "Bureaux et commerces": 30
+      "Logistique et locaux d'activités": 89.41,
+      "Bureaux": 10.59
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Nombre d'immeubles": 46,
+    "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Aucune cession réalisée au cours du trimestre | Activité locative : solde commercial positif avec résorption de 1 042 m² de locaux vacants | Principaux mouvements locatifs : Technoparc de Lamirault à Collégien (77) - arrivée de 4 nouveaux locataires sur 2 900 m², site totalement loué (11 600 m² sur 7 bâtiments) | Corbas (69) : principal locataire a signé un nouveau bail avec extension de 700 m² | Bobigny (93) : locataire unique se maintient pour 10 années supplémentaires | Taux d'occupation physique : 95,3% (vs 94,8% au trimestre précédent) | Taux d'occupation financier : 95,3% (vs 94,9% au 2e trimestre) | Baisse des mesures d'accompagnement allouées ce trimestre | Distribution T3 2025 maintenue à 2,85 € par part (même niveau que T1 et T2) | Collecte brute T3 2025 : 2,0 M€ | Parts en attente de retrait : 19 860 parts (3,7 M€)",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Nombre d'acquisitions trimestre": 0,
+    "WALB": 3.3,
+    "Nombre de locataires": 70,
+    "Surface gérée (m²)": 223872,
+    "Loyers encaissés trimestre (M€)": 4.2,
+    "Collecte brute trimestre (M€)": 2,
+    "Parts en attente de retrait": 19860,
+    "Montant parts en attente de retrait (M€)": 3.7,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.85,
+    "Nombre d'associés": 5974,
+    "Nombre de parts": 1541948,
+    "Frais de souscription (TTC/%)": 10.8
   },
   {
     "Nom SCPI": "Optimale",
@@ -1858,7 +2017,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Métropoles françaises",
     "Répartition Sectorielle": "Bureaux : 98 %, Commerces : 2 %",
@@ -1874,7 +2032,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Paref Evo",
@@ -1884,8 +2043,8 @@
     "Capitalisation (M€)": 47,
     "Prix de souscription (€)": 250,
     "Valeur de retrait (€)": "225.00",
-    "Surcote/décote (%)": 1.48,
-    "Valeur de reconstitution (€)": 246.35,
+    "Surcote/décote (%)": 0.8,
+    "Valeur de reconstitution (€)": 248,
     "Valeur de réalisation (€)": 214.15,
     "Taux de distribution (%)": 6,
     "Distribution (€/part)": "12.4",
@@ -1896,7 +2055,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 8.33,
     "Répartition Géographique": "Pologne (100%)",
     "Répartition Sectorielle": "Bureaux (89.7%), Locaux d'activité (10.3%)",
@@ -1912,50 +2070,65 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Actualités trimestrielles": "Aucune acquisition n'a été réalisée au cours du trimestre | Aucune cession d'actif n'a été réalisée au cours du trimestre | Prolongations et renouvellements de baux sur l'actif de Racławicka (Varsovie), sécurisant les loyers sur plusieurs années | 553 m² reloués en 2025, contribuant au maintien d'un TOF élevé",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Paref Hexa",
     "Société de gestion": "PAREF GESTION",
     "Année de création": 1991,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 267.6,
+    "Capitalisation (M€)": 245.6,
     "Prix de souscription (€)": 210,
     "Valeur de retrait (€)": "189.00",
-    "Surcote/décote (%)": 5.25,
-    "Valeur de reconstitution (€)": 199.52,
-    "Valeur de réalisation (€)": 163.32,
+    "Surcote/décote (%)": 7.1,
+    "Valeur de reconstitution (€)": 196.02,
+    "Valeur de réalisation (€)": 159.56,
     "Taux de distribution (%)": 6,
     "Distribution (€/part)": "12.58",
-    "Endettement (%)": 25.8,
-    "TOF (%)": 93.6,
+    "Endettement (%)": 26.6,
+    "TOF (%)": 90.5,
     "Nombre d’immeubles": 43,
     "Minimum de souscription €": 1050,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 8,
-    "Répartition Géographique": "12 métropoles régionales (56.3%), Ile-de-France (27.1%), Autres régions (11.5%), Paris (5.1%)",
-    "Répartition Sectorielle": "Bureaux (66.3%), Locaux d'activité (23.9%), Logistique et Messagerie (6.3%), Autres (3.5%)",
+    "Répartition Géographique": "Métropoles régionales (56.0%), Ile-de-France hors Paris (26.7%), Paris (5.3%), Autres régions (12.0%)",
+    "Répartition Sectorielle": "Bureaux (67.2%), Locaux d'activité (24.8%), Logistique et Messagerie (4.5%), Autres (3.5%)",
     "Répartition Géographique JSON": {
-      "12 métropoles régionales": 56.3,
-      "Ile-de-France": 27.1,
-      "Autres régions": 11.5,
-      "Paris": 5.1
+      "Métropoles régionales": 56,
+      "Ile-de-France hors Paris": 26.7,
+      "Paris": 5.3,
+      "Autres régions": 12
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": 66.3,
-      "Locaux d'activité": 23.9,
-      "Logistique et Messagerie": 6.3,
+      "Bureaux": 67.2,
+      "Locaux d'activité": 24.8,
+      "Logistique et Messagerie": 4.5,
       "Autres": 3.5
     },
     "Profil_de_risque": {
-      "SRRI": 3,
+      "SRRI": 2,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Nombre d'immeubles": 41,
+    "WALB": 2.93,
+    "Nombre de baux": 76,
+    "Surface gérée (m²)": 148481,
+    "Nombre d'associés": 3717,
+    "Nombre de parts": 1169445,
+    "Parts en attente de retrait": 11557,
+    "Actualités trimestrielles": "Aucune acquisition n'a été réalisée au cours du trimestre | Cession à Vitry-sur-Seine (Val-de-Marne) : actif mixte bureaux / activité cédé pour 1,75 M€ (+2,5% par rapport à la dernière valeur d'expertise, +82% par rapport au prix d'acquisition, plus-value brute réalisée : 0,8 M€) | Distribution nette T3 2025 maintenue à 3,00 € par part | Poursuite du plan d'arbitrage engagé en 2024, visant à améliorer la liquidité et la performance | 1 prise d'effet : 70 m² – loyer annuel 9 000 € | 2 libérations : 1 193 m² – loyers annuels sortants 251 893 € | Lots vacants : 27 lots – 13 256 m²",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 1,
+    "Loyers encaissés trimestre (M€)": 4.7,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Remake Live",
@@ -1977,7 +2150,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 0,
     "Frais de gestion (HT/%)": 15,
     "Répartition Géographique": "Royaume Uni (29,00%), France (27,62%), Espagne (11,66%), Irlande (10,11%), Pays-Bas (9,93%), Pologne (8,04%), Allemagne (2,65%), Portugal (0,98%)",
     "Répartition Sectorielle": "Bureaux (38,02%), Santé & éducation (21,92%), Logistique et locaux d'activité (14,12%), Commerces (12,06%), Hôtels, tourisme, loisirs (8,84%), Résidentiel (3,48%), Alternatifs (1,56%)",
@@ -2012,30 +2184,30 @@
     "Nombre de locataires": 77,
     "WALT": 10.3,
     "WALB": null,
-    "Actualités trimestrielles": "Collecte nette de 32,6 M€ au T3 2025 | 2 nouvelles acquisitions pour un montant de 74,9 M€ | Acquisition de l'hôtel NH à l'aéroport Lyon Saint-Exupéry (43 M€, 8,1 ans de WALB, rendement > 7,2%) | Acquisition de l'immeuble Shelbourne à Dublin (30 M€, 6,2 ans de WALB, rendement 7,8%) | 8 immeubles sous promesse pour environ 110 M€ | Portefeuille composé de 58 immeubles répartis sur 8 pays | Taux de distribution 2024 de 7,50% (soit 6,18% net de fiscalité étrangère) | Performance Globale Annuelle (PGA) 2024 de 7,50% | TRI depuis le lancement de 7,34% | Note ESG du portefeuille: 55,31/100 (progression depuis 31,22/100 initiale)",
-    "Nombre d'immeubles": 58
+    "Actualités trimestrielles": "Deux nouvelles acquisitions représentant un montant total de 73 M€ | Acquisition à Lyon (France, 13 500 m², 43M€) : hôtel 4 étoiles Lyon-Saint Exupéry, occupé à 100% par NH Hotel Group, rendement 7,2% (hôtels) | Acquisition à Dublin (Irlande, 4 184 m², 30M€) : immeuble de bureaux à Ballsbridge, occupé à 100% par 4 locataires, rendement 7,8% (bureaux) | Collecte nette de 32,6 M€ au T3 2025 | 2 nouvelles acquisitions pour un montant de 74,9 M€ | 8 immeubles sous promesse pour environ 110 M€ | Portefeuille composé de 58 immeubles répartis sur 8 pays | Taux de distribution 2024 de 7,50% (soit 6,18% net de fiscalité étrangère) | Performance Globale Annuelle (PGA) 2024 de 7,50% | TRI depuis le lancement de 7,34% | Note ESG du portefeuille: 55,31/100 (progression depuis 31,22/100 initiale)",
+    "Nombre d'immeubles": 58,
+    "Frais de souscription (TTC/%)": 0
   },
   {
     "Nom SCPI": "Perial Opportunités Europe",
     "Société de gestion": "PERIAL Asset Management",
     "Année de création": 1998,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 784,
-    "Prix de souscription (€)": 880,
-    "Valeur de retrait (€)": "796.40",
+    "Capitalisation (M€)": 783.62,
+    "Prix de souscription (€)": 44,
+    "Valeur de retrait (€)": "39.82",
     "Surcote/décote (%)": null,
-    "Valeur de reconstitution (€)": null,
-    "Valeur de réalisation (€)": 683.84,
+    "Valeur de reconstitution (€)": 43.5,
+    "Valeur de réalisation (€)": 33.93,
     "Taux de distribution (%)": 6.27,
     "Distribution (€/part)": 13.2,
     "Endettement (%)": 31.4,
     "TOF (%)": 91.5,
     "Nombre d’immeubles": 133,
-    "Minimum de souscription €": 4400,
+    "Minimum de souscription €": 220,
     "Délai de jouissance (mois)": 5,
-    "Versement des loyers": "Trimestriel",
+    "Versement des loyers": "Mensuel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 9.5,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (59,5%), Pays-Bas (13,8%), Allemagne (12,6%), Espagne (12,3%), Italie (1,9%)",
     "Répartition Sectorielle": "Bureaux (48,5%), Hôtels, tourisme, loisirs (26,4%), Commerces (18,5%), Santé et éducation (4,8%), Logistique et locaux d'activités (1,7%), Alternatifs (0,1%)",
@@ -2055,7 +2227,7 @@
       "Alternatifs": 0.1
     },
     "Profil_de_risque": {
-      "SRRI": 3,
+      "SRRI": 4,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
@@ -2066,8 +2238,9 @@
     "Nombre de locataires": null,
     "WALT": null,
     "WALB": 5.2,
-    "Actualités trimestrielles": "Collecte nette de 9,86 M€ au T3 2025 | 2 cessions d'immeubles de bureaux en France pour un montant total de 3,8 M€ | Cession d'un immeuble de bureaux à Aix-Europarc/Meyreuil (13) - 1,0 M€, 860 m², juillet 2025 | Cession d'un immeuble de bureaux Cenor à Issy-les-Moulineaux (92) - 2,8 M€, 551 m², septembre 2025, plus-value de 0,5 M€ distribuable dès 2025 | Distribution T3 2025: 13,20 €/part | Distribution nette cumulée au T3 2025: 37,72 €/part | Taux de distribution cible 2025: entre 6,10% et 6,40% | Taux de distribution 2024: 6,27% | Performance Globale Annuelle (PGA) 2024: 6,27% | TRI 10 ans: 5,47% | TRI depuis création: 7,33% | Taux d'occupation financier: 90,3% | 131 immeubles, 320 baux | WALB: 5,2 ans | Superficie totale: 379 018 m² | Taux d'endettement: 31,4% (max 40%) | Taux d'intérêt moyen: 2,50% | Durée résiduelle moyenne de la dette: 2,1 ans | Prix MSCI 'Highest Total Return Relative to the Real Estate All Property Benchmark' | 1er Prix des SCPI diversifiée de moins de 2 Md€ d'encours aux trophées de la Finance responsable",
-    "Nombre d'immeubles": 131
+    "Actualités trimestrielles": "À compter du 01/01/2026, modification du prix de souscription et des valeurs de retrait et de réalisation | Collecte nette de 9,86 M€ au T3 2025 | 2 cessions d'immeubles de bureaux en France pour un montant total de 3,8 M€ | Cession d'un immeuble de bureaux à Aix-Europarc/Meyreuil (13) - 1,0 M€, 860 m², juillet 2025 | Cession d'un immeuble de bureaux Cenor à Issy-les-Moulineaux (92) - 2,8 M€, 551 m², septembre 2025, plus-value de 0,5 M€ distribuable dès 2025 | Distribution T3 2025: 13,20 €/part | Distribution nette cumulée au T3 2025: 37,72 €/part | Taux de distribution cible 2025: entre 6,10% et 6,40% | Taux de distribution 2024: 6,27% | Performance Globale Annuelle (PGA) 2024: 6,27% | TRI 10 ans: 5,47% | TRI depuis création: 7,33% | Taux d'occupation financier: 90,3% | 131 immeubles, 320 baux | WALB: 5,2 ans | Superficie totale: 379 018 m² | Taux d'endettement: 31,4% (max 40%) | Taux d'intérêt moyen: 2,50% | Durée résiduelle moyenne de la dette: 2,1 ans | Prix MSCI 'Highest Total Return Relative to the Real Estate All Property Benchmark' | 1er Prix des SCPI diversifiée de moins de 2 Md€ d'encours aux trophées de la Finance responsable",
+    "Nombre d'immeubles": 131,
+    "Frais de souscription (TTC/%)": 11.4
   },
   {
     "Nom SCPI": "Perial O2",
@@ -2089,7 +2262,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 8.5,
     "Frais de gestion (HT/%)": 9.58,
     "Répartition Géographique": "Régions (38,4%), Région parisienne (36,6%), Europe (hors France) (22,5%), Paris (2,5%)",
     "Répartition Sectorielle": "Bureaux (85.4%), Hôtels, tourisme, loisirs (5.8%), Santé & éducation (4.5%), Commerces (3.6%), Logistique et locaux d'activités (0.7%)",
@@ -2116,7 +2288,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 10.2
   },
   {
     "Nom SCPI": "Perial Hospitalité Europe",
@@ -2138,7 +2311,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 8.5,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Allemagne (67.5%), Espagne (17.6%), Italie (11.4%), Pays-Bas (3.5%)",
     "Répartition Sectorielle": "Santé et éducation (61,0%), Hôtels, tourisme, loisirs (37,9%), Alternatifs, résidences étudiantes (1,1%)",
@@ -2164,7 +2336,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 10.2
   },
   {
     "Nom SCPI": "Sofiprime",
@@ -2186,7 +2359,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 9.67,
     "Frais de gestion (HT/%)": 1.03,
     "Répartition Géographique": "Paris : 41 %, Île-de-France (hors Paris) : 34 %, Régions françaises : 25 %",
     "Répartition Sectorielle": "Bureaux : 98 %, Commerces : 2 %",
@@ -2204,7 +2376,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 11.6
   },
   {
     "Nom SCPI": "Selectinvest 1",
@@ -2226,7 +2399,6 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 7.5,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Ile-de-France (54.50%), Régions (24.80%), Paris (17.28%), Allemagne (3.42%)",
     "Répartition Sectorielle": "Bureaux (72.52%), Commerces (21.41%), Logistique et locaux d'activités (3.87%), Hotels, tourisme et loisirs (1.68%), Santé et éducation (0.52%)",
@@ -2249,7 +2421,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9
   },
   {
     "Nom SCPI": "Transitions Europe",
@@ -2271,7 +2444,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Espagne (34%), Pays-Bas (27%), Allemagne (20%), Irlande (12%), Pologne (7%)",
     "Répartition Sectorielle": "Bureaux (38%), Commerces (18%), Life Sciences (13%), Hospitalité (11%), Logistique (13%), Éducation (7%)",
@@ -2303,7 +2475,8 @@
     "Nombre de locataires": 290,
     "WALT": 11.3,
     "WALB": 6.5,
-    "Actualités trimestrielles": "Collecte nette de 135 M€ au T3 2025 | 8 nouvelles acquisitions pour un volume global de 179 M€ | Portefeuille composé de 43 actifs répartis sur 6 typologies et 6 pays | Renouvellement du Label ISR pour une 2ème période triennale | Distribution d'un acompte sur dividende de 3€ par part au titre du T3 | Montant total distribué de 12.50 € par part depuis le début de l'année | Objectif de taux de distribution cible réhaussé à 7,5% (non garanti) | Pipeline de 13 actifs sous exclusivité représentant environ 220 M€"
+    "Actualités trimestrielles": "Collecte nette de 135 M€ au T3 2025 | 8 nouvelles acquisitions pour un volume global de 179 M€ | Portefeuille composé de 43 actifs répartis sur 6 typologies et 6 pays | Renouvellement du Label ISR pour une 2ème période triennale | Distribution d'un acompte sur dividende de 3€ par part au titre du T3 | Montant total distribué de 12.50 € par part depuis le début de l'année | Objectif de taux de distribution cible réhaussé à 7,5% (non garanti) | Pipeline de 13 actifs sous exclusivité représentant environ 220 M€",
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Urban Coeur de Commerce",
@@ -2325,7 +2498,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 9.86,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Province (83%), Île de France (17%)",
     "Répartition Sectorielle": "Commerces de services (30%), Commerces alimentaires, restauration (29%), Commerces de santé (16%), Commerces divers (25%)",
@@ -2345,7 +2517,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 11.83
   },
   {
     "Nom SCPI": "Épargne Foncière",
@@ -2367,7 +2540,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de souscription (HT/%)": 7.5,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Paris (22.44%), Île-de-France (37.59%), Régions (31.82%), Allemagne (5.37%), Pays-Bas (1.47%), Royaume-Uni (0.90%), Irlande (0.41%)",
     "Répartition Sectorielle": "Bureaux (70.99%), Commerces (19.36%), Hôtels (5.73%), Santé et éducation (3.40%), Logistique et locaux d'activités (0.52%)",
@@ -2392,42 +2564,48 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9
   },
   {
     "Nom SCPI": "Épargne Pierre",
     "Société de gestion": "Atland Voisin",
     "Année de création": 2013,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 479,
-    "Prix de souscription (€)": 200,
+    "Capitalisation (M€)": 2795,
+    "Prix de souscription (€)": 208,
     "Valeur de retrait (€)": "187.20",
-    "Surcote/décote (%)": null,
-    "Valeur de reconstitution (€)": null,
+    "Surcote/décote (%)": -0.31,
+    "Valeur de reconstitution (€)": 208.64,
     "Valeur de réalisation (€)": 170.1,
-    "Taux de distribution (%)": 5.5,
-    "Distribution (€/part)": 2.46,
-    "Endettement (%)": 0,
-    "TOF (%)": 100,
+    "Taux de distribution (%)": 5.28,
+    "Distribution (€/part)": "10.98",
+    "Endettement (%)": 11,
+    "TOF (%)": 94.3,
     "Nombre d’immeubles": 410,
     "Minimum de souscription €": 2080,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "Régions (51.8%), Paris (25.8%), Île-de-France (19.9%), Europe (2.5%)",
-    "Répartition Sectorielle": "Locaux commerciaux (84.1%), Bureaux (15.8%), Entrepôts et activités (0.1%)",
+    "Répartition Géographique": "Paris (27.57%), Île-de-France (15.43%), Sud-Ouest (17.39%), Nord-Ouest (12.92%), Nord (12.65%), Sud-Est (14.04%), Nord-Est (11.15%)",
+    "Répartition Sectorielle": "Bureaux (48.15%), Commerces (29.35%), Activités/Entrepôts (8.41%), Tourisme/Hôtel (8.70%), Santé/Education (5.23%), Résidentiel/Alternatif (0.16%)",
     "Répartition Géographique JSON": {
-      "Régions": 51.8,
-      "Paris": 25.8,
-      "Île-de-France": 19.9,
-      "Europe": 2.5
+      "Paris": 27.57,
+      "Île-de-France": 15.43,
+      "Sud-Ouest": 17.39,
+      "Nord-Ouest": 12.92,
+      "Nord": 12.65,
+      "Sud-Est": 14.04,
+      "Nord-Est": 11.15
     },
     "Répartition Sectorielle JSON": {
-      "Locaux commerciaux": 84.1,
-      "Bureaux": 15.8,
-      "Entrepôts et activités": 0.1
+      "Bureaux": 48.15,
+      "Commerces": 29.35,
+      "Activités/Entrepôts": 8.41,
+      "Tourisme/Hôtel": 8.7,
+      "Santé/Education": 5.23,
+      "Résidentiel/Alternatif": 0.16
     },
     "Profil_de_risque": {
       "SRRI": 3,
@@ -2436,12 +2614,24 @@
       "Verification": "Default"
     },
     "Période bulletin trimestriel": "T3 2025",
-    "Collecte nette trimestre": 71200000,
-    "Nombre de cessions trimestre": 0,
-    "Nombre de locataires": null,
-    "WALT": null,
-    "WALB": null,
-    "Actualités trimestrielles": "Collecte nette de 71,2 M€ au T3 2025 | 4 nouvelles acquisitions pour un montant de 127 M€ | Acquisition d'un retail park à Dublin (12,8 M€, 4 locataires) | Acquisition de locaux d'activités à Galway (7,8 M€, locataire Celestica, bail 5 ans) | Acquisition d'un magasin Woodie's à Dublin (15,6 M€, bail 7 ans) | Acquisition d'un Center Parcs en Allemagne (91 M€, 80% de quote-part, bail 9 ans) | Réduction de la part bureaux à 27,34% (contre 43,20% au 30 juin) | Augmentation de la part hôtellerie à 35,56% (contre 14,51% au 30 juin) | Exposition croissante à l'Allemagne: 30,48% du patrimoine (contre 6,48% au 30 juin) | Taux de distribution brut de fiscalité étrangère 2024: 6,75% | Performance Globale Annuelle 2024: 6,75% | Taux de distribution brut de fiscalité étrangère 2025: 5,50% (objectif)"
+    "Collecte nette trimestre (M€)": 15,
+    "Collecte brute trimestre (M€)": 25,
+    "Nombre de cessions trimestre": 2,
+    "Nombre d'acquisitions trimestre": 0,
+    "Montant cessions trimestre (M€)": 3.185,
+    "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Cessions du trimestre : 2 actifs cédés pour 3,185 M€ (Villers-Semeuse (88) - Centre commercial Villiers II Le Pré des Terres, Retail Park 1 074 m², 1,7 M€ | Besançon (25) - 2F Avenue des Montboucons, bureaux 739 m², 1,485 M€) | Gestion locative : 11 entrées de locataires (dont ADP GSI France à Villeneuve d'Ascq, CALTEA à Versailles, FRANCE TERRE D'ASILE à Bobigny, ATS CULLIGAN à Versailles, NOVACOR à Chatou) et 15 sorties de locataires (dont HESNAULT à Guyancourt, PRÊT A MANGER à Versailles, TOTO TISSUS à Cormontreuil, MINISTERE DE L'EDUCATION à Aix-en-Provence, ASSYSTEM à Tours) | TOF à 94,30% au 30/09/2025, avec 93,47% de locaux occupés, 0,83% sous franchise ou mis à disposition, 5,70% vacants | Collecte nette T3 2025 : 15 M€ | Distribution T3 2025 : 2,64€ par part versée le 23/10/2025 | Distribution annuelle prévisionnelle 2025 : 10,98€ par part | Acquisition prévue au T4 2025 : renforcement de l'exposition sur l'hôtellerie avec une acquisition d'un volume supérieur à 30 M€ | Immeuble Unity à Nancy primé par l'association professionnelle BBCA lors des Grands Prix du salon de l'immobilier Bas Carbone 2025, dans la catégorie « coup de cœur du jury » | Réinvestissement automatique des revenus mis en place | Actualisation des valeurs d'expertise au 30/06/2025 : léger retrait de -0,8% principalement dû à la hausse des droits d'enregistrement",
+    "Frais de souscription (TTC/%)": 12,
+    "Nombre d'immeubles": 410,
+    "Nombre d'associés": 52337,
+    "Nombre de parts": 13440297,
+    "Nombre de baux": 1030,
+    "Loyers encaissés trimestre (M€)": 40.235,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.64,
+    "Distribution annuelle 2025 (€/part)": 10.98,
+    "Taux de distribution 2024 (%)": 5.28,
+    "Performance globale annuelle 2024 (%)": 5.28,
+    "TRI 10 ans (%)": 5.45,
+    "Parts en attente de retrait": 0
   },
   {
     "Nom SCPI": "Épargne Pierre Europe",
@@ -2451,11 +2641,11 @@
     "Capitalisation (M€)": 479,
     "Prix de souscription (€)": 200,
     "Valeur de retrait (€)": "180.00",
-    "Surcote/décote (%)": -3.15,
+    "Surcote/décote (%)": 0,
     "Valeur de reconstitution (€)": 206.51,
     "Valeur de réalisation (€)": 176.3,
     "Taux de distribution (%)": 5.5,
-    "Distribution (€/part)": 2.46,
+    "Distribution (€/part)": "13.50",
     "Endettement (%)": 0,
     "TOF (%)": 100,
     "Nombre d’immeubles": 16,
@@ -2463,10 +2653,9 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "Irlande (33,97%), Allemagne (30,47%), Espagne (24,04%), Pays-Bas (11,52%)",
-    "Répartition Sectorielle": "Hôtellerie (35,56%), Bureaux (27,34%), Commerces (19,22%), Activités / Entrepôts (11,52%), Santé (6,36%)",
+    "Répartition Sectorielle": "Hôtellerie (35,56%), Bureaux (27,34%), Commerces (19,22%), Activités/Entrepôts (11,52%), Santé (6,36%)",
     "Répartition Géographique JSON": {
       "Irlande": 33.97,
       "Allemagne": 30.47,
@@ -2477,7 +2666,7 @@
       "Hôtellerie": 35.56,
       "Bureaux": 27.34,
       "Commerces": 19.22,
-      "Activités / Entrepôts": 11.52,
+      "Activités/Entrepôts": 11.52,
       "Santé": 6.36
     },
     "Profil_de_risque": {
@@ -2488,55 +2677,98 @@
     },
     "Période bulletin trimestriel": "T3 2025",
     "Date de mise à jour": "2026-01-23",
-    "Collecte nette trimestre": 71200000,
+    "Collecte nette trimestre (M€)": 71.2,
+    "Collecte brute trimestre (M€)": 71.2,
     "Nombre de cessions trimestre": 0,
     "Nombre de locataires": null,
     "WALT": null,
     "WALB": null,
-    "Actualités trimestrielles": "Collecte nette de 71,2 M€ au T3 2025 | 4 nouvelles acquisitions pour un montant de 127 M€ | Acquisition d'un retail park à Dublin (12,8 M€, 4 locataires) | Acquisition de locaux d'activités à Galway (7,8 M€, locataire Celestica, bail 5 ans) | Acquisition d'un magasin Woodie's à Dublin (15,6 M€, bail 7 ans) | Acquisition d'un Center Parcs en Allemagne (91 M€, 80% de quote-part, bail 9 ans) | Réduction de la part bureaux à 27,34% (contre 43,20% au 30 juin) | Augmentation de la part hôtellerie à 35,56% (contre 14,51% au 30 juin) | Exposition croissante à l'Allemagne: 30,48% du patrimoine (contre 6,48% au 30 juin) | Taux de distribution brut de fiscalité étrangère 2024: 6,75% | Performance Globale Annuelle 2024: 6,75% | Taux de distribution brut de fiscalité étrangère 2025: 5,50% (objectif)",
-    "Nombre d'immeubles": 25
+    "Actualités trimestrielles": "4 acquisitions finalisées pour 127,5 M€ : Dublin (Irlande, 6 025 m², WOODIES DIY), Galway (Irlande, 6 761 m², CELESTICA), Dublin (Irlande, 4 273 m², multilocataires), Medebach (Allemagne, 52 810 m², CENTER PARCS) | Aucune cession au trimestre | TOF à 100% au 30/09/2025 | Collecte nette T3 2025 : 71,2 M€ | Distribution T3 2025 : 2,46€ net par part (3,00€ brut) versée le 23/10/2025 | Réduction de la part bureaux à 27,34% (contre 43,20% au 30 juin) | Augmentation de la part hôtellerie à 35,56% (contre 14,51% au 30 juin) | Exposition croissante à l'Allemagne : 30,47% du patrimoine (contre 6,48% au 30 juin) | Renforcement de l'exposition en Irlande : 33,97% du patrimoine | Taux de distribution brut de fiscalité étrangère 2025 : 5,50% (objectif) | Performance Globale Annuelle 2024 : 6,75%",
+    "Nombre d'immeubles": 16,
+    "Frais de souscription (TTC/%)": 12,
+    "Nombre d'associés": 13615,
+    "Nombre de parts": 2396520,
+    "Nombre de baux": 23,
+    "Loyers encaissés trimestre (M€)": 5.38,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.46,
+    "Distribution trimestrielle T3 2025 brut (€/part)": 3,
+    "Taux de distribution brut 2024 (%)": 6.75,
+    "Taux de distribution net 2024 (%)": 5.63,
+    "Performance globale annuelle 2024 (%)": 6.75,
+    "TRI 10 ans (%)": 5.5,
+    "Parts en attente de retrait": 0,
+    "Nombre d'acquisitions trimestre": 4,
+    "Montant acquisitions trimestre (M€)": 127.5
   },
   {
     "Nom SCPI": "ESG Pierre Capital",
     "Société de gestion": "Swiss Life AM France",
     "Année de création": 2017,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 126.45,
+    "Capitalisation (M€)": 116.91,
     "Prix de souscription (€)": 188,
-    "Valeur de retrait (€)": "184.50",
-    "Surcote/décote (%)": 0,
-    "Valeur de reconstitution (€)": 188.03,
-    "Valeur de réalisation (€)": 153.25,
-    "Taux de distribution (%)": 5.5,
-    "Distribution (€/part)": "60.50",
-    "Endettement (%)": 27.74,
-    "TOF (%)": 98.4,
+    "Valeur nominale (€)": 160,
+    "Prime d'émission (€)": 28,
+    "Valeur de retrait (€)": "169.20",
+    "Surcote/décote (%)": 0.48,
+    "Valeur de reconstitution (€)": 187.11,
+    "Valeur de réalisation (€)": 152.49,
+    "Valeur nette comptable (€)": 166.72,
+    "Taux de distribution (%)": 5.22,
+    "Distribution (€/part)": "7.32",
+    "Endettement (%)": 28,
+    "TOF (%)": 96.28,
     "Nombre d’immeubles": 10,
     "Minimum de souscription €": 188,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 8,
     "Frais de gestion (HT/%)": 8.5,
-    "Répartition Géographique": "France (51%), Allemagne (49%)",
-    "Répartition Sectorielle": "Hôtellerie Bien-Être (33%), Logistique (24%), Bureaux (20%), Éducation (11%), Commerces (12%)",
+    "Répartition Géographique": "Paris (28,47%), Île-de-France (17,89%), Régions (49,15%), Allemagne (4,48%)",
+    "Répartition Sectorielle": "Services (27,30%), Logistique (24,23%), Bureaux (19,60%), Hôtellerie (17,40%), Commerces (11,46%)",
     "Répartition Géographique JSON": {
-      "France": 51,
-      "Allemagne": 49
+      "Paris": 28.47,
+      "Ile_de_France": 17.89,
+      "Regions": 49.15,
+      "Allemagne": 4.48
     },
     "Répartition Sectorielle JSON": {
-      "Hôtellerie Bien-Être": 33,
-      "Logistique": 24,
-      "Bureaux": 20,
-      "Éducation": 11,
-      "Commerces": 12
+      "Services": 27.3,
+      "Logistique": 24.23,
+      "Bureaux": 19.6,
+      "Hôtellerie": 17.4,
+      "Commerces": 11.46
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12,
+    "TOP (%)": 96.78,
+    "Nombre d'immeubles": 10,
+    "Nombre d'associés": 1091,
+    "Nombre de parts": 621862,
+    "Nombre de locataires": 15,
+    "Surface gérée (m²)": 71253,
+    "Loyers encaissés trimestre (M€)": 2.338,
+    "Collecte nette trimestre (M€)": 0.428,
+    "Collecte brute trimestre (M€)": 0.428,
+    "Distribution trimestrielle T3 2025 (€/part)": 2.58,
+    "Distribution trimestrielle T3 2025 brut (€/part)": 2.79,
+    "Distribution annuelle 2025 (€/part)": 7.32,
+    "Taux de distribution 2024 (%)": 5.22,
+    "Performance globale annuelle 2024 (%)": 5.22,
+    "WALB": 4.06,
+    "Parts en attente de retrait": 0,
+    "Dette bancaire (M€)": 38.18,
+    "Taux moyen des emprunts (%)": 2.74,
+    "Durée résiduelle moyenne des emprunts (ans)": 0.5,
+    "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Aucune cession au trimestre | TOF à 96,28% et TOP à 96,78% au 30/09/2025, taux de vacance de 4%, franchise de loyer de 0% | Collecte nette T3 2025 : 0,43 M€ (427 512 €) | Distribution T3 2025 : 2,58€ net par part (2,79€ brut) versée le 21/10/2025 | Distribution annuelle prévisionnelle 2025 : 7,32€ net par part (7,91€ brut) | Taux de distribution 2024 : 5,22% | Performance Globale Annuelle 2024 : 5,22% | Durée moyenne des baux restant à courir (WALB) : 4,06 ans | Endettement à 28% (dette bancaire 38,18 M€), taux moyen des emprunts 2,74%, durée résiduelle moyenne des emprunts 0,50 an | Partenariat Reforest'Action : 1016 arbres plantés | Capitalisation en légère hausse à 116,91 M€ (+0,81% par rapport au T2 2025) | Nombre d'associés : 1 091 | Nombre de parts : 621 862 | Surface totale gérée : 71 253 m² | 10 immeubles, 15 locataires",
+    "Période bulletin trimestriel": "T3 2025",
+    "Nombre de cessions trimestre": 0,
+    "Nombre d'acquisitions trimestre": 0
   },
   {
     "Nom SCPI": "Ficommerce Proximité",
@@ -2558,7 +2790,6 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9.3,
     "Répartition Géographique": "Régions (51.8%), Paris (25.8%), Île-de-France (19.9%), Europe (2.5%)",
     "Répartition Sectorielle": "Locaux commerciaux (84.1%), Bureaux (15.8%), Entrepôts et activités (0.1%)",
@@ -2578,49 +2809,67 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Foncière des Praticiens",
     "Société de gestion": "MAGELLIM REIM",
     "Année de création": 2017,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 164.9,
+    "Capitalisation (M€)": 179.407,
     "Prix de souscription (€)": 1100,
     "Valeur de retrait (€)": "1012.00",
-    "Surcote/décote (%)": 1.63,
-    "Valeur de reconstitution (€)": 1082.36,
-    "Valeur de réalisation (€)": 957.21,
+    "Surcote/décote (%)": 8.7,
+    "Valeur de reconstitution (€)": 1069.23,
+    "Valeur de réalisation (€)": 938.88,
     "Taux de distribution (%)": 5.5,
     "Distribution (€/part)": "60.50",
-    "Endettement (%)": 1.79,
-    "TOF (%)": 97.69,
+    "Endettement (%)": 22.15,
+    "TOF (%)": 97.08,
     "Nombre d’immeubles": 23,
     "Minimum de souscription €": 1100,
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": "8 à 12",
-    "Frais de souscription (HT/%)": 8,
     "Frais de gestion (HT/%)": 8.5,
-    "Répartition Géographique": "France (51%), Allemagne (49%)",
-    "Répartition Sectorielle": "Services (33%), Bureaux (20%), Commerces (12%), Hôtellerie Bien-Être (11%), Logistique (24%)",
+    "Répartition Géographique": "France (70%), Belgique (30%)",
+    "Répartition Sectorielle": "Lieux de soins, de traitement et de consultation (46%), Locaux d'accompagnement et rééducation (37%), Locaux supports au secteur de la santé (17%)",
     "Répartition Géographique JSON": {
-      "France": 51,
-      "Allemagne": 49
+      "France": 70,
+      "Belgique": 30
     },
     "Répartition Sectorielle JSON": {
-      "Services": 33,
-      "Bureaux": 20,
-      "Commerces": 12,
-      "Hôtellerie Bien-Être": 11,
-      "Logistique": 24
+      "Lieux de soins, de traitement et de consultation": 46,
+      "Locaux d'accompagnement et rééducation": 37,
+      "Locaux supports au secteur de la santé": 17
     },
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 9.6,
+    "Nombre d'immeubles": 23,
+    "Nombre d'associés": 2768,
+    "Nombre de parts": 153711,
+    "Nombre de locataires": 79,
+    "Surface gérée (m²)": 56584,
+    "Loyers encaissés trimestre (M€)": 2.171,
+    "Collecte nette trimestre (M€)": 3.7,
+    "Collecte brute trimestre (M€)": 3.7,
+    "Distribution trimestrielle T3 2025 (€/part)": 15.46,
+    "Taux de distribution 2024 (%)": 5.5,
+    "Performance globale annuelle 2024 (%)": 5.5,
+    "WALB": 4.14,
+    "Parts en attente de retrait": 0,
+    "Dette bancaire (M€)": 13.7,
+    "Valeur nominale (€)": 970,
+    "Prime d'émission (€)": 130,
+    "Actualités trimestrielles": "Collecte nette de 3,7 M€ au T3 2025, traduisant la confiance renouvelée des épargnants. Inauguration d'une première Maison d'Accueil Spécialisée (MAS) à Philippeville en Belgique, acquise en VEFA pour 15,8 M€ HT HD. Cette structure accueillera 80 résidents en situation de handicap, avec un loyer annuel de 900 000 € HT HC et un bail de 25 ans fermes. Le projet illustre la volonté de la SCPI de diversifier géographiquement son patrimoine tout en restant fidèle à son ADN : investir dans des infrastructures de santé utiles, pérennes et à impact positif. Aucune part n'est en attente de retrait au 30/09/2025, toutes les demandes de retrait ayant pu être compensées par les nouvelles parts souscrites.",
+    "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "30/09/2025"
   },
   {
     "Nom SCPI": "Selectipierre 2",
@@ -2642,7 +2891,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 9,
     "Répartition Géographique": "Paris (71.0%), Ile-de-France (22.6%), Régions (6.4%)",
     "Répartition Sectorielle": "Bureaux (67.5%), Locaux commerciaux (21.3%), Résidence hôtelières / étudiantes (4.3%), Locaux d'habitation (5.6%), Locaux d'activité (1.3%)",
@@ -2663,7 +2911,8 @@
       "Echelle": "1-7",
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
-    }
+    },
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Log In",
@@ -2684,7 +2933,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (37.3%), Allemagne (25.3%), Royaume-Uni (13.1%), Italie (7.6%), Pays-Bas (6.7%), Espagne (3.5%), Portugal (2.4%), Grèce (2.4%), Autres pays (1.7%)",
     "Répartition Sectorielle": "Logistique / Activité (36.9%), Bureaux (27.9%), Hôtellerie (8.7%), Résidentiel (7.7%), Éducation (7.5%), Commerces (5.5%), Santé (3.5%), Autres (2.3%)",
@@ -2720,7 +2968,8 @@
     "Nombre de locataires": 18,
     "WALB": 9.7,
     "Actualités trimestrielles": "Capitalisation de 207,8 M€ au 30/09/2025 | 16 actifs immobiliers | 18 locataires | 202 283 m² de surface totale | Taux d'occupation financier: 100% | Taux d'occupation physique: 100% | Durée moyenne ferme des baux (WALB): 9,7 ans | Collecte brute T3 2025: 15,8 M€ | Distribution T3 2025: 2,91€ net / 3,54€ brut de fiscalité étrangère par part | Taux de distribution 2024: 6,30% brut / 5,20% net | Performance Globale Annuelle (PGA) 2024: 6,30% | Prix de souscription: 255€ (à compter du 1er novembre 2025) | Valeur de retrait: 229,50€ | Valeur de réalisation: 224,99€ | Valeur de reconstitution: 266,50€ | Ratio d'endettement: 4,8% | 2 acquisitions finalisées pour 9,6 M€: Fossò (Italie, 3 346 m², TreZeta Group) et Tychy (Pologne, 9 705 m², BOS Automotive) | 831 083 associés au total | 4 388 nouveaux associés au T3 2025 | 768 486 parts totales | 63 386 parts souscrites au T3 2025 | 789 parts retirées au T3 2025 | LOG IN a été élue la SCPI la plus prometteuse dans le palmarès du magazine Le Particulier - octobre 2025 | Souscription 100% digitale disponible | Note complémentaire T4 2025: LOG IN est détenue par la SC Pythagore (Theoreim) à hauteur de 1,5% de l'actif net de Pythagore (389,48 M€ au 25/12/2025)",
-    "Nombre d'immeubles": 16
+    "Nombre d'immeubles": 16,
+    "Frais de souscription (TTC/%)": 12
   },
   {
     "Nom SCPI": "Log In",
@@ -2742,7 +2991,6 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (HT/%)": 10,
     "Frais de gestion (HT/%)": 10,
     "Répartition Géographique": "France (37.3%), Allemagne (25.3%), Royaume-Uni (13.1%), Italie (7.6%), Pays-Bas (6.7%), Espagne (3.5%), Portugal (2.4%), Grèce (2.4%), Autres pays (1.7%)",
     "Répartition Sectorielle": "Logistique / Activité (36.9%), Bureaux (27.9%), Hôtellerie (8.7%), Résidentiel (7.7%), Éducation (7.5%), Commerces (5.5%), Santé (3.5%), Autres (2.3%)",
@@ -2773,6 +3021,7 @@
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
     },
-    "Période bulletin trimestriel": "T4 2025"
+    "Période bulletin trimestriel": "T4 2025",
+    "Frais de souscription (TTC/%)": 12
   }
 ]

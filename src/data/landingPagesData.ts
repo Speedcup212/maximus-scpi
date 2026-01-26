@@ -601,18 +601,18 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
       theme: 'blue'
     }
 },
-  'aestiam-placement-pierre': {
-    nom: "Aestiam Placement Pierre",
-    slug: "aestiam-placement-pierre",
+  'aestiam-horizon': {
+    nom: "Aestiam Horizon",
+    slug: "aestiam-horizon",
     societe_gestion: "Aestiam",
     annee_creation: 1986,
     label_isr: true,
     capitalisation: "380 M€",
     prix_souscription: "350 €",
     rendement: "5.4%",
-    tof: "90.4%",
-    decote: "0%",
-    endettement: "13%",
+    tof: "86.5%",
+    decote: "11.1%",
+    endettement: "12%",
     frais_souscription: "10%",
     geographie: {
     "Paris": 20,
@@ -621,10 +621,10 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     "Région Parisienne": 30
 },
     secteurs: {
-    "Bureaux": 77,
-    "Hôtels": 3,
+    "Bureaux": 76,
     "Commerces": 16,
-    "Enseignement": 2,
+    "Hôtels": 2,
+    "Enseignement": 4,
     "Locaux d'activités": 2
 },
     avantages: [
@@ -632,11 +632,11 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
       "Label ISR - Investissement responsable",
       "Gérée par Aestiam"
 ],
-    description_courte: "SCPI Aestiam Placement Pierre gérée par Aestiam offrant 5.4% de rendement avec un taux d'occupation de 90.4%.",
-    description_longue: "Aestiam Placement Pierre, créée en 1986 par Aestiam, se distingue par son rendement de 5.4% et un taux d'occupation de 90.4%. Avec une capitalisation de 380 M€, elle offre une solution d'investissement immobilier labellisée ISR adaptée aux investisseurs recherchant des revenus réguliers.",
+    description_courte: "SCPI Aestiam Horizon (anciennement Aestiam Placement Pierre) gérée par Aestiam offrant 5.4% de rendement avec un taux d'occupation de 86.5%.",
+    description_longue: "Aestiam Horizon, créée en 1986 par Aestiam (anciennement Aestiam Placement Pierre), se distingue par son rendement de 5.4% et un taux d'occupation de 86.5%. Avec une capitalisation de 380 M€, elle offre une solution d'investissement immobilier labellisée ISR adaptée aux investisseurs recherchant des revenus réguliers. Spécialisée dans les bureaux à taille humaine.",
     pourquoi_investir: [
       "Rendement attractif : 5.4% de taux de distribution",
-      "Taux d'occupation : 90.4% des biens loués",
+      "Taux d'occupation : 86.5% des biens loués",
       "Label ISR - Investissement responsable",
       "Société de gestion reconnue : Aestiam"
 ],
@@ -648,7 +648,7 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     simulator: {
       defaultInvestment: 50000,
       defaultYield: 5.5,
-      title: `Simulez vos revenus Aestiam placement pierre`,
+      title: `Simulez vos revenus Aestiam Horizon`,
       subtitle: `Calculez vos revenus potentiels avec cette SCPI`,
       theme: 'blue'
     }

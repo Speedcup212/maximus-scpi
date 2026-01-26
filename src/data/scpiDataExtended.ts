@@ -45,73 +45,63 @@ const baseSCPIData: SCPIExtended[] = [
     "yield": 5.5,
     "price": 610,
     "minInvestment": 6100,
-    "category": "Diversifiée",
+    "category": "Logistique",
     "managementCompany": "Alderan",
-    "tof": 94.8,
-    "capitalization": "1,3Md€",
+    "tof": 92.8,
+    "capitalization": "1,4Md€",
     "sectors": [
       {
-        "name": "Autres",
-        "value": 1
-      },
-      {
-        "name": "Transports",
-        "value": 7
-      },
-      {
-        "name": "Logistique urbaine",
-        "value": 9
+        "name": "Entrepôts logistiques",
+        "value": 51.0
       },
       {
         "name": "Locaux d'activités",
-        "value": 32
+        "value": 31.0
       },
       {
-        "name": "Entrepôts logistiques",
-        "value": 51
+        "name": "Logistique urbaine",
+        "value": 10.0
+      },
+      {
+        "name": "Transport",
+        "value": 7.0
+      },
+      {
+        "name": "Autres",
+        "value": 1.0
       }
     ],
     "geography": [
       {
-        "name": "Italie",
-        "value": 3
+        "name": "France",
+        "value": 78.2
       },
       {
         "name": "Espagne",
-        "value": 14
+        "value": 13.8
       },
       {
-        "name": "Irlande",
-        "value": 1
+        "name": "Portugal",
+        "value": 4.2
       },
       {
-        "name": "Pays bas",
-        "value": 1
+        "name": "Italie",
+        "value": 1.5
       },
       {
         "name": "Allemagne",
-        "value": 0.5
+        "value": 1.0
       },
       {
-        "name": "France - Arc atlantique",
-        "value": 9
-      },
-      {
-        "name": "France - Autres régions",
-        "value": 16
-      },
-      {
-        "name": "France - Région parisienne",
-        "value": 10
-      },
-      {
-        "name": "France - Dorsale logistique hors IDF",
-        "value": 45.5
+        "name": "Autres",
+        "value": 0.3
       }
     ],
-    "reconstitutionValue": 600,
-    "ranDays": 92,
-    "ltv": 27,
+    "reconstitutionValue": 609.65,
+    "valeurRetrait": 545.34,
+    "valeurRealisation": 507.28,
+    "ranDays": 0,
+    "ltv": 1.46,
     "hasWaitingShares": false,
     "withdrawalDelay": "1er jour du 3ème mois",
     "entryFees": 12,
@@ -225,30 +215,30 @@ const baseSCPIData: SCPIExtended[] = [
   },
   {
     "id": 4,
-    "name": "Aestiam Placement Pierre",
+    "name": "Aestiam Horizon",
     "yield": 5.4,
     "price": 350,
     "minInvestment": 350,
     "category": "Bureaux",
     "managementCompany": "Aestiam",
-    "tof": 90.4,
+    "tof": 86.5,
     "capitalization": "380M€",
     "sectors": [
       {
         "name": "Bureaux",
-        "value": 77
-      },
-      {
-        "name": "Hôtels",
-        "value": 3
+        "value": 76
       },
       {
         "name": "Commerces",
         "value": 16
       },
       {
-        "name": "Enseignement",
+        "name": "Hôtels",
         "value": 2
+      },
+      {
+        "name": "Enseignement",
+        "value": 4
       },
       {
         "name": "Locaux d'activités",
@@ -261,22 +251,22 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 20
       },
       {
-        "name": "Etranger",
-        "value": 11
+        "name": "Région Parisienne",
+        "value": 30
       },
       {
         "name": "Régions",
         "value": 39
       },
       {
-        "name": "Région Parisienne",
-        "value": 30
+        "name": "Etranger",
+        "value": 11
       }
     ],
-    "reconstitutionValue": 386,
+    "reconstitutionValue": 346,
     "ranDays": 42,
-    "ltv": 27,
-    "hasWaitingShares": false,
+    "ltv": 12,
+    "hasWaitingShares": true,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
@@ -285,22 +275,22 @@ const baseSCPIData: SCPIExtended[] = [
     "yield": 5.73,
     "price": 200,
     "minInvestment": 2000,
-    "category": "Bureaux",
+    "category": "Diversifiée",
     "managementCompany": "ALTIXIA REIM",
-    "tof": 96.9,
-    "capitalization": "187M€",
+    "tof": 92.6,
+    "capitalization": "188.26M€",
     "sectors": [
       {
-        "name": "Bureaux",
-        "value": 26
-      },
-      {
         "name": "Commerces",
-        "value": 38
+        "value": 37
       },
       {
         "name": "Activités",
-        "value": 32
+        "value": 30
+      },
+      {
+        "name": "Bureaux",
+        "value": 29
       },
       {
         "name": "Logistique",
@@ -309,30 +299,32 @@ const baseSCPIData: SCPIExtended[] = [
     ],
     "geography": [
       {
-        "name": "Paris",
-        "value": 3
+        "name": "Régions",
+        "value": 56
+      },
+      {
+        "name": "Ile-de-France",
+        "value": 22
       },
       {
         "name": "Espagne",
-        "value": 9
+        "value": 13
       },
       {
         "name": "Irlande",
         "value": 6
       },
       {
-        "name": "Régions",
-        "value": 59
-      },
-      {
-        "name": "Ile-de-France",
-        "value": 23
+        "name": "Paris",
+        "value": 3
       }
     ],
-    "reconstitutionValue": 205,
-    "ranDays": 1,
-    "ltv": 12,
-    "hasWaitingShares": false,
+    "reconstitutionValue": 200.54,
+    "valeurRetrait": 182,
+    "valeurRealisation": 165.11,
+    "ranDays": 0,
+    "ltv": 10.56,
+    "hasWaitingShares": true,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
@@ -818,49 +810,95 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 16,
     "name": "Efimmo 1",
-    "yield": 5.5,
-    "price": 225,
-    "minInvestment": 2120,
+    "yield": 5.07,
+    "price": 212,
+    "minInvestment": 212,
     "category": "Bureaux",
     "managementCompany": "Sofidy",
-    "tof": 90.89,
-    "capitalization": "3,7Md€",
+    "tof": 87.67,
+    "capitalization": "1,7Md€",
     "sectors": [
       {
         "name": "Bureaux",
-        "value": 78
+        "value": 73.5
       },
       {
-        "name": "Commerces",
-        "value": 18
+        "name": "Autres locaux commerciaux",
+        "value": 9.3
       },
       {
-        "name": "Logistique",
-        "value": 4
+        "name": "Divers",
+        "value": 7.5
+      },
+      {
+        "name": "Commerces de centre-ville et milieu urbain",
+        "value": 5.2
+      },
+      {
+        "name": "Éducation",
+        "value": 4.5
       }
     ],
     "geography": [
       {
-        "name": "Paris",
-        "value": 7.2
+        "name": "France",
+        "value": 74.5
       },
       {
-        "name": "Régions",
-        "value": 36.1
+        "name": "Paris Centre",
+        "value": 10.0
+      },
+      {
+        "name": "Grand Paris",
+        "value": 35.6
+      },
+      {
+        "name": "Métropoles françaises",
+        "value": 28.9
+      },
+      {
+        "name": "Étranger",
+        "value": 25.5
       },
       {
         "name": "Allemagne",
-        "value": 2.2
+        "value": 10.0
       },
       {
-        "name": "Ile-de-France",
-        "value": 54.5
+        "name": "Pays-Bas",
+        "value": 5.1
+      },
+      {
+        "name": "Royaume-Uni",
+        "value": 4.2
+      },
+      {
+        "name": "Belgique",
+        "value": 2.3
+      },
+      {
+        "name": "Irlande",
+        "value": 1.4
+      },
+      {
+        "name": "Italie",
+        "value": 1.2
+      },
+      {
+        "name": "Espagne",
+        "value": 0.6
+      },
+      {
+        "name": "Reste de l'Europe",
+        "value": 0.7
       }
     ],
-    "reconstitutionValue": 219,
-    "ranDays": 114,
-    "ltv": 20,
-    "hasWaitingShares": false,
+    "reconstitutionValue": 202.65,
+    "valeurRetrait": 190.80,
+    "valeurRealisation": 168.78,
+    "ranDays": 0,
+    "ltv": 20.2,
+    "hasWaitingShares": true,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
@@ -937,147 +975,189 @@ const baseSCPIData: SCPIExtended[] = [
     "yield": 5.28,
     "price": 208,
     "minInvestment": 2080,
-    "category": "Bureaux",
+    "category": "Diversifiée",
     "managementCompany": "Atland Voisin",
-    "tof": 95.72,
-    "capitalization": "2,7Md€",
+    "tof": 94.30,
+    "capitalization": "2,8Md€",
     "sectors": [
       {
         "name": "Bureaux",
-        "value": 15.8
+        "value": 48.15
       },
       {
-        "name": "Locaux commerciaux",
-        "value": 84.1
+        "name": "Commerces",
+        "value": 29.35
       },
       {
-        "name": "Entrepôts et activités",
-        "value": 0.1
+        "name": "Activités/Entrepôts",
+        "value": 8.41
+      },
+      {
+        "name": "Tourisme/Hôtel",
+        "value": 8.70
+      },
+      {
+        "name": "Santé/Education",
+        "value": 5.23
+      },
+      {
+        "name": "Résidentiel/Alternatif",
+        "value": 0.16
       }
     ],
     "geography": [
       {
         "name": "Paris",
-        "value": 25.8
-      },
-      {
-        "name": "Europe",
-        "value": 2.5
-      },
-      {
-        "name": "Régions",
-        "value": 51.8
+        "value": 27.57
       },
       {
         "name": "Île-de-France",
-        "value": 19.9
+        "value": 15.43
+      },
+      {
+        "name": "Sud-Ouest",
+        "value": 17.39
+      },
+      {
+        "name": "Nord-Ouest",
+        "value": 12.92
+      },
+      {
+        "name": "Nord",
+        "value": 12.65
+      },
+      {
+        "name": "Sud-Est",
+        "value": 14.04
+      },
+      {
+        "name": "Nord-Est",
+        "value": 11.15
       }
     ],
-    "reconstitutionValue": 242,
-    "ranDays": 6,
-    "ltv": 16,
+    "reconstitutionValue": 208.64,
+    "valeurRetrait": 187.20,
+    "valeurRealisation": 170.10,
+    "ranDays": 0,
+    "ltv": 11.0,
     "hasWaitingShares": false,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
     "id": 19,
     "name": "Épargne Pierre Europe",
-    "yield": 6.75,
+    "yield": 5.50,
     "price": 200,
     "minInvestment": 6000,
-    "category": "Santé",
+    "category": "Diversifiée",
     "managementCompany": "Atland Voisin",
     "tof": 100,
-    "capitalization": "268M€",
+    "capitalization": "479M€",
     "sectors": [
       {
-        "name": "Santé",
-        "value": 16.3
+        "name": "Hôtellerie",
+        "value": 35.56
       },
       {
         "name": "Bureaux",
-        "value": 38.5
+        "value": 27.34
       },
       {
         "name": "Commerces",
-        "value": 28.4
+        "value": 19.22
       },
       {
-        "name": "Hôtellerie",
-        "value": 13
+        "name": "Activités/Entrepôts",
+        "value": 11.52
       },
       {
-        "name": "Activités / Logistique",
-        "value": 3.8
+        "name": "Santé",
+        "value": 6.36
       }
-    ],
+      ],
     "geography": [
       {
-        "name": "Espagne",
-        "value": 52.8
+        "name": "Irlande",
+        "value": 33.97
       },
       {
-        "name": "Irlande",
-        "value": 27.3
+        "name": "Allemagne",
+        "value": 30.47
+      },
+      {
+        "name": "Espagne",
+        "value": 24.04
       },
       {
         "name": "Pays-Bas",
-        "value": 19.9
+        "value": 11.52
       }
     ],
-    "reconstitutionValue": 217,
-    "ranDays": 45,
-    "ltv": 11,
+    "reconstitutionValue": 206.51,
+    "valeurRetrait": 180,
+    "valeurRealisation": 176.3,
+    "ranDays": 0,
+    "ltv": 0,
     "hasWaitingShares": false,
-    "strategy": "Spécialisée dans les actifs de santé avec une forte exposition aux EHPAD et cliniques"
+    "strategy": "Investissement dans des actifs immobiliers européens diversifiés"
   },
   {
     "id": 20,
     "name": "ESG Pierre Capital",
-    "yield": 5.5,
+    "yield": 5.22,
     "price": 188,
     "minInvestment": 188,
-    "category": "Bureaux",
-    "managementCompany": "Swiss Life AM France",
-    "tof": 98.4,
-    "capitalization": "126M€",
+    "category": "Diversifiée",
+    "managementCompany": "Swiss Life Asset Managers",
+    "tof": 96.28,
+    "capitalization": "117M€",
     "sectors": [
       {
-        "name": "Bureaux",
-        "value": 20
-      },
-      {
-        "name": "Commerces",
-        "value": 12
+        "name": "Services",
+        "value": 27.30
       },
       {
         "name": "Logistique",
-        "value": 24
+        "value": 24.23
       },
       {
-        "name": "Éducation",
-        "value": 11
+        "name": "Bureaux",
+        "value": 19.60
       },
       {
-        "name": "Hôtellerie Bien-Être",
-        "value": 33
+        "name": "Hôtellerie",
+        "value": 17.40
+      },
+      {
+        "name": "Commerces",
+        "value": 11.46
       }
     ],
     "geography": [
       {
-        "name": "France",
-        "value": 51
+        "name": "Regions",
+        "value": 49.15
+      },
+      {
+        "name": "Paris",
+        "value": 28.47
+      },
+      {
+        "name": "Ile_de_France",
+        "value": 17.89
       },
       {
         "name": "Allemagne",
-        "value": 49
+        "value": 4.48
       }
     ],
-    "reconstitutionValue": 198,
-    "ranDays": 45,
-    "ltv": 11,
+    "reconstitutionValue": 187.11,
+    "valeurRetrait": 169.20,
+    "valeurRealisation": 152.49,
+    "ranDays": 0,
+    "ltv": 28.0,
     "hasWaitingShares": false,
-    "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
+    "strategy": "SCPI ISR investissant dans des actifs immobiliers responsables en France et en Europe"
   },
   {
     "id": 21,
@@ -1133,37 +1213,37 @@ const baseSCPIData: SCPIExtended[] = [
     "yield": 5.5,
     "price": 1100,
     "minInvestment": 1100,
-    "category": "Diversifiée",
+    "category": "Santé",
     "managementCompany": "MAGELLIM REIM",
-    "tof": 97.69,
-    "capitalization": "165M€",
+    "tof": 97.08,
+    "capitalization": "179M€",
     "sectors": [
       {
-        "name": "Life Sciences",
-        "value": 18
+        "name": "Lieux de soins, de traitement et de consultation",
+        "value": 46
+      },
+      {
+        "name": "Locaux d'accompagnement et rééducation",
+        "value": 37
       },
       {
         "name": "Locaux supports au secteur de la santé",
-        "value": 35
-      },
-      {
-        "name": "Locaux d'accompagnement et de rééducation",
-        "value": 47
+        "value": 17
       }
     ],
     "geography": [
       {
         "name": "France",
-        "value": 51
+        "value": 70
       },
       {
-        "name": "Allemagne",
-        "value": 49
+        "name": "Belgique",
+        "value": 30
       }
     ],
-    "reconstitutionValue": 1018,
+    "reconstitutionValue": 1069,
     "ranDays": 27,
-    "ltv": 14,
+    "ltv": 22,
     "hasWaitingShares": false,
     "strategy": "Portefeuille diversifié multi-secteurs pour optimiser le couple rendement/risque"
   },
@@ -1656,39 +1736,41 @@ const baseSCPIData: SCPIExtended[] = [
     "id": 33,
     "name": "NCap Régions",
     "yield": 5.72,
-    "price": 670,
-    "minInvestment": 3350,
-    "category": "Bureaux",
+    "price": 682,
+    "minInvestment": 3410, // 5 parts minimum * 682€
+    "category": "Diversifiée",
     "managementCompany": "Norma Capital",
     "tof": 92.7,
-    "capitalization": "973M€",
+    "capitalization": "1067.7M€",
     "sectors": [
       {
         "name": "Bureaux",
-        "value": 45
+        "value": 54
       },
       {
-        "name": "Commerces",
-        "value": 20
+        "name": "Commerce",
+        "value": 32
       },
       {
         "name": "Activités",
-        "value": 35
+        "value": 14
       }
     ],
     "geography": [
       {
-        "name": "Ile-de-France",
-        "value": 35
-      },
-      {
         "name": "Grandes agglomérations de province",
         "value": 65
+      },
+      {
+        "name": "Ile-de-France",
+        "value": 35
       }
     ],
-    "reconstitutionValue": 678,
-    "ranDays": 107,
-    "ltv": 28,
+    "reconstitutionValue": 701.49,
+    "valeurRetrait": 613.80,
+    "valeurRealisation": 576.68,
+    "ranDays": 0,
+    "ltv": 25.9,
     "hasWaitingShares": false,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
@@ -1855,34 +1937,48 @@ const baseSCPIData: SCPIExtended[] = [
     "yield": 5.62,
     "price": 203,
     "minInvestment": 203,
-    "category": "Bureaux",
+    "category": "Logistique",
     "managementCompany": "La Française REM",
-    "tof": 97.5,
+    "tof": 95.3,
     "capitalization": "313M€",
     "sectors": [
       {
-        "name": "Bureaux et commerces",
-        "value": 30
+        "name": "Logistique et locaux d'activités",
+        "value": 89.41
       },
       {
-        "name": "Logistique et locaux d'activités",
-        "value": 70
+        "name": "Bureaux",
+        "value": 10.59
       }
     ],
     "geography": [
       {
-        "name": "Europe",
-        "value": 30
+        "name": "Île-de-France",
+        "value": 47.82
       },
       {
-        "name": "France",
-        "value": 70
+        "name": "Régions",
+        "value": 39.93
+      },
+      {
+        "name": "Espagne",
+        "value": 5.82
+      },
+      {
+        "name": "Allemagne",
+        "value": 4.50
+      },
+      {
+        "name": "Royaume-Uni",
+        "value": 1.93
       }
     ],
-    "reconstitutionValue": 193,
-    "ranDays": 92,
-    "ltv": 11,
-    "hasWaitingShares": false,
+    "reconstitutionValue": 215.40,
+    "valeurRetrait": 184.73,
+    "valeurRealisation": 175.34,
+    "ranDays": 0,
+    "ltv": 14.45,
+    "hasWaitingShares": true,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
   {
@@ -1956,8 +2052,10 @@ const baseSCPIData: SCPIExtended[] = [
       }
     ],
     "reconstitutionValue": 248,
+    "valeurRetrait": 225,
+    "valeurRealisation": 214.15,
     "ranDays": 35,
-    "ltv": 16,
+    "ltv": 0,
     "hasWaitingShares": false,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
   },
@@ -1969,48 +2067,50 @@ const baseSCPIData: SCPIExtended[] = [
     "minInvestment": 1050,
     "category": "Diversifiée",
     "managementCompany": "PAREF GESTION",
-    "tof": 93.6,
-    "capitalization": "268M€",
+    "tof": 90.5,
+    "capitalization": "245.6M€",
     "sectors": [
       {
-        "name": "Autres",
-        "value": 3.5
-      },
-      {
         "name": "Bureaux",
-        "value": 66.3
+        "value": 67.2
       },
       {
         "name": "Locaux d'activité",
-        "value": 23.9
+        "value": 24.8
       },
       {
         "name": "Logistique et Messagerie",
-        "value": 6.3
+        "value": 4.5
+      },
+      {
+        "name": "Autres",
+        "value": 3.5
       }
     ],
     "geography": [
       {
-        "name": "Paris",
-        "value": 5.1
+        "name": "Métropoles régionales",
+        "value": 56.0
       },
       {
-        "name": "Ile-de-France",
-        "value": 27.1
+        "name": "Ile-de-France hors Paris",
+        "value": 26.7
+      },
+      {
+        "name": "Paris",
+        "value": 5.3
       },
       {
         "name": "Autres régions",
-        "value": 11.5
-      },
-      {
-        "name": "12 métropoles régionales",
-        "value": 56.3
+        "value": 12.0
       }
     ],
-    "reconstitutionValue": 213,
+    "reconstitutionValue": 196.02,
+    "valeurRetrait": 189,
+    "valeurRealisation": 159.56,
     "ranDays": 0,
-    "ltv": 24,
-    "hasWaitingShares": false,
+    "ltv": 26.6,
+    "hasWaitingShares": true,
     "strategy": "Portefeuille diversifié multi-secteurs pour optimiser le couple rendement/risque"
   },
   {
@@ -2205,12 +2305,12 @@ const baseSCPIData: SCPIExtended[] = [
     "id": 45,
     "name": "Perial Opportunités Europe",
     "yield": 6.27,
-    "price": 880,
-    "minInvestment": 4400,
+    "price": 44,
+    "minInvestment": 220,
     "category": "Bureaux",
     "managementCompany": "PERIAL Asset Management",
     "tof": 93.6,
-    "capitalization": "778M€",
+    "capitalization": "783.62M€",
     "sectors": [
       {
         "name": "Bureaux",
@@ -2251,7 +2351,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 39.8
       }
     ],
-    "reconstitutionValue": 983,
+    "reconstitutionValue": 43.50,
+    "valeurRetrait": 39.82,
+    "valeurRealisation": 33.93,
     "ranDays": 21,
     "ltv": 28,
     "hasWaitingShares": false,
