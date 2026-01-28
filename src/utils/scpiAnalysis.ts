@@ -272,128 +272,306 @@ export const getScpiAnalysis = (scpi: Scpi): string => {
 };
 
 /**
- * Génère les points clés à retenir pour une lecture rapide (4-5 points max)
- * Format : chiffré, qualifié, hiérarchisé, avec conclusion implicite
+ * Génère les points clés à retenir pour une lecture rapide (5 lignes max)
+ * Format : Langage courant, sans jargon financier, pour débutants
+ * Inclut des chiffres pour valider chaque affirmation
+ * Répond à 5 questions : rapporte-t-il ? risqué ? biens loués ? prix raisonnable ? rôle ?
+ * Personnalisé pour chaque SCPI selon ses caractéristiques spécifiques
  */
 export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   const takeaways: string[] = [];
 
-  // 1. ENDETTEMENT (priorité structurante)
-  if (scpi.debt !== undefined) {
-    if (scpi.debt <= 10) {
-      takeaways.push(`Endettement très faible (${scpi.debt.toFixed(1)}%) – point fort structurel`);
-    } else if (scpi.debt <= 25) {
-      takeaways.push(`Endettement modéré (${scpi.debt.toFixed(1)}%) – structure équilibrée`);
-    } else if (scpi.debt <= 40) {
-      takeaways.push(`Endettement élevé (${scpi.debt.toFixed(1)}%) – point de vigilance`);
-    } else {
-      takeaways.push(`Endettement très élevé (${scpi.debt.toFixed(1)}%) – risque structurel`);
-    }
-  }
-
-  // 2. RENDEMENT (priorité structurante)
-  if (scpi.yield >= 7) {
-    takeaways.push(`Rendement élevé (${scpi.yield.toFixed(2)}%) – atout performance`);
-  } else if (scpi.yield >= 5.5) {
-    takeaways.push(`Rendement correct (${scpi.yield.toFixed(2)}%) – niveau standard`);
-  } else if (scpi.yield >= 4) {
-    takeaways.push(`Rendement modéré (${scpi.yield.toFixed(2)}%) – limite performance`);
-  } else {
-    takeaways.push(`Rendement faible (${scpi.yield.toFixed(2)}%) – point de vigilance`);
-  }
-
-  // 3. LIQUIDITÉ (priorité structurante) - Formulation courte selon règles strictes
-  const capCategory = getCapitalizationCategory(scpi.capitalization);
+  const isEurope = scpi.geography === 'europe' || scpi.european;
+  const yieldValue = scpi.yield;
+  const tofValue = scpi.tof;
+  const debtValue = scpi.debt;
+  const discountValue = scpi.discount;
   const capitalizationM = scpi.capitalization / 1000000;
-  const capitalizationB = scpi.capitalization / 1000000000;
+  const nbImmeubles = scpi.nbImmeubles;
+  const walt = scpi.walt;
+  const walb = scpi.walb;
+  const nombreLocataires = scpi.nombreLocataires;
+  const sector = scpi.sector;
+  const isr = scpi.isr;
+  const company = scpi.company;
+  const creation = scpi.creation;
+  const versementLoyers = scpi.versementLoyers;
   
-  // Formater la capitalisation
-  const formattedCap = capitalizationM >= 1000 
-    ? `${capitalizationB.toFixed(1)}Md€` 
-    : `${capitalizationM.toFixed(0)}M€`;
-  
-  // Qualification unique selon le niveau de liquidité potentielle
-  let liquidityQualification: string;
-  if (capCategory.liquidityPotential === 'fragile') {
-    liquidityQualification = 'fragile';
-  } else if (capCategory.liquidityPotential === 'correcte') {
-    liquidityQualification = 'correcte';
-  } else if (capCategory.liquidityPotential === 'confortable') {
-    liquidityQualification = 'confortable';
-  } else {
-    liquidityQualification = 'robuste';
-  }
-  
-  // Structure : Liquidité + qualification (capitalisation) – contexte court (optionnel)
-  // Contexte court uniquement pour les petites SCPI pour clarifier
-  if (capCategory.category === 'petite') {
-    takeaways.push(`Liquidité ${liquidityQualification} (${formattedCap}) – petite SCPI`);
-  } else {
-    takeaways.push(`Liquidité ${liquidityQualification} (${formattedCap})`);
-  }
+  // Caractéristiques combinées pour personnalisation
+  const isVeryLargeCap = capitalizationM >= 2000;
+  const isLargeCap = capitalizationM >= 800;
+  const isMediumCap = capitalizationM >= 300;
+  const isSmallCap = capitalizationM < 100;
+  const isHighYield = yieldValue >= 6.5;
+  const isMediumYield = yieldValue >= 5.0 && yieldValue < 6.5;
+  const isLowYield = yieldValue < 4.5;
+  const isLowDebt = debtValue !== undefined && debtValue < 15;
+  const isVeryLowDebt = debtValue !== undefined && debtValue < 5;
+  const isModerateDebt = debtValue !== undefined && debtValue >= 15 && debtValue < 30;
+  const isHighDebt = debtValue !== undefined && debtValue >= 30;
+  const isHighTof = tofValue !== undefined && tofValue >= 95;
+  const isGoodTof = tofValue !== undefined && tofValue >= 92 && tofValue < 95;
+  const isModerateTof = tofValue !== undefined && tofValue >= 88 && tofValue < 92;
+  const isLowTof = tofValue !== undefined && tofValue < 88;
+  const isVeryDiversified = nbImmeubles !== undefined && nbImmeubles >= 200;
+  const isDiversified = nbImmeubles !== undefined && nbImmeubles >= 100;
+  const isLongLease = walt !== undefined && walt >= 7;
+  const isMediumLease = walt !== undefined && walt >= 4 && walt < 7;
+  const isOldScpi = creation < 2000;
+  const isRecentScpi = creation >= 2015;
+  const isMensuel = versementLoyers === 'Mensuel';
 
-  // 4. TOF / Occupation (standard mais important)
-  if (scpi.tof >= 95) {
-    takeaways.push(`Occupation excellente (${scpi.tof.toFixed(1)}%) – atout structurel`);
-  } else if (scpi.tof >= 90) {
-    takeaways.push(`Occupation correcte (${scpi.tof.toFixed(1)}%) – niveau standard`);
-  } else if (scpi.tof >= 85) {
-    takeaways.push(`Occupation modérée (${scpi.tof.toFixed(1)}%) – point de vigilance`);
-  } else {
-    takeaways.push(`Occupation faible (${scpi.tof.toFixed(1)}%) – risque locatif`);
-  }
-
-  // 5. WALT ou Diversification (standard, secondaire)
-  if (scpi.walt !== undefined && scpi.walt >= 7) {
-    takeaways.push(`Visibilité longue (WALT ${scpi.walt.toFixed(1)} ans) – atout structurel`);
-  } else if (scpi.walt !== undefined && scpi.walt < 5) {
-    takeaways.push(`Visibilité courte (WALT ${scpi.walt.toFixed(1)} ans) – point de vigilance`);
-  } else if (scpi.repartitionSector && scpi.repartitionSector.length >= 4) {
-    takeaways.push(`Diversification sectorielle (${scpi.repartitionSector.length} secteurs) – atout structurel`);
-  } else if (scpi.geography === 'europe' || scpi.european) {
-    const geoCount = scpi.repartitionGeo?.length || 0;
-    if (geoCount >= 5) {
-      takeaways.push(`Diversification géographique (${geoCount} pays) – atout structurel`);
-    }
-  }
-
-  // Limiter à 4-5 points maximum (prioriser les 4 premiers)
-  const selectedTakeaways = takeaways.slice(0, 4);
-
-  // CONCLUSION IMPLICITE OBLIGATOIRE (5ème point)
-  // Déterminer le profil de la SCPI et le type d'investisseur
-  let conclusion = '';
+  // 1. 💰 EST-CE QUE ÇA RAPPORTE CORRECTEMENT ? (Rendement) - Personnalisé selon profil
+  let revenus: string = '';
+  const yieldFormatted = yieldValue.toFixed(2).replace('.', ',');
   
-  // Profil de la SCPI
-  const isDefensive = (scpi.debt !== undefined && scpi.debt <= 15) && 
-                      (scpi.tof >= 95) && 
-                      (scpi.walt !== undefined && scpi.walt >= 7);
-  
-  const isGrowth = (scpi.yield >= 6.5) && 
-                   (scpi.debt !== undefined && scpi.debt <= 30);
-  
-  const isRisky = (scpi.debt !== undefined && scpi.debt > 35) || 
-                  (scpi.tof < 90) || 
-                  (scpi.yield < 4.5);
-  
-  if (isDefensive) {
-    conclusion = `Profil défensif – investisseur prudent recherchant stabilité`;
-  } else if (isGrowth) {
-    conclusion = `Profil performance – investisseur recherchant rendement`;
-  } else if (isRisky) {
-    conclusion = `Profil risqué – investisseur averti acceptant volatilité`;
-  } else {
-    // Profil équilibré par défaut
-    if (scpi.yield >= 5.5) {
-      conclusion = `Profil équilibré – investisseur recherchant performance modérée`;
+  // Cas spécifiques par secteur
+  if (sector === 'logistique') {
+    if (isHighYield) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), secteur logistique en forte croissance.`;
+    } else if (isMediumYield) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), secteur logistique porteur.`;
     } else {
-      conclusion = `Profil standard – investisseur recherchant diversification`;
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), secteur logistique stable.`;
+    }
+  } else if (sector === 'sante') {
+    if (isMediumYield || isHighYield) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), secteur de la santé très défensif.`;
+    } else {
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), secteur de la santé stable et sécurisé.`;
+    }
+  } else if (sector === 'hotellerie') {
+    if (isHighYield) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), secteur hôtelier dynamique mais plus volatile.`;
+    } else {
+      revenus = `💰 Rendement variable (${yieldFormatted}%) selon la saison, secteur hôtelier.`;
+    }
+  } else if (sector === 'commerces') {
+    if (isMediumYield || isHighYield) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), commerce de proximité résilient.`;
+    } else {
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), commerce traditionnel stable.`;
+    }
+  } else if (isEurope) {
+    if (yieldValue >= 7.0) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), mais avec plus de risques liés à l'étranger.`;
+    } else if (yieldValue >= 6.0) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), avec une partie des biens à l'étranger.`;
+    } else if (yieldValue >= 5.0) {
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), avec une partie des biens à l'étranger.`;
+    } else {
+      revenus = `💰 Rendement faible (${yieldFormatted}%), avec une partie des biens à l'étranger.`;
+    }
+  } else {
+    // France - logique personnalisée selon taille et profil
+    if (isHighYield && isVeryLargeCap) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), grande SCPI bien établie.`;
+    } else if (isHighYield && isLargeCap) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), SCPI de taille importante.`;
+    } else if (isHighYield) {
+      revenus = `💰 Rendement élevé (${yieldFormatted}%), mais attention aux risques.`;
+    } else if (isMediumYield && isVeryLargeCap) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), grande SCPI sécurisée.`;
+    } else if (isMediumYield && isLowDebt) {
+      revenus = `💰 Rendement régulier (${yieldFormatted}%), sans prise de risque excessive.`;
+    } else if (isMediumYield) {
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), fonctionnement prudent.`;
+    } else if (isLowYield && isVeryLargeCap) {
+      revenus = `💰 Rendement modéré (${yieldFormatted}%), mise sur la stabilité et la taille.`;
+    } else {
+      revenus = `💰 Rendement faible (${yieldFormatted}%), mise plutôt sur la valeur des biens.`;
+    }
+  }
+  
+  if (revenus) {
+    takeaways.push(revenus);
+  }
+
+  // 2. 🛡️ EST-CE QUE C'EST RISQUÉ ? (Risque / sécurité) - Personnalisé
+  if (debtValue !== undefined) {
+    let risque: string = '';
+    const debtFormatted = debtValue.toFixed(1).replace('.', ',');
+    
+    // Distinguer 0% (aucune dette) vs très peu de dettes
+    if (debtValue === 0) {
+      if (isVeryLargeCap) {
+        risque = `🛡️ Aucune dette (${debtFormatted}%), grande SCPI très sécurisée.`;
+      } else if (isLargeCap) {
+        risque = `🛡️ Aucune dette (${debtFormatted}%), fonctionnement très prudent.`;
+      } else {
+        risque = `🛡️ Aucune dette (${debtFormatted}%), fonctionnement très prudent.`;
+      }
+    } else if (isVeryLowDebt && isVeryLargeCap) {
+      risque = `🛡️ Très peu de dettes (${debtFormatted}%), grande SCPI très sécurisée.`;
+    } else if (isVeryLowDebt && isLargeCap) {
+      risque = `🛡️ Très peu de dettes (${debtFormatted}%), fonctionnement très prudent.`;
+    } else if (isVeryLowDebt) {
+      risque = `🛡️ Très peu de dettes (${debtFormatted}%), fonctionnement prudent.`;
+    } else if (isLowDebt && isHighTof && isLargeCap) {
+      risque = `🛡️ Peu de dettes (${debtFormatted}%), situation très sécurisée.`;
+    } else if (isLowDebt && isHighTof) {
+      risque = `🛡️ Peu de dettes (${debtFormatted}%), situation sécurisée.`;
+    } else if (isLowDebt) {
+      risque = `🛡️ Peu de dettes (${debtFormatted}%), situation sécurisée.`;
+    } else if (isModerateDebt && isHighTof) {
+      risque = `🛡️ Dettes maîtrisées (${debtFormatted}%), situation stable.`;
+    } else if (isModerateDebt) {
+      risque = `🛡️ Dettes modérées (${debtFormatted}%), situation stable.`;
+    } else if (isHighDebt && isHighTof) {
+      risque = `🛡️ Dettes importantes (${debtFormatted}%), mais occupation solide.`;
+    } else if (isHighDebt) {
+      risque = `🛡️ Dettes importantes (${debtFormatted}%), nécessite de l'attention.`;
+    } else {
+      risque = `🛡️ Dettes maîtrisées (${debtFormatted}%), situation stable.`;
+    }
+    
+    if (risque) {
+      takeaways.push(risque);
     }
   }
 
-  selectedTakeaways.push(conclusion);
+  // 3. 🏢 EST-CE QUE LES BIENS SONT LOUÉS ? (Location des biens) - Personnalisé
+  if (tofValue !== undefined) {
+    let location: string = '';
+    const tofFormatted = tofValue.toFixed(1).replace('.', ',');
+    
+    // Distinguer 100% (tous loués) vs presque tous loués (95-99%)
+    if (tofValue >= 99.5) {
+      if (isVeryDiversified) {
+        location = `🏢 Tous les biens loués (${tofFormatted}%), patrimoine très diversifié et excellente situation.`;
+      } else if (isDiversified) {
+        location = `🏢 Tous les biens loués (${tofFormatted}%), patrimoine diversifié et situation excellente.`;
+      } else if (isLongLease) {
+        location = `🏢 Tous les biens loués (${tofFormatted}%), baux longue durée sécurisés.`;
+      } else {
+        location = `🏢 Tous les biens loués (${tofFormatted}%), situation excellente.`;
+      }
+    } else if (isHighTof && isVeryDiversified) {
+      location = `🏢 Biens presque tous loués (${tofFormatted}%), patrimoine très diversifié et excellente situation.`;
+    } else if (isHighTof && isDiversified) {
+      location = `🏢 Biens presque tous loués (${tofFormatted}%), patrimoine diversifié et situation excellente.`;
+    } else if (isHighTof && isLongLease) {
+      location = `🏢 Biens presque tous loués (${tofFormatted}%), baux longue durée sécurisés.`;
+    } else if (isHighTof) {
+      location = `🏢 Biens presque tous loués (${tofFormatted}%), situation excellente.`;
+    } else if (isGoodTof && isVeryDiversified) {
+      location = `🏢 Biens majoritairement loués (${tofFormatted}%), patrimoine très diversifié avec quelques changements normaux.`;
+    } else if (isGoodTof && isLongLease) {
+      location = `🏢 Biens majoritairement loués (${tofFormatted}%), baux longue durée avec quelques changements de locataires.`;
+    } else if (isGoodTof) {
+      location = `🏢 Biens majoritairement loués (${tofFormatted}%), avec quelques changements de locataires.`;
+    } else if (isModerateTof && isDiversified) {
+      location = `🏢 Biens majoritairement loués (${tofFormatted}%), patrimoine diversifié avec quelques vacances.`;
+    } else if (isModerateTof) {
+      location = `🏢 Biens majoritairement loués (${tofFormatted}%), avec quelques changements de locataires.`;
+    } else if (isLowTof && isDiversified) {
+      location = `🏢 Plusieurs biens vacants (${tofFormatted}%), patrimoine diversifié nécessitant du travail pour les relouer.`;
+    } else if (isLowTof) {
+      location = `🏢 Plusieurs biens vacants (${tofFormatted}%), nécessite du travail pour les relouer.`;
+    } else {
+      location = `🏢 Nombreux biens vacants (${tofFormatted}%), situation préoccupante.`;
+    }
+    
+    if (location) {
+      takeaways.push(location);
+    }
+  }
 
-  return selectedTakeaways;
+  // 4. 💵 EST-CE QUE LE PRIX EST RAISONNABLE ? (Prix d'achat) - Personnalisé
+  if (discountValue !== undefined && discountValue !== null) {
+    let prix: string = '';
+    const discountFormatted = discountValue.toFixed(1).replace('.', ',');
+    const discountAbs = Math.abs(discountValue);
+    const discountAbsFormatted = discountAbs.toFixed(1).replace('.', ',');
+    
+    // Combinaisons avec taille et TOF - Décote = bonne affaire
+    if (discountValue <= -10 && isLargeCap) {
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), grande SCPI en décote significative.`;
+    } else if (discountValue <= -10) {
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix d'achat intéressant.`;
+    } else if (discountValue <= -5 && isHighTof) {
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix en dessous de la valeur avec occupation solide.`;
+    } else if (discountValue <= -5) {
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix légèrement en dessous de la valeur.`;
+    } else if (discountValue < 0 && discountValue > -5 && isHighTof && isLargeCap) {
+      prix = `💵 Prix d'achat aligné avec la valeur (décote ${discountAbsFormatted}%), grande SCPI bien occupée.`;
+    } else if (discountValue < 0 && discountValue > -5) {
+      prix = `💵 Prix d'achat proche de la valeur réelle (décote ${discountAbsFormatted}%), sans bonne affaire particulière.`;
+    } else if (discountValue === 0 || (discountValue > -1 && discountValue < 1)) {
+      if (isHighTof && isLargeCap) {
+        prix = `💵 Prix d'achat aligné avec la valeur (${discountFormatted}%), grande SCPI bien occupée.`;
+      } else {
+        prix = `💵 Prix d'achat proche de la valeur réelle (${discountFormatted}%), sans bonne affaire particulière.`;
+      }
+    } else if (discountValue <= 5 && isHighTof) {
+      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}%), mais occupation solide.`;
+    } else if (discountValue <= 5) {
+      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}%) par rapport à la valeur réelle.`;
+    } else if (discountValue <= 10 && isHighTof) {
+      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}%), mais occupation solide.`;
+    } else if (discountValue <= 10) {
+      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}%) par rapport à la valeur réelle.`;
+    } else {
+      prix = `💵 Prix d'achat nettement au-dessus de la valeur réelle (surcote ${discountAbsFormatted}%), à éviter.`;
+    }
+    
+    if (prix) {
+      takeaways.push(prix);
+    }
+  }
+
+  // 5. 🧩 À QUOI ÇA SERT DANS UN PORTEFEUILLE ? (Rôle) - Très personnalisé
+  let role: string = '';
+  
+  // Cas spécifiques par combinaison de caractéristiques
+  if (isHighYield && isVeryLowDebt && isHighTof && isVeryLargeCap) {
+    role = '🧩 Intéressant comme placement principal, excellent équilibre revenus et sécurité.';
+  } else if (isHighYield && isLowDebt && isHighTof && isLargeCap) {
+    role = '🧩 Intéressant comme placement principal, bon équilibre revenus et sécurité.';
+  } else if (isMediumYield && isVeryLowDebt && isHighTof && isVeryLargeCap) {
+    role = '🧩 Intéressant comme placement principal, très sécurisé et bien établi.';
+  } else if (isLowDebt && isHighTof && isVeryLargeCap && isOldScpi) {
+    role = '🧩 Intéressant comme placement principal, SCPI historique sécurisée.';
+  } else if (isLowDebt && isHighTof && isLargeCap) {
+    role = '🧩 Intéressant comme placement principal, sécurisé et bien établi.';
+  } else if (isHighYield && isLowDebt && isGoodTof && isDiversified) {
+    role = '🧩 Intéressant comme placement principal, bon équilibre revenus et sécurité.';
+  } else if (isHighYield && isLowDebt && isGoodTof) {
+    role = '🧩 Intéressant comme placement principal, bon équilibre revenus et sécurité.';
+  } else if (isMediumYield && isVeryLowDebt && isGoodTof && isMediumCap) {
+    role = '🧩 Intéressant en complément, sécurisé mais revenus modérés.';
+  } else if (isVeryLowDebt && isGoodTof && isMediumCap && sector === 'sante') {
+    role = '🧩 Intéressant en complément, secteur défensif et sécurisé.';
+  } else if (isHighYield && !isLowDebt && isGoodTof) {
+    role = '🧩 Intéressant en complément, rapporte bien mais nécessite de l\'attention.';
+  } else if (isHighYield && isLowDebt && sector === 'logistique') {
+    role = '🧩 Intéressant en complément, secteur porteur avec revenus élevés.';
+  } else if (isHighYield && isLowDebt) {
+    role = '🧩 Intéressant en complément d\'un portefeuille diversifié.';
+  } else if (isMediumYield && isLowDebt && isGoodTof && isDiversified) {
+    role = '🧩 Intéressant en complément d\'un portefeuille diversifié.';
+  } else if (isMediumYield && isLowDebt && isGoodTof) {
+    role = '🧩 Intéressant en complément d\'un portefeuille diversifié.';
+  } else if (isLowDebt && isGoodTof && isRecentScpi) {
+    role = '🧩 Intéressant en complément, SCPI récente sécurisée.';
+  } else if (isLowDebt && isGoodTof) {
+    role = '🧩 Intéressant en complément, sécurisé mais revenus modérés.';
+  } else if (isLowDebt && isModerateTof && isDiversified) {
+    role = '🧩 Intéressant en complément, diversifié mais occupation à surveiller.';
+  } else if (sector === 'sante' && isLowDebt) {
+    role = '🧩 Intéressant en complément, secteur défensif et sécurisé.';
+  } else if (sector === 'logistique' && isMediumYield) {
+    role = '🧩 Intéressant en complément, secteur porteur en croissance.';
+  } else {
+    role = '🧩 Intéressant en complément d\'un portefeuille diversifié.';
+  }
+  
+  if (role) {
+    takeaways.push(role);
+  }
+
+  // Limiter à 5 lignes maximum
+  return takeaways.slice(0, 5);
 };
 
 /**
@@ -403,26 +581,68 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
  * Priorités strictes : Acquisitions → Cessions → Collecte/Retraits → Distribution → Occupation → Endettement → Événement
  */
 export const getScpiNews = (scpi: Scpi): string => {
-  if (!scpi.actualitesTrimestrielles) {
-    return '';
-  }
+  try {
+    // 1) Priorité aux actualités structurées si disponibles
+    if (scpi.actualiteTrimestrielle && Array.isArray(scpi.actualiteTrimestrielle)) {
+      const blocT3 = scpi.actualiteTrimestrielle.find(b => b.Trimestre === 'T3 2025') 
+        || scpi.actualiteTrimestrielle[0];
+      const faits = Array.isArray(blocT3?.Faits_marquants) ? blocT3.Faits_marquants : [];
 
-  const actualites = scpi.actualitesTrimestrielles.split(' | ');
-  
-  // Filtrer les mentions de bulletin trimestriel
-  const filteredActualites = actualites.filter(actu => {
-    const isBulletinUpdate = actu.includes('BULLETIN TRIMESTRIEL') || 
-                             actu.includes('bulletin trimestriel') ||
-                             actu.includes('Mise à jour BULLETIN') ||
-                             actu.includes('MISE À JOUR BULLETIN');
-    return !isBulletinUpdate;
-  });
+      if (faits.length > 0) {
+        const getEmojiForFact = (fact: string): string => {
+          const text = fact.toLowerCase();
+          if (text.includes('acquisition') || text.includes('achat')) return '🏢';
+          if (text.includes('cession') || text.includes('arbitrage')) return '🔁';
+          if (text.includes('dividende') || text.includes('distribution')) return '💰';
+          if (text.includes('tof') || text.includes('occupation') || text.includes('locaux')) return '📊';
+          if (text.includes('endettement') || text.includes('dette')) return '🏦';
+          if (text.includes('patrimoine') || text.includes('actifs')) return '📂';
+          if (text.includes('part') && text.includes('retrait')) return '🔓';
+          return '🔹';
+        };
 
-  if (filteredActualites.length === 0) {
-    return '';
-  }
+        const items = faits
+          .filter(f => typeof f === 'string' && f.trim().length > 0)
+          .map(f => {
+            const trimmed = f.trim();
+            const emoji = getEmojiForFact(trimmed);
+            return `<li>${emoji} ${trimmed}</li>`;
+          })
+          .join('');
 
-  const fullText = filteredActualites.join(' | ');
+        if (items) {
+          return `<ul class="list-disc pl-5 space-y-1">${items}</ul>`;
+        }
+      }
+    }
+
+    // 2) Sinon, fallback sur l'ancien champ texte plat
+    if (!scpi.actualitesTrimestrielles) {
+      return '';
+    }
+
+    const actualites = scpi.actualitesTrimestrielles.split(' | ');
+    
+    // Filtrer uniquement les phrases qui sont UNIQUEMENT des mentions de bulletin trimestriel
+    // Ne pas filtrer les phrases qui mentionnent "bulletin trimestriel" dans un contexte descriptif
+    const filteredActualites = actualites.filter(actu => {
+      const actuTrimmed = actu.trim();
+      // Filtrer uniquement si la phrase commence par une mention de bulletin (phrase de mise à jour)
+      // Ne pas filtrer si "bulletin trimestriel" apparaît dans un contexte descriptif (ex: "détaillés dans le bulletin trimestriel")
+      const isBulletinUpdate = actuTrimmed.match(/^(BULLETIN TRIMESTRIEL|bulletin trimestriel|Mise à jour BULLETIN|MISE À JOUR BULLETIN)/i);
+      return !isBulletinUpdate;
+    });
+
+    if (filteredActualites.length === 0) {
+      return '';
+    }
+
+    const fullText = filteredActualites.join(' | ');
+    
+    if (!fullText || typeof fullText !== 'string') {
+      console.warn('[getScpiNews] fullText invalide pour', scpi.name);
+      return '';
+    }
   const structuredFacts: string[] = [];
   // Pas de limite stricte pour les acquisitions - on prend toutes celles trouvées
   let maxPoints = 50; // Limite élevée pour permettre toutes les acquisitions
@@ -544,7 +764,12 @@ export const getScpiNews = (scpi: Scpi): string => {
   } else {
     // Format : "Nouvelle acquisition à Ville (Pays): typologie de X m²"
     // Exemple : "Nouvelle acquisition à Ovar (Portugal): ensemble commercial de 13 329 m²"
-    const acqNouvelleMatches = Array.from(fullText.matchAll(/nouvelle\s+acquisition.*?à\s+([A-Z][a-zàéèêëïîôùûüÿç]+(?:\s+[A-Z][a-zàéèêëïîôùûüÿç]+)?)\s*\(([A-Z][a-zàéèêëïîôùûüÿç]+)\):([^|]+?)(?:\s+de\s+(\d+(?:\s+\d+)?)\s*m²)?/gi));
+    let acqNouvelleMatches: RegExpMatchArray[] = [];
+    try {
+      acqNouvelleMatches = Array.from(fullText.matchAll(/nouvelle\s+acquisition.*?à\s+([A-Z][a-zàéèêëïîôùûüÿç]+(?:\s+[A-Z][a-zàéèêëïîôùûüÿç]+)?)\s*\(([A-Z][a-zàéèêëïîôùûüÿç]+)\):([^|]+?)(?:\s+de\s+(\d+(?:\s+\d+)?)\s*m²)?/gi));
+    } catch (error) {
+      console.warn('[getScpiNews] Erreur lors de la détection des acquisitions (nouvelle):', error);
+    }
     acqNouvelleMatches.forEach(match => {
       const ville = match[1];
       const pays = match[2];
@@ -560,10 +785,52 @@ export const getScpiNews = (scpi: Scpi): string => {
       }
     });
     
+    // Format : "Acquisition d'un ensemble de bureaux à Pozuelo de Alarcón (Madrid, Espagne), ..."
+    let acqDeFormatMatches: RegExpMatchArray[] = [];
+    try {
+      acqDeFormatMatches = Array.from(fullText.matchAll(/(?:^|\|)\s*Acquisition\s+d'[^à]*à\s+([A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß][a-zàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ\s\-']+?)\s*\(([^)]+)\)[^|]*/gi));
+    } catch (error) {
+      console.warn('[getScpiNews] Erreur lors de la détection des acquisitions (format "d\'un"):', error);
+    }
+    acqDeFormatMatches.forEach(match => {
+      const ville = match[1];
+      const paysDetails = match[2];
+      const fullMatch = match[0];
+      
+      // Extraire le pays : si virgule, prendre le dernier élément (ex: "Madrid, Espagne" -> "Espagne")
+      // Sinon prendre le premier mot
+      let pays: string;
+      if (paysDetails.includes(',')) {
+        const parts = paysDetails.split(',').map(p => p.trim());
+        pays = parts[parts.length - 1]; // Dernier élément après la virgule
+      } else {
+        const paysMatch = paysDetails.match(/^([A-Z][a-zàéèêëïîôùûüÿç]+(?:\s+[A-Z][a-zàéèêëïîôùûüÿç]+)?)/);
+        pays = paysMatch ? paysMatch[1] : paysDetails.trim();
+      }
+      
+      if (!pays) return;
+      
+      const key = `${ville.toLowerCase()}_${pays.toLowerCase()}`;
+      
+      if (!acquisitionsSeen.has(key)) {
+        acquisitionsSeen.add(key);
+        // Extraire des détails supplémentaires si présents
+        const rendementMatch = fullMatch.match(/rendement[^0-9]*(\d+[.,]?\d*)\s*%/i);
+        const rendement = rendementMatch ? `, rendement ${rendementMatch[1].replace(',', '.')}%` : '';
+        structuredFacts.push(`Acquisition à ${ville} (${pays})${rendement}`);
+      }
+    });
+    
     // Format : "Acquisition à Ville (Pays, surface m², montantM€) : description"
     // Format : "Acquisition à Ville (Pays) : description"
-    // Note: Le pattern doit gérer les caractères spéciaux comme "ò" dans "Fossò"
-    const acqFormatMatches = Array.from(fullText.matchAll(/acquisition.*?à\s+([A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß][a-zàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ\s]+?)\s*\(([^)]+)\)\s*:\s*([^|]+)/gi));
+    // Note: Le pattern doit gérer les caractères spéciaux comme "ò" dans "Fossò" et les tirets dans "Sainte-Hélène-du-Lac"
+    // Utiliser un lookbehind pour s'assurer qu'on commence par "Acquisition" (pas "acquisitions" au pluriel)
+    let acqFormatMatches: RegExpMatchArray[] = [];
+    try {
+      acqFormatMatches = Array.from(fullText.matchAll(/(?:^|\|)\s*Acquisition\s+à\s+([A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß][a-zàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ\s\-']+?)\s*\(([^)]+)\)\s*:\s*([^|]+)/gi));
+    } catch (error) {
+      console.warn('[getScpiNews] Erreur lors de la détection des acquisitions (format détaillé):', error);
+    }
     acqFormatMatches.forEach(match => {
       const ville = match[1];
       const paysDetails = match[2]; // Peut contenir "Pays, surface, montant" ou juste "Pays"
@@ -592,7 +859,12 @@ export const getScpiNews = (scpi: Scpi): string => {
     });
     
     // Format : "Acquisition à Ville (Pays) - montant M€, surface m², locataire"
-    const acqFormat2Matches = Array.from(fullText.matchAll(/acquisition.*?à\s+([A-Z][a-zàéèêëïîôùûüÿç]+(?:\s+[A-Z][a-zàéèêëïîôùûüÿç]+)?)\s*\(([A-Z][a-zàéèêëïîôùûüÿç]+)\)\s*-\s*([^|]+)/gi));
+    let acqFormat2Matches: RegExpMatchArray[] = [];
+    try {
+      acqFormat2Matches = Array.from(fullText.matchAll(/acquisition.*?à\s+([A-Z][a-zàéèêëïîôùûüÿç]+(?:\s+[A-Z][a-zàéèêëïîôùûüÿç]+)?)\s*\(([A-Z][a-zàéèêëïîôùûüÿç]+)\)\s*-\s*([^|]+)/gi));
+    } catch (error) {
+      console.warn('[getScpiNews] Erreur lors de la détection des acquisitions (format 2):', error);
+    }
     acqFormat2Matches.forEach(match => {
       const ville = match[1];
       const pays = match[2];
@@ -620,12 +892,38 @@ export const getScpiNews = (scpi: Scpi): string => {
     }
   }
   
+  // Chercher "Aucune acquisition" si mentionné (comme pour les cessions)
+  const acquisitionFound = structuredFacts.some(fact => fact.toLowerCase().includes('acquisition'));
+  if (!acquisitionFound && fullText.match(/aucune\s+acquisition/i) && structuredFacts.length < maxPoints) {
+    // Utiliser le texte exact si disponible, sinon format standard
+    const aucuneAcquisitionMatch = fullText.match(/Aucune acquisition[^|]*/i);
+    if (aucuneAcquisitionMatch) {
+      structuredFacts.push(aucuneAcquisitionMatch[0].trim());
+    } else {
+      structuredFacts.push('Aucune acquisition au trimestre');
+    }
+  }
+  
   // Ajuster maxPoints après avoir compté les acquisitions
   // Garder au moins 15 points pour les autres éléments, mais permettre plus si beaucoup d'acquisitions
   maxPoints = Math.max(15, structuredFacts.length + 10);
 
   // 2. PRIORITÉ : Cessions (arbitrage, création de valeur, désendettement)
-  // Extraire toutes les cessions mentionnées
+  // Format : "Cession d'un actif de commerce à Rueil-Malmaison, ..."
+  let cesDeFormatMatches: RegExpMatchArray[] = [];
+  try {
+    cesDeFormatMatches = Array.from(fullText.matchAll(/(?:^|\|)\s*Cession\s+d'[^à]*à\s+([A-ZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß][a-zàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ\s\-']+?)(?:[,|]|$)/gi));
+  } catch (error) {
+    console.warn('[getScpiNews] Erreur lors de la détection des cessions (format "d\'un"):', error);
+  }
+  cesDeFormatMatches.forEach(match => {
+    const ville = match[1].trim();
+    if (ville && !structuredFacts.some(f => f.toLowerCase().includes(ville.toLowerCase()) && f.toLowerCase().includes('cession'))) {
+      structuredFacts.push(`Cession à ${ville}`);
+    }
+  });
+  
+  // Extraire toutes les cessions mentionnées (formats classiques)
   const cesPatterns = [
     /(\d+)\s+cession.*?(\d+[.,]\d+)\s*M€/i,
     /cession.*?(\d+[.,]\d+)\s*M€/i,
@@ -661,6 +959,55 @@ export const getScpiNews = (scpi: Scpi): string => {
     } else {
       structuredFacts.push('Aucune cession au trimestre');
     }
+  }
+
+  // 2.4. PRIORITÉ : Collecte / Investissement (si mentionné explicitement)
+  if (fullText.match(/capitaux\s+collectés\s+intégralement\s+investis/i) && structuredFacts.length < maxPoints) {
+    structuredFacts.push('Capitaux collectés intégralement investis');
+  }
+  
+  // 2.5. PRIORITÉ : Gestion locative (fait marquant) - Prolongations, renouvellements, reloués, mouvements
+  // Détecter tous les éléments de gestion locative significatifs
+  const gestionLocativePatterns = [
+    /mouvements\s+locatifs[^|]*/i,
+    /prolongation.*?renouvellement.*?baux?[^|]*/i,
+    /renouvellement.*?bail[^|]*/i,
+    /prolongation.*?bail[^|]*/i,
+    /\d+\s+m²\s+reloué[^|]*/i,
+    /reloué[^|]*/i,
+    /nouveau\s+bail[^|]*/i,
+    /signature.*?baux?[^|]*/i,
+  ];
+
+  const allGestionMatches: string[] = [];
+  gestionLocativePatterns.forEach(pattern => {
+    try {
+      const matches = Array.from(fullText.matchAll(pattern));
+      matches.forEach(match => {
+        if (match && match[0]) {
+          const text = match[0].trim();
+          // Filtrer les doublons et limiter la longueur
+          if (text.length > 0 && text.length <= 120 && !allGestionMatches.some(existing => 
+            existing.toLowerCase().includes(text.toLowerCase().substring(0, 30)) ||
+            text.toLowerCase().includes(existing.toLowerCase().substring(0, 30))
+          )) {
+            allGestionMatches.push(text);
+          }
+        }
+      });
+    } catch (error) {
+      // Ignorer les erreurs de regex pour ce pattern
+      console.warn('[getScpiNews] Erreur lors de la détection de gestion locative:', error);
+    }
+  });
+
+  // Ajouter tous les éléments de gestion locative trouvés (max 3 pour éviter la surcharge)
+  if (allGestionMatches.length > 0 && structuredFacts.length < maxPoints) {
+    allGestionMatches.slice(0, 3).forEach(gestionText => {
+      if (structuredFacts.length < maxPoints) {
+        structuredFacts.push(gestionText);
+      }
+    });
   }
 
   // 3. PRIORITÉ : Collecte / Retraits (flux significatifs, parts en attente)
@@ -740,11 +1087,23 @@ export const getScpiNews = (scpi: Scpi): string => {
     }
   }
 
-  // 7. PRIORITÉ : Événement exceptionnel (revalorisation, incident, changement stratégique)
+  // 7. PRIORITÉ : Événement à venir (changement de prix, modification future)
+  const evenementAVenirMatch = filteredActualites.find(actu => {
+    const actuLower = actu.toLowerCase();
+    return (actuLower.includes('à compter du') || actuLower.includes('à partir du') || 
+            actuLower.includes('dès le') || actuLower.includes('à venir')) &&
+           actu.length < 150;
+  });
+  if (evenementAVenirMatch && structuredFacts.length < maxPoints) {
+    structuredFacts.push(evenementAVenirMatch.trim());
+  }
+
+  // 8. PRIORITÉ : Événement exceptionnel (revalorisation, incident, changement stratégique)
   const prixMatch = filteredActualites.find(actu => 
     (actu.includes('prix') || actu.includes('distinction') || actu.includes('récompense') || 
      actu.includes('élue') || actu.includes('palmarès') || actu.includes('revalorisation') ||
      actu.includes('revalorisé')) &&
+    !actu.includes('à compter du') && // Exclure les événements à venir déjà traités
     actu.length < 120
   );
   if (prixMatch && structuredFacts.length < maxPoints) {
@@ -854,6 +1213,13 @@ export const getScpiNews = (scpi: Scpi): string => {
       return { icon: '💸', keyword: 'Cession', phrase: fact };
     }
     
+    // Gestion locative (prolongations, renouvellements, reloués)
+    if (factLower.includes('prolongation') || factLower.includes('renouvellement') || 
+        factLower.includes('reloué') || factLower.includes('nouveau bail') || 
+        factLower.includes('signature') && factLower.includes('bail')) {
+      return { icon: '🔑', keyword: 'Gestion locative', phrase: fact };
+    }
+    
     // Collecte
     if (factLower.includes('collecte')) {
       return { icon: '📈', keyword: 'Collecte', phrase: fact };
@@ -877,6 +1243,12 @@ export const getScpiNews = (scpi: Scpi): string => {
     // Endettement
     if (factLower.includes('endettement') || factLower.includes('ratio')) {
       return { icon: '🏦', keyword: 'Endettement', phrase: fact };
+    }
+    
+    // Événement à venir (avec date future)
+    if (factLower.includes('à compter du') || factLower.includes('à partir du') || 
+        factLower.includes('dès le') || factLower.includes('à venir')) {
+      return { icon: '⏳', keyword: 'Événement à venir', phrase: fact };
     }
     
     // Événement exceptionnel
@@ -980,6 +1352,10 @@ export const getScpiNews = (scpi: Scpi): string => {
 
   // Convertir en liste HTML
   return finalFacts.map(fact => `• ${fact}`).join('<br>');
+  } catch (error) {
+    console.error('[getScpiNews] Erreur lors du traitement des actualités pour', scpi.name, error);
+    return ''; // Retourner une chaîne vide en cas d'erreur pour éviter une page blanche
+  }
 };
 
 const getSectorName = (sector: string): string => {

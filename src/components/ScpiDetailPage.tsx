@@ -99,7 +99,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
     },
     {
       question: `Quel est le prix d'une part de ${scpi.name} ?`,
-      answer: `Le prix de souscription d'une part de la SCPI ${scpi.name} est de ${scpi.price}€. Les frais de souscription sont de ${scpi.fees}%.`
+      answer: `Le prix de souscription d'une part de la SCPI ${scpi.name} est de ${scpi.price}€. Les frais de souscription sont de ${scpi.fees}% TTC.`
     },
     {
       question: `Quelle est la capitalisation de la SCPI ${scpi.name} ?`,
@@ -307,7 +307,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais</span>
                     <span className={`font-black text-sm ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
-                      {scpi.fees}%
+                      {scpi.fees}% TTC
                     </span>
                   </div>
                 </div>
@@ -465,11 +465,21 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   </div>
                   <div className="flex-1">
                     <h4 className="font-black text-gray-900 dark:text-white text-xl mb-1">Actualité Trimestrielle</h4>
-                    <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">Données officielles du bulletin</p>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+                      {scpi.periodeBulletinTrimestriel === 'T3 2025'
+                        ? "Mise à jour BULLETIN TRIMESTRIEL D'INFORMATION T3 2025"
+                        : scpi.dateBulletin 
+                          ? `Bulletin ${scpi.periodeBulletinTrimestriel || ''} - ${scpi.dateBulletin}`.trim()
+                          : scpi.periodeBulletinTrimestriel 
+                            ? `Bulletin ${scpi.periodeBulletinTrimestriel}` 
+                            : 'Données officielles du bulletin'}
+                    </p>
                   </div>
                   {scpi.periodeBulletinTrimestriel && (
                     <div className="px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white rounded-full border-2 border-blue-400 dark:border-blue-300 shadow-md">
-                      <span className="text-xs font-bold">{scpi.periodeBulletinTrimestriel}</span>
+                      <span className="text-xs font-bold">
+                        {scpi.dateBulletin ? `${scpi.periodeBulletinTrimestriel} - ${scpi.dateBulletin}` : scpi.periodeBulletinTrimestriel}
+                      </span>
                     </div>
                   )}
                 </div>

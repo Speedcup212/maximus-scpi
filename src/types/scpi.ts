@@ -47,6 +47,11 @@ export interface Scpi {
   nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
   actualitesTrimestrielles?: string; // Actualités trimestrielles (séparées par " | ")
   periodeBulletinTrimestriel?: string; // Période du dernier bulletin (ex: "T3 2025")
+  dateBulletin?: string; // Date du bulletin (ex: "30/09/2025")
+  actualiteTrimestrielle?: {
+    Trimestre?: string;
+    Faits_marquants?: string[];
+  }[];
 }
 
 export type QuickFilterType = 'tous' | 'europeennes' | 'francaises' | 'isr' | 'high-yield';

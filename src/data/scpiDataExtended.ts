@@ -571,8 +571,8 @@ const baseSCPIData: SCPIExtended[] = [
     "minInvestment": 2100,
     "category": "Diversifiée",
     "managementCompany": "Sogenial Immobilier",
-    "tof": 98.04,
-    "capitalization": "27M€",
+    "tof": 98.31,
+    "capitalization": "28.5M€",
     "sectors": [
       {
         "name": "Services",
@@ -714,13 +714,13 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 14,
     "name": "Cristal Life",
-    "yield": 5.2,
-    "price": 225,
-    "minInvestment": 2250,
+    "yield": 6.51,
+    "price": 208,
+    "minInvestment": 2080,
     "category": "Santé",
     "managementCompany": "Inter Gestion REIM",
-    "tof": 93.4,
-    "capitalization": "290M€",
+    "tof": 99.87,
+    "capitalization": "301M€",
     "sectors": [
       {
         "name": "Santé",
@@ -745,16 +745,16 @@ const baseSCPIData: SCPIExtended[] = [
     ],
     "geography": [
       {
-        "name": "Régions",
-        "value": 78
+        "name": "France (Régions)",
+        "value": 50.41
       },
       {
-        "name": "Étranger",
-        "value": 8
+        "name": "France (Île-de-France)",
+        "value": 2.38
       },
       {
-        "name": "Île-de-France",
-        "value": 14
+        "name": "Europe (hors France)",
+        "value": 47.21
       }
     ],
     "reconstitutionValue": 257,
@@ -2590,7 +2590,7 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 50,
     "name": "Transitions Europe",
-    "yield": 8.25,
+    "yield": 8.6,
     "price": 200,
     "minInvestment": 1000,
     "category": "Bureaux",

@@ -452,7 +452,7 @@
     "Société de gestion": "Sogenial Immobilier",
     "Année de création": 2013,
     "Label ISR": "Non",
-    "Capitalisation (M€)": 27.02,
+    "Capitalisation (M€)": 28.5,
     "Prix de souscription (€)": 210,
     "Valeur de retrait (€)": "184.80",
     "Surcote/décote (%)": -3.24,
@@ -460,26 +460,68 @@
     "Valeur de réalisation (€)": 177.78,
     "Taux de distribution (%)": 5.3,
     "Distribution (€/part)": "2.79",
-    "Endettement (%)": 18.2,
-    "TOF (%)": 98.04,
-    "Nombre d’immeubles": 31,
+    "Endettement (%)": 15.62,
+    "TOF (%)": 98.31,
+    "Nombre d’immeubles": 30,
     "Minimum de souscription €": 2100,
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
     "Frais de gestion (HT/%)": 10,
-    "Répartition Géographique": "Province (84.4%), Paris (15.6%)",
-    "Répartition Sectorielle": "Commerce alimentaire (46.12%), Commerce non alimentaire (29.23%), Services (21.43%), Santé et éducation (3.22%)",
+    "Répartition Géographique": "Province (83.0%), Paris (17.0%)",
+    "Répartition Sectorielle": "Commerces alimentaires (48.28%), Commerces non alimentaires (27.72%), Services (20.72%), Santé et éducation (3.27%)",
     "Répartition Géographique JSON": {
-      "Province": 84.4,
-      "Paris": 15.6
+      "Province": 83.0,
+      "Paris": 17.0
     },
     "Répartition Sectorielle JSON": {
-      "Commerce alimentaire": 46.12,
-      "Commerce non alimentaire": 29.23,
-      "Services": 21.43,
-      "Santé et éducation": 3.22
+      "Commerces alimentaires": 48.28,
+      "Commerces non alimentaires": 27.72,
+      "Services": 20.72,
+      "Santé et éducation": 3.27
     },
+    "WALT (ans)": null,
+    "WALB (ans)": null,
+    "Nombre_de_locataires": 33,
+    "Taux_d_occupation_financier (%)": 98.31,
+    "Taux_d_occupation_physique (%)": 96.89,
+    "Nombre_d_actifs": 30,
+    "Surface_totale_m2": 11729,
+    "Donnees_trimestrielles": [
+      {
+        "Trimestre": "T3 2025",
+        "Source": "Bulletin trimestriel T3 2025 – SCPI Cœur de Ville",
+        "Distribution_trimestrielle_par_part (€)": 3.26,
+        "Collecte_nette_trimestre (M€)": null,
+        "Loyers_encaisses_trimestre (€)": 474366,
+        "Taux_de_recouvrement_des_loyers (%)": 98.6,
+        "TOF_trimestre (%)": 98.31,
+        "TOP_trimestre (%)": 96.89,
+        "Endettement_trimestre (%)": 15.62
+      }
+    ],
+    "Actualite_trimestrielle": [
+      {
+        "Trimestre": "T3 2025",
+        "Faits_marquants": [
+          "Dividende trimestriel porté à 3,26 € par part, en progression par rapport à 2024.",
+          "Cession d’un actif immobilier situé à Douai (59) au cours du mois de septembre.",
+          "Patrimoine composé de 30 actifs loués à 33 entreprises locataires.",
+          "Aucune part en attente de retrait au 30/09/2025."
+        ]
+      }
+    ],
+    "Repartition_sectorielle (%)": {
+      "Commerces_alimentaires": 48.28,
+      "Commerces_non_alimentaires": 27.72,
+      "Services": 20.72,
+      "Sante_et_education": 3.27
+    },
+    "Repartition_geographique (%)": {
+      "France_Province": 83.0,
+      "France_Paris": 17.0
+    },
+    "Actualités trimestrielles": "Dividende trimestriel porté à 3,26 € par part au T3 2025 | Aucune acquisition au T3 2025 | Cession d’un actif immobilier situé à Douai (59) durant le trimestre | Patrimoine composé de 30 actifs loués à 33 entreprises locataires | TOF de 98,31 % et TOP de 96,89 % au 30/09/2025 | Aucune part en attente de retrait au 30/09/2025.",
     "Profil_de_risque": {
       "SRRI": 3,
       "Echelle": "1-7",
@@ -639,35 +681,39 @@
     "Société de gestion": "Inter Gestion REIM",
     "Année de création": 2018,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 290.4,
-    "Prix de souscription (€)": 225,
+    "Capitalisation (M€)": 300.86,
+    "Prix de souscription (€)": 208,
     "Valeur de retrait (€)": 181.28,
     "Surcote/décote (%)": 0,
     "Valeur de reconstitution (€)": 224.93,
     "Valeur de réalisation (€)": 196.44,
-    "Taux de distribution (%)": 5.2,
+    "Taux de distribution (%)": 6.51,
     "Distribution (€/part)": "10.40",
-    "Endettement (%)": 20.4,
-    "TOF (%)": 93.4,
-    "Nombre d’immeubles": 31,
+    "Endettement (%)": 15.62,
+    "TOF (%)": 99.87,
+    "Nombre d’immeubles": 36,
     "Minimum de souscription €": 2250,
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestriel",
     "Durée de détention recommandée (ans)": 10,
     "Frais de gestion (HT/%)": 9,
-    "Répartition Géographique": "Régions (78%), Île-de-France (14%), Étranger (8%)",
-    "Répartition Sectorielle": "Commerce (42%), Bureaux (22%), Santé (14%), Éducation (10%), Résidentiel (12%)",
+    "Répartition Géographique": "France (Régions) (50,41%), Espagne (21,86%), Irlande (12,01%), Pays-Bas (5,58%), Estonie (4,63%), Royaume-Uni (3,13%), France (Île-de-France) (2,38%)",
+    "Répartition Sectorielle": "Commerce (33,11%), Bureaux (30,06%), Hôtellerie (16,64%), Santé (16,31%), Activités (3,88%)",
     "Répartition Géographique JSON": {
-      "Régions": 78,
-      "Île-de-France": 14,
-      "Étranger": 8
+      "France (Régions)": 50.41,
+      "Espagne": 21.86,
+      "Irlande": 12.01,
+      "Pays-Bas": 5.58,
+      "Estonie": 4.63,
+      "Royaume-Uni": 3.13,
+      "France (Île-de-France)": 2.38
     },
     "Répartition Sectorielle JSON": {
-      "Commerce": 42,
-      "Bureaux": 22,
-      "Santé": 14,
-      "Éducation": 10,
-      "Résidentiel": 12
+      "Commerce": 33.11,
+      "Bureaux": 30.06,
+      "Hôtellerie": 16.64,
+      "Santé": 16.31,
+      "Activités": 3.88
     },
     "Profil_de_risque": {
       "SRRI": 3,
@@ -675,7 +721,48 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 12
+    "Frais de souscription (TTC/%)": 12,
+    "WALT (ans)": 10.39,
+    "WALB (ans)": 6.50,
+    "Nombre_d_actifs": 36,
+    "Nombre_de_baux": 48,
+    "Surface_totale_m2": 118965,
+    "Taux_d_occupation_financier (%)": 99.87,
+    "Vacance_locative (%)": 0.0,
+    "Donnees_trimestrielles": [
+      {
+        "Trimestre": "T3 2025",
+        "Source": "Bulletin trimestriel T3 2025 – CRISTAL Life",
+        "Distribution_trimestrielle_par_part (€)": 3.348,
+        "Collecte_du_trimestre (€)": 38891969,
+        "Capitalisation (M€)": 300.86,
+        "Prix_de_souscription (€)": 206,
+        "TOF_trimestre (%)": 99.87
+      }
+    ],
+    "Actualite_trimestrielle": [
+      {
+        "Trimestre": "T3 2025",
+        "Faits_marquants": [
+          "Acquisition d’un actif de bureaux à Bedford (Royaume-Uni), occupé par Clearblue Innovation.",
+          "Acquisition d’un actif commercial multi-locataires à Lille.",
+          "Acquisition d’un actif d’activités à Amsterdam.",
+          "Plusieurs promesses d’acquisition en cours en France (laboratoires, centres de formation, activités).",
+          "Poursuite de la forte croissance de la capitalisation au T3 2025."
+        ]
+      }
+    ],
+    "Meta_extraction": {
+      "Trimestre": "T3 2025",
+      "Source": "Bulletin CRISTAL Life – Inter Gestion REIM",
+      "Points_de_vigilance": [
+        "Répartition sectorielle basée sur les locataires et non sur les actifs",
+        "Collecte indiquée comme collecte du trimestre, non précisée nette",
+        "Aucune exposition États-Unis"
+      ]
+    },
+    "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "2025-09-30"
   },
   {
     "Nom SCPI": "Edissimo",
@@ -985,24 +1072,25 @@
     "Prix de souscription (€)": 1664,
     "Valeur de retrait (€)": "1498.43",
     "Surcote/décote (%)": 5.22,
-    "Valeur de reconstitution (€)": 1581.44,
-    "Valeur de réalisation (€)": 1314.32,
-    "Taux de distribution (%)": 0,
-    "Distribution (€/part)": 0,
-    "Endettement (%)": 17.1,
-    "TOF (%)": 90.7,
-    "Nombre d’immeubles": 144,
+    "Valeur de reconstitution (€)": 1562.52,
+    "Valeur de réalisation (€)": 1294.64,
+    "Taux de distribution (%)": 1.2,
+    "Distribution (€/part)": 4.46,
+    "Endettement (%)": 15.6,
+    "TOF (%)": 87.7,
+    "Nombre d’immeubles": 140,
     "Minimum de souscription €": 8320,
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "NC",
     "Durée de détention recommandée (ans)": 10,
     "Frais de gestion (HT/%)": 1.71,
-    "Répartition Géographique": "Paris (77.8%), Région parisienne (19.9%), Nice (2.3%)",
+    "Répartition Géographique": "Paris (76,9%), Région parisienne (12,6%), Nice (7,4%), Autres (2,7%)",
     "Répartition Sectorielle": "Résidentiel (100%)",
     "Répartition Géographique JSON": {
-      "Paris": 77.8,
-      "Région parisienne": 19.9,
-      "Nice": 2.3
+      "Paris": 76.9,
+      "Région parisienne": 12.6,
+      "Nice": 7.4,
+      "Autres": 2.7
     },
     "Répartition Sectorielle JSON": {
       "Résidentiel": 100
@@ -1013,7 +1101,13 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 9.95
+    "Frais de souscription (TTC/%)": 9.95,
+    "Nombre d'associés": 2384,
+    "Surface gérée (m²)": 40332,
+    "Loyers encaissés trimestre (M€)": 1.5,
+    "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "2025-09-30",
+    "Actualités trimestrielles": "Aucune acquisition n’a eu lieu au cours du T3 2025 | 9 appartements et 5 parkings cédés à Paris et en Île-de-France pour une surface totale de 831,7 m² et un montant global de 6,6 M€, générant 4,7 M€ de plus-values comptables, soit en moyenne +3,7% au-dessus de la dernière valeur d’expertise | Programme d’arbitrage ciblé permettant de renforcer le stock de plus-values et de financer le désendettement et les travaux de rénovation | TOF T3 2025 de 87,7% avec 74,94% de locaux occupés, 12,43% de locaux vacants en travaux/chiffrage, 0,32% de locaux vacants sous promesse de vente et 12,31% de locaux vacants | 5 signatures de nouveaux baux et 17 appartements libérés sur le trimestre | 2 lots vacants sous promesse de vente et 54 lots vacants en vente (hors lots annexes), 55 lots vacants en cours de rénovation | Suspension temporaire de la variabilité du capital depuis le 1er avril 2025 et mise en place d’un marché secondaire mensuel par confrontation d’ordres d’achat et de vente"
   },
   {
     "Nom SCPI": "Novaxia NEO",
@@ -1868,24 +1962,25 @@
     "Prix de souscription (€)": 1664,
     "Valeur de retrait (€)": "1498.43",
     "Surcote/décote (%)": 5.22,
-    "Valeur de reconstitution (€)": 1581.44,
-    "Valeur de réalisation (€)": 1314.32,
-    "Taux de distribution (%)": 0,
+    "Valeur de reconstitution (€)": 1562.52,
+    "Valeur de réalisation (€)": 1294.64,
+    "Taux de distribution (%)": 1.2,
     "Distribution (€/part)": 4.46,
-    "Endettement (%)": 17.1,
-    "TOF (%)": 90.7,
-    "Nombre d’immeubles": 144,
+    "Endettement (%)": 15.6,
+    "TOF (%)": 87.7,
+    "Nombre d’immeubles": 140,
     "Minimum de souscription €": 8320,
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "NC",
     "Durée de détention recommandée (ans)": 10,
     "Frais de gestion (HT/%)": 1.71,
-    "Répartition Géographique": "Paris (77.8%), Région parisienne (19.9%), Nice (2.3%)",
+    "Répartition Géographique": "Paris (76,9%), Région parisienne (12,6%), Nice (7,4%), Autres (2,7%)",
     "Répartition Sectorielle": "Résidentiel (100%)",
     "Répartition Géographique JSON": {
-      "Paris": 77.8,
-      "Région parisienne": 19.9,
-      "Nice": 2.3
+      "Paris": 76.9,
+      "Région parisienne": 12.6,
+      "Nice": 7.4,
+      "Autres": 2.7
     },
     "Répartition Sectorielle JSON": {
       "Résidentiel": 100
@@ -1896,7 +1991,13 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 9.95
+    "Frais de souscription (TTC/%)": 9.95,
+    "Nombre d'associés": 2384,
+    "Surface gérée (m²)": 40332,
+    "Loyers encaissés trimestre (M€)": 1.5,
+    "Période bulletin trimestriel": "T3 2025",
+    "Date bulletin": "2025-09-30",
+    "Actualités trimestrielles": "Aucune acquisition n’a eu lieu au cours du T3 2025 | 9 appartements et 5 parkings cédés à Paris et en Île-de-France pour une surface totale de 831,7 m² et un montant global de 6,6 M€, générant 4,7 M€ de plus-values comptables, soit en moyenne +3,7% au-dessus de la dernière valeur d’expertise | Programme d’arbitrage ciblé permettant de renforcer le stock de plus-values et de financer le désendettement et les travaux de rénovation | TOF T3 2025 de 87,7% avec 74,94% de locaux occupés, 12,43% de locaux vacants en travaux/chiffrage, 0,32% de locaux vacants sous promesse de vente et 12,31% de locaux vacants | 5 signatures de nouveaux baux et 17 appartements libérés sur le trimestre | 2 lots vacants sous promesse de vente et 54 lots vacants en vente (hors lots annexes), 55 lots vacants en cours de rénovation | Suspension temporaire de la variabilité du capital depuis le 1er avril 2025 et mise en place d’un marché secondaire mensuel par confrontation d’ordres d’achat et de vente"
   },
   {
     "Nom SCPI": "Novaxia NEO",
@@ -2435,7 +2536,7 @@
     "Surcote/décote (%)": -3.4,
     "Valeur de reconstitution (€)": 207.02,
     "Valeur de réalisation (€)": 175.37,
-    "Taux de distribution (%)": null,
+    "Taux de distribution (%)": 8.6,
     "Distribution (€/part)": 3,
     "Endettement (%)": 0,
     "TOF (%)": 97.54,
