@@ -1,0 +1,1 @@
+import{j as l}from"./index-CRFhanc3.js";const a=({className:r="",size:e=80})=>l.jsx("img",{src:"/cercle Eric Bellaiche bleu.svg",alt:"Eric Bellaiche - Expert MaximusSCPI",style:{width:e,height:e},className:`rounded-full object-cover ${r}`,loading:"lazy"});export{a as E};

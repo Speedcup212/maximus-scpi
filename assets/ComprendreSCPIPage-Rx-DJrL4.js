@@ -1,0 +1,1 @@
+import{j as r}from"./index-CRFhanc3.js";import{Y as e}from"./App-CTFBvRA4.js";const n=()=>r.jsx("div",{className:"min-h-screen bg-gray-50 dark:bg-gray-900",children:r.jsx(e,{})});export{n as default};
