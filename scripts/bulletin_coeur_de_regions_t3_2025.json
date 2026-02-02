@@ -1,0 +1,53 @@
+{
+  "nomScpi": "Coeur de Région",
+  "periode": "T3 2025",
+  
+  "endettement": 8.53,
+  "collecteNetteTrimestre": null,
+  "nbCessionsTrimestre": 0,
+  "nombreLocataires": 184,
+  "walt": null,
+  "walb": null,
+  "tof": 95.16,
+  "tauxDistribution": 6.2,
+  "distribution": 10.29,
+  "capitalisation": 415.79,
+  "prixPart": 664,
+  "valeurReconstitution": 681.94,
+  "decoteSurcote": -2.63,
+  
+  "repartitionSectorielle": {
+    "Bureaux": 51.08,
+    "Commerces": 29.62,
+    "Logistique et locaux d'activités": 17.47,
+    "Santé et éducation": 1.77,
+    "Alternatifs": 0.06
+  },
+  
+  "repartitionGeographique": {
+    "Régions": 86.0,
+    "Île-de-France": 14.0
+  },
+  
+  "actualitesTrimestrielles": [
+    "Capitalisation de plus de 415 M€ au 30/09/2025",
+    "Aucune cession au T3 2025",
+    "82 biens immobiliers et 184 entreprises locataires",
+    "Répartition: 86% en régions et 14% en Île-de-France",
+    "Taux d'occupation financier: 95,16%",
+    "Taux d'occupation physique: 96,01%",
+    "Distribution T3 2025: 10,29€/part",
+    "Taux de distribution 2024: 6,20%",
+    "Performance Globale Annuelle 2024: 6,20%",
+    "TRI 5 ans: 4,81%",
+    "Prix de souscription: 664€",
+    "Valeur de reconstitution au 30/06/2025: 681,94€",
+    "Montant des loyers encaissés T3 2025: 6 277 625€",
+    "Taux de recouvrement des loyers T3 2025: 97,1%",
+    "Renouvellement de bail Zeeman à Hérouville-Saint-Clair (10 ans, dont 9 ans ferme)",
+    "Nouveau bail commercial avec DynamIT Service à Hallennes-Lez-Bourdins (4 ans ferme)",
+    "Renouvellement bail Société Générale à Clermont-Ferrand (6 ans ferme)",
+    "Nouveau locataire: société Envergure à Clermont-Ferrand",
+    "Renouvellements de baux avec Expleo Régions et CAVM à Famars"
+  ]
+}

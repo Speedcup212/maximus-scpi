@@ -1,0 +1,12 @@
+{
+  "scpi": "Comète",
+  "periode": "2025-Q3",
+  "nombre_locataires": 67,
+  "walt": 10.4,
+  "walb": 8.4,
+  "sources": {
+    "nombre_locataires": "locataires 44 23 - 67 (page 6, Évolution de l'état locatif au 30.09.2025)",
+    "walt": "10,4 ans WALT (2) (page 6, ÉTAT LOCATIF)",
+    "walb": "8,4 ans WALB (3) (page 6, ÉTAT LOCATIF)"
+  }
+}

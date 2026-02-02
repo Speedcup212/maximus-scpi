@@ -15,6 +15,12 @@ export function enrichScpiExtended(
     scpi => scpi.name.toLowerCase() === scpiExtended.name.toLowerCase()
   );
 
+  // Debug: vérifier si Paref Evo est trouvé
+  if (scpiExtended.name === 'Paref Evo' && !matchingScpi) {
+    console.warn('[enrichScpiExtended] Paref Evo non trouvé dans scpiData. Noms disponibles:', 
+      scpiData.filter(s => s.name.toLowerCase().includes('paref')).map(s => s.name).join(', '));
+  }
+
   if (!matchingScpi) {
     return scpiExtended;
   }

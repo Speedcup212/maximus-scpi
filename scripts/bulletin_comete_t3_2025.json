@@ -1,0 +1,34 @@
+{
+  "nomScpi": "Comète",
+  "periode": "T3 2025",
+  
+  "endettement": 0.1,
+  "collecteNetteTrimestre": 103800000,
+  "nbCessionsTrimestre": 0,
+  "nombreLocataires": 67,
+  "walt": 10.4,
+  "walb": 8.4,
+  "tof": null,
+  "tauxDistribution": null,
+  "distribution": null,
+  "capitalisation": null,
+  "prixPart": null,
+  "valeurReconstitution": null,
+  "decoteSurcote": null,
+  
+  "repartitionSectorielle": null,
+  "repartitionGeographique": null,
+  
+  "actualitesTrimestrielles": [
+    "Six nouvelles acquisitions représentant un montant total de 65,7 millions d'euros hors droits au cours du trimestre",
+    "Ouverture d'un nouveau pays : l'Irlande avec l'acquisition de 11 cellules commerciales à Dun Laoghaire (5 032 m²)",
+    "Nouvelle région au Royaume-Uni : l'Écosse avec l'acquisition d'un actif logistique à Aberdeen (5 608 m²)",
+    "Acquisition à Cardiff (Royaume-Uni) : 5 cellules commerciales de 2 388 m² dans l'une des rues commerçantes les plus actives",
+    "Acquisition à Portlethen (Royaume-Uni) : immeuble de bureaux de 6 652 m² à proximité d'Aberdeen",
+    "Acquisition à Brescia (Italie) : lot commercial de 3 796 m² occupé par une enseigne internationale",
+    "Acquisition à Veenendaal (Pays-Bas) : grand magasin de 18 488 m² dédié à l'aménagement de la maison",
+    "Aucune cession d'actif n'a été réalisée au cours du trimestre, confirmant la stratégie de détention long terme",
+    "Collecte nette de 103,8M€ au cours du trimestre, témoignant de la confiance des investisseurs",
+    "Rentabilité moyenne des acquisitions de 9,12% AEM, témoignant d'une approche rigoureuse et sélective"
+  ]
+}

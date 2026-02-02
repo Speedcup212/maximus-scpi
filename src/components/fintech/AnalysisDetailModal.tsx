@@ -70,8 +70,15 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   const keyTakeaways = scpiForAnalysis ? getScpiKeyTakeaways(scpiForAnalysis) : [];
   
   // Récupérer les actualités trimestrielles
-  const quarterlyNews = scpiForAnalysis ? getScpiNews(scpiForAnalysis) : '';
+  let quarterlyNews = '';
+  try {
+    quarterlyNews = scpiForAnalysis ? getScpiNews(scpiForAnalysis) : '';
+  } catch (error) {
+    console.error('[AnalysisDetailModal] Erreur lors de la récupération des actualités pour', scpi.name, error);
+    quarterlyNews = ''; // En cas d'erreur, on affiche une chaîne vide
+  }
   const periodeBulletin = scpiForAnalysis?.periodeBulletinTrimestriel;
+  const dateBulletin = scpiForAnalysis?.dateBulletin;
 
   // Utiliser les données locatives de scpiForAnalysis si elles ne sont pas dans scpi
   const nombreLocataires = scpi.nombreLocataires ?? scpiForAnalysis?.nombreLocataires;
@@ -246,93 +253,8 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           </div>
         )}
 
-        {/* Bloc Lecture rapide - Ce qu'il faut retenir */}
-        {keyTakeaways.length > 0 && (
-          <div className="px-6 pt-4 pb-6">
-            <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30 p-6 shadow-lg">
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp className="w-6 h-6 text-blue-400" />
-                <h3 className="text-lg font-bold text-white">Lecture rapide – ce qu'il faut retenir</h3>
-              </div>
-              <ul className="space-y-2.5">
-                {keyTakeaways.map((takeaway, index) => {
-                  // Dernier élément = conclusion implicite
-                  const isConclusion = index === keyTakeaways.length - 1;
-                  return (
-                    <li 
-                      key={index} 
-                      className={`flex items-start gap-3 text-sm leading-relaxed ${
-                        isConclusion 
-                          ? 'pt-3 mt-3 border-t border-blue-500/30 font-semibold text-white' 
-                          : 'text-slate-200'
-                      }`}
-                    >
-                      <span className={`font-bold mt-0.5 ${isConclusion ? 'text-blue-300' : 'text-blue-400'}`}>
-                        {isConclusion ? '→' : '•'}
-                      </span>
-                      <span className="flex-1">{takeaway}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        <div className="p-6 space-y-8">
-          {/* 2. Analyse MaximusSCPI - Avantages et Points d'attention (interprétation) */}
-          {(advantages.length > 0 || pointsAttention.length > 0) && (
-            <div className="bg-purple-500/10 rounded-xl border-2 border-purple-500/30 p-6 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-purple-500/20 rounded-lg">
-                  <BarChart3 className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Analyse MaximusSCPI</h3>
-                  <p className="text-xs text-purple-300/70 mt-0.5">Lecture structurée et interprétation</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Avantages */}
-                {advantages.length > 0 && (
-                  <div className="bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/20 shadow-md">
-                    <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4" />
-                      Avantages
-                    </h4>
-                    <ul className="space-y-3">
-                      {advantages.map((advantage, index) => (
-                        <li key={index} className="flex items-start gap-3 text-sm text-slate-300 leading-relaxed">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                          <span className="flex-1">{advantage}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Inconvénients / Points d'attention */}
-                {pointsAttention.length > 0 && (
-                  <div className="bg-orange-500/10 rounded-lg p-5 border border-orange-500/20 shadow-md">
-                    <h4 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4" />
-                      Points d'attention
-                    </h4>
-                    <ul className="space-y-3">
-                      {pointsAttention.map((point, index) => (
-                        <li key={index} className="flex items-start gap-3 text-sm text-slate-300 leading-relaxed">
-                          <AlertCircle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
-                          <span className="flex-1">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* 3. Chiffres clés */}
+        {/* 1. Chiffres clés - EN PREMIÈRE POSITION */}
+        <div className="px-6 pt-4 pb-6">
           <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6 shadow-lg">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <BarChart3 className="w-6 h-6 text-cyan-400" />
@@ -458,8 +380,101 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
               </div>
             </div>
           </div>
+        </div>
 
-          {/* 4. Profil de Risque (SRRI) */}
+        {/* Bloc Lecture rapide - Ce qu'il faut retenir */}
+        {keyTakeaways.length > 0 && (
+          <div className="px-6 pt-4 pb-6">
+            <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl border border-blue-500/30 p-6 shadow-lg">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-6 h-6 text-blue-400" />
+                <h3 className="text-lg font-bold text-white">Lecture rapide – ce qu'il faut retenir</h3>
+              </div>
+              <ul className="space-y-2.5">
+                {keyTakeaways.map((takeaway, index) => {
+                  // Dernier élément = conclusion implicite
+                  const isConclusion = index === keyTakeaways.length - 1;
+                  
+                  // Extraire l'icône et le reste du texte (format: [Icône] Mot-clé – phrase)
+                  const iconMatch = takeaway.match(/^([^\s]+)\s+(.+)$/);
+                  const icon = iconMatch ? iconMatch[1] : '';
+                  const text = iconMatch ? iconMatch[2] : takeaway;
+                  
+                  return (
+                    <li 
+                      key={index} 
+                      className={`flex items-start gap-3 text-sm leading-relaxed ${
+                        isConclusion 
+                          ? 'pt-3 mt-3 border-t border-blue-500/30 font-semibold text-white' 
+                          : 'text-slate-200'
+                      }`}
+                    >
+                      <span className="text-lg mt-0.5 flex-shrink-0" role="img" aria-label="icon">
+                        {icon}
+                      </span>
+                      <span className="flex-1">{text}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        <div className="p-6 space-y-8">
+          {/* 2. Analyse MaximusSCPI - Avantages et Points d'attention (interprétation) */}
+          {(advantages.length > 0 || pointsAttention.length > 0) && (
+            <div className="bg-purple-500/10 rounded-xl border-2 border-purple-500/30 p-6 shadow-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-purple-500/20 rounded-lg">
+                  <BarChart3 className="w-6 h-6 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Analyse MaximusSCPI</h3>
+                  <p className="text-xs text-purple-300/70 mt-0.5">Lecture structurée et interprétation</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Avantages */}
+                {advantages.length > 0 && (
+                  <div className="bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/20 shadow-md">
+                    <h4 className="text-sm font-semibold text-emerald-400 mb-3 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Avantages
+                    </h4>
+                    <ul className="space-y-3">
+                      {advantages.map((advantage, index) => (
+                        <li key={index} className="flex items-start gap-3 text-sm text-slate-300 leading-relaxed">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                          <span className="flex-1">{advantage}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Inconvénients / Points d'attention */}
+                {pointsAttention.length > 0 && (
+                  <div className="bg-orange-500/10 rounded-lg p-5 border border-orange-500/20 shadow-md">
+                    <h4 className="text-sm font-semibold text-orange-400 mb-3 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      Points d'attention
+                    </h4>
+                    <ul className="space-y-3">
+                      {pointsAttention.map((point, index) => (
+                        <li key={index} className="flex items-start gap-3 text-sm text-slate-300 leading-relaxed">
+                          <AlertCircle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
+                          <span className="flex-1">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* 3. Profil de Risque (SRRI) */}
           {scpi.profilRisque !== undefined && scpi.profilRisque !== null && (
             <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-6 shadow-lg">
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
@@ -776,7 +791,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                           <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded border border-emerald-500/30">Sans frais</span>
                         </div>
                       ) : (
-                        <div className="text-lg font-bold text-white">{scpi.entryFees}%</div>
+                        <div className="text-lg font-bold text-white">{scpi.entryFees}% TTC</div>
                       )
                     ) : (
                       <div className="text-lg font-bold text-slate-500">N/A</div>
@@ -985,27 +1000,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-lg font-bold text-white">{scpi.valeurRealisation.toFixed(2)}€</div>
                     </div>
                   )}
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingDown className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Décote / Surcote</div>
-                    </div>
-                    {(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (
-                      (() => {
-                        const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
-                        const discountPremium = ((scpi.price - reconstitutionVal) / reconstitutionVal * 100);
-                        const isDiscount = discountPremium < 0;
-                        return (
-                          <div className={`text-lg font-bold ${isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
-                            {discountPremium > 0 ? '+' : ''}{discountPremium.toFixed(1)}%
-                            <span className="text-xs ml-1">({isDiscount ? 'Décote' : 'Surcote'})</span>
-                          </div>
-                        );
-                      })()
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
                   {scpi.distribution !== undefined && (
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
@@ -1026,13 +1020,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-lg font-bold text-slate-500">N/A</div>
                     )}
                   </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-emerald-400" />
-                      <div className="text-xs text-emerald-400 font-semibold">Taux d'Occupation</div>
-                    </div>
-                    <div className="text-lg font-bold text-emerald-400">{(scpiForAnalysis?.tof ?? scpi.tof)}%</div>
-                  </div>
                 </div>
               </div>
 
@@ -1047,8 +1034,8 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           {/* Séparateur visuel */}
           <div className="border-t border-slate-600/50 my-2"></div>
 
-          {/* 7. Actualité Trimestrielle (bulletin) - Toujours affichée ouverte */}
-          {quarterlyNews && (
+          {/* 7. Actualité Trimestrielle (bulletin) - Toujours affichée si actualités disponibles */}
+          {scpiForAnalysis?.actualitesTrimestrielles && (
             <div className="bg-slate-700/30 rounded-xl border border-slate-700 overflow-hidden">
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -1058,14 +1045,24 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-left">
                     <h3 className="text-lg font-bold text-white">Actualité Trimestrielle</h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      {periodeBulletin ? `Bulletin ${periodeBulletin}` : 'Données officielles du bulletin'}
+                      {dateBulletin 
+                        ? `Bulletin ${periodeBulletin || ''} - ${dateBulletin}`.trim()
+                        : periodeBulletin 
+                          ? `Bulletin ${periodeBulletin}` 
+                          : 'Données officielles du bulletin'}
                     </p>
                   </div>
                 </div>
-                <div 
-                  className="text-sm text-slate-200 leading-relaxed space-y-3 bg-slate-800/40 rounded-lg p-5 border border-blue-500/20"
-                  dangerouslySetInnerHTML={{ __html: quarterlyNews }}
-                />
+                {quarterlyNews ? (
+                  <div 
+                    className="text-sm text-slate-200 leading-relaxed space-y-3 bg-slate-800/40 rounded-lg p-5 border border-blue-500/20"
+                    dangerouslySetInnerHTML={{ __html: quarterlyNews }}
+                  />
+                ) : (
+                  <div className="text-sm text-slate-300 leading-relaxed space-y-3 bg-slate-800/40 rounded-lg p-5 border border-blue-500/20">
+                    <p className="text-slate-400 italic">Actualités en cours de traitement...</p>
+                  </div>
+                )}
               </div>
             </div>
           )}

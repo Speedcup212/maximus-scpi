@@ -1,0 +1,13 @@
+{
+  "nomScpi": "Iroko Zen",
+  "periode": "T3 2025",
+  "repartitionGeographique": {
+    "France": 29.5,
+    "Royaume-Uni": 25.8,
+    "Pays-Bas": 13.3,
+    "Espagne": 11.5,
+    "Irlande": 10.9,
+    "Allemagne": 8.0,
+    "Italie": 1.0
+  }
+}

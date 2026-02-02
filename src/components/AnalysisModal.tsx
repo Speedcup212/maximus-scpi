@@ -235,7 +235,7 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                     <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais</span>
                       <span className={`font-black text-sm ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
-                        {scpi.fees}%
+                        {scpi.fees}% TTC
                       </span>
                     </div>
                   </div>

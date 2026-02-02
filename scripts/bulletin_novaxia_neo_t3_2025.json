@@ -1,0 +1,58 @@
+{
+  "nomScpi": "Novaxia NEO",
+  "periode": "T3 2025",
+  
+  "endettement": 35.0,
+  "collecteNetteTrimestre": 7900000,
+  "nbCessionsTrimestre": null,
+  "nombreLocataires": 129,
+  "walt": null,
+  "walb": 3.5,
+  "tof": 91.8,
+  "tauxDistribution": 6.01,
+  "distribution": 2.50,
+  "capitalisation": 427.9,
+  "prixPart": 182.79,
+  "valeurReconstitution": 187.00,
+  "decoteSurcote": -2.25,
+  
+  "repartitionSectorielle": {
+    "Bureaux": 93,
+    "Activités": 2,
+    "Enseignement": 1,
+    "Hôtels": 4
+  },
+  
+  "repartitionGeographique": null,
+  
+  "actualitesTrimestrielles": [
+    "Capitalisation de 427,9 M€ au 30/09/2025",
+    "39 actifs immobiliers",
+    "129 locataires",
+    "230 279 m² de surface totale",
+    "550 M€ de valeur du patrimoine",
+    "Taux d'occupation financier: 91,8%",
+    "Taux d'occupation physique: 94,2%",
+    "WALB moyenne: 3,5 ans",
+    "Distribution T3 2025: 2,50€/part net de fiscalité étrangère",
+    "Taux de distribution 2024: 6,01%",
+    "Fourchette prévisionnelle Taux de Distribution 2025: 5,25% - 5,75% (non garantie)",
+    "TRI sur 5 ans (30/09/2020 - 30/09/2025): 6,57%",
+    "Prix d'une part: 182,79€",
+    "Valeur de reconstitution par part: 187,00€",
+    "Valeur de réalisation par part: 155,95€",
+    "Collecte nette T3 2025: 7,9 M€",
+    "Retraits réalisés: 8,2 M€",
+    "71 643 parts en attente de retrait sur le trimestre (3,1% des parts totales)",
+    "Ratio d'endettement (méthode ASPIM): 35%",
+    "Durée moyenne d'endettement: 2 ans",
+    "6 signatures de baux depuis le début de l'année",
+    "Renouvellement de bail avec FedEx à Hoofddorp (Pays-Bas) - 5 000 m², 1 349 000€ de loyer facial",
+    "Renouvellement de bail avec Soletanche Freyssinet à Rueil-Malmaison (France) - 15 443 m², signé début octobre",
+    "Renouvellement de bail avec Salta Group à Hilversum (Pays-Bas) - 8 733 m²",
+    "Promesse de vente signée sur l'actif de Nanterre (réitération prévue mi-novembre)",
+    "Programme d'amélioration énergétique prévu pour l'immeuble de Saragosse (Espagne) - plus de 200 000€",
+    "Note ESG du portefeuille: 45/100",
+    "Sans délai de jouissance du 1er septembre au 31 décembre 2025"
+  ]
+}

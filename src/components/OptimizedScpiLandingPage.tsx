@@ -858,7 +858,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <div className="bg-white rounded-lg p-6 shadow flex justify-between items-center">
                     <div>
                       <div className="font-semibold text-gray-900">Frais de souscription</div>
-                      <div className="text-sm text-gray-600">Frais d'entrée HT</div>
+                      <div className="text-sm text-gray-600">Frais d'entrée TTC</div>
                     </div>
                     <div className={`text-2xl font-bold text-${colors.secondary}-600`}>
                       {landingData.frais_souscription}
@@ -1205,7 +1205,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <strong>Durée recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
                 </p>
                 <p>
-                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} HT. Consultez la note d'information complète avant tout investissement.
+                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC. Consultez la note d'information complète avant tout investissement.
                 </p>
                 <p>
                   <strong>Conseiller :</strong> Eric Bellaiche - CIF enregistré à l'ORIAS sous le numéro 13001580.

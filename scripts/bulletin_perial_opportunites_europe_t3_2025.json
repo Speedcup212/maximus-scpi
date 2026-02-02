@@ -1,0 +1,58 @@
+{
+  "nomScpi": "PERIAL Opportunités Europe",
+  "periode": "T3 2025",
+  
+  "endettement": 31.4,
+  "collecteNetteTrimestre": 9863040,
+  "nbCessionsTrimestre": 2,
+  "nombreLocataires": null,
+  "walt": null,
+  "walb": 5.2,
+  "tof": 90.3,
+  "tauxDistribution": 6.27,
+  "distribution": 13.2,
+  "capitalisation": 784,
+  "prixPart": 880,
+  "valeurReconstitution": null,
+  "decoteSurcote": null,
+  
+  "repartitionSectorielle": {
+    "Bureaux": 48.5,
+    "Hôtels, tourisme, loisirs": 26.4,
+    "Commerces": 18.5,
+    "Santé et éducation": 4.8,
+    "Logistique et locaux d'activités": 1.7,
+    "Alternatifs": 0.1
+  },
+  
+  "repartitionGeographique": {
+    "France": 59.5,
+    "Pays-Bas": 13.8,
+    "Allemagne": 12.6,
+    "Espagne": 12.3,
+    "Italie": 1.9
+  },
+  
+  "actualitesTrimestrielles": [
+    "Collecte nette de 9,86 M€ au T3 2025",
+    "2 cessions d'immeubles de bureaux en France pour un montant total de 3,8 M€",
+    "Cession d'un immeuble de bureaux à Aix-Europarc/Meyreuil (13) - 1,0 M€, 860 m², juillet 2025",
+    "Cession d'un immeuble de bureaux Cenor à Issy-les-Moulineaux (92) - 2,8 M€, 551 m², septembre 2025, plus-value de 0,5 M€ distribuable dès 2025",
+    "Distribution T3 2025: 13,20 €/part",
+    "Distribution nette cumulée au T3 2025: 37,72 €/part",
+    "Taux de distribution cible 2025: entre 6,10% et 6,40%",
+    "Taux de distribution 2024: 6,27%",
+    "Performance Globale Annuelle (PGA) 2024: 6,27%",
+    "TRI 10 ans: 5,47%",
+    "TRI depuis création: 7,33%",
+    "Taux d'occupation financier: 90,3%",
+    "131 immeubles, 320 baux",
+    "WALB: 5,2 ans",
+    "Superficie totale: 379 018 m²",
+    "Taux d'endettement: 31,4% (max 40%)",
+    "Taux d'intérêt moyen: 2,50%",
+    "Durée résiduelle moyenne de la dette: 2,1 ans",
+    "Prix MSCI 'Highest Total Return Relative to the Real Estate All Property Benchmark'",
+    "1er Prix des SCPI diversifiée de moins de 2 Md€ d'encours aux trophées de la Finance responsable"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "nomScpi": "Coeur d'Europe",
+  "periode": "T3 2025",
+  
+  "endettement": 0.46,
+  "collecteNetteTrimestre": null,
+  "nbCessionsTrimestre": 0,
+  "nombreLocataires": 129,
+  "walt": null,
+  "walb": null,
+  "tof": 95.75,
+  "tauxDistribution": 6.02,
+  "distribution": 2.54,
+  "capitalisation": 216.18,
+  "prixPart": 204,
+  "valeurReconstitution": 212.39,
+  "decoteSurcote": -3.95,
+  
+  "repartitionSectorielle": {
+    "Commerces": 54.32,
+    "Bureaux": 26.68,
+    "Logistique et locaux d'activités": 14.62,
+    "Santé et éducation": 4.38
+  },
+  
+  "repartitionGeographique": {
+    "Portugal": 36.8,
+    "Espagne": 35.9,
+    "Belgique": 20.4,
+    "Allemagne": 6.9
+  },
+  
+  "actualitesTrimestrielles": [
+    "Capitalisation dépasse 216 M€ au 30/09/2025",
+    "36 biens immobiliers diversifiés",
+    "129 entreprises locataires",
+    "Taux d'occupation financier: 95,75%",
+    "Taux d'occupation physique: 99,11%",
+    "Aucune cession au T3 2025",
+    "Distribution T3 2025: 2,54€/part",
+    "Taux de distribution 2024: 6,02% brut (5,25% net après fiscalité étrangère)",
+    "Performance Globale Annuelle 2024: 6,02% brut",
+    "Prix de la part revalorisé à 204€ au 1er juillet 2025",
+    "Valeur de reconstitution: 212,39€",
+    "Montant des loyers encaissés T3 2025: 2 807 412,69€",
+    "Taux de recouvrement des loyers T3 2025: 93,04%",
+    "Nouvelle acquisition à Ovar (Portugal): ensemble commercial de 13 329 m² avec 60 entreprises locataires (Worten, Decathlon, Burger King)",
+    "Nouvelle acquisition à Porto (Portugal): immeuble de bureaux de 6 168 m² loué à Fidelidade"
+  ]
+}

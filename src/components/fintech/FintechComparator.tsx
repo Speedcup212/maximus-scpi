@@ -53,7 +53,14 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onC
 
   // Enrichir les données SCPI avec les informations du fichier Excel
   const enrichedScpiData = useMemo(() => {
-    return enrichScpiExtendedArray(scpiDataExtended, scpiData);
+    const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
+    // Debug: vérifier si Paref Evo est présent
+    const parefEvo = enriched.find(s => s.name === 'Paref Evo');
+    if (!parefEvo) {
+      console.warn('[FintechComparator] Paref Evo non trouvé dans enrichedScpiData');
+      console.log('[FintechComparator] SCPI disponibles:', enriched.map(s => s.name).filter(n => n.toLowerCase().includes('paref')));
+    }
+    return enriched;
   }, []);
 
   const toggleSelect = (scpi: SCPIExtended) => {

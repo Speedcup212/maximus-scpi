@@ -1,0 +1,52 @@
+{
+  "nomScpi": "Remake Live",
+  "periode": "T3 2025",
+  
+  "endettement": 18.64,
+  "collecteNetteTrimestre": 32600000,
+  "nbCessionsTrimestre": 0,
+  "nombreLocataires": 77,
+  "walt": 10.3,
+  "walb": null,
+  "tof": 99.3,
+  "tauxDistribution": 7.5,
+  "distribution": 3.57,
+  "capitalisation": 806,
+  "prixPart": 204,
+  "valeurReconstitution": 203.52,
+  "decoteSurcote": 0.24,
+  
+  "repartitionSectorielle": {
+    "Bureaux": 38.02,
+    "Santé & éducation": 21.92,
+    "Logistique et locaux d'activité": 14.12,
+    "Commerces": 12.06,
+    "Hôtels, tourisme, loisirs": 8.84,
+    "Résidentiel": 3.48,
+    "Alternatifs": 1.56
+  },
+  
+  "repartitionGeographique": {
+    "Royaume Uni": 29.00,
+    "France": 27.62,
+    "Espagne": 11.66,
+    "Irlande": 10.11,
+    "Pays-Bas": 9.93,
+    "Pologne": 8.04,
+    "Allemagne": 2.65,
+    "Portugal": 0.98
+  },
+  
+  "actualitesTrimestrielles": [
+    "Collecte nette de 32,6 M€ au T3 2025",
+    "2 nouvelles acquisitions pour un montant de 74,9 M€",
+    "Acquisition de l'hôtel NH à l'aéroport Lyon Saint-Exupéry (43 M€, 8,1 ans de WALB, rendement > 7,2%)",
+    "Acquisition de l'immeuble Shelbourne à Dublin (30 M€, 6,2 ans de WALB, rendement 7,8%)",
+    "8 immeubles sous promesse pour environ 110 M€",
+    "Portefeuille composé de 58 immeubles répartis sur 8 pays",
+    "Taux de distribution 2024 de 7,50% (soit 6,18% net de fiscalité étrangère)",
+    "Performance Globale Annuelle (PGA) 2024 de 7,50%",
+    "TRI depuis le lancement de 7,34%",
+    "Note ESG du portefeuille: 55,31/100 (progression depuis 31,22/100 initiale)"
+  ]
+}
