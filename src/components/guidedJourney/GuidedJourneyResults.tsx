@@ -21,7 +21,8 @@ interface GuidedJourneyResultsProps {
 interface PortfolioAnalysisModuleProps {
   portfolioScpis: Array<{ scpi: Scpi; allocation: number }>;
   analysis: ReturnType<typeof analyzePortfolio>;
-  initialInvestmentAmount?: number; // Montant initial depuis le questionnaire
+  investmentAmount: number;
+  onInvestmentAmountChange: (amount: number) => void;
 }
 
 const GRADIENT_IDS = {
@@ -46,8 +47,12 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portfolioScpis, analysis, initialInvestmentAmount }) => {
-  const [investmentAmount, setInvestmentAmount] = useState<number>(initialInvestmentAmount || 50000);
+const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
+  portfolioScpis,
+  analysis,
+  investmentAmount,
+  onInvestmentAmountChange
+}) => {
   const [investmentYears, setInvestmentYears] = useState<number>(15);
 
   // Calculer le montant investi (réallocation automatique du reliquat)
@@ -315,9 +320,9 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value === '' || value === '0') {
-                        setInvestmentAmount(0);
+                        onInvestmentAmountChange(0);
                       } else {
-                        setInvestmentAmount(Number(value));
+                        onInvestmentAmountChange(Number(value));
                       }
                     }}
                     min={0}
@@ -336,7 +341,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
                   {[10000, 25000, 50000, 100000, 200000, 500000].map((amount) => (
                     <button
                       key={amount}
-                      onClick={() => setInvestmentAmount(amount)}
+                      onClick={() => onInvestmentAmountChange(amount)}
                       className={`px-2 sm:px-3 py-1.5 sm:py-2 border rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                         investmentAmount === amount
                           ? 'bg-emerald-600 border-emerald-500 text-white'
@@ -918,6 +923,22 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
             isExpanded={expandedSections.composition}
             onToggle={() => setExpandedSections(prev => ({ ...prev, composition: !prev.composition }))}
           >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3 sm:mb-4">
+              <div className="bg-slate-900/60 border border-slate-700 rounded-lg p-3">
+                <p className="text-[10px] sm:text-xs text-slate-400">Rendement moyen</p>
+                <p className="text-lg sm:text-xl font-bold text-emerald-400">{analysis.averageYield.toFixed(2)}%</p>
+              </div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-lg p-3">
+                <p className="text-[10px] sm:text-xs text-slate-400">TOF moyen</p>
+                <p className="text-lg sm:text-xl font-bold text-slate-100">{analysis.averageTof.toFixed(2)}%</p>
+              </div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-lg p-3">
+                <p className="text-[10px] sm:text-xs text-slate-400">Endettement moyen</p>
+                <p className="text-lg sm:text-xl font-bold text-slate-100">
+                  {analysis.averageDebt === null ? 'N/D' : `${analysis.averageDebt.toFixed(1)}%`}
+                </p>
+              </div>
+            </div>
             <div className="space-y-2 sm:space-y-3">
               {portfolioScpis.map(({ scpi, allocation }) => {
                 const scpiSlug = createSlugFromName(scpi.name);
@@ -969,7 +990,8 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
               <PortfolioAnalysisModule 
                 portfolioScpis={portfolioScpis}
                 analysis={analysis}
-                initialInvestmentAmount={investmentAmount}
+                investmentAmount={investmentAmount}
+                onInvestmentAmountChange={setInvestmentAmount}
               />
             </div>
           </SectionRepliable>
