@@ -1,4 +1,5 @@
 import { Scpi } from '../types/scpi';
+import { normalizeGeoLabel, normalizeSectorLabel } from './labelNormalization';
 
 export interface PortfolioAnalysis {
   // Rendement
@@ -84,8 +85,20 @@ export function analyzePortfolio(
   );
 
   // Diversification
-  const sectors = [...new Set(portfolioScpis.map(item => item.scpi.sector).filter(Boolean))];
-  const geographies = [...new Set(portfolioScpis.map(item => item.scpi.geography).filter(Boolean))];
+  const sectors = [
+    ...new Set(
+      portfolioScpis
+        .map(item => normalizeSectorLabel(getSectorDisplayName(item.scpi.sector)).label)
+        .filter(Boolean)
+    )
+  ];
+  const geographies = [
+    ...new Set(
+      portfolioScpis
+        .map(item => normalizeGeoLabel(getGeographyDisplayName(item.scpi.geography)).label)
+        .filter(Boolean)
+    )
+  ];
 
   // Labels
   const isrCount = portfolioScpis.filter(item => item.scpi.isr).length;
@@ -96,13 +109,14 @@ export function analyzePortfolio(
   portfolioScpis.forEach(({ scpi, allocation }) => {
     if (scpi.repartitionSector && scpi.repartitionSector.length > 0) {
       scpi.repartitionSector.forEach(sector => {
-        if (!sectorDistribution[sector.name]) {
-          sectorDistribution[sector.name] = 0;
+        const sectorName = normalizeSectorLabel(sector.name).label;
+        if (!sectorDistribution[sectorName]) {
+          sectorDistribution[sectorName] = 0;
         }
-        sectorDistribution[sector.name] += (sector.value * allocation) / 100;
+        sectorDistribution[sectorName] += (sector.value * allocation) / 100;
       });
     } else if (scpi.sector) {
-      const sectorName = getSectorDisplayName(scpi.sector);
+      const sectorName = normalizeSectorLabel(getSectorDisplayName(scpi.sector)).label;
       if (!sectorDistribution[sectorName]) {
         sectorDistribution[sectorName] = 0;
       }
@@ -115,13 +129,14 @@ export function analyzePortfolio(
   portfolioScpis.forEach(({ scpi, allocation }) => {
     if (scpi.repartitionGeo && scpi.repartitionGeo.length > 0) {
       scpi.repartitionGeo.forEach(geo => {
-        if (!geoDistribution[geo.name]) {
-          geoDistribution[geo.name] = 0;
+        const geoName = normalizeGeoLabel(geo.name).label;
+        if (!geoDistribution[geoName]) {
+          geoDistribution[geoName] = 0;
         }
-        geoDistribution[geo.name] += (geo.value * allocation) / 100;
+        geoDistribution[geoName] += (geo.value * allocation) / 100;
       });
     } else if (scpi.geography) {
-      const geoName = getGeographyDisplayName(scpi.geography);
+      const geoName = normalizeGeoLabel(getGeographyDisplayName(scpi.geography)).label;
       if (!geoDistribution[geoName]) {
         geoDistribution[geoName] = 0;
       }

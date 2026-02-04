@@ -3,6 +3,7 @@ import { TrendingUp, PieChart, Target, Calendar, DollarSign, Award, Download, Ma
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import ChartWidget from './ChartWidget';
 
 interface PortfolioItem extends Scpi {
@@ -82,7 +83,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     if (item.repartitionSector && item.repartitionSector.length > 0) {
       // Utiliser la vraie répartition sectorielle pondérée
       item.repartitionSector.forEach(sector => {
-        const sectorName = sector.name;
+        const sectorName = normalizeSectorLabel(sector.name).label;
         if (!sectorDistribution[sectorName]) {
           sectorDistribution[sectorName] = 0;
         }
@@ -91,7 +92,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
       });
     } else {
       // Fallback : utiliser le secteur principal si pas de répartition détaillée
-      const sectorName = getSectorDisplayName(item.sector);
+      const sectorName = normalizeSectorLabel(getSectorDisplayName(item.sector)).label;
       if (!sectorDistribution[sectorName]) {
         sectorDistribution[sectorName] = 0;
       }
@@ -117,7 +118,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     if (item.repartitionGeo && item.repartitionGeo.length > 0) {
       // Utiliser la vraie répartition géographique pondérée
       item.repartitionGeo.forEach(geo => {
-        const geoName = geo.name;
+        const geoName = normalizeGeoLabel(geo.name).label;
         if (!geoDistribution[geoName]) {
           geoDistribution[geoName] = 0;
         }
@@ -126,7 +127,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
       });
     } else {
       // Fallback : utiliser la géographie principale si pas de répartition détaillée
-      const geoName = getGeographyDisplayName(item.geography);
+      const geoName = normalizeGeoLabel(getGeographyDisplayName(item.geography)).label;
       if (!geoDistribution[geoName]) {
         geoDistribution[geoName] = 0;
       }

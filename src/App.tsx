@@ -2292,6 +2292,9 @@ const App: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Titre rattaché au comparateur */}
             <div className="mb-6">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-emerald-300/90 mb-2">
+                Comparateur SCPI autonome
+              </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Construisez votre portefeuille SCPI en toute autonomie, avec des outils d’analyse complets
               </h2>

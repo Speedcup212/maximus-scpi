@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { TrendingUp, DollarSign, PieChart, Shield, AlertCircle } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
 
 interface PortfolioSummaryHeaderProps {
   selectedScpis: SCPIExtended[];
@@ -18,8 +19,12 @@ const PortfolioSummaryHeader: React.FC<PortfolioSummaryHeaderProps> = ({ selecte
     const allSectors = new Set<string>();
     const allZones = new Set<string>();
     selectedScpis.forEach(scpi => {
-      scpi.sectors.forEach(s => allSectors.add(s.name));
-      scpi.geography.forEach(g => allZones.add(g.name));
+      scpi.sectors.forEach(s => {
+        allSectors.add(normalizeSectorLabel(s.name).label);
+      });
+      scpi.geography.forEach(g => {
+        allZones.add(normalizeGeoLabel(g.name).label);
+      });
     });
 
     // Calculate weighted average TOF (quality)

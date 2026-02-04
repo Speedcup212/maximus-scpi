@@ -36,110 +36,84 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
           {/* Halo discret derrière le CTA */}
           <div className="pointer-events-none absolute -bottom-16 right-0 h-48 w-48 rounded-full bg-emerald-500/20 blur-3xl" />
 
-          <div className="relative flex flex-col gap-6 px-5 py-7 sm:px-10 sm:py-10 lg:flex-row lg:items-center lg:gap-10">
-            {/* Colonne gauche : texte */}
-            <div className="flex-1">
+          <div className="relative flex flex-col gap-6 px-5 py-7 sm:px-10 sm:py-10">
+            <div className="flex flex-col gap-4">
               <p className="inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-emerald-300/90 border border-slate-700/70">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                Analyse SCPI · 2 modes
+                Parcours SCPI · 2 modes au choix
               </p>
 
               <h2
                 id="guided-scpi-title"
-                className="mt-3 text-2xl sm:text-3xl lg:text-[30px] font-semibold tracking-tight text-white"
+                className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Tu es un moteur d’analyse SCPI pédagogique et structurant.
+                Choisissez votre parcours SCPI en fonction de votre niveau
               </h2>
 
-              <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl">
-                Cet outil remplace l’ancien bloc “Parcours guidé – 5 questions”. Il est accessible librement,
-                sans inscription et sans collecte de données. L’utilisateur choisit un mode d’analyse puis obtient
-                un rendu clair, structuré et pédagogique.
+              <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
+                Une orientation rapide pour débuter ou une analyse approfondie pour aller plus loin.
               </p>
+            </div>
 
-              <div className="mt-4 space-y-2 text-xs sm:text-sm text-slate-300 max-w-2xl">
-                <p className="font-semibold text-slate-100">Cadre impératif (non négociable)</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Pas de conseil personnalisé, pas de recommandation d’investissement</li>
-                  <li>Aucun nom de SCPI, aucun produit cité</li>
-                  <li>Une structure de portefeuille cohérente, jamais une décision</li>
-                  <li>Clarté et pédagogie, sans promesse de performance</li>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6 shadow-inner shadow-black/40">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
+                    Recommandé pour débuter
+                  </span>
+                  <span className="text-[11px] text-slate-400">12 questions</span>
+                </div>
+                <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
+                  Orientation rapide – Débutant
+                </h3>
+                <p className="mt-2 text-sm text-slate-300">
+                  Une lecture claire de votre profil SCPI, sans jargon, pour vous orienter rapidement.
+                </p>
+                <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
+                  <li>2–3 minutes · format simplifié</li>
+                  <li>Résultat pédagogique et lisible</li>
+                  <li>Orientation générale, pas de décision</li>
                 </ul>
-              </div>
-
-              {/* Micro-bénéfices en un coup d'œil */}
-              <div className="mt-4 flex flex-wrap gap-2 text-[11px] sm:text-xs text-slate-300/90">
-                <span className="inline-flex items-center gap-1 rounded-full border border-slate-700/80 bg-slate-900/70 px-2.5 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  Mode Débutant · 12 questions
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-slate-700/80 bg-slate-900/70 px-2.5 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  Mode Expert · 25–35 questions
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-slate-700/80 bg-slate-900/70 px-2.5 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  Résultat structuré et défendable
-                </span>
-              </div>
-
-              {/* CTA + micro-réassurance */}
-              <div className="mt-5 flex flex-col items-start gap-2 sm:gap-2.5">
                 <button
                   type="button"
                   onClick={handleClick}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm sm:text-[15px] font-semibold text-slate-950 shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-400 hover:shadow-emerald-400/50 active:scale-[0.97]"
+                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400"
                 >
-                  Démarrer l’analyse SCPI
+                  Démarrer l’orientation rapide
                 </button>
-                <p className="text-[10px] sm:text-xs text-slate-400">
-                  Sans inscription · Sans collecte · Temps modulable selon le mode
+              </div>
+
+              <div className="rounded-2xl border border-slate-700 bg-slate-950/70 p-5 sm:p-6 shadow-inner shadow-black/50">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-blue-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue-200">
+                    Analyse avancée
+                  </span>
+                  <span className="text-[11px] text-slate-400">25–35 questions</span>
+                </div>
+                <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
+                  Analyse approfondie – Expert
+                </h3>
+                <p className="mt-2 text-sm text-slate-300">
+                  Une analyse structurée avec cohérence patrimoniale et allocation indicative détaillée.
                 </p>
+                <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
+                  <li>8–10 minutes · niveau détaillé</li>
+                  <li>Score de cohérence et contraintes</li>
+                  <li>Structure de portefeuille plus fine</li>
+                </ul>
+                <button
+                  type="button"
+                  onClick={handleClick}
+                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
+                >
+                  Lancer l’analyse approfondie
+                </button>
               </div>
             </div>
 
-            {/* Colonne droite : visuel simple, compatible mobile/desktop */}
-            <div className="flex w-full justify-center lg:w-auto lg:justify-end">
-              <div className="relative mt-1 w-full max-w-xs rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-4 text-xs sm:text-sm text-slate-200 shadow-inner shadow-black/40">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                    Choix du mode
-                  </span>
-                  <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300">
-                    Étape 0
-                  </span>
-                </div>
-
-                <div className="space-y-2.5">
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
-                    <p className="text-xs font-semibold text-slate-100">
-                      Orientation rapide – Débutant
-                    </p>
-                    <p className="mt-1 text-[11px] text-slate-300">
-                      12 questions structurantes · vocabulaire simplifié
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
-                    <p className="text-xs font-semibold text-slate-100">
-                      Analyse approfondie – Expert
-                    </p>
-                    <p className="mt-1 text-[11px] text-slate-300">
-                      25–35 questions · score de cohérence et contraintes
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-3 border-t border-slate-800/80 pt-3">
-                  <p className="text-[11px] text-slate-300">
-                    À la fin, vous obtenez une{' '}
-                    <span className="font-semibold text-emerald-300">
-                      structure d’allocation indicative
-                    </span>{' '}
-                    et les limites explicites de l’analyse.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <p className="text-[10px] sm:text-xs text-slate-400">
+              Cadre informatif uniquement · Aucun conseil personnalisé · Aucune recommandation d’investissement · Aucune promesse de performance
+            </p>
           </div>
         </div>
       </div>

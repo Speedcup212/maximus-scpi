@@ -4,6 +4,7 @@ import { PortfolioRecommendation, GuidedJourneyAnswers } from '../../types/guide
 import { Scpi } from '../../types/scpi';
 import { scpiData } from '../../data/scpiData';
 import { analyzePortfolio } from '../../utils/portfolioAnalysis';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
 import { adaptPortfolioToAmount, getMaxScpiCount } from '../../utils/portfolioAdaptation';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import SectionRepliable from './SectionRepliable';
@@ -85,19 +86,36 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
   });
 
   // Préparer les données pour les camemberts
-  const sectorData = Object.entries(analysis.sectorDistribution)
-    .map(([name, value], index) => ({
-      name,
-      value: Math.round(value * 10) / 10,
+  const sectorData = Object.values(
+    Object.entries(analysis.sectorDistribution).reduce((acc, [name, value]) => {
+      const normalized = normalizeSectorLabel(name);
+      acc[normalized.key] = acc[normalized.key]
+        ? { ...acc[normalized.key], value: acc[normalized.key].value + value }
+        : { name: normalized.label, value };
+      return acc;
+    }, {} as Record<string, { name: string; value: number }>)
+  )
+    .map((item, index) => ({
+      name: item.name,
+      value: Math.round(item.value * 10) / 10,
       color: LEGEND_COLORS.sectors[index % LEGEND_COLORS.sectors.length]
     }))
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
 
-  const geoData = Object.entries(analysis.geoDistribution)
-    .map(([name, value], index) => ({
-      name,
-      value: Math.round(value * 10) / 10,
+  const geoData = Object.values(
+    Object.entries(analysis.geoDistribution).reduce((acc, [name, value]) => {
+      const normalized = normalizeGeoLabel(name);
+      if (!acc[normalized.key]) {
+        acc[normalized.key] = { name: normalized.label, value: 0 };
+      }
+      acc[normalized.key].value += value;
+      return acc;
+    }, {} as Record<string, { name: string; value: number }>)
+  )
+    .map((item, index) => ({
+      name: item.name,
+      value: Math.round(item.value * 10) / 10,
       color: LEGEND_COLORS.geography[index % LEGEND_COLORS.geography.length]
     }))
     .sort((a, b) => b.value - a.value)
@@ -416,9 +434,20 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
     const result = portfolio.scpis
       .map(p => {
         const scpi = scpiData.find(s => s.id === p.scpiId);
-        return scpi ? { scpi, allocation: p.allocation } : null;
+        return scpi
+          ? {
+              scpi: {
+                ...scpi,
+                rating: p.maximusIndex,
+                isRecommended: true,
+              },
+              allocation: p.allocation,
+              qualityScore: p.qualityScore,
+              maximusIndex: p.maximusIndex,
+            }
+          : null;
       })
-      .filter((item): item is { scpi: Scpi; allocation: number } => item !== null);
+      .filter((item): item is { scpi: Scpi; allocation: number; qualityScore?: number; maximusIndex?: number } => item !== null);
     
     return result;
   }, [portfolio.scpis]);
@@ -439,38 +468,97 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   const portfolioLogic = useMemo(() => {
     const { taxSituation, objective, horizon, immediateIncome } = answers;
     
-    let logic = "Ce portefeuille a été construit en tenant compte de votre situation personnelle. ";
+    let logic = "✅ Ce portefeuille a été construit en tenant compte de votre situation personnelle. ";
     
     // Fiscalité
     if (taxSituation === 'plus-6000') {
-      logic += "Votre situation fiscale (plus de 6 000 € d'impôt annuel) a orienté la sélection vers des SCPI permettant une optimisation fiscale, notamment européennes. ";
+      logic += "💡 Fiscalité : votre imposition élevée oriente la lecture vers des SCPI avec une meilleure efficacité fiscale, notamment européennes. ";
     } else if (taxSituation === 'moins-2000') {
-      logic += "Votre faible imposition (moins de 2 000 € d'impôt annuel) permet de privilégier la performance brute. ";
+      logic += "💡 Fiscalité : votre faible imposition permet de privilégier le rendement brut sans complexité excessive. ";
     } else if (taxSituation === '2000-6000') {
-      logic += "Votre situation fiscale intermédiaire (entre 2 000 € et 6 000 € d'impôt annuel) permet d'équilibrer rendement et diversification. ";
+      logic += "💡 Fiscalité : votre niveau intermédiaire conduit à équilibrer rendement et diversification. ";
+    } else if (taxSituation === 'je-ne-sais-pas') {
+      logic += "💡 Fiscalité : en l’absence d’information précise, l’analyse reste neutre et prudente. ";
     }
     
     // Objectif
     if (objective === 'revenus-reguliers' || immediateIncome === 'oui') {
-      logic += "L'accent a été mis sur la génération de revenus réguliers et prévisibles. ";
+      logic += "💶 Objectif : priorité aux revenus réguliers et prévisibles. ";
     } else if (objective === 'croissance-long-terme' || horizon === 'plus-15-ans') {
-      logic += "L'horizon long terme permet de privilégier la croissance du capital. ";
+      logic += "📈 Objectif : focus sur la croissance du capital à long terme. ";
     } else if (objective === 'revenus-et-croissance') {
-      logic += "Un équilibre a été recherché entre revenus réguliers et croissance du capital. ";
+      logic += "⚖️ Objectif : équilibre recherché entre revenus et croissance. ";
     }
     
     // Horizon
     if (horizon === 'moins-8-ans') {
-      logic += "Avec un horizon plus court, la stabilité et la liquidité relative ont été privilégiées. ";
+      logic += "🕒 Horizon : avec un horizon plus court, la stabilité et la liquidité relative sont privilégiées. ";
     } else if (horizon === 'plus-15-ans') {
-      logic += "L'horizon long terme permet de mieux absorber les fluctuations de marché. ";
+      logic += "🧭 Horizon : long terme, ce qui permet d’absorber les cycles immobiliers. ";
     }
     
     // Risque
-    logic += `Le niveau de risque ${portfolio.riskLevel === 'faible' ? 'faible' : portfolio.riskLevel === 'modere' ? 'modéré' : 'dynamique'} de ce portefeuille correspond à votre profil.`;
+    logic += `🛡️ Risque : niveau ${portfolio.riskLevel === 'faible' ? 'faible' : portfolio.riskLevel === 'modere' ? 'modéré' : 'dynamique'} cohérent avec votre profil.`;
     
     return logic;
   }, [answers, portfolio.riskLevel]);
+
+  const executiveSummary = useMemo(() => {
+    const { taxSituation, objective, horizon } = answers;
+    const objectiveLabel = objective === 'revenus-reguliers'
+      ? 'revenus réguliers'
+      : objective === 'croissance-long-terme'
+        ? 'croissance du capital'
+        : objective === 'revenus-et-croissance'
+          ? 'équilibre revenus / croissance'
+          : 'orientation guidée';
+    const horizonLabel = horizon === 'moins-8-ans'
+      ? 'horizon court'
+      : horizon === 'plus-15-ans'
+        ? 'horizon long'
+        : 'horizon intermédiaire';
+    const taxLabel = taxSituation === 'plus-6000'
+      ? 'fiscalité élevée'
+      : taxSituation === 'moins-2000'
+        ? 'fiscalité faible'
+        : taxSituation === '2000-6000'
+          ? 'fiscalité intermédiaire'
+          : 'fiscalité non précisée';
+    const riskLabel = portfolio.riskLevel === 'faible' ? 'risque faible' : portfolio.riskLevel === 'modere' ? 'risque modéré' : 'risque dynamique';
+
+    return `Profil ${objectiveLabel}, ${horizonLabel}, ${riskLabel}, ${taxLabel}. Logique dominante : cohérence long terme et stabilité de l’allocation.`;
+  }, [answers, portfolio.riskLevel]);
+
+  const arbitrages = useMemo(() => {
+    const points: string[] = [];
+    points.push("Stabilité et cohérence privilégiées plutôt qu’un rendement maximal.");
+    points.push("Nombre de SCPI volontairement limité pour garder une allocation lisible.");
+    points.push("Diversification géographique pour réduire la dépendance à un seul marché.");
+    if (answers.taxSituation === 'plus-6000') {
+      points.push("Lecture fiscale orientée vers l’efficacité plutôt qu’une optimisation agressive.");
+    }
+    return points;
+  }, [answers.taxSituation]);
+
+  const allocationReading = useMemo(() => {
+    return [
+      "Diversification sectorielle : mutualisation du risque locatif.",
+      "Diversification géographique : exposition à des cycles immobiliers différents.",
+      "Protection : réduction du risque de concentration.",
+      "Limites : ne protège pas d’un choc immobilier général ni d’une hausse brutale des taux."
+    ];
+  }, []);
+
+  const notThisPortfolio = useMemo(() => {
+    const points = [
+      "Une stratégie opportuniste court terme.",
+      "Une recherche de rendement maximal.",
+    ];
+    if (answers.taxSituation === 'plus-6000') {
+      points.push("Une optimisation fiscale agressive.");
+    }
+    return points;
+  }, [answers.taxSituation]);
 
   const riskLevelColors = {
     faible: 'bg-green-100 text-green-800 border-green-300',
@@ -594,22 +682,22 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
     const { objective, immediateIncome, horizon } = answers;
     
     if (objective === 'revenus-reguliers' || immediateIncome === 'oui') {
-      points.push("Générer des revenus réguliers et prévisibles");
-      points.push("Préserver votre capital investi");
+      points.push("💶 Revenus réguliers et prévisibles");
+      points.push("🛡️ Préserver le capital investi");
     } else if (objective === 'croissance-long-terme' || horizon === 'plus-15-ans') {
-      points.push("Faire progresser votre capital sur le long terme");
-      points.push("Bénéficier d'une diversification solide");
+      points.push("📈 Croissance du capital sur le long terme");
+      points.push("🌍 Diversification solide pour lisser le risque");
     } else {
-      points.push("Équilibrer revenus réguliers et croissance du capital");
-      points.push("Diversifier votre investissement immobilier");
+      points.push("⚖️ Équilibre revenus / croissance");
+      points.push("🏢 Diversification de l’investissement immobilier");
     }
     
-    points.push("Réduire les risques grâce à la diversification");
+    points.push("🧩 Réduction du risque par diversification");
     
     if (horizon === 'moins-8-ans') {
-      points.push("Adapter votre investissement à un horizon plus court");
+      points.push("🕒 Adapté à un horizon plus court");
     } else if (horizon === 'plus-15-ans') {
-      points.push("Optimiser votre investissement pour le long terme");
+      points.push("🧭 Optimisé pour le long terme");
     }
     
     return points.slice(0, 4); // Maximum 4 points
@@ -710,26 +798,99 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
           
           {/* Section 1 : Pourquoi ce portefeuille vous correspond */}
           <SectionRepliable
-            title="Pourquoi ce portefeuille vous correspond"
+            title="Restitution experte"
             isExpanded={expandedSections.why}
             onToggle={() => setExpandedSections(prev => ({ ...prev, why: !prev.why }))}
           >
-            <p className="text-slate-200 leading-relaxed mb-4">
-              Ce portefeuille a été construit en tenant compte de votre situation personnelle et de vos objectifs.
-            </p>
-            <ul className="space-y-2">
-              {portfolioBulletPoints.map((point, index) => (
-                <li key={index} className="flex items-start gap-3 text-slate-200">
-                  <span className="text-emerald-400 mt-1">•</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">1️⃣ Synthèse exécutive — verrou décisionnel</h4>
+                <p className="text-slate-200 leading-relaxed">{executiveSummary}</p>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">2️⃣ Arbitrages structurants — cœur expert</h4>
+                <ul className="space-y-2">
+                  {arbitrages.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">3️⃣ Pourquoi ce portefeuille est cohérent avec votre situation</h4>
+                <p className="text-slate-200 leading-relaxed mb-3">{portfolioLogic}</p>
+                <ul className="space-y-2">
+                  {portfolioBulletPoints.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">4️⃣ Lecture experte de l’allocation</h4>
+                <ul className="space-y-2">
+                  {allocationReading.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">5️⃣ Ce que ce portefeuille n’est pas — cadre de limites</h4>
+                <ul className="space-y-2">
+                  {notThisPortfolio.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">6️⃣ Projection long terme — cadre de lecture, pas promesse</h4>
+                <p className="text-slate-200 leading-relaxed mb-3">
+                  La projection à 15 ans est un outil de compréhension basé sur des hypothèses constantes, sans valeur prédictive.
+                </p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="text-emerald-400 mt-1">•</span>
+                    <span>Scénario central : continuité des tendances observées.</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="text-emerald-400 mt-1">•</span>
+                    <span>Scénario défavorable : pression sur les revenus ou la valorisation.</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-slate-200">
+                    <span className="text-emerald-400 mt-1">•</span>
+                    <span>Scénario favorable : amélioration progressive des cycles immobiliers.</span>
+                  </li>
+                </ul>
+                <p className="text-slate-300 text-xs mt-3">Les performances passées ne préjugent pas des performances futures.</p>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">7️⃣ Produits (SCPI) — illustration, pas justification</h4>
+                <p className="text-slate-200 leading-relaxed">
+                  Les SCPI présentées ci-dessous illustrent la logique d’allocation retenue. Elles ne constituent pas une recommandation personnalisée.
+                </p>
+              </div>
+            </div>
           </SectionRepliable>
 
           {/* Section 2 : Composition du portefeuille */}
           <SectionRepliable
-            title={`Les ${portfolioScpis.length} SCPI recommandées`}
+            title={`Les ${portfolioScpis.length} SCPI (illustration de la stratégie)`}
             subtitle={isAdapted 
               ? `Pour un montant de ${investmentAmount.toLocaleString('fr-FR')} €, le portefeuille est concentré sur ${portfolioScpis.length} SCPI pour conserver une allocation lisible et efficace.`
               : `${portfolioScpis.length} SCPI sélectionnées pour leur solidité, leur taux d'occupation élevé, leur faible endettement et leur décote à l'achat.`
@@ -788,8 +949,8 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
               Prochaine étape
             </h3>
             <p className="text-slate-200 leading-relaxed text-xs sm:text-sm">
-              Cette recommandation constitue une base solide pour votre projet. 
-              Un conseiller certifié peut vous accompagner pour la valider et affiner votre stratégie.
+              Cette analyse constitue une base de travail cohérente. Elle peut être validée, ajustée ou challengée
+              avec un professionnel si vous le souhaitez. La décision finale vous appartient.
             </p>
           </div>
 

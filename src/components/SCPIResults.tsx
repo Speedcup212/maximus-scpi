@@ -1,6 +1,7 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { AMFProfileResult } from "../utils/amfScoring";
+import { normalizeGeoLabel, normalizeSectorLabel } from "../utils/labelNormalization";
 import ScpiTable from "./ScpiTable";
 
 // 🎨 Couleurs des graphiques
@@ -18,9 +19,10 @@ const SCPIResults: React.FC<SCPIResultsProps> = ({ result, onBack }) => {
   const sectorData = recommendations.flatMap(r => r.scpi.repartitionSector || []);
   const aggregatedSectors = Object.values(
     sectorData.reduce((acc, s) => {
-      acc[s.name] = acc[s.name]
-        ? { ...acc[s.name], value: acc[s.name].value + s.value }
-        : { ...s };
+      const normalized = normalizeSectorLabel(s.name);
+      acc[normalized.key] = acc[normalized.key]
+        ? { ...acc[normalized.key], value: acc[normalized.key].value + s.value }
+        : { ...s, name: normalized.label };
       return acc;
     }, {} as Record<string, { name: string; value: number }>)
   );
@@ -29,9 +31,10 @@ const SCPIResults: React.FC<SCPIResultsProps> = ({ result, onBack }) => {
   const geoData = recommendations.flatMap(r => r.scpi.repartitionGeo || []);
   const aggregatedGeo = Object.values(
     geoData.reduce((acc, g) => {
-      acc[g.name] = acc[g.name]
-        ? { ...acc[g.name], value: acc[g.name].value + g.value }
-        : { ...g };
+      const normalized = normalizeGeoLabel(g.name);
+      acc[normalized.key] = acc[normalized.key]
+        ? { ...acc[normalized.key], value: acc[normalized.key].value + g.value }
+        : { ...g, name: normalized.label };
       return acc;
     }, {} as Record<string, { name: string; value: number }>)
   );

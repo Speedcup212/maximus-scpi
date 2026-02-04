@@ -11,6 +11,33 @@ export interface GuidedJourneyAnswers {
   horizon: InvestmentHorizon;
   immediateIncome: ImmediateIncomeNeed;
   investmentAmount: number; // Montant d'investissement en euros
+  patrimoineValue?: number;
+  assetSplit?: string;
+  scpiShare?: string;
+  scpiExposure?: string;
+  otherRealEstateIncome?: string;
+  tmiEstimate?: string;
+  realEstateIncomeExposure?: string;
+  taxConstraintFeeling?: string;
+  holdingStructure?: string;
+  incomeUse?: string;
+  priority?: string;
+  temporaryDrawdown?: string;
+  yieldDropReaction?: string;
+  debtSensitivity?: string;
+  acceptRecentScpi?: string;
+  cycleTolerance?: string;
+  preferredZones?: string;
+  sectorPreferences?: string;
+  sectorsToLimit?: string;
+  acceptSectorOverlap?: string;
+  capitalizationImportance?: string;
+  targetScpiCount?: string;
+  maxPerScpi?: string;
+  exclusions?: string;
+  avoidCriteria?: string;
+  postureUnderstanding?: string;
+  expectedOutcome?: string;
 }
 
 export type PortfolioType = 
@@ -30,6 +57,8 @@ export interface Portfolio {
   scpis: Array<{
     scpiId: number;
     allocation: number; // Pourcentage (0-100)
+    qualityScore?: number; // Score global (0-100)
+    maximusIndex?: number; // Indice visuel MaximusSCPI (1-5)
   }>;
   logic: string; // Explication de la logique de sélection
 }

@@ -20,44 +20,210 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     key: keyof GuidedJourneyAnswers;
     options?: Array<{ value: string; label: string; subtitle?: string }>;
     type?: 'number';
+    info?: string;
+    numberConfig?: {
+      min: number;
+      step: number;
+      placeholder: string;
+      quickValues?: number[];
+      suffix?: string;
+      helper?: string;
+    };
+    autoAdvance?: boolean;
   }> = [
     {
       id: 1,
-      question: "Combien d'impôt sur le revenu payez-vous chaque année ?",
-      key: 'taxSituation' as keyof GuidedJourneyAnswers,
-      options: [
-        { value: 'moins-2000', label: 'Moins de 2 000 € par an', subtitle: '(peu ou pas fiscalisé)' },
-        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 € par an', subtitle: '(fiscalité intermédiaire)' },
-        { value: 'plus-6000', label: 'Plus de 6 000 € par an', subtitle: '(fortement fiscalisé)' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas / je préfère ne pas répondre' },
-      ],
+      question: "Quelle est la valeur de votre patrimoine (hors résidence principale) ?",
+      key: 'patrimoineValue',
+      type: 'number',
+      autoAdvance: false,
+      numberConfig: {
+        min: 0,
+        step: 10000,
+        placeholder: "Montant estimatif",
+        quickValues: [100000, 250000, 500000, 1000000, 2000000, 3000000],
+        suffix: "€",
+        helper: "Indication approximative, sans détail."
+      },
+      info: "ⓘ Information : cela permet d’estimer le poids réel des SCPI dans votre patrimoine global."
     },
     {
       id: 2,
-      question: "Avec cet investissement immobilier, souhaitez-vous plutôt…",
-      key: 'objective' as keyof GuidedJourneyAnswers,
+      question: "Comment se répartit votre patrimoine (hors RP) ?",
+      key: 'assetSplit',
       options: [
-        { value: 'revenus-reguliers', label: 'Avoir des revenus réguliers' },
-        { value: 'revenus-et-croissance', label: 'Avoir des revenus et faire progresser mon capital' },
-        { value: 'croissance-long-terme', label: 'Faire progresser mon capital sur le long terme' },
-        { value: 'etre-guide', label: 'Être guidé, je débute' },
-      ],
+        { value: 'majoritairement-immobilier', label: 'Majoritairement immobilier' },
+        { value: 'equilibre', label: 'Équilibré immobilier / financier' },
+        { value: 'majoritairement-financier', label: 'Majoritairement financier' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ]
     },
     {
       id: 3,
-      question: "Sur combien de temps envisagez-vous cet investissement ?",
-      key: 'horizon' as keyof GuidedJourneyAnswers,
+      question: "Quelle est la part actuelle des SCPI dans votre patrimoine ?",
+      key: 'scpiShare',
       options: [
-        { value: 'moins-8-ans', label: 'Moins de 8 ans' },
-        { value: '8-15-ans', label: 'Entre 8 et 15 ans' },
-        { value: 'plus-15-ans', label: 'Plus de 15 ans' },
+        { value: 'aucune', label: 'Aucune (0 %)' },
+        { value: 'faible', label: 'Faible (1–10 %)' },
+        { value: 'intermediaire', label: 'Intermédiaire (10–30 %)' },
+        { value: 'importante', label: 'Importante (30 % et +)' },
         { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
       ],
     },
     {
       id: 4,
+      question: "Les SCPI représentent-elles une première exposition ou une poche existante ?",
+      key: 'scpiExposure',
+      options: [
+        { value: 'premiere', label: 'Première exposition' },
+        { value: 'poche-existante', label: 'Poche existante' },
+        { value: 'renforcement', label: 'Renforcement d’une poche existante' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 5,
+      question: "Avez-vous déjà des revenus immobiliers hors SCPI ?",
+      key: 'otherRealEstateIncome',
+      options: [
+        { value: 'oui', label: 'Oui' },
+        { value: 'non', label: 'Non' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : cela aide à mesurer votre exposition immobilière globale."
+    },
+    {
+      id: 6,
+      question: "Quel montant souhaitez-vous investir en SCPI ?",
+      key: 'investmentAmount',
+      type: 'number',
+      autoAdvance: false,
+      numberConfig: {
+        min: 1000,
+        step: 1000,
+        placeholder: "Montant envisagé",
+        quickValues: [10000, 25000, 50000, 100000, 200000, 500000],
+        suffix: "€",
+        helper: "Minimum 1 000 €."
+      }
+    },
+    {
+      id: 7,
+      question: "Combien d'impôt sur le revenu payez-vous chaque année ?",
+      key: 'taxSituation',
+      options: [
+        { value: 'moins-2000', label: 'Moins de 2 000 € par an', subtitle: 'Faible imposition' },
+        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 € par an', subtitle: 'Imposition intermédiaire' },
+        { value: 'plus-6000', label: 'Plus de 6 000 € par an', subtitle: 'Imposition élevée' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : la fiscalité influence la lecture des SCPI, sans constituer un conseil."
+    },
+    {
+      id: 8,
+      question: "Quelle est votre TMI estimée ?",
+      key: 'tmiEstimate',
+      options: [
+        { value: 'tmi-0-11', label: '0–11 %' },
+        { value: 'tmi-30', label: '30 %' },
+        { value: 'tmi-41', label: '41 %' },
+        { value: 'tmi-45', label: '45 %' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 9,
+      question: "Êtes-vous déjà exposé aux revenus fonciers ?",
+      key: 'realEstateIncomeExposure',
+      options: [
+        { value: 'oui-significatif', label: 'Oui, de façon significative' },
+        { value: 'oui-limite', label: 'Oui, mais limité' },
+        { value: 'non', label: 'Non' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 10,
+      question: "Quel est votre ressenti sur la contrainte fiscale actuelle ?",
+      key: 'taxConstraintFeeling',
+      options: [
+        { value: 'forte', label: 'Forte' },
+        { value: 'moderee', label: 'Modérée' },
+        { value: 'faible', label: 'Faible' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 11,
+      question: "Quel cadre de détention envisagez-vous ?",
+      key: 'holdingStructure',
+      options: [
+        { value: 'direct', label: 'Détention directe' },
+        { value: 'assurance-vie', label: 'Assurance-vie' },
+        { value: 'societe', label: 'Société' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : le cadre de détention influence la lecture des revenus et de la fiscalité."
+    },
+    {
+      id: 12,
+      question: "Quel est votre objectif principal ?",
+      key: 'objective',
+      options: [
+        { value: 'revenus-reguliers', label: 'Revenus réguliers' },
+        { value: 'revenus-et-croissance', label: 'Revenus + croissance' },
+        { value: 'croissance-long-terme', label: 'Croissance long terme' },
+        { value: 'etre-guide', label: 'Je débute et souhaite être guidé' },
+      ],
+    },
+    {
+      id: 13,
+      question: "Que souhaitez-vous faire des revenus générés ?",
+      key: 'incomeUse',
+      options: [
+        { value: 'consommer', label: 'Les utiliser' },
+        { value: 'reinvestir', label: 'Les réinvestir' },
+        { value: 'mixte', label: 'Un mix des deux' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 14,
+      question: "Quelle priorité correspond le mieux à votre approche ?",
+      key: 'priority',
+      options: [
+        { value: 'stabilite', label: 'Stabilité' },
+        { value: 'equilibre', label: 'Équilibre' },
+        { value: 'long-terme', label: 'Long terme' },
+      ],
+    },
+    {
+      id: 15,
+      question: "Acceptez-vous une baisse temporaire des revenus ?",
+      key: 'temporaryDrawdown',
+      options: [
+        { value: 'oui', label: 'Oui' },
+        { value: 'limite', label: 'Oui, mais limitée' },
+        { value: 'non', label: 'Non' },
+      ],
+      info: "ⓘ Information : les cycles immobiliers peuvent impacter les revenus à court terme."
+    },
+    {
+      id: 16,
+      question: "Quel horizon de détention visez-vous ?",
+      key: 'horizon',
+      options: [
+        { value: 'moins-8-ans', label: 'Moins de 8 ans' },
+        { value: '8-15-ans', label: '8 à 15 ans' },
+        { value: 'plus-15-ans', label: 'Plus de 15 ans' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : l’immobilier s’apprécie sur le long terme, avec des cycles."
+    },
+    {
+      id: 17,
       question: "Avez-vous besoin de revenus rapidement ?",
-      key: 'immediateIncome' as keyof GuidedJourneyAnswers,
+      key: 'immediateIncome',
       options: [
         { value: 'oui', label: 'Oui' },
         { value: 'non', label: 'Non' },
@@ -65,10 +231,167 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       ],
     },
     {
-      id: 5,
-      question: "Combien souhaitez-vous investir ?",
-      key: 'investmentAmount' as keyof GuidedJourneyAnswers,
-      type: 'number', // Type spécial pour cette question
+      id: 18,
+      question: "Comment réagiriez-vous à une baisse de rendement ?",
+      key: 'yieldDropReaction',
+      options: [
+        { value: 'accepter', label: 'Je l’accepte si c’est temporaire' },
+        { value: 'surveiller', label: 'Je surveille de près' },
+        { value: 'inquiet', label: 'Je serais inquiet' },
+      ],
+    },
+    {
+      id: 19,
+      question: "Quelle est votre sensibilité à l’endettement des SCPI ?",
+      key: 'debtSensitivity',
+      options: [
+        { value: 'faible', label: 'Faible' },
+        { value: 'moderee', label: 'Modérée' },
+        { value: 'forte', label: 'Forte' },
+      ],
+    },
+    {
+      id: 20,
+      question: "Acceptez-vous des SCPI récentes ?",
+      key: 'acceptRecentScpi',
+      options: [
+        { value: 'oui', label: 'Oui' },
+        { value: 'oui-avec-limite', label: 'Oui, mais en minorité' },
+        { value: 'non', label: 'Non' },
+      ],
+    },
+    {
+      id: 21,
+      question: "Quelle est votre tolérance aux cycles immobiliers ?",
+      key: 'cycleTolerance',
+      options: [
+        { value: 'faible', label: 'Faible' },
+        { value: 'moyenne', label: 'Moyenne' },
+        { value: 'elevee', label: 'Élevée' },
+      ],
+    },
+    {
+      id: 22,
+      question: "Quelles zones géographiques privilégiez-vous ?",
+      key: 'preferredZones',
+      options: [
+        { value: 'france', label: 'France' },
+        { value: 'europe', label: 'Europe' },
+        { value: 'mixte', label: 'Mix France + Europe' },
+        { value: 'international', label: 'International' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : la diversification géographique réduit la dépendance à un seul marché."
+    },
+    {
+      id: 23,
+      question: "Quels secteurs vous attirent le plus ?",
+      key: 'sectorPreferences',
+      options: [
+        { value: 'bureaux', label: 'Bureaux' },
+        { value: 'commerces', label: 'Commerces' },
+        { value: 'sante', label: 'Santé & éducation' },
+        { value: 'logistique', label: 'Logistique' },
+        { value: 'diversifie', label: 'Diversifié' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 24,
+      question: "Quels secteurs souhaitez-vous limiter ?",
+      key: 'sectorsToLimit',
+      options: [
+        { value: 'aucun', label: 'Aucun en particulier' },
+        { value: 'bureaux', label: 'Bureaux' },
+        { value: 'commerces', label: 'Commerces' },
+        { value: 'hotellerie', label: 'Hôtellerie & loisirs' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 25,
+      question: "Acceptez-vous des doublons sectoriels ?",
+      key: 'acceptSectorOverlap',
+      options: [
+        { value: 'oui', label: 'Oui' },
+        { value: 'limite', label: 'Oui, mais limités' },
+        { value: 'non', label: 'Non' },
+      ],
+    },
+    {
+      id: 26,
+      question: "Quelle importance accordez-vous à la capitalisation ?",
+      key: 'capitalizationImportance',
+      options: [
+        { value: 'faible', label: 'Faible' },
+        { value: 'moyenne', label: 'Moyenne' },
+        { value: 'forte', label: 'Forte' },
+      ],
+    },
+    {
+      id: 27,
+      question: "Combien de SCPI souhaitez-vous détenir ?",
+      key: 'targetScpiCount',
+      options: [
+        { value: '2-3', label: '2–3' },
+        { value: '4-6', label: '4–6' },
+        { value: '7-plus', label: '7 et plus' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 28,
+      question: "Souhaitez-vous plafonner la part par SCPI ?",
+      key: 'maxPerScpi',
+      options: [
+        { value: '10', label: '10 % max' },
+        { value: '20', label: '20 % max' },
+        { value: '25', label: '25 % max' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 29,
+      question: "Avez-vous des exclusions par principe ?",
+      key: 'exclusions',
+      options: [
+        { value: 'aucune', label: 'Aucune' },
+        { value: 'geographie', label: 'Oui (géographie)' },
+        { value: 'sectoriel', label: 'Oui (sectoriel)' },
+        { value: 'autre', label: 'Oui (autre)' },
+      ],
+    },
+    {
+      id: 30,
+      question: "Quels critères souhaitez-vous éviter en priorité ?",
+      key: 'avoidCriteria',
+      options: [
+        { value: 'surcote', label: 'Surcote' },
+        { value: 'endettement', label: 'Endettement élevé' },
+        { value: 'jeunesse', label: 'SCPI trop récentes' },
+        { value: 'aucun', label: 'Aucun en particulier' },
+      ],
+    },
+    {
+      id: 31,
+      question: "Quel niveau d’explication attendez-vous ?",
+      key: 'postureUnderstanding',
+      options: [
+        { value: 'pedagogique', label: 'Comprendre les logiques' },
+        { value: 'synthese', label: 'Synthèse rapide' },
+        { value: 'detail', label: 'Détails complets' },
+      ],
+      info: "ⓘ Information : l’outil reste informatif et n’émet aucun conseil personnalisé."
+    },
+    {
+      id: 32,
+      question: "À l’issue de l’analyse, que souhaitez-vous obtenir ?",
+      key: 'expectedOutcome',
+      options: [
+        { value: 'autonomie', label: 'Être autonome dans mes choix' },
+        { value: 'clarte', label: 'Clarifier mes arbitrages' },
+        { value: 'echange', label: 'Un échange pour aller plus loin' },
+      ],
     },
   ];
 
@@ -82,10 +405,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     };
     setAnswers(newAnswers);
 
-    // Pour la question 5 (montant), on ne passe JAMAIS automatiquement à la suivante
-    // L'utilisateur doit cliquer sur le bouton "Voir ma recommandation"
-    if (currentQ.id === 5) {
-      return; // Ne pas passer à la question suivante automatiquement
+    // Ne pas auto-avancer pour les questions numériques
+    if (currentQ.type === 'number') {
+      return;
     }
 
     // Passer automatiquement à la question suivante après un court délai
@@ -122,10 +444,10 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Votre parcours d'investissement guidé
+            Analyse approfondie – Expert
           </h1>
           <p className="text-lg text-slate-300">
-            Répondez à 5 questions simples pour recevoir une recommandation personnalisée
+            Une analyse structurée pour évaluer la cohérence patrimoniale de votre stratégie SCPI.
           </p>
         </div>
 
@@ -151,17 +473,17 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
             </h2>
             <p className="text-sm text-slate-400 flex items-center gap-2">
               <HelpCircle className="w-4 h-4" />
-              Toutes les réponses sont acceptées, y compris "Je ne sais pas"
+              {currentQ.info || "ⓘ Information : cette question aide à clarifier la cohérence de votre profil SCPI."}
             </p>
           </div>
 
           {currentQ.type === 'number' ? (
-            // Question 5 : Input numérique pour le montant
+            // Question numérique
             <div className="space-y-4">
               <div className="relative">
                 <input
                   type="number"
-                  value={answers.investmentAmount || ''}
+                  value={answers[currentQ.key] || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === '' || value === '0') {
@@ -170,51 +492,62 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
                       handleAnswer(Number(value));
                     }
                   }}
-                  min={1000}
-                  step={1000}
-                  placeholder="Entrez un montant"
+                  min={currentQ.numberConfig?.min}
+                  step={currentQ.numberConfig?.step}
+                  placeholder={currentQ.numberConfig?.placeholder}
                   className="w-full px-4 py-4 bg-slate-800 border-2 border-slate-600 text-white rounded-xl text-2xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-xl">€</span>
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-xl">
+                  {currentQ.numberConfig?.suffix || ''}
+                </span>
               </div>
-              <p className="text-xs text-slate-400">Minimum: 1 000 €</p>
+              {currentQ.numberConfig?.helper && (
+                <p className="text-xs text-slate-400">{currentQ.numberConfig.helper}</p>
+              )}
               
               {/* Boutons de montants rapides */}
-              <div>
-                <p className="text-sm text-slate-300 mb-3">Montants rapides :</p>
-                <div className="grid grid-cols-3 gap-3">
-                  {[10000, 25000, 50000, 100000, 200000, 500000].map((amount) => {
-                    const isSelected = answers.investmentAmount === amount;
-                    return (
-                      <button
-                        key={amount}
-                        onClick={() => handleAnswer(amount)}
-                        className={`px-4 py-3 border-2 rounded-xl text-sm font-semibold transition-all ${
-                          isSelected
-                            ? 'bg-emerald-600 border-emerald-500 text-white'
-                            : 'bg-slate-800 hover:bg-slate-700 border-slate-600 hover:border-emerald-500 text-slate-200'
-                        }`}
-                      >
-                        {amount >= 1000 ? `${amount / 1000}k€` : `${amount}€`}
-                      </button>
-                    );
-                  })}
+              {currentQ.numberConfig?.quickValues && (
+                <div>
+                  <p className="text-sm text-slate-300 mb-3">Montants rapides :</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {currentQ.numberConfig.quickValues.map((amount) => {
+                      const isSelected = answers[currentQ.key] === amount;
+                      return (
+                        <button
+                          key={amount}
+                          onClick={() => handleAnswer(amount)}
+                          className={`px-4 py-3 border-2 rounded-xl text-sm font-semibold transition-all ${
+                            isSelected
+                              ? 'bg-emerald-600 border-emerald-500 text-white'
+                              : 'bg-slate-800 hover:bg-slate-700 border-slate-600 hover:border-emerald-500 text-slate-200'
+                          }`}
+                        >
+                          {amount >= 1000 ? `${amount / 1000}k€` : `${amount}€`}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Bouton continuer */}
-              {answers.investmentAmount && typeof answers.investmentAmount === 'number' && answers.investmentAmount >= 1000 && (
+              {typeof answers[currentQ.key] === 'number' &&
+                (answers[currentQ.key] as number) >= (currentQ.numberConfig?.min || 0) && (
                 <button
                   onClick={() => {
                     const completeAnswers = {
                       ...answers,
-                      investmentAmount: answers.investmentAmount as number,
+                      [currentQ.key]: answers[currentQ.key] as number,
                     };
-                    onComplete(completeAnswers as GuidedJourneyAnswers);
+                    if (isLastQuestion) {
+                      onComplete(completeAnswers as GuidedJourneyAnswers);
+                    } else {
+                      setCurrentQuestion(prev => prev + 1);
+                    }
                   }}
                   className="w-full mt-4 px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-colors"
                 >
-                  Voir ma recommandation
+                  {isLastQuestion ? 'Voir mon analyse' : 'Continuer'}
                 </button>
               )}
             </div>
@@ -266,8 +599,8 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Info Box */}
         <div className="mt-8 bg-slate-900/80 border border-slate-700 rounded-xl p-4">
           <p className="text-sm text-slate-200">
-            <strong>Conseil professionnel :</strong> Ce questionnaire vous guide vers un portefeuille adapté à votre situation. 
-            Aucune promesse de performance. Investissement avec risque de perte en capital.
+            <strong>Information :</strong> Analyse informative uniquement. 
+            Aucune recommandation personnalisée, aucune promesse de rendement.
           </p>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
 import PieChart from '../PieChart';
+import { normalizeGeoLabel } from '../../utils/labelNormalization';
 
 interface GeographyAllocationProps {
   selectedScpis: SCPIExtended[];
@@ -17,20 +18,24 @@ const GeographyAllocation: React.FC<GeographyAllocationProps> = ({ selectedScpis
   const { weights } = useAllocation();
 
   const geographyData = useMemo(() => {
-    const geoMap: Record<string, number> = {};
+    const geoMap: Record<string, { name: string; value: number }> = {};
 
     selectedScpis.forEach(scpi => {
       const weight = weights[scpi.id] || 0;
       scpi.geography.forEach(geo => {
         const weightedValue = (geo.value * weight) / 100;
-        geoMap[geo.name] = (geoMap[geo.name] || 0) + weightedValue;
+        const normalized = normalizeGeoLabel(geo.name);
+        if (!geoMap[normalized.key]) {
+          geoMap[normalized.key] = { name: normalized.label, value: 0 };
+        }
+        geoMap[normalized.key].value += weightedValue;
       });
     });
 
-    return Object.entries(geoMap)
-      .map(([name, value], index) => ({
-        name,
-        value: Math.round(value * 10) / 10,
+    return Object.values(geoMap)
+      .map((item, index) => ({
+        name: item.name,
+        value: Math.round(item.value * 10) / 10,
         color: COLORS[index % COLORS.length]
       }))
       .filter(item => item.value > 0)

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, DollarSign, Calendar, Download, Phone, Calculator, Shield, CheckCircle, ChevronDown } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
@@ -177,7 +178,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   portfolio.forEach(item => {
     if (item.repartitionSector && item.repartitionSector.length > 0) {
       item.repartitionSector.forEach(sector => {
-        const sectorName = sector.name;
+        const sectorName = normalizeSectorLabel(sector.name).label;
         // Exclure les noms géographiques
         if (isGeographicName(sectorName)) return;
 
@@ -187,7 +188,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
         sectorDistribution[sectorName] += (sector.value * item.percentage) / 100;
       });
     } else {
-      const sectorName = getSectorDisplayName(item.sector);
+      const sectorName = normalizeSectorLabel(getSectorDisplayName(item.sector)).label;
       if (!sectorDistribution[sectorName]) {
         sectorDistribution[sectorName] = 0;
       }
@@ -213,14 +214,14 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   portfolio.forEach(item => {
     if (item.repartitionGeo && item.repartitionGeo.length > 0) {
       item.repartitionGeo.forEach(geo => {
-        const geoName = geo.name;
+        const geoName = normalizeGeoLabel(geo.name).label;
         if (!geoDistribution[geoName]) {
           geoDistribution[geoName] = 0;
         }
         geoDistribution[geoName] += (geo.value * item.percentage) / 100;
       });
     } else {
-      const geoName = getGeographyDisplayName(item.geography);
+      const geoName = normalizeGeoLabel(getGeographyDisplayName(item.geography)).label;
       if (!geoDistribution[geoName]) {
         geoDistribution[geoName] = 0;
       }

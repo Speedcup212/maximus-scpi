@@ -3,6 +3,7 @@ import { TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Buildin
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import PieChart from './PieChart';
 
 interface PortfolioItem extends Scpi {
@@ -96,14 +97,14 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
   portfolio.forEach(item => {
     if (item.repartitionSector && item.repartitionSector.length > 0) {
       item.repartitionSector.forEach(sector => {
-        const sectorName = sector.name;
+        const sectorName = normalizeSectorLabel(sector.name).label;
         if (!sectorDistribution[sectorName]) {
           sectorDistribution[sectorName] = 0;
         }
         sectorDistribution[sectorName] += (sector.value * item.percentage) / 100;
       });
     } else {
-      const sectorName = getSectorDisplayName(item.sector);
+      const sectorName = normalizeSectorLabel(getSectorDisplayName(item.sector)).label;
       if (!sectorDistribution[sectorName]) {
         sectorDistribution[sectorName] = 0;
       }
@@ -128,14 +129,14 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
   portfolio.forEach(item => {
     if (item.repartitionGeo && item.repartitionGeo.length > 0) {
       item.repartitionGeo.forEach(geo => {
-        const geoName = geo.name;
+        const geoName = normalizeGeoLabel(geo.name).label;
         if (!geoDistribution[geoName]) {
           geoDistribution[geoName] = 0;
         }
         geoDistribution[geoName] += (geo.value * item.percentage) / 100;
       });
     } else {
-      const geoName = getGeographyDisplayName(item.geography);
+      const geoName = normalizeGeoLabel(getGeographyDisplayName(item.geography)).label;
       if (!geoDistribution[geoName]) {
         geoDistribution[geoName] = 0;
       }

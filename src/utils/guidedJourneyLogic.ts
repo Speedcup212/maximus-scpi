@@ -64,8 +64,12 @@ export function filterScpiByStrictCriteria(scpis: Scpi[]): Scpi[] {
     // 3. Ratio d'endettement < 30%
     const hasLowDebt = scpi.debt === undefined || scpi.debt < 30;
     
-    // 4. Décote (prix ≤ valeur de reconstitution) = discount ≤ 0
-    const hasDiscount = scpi.discount <= 0;
+    // 4. Prix de part ≤ valeur de reconstitution (surcote = exclusion)
+    const hasFairPrice = scpi.valeurReconstitution !== undefined
+      ? scpi.price <= scpi.valeurReconstitution
+      : scpi.discount !== undefined
+        ? scpi.discount <= 0
+        : false;
     
     // 5. Rendement réel ≥ moyenne de l'univers
     const hasMinYield = scpi.yield >= averageYield;
@@ -76,11 +80,164 @@ export function filterScpiByStrictCriteria(scpis: Scpi[]): Scpi[] {
     return hasMinCapitalization && 
            hasMinTOF && 
            hasLowDebt && 
-           hasDiscount && 
+           hasFairPrice && 
            hasMinYield && 
            hasClearStrategy;
   });
 }
+
+type ScpiWithScore = {
+  scpi: Scpi;
+  qualityScore: number;
+  maximusIndex: number;
+};
+
+const clampScore = (value: number, min = 0, max = 100) => Math.max(min, Math.min(max, value));
+
+const mapScoreToIndex = (score: number): number => {
+  if (score >= 85) return 5;
+  if (score >= 75) return 4;
+  if (score >= 65) return 3;
+  if (score >= 55) return 2;
+  return 1;
+};
+
+const computeQualityScore = (
+  scpi: Scpi,
+  averageYield: number
+): { score: number; maximusIndex: number } => {
+  // Solidité (40%)
+  const tofScore = clampScore(((scpi.tof - 85) / 15) * 100, 0, 100);
+  const debtScore = scpi.debt === undefined
+    ? 40
+    : scpi.debt <= 10
+      ? 100
+      : clampScore(100 - ((scpi.debt - 10) / 20) * 40, 60, 100);
+
+  const capRatio = scpi.capitalization / 50_000_000;
+  const capScore = clampScore(40 + (Math.log10(Math.max(capRatio, 1)) / Math.log10(10)) * 60, 40, 100);
+  const solidite = (tofScore * 0.45) + (debtScore * 0.3) + (capScore * 0.25);
+
+  // Rendement durable (30%)
+  const yieldRatio = averageYield > 0 ? scpi.yield / averageYield : 1;
+  let yieldScore = clampScore(60 + (yieldRatio - 1) * 40, 40, 90);
+  if (yieldRatio > 1.6) yieldScore = 50;
+  if (yieldRatio > 2) yieldScore = 30;
+
+  // Cohérence patrimoniale (30%)
+  const sectorCount = scpi.repartitionSector?.length ?? 0;
+  const sectorScore = sectorCount >= 4 ? 100 : sectorCount === 3 ? 80 : sectorCount === 2 ? 65 : sectorCount === 1 ? 45 : 30;
+
+  const geoCount = scpi.repartitionGeo?.length ?? 0;
+  const geoScore = geoCount >= 4
+    ? 100
+    : geoCount === 3
+      ? 85
+      : geoCount === 2
+        ? 70
+        : geoCount === 1
+          ? 55
+          : scpi.geography === 'international'
+            ? 80
+            : scpi.geography === 'europe'
+              ? 70
+              : 55;
+
+  const strategyScore = 90;
+  const coherence = (sectorScore * 0.45) + (geoScore * 0.35) + (strategyScore * 0.2);
+
+  // Malus données manquantes
+  let penalty = 0;
+  if (scpi.debt === undefined) penalty += 8;
+  if (!scpi.repartitionSector || scpi.repartitionSector.length === 0) penalty += 6;
+  if (!scpi.repartitionGeo || scpi.repartitionGeo.length === 0) penalty += 6;
+  if (scpi.valeurReconstitution === undefined && scpi.discount === undefined) penalty += 5;
+
+  const score = clampScore((solidite * 0.4) + (yieldScore * 0.3) + (coherence * 0.3) - penalty, 0, 100);
+
+  return {
+    score: Math.round(score),
+    maximusIndex: mapScoreToIndex(score),
+  };
+};
+
+const allocateByScore = (scpis: ScpiWithScore[], maxPerScpi = 25): Array<{ scpiId: number; allocation: number; qualityScore: number; maximusIndex: number }> => {
+  if (scpis.length === 0) return [];
+
+  const totalScore = scpis.reduce((sum, item) => sum + item.qualityScore, 0) || 1;
+  let allocations = scpis.map(item => ({
+    scpiId: item.scpi.id,
+    allocation: (item.qualityScore / totalScore) * 100,
+    qualityScore: item.qualityScore,
+    maximusIndex: item.maximusIndex,
+  }));
+
+  // Appliquer le plafond par SCPI et redistribuer le surplus si possible
+  let remaining = 100;
+  let adjustable = allocations.map(a => ({ ...a }));
+  const fixed: typeof allocations = [];
+
+  for (let iteration = 0; iteration < 5; iteration += 1) {
+    const nextAdjustable: typeof allocations = [];
+    fixed.length = 0;
+
+    adjustable.forEach(item => {
+      if (item.allocation > maxPerScpi) {
+        fixed.push({ ...item, allocation: maxPerScpi });
+      } else {
+        nextAdjustable.push(item);
+      }
+    });
+
+    const fixedTotal = fixed.reduce((sum, item) => sum + item.allocation, 0);
+    remaining = 100 - fixedTotal;
+
+    if (nextAdjustable.length === 0) {
+      allocations = [...fixed];
+      return allocations.map(item => ({ ...item, allocation: Math.round(item.allocation * 10) / 10 }));
+    }
+
+    const adjustableScore = nextAdjustable.reduce((sum, item) => sum + item.qualityScore, 0) || 1;
+    allocations = [
+      ...fixed,
+      ...nextAdjustable.map(item => ({
+        ...item,
+        allocation: (item.qualityScore / adjustableScore) * remaining,
+      })),
+    ];
+
+    adjustable = allocations.filter(item => item.allocation > maxPerScpi);
+    if (adjustable.length === 0) break;
+    adjustable = allocations.filter(item => item.allocation > maxPerScpi);
+  }
+
+  return allocations.map(item => ({
+    ...item,
+    allocation: Math.round(item.allocation * 10) / 10,
+  }));
+};
+
+const selectByScore = (
+  scpis: ScpiWithScore[],
+  limit: number,
+  options?: { maxPerSector?: number; minScore?: number }
+): ScpiWithScore[] => {
+  const maxPerSector = options?.maxPerSector ?? 2;
+  const minScore = options?.minScore ?? 65;
+  const sectorCount: Record<string, number> = {};
+
+  return [...scpis]
+    .sort((a, b) => b.qualityScore - a.qualityScore)
+    .filter(item => item.qualityScore >= minScore)
+    .filter(item => {
+      const sector = item.scpi.sector;
+      const current = sectorCount[sector] || 0;
+      if (current >= maxPerSector) return false;
+      sectorCount[sector] = current + 1;
+      return true;
+    })
+    .slice(0, limit);
+};
 
 /**
  * Détermine le portefeuille recommandé à partir des réponses
@@ -166,164 +323,82 @@ export function buildPortfolio(
     },
   };
 
-  // Sélectionner 5 à 6 SCPI selon le type de portefeuille
-  let selectedScpis: Scpi[] = [];
-  
+  const averageYield = availableScpis.reduce((sum, scpi) => sum + scpi.yield, 0) / (availableScpis.length || 1);
+  const scoredScpis: ScpiWithScore[] = availableScpis.map(scpi => {
+    const { score, maximusIndex } = computeQualityScore(scpi, averageYield);
+    return { scpi, qualityScore: score, maximusIndex };
+  });
+
+  let selectedScpis: ScpiWithScore[] = [];
+  const minScore = 65;
+  const currentYear = new Date().getFullYear();
+
   switch (portfolioType) {
-    case 'revenus-stables':
-      // Priorité: rendement élevé, stabilité
-      if (taxPriority === 'yield') {
-        // TMI faible → priorité au rendement brut (France, rendement max)
-        selectedScpis = [...availableScpis]
-          .filter(s => s.geography === 'france')
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 6);
-      } else if (taxPriority === 'tax-optimization') {
-        // TMI élevée → priorité à l'optimisation fiscale (Europe, diversification)
-        selectedScpis = [...availableScpis]
-          .filter(s => s.geography === 'europe' || s.european)
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 6);
-      } else {
-        // TMI intermédiaire ou neutre → équilibre rendement / diversification
-        const franceHighYield = availableScpis
-          .filter(s => s.geography === 'france')
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 4);
-        const europeDiversified = availableScpis
-          .filter(s => s.geography === 'europe' || s.european)
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 2);
-        selectedScpis = [...franceHighYield, ...europeDiversified].slice(0, 6);
-      }
+    case 'revenus-stables': {
+      const baseUniverse = taxPriority === 'yield'
+        ? scoredScpis.filter(item => item.scpi.geography === 'france')
+        : taxPriority === 'tax-optimization'
+          ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
+          : scoredScpis;
+      selectedScpis = selectByScore(baseUniverse, 6, { minScore });
       break;
-      
-    case 'revenus-croissance':
-      // Mix: rendement + croissance
-      if (taxPriority === 'yield') {
-        // TMI faible → priorité au rendement brut
-        selectedScpis = [...availableScpis]
-          .filter(s => s.geography === 'france')
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 6);
-      } else if (taxPriority === 'tax-optimization') {
-        // TMI élevée → priorité à l'optimisation fiscale (Europe)
-        selectedScpis = [...availableScpis]
-          .filter(s => s.geography === 'europe' || s.european)
-          .sort((a, b) => (b.yield * 0.6) + (b.capitalization / 1_000_000 * 0.4) - ((a.yield * 0.6) + (a.capitalization / 1_000_000 * 0.4)))
-          .slice(0, 6);
-      } else {
-        // TMI intermédiaire ou neutre → équilibre rendement / croissance
-        const franceHighYield = availableScpis
-          .filter(s => s.geography === 'france')
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 3);
-        const europeGrowth = availableScpis
-          .filter(s => s.geography === 'europe')
-          .sort((a, b) => b.capitalization - a.capitalization)
-          .slice(0, 3);
-        selectedScpis = [...franceHighYield, ...europeGrowth].slice(0, 6);
-      }
-      break;
-      
-    case 'croissance-long-terme':
-      // Priorité: capitalisation, diversification
+    }
+    case 'revenus-croissance': {
       if (taxPriority === 'tax-optimization') {
-        // TMI élevée → priorité à l'optimisation fiscale (Europe)
-        selectedScpis = [...availableScpis]
-          .filter(s => s.geography === 'europe' || s.european)
-          .sort((a, b) => b.capitalization - a.capitalization)
-          .slice(0, 6);
+        const europeUniverse = scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european);
+        selectedScpis = selectByScore(europeUniverse, 6, { minScore });
       } else {
-        // TMI faible/intermédiaire → capitalisation, diversification géographique
-        selectedScpis = [...availableScpis]
-          .sort((a, b) => b.capitalization - a.capitalization)
-          .slice(0, 6);
+        const franceTop = selectByScore(
+          scoredScpis.filter(item => item.scpi.geography === 'france'),
+          3,
+          { minScore }
+        );
+        const europeTop = selectByScore(
+          scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european),
+          3,
+          { minScore }
+        );
+        selectedScpis = [...franceTop, ...europeTop].slice(0, 6);
       }
       break;
-      
-    case 'opportunites-immobilieres':
-      // Diversification maximale: secteurs, géographie
-      if (taxPriority === 'tax-optimization') {
-        // TMI élevée → privilégier Europe dans la diversification
-        const sectors = ['bureaux', 'commerces', 'sante', 'logistique', 'diversifie'];
-        selectedScpis = sectors
-          .map(sector => availableScpis.find(s => s.sector === sector && (s.geography === 'europe' || s.european)))
-          .filter((s): s is Scpi => s !== undefined)
-          .slice(0, 6);
-        // Si pas assez de SCPI européennes, compléter avec d'autres
-        if (selectedScpis.length < 6) {
-          const remaining = availableScpis
-            .filter(s => !selectedScpis.find(sel => sel.id === s.id))
-            .slice(0, 6 - selectedScpis.length);
-          selectedScpis = [...selectedScpis, ...remaining].slice(0, 6);
-        }
-      } else {
-        // Diversification maximale standard
-        const sectors = ['bureaux', 'commerces', 'sante', 'logistique', 'diversifie'];
-        selectedScpis = sectors
-          .map(sector => availableScpis.find(s => s.sector === sector))
-          .filter((s): s is Scpi => s !== undefined)
-          .slice(0, 6);
-      }
+    }
+    case 'croissance-long-terme': {
+      const universe = taxPriority === 'tax-optimization'
+        ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
+        : scoredScpis;
+      const filtered = universe.filter(item => {
+        if (!item.scpi.creation) return true;
+        return currentYear - item.scpi.creation >= 3;
+      });
+      selectedScpis = selectByScore(filtered, 6, { minScore });
       break;
-      
-    case 'immobilier-europeen':
-      // Priorité: Europe, diversification sectorielle
-      selectedScpis = availableScpis
-        .filter(s => s.geography === 'europe' || s.european)
+    }
+    case 'opportunites-immobilieres': {
+      const sectors: Array<Scpi['sector']> = ['bureaux', 'commerces', 'sante', 'logistique', 'diversifie'];
+      const universe = taxPriority === 'tax-optimization'
+        ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
+        : scoredScpis;
+
+      selectedScpis = sectors
+        .map(sector => {
+          const candidates = universe.filter(item => item.scpi.sector === sector);
+          return candidates.sort((a, b) => b.qualityScore - a.qualityScore)[0];
+        })
+        .filter((item): item is ScpiWithScore => Boolean(item))
+        .filter(item => item.qualityScore >= minScore)
         .slice(0, 6);
       break;
+    }
+    case 'immobilier-europeen': {
+      const europeUniverse = scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european);
+      selectedScpis = selectByScore(europeUniverse, 6, { minScore });
+      break;
+    }
   }
 
-  // S'assurer qu'on a au moins 5 SCPI
-  if (selectedScpis.length < 5) {
-    selectedScpis = [...availableScpis].slice(0, 5);
-  }
+  const allocations = allocateByScore(selectedScpis, 25);
 
-  // Limiter à 6 SCPI maximum
-  selectedScpis = selectedScpis.slice(0, 6);
-
-  // Calculer l'allocation (pondération maximale 25% par SCPI)
-  // Répartir équitablement avec un maximum de 25% par SCPI
-  const numScpis = selectedScpis.length;
-  const baseAllocation = 100 / numScpis;
-  
-  // Si l'allocation de base dépasse 25%, on limite à 25% et on redistribue le reste
-  let allocations: Array<{ scpiId: number; allocation: number }>;
-  
-  if (baseAllocation <= 25) {
-    // Allocation équitable si elle ne dépasse pas 25%
-    allocations = selectedScpis.map(scpi => ({
-      scpiId: scpi.id,
-      allocation: baseAllocation,
-    }));
-  } else {
-    // Limiter à 25% et redistribuer le reste
-    const maxAllocation = 25;
-    const totalAllocated = maxAllocation * numScpis;
-    const remaining = 100 - totalAllocated;
-    
-    allocations = selectedScpis.map((scpi, index) => ({
-      scpiId: scpi.id,
-      allocation: maxAllocation + (remaining / numScpis), // Répartir le reste équitablement
-    }));
-  }
-
-  // S'assurer que la somme fait exactement 100%
-  const total = allocations.reduce((sum, a) => sum + a.allocation, 0);
-  if (Math.abs(total - 100) > 0.01) {
-    const diff = 100 - total;
-    allocations[0].allocation += diff;
-  }
-  
-  // Arrondir à 1 décimale
-  allocations = allocations.map(a => ({
-    ...a,
-    allocation: Math.round(a.allocation * 10) / 10,
-  }));
-
-  const logic = "SCPI sélectionnées pour leur solidité, leur taux d'occupation élevé, leur faible endettement et leur décote à l'achat.";
+  const logic = "SCPI sélectionnées selon un score de qualité global (solidité, rendement durable, cohérence patrimoniale) avec contraintes strictes et fiscalité intégrée.";
 
   return {
     ...portfolios[portfolioType],

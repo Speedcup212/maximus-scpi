@@ -24,21 +24,13 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
           Analysez l'équilibre rendement / risque / diversification de vos SCPI en 2 minutes.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          {onComparatorClick && (
-            <button
-              onClick={onComparatorClick}
-              className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
-            >
-              Démarrer l'analyse
-            </button>
-          )}
+        {/* CTA Button */}
+        <div className="flex items-center justify-center">
           <button
-            onClick={onCalendlyClick}
-            className="px-6 py-3 bg-transparent hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg font-medium text-base transition-colors border border-slate-600 hover:border-slate-500"
+            onClick={onComparatorClick || onCalendlyClick}
+            className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
           >
-            Prendre rendez-vous
+            Démarrer le parcours
           </button>
         </div>
       </div>
