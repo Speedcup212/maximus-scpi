@@ -980,9 +980,17 @@ export const getScpiNews = (scpi: Scpi): string => {
   ];
 
   const allGestionMatches: string[] = [];
+  const ensureGlobalRegex = (regex: RegExp) => {
+    if (regex.global) {
+      return regex;
+    }
+    const flags = `${regex.flags}g`;
+    return new RegExp(regex.source, flags);
+  };
+
   gestionLocativePatterns.forEach(pattern => {
     try {
-      const matches = Array.from(fullText.matchAll(pattern));
+      const matches = Array.from(fullText.matchAll(ensureGlobalRegex(pattern)));
       matches.forEach(match => {
         if (match && match[0]) {
           const text = match[0].trim();

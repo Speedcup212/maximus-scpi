@@ -32,7 +32,13 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
   const optimizedSEO = generateOptimizedScpiSEO(scpi);
 
+  const shouldLoadScores = import.meta.env.VITE_ENABLE_SCPI_SCORES === 'true';
+
   useEffect(() => {
+    if (!shouldLoadScores) {
+      setScoresLoaded(true);
+      return;
+    }
     const loadScores = async () => {
       const result = await getLatestScpiScores();
       if (result.success) {
@@ -41,7 +47,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       setScoresLoaded(true);
     };
     loadScores();
-  }, []);
+  }, [shouldLoadScores]);
 
   // Préparer les données pour les camemberts
   const sectorData = scpi.repartitionSector?.map((item, index) => ({
