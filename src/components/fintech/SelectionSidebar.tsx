@@ -1017,6 +1017,211 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 </div>
               </div>
               
+              <p className="text-xs sm:text-sm text-slate-300">
+                Vous avez sélectionné <span className="font-semibold text-white">{selectedScpis.length} SCPI</span>.
+                Voici un récapitulatif avant de commencer votre souscription en ligne.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Rendement moyen estimé</p>
+                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{avgYield.toFixed(2)}%</p>
+                </div>
+                <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Investissement minimal estimé</p>
+                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">
+                    {minInvestment.toLocaleString('fr-FR')}€
+                  </p>
+                </div>
+              </div>
+
+              {/* Répartitions agrégées du portefeuille */}
+              {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {/* Répartition Sectorielle Agregée */}
+                  <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                      <PieChart className="w-4 h-4 text-blue-400" />
+                      Répartition Sectorielle du Portefeuille
+                    </h3>
+                    <div className="relative">
+                      <ResponsiveContainer width="100%" height={250}>
+                        <RechartsPie>
+                          <defs>
+                            <linearGradient id="gradBlue-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#60a5fa" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#2563eb" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradTeal-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#059669" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradOrange-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#fbbf24" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#d97706" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradPink-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#f472b6" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#db2777" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradPurple-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#a78bfa" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#7c3aed" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradCyan-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#0891b2" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradLime-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#a3e635" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#65a30d" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradRed-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#ea580c" stopOpacity={1} />
+                            </linearGradient>
+                          </defs>
+                          <Pie
+                            data={aggregatedSectors}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius="50%"
+                            outerRadius="85%"
+                            paddingAngle={0}
+                            dataKey="value"
+                            animationBegin={0}
+                            animationDuration={800}
+                            animationEasing="ease-out"
+                          >
+                            {aggregatedSectors.map((entry, index) => (
+                              <Cell
+                                key={`cell-sector-portfolio-${index}`}
+                                fill={`url(#${['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'][index % 8]}-portfolio)`}
+                                stroke="#1e293b"
+                                strokeWidth={2}
+                                style={{ outline: 'none' }}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip content={<CustomTooltip />} />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                        <div className="text-2xl font-bold text-white">{aggregatedSectors.length}</div>
+                        <div className="text-xs text-slate-300">secteurs</div>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
+                      {aggregatedSectors.map((sector, index) => (
+                        <div key={sector.name} className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{
+                                backgroundColor: LEGEND_COLORS.sectors[index % LEGEND_COLORS.sectors.length]
+                              }}
+                            ></div>
+                            <span className="text-slate-300 truncate">{sector.name}</span>
+                          </div>
+                          <span className="font-semibold text-white">{sector.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Répartition Géographique Agregée */}
+                  <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
+                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                      <PieChart className="w-4 h-4 text-green-400" />
+                      Répartition Géographique du Portefeuille
+                    </h3>
+                    <div className="relative">
+                      <ResponsiveContainer width="100%" height={250}>
+                        <RechartsPie>
+                          <defs>
+                            <linearGradient id="gradBlue2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#60a5fa" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#2563eb" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradTeal2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#059669" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradOrange2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#fbbf24" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#d97706" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradPink2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#f472b6" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#db2777" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradPurple2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#a78bfa" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#7c3aed" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradCyan2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#0891b2" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradLime2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#a3e635" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#65a30d" stopOpacity={1} />
+                            </linearGradient>
+                            <linearGradient id="gradRed2-portfolio" x1="0" y1="0" x2="1" y2="1">
+                              <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
+                              <stop offset="100%" stopColor="#ea580c" stopOpacity={1} />
+                            </linearGradient>
+                          </defs>
+                          <Pie
+                            data={aggregatedGeography}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius="50%"
+                            outerRadius="85%"
+                            paddingAngle={0}
+                            dataKey="value"
+                            animationBegin={0}
+                            animationDuration={800}
+                            animationEasing="ease-out"
+                          >
+                            {aggregatedGeography.map((entry, index) => (
+                              <Cell
+                                key={`cell-geo-portfolio-${index}`}
+                                fill={`url(#${['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2'][index % 8]}-portfolio)`}
+                                stroke="#1e293b"
+                                strokeWidth={2}
+                                style={{ outline: 'none' }}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip content={<CustomTooltip />} />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                        <div className="text-2xl font-bold text-white">{aggregatedGeography.length}</div>
+                        <div className="text-xs text-slate-300">zones</div>
+                      </div>
+                    </div>
+                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
+                      {aggregatedGeography.map((geo, index) => (
+                        <div key={geo.name} className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{
+                                backgroundColor: LEGEND_COLORS.geography[index % LEGEND_COLORS.geography.length]
+                              }}
+                            ></div>
+                            <span className="text-slate-300 truncate">{geo.name}</span>
+                          </div>
+                          <span className="font-semibold text-white">{geo.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Bloc Montant à investir et Performance financière */}
               {portfolioAnalysis && (
                 <div className="bg-slate-800 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-slate-700 mb-4 sm:mb-6">
@@ -1748,211 +1953,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                           );
                         })}
                       </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <p className="text-xs sm:text-sm text-slate-300">
-                Vous avez sélectionné <span className="font-semibold text-white">{selectedScpis.length} SCPI</span>.
-                Voici un récapitulatif avant de commencer votre souscription en ligne.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
-                <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Rendement moyen estimé</p>
-                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{avgYield.toFixed(2)}%</p>
-                </div>
-                <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Investissement minimal estimé</p>
-                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">
-                    {minInvestment.toLocaleString('fr-FR')}€
-                  </p>
-                </div>
-              </div>
-
-              {/* Répartitions agrégées du portefeuille */}
-              {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  {/* Répartition Sectorielle Agregée */}
-                  <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                      <PieChart className="w-4 h-4 text-blue-400" />
-                      Répartition Sectorielle du Portefeuille
-                    </h3>
-                    <div className="relative">
-                      <ResponsiveContainer width="100%" height={250}>
-                        <RechartsPie>
-                          <defs>
-                            <linearGradient id="gradBlue-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#60a5fa" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#2563eb" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradTeal-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#059669" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradOrange-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#fbbf24" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#d97706" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradPink-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#f472b6" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#db2777" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradPurple-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#a78bfa" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#7c3aed" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradCyan-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#0891b2" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradLime-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#a3e635" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#65a30d" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradRed-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#ea580c" stopOpacity={1} />
-                            </linearGradient>
-                          </defs>
-                          <Pie
-                            data={aggregatedSectors}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius="50%"
-                            outerRadius="85%"
-                            paddingAngle={0}
-                            dataKey="value"
-                            animationBegin={0}
-                            animationDuration={800}
-                            animationEasing="ease-out"
-                          >
-                            {aggregatedSectors.map((entry, index) => (
-                              <Cell
-                                key={`cell-sector-portfolio-${index}`}
-                                fill={`url(#${['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'][index % 8]}-portfolio)`}
-                                stroke="#1e293b"
-                                strokeWidth={2}
-                                style={{ outline: 'none' }}
-                              />
-                            ))}
-                          </Pie>
-                          <Tooltip content={<CustomTooltip />} />
-                        </RechartsPie>
-                      </ResponsiveContainer>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                        <div className="text-2xl font-bold text-white">{aggregatedSectors.length}</div>
-                        <div className="text-xs text-slate-300">secteurs</div>
-                      </div>
-                    </div>
-                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
-                      {aggregatedSectors.map((sector, index) => (
-                        <div key={sector.name} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-2.5 h-2.5 rounded-full"
-                              style={{
-                                backgroundColor: LEGEND_COLORS.sectors[index % LEGEND_COLORS.sectors.length]
-                              }}
-                            ></div>
-                            <span className="text-slate-300 truncate">{sector.name}</span>
-                          </div>
-                          <span className="font-semibold text-white">{sector.value}%</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Répartition Géographique Agregée */}
-                  <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                      <PieChart className="w-4 h-4 text-green-400" />
-                      Répartition Géographique du Portefeuille
-                    </h3>
-                    <div className="relative">
-                      <ResponsiveContainer width="100%" height={250}>
-                        <RechartsPie>
-                          <defs>
-                            <linearGradient id="gradBlue2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#60a5fa" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#2563eb" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradTeal2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#34d399" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#059669" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradOrange2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#fbbf24" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#d97706" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradPink2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#f472b6" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#db2777" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradPurple2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#a78bfa" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#7c3aed" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradCyan2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#22d3ee" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#0891b2" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradLime2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#a3e635" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#65a30d" stopOpacity={1} />
-                            </linearGradient>
-                            <linearGradient id="gradRed2-portfolio" x1="0" y1="0" x2="1" y2="1">
-                              <stop offset="0%" stopColor="#fb923c" stopOpacity={1} />
-                              <stop offset="100%" stopColor="#ea580c" stopOpacity={1} />
-                            </linearGradient>
-                          </defs>
-                          <Pie
-                            data={aggregatedGeography}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius="50%"
-                            outerRadius="85%"
-                            paddingAngle={0}
-                            dataKey="value"
-                            animationBegin={0}
-                            animationDuration={800}
-                            animationEasing="ease-out"
-                          >
-                            {aggregatedGeography.map((entry, index) => (
-                              <Cell
-                                key={`cell-geo-portfolio-${index}`}
-                                fill={`url(#${['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2'][index % 8]}-portfolio)`}
-                                stroke="#1e293b"
-                                strokeWidth={2}
-                                style={{ outline: 'none' }}
-                              />
-                            ))}
-                          </Pie>
-                          <Tooltip content={<CustomTooltip />} />
-                        </RechartsPie>
-                      </ResponsiveContainer>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                        <div className="text-2xl font-bold text-white">{aggregatedGeography.length}</div>
-                        <div className="text-xs text-slate-300">zones</div>
-                      </div>
-                    </div>
-                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
-                      {aggregatedGeography.map((geo, index) => (
-                        <div key={geo.name} className="flex items-center justify-between text-xs">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="w-2.5 h-2.5 rounded-full"
-                              style={{
-                                backgroundColor: LEGEND_COLORS.geography[index % LEGEND_COLORS.geography.length]
-                              }}
-                            ></div>
-                            <span className="text-slate-300 truncate">{geo.name}</span>
-                          </div>
-                          <span className="font-semibold text-white">{geo.value}%</span>
-                        </div>
-                      ))}
                     </div>
                   </div>
                 </div>

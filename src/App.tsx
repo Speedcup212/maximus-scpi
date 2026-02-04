@@ -208,6 +208,14 @@ const App: React.FC = () => {
     }
 
     if (path) {
+      if (path.startsWith('comparateur/scpi/')) {
+        const scpiSlug = path.replace('comparateur/scpi/', '');
+        if (scpiSlug) {
+          setSelectedScpiKey(scpiSlug);
+          setCurrentView('scpi-detail');
+          return;
+        }
+      }
       // Ne pas gérer /souscription dans le routing initial car c'est géré par le tunnel
       if (path === 'souscription') {
         return; // Ne pas changer la vue, laisser le tunnel s'ouvrir
@@ -622,6 +630,12 @@ const App: React.FC = () => {
         setCurrentView('fiscalite-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
+      } else if (normalizedPath.startsWith('comparateur/scpi/')) {
+        const scpiSlug = normalizedPath.replace('comparateur/scpi/', '');
+        if (scpiSlug) {
+          setSelectedScpiKey(scpiSlug);
+          setCurrentView('scpi-detail');
+        }
       } else if (normalizedPath === 'parcours-guide' || normalizedPath === 'guided-journey' || normalizedPath.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else if (normalizedPath === 'simulateur-fonds-euros-scpi') {
@@ -1989,6 +2003,8 @@ const App: React.FC = () => {
     );
 
     if (selectedScpiData) {
+      const searchParams = new URLSearchParams(window.location.search);
+      const isParcoursLocked = searchParams.get('lock') === 'true';
       return (
         <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
           <Header
@@ -1998,7 +2014,7 @@ const App: React.FC = () => {
             onAboutClick={handleAboutUsClick}
             onEducationClick={handleEducationClick}
             onLogoClick={handleBackToHome}
-            onScpiPageClick={handleScpiClick}
+            onScpiPageClick={isParcoursLocked ? undefined : handleScpiClick}
             onFaqClick={handleFaqClick}
             onUnderstandingClick={handleComprendreClick}
             onAboutSectionClick={handleAboutUsClick}
@@ -2010,8 +2026,8 @@ const App: React.FC = () => {
           <Suspense fallback={<LoadingSpinner />}>
             <ScpiDetailPage
               scpi={selectedScpiData}
-              onAddToPortfolio={(scpi) => toggleScpiSelection(scpi.name)}
-              onTakeAppointment={() => setIsRdvModalOpen(true)}
+              onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi.name)}
+              onTakeAppointment={isParcoursLocked ? undefined : () => setIsRdvModalOpen(true)}
             />
           </Suspense>
           <Footer isDarkMode={isDarkMode} />

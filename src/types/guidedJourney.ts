@@ -23,6 +23,15 @@ export interface GuidedJourneyAnswers {
   incomeUse?: string;
   priority?: string;
   temporaryDrawdown?: string;
+  riskTolerance?: string;
+  yieldStabilitySensitivity?: string;
+  amountBand?: string;
+  geoDiversification?: string;
+  sectorPreference?: string;
+  holdingMode?: string;
+  scpiExperience?: string;
+  autonomyLevel?: string;
+  constraintsSimple?: string;
   yieldDropReaction?: string;
   debtSensitivity?: string;
   acceptRecentScpi?: string;

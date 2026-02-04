@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
-  Shield, Target, Calculator, FileText
+  Shield, Target, Calculator, FileText, ArrowLeft
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
@@ -27,6 +27,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'analysis'>('overview');
   const [scpiScores, setScpiScores] = useState<Record<number, any>>({});
   const [scoresLoaded, setScoresLoaded] = useState(false);
+  const searchParams = new URLSearchParams(window.location.search);
+  const isParcoursMode = searchParams.get('lock') === 'true' && searchParams.get('source') === 'parcours';
 
   const optimizedSEO = generateOptimizedScpiSEO(scpi);
 
@@ -140,6 +142,13 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleReturnToAllocation = () => {
+    const returnPath = sessionStorage.getItem('parcours_return_path') || '/parcours-guide';
+    sessionStorage.setItem('parcours_restore_scroll', '1');
+    window.history.pushState({}, '', returnPath);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  };
+
   return (
     <div className="space-y-6">
       <SEOHead
@@ -156,6 +165,18 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
         canonical={`https://www.maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}`}
         schemaData={combinedSchema}
       />
+
+      {isParcoursMode && (
+        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 text-emerald-100">
+          <p className="text-sm font-semibold">
+            SCPI consultée dans le cadre de votre allocation guidée
+          </p>
+          <p className="text-xs mt-1 text-emerald-100/90">
+            Cette fiche est fournie à titre informatif et illustre une logique d’allocation.
+            Elle ne constitue pas une recommandation personnalisée.
+          </p>
+        </div>
+      )}
 
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-gray-200 dark:border-gray-600">
@@ -274,15 +295,17 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                 </div>
               </div>
 
-              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800">
-                <Award className="w-6 h-6 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
-                <div className={`text-2xl font-black mb-1 ${getQualityColor(qualityScore)}`}>
-                  {qualityScore}/100
+              {!isParcoursMode && (
+                <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800">
+                  <Award className="w-6 h-6 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
+                  <div className={`text-2xl font-black mb-1 ${getQualityColor(qualityScore)}`}>
+                    {qualityScore}/100
+                  </div>
+                  <div className="text-sm font-bold text-orange-700 dark:text-orange-300">
+                    Score
+                  </div>
                 </div>
-                <div className="text-sm font-bold text-orange-700 dark:text-orange-300">
-                  Score
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Informations détaillées */}
@@ -556,27 +579,41 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4">
-        {onAddToPortfolio && (
-          <button
-            onClick={() => onAddToPortfolio(scpi)}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 dark:bg-blue-500 text-white rounded-xl font-black text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
-          >
-            <TrendingUp className="w-4 h-4" />
-            Ajouter au portefeuille
-          </button>
-        )}
+      {!isParcoursMode && (
+        <div className="flex gap-4">
+          {onAddToPortfolio && (
+            <button
+              onClick={() => onAddToPortfolio(scpi)}
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 dark:bg-blue-500 text-white rounded-xl font-black text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+            >
+              <TrendingUp className="w-4 h-4" />
+              Ajouter au portefeuille
+            </button>
+          )}
 
-        {onTakeAppointment && (
+          {onTakeAppointment && (
+            <button
+              onClick={onTakeAppointment}
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-green-600 dark:bg-green-500 text-white rounded-xl font-black text-base hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+            >
+              <Calendar className="w-4 h-4" />
+              Prendre rendez-vous
+            </button>
+          )}
+        </div>
+      )}
+
+      {isParcoursMode && (
+        <div className="pt-2">
           <button
-            onClick={onTakeAppointment}
-            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-green-600 dark:bg-green-500 text-white rounded-xl font-black text-base hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+            onClick={handleReturnToAllocation}
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-slate-800 text-white rounded-xl font-bold text-base hover:bg-slate-700 transition-colors"
           >
-            <Calendar className="w-4 h-4" />
-            Prendre rendez-vous
+            <ArrowLeft className="w-4 h-4" />
+            Revenir à mon allocation
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

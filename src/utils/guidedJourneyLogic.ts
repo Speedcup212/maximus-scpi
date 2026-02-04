@@ -1,4 +1,5 @@
 import { Scpi } from '../types/scpi';
+import { normalizeGeoLabel } from './labelNormalization';
 import { 
   GuidedJourneyAnswers, 
   PortfolioType, 
@@ -27,6 +28,24 @@ export function mapTaxSituationToTMI(taxSituation: string): number {
       return 30;
   }
 }
+
+const MAX_FRANCE_EXPOSURE_FOR_HIGH_TMI = 20;
+
+const getFranceExposure = (scpi: Scpi): number => {
+  if (scpi.repartitionGeo && scpi.repartitionGeo.length > 0) {
+    return scpi.repartitionGeo.reduce((sum, geo) => {
+      const normalized = normalizeGeoLabel(geo.name);
+      return normalized.key === 'france' ? sum + geo.value : sum;
+    }, 0);
+  }
+
+  if (scpi.geography === 'france') {
+    return 100;
+  }
+
+  // Sans détail géographique, on applique une prudence maximale
+  return 100;
+};
 
 /**
  * Détermine la priorité fiscale à partir du montant d'impôt annuel
@@ -415,13 +434,27 @@ export function generateRecommendation(
   allScpis: Scpi[]
 ): PortfolioRecommendation {
   // Filtrer les SCPI selon les critères stricts
-  const eligibleScpis = filterScpiByStrictCriteria(allScpis);
+  let eligibleScpis = filterScpiByStrictCriteria(allScpis);
   
   // Déterminer le portefeuille recommandé
   const portfolioType = determineRecommendedPortfolio(answers);
   
   // Déterminer la priorité fiscale à partir du montant d'impôt annuel
   const taxPriority = getTaxPriority(answers.taxSituation);
+
+  const tmiEstimate = answers.tmiEstimate;
+  const tmiFromTaxSituation = mapTaxSituationToTMI(answers.taxSituation);
+  const isHighTmi = tmiEstimate
+    ? ['tmi-30', 'tmi-41', 'tmi-45'].includes(tmiEstimate)
+    : tmiFromTaxSituation >= 30;
+
+  if (isHighTmi) {
+    eligibleScpis = eligibleScpis.filter(scpi => {
+      const isEuropean = scpi.geography === 'europe' || scpi.european;
+      const franceExposure = getFranceExposure(scpi);
+      return isEuropean && franceExposure <= MAX_FRANCE_EXPOSURE_FOR_HIGH_TMI;
+    });
+  }
   
   // Construire le portefeuille en tenant compte de la priorité fiscale
   const portfolio = buildPortfolio(portfolioType, eligibleScpis, taxPriority);

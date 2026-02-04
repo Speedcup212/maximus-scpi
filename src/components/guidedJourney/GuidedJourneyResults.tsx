@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, CheckCircle, Shield, TrendingUp, Info, BarChart3, Building, PieChart as PieChartIcon, DollarSign, Calendar, MessageCircle, ArrowRight, Phone } from 'lucide-react';
 import { PortfolioRecommendation, GuidedJourneyAnswers } from '../../types/guidedJourney';
 import { Scpi } from '../../types/scpi';
@@ -6,6 +6,7 @@ import { scpiData } from '../../data/scpiData';
 import { analyzePortfolio } from '../../utils/portfolioAnalysis';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
 import { adaptPortfolioToAmount, getMaxScpiCount } from '../../utils/portfolioAdaptation';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import SectionRepliable from './SectionRepliable';
 
@@ -49,27 +50,49 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
   const [investmentAmount, setInvestmentAmount] = useState<number>(initialInvestmentAmount || 50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
 
-  // Calculer le nombre total de parts et l'investissement réel pour le portefeuille
-  const totalShares = useMemo(() => {
-    return portfolioScpis.reduce((total, item) => {
-      const amountForScpi = (investmentAmount * item.allocation) / 100;
-      const shares = Math.floor(amountForScpi / item.scpi.price);
-      return total + shares;
-    }, 0);
-  }, [investmentAmount, portfolioScpis]);
+  // Calculer le montant investi (réallocation automatique du reliquat)
+  const { actualInvestment } = useMemo(() => {
+    const allocations = portfolioScpis.map((item) => {
+      const targetAmount = (investmentAmount * item.allocation) / 100;
+      const shares = Math.floor(targetAmount / item.scpi.price);
+      return {
+        id: item.id,
+        allocation: item.allocation,
+        price: item.scpi.price,
+        targetAmount,
+        shares,
+        investedAmount: shares * item.scpi.price
+      };
+    });
 
-  const actualInvestment = useMemo(() => {
-    return portfolioScpis.reduce((total, item) => {
-      const amountForScpi = (investmentAmount * item.allocation) / 100;
-      const shares = Math.floor(amountForScpi / item.scpi.price);
-      return total + (shares * item.scpi.price);
-    }, 0);
-  }, [investmentAmount, portfolioScpis]);
+    const minPrice = Math.min(...allocations.map((item) => item.price));
+    let invested = allocations.reduce((total, item) => total + item.investedAmount, 0);
+    let remaining = Math.max(0, investmentAmount - invested);
+    let loopGuard = 0;
 
-  const averagePricePerShare = useMemo(() => {
-    if (totalShares === 0) return 0;
-    return actualInvestment / totalShares;
-  }, [actualInvestment, totalShares]);
+    while (remaining >= minPrice && loopGuard < 10000) {
+      const candidates = allocations.filter((item) => remaining >= item.price);
+      if (candidates.length === 0) break;
+
+      candidates.sort((a, b) => {
+        const gapA = a.targetAmount - a.investedAmount;
+        const gapB = b.targetAmount - b.investedAmount;
+        if (gapA !== gapB) return gapB - gapA;
+        return a.price - b.price;
+      });
+
+      const chosen = candidates[0];
+      chosen.shares += 1;
+      chosen.investedAmount += chosen.price;
+      invested += chosen.price;
+      remaining -= chosen.price;
+      loopGuard += 1;
+    }
+
+    return {
+      actualInvestment: invested
+    };
+  }, [investmentAmount, portfolioScpis]);
 
   const annualRevenue = (actualInvestment * analysis.averageYield) / 100;
   const monthlyRevenue = annualRevenue / 12;
@@ -136,83 +159,6 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
       </p>
 
       <div className="space-y-4 sm:space-y-6">
-        {/* Montant à Investir */}
-        <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 rounded-lg sm:rounded-xl border border-emerald-500/20 p-4 sm:p-6">
-          <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
-            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
-            Montant à Investir
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs sm:text-sm font-medium text-slate-300 mb-2 block">
-                  Montant d'investissement
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    value={investmentAmount}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === '' || value === '0') {
-                        setInvestmentAmount(0);
-                      } else {
-                        setInvestmentAmount(Number(value));
-                      }
-                    }}
-                    min={0}
-                    step={minPrice}
-                    placeholder="Entrez un montant"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-slate-700 border-2 border-slate-600 text-white rounded-lg text-lg sm:text-xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
-                  />
-                  <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-base sm:text-lg">€</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1">Minimum: {minInvestment.toLocaleString('fr-FR')}€</p>
-              </div>
-
-              <div>
-                <p className="text-xs text-slate-400 mb-2">Montants rapides:</p>
-                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
-                  {[10000, 25000, 50000, 100000, 200000, 500000].map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => setInvestmentAmount(amount)}
-                      className={`px-2 sm:px-3 py-1.5 sm:py-2 border rounded-lg text-xs sm:text-sm font-semibold transition-all ${
-                        investmentAmount === amount
-                          ? 'bg-emerald-600 border-emerald-500 text-white'
-                          : 'bg-slate-700 hover:bg-emerald-600 border-slate-600 hover:border-emerald-500 text-white'
-                      }`}
-                    >
-                      {amount >= 1000 ? `${amount / 1000}k€` : `${amount}€`}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2 sm:space-y-3">
-              <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-slate-400">Nombre de parts</span>
-                  <span className="text-xl sm:text-2xl font-bold text-white">{totalShares}</span>
-                </div>
-              </div>
-              <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-slate-300 font-medium">Investissement réel</span>
-                  <span className="text-xl sm:text-2xl font-bold text-emerald-400 break-words">{actualInvestment.toLocaleString('fr-FR')}€</span>
-                </div>
-              </div>
-              <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 border border-slate-600">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm text-slate-400">Prix moyen par part</span>
-                  <span className="text-base sm:text-lg font-bold text-white">{averagePricePerShare.toFixed(0)}€</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Répartitions Sectorielle et Géographique */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Répartition Sectorielle */}
@@ -350,6 +296,78 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({ portf
           </div>
         </div>
 
+        {/* Montant à Investir */}
+        <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 rounded-lg sm:rounded-xl border border-emerald-500/20 p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
+            Montant à Investir
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs sm:text-sm font-medium text-slate-300 mb-2 block">
+                  Montant total envisagé
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={investmentAmount}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === '' || value === '0') {
+                        setInvestmentAmount(0);
+                      } else {
+                        setInvestmentAmount(Number(value));
+                      }
+                    }}
+                    min={0}
+                    step={minPrice}
+                    placeholder="Entrez un montant"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-slate-700 border-2 border-slate-600 text-white rounded-lg text-lg sm:text-xl font-bold focus:outline-none focus:border-emerald-500 transition-colors"
+                  />
+                  <span className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-base sm:text-lg">€</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">Minimum: {minInvestment.toLocaleString('fr-FR')}€</p>
+              </div>
+
+              <div>
+                <p className="text-xs text-slate-400 mb-2">Montants rapides:</p>
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
+                  {[10000, 25000, 50000, 100000, 200000, 500000].map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setInvestmentAmount(amount)}
+                      className={`px-2 sm:px-3 py-1.5 sm:py-2 border rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+                        investmentAmount === amount
+                          ? 'bg-emerald-600 border-emerald-500 text-white'
+                          : 'bg-slate-700 hover:bg-emerald-600 border-slate-600 hover:border-emerald-500 text-white'
+                      }`}
+                    >
+                      {amount >= 1000 ? `${amount / 1000}k€` : `${amount}€`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2 sm:space-y-3">
+              <div className="bg-slate-700/50 rounded-lg p-3 sm:p-4 border border-slate-600">
+                <p className="text-xs sm:text-sm text-slate-400">Montant investi en parts</p>
+                <p className="text-xl sm:text-2xl font-bold text-white">{actualInvestment.toLocaleString('fr-FR')}€</p>
+                <p className="text-[10px] sm:text-xs text-slate-400 mt-1">
+                  Correspond au montant effectivement utilisé pour l'achat de parts de SCPI.
+                </p>
+              </div>
+              <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
+                <p className="text-xs sm:text-sm text-slate-300 font-medium">Ajustement technique</p>
+                <p className="text-[10px] sm:text-xs text-slate-300 mt-1">
+                  Ajustement inférieur au prix d'une part (arrondis techniques).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Projection sur X ans */}
         <div className="bg-slate-700/30 rounded-lg sm:rounded-xl border border-slate-700 p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
@@ -466,7 +484,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
 
   // Générer la logique globale du portefeuille
   const portfolioLogic = useMemo(() => {
-    const { taxSituation, objective, horizon, immediateIncome } = answers;
+    const { taxSituation, objective, horizon, immediateIncome, tmiEstimate } = answers;
     
     let logic = "✅ Ce portefeuille a été construit en tenant compte de votre situation personnelle. ";
     
@@ -479,6 +497,10 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       logic += "💡 Fiscalité : votre niveau intermédiaire conduit à équilibrer rendement et diversification. ";
     } else if (taxSituation === 'je-ne-sais-pas') {
       logic += "💡 Fiscalité : en l’absence d’information précise, l’analyse reste neutre et prudente. ";
+    }
+
+    if (tmiEstimate && ['tmi-30', 'tmi-41', 'tmi-45'].includes(tmiEstimate)) {
+      logic += "📌 TMI ≥ 30 % : sélection orientée vers des SCPI européennes avec exposition France limitée. ";
     }
     
     // Objectif
@@ -502,6 +524,65 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
     
     return logic;
   }, [answers, portfolio.riskLevel]);
+
+  const rendementMoyen = analysis.averageYield || 0;
+  const revenusAnnuels = (investmentAmount * rendementMoyen) / 100;
+  const revenusMensuels = revenusAnnuels / 12;
+
+  const avisMaximus = useMemo(() => {
+    const indices = portfolio.scpis
+      .map(item => item.maximusIndex)
+      .filter((value): value is number => typeof value === 'number');
+    const averageIndex = indices.length > 0
+      ? indices.reduce((sum, value) => sum + value, 0) / indices.length
+      : 3;
+
+    if (averageIndex >= 4.5) return { label: 'Excellent', detail: 'Portefeuille très robuste et cohérent' };
+    if (averageIndex >= 3.5) return { label: 'Solide', detail: 'Allocation équilibrée et lisible' };
+    if (averageIndex >= 2.5) return { label: 'Prudent', detail: 'Base cohérente avec marges de renforcement' };
+    return { label: 'À renforcer', detail: 'Qualité hétérogène, arbitrages à affiner' };
+  }, [portfolio.scpis]);
+
+  const prosCons = useMemo(() => {
+    const pros: string[] = [];
+    const cons: string[] = [];
+
+    if (analysis.averageTof >= 95) {
+      pros.push('Qualité locative élevée (TOF moyen solide).');
+    } else if (analysis.averageTof >= 92) {
+      pros.push('Qualité locative satisfaisante.');
+    } else {
+      cons.push('Qualité locative perfectible (TOF moyen à surveiller).');
+    }
+
+    if (analysis.averageDebt !== null && analysis.averageDebt <= 20) {
+      pros.push('Endettement modéré, profil de risque maîtrisé.');
+    } else if (analysis.averageDebt !== null && analysis.averageDebt > 30) {
+      cons.push('Endettement élevé, sensibilité aux cycles renforcée.');
+    }
+
+    if (analysis.sectorCount >= 4) {
+      pros.push('Bonne diversification sectorielle.');
+    } else {
+      cons.push('Diversification sectorielle limitée.');
+    }
+
+    if (analysis.geographyCount >= 3) {
+      pros.push('Diversification géographique suffisante.');
+    } else {
+      cons.push('Exposition géographique concentrée.');
+    }
+
+    if (answers.taxSituation === 'plus-6000') {
+      pros.push('Lecture fiscale intégrée (TMI élevée).');
+    }
+
+    if (answers.horizon === 'moins-8-ans') {
+      cons.push('Horizon court : liquidité et cycles immobiliers à considérer.');
+    }
+
+    return { pros, cons };
+  }, [analysis, answers.taxSituation, answers.horizon]);
 
   const executiveSummary = useMemo(() => {
     const { taxSituation, objective, horizon } = answers;
@@ -596,11 +677,23 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   }, [portfolio.riskLevel, portfolio.id]);
 
   const [expandedSections, setExpandedSections] = useState({
-    why: true,
+    why: false,
     composition: true,
-    analysis: true,
+    analysisPro: false,
+    analysisDetail: true,
+    pedagogy: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const shouldRestore = sessionStorage.getItem('parcours_restore_scroll');
+    if (shouldRestore === '1') {
+      const stored = sessionStorage.getItem('parcours_return_scroll');
+      const scrollValue = stored ? Number(stored) : 0;
+      window.scrollTo({ top: isNaN(scrollValue) ? 0 : scrollValue, behavior: 'auto' });
+      sessionStorage.removeItem('parcours_restore_scroll');
+    }
+  }, []);
 
   const handleValidate = () => {
     // Lancer directement le tunnel de souscription
@@ -618,6 +711,25 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       // Fallback : ouvrir Calendly directement
       window.open('https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone', '_blank');
     }
+  };
+
+  const handleOpenScpiFiche = (href: string, slug: string, event?: React.MouseEvent<HTMLAnchorElement>) => {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    sessionStorage.setItem('parcours_return_path', `${window.location.pathname}${window.location.search}`);
+    sessionStorage.setItem('parcours_return_scroll', String(window.scrollY));
+    const detail = {
+      scpi_slug: slug,
+      profil_risque: portfolio.riskLevel,
+      montant: investmentAmount,
+      step_id: 'guided-results'
+    };
+    window.dispatchEvent(new CustomEvent('scpi_fiche_opened_from_parcours', { detail }));
+    window.history.pushState({}, '', href);
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
   const handleStartSubscription = async (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -795,20 +907,145 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
         <div className="bg-slate-900/80 border border-slate-700 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
 
           {/* NIVEAU 2 : JUSTIFICATION - Sections repliables */}
-          
-          {/* Section 1 : Pourquoi ce portefeuille vous correspond */}
+
+          {/* Section 1 : Composition du portefeuille */}
+          <SectionRepliable
+            title={`Les ${portfolioScpis.length} SCPI (illustration de la stratégie)`}
+            subtitle={isAdapted
+              ? `Illustration cohérente de la stratégie retenue pour ${investmentAmount.toLocaleString('fr-FR')} € avec ${portfolioScpis.length} SCPI.`
+              : `Illustration cohérente de la stratégie retenue avec ${portfolioScpis.length} SCPI.`
+            }
+            isExpanded={expandedSections.composition}
+            onToggle={() => setExpandedSections(prev => ({ ...prev, composition: !prev.composition }))}
+          >
+            <div className="space-y-2 sm:space-y-3">
+              {portfolioScpis.map(({ scpi, allocation }) => {
+                const scpiSlug = createSlugFromName(scpi.name);
+                const scpiHref = `/comparateur/scpi/${scpiSlug}?source=parcours&context=allocation&lock=true`;
+
+                return (
+                  <div
+                    key={scpi.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 p-3 sm:p-4 bg-slate-800/70 rounded-lg border border-slate-700/80 shadow-inner"
+                  >
+                    <div className="flex-1 min-w-0 pr-2">
+                      <div className="font-semibold text-slate-100 text-sm sm:text-base truncate">{scpi.name}</div>
+                      <div className="text-[10px] sm:text-xs text-slate-400 truncate">{scpi.company}</div>
+                    </div>
+                    <div className="flex items-center justify-between sm:justify-end gap-3">
+                      <div className="text-right flex-shrink-0">
+                        <div className="text-lg sm:text-xl font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
+                        <div className="text-[10px] sm:text-xs text-slate-400">Répartition: {allocation.toFixed(1)}%</div>
+                      </div>
+                      <a
+                        href={scpiHref}
+                        onClick={(event) => handleOpenScpiFiche(scpiHref, scpiSlug, event)}
+                        className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border border-emerald-500/30 text-emerald-300 hover:text-emerald-200 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-colors"
+                      >
+                        <span>🔍</span>
+                        <span>Voir la fiche SCPI</span>
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {isAdapted && (
+              <p className="text-sm text-slate-300 leading-relaxed mt-4">
+                Cette approche privilégie une allocation lisible et progressive. 
+                La diversification pourra être renforcée dans le temps lors de futurs investissements.
+              </p>
+            )}
+          </SectionRepliable>
+
+          {/* Section 2 : Analyse détaillée */}
+          <SectionRepliable
+            title="Analyse détaillée"
+            subtitle="Pour approfondir votre compréhension du portefeuille"
+            isExpanded={expandedSections.analysisDetail}
+            onToggle={() => setExpandedSections(prev => ({ ...prev, analysisDetail: !prev.analysisDetail }))}
+          >
+            <div className="bg-slate-800/70 rounded-lg border border-slate-700/80 p-3 sm:p-4">
+              <PortfolioAnalysisModule 
+                portfolioScpis={portfolioScpis}
+                analysis={analysis}
+                initialInvestmentAmount={investmentAmount}
+              />
+            </div>
+          </SectionRepliable>
+
+          <SectionRepliable
+            title="Analyse professionnelle"
+            subtitle="Avantages, points de vigilance et indicateurs clés"
+            isExpanded={expandedSections.analysisPro}
+            onToggle={() => setExpandedSections(prev => ({ ...prev, analysisPro: !prev.analysisPro }))}
+          >
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">✅ Avantages</h4>
+                <ul className="space-y-2">
+                  {prosCons.pros.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-emerald-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <h4 className="text-sm font-semibold text-amber-300 mb-2">⚠️ Points de vigilance</h4>
+                <ul className="space-y-2">
+                  {prosCons.cons.map((point, index) => (
+                    <li key={index} className="flex items-start gap-3 text-slate-200">
+                      <span className="text-amber-400 mt-1">•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <h4 className="text-sm font-semibold text-slate-200 mb-2">📊 Rendements & revenus</h4>
+                <div className="text-sm text-slate-200 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span>Rendement moyen</span>
+                    <span className="font-semibold">{rendementMoyen.toFixed(2)} %</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Revenus annuels estimés</span>
+                    <span className="font-semibold">{Math.round(revenusAnnuels).toLocaleString('fr-FR')} €</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Revenus mensuels estimés</span>
+                    <span className="font-semibold">{Math.round(revenusMensuels).toLocaleString('fr-FR')} €</span>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <h4 className="text-sm font-semibold text-slate-200 mb-2">⭐ Avis MaximusSCPI</h4>
+                <p className="text-slate-200 leading-relaxed">
+                  {avisMaximus.label} — {avisMaximus.detail}
+                </p>
+              </div>
+            </div>
+          </SectionRepliable>
+
+          {/* Section 3 : Restitution experte */}
           <SectionRepliable
             title="Restitution experte"
             isExpanded={expandedSections.why}
             onToggle={() => setExpandedSections(prev => ({ ...prev, why: !prev.why }))}
           >
-            <div className="space-y-4">
-              <div>
+            <p className="inline-flex items-center gap-2 text-xs sm:text-sm text-emerald-300/90 mb-4">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              La sélection des SCPI est présentée plus haut.
+            </p>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
                 <h4 className="text-sm font-semibold text-emerald-300 mb-2">1️⃣ Synthèse exécutive — verrou décisionnel</h4>
                 <p className="text-slate-200 leading-relaxed">{executiveSummary}</p>
               </div>
 
-              <div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
                 <h4 className="text-sm font-semibold text-emerald-300 mb-2">2️⃣ Arbitrages structurants — cœur expert</h4>
                 <ul className="space-y-2">
                   {arbitrages.map((point, index) => (
@@ -820,7 +1057,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 </ul>
               </div>
 
-              <div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 lg:col-span-2">
                 <h4 className="text-sm font-semibold text-emerald-300 mb-2">3️⃣ Pourquoi ce portefeuille est cohérent avec votre situation</h4>
                 <p className="text-slate-200 leading-relaxed mb-3">{portfolioLogic}</p>
                 <ul className="space-y-2">
@@ -833,7 +1070,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 </ul>
               </div>
 
-              <div>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
                 <h4 className="text-sm font-semibold text-emerald-300 mb-2">4️⃣ Lecture experte de l’allocation</h4>
                 <ul className="space-y-2">
                   {allocationReading.map((point, index) => (
@@ -845,8 +1082,24 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 </ul>
               </div>
 
-              <div>
-                <h4 className="text-sm font-semibold text-emerald-300 mb-2">5️⃣ Ce que ce portefeuille n’est pas — cadre de limites</h4>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 lg:col-span-2">
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">5️⃣ Produits (SCPI) — illustration, pas justification</h4>
+                <p className="text-slate-200 leading-relaxed">
+                  Les SCPI présentées plus haut illustrent la logique d’allocation retenue. Elles ne constituent pas une recommandation personnalisée.
+                </p>
+              </div>
+            </div>
+          </SectionRepliable>
+
+          {/* Section 4 : Cadres pédagogiques & limites */}
+          <SectionRepliable
+            title="Cadres pédagogiques & limites"
+            isExpanded={expandedSections.pedagogy}
+            onToggle={() => setExpandedSections(prev => ({ ...prev, pedagogy: !prev.pedagogy }))}
+          >
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">Ce que ce portefeuille n’est pas — cadre de limites</h4>
                 <ul className="space-y-2">
                   {notThisPortfolio.map((point, index) => (
                     <li key={index} className="flex items-start gap-3 text-slate-200">
@@ -857,8 +1110,8 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 </ul>
               </div>
 
-              <div>
-                <h4 className="text-sm font-semibold text-emerald-300 mb-2">6️⃣ Projection long terme — cadre de lecture, pas promesse</h4>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 lg:col-span-2">
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">Projection long terme — cadre de lecture, pas promesse</h4>
                 <p className="text-slate-200 leading-relaxed mb-3">
                   La projection à 15 ans est un outil de compréhension basé sur des hypothèses constantes, sans valeur prédictive.
                 </p>
@@ -879,67 +1132,16 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 <p className="text-slate-300 text-xs mt-3">Les performances passées ne préjugent pas des performances futures.</p>
               </div>
 
-              <div>
-                <h4 className="text-sm font-semibold text-emerald-300 mb-2">7️⃣ Produits (SCPI) — illustration, pas justification</h4>
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 lg:col-span-2">
+                <h4 className="text-sm font-semibold text-emerald-300 mb-2">Cadre non contractuel & mentions pédagogiques</h4>
                 <p className="text-slate-200 leading-relaxed">
-                  Les SCPI présentées ci-dessous illustrent la logique d’allocation retenue. Elles ne constituent pas une recommandation personnalisée.
+                  Cette lecture est informative et vise à clarifier la logique d’allocation, sans engagement contractuel.
                 </p>
               </div>
             </div>
           </SectionRepliable>
 
-          {/* Section 2 : Composition du portefeuille */}
-          <SectionRepliable
-            title={`Les ${portfolioScpis.length} SCPI (illustration de la stratégie)`}
-            subtitle={isAdapted 
-              ? `Pour un montant de ${investmentAmount.toLocaleString('fr-FR')} €, le portefeuille est concentré sur ${portfolioScpis.length} SCPI pour conserver une allocation lisible et efficace.`
-              : `${portfolioScpis.length} SCPI sélectionnées pour leur solidité, leur taux d'occupation élevé, leur faible endettement et leur décote à l'achat.`
-            }
-            isExpanded={expandedSections.composition}
-            onToggle={() => setExpandedSections(prev => ({ ...prev, composition: !prev.composition }))}
-          >
-            <div className="space-y-2 sm:space-y-3">
-              {portfolioScpis.map(({ scpi, allocation }) => (
-                <div
-                  key={scpi.id}
-                  className="flex items-center justify-between p-3 sm:p-4 bg-slate-900 rounded-lg border border-slate-700"
-                >
-                  <div className="flex-1 min-w-0 pr-2">
-                    <div className="font-semibold text-slate-100 text-sm sm:text-base truncate">{scpi.name}</div>
-                    <div className="text-xs sm:text-sm text-slate-400 truncate">{scpi.company}</div>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-xl sm:text-2xl font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
-                    <div className="text-xs text-slate-400">Répartition: {allocation.toFixed(1)}%</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {isAdapted && (
-              <p className="text-sm text-slate-300 leading-relaxed mt-4">
-                Cette approche professionnelle privilégie la qualité et la simplicité. 
-                La diversification pourra être renforcée dans le temps lors de futurs investissements.
-              </p>
-            )}
-          </SectionRepliable>
-
-
         </div>
-
-
-        {/* NIVEAU 3 : ANALYSE DÉTAILLÉE - Section repliable */}
-        <SectionRepliable
-          title="Analyse détaillée"
-          subtitle="Pour approfondir votre compréhension du portefeuille"
-          isExpanded={expandedSections.analysis}
-          onToggle={() => setExpandedSections(prev => ({ ...prev, analysis: !prev.analysis }))}
-        >
-          <PortfolioAnalysisModule 
-            portfolioScpis={portfolioScpis}
-            analysis={analysis}
-            initialInvestmentAmount={investmentAmount}
-          />
-        </SectionRepliable>
 
         {/* 5️⃣ FIN DE PAGE - Transition vers l'action */}
         <div className="space-y-3 sm:space-y-4">

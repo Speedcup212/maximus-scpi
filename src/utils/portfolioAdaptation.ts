@@ -5,10 +5,8 @@ import { PortfolioType } from '../types/guidedJourney';
  * Détermine le nombre maximum de SCPI selon le montant investi
  */
 export function getMaxScpiCount(investmentAmount: number): number {
-  if (investmentAmount <= 15000) return 2;
-  if (investmentAmount <= 30000) return 3;
-  if (investmentAmount <= 60000) return 4;
-  if (investmentAmount <= 100000) return 5;
+  if (investmentAmount <= 10000) return 3;
+  if (investmentAmount <= 50000) return 5;
   return 6;
 }
 

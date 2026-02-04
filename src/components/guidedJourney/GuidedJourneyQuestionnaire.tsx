@@ -13,8 +13,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
 }) => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
+  const [mode, setMode] = useState<'beginner' | 'expert' | null>(null);
 
-  const questions: Array<{
+  type Question = {
     id: number;
     question: string;
     key: keyof GuidedJourneyAnswers;
@@ -29,8 +30,161 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       suffix?: string;
       helper?: string;
     };
-    autoAdvance?: boolean;
-  }> = [
+  };
+
+  const beginnerQuestions: Question[] = [
+    {
+      id: 1,
+      question: "Quel est votre objectif principal ?",
+      key: 'objective',
+      options: [
+        { value: 'revenus-reguliers', label: 'Revenus réguliers' },
+        { value: 'revenus-et-croissance', label: 'Revenus + croissance' },
+        { value: 'croissance-long-terme', label: 'Croissance long terme' },
+        { value: 'etre-guide', label: 'Je débute et souhaite être guidé' },
+      ],
+      info: "ⓘ Information : l’objectif oriente le type d’allocation SCPI."
+    },
+    {
+      id: 2,
+      question: "Quel horizon de détention envisagez-vous ?",
+      key: 'horizon',
+      options: [
+        { value: 'moins-8-ans', label: 'Moins de 8 ans' },
+        { value: '8-15-ans', label: '8 à 15 ans' },
+        { value: 'plus-15-ans', label: 'Plus de 15 ans' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : l’immobilier s’inscrit dans des cycles de long terme."
+    },
+    {
+      id: 3,
+      question: "Quelle est votre tolérance au risque ?",
+      key: 'riskTolerance',
+      options: [
+        { value: 'faible', label: 'Faible' },
+        { value: 'moderee', label: 'Modérée' },
+        { value: 'elevee', label: 'Élevée' },
+      ],
+      info: "ⓘ Information : la tolérance au risque influence le niveau de volatilité accepté."
+    },
+    {
+      id: 4,
+      question: "Avez-vous besoin de revenus rapidement ?",
+      key: 'immediateIncome',
+      options: [
+        { value: 'oui', label: 'Oui' },
+        { value: 'non', label: 'Non' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 5,
+      question: "Êtes-vous sensible à la stabilité du rendement ?",
+      key: 'yieldStabilitySensitivity',
+      options: [
+        { value: 'tres', label: 'Très sensible' },
+        { value: 'moyenne', label: 'Moyennement' },
+        { value: 'faible', label: 'Peu' },
+      ],
+    },
+    {
+      id: 6,
+      question: "Quel montant souhaitez-vous investir ?",
+      key: 'investmentAmount',
+      type: 'number',
+      numberConfig: {
+        min: 1000,
+        step: 1000,
+        placeholder: "Montant envisagé",
+        quickValues: [10000, 25000, 50000, 100000, 200000, 500000],
+        suffix: "€",
+        helper: "Minimum 1 000 €."
+      },
+    },
+    {
+      id: 7,
+      question: "Préférence géographique (si compatible avec votre fiscalité) ?",
+      key: 'geoDiversification',
+      options: [
+        { value: 'europe', label: 'Europe' },
+        { value: 'mixte', label: 'Mix France + Europe' },
+        { value: 'international', label: 'International' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : la fiscalité peut limiter la part France lorsque la TMI est élevée."
+    },
+    {
+      id: 8,
+      question: "Quels secteurs privilégiez-vous ?",
+      key: 'sectorPreference',
+      options: [
+        { value: 'diversifie', label: 'Diversifié' },
+        { value: 'bureaux', label: 'Bureaux' },
+        { value: 'commerces', label: 'Commerces' },
+        { value: 'sante', label: 'Santé & éducation' },
+        { value: 'logistique', label: 'Logistique' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 9,
+      question: "Quel mode de détention envisagez-vous ?",
+      key: 'holdingMode',
+      options: [
+        { value: 'direct', label: 'Détention directe' },
+        { value: 'assurance-vie', label: 'Assurance-vie' },
+        { value: 'societe', label: 'Société' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+    },
+    {
+      id: 10,
+      question: "Quelle est votre expérience en SCPI ?",
+      key: 'scpiExperience',
+      options: [
+        { value: 'debutant', label: 'Débutant' },
+        { value: 'intermediaire', label: 'Intermédiaire' },
+        { value: 'avance', label: 'Avancé' },
+      ],
+    },
+    {
+      id: 11,
+      question: "Souhaitez-vous une restitution pour décider seul ou avec accompagnement ?",
+      key: 'autonomyLevel',
+      options: [
+        { value: 'autonome', label: 'Décider seul' },
+        { value: 'mixte', label: 'Décider avec un avis externe' },
+        { value: 'accompagne', label: 'Être accompagné' },
+      ],
+    },
+    {
+      id: 12,
+      question: "Avez-vous des contraintes simples à prendre en compte ?",
+      key: 'constraintsSimple',
+      options: [
+        { value: 'aucune', label: 'Aucune' },
+        { value: 'liquidite', label: 'Liquidité' },
+        { value: 'fiscalite', label: 'Fiscalité' },
+        { value: 'risque', label: 'Risque' },
+      ],
+    },
+    {
+      id: 13,
+      question: "Quelle est votre TMI estimée ?",
+      key: 'tmiEstimate',
+      options: [
+        { value: 'tmi-0-11', label: '0–11 %' },
+        { value: 'tmi-30', label: '30 %' },
+        { value: 'tmi-41', label: '41 %' },
+        { value: 'tmi-45', label: '45 %' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
+      info: "ⓘ Information : la TMI (taux marginal d’imposition) est le pourcentage appliqué à la dernière tranche de vos revenus. Vous la trouvez sur votre avis d’imposition (ligne « Taux marginal d’imposition »). Elle sert ici à ajuster la lecture fiscale."
+    },
+  ];
+
+  const expertQuestions: Question[] = [
     {
       id: 1,
       question: "Quelle est la valeur de votre patrimoine (hors résidence principale) ?",
@@ -395,6 +549,8 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
   ];
 
+  const questions = mode === 'expert' ? expertQuestions : beginnerQuestions;
+
   const currentQ = questions[currentQuestion - 1];
   const isLastQuestion = currentQuestion === questions.length;
 
@@ -413,14 +569,11 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     // Passer automatiquement à la question suivante après un court délai
     setTimeout(() => {
       if (isLastQuestion) {
-        // Si c'est la dernière question, valider et compléter
         const completeAnswers = {
           ...newAnswers,
           [currentQ.key]: value,
         };
-        if (Object.keys(completeAnswers).length === questions.length) {
-          onComplete(completeAnswers as GuidedJourneyAnswers);
-        }
+        onComplete(completeAnswers as GuidedJourneyAnswers);
       } else {
         // Passer à la question suivante
         setCurrentQuestion(prev => prev + 1);
@@ -431,12 +584,82 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const handlePrevious = () => {
     if (currentQuestion > 1) {
       setCurrentQuestion(prev => prev - 1);
-    } else if (onClose) {
+      return;
+    }
+    if (mode) {
+      setMode(null);
+      setAnswers({});
+      return;
+    }
+    if (onClose) {
       onClose();
     }
   };
 
   const progress = (currentQuestion / questions.length) * 100;
+
+  if (!mode) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
+        <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Choisissez votre parcours
+            </h1>
+            <p className="text-lg text-slate-300">
+              Deux niveaux d’analyse selon votre besoin.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            <button
+              onClick={() => {
+                setMode('beginner');
+                setCurrentQuestion(1);
+                setAnswers({});
+              }}
+              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-emerald-500 bg-slate-900/80 transition-all"
+            >
+              <div className="text-sm text-emerald-300 font-semibold mb-1">Orientation rapide – Débutant</div>
+              <div className="text-base font-semibold text-white">13 questions · 2–3 minutes</div>
+              <div className="text-sm text-slate-300 mt-2">
+                Lecture claire et pédagogique de votre profil SCPI, sans jargon.
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                setMode('expert');
+                setCurrentQuestion(1);
+                setAnswers({});
+              }}
+              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-blue-500 bg-slate-900/80 transition-all"
+            >
+              <div className="text-sm text-blue-300 font-semibold mb-1">Analyse approfondie – Expert</div>
+              <div className="text-base font-semibold text-white">30–32 questions · 8–10 minutes</div>
+              <div className="text-sm text-slate-300 mt-2">
+                Analyse structurée de la cohérence patrimoniale et des arbitrages.
+              </div>
+            </button>
+          </div>
+
+          <div className="mt-6 flex justify-start">
+            <button
+              onClick={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
+              className="flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-600 rounded-xl font-semibold text-slate-100 hover:bg-slate-700 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Retour
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
@@ -444,10 +667,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Analyse approfondie – Expert
+            {mode === 'expert' ? 'Analyse approfondie – Expert' : 'Orientation rapide – Débutant'}
           </h1>
           <p className="text-lg text-slate-300">
-            Une analyse structurée pour évaluer la cohérence patrimoniale de votre stratégie SCPI.
+            {mode === 'expert'
+              ? 'Une analyse structurée pour évaluer la cohérence patrimoniale de votre stratégie SCPI.'
+              : 'Une lecture claire et pédagogique de votre profil SCPI.'}
           </p>
         </div>
 
