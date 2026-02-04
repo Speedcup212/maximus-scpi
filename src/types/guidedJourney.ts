@@ -15,6 +15,7 @@ export interface GuidedJourneyAnswers {
   assetSplit?: string;
   scpiShare?: string;
   scpiExposure?: string;
+  concentrationTolerance?: string;
   otherRealEstateIncome?: string;
   tmiEstimate?: string;
   realEstateIncomeExposure?: string;
@@ -30,6 +31,7 @@ export interface GuidedJourneyAnswers {
   sectorPreference?: string;
   holdingMode?: string;
   scpiExperience?: string;
+  taxDecisionImpact?: string;
   autonomyLevel?: string;
   constraintsSimple?: string;
   yieldDropReaction?: string;
@@ -40,6 +42,11 @@ export interface GuidedJourneyAnswers {
   sectorPreferences?: string;
   sectorsToLimit?: string;
   acceptSectorOverlap?: string;
+  cycleSensitivity?: string;
+  diversificationLevel?: string;
+  allocationBalancePreference?: string;
+  primaryVigilance?: string;
+  incomeVolatilitySensitivity?: string;
   capitalizationImportance?: string;
   targetScpiCount?: string;
   maxPerScpi?: string;

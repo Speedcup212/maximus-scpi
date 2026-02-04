@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { GuidedJourneyAnswers } from '../../types/guidedJourney';
 
@@ -12,8 +12,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   onClose 
 }) => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
-  const [mode, setMode] = useState<'beginner' | 'expert' | null>(null);
+  const [mode] = useState<'expert'>('expert');
 
   type Question = {
     id: number;
@@ -140,12 +141,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 10,
-      question: "Quelle est votre expérience en SCPI ?",
-      key: 'scpiExperience',
+      question: "Dans quelle mesure la fiscalité influence-t-elle vos décisions d’investissement aujourd’hui ?",
+      key: 'taxDecisionImpact',
       options: [
-        { value: 'debutant', label: 'Débutant' },
-        { value: 'intermediaire', label: 'Intermédiaire' },
-        { value: 'avance', label: 'Avancé' },
+        { value: 'forte', label: 'Très fortement : je cherche à limiter l’impact fiscal autant que possible' },
+        { value: 'moderee', label: 'Modérément : c’est un critère parmi d’autres' },
+        { value: 'faible', label: 'Peu : je privilégie d’abord la logique patrimoniale globale' },
       ],
     },
     {
@@ -203,7 +204,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 2,
-      question: "Comment se répartit votre patrimoine (hors RP) ?",
+      question: "Comment se répartit votre patrimoine (hors résidence principale) ?",
       key: 'assetSplit',
       options: [
         { value: 'majoritairement-immobilier', label: 'Majoritairement immobilier' },
@@ -226,13 +227,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 4,
-      question: "Les SCPI représentent-elles une première exposition ou une poche existante ?",
-      key: 'scpiExposure',
+      question: "Préférez-vous un portefeuille très diversifié ou plus concentré ?",
+      key: 'concentrationTolerance',
       options: [
-        { value: 'premiere', label: 'Première exposition' },
-        { value: 'poche-existante', label: 'Poche existante' },
-        { value: 'renforcement', label: 'Renforcement d’une poche existante' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'diversifie', label: 'Très diversifié, réparti sur plusieurs types d’actifs immobiliers' },
+        { value: 'equilibre', label: 'Équilibré, avec quelques secteurs dominants' },
+        { value: 'concentre', label: 'Plus concentré, orienté vers des actifs ciblés' },
       ],
     },
     {
@@ -298,13 +298,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 10,
-      question: "Quel est votre ressenti sur la contrainte fiscale actuelle ?",
-      key: 'taxConstraintFeeling',
+      question: "Dans quelle mesure la fiscalité influence-t-elle vos décisions d’investissement aujourd’hui ?",
+      key: 'taxDecisionImpact',
       options: [
-        { value: 'forte', label: 'Forte' },
-        { value: 'moderee', label: 'Modérée' },
-        { value: 'faible', label: 'Faible' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'forte', label: 'Très fortement : je cherche à limiter l’impact fiscal autant que possible' },
+        { value: 'moderee', label: 'Modérément : c’est un critère parmi d’autres' },
+        { value: 'faible', label: 'Peu : je privilégie d’abord la logique patrimoniale globale' },
       ],
     },
     {
@@ -416,8 +415,8 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 21,
-      question: "Quelle est votre tolérance aux cycles immobiliers ?",
-      key: 'cycleTolerance',
+      question: "Quelle est votre sensibilité à la volatilité des revenus ?",
+      key: 'incomeVolatilitySensitivity',
       options: [
         { value: 'faible', label: 'Faible' },
         { value: 'moyenne', label: 'Moyenne' },
@@ -442,11 +441,11 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "Quels secteurs vous attirent le plus ?",
       key: 'sectorPreferences',
       options: [
+        { value: 'diversifie', label: 'Diversifié' },
         { value: 'bureaux', label: 'Bureaux' },
         { value: 'commerces', label: 'Commerces' },
         { value: 'sante', label: 'Santé & éducation' },
         { value: 'logistique', label: 'Logistique' },
-        { value: 'diversifie', label: 'Diversifié' },
         { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
       ],
     },
@@ -464,55 +463,52 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 25,
-      question: "Acceptez-vous des doublons sectoriels ?",
-      key: 'acceptSectorOverlap',
+      question: "Comment réagissez-vous face aux cycles immobiliers ?",
+      key: 'cycleSensitivity',
       options: [
-        { value: 'oui', label: 'Oui' },
-        { value: 'limite', label: 'Oui, mais limités' },
-        { value: 'non', label: 'Non' },
+        { value: 'stable', label: 'Je privilégie la stabilité, même si le rendement est plus modéré' },
+        { value: 'modere', label: 'J’accepte une exposition modérée aux cycles pour améliorer le rendement' },
+        { value: 'cyclique', label: 'Je suis à l’aise avec des secteurs plus cycliques si le potentiel est supérieur' },
       ],
     },
     {
       id: 26,
-      question: "Quelle importance accordez-vous à la capitalisation ?",
+      question: "Quelle importance accordez-vous à la taille et à la solidité des SCPI sélectionnées ?",
       key: 'capitalizationImportance',
       options: [
-        { value: 'faible', label: 'Faible' },
-        { value: 'moyenne', label: 'Moyenne' },
-        { value: 'forte', label: 'Forte' },
+        { value: 'tres-importante', label: 'Très importante : je privilégie des SCPI de grande taille, bien établies' },
+        { value: 'importante', label: 'Importante : un bon équilibre entre taille et potentiel' },
+        { value: 'secondaire', label: 'Secondaire : je suis ouvert à des SCPI plus récentes ou plus petites' },
       ],
     },
     {
       id: 27,
-      question: "Combien de SCPI souhaitez-vous détenir ?",
-      key: 'targetScpiCount',
+      question: "Quel niveau de diversification souhaitez-vous dans votre portefeuille SCPI ?",
+      key: 'diversificationLevel',
       options: [
-        { value: '2-3', label: '2–3' },
-        { value: '4-6', label: '4–6' },
-        { value: '7-plus', label: '7 et plus' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'concentre', label: 'Portefeuille concentré : peu de SCPI, allocation lisible' },
+        { value: 'equilibre', label: 'Portefeuille équilibré : diversification maîtrisée' },
+        { value: 'tres-diversifie', label: 'Portefeuille très diversifié : mutualisation maximale' },
       ],
     },
     {
       id: 28,
-      question: "Souhaitez-vous plafonner la part par SCPI ?",
-      key: 'maxPerScpi',
+      question: "Quel niveau d’équilibre souhaitez-vous entre les SCPI de votre portefeuille ?",
+      key: 'allocationBalancePreference',
       options: [
-        { value: '10', label: '10 % max' },
-        { value: '20', label: '20 % max' },
-        { value: '25', label: '25 % max' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'homogene', label: 'Répartition homogène : chaque SCPI a un poids comparable' },
+        { value: 'dominantes', label: 'Équilibre avec une ou deux SCPI dominantes' },
+        { value: 'centrale', label: 'Position centrale marquée : une SCPI peut jouer un rôle principal' },
       ],
     },
     {
       id: 29,
-      question: "Avez-vous des exclusions par principe ?",
-      key: 'exclusions',
+      question: "Quel est votre principal point de vigilance dans un investissement SCPI ?",
+      key: 'primaryVigilance',
       options: [
-        { value: 'aucune', label: 'Aucune' },
-        { value: 'geographie', label: 'Oui (géographie)' },
-        { value: 'sectoriel', label: 'Oui (sectoriel)' },
-        { value: 'autre', label: 'Oui (autre)' },
+        { value: 'stabilite', label: 'La stabilité des loyers dans le temps' },
+        { value: 'cycles', label: 'La capacité à traverser les cycles immobiliers' },
+        { value: 'rendement', label: 'La recherche d’un meilleur potentiel de rendement' },
       ],
     },
     {
@@ -549,7 +545,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
   ];
 
-  const questions = mode === 'expert' ? expertQuestions : beginnerQuestions;
+  const questions = expertQuestions;
 
   const currentQ = questions[currentQuestion - 1];
   const isLastQuestion = currentQuestion === questions.length;
@@ -566,29 +562,19 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       return;
     }
 
+    if (isLastQuestion) {
+      return;
+    }
+
     // Passer automatiquement à la question suivante après un court délai
     setTimeout(() => {
-      if (isLastQuestion) {
-        const completeAnswers = {
-          ...newAnswers,
-          [currentQ.key]: value,
-        };
-        onComplete(completeAnswers as GuidedJourneyAnswers);
-      } else {
-        // Passer à la question suivante
-        setCurrentQuestion(prev => prev + 1);
-      }
+      setCurrentQuestion(prev => prev + 1);
     }, 300); // Délai de 300ms pour voir la sélection
   };
 
   const handlePrevious = () => {
     if (currentQuestion > 1) {
       setCurrentQuestion(prev => prev - 1);
-      return;
-    }
-    if (mode) {
-      setMode(null);
-      setAnswers({});
       return;
     }
     if (onClose) {
@@ -598,68 +584,16 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
 
   const progress = (currentQuestion / questions.length) * 100;
 
-  if (!mode) {
-    return (
-      <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
-        <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Choisissez votre parcours
-            </h1>
-            <p className="text-lg text-slate-300">
-              Deux niveaux d’analyse selon votre besoin.
-            </p>
-          </div>
+  useEffect(() => {
+    setHasSubmitted(false);
+  }, [currentQuestion, mode]);
 
-          <div className="grid gap-4">
-            <button
-              onClick={() => {
-                setMode('beginner');
-                setCurrentQuestion(1);
-                setAnswers({});
-              }}
-              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-emerald-500 bg-slate-900/80 transition-all"
-            >
-              <div className="text-sm text-emerald-300 font-semibold mb-1">Orientation rapide – Débutant</div>
-              <div className="text-base font-semibold text-white">13 questions · 2–3 minutes</div>
-              <div className="text-sm text-slate-300 mt-2">
-                Lecture claire et pédagogique de votre profil SCPI, sans jargon.
-              </div>
-            </button>
-
-            <button
-              onClick={() => {
-                setMode('expert');
-                setCurrentQuestion(1);
-                setAnswers({});
-              }}
-              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-blue-500 bg-slate-900/80 transition-all"
-            >
-              <div className="text-sm text-blue-300 font-semibold mb-1">Analyse approfondie – Expert</div>
-              <div className="text-base font-semibold text-white">30–32 questions · 8–10 minutes</div>
-              <div className="text-sm text-slate-300 mt-2">
-                Analyse structurée de la cohérence patrimoniale et des arbitrages.
-              </div>
-            </button>
-          </div>
-
-          <div className="mt-6 flex justify-start">
-            <button
-              onClick={() => {
-                if (onClose) {
-                  onClose();
-                }
-              }}
-              className="flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-600 rounded-xl font-semibold text-slate-100 hover:bg-slate-700 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Retour
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (isLastQuestion && !hasSubmitted && answers[currentQ.key] !== undefined) {
+      setHasSubmitted(true);
+      onComplete(answers as GuidedJourneyAnswers);
+    }
+  }, [isLastQuestion, hasSubmitted, answers, currentQ.key, onComplete]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
@@ -667,7 +601,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            {mode === 'expert' ? 'Analyse approfondie – Expert' : 'Orientation rapide – Débutant'}
+            Analyse approfondie – Expert
           </h1>
           <p className="text-lg text-slate-300">
             {mode === 'expert'

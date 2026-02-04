@@ -1,4 +1,5 @@
 import { Scpi } from '../types/scpi';
+import { getMaxScpiCount } from './portfolioAdaptation';
 import { normalizeGeoLabel } from './labelNormalization';
 import { 
   GuidedJourneyAnswers, 
@@ -307,6 +308,7 @@ export function determineRecommendedPortfolio(answers: GuidedJourneyAnswers): Po
 export function buildPortfolio(
   portfolioType: PortfolioType,
   availableScpis: Scpi[],
+  maxScpiCount: number,
   taxPriority?: 'yield' | 'balance' | 'tax-optimization' | 'neutral'
 ): Portfolio {
   const portfolios: Record<PortfolioType, Omit<Portfolio, 'scpis' | 'logic'>> = {
@@ -349,6 +351,7 @@ export function buildPortfolio(
   });
 
   let selectedScpis: ScpiWithScore[] = [];
+  let universe: ScpiWithScore[] = scoredScpis;
   const minScore = 65;
   const currentYear = new Date().getFullYear();
 
@@ -359,60 +362,76 @@ export function buildPortfolio(
         : taxPriority === 'tax-optimization'
           ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
           : scoredScpis;
-      selectedScpis = selectByScore(baseUniverse, 6, { minScore });
+      universe = baseUniverse;
+      selectedScpis = selectByScore(baseUniverse, maxScpiCount, { minScore });
       break;
     }
     case 'revenus-croissance': {
       if (taxPriority === 'tax-optimization') {
         const europeUniverse = scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european);
-        selectedScpis = selectByScore(europeUniverse, 6, { minScore });
+        universe = europeUniverse;
+        selectedScpis = selectByScore(europeUniverse, maxScpiCount, { minScore });
       } else {
+        universe = scoredScpis;
+        const franceCount = Math.ceil(maxScpiCount / 2);
+        const europeCount = maxScpiCount - franceCount;
         const franceTop = selectByScore(
           scoredScpis.filter(item => item.scpi.geography === 'france'),
-          3,
+          franceCount,
           { minScore }
         );
         const europeTop = selectByScore(
           scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european),
-          3,
+          europeCount,
           { minScore }
         );
-        selectedScpis = [...franceTop, ...europeTop].slice(0, 6);
+        selectedScpis = [...franceTop, ...europeTop].slice(0, maxScpiCount);
       }
       break;
     }
     case 'croissance-long-terme': {
-      const universe = taxPriority === 'tax-optimization'
+      const baseUniverse = taxPriority === 'tax-optimization'
         ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
         : scoredScpis;
-      const filtered = universe.filter(item => {
+      const filtered = baseUniverse.filter(item => {
         if (!item.scpi.creation) return true;
         return currentYear - item.scpi.creation >= 3;
       });
-      selectedScpis = selectByScore(filtered, 6, { minScore });
+      universe = filtered;
+      selectedScpis = selectByScore(filtered, maxScpiCount, { minScore });
       break;
     }
     case 'opportunites-immobilieres': {
       const sectors: Array<Scpi['sector']> = ['bureaux', 'commerces', 'sante', 'logistique', 'diversifie'];
-      const universe = taxPriority === 'tax-optimization'
+      const sectorUniverse = taxPriority === 'tax-optimization'
         ? scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european)
         : scoredScpis;
+      universe = sectorUniverse;
 
       selectedScpis = sectors
         .map(sector => {
-          const candidates = universe.filter(item => item.scpi.sector === sector);
+          const candidates = sectorUniverse.filter(item => item.scpi.sector === sector);
           return candidates.sort((a, b) => b.qualityScore - a.qualityScore)[0];
         })
         .filter((item): item is ScpiWithScore => Boolean(item))
         .filter(item => item.qualityScore >= minScore)
-        .slice(0, 6);
+        .slice(0, maxScpiCount);
       break;
     }
     case 'immobilier-europeen': {
       const europeUniverse = scoredScpis.filter(item => item.scpi.geography === 'europe' || item.scpi.european);
-      selectedScpis = selectByScore(europeUniverse, 6, { minScore });
+      universe = europeUniverse;
+      selectedScpis = selectByScore(europeUniverse, maxScpiCount, { minScore });
       break;
     }
+  }
+
+  if (selectedScpis.length < maxScpiCount) {
+    const selectedIds = new Set(selectedScpis.map(item => item.scpi.id));
+    const fillCandidates = universe
+      .filter(item => !selectedIds.has(item.scpi.id))
+      .sort((a, b) => b.qualityScore - a.qualityScore);
+    selectedScpis = [...selectedScpis, ...fillCandidates].slice(0, maxScpiCount);
   }
 
   const allocations = allocateByScore(selectedScpis, 25);
@@ -441,6 +460,7 @@ export function generateRecommendation(
   
   // Déterminer la priorité fiscale à partir du montant d'impôt annuel
   const taxPriority = getTaxPriority(answers.taxSituation);
+  const maxScpiCount = getMaxScpiCount(answers.investmentAmount || 50000);
 
   const tmiEstimate = answers.tmiEstimate;
   const tmiFromTaxSituation = mapTaxSituationToTMI(answers.taxSituation);
@@ -457,7 +477,7 @@ export function generateRecommendation(
   }
   
   // Construire le portefeuille en tenant compte de la priorité fiscale
-  const portfolio = buildPortfolio(portfolioType, eligibleScpis, taxPriority);
+  const portfolio = buildPortfolio(portfolioType, eligibleScpis, maxScpiCount, taxPriority);
   
   // Générer l'explication simple
   const explanation = generateSimpleExplanation(portfolio, answers);
