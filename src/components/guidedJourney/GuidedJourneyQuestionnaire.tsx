@@ -14,7 +14,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
-  const [mode] = useState<'expert'>('expert');
+  const [mode, setMode] = useState<'beginner' | 'expert' | null>(null);
 
   type Question = {
     id: number;
@@ -91,7 +91,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 6,
-      question: "Quel montant souhaitez-vous investir ?",
+      question: "Quel montant souhaitez-vous investir en SCPI ?",
       key: 'investmentAmount',
       type: 'number',
       numberConfig: {
@@ -105,7 +105,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 7,
-      question: "Préférence géographique (si compatible avec votre fiscalité) ?",
+      question: "Quelle diversification géographique souhaitez-vous ?",
       key: 'geoDiversification',
       options: [
         { value: 'europe', label: 'Europe' },
@@ -117,7 +117,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 8,
-      question: "Quels secteurs privilégiez-vous ?",
+      question: "Quels secteurs vous attirent le plus ?",
       key: 'sectorPreference',
       options: [
         { value: 'diversifie', label: 'Diversifié' },
@@ -151,7 +151,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 11,
-      question: "Souhaitez-vous une restitution pour décider seul ou avec accompagnement ?",
+      question: "Quel niveau d’autonomie souhaitez-vous ?",
       key: 'autonomyLevel',
       options: [
         { value: 'autonome', label: 'Décider seul' },
@@ -545,7 +545,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
   ];
 
-  const questions = expertQuestions;
+  const questions = mode === 'expert' ? expertQuestions : beginnerQuestions;
 
   const currentQ = questions[currentQuestion - 1];
   const isLastQuestion = currentQuestion === questions.length;
@@ -577,6 +577,10 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       setCurrentQuestion(prev => prev - 1);
       return;
     }
+    if (mode) {
+      setMode(null);
+      return;
+    }
     if (onClose) {
       onClose();
     }
@@ -595,13 +599,76 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     }
   }, [isLastQuestion, hasSubmitted, answers, currentQ.key, onComplete]);
 
+  if (!mode) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
+        <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+              Parcours SCPI
+            </h1>
+            <p className="text-lg text-slate-300">
+              Deux niveaux d’analyse selon votre besoin.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            <button
+              onClick={() => {
+                setMode('beginner');
+                setCurrentQuestion(1);
+                setAnswers({});
+              }}
+              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-emerald-500 bg-slate-900/80 transition-all"
+            >
+              <div className="text-sm text-emerald-300 font-semibold mb-1">Orientation rapide – Débutant</div>
+              <div className="text-base font-semibold text-white">13 questions · 2–3 minutes</div>
+              <div className="text-sm text-slate-300 mt-2">
+                Lecture claire et pédagogique de votre profil SCPI, sans jargon.
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                setMode('expert');
+                setCurrentQuestion(1);
+                setAnswers({});
+              }}
+              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-blue-500 bg-slate-900/80 transition-all"
+            >
+              <div className="text-sm text-blue-300 font-semibold mb-1">Analyse approfondie – Expert</div>
+              <div className="text-base font-semibold text-white">32 questions · 8–10 minutes</div>
+              <div className="text-sm text-slate-300 mt-2">
+                Analyse structurée de la cohérence patrimoniale et des arbitrages.
+              </div>
+            </button>
+          </div>
+
+          <div className="mt-6 flex justify-start">
+            <button
+              onClick={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
+              className="flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-600 rounded-xl font-semibold text-slate-100 hover:bg-slate-700 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Retour
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
       <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Analyse approfondie – Expert
+            {mode === 'expert' ? 'Analyse approfondie – Expert' : 'Orientation rapide – Débutant'}
           </h1>
           <p className="text-lg text-slate-300">
             {mode === 'expert'

@@ -47,7 +47,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 id="guided-scpi-title"
                 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Choisissez votre parcours SCPI en fonction de votre niveau
+                Parcours SCPI en fonction de votre niveau
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
@@ -61,7 +61,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                   <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
                     Recommandé pour débuter
                   </span>
-                  <span className="text-[11px] text-slate-400">12 questions</span>
+                  <span className="text-[11px] text-slate-400">13 questions</span>
                 </div>
                 <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
                   Orientation rapide – Débutant

@@ -44,6 +44,10 @@ const getFranceExposure = (scpi: Scpi): number => {
     return 100;
   }
 
+  if (scpi.geography === 'europe' || scpi.european) {
+    return 0;
+  }
+
   // Sans détail géographique, on applique une prudence maximale
   return 100;
 };
@@ -184,6 +188,7 @@ const computeQualityScore = (
 const allocateByScore = (scpis: ScpiWithScore[], maxPerScpi = 25): Array<{ scpiId: number; allocation: number; qualityScore: number; maximusIndex: number }> => {
   if (scpis.length === 0) return [];
 
+  const effectiveMaxPerScpi = scpis.length * maxPerScpi < 100 ? 100 : maxPerScpi;
   const totalScore = scpis.reduce((sum, item) => sum + item.qualityScore, 0) || 1;
   let allocations = scpis.map(item => ({
     scpiId: item.scpi.id,
@@ -202,8 +207,8 @@ const allocateByScore = (scpis: ScpiWithScore[], maxPerScpi = 25): Array<{ scpiI
     fixed.length = 0;
 
     adjustable.forEach(item => {
-      if (item.allocation > maxPerScpi) {
-        fixed.push({ ...item, allocation: maxPerScpi });
+      if (item.allocation > effectiveMaxPerScpi) {
+        fixed.push({ ...item, allocation: effectiveMaxPerScpi });
       } else {
         nextAdjustable.push(item);
       }
@@ -226,9 +231,9 @@ const allocateByScore = (scpis: ScpiWithScore[], maxPerScpi = 25): Array<{ scpiI
       })),
     ];
 
-    adjustable = allocations.filter(item => item.allocation > maxPerScpi);
+    adjustable = allocations.filter(item => item.allocation > effectiveMaxPerScpi);
     if (adjustable.length === 0) break;
-    adjustable = allocations.filter(item => item.allocation > maxPerScpi);
+    adjustable = allocations.filter(item => item.allocation > effectiveMaxPerScpi);
   }
 
   return allocations.map(item => ({

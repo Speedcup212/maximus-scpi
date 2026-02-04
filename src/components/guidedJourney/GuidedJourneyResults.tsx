@@ -566,13 +566,22 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       cons.push('Endettement élevé, sensibilité aux cycles renforcée.');
     }
 
-    if (analysis.sectorCount >= 4) {
+    const sectorDiversificationCount = Math.max(
+      Object.keys(analysis.sectorDistribution || {}).length,
+      analysis.sectorCount
+    );
+    const geoDiversificationCount = Math.max(
+      Object.keys(analysis.geoDistribution || {}).length,
+      analysis.geographyCount
+    );
+
+    if (sectorDiversificationCount >= 5) {
       pros.push('Bonne diversification sectorielle.');
     } else {
       cons.push('Diversification sectorielle limitée.');
     }
 
-    if (analysis.geographyCount >= 3) {
+    if (geoDiversificationCount >= 4) {
       pros.push('Diversification géographique suffisante.');
     } else {
       cons.push('Exposition géographique concentrée.');
@@ -584,6 +593,10 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
 
     if (answers.horizon === 'moins-8-ans') {
       cons.push('Horizon court : liquidité et cycles immobiliers à considérer.');
+    }
+
+    if (cons.length === 0) {
+      cons.push('Points de vigilance : rester attentif aux cycles immobiliers et à la liquidité relative des SCPI.');
     }
 
     return { pros, cons };
