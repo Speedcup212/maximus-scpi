@@ -377,6 +377,91 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     return geoKeywords.some(keyword => lowerName.includes(keyword));
   };
 
+  const normalizeGeographyName = (name: string): { key: string; label: string } => {
+    const cleaned = cleanName(name);
+    const normalized = cleaned
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+
+    const toKey = (value: string) =>
+      value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '')
+        .trim();
+
+    if (!normalized) {
+      return { key: '', label: '' };
+    }
+
+    const exactMap: Record<string, string> = {
+      'france': 'France',
+      'idf': 'France',
+      'ile de france': 'France',
+      'paris': 'France',
+      'region': 'France',
+      'regions': 'France',
+      'europe': 'Europe',
+      'ue': 'Europe',
+      'union europeenne': 'Europe',
+      'zone euro': 'Europe',
+      'international': 'International',
+      'autres': 'Autres',
+      'royaume uni': 'Royaume-Uni',
+      'uk': 'Royaume-Uni',
+      'angleterre': 'Royaume-Uni',
+      'etats unis': 'États-Unis',
+      'usa': 'États-Unis',
+      'us': 'États-Unis',
+      'pays bas': 'Pays-Bas',
+      'hollande': 'Pays-Bas',
+      'espagne': 'Espagne',
+      'italie': 'Italie',
+      'portugal': 'Portugal',
+      'allemagne': 'Allemagne',
+      'belgique': 'Belgique',
+      'irlande': 'Irlande',
+      'autriche': 'Autriche',
+      'luxembourg': 'Luxembourg',
+      'pologne': 'Pologne',
+      'tchequie': 'Tchéquie',
+      'tcheque': 'Tchéquie',
+      'suisse': 'Suisse',
+      'suede': 'Suède',
+      'norvege': 'Norvège',
+      'finlande': 'Finlande',
+      'danemark': 'Danemark',
+      'grece': 'Grèce'
+    };
+
+    if (exactMap[normalized]) {
+      const label = exactMap[normalized];
+      return { key: toKey(label), label };
+    }
+
+    if (normalized.includes('ile de france') || normalized.includes('paris') || normalized.includes('region')) {
+      return { key: 'france', label: 'France' };
+    }
+
+    if (normalized.includes('france')) {
+      return { key: 'france', label: 'France' };
+    }
+
+    if (normalized.includes('europe')) {
+      return { key: 'europe', label: 'Europe' };
+    }
+
+    if (normalized.includes('international')) {
+      return { key: 'international', label: 'International' };
+    }
+
+    return { key: toKey(cleaned), label: cleaned };
+  };
+
   // Calcul des répartitions agrégées du portefeuille (sans doublons)
   const calculateAggregatedSectors = () => {
     const sectorMap: Record<string, number> = {};
@@ -405,24 +490,25 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   };
 
   const calculateAggregatedGeography = () => {
-    const geoMap: Record<string, number> = {};
+    const geoMap: Record<string, { name: string; value: number }> = {};
     const weightPerScpi = 100 / selectedScpis.length; // Répartition égale par défaut
 
     selectedScpis.forEach(scpi => {
       if (scpi.geography && scpi.geography.length > 0) {
         scpi.geography.forEach(geo => {
-          const cleanGeoName = cleanName(geo.name);
-          if (!geoMap[cleanGeoName]) {
-            geoMap[cleanGeoName] = 0;
+          const normalizedGeo = normalizeGeographyName(geo.name);
+          if (!normalizedGeo.key) return;
+          if (!geoMap[normalizedGeo.key]) {
+            geoMap[normalizedGeo.key] = { name: normalizedGeo.label, value: 0 };
           }
           // Pondérer par le poids de la SCPI dans le portefeuille
-          geoMap[cleanGeoName] += (geo.value * weightPerScpi) / 100;
+          geoMap[normalizedGeo.key].value += (geo.value * weightPerScpi) / 100;
         });
       }
     });
 
-    return Object.entries(geoMap)
-      .map(([name, value]) => ({ name, value: Math.round(value * 10) / 10 }))
+    return Object.values(geoMap)
+      .map(item => ({ name: item.name, value: Math.round(item.value * 10) / 10 }))
       .filter(item => item.value > 0)
       .sort((a, b) => b.value - a.value);
   };
