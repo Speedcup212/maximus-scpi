@@ -36,7 +36,7 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 // Mount React app
-// deploy trigger
+// deploy trigger v2
 console.log('[React] Mounting application...');
 
 try {
