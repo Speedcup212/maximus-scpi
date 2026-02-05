@@ -14,18 +14,21 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
-  const [mode, setMode] = useState<'beginner' | 'expert' | null>(null);
+  const [mode, setMode] = useState<'beginner' | 'expert'>('expert');
 
   useEffect(() => {
     try {
       const preferred = sessionStorage.getItem('guidedJourneyPreferredMode');
-      if (preferred === 'expert' || preferred === 'beginner') {
-        setMode(preferred);
-        setCurrentQuestion(1);
-        setAnswers({
-          questionnaireMode: preferred,
-          ...(preferred === 'beginner' ? { taxSituation: 'je-ne-sais-pas' } : {})
-        });
+      const nextMode = preferred === 'expert' || preferred === 'beginner'
+        ? preferred
+        : 'expert';
+      setMode(nextMode);
+      setCurrentQuestion(1);
+      setAnswers({
+        questionnaireMode: nextMode,
+        ...(nextMode === 'beginner' ? { taxSituation: 'je-ne-sais-pas' } : {})
+      });
+      if (preferred) {
         sessionStorage.removeItem('guidedJourneyPreferredMode');
       }
     } catch (e) {
@@ -583,10 +586,6 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       setCurrentQuestion(prev => prev - 1);
       return;
     }
-    if (mode) {
-      setMode(null);
-      return;
-    }
     if (onClose) {
       onClose();
     }
@@ -604,72 +603,6 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       onComplete(answers as GuidedJourneyAnswers);
     }
   }, [isLastQuestion, hasSubmitted, answers, currentQ.key, onComplete]);
-
-  if (!mode) {
-    return (
-      <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">
-        <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-700 rounded-2xl shadow-xl p-6 sm:p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Parcours SCPI
-            </h1>
-            <p className="text-lg text-slate-300">
-              Deux niveaux d’analyse selon votre besoin.
-            </p>
-          </div>
-
-          <div className="grid gap-4">
-            <button
-              onClick={() => {
-                setMode('beginner');
-                setCurrentQuestion(1);
-                setAnswers({
-                  questionnaireMode: 'beginner',
-                  taxSituation: 'je-ne-sais-pas'
-                });
-              }}
-              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-emerald-500 bg-slate-900/80 transition-all"
-            >
-              <div className="text-sm text-emerald-300 font-semibold mb-1">Orientation rapide – Débutant</div>
-              <div className="text-base font-semibold text-white">12 questions · 2–3 minutes</div>
-              <div className="text-sm text-slate-300 mt-2">
-                Lecture claire et pédagogique de votre profil SCPI, sans jargon.
-              </div>
-            </button>
-
-            <button
-              onClick={() => {
-                setMode('expert');
-                setCurrentQuestion(1);
-                setAnswers({ questionnaireMode: 'expert' });
-              }}
-              className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-blue-500 bg-slate-900/80 transition-all"
-            >
-              <div className="text-sm text-blue-300 font-semibold mb-1">Analyse approfondie – Expert</div>
-              <div className="text-base font-semibold text-white">32 questions · 8–10 minutes</div>
-              <div className="text-sm text-slate-300 mt-2">
-                Analyse structurée de la cohérence patrimoniale et des arbitrages.
-              </div>
-            </button>
-          </div>
-
-          <div className="mt-6 flex justify-start">
-            <button
-              onClick={() => {
-                if (onClose) {
-                  onClose();
-                }
-              }}
-              className="flex items-center gap-2 px-6 py-3 bg-slate-800 border border-slate-600 rounded-xl font-semibold text-slate-100 hover:bg-slate-700 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Retour
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 py-12 px-4">

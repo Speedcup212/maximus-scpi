@@ -2,7 +2,7 @@ import React from 'react';
 
 interface GuidedScpiEntryBlockProps {
   // Callback déclenché au clic sur le CTA
-  onStart?: () => void;
+  onStart?: (mode?: 'beginner' | 'expert') => void;
   // Optionnel : id d'ancre vers laquelle scroller si onStart n'est pas fourni
   targetId?: string;
   className?: string;
@@ -13,9 +13,15 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
   targetId = 'guided-journey',
   className = '',
 }) => {
-  const handleClick = () => {
+  const startWithMode = (mode: 'beginner' | 'expert') => {
+    try {
+      sessionStorage.setItem('guidedJourneyPreferredMode', mode);
+    } catch (e) {
+      // Erreur silencieuse
+    }
+
     if (onStart) {
-      onStart();
+      onStart(mode);
       return;
     }
 
@@ -76,7 +82,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 </ul>
                 <button
                   type="button"
-                  onClick={handleClick}
+                  onClick={() => startWithMode('beginner')}
                   className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400"
                 >
                   Démarrer l’orientation rapide
@@ -103,7 +109,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 </ul>
                 <button
                   type="button"
-                  onClick={handleClick}
+                  onClick={() => startWithMode('expert')}
                   className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
                 >
                   Lancer l’analyse approfondie
