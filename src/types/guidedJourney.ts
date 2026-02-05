@@ -6,6 +6,7 @@ export type InvestmentHorizon = 'moins-8-ans' | '8-15-ans' | 'plus-15-ans' | 'je
 export type ImmediateIncomeNeed = 'oui' | 'non' | 'je-ne-sais-pas';
 
 export interface GuidedJourneyAnswers {
+  questionnaireMode?: 'beginner' | 'expert';
   taxSituation: TaxSituation;
   objective: InvestmentObjective;
   horizon: InvestmentHorizon;
@@ -54,6 +55,18 @@ export interface GuidedJourneyAnswers {
   avoidCriteria?: string;
   postureUnderstanding?: string;
   expectedOutcome?: string;
+  interestReason?: string;
+  projectionDuration?: string;
+  incomeDropFeeling?: string;
+  realEstateExperience?: string;
+  incomeImportanceShortTerm?: string;
+  monthlyIncomeRange?: string;
+  simplicityLevel?: string;
+  investmentPreference?: string;
+  currentPriority?: string;
+  riskAwareness?: string;
+  afterResultPreference?: string;
+  selfPositioning?: string;
 }
 
 export type PortfolioType = 

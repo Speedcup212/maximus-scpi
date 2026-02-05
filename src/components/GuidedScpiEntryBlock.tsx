@@ -47,7 +47,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 id="guided-scpi-title"
                 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Parcours SCPI en fonction de votre niveau
+                Parcours SCPI en fonction de votre expérience
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
@@ -61,18 +61,18 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                   <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
                     Recommandé pour débuter
                   </span>
-                  <span className="text-[11px] text-slate-400">13 questions</span>
+                  <span className="text-[11px] text-slate-400">12 questions</span>
                 </div>
                 <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
                   Orientation rapide – Débutant
                 </h3>
                 <p className="mt-2 text-sm text-slate-300">
-                  Une lecture claire de votre profil SCPI, sans jargon, pour vous orienter rapidement.
+                  Comprenez comment penser les SCPI et identifiez votre profil, sans jargon ni choix à faire.
                 </p>
                 <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
-                  <li>2–3 minutes · format simplifié</li>
-                  <li>Résultat pédagogique et lisible</li>
-                  <li>Orientation générale, pas de décision</li>
+                  <li>2–3 minutes · lecture simplifiée</li>
+                  <li>Profil SCPI clair et pédagogique</li>
+                  <li>Aucune sélection, aucune décision d’investissement</li>
                 </ul>
                 <button
                   type="button"

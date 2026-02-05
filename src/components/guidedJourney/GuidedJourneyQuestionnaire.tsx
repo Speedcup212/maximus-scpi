@@ -16,6 +16,23 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
   const [mode, setMode] = useState<'beginner' | 'expert' | null>(null);
 
+  useEffect(() => {
+    try {
+      const preferred = sessionStorage.getItem('guidedJourneyPreferredMode');
+      if (preferred === 'expert' || preferred === 'beginner') {
+        setMode(preferred);
+        setCurrentQuestion(1);
+        setAnswers({
+          questionnaireMode: preferred,
+          ...(preferred === 'beginner' ? { taxSituation: 'je-ne-sais-pas' } : {})
+        });
+        sessionStorage.removeItem('guidedJourneyPreferredMode');
+      }
+    } catch (e) {
+      // Erreur silencieuse
+    }
+  }, []);
+
   type Question = {
     id: number;
     question: string;
@@ -36,187 +53,167 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const beginnerQuestions: Question[] = [
     {
       id: 1,
-      question: "Quel est votre objectif principal ?",
-      key: 'objective',
+      question: "Pourquoi vous intéressez-vous aux SCPI aujourd’hui ?",
+      key: 'interestReason',
       options: [
-        { value: 'revenus-reguliers', label: 'Revenus réguliers' },
-        { value: 'revenus-et-croissance', label: 'Revenus + croissance' },
-        { value: 'croissance-long-terme', label: 'Croissance long terme' },
-        { value: 'etre-guide', label: 'Je débute et souhaite être guidé' },
+        { value: 'complement-revenus', label: 'J’aimerais créer un complément de revenus dans le temps' },
+        { value: 'repartir-patrimoine', label: 'Je cherche à mieux répartir mon patrimoine' },
+        { value: 'epargne-insatisfait', label: 'Mon épargne ne me satisfait plus telle quelle' },
+        { value: 'decouvrir-comprendre', label: 'Je découvre les SCPI et je veux comprendre' },
       ],
-      info: "ⓘ Information : l’objectif oriente le type d’allocation SCPI."
     },
     {
       id: 2,
-      question: "Quel horizon de détention envisagez-vous ?",
-      key: 'horizon',
+      question: "Sur quelle durée vous projetez-vous ?",
+      key: 'projectionDuration',
       options: [
-        { value: 'moins-8-ans', label: 'Moins de 8 ans' },
-        { value: '8-15-ans', label: '8 à 15 ans' },
-        { value: 'plus-15-ans', label: 'Plus de 15 ans' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'moins-5-ans', label: 'Moins de 5 ans' },
+        { value: '5-8-ans', label: 'Entre 5 et 8 ans' },
+        { value: '8-12-ans', label: 'Entre 8 et 12 ans' },
+        { value: 'plus-12-ans', label: 'Plus de 12 ans' },
       ],
-      info: "ⓘ Information : l’immobilier s’inscrit dans des cycles de long terme."
     },
     {
       id: 3,
-      question: "Quelle est votre tolérance au risque ?",
-      key: 'riskTolerance',
+      question: "Si les revenus baissaient temporairement, vous vous sentiriez plutôt :",
+      key: 'incomeDropFeeling',
       options: [
-        { value: 'faible', label: 'Faible' },
-        { value: 'moderee', label: 'Modérée' },
-        { value: 'elevee', label: 'Élevée' },
+        { value: 'tres-inquiet', label: 'Très inquiet' },
+        { value: 'gene', label: 'Un peu gêné' },
+        { value: 'serein', label: 'Plutôt serein' },
+        { value: 'a-laise', label: 'À l’aise' },
       ],
-      info: "ⓘ Information : la tolérance au risque influence le niveau de volatilité accepté."
     },
     {
       id: 4,
-      question: "Avez-vous besoin de revenus rapidement ?",
-      key: 'immediateIncome',
+      question: "Quelle est votre expérience en immobilier ?",
+      key: 'realEstateExperience',
       options: [
-        { value: 'oui', label: 'Oui' },
-        { value: 'non', label: 'Non' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'aucune', label: 'Aucune' },
+        { value: 'rp', label: 'Résidence principale' },
+        { value: 'locatif', label: 'Immobilier locatif' },
+        { value: 'plusieurs', label: 'Plusieurs investissements' },
       ],
     },
     {
       id: 5,
-      question: "Êtes-vous sensible à la stabilité du rendement ?",
-      key: 'yieldStabilitySensitivity',
+      question: "Les revenus issus des SCPI seraient-ils importants à court terme ?",
+      key: 'incomeImportanceShortTerm',
       options: [
-        { value: 'tres', label: 'Très sensible' },
-        { value: 'moyenne', label: 'Moyennement' },
-        { value: 'faible', label: 'Peu' },
+        { value: 'oui-rapidement', label: 'Oui, rapidement' },
+        { value: 'utile', label: 'Utile mais non indispensable' },
+        { value: 'non-long-terme', label: 'Non, long terme' },
       ],
     },
     {
       id: 6,
-      question: "Quel montant souhaitez-vous investir en SCPI ?",
-      key: 'investmentAmount',
-      type: 'number',
-      numberConfig: {
-        min: 1000,
-        step: 1000,
-        placeholder: "Montant envisagé",
-        quickValues: [10000, 25000, 50000, 100000, 200000, 500000],
-        suffix: "€",
-        helper: "Minimum 1 000 €."
-      },
+      question: "Vos revenus mensuels sont plutôt :",
+      key: 'monthlyIncomeRange',
+      options: [
+        { value: 'moins-2000', label: 'Moins de 2 000 €' },
+        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 €' },
+        { value: 'plus-6000', label: 'Plus de 6 000 €' },
+        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+      ],
     },
     {
       id: 7,
-      question: "Quelle diversification géographique souhaitez-vous ?",
-      key: 'geoDiversification',
+      question: "Face à un investissement, vous préférez :",
+      key: 'simplicityLevel',
       options: [
-        { value: 'europe', label: 'Europe' },
-        { value: 'mixte', label: 'Mix France + Europe' },
-        { value: 'international', label: 'International' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'tres-simple', label: 'Quelque chose de très simple, sans trop de détails' },
+        { value: 'simple-structure', label: 'Comprendre les grandes lignes, sans entrer dans le technique' },
+        { value: 'technique', label: 'Avoir accès aux détails, même s’ils sont techniques' },
       ],
-      info: "ⓘ Information : la fiscalité peut limiter la part France lorsque la TMI est élevée."
     },
     {
       id: 8,
-      question: "Quels secteurs vous attirent le plus ?",
-      key: 'sectorPreference',
+      question: "Dans un investissement, ce qui compte le plus pour vous est :",
+      key: 'investmentPreference',
       options: [
-        { value: 'diversifie', label: 'Diversifié' },
-        { value: 'bureaux', label: 'Bureaux' },
-        { value: 'commerces', label: 'Commerces' },
-        { value: 'sante', label: 'Santé & éducation' },
-        { value: 'logistique', label: 'Logistique' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'stabilite', label: 'Avoir des revenus et une évolution plutôt réguliers' },
+        { value: 'equilibre', label: 'Un compromis entre régularité et opportunités' },
+        { value: 'potentiel', label: 'Accepter plus de variations pour viser davantage de potentiel' },
       ],
     },
     {
       id: 9,
-      question: "Quel mode de détention envisagez-vous ?",
-      key: 'holdingMode',
+      question: "Aujourd’hui, votre priorité est surtout de :",
+      key: 'currentPriority',
       options: [
-        { value: 'direct', label: 'Détention directe' },
-        { value: 'assurance-vie', label: 'Assurance-vie' },
-        { value: 'societe', label: 'Société' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'comprendre', label: 'Comprendre avant de prendre une décision' },
+        { value: 'securiser', label: 'Avancer prudemment, sans prendre de risque inutile' },
+        { value: 'diversifier', label: 'Ne pas mettre tous mes œufs dans le même panier' },
+        { value: 'potentiel', label: 'Accepter plus de variations pour viser davantage de potentiel' },
       ],
     },
     {
       id: 10,
-      question: "Dans quelle mesure la fiscalité influence-t-elle vos décisions d’investissement aujourd’hui ?",
-      key: 'taxDecisionImpact',
+      question: "Concernant les risques liés aux SCPI, aujourd’hui :",
+      key: 'riskAwareness',
       options: [
-        { value: 'forte', label: 'Très fortement : je cherche à limiter l’impact fiscal autant que possible' },
-        { value: 'moderee', label: 'Modérément : c’est un critère parmi d’autres' },
-        { value: 'faible', label: 'Peu : je privilégie d’abord la logique patrimoniale globale' },
+        { value: 'ne-connait-pas', label: 'Je n’y ai pas vraiment réfléchi' },
+        { value: 'idee-generale', label: 'Je sais qu’il peut y avoir des périodes moins favorables' },
+        { value: 'cycles', label: 'Je sais que l’immobilier évolue par cycles, avec des hauts et des bas' },
       ],
     },
     {
       id: 11,
-      question: "Quel niveau d’autonomie souhaitez-vous ?",
-      key: 'autonomyLevel',
+      question: "Après ce résultat, vous préférez :",
+      key: 'afterResultPreference',
       options: [
-        { value: 'autonome', label: 'Décider seul' },
-        { value: 'mixte', label: 'Décider avec un avis externe' },
-        { value: 'accompagne', label: 'Être accompagné' },
+        { value: 'continuer-comprendre', label: 'Continuer à mieux comprendre les bases' },
+        { value: 'analyse-structuree', label: 'Aller un peu plus loin dans l’analyse' },
+        { value: 'explorer-autonomie', label: 'Découvrir les SCPI librement, par vous-même' },
+        { value: 'arreter', label: 'En rester là pour l’instant' },
       ],
     },
     {
       id: 12,
-      question: "Avez-vous des contraintes simples à prendre en compte ?",
-      key: 'constraintsSimple',
+      question: "Aujourd’hui, vous vous situez comme :",
+      key: 'selfPositioning',
       options: [
-        { value: 'aucune', label: 'Aucune' },
-        { value: 'liquidite', label: 'Liquidité' },
-        { value: 'fiscalite', label: 'Fiscalité' },
-        { value: 'risque', label: 'Risque' },
+        { value: 'debutant-prudent', label: 'Je débute et je préfère avancer prudemment' },
+        { value: 'debutant-curieux', label: 'Je débute mais j’ai envie d’en savoir plus' },
+        { value: 'reflexion', label: 'Je réfléchis sérieusement à passer à l’action' },
+        { value: 'decide', label: 'J’ai déjà une idée claire de ce que je veux faire' },
       ],
-    },
-    {
-      id: 13,
-      question: "Quelle est votre TMI estimée ?",
-      key: 'tmiEstimate',
-      options: [
-        { value: 'tmi-0-11', label: '0–11 %' },
-        { value: 'tmi-30', label: '30 %' },
-        { value: 'tmi-41', label: '41 %' },
-        { value: 'tmi-45', label: '45 %' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
-      ],
-      info: "ⓘ Information : la TMI (taux marginal d’imposition) est le pourcentage appliqué à la dernière tranche de vos revenus. Vous la trouvez sur votre avis d’imposition (ligne « Taux marginal d’imposition »). Elle sert ici à ajuster la lecture fiscale."
     },
   ];
 
   const expertQuestions: Question[] = [
     {
       id: 1,
-      question: "Quelle est la valeur de votre patrimoine (hors résidence principale) ?",
+      question: "Quelle est la taille approximative de votre patrimoine financier et immobilier (hors résidence principale) ?",
       key: 'patrimoineValue',
       type: 'number',
       autoAdvance: false,
       numberConfig: {
         min: 0,
         step: 10000,
-        placeholder: "Montant estimatif",
+        placeholder: "Ordre de grandeur",
         quickValues: [100000, 250000, 500000, 1000000, 2000000, 3000000],
         suffix: "€",
-        helper: "Indication approximative, sans détail."
+        helper: "Ordre de grandeur suffisant. Aucun détail requis."
       },
-      info: "ⓘ Information : cela permet d’estimer le poids réel des SCPI dans votre patrimoine global."
+      info: "ⓘ Information : cela permet d’estimer la place des SCPI dans votre patrimoine global."
     },
     {
       id: 2,
-      question: "Comment se répartit votre patrimoine (hors résidence principale) ?",
+      question: "Aujourd’hui, votre patrimoine (hors résidence principale) est plutôt :",
       key: 'assetSplit',
       options: [
-        { value: 'majoritairement-immobilier', label: 'Majoritairement immobilier' },
-        { value: 'equilibre', label: 'Équilibré immobilier / financier' },
-        { value: 'majoritairement-financier', label: 'Majoritairement financier' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'majoritairement-immobilier', label: 'Principalement investi en immobilier', subtitle: 'Immobilier déjà structurant dans votre patrimoine' },
+        { value: 'equilibre', label: 'Réparti entre immobilier et actifs financiers', subtitle: 'Équilibre déjà en place' },
+        { value: 'majoritairement-financier', label: 'Majoritairement investi en actifs financiers', subtitle: 'Immobilier encore secondaire' },
+        { value: 'je-ne-sais-pas', label: 'Je n’ai pas une vision claire de cette répartition' },
       ]
     },
     {
       id: 3,
       question: "Quelle est la part actuelle des SCPI dans votre patrimoine ?",
       key: 'scpiShare',
+      info: "ⓘ Information : cette question aide à clarifier la cohérence de votre profil SCPI.",
       options: [
         { value: 'aucune', label: 'Aucune (0 %)' },
         { value: 'faible', label: 'Faible (1–10 %)' },
@@ -227,62 +224,63 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 4,
-      question: "Préférez-vous un portefeuille très diversifié ou plus concentré ?",
+      question: "En matière de diversification, votre approche est plutôt :",
       key: 'concentrationTolerance',
       options: [
-        { value: 'diversifie', label: 'Très diversifié, réparti sur plusieurs types d’actifs immobiliers' },
-        { value: 'equilibre', label: 'Équilibré, avec quelques secteurs dominants' },
-        { value: 'concentre', label: 'Plus concentré, orienté vers des actifs ciblés' },
+        { value: 'diversifie', label: 'Large et très répartie', subtitle: 'Réduire la dépendance à un secteur ou un cycle précis' },
+        { value: 'equilibre', label: 'Sélective mais équilibrée', subtitle: 'Accepter quelques moteurs dominants tout en limitant les risques' },
+        { value: 'concentre', label: 'Ciblée et concentrée', subtitle: 'Assumer une dépendance plus forte à certains actifs ou secteurs' },
       ],
     },
     {
       id: 5,
-      question: "Avez-vous déjà des revenus immobiliers hors SCPI ?",
+      question: "Disposez-vous déjà de revenus immobiliers hors SCPI ?",
       key: 'otherRealEstateIncome',
       options: [
-        { value: 'oui', label: 'Oui' },
-        { value: 'non', label: 'Non' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'oui-significatif', label: 'Oui, de manière significative', subtitle: 'Les revenus immobiliers représentent déjà une part importante de mes revenus' },
+        { value: 'oui-complementaire', label: 'Oui, mais de façon complémentaire', subtitle: 'Revenus présents mais non centraux' },
+        { value: 'non', label: 'Non, pas ou très peu', subtitle: 'Les SCPI constitueraient une nouvelle source de revenus immobiliers' },
+        { value: 'je-ne-sais-pas', label: 'Je n’ai pas une vision claire de leur poids réel' },
       ],
       info: "ⓘ Information : cela aide à mesurer votre exposition immobilière globale."
     },
     {
       id: 6,
-      question: "Quel montant souhaitez-vous investir en SCPI ?",
+      question: "À titre indicatif, quel ordre de grandeur envisagez-vous pour une exposition en SCPI ?",
       key: 'investmentAmount',
       type: 'number',
       autoAdvance: false,
       numberConfig: {
         min: 1000,
         step: 1000,
-        placeholder: "Montant envisagé",
+        placeholder: "Ordre de grandeur",
         quickValues: [10000, 25000, 50000, 100000, 200000, 500000],
         suffix: "€",
-        helper: "Minimum 1 000 €."
+        helper: "Montant hypothétique, utilisé uniquement pour analyser la cohérence globale. Minimum technique : 1 000 €."
       }
     },
     {
       id: 7,
-      question: "Combien d'impôt sur le revenu payez-vous chaque année ?",
+      question: "À titre indicatif, votre impôt sur le revenu annuel se situe plutôt :",
       key: 'taxSituation',
       options: [
-        { value: 'moins-2000', label: 'Moins de 2 000 € par an', subtitle: 'Faible imposition' },
-        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 € par an', subtitle: 'Imposition intermédiaire' },
-        { value: 'plus-6000', label: 'Plus de 6 000 € par an', subtitle: 'Imposition élevée' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'moins-2000', label: 'Moins de 2 000 € par an', subtitle: 'Impact fiscal limité sur les revenus complémentaires' },
+        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 € par an', subtitle: 'La fiscalité commence à influencer la lecture des revenus' },
+        { value: 'plus-6000', label: 'Plus de 6 000 € par an', subtitle: 'La fiscalité devient un paramètre structurant' },
+        { value: 'je-ne-sais-pas', label: 'Je n’ai pas de repère précis' },
       ],
       info: "ⓘ Information : la fiscalité influence la lecture des SCPI, sans constituer un conseil."
     },
     {
       id: 8,
-      question: "Quelle est votre TMI estimée ?",
+      question: "Votre tranche marginale d’imposition (ordre de grandeur) est plutôt :",
       key: 'tmiEstimate',
       options: [
-        { value: 'tmi-0-11', label: '0–11 %' },
-        { value: 'tmi-30', label: '30 %' },
-        { value: 'tmi-41', label: '41 %' },
-        { value: 'tmi-45', label: '45 %' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'tmi-0-11', label: 'Faible — 0 à 11 %' },
+        { value: 'tmi-30', label: 'Intermédiaire — 30 %' },
+        { value: 'tmi-41', label: 'Élevée — 41 %' },
+        { value: 'tmi-45', label: 'Très élevée — 45 %' },
+        { value: 'je-ne-sais-pas', label: 'Je n’ai pas de repère précis' },
       ],
     },
     {
@@ -290,10 +288,10 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "Êtes-vous déjà exposé aux revenus fonciers ?",
       key: 'realEstateIncomeExposure',
       options: [
-        { value: 'oui-significatif', label: 'Oui, de façon significative' },
-        { value: 'oui-limite', label: 'Oui, mais limité' },
-        { value: 'non', label: 'Non' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
+        { value: 'oui-significatif', label: 'Oui, de manière significative' },
+        { value: 'oui-limite', label: 'Oui, de manière complémentaire' },
+        { value: 'non', label: 'Non, pas ou très peu' },
+        { value: 'je-ne-sais-pas', label: 'Je n’ai pas une vision claire' },
       ],
     },
     {
@@ -345,9 +343,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "Quelle priorité correspond le mieux à votre approche ?",
       key: 'priority',
       options: [
-        { value: 'stabilite', label: 'Stabilité' },
-        { value: 'equilibre', label: 'Équilibre' },
-        { value: 'long-terme', label: 'Long terme' },
+        { value: 'stabilite', label: 'Stabilité', subtitle: 'Privilégier la régularité et la visibilité' },
+        { value: 'equilibre', label: 'Équilibre', subtitle: 'Combiner régularité et potentiel' },
+        { value: 'long-terme', label: 'Long terme', subtitle: 'Accepter les cycles pour construire dans le temps' },
       ],
     },
     {
@@ -355,9 +353,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "Acceptez-vous une baisse temporaire des revenus ?",
       key: 'temporaryDrawdown',
       options: [
-        { value: 'oui', label: 'Oui' },
-        { value: 'limite', label: 'Oui, mais limitée' },
-        { value: 'non', label: 'Non' },
+        { value: 'oui', label: 'Oui, je l’accepte' },
+        { value: 'limite', label: 'Oui, mais seulement de façon limitée' },
+        { value: 'non', label: 'Non, je privilégie la stabilité' },
       ],
       info: "ⓘ Information : les cycles immobiliers peuvent impacter les revenus à court terme."
     },
@@ -375,7 +373,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 17,
-      question: "Avez-vous besoin de revenus rapidement ?",
+      question: "Avez-vous besoin de revenus à court terme ?",
       key: 'immediateIncome',
       options: [
         { value: 'oui', label: 'Oui' },
@@ -395,17 +393,17 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 19,
-      question: "Quelle est votre sensibilité à l’endettement des SCPI ?",
+      question: "Comment percevez-vous l’endettement utilisé par les SCPI ?",
       key: 'debtSensitivity',
       options: [
-        { value: 'faible', label: 'Faible' },
-        { value: 'moderee', label: 'Modérée' },
-        { value: 'forte', label: 'Forte' },
+        { value: 'faible', label: 'Je suis à l’aise avec un endettement maîtrisé' },
+        { value: 'moderee', label: 'Je suis prudent, je préfère qu’il reste limité' },
+        { value: 'forte', label: 'Je suis réticent, je privilégie peu ou pas de dette' },
       ],
     },
     {
       id: 20,
-      question: "Acceptez-vous des SCPI récentes ?",
+      question: "Acceptez-vous d’intégrer des SCPI récentes dans votre portefeuille ?",
       key: 'acceptRecentScpi',
       options: [
         { value: 'oui', label: 'Oui' },
@@ -415,12 +413,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 21,
-      question: "Quelle est votre sensibilité à la volatilité des revenus ?",
+      question: "Comment réagissez-vous aux variations possibles des revenus SCPI ?",
       key: 'incomeVolatilitySensitivity',
       options: [
-        { value: 'faible', label: 'Faible' },
-        { value: 'moyenne', label: 'Moyenne' },
-        { value: 'elevee', label: 'Élevée' },
+        { value: 'faible', label: 'Je privilégie des revenus réguliers' },
+        { value: 'moyenne', label: 'J’accepte des variations' },
+        { value: 'elevee', label: 'Les variations ne me gênent pas' },
       ],
     },
     {
@@ -438,26 +436,33 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 23,
-      question: "Quels secteurs vous attirent le plus ?",
+      question: "Quels secteurs souhaitez-vous privilégier ?",
       key: 'sectorPreferences',
       options: [
-        { value: 'diversifie', label: 'Diversifié' },
+        { value: 'diversifie', label: 'Diversifié (plusieurs secteurs, pas un seul dominant)' },
         { value: 'bureaux', label: 'Bureaux' },
         { value: 'commerces', label: 'Commerces' },
         { value: 'sante', label: 'Santé & éducation' },
         { value: 'logistique', label: 'Logistique' },
+        { value: 'residentiel', label: 'Résidentiel' },
+        { value: 'hotellerie', label: 'Hôtellerie & tourisme' },
+        { value: 'activites', label: 'Activités / locaux d’activité' },
         { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
       ],
     },
     {
       id: 24,
-      question: "Quels secteurs souhaitez-vous limiter ?",
+      question: "Y a-t-il des secteurs que vous souhaitez limiter ?",
       key: 'sectorsToLimit',
       options: [
         { value: 'aucun', label: 'Aucun en particulier' },
         { value: 'bureaux', label: 'Bureaux' },
         { value: 'commerces', label: 'Commerces' },
-        { value: 'hotellerie', label: 'Hôtellerie & loisirs' },
+        { value: 'sante', label: 'Santé & éducation' },
+        { value: 'logistique', label: 'Logistique' },
+        { value: 'residentiel', label: 'Résidentiel' },
+        { value: 'hotellerie', label: 'Hôtellerie & tourisme' },
+        { value: 'activites', label: 'Activités / locaux d’activité' },
         { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
       ],
     },
@@ -524,12 +529,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
     {
       id: 31,
-      question: "Quel niveau d’explication attendez-vous ?",
+      question: "Comment souhaitez-vous aborder la construction de votre portefeuille SCPI ?",
       key: 'postureUnderstanding',
       options: [
-        { value: 'pedagogique', label: 'Comprendre les logiques' },
-        { value: 'synthese', label: 'Synthèse rapide' },
-        { value: 'detail', label: 'Détails complets' },
+        { value: 'pedagogique', label: 'Avec une logique très structurée et cadrée' },
+        { value: 'synthese', label: 'Avec une approche souple, ajustable dans le temps' },
+        { value: 'detail', label: 'Je préfère garder une grande liberté de décision' },
       ],
       info: "ⓘ Information : l’outil reste informatif et n’émet aucun conseil personnalisé."
     },
@@ -538,9 +543,9 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "À l’issue de l’analyse, que souhaitez-vous obtenir ?",
       key: 'expectedOutcome',
       options: [
-        { value: 'autonomie', label: 'Être autonome dans mes choix' },
-        { value: 'clarte', label: 'Clarifier mes arbitrages' },
-        { value: 'echange', label: 'Un échange pour aller plus loin' },
+        { value: 'autonomie', label: 'Pouvoir décider de façon autonome' },
+        { value: 'clarte', label: 'Mieux comprendre les arbitrages à faire' },
+        { value: 'echange', label: 'Disposer d’un cadre clair pour aller plus loin' },
       ],
     },
   ];
@@ -553,6 +558,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const handleAnswer = (value: string | number) => {
     const newAnswers = {
       ...answers,
+      questionnaireMode: mode || answers.questionnaireMode,
       [currentQ.key]: value,
     };
     setAnswers(newAnswers);
@@ -617,12 +623,15 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
               onClick={() => {
                 setMode('beginner');
                 setCurrentQuestion(1);
-                setAnswers({});
+                setAnswers({
+                  questionnaireMode: 'beginner',
+                  taxSituation: 'je-ne-sais-pas'
+                });
               }}
               className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-emerald-500 bg-slate-900/80 transition-all"
             >
               <div className="text-sm text-emerald-300 font-semibold mb-1">Orientation rapide – Débutant</div>
-              <div className="text-base font-semibold text-white">13 questions · 2–3 minutes</div>
+              <div className="text-base font-semibold text-white">12 questions · 2–3 minutes</div>
               <div className="text-sm text-slate-300 mt-2">
                 Lecture claire et pédagogique de votre profil SCPI, sans jargon.
               </div>
@@ -632,7 +641,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
               onClick={() => {
                 setMode('expert');
                 setCurrentQuestion(1);
-                setAnswers({});
+                setAnswers({ questionnaireMode: 'expert' });
               }}
               className="w-full text-left p-5 rounded-2xl border-2 border-slate-700 hover:border-blue-500 bg-slate-900/80 transition-all"
             >
@@ -697,10 +706,12 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
             <h2 className="text-2xl font-bold text-white mb-4">
               {currentQ.question}
             </h2>
-            <p className="text-sm text-slate-400 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4" />
-              {currentQ.info || "ⓘ Information : cette question aide à clarifier la cohérence de votre profil SCPI."}
-            </p>
+            {currentQ.info && (
+              <p className="text-sm text-slate-400 flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" />
+                {currentQ.info}
+              </p>
+            )}
           </div>
 
           {currentQ.type === 'number' ? (

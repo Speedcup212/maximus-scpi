@@ -4,6 +4,7 @@ import { scpiData } from '../../data/scpiData';
 import { generateRecommendation } from '../../utils/guidedJourneyLogic';
 import GuidedJourneyQuestionnaire from './GuidedJourneyQuestionnaire';
 import GuidedJourneyResults from './GuidedJourneyResults';
+import GuidedJourneyBeginnerResults from './GuidedJourneyBeginnerResults';
 
 interface GuidedJourneyProps {
   onClose?: () => void;
@@ -27,10 +28,10 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
       if (savedState && isResultsPage) {
         const parsed = JSON.parse(savedState);
         // Vérifier que les données sont valides
-        if (parsed.step === 'results' && parsed.recommendation && parsed.answers) {
+        if (parsed.step === 'results' && parsed.answers) {
           return {
             step: parsed.step as 'questionnaire' | 'results',
-            recommendation: parsed.recommendation as PortfolioRecommendation,
+            recommendation: parsed.recommendation as PortfolioRecommendation | null,
             answers: parsed.answers as GuidedJourneyAnswers
           };
         }
@@ -61,9 +62,9 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
         const savedState = sessionStorage.getItem('guidedJourneyState');
         if (savedState) {
           const parsed = JSON.parse(savedState);
-          if (parsed.step === 'results' && parsed.recommendation && parsed.answers) {
+          if (parsed.step === 'results' && parsed.answers) {
             setStep('results');
-            setRecommendation(parsed.recommendation);
+            setRecommendation(parsed.recommendation || null);
             setAnswers(parsed.answers);
           }
         }
@@ -80,15 +81,18 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
   }, []);
 
   const handleQuestionnaireComplete = (answersData: GuidedJourneyAnswers) => {
-    // Générer la recommandation
-    const rec = generateRecommendation(answersData, scpiData);
+    const questionnaireMode = answersData.questionnaireMode || 'expert';
+    const rec = questionnaireMode === 'expert'
+      ? generateRecommendation(answersData, scpiData)
+      : null;
     
     // Sauvegarder dans sessionStorage AVANT de mettre à jour le state
     try {
       sessionStorage.setItem('guidedJourneyState', JSON.stringify({
         step: 'results',
         recommendation: rec,
-        answers: answersData
+        answers: answersData,
+        mode: questionnaireMode
       }));
     } catch (e) {
       // Erreur silencieuse lors de la sauvegarde
@@ -115,16 +119,52 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
     }
   };
 
-  if (step === 'results' && recommendation && answers) {
-    return (
-      <GuidedJourneyResults
-        recommendation={recommendation}
-        answers={answers}
-        onBack={handleBackToQuestionnaire}
-        onStartSubscription={onStartSubscription}
-        onCalendlyClick={onCalendlyClick}
-      />
-    );
+  if (step === 'results' && answers) {
+    if (answers.questionnaireMode === 'beginner') {
+      return (
+        <GuidedJourneyBeginnerResults
+          answers={answers}
+          onStartExpert={() => {
+            try {
+              sessionStorage.setItem('guidedJourneyPreferredMode', 'expert');
+            } catch (e) {
+              // Erreur silencieuse
+            }
+            setStep('questionnaire');
+            window.history.pushState({}, '', '/parcours-guide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onGoComparator={() => {
+            if (onClose) {
+              onClose();
+            }
+            setTimeout(() => {
+              const el = document.getElementById('comparator');
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 400);
+          }}
+          onStop={() => {
+            if (onClose) {
+              onClose();
+            }
+          }}
+        />
+      );
+    }
+
+    if (recommendation) {
+      return (
+        <GuidedJourneyResults
+          recommendation={recommendation}
+          answers={answers}
+          onBack={handleBackToQuestionnaire}
+          onStartSubscription={onStartSubscription}
+          onCalendlyClick={onCalendlyClick}
+        />
+      );
+    }
   }
   
 

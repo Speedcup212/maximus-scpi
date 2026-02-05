@@ -149,7 +149,7 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
                 className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
               >
                 <FileText className="w-5 h-5" />
-                <span>Commencer ma souscription</span>
+                <span>Commencer ma pré-souscription</span>
               </button>
             </div>
           </div>

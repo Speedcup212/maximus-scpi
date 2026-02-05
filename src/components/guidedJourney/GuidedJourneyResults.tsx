@@ -1262,7 +1262,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                   </>
                 ) : (
                   <>
-                    <span className="hidden sm:inline">Commencer ma souscription en ligne</span>
+                    <span className="hidden sm:inline">Commencer ma pré-souscription en ligne</span>
                     <span className="sm:hidden">Souscription</span>
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </>
