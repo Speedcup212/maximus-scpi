@@ -10,12 +10,14 @@ interface GuidedJourneyProps {
   onClose?: () => void;
   onStartSubscription?: (scpiIds: number[]) => void;
   onCalendlyClick?: () => void;
+  initialMode?: 'beginner' | 'expert';
 }
 
 const GuidedJourney: React.FC<GuidedJourneyProps> = ({ 
   onClose,
   onStartSubscription,
-  onCalendlyClick
+  onCalendlyClick,
+  initialMode
 }) => {
   // Restaurer le state depuis sessionStorage si disponible
   const getInitialState = () => {
@@ -172,6 +174,7 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
     <GuidedJourneyQuestionnaire
       onComplete={handleQuestionnaireComplete}
       onClose={onClose}
+      initialMode={initialMode}
     />
   );
 };

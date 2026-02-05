@@ -5,23 +5,25 @@ import { GuidedJourneyAnswers } from '../../types/guidedJourney';
 interface GuidedJourneyQuestionnaireProps {
   onComplete: (answers: GuidedJourneyAnswers) => void;
   onClose?: () => void;
+  initialMode?: 'beginner' | 'expert';
 }
 
 const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({ 
   onComplete, 
-  onClose 
+  onClose,
+  initialMode
 }) => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
-  const [mode, setMode] = useState<'beginner' | 'expert'>('expert');
+  const [mode, setMode] = useState<'beginner' | 'expert'>(initialMode || 'beginner');
 
   useEffect(() => {
     try {
       const preferred = sessionStorage.getItem('guidedJourneyPreferredMode');
       const nextMode = preferred === 'expert' || preferred === 'beginner'
         ? preferred
-        : 'expert';
+        : initialMode || 'beginner';
       setMode(nextMode);
       setCurrentQuestion(1);
       setAnswers({

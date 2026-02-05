@@ -177,6 +177,7 @@ const App: React.FC = () => {
 
   // Education/Article/Landing states
   const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey'>('home');
+  const [guidedJourneyMode, setGuidedJourneyMode] = useState<'beginner' | 'expert' | null>(null);
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -1845,6 +1846,7 @@ const App: React.FC = () => {
               onClose={handleBackToHome}
               onStartSubscription={handleStartSubscription}
               onCalendlyClick={() => setIsRdvModalOpen(true)}
+              initialMode={guidedJourneyMode || undefined}
             />
           </Suspense>
         )}
@@ -2296,7 +2298,17 @@ const App: React.FC = () => {
 
         {/* Bloc Parcours guidé SCPI (porte d'entrée principale) */}
         <GuidedScpiEntryBlock
-          onStart={() => {
+          onStart={(mode) => {
+            try {
+              if (mode === 'beginner' || mode === 'expert') {
+                sessionStorage.setItem('guidedJourneyPreferredMode', mode);
+              }
+            } catch (e) {
+              // Erreur silencieuse
+            }
+            if (mode === 'beginner' || mode === 'expert') {
+              setGuidedJourneyMode(mode);
+            }
             setCurrentView('guided-journey');
             window.history.pushState({}, '', '/parcours-guide');
             window.scrollTo({ top: 0, behavior: 'smooth' });
