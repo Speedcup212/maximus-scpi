@@ -612,12 +612,14 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            {mode === 'expert' ? 'Analyse approfondie – Expert' : 'Orientation rapide – Débutant'}
+            {mode === 'expert'
+              ? 'Analyse de cohérence patrimoniale – Niveau avancé'
+              : 'Diagnostic de cohérence – Lecture rapide'}
           </h1>
           <p className="text-lg text-slate-300">
             {mode === 'expert'
-              ? 'Une analyse structurée pour évaluer la cohérence patrimoniale de votre stratégie SCPI.'
-              : 'Une lecture claire et pédagogique de votre profil SCPI.'}
+              ? 'Analyse structurée des équilibres rendement / risque / diversification, destinée à valider ou invalider une allocation SCPI avant engagement.'
+              : 'Un premier diagnostic pour comprendre si votre projet SCPI repose sur des bases cohérentes, sans décision d’investissement.'}
           </p>
         </div>
 

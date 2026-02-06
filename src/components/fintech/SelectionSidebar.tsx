@@ -821,7 +821,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 
                 {/* Note globale */}
                 <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-700">
-                  <div className="flex items-center justify-between mb-2">
+                  <p className="text-[11px] text-slate-400 mb-1">Lecture de cohérence détectée</p>
+                  <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-semibold text-slate-300">Note globale</span>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
@@ -836,15 +837,18 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       ))}
                     </div>
                   </div>
+                  <p className="text-[11px] text-slate-400 mb-2">
+                    Indicateur de cohérence structurelle — pas une note de qualité ni de performance.
+                  </p>
                   <p className="text-xs text-slate-300 italic mb-1">
                     Note globale issue d'une analyse multicritères pondérée.
                   </p>
                   <p className="text-xs text-slate-300">
                     {maximusAvis.overall >= 4
-                      ? 'Excellente sélection, portefeuille bien équilibré'
+                      ? 'Portefeuille globalement cohérent au regard des critères analysés.'
                       : maximusAvis.overall >= 3
-                      ? 'Bonne sélection avec quelques points d\'amélioration possibles'
-                      : 'Sélection correcte, envisagez d\'ajouter plus de diversification'}
+                      ? 'Structure équilibrée à confirmer selon votre situation réelle.'
+                      : 'Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer.'}
                   </p>
                 </div>
 

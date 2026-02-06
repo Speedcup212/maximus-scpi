@@ -56,7 +56,7 @@ const ExpertBanner: React.FC<ExpertBannerProps> = ({
 
             {!compact && (
               <p className={`text-sm md:text-base ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} mb-4 italic leading-relaxed`}>
-                "J'ai créé MaximusSCPI pour rendre l'investissement en SCPI simple, transparent et performant, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle vous garantit des recommandations personnalisées."
+                "J'ai créé MaximusSCPI pour clarifier la cohérence d'un projet SCPI, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle apporte une lecture structurée, sans promesse ni décision à votre place."
               </p>
             )}
 

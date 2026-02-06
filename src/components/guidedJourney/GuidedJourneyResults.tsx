@@ -542,10 +542,10 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       ? indices.reduce((sum, value) => sum + value, 0) / indices.length
       : 3;
 
-    if (averageIndex >= 4.5) return { label: 'Excellent', detail: 'Portefeuille très robuste et cohérent' };
-    if (averageIndex >= 3.5) return { label: 'Solide', detail: 'Allocation équilibrée et lisible' };
-    if (averageIndex >= 2.5) return { label: 'Prudent', detail: 'Base cohérente avec marges de renforcement' };
-    return { label: 'À renforcer', detail: 'Qualité hétérogène, arbitrages à affiner' };
+    if (averageIndex >= 4.5) return { label: 'Cohérence élevée', detail: 'Portefeuille globalement cohérent sous certaines hypothèses.' };
+    if (averageIndex >= 3.5) return { label: 'Cohérence maîtrisée', detail: 'Structure équilibrée à confirmer selon votre situation réelle.' };
+    if (averageIndex >= 2.5) return { label: 'Cohérence partielle', detail: 'Plusieurs équilibres restent à consolider.' };
+    return { label: 'Cohérence à vérifier', detail: 'Arbitrages à clarifier avant décision.' };
   }, [portfolio.scpis]);
 
   const prosCons = useMemo(() => {
@@ -1060,6 +1060,10 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                 <p className="text-slate-200 leading-relaxed">
                   {avisMaximus.label} — {avisMaximus.detail}
                 </p>
+                <p className="mt-2 text-xs text-slate-400">
+                  Ce score évalue la cohérence structurelle du portefeuille sélectionné.
+                  Il ne constitue ni un conseil personnalisé, ni une promesse de performance future.
+                </p>
               </div>
             </div>
           </SectionRepliable>
@@ -1230,8 +1234,12 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
               <span className="sm:hidden">Prendre RDV</span>
             </button>
 
-              {/* Bouton Commencer ma souscription */}
-              <button
+              <div className="flex-1">
+                <p className="text-xs text-slate-300 mb-2 text-center sm:text-left">
+                  Cette étape permet de sécuriser votre décision avec un professionnel avant toute souscription définitive.
+                </p>
+                {/* Bouton Commencer ma souscription */}
+                <button
                 type="button"
                 disabled={isLoading || !portfolioScpis || portfolioScpis.length === 0}
                 onClick={async (e) => {
@@ -1253,21 +1261,22 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
                   pointerEvents: (isLoading || !portfolioScpis || portfolioScpis.length === 0) ? 'none' : 'auto'
                 }}
                 className="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-sm sm:text-base font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 disabled:shadow-none"
-              >
-                {isLoading ? (
-                  <>
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span className="hidden sm:inline">Ouverture du tunnel de souscription...</span>
-                    <span className="sm:hidden">Ouverture...</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="hidden sm:inline">Commencer ma pré-souscription en ligne</span>
-                    <span className="sm:hidden">Souscription</span>
-                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </>
-                )}
-              </button>
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span className="hidden sm:inline">Ouverture du tunnel de souscription...</span>
+                      <span className="sm:hidden">Ouverture...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="hidden sm:inline">Commencer ma pré-souscription en ligne</span>
+                      <span className="sm:hidden">Souscription</span>
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
             <p className="text-xs text-slate-400 text-center mt-2 sm:mt-3 px-2">
               Accédez au formulaire de souscription avec votre portefeuille pré-rempli
