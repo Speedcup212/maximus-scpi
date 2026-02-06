@@ -21,9 +21,15 @@ type ViewMode = 'grid' | 'list';
 
 interface FintechComparatorContentProps {
   onCloseAnalysis?: () => void;
+  onGuidedJourneyClick?: () => void;
+  hideTitle?: boolean;
 }
 
-const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({ onCloseAnalysis, onGuidedJourneyClick, hideTitle = false }) => {
+const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
+  onCloseAnalysis,
+  onGuidedJourneyClick,
+  hideTitle = false
+}) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
@@ -565,11 +571,19 @@ interface FintechComparatorProps {
   hideTitle?: boolean;
 }
 
-const FintechComparator: React.FC<FintechComparatorProps> = ({ onCloseAnalysis, onGuidedJourneyClick, hideTitle = false }) => {
+const FintechComparator: React.FC<FintechComparatorProps> = ({
+  onCloseAnalysis,
+  onGuidedJourneyClick,
+  hideTitle = false
+}) => {
   return (
     <AllocationProvider>
       <SubscriptionProvider>
-        <FintechComparatorContent onCloseAnalysis={onCloseAnalysis} onGuidedJourneyClick={onGuidedJourneyClick} hideTitle={hideTitle} />
+        <FintechComparatorContent
+          onCloseAnalysis={onCloseAnalysis}
+          onGuidedJourneyClick={onGuidedJourneyClick}
+          hideTitle={hideTitle}
+        />
       </SubscriptionProvider>
     </AllocationProvider>
   );

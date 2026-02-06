@@ -548,6 +548,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
     return { label: 'Cohérence à vérifier', detail: 'Arbitrages à clarifier avant décision.' };
   }, [portfolio.scpis]);
 
+
   const prosCons = useMemo(() => {
     const pros: string[] = [];
     const cons: string[] = [];

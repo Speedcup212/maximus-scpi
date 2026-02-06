@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle, Shield, AlertCircle } from 'lucide-react';
+import { setInvestorProfile } from '../utils/investorProfile';
 
 type AnswerOption = 'A' | 'B' | 'C' | 'D';
 
@@ -154,15 +155,15 @@ const SCORE_MAP: Record<AnswerOption, number> = {
 type ProfileKey =
   | 'oppose'
   | 'securitaire'
-  | 'prudent-structure'
+  | 'prudent-defensif'
   | 'equilibre-prudent'
   | 'equilibre-dynamique'
   | 'dynamique'
-  | 'tres-dynamique';
+  | 'agressif';
 
 const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; style: string; vigilance: string[] }> = {
   'oppose': {
-    title: 'Profil opposé au risque',
+    title: 'PROFIL OPPOSE AU RISQUE',
     description: "Vous cherchez avant tout à éviter les situations inconfortables et les variations imprévues. Votre priorité est la protection et la lisibilité immédiate. Les phases d’incertitude génèrent rapidement un besoin de sécurisation. Ce profil n’est pas figé dans le temps.",
     style: 'Très sécuritaire et réactif',
     vigilance: [
@@ -181,8 +182,8 @@ const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; 
       "Le temps joue un rôle clé dans l’interprétation des résultats."
     ]
   },
-  'prudent-structure': {
-    title: 'Profil prudent structuré',
+  'prudent-defensif': {
+    title: 'Profil prudent défensif',
     description: "Vous avancez avec prudence et méthode. Vous recherchez un cadre lisible pour traverser les phases moins favorables. Vous privilégiez la cohérence et la discipline dans le temps plutôt que la réaction immédiate. Ce profil n’est pas figé dans le temps.",
     style: 'Analytique et progressif',
     vigilance: [
@@ -221,8 +222,8 @@ const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; 
       "Le pilotage global reste plus important que les mouvements ponctuels."
     ]
   },
-  'tres-dynamique': {
-    title: 'Profil très dynamique / autonome',
+  'agressif': {
+    title: 'Profil agressif',
     description: "Vous êtes à l’aise avec l’incertitude et les fluctuations marquées. Vous raisonnez en vision d’ensemble plutôt qu’en réaction immédiate. Votre approche suppose une forte capacité à maintenir le cap dans la durée. Ce profil n’est pas figé dans le temps.",
     style: 'Systémique et autonome',
     vigilance: [
@@ -236,11 +237,11 @@ const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; 
 const getProfileFromScore = (score: number): ProfileKey => {
   if (score <= 24) return 'oppose';
   if (score <= 30) return 'securitaire';
-  if (score <= 36) return 'prudent-structure';
+  if (score <= 36) return 'prudent-defensif';
   if (score <= 42) return 'equilibre-prudent';
   if (score <= 50) return 'equilibre-dynamique';
   if (score <= 58) return 'dynamique';
-  return 'tres-dynamique';
+  return 'agressif';
 };
 
 const getComprehensionLabel = (profile: ProfileKey) => PROFILE_CONTENT[profile].style;
@@ -264,6 +265,12 @@ const InvestorProfileSimulator: React.FC = () => {
   const profile = PROFILE_CONTENT[profileKey];
   const comprehension = getComprehensionLabel(profileKey);
   const vigilancePoints = profile.vigilance;
+
+  useEffect(() => {
+    if (showResult && allAnswered) {
+      setInvestorProfile(profile.title);
+    }
+  }, [showResult, allAnswered, profile.title]);
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 py-10 px-4">

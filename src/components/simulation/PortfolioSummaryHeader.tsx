@@ -63,6 +63,33 @@ const PortfolioSummaryHeader: React.FC<PortfolioSummaryHeaderProps> = ({ selecte
     };
   }, [selectedScpis, getWeightedYield, getMonthlyRevenue, weights]);
 
+  const { sectorData, geoData } = useMemo(() => {
+    const sectorMap: Record<string, number> = {};
+    const geoMap: Record<string, number> = {};
+    const totalWeight = selectedScpis.reduce((sum, scpi) => sum + (weights[scpi.id] || 0), 0);
+    const fallbackWeight = selectedScpis.length > 0 ? 1 / selectedScpis.length : 0;
+
+    selectedScpis.forEach(scpi => {
+      const rawWeight = weights[scpi.id] || 0;
+      const weightRatio = totalWeight > 0 ? rawWeight / totalWeight : fallbackWeight;
+
+      scpi.sectors.forEach(sector => {
+        const sectorName = normalizeSectorLabel(sector.name).label;
+        sectorMap[sectorName] = (sectorMap[sectorName] || 0) + (sector.value * weightRatio) / 100;
+      });
+
+      scpi.geography.forEach(geo => {
+        const geoName = normalizeGeoLabel(geo.name).label;
+        geoMap[geoName] = (geoMap[geoName] || 0) + (geo.value * weightRatio) / 100;
+      });
+    });
+
+    const sectorData = Object.values(sectorMap).filter(Boolean);
+    const geoData = Object.values(geoMap).filter(Boolean);
+    return { sectorData, geoData };
+  }, [selectedScpis, weights]);
+
+
   const getRiskLabel = (score: number) => {
     if (score <= 2) return 'Prudent';
     if (score <= 4) return 'Modéré';

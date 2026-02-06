@@ -15,7 +15,7 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
       <div className="relative max-w-5xl mx-auto text-center w-full">
         {/* H1 - Main Headline */}
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-black mb-4 leading-tight px-2 text-white max-w-4xl mx-auto">
-          Avant d’investir en SCPI, vérifiez que votre portefeuille est réellement équilibré
+          Avant d’investir en SCPI, <span className="text-green-400">vérifiez</span> que votre portefeuille est réellement équilibré
         </h1>
 
         {/* Sous-titre - Actionnable */}

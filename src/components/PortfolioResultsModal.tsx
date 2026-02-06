@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, DollarSign, Calendar, Download, Phone, Calculator, Shield, CheckCircle, ChevronDown } from 'lucide-react';
 import { Scpi } from '../types/scpi';
@@ -241,6 +241,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }))
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
+
 
   const sections = [
     { key: 'overview', label: 'Vue d\'ensemble', icon: <PieChartIcon className="w-5 h-5" /> },

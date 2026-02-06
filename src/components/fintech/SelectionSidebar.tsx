@@ -3,6 +3,8 @@ import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, B
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import ZScoreBar from '../ZScoreBar';
+import { getInvestorProfile } from '../../utils/investorProfile';
 import EricAvatar from '../EricAvatar';
 
 interface SelectionSidebarProps {
@@ -93,6 +95,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   const [demembrementCleNp, setDemembrementCleNp] = useState(65); // % de nue-propriété
   const [demembrementDurationYears, setDemembrementDurationYears] = useState(10);
   const [demembrementRevalo, setDemembrementRevalo] = useState(1.0); // % de revalorisation annuelle
+
+  const investorProfileLabel = useMemo(() => getInvestorProfile(), []);
   
   // Initialiser les pourcentages à parts égales
   useEffect(() => {
@@ -582,6 +586,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   };
 
   const maximusAvis = calculateMaximusAvis();
+  const coherenceZScore = Number((maximusAvis.overall - 3).toFixed(2));
 
   // Analyse professionnelle CIF/CGP : Avantages et Inconvénients
   const analyzePortfolioProsCons = () => {
@@ -779,6 +784,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
           </div>
         </div>
 
+
         <button
           onClick={() => setIsResultOpen(true)}
           className="w-full py-4 px-6 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl font-bold text-base shadow-lg shadow-orange-500/30 hover:shadow-xl hover:from-orange-700 hover:to-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95"
@@ -962,6 +968,21 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   </div>
                 </div>
                 
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-slate-300">Z-score de cohérence du portefeuille</span>
+                      <span
+                        className="text-[11px] text-slate-400"
+                        title="Z-score de cohérence MaximusSCPI® — Indicateur propriétaire d’écart structurel — non prédictif de performance."
+                      >
+                        ⓘ
+                      </span>
+                    </div>
+                  </div>
+                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} />
+                </div>
+
                 {/* Avantages et Inconvénients - Analyse CIF/CGP */}
                 <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
                   <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
