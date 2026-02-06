@@ -88,20 +88,26 @@ Deno.serve(async (req: Request) => {
     });
 
     const isFromGoogleAds = tracking.utm_source === 'google' || tracking.utm_source === 'googleads';
-    const tableName = isFromGoogleAds ? 'leads_ads_calendly' : 'contacts_site';
 
     console.log('🔍 Lead routing decision:', {
       utm_source: tracking.utm_source,
       utm_medium: tracking.utm_medium,
       utm_campaign: tracking.utm_campaign,
       isFromGoogleAds,
-      targetTable: tableName
+      targetTable: 'prospects'
     });
 
     const leadData: any = {
       nom: 'RDV Calendly',
       email: 'calendly@rdv.com',
       creneau: eventStartTime,
+      metadata: {
+        utm_source: tracking.utm_source,
+        utm_medium: tracking.utm_medium,
+        utm_campaign: tracking.utm_campaign,
+        source: isFromGoogleAds ? 'google_ads' : 'calendly',
+        form: 'calendly_webhook'
+      },
       statut: 'nouveau'
     };
 
@@ -114,16 +120,16 @@ Deno.serve(async (req: Request) => {
     }
 
     const { data, error } = await supabase
-      .from(tableName)
+      .from('prospects')
       .insert([leadData])
       .select();
 
     if (error) {
-      console.error('❌ Error inserting lead into', tableName, ':', error);
+    console.error('❌ Error inserting lead into prospects:', error);
       throw error;
     }
 
-    console.log('✅ Lead created successfully in', tableName, ':', data);
+    console.log('✅ Lead created successfully in prospects:', data);
 
     return new Response(
       JSON.stringify({ success: true, lead: data }),

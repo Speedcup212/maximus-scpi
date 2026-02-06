@@ -11,6 +11,7 @@ import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
+import { createProspect } from '../utils/prospectService';
 
 interface GenericScpiLandingPageProps {
   scpiData: ScpiLandingData;
@@ -81,17 +82,6 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         throw new Error('CONFIGURATION_MANQUANTE');
       }
 
-      // Import du client Supabase
-      let supabase;
-      try {
-        const supabaseModule = await import('../supabaseClient');
-        supabase = supabaseModule.supabase;
-        console.log('✅ Client Supabase chargé avec succès');
-      } catch (importError) {
-        console.error('❌ Erreur lors de l\'import de Supabase:', importError);
-        throw new Error('IMPORT_SUPABASE_FAILED');
-      }
-
       // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
       const urlParams = new URLSearchParams(window.location.search);
       const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
@@ -102,7 +92,16 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
       console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
+
+      const metadata = {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        gclid,
+        source: isFromGoogleAds ? 'google_ads' : 'site',
+        form: 'generic_scpi_landing',
+        scpi: scpiData.nom
+      };
 
       const leadData: any = {
         nom: formData.nom,
@@ -112,6 +111,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         montant: formData.montant,
         commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
         scpi: [scpiData.nom],
+        metadata,
         statut: 'nouveau'
       };
 
@@ -124,13 +124,10 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      console.log('📤 Tentative d\'insertion dans', tableName, ':', leadData);
+      console.log('📤 Tentative d\'insertion dans prospects:', leadData);
 
       // Tentative d'insertion dans Supabase avec .select() pour confirmer
-      const { data, error } = await supabase
-        .from(tableName)
-        .insert([leadData])
-        .select();
+      const { data, error } = await createProspect(leadData);
 
       if (error) {
         console.error('❌ Erreur Supabase lors de l\'insertion:', {

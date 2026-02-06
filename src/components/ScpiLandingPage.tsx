@@ -11,6 +11,7 @@ import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
+import { createProspect } from '../utils/prospectService';
 
 interface ScpiLandingPageProps {
   scpiKey: string;
@@ -88,9 +89,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Import Supabase dynamiquement
-      const { supabase } = await import('../supabaseClient');
-
       // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
       const urlParams = new URLSearchParams(window.location.search);
       const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
@@ -101,7 +99,16 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
       console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
+
+      const metadata = {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        gclid,
+        source: isFromGoogleAds ? 'google_ads' : 'site',
+        form: 'scpi_landing',
+        scpi: scpiData.nom
+      };
 
       const leadData: any = {
         nom: formData.nom,
@@ -111,6 +118,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         montant: formData.montant,
         commentaire: formData.commentaire || null,
         scpi: [scpiData.nom],
+        metadata,
         statut: 'nouveau'
       };
 
@@ -123,10 +131,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      // Insérer dans la table appropriée
-      const { error } = await supabase
-        .from(tableName)
-        .insert([leadData]);
+      const { error } = await createProspect(leadData);
 
       if (error) {
         console.error('Erreur Supabase:', error);

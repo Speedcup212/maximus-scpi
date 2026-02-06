@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Mail, Send, TrendingUp, Target, Shield, Leaf, Clock, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
+import { createProspect } from '../utils/prospectService';
 
 interface EmailSimulationModalProps {
   isOpen: boolean;
@@ -70,8 +71,6 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
     setStatus(null);
 
     try {
-      const { supabase } = await import('../supabaseClient');
-
       // Lire les paramètres depuis sessionStorage
       const utmSource = sessionStorage.getItem('utm_source');
       const utmMedium = sessionStorage.getItem('utm_medium');
@@ -79,9 +78,8 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
       const gclid = sessionStorage.getItem('gclid');
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
 
-      console.log('🔍 EmailSimulationModal - Routage vers', tableName, ':', { utmSource, utmMedium, utmCampaign, gclid });
+      console.log('🔍 EmailSimulationModal - Insertion prospects:', { utmSource, utmMedium, utmCampaign, gclid });
 
       const leadData: any = {
         nom: 'Non renseigné',
@@ -93,6 +91,18 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
         horizon: horizon,
         objectifs: objectifs,
         tmi: tmi,
+        metadata: {
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+          gclid,
+          source: isFromGoogleAds ? 'google_ads' : 'site',
+          form: 'email_simulation',
+          scpi: scpiNames,
+          horizon,
+          objectifs,
+          tmi
+        },
         statut: 'nouveau'
       };
 
@@ -105,10 +115,7 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      const { data, error } = await supabase
-        .from(tableName)
-        .insert([leadData])
-        .select();
+      const { data, error } = await createProspect(leadData);
 
       if (error) {
         console.error("Erreur Supabase:", error);

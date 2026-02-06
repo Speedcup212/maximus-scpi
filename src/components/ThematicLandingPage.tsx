@@ -21,6 +21,7 @@ import MaximusLogoFooter from './MaximusLogoFooter';
 import Header from './Header';
 import SemanticLinks from './SemanticLinks';
 import { getSemanticLinks } from '../data/semanticCocon';
+import { createProspect } from '../utils/prospectService';
 
 const RdvModal = lazy(() => import('./RdvModal'));
 const AnalysisModal = lazy(() => import('./AnalysisModal'));
@@ -125,8 +126,6 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      const { supabase } = await import('../supabaseClient');
-
       // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
       const urlParams = new URLSearchParams(window.location.search);
       const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
@@ -137,7 +136,16 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
       console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
+
+      const metadata = {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        gclid,
+        source: isFromGoogleAds ? 'google_ads' : 'site',
+        form: 'thematic_landing',
+        page_key: pageKey
+      };
 
       const leadData: any = {
         nom: formData.nom,
@@ -146,6 +154,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
         telephone: formData.telephone,
         montant: formData.montant,
         commentaire: formData.commentaire || null,
+        metadata,
         statut: 'nouveau'
       };
 
@@ -158,9 +167,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      const { error } = await supabase
-        .from(tableName)
-        .insert([leadData]);
+      const { error } = await createProspect(leadData);
 
       if (error) {
         console.error('Erreur Supabase:', error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Shield, Leaf } from 'lucide-react';
 import { Scpi } from '../types/scpi';
+import { createProspect } from '../utils/prospectService';
 
 interface RdvModalProps {
   isOpen: boolean;
@@ -82,8 +83,6 @@ const RdvModal: React.FC<RdvModalProps> = ({
     setStatus(null);
 
     try {
-      const { supabase } = await import('../supabaseClient');
-
       // Lire les paramètres depuis sessionStorage
       const utmSource = sessionStorage.getItem('utm_source');
       const utmMedium = sessionStorage.getItem('utm_medium');
@@ -91,9 +90,19 @@ const RdvModal: React.FC<RdvModalProps> = ({
       const gclid = sessionStorage.getItem('gclid');
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
 
-      console.log('🔍 RdvModal - Routage vers', tableName, ':', { utmSource, utmMedium, utmCampaign, gclid });
+      console.log('🔍 RdvModal - Insertion prospects:', { utmSource, utmMedium, utmCampaign, gclid });
+
+      const metadata = {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        gclid,
+        source: isFromGoogleAds ? 'google_ads' : 'site',
+        form: 'rdv_modal',
+        scpi,
+        portfolio_selection: uniqueScpi.length > 0 ? uniqueScpi : null
+      };
 
       const leadData: any = {
         nom: formValues.name,
@@ -106,6 +115,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
         profil_esg: profilESG,
         scpi: scpi,
         portfolio_selection: uniqueScpi.length > 0 ? uniqueScpi : null,
+        metadata,
         statut: 'nouveau'
       };
 
@@ -118,10 +128,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      const { data, error} = await supabase
-        .from(tableName)
-        .insert([leadData])
-        .select();
+      const { data, error } = await createProspect(leadData);
 
       if (error) {
         console.error("Erreur Supabase:", error);

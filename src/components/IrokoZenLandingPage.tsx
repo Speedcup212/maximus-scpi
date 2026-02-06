@@ -12,6 +12,7 @@ import Header from './Header';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
+import { createProspect } from '../utils/prospectService';
 
 interface IrokoZenLandingPageProps {
   onNavigateHome?: () => void;
@@ -69,8 +70,6 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      const { supabase } = await import('../supabaseClient');
-
       // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
       const urlParams = new URLSearchParams(window.location.search);
       const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
@@ -81,7 +80,16 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
       console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
 
       const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'contacts_site';
+
+      const metadata = {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        gclid,
+        source: isFromGoogleAds ? 'google_ads' : 'site',
+        form: 'iroko_zen_landing',
+        scpi: 'Iroko Zen'
+      };
 
       const leadData: any = {
         nom: formData.nom,
@@ -91,6 +99,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         montant: formData.montant,
         commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
         scpi: ['Iroko Zen'],
+        metadata,
         statut: 'nouveau'
       };
 
@@ -103,9 +112,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         leadData.type_contact = 'formulaire';
       }
 
-      const { error } = await supabase
-        .from(tableName)
-        .insert([leadData]);
+      const { error } = await createProspect(leadData);
 
       if (error) {
         console.error('Erreur Supabase:', error);
