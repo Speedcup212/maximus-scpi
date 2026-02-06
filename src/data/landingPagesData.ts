@@ -40,46 +40,49 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     societe_gestion: "Alderan",
     annee_creation: 2023,
     label_isr: true,
-    capitalisation: "121 M€",
+    capitalisation: "519,6 M€",
     prix_souscription: "250 €",
-    rendement: "11,18%",
-    tof: "93,6%",
+    rendement: "9,00%",
+    tof: "99,1%",
     decote: "-3,27%",
-    endettement: "30%",
+    endettement: "0%",
     frais_souscription: "10%",
     geographie: {
-      "Espagne": 31,
-      "Royaume-Uni": 26,
-      "Pays-Bas": 24,
-      "Italie": 19
+      "Royaume-Uni": 46.5,
+      "Espagne": 15.4,
+      "Italie": 12.4,
+      "Pays-Bas": 10.3,
+      "Canada": 6.6,
+      "Pologne": 5.2,
+      "Irlande": 3.6
     },
     secteurs: {
-      "Bureaux": 28,
-      "Loisir": 24,
-      "Locaux mixtes": 15,
-      "Logistique": 13,
-      "Commerces": 12,
-      "Hôtellerie": 9
+      "Commerce": 27.6,
+      "Logistique": 23.9,
+      "Hôtellerie": 16.0,
+      "Bureau": 13.7,
+      "Mixte": 10.9,
+      "Loisirs": 5.8,
+      "Éducation": 2.1
     },
     avantages: [
-      "Rendement exceptionnel de 11,18%",
-      "Taux d'occupation élevé de 93,6%",
-      "Capitalisation solide de 121 M€",
-      "Diversification européenne sur 4 pays",
+      "Taux de distribution 2025 de 9,00%",
+      "Taux d'occupation élevé de 99,1%",
+      "Capitalisation solide de 519,6 M€",
+      "Diversification internationale sur 7 pays",
       "Label ISR - Investissement durable"
     ],
-    description_courte: "SCPI européenne récente offrant un taux de distribution de 11,18% avec une diversification sur 4 pays.",
-    description_longue: "Lancée en 2023 par Alderan, Comète est une SCPI européenne diversifiée qui investit dans l'immobilier tertiaire et commercial en Europe. Avec un rendement de 11,18%, elle se positionne parmi les SCPI les plus performantes du marché. Son portefeuille diversifié sur 4 pays européens (Espagne, Royaume-Uni, Pays-Bas et Italie) et 6 secteurs d'activité offre une résilience face aux fluctuations économiques.",
+    description_courte: "SCPI internationale récente offrant un taux de distribution 2025 de 9,00% et une diversification sur 7 pays.",
+    description_longue: "Lancée en 2023 par Alderan, Comète est une SCPI internationale diversifiée qui investit dans l'immobilier tertiaire et commercial hors France métropolitaine. Avec un taux de distribution 2025 de 9,00% et un TOF de 99,1%, elle combine rendement et qualité locative. Son portefeuille diversifié sur 7 pays (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) et 7 typologies d'actifs apporte une résilience face aux cycles économiques.",
     pourquoi_investir: [
-      "Taux de distribution : 11,18% annualisé (publié au 31/12/2024), parmi les plus élevés du marché",
-      "Diversification européenne : Investissement réparti sur 4 pays majeurs de l'Union Européenne",
+      "Taux de distribution 2025 : 9,00% annualisé",
+      "Diversification internationale : exposition répartie sur 7 pays",
       "Label ISR : Engagement dans l'investissement socialement responsable",
-      "Société de gestion reconnue : Alderan apporte son expertise et son réseau européen",
-      "Secteurs porteurs : Exposition équilibrée sur 6 secteurs d'activité différents"
+      "Société de gestion reconnue : Alderan apporte son expertise et son réseau international",
+      "Diversification sectorielle : exposition sur 7 typologies d'actifs"
     ],
     points_attention: [
       "SCPI récente (2023) : Historique de performance limité",
-      "Endettement de 30% : Levier financier qui amplifie les variations",
       "Exposition internationale : Risque de change et volatilité accrue"
     ],
     profil_investisseur: "Investisseurs recherchant un rendement élevé, acceptant une prise de risque modérée à élevée, avec une vision long terme (8-10 ans minimum). Adapté aux investisseurs souhaitant diversifier leur patrimoine à l'international."

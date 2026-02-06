@@ -1,8 +1,7 @@
 import React from 'react';
 import { Check, Plus, BarChart3, Sparkles } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { TMIValue, isEuropeanSCPI, calculateNetYield, shouldOptimizeForTax } from '../../utils/taxOptimization';
-import { getYieldDisplayInfo } from '../../utils/yieldDisplay';
+import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
 
 interface SCPITableRowProps {
   scpi: SCPIExtended;
@@ -16,7 +15,6 @@ interface SCPITableRowProps {
 const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
-  const netYield = userTmi !== null ? calculateNetYield(scpi.yield, userTmi, isEuropean) : null;
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
@@ -79,25 +77,10 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
         </div>
       </td>
       <td className="px-4 py-3">
-        {(() => {
-          const yieldInfo = getYieldDisplayInfo(scpi);
-          return (
-            <div className="flex flex-col gap-0.5">
-              <div className="text-base font-bold text-emerald-400">{yieldInfo.primaryValue.toFixed(2)}%</div>
-              <div className="text-xs text-slate-500">{yieldInfo.primaryLabel}</div>
-              {yieldInfo.secondaryValue && (
-                <div className="text-xs text-slate-400">
-                  {yieldInfo.secondaryLabel}: <span className="font-semibold text-emerald-300">{yieldInfo.secondaryValue.toFixed(2)}%</span>
-                </div>
-              )}
-              {yieldInfo.netNotAvailable && (
-                <div className="text-xs text-amber-400 font-medium">
-                  ⚠️ Net non communiqué
-                </div>
-              )}
-            </div>
-          );
-        })()}
+        <div className="flex flex-col gap-0.5">
+          <div className="text-base font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
+          <div className="text-xs text-slate-500">Taux de distribution brut</div>
+        </div>
       </td>
       <td className="px-4 py-3">
         <div className="text-sm font-semibold text-white">{scpi.tof}%</div>

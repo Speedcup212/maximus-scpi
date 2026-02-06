@@ -42,25 +42,29 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
     societe_gestion: "Alderan",
     annee_creation: 2023,
     label_isr: true,
-    capitalisation: "121 M€",
+    capitalisation: "519,6 M€",
     prix_souscription: "250 €",
-    rendement: "11,18%",
-    tof: "93,6%",
+    rendement: "9,00%",
+    tof: "99,1%",
     decote: "-3,27%",
-    endettement: "30%",
+    endettement: "0%",
     geographie: {
-      "Espagne": 31,
-      "Royaume-Uni": 26,
-      "Pays-Bas": 24,
-      "Italie": 19
+      "Royaume-Uni": 46.5,
+      "Espagne": 15.4,
+      "Italie": 12.4,
+      "Pays-Bas": 10.3,
+      "Canada": 6.6,
+      "Pologne": 5.2,
+      "Irlande": 3.6
     },
     secteurs: {
-      "Bureaux": 28,
-      "Loisir": 24,
-      "Locaux mixtes": 15,
-      "Logistique": 13,
-      "Commerces": 12,
-      "Hôtellerie": 9
+      "Commerce": 27.6,
+      "Logistique": 23.9,
+      "Hôtellerie": 16.0,
+      "Bureau": 13.7,
+      "Mixte": 10.9,
+      "Loisirs": 5.8,
+      "Éducation": 2.1
     }
   };
 
@@ -225,7 +229,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
               <div className="space-y-3 mb-6">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                  <span className="text-purple-50">Diversification européenne (4 pays)</span>
+                  <span className="text-purple-50">Diversification internationale (7 pays)</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
@@ -736,7 +740,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Europe diversifiée</h3>
               <p className="text-gray-600">
-                Investissement dans 4 pays européens pour limiter les risques
+                Investissement dans 7 pays pour limiter les risques
               </p>
             </div>
 
@@ -746,7 +750,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Multi-sectoriel</h3>
               <p className="text-gray-600">
-                6 secteurs d'activité pour une diversification optimale
+                7 secteurs d'activité pour une diversification optimale
               </p>
             </div>
 
@@ -966,7 +970,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                 Quand vais-je recevoir mes premiers revenus ?
               </h3>
               <p className="text-gray-700">
-                Les revenus de la SCPI Comète sont versés trimestriellement. Vous recevrez votre premier versement le trimestre suivant votre investissement. Le rendement actuel est de 11,18% par an.
+                Les revenus de la SCPI Comète sont versés trimestriellement. Vous recevrez votre premier versement le trimestre suivant votre investissement. Le taux de distribution 2025 est de 9,00% par an.
               </p>
             </div>
 
@@ -976,7 +980,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                 La SCPI Comète est-elle risquée ?
               </h3>
               <p className="text-gray-700">
-                Comme tout investissement immobilier, il existe des risques (baisse des loyers, vacance locative). Cependant, Comète est diversifiée sur 4 pays européens et 6 secteurs d'activité, ce qui limite les risques. Le taux d'occupation actuel est de 93,6%.
+                Comme tout investissement immobilier, il existe des risques (baisse des loyers, vacance locative). Cependant, Comète est diversifiée sur 7 pays et 7 secteurs d'activité, ce qui limite les risques. Le taux d'occupation actuel est de 99,1%.
               </p>
             </div>
 
@@ -996,7 +1000,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                 Quels sont les frais à prévoir ?
               </h3>
               <p className="text-gray-700">
-                Les frais de souscription sont de 10% HT du montant investi. Les frais de gestion annuels sont de 10% HT des loyers perçus. Ces frais sont dans la moyenne du marché et déjà inclus dans le rendement affiché de 11,18%.
+                Les frais de souscription sont de 10% HT du montant investi. Les frais de gestion annuels sont de 10% HT des loyers perçus. Ces frais sont dans la moyenne du marché et déjà inclus dans le taux de distribution affiché de 9,00%.
               </p>
             </div>
           </div>

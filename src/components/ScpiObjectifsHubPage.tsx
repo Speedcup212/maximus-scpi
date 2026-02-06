@@ -24,7 +24,7 @@ const ScpiObjectifsHubPage: React.FC = () => {
         'Transmission patrimoine préparée'
       ],
       scpiRecommandees: [
-        { name: 'Alderan Comète', type: 'Europe diversifiée', rendement: '8.2%' },
+        { name: 'Alderan Comète', type: 'Europe diversifiée', rendement: '9.0%' },
         { name: 'Perial PFO2', type: 'Bureaux Europe', rendement: '5.9%' },
         { name: 'Amundi Deloitte', type: 'Bureaux Prime', rendement: '5.8%' }
       ]
@@ -130,7 +130,7 @@ const ScpiObjectifsHubPage: React.FC = () => {
   const faqQuestions = [
     {
       question: "Quelle SCPI choisir pour préparer ma retraite ?",
-      answer: "Pour la retraite, privilégiez des SCPI diversifiées Europe à capital variable (Alderan Comète 8.2%, Perial PFO2 5.9%) avec horizon 15-30 ans. L'assurance-vie permet une fiscalité optimale en capitalisation. Visez un portefeuille mixte : 60% SCPI rendement, 40% SCPI stabilité (bureaux prime)."
+      answer: "Pour la retraite, privilégiez des SCPI diversifiées Europe à capital variable (Alderan Comète 9.0%, Perial PFO2 5.9%) avec horizon 15-30 ans. L'assurance-vie permet une fiscalité optimale en capitalisation. Visez un portefeuille mixte : 60% SCPI rendement, 40% SCPI stabilité (bureaux prime)."
     },
     {
       question: "Comment générer 500€ par mois avec des SCPI ?",
@@ -165,8 +165,8 @@ const ScpiObjectifsHubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="SCPI par Objectif : Retraite 8.2%, Revenu 6-8%, Défiscalisation 30% IR | Guide 2025"
-        description="✓ SCPI selon objectifs ✓ Retraite: Comète 8.2% ✓ Revenu: Novaxia 8.2% ✓ Défiscalisation: Pinel 21% ✓ Diversification ✓ Stratégies sur-mesure → Conseiller ORIAS"
+        title="SCPI par Objectif : Retraite 9.0%, Revenu 6-8%, Défiscalisation 30% IR | Guide 2025"
+        description="✓ SCPI selon objectifs ✓ Retraite: Comète 9.0% ✓ Revenu: Novaxia 8.2% ✓ Défiscalisation: Pinel 21% ✓ Diversification ✓ Stratégies sur-mesure → Conseiller ORIAS"
         keywords={['scpi retraite', 'scpi revenu complémentaire', 'scpi défiscalisation', 'scpi pinel', 'scpi objectifs patrimoniaux', 'stratégie scpi 2025', 'portefeuille scpi optimisé']}
         canonical="https://www.maximusscpi.com/scpi-objectifs"
         schemaData={combinedSchema}
@@ -182,7 +182,7 @@ const ScpiObjectifsHubPage: React.FC = () => {
               <span className="font-semibold">Approche Conseil Personnalisée</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-              SCPI par Objectif 2025 : Retraite, Revenu, Défiscalisation (Rendements 3% à 8.2%)
+              SCPI par Objectif 2025 : Retraite, Revenu, Défiscalisation (Rendements 3% à 9.0%)
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-teal-100 max-w-4xl mx-auto">
               Sélection de SCPI adaptées à votre projet patrimonial et votre profil investisseur

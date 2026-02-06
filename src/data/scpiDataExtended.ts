@@ -610,60 +610,76 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 12,
     "name": "Comète",
-    "yield": 11.18,
+    "yield": 9.0,
     "price": 250,
     "minInvestment": 5000,
     "category": "Diversifiée",
     "managementCompany": "Alderan",
-    "tof": 93.6,
-    "capitalization": "121M€",
+    "tof": 99.1,
+    "capitalization": "519,6M€",
     "sectors": [
       {
-        "name": "Loisir",
-        "value": 24
-      },
-      {
-        "name": "Bureaux",
-        "value": 28
-      },
-      {
-        "name": "Commerces",
-        "value": 12
+        "name": "Commerce",
+        "value": 27.6
       },
       {
         "name": "Logistique",
-        "value": 13
+        "value": 23.9
       },
       {
         "name": "Hôtellerie",
-        "value": 9
+        "value": 16.0
       },
       {
-        "name": "Locaux mixtes",
-        "value": 15
+        "name": "Bureau",
+        "value": 13.7
+      },
+      {
+        "name": "Mixte",
+        "value": 10.9
+      },
+      {
+        "name": "Loisirs",
+        "value": 5.8
+      },
+      {
+        "name": "Éducation",
+        "value": 2.1
       }
     ],
     "geography": [
       {
-        "name": "Italie",
-        "value": 19
+        "name": "Royaume-Uni",
+        "value": 46.5
       },
       {
         "name": "Espagne",
-        "value": 31
+        "value": 15.4
+      },
+      {
+        "name": "Italie",
+        "value": 12.4
       },
       {
         "name": "Pays-Bas",
-        "value": 24
+        "value": 10.3
       },
       {
-        "name": "Royaume-Uni",
-        "value": 26
+        "name": "Canada",
+        "value": 6.6
+      },
+      {
+        "name": "Pologne",
+        "value": 5.2
+      },
+      {
+        "name": "Irlande",
+        "value": 3.6
       }
     ],
     "reconstitutionValue": 255,
     "ranDays": 86,
-    "ltv": 29,
+    "ltv": 0,
     "hasWaitingShares": false,
     "strategy": "Portefeuille diversifié multi-secteurs pour optimiser le couple rendement/risque"
   },

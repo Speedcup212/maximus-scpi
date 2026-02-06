@@ -5,7 +5,6 @@ import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legen
 import { scpiData } from '../../data/scpiData';
 import { getScpiAdvantages, getScpiPointsAttention, getScpiNews, getScpiKeyTakeaways, getCapitalizationCategory, formatCapitalizationWithLiquidity } from '../../utils/scpiAnalysis';
 import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/scpiDataCompleteness';
-import { getYieldDisplayInfo } from '../../utils/yieldDisplay';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -262,41 +261,20 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {/* Taux de distribution */}
-              {(() => {
-                const scpiForYield = scpiForAnalysis || scpi;
-                const yieldInfo = getYieldDisplayInfo(scpiForYield);
-                return (
-                  <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="w-4 h-4 text-emerald-400" />
-                      <div className="text-xs text-slate-400">{yieldInfo.primaryLabel}</div>
-                    </div>
-                    <div className="text-2xl font-bold text-emerald-400">
-                      {yieldInfo.primaryValue.toFixed(2)}%
-                    </div>
-                    {yieldInfo.secondaryValue && (
-                      <div className="mt-2 pt-2 border-t border-slate-600">
-                        <div className="text-xs text-slate-500 mb-1">{yieldInfo.secondaryLabel}</div>
-                        <div className="text-lg font-semibold text-slate-300">
-                          {yieldInfo.secondaryValue.toFixed(2)}%
-                        </div>
-                      </div>
-                    )}
-                    {yieldInfo.netNotAvailable && (
-                      <div className="mt-2 pt-2 border-t border-amber-500/30">
-                        <div className="text-xs text-amber-400 font-medium">
-                          ⚠️ Taux net non communiqué
-                        </div>
-                      </div>
-                    )}
-                    <div className="mt-2 pt-2 border-t border-slate-600">
-                      <div className="text-[10px] text-slate-500 leading-tight">
-                        {yieldInfo.legalNotice}
-                      </div>
-                    </div>
+              <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 hover:bg-slate-800/70 transition-colors">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <div className="text-xs text-slate-400">Taux de distribution brut</div>
+                </div>
+                <div className="text-2xl font-bold text-emerald-400">
+                  {(scpiForAnalysis?.yield ?? scpi.yield).toFixed(2)}%
+                </div>
+                <div className="mt-2 pt-2 border-t border-slate-600">
+                  <div className="text-[10px] text-slate-500 leading-tight">
+                    Taux brut avant fiscalité – la fiscalité dépend de la situation personnelle de l'investisseur.
                   </div>
-                );
-              })()}
+                </div>
+              </div>
 
               {/* TOF */}
               <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 hover:bg-slate-800/70 transition-colors">

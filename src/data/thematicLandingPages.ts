@@ -136,19 +136,19 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Quelle est la meilleure SCPI de rendement en 2025 ?',
-        answer: 'La SCPI Comète d\'Alderan arrive en tête avec un taux de distribution publié de 11,18%. Créée en 2023, elle investit dans l\'immobilier européen (Espagne, Royaume-Uni, Pays-Bas, Italie) avec un portefeuille diversifié sur 6 secteurs. Malgré un taux d\'occupation de 93,6%, elle maintient des distributions élevées.'
+        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2025 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2025.'
       },
       {
         question: 'Combien peut-on gagner avec 10 000€ investis dans ces SCPI ?',
-        answer: 'Avec 10 000€ investis dans Comète (11,18%), vous percevrez 1 118€ bruts par an, soit environ 93€ par mois. Après impôts (TMI 30% + PS 17,2%), vous conserverez environ 590€ nets par an. Les 4 autres SCPI du Top 5 généreront entre 651€ et 825€ bruts par an pour le même capital.'
+        answer: 'Avec 10 000€ investis dans Comète (9,00%), vous percevrez 900€ bruts par an, soit environ 75€ par mois. Après impôts (TMI 30% + PS 17,2%), cela représente environ 475€ nets par an. Les revenus des autres SCPI du Top 5 varient selon leur taux de distribution.'
       },
       {
         question: 'Les SCPI à haut rendement sont-elles plus risquées ?',
-        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte (Comète), stratégie européenne (Transitions Europe), ou modèle économique innovant (pas de frais de souscription). Le risque est limité par la diversification géographique et sectorielle. Vérifiez toujours le TOF (> 95%) et la qualité de gestion.'
+        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte (Comète), stratégie internationale (Transitions Europe), ou modèle économique innovant. Le risque est limité par la diversification géographique et sectorielle. Vérifiez toujours le TOF (99,1% pour Comète au T4 2025) et la qualité de gestion.'
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
-        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un excellent rendement global. Par exemple : 40% Comète (11,18%), 30% Transitions Europe (8,25%), 30% Optimale (6,51%) = rendement moyen de 8,9% avec une diversification France + Europe.'
+        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (9,00%), 30% Transitions Europe (8,25%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,03% avec une diversification France + Europe.'
       },
       {
         question: 'Quels sont les frais à prévoir pour investir dans ces SCPI ?',
@@ -158,7 +158,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       {
         nom: 'Sophie M., 42 ans',
-        texte: 'J\'ai investi 50 000€ répartis sur Comète et Transitions Europe suite aux conseils d\'Eric. Je perçois maintenant près de 400€ par mois de revenus passifs. Excellent complément !',
+        texte: 'J\'ai investi 50 000€ répartis sur Comète et Transitions Europe suite aux conseils d\'Eric. Je perçois maintenant près de 375€ par mois de revenus passifs. Excellent complément !',
         note: 5
       },
       {
@@ -1446,17 +1446,17 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     metaDescription: 'Découvrez les SCPI gérées par Alderan. Société de gestion innovante spécialisée dans l\'immobilier européen avec des rendements attractifs.',
     heroTitle: 'SCPI Alderan',
     heroTitleHighlight: 'L\'excellence de la gestion immobilière',
-    heroSubtitle: 'Alderan gère la SCPI Comète, leader du marché avec 11,18% de rendement et une stratégie européenne diversifiée',
+    heroSubtitle: 'Alderan gère la SCPI Comète avec un taux de distribution 2025 de 9,00% et une stratégie internationale diversifiée',
     labelText: 'Gestionnaire Premium - Innovation',
     keyMetrics: [
       { value: '1', label: 'SCPI gérée' },
-      { value: '11,18%', label: 'Rendement Comète' },
+      { value: '9,00%', label: 'Taux de distribution 2025' },
       { value: '2023', label: 'Création Comète' }
     ],
     benefits: [
       'Gestionnaire innovant et dynamique',
-      'Stratégie européenne diversifiée (4 pays)',
-      'SCPI Comète : meilleur rendement du marché',
+      'Stratégie internationale diversifiée (7 pays)',
+      'SCPI Comète : distribution 2025 de 9,00%',
       'Expertise immobilière tertiaire',
       'Gestion transparente et professionnelle'
     ],
@@ -1466,13 +1466,13 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       features: [
         {
           icon: 'trending-up',
-          title: 'Performance exceptionnelle',
-          description: 'La SCPI Comète affiche le meilleur rendement du marché français (11,18%), grâce à une stratégie immobilière européenne audacieuse et efficace'
+          title: 'Performance robuste',
+          description: 'La SCPI Comète affiche un taux de distribution 2025 de 9,00%, soutenu par une stratégie immobilière internationale diversifiée'
         },
         {
           icon: 'globe',
-          title: 'Diversification européenne',
-          description: 'Investissements répartis sur 4 pays européens (Espagne, Royaume-Uni, Pays-Bas, Italie) et 6 secteurs d\'activité pour une diversification optimale'
+          title: 'Diversification internationale',
+          description: 'Investissements répartis sur 7 pays (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) et 7 secteurs d\'activité'
         },
         {
           icon: 'shield',
@@ -1504,8 +1504,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'SCPI Comète en détail',
           points: [
             'Créée en 2023, capitalisation en forte croissance',
-            'Rendement 2024 : 11,18% (meilleur du marché)',
-            'TOF : 93,6% (en phase de montée en puissance)',
+            'Taux de distribution 2025 : 9,00%',
+            'TOF : 99,1% (T4 2025)',
             'Frais de souscription : 10% HT'
           ]
         },
@@ -1524,15 +1524,15 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Qui est Alderan et que gère cette société ?',
-        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire européen. Elle gère actuellement la SCPI Comète, créée en 2023, qui affiche le meilleur rendement du marché français (11,18%). Alderan se distingue par une approche innovante et une stratégie européenne ambitieuse.'
+        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire international. Elle gère actuellement la SCPI Comète, créée en 2023, avec un taux de distribution 2025 de 9,00% et un TOF de 99,1%. Alderan se distingue par une approche innovante et une stratégie internationale ambitieuse.'
       },
       {
         question: 'Pourquoi la SCPI Comète d\'Alderan a-t-elle un rendement si élevé ?',
-        answer: 'Le rendement exceptionnel de Comète (11,18%) s\'explique par plusieurs facteurs : une stratégie européenne diversifiée sur 4 pays, une sélection rigoureuse d\'actifs à fort potentiel, des frais de gestion optimisés, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 93,6%.'
+        answer: 'Le taux de distribution 2025 de Comète (9,00%) s\'explique par plusieurs facteurs : une stratégie internationale diversifiée sur 7 pays, une sélection rigoureuse d\'actifs, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 99,1% au T4 2025.'
       },
       {
         question: 'La SCPI Comète est-elle risquée avec ce rendement élevé ?',
-        answer: 'Un rendement élevé ne signifie pas nécessairement un risque élevé. Comète bénéficie d\'une diversification géographique (4 pays) et sectorielle (6 secteurs), d\'un TOF correct (93,6%), d\'actifs de qualité et d\'une gestion professionnelle par Alderan. Comme toute SCPI récente, elle est en phase de montée en puissance. L\'horizon recommandé est de 8 à 10 ans minimum.'
+        answer: 'Un rendement élevé ne signifie pas nécessairement un risque élevé. Comète bénéficie d\'une diversification géographique (7 pays) et sectorielle (7 secteurs), d\'un TOF de 99,1%, d\'actifs de qualité et d\'une gestion professionnelle par Alderan. Comme toute SCPI récente, elle est en phase de montée en puissance. L\'horizon recommandé est de 8 à 10 ans minimum.'
       },
       {
         question: 'Alderan est-elle une société de gestion fiable ?',
@@ -1540,41 +1540,45 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Quelles sont les perspectives pour les SCPI Alderan ?',
-        answer: 'Alderan continue de développer la SCPI Comète avec des acquisitions ciblées en Europe. La stratégie reste focalisée sur l\'immobilier tertiaire européen de qualité avec un objectif de maintenir un rendement attractif tout en augmentant le TOF. Alderan pourrait également lancer d\'autres SCPI à l\'avenir pour diversifier son offre.'
+        answer: 'Alderan continue de développer la SCPI Comète avec des acquisitions ciblées à l\'international. La stratégie reste focalisée sur l\'immobilier tertiaire de qualité avec un objectif de maintenir une distribution régulière tout en préservant un TOF élevé. Alderan pourrait également lancer d\'autres SCPI à l\'avenir pour diversifier son offre.'
       }
     ],
     temoignages: [
       {
         nom: 'Laurent B., 48 ans',
-        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. Le rendement de 11% dépasse toutes mes attentes. La gestion est transparente et les distributions régulières.',
+        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2025 à 9,00% répond à mes attentes. La gestion est transparente et les distributions régulières.',
         note: 5
       },
       {
         nom: 'Marie D., 52 ans',
-        texte: 'Eric m\'a recommandé Alderan pour diversifier mon portefeuille à l\'international. La SCPI Comète combine performance et diversification européenne. Excellent choix !',
+        texte: 'Eric m\'a recommandé Alderan pour diversifier mon portefeuille à l\'international. La SCPI Comète combine performance et diversification internationale. Excellent choix !',
         note: 5
       },
       {
         nom: 'Thomas L., 41 ans',
-        texte: 'Alderan est un gestionnaire dynamique et innovant. Leur approche européenne sur Comète me séduit. Les rendements sont au rendez-vous et la communication est claire.',
+        texte: 'Alderan est un gestionnaire dynamique et innovant. Leur approche internationale sur Comète me séduit. La communication est claire.',
         note: 5
       }
     ],
     relatedScpi: ['comete']
   ,
     geographie: {
-      'France': 42,
-      'Allemagne': 25,
-      'Pays-Bas': 15,
-      'Espagne': 10,
-      'Autres': 8
+      'Royaume-Uni': 46.5,
+      'Espagne': 15.4,
+      'Italie': 12.4,
+      'Pays-Bas': 10.3,
+      'Canada': 6.6,
+      'Pologne': 5.2,
+      'Irlande': 3.6
     },
     secteurs: {
-      'Bureaux': 55,
-      'Commerces': 25,
-      'Logistique': 12,
-      'Santé': 5,
-      'Autres': 3
+      'Commerce': 27.6,
+      'Logistique': 23.9,
+      'Hôtellerie': 16.0,
+      'Bureau': 13.7,
+      'Mixte': 10.9,
+      'Loisirs': 5.8,
+      'Éducation': 2.1
     }
 ,
     simulator: {

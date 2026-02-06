@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin } from 'lucide-react';
-import { scpiPages } from '../utils/landingPagesContent';
 import { scpiDataExtended } from '../data/scpiDataExtended';
+import { scpiData } from '../data/scpiData';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
 import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
+import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
+import { normalizeString } from '../utils/formatters';
+import { enrichScpiExtendedArray } from '../utils/enrichScpiExtended';
 import Logo from './Logo';
 
 interface HeaderProps {
@@ -119,63 +122,62 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, [isEducationOpen, isScpiMenuOpen, isSimulateurMenuOpen, isEducationMobileOpen]);
 
-  // Mapper les scpiPages avec les données scpiDataExtended pour calculer le secteur dominant
-  const scpiPagesWithData = useMemo(() => {
-    return scpiPages.map(page => {
-      const scpiData = scpiDataExtended.find(
-        s => s.name.toLowerCase() === page.scpiName?.toLowerCase()
-      );
+  const scpiMenuItems = useMemo(() => {
+    const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
+    return enriched.map(scpi => {
+      const landingSlug = findScpiSlug(scpi.name);
+      const slug = landingSlug ?? `scpi-${createSlugFromName(scpi.name)}`;
       return {
-        page,
-        scpi: scpiData,
-        dominantSector: scpiData ? getDominantSector(scpiData) : null
+        scpi,
+        slug,
+        scpiName: scpi.name,
+        dominantSector: getDominantSector(scpi),
+        dominantGeography: getDominantGeography(scpi)
       };
     });
   }, []);
 
   // Top 5 SCPI par rendement (indicateur isolé)
-  const topScpiPages = useMemo(() => {
-    return scpiPagesWithData
-      .sort((a, b) => {
-        const rendA = parseFloat(a.page.statistics?.find(s => s.label === 'Rendement 2024')?.value?.replace('%', '') || '0');
-        const rendB = parseFloat(b.page.statistics?.find(s => s.label === 'Rendement 2024')?.value?.replace('%', '') || '0');
-        return rendB - rendA;
-      })
-      .slice(0, 5)
-      .map(item => item.page);
-  }, [scpiPagesWithData]);
+  const topScpis = useMemo(() => {
+    return [...scpiMenuItems]
+      .sort((a, b) => b.scpi.yield - a.scpi.yield)
+      .slice(0, 5);
+  }, [scpiMenuItems]);
 
-  const filteredScpiPages = scpiSearch
-    ? scpiPages.filter(page =>
-        page.scpiName?.toLowerCase().includes(scpiSearch.toLowerCase())
+  const filteredScpis = scpiSearch
+    ? scpiMenuItems.filter(item =>
+        normalizeString(item.scpiName).includes(normalizeString(scpiSearch))
       )
-    : scpiPages;
+    : scpiMenuItems;
+
+  const formatYield = (value?: number) => {
+    if (value === undefined || value === null || Number.isNaN(value)) {
+      return 'N/A';
+    }
+    return `${value.toFixed(2)}%`;
+  };
 
   // Grouper les SCPI par secteur dominant
   const scpisByDominantSector = useMemo(() => {
-    const itemsWithScpi = scpiPagesWithData
-      .filter(item => item.scpi !== undefined)
-      .map(item => ({
-        scpi: item.scpi!,
-        slug: item.page.slug,
-        scpiName: item.page.scpiName
-      }));
-
-    return groupScpisByDominantSector(itemsWithScpi);
-  }, [scpiPagesWithData]);
+    return groupScpisByDominantSector(
+      scpiMenuItems.map(item => ({
+        scpi: item.scpi,
+        slug: item.slug,
+        scpiName: item.scpiName
+      }))
+    );
+  }, [scpiMenuItems]);
 
   // Grouper les SCPI par géographie dominante
   const scpisByDominantGeography = useMemo(() => {
-    const itemsWithScpi = scpiPagesWithData
-      .filter(item => item.scpi !== undefined)
-      .map(item => ({
-        scpi: item.scpi!,
-        slug: item.page.slug,
-        scpiName: item.page.scpiName
-      }));
-
-    return groupScpisByDominantGeography(itemsWithScpi);
-  }, [scpiPagesWithData]);
+    return groupScpisByDominantGeography(
+      scpiMenuItems.map(item => ({
+        scpi: item.scpi,
+        slug: item.slug,
+        scpiName: item.scpiName
+      }))
+    );
+  }, [scpiMenuItems]);
 
   const educationCategories = [
     { id: 'bases', label: 'Bases des SCPI', icon: '📚' },
@@ -315,30 +317,30 @@ const Header: React.FC<HeaderProps> = ({
 
                   <div className="overflow-y-auto flex-1">
                     {scpiSearch ? (
-                      filteredScpiPages.length > 0 ? (
+                      filteredScpis.length > 0 ? (
                         <div className="py-2">
                           <div className="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                            {filteredScpiPages.length} résultat{filteredScpiPages.length > 1 ? 's' : ''}
+                            {filteredScpis.length} résultat{filteredScpis.length > 1 ? 's' : ''}
                           </div>
-                          {filteredScpiPages.map((page) => (
+                          {filteredScpis.map((item) => (
                             <button
-                              key={page.slug}
+                              key={item.slug}
                               onClick={() => {
                                 resetAllHeaderStates();
                                 setScpiSearch('');
                                 if (onScpiPageClick) {
-                                  onScpiPageClick(page.slug);
+                                  onScpiPageClick(item.slug);
                                 }
                               }}
                               className="block w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
                             >
                               <div className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors" translate="no">
-                                {page.scpiName}
+                                {item.scpiName}
                               </div>
                               <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-3">
-                                <span className="font-semibold text-green-600 dark:text-green-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                <span className="font-semibold text-green-600 dark:text-green-400">{formatYield(item.scpi.yield)}</span>
                                 <span>•</span>
-                                <span>{page.statistics?.find(s => s.label === 'Capitalisation')?.value || 'N/A'}</span>
+                                <span>{item.scpi.capitalization || 'N/A'}</span>
                               </div>
                             </button>
                           ))}
@@ -366,15 +368,14 @@ const Header: React.FC<HeaderProps> = ({
                               Classement basé uniquement sur le rendement 2024. Indicateur isolé, ne constitue pas une recommandation d'investissement.
                             </p>
                           </div>
-                          {topScpiPages.map((page, index) => {
-                            const itemData = scpiPagesWithData.find(p => p.page.slug === page.slug);
+                          {topScpis.map((item, index) => {
                             return (
                               <button
-                                key={page.slug}
+                                key={item.slug}
                                 onClick={() => {
                                   resetAllHeaderStates();
                                   if (onScpiPageClick) {
-                                    onScpiPageClick(page.slug);
+                                    onScpiPageClick(item.slug);
                                   }
                                 }}
                                 className="block w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
@@ -383,14 +384,14 @@ const Header: React.FC<HeaderProps> = ({
                                   <span className="text-lg font-bold text-blue-600 dark:text-blue-400 w-6 flex-shrink-0">#{index + 1}</span>
                                   <div className="flex-1 min-w-0">
                                     <div className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
-                                      {page.scpiName}
+                                      {item.scpiName}
                                     </div>
                                     <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
-                                      <span className="font-semibold text-blue-600 dark:text-blue-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
-                                      {itemData?.dominantSector && (
+                                      <span className="font-semibold text-blue-600 dark:text-blue-400">{formatYield(item.scpi.yield)}</span>
+                                      {item.dominantSector && (
                                         <>
                                           <span>•</span>
-                                          <span className="text-gray-500 dark:text-gray-500">{itemData.dominantSector.label}</span>
+                                          <span className="text-gray-500 dark:text-gray-500">{item.dominantSector.label}</span>
                                         </>
                                       )}
                                     </div>
@@ -454,7 +455,6 @@ const Header: React.FC<HeaderProps> = ({
                                 </summary>
                                 <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
                                   {pages.map((item) => {
-                                    const page = scpiPages.find(p => p.slug === item.slug);
                                     const dominantInfo = getDominantSector(item.scpi);
                                     return (
                                       <button
@@ -472,7 +472,7 @@ const Header: React.FC<HeaderProps> = ({
                                           {item.scpiName}
                                         </div>
                                         <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
-                                          <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                          <span>{formatYield(item.scpi.yield)}</span>
                                           {dominantInfo.percentage > 0 && (
                                             <>
                                               <span>•</span>
@@ -541,7 +541,6 @@ const Header: React.FC<HeaderProps> = ({
                                 </summary>
                                 <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
                                   {pages.map((item) => {
-                                    const page = scpiPages.find(p => p.slug === item.slug);
                                     const dominantInfo = getDominantGeography(item.scpi);
                                     return (
                                       <button
@@ -559,7 +558,7 @@ const Header: React.FC<HeaderProps> = ({
                                           {item.scpiName}
                                         </div>
                                         <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
-                                          <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                          <span>{formatYield(item.scpi.yield)}</span>
                                           {dominantInfo.percentage > 0 && (
                                             <>
                                               <span>•</span>
@@ -583,7 +582,7 @@ const Header: React.FC<HeaderProps> = ({
                   <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                     <div className="flex items-center justify-between gap-3">
                       <div className="text-xs text-gray-600 dark:text-gray-400">
-                        {scpiPages.length} SCPI disponibles
+                        {scpiMenuItems.length} SCPI disponibles
                       </div>
                       <button
                         onClick={() => {
@@ -860,7 +859,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Nos SCPI ({scpiPages.length})</span>
+                    <span>Nos SCPI ({scpiMenuItems.length})</span>
                   </div>
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isScpiMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -882,25 +881,25 @@ const Header: React.FC<HeaderProps> = ({
                     <div className="max-h-[60vh] overflow-y-auto overscroll-contain webkit-overflow-scrolling-touch">
                       <div className="p-3 space-y-3">
                         {scpiSearch ? (
-                          filteredScpiPages.length > 0 ? (
+                          filteredScpis.length > 0 ? (
                             <div className="space-y-1">
-                              {filteredScpiPages.map((page) => (
+                              {filteredScpis.map((item) => (
                                 <button
-                                  key={page.slug}
+                                  key={item.slug}
                                   onClick={() => {
                                     resetAllHeaderStates();
                                     setScpiSearch('');
                                     if (onScpiPageClick) {
-                                      onScpiPageClick(page.slug);
+                                      onScpiPageClick(item.slug);
                                     }
                                   }}
                                   className="block w-full text-left py-2.5 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
                                 >
                                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100" translate="no">
-                                    {page.scpiName}
+                                    {item.scpiName}
                                   </div>
                                   <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}
+                                    {formatYield(item.scpi.yield)}
                                   </div>
                                 </button>
                               ))}
@@ -926,16 +925,15 @@ const Header: React.FC<HeaderProps> = ({
                                 </p>
                               </div>
                               <div className="mt-2 space-y-1">
-                                {topScpiPages.map((page, index) => {
-                                  const itemData = scpiPagesWithData.find(p => p.page.slug === page.slug);
+                                {topScpis.map((item, index) => {
                                   return (
                                     <button
-                                      key={page.slug}
+                                      key={item.slug}
                                       onClick={() => {
                                         resetAllHeaderStates();
                                         setScpiSearch('');
                                         if (onScpiPageClick) {
-                                          onScpiPageClick(page.slug);
+                                          onScpiPageClick(item.slug);
                                         }
                                       }}
                                       className="block w-full text-left py-2.5 px-3 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition-all duration-150 active:scale-[0.98] touch-manipulation"
@@ -944,14 +942,14 @@ const Header: React.FC<HeaderProps> = ({
                                         <span className="text-sm font-bold text-blue-600 dark:text-blue-400 min-w-[1.5rem]">#{index + 1}</span>
                                         <div className="flex-1 min-w-0">
                                           <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" translate="no">
-                                            {page.scpiName}
+                                            {item.scpiName}
                                           </div>
                                           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
-                                            <span className="font-semibold text-blue-600 dark:text-blue-400">{page.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
-                                            {itemData?.dominantSector && (
+                                            <span className="font-semibold text-blue-600 dark:text-blue-400">{formatYield(item.scpi.yield)}</span>
+                                            {item.dominantSector && (
                                               <>
                                                 <span>•</span>
-                                                <span className="text-gray-400 dark:text-gray-500">{itemData.dominantSector.label}</span>
+                                                <span className="text-gray-400 dark:text-gray-500">{item.dominantSector.label}</span>
                                               </>
                                             )}
                                           </div>
@@ -991,7 +989,6 @@ const Header: React.FC<HeaderProps> = ({
                                       </summary>
                                       <div className="mt-1 ml-3 space-y-1 pb-1">
                                         {pages.map((item) => {
-                                          const page = scpiPages.find(p => p.slug === item.slug);
                                           const dominantInfo = getDominantSector(item.scpi);
                                           return (
                                             <button
@@ -1010,7 +1007,7 @@ const Header: React.FC<HeaderProps> = ({
                                                 {item.scpiName}
                                               </div>
                                               <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-2">
-                                                <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                                <span>{formatYield(item.scpi.yield)}</span>
                                                 {dominantInfo.percentage > 0 && (
                                                   <>
                                                     <span>•</span>
@@ -1056,7 +1053,6 @@ const Header: React.FC<HeaderProps> = ({
                                       </summary>
                                       <div className="mt-1 ml-3 space-y-1 pb-1">
                                         {pages.map((item) => {
-                                          const page = scpiPages.find(p => p.slug === item.slug);
                                           const dominantInfo = getDominantGeography(item.scpi);
                                           return (
                                             <button
@@ -1075,7 +1071,7 @@ const Header: React.FC<HeaderProps> = ({
                                                 {item.scpiName}
                                               </div>
                                               <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-2">
-                                                <span>{page?.statistics?.find(s => s.label === 'Rendement 2024')?.value || 'N/A'}</span>
+                                                <span>{formatYield(item.scpi.yield)}</span>
                                                 {dominantInfo.percentage > 0 && (
                                                   <>
                                                     <span>•</span>
@@ -1100,7 +1096,7 @@ const Header: React.FC<HeaderProps> = ({
                     <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 sticky bottom-0">
                       <div className="flex flex-col gap-2">
                         <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                          {scpiPages.length} SCPI disponibles
+                          {scpiMenuItems.length} SCPI disponibles
                         </div>
                         <button
                           onClick={() => {

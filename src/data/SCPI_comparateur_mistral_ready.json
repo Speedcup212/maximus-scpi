@@ -265,25 +265,29 @@
     "societe_de_gestion": "Alderan",
     "annee_de_creation": 2023,
     "label_isr": true,
-    "capitalisation_m€": 120.8,
+    "capitalisation_m€": 519.6,
     "prix_de_souscription_€": 250.0,
     "valeur_de_retrait_€": "225.00",
     "surcote/decote_pct": -3.27,
-    "taux_de_distribution_pct": 11.18,
-    "tof_pct": 93.6,
+    "taux_de_distribution_pct": 9.0,
+    "tof_pct": 99.1,
     "repartition_geographique_json": {
-      "Espagne": 31.0,
-      "Royaume-Uni": 26.0,
-      "Pays-Bas": 24.0,
-      "Italie": 19.0
+      "Royaume-Uni": 46.5,
+      "Espagne": 15.4,
+      "Italie": 12.4,
+      "Pays-Bas": 10.3,
+      "Canada": 6.6,
+      "Pologne": 5.2,
+      "Irlande": 3.6
     },
     "repartition_sectorielle_json": {
-      "Bureaux": 28.0,
-      "Loisir": 24.0,
-      "Locaux mixtes": 15.0,
-      "Logistique": 13.0,
-      "Commerces": 12.0,
-      "Hôtellerie": 9.0
+      "Commerce": 27.6,
+      "Logistique": 23.9,
+      "Hôtellerie": 16.0,
+      "Bureau": 13.7,
+      "Mixte": 10.9,
+      "Loisirs": 5.8,
+      "Éducation": 2.1
     }
   },
   {
