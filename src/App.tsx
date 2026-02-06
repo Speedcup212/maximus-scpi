@@ -2371,6 +2371,22 @@ const App: React.FC = () => {
                 Données objectives • Méthodologie indépendante • Aucune promesse de rendement
               </p>
             </div>
+
+            <div className="mb-6 rounded-xl border border-slate-700/70 bg-slate-900/50 px-4 py-3">
+              <div className="text-sm font-semibold text-slate-200 mb-1">
+                🔍 Comment lire les SCPI selon votre profil investisseur
+              </div>
+              <p className="text-sm text-slate-300">
+                Votre profil investisseur n’indique pas quelles SCPI choisir.
+                Il vous aide à comprendre quels critères peuvent être plus ou moins confortables à vivre selon votre manière de réagir aux cycles et aux variations.
+              </p>
+              <a
+                href="/simulateur-profil-investisseur"
+                className="mt-2 inline-block text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-4"
+              >
+                → Comprendre mon profil investisseur
+              </a>
+            </div>
             
             {/* Comparateur */}
             <Suspense fallback={<LoadingSpinner />}>

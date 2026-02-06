@@ -584,6 +584,12 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
         )}
       </div>
 
+      <div className="mt-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 px-4 py-3">
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          Selon votre profil investisseur, certains éléments comme la durée, la diversification ou la régularité peuvent être plus ou moins confortables à vivre.
+        </p>
+      </div>
+
       {/* Actions */}
       {!isParcoursMode && (
         <div className="flex gap-4">
