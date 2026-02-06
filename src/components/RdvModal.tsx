@@ -93,39 +93,29 @@ const RdvModal: React.FC<RdvModalProps> = ({
 
       console.log('🔍 RdvModal - Insertion prospects:', { utmSource, utmMedium, utmCampaign, gclid });
 
-      const metadata = {
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        gclid,
-        source: isFromGoogleAds ? 'google_ads' : 'site',
-        form: 'rdv_modal',
-        scpi,
-        portfolio_selection: uniqueScpi.length > 0 ? uniqueScpi : null
-      };
-
       const leadData: any = {
         nom: formValues.name,
+        prenom: '',
         email: formValues.email,
         telephone: formValues.phone,
-        montant: formValues.montant,
-        commentaire: formValues.commentaire,
-        creneau: formValues.creneau,
-        profil_risque: profilRisque,
-        profil_esg: profilESG,
-        scpi: scpi,
-        portfolio_selection: uniqueScpi.length > 0 ? uniqueScpi : null,
-        metadata,
-        statut: 'nouveau'
+        exactitude_info: true,
+        comprehension_risques: true,
+        accord_cif: true,
+        comprehension_process: true,
+        metadata: {
+          montant: formValues.montant,
+          creneau: formValues.creneau,
+          commentaire: formValues.commentaire,
+          source: 'popup-rdv',
+          page: window.location.pathname
+        }
       };
 
       if (isFromGoogleAds) {
-        leadData.utm_source = utmSource;
-        leadData.utm_medium = utmMedium;
-        leadData.utm_campaign = utmCampaign;
-        leadData.gclid = gclid;
-      } else {
-        leadData.type_contact = 'formulaire';
+        leadData.metadata.utm_source = utmSource;
+        leadData.metadata.utm_medium = utmMedium;
+        leadData.metadata.utm_campaign = utmCampaign;
+        leadData.metadata.gclid = gclid;
       }
 
       const { data, error } = await createProspect(leadData);

@@ -144,7 +144,9 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
         gclid,
         source: isFromGoogleAds ? 'google_ads' : 'site',
         form: 'thematic_landing',
-        page_key: pageKey
+        page_key: pageKey,
+        montant: formData.montant,
+        commentaire: formData.commentaire || null
       };
 
       const leadData: any = {
@@ -152,8 +154,6 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
         prenom: formData.prenom,
         email: formData.email,
         telephone: formData.telephone,
-        montant: formData.montant,
-        commentaire: formData.commentaire || null,
         metadata,
         statut: 'nouveau'
       };

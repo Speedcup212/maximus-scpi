@@ -100,7 +100,9 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         gclid,
         source: isFromGoogleAds ? 'google_ads' : 'site',
         form: 'generic_scpi_landing',
-        scpi: scpiData.nom
+        scpi: scpiData.nom,
+        montant: formData.montant,
+        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`
       };
 
       const leadData: any = {
@@ -108,8 +110,6 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         prenom: formData.prenom,
         email: formData.email,
         telephone: formData.telephone,
-        montant: formData.montant,
-        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
         scpi: [scpiData.nom],
         metadata,
         statut: 'nouveau'

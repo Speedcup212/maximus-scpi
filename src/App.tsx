@@ -68,6 +68,7 @@ const ScpiNetIncomeSimulator = lazy(() => import('./components/ScpiNetIncomeSimu
 const ScpiCreditSimulator = lazy(() => import('./components/ScpiCreditSimulator'));
 const ScpiDemembrementSimulator = lazy(() => import('./components/ScpiDemembrementSimulator'));
 const ScpiEnvelopeComparator = lazy(() => import('./components/ScpiEnvelopeComparator'));
+const InvestorProfileSimulator = lazy(() => import('./components/InvestorProfileSimulator'));
 const ComparateurDemembrementScpi = lazy(() => import('./components/ComparateurDemembrementScpi'));
 const ScpiSecteursHubPage = lazy(() => import('./components/ScpiSecteursHubPage'));
 const ScpiGestionnairesHubPage = lazy(() => import('./components/ScpiGestionnairesHubPage'));
@@ -176,7 +177,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey'>('home');
   const [guidedJourneyMode, setGuidedJourneyMode] = useState<'beginner' | 'expert' | null>(null);
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
@@ -315,6 +316,8 @@ const App: React.FC = () => {
         setCurrentView('article-scpi-jeune-actif');
       } else if (path === 'simulateur-fonds-euros-scpi') {
         setCurrentView('life-to-scpi');
+      } else if (path === 'simulateur-profil-investisseur') {
+        setCurrentView('simulateur-profil-investisseur');
       } else if (path === 'meilleures-scpi-rendement') {
         setSelectedThematicPage('meilleures-scpi-rendement');
         setCurrentView('thematic-optimized');
@@ -649,6 +652,8 @@ const App: React.FC = () => {
         setCurrentView('simulateur-demembrement');
       } else if (normalizedPath === 'simulateur-enveloppes-scpi') {
         setCurrentView('simulateur-enveloppes');
+      } else if (normalizedPath === 'simulateur-profil-investisseur') {
+        setCurrentView('simulateur-profil-investisseur');
       } else if (normalizedPath === 'comparateur-demembrement-scpi') {
         setCurrentView('comparateur-demembrement');
       } else if (normalizedPath === 'articles') {
@@ -863,6 +868,7 @@ const App: React.FC = () => {
       'credit': { view: 'simulateur-credit', route: '/simulateur-credit-scpi' },
       'demembrement': { view: 'simulateur-demembrement', route: '/simulateur-demembrement-scpi' },
       'enveloppes': { view: 'simulateur-enveloppes', route: '/simulateur-enveloppes-scpi' },
+      'profil-investisseur': { view: 'simulateur-profil-investisseur', route: '/simulateur-profil-investisseur' },
       'comparateur-demembrement': { view: 'comparateur-demembrement', route: '/comparateur-demembrement-scpi' },
       // Futurs simulateurs
       // 'diversification': { view: 'simulateur-diversification', route: '/simulateur-diversification' },
@@ -1203,6 +1209,38 @@ const App: React.FC = () => {
               onCtaClick={() => setIsRdvModalOpen(true)}
             />
           </ErrorBoundary>
+        </Suspense>
+        <Footer />
+        <CookieConsent />
+
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  // Render Profil Investisseur Simulator
+  if (currentView === 'simulateur-profil-investisseur') {
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <InvestorProfileSimulator />
         </Suspense>
         <Footer />
         <CookieConsent />

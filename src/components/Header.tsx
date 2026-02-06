@@ -187,6 +187,12 @@ const Header: React.FC<HeaderProps> = ({
 
   const simulateurs = [
     {
+      id: 'profil-investisseur',
+      label: 'Profil investisseur',
+      description: 'Évaluez votre profil AMF',
+      icon: '🧭'
+    },
+    {
       id: 'fonds-euros-scpi',
       label: 'Fonds euros → SCPI',
       description: 'Comparez vos options de réallocation',

@@ -88,7 +88,9 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         gclid,
         source: isFromGoogleAds ? 'google_ads' : 'site',
         form: 'iroko_zen_landing',
-        scpi: 'Iroko Zen'
+        scpi: 'Iroko Zen',
+        montant: formData.montant,
+        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`
       };
 
       const leadData: any = {
@@ -96,8 +98,6 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         prenom: formData.prenom,
         email: formData.email,
         telephone: formData.telephone,
-        montant: formData.montant,
-        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
         scpi: ['Iroko Zen'],
         metadata,
         statut: 'nouveau'

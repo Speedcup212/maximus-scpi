@@ -107,7 +107,9 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         gclid,
         source: isFromGoogleAds ? 'google_ads' : 'site',
         form: 'scpi_landing',
-        scpi: scpiData.nom
+        scpi: scpiData.nom,
+        montant: formData.montant,
+        commentaire: formData.commentaire || null
       };
 
       const leadData: any = {
@@ -115,8 +117,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         prenom: formData.prenom,
         email: formData.email,
         telephone: formData.telephone,
-        montant: formData.montant,
-        commentaire: formData.commentaire || null,
         scpi: [scpiData.nom],
         metadata,
         statut: 'nouveau'
