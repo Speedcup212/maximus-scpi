@@ -15,12 +15,12 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
       <div className="relative max-w-5xl mx-auto text-center w-full">
         {/* H1 - Main Headline */}
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-black mb-4 leading-tight px-2 text-white max-w-4xl mx-auto">
-          Avant d’investir en SCPI, <span className="text-green-400">vérifiez</span> que votre portefeuille est réellement équilibré
+          Votre portefeuille SCPI est-il vraiment cohérent ?
         </h1>
 
         {/* Sous-titre - Actionnable */}
         <p className="text-lg sm:text-xl text-slate-200 font-semibold mb-8 max-w-3xl mx-auto px-4 leading-relaxed">
-          Les outils d’IA expliquent. MaximusSCPI vérifie la cohérence réelle de votre allocation SCPI.
+          MaximusSCPI analyse la cohérence globale de votre allocation, au-delà des rendements affichés.
         </p>
 
         {/* CTA Button */}

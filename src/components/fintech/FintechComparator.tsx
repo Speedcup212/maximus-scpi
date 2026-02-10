@@ -23,12 +23,14 @@ interface FintechComparatorContentProps {
   onCloseAnalysis?: () => void;
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
+  zScoreVariant?: 'full' | 'compact';
 }
 
 const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
-  hideTitle = false
+  hideTitle = false,
+  zScoreVariant = 'full'
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -490,6 +492,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             onRemove={(scpi) => toggleSelect(scpi)}
             onClear={() => setSelectedScpis([])}
             onVisualize={() => setIsSimulationOpen(true)}
+            zScoreVariant={zScoreVariant}
           />
         </div>
       </div>
@@ -569,12 +572,14 @@ interface FintechComparatorProps {
   onCloseAnalysis?: () => void;
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
+  zScoreVariant?: 'full' | 'compact';
 }
 
 const FintechComparator: React.FC<FintechComparatorProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
-  hideTitle = false
+  hideTitle = false,
+  zScoreVariant = 'full'
 }) => {
   return (
     <AllocationProvider>
@@ -583,6 +588,7 @@ const FintechComparator: React.FC<FintechComparatorProps> = ({
           onCloseAnalysis={onCloseAnalysis}
           onGuidedJourneyClick={onGuidedJourneyClick}
           hideTitle={hideTitle}
+          zScoreVariant={zScoreVariant}
         />
       </SubscriptionProvider>
     </AllocationProvider>

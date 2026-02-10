@@ -5,6 +5,8 @@ import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
+import { getZScoreAttention } from '../../utils/zScoreAttention';
+import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import EricAvatar from '../EricAvatar';
 
 interface SelectionSidebarProps {
@@ -12,6 +14,7 @@ interface SelectionSidebarProps {
   onRemove: (scpi: SCPIExtended) => void;
   onClear: () => void;
   onVisualize: () => void;
+  zScoreVariant?: 'full' | 'compact';
 }
 
 const getCategoryColor = (category: string) => {
@@ -67,7 +70,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   selectedScpis,
   onRemove,
   onClear,
-  onVisualize
+  onVisualize,
+  zScoreVariant = 'full'
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
   
@@ -591,7 +595,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   // Analyse professionnelle CIF/CGP : Avantages et Inconvénients
   const analyzePortfolioProsCons = () => {
     const pros: string[] = [];
-    const cons: string[] = [];
+    const consGeneral: string[] = [];
+    const consStructural: string[] = [];
     
     // Analyse de la diversification
     if (selectedScpis.length >= 4) {
@@ -599,16 +604,23 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     } else if (selectedScpis.length >= 2) {
       pros.push('Diversification correcte permettant de limiter l\'exposition au risque spécifique d\'une seule SCPI');
     } else {
-      cons.push('Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d\'ajouter au moins 2-3 SCPI supplémentaires');
+      consStructural.push('Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d\'ajouter au moins 2-3 SCPI supplémentaires');
     }
     
+    const isHighlyDiversified = isVeryWellDiversified(
+      aggregatedSectors.length,
+      aggregatedGeography.length
+    );
+
     // Analyse sectorielle
     if (aggregatedSectors.length >= 4) {
       pros.push('Excellente diversification sectorielle couvrant plusieurs segments de l\'immobilier, résilience accrue face aux cycles économiques');
     } else if (aggregatedSectors.length >= 2) {
       pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
     } else {
-      cons.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
+      if (!isHighlyDiversified) {
+        consStructural.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
+      }
     }
     
     // Analyse géographique
@@ -621,8 +633,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
       pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
     } else if (hasEurope) {
       pros.push('Exposition européenne intéressante pour la diversification géographique');
-    } else {
-      cons.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
+    } else if (!isHighlyDiversified) {
+      consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
     }
     
     // Analyse du rendement
@@ -631,9 +643,9 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     } else if (avgYield >= 5) {
       pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
     } else if (avgYield >= 4) {
-      cons.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
+      consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
     } else {
-      cons.push(`Rendement moyen faible (${avgYield.toFixed(2)}%) : portefeuille sous-performant, révision de la sélection recommandée`);
+      consGeneral.push(`Rendement moyen faible (${avgYield.toFixed(2)}%) : portefeuille sous-performant, révision de la sélection recommandée`);
     }
     
     // Analyse de la liquidité
@@ -643,19 +655,23 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     } else if (avgTof >= 90) {
       pros.push('Taux d\'occupation financier correct, portefeuille bien géré');
     } else if (avgTof >= 85) {
-      cons.push('Taux d\'occupation financier moyen : vigilance sur la qualité locative, certains actifs pourraient nécessiter un suivi renforcé');
+      consGeneral.push('Taux d\'occupation financier moyen : vigilance sur la qualité locative, certains actifs pourraient nécessiter un suivi renforcé');
     } else {
-      cons.push('Taux d\'occupation financier faible : risque de vacance locative élevé, révision de la sélection recommandée');
+      consGeneral.push('Taux d\'occupation financier faible : risque de vacance locative élevé, révision de la sélection recommandée');
     }
     
     // Analyse de la concentration
     const maxSectorWeight = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
-    if (maxSectorWeight > 60) {
-      cons.push(`Concentration sectorielle élevée (${maxSectorWeight.toFixed(1)}% sur un seul secteur) : risque de corrélation élevée en cas de crise sectorielle`);
-    } else if (maxSectorWeight > 50) {
-      cons.push(`Concentration sectorielle modérée (${maxSectorWeight.toFixed(1)}%) : considérer une meilleure répartition pour réduire le risque`);
+    if (!isHighlyDiversified) {
+      if (maxSectorWeight > 60) {
+        consStructural.push(`Concentration sectorielle élevée (${maxSectorWeight.toFixed(1)}% sur un seul secteur) : risque de corrélation élevée en cas de crise sectorielle`);
+      } else if (maxSectorWeight > 50) {
+        consStructural.push(`Concentration sectorielle modérée (${maxSectorWeight.toFixed(1)}%) : considérer une meilleure répartition pour réduire le risque`);
+      } else {
+        pros.push('Répartition sectorielle équilibrée, bonne diversification des risques');
+      }
     } else {
-      pros.push('Répartition sectorielle équilibrée, bonne diversification des risques');
+      pros.push('Répartition sectorielle et géographique étendue, lecture globale robuste.');
     }
     
     // Analyse fiscale et structure
@@ -668,7 +684,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Analyse du nombre de parts et investissement minimum
     if (minInvestment > 50000) {
-      cons.push(`Investissement minimum total élevé (${minInvestment.toLocaleString('fr-FR')}€) : barrière à l'entrée importante, considérer des SCPI avec des montants minimums plus faibles`);
+      consGeneral.push(`Investissement minimum total élevé (${minInvestment.toLocaleString('fr-FR')}€) : barrière à l'entrée importante, considérer des SCPI avec des montants minimums plus faibles`);
     }
     
     // Analyse de la maturité et capitalisation
@@ -691,24 +707,40 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Analyse du risque de change (si européennes)
     if (hasEurope && !hasFrance) {
-      cons.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
+      consStructural.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
     }
     
     // Analyse de la liquidité secondaire
     const hasLowLiquidity = selectedScpis.some(s => (s.tof || 0) < 85);
     if (hasLowLiquidity) {
-      cons.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
+      consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
     }
     
     // Recommandation générale
     if (selectedScpis.length < 3) {
-      cons.push('Portefeuille sous-diversifié : recommandation d\'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement');
+      consStructural.push('Portefeuille sous-diversifié : recommandation d\'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement');
     }
-    
-    return { pros, cons };
+
+    return { pros, consGeneral, consStructural };
   };
 
+  const zScoreAttention = getZScoreAttention(
+    coherenceZScore,
+    aggregatedSectors.length,
+    aggregatedGeography.length
+  );
+
   const portfolioProsCons = analyzePortfolioProsCons();
+  const allowStructural =
+    zScoreAttention?.level === 'concentration' ||
+    zScoreAttention?.level === 'dispersion-excessive';
+  const zScoreWarning = allowStructural
+    ? `${zScoreAttention!.shortLabel} : ${zScoreAttention!.message}`
+    : null;
+  const consWithZScore = [
+    ...portfolioProsCons.consGeneral,
+    ...(zScoreWarning ? [zScoreWarning] : []),
+  ];
 
   return (
     <div className="hidden lg:block lg:w-96 bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-6">
@@ -784,6 +816,22 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
           </div>
         </div>
 
+        <div className="bg-slate-900/70 rounded-lg p-4 mb-4 border border-slate-700">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-slate-300">
+                {zScoreVariant === 'compact' ? 'Indicateur de cohérence structurelle' : 'Z-score de cohérence du portefeuille'}
+              </span>
+              <span
+                className="text-[11px] text-slate-400"
+                title="Z-score de cohérence MaximusSCPI® — Indicateur propriétaire d’écart structurel — non prédictif de performance."
+              >
+                ⓘ
+              </span>
+            </div>
+          </div>
+          <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant={zScoreVariant} />
+        </div>
 
         <button
           onClick={() => setIsResultOpen(true)}
@@ -980,7 +1028,25 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </span>
                     </div>
                   </div>
-                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} />
+                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full" />
+                </div>
+
+                {/* Analyse de cohérence / Lecture structurelle */}
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
+                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
+                    Analyse de cohérence du portefeuille
+                  </h4>
+                  {zScoreAttention && zScoreAttention.level === 'coherence-elevee' ? (
+                    <div className="text-[11px] sm:text-xs text-slate-300 space-y-1">
+                      <div className="font-semibold text-slate-200">{zScoreAttention.shortLabel}</div>
+                      <div>{zScoreAttention.message}</div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] sm:text-xs text-slate-300">
+                      Lecture structurelle neutre. Aucun signal structurel dominant n’est identifié.
+                    </p>
+                  )}
                 </div>
 
                 {/* Avantages et Inconvénients - Analyse CIF/CGP */}
@@ -1017,16 +1083,21 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
                         <h5 className="text-xs sm:text-sm font-bold text-amber-400">Points d'attention</h5>
                       </div>
-                      {portfolioProsCons.cons.length > 0 ? (
+                      {!allowStructural && (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic mb-2">
+                          Aucun point de vigilance structurelle identifié.
+                        </p>
+                      )}
+                      {consWithZScore.length > 0 ? (
                         <ul className="space-y-1.5 sm:space-y-2">
-                          {portfolioProsCons.cons.map((con, index) => (
+                          {consWithZScore.map((con, index) => (
                             <li key={index} className="text-[10px] sm:text-xs text-slate-300 flex items-start gap-1.5 sm:gap-2">
-                              <span className="text-amber-400 mt-0.5 sm:mt-1 flex-shrink-0">⚠</span>
+                              <span className="text-slate-400 mt-0.5 sm:mt-1 flex-shrink-0">•</span>
                               <span>{con}</span>
                             </li>
                           ))}
                         </ul>
-                      ) : (
+                      ) : !allowStructural ? null : (
                         <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point d'attention identifié</p>
                       )}
                     </div>
@@ -1886,7 +1957,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     {portfolioAnalysis.totalPercentage !== 100 && (
                       <div className="mt-2 sm:mt-3 p-2 sm:p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
                         <p className="text-[10px] sm:text-xs text-yellow-400">
-                          ⚠️ Total: {portfolioAnalysis.totalPercentage.toFixed(1)}% 
+                          Total: {portfolioAnalysis.totalPercentage.toFixed(1)}%
                           {portfolioAnalysis.totalPercentage < 100 
                             ? ` (${(100 - portfolioAnalysis.totalPercentage).toFixed(1)}% non alloué)`
                             : ` (${(portfolioAnalysis.totalPercentage - 100).toFixed(1)}% en trop)`

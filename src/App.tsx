@@ -2398,6 +2398,7 @@ const App: React.FC = () => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 hideTitle={true}
+                zScoreVariant="compact"
               />
             </Suspense>
           </div>
