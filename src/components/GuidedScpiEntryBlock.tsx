@@ -29,7 +29,12 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
   const scrollToComparator = () => {
     const comparator = document.getElementById('comparator');
     if (comparator) {
-      comparator.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const offset = headerHeight + 16;
+      const elementPosition = comparator.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
 
@@ -54,7 +59,9 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                 id="guided-scpi-title"
                 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Test complet : profil investisseur + pré-liste de SCPI à comparer
+                Testez votre profil investisseur
+                <br />
+                Obtenez une première sélection de SCPI à comparer.
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
@@ -71,7 +78,7 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                   <span className="text-[11px] text-slate-400">32 questions</span>
                 </div>
                 <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
-                  Ce que vous obtenez
+                  Ce que vous aller obtenir
                 </h3>
                 <p className="mt-2 text-sm text-slate-300">
                   Profil investisseur + pré-liste de SCPI + points à vérifier avant décision.
@@ -86,14 +93,14 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
                   onClick={start}
                   className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
                 >
-                  Faire le test complet (8 min)
+                  Démarrer votre parcours
                 </button>
                 <button
                   type="button"
                   onClick={scrollToComparator}
                   className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition"
                 >
-                  Comparer les SCPI
+                  Comparer les SCPI directement
                 </button>
               </div>
             </div>

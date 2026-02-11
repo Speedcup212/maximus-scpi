@@ -685,7 +685,9 @@ const App: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const offset = 80;
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const offset = headerHeight + 16;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -2322,10 +2324,7 @@ const App: React.FC = () => {
               <Hero 
                 onCalendlyClick={() => setIsRdvModalOpen(true)}
                 onComparatorClick={() => {
-                  const comparatorElement = document.getElementById('comparator');
-                  if (comparatorElement) {
-                    comparatorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
+                  scrollToSection('comparator');
                 }}
               />
             )}
@@ -2368,12 +2367,6 @@ const App: React.FC = () => {
                 Votre profil investisseur n’indique pas quelles SCPI choisir.
                 Il vous aide à comprendre quels critères peuvent être plus ou moins confortables à vivre selon votre manière de réagir aux cycles et aux variations.
               </p>
-              <a
-                href="/simulateur-profil-investisseur"
-                className="mt-2 inline-block text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-4"
-              >
-                → Comprendre mon profil investisseur
-              </a>
             </div>
             
             {/* Comparateur */}
