@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { X, TrendingUp, DollarSign, Calendar, BarChart3, FileText } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
@@ -9,6 +9,9 @@ import ProjectionChart from './ProjectionChart';
 import SectorAllocation from './SectorAllocation';
 import GeographyAllocation from './GeographyAllocation';
 import LoadingSpinner from '../LoadingSpinner';
+import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
+import ZScoreBar from '../ZScoreBar';
+import { getInvestorProfile } from '../../utils/investorProfile';
 
 interface SimulationModalProps {
   isOpen: boolean;
@@ -18,6 +21,67 @@ interface SimulationModalProps {
 
 const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, selectedScpis }) => {
   const { totalInvestment, setTotalInvestment, distributeEqually } = useAllocation();
+  const investorProfileLabel = useMemo(() => getInvestorProfile(), []);
+
+  const coherenceZScore = useMemo(() => {
+    if (selectedScpis.length === 0) return 0;
+
+    const sectorMap: Record<string, number> = {};
+    const geoMap: Record<string, number> = {};
+
+    selectedScpis.forEach(scpi => {
+      scpi.sectors.forEach(sector => {
+        const sectorName = normalizeSectorLabel(sector.name).label;
+        sectorMap[sectorName] = (sectorMap[sectorName] || 0) + sector.value;
+      });
+      scpi.geography.forEach(geo => {
+        const geoName = normalizeGeoLabel(geo.name).label;
+        geoMap[geoName] = (geoMap[geoName] || 0) + geo.value;
+      });
+    });
+
+    const aggregatedSectors = Object.values(sectorMap);
+    const aggregatedGeos = Object.values(geoMap);
+
+    const sectorDiversityScore = Math.min(aggregatedSectors.length, 5);
+    const geoDiversityScore = Math.min(aggregatedGeos.length, 5);
+
+    const avgYield = selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length;
+    const avgTof = selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length;
+
+    let performanceScore = 0;
+    if (avgYield >= 6) performanceScore = 5;
+    else if (avgYield >= 5) performanceScore = 4;
+    else if (avgYield >= 4) performanceScore = 3;
+    else if (avgYield >= 3) performanceScore = 2;
+    else performanceScore = 1;
+
+    let liquidityScore = 0;
+    if (avgTof >= 95) liquidityScore = 5;
+    else if (avgTof >= 92) liquidityScore = 4;
+    else if (avgTof >= 90) liquidityScore = 3;
+    else if (avgTof >= 85) liquidityScore = 2;
+    else liquidityScore = 1;
+
+    const diversificationScore = Math.min(selectedScpis.length, 5);
+    const maxSectorWeight = aggregatedSectors.length > 0 ? Math.max(...aggregatedSectors) : 0;
+    let riskScore = 5;
+    if (maxSectorWeight > 60) riskScore = 2;
+    else if (maxSectorWeight > 50) riskScore = 3;
+    else if (maxSectorWeight > 40) riskScore = 4;
+
+    const weightedSum =
+      sectorDiversityScore * 1.0 +
+      geoDiversityScore * 1.0 +
+      performanceScore * 1.0 +
+      liquidityScore * 1.2 +
+      diversificationScore * 1.2 +
+      riskScore * 1.3;
+
+    const weightedMax = 5 * (1.0 + 1.0 + 1.0 + 1.2 + 1.2 + 1.3);
+    const overall = Math.round((weightedSum / weightedMax) * 5);
+    return Number((Math.max(1, Math.min(5, overall)) - 3).toFixed(2));
+  }, [selectedScpis]);
 
   console.log('✅ SimulationModal avec bouton SOUSCRIRE - Version 2025-12-20');
 
@@ -60,6 +124,13 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
         {/* Content */}
         <div className="flex-1 overflow-y-auto bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div className="bg-slate-800 rounded-2xl p-4 sm:p-6 border border-slate-700 shadow-xl">
+              <div className="flex items-center gap-2 text-sm text-slate-200 mb-1">
+                <span>Indicateur de cohérence structurelle</span>
+                <span className="text-slate-500" title="Z-score de cohérence MaximusSCPI® — Indicateur propriétaire d’écart structurel — non prédictif de performance.">ⓘ</span>
+              </div>
+              <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="compact" />
+            </div>
 
             {/* Portfolio Summary Header */}
             <PortfolioSummaryHeader selectedScpis={selectedScpis} />
