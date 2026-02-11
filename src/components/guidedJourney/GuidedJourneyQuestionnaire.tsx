@@ -5,37 +5,21 @@ import { GuidedJourneyAnswers } from '../../types/guidedJourney';
 interface GuidedJourneyQuestionnaireProps {
   onComplete: (answers: GuidedJourneyAnswers) => void;
   onClose?: () => void;
-  initialMode?: 'beginner' | 'expert';
 }
 
 const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({ 
   onComplete, 
-  onClose,
-  initialMode
+  onClose
 }) => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Partial<GuidedJourneyAnswers>>({});
-  const [mode, setMode] = useState<'beginner' | 'expert'>(initialMode || 'beginner');
 
   useEffect(() => {
-    try {
-      const preferred = sessionStorage.getItem('guidedJourneyPreferredMode');
-      const nextMode = preferred === 'expert' || preferred === 'beginner'
-        ? preferred
-        : initialMode || 'beginner';
-      setMode(nextMode);
-      setCurrentQuestion(1);
-      setAnswers({
-        questionnaireMode: nextMode,
-        ...(nextMode === 'beginner' ? { taxSituation: 'je-ne-sais-pas' } : {})
-      });
-      if (preferred) {
-        sessionStorage.removeItem('guidedJourneyPreferredMode');
-      }
-    } catch (e) {
-      // Erreur silencieuse
-    }
+    setCurrentQuestion(1);
+    setAnswers({
+      questionnaireMode: 'expert',
+    });
   }, []);
 
   type Question = {
@@ -54,137 +38,6 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       helper?: string;
     };
   };
-
-  const beginnerQuestions: Question[] = [
-    {
-      id: 1,
-      question: "Pourquoi vous intéressez-vous aux SCPI aujourd’hui ?",
-      key: 'interestReason',
-      options: [
-        { value: 'complement-revenus', label: 'J’aimerais créer un complément de revenus dans le temps' },
-        { value: 'repartir-patrimoine', label: 'Je cherche à mieux répartir mon patrimoine' },
-        { value: 'epargne-insatisfait', label: 'Mon épargne ne me satisfait plus telle quelle' },
-        { value: 'decouvrir-comprendre', label: 'Je découvre les SCPI et je veux comprendre' },
-      ],
-    },
-    {
-      id: 2,
-      question: "Sur quelle durée vous projetez-vous ?",
-      key: 'projectionDuration',
-      options: [
-        { value: 'moins-5-ans', label: 'Moins de 5 ans' },
-        { value: '5-8-ans', label: 'Entre 5 et 8 ans' },
-        { value: '8-12-ans', label: 'Entre 8 et 12 ans' },
-        { value: 'plus-12-ans', label: 'Plus de 12 ans' },
-      ],
-    },
-    {
-      id: 3,
-      question: "Si les revenus baissaient temporairement, vous vous sentiriez plutôt :",
-      key: 'incomeDropFeeling',
-      options: [
-        { value: 'tres-inquiet', label: 'Très inquiet' },
-        { value: 'gene', label: 'Un peu gêné' },
-        { value: 'serein', label: 'Plutôt serein' },
-        { value: 'a-laise', label: 'À l’aise' },
-      ],
-    },
-    {
-      id: 4,
-      question: "Quelle est votre expérience en immobilier ?",
-      key: 'realEstateExperience',
-      options: [
-        { value: 'aucune', label: 'Aucune' },
-        { value: 'rp', label: 'Résidence principale' },
-        { value: 'locatif', label: 'Immobilier locatif' },
-        { value: 'plusieurs', label: 'Plusieurs investissements' },
-      ],
-    },
-    {
-      id: 5,
-      question: "Les revenus issus des SCPI seraient-ils importants à court terme ?",
-      key: 'incomeImportanceShortTerm',
-      options: [
-        { value: 'oui-rapidement', label: 'Oui, rapidement' },
-        { value: 'utile', label: 'Utile mais non indispensable' },
-        { value: 'non-long-terme', label: 'Non, long terme' },
-      ],
-    },
-    {
-      id: 6,
-      question: "Vos revenus mensuels sont plutôt :",
-      key: 'monthlyIncomeRange',
-      options: [
-        { value: 'moins-2000', label: 'Moins de 2 000 €' },
-        { value: '2000-6000', label: 'Entre 2 000 € et 6 000 €' },
-        { value: 'plus-6000', label: 'Plus de 6 000 €' },
-        { value: 'je-ne-sais-pas', label: 'Je ne sais pas' },
-      ],
-    },
-    {
-      id: 7,
-      question: "Face à un investissement, vous préférez :",
-      key: 'simplicityLevel',
-      options: [
-        { value: 'tres-simple', label: 'Quelque chose de très simple, sans trop de détails' },
-        { value: 'simple-structure', label: 'Comprendre les grandes lignes, sans entrer dans le technique' },
-        { value: 'technique', label: 'Avoir accès aux détails, même s’ils sont techniques' },
-      ],
-    },
-    {
-      id: 8,
-      question: "Dans un investissement, ce qui compte le plus pour vous est :",
-      key: 'investmentPreference',
-      options: [
-        { value: 'stabilite', label: 'Avoir des revenus et une évolution plutôt réguliers' },
-        { value: 'equilibre', label: 'Un compromis entre régularité et opportunités' },
-        { value: 'potentiel', label: 'Accepter plus de variations pour viser davantage de potentiel' },
-      ],
-    },
-    {
-      id: 9,
-      question: "Aujourd’hui, votre priorité est surtout de :",
-      key: 'currentPriority',
-      options: [
-        { value: 'comprendre', label: 'Comprendre avant de prendre une décision' },
-        { value: 'securiser', label: 'Avancer prudemment, sans prendre de risque inutile' },
-        { value: 'diversifier', label: 'Ne pas mettre tous mes œufs dans le même panier' },
-        { value: 'potentiel', label: 'Accepter plus de variations pour viser davantage de potentiel' },
-      ],
-    },
-    {
-      id: 10,
-      question: "Concernant les risques liés aux SCPI, aujourd’hui :",
-      key: 'riskAwareness',
-      options: [
-        { value: 'ne-connait-pas', label: 'Je n’y ai pas vraiment réfléchi' },
-        { value: 'idee-generale', label: 'Je sais qu’il peut y avoir des périodes moins favorables' },
-        { value: 'cycles', label: 'Je sais que l’immobilier évolue par cycles, avec des hauts et des bas' },
-      ],
-    },
-    {
-      id: 11,
-      question: "Après ce résultat, vous préférez :",
-      key: 'afterResultPreference',
-      options: [
-        { value: 'continuer-comprendre', label: 'Continuer à mieux comprendre les bases' },
-        { value: 'analyse-structuree', label: 'Aller un peu plus loin dans l’analyse' },
-        { value: 'explorer-autonomie', label: 'Découvrir les SCPI librement, par vous-même' },
-        { value: 'arreter', label: 'En rester là pour l’instant' },
-      ],
-    },
-    {
-      id: 12,
-      question: "Aujourd’hui, vous vous situez comme :",
-      key: 'selfPositioning',
-      options: [
-        { value: 'debutant-prudent', label: 'Je débute et je préfère avancer prudemment' },
-        { value: 'debutant-curieux', label: 'Je débute mais j’ai envie d’en savoir plus' },
-        { value: 'reflexion', label: 'Je réfléchis sérieusement à passer à l’action' },
-        { value: 'decide', label: 'J’ai déjà une idée claire de ce que je veux faire' },
-      ],
-    },
-  ];
 
   const expertQuestions: Question[] = [
     {
@@ -555,7 +408,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
     },
   ];
 
-  const questions = mode === 'expert' ? expertQuestions : beginnerQuestions;
+  const questions = expertQuestions;
 
   const currentQ = questions[currentQuestion - 1];
   const isLastQuestion = currentQuestion === questions.length;
@@ -563,7 +416,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const handleAnswer = (value: string | number) => {
     const newAnswers = {
       ...answers,
-      questionnaireMode: mode || answers.questionnaireMode,
+      questionnaireMode: 'expert',
       [currentQ.key]: value,
     };
     setAnswers(newAnswers);
@@ -597,7 +450,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
 
   useEffect(() => {
     setHasSubmitted(false);
-  }, [currentQuestion, mode]);
+  }, [currentQuestion]);
 
   useEffect(() => {
     if (isLastQuestion && !hasSubmitted && answers[currentQ.key] !== undefined) {
@@ -612,14 +465,10 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            {mode === 'expert'
-              ? 'Analyse de cohérence patrimoniale – Niveau avancé'
-              : 'Diagnostic de cohérence – Lecture rapide'}
+            Test complet — Sélection & structure
           </h1>
           <p className="text-lg text-slate-300">
-            {mode === 'expert'
-              ? 'Analyse structurée des équilibres rendement / risque / diversification, destinée à valider ou invalider une allocation SCPI avant engagement.'
-              : 'Un premier diagnostic pour comprendre si votre projet SCPI repose sur des bases cohérentes, sans décision d’investissement.'}
+            Analyse votre sélection, repère un portefeuille équilibré ou trop concentré, sans recommandation d’investissement.
           </p>
         </div>
 

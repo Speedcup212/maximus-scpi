@@ -2,7 +2,7 @@ import React from 'react';
 
 interface GuidedScpiEntryBlockProps {
   // Callback déclenché au clic sur le CTA
-  onStart?: (mode?: 'beginner' | 'expert') => void;
+  onStart?: () => void;
   // Optionnel : id d'ancre vers laquelle scroller si onStart n'est pas fourni
   targetId?: string;
   className?: string;
@@ -13,15 +13,9 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
   targetId = 'guided-journey',
   className = '',
 }) => {
-  const startWithMode = (mode: 'beginner' | 'expert') => {
-    try {
-      sessionStorage.setItem('guidedJourneyPreferredMode', mode);
-    } catch (e) {
-      // Erreur silencieuse
-    }
-
+  const start = () => {
     if (onStart) {
-      onStart(mode);
+      onStart();
       return;
     }
 
@@ -29,6 +23,13 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
     const el = document.getElementById(targetId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const scrollToComparator = () => {
+    const comparator = document.getElementById('comparator');
+    if (comparator) {
+      comparator.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -46,81 +47,59 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
             <div className="flex flex-col gap-4">
               <p className="inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-emerald-300/90 border border-slate-700/70">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                Diagnostic de cohérence · 2 niveaux
+                Test complet · 32 questions
               </p>
 
               <h2
                 id="guided-scpi-title"
                 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Vérifiez la cohérence de votre projet SCPI
+                Test complet : profil investisseur + pré-liste de SCPI à comparer
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
-                Deux lectures complémentaires pour valider ou invalider une allocation avant engagement.
+                En 8 minutes : profil identifié + pré-liste + points à vérifier (frais, secteurs, zones).
               </p>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-2">
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6 shadow-inner shadow-black/40">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
-                    Lecture rapide
-                  </span>
-                  <span className="text-[11px] text-slate-400">13 questions</span>
-                </div>
-                <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
-                  Diagnostic de cohérence – Lecture rapide
-                </h3>
-                <p className="mt-2 text-sm text-slate-300">
-                  Un premier diagnostic pour comprendre si votre projet SCPI repose sur des bases cohérentes, sans décision d’investissement.
-                  Ce diagnostic vise à révéler les déséquilibres potentiels avant toute décision engageante.
-                </p>
-                <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
-                  <li>2–3 minutes · lecture simplifiée</li>
-                  <li>Repères de cohérence immédiats</li>
-                  <li>Aucune sélection, aucune décision d’investissement</li>
-                </ul>
-                <button
-                  type="button"
-                  onClick={() => startWithMode('beginner')}
-                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400"
-                >
-                  Lancer le diagnostic rapide
-                </button>
-              </div>
-
+            <div className="grid gap-4">
               <div className="rounded-2xl border border-slate-700 bg-slate-950/70 p-5 sm:p-6 shadow-inner shadow-black/50">
                 <div className="flex items-center justify-between">
                   <span className="rounded-full bg-blue-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue-200">
-                    Niveau avancé
+                    Test complet • 8 min
                   </span>
-                  <span className="text-[11px] text-slate-400">25–35 questions</span>
+                  <span className="text-[11px] text-slate-400">32 questions</span>
                 </div>
                 <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
-                  Analyse de cohérence patrimoniale – Niveau avancé
+                  Ce que vous obtenez
                 </h3>
                 <p className="mt-2 text-sm text-slate-300">
-                  Analyse structurée des équilibres rendement / risque / diversification, destinée à valider ou invalider une allocation SCPI avant engagement.
-                  Ce diagnostic vise à révéler les déséquilibres potentiels avant toute décision engageante.
+                  Profil investisseur + pré-liste de SCPI + points à vérifier avant décision.
                 </p>
                 <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
-                  <li>8–10 minutes · niveau détaillé</li>
-                  <li>Score de cohérence et contraintes</li>
-                  <li>Structure de portefeuille plus fine</li>
+                  <li>8 min • 32 questions</li>
+                  <li>Pré-liste + critères clés (frais, secteurs, zones)</li>
+                  <li>Résultat clair selon votre profil</li>
                 </ul>
                 <button
                   type="button"
-                  onClick={() => startWithMode('expert')}
+                  onClick={start}
                   className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
                 >
-                  Lancer l’analyse de cohérence
+                  Faire le test complet (8 min)
+                </button>
+                <button
+                  type="button"
+                  onClick={scrollToComparator}
+                  className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition"
+                >
+                  Comparer les SCPI
                 </button>
               </div>
             </div>
 
             <p className="text-[10px] sm:text-xs text-slate-400">
-              Cadre informatif uniquement · Aucun conseil personnalisé · Aucune recommandation d’investissement · Aucune promesse de performance
+              Outil informatif : la pré-liste est une aide à la comparaison, pas une recommandation personnalisée.
             </p>
           </div>
         </div>

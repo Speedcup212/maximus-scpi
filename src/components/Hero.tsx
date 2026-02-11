@@ -15,12 +15,12 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
       <div className="relative max-w-5xl mx-auto text-center w-full">
         {/* H1 - Main Headline */}
         <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl font-black mb-4 leading-tight px-2 text-white max-w-4xl mx-auto">
-          Votre portefeuille SCPI est-il vraiment cohérent ?
+          Comparateur SCPI : trouvez vos premières SCPI <span className="text-green-400">sans vous tromper</span>
         </h1>
 
         {/* Sous-titre - Actionnable */}
         <p className="text-lg sm:text-xl text-slate-200 font-semibold mb-8 max-w-3xl mx-auto px-4 leading-relaxed">
-          MaximusSCPI analyse la cohérence globale de votre allocation, au-delà des rendements affichés.
+          MaximusSCPI vous aide à comparer les SCPI au-delà du rendement : frais, secteurs, zones et diversification, puis à valider votre sélection <span className="text-green-400">en 2 minutes.</span>
         </p>
 
         {/* CTA Button */}
@@ -29,7 +29,7 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
             onClick={onComparatorClick || onCalendlyClick}
             className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
           >
-            Tester la cohérence de mon projet SCPI
+            Commencer
           </button>
         </div>
         <p className="mt-4 text-xs sm:text-sm text-slate-400">

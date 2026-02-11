@@ -106,19 +106,19 @@ export function computeBeginnerProfile(
       id: 'debutant-prudent',
       title: 'Débutant prudent',
       summary:
-        "Vous avez besoin d’un cadre clair et rassurant avant toute décision. Pour vous, les SCPI ne sont pas un produit de rendement, mais un outil patrimonial qui s’inscrit dans le temps.",
+        "Vous cherchez d’abord des repères simples avant de faire une sélection.",
       implications: [
-        "Commencez toujours par le temps avant de regarder les chiffres.",
-        "Raisonnez en portefeuille, pas en SCPI isolée.",
-        "Considérez les revenus comme variables mais organisables, jamais comme garantis."
+        "Commencez par une shortlist courte et claire.",
+        "Visez un portefeuille équilibré, pas trop concentré.",
+        "Comparez secteurs et zones avant le rendement."
       ],
       vigilance: [
-        "Chercher une SCPI “simple” en pensant qu’elle est “sans risque”.",
-        "Attendre des revenus rapides avec un placement conçu pour durer.",
-        "Décider sur un discours rassurant plutôt que sur une logique globale."
+        "Choisir uniquement sur le rendement affiché.",
+        "Multiplier les SCPI sans logique de sélection.",
+        "Confondre performance passée et qualité durable."
       ],
       nextStepHint:
-        "Vous pouvez consolider cette logique avec une analyse de cohérence, ou vous arrêter ici avec un cadre plus clair."
+        "Vous pouvez comparer les SCPI ou faire le test complet (8 min) pour vérifier votre sélection."
     };
   }
 
@@ -127,19 +127,19 @@ export function computeBeginnerProfile(
       id: 'investisseur-decide',
       title: 'Investisseur déjà décidé',
       summary:
-        "Vous avez déjà une idée claire de votre démarche. Votre attente porte surtout sur la vérification, la comparaison et le contrôle.",
+        "Vous avez une idée claire et souhaitez vérifier votre sélection.",
       implications: [
-        "Les données sont utiles si elles sont comparées dans un cadre cohérent.",
-        "La discipline d’allocation est plus importante que le choix individuel.",
-        "La régularité de la méthode prime sur l’intuition."
+        "Comparez les SCPI au-delà du rendement.",
+        "Visez une structure équilibrée, pas trop concentrée.",
+        "Gardez une shortlist lisible et cohérente."
       ],
       vigilance: [
-        "La sur-optimisation.",
-        "La dispersion sans logique globale.",
-        "Négliger les fondamentaux au profit des chiffres visibles."
+        "Aller trop vite sans comparer frais et structure.",
+        "Multiplier les SCPI sans logique.",
+        "Négliger secteurs et zones."
       ],
       nextStepHint:
-        "Le comparateur autonome vous permet d’explorer librement, ou de vérifier votre approche existante."
+        "Comparez les SCPI ou faites le test complet (8 min) pour valider la sélection."
     };
   }
 
@@ -148,19 +148,19 @@ export function computeBeginnerProfile(
       id: 'debutant-curieux',
       title: 'Débutant curieux',
       summary:
-        "Vous êtes dans une phase d’apprentissage actif. Vous cherchez à comprendre les mécanismes avant de comparer ou d’agir.",
+        "Vous démarrez et cherchez surtout des repères simples pour faire une sélection sans vous perdre.",
       implications: [
-        "Une SCPI s’évalue par sa structure, pas par son rendement affiché.",
-        "La diversification est une assurance intellectuelle avant d’être financière.",
-        "Le long terme permet de lisser les cycles, pas de les éviter."
+        "Commencez par une shortlist claire, pas trop large.",
+        "Visez un portefeuille équilibré, pas trop concentré.",
+        "Comparez secteurs et zones, pas seulement le rendement."
       ],
       vigilance: [
-        "Comparer trop tôt sans cadre de lecture.",
-        "Confondre performance passée et qualité durable.",
-        "Multiplier les informations sans hiérarchie."
+        "Choisir uniquement sur le rendement affiché.",
+        "Multiplier les SCPI sans logique de sélection.",
+        "Ignorer les frais et la diversité des secteurs."
       ],
       nextStepHint:
-        "Vous pouvez approfondir la cohérence de votre raisonnement ou explorer les SCPI en gardant cette grille en tête."
+        "Vous pouvez comparer les SCPI, ou faire le test complet (8 min) pour vérifier votre sélection."
     };
   }
 
@@ -168,18 +168,18 @@ export function computeBeginnerProfile(
     id: 'investisseur-reflexion',
     title: 'Investisseur en réflexion',
     summary:
-      "Votre réflexion est déjà avancée. Votre enjeu principal n’est plus “quoi choisir”, mais comment structurer une approche cohérente.",
+      "Votre réflexion est avancée, mais vous voulez vérifier si la sélection reste équilibrée.",
     implications: [
-      "Une bonne allocation réduit les erreurs avant de chercher la performance.",
-      "La cohérence globale compte plus que l’optimisation ponctuelle.",
-      "Les SCPI doivent s’intégrer dans une logique patrimoniale d’ensemble."
+      "Comparez les SCPI au-delà du rendement.",
+      "Visez une structure équilibrée, pas trop concentrée.",
+      "Gardez une shortlist lisible."
     ],
     vigilance: [
-      "Sur-optimiser trop tôt.",
-      "Se focaliser sur un critère unique (rendement, fiscalité, nouveauté).",
-      "Sous-estimer l’impact des cycles dans le temps."
+      "Choisir sur un seul critère.",
+      "Multiplier les SCPI sans logique.",
+      "Ignorer frais, secteurs ou zones."
     ],
     nextStepHint:
-      "Une analyse de cohérence permet de valider votre structure avant toute mise en œuvre."
+      "Comparez les SCPI ou faites le test complet (8 min) pour valider votre sélection."
   };
 }

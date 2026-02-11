@@ -4,20 +4,17 @@ import { scpiData } from '../../data/scpiData';
 import { generateRecommendation } from '../../utils/guidedJourneyLogic';
 import GuidedJourneyQuestionnaire from './GuidedJourneyQuestionnaire';
 import GuidedJourneyResults from './GuidedJourneyResults';
-import GuidedJourneyBeginnerResults from './GuidedJourneyBeginnerResults';
 
 interface GuidedJourneyProps {
   onClose?: () => void;
   onStartSubscription?: (scpiIds: number[]) => void;
   onCalendlyClick?: () => void;
-  initialMode?: 'beginner' | 'expert';
 }
 
 const GuidedJourney: React.FC<GuidedJourneyProps> = ({ 
   onClose,
   onStartSubscription,
-  onCalendlyClick,
-  initialMode
+  onCalendlyClick
 }) => {
   // Restaurer le state depuis sessionStorage si disponible
   const getInitialState = () => {
@@ -83,10 +80,7 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
   }, []);
 
   const handleQuestionnaireComplete = (answersData: GuidedJourneyAnswers) => {
-    const questionnaireMode = answersData.questionnaireMode || 'expert';
-    const rec = questionnaireMode === 'expert'
-      ? generateRecommendation(answersData, scpiData)
-      : null;
+    const rec = generateRecommendation(answersData, scpiData);
     
     // Sauvegarder dans sessionStorage AVANT de mettre à jour le state
     try {
@@ -94,7 +88,7 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
         step: 'results',
         recommendation: rec,
         answers: answersData,
-        mode: questionnaireMode
+        mode: 'expert'
       }));
     } catch (e) {
       // Erreur silencieuse lors de la sauvegarde
@@ -121,52 +115,16 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
     }
   };
 
-  if (step === 'results' && answers) {
-    if (answers.questionnaireMode === 'beginner') {
-      return (
-        <GuidedJourneyBeginnerResults
-          answers={answers}
-          onStartExpert={() => {
-            try {
-              sessionStorage.setItem('guidedJourneyPreferredMode', 'expert');
-            } catch (e) {
-              // Erreur silencieuse
-            }
-            setStep('questionnaire');
-            window.history.pushState({}, '', '/parcours-guide');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onGoComparator={() => {
-            if (onClose) {
-              onClose();
-            }
-            setTimeout(() => {
-              const el = document.getElementById('comparator');
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-            }, 400);
-          }}
-          onStop={() => {
-            if (onClose) {
-              onClose();
-            }
-          }}
-        />
-      );
-    }
-
-    if (recommendation) {
-      return (
-        <GuidedJourneyResults
-          recommendation={recommendation}
-          answers={answers}
-          onBack={handleBackToQuestionnaire}
-          onStartSubscription={onStartSubscription}
-          onCalendlyClick={onCalendlyClick}
-        />
-      );
-    }
+  if (step === 'results' && answers && recommendation) {
+    return (
+      <GuidedJourneyResults
+        recommendation={recommendation}
+        answers={answers}
+        onBack={handleBackToQuestionnaire}
+        onStartSubscription={onStartSubscription}
+        onCalendlyClick={onCalendlyClick}
+      />
+    );
   }
   
 
@@ -174,7 +132,6 @@ const GuidedJourney: React.FC<GuidedJourneyProps> = ({
     <GuidedJourneyQuestionnaire
       onComplete={handleQuestionnaireComplete}
       onClose={onClose}
-      initialMode={initialMode}
     />
   );
 };

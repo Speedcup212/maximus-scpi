@@ -27,12 +27,11 @@ const GuidedJourneyBeginnerResults: React.FC<GuidedJourneyBeginnerResultsProps> 
               <Compass className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide text-emerald-300/90">Orientation rapide – Débutant</p>
+              <p className="text-xs uppercase tracking-wide text-emerald-300/90">ORIENTATION RAPIDE — DÉBUTANT</p>
               <h1 className="text-2xl sm:text-3xl font-semibold text-white">{profile.title}</h1>
             </div>
           </div>
 
-          <p className="text-xs uppercase tracking-wide text-slate-400 mb-2">Lecture structurée</p>
           <p className="text-sm sm:text-base text-slate-200 leading-relaxed mb-4">
             {profile.summary}
           </p>
@@ -66,25 +65,25 @@ const GuidedJourneyBeginnerResults: React.FC<GuidedJourneyBeginnerResultsProps> 
             <p className="text-sm text-slate-300 mb-4">{profile.nextStepHint}</p>
             <div className="grid gap-3 sm:grid-cols-3">
               <button
-                onClick={onStartExpert}
+                onClick={onGoComparator}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-3 text-sm font-semibold text-slate-950 hover:bg-emerald-400 transition-colors"
               >
-                <Eye className="h-4 w-4" />
-                Analyse de cohérence
+                <ArrowRight className="h-4 w-4" />
+                Comparer les SCPI
               </button>
               <button
-                onClick={onGoComparator}
+                onClick={onStartExpert}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 text-sm font-semibold text-slate-100 border border-slate-700 hover:bg-slate-700 transition-colors"
               >
-                <ArrowRight className="h-4 w-4" />
-                Comparateur autonome
+                <Eye className="h-4 w-4" />
+                Faire le test complet (8 min)
               </button>
               <button
                 onClick={onStop}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-slate-200 border border-slate-700 hover:bg-slate-800 transition-colors"
               >
                 <PauseCircle className="h-4 w-4" />
-                Arrêter ici
+                Terminer
               </button>
             </div>
           </div>
