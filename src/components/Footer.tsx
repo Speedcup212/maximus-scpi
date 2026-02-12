@@ -153,6 +153,9 @@ const Footer: React.FC = () => {
                   <a href="/qui-sommes-nous" className="hover:text-blue-400 transition-colors">Qui sommes-nous</a>
                 </li>
                 <li>
+                  <a href="/partenaire-cabinet" className="hover:text-blue-400 transition-colors">Espace partenaire</a>
+                </li>
+                <li>
                   <a href="/expertise-orias-cif" className="hover:text-blue-400 transition-colors">Expertise ORIAS/CIF</a>
                 </li>
                 <li>

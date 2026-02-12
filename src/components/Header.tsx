@@ -187,62 +187,76 @@ const Header: React.FC<HeaderProps> = ({
     { id: 'comparatif', label: 'Comparatif placements', icon: '⚖️' }
   ];
 
-  const simulateurs = [
+  const simulateurLevels = [
     {
-      id: 'profil-investisseur',
-      label: 'Profil investisseur',
-      description: 'Évaluez votre profil AMF',
-      icon: '🧭'
+      title: 'Niveau 1 — Comprendre',
+      color: 'text-emerald-300',
+      description: 'Avant d’investir, comprenez votre profil et votre cadre fiscal.',
+      items: [
+        {
+          id: 'profil-investisseur',
+          label: 'Profil investisseur',
+          description: 'Évaluez votre profil AMF',
+          icon: '🧭'
+        },
+        {
+          id: 'fonds-euros-scpi',
+          label: 'Fonds euros → SCPI',
+          description: 'Comparatif de réallocation',
+          icon: '💶'
+        }
+      ]
     },
     {
-      id: 'fonds-euros-scpi',
-      label: 'Fonds euros → SCPI',
-      description: 'Comparez vos options de réallocation',
-      icon: '💶'
+      title: 'Niveau 2 — Structurer',
+      color: 'text-blue-300',
+      description: 'Choisissez le levier adapté à votre situation patrimoniale.',
+      items: [
+        {
+          id: 'credit',
+          label: 'SCPI à crédit',
+          description: 'Effet de levier & cash-flow',
+          icon: '🏦'
+        },
+        {
+          id: 'demembrement',
+          label: 'Démembrement SCPI',
+          description: 'Nue-propriété vs Usufruit',
+          icon: '⚖️'
+        },
+        {
+          id: 'tresorerie-is',
+          label: 'Trésorerie IS – SCPI',
+          description: 'Projection cash net IS',
+          icon: '🏢'
+        },
+        {
+          id: 'revenus-nets',
+          label: 'Revenus nets SCPI (IR)',
+          description: 'Lecture synthétique des revenus nets',
+          icon: '💰'
+        }
+      ]
     },
     {
-      id: 'revenus-nets',
-      label: 'Revenus nets après fiscalité',
-      description: 'Calculez vos revenus nets SCPI',
-      icon: '💰'
-    },
-    {
-      id: 'credit',
-      label: 'SCPI à crédit',
-      description: 'Effet de levier & cash-flow',
-      icon: '🏦'
-    },
-    {
-      id: 'demembrement',
-      label: 'Démembrement SCPI',
-      description: 'Nue-propriété vs Usufruit',
-      icon: '⚖️'
-    },
-    {
-      id: 'comparateur-demembrement',
-      label: 'Comparateur Démembrement',
-      description: 'PP vs Nue-propriété vs Usufruit',
-      icon: '🔄'
-    },
-    {
-      id: 'enveloppes',
-      label: 'Comparateur d\'enveloppes',
-      description: 'Direct, Assurance-vie ou SCI IS',
-      icon: '📊'
-    },
-    // Futurs simulateurs à ajouter
-    // {
-    //   id: 'diversification',
-    //   label: 'Diversification de portefeuille',
-    //   description: 'Optimisez votre diversification',
-    //   icon: '🎯'
-    // },
-    // {
-    //   id: 'rendement',
-    //   label: 'Projection de rendement',
-    //   description: 'Estimez vos revenus futurs',
-    //   icon: '📈'
-    // }
+      title: 'Niveau 3 — Arbitrer',
+      color: 'text-purple-300',
+      description: 'Outils d’arbitrage avancé.',
+      items: [
+        {
+          id: 'enveloppes',
+          label: 'Comparateur d\'enveloppes',
+          description: 'Direct, Assurance-vie ou SCI IS',
+          icon: '📊'
+        },
+        {
+          id: 'comparateur-demembrement',
+          label: 'Comparateur Démembrement',
+          description: 'PP vs Nue-propriété vs Usufruit',
+          icon: '🔄'
+        }
+      ]
+    }
   ];
 
   return (
@@ -627,39 +641,69 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   <div className="py-2">
-                    {simulateurs.map((simulateur) => (
-                      <button
-                        key={simulateur.id}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          resetAllHeaderStates();
-                          if (onSimulateurClick) {
-                            onSimulateurClick(simulateur.id);
-                          }
-                        }}
-                        onTouchEnd={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          resetAllHeaderStates();
-                          if (onSimulateurClick) {
-                            onSimulateurClick(simulateur.id);
-                          }
-                        }}
-                        className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 active:bg-green-100 dark:active:bg-green-900/30 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group touch-manipulation"
-                        style={{ WebkitTapHighlightColor: 'transparent' }}
-                      >
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl">{simulateur.icon}</span>
-                          <div className="flex-1">
-                            <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                              {simulateur.label}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                              {simulateur.description}
-                            </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resetAllHeaderStates();
+                        if (onSimulateurClick) {
+                          onSimulateurClick('simulateurs');
+                        }
+                      }}
+                      className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 group"
+                    >
+                      <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400">
+                        Voir tous les simulateurs
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                        Vue structurée par niveaux décisionnels
+                      </div>
+                    </button>
+
+                    {simulateurLevels.map((level) => (
+                      <div key={level.title} className="pt-3">
+                        <div className="px-4">
+                          <div className={`text-xs font-semibold uppercase tracking-wide ${level.color}`}>
+                            {level.title}
+                          </div>
+                          <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
+                            {level.description}
                           </div>
                         </div>
-                      </button>
+                        {level.items.map((simulateur) => (
+                          <button
+                            key={simulateur.id}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            onTouchEnd={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 active:bg-green-100 dark:active:bg-green-900/30 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group touch-manipulation"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
+                          >
+                            <div className="flex items-start gap-3">
+                              <span className="text-2xl">{simulateur.icon}</span>
+                              <div className="flex-1">
+                                <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                                  {simulateur.label}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                  {simulateur.description}
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
                     ))}
                   </div>
 
@@ -1135,40 +1179,59 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
 
                 {isSimulateurMenuOpen && (
-                  <div className="mt-2 space-y-1 pl-2">
-                    {simulateurs.map((simulateur) => (
-                      <button
-                        key={simulateur.id}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          resetAllHeaderStates();
-                          if (onSimulateurClick) {
-                            onSimulateurClick(simulateur.id);
-                          }
-                        }}
-                        onTouchEnd={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          resetAllHeaderStates();
-                          if (onSimulateurClick) {
-                            onSimulateurClick(simulateur.id);
-                          }
-                        }}
-                        className="w-full text-left py-3 px-3 active:bg-green-100 dark:active:bg-green-900/30 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
-                        style={{ WebkitTapHighlightColor: 'transparent' }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-xl">{simulateur.icon}</span>
-                          <div className="flex-1">
-                            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                              {simulateur.label}
-                            </div>
-                            <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                              {simulateur.description}
-                            </div>
-                          </div>
+                  <div className="mt-2 space-y-3 pl-2">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resetAllHeaderStates();
+                        if (onSimulateurClick) {
+                          onSimulateurClick('simulateurs');
+                        }
+                      }}
+                      className="w-full text-left py-3 px-3 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
+                    >
+                      Voir tous les simulateurs
+                    </button>
+                    {simulateurLevels.map((level) => (
+                      <div key={level.title} className="space-y-1">
+                        <div className={`text-xs uppercase tracking-wide ${level.color} px-3`}>
+                          {level.title}
                         </div>
-                      </button>
+                        {level.items.map((simulateur) => (
+                          <button
+                            key={simulateur.id}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            onTouchEnd={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            className="w-full text-left py-3 px-3 active:bg-green-100 dark:active:bg-green-900/30 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-xl">{simulateur.icon}</span>
+                              <div className="flex-1">
+                                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                  {simulateur.label}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                                  {simulateur.description}
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
                     ))}
                   </div>
                 )}

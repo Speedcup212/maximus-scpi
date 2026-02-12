@@ -70,6 +70,8 @@ const ScpiDemembrementSimulator = lazy(() => import('./components/ScpiDemembreme
 const ScpiEnvelopeComparator = lazy(() => import('./components/ScpiEnvelopeComparator'));
 const InvestorProfileSimulator = lazy(() => import('./components/InvestorProfileSimulator'));
 const ComparateurDemembrementScpi = lazy(() => import('./components/ComparateurDemembrementScpi'));
+const SimulateurTresorerieIS = lazy(() => import('./pages/SimulateurTresorerieIS'));
+const SimulateursHub = lazy(() => import('./pages/SimulateursHub'));
 const ScpiSecteursHubPage = lazy(() => import('./components/ScpiSecteursHubPage'));
 const ScpiGestionnairesHubPage = lazy(() => import('./components/ScpiGestionnairesHubPage'));
 const ScpiObjectifsHubPage = lazy(() => import('./components/ScpiObjectifsHubPage'));
@@ -79,6 +81,8 @@ const ArticleGeneratorPage = lazy(() => import('./components/ArticleGeneratorPag
 const EducationArticlesIndexPage = lazy(() => import('./components/EducationArticlesIndexPage'));
 const DynamicArticlePage = lazy(() => import('./components/DynamicArticlePage'));
 const OptimizedArticlePage = lazy(() => import('./components/OptimizedArticlePage'));
+const PartenaireCabinet = lazy(() => import('./pages/PartenaireCabinet'));
+const AdminPartners = lazy(() => import('./pages/admin/AdminPartners'));
 
 // 30 Articles Éducation SCPI
 const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle || m.default })));
@@ -177,7 +181,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -216,6 +220,22 @@ const App: React.FC = () => {
           setCurrentView('scpi-detail');
           return;
         }
+      }
+      if (path === 'simulateurs') {
+        setCurrentView('simulateurs');
+        return;
+      }
+      if (path === 'simulateur-tresorerie-is') {
+        setCurrentView('simulateur-tresorerie-is');
+        return;
+      }
+      if (path === 'partenaire-cabinet') {
+        setCurrentView('partenaire-cabinet');
+        return;
+      }
+      if (path === 'admin/partners') {
+        setCurrentView('admin-partners');
+        return;
       }
       // Ne pas gérer /souscription dans le routing initial car c'est géré par le tunnel
       if (path === 'souscription') {
@@ -600,6 +620,10 @@ const App: React.FC = () => {
         setSelectedLandingPage(null);
         setSelectedScpiKey(null);
         setSelectedThematicPage(null);
+      } else if (normalizedPath === 'partenaire-cabinet') {
+        setCurrentView('partenaire-cabinet');
+      } else if (normalizedPath === 'admin/partners') {
+        setCurrentView('admin-partners');
       } else if (normalizedPath === 'articles') {
         setCurrentView('articles-list');
         setSelectedCategory(null);
@@ -651,6 +675,10 @@ const App: React.FC = () => {
         setCurrentView('simulateur-demembrement');
       } else if (normalizedPath === 'simulateur-enveloppes-scpi') {
         setCurrentView('simulateur-enveloppes');
+      } else if (normalizedPath === 'simulateur-tresorerie-is') {
+        setCurrentView('simulateur-tresorerie-is');
+      } else if (normalizedPath === 'simulateurs') {
+        setCurrentView('simulateurs');
       } else if (normalizedPath === 'simulateur-profil-investisseur') {
         setCurrentView('simulateur-profil-investisseur');
       } else if (normalizedPath === 'comparateur-demembrement-scpi') {
@@ -864,12 +892,14 @@ const App: React.FC = () => {
 
     // Map simulateur IDs to views and routes
     const simulateurMapping: Record<string, { view: string; route: string }> = {
+      'simulateurs': { view: 'simulateurs', route: '/simulateurs' },
       'fonds-euros-scpi': { view: 'life-to-scpi', route: '/simulateur-fonds-euros-scpi' },
       'revenus-nets': { view: 'simulateur-revenus-nets', route: '/simulateur-revenus-nets-scpi' },
       'credit': { view: 'simulateur-credit', route: '/simulateur-credit-scpi' },
       'demembrement': { view: 'simulateur-demembrement', route: '/simulateur-demembrement-scpi' },
       'enveloppes': { view: 'simulateur-enveloppes', route: '/simulateur-enveloppes-scpi' },
       'profil-investisseur': { view: 'simulateur-profil-investisseur', route: '/simulateur-profil-investisseur' },
+      'tresorerie-is': { view: 'simulateur-tresorerie-is', route: '/simulateur-tresorerie-is' },
       'comparateur-demembrement': { view: 'comparateur-demembrement', route: '/comparateur-demembrement-scpi' },
       // Futurs simulateurs
       // 'diversification': { view: 'simulateur-diversification', route: '/simulateur-diversification' },
@@ -1020,6 +1050,46 @@ const App: React.FC = () => {
       )}
     </Suspense>
   );
+
+  if (currentView === 'partenaire-cabinet') {
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <PartenaireCabinet />
+        </Suspense>
+        <Footer />
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  if (currentView === 'admin-partners') {
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <AdminPartners />
+        </Suspense>
+      </div>
+    );
+  }
 
   // Render Test Sender React view
   if (currentView === 'test-sender-react') {
@@ -1214,6 +1284,66 @@ const App: React.FC = () => {
         <Footer />
         <CookieConsent />
 
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  if (currentView === 'simulateur-tresorerie-is') {
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <SimulateurTresorerieIS />
+        </Suspense>
+        <Footer />
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  if (currentView === 'simulateurs') {
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <SimulateursHub />
+        </Suspense>
+        <Footer />
+        <CookieConsent />
         {renderGlobalModals()}
       </div>
     );
