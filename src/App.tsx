@@ -71,6 +71,7 @@ const ScpiEnvelopeComparator = lazy(() => import('./components/ScpiEnvelopeCompa
 const InvestorProfileSimulator = lazy(() => import('./components/InvestorProfileSimulator'));
 const ComparateurDemembrementScpi = lazy(() => import('./components/ComparateurDemembrementScpi'));
 const SimulateurTresorerieIS = lazy(() => import('./pages/SimulateurTresorerieIS'));
+const SimulateurImpactFiscal = lazy(() => import('./pages/SimulateurImpactFiscal'));
 const SimulateursHub = lazy(() => import('./pages/SimulateursHub'));
 const ScpiSecteursHubPage = lazy(() => import('./components/ScpiSecteursHubPage'));
 const ScpiGestionnairesHubPage = lazy(() => import('./components/ScpiGestionnairesHubPage'));
@@ -181,7 +182,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -227,6 +228,10 @@ const App: React.FC = () => {
       }
       if (path === 'simulateur-tresorerie-is') {
         setCurrentView('simulateur-tresorerie-is');
+        return;
+      }
+      if (path === 'simulateur-impact-fiscal-scpi') {
+        setCurrentView('simulateur-impact-fiscal');
         return;
       }
       if (path === 'partenaire-cabinet') {
@@ -677,6 +682,8 @@ const App: React.FC = () => {
         setCurrentView('simulateur-enveloppes');
       } else if (normalizedPath === 'simulateur-tresorerie-is') {
         setCurrentView('simulateur-tresorerie-is');
+      } else if (normalizedPath === 'simulateur-impact-fiscal-scpi') {
+        setCurrentView('simulateur-impact-fiscal');
       } else if (normalizedPath === 'simulateurs') {
         setCurrentView('simulateurs');
       } else if (normalizedPath === 'simulateur-profil-investisseur') {
@@ -900,6 +907,7 @@ const App: React.FC = () => {
       'enveloppes': { view: 'simulateur-enveloppes', route: '/simulateur-enveloppes-scpi' },
       'profil-investisseur': { view: 'simulateur-profil-investisseur', route: '/simulateur-profil-investisseur' },
       'tresorerie-is': { view: 'simulateur-tresorerie-is', route: '/simulateur-tresorerie-is' },
+      'impact-fiscal': { view: 'simulateur-impact-fiscal', route: '/simulateur-impact-fiscal-scpi' },
       'comparateur-demembrement': { view: 'comparateur-demembrement', route: '/comparateur-demembrement-scpi' },
       // Futurs simulateurs
       // 'diversification': { view: 'simulateur-diversification', route: '/simulateur-diversification' },
@@ -1311,6 +1319,36 @@ const App: React.FC = () => {
         />
         <Suspense fallback={<LoadingSpinner />}>
           <SimulateurTresorerieIS />
+        </Suspense>
+        <Footer />
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  if (currentView === 'simulateur-impact-fiscal') {
+    return (
+      <div className="min-h-screen bg-slate-950 transition-colors duration-300 dark">
+        <Header
+          isDarkMode={true}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <SimulateurImpactFiscal />
         </Suspense>
         <Footer />
         <CookieConsent />

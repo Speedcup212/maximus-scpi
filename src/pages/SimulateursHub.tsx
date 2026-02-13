@@ -55,7 +55,7 @@ const SimulateursHub: React.FC = () => {
             Ces outils sont des prérequis décisionnels pour clarifier votre situation.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
               <h3 className="text-sm font-semibold">Profil investisseur</h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -64,6 +64,19 @@ const SimulateursHub: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigateTo('/simulateur-profil-investisseur')}
+                className="inline-flex mt-4 text-sm text-emerald-300 hover:text-emerald-200"
+              >
+                Lancer le simulateur →
+              </button>
+            </div>
+            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
+              <h3 className="text-sm font-semibold">Impact fiscal SCPI</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Direct IR vs SCI IR vs IS.
+              </p>
+              <button
+                type="button"
+                onClick={() => navigateTo('/simulateur-impact-fiscal-scpi')}
                 className="inline-flex mt-4 text-sm text-emerald-300 hover:text-emerald-200"
               >
                 Lancer le simulateur →

@@ -200,6 +200,12 @@ const Header: React.FC<HeaderProps> = ({
           icon: '🧭'
         },
         {
+          id: 'impact-fiscal',
+          label: 'Impact fiscal SCPI',
+          description: 'Direct IR vs SCI IR vs IS',
+          icon: '🧮'
+        },
+        {
           id: 'fonds-euros-scpi',
           label: 'Fonds euros → SCPI',
           description: 'Comparatif de réallocation',
