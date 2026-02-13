@@ -94,8 +94,6 @@ export const ImpactFiscalSimulatorPage = () => {
   const [netMetric, setNetMetric] = useState<NetMetric>('personal');
   const [tableView, setTableView] = useState<'essential' | 'fiscal' | 'credit' | 'valuation'>('essential');
   const [showAuditTrail, setShowAuditTrail] = useState(false);
-  const [leadCaptureEnabled, setLeadCaptureEnabled] = useState(false);
-  const [leadEmail, setLeadEmail] = useState('');
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
   const [includePdfDetails, setIncludePdfDetails] = useState(false);
 
@@ -159,15 +157,15 @@ export const ImpactFiscalSimulatorPage = () => {
         : null;
     return [
       {
-        label: 'Distribution 0% → net perso IS nul',
+        label: 'Distribution 0 % → net perso IS nul',
         status: sciISZeroNet
       },
       {
-        label: 'Exit HOLD → pas de PFU final',
+        label: 'Sortie en conservation → pas de PFU final',
         status: holdNoPfu
       },
       {
-        label: 'Exit SELL_ASSETS_DISTRIBUTE → PFU final appliqué',
+        label: 'Sortie avec vente + distribution → PFU final appliqué',
         status: sellWithPfu
       }
     ];
@@ -369,9 +367,9 @@ export const ImpactFiscalSimulatorPage = () => {
         }
       `}</style>
       <div className="mx-auto max-w-7xl space-y-8 px-6 py-10">
-        <header className="impact-header space-y-3">
+        <header className="impact-header space-y-3 pb-4">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-300">Impact fiscal SCPI</p>
-          <h1 className="text-3xl font-semibold md:text-4xl">
+          <h1 className="text-3xl font-semibold leading-tight md:text-4xl">
             Direct IR vs SCI IR vs SCI IS vs Holding IS
           </h1>
           <p className="max-w-3xl text-sm text-slate-300">
@@ -380,7 +378,7 @@ export const ImpactFiscalSimulatorPage = () => {
           </p>
         </header>
 
-        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-300">
+        <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3 text-sm text-slate-300">
           <button
             onClick={() => setMode('simple')}
             className={`rounded-full px-3 py-1 ${mode === 'simple' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'}`}
@@ -726,31 +724,6 @@ export const ImpactFiscalSimulatorPage = () => {
               />
               Inclure détails par scénario (PDF détaillé)
             </label>
-            <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm text-slate-200">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={leadCaptureEnabled}
-                  onChange={event => setLeadCaptureEnabled(event.target.checked)}
-                  className="h-4 w-4 rounded border-white/20 bg-slate-900"
-                />
-                Recevoir le PDF par email (optionnel)
-              </label>
-              {leadCaptureEnabled && (
-                <div className="mt-3 space-y-2">
-                  <input
-                    type="email"
-                    value={leadEmail}
-                    onChange={event => setLeadEmail(event.target.value)}
-                    placeholder="email@exemple.fr"
-                    className="w-full rounded-lg border border-white/10 bg-slate-900 px-3 py-2 text-white"
-                  />
-                  <p className="text-xs text-slate-400">
-                    Fonctionnalité optionnelle non connectée par défaut.
-                  </p>
-                </div>
-              )}
-            </div>
 
             {!parsed.success && (
               <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3 text-xs text-red-200">
@@ -887,40 +860,45 @@ export const ImpactFiscalSimulatorPage = () => {
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-2">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                    <div className="space-y-2">
-                      <h4 className="text-xs uppercase tracking-[0.3em] text-slate-400">Net annuel</h4>
-                      <div className="flex flex-wrap gap-2 text-xs text-slate-300">
-                      {[
-                        ['personal', 'Net perso'],
-                        ['company', 'Net société'],
-                        ['total', 'Net total']
-                      ].map(([value, label]) => (
-                        <button
-                          key={value}
-                          onClick={() => setNetMetric(value as typeof netMetric)}
-                          className={`rounded-full px-3 py-1 ${
-                            netMetric === value ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
+                  <div className="rounded-2xl border border-white/10 bg-slate-900 p-6 flex flex-col min-h-[360px]">
+                    <div className="mb-4">
+                      <h3 className="text-sm tracking-wider text-slate-400">NET ANNUEL</h3>
+                      <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-300">
+                        {[
+                          ['personal', 'Net perso'],
+                          ['company', 'Net société'],
+                          ['total', 'Net total']
+                        ].map(([value, label]) => (
+                          <button
+                            key={value}
+                            onClick={() => setNetMetric(value as typeof netMetric)}
+                            className={`rounded-full px-3 py-1 ${
+                              netMetric === value ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'
+                            }`}
+                          >
+                            {label}
+                          </button>
+                        ))}
                       </div>
                     </div>
-                    <div className="mt-4 h-64">
-                      <ResponsiveContainer width="100%" height="100%">
+                    <div className="flex-grow">
+                      <ResponsiveContainer width="100%" height={260}>
                         <LineChart data={annualChart}>
                           <XAxis dataKey="year" stroke="#94a3b8" />
                           <YAxis stroke="#94a3b8" />
                           <Tooltip />
-                          <Legend />
                           <Line type="monotone" dataKey="directIR" name="Direct IR" stroke="#22c55e" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="sciIR" name="SCI IR" stroke="#38bdf8" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="sciIS" name="SCI IS" stroke="#f59e0b" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="holdingIS" name="Holding IS" stroke="#a855f7" strokeWidth={2} dot={false} />
                         </LineChart>
                       </ResponsiveContainer>
+                    </div>
+                    <div className="mt-4 flex gap-4 text-xs text-slate-400">
+                      <span className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />Direct IR</span>
+                      <span className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-sky-400" />SCI IR</span>
+                      <span className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-amber-400" />SCI IS</span>
+                      <span className="flex items-center gap-2"><span className="inline-block h-2 w-2 rounded-full bg-purple-400" />Holding IS</span>
                     </div>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -947,7 +925,7 @@ export const ImpactFiscalSimulatorPage = () => {
                       <div key={idx} className="flex items-center justify-between">
                         <span>{check.label}</span>
                         <span className={check.status === null ? 'text-slate-500' : check.status ? 'text-emerald-300' : 'text-amber-300'}>
-                          {check.status === null ? 'n/a' : check.status ? 'OK' : 'À vérifier'}
+                          {check.status === null ? 'Sans objet' : check.status ? 'Validé' : 'À vérifier'}
                         </span>
                       </div>
                     ))}

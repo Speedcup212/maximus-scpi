@@ -226,12 +226,36 @@ const App: React.FC = () => {
         setCurrentView('simulateurs');
         return;
       }
+      if (path === 'simulateur-revenus-nets-scpi') {
+        setCurrentView('simulateur-revenus-nets');
+        return;
+      }
+      if (path === 'simulateur-credit-scpi') {
+        setCurrentView('simulateur-credit');
+        return;
+      }
+      if (path === 'simulateur-demembrement-scpi') {
+        setCurrentView('simulateur-demembrement');
+        return;
+      }
+      if (path === 'simulateur-enveloppes-scpi') {
+        setCurrentView('simulateur-enveloppes');
+        return;
+      }
       if (path === 'simulateur-tresorerie-is') {
         setCurrentView('simulateur-tresorerie-is');
         return;
       }
       if (path === 'simulateur-impact-fiscal-scpi') {
         setCurrentView('simulateur-impact-fiscal');
+        return;
+      }
+      if (path === 'simulateur-profil-investisseur') {
+        setCurrentView('simulateur-profil-investisseur');
+        return;
+      }
+      if (path === 'comparateur-demembrement-scpi') {
+        setCurrentView('comparateur-demembrement');
         return;
       }
       if (path === 'partenaire-cabinet') {
@@ -1242,7 +1266,7 @@ const App: React.FC = () => {
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
           <ErrorBoundary>
             <ScpiDemembrementSimulator
-              defaultMontant={100000}
+              defaultMontant={0}
               defaultDuree={10}
               defaultRendement={5.0}
               onCtaClick={() => setIsRdvModalOpen(true)}

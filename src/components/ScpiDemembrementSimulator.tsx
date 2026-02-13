@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue, useCallback } from 'react';
 import { TrendingUp, DollarSign, Calendar, ChevronDown, ChevronUp, AlertCircle, Info, PieChart as PieChartIcon, BarChart3 } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import PieChart from './PieChart';
@@ -12,7 +12,7 @@ interface ScpiDemembrementSimulatorProps {
 }
 
 const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
-  defaultMontant = 100000,
+  defaultMontant = 0,
   defaultDuree = 10,
   defaultRendement = 5.0,
   ctaUrl = '#contact',
@@ -21,19 +21,55 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
   console.log('[ScpiDemembrementSimulator] Component mounted');
   const [mode, setMode] = useState<'nue-pro' | 'usufruit' | 'comparatif'>('nue-pro');
 
-  const [montantPP, setMontantPP] = useState(defaultMontant);
-  const [duree, setDuree] = useState(defaultDuree);
-  const [rendementBrut, setRendementBrut] = useState(defaultRendement);
+  const [montantPPInput, setMontantPPInput] = useState(String(defaultMontant));
+  const [dureeInput, setDureeInput] = useState(String(defaultDuree));
+  const [rendementBrutInput, setRendementBrutInput] = useState(String(defaultRendement));
   const [age, setAge] = useState(60);
-  const [tmi, setTmi] = useState(30);
-  const [psFiscales, setPsFiscales] = useState(17.2);
-  const [tauxActu, setTauxActu] = useState(3.5);
+  const [tmiInput, setTmiInput] = useState('30');
+  const [psFiscalesInput, setPsFiscalesInput] = useState('17.2');
+  const [tauxActuInput, setTauxActuInput] = useState('3.5');
   const [cleNuePropriete, setCleNuePropriete] = useState<number | null>(null);
   const [cleUsufruit, setCleUsufruit] = useState<number | null>(null);
   const [cleMode, setCleMode] = useState<'auto' | 'manuel'>('auto');
-  const [valeurNueProManuellePourcent, setValeurNueProManuellePourcent] = useState(65);
-  const [revaloPrixPart, setRevaloPrixPart] = useState(0);
-  const [indexationRevenus, setIndexationRevenus] = useState(0);
+  const [valeurNueProManuellePourcentInput, setValeurNueProManuellePourcentInput] = useState('65');
+  const [revaloPrixPartInput, setRevaloPrixPartInput] = useState('0');
+  const [indexationRevenusInput, setIndexationRevenusInput] = useState('0');
+
+  const parseNumericInput = (value: string) => {
+    const normalized = value.replace(/\s/g, '').replace(',', '.');
+    const parsed = parseFloat(normalized);
+    return Number.isNaN(parsed) ? 0 : parsed;
+  };
+
+  const stopInputEventPropagation = (
+    event: React.MouseEvent<HTMLInputElement> | React.PointerEvent<HTMLInputElement>
+  ) => {
+    event.stopPropagation();
+  };
+
+  const deferredMontantPPInput = useDeferredValue(montantPPInput);
+  const deferredDureeInput = useDeferredValue(dureeInput);
+  const deferredRendementBrutInput = useDeferredValue(rendementBrutInput);
+  const deferredTmiInput = useDeferredValue(tmiInput);
+  const deferredPsFiscalesInput = useDeferredValue(psFiscalesInput);
+  const deferredTauxActuInput = useDeferredValue(tauxActuInput);
+  const deferredValeurNueProManuellePourcentInput = useDeferredValue(valeurNueProManuellePourcentInput);
+  const deferredRevaloPrixPartInput = useDeferredValue(revaloPrixPartInput);
+  const deferredIndexationRevenusInput = useDeferredValue(indexationRevenusInput);
+
+  const montantPP = useMemo(() => parseNumericInput(deferredMontantPPInput), [deferredMontantPPInput]);
+  const duree = useMemo(() => parseNumericInput(deferredDureeInput), [deferredDureeInput]);
+  const rendementBrut = useMemo(() => parseNumericInput(deferredRendementBrutInput), [deferredRendementBrutInput]);
+  const tmi = useMemo(() => parseNumericInput(deferredTmiInput), [deferredTmiInput]);
+  const psFiscales = useMemo(() => parseNumericInput(deferredPsFiscalesInput), [deferredPsFiscalesInput]);
+  const tauxActu = useMemo(() => parseNumericInput(deferredTauxActuInput), [deferredTauxActuInput]);
+  const valeurNueProManuellePourcent = useMemo(
+    () => parseNumericInput(deferredValeurNueProManuellePourcentInput),
+    [deferredValeurNueProManuellePourcentInput]
+  );
+  const revaloPrixPart = useMemo(() => parseNumericInput(deferredRevaloPrixPartInput), [deferredRevaloPrixPartInput]);
+  const indexationRevenus = useMemo(() => parseNumericInput(deferredIndexationRevenusInput), [deferredIndexationRevenusInput]);
+
 
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showExplanations, setShowExplanations] = useState(false);
@@ -141,20 +177,21 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     };
   }, [montantPP, duree, rendementBrut, age, tmi, psFiscales, tauxActu, cleMode, valeurNueProManuellePourcent, revaloPrixPart, indexationRevenus]);
 
-  const formatEuro = (value: number) => {
+  const formatEuro = useCallback((value: number) => {
     return new Intl.NumberFormat('fr-FR', {
       style: 'currency',
       currency: 'EUR',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
-  };
+  }, []);
 
-  const formatPercent = (value: number, decimals = 2) => {
+  const formatPercent = useCallback((value: number, decimals = 2) => {
     return `${value.toFixed(decimals)} %`;
-  };
+  }, []);
 
-  const ModeSelector = () => (
+
+  const renderModeSelector = () => (
     <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-xl p-6 mb-6">
       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">
         Mode de simulation
@@ -197,7 +234,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const ParametresBase = () => (
+  const renderParametresBase = () => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
       <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
         <PieChartIcon className="w-5 h-5 text-emerald-600" />
@@ -210,15 +247,11 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
             Valeur pleine propriété
           </label>
           <input
-            type="number"
-            value={montantPP}
-            onChange={(e) => setMontantPP(Number(e.target.value) || 0)}
-            onBlur={(e) => {
-              const val = Number(e.target.value) || 10000;
-              if (val < 10000) setMontantPP(10000);
-              else if (val > 5000000) setMontantPP(5000000);
-            }}
-            step={10000}
+            type="text"
+            value={montantPPInput}
+            onChange={(e) => setMontantPPInput(e.target.value)}
+            onMouseDown={stopInputEventPropagation}
+            onPointerDown={stopInputEventPropagation}
             className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-3 px-4 text-lg font-semibold focus:outline-none focus:border-emerald-500"
           />
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -231,23 +264,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
             Durée du démembrement (années)
           </label>
           <input
-            type="number"
-            value={duree}
-            onChange={(e) => {
-              const val = Number(e.target.value);
-              if (val >= 5 && val <= 30) setDuree(val);
-            }}
-            onBlur={(e) => {
-              const val = Number(e.target.value) || 10;
-              if (val < 5) setDuree(5);
-              else if (val > 30) setDuree(30);
-            }}
-            min={5}
-            max={30}
+            type="text"
+            value={dureeInput}
+            onChange={(e) => setDureeInput(e.target.value)}
+            onMouseDown={stopInputEventPropagation}
+            onPointerDown={stopInputEventPropagation}
             className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-3 px-4 text-lg font-semibold focus:outline-none focus:border-emerald-500"
           />
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Entre 5 et 30 ans
+            Durée de démembrement en années.
           </div>
         </div>
 
@@ -256,20 +281,11 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
             Rendement brut annuel moyen estimé de la SCPI (%)
           </label>
           <input
-            type="number"
-            value={rendementBrut}
-            onChange={(e) => {
-              const val = Number(e.target.value);
-              if (val >= 3 && val <= 12) setRendementBrut(val);
-            }}
-            onBlur={(e) => {
-              const val = Number(e.target.value) || 5;
-              if (val < 3) setRendementBrut(3);
-              else if (val > 12) setRendementBrut(12);
-            }}
-            min={3}
-            max={12}
-            step={0.1}
+            type="text"
+            value={rendementBrutInput}
+            onChange={(e) => setRendementBrutInput(e.target.value)}
+            onMouseDown={stopInputEventPropagation}
+            onPointerDown={stopInputEventPropagation}
             className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-3 px-4 text-lg font-semibold focus:outline-none focus:border-emerald-500"
           />
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 space-y-1">
@@ -369,7 +385,11 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
                 <input
                   type="range"
                   value={valeurNueProManuellePourcent}
-                  onChange={(e) => setValeurNueProManuellePourcent(Number(e.target.value))}
+                  onChange={(e) => {
+                    setValeurNueProManuellePourcentInput(e.target.value);
+                  }}
+                  onMouseDown={stopInputEventPropagation}
+                  onPointerDown={stopInputEventPropagation}
                   min={40}
                   max={90}
                   step={0.5}
@@ -377,22 +397,18 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
                 />
                 <div className="flex items-center gap-2">
                   <input
-                    type="number"
-                    value={valeurNueProManuellePourcent}
-                    onChange={(e) => {
-                      const val = Number(e.target.value);
-                      if (val >= 40 && val <= 90) setValeurNueProManuellePourcent(val);
-                    }}
-                    min={40}
-                    max={90}
-                    step={0.5}
+                    type="text"
+                    value={valeurNueProManuellePourcentInput}
+                    onChange={(e) => setValeurNueProManuellePourcentInput(e.target.value)}
+                    onMouseDown={stopInputEventPropagation}
+                    onPointerDown={stopInputEventPropagation}
                     className="w-20 border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-2 px-3 text-center font-semibold focus:outline-none focus:border-emerald-500"
                   />
                   <span className="text-gray-600 dark:text-gray-400 font-semibold">%</span>
                 </div>
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                Entre 40% et 90%
+                Pourcentage de la pleine propriété attribué à la nue-propriété.
               </div>
 
               <div className="mt-4 grid grid-cols-2 gap-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
@@ -413,24 +429,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               Revalorisation annuelle du prix de part (%)
             </label>
             <input
-              type="number"
-              value={revaloPrixPart}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                if (val >= -1 && val <= 2) setRevaloPrixPart(val);
-              }}
-              onBlur={(e) => {
-                const val = Number(e.target.value) || 0;
-                if (val < -1) setRevaloPrixPart(-1);
-                else if (val > 2) setRevaloPrixPart(2);
-              }}
-              min={-1}
-              max={2}
-              step={0.1}
+              type="text"
+              value={revaloPrixPartInput}
+              onChange={(e) => setRevaloPrixPartInput(e.target.value)}
+              onMouseDown={stopInputEventPropagation}
+              onPointerDown={stopInputEventPropagation}
               className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-3 px-4 text-lg font-semibold focus:outline-none focus:border-emerald-500"
             />
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Entre -1% et +2% - Impact sur la valeur finale de la part
+              Impact sur la valeur finale de la part.
             </div>
           </div>
         </div>
@@ -451,23 +458,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               TMI - Tranche Marginale d'Imposition (%)
             </label>
             <input
-              type="number"
-              value={tmi}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                if (val >= 0 && val <= 45) setTmi(val);
-              }}
-              onBlur={(e) => {
-                const val = Number(e.target.value) || 30;
-                if (val < 0) setTmi(0);
-                else if (val > 45) setTmi(45);
-              }}
-              min={0}
-              max={45}
+              type="text"
+              value={tmiInput}
+              onChange={(e) => setTmiInput(e.target.value)}
+              onMouseDown={stopInputEventPropagation}
+              onPointerDown={stopInputEventPropagation}
               className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-2 px-4 focus:outline-none focus:border-emerald-500"
             />
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Entre 0% et 45%
+              Tranche marginale d'imposition.
             </div>
           </div>
 
@@ -476,24 +475,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               Prélèvements sociaux (%)
             </label>
             <input
-              type="number"
-              value={psFiscales}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                if (val >= 15 && val <= 20) setPsFiscales(val);
-              }}
-              onBlur={(e) => {
-                const val = Number(e.target.value) || 17.2;
-                if (val < 15) setPsFiscales(15);
-                else if (val > 20) setPsFiscales(20);
-              }}
-              min={15}
-              max={20}
-              step={0.1}
+              type="text"
+              value={psFiscalesInput}
+              onChange={(e) => setPsFiscalesInput(e.target.value)}
+              onMouseDown={stopInputEventPropagation}
+              onPointerDown={stopInputEventPropagation}
               className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-2 px-4 focus:outline-none focus:border-emerald-500"
             />
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Entre 15% et 20%
+              Prélèvements sociaux applicables.
             </div>
           </div>
 
@@ -502,24 +492,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               Taux d'actualisation (%)
             </label>
             <input
-              type="number"
-              value={tauxActu}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                if (val >= 1 && val <= 6) setTauxActu(val);
-              }}
-              onBlur={(e) => {
-                const val = Number(e.target.value) || 3.5;
-                if (val < 1) setTauxActu(1);
-                else if (val > 6) setTauxActu(6);
-              }}
-              min={1}
-              max={6}
-              step={0.1}
+              type="text"
+              value={tauxActuInput}
+              onChange={(e) => setTauxActuInput(e.target.value)}
+              onMouseDown={stopInputEventPropagation}
+              onPointerDown={stopInputEventPropagation}
               className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-2 px-4 focus:outline-none focus:border-emerald-500"
             />
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Entre 1% et 6% - Pour calcul de la valeur actuelle
+              Utilisé pour calcul de la valeur actuelle.
             </div>
           </div>
 
@@ -528,24 +509,15 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               Indexation annuelle des revenus (%)
             </label>
             <input
-              type="number"
-              value={indexationRevenus}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                if (val >= -2 && val <= 3) setIndexationRevenus(val);
-              }}
-              onBlur={(e) => {
-                const val = Number(e.target.value) || 0;
-                if (val < -2) setIndexationRevenus(-2);
-                else if (val > 3) setIndexationRevenus(3);
-              }}
-              min={-2}
-              max={3}
-              step={0.1}
+              type="text"
+              value={indexationRevenusInput}
+              onChange={(e) => setIndexationRevenusInput(e.target.value)}
+              onMouseDown={stopInputEventPropagation}
+              onPointerDown={stopInputEventPropagation}
               className="w-full border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg py-2 px-4 focus:outline-none focus:border-emerald-500"
             />
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Entre -2% et +3% - Impact sur l'évolution des revenus de l'usufruitier
+              Impact sur l'évolution des revenus de l'usufruitier.
             </div>
           </div>
         </div>
@@ -553,7 +525,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const ResultatsNuePro = () => (
+  const renderResultatsNuePro = () => (
     <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-xl p-6 mb-6">
       <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
         <TrendingUp className="w-5 h-5 text-emerald-600" />
@@ -610,7 +582,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const ResultatsUsufruit = () => (
+  const renderResultatsUsufruit = () => (
     <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-xl p-6 mb-6">
       <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
         <DollarSign className="w-5 h-5 text-emerald-600" />
@@ -665,7 +637,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const GraphiqueEvolution = () => {
+  const renderGraphiqueEvolution = () => {
     const data = calculDemembrement.timeline;
 
     return (
@@ -736,7 +708,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     );
   };
 
-  const TableauComparatif = () => (
+  const renderTableauComparatif = () => (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
       <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
         Tableau comparatif
@@ -788,7 +760,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const ExplicationsPedagogiques = () => (
+  const renderExplicationsPedagogiques = () => (
     <div className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-800/20 rounded-xl p-6 mb-6">
       <button
         onClick={() => setShowExplanations(!showExplanations)}
@@ -852,7 +824,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
-  const NueProDonutCard = () => {
+  const renderNueProDonutCard = () => {
     const gainNuePro = Math.max(calculDemembrement.montantPPFinal - calculDemembrement.prixNuePro, 0);
     const dataNuePro = [
       { name: "Investissement", value: calculDemembrement.prixNuePro, color: "#0f172a" },
@@ -900,7 +872,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     );
   };
 
-  const UsufruitDonutCard = () => {
+  const renderUsufruitDonutCard = () => {
     const revenusNetsCumules = calculDemembrement.revenusTotauxUsufruit;
     const dataUsufruit = [
       { name: "Investissement", value: calculDemembrement.prixUsufruit, color: "#0f172a" },
@@ -948,7 +920,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     );
   };
 
-  const VisualisationGraphique = () => (
+  const renderVisualisationGraphique = () => (
     <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/20 dark:to-slate-800/20 rounded-xl p-6 mb-6">
       <div className="mb-6">
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
@@ -959,13 +931,13 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
         </p>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
-        {(mode === "nue-pro" || mode === "comparatif") && <NueProDonutCard />}
-        {(mode === "usufruit" || mode === "comparatif") && <UsufruitDonutCard />}
+        {(mode === "nue-pro" || mode === "comparatif") && renderNueProDonutCard()}
+        {(mode === "usufruit" || mode === "comparatif") && renderUsufruitDonutCard()}
       </div>
     </div>
   );
 
-  const CTASection = () => (
+  const renderCTASection = () => (
     <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl shadow-2xl p-8 text-center text-white">
       <h3 className="text-2xl font-bold mb-3">
         Besoin d'un conseil personnalisé ?
@@ -991,6 +963,36 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
     </div>
   );
 
+  const memoResultatsNuePro = useMemo(
+    () => renderResultatsNuePro(),
+    [calculDemembrement, duree, revaloPrixPart, age, formatEuro, formatPercent]
+  );
+
+  const memoResultatsUsufruit = useMemo(
+    () => renderResultatsUsufruit(),
+    [calculDemembrement, duree, revaloPrixPart, age, formatEuro, formatPercent]
+  );
+
+  const memoTableauComparatif = useMemo(
+    () => renderTableauComparatif(),
+    [calculDemembrement, duree, revaloPrixPart, valeurNueProManuellePourcent, age, formatEuro, formatPercent]
+  );
+
+  const memoVisualisationGraphique = useMemo(
+    () => renderVisualisationGraphique(),
+    [calculDemembrement, mode, formatEuro, formatPercent]
+  );
+
+  const memoGraphiqueEvolution = useMemo(
+    () => renderGraphiqueEvolution(),
+    [calculDemembrement, mode, formatEuro, formatPercent, duree]
+  );
+
+  const memoExplicationsPedagogiques = useMemo(
+    () => renderExplicationsPedagogiques(),
+    [calculDemembrement, mode, formatEuro, formatPercent, duree]
+  );
+
   return (
     <div className="max-w-7xl mx-auto p-4 space-y-6">
       <div className="text-center mb-8">
@@ -1002,23 +1004,23 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
         </p>
       </div>
 
-      <ModeSelector />
-      <ParametresBase />
+      {renderModeSelector()}
+      {renderParametresBase()}
 
-      {mode === 'nue-pro' && <ResultatsNuePro />}
-      {mode === 'usufruit' && <ResultatsUsufruit />}
+      {mode === 'nue-pro' && memoResultatsNuePro}
+      {mode === 'usufruit' && memoResultatsUsufruit}
       {mode === 'comparatif' && (
         <>
-          <ResultatsNuePro />
-          <ResultatsUsufruit />
-          <TableauComparatif />
+          {memoResultatsNuePro}
+          {memoResultatsUsufruit}
+          {memoTableauComparatif}
         </>
       )}
 
-      <VisualisationGraphique />
-      <GraphiqueEvolution />
-      <ExplicationsPedagogiques />
-      <CTASection />
+      {memoVisualisationGraphique}
+      {memoGraphiqueEvolution}
+      {memoExplicationsPedagogiques}
+      {renderCTASection()}
 
       <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 text-xs text-gray-600 dark:text-gray-400 text-center">
         <AlertCircle className="w-4 h-4 inline mr-2" />
