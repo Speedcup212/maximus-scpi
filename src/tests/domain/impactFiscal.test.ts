@@ -4,6 +4,7 @@ import Decimal from 'decimal.js';
 import { describe, expect, it } from 'vitest';
 import { runImpactFiscalScenario } from '../../domain/strategies/runScenario';
 import { buildAnnualSeries, buildTaxesSeries } from '../../ui/simulators/impact-fiscal/chartSeries';
+import { formatEUR } from '../../lib/pdfImpactFiscal';
 
 const serialize = (value: unknown): unknown => {
   if (value instanceof Decimal) {
@@ -274,5 +275,9 @@ describe('impact fiscal scenarios', () => {
     expect(annual[0]).toHaveProperty('holdingIS');
     const taxes = buildTaxesSeries(result);
     expect(taxes.map(t => t.label)).toEqual(['Direct IR', 'SCI IR', 'SCI IS', 'Holding IS']);
+  });
+
+  it('formatEUR formats thousands with standard spaces', () => {
+    expect(formatEUR(100000)).toBe('100 000 €');
   });
 });

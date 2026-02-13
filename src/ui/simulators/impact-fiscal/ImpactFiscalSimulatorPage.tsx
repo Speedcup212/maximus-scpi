@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { z } from 'zod';
 import { runImpactFiscalScenario } from '../../../domain/strategies/runScenario';
-import { generateImpactFiscalPDF } from '../../../lib/pdfImpactFiscal';
+import { generateImpactFiscalPdfBlob } from './pdf/generateImpactFiscalPdf';
 import { buildAnnualSeries, buildTaxesSeries, NetMetric } from './chartSeries';
 import {
   Bar,
@@ -96,6 +96,8 @@ export const ImpactFiscalSimulatorPage = () => {
   const [showAuditTrail, setShowAuditTrail] = useState(false);
   const [leadCaptureEnabled, setLeadCaptureEnabled] = useState(false);
   const [leadEmail, setLeadEmail] = useState('');
+  const [isPdfGenerating, setIsPdfGenerating] = useState(false);
+  const [includePdfDetails, setIncludePdfDetails] = useState(false);
 
   const exitPolicyLabels: Record<Inputs['exitPolicy'], string> = {
     SELL_ASSETS_DISTRIBUTE: 'Revente + distribution',
@@ -173,6 +175,26 @@ export const ImpactFiscalSimulatorPage = () => {
 
   const update = <K extends keyof Inputs>(key: K, value: Inputs[K]) => {
     setInputs(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleExportPdf = async () => {
+    if (!result || isPdfGenerating) return;
+    setIsPdfGenerating(true);
+    try {
+      const { blob, fileName } = await generateImpactFiscalPdfBlob(result, { includeDetails: includePdfDetails });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('PDF export failed', error);
+    } finally {
+      setIsPdfGenerating(false);
+    }
   };
 
   const renderDetailTable = (label: string, data: typeof result.directIR | null) => {
@@ -689,11 +711,21 @@ export const ImpactFiscalSimulatorPage = () => {
             )}
 
             <button
-              onClick={() => result && generateImpactFiscalPDF(result)}
-              className="w-full rounded-lg bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-200"
+              onClick={handleExportPdf}
+              className="w-full rounded-lg bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-200 disabled:opacity-60"
+              disabled={isPdfGenerating}
             >
-              Exporter PDF comparatif
+              {isPdfGenerating ? 'Génération PDF…' : 'Exporter PDF comparatif'}
             </button>
+            <label className="mt-3 flex items-center gap-2 text-xs text-slate-300">
+              <input
+                type="checkbox"
+                checked={includePdfDetails}
+                onChange={event => setIncludePdfDetails(event.target.checked)}
+                className="h-4 w-4 rounded border-white/20 bg-slate-900"
+              />
+              Inclure détails par scénario (PDF détaillé)
+            </label>
             <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm text-slate-200">
               <label className="flex items-center gap-2">
                 <input
