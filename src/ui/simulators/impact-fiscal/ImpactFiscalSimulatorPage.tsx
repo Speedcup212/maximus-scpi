@@ -195,7 +195,7 @@ export const ImpactFiscalSimulatorPage = () => {
     }
   };
 
-  const renderDetailTable = (label: string, data: typeof result.directIR | null) => {
+  const renderDetailTable = (label: string, data: NonNullable<typeof result>['directIR'] | null) => {
     if (!data) return null;
     const formatEuroSafe = (value: number) => formatEuro(Math.abs(value) < 0.5 ? 0 : value);
     const priceOfReturn = inputs.investedAmount * (1 + inputs.subscriptionFeeRate);
@@ -364,10 +364,14 @@ export const ImpactFiscalSimulatorPage = () => {
         .impact-fiscal-page .impact-header {
           position: static !important;
           top: auto !important;
+          border-bottom: 0 !important;
+        }
+        .impact-fiscal-page .impact-mode-toggle {
+          border-top: 0 !important;
         }
       `}</style>
       <div className="mx-auto max-w-7xl space-y-8 px-6 py-10">
-        <header className="impact-header space-y-3 pb-4">
+        <header className="impact-header space-y-4 pb-8 mb-6">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-300">Impact fiscal SCPI</p>
           <h1 className="text-3xl font-semibold leading-tight md:text-4xl">
             Direct IR vs SCI IR vs SCI IS vs Holding IS
@@ -376,22 +380,23 @@ export const ImpactFiscalSimulatorPage = () => {
             Comparateur fiscal structuré : hypothèses explicites, calculs auditables, lecture pédagogique sans
             recommandation.
           </p>
+          <div className="impact-mode-toggle mt-4 w-full flex flex-wrap items-center gap-2 text-sm text-slate-300">
+            <button
+              onClick={() => setMode('simple')}
+              className={`rounded-full px-3 py-1 ${mode === 'simple' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'}`}
+            >
+              Mode simple
+            </button>
+            <button
+              onClick={() => setMode('expert')}
+              className={`rounded-full px-3 py-1 ${mode === 'expert' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'}`}
+            >
+              Mode expert
+            </button>
+          </div>
         </header>
 
-        <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3 text-sm text-slate-300">
-          <button
-            onClick={() => setMode('simple')}
-            className={`rounded-full px-3 py-1 ${mode === 'simple' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'}`}
-          >
-            Mode simple
-          </button>
-          <button
-            onClick={() => setMode('expert')}
-            className={`rounded-full px-3 py-1 ${mode === 'expert' ? 'bg-emerald-500/20 text-emerald-200' : 'bg-white/5'}`}
-          >
-            Mode expert
-          </button>
-        </div>
+        <div className="h-6 md:h-8" aria-hidden="true" />
 
         <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
           <div className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 lg:sticky lg:top-24">
