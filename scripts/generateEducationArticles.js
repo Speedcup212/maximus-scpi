@@ -64,13 +64,13 @@ articles.forEach(article => {
   <title>${article.title} | MaximusSCPI</title>
   <meta name="description" content="${article.metaDescription}">
   <meta name="keywords" content="${article.keywords.join(', ')}">
-  <link rel="canonical" href="https://maximusscpi.com/${article.slug}">
+  <link rel="canonical" href="https://maximusscpi.com/${article.slug}/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="${article.title}">
   <meta property="og:description" content="${article.metaDescription}">
-  <meta property="og:url" content="https://maximusscpi.com/${article.slug}">
+  <meta property="og:url" content="https://maximusscpi.com/${article.slug}/">
   <meta property="og:image" content="https://maximusscpi.com/images/eric-384.webp">
 
   <!-- Twitter Card -->

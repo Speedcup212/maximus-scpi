@@ -143,7 +143,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         title={`${article.title} | MaximusSCPI`}
         description={article.meta_description}
         keywords={article.keywords}
-        canonical={`https://maximusscpi.com/education/${slug}`}
+        canonical={`https://maximusscpi.com/education/${slug}/`}
         structuredData={[breadcrumbSchema, articleSchema]}
       />
 

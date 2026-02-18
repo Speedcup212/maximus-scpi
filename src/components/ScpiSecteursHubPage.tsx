@@ -236,7 +236,7 @@ const ScpiSecteursHubPage: React.FC = () => {
         title="SCPI par Secteur : Bureaux, Commerces, Logistique, Santé, Résidentiel, Hôtellerie 2025"
         description="✓ 6 secteurs SCPI analysés ✓ Bureaux 5.5% ✓ Commerces 5.2% ✓ Logistique 5.7% ✓ Santé 5.2% ✓ Résidentiel 5.5% ✓ Hôtellerie 4.1% ✓ 51 SCPI réelles comparées → Conseiller ORIAS"
         keywords={['scpi secteurs', 'scpi bureaux', 'scpi commerces', 'scpi logistique', 'scpi santé', 'scpi résidentiel', 'scpi hôtellerie', 'typologie scpi 2025']}
-        canonical="https://maximusscpi.com/scpi-secteurs"
+        canonical="https://maximusscpi.com/scpi-secteurs/"
         schemaData={combinedSchema}
       />
 

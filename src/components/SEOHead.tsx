@@ -58,7 +58,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       document.head.appendChild(metaRobots);
     }
 
-    const canonicalUrl = canonical || `${siteUrl}${window.location.pathname}`;
+    const pathname = window.location.pathname;
+    const trailingPath = pathname === '/' ? '/' : (pathname.endsWith('/') ? pathname : pathname + '/');
+    const canonicalUrl = canonical || `${siteUrl}${trailingPath}`;
     let linkCanonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
     if (linkCanonical) {
       linkCanonical.href = canonicalUrl;

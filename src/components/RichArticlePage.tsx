@@ -67,7 +67,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
         title={`${template.title} - Guide 2025`}
         description={template.metaDescription}
         keywords={template.keywords}
-        canonical={`https://maximusscpi.com/${template.slug}`}
+        canonical={`https://maximusscpi.com/${template.slug}/`}
       />
 
       <Header

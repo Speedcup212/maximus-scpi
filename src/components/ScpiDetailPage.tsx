@@ -168,7 +168,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           scpi.european ? 'scpi européenne' : 'scpi france',
           `investir scpi ${scpi.name.toLowerCase()}`
         ]}
-        canonical={`https://maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}`}
+        canonical={`https://maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}/`}
         schemaData={combinedSchema}
       />
 

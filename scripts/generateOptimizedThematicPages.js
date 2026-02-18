@@ -49,7 +49,7 @@ const priorityThematicPages = [
 // Template HTML optimisé pour chaque page thématique
 const generateOptimizedHTML = (slug, pageData, cssLinks, jsScripts) => {
   const baseUrl = 'https://maximusscpi.com';
-  const pageUrl = `${baseUrl}/${slug}`;
+  const pageUrl = `${baseUrl}/${slug}/`;
 
   return `<!DOCTYPE html>
 <html lang="fr">

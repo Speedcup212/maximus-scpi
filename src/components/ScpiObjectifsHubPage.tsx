@@ -168,7 +168,7 @@ const ScpiObjectifsHubPage: React.FC = () => {
         title="SCPI par Objectif : Retraite 9.0%, Revenu 6-8%, Défiscalisation 30% IR | Guide 2025"
         description="✓ SCPI selon objectifs ✓ Retraite: Comète 9.0% ✓ Revenu: Novaxia 8.2% ✓ Défiscalisation: Pinel 21% ✓ Diversification ✓ Stratégies sur-mesure → Conseiller ORIAS"
         keywords={['scpi retraite', 'scpi revenu complémentaire', 'scpi défiscalisation', 'scpi pinel', 'scpi objectifs patrimoniaux', 'stratégie scpi 2025', 'portefeuille scpi optimisé']}
-        canonical="https://maximusscpi.com/scpi-objectifs"
+        canonical="https://maximusscpi.com/scpi-objectifs/"
         schemaData={combinedSchema}
       />
 

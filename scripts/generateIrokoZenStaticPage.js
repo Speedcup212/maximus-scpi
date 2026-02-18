@@ -35,7 +35,7 @@ htmlContent = htmlContent.replace(
 // Update canonical URL
 htmlContent = htmlContent.replace(
   /<link rel="canonical" href="[^"]*"[^>]*>/,
-  '<link rel="canonical" href="https://maximusscpi.com/scpi-iroko-zen-iroko" />'
+  '<link rel="canonical" href="https://maximusscpi.com/scpi-iroko-zen-iroko/" />'
 );
 
 // Create output directory

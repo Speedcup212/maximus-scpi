@@ -142,7 +142,7 @@ const ArticleGeneratorPage: React.FC<ArticleGeneratorPageProps> = ({
         title="Générateur d'Articles SEO - MaximusSCPI Admin"
         description="Interface de génération automatique des 30 articles SEO MaximusSCPI"
         keywords="générateur, articles, SEO, admin"
-        canonical="https://maximusscpi.com/admin/article-generator"
+        canonical="https://maximusscpi.com/admin/article-generator/"
       />
 
       <Header

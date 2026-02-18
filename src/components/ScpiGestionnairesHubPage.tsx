@@ -113,7 +113,7 @@ const ScpiGestionnairesHubPage: React.FC = () => {
         title="Gestionnaires SCPI : Top 38 Sociétés 2025 | Encours 80 Mds€"
         description="✓ 38 gestionnaires SCPI classés ✓ Tier 1: Alderan 7.8% ✓ Tier 2: Spécialistes 8.2% ✓ 80 Mds€ encours ✓ 150+ SCPI analysées ✓ Comparatif complet → Conseiller ORIAS"
         keywords={['gestionnaires scpi', 'sociétés de gestion scpi', 'alderan scpi', 'perial scpi', 'amundi scpi', 'classement gestionnaires 2025', 'meilleurs gestionnaires scpi']}
-        canonical="https://maximusscpi.com/scpi-gestionnaires"
+        canonical="https://maximusscpi.com/scpi-gestionnaires/"
         schemaData={combinedSchema}
       />
 

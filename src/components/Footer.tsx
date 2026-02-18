@@ -77,16 +77,16 @@ const Footer: React.FC = () => {
 
         {/* Bandeau confiance E-E-A-T */}
         <div className="max-w-5xl mx-auto mb-8 flex flex-wrap justify-center gap-4 text-xs text-gray-400">
-          <a href="/expertise-orias-cif" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+          <a href="/expertise-orias-cif/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
             <Shield className="w-3.5 h-3.5" /> CIF certifié ORIAS
           </a>
-          <a href="/methodologie-donnees-scpi" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+          <a href="/methodologie-donnees-scpi/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
             <FileText className="w-3.5 h-3.5" /> Méthodologie transparente
           </a>
-          <a href="/avertissements-risques-scpi" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+          <a href="/avertissements-risques-scpi/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
             <Shield className="w-3.5 h-3.5" /> Avertissements risques
           </a>
-          <a href="/qui-sommes-nous" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+          <a href="/qui-sommes-nous/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
             <User className="w-3.5 h-3.5" /> Qui sommes-nous
           </a>
         </div>
@@ -109,19 +109,19 @@ const Footer: React.FC = () => {
               <h4 className="font-semibold text-blue-400 mb-3">Outils & Classements</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="/comparateur-scpi" className="hover:text-blue-400 transition-colors">Comparateur SCPI</a>
+                  <a href="/comparateur-scpi/" className="hover:text-blue-400 transition-colors">Comparateur SCPI</a>
                 </li>
                 <li>
-                  <a href="/meilleures-scpi-rendement" className="hover:text-blue-400 transition-colors">Meilleures SCPI 2026</a>
+                  <a href="/meilleures-scpi-rendement/" className="hover:text-blue-400 transition-colors">Meilleures SCPI 2026</a>
                 </li>
                 <li>
-                  <a href="/simulateurs" className="hover:text-blue-400 transition-colors">Simulateurs SCPI</a>
+                  <a href="/simulateurs/" className="hover:text-blue-400 transition-colors">Simulateurs SCPI</a>
                 </li>
                 <li>
-                  <a href="/simulateur-revenus-nets-scpi" className="hover:text-blue-400 transition-colors">Simulateur revenus nets</a>
+                  <a href="/simulateur-revenus-nets-scpi/" className="hover:text-blue-400 transition-colors">Simulateur revenus nets</a>
                 </li>
                 <li>
-                  <a href="/simulateur-demembrement-scpi" className="hover:text-blue-400 transition-colors">Simulateur démembrement</a>
+                  <a href="/simulateur-demembrement-scpi/" className="hover:text-blue-400 transition-colors">Simulateur démembrement</a>
                 </li>
               </ul>
             </div>
@@ -131,19 +131,19 @@ const Footer: React.FC = () => {
               <h4 className="font-semibold text-blue-400 mb-3">Secteurs</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="/scpi-bureaux" className="hover:text-blue-400 transition-colors">SCPI Bureaux</a>
+                  <a href="/scpi-bureaux/" className="hover:text-blue-400 transition-colors">SCPI Bureaux</a>
                 </li>
                 <li>
-                  <a href="/scpi-commerces" className="hover:text-blue-400 transition-colors">SCPI Commerces</a>
+                  <a href="/scpi-commerces/" className="hover:text-blue-400 transition-colors">SCPI Commerces</a>
                 </li>
                 <li>
-                  <a href="/scpi-sante" className="hover:text-blue-400 transition-colors">SCPI Santé</a>
+                  <a href="/scpi-sante/" className="hover:text-blue-400 transition-colors">SCPI Santé</a>
                 </li>
                 <li>
-                  <a href="/scpi-logistique" className="hover:text-blue-400 transition-colors">SCPI Logistique</a>
+                  <a href="/scpi-logistique/" className="hover:text-blue-400 transition-colors">SCPI Logistique</a>
                 </li>
                 <li>
-                  <a href="/scpi-residentiel" className="hover:text-blue-400 transition-colors">SCPI Résidentiel</a>
+                  <a href="/scpi-residentiel/" className="hover:text-blue-400 transition-colors">SCPI Résidentiel</a>
                 </li>
               </ul>
             </div>
@@ -153,16 +153,16 @@ const Footer: React.FC = () => {
               <h4 className="font-semibold text-blue-400 mb-3">Géographie</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="/scpi-france" className="hover:text-blue-400 transition-colors">SCPI France</a>
+                  <a href="/scpi-france/" className="hover:text-blue-400 transition-colors">SCPI France</a>
                 </li>
                 <li>
-                  <a href="/scpi-europe" className="hover:text-blue-400 transition-colors">SCPI Europe</a>
+                  <a href="/scpi-europe/" className="hover:text-blue-400 transition-colors">SCPI Europe</a>
                 </li>
                 <li>
-                  <a href="/scpi-fiscales" className="hover:text-blue-400 transition-colors">SCPI Fiscales</a>
+                  <a href="/scpi-fiscales/" className="hover:text-blue-400 transition-colors">SCPI Fiscales</a>
                 </li>
                 <li>
-                  <a href="/preparer-retraite-scpi" className="hover:text-blue-400 transition-colors">Préparer sa retraite</a>
+                  <a href="/preparer-retraite-scpi/" className="hover:text-blue-400 transition-colors">Préparer sa retraite</a>
                 </li>
               </ul>
             </div>
@@ -172,19 +172,19 @@ const Footer: React.FC = () => {
               <h4 className="font-semibold text-blue-400 mb-3">À propos</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="/qui-sommes-nous" className="hover:text-blue-400 transition-colors">Qui sommes-nous</a>
+                  <a href="/qui-sommes-nous/" className="hover:text-blue-400 transition-colors">Qui sommes-nous</a>
                 </li>
                 <li>
-                  <a href="/partenaire-cabinet" className="hover:text-blue-400 transition-colors">Espace partenaire</a>
+                  <a href="/partenaire-cabinet/" className="hover:text-blue-400 transition-colors">Espace partenaire</a>
                 </li>
                 <li>
-                  <a href="/expertise-orias-cif" className="hover:text-blue-400 transition-colors">Expertise ORIAS/CIF</a>
+                  <a href="/expertise-orias-cif/" className="hover:text-blue-400 transition-colors">Expertise ORIAS/CIF</a>
                 </li>
                 <li>
-                  <a href="/methodologie-donnees-scpi" className="hover:text-blue-400 transition-colors">Méthodologie</a>
+                  <a href="/methodologie-donnees-scpi/" className="hover:text-blue-400 transition-colors">Méthodologie</a>
                 </li>
                 <li>
-                  <a href="/avertissements-risques-scpi" className="hover:text-blue-400 transition-colors">Avertissements</a>
+                  <a href="/avertissements-risques-scpi/" className="hover:text-blue-400 transition-colors">Avertissements</a>
                 </li>
               </ul>
             </div>
@@ -194,16 +194,16 @@ const Footer: React.FC = () => {
               <h4 className="font-semibold text-blue-400 mb-3">Ressources</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
-                  <a href="/comprendre-les-scpi" className="hover:text-blue-400 transition-colors">Comprendre les SCPI</a>
+                  <a href="/comprendre-les-scpi/" className="hover:text-blue-400 transition-colors">Comprendre les SCPI</a>
                 </li>
                 <li>
-                  <a href="/faq" className="hover:text-blue-400 transition-colors">FAQ</a>
+                  <a href="/faq/" className="hover:text-blue-400 transition-colors">FAQ</a>
                 </li>
                 <li>
-                  <a href="/articles" className="hover:text-blue-400 transition-colors">Articles & Guides</a>
+                  <a href="/articles/" className="hover:text-blue-400 transition-colors">Articles & Guides</a>
                 </li>
                 <li>
-                  <a href="/investir-scpi" className="hover:text-blue-400 transition-colors">Investir en SCPI</a>
+                  <a href="/investir-scpi/" className="hover:text-blue-400 transition-colors">Investir en SCPI</a>
                 </li>
               </ul>
             </div>
@@ -237,7 +237,7 @@ const Footer: React.FC = () => {
             >
               Conditions d'utilisation
             </a>
-            <a href="/reclamation" className="hover:text-blue-400 transition-colors">
+            <a href="/reclamation/" className="hover:text-blue-400 transition-colors">
               Réclamation
             </a>
             <button

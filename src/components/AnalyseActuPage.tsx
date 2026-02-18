@@ -70,7 +70,7 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
         title="Analyse & Actu SCPI : Guides, Comparatifs et Stratégies 2025"
         description="Tous nos articles sur les SCPI : comparatifs (fonds euros, SCI, locatif), fiscalité (TMI 11-45%), stratégies retraite et revenus complémentaires."
         keywords="SCPI, articles, guides, comparatifs, fiscalité, stratégies, investissement, analyse, actualité"
-        canonical="https://maximusscpi.com/analyse-actu"
+        canonical="https://maximusscpi.com/analyse-actu/"
       />
 
       <Header

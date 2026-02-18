@@ -69,7 +69,7 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
         title="Fonds euros ou SCPI 2025 : Comparatif Complet Rendement & TMI"
         description="✓ Fonds euros 2% vs SCPI 5-6,5% ✓ Exemple 100k€ sur 15 ans ✓ Fiscalité TMI 11/30/41% ✓ 4 profils investisseurs ✓ Calculs détaillés ✓ Allocation optimale → Conseiller ORIAS"
         keywords={['fonds euros ou SCPI', 'rendement fonds euros 2025', 'SCPI assurance vie', 'arbitrage fonds euros SCPI', 'TMI SCPI', 'fiscalité SCPI', 'allocation fonds euros SCPI', 'SCPI européennes']}
-        canonical="https://maximusscpi.com/fonds-euros-ou-scpi-2025"
+        canonical="https://maximusscpi.com/fonds-euros-ou-scpi-2025/"
         schemaData={combinedSchema}
       />
 

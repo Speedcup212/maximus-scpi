@@ -31,9 +31,14 @@ interface SCPI {
   nom: string;
 }
 
+function ensureTrailingSlash(url: string): string {
+  if (url.endsWith('/')) return url;
+  return url + '/';
+}
+
 function urlEntry(loc: string, priority: string, changefreq: string, lastmod: string): string {
   return `  <url>
-    <loc>${loc}</loc>
+    <loc>${ensureTrailingSlash(loc)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
@@ -230,8 +235,8 @@ generateSitemap().catch((error) => {
   const fallback = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${siteUrl}/</loc><lastmod>${today}</lastmod><priority>1.0</priority></url>
-  <url><loc>${siteUrl}/comparateur-scpi</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
-  <url><loc>${siteUrl}/meilleures-scpi-rendement</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
+  <url><loc>${siteUrl}/comparateur-scpi/</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
+  <url><loc>${siteUrl}/meilleures-scpi-rendement/</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
 </urlset>`;
   fs.writeFileSync(join(__dirname, '..', 'public', 'sitemap.xml'), fallback);
   console.log('⚠️ Sitemap minimal généré en fallback');

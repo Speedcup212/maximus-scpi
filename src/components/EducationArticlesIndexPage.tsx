@@ -127,7 +127,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         title="Articles Éducatifs SCPI | MaximusSCPI"
         description="30 articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché."
         keywords={['articles SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
-        canonical="https://maximusscpi.com/articles"
+        canonical="https://maximusscpi.com/articles/"
       />
 
       <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900' : 'bg-white'}`}>

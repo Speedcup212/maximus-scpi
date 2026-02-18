@@ -107,7 +107,7 @@ const generateScpiPages = () => {
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://maximusscpi.com/${slug}" />
+    <meta property="og:url" content="https://maximusscpi.com/${slug}/" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${metaDescription}" />
     <meta property="og:image" content="https://maximusscpi.com/Logo MaximusSCPI.com.png" />
@@ -120,7 +120,7 @@ const generateScpiPages = () => {
     <meta property="twitter:image" content="https://maximusscpi.com/Logo MaximusSCPI.com.png" />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://maximusscpi.com/${slug}" />
+    <link rel="canonical" href="https://maximusscpi.com/${slug}/" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">

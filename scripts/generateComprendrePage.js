@@ -20,11 +20,11 @@ const generateComprendreScpiPage = () => {
   <title>Comprendre les SCPI : Guide Complet 2026 | Maximus SCPI</title>
   <meta name="description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs, méthodes d'investissement et fiscalité. Tout ce qu'il faut savoir avant d'investir.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.maximus-scpi.com/comprendre-les-scpi">
+  <link rel="canonical" href="https://maximusscpi.com/comprendre-les-scpi/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://www.maximus-scpi.com/comprendre-les-scpi">
+  <meta property="og:url" content="https://maximusscpi.com/comprendre-les-scpi/">
   <meta property="og:title" content="Comprendre les SCPI : Guide Complet 2026">
   <meta property="og:description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs et méthodes d'investissement.">
 

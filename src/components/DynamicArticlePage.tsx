@@ -53,7 +53,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
         title={`${template.title} | MaximusSCPI`}
         description={template.metaDescription}
         keywords={template.keywords}
-        canonical={`https://maximusscpi.com/${slug}`}
+        canonical={`https://maximusscpi.com/${slug}/`}
         structuredData={[faqSchema, breadcrumbSchema, articleSchema]}
       />
 

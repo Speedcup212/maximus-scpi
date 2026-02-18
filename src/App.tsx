@@ -2371,7 +2371,7 @@ const App: React.FC = () => {
           title="Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)"
           description="Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS."
           keywords={['comparateur SCPI', 'comparatif SCPI', 'comparer SCPI', 'meilleure SCPI 2026', 'rendement SCPI']}
-          canonical="https://maximusscpi.com/comparateur-scpi"
+          canonical="https://maximusscpi.com/comparateur-scpi/"
         />
         <Header
           isDarkMode={isDarkMode}
