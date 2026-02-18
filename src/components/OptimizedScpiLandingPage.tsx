@@ -143,6 +143,9 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         const supabaseModule = await import('../supabaseClient');
         supabase = supabaseModule.supabase;
         console.log('✅ Client Supabase chargé avec succès');
+        if (!supabase) {
+          throw new Error('SUPABASE_NOT_CONFIGURED');
+        }
       } catch (importError) {
         console.error('❌ Erreur lors de l\'import de Supabase:', importError);
         throw new Error('IMPORT_SUPABASE_FAILED');

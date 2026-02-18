@@ -78,9 +78,9 @@ const generateScpiPages = () => {
                          sector === 'residentiel' ? 'Résidentiel' :
                          sector === 'hotellerie' ? 'Hôtellerie & Tourisme' : 'Diversifié';
 
-    const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2025 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
+    const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2026 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
     const metaDescription = `✓ SCPI ${scpi['Nom SCPI']} (${scpi['Société de gestion']}) : ${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% ✓ ${tofQuality} ${scpi['TOF (%)']}% ✓ Capitalisation ${scpi['Capitalisation (M€)'].toFixed(0)}M€ ✓ ${sectorKeyword}${isISR ? ' ✓ Label ISR' : ''} ✓ Prix ${scpi['Prix de souscription (€)']}€ ✓ Analyse complète & conseils expert gratuits`;
-    const h1 = `SCPI ${scpi['Nom SCPI']} : ${isISR ? 'Investissement Responsable ISR' : 'Analyse & Avis 2025'}`;
+    const h1 = `SCPI ${scpi['Nom SCPI']} : ${isISR ? 'Investissement Responsable ISR' : 'Analyse & Avis 2026'}`;
     const subtitle = `${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% avec ${scpi['Société de gestion']} | ${sectorKeyword}`;
 
     const htmlContent = `<!doctype html>
@@ -97,30 +97,30 @@ const generateScpiPages = () => {
 
     <title>${title}</title>
     <meta name="description" content="${metaDescription}" />
-    <meta name="keywords" content="SCPI ${scpi['Nom SCPI']}, ${scpi['Société de gestion']}, investir SCPI ${scpi['Nom SCPI']}, rendement SCPI ${scpi['Taux de distribution (%)']}%, ${sectorKeyword}, comparateur SCPI, meilleure SCPI 2025" />
+    <meta name="keywords" content="SCPI ${scpi['Nom SCPI']}, ${scpi['Société de gestion']}, investir SCPI ${scpi['Nom SCPI']}, rendement SCPI ${scpi['Taux de distribution (%)']}%, ${sectorKeyword}, comparateur SCPI, meilleure SCPI 2026" />
 
     <!-- SEO Optimization -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="author" content="Eric Bellaiche - MaximusSCPI" />
     <meta name="language" content="fr" />
-    <link rel="alternate" hreflang="fr" href="https://www.maximusscpi.com/${slug}" />
+    <link rel="alternate" hreflang="fr" href="https://maximusscpi.com/${slug}" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.maximusscpi.com/${slug}" />
+    <meta property="og:url" content="https://maximusscpi.com/${slug}" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${metaDescription}" />
-    <meta property="og:image" content="https://www.maximusscpi.com/Logo MaximusSCPI.com.png" />
+    <meta property="og:image" content="https://maximusscpi.com/Logo MaximusSCPI.com.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.maximusscpi.com/${slug}" />
+    <meta property="twitter:url" content="https://maximusscpi.com/${slug}" />
     <meta property="twitter:title" content="${title}" />
     <meta property="twitter:description" content="${metaDescription}" />
-    <meta property="twitter:image" content="https://www.maximusscpi.com/Logo MaximusSCPI.com.png" />
+    <meta property="twitter:image" content="https://maximusscpi.com/Logo MaximusSCPI.com.png" />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.maximusscpi.com/${slug}" />
+    <link rel="canonical" href="https://maximusscpi.com/${slug}" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -129,18 +129,18 @@ const generateScpiPages = () => {
       "@type": "FinancialProduct",
       "name": "SCPI ${scpi['Nom SCPI']}",
       "description": "${metaDescription.replace(/"/g, '\\"')}",
-      "url": "https://www.maximusscpi.com/${slug}",
+      "url": "https://maximusscpi.com/${slug}",
       "provider": {
         "@type": "Organization",
         "name": "${scpi['Société de gestion']}",
-        "url": "https://www.maximusscpi.com"
+        "url": "https://maximusscpi.com"
       },
       "offers": {
         "@type": "Offer",
         "price": "${scpi['Prix de souscription (€)']}",
         "priceCurrency": "EUR",
         "availability": "https://schema.org/InStock",
-        "url": "https://www.maximusscpi.com/${slug}"
+        "url": "https://maximusscpi.com/${slug}"
       }
     }
     </script>

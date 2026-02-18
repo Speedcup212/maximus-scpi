@@ -23,27 +23,17 @@ function generateRobotsTxt() {
 User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: ${siteUrl}/sitemap.xml
 
-# Crawl-delay pour éviter la surcharge
-Crawl-delay: 1
-
-# Interdire uniquement les ressources techniques critiques
+# Bloquer les pages parasites / test / merci / tracking
+Disallow: /test-*
+Disallow: /merci-*
+Disallow: /qa-*
 Disallow: /api/
-Disallow: /*.json$
+Disallow: /app/
 
-# Autoriser explicitement les pages importantes
-Allow: /scpi-*
-Allow: /fonds-euros-*
-Allow: /investir-*
-Allow: /meilleures-*
-Allow: /comparateur-*
-Allow: /qui-sommes-nous
-Allow: /faq
-Allow: /comprendre-les-scpi
-Allow: /articles/*
-Allow: /education/*
+# Bloquer les ressources techniques
+Disallow: /*.json$
 `;
   } else {
     robotsContent = `# MaximusSCPI - Development/Preview robots.txt

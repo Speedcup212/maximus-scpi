@@ -1,6 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-
-let cachedClient: SupabaseClient | null = null;
+import type { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
+import { supabase, requireSupabase } from '../supabase';
 
 export type PartnerLeadInsert = {
   cabinet_name: string;
@@ -14,23 +13,16 @@ export type PartnerLeadInsert = {
   page_url?: string;
 };
 
-export const getSupabaseBtobClient = (): SupabaseClient => {
-  if (cachedClient) {
-    return cachedClient;
-  }
-
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Supabase env vars missing: VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY');
-  }
-
-  cachedClient = createClient(supabaseUrl, supabaseAnonKey);
-  return cachedClient;
+export type PartnerLeadInsertResult = {
+  data: unknown | null;
+  error: PostgrestError | Error | null;
 };
 
-export const insertPartnerLead = async (payload: PartnerLeadInsert) => {
-  const supabase = getSupabaseBtobClient();
+export const getSupabaseBtobClient = (): SupabaseClient => requireSupabase();
+
+export const insertPartnerLead = async (payload: PartnerLeadInsert): Promise<PartnerLeadInsertResult> => {
+  if (!supabase) {
+    return { data: null, error: new Error('Supabase not configured') };
+  }
   return supabase.from('partner_leads').insert(payload);
 };

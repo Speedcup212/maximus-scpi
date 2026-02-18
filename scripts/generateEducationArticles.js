@@ -64,20 +64,20 @@ articles.forEach(article => {
   <title>${article.title} | MaximusSCPI</title>
   <meta name="description" content="${article.metaDescription}">
   <meta name="keywords" content="${article.keywords.join(', ')}">
-  <link rel="canonical" href="https://www.maximusscpi.com/${article.slug}">
+  <link rel="canonical" href="https://maximusscpi.com/${article.slug}">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="${article.title}">
   <meta property="og:description" content="${article.metaDescription}">
-  <meta property="og:url" content="https://www.maximusscpi.com/${article.slug}">
-  <meta property="og:image" content="https://www.maximusscpi.com/images/eric-384.webp">
+  <meta property="og:url" content="https://maximusscpi.com/${article.slug}">
+  <meta property="og:image" content="https://maximusscpi.com/images/eric-384.webp">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${article.title}">
   <meta name="twitter:description" content="${article.metaDescription}">
-  <meta name="twitter:image" content="https://www.maximusscpi.com/images/eric-384.webp">
+  <meta name="twitter:image" content="https://maximusscpi.com/images/eric-384.webp">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -95,15 +95,15 @@ articles.forEach(article => {
       "name": "MaximusSCPI",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.maximusscpi.com/images/eric-192.webp"
+        "url": "https://maximusscpi.com/images/eric-192.webp"
       }
     },
-    "datePublished": "2025-01-20",
-    "dateModified": "2025-01-20",
-    "image": "https://www.maximusscpi.com/images/eric-384.webp",
+    "datePublished": "2026-01-20",
+    "dateModified": "2026-01-20",
+    "image": "https://maximusscpi.com/images/eric-384.webp",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://www.maximusscpi.com/${article.slug}"
+      "@id": "https://maximusscpi.com/${article.slug}"
     }
   }
   </script>

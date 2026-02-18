@@ -398,6 +398,9 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
       
       // Enregistrer en base dans la table prospects
       const { supabase } = await import('../supabaseClient');
+      if (!supabase) {
+        throw new Error('Supabase not configured');
+      }
       
       // DEBUG - Vérification de la connexion Supabase
       console.log("DEBUG SubscriptionContext - Tentative d'insertion dans 'prospects'");

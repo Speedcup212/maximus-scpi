@@ -102,7 +102,7 @@ const today = new Date().toISOString().split('T')[0];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.maximusscpi.com/</loc>
+    <loc>https://maximusscpi.com/</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -110,31 +110,31 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- Pages statiques -->
   <url>
-    <loc>https://www.maximusscpi.com/faq</loc>
+    <loc>https://maximusscpi.com/faq</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/comprendre-les-scpi</loc>
+    <loc>https://maximusscpi.com/comprendre-les-scpi</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/qui-sommes-nous</loc>
+    <loc>https://maximusscpi.com/qui-sommes-nous</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/reclamation</loc>
+    <loc>https://maximusscpi.com/reclamation</loc>
     <lastmod>${today}</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/conditions-utilisation</loc>
+    <loc>https://maximusscpi.com/conditions-utilisation</loc>
     <lastmod>${today}</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
@@ -142,13 +142,13 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- Google Ads Landing Pages -->
   <url>
-    <loc>https://www.maximusscpi.com/investir-scpi</loc>
+    <loc>https://maximusscpi.com/investir-scpi</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/scpi-rentable</loc>
+    <loc>https://maximusscpi.com/scpi-rentable</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -156,7 +156,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- SCPI Examples -->
   <url>
-    <loc>https://www.maximusscpi.com/scpi-comete</loc>
+    <loc>https://maximusscpi.com/scpi-comete</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -164,19 +164,19 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- Landing Pages Optimisées SCPI -->
   <url>
-    <loc>https://www.maximusscpi.com/scpi-iroko-zen-iroko</loc>
+    <loc>https://maximusscpi.com/scpi-iroko-zen-iroko</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/scpi-remake-live-remake</loc>
+    <loc>https://maximusscpi.com/scpi-remake-live-remake</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.maximusscpi.com/scpi-novaxia-neo-novaxia</loc>
+    <loc>https://maximusscpi.com/scpi-novaxia-neo-novaxia</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -184,7 +184,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 
   <!-- Landing Pages Sectorielles -->
 ${sectorPages.map(page => `  <url>
-    <loc>https://www.maximusscpi.com/${page}</loc>
+    <loc>https://maximusscpi.com/${page}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -192,7 +192,7 @@ ${sectorPages.map(page => `  <url>
 
   <!-- Landing Pages Géographiques -->
 ${geoPages.map(page => `  <url>
-    <loc>https://www.maximusscpi.com/${page}</loc>
+    <loc>https://maximusscpi.com/${page}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -200,7 +200,7 @@ ${geoPages.map(page => `  <url>
 
   <!-- Landing Pages Thématiques -->
 ${thematicPages.map(page => `  <url>
-    <loc>https://www.maximusscpi.com/${page}</loc>
+    <loc>https://maximusscpi.com/${page}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -208,7 +208,7 @@ ${thematicPages.map(page => `  <url>
 
   <!-- Pages SCPI Individuelles -->
 ${scpiPages.map(page => `  <url>
-    <loc>https://www.maximusscpi.com/${page}</loc>
+    <loc>https://maximusscpi.com/${page}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -216,13 +216,13 @@ ${scpiPages.map(page => `  <url>
 
   <!-- Articles Éducatifs (30 articles) -->
   <url>
-    <loc>https://www.maximusscpi.com/fonds-euros-ou-scpi</loc>
+    <loc>https://maximusscpi.com/fonds-euros-ou-scpi</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 ${educationArticles.map(slug => `  <url>
-    <loc>https://www.maximusscpi.com/${slug}</loc>
+    <loc>https://maximusscpi.com/${slug}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

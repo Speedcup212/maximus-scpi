@@ -24,18 +24,18 @@ htmlContent = htmlContent.replace(
 // Update meta tags for SEO
 htmlContent = htmlContent.replace(
   /<title>.*?<\/title>/,
-  '<title>Iroko Zen : Analyse Complète & Avis d\'Expert SCPI 2025 | MaximusSCPI</title>'
+  '<title>Iroko Zen : Analyse Complète & Avis d\'Expert SCPI 2026 | MaximusSCPI</title>'
 );
 
 htmlContent = htmlContent.replace(
   /<meta name="description".*?>/,
-  '<meta name="description" content="Découvrez notre analyse détaillée de la SCPI Iroko Zen : rendement 2025, frais, stratégie d\'investissement. Téléchargez votre guide comparatif gratuit.">'
+  '<meta name="description" content="Découvrez notre analyse détaillée de la SCPI Iroko Zen : rendement 2026, frais, stratégie d\'investissement. Téléchargez votre guide comparatif gratuit.">'
 );
 
 // Update canonical URL
 htmlContent = htmlContent.replace(
   /<link rel="canonical" href="[^"]*"[^>]*>/,
-  '<link rel="canonical" href="https://www.maximusscpi.com/scpi-iroko-zen-iroko" />'
+  '<link rel="canonical" href="https://maximusscpi.com/scpi-iroko-zen-iroko" />'
 );
 
 // Create output directory

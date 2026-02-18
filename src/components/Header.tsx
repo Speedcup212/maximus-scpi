@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin } from 'lucide-react';
+import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User } from 'lucide-react';
 import { scpiDataExtended } from '../data/scpiDataExtended';
 import { scpiData } from '../data/scpiData';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
@@ -8,6 +8,7 @@ import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
 import { normalizeString } from '../utils/formatters';
 import { enrichScpiExtendedArray } from '../utils/enrichScpiExtended';
 import Logo from './Logo';
+import { useAuth } from '../contexts/AuthContext';
 
 interface HeaderProps {
   isDarkMode: boolean;
@@ -24,6 +25,7 @@ interface HeaderProps {
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
   onAboutNavigation?: (path: string) => void;
+  onPrivateSpaceClick?: () => void;
   currentView?: string;
 }
 
@@ -42,6 +44,7 @@ const Header: React.FC<HeaderProps> = ({
   onComparateurClick,
   onSimulateurClick,
   onAboutNavigation,
+  onPrivateSpaceClick,
   currentView
 }) => {
   const [isEducationOpen, setIsEducationOpen] = useState(false);
@@ -51,7 +54,17 @@ const Header: React.FC<HeaderProps> = ({
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
   const [isAboutMobileOpen, setIsAboutMobileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [scpiSearch, setScpiSearch] = useState('');
+  const { user, signOut } = useAuth();
+
+  const handlePrivateSpaceNavigation = () => {
+    if (onPrivateSpaceClick) {
+      onPrivateSpaceClick();
+    } else {
+      window.location.href = '/app';
+    }
+  };
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scpiDropdownRef = useRef<HTMLDivElement>(null);
   const scpiMobileRef = useRef<HTMLDivElement>(null);
@@ -59,6 +72,7 @@ const Header: React.FC<HeaderProps> = ({
   const educationMobileRef = useRef<HTMLDivElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const aboutMobileRef = useRef<HTMLDivElement>(null);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   // Fonction pour réinitialiser tous les états du header lors d'une navigation
   const resetAllHeaderStates = () => {
@@ -69,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({
     setIsEducationMobileOpen(false);
     setIsAboutMenuOpen(false);
     setIsAboutMobileOpen(false);
+    setIsAccountMenuOpen(false);
   };
 
   // Réinitialiser les états du header à chaque changement de vue
@@ -110,6 +125,10 @@ const Header: React.FC<HeaderProps> = ({
       // Close about mobile menu if click is outside
       if (aboutMobileRef.current && !aboutMobileRef.current.contains(event.target as Node)) {
         setIsAboutMobileOpen(false);
+      }
+
+      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target as Node)) {
+        setIsAccountMenuOpen(false);
       }
     };
 
@@ -878,6 +897,44 @@ const Header: React.FC<HeaderProps> = ({
               )}
             </div>
 
+            <div className="relative" ref={accountMenuRef}>
+              {user ? (
+                <>
+                  <button
+                    onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+                    className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-[2.5rem] whitespace-nowrap"
+                    aria-label="Mon espace"
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="hidden lg:inline">Mon espace</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isAccountMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-52 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl py-2 z-[110]">
+                      <button
+                        onClick={() => {
+                          resetAllHeaderStates();
+                          handlePrivateSpaceNavigation();
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Accéder à l’espace
+                      </button>
+                      <button
+                        onClick={async () => {
+                          await signOut();
+                          resetAllHeaderStates();
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-900/20"
+                      >
+                        Déconnexion
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : null}
+            </div>
+
             <button
               onClick={onContactClick}
               className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-1 text-xs flex-shrink-0 h-[2.5rem] whitespace-nowrap"
@@ -894,6 +951,23 @@ const Header: React.FC<HeaderProps> = ({
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto">
             <div className="space-y-2">
+              {user && (
+              <div className="px-4">
+                <button
+                  onClick={() => {
+                    resetAllHeaderStates();
+                    handlePrivateSpaceNavigation();
+                  }}
+                  className="w-full flex items-center justify-between py-2 text-gray-700 dark:text-gray-200 font-medium"
+                >
+                  <div className="flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    <span>Mon espace</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+              )}
               {/* SCPI Section Mobile */}
               <div className="px-4" ref={scpiMobileRef}>
                 <button

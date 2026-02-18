@@ -5,6 +5,9 @@ export interface ProspectInsertResult<T = any> {
 
 export const createProspect = async (leadData: Record<string, any>) => {
   const { supabase } = await import('../supabaseClient');
+  if (!supabase) {
+    return { data: null, error: new Error('Supabase not configured') };
+  }
 
   const {
     commentaire,

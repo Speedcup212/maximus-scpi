@@ -8,10 +8,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config({ path: join(__dirname, '..', '.env') });
+dotenv.config({ path: join(__dirname, '..', '.env.local') });
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
-const siteUrl = process.env.VITE_PUBLIC_SITE_URL || 'https://maximusscpi.com';
+const siteUrl = 'https://maximusscpi.com';
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Variables d\'environnement Supabase manquantes');
@@ -30,53 +31,60 @@ interface SCPI {
   nom: string;
 }
 
-async function generateSitemap() {
-  console.log('🚀 Génération du sitemap.xml depuis la base de données...');
+function urlEntry(loc: string, priority: string, changefreq: string, lastmod: string): string {
+  return `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`;
+}
 
+async function generateSitemap() {
+  console.log('🚀 Génération du sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
 
   let articles: Article[] = [];
   let scpiData: SCPI[] = [];
 
-  // Tentative de récupération des articles avec gestion d'erreur
   try {
-    const { data, error: articlesError } = await supabase
+    const { data, error } = await supabase
       .from('articles_seo')
       .select('slug, updated_at, category')
       .eq('status', 'published')
       .order('slug');
-
-    if (articlesError) {
-      console.warn('⚠️ Erreur lors de la récupération des articles:', articlesError.message);
-      console.warn('⚠️ Génération d\'un sitemap minimal sans articles de la DB');
-    } else {
-      articles = data || [];
-    }
-  } catch (error: any) {
-    console.warn('⚠️ Erreur de connexion lors de la récupération des articles:', error.message || error);
-    console.warn('⚠️ Génération d\'un sitemap minimal sans articles de la DB');
+    if (!error && data) articles = data;
+    else console.warn('⚠️ Articles:', error?.message);
+  } catch (e: any) {
+    console.warn('⚠️ Articles fetch error:', e.message);
   }
 
-  // Tentative de récupération des SCPI avec gestion d'erreur
   try {
-    const { data, error: scpiError } = await supabase
+    const { data, error } = await supabase
       .from('scpi')
       .select('nom')
       .order('nom');
-
-    if (scpiError) {
-      console.warn('⚠️ Erreur lors de la récupération des SCPI:', scpiError.message);
-      console.warn('⚠️ Génération d\'un sitemap minimal sans SCPI de la DB');
-    } else {
-      scpiData = data || [];
-    }
-  } catch (error: any) {
-    console.warn('⚠️ Erreur de connexion lors de la récupération des SCPI:', error.message || error);
-    console.warn('⚠️ Génération d\'un sitemap minimal sans SCPI de la DB');
+    if (!error && data) scpiData = data;
+    else console.warn('⚠️ SCPI:', error?.message);
+  } catch (e: any) {
+    console.warn('⚠️ SCPI fetch error:', e.message);
   }
 
-  const scpiSlugs = scpiData?.map((scpi: SCPI) => {
-    return `scpi-${scpi.nom.toLowerCase()
+  // Slugs to EXCLUDE from sitemap (test, merci, debug, copy, qa, tracking)
+  const excludePatterns = [
+    /^test-/,
+    /^merci-/,
+    /^qa-/,
+    /copy$/,
+    /debug/,
+    /tracking/,
+    /^log-in$/,
+  ];
+
+  const isExcluded = (slug: string) => excludePatterns.some(p => p.test(slug));
+
+  const scpiSlugs = scpiData
+    .map(scpi => scpi.nom.toLowerCase()
       .replace(/['\s]+/g, '-')
       .replace(/[éèê]/g, 'e')
       .replace(/[àâ]/g, 'a')
@@ -84,12 +92,29 @@ async function generateSitemap() {
       .replace(/[îï]/g, 'i')
       .replace(/[ôö]/g, 'o')
       .replace(/[ùûü]/g, 'u')
-      .replace(/[^a-z0-9-]/g, '')}`;
-  }) || [];
+      .replace(/[^a-z0-9-]/g, ''))
+    .filter(s => !isExcluded(s));
 
-  const thematicPages = [
-    'meilleures-scpi-rendement',
+  const validArticles = articles.filter(a => !isExcluded(a.slug));
+  const legalArticles = validArticles.filter(a => ['Légal', 'À propos'].includes(a.category || ''));
+  const contentArticles = validArticles.filter(a => !['Légal', 'À propos'].includes(a.category || ''));
+
+  const urls: string[] = [];
+
+  // ── Priority 1.0: Homepage ──
+  urls.push(urlEntry(`${siteUrl}/`, '1.0', 'daily', today));
+
+  // ── Priority 0.9: Money pages ──
+  const moneyPages = [
     'comparateur-scpi',
+    'meilleures-scpi-rendement',
+  ];
+  for (const p of moneyPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.9', 'weekly', today));
+  }
+
+  // ── Priority 0.8: Thematic landing pages ──
+  const thematicPages = [
     'scpi-fiscales',
     'scpi-europeennes',
     'preparer-retraite-scpi',
@@ -99,165 +124,116 @@ async function generateSitemap() {
     'scpi-sante-investissement',
     'scpi-france-investissement',
     'scpi-sans-frais',
-    'alderan-scpi',
-    'arkea-reim-scpi',
-    'la-francaise-rem-scpi',
-    'atland-voisin-scpi',
-    'recyclage-urbain-scpi',
-    'aestiam-scpi',
-    'altixia-reim-scpi',
-    'amundi-immobilier-scpi',
-    'atream-scpi',
-    'consultim-asset-management-scpi',
-    'fiducial-gerance-scpi',
-    'greenman-arth-scpi',
-    'inter-gestion-reim-scpi',
-    'iroko-scpi',
-    'kyaneos-asset-management-scpi',
-    'magellim-reim-scpi',
-    'norma-capital-scpi',
-    'novaxia-investissement-scpi',
-    'paref-gestion-scpi',
-    'perial-asset-management-scpi',
-    'praemia-reim-france-scpi',
-    'remake-asset-management-scpi',
-    'sofidy-scpi',
-    'sogenial-immobilier-scpi',
-    'swiss-life-am-france-scpi',
-    'theoreim-scpi',
-    'urban-premium-scpi'
+    'comprendre-les-scpi',
+    'faq',
+    'investir-scpi',
   ];
+  for (const p of thematicPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
+  }
 
+  // ── Priority 0.8: Simulators ──
+  const simulators = [
+    'simulateurs',
+    'simulateur-revenus-nets-scpi',
+    'simulateur-credit-scpi',
+    'simulateur-demembrement-scpi',
+    'simulateur-enveloppes-scpi',
+    'simulateur-tresorerie-is',
+    'simulateur-impact-fiscal-scpi',
+    'simulateur-profil-investisseur',
+    'comparateur-demembrement-scpi',
+  ];
+  for (const p of simulators) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'monthly', today));
+  }
+
+  // ── Priority 0.8: Sector pages ──
   const sectorPages = [
-    'scpi-bureaux',
-    'scpi-commerces',
-    'scpi-sante',
-    'scpi-logistique',
-    'scpi-residentiel',
-    'scpi-hotellerie',
-    'scpi-mixte'
+    'scpi-bureaux', 'scpi-commerces', 'scpi-sante',
+    'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-mixte',
   ];
+  for (const p of sectorPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
+  }
 
-  const geoPages = [
-    'scpi-france',
-    'scpi-europeennes',
-    'scpi-europe',
-    'scpi-international'
+  // ── Priority 0.8: Geo pages ──
+  const geoPages = ['scpi-france', 'scpi-europe', 'scpi-international'];
+  for (const p of geoPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
+  }
+
+  // ── Priority 0.7: EEAT pages ──
+  const eeatPages = [
+    'expertise-orias-cif',
+    'methodologie-donnees-scpi',
+    'avertissements-risques-scpi',
+    'qui-sommes-nous',
   ];
+  for (const p of eeatPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.7', 'monthly', today));
+  }
 
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  // ── Priority 0.7: Manager pages ──
+  const managerPages = [
+    'alderan-scpi', 'arkea-reim-scpi', 'la-francaise-rem-scpi',
+    'atland-voisin-scpi', 'aestiam-scpi', 'altixia-reim-scpi',
+    'amundi-immobilier-scpi', 'atream-scpi', 'consultim-asset-management-scpi',
+    'fiducial-gerance-scpi', 'greenman-arth-scpi', 'inter-gestion-reim-scpi',
+    'iroko-scpi', 'kyaneos-asset-management-scpi', 'magellim-reim-scpi',
+    'norma-capital-scpi', 'novaxia-investissement-scpi', 'paref-gestion-scpi',
+    'perial-asset-management-scpi', 'praemia-reim-france-scpi',
+    'remake-asset-management-scpi', 'sofidy-scpi', 'sogenial-immobilier-scpi',
+    'swiss-life-am-france-scpi', 'theoreim-scpi', 'urban-premium-scpi',
+  ];
+  for (const p of managerPages) {
+    urls.push(urlEntry(`${siteUrl}/${p}`, '0.7', 'monthly', today));
+  }
+
+  // ── Priority 0.7: Individual SCPI pages (from DB) ──
+  for (const slug of scpiSlugs) {
+    urls.push(urlEntry(`${siteUrl}/${slug}`, '0.7', 'weekly', today));
+  }
+
+  // ── Priority 0.7: Educational articles (from DB) ──
+  for (const a of contentArticles) {
+    const lastmod = a.updated_at?.split('T')[0] || today;
+    urls.push(urlEntry(`${siteUrl}/${a.slug}`, '0.7', 'monthly', lastmod));
+  }
+
+  // ── Priority 0.5: Legal pages (from DB) ──
+  for (const a of legalArticles) {
+    const lastmod = a.updated_at?.split('T')[0] || today;
+    urls.push(urlEntry(`${siteUrl}/${a.slug}`, '0.5', 'monthly', lastmod));
+  }
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${siteUrl}/</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- Pages statiques depuis DB -->
-${articles?.filter((a: Article) => ['Légal', 'À propos'].includes(a.category || '')).map((article: Article) => `  <url>
-    <loc>${siteUrl}/${article.slug}</loc>
-    <lastmod>${article.updated_at?.split('T')[0] || today}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>`).join('\n') || ''}
-
-  <!-- Google Ads Landing Pages -->
-  <url>
-    <loc>${siteUrl}/investir-scpi</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${siteUrl}/scpi-rentable</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- SCPI Examples -->
-  <url>
-    <loc>${siteUrl}/scpi-comete</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Landing Pages Optimisées SCPI -->
-  <url>
-    <loc>${siteUrl}/scpi-iroko-zen-iroko</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Landing Pages Sectorielles -->
-${sectorPages.map(page => `  <url>
-    <loc>${siteUrl}/${page}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('\n')}
-
-  <!-- Landing Pages Géographiques -->
-${geoPages.map(page => `  <url>
-    <loc>${siteUrl}/${page}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('\n')}
-
-  <!-- Landing Pages Thématiques (gestionnaires) -->
-${thematicPages.map(page => `  <url>
-    <loc>${siteUrl}/${page}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join('\n')}
-
-  <!-- Pages SCPI Individuelles -->
-${scpiSlugs.map((slug: string) => `  <url>
-    <loc>${siteUrl}/${slug}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join('\n')}
-
-  <!-- Articles Éducatifs depuis DB -->
-${articles?.filter((a: Article) => !['Légal', 'À propos'].includes(a.category || '')).map((article: Article) => `  <url>
-    <loc>${siteUrl}/${article.slug}</loc>
-    <lastmod>${article.updated_at?.split('T')[0] || today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join('\n') || ''}
+${urls.join('\n')}
 </urlset>`;
 
   const outputPath = join(__dirname, '..', 'public', 'sitemap.xml');
   fs.writeFileSync(outputPath, sitemap);
 
-  console.log(`✅ Sitemap généré avec succès:`);
-  console.log(`   - ${scpiSlugs.length} pages SCPI`);
-  console.log(`   - ${articles?.length || 0} articles`);
-  console.log(`   - ${thematicPages.length + sectorPages.length + geoPages.length} pages thématiques`);
-  console.log(`   📄 Fichier: ${outputPath}`);
+  console.log(`✅ Sitemap généré: ${urls.length} URLs`);
+  console.log(`   Money pages: ${moneyPages.length}`);
+  console.log(`   Thematic: ${thematicPages.length}`);
+  console.log(`   Simulators: ${simulators.length}`);
+  console.log(`   SCPI: ${scpiSlugs.length}`);
+  console.log(`   Articles: ${contentArticles.length}`);
+  console.log(`   📄 ${outputPath}`);
 }
 
 generateSitemap().catch((error) => {
-  console.error('❌ Erreur fatale lors de la génération du sitemap:', error);
-  // Ne pas faire échouer le build, générer un sitemap minimal
+  console.error('❌ Erreur fatale:', error);
   const today = new Date().toISOString().split('T')[0];
-  const minimalSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  const fallback = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${siteUrl}/</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>${siteUrl}/</loc><lastmod>${today}</lastmod><priority>1.0</priority></url>
+  <url><loc>${siteUrl}/comparateur-scpi</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
+  <url><loc>${siteUrl}/meilleures-scpi-rendement</loc><lastmod>${today}</lastmod><priority>0.9</priority></url>
 </urlset>`;
-  const outputPath = join(__dirname, '..', 'public', 'sitemap.xml');
-  fs.writeFileSync(outputPath, minimalSitemap);
+  fs.writeFileSync(join(__dirname, '..', 'public', 'sitemap.xml'), fallback);
   console.log('⚠️ Sitemap minimal généré en fallback');
-  process.exit(0); // Sortir avec succès pour ne pas bloquer le build
+  process.exit(0);
 });

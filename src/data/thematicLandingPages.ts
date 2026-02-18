@@ -53,12 +53,12 @@ export interface ThematicLandingPageData {
 export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   'meilleures-scpi-rendement': {
     slug: 'meilleures-scpi-rendement',
-    title: 'Meilleures SCPI de Rendement 2025 | Top 5 des SCPI les Plus Performantes',
-    metaDescription: 'Découvrez notre classement des meilleures SCPI de rendement 2025. Comparatif détaillé des SCPI offrant les taux de distribution les plus élevés du marché.',
+    title: 'Meilleures SCPI 2026 : Top SCPI Rendement (jusqu\u2019à 11,18%)',
+    metaDescription: 'Classement des meilleures SCPI de rendement 2026. Taux de distribution, frais, capitalisation. Sélection par un conseiller certifié ORIAS.',
     heroTitle: 'Top 5 des Meilleures SCPI de Rendement',
     heroTitleHighlight: 'Rendements moyens de 4% à 6%',
-    heroSubtitle: 'Sélection exclusive des SCPI offrant les meilleurs taux de distribution du marché français en 2025',
-    labelText: 'Top 5 MaximusSCPI - Classement Officiel 2025',
+    heroSubtitle: 'Sélection exclusive des SCPI offrant les meilleurs taux de distribution du marché français en 2026',
+    labelText: 'Top 5 MaximusSCPI - Classement Officiel 2026',
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
       { value: '5,5%', label: 'Rendement moyen' },
@@ -135,8 +135,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     },
     faq: [
       {
-        question: 'Quelle est la meilleure SCPI de rendement en 2025 ?',
-        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2025 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2025.'
+        question: 'Quelle est la meilleure SCPI de rendement en 2026 ?',
+        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2026 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2026.'
       },
       {
         question: 'Combien peut-on gagner avec 10 000€ investis dans ces SCPI ?',
@@ -144,7 +144,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Les SCPI à haut rendement sont-elles plus risquées ?',
-        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte (Comète), stratégie internationale (Transitions Europe), ou modèle économique innovant. Le risque est limité par la diversification géographique et sectorielle. Vérifiez toujours le TOF (99,1% pour Comète au T4 2025) et la qualité de gestion.'
+        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte (Comète), stratégie internationale (Transitions Europe), ou modèle économique innovant. Le risque est limité par la diversification géographique et sectorielle. Vérifiez toujours le TOF (99,1% pour Comète au T4 2026) et la qualité de gestion.'
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
@@ -200,7 +200,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 },
   'scpi-fiscales': {
     slug: 'scpi-fiscales',
-    title: 'SCPI Fiscales 2025 | Réduire ses Impôts avec Malraux et Déficit Foncier',
+    title: 'SCPI Fiscales 2026 | Réduire ses Impôts avec Malraux et Déficit Foncier',
     metaDescription: 'Réduisez vos impôts avec les SCPI fiscales. Découvrez les dispositifs Malraux et Déficit Foncier pour optimiser votre fiscalité immobilière.',
     heroTitle: 'SCPI Fiscales',
     heroTitleHighlight: 'Optimisez votre fiscalité immobilière',
@@ -607,8 +607,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'comparateur-scpi': {
     slug: 'comparateur-scpi',
-    title: 'Comparateur SCPI 2025 | Comparez 51 SCPI en Direct',
-    metaDescription: 'Comparez toutes les SCPI du marché : rendement, TOF, secteur, prix. Données officielles 2025. Gratuit et sans engagement.',
+    title: 'Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)',
+    metaDescription: 'Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS.',
     heroTitle: 'Comparateur SCPI',
     heroTitleHighlight: '51 SCPI à comparer',
     heroSubtitle: 'Comparez les performances de toutes les SCPI du marché français',
@@ -742,7 +742,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   // PAGES PAR SECTEUR - LANDING PAGES GOOGLE ADS
   'scpi-bureaux-investissement': {
     slug: 'scpi-bureaux-investissement',
-    title: 'Investir SCPI Bureaux 2025 | Obtenez votre Sélection Personnalisée',
+    title: 'Investir SCPI Bureaux 2026 | Obtenez votre Sélection Personnalisée',
     metaDescription: 'Découvrez les meilleures SCPI spécialisées en bureaux. Rendements attractifs, diversification européenne et gestion professionnelle.',
     heroTitle: 'SCPI Bureaux',
     heroTitleHighlight: 'Investissez dans l\'immobilier tertiaire',
@@ -879,7 +879,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'scpi-commerces-investissement': {
     slug: 'scpi-commerces-investissement',
-    title: 'Investir SCPI Commerces 2025 | Sélection Expert Personnalisée',
+    title: 'Investir SCPI Commerces 2026 | Sélection Expert Personnalisée',
     metaDescription: 'Investissez dans les meilleures SCPI commerces. Pieds d\'immeubles, centres commerciaux et retail parks avec des rendements attractifs.',
     heroTitle: 'SCPI Commerces',
     heroTitleHighlight: 'Investissez dans le retail immobilier',
@@ -1017,7 +1017,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'scpi-sante-investissement': {
     slug: 'scpi-sante-investissement',
-    title: 'Investir SCPI Santé 2025 | Conseil Gratuit et Sélection sur Mesure',
+    title: 'Investir SCPI Santé 2026 | Conseil Gratuit et Sélection sur Mesure',
     metaDescription: 'Investissez dans les SCPI santé : cliniques, EHPAD, résidences seniors. Secteur résilient avec rendements de 4% à 5% et baux longue durée.',
     heroTitle: 'SCPI Santé',
     heroTitleHighlight: 'Investissez dans l\'immobilier médical',
@@ -1156,7 +1156,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   // PAGES PAR GÉOGRAPHIE - LANDING PAGES GOOGLE ADS
   'scpi-sans-frais': {
     slug: 'scpi-sans-frais',
-    title: 'SCPI Sans Frais VS Avec Frais 2025 | Comparatif et Conseils',
+    title: 'SCPI Sans Frais VS Avec Frais 2026 | Comparatif et Conseils',
     metaDescription: 'Découvrez les différences entre SCPI sans frais de souscription et SCPI avec frais. Analyse complète des avantages et inconvénients pour choisir.',
     heroTitle: 'SCPI Sans Frais VS SCPI Avec Frais',
     heroTitleHighlight: 'Faites le bon choix pour votre investissement',
@@ -1302,7 +1302,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 },
   'scpi-france-investissement': {
     slug: 'scpi-france-investissement',
-    title: 'Investir SCPI France 2025 | Votre Portefeuille Personnalisé Gratuit',
+    title: 'Investir SCPI France 2026 | Votre Portefeuille Personnalisé Gratuit',
     metaDescription: 'Découvrez les meilleures SCPI investies en France. Paris, Lyon, Marseille, Bordeaux : diversifiez dans l\'immobilier tertiaire français.',
     heroTitle: 'SCPI France',
     heroTitleHighlight: 'Investissez dans l\'immobilier français',
@@ -1442,21 +1442,21 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   // PAGES PAR GESTIONNAIRE - LANDING PAGES GOOGLE ADS
   'alderan-scpi': {
     slug: 'alderan-scpi',
-    title: 'SCPI Alderan 2025 | Comète - Expertise et Performance',
+    title: 'SCPI Alderan 2026 | Comète - Expertise et Performance',
     metaDescription: 'Découvrez les SCPI gérées par Alderan. Société de gestion innovante spécialisée dans l\'immobilier européen avec des rendements attractifs.',
     heroTitle: 'SCPI Alderan',
     heroTitleHighlight: 'L\'excellence de la gestion immobilière',
-    heroSubtitle: 'Alderan gère la SCPI Comète avec un taux de distribution 2025 de 9,00% et une stratégie internationale diversifiée',
+    heroSubtitle: 'Alderan gère la SCPI Comète avec un taux de distribution 2026 de 9,00% et une stratégie internationale diversifiée',
     labelText: 'Gestionnaire Premium - Innovation',
     keyMetrics: [
       { value: '1', label: 'SCPI gérée' },
-      { value: '9,00%', label: 'Taux de distribution 2025' },
+      { value: '9,00%', label: 'Taux de distribution 2026' },
       { value: '2023', label: 'Création Comète' }
     ],
     benefits: [
       'Gestionnaire innovant et dynamique',
       'Stratégie internationale diversifiée (7 pays)',
-      'SCPI Comète : distribution 2025 de 9,00%',
+      'SCPI Comète : distribution 2026 de 9,00%',
       'Expertise immobilière tertiaire',
       'Gestion transparente et professionnelle'
     ],
@@ -1467,7 +1467,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'trending-up',
           title: 'Performance robuste',
-          description: 'La SCPI Comète affiche un taux de distribution 2025 de 9,00%, soutenu par une stratégie immobilière internationale diversifiée'
+          description: 'La SCPI Comète affiche un taux de distribution 2026 de 9,00%, soutenu par une stratégie immobilière internationale diversifiée'
         },
         {
           icon: 'globe',
@@ -1504,8 +1504,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'SCPI Comète en détail',
           points: [
             'Créée en 2023, capitalisation en forte croissance',
-            'Taux de distribution 2025 : 9,00%',
-            'TOF : 99,1% (T4 2025)',
+            'Taux de distribution 2026 : 9,00%',
+            'TOF : 99,1% (T4 2026)',
             'Frais de souscription : 10% HT'
           ]
         },
@@ -1524,11 +1524,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Qui est Alderan et que gère cette société ?',
-        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire international. Elle gère actuellement la SCPI Comète, créée en 2023, avec un taux de distribution 2025 de 9,00% et un TOF de 99,1%. Alderan se distingue par une approche innovante et une stratégie internationale ambitieuse.'
+        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire international. Elle gère actuellement la SCPI Comète, créée en 2023, avec un taux de distribution 2026 de 9,00% et un TOF de 99,1%. Alderan se distingue par une approche innovante et une stratégie internationale ambitieuse.'
       },
       {
         question: 'Pourquoi la SCPI Comète d\'Alderan a-t-elle un rendement si élevé ?',
-        answer: 'Le taux de distribution 2025 de Comète (9,00%) s\'explique par plusieurs facteurs : une stratégie internationale diversifiée sur 7 pays, une sélection rigoureuse d\'actifs, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 99,1% au T4 2025.'
+        answer: 'Le taux de distribution 2026 de Comète (9,00%) s\'explique par plusieurs facteurs : une stratégie internationale diversifiée sur 7 pays, une sélection rigoureuse d\'actifs, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 99,1% au T4 2026.'
       },
       {
         question: 'La SCPI Comète est-elle risquée avec ce rendement élevé ?',
@@ -1546,7 +1546,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       {
         nom: 'Laurent B., 48 ans',
-        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2025 à 9,00% répond à mes attentes. La gestion est transparente et les distributions régulières.',
+        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2026 à 9,00% répond à mes attentes. La gestion est transparente et les distributions régulières.',
         note: 5
       },
       {
@@ -1592,7 +1592,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'arkea-reim-scpi': {
     slug: 'arkea-reim-scpi',
-    title: 'SCPI Arkéa REIM 2025 | Transitions Europe - Expertise Immobilière',
+    title: 'SCPI Arkéa REIM 2026 | Transitions Europe - Expertise Immobilière',
     metaDescription: 'Découvrez les SCPI gérées par Arkéa REIM. Groupe Arkéa, solidité financière et expertise reconnue en immobilier européen.',
     heroTitle: 'SCPI Arkéa REIM',
     heroTitleHighlight: 'La puissance du Groupe Arkéa',
@@ -1734,7 +1734,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'la-francaise-rem-scpi': {
     slug: 'la-francaise-rem-scpi',
-    title: 'SCPI La Française REM 2025 | Leader Français - Expertise Reconnue',
+    title: 'SCPI La Française REM 2026 | Leader Français - Expertise Reconnue',
     metaDescription: 'Découvrez les SCPI gérées par La Française REM, leader français de la gestion immobilière avec plus de 10 milliards d\'euros d\'actifs.',
     heroTitle: 'SCPI La Française REM',
     heroTitleHighlight: 'Le leader historique des SCPI',
@@ -1876,7 +1876,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'atland-voisin-scpi': {
     slug: 'atland-voisin-scpi',
-    title: 'SCPI Atland Voisin 2025 | Épargne Pierre Europe - Expertise Patrimoniale',
+    title: 'SCPI Atland Voisin 2026 | Épargne Pierre Europe - Expertise Patrimoniale',
     metaDescription: 'Découvrez les SCPI gérées par Atland Voisin, spécialiste du conseil patrimonial avec une approche client unique et personnalisée.',
     heroTitle: 'SCPI Atland Voisin',
     heroTitleHighlight: 'L\'approche patrimoniale par excellence',
@@ -2018,7 +2018,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'recyclage-urbain-scpi': {
     slug: 'recyclage-urbain-scpi',
-    title: 'SCPI et Recyclage Urbain 2025 | Investir dans la Transformation Immobilière',
+    title: 'SCPI et Recyclage Urbain 2026 | Investir dans la Transformation Immobilière',
     metaDescription: 'Découvrez comment investir dans le recyclage urbain via les SCPI. Transformation de friches industrielles, réhabilitation de bâtiments anciens et développement durable.',
     heroTitle: 'Investir dans le Recyclage Urbain',
     heroTitleHighlight: 'avec les SCPI de Transformation',
@@ -2201,8 +2201,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'aestiam-scpi': {
     slug: 'aestiam-scpi',
-    title: 'SCPI Aestiam 2025 | Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%)',
-    metaDescription: 'Aestiam : gestionnaire historique de SCPI avec 30 ans d\'expérience et 3.5 Mds€ d\'actifs. Découvrez Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%). Rendements stables, diversification secteur/géo, taux d\'occupation élevé. Guide complet 2025.',
+    title: 'SCPI Aestiam 2026 | Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%)',
+    metaDescription: 'Aestiam : gestionnaire historique de SCPI avec 30 ans d\'expérience et 3.5 Mds€ d\'actifs. Découvrez Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%). Rendements stables, diversification secteur/géo, taux d\'occupation élevé. Guide complet 2026.',
     heroTitle: 'SCPI Aestiam',
     heroTitleHighlight: '3 SCPI performantes - 30 ans d\'expertise',
     heroSubtitle: 'Gestionnaire historique agréé AMF avec 3.5 milliards d\'euros d\'actifs sous gestion. Spécialiste de l\'immobilier diversifié : bureaux, commerces, santé. Rendements réguliers entre 4.5% et 5%.',
@@ -2242,7 +2242,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       ]
     },
     faq: [
-      { question: 'Quelle SCPI Aestiam choisir en 2025 ?', answer: 'Pierre Rendement (5.04%) pour un mix bureaux/commerces équilibré et le meilleur rendement. Cap Hebergimmo (4.55%) pour l\'exposition exclusive au secteur santé (résilient, baux longs). Placement Pierre (4.85%) pour les commerces et retail. Pour un investissement optimal, diversifiez sur 2 SCPI : Pierre Rendement + Cap Hebergimmo pour combiner performance et résilience.' },
+      { question: 'Quelle SCPI Aestiam choisir en 2026 ?', answer: 'Pierre Rendement (5.04%) pour un mix bureaux/commerces équilibré et le meilleur rendement. Cap Hebergimmo (4.55%) pour l\'exposition exclusive au secteur santé (résilient, baux longs). Placement Pierre (4.85%) pour les commerces et retail. Pour un investissement optimal, diversifiez sur 2 SCPI : Pierre Rendement + Cap Hebergimmo pour combiner performance et résilience.' },
       { question: 'Aestiam est-elle fiable et sécurisée ?', answer: 'Oui, Aestiam est un gestionnaire historique agréé AMF avec 30 ans d\'expérience (depuis 1993) et 3.5 Mds€ sous gestion. La société affiche une gestion prudente avec un faible endettement (<30%), des taux d\'occupation élevés (>95%), et une sélection rigoureuse des actifs. Performance stable depuis 30 ans avec distribution régulière de dividendes. Aestiam est considéré comme un acteur de référence sur le marché français de la SCPI.' },
       { question: 'Quel est le ticket d\'entrée minimum chez Aestiam ?', answer: 'Le ticket d\'entrée minimum varie selon la SCPI : Pierre Rendement (10 parts × 225€ = 2 250€), Cap Hebergimmo (10 parts × 180€ = 1 800€), Placement Pierre (10 parts × 200€ = 2 000€). Vous pouvez investir via plusieurs modes : comptant, crédit, démembrement, ou assurance-vie. Les frais de souscription sont de 10% à 10.16% HT.' },
       { question: 'Comment sont distribués les revenus des SCPI Aestiam ?', answer: 'Les dividendes sont distribués trimestriellement (janvier, avril, juillet, octobre) directement sur votre compte bancaire. Pierre Rendement distribue environ 12.60€/part/an, Cap Hebergimmo 8.50€/part/an, Placement Pierre 10.20€/part/an. Les revenus proviennent des loyers perçus sur les actifs immobiliers, après déduction des charges et frais de gestion (environ 12% HT).' },
@@ -2281,7 +2281,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'altixia-reim-scpi': {
     slug: 'altixia-reim-scpi',
-    title: 'SCPI Altixia REIM 2025 | Commerces, Cadence 12, Convictions',
+    title: 'SCPI Altixia REIM 2026 | Commerces, Cadence 12, Convictions',
     metaDescription: 'Découvrez les SCPI Altixia REIM : Commerces (4.61%), Cadence 12 (5.10%), Convictions. Spécialiste des commerces et bureaux français.',
     heroTitle: 'SCPI Altixia REIM',
     heroTitleHighlight: 'Spécialiste commerces et bureaux',
@@ -2351,7 +2351,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'amundi-immobilier-scpi': {
     slug: 'amundi-immobilier-scpi',
-    title: 'SCPI Amundi Immobilier 2025 | Primo et AgriNova',
+    title: 'SCPI Amundi Immobilier 2026 | Primo et AgriNova',
     metaDescription: 'Découvrez les SCPI Amundi Immobilier : Primo (4.50%) et AgriNova. La puissance du groupe Amundi au service de l\'immobilier.',
     heroTitle: 'SCPI Amundi Immobilier',
     heroTitleHighlight: 'La force du groupe Amundi',
@@ -2421,7 +2421,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'atream-scpi': {
     slug: 'atream-scpi',
-    title: 'SCPI Atream 2025 | Pierre Capitale, Eurovalys',
+    title: 'SCPI Atream 2026 | Pierre Capitale, Eurovalys',
     metaDescription: 'Découvrez les SCPI Atream : Pierre Capitale et Eurovalys. Gestionnaire indépendant spécialisé dans l\'immobilier tertiaire français.',
     heroTitle: 'SCPI Atream',
     heroTitleHighlight: 'Immobilier tertiaire français',
@@ -2489,7 +2489,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'consultim-asset-management-scpi': {
     slug: 'consultim-asset-management-scpi',
-    title: 'SCPI Consultim Asset Management 2025',
+    title: 'SCPI Consultim Asset Management 2026',
     metaDescription: 'Découvrez les SCPI gérées par Consultim Asset Management. Gestionnaire spécialisé en immobilier d\'entreprise.',
     heroTitle: 'SCPI Consultim Asset Management',
     heroTitleHighlight: 'Immobilier d\'entreprise',
@@ -2555,8 +2555,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'fiducial-gerance-scpi': {
     slug: 'fiducial-gerance-scpi',
-    title: 'SCPI Fiducial Gérance 2025 | Force du Groupe Fiducial N°1 France',
-    metaDescription: 'Fiducial Gérance : filiale immobilière du groupe Fiducial, N°1 français services entreprises (18 000 collaborateurs, 6000 agences). Solidité financière exceptionnelle. Expertise immobilier tertiaire. Gestion rigoureuse. Guide complet 2025.',
+    title: 'SCPI Fiducial Gérance 2026 | Force du Groupe Fiducial N°1 France',
+    metaDescription: 'Fiducial Gérance : filiale immobilière du groupe Fiducial, N°1 français services entreprises (18 000 collaborateurs, 6000 agences). Solidité financière exceptionnelle. Expertise immobilier tertiaire. Gestion rigoureuse. Guide complet 2026.',
     heroTitle: 'SCPI Fiducial Gérance',
     heroTitleHighlight: 'Force du Groupe Fiducial - 18 000 collaborateurs',
     heroSubtitle: 'Filiale immobilière du groupe Fiducial, leader N°1 français des services aux entreprises avec 18 000 collaborateurs et 6000 agences. Solidité financière exceptionnelle au service de l\'immobilier tertiaire.',
@@ -2628,7 +2628,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'greenman-arth-scpi': {
     slug: 'greenman-arth-scpi',
-    title: 'SCPI Greenman ARTH 2025',
+    title: 'SCPI Greenman ARTH 2026',
     metaDescription: 'Découvrez les SCPI Greenman ARTH. Gestionnaire spécialisé dans l\'immobilier durable et responsable.',
     heroTitle: 'SCPI Greenman ARTH',
     heroTitleHighlight: 'Immobilier durable',
@@ -2693,7 +2693,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'inter-gestion-reim-scpi': {
     slug: 'inter-gestion-reim-scpi',
-    title: 'SCPI Inter Gestion REIM 2025',
+    title: 'SCPI Inter Gestion REIM 2026',
     metaDescription: 'Découvrez les SCPI Inter Gestion REIM. Gestionnaire indépendant spécialisé en immobilier tertiaire.',
     heroTitle: 'SCPI Inter Gestion REIM',
     heroTitleHighlight: 'Gestionnaire indépendant',
@@ -2759,7 +2759,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'iroko-scpi': {
     slug: 'iroko-scpi',
-    title: 'SCPI Iroko 2025 | Zen (5.80%), Global (4.70%)',
+    title: 'SCPI Iroko 2026 | Zen (5.80%), Global (4.70%)',
     metaDescription: 'Découvrez les SCPI Iroko : Zen (5.80%) et Global (4.70%). Gestionnaire innovant spécialisé dans l\'immobilier européen diversifié.',
     heroTitle: 'SCPI Iroko',
     heroTitleHighlight: 'Innovation et diversification',
@@ -2829,7 +2829,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'kyaneos-asset-management-scpi': {
     slug: 'kyaneos-asset-management-scpi',
-    title: 'SCPI Kyaneos Asset Management 2025',
+    title: 'SCPI Kyaneos Asset Management 2026',
     metaDescription: 'Découvrez les SCPI Kyaneos Asset Management. Gestionnaire spécialisé en immobilier d\'entreprise et tertiaire.',
     heroTitle: 'SCPI Kyaneos Asset Management',
     heroTitleHighlight: 'Expertise tertiaire',
@@ -2894,7 +2894,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'magellim-reim-scpi': {
     slug: 'magellim-reim-scpi',
-    title: 'SCPI Magellim REIM 2025',
+    title: 'SCPI Magellim REIM 2026',
     metaDescription: 'Découvrez les SCPI Magellim REIM. Gestionnaire spécialisé en immobilier d\'entreprise et commerces.',
     heroTitle: 'SCPI Magellim REIM',
     heroTitleHighlight: 'Immobilier d\'entreprise',
@@ -2959,7 +2959,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'norma-capital-scpi': {
     slug: 'norma-capital-scpi',
-    title: 'SCPI Norma Capital 2025',
+    title: 'SCPI Norma Capital 2026',
     metaDescription: 'Découvrez les SCPI Norma Capital. Gestionnaire spécialisé en immobilier d\'entreprise et bureaux.',
     heroTitle: 'SCPI Norma Capital',
     heroTitleHighlight: 'Immobilier d\'entreprise',
@@ -3025,7 +3025,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'novaxia-investissement-scpi': {
     slug: 'novaxia-investissement-scpi',
-    title: 'SCPI Novaxia Investissement 2025 | Neo (4.90%), Immorente',
+    title: 'SCPI Novaxia Investissement 2026 | Neo (4.90%), Immorente',
     metaDescription: 'Découvrez les SCPI Novaxia : Neo (4.90%) et Immorente. Spécialiste de la transformation immobilière et du logement intermédiaire.',
     heroTitle: 'SCPI Novaxia Investissement',
     heroTitleHighlight: 'Transformation immobilière',
@@ -3092,7 +3092,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'paref-gestion-scpi': {
     slug: 'paref-gestion-scpi',
-    title: 'SCPI Paref Gestion 2025',
+    title: 'SCPI Paref Gestion 2026',
     metaDescription: 'Découvrez les SCPI Paref Gestion. Gestionnaire historique spécialisé en immobilier tertiaire français.',
     heroTitle: 'SCPI Paref Gestion',
     heroTitleHighlight: 'Gestionnaire historique',
@@ -3158,7 +3158,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'perial-asset-management-scpi': {
     slug: 'perial-asset-management-scpi',
-    title: 'SCPI Perial Asset Management 2025 | PF Grand Paris, PFO2, PF Hospitalité Europe',
+    title: 'SCPI Perial Asset Management 2026 | PF Grand Paris, PFO2, PF Hospitalité Europe',
     metaDescription: 'Découvrez les SCPI Perial : PF Grand Paris (4.51%), PFO2 (4.40%), PF Hospitalité Europe (5.95%). Leader avec 15 Mds€ d\'actifs.',
     heroTitle: 'SCPI Perial Asset Management',
     heroTitleHighlight: 'Leader français avec 15 Mds€',
@@ -3229,7 +3229,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'praemia-reim-france-scpi': {
     slug: 'praemia-reim-france-scpi',
-    title: 'SCPI Praemia REIM France 2025 | Pierre Patrimoine, Interpierre',
+    title: 'SCPI Praemia REIM France 2026 | Pierre Patrimoine, Interpierre',
     metaDescription: 'Découvrez les SCPI Praemia REIM : Pierre Patrimoine et Interpierre. Gestionnaire indépendant avec expertise en immobilier français.',
     heroTitle: 'SCPI Praemia REIM France',
     heroTitleHighlight: 'Gestionnaire indépendant',
@@ -3295,7 +3295,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'remake-asset-management-scpi': {
     slug: 'remake-asset-management-scpi',
-    title: 'SCPI Remake Asset Management 2025',
+    title: 'SCPI Remake Asset Management 2026',
     metaDescription: 'Découvrez les SCPI Remake Asset Management. Gestionnaire spécialisé en transformation immobilière et recyclage urbain.',
     heroTitle: 'SCPI Remake Asset Management',
     heroTitleHighlight: 'Transformation immobilière',
@@ -3361,7 +3361,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'sofidy-scpi': {
     slug: 'sofidy-scpi',
-    title: 'SCPI Sofidy 2025 | Edissimmo, InterContinents, Immorente 2',
+    title: 'SCPI Sofidy 2026 | Edissimmo, InterContinents, Immorente 2',
     metaDescription: 'Découvrez les SCPI Sofidy : Edissimmo (4.40%), InterContinents (4.70%). Gestionnaire historique avec 50 ans d\'expérience et 7 Mds€ d\'actifs.',
     heroTitle: 'SCPI Sofidy',
     heroTitleHighlight: 'Historique - 50 ans d\'expertise',
@@ -3430,7 +3430,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'sogenial-immobilier-scpi': {
     slug: 'sogenial-immobilier-scpi',
-    title: 'SCPI Sogenial Immobilier 2025 | Remake Live (7.70%), Immorente (4.35%)',
+    title: 'SCPI Sogenial Immobilier 2026 | Remake Live (7.70%), Immorente (4.35%)',
     metaDescription: 'Découvrez les SCPI Sogenial : Remake Live (7.70% - transformation urbaine), Immorente (4.35% - résidentiel). Filiale Crédit du Nord.',
     heroTitle: 'SCPI Sogenial Immobilier',
     heroTitleHighlight: 'Groupe Crédit du Nord',
@@ -3500,7 +3500,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'swiss-life-am-france-scpi': {
     slug: 'swiss-life-am-france-scpi',
-    title: 'SCPI Swiss Life AM France 2025 | Renovalys, Swiss Life Dynapierre',
+    title: 'SCPI Swiss Life AM France 2026 | Renovalys, Swiss Life Dynapierre',
     metaDescription: 'Découvrez les SCPI Swiss Life : Renovalys et Dynapierre. La puissance du groupe Swiss Life au service de l\'immobilier français.',
     heroTitle: 'SCPI Swiss Life AM France',
     heroTitleHighlight: 'Groupe Swiss Life',
@@ -3569,7 +3569,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'theoreim-scpi': {
     slug: 'theoreim-scpi',
-    title: 'SCPI Théoreim 2025',
+    title: 'SCPI Théoreim 2026',
     metaDescription: 'Découvrez les SCPI Théoreim. Gestionnaire spécialisé en immobilier d\'entreprise et tertiaire.',
     heroTitle: 'SCPI Théoreim',
     heroTitleHighlight: 'Immobilier d\'entreprise',
@@ -3635,7 +3635,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'urban-premium-scpi': {
     slug: 'urban-premium-scpi',
-    title: 'SCPI Urban Premium 2025',
+    title: 'SCPI Urban Premium 2026',
     metaDescription: 'Découvrez les SCPI Urban Premium. Gestionnaire spécialisé en immobilier premium urbain.',
     heroTitle: 'SCPI Urban Premium',
     heroTitleHighlight: 'Immobilier premium',

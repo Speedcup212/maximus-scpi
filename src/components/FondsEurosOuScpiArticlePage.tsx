@@ -44,9 +44,9 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
   const faqSchema = generateFAQSchema(faqQuestions);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://www.maximusscpi.com' },
-    { name: 'Comprendre les SCPI', url: 'https://www.maximusscpi.com/comprendre-scpi' },
-    { name: 'Fonds euros ou SCPI 2025', url: 'https://www.maximusscpi.com/fonds-euros-ou-scpi-2025' }
+    { name: 'Accueil', url: 'https://maximusscpi.com' },
+    { name: 'Comprendre les SCPI', url: 'https://maximusscpi.com/comprendre-scpi' },
+    { name: 'Fonds euros ou SCPI 2025', url: 'https://maximusscpi.com/fonds-euros-ou-scpi-2025' }
   ]);
 
   const articleSchema = generateArticleSchema({
@@ -55,7 +55,7 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
     author: "Éric Bellaiche",
     datePublished: "2025-01-20",
     dateModified: "2025-01-20",
-    image: "https://www.maximusscpi.com/images/fonds-euros-scpi-2025.jpg"
+    image: "https://maximusscpi.com/images/fonds-euros-scpi-2025.jpg"
   });
 
   const combinedSchema = {
@@ -69,7 +69,7 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
         title="Fonds euros ou SCPI 2025 : Comparatif Complet Rendement & TMI"
         description="✓ Fonds euros 2% vs SCPI 5-6,5% ✓ Exemple 100k€ sur 15 ans ✓ Fiscalité TMI 11/30/41% ✓ 4 profils investisseurs ✓ Calculs détaillés ✓ Allocation optimale → Conseiller ORIAS"
         keywords={['fonds euros ou SCPI', 'rendement fonds euros 2025', 'SCPI assurance vie', 'arbitrage fonds euros SCPI', 'TMI SCPI', 'fiscalité SCPI', 'allocation fonds euros SCPI', 'SCPI européennes']}
-        canonical="https://www.maximusscpi.com/fonds-euros-ou-scpi-2025"
+        canonical="https://maximusscpi.com/fonds-euros-ou-scpi-2025"
         schemaData={combinedSchema}
       />
 

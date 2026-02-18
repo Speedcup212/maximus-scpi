@@ -41,6 +41,10 @@ const RelatedSCPI: React.FC<RelatedSCPIProps> = ({
   useEffect(() => {
     const fetchRelatedSCPI = async () => {
       if (!currentSlug) return;
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
 
       try {
         let query = supabase

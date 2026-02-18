@@ -1,0 +1,172 @@
+import { createClient } from '@supabase/supabase-js';
+import chromium from '@sparticuz/chromium';
+import { chromium as playwrightChromium } from 'playwright-core';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const requiredEnv = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'] as const;
+
+const getTemplate = async () => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const templatePath = path.join(__dirname, 'templates', 'case-report.html');
+  return readFile(templatePath, 'utf8');
+};
+
+const statusLabels: Record<string, string> = {
+  new: 'Nouveau',
+  in_progress: 'En cours',
+  sent: 'Envoyé',
+  closed: 'Clos'
+};
+
+export const handler = async (event: { httpMethod: string; body?: string | null; headers?: Record<string, string> }) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  for (const key of requiredEnv) {
+    if (!process.env[key]) {
+      return { statusCode: 500, body: JSON.stringify({ error: `Missing env var: ${key}` }) };
+    }
+  }
+
+  const authHeader = event.headers?.authorization || event.headers?.Authorization;
+  const token = authHeader?.replace('Bearer ', '');
+  if (!token) {
+    return { statusCode: 401, body: JSON.stringify({ error: 'Missing auth token' }) };
+  }
+
+  let payload: { case_id?: string };
+  try {
+    payload = JSON.parse(event.body || '{}') as { case_id?: string };
+  } catch {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+  }
+
+  if (!payload.case_id) {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Missing case_id' }) };
+  }
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL as string,
+    process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+    { auth: { persistSession: false } }
+  );
+
+  const { data: userData, error: userError } = await supabase.auth.getUser(token);
+  if (userError || !userData?.user) {
+    return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
+  }
+
+  const userId = userData.user.id;
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .single();
+
+  if (profileError || !profile) {
+    return { statusCode: 403, body: JSON.stringify({ error: 'Profile not found' }) };
+  }
+
+  const { data: caseRow, error: caseError } = await supabase
+    .from('cases')
+    .select('*')
+    .eq('id', payload.case_id)
+    .single();
+
+  if (caseError || !caseRow) {
+    return { statusCode: 404, body: JSON.stringify({ error: 'Case not found' }) };
+  }
+
+  const canAccess =
+    profile.role === 'admin' ||
+    caseRow.client_user_id === userId ||
+    (profile.role === 'partner' && profile.org_id && profile.org_id === caseRow.org_id);
+
+  if (!canAccess) {
+    return { statusCode: 403, body: JSON.stringify({ error: 'Access denied' }) };
+  }
+
+  const { data: notes } = await supabase
+    .from('case_notes')
+    .select('*')
+    .eq('case_id', payload.case_id)
+    .order('created_at', { ascending: false });
+
+  const getNoteText = (type: string) => {
+    const note = notes?.find((item: any) => item.note_type === type);
+    if (!note) return '—';
+    const content = note.content_json || {};
+    return typeof content.text === 'string' ? content.text : JSON.stringify(content, null, 2);
+  };
+
+  const summary = getNoteText('compte_rendu');
+  const assumptions = getNoteText('hypotheses');
+  const risks = getNoteText('misc');
+  const nextSteps = getNoteText('actions');
+
+  const template = await getTemplate();
+  const html = template
+    .replace('{{status_label}}', statusLabels[caseRow.status] || caseRow.status)
+    .replace('{{case_title}}', caseRow.title)
+    .replace('{{client_label}}', caseRow.client_user_id)
+    .replace('{{created_at}}', new Date(caseRow.created_at).toLocaleDateString('fr-FR'))
+    .replace('{{last_activity}}', new Date(caseRow.last_activity_at).toLocaleDateString('fr-FR'))
+    .replace('{{summary}}', summary)
+    .replace('{{assumptions}}', assumptions)
+    .replace('{{risks}}', risks)
+    .replace('{{next_steps}}', nextSteps);
+
+  const browser = await playwrightChromium.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless
+  });
+
+  const page = await browser.newPage();
+  await page.setContent(html, { waitUntil: 'networkidle' });
+  const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+  await browser.close();
+
+  const { data: existing } = await supabase
+    .from('case_pdfs')
+    .select('version')
+    .eq('case_id', payload.case_id)
+    .order('version', { ascending: false })
+    .limit(1);
+
+  const nextVersion = (existing?.[0]?.version ?? 0) + 1;
+  const storagePath = `case_pdfs/${payload.case_id}/v${nextVersion}.pdf`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('private-docs')
+    .upload(storagePath, pdfBuffer, { contentType: 'application/pdf', upsert: false });
+
+  if (uploadError) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'Upload failed' }) };
+  }
+
+  await supabase.from('case_pdfs').insert({
+    case_id: payload.case_id,
+    generated_by_user_id: userId,
+    version: nextVersion,
+    title: `Compte rendu v${nextVersion}`,
+    storage_path: storagePath
+  });
+
+  const { data: signedData, error: signedError } = await supabase.storage
+    .from('private-docs')
+    .createSignedUrl(storagePath, 60 * 60);
+
+  if (signedError || !signedData?.signedUrl) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'Signed URL failed' }) };
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ signedUrl: signedData.signedUrl, storagePath, version: nextVersion })
+  };
+};

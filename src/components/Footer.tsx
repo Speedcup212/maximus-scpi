@@ -75,6 +75,22 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
+        {/* Bandeau confiance E-E-A-T */}
+        <div className="max-w-5xl mx-auto mb-8 flex flex-wrap justify-center gap-4 text-xs text-gray-400">
+          <a href="/expertise-orias-cif" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+            <Shield className="w-3.5 h-3.5" /> CIF certifié ORIAS
+          </a>
+          <a href="/methodologie-donnees-scpi" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+            <FileText className="w-3.5 h-3.5" /> Méthodologie transparente
+          </a>
+          <a href="/avertissements-risques-scpi" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+            <Shield className="w-3.5 h-3.5" /> Avertissements risques
+          </a>
+          <a href="/qui-sommes-nous" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
+            <User className="w-3.5 h-3.5" /> Qui sommes-nous
+          </a>
+        </div>
+
         {/* Disclaimer */}
         <div className="max-w-5xl mx-auto bg-gray-800 rounded-lg p-6 mb-8">
           <p className="text-xs text-gray-400 leading-relaxed text-center">
@@ -90,16 +106,22 @@ const Footer: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 text-sm">
             {/* Accueil & Outils */}
             <div>
-              <h4 className="font-semibold text-blue-400 mb-3">Accueil & Outils</h4>
+              <h4 className="font-semibold text-blue-400 mb-3">Outils & Classements</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>
-                  <a href="/" className="hover:text-blue-400 transition-colors">Accueil</a>
-                </li>
                 <li>
                   <a href="/comparateur-scpi" className="hover:text-blue-400 transition-colors">Comparateur SCPI</a>
                 </li>
                 <li>
-                  <a href="/meilleures-scpi-rendement" className="hover:text-blue-400 transition-colors">Meilleures SCPI</a>
+                  <a href="/meilleures-scpi-rendement" className="hover:text-blue-400 transition-colors">Meilleures SCPI 2026</a>
+                </li>
+                <li>
+                  <a href="/simulateurs" className="hover:text-blue-400 transition-colors">Simulateurs SCPI</a>
+                </li>
+                <li>
+                  <a href="/simulateur-revenus-nets-scpi" className="hover:text-blue-400 transition-colors">Simulateur revenus nets</a>
+                </li>
+                <li>
+                  <a href="/simulateur-demembrement-scpi" className="hover:text-blue-400 transition-colors">Simulateur démembrement</a>
                 </li>
               </ul>
             </div>

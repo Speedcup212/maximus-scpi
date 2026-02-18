@@ -17,7 +17,7 @@ const generateComprendreScpiPage = () => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comprendre les SCPI : Guide Complet 2025 | Maximus SCPI</title>
+  <title>Comprendre les SCPI : Guide Complet 2026 | Maximus SCPI</title>
   <meta name="description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs, méthodes d'investissement et fiscalité. Tout ce qu'il faut savoir avant d'investir.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.maximus-scpi.com/comprendre-les-scpi">
@@ -25,13 +25,13 @@ const generateComprendreScpiPage = () => {
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://www.maximus-scpi.com/comprendre-les-scpi">
-  <meta property="og:title" content="Comprendre les SCPI : Guide Complet 2025">
+  <meta property="og:title" content="Comprendre les SCPI : Guide Complet 2026">
   <meta property="og:description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs et méthodes d'investissement.">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://www.maximus-scpi.com/comprendre-les-scpi">
-  <meta property="twitter:title" content="Comprendre les SCPI : Guide Complet 2025">
+  <meta property="twitter:title" content="Comprendre les SCPI : Guide Complet 2026">
   <meta property="twitter:description" content="Guide complet pour comprendre les SCPI : fonctionnement, avantages, types d'actifs et méthodes d'investissement.">
 
   <!-- Google Consent Mode v2 - Configuration AVANT tout chargement -->

@@ -218,8 +218,8 @@ const ScpiEuropeennesHubPage: React.FC = () => {
   const faqSchema = generateFAQSchema(faqQuestions);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://www.maximusscpi.com' },
-    { name: 'SCPI Européennes', url: 'https://www.maximusscpi.com/scpi-europeennes' }
+    { name: 'Accueil', url: 'https://maximusscpi.com' },
+    { name: 'SCPI Européennes', url: 'https://maximusscpi.com/scpi-europeennes' }
   ]);
 
   const combinedSchema = {
@@ -233,7 +233,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
         title="SCPI Européennes 2025 : Top 12 SCPI Europe (Rendements 4% à 9.00%)"
         description="✓ 12 SCPI européennes analysées ✓ Comète 9.00% ✓ Transitions Europe 8.25% ✓ Remake Live 7.5% ✓ Espagne, Allemagne, Pays-Bas, Royaume-Uni ✓ Diversification Europe → Conseiller ORIAS"
         keywords={['scpi européennes', 'scpi europe', 'scpi allemagne', 'scpi espagne', 'scpi pays-bas', 'scpi royaume-uni', 'scpi irlande', 'comète scpi', 'transitions europe', 'diversification européenne']}
-        canonical="https://www.maximusscpi.com/scpi-europeennes"
+        canonical="https://maximusscpi.com/scpi-europeennes"
         schemaData={combinedSchema}
       />
 

@@ -127,9 +127,9 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
   const financialProductSchema = generateFinancialProductSchema(scpi, rating);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://www.maximusscpi.com' },
-    { name: 'Comparateur SCPI', url: 'https://www.maximusscpi.com' },
-    { name: `SCPI ${scpi.name}`, url: `https://www.maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}` }
+    { name: 'Accueil', url: 'https://maximusscpi.com' },
+    { name: 'Comparateur SCPI', url: 'https://maximusscpi.com' },
+    { name: `SCPI ${scpi.name}`, url: `https://maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}` }
   ]);
 
   const combinedSchema = {
@@ -168,7 +168,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           scpi.european ? 'scpi européenne' : 'scpi france',
           `investir scpi ${scpi.name.toLowerCase()}`
         ]}
-        canonical={`https://www.maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}`}
+        canonical={`https://maximusscpi.com/scpi/${scpi.name.toLowerCase().replace(/\s+/g, '-')}`}
         schemaData={combinedSchema}
       />
 

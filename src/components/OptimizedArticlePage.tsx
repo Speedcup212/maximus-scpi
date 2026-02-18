@@ -43,6 +43,11 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         setLoading(true);
         setError(null);
 
+        if (!supabase) {
+          setError('Supabase non configuré');
+          return;
+        }
+
         const { data, error: fetchError } = await supabase
           .from('articles_seo')
           .select('*')
@@ -118,9 +123,9 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
   // Schemas structurés pour SEO
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://www.maximusscpi.com' },
-    { name: 'Éducation', url: 'https://www.maximusscpi.com/#articles' },
-    { name: article.title, url: `https://www.maximusscpi.com/education/${slug}` }
+    { name: 'Accueil', url: 'https://maximusscpi.com' },
+    { name: 'Éducation', url: 'https://maximusscpi.com/#articles' },
+    { name: article.title, url: `https://maximusscpi.com/education/${slug}` }
   ]);
 
   const articleSchema = generateArticleSchema({
@@ -129,7 +134,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
     author: 'Éric Bellaiche',
     datePublished: article.published_at || '2025-01-20',
     dateModified: article.published_at || '2025-01-20',
-    image: 'https://www.maximusscpi.com/images/eric-192.webp'
+    image: 'https://maximusscpi.com/images/eric-192.webp'
   });
 
   return (
@@ -138,7 +143,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         title={`${article.title} | MaximusSCPI`}
         description={article.meta_description}
         keywords={article.keywords}
-        canonical={`https://www.maximusscpi.com/education/${slug}`}
+        canonical={`https://maximusscpi.com/education/${slug}`}
         structuredData={[breadcrumbSchema, articleSchema]}
       />
 

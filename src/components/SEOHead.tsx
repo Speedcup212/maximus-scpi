@@ -10,9 +10,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = 'Comparateur SCPI 2025 : Meilleurs Rendements & Conseils Expert Gratuits',
-  description = 'Comparez 51 SCPI en temps réel ✓ Rendements jusqu\'à 11,18% ✓ Simulateur personnalisé gratuit ✓ Conseiller certifié ORIAS ✓ Investissez dès 200€',
-  keywords = ['comparateur SCPI', 'meilleure SCPI 2025', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI', 'conseil SCPI gratuit'],
+  title = 'MaximusSCPI — Investir en SCPI avec un Expert Certifié ORIAS',
+  description = 'Comparez 51 SCPI en temps réel ✓ Rendements jusqu\'à 11,18% ✓ Simulateurs gratuits ✓ Conseiller certifié ORIAS ✓ Investissez dès 200€',
+  keywords = ['comparateur SCPI', 'meilleure SCPI 2026', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI', 'conseil SCPI gratuit'],
   canonical,
   schemaData,
   noIndex = false
@@ -96,20 +96,20 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "MaximusSCPI",
-      "url": "https://www.maximusscpi.com",
+      "url": "https://maximusscpi.com",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://www.maximusscpi.com/?q={search_term_string}",
+        "target": "https://maximusscpi.com/?q={search_term_string}",
         "query-input": "required name=search_term_string"
       },
       "description": description,
       "publisher": {
         "@type": "Organization",
         "name": "MaximusSCPI",
-        "url": "https://www.maximusscpi.com",
+        "url": "https://maximusscpi.com",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://www.maximusscpi.com/images/logo-96.webp"
+          "url": "https://maximusscpi.com/images/logo-96.webp"
         }
       }
     };

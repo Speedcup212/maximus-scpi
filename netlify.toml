@@ -2,9 +2,25 @@
   command = "npm run build"
   publish = "dist"
 
+[functions]
+  directory = "netlify/functions"
+
+# ── SEO: www -> non-www (301 permanent) ──
+[[redirects]]
+  from = "https://www.maximusscpi.com/*"
+  to = "https://maximusscpi.com/:splat"
+  status = 301
+  force = true
+
+# ── SPA fallback ──
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# ── Edge Function: Prerender.io for SEO bots ──
+[[edge_functions]]
+  function = "prerender"
+  path = "/*"
 
 

@@ -60,6 +60,10 @@ const ArticleGeneratorPage: React.FC<ArticleGeneratorPageProps> = ({
 
   const handleSaveToSupabase = async () => {
     if (!selectedArticleId || !generatedContent) return;
+    if (!supabase) {
+      alert('Supabase non configuré. Impossible de sauvegarder.');
+      return;
+    }
 
     const template = getTemplateById(selectedArticleId);
     if (!template) return;
@@ -138,7 +142,7 @@ const ArticleGeneratorPage: React.FC<ArticleGeneratorPageProps> = ({
         title="Générateur d'Articles SEO - MaximusSCPI Admin"
         description="Interface de génération automatique des 30 articles SEO MaximusSCPI"
         keywords="générateur, articles, SEO, admin"
-        canonical="https://www.maximusscpi.com/admin/article-generator"
+        canonical="https://maximusscpi.com/admin/article-generator"
       />
 
       <Header

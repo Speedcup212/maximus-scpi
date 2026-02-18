@@ -76,3 +76,12 @@
    npm run dev
 
 ═══════════════════════════════════════════════════════════════
+
+🔑 ENV (Supabase) :
+
+   Après modification de .env.local, redémarrez Vite :
+
+   1. Arrêter le serveur (Ctrl + C)
+   2. npm run dev
+
+═══════════════════════════════════════════════════════════════

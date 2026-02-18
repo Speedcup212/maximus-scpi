@@ -19,6 +19,11 @@ const LeadMagnetEmailForm: React.FC = () => {
 
     try {
       const { supabase } = await import('../supabaseClient');
+      if (!supabase) {
+        alert('Service temporairement indisponible. Réessayez plus tard.');
+        setIsSubmitting(false);
+        return;
+      }
 
       // 1️⃣ Appeler l'edge function Sender directement
       console.log('🚀 Appel Sender en cours...');

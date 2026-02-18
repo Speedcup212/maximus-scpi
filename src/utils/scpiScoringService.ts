@@ -24,6 +24,9 @@ export async function calculateAndSaveScpiScores(scpiList: Scpi[]): Promise<{
   error?: string;
 }> {
   try {
+    if (!supabase) {
+      return { success: false, scores: [], error: 'Supabase not configured' };
+    }
     const scores = await calculateScpiScores(scpiList);
 
     const dbRecords = scores.map(s => ({
@@ -65,6 +68,9 @@ export async function getScpiScoresFromDb(scpiIds?: number[]): Promise<{
   error?: string;
 }> {
   try {
+    if (!supabase) {
+      return { success: false, scores: [], error: 'Supabase not configured' };
+    }
     let query = supabase
       .from('scores_scpi')
       .select('*')
@@ -99,6 +105,9 @@ export async function getLatestScpiScores(): Promise<{
   error?: string;
 }> {
   try {
+    if (!supabase) {
+      return { success: false, scores: {}, error: 'Supabase not configured' };
+    }
     const { data, error } = await supabase
       .from('scores_scpi')
       .select('*')
@@ -141,6 +150,9 @@ export async function calculateScpiScoresViaEdgeFunction(
 
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseKey) {
+      return { success: false, scores: [], error: 'Supabase not configured' };
+    }
 
     const response = await fetch(
       `${supabaseUrl}/functions/v1/scpi-scoring`,

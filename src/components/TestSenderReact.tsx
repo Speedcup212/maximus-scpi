@@ -24,6 +24,10 @@ const TestSenderReact: React.FC = () => {
       addLog('📡 Appel Edge Function sender-add-contact...', 'info');
 
       const { supabase } = await import('../supabaseClient');
+      if (!supabase) {
+        addLog('❌ Supabase non configuré', 'error');
+        return;
+      }
 
       const { data: senderData, error: senderError } = await supabase.functions.invoke('sender-add-contact', {
         body: {

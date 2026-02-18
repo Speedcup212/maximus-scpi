@@ -117,17 +117,17 @@ const LandingPage: React.FC<LandingPageProps> = ({
         "@type": "FinancialProduct",
         "name": `SCPI ${content.scpiName}`,
         "description": content.metaDescription,
-        "url": `https://www.maximusscpi.com/${content.slug}`,
+        "url": `https://maximusscpi.com/${content.slug}`,
         "feesAndCommissionsSpecification": content.introduction,
         "provider": {
           "@type": "Organization",
           "name": "MaximusSCPI",
-          "url": "https://www.maximusscpi.com"
+          "url": "https://maximusscpi.com"
         },
         "offers": {
           "@type": "Offer",
           "availability": "https://schema.org/InStock",
-          "url": `https://www.maximusscpi.com/${content.slug}`
+          "url": `https://maximusscpi.com/${content.slug}`
         }
       });
       document.head.appendChild(script);

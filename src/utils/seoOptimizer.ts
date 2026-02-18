@@ -183,7 +183,7 @@ export const generateArticleSchema = (article: {
       "name": "MaximusSCPI",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.maximusscpi.com/images/logo.png"
+        "url": "https://maximusscpi.com/images/logo.png"
       }
     }
   };

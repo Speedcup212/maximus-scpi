@@ -34,9 +34,9 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
 
   const faqSchema = generateFAQSchema(articleContent.faq);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://www.maximusscpi.com' },
-    { name: 'Articles', url: 'https://www.maximusscpi.com/#articles' },
-    { name: template.title, url: `https://www.maximusscpi.com/${slug}` }
+    { name: 'Accueil', url: 'https://maximusscpi.com' },
+    { name: 'Articles', url: 'https://maximusscpi.com/#articles' },
+    { name: template.title, url: `https://maximusscpi.com/${slug}` }
   ]);
   const articleSchema = generateArticleSchema({
     headline: template.title,
@@ -44,7 +44,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
     author: 'Éric Bellaiche',
     datePublished: '2025-01-20',
     dateModified: '2025-01-20',
-    image: 'https://www.maximusscpi.com/images/eric-192.webp'
+    image: 'https://maximusscpi.com/images/eric-192.webp'
   });
 
   return (
@@ -53,7 +53,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
         title={`${template.title} | MaximusSCPI`}
         description={template.metaDescription}
         keywords={template.keywords}
-        canonical={`https://www.maximusscpi.com/${slug}`}
+        canonical={`https://maximusscpi.com/${slug}`}
         structuredData={[faqSchema, breadcrumbSchema, articleSchema]}
       />
 

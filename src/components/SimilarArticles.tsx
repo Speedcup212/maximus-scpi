@@ -32,6 +32,10 @@ const SimilarArticles: React.FC<SimilarArticlesProps> = ({
   useEffect(() => {
     const fetchSimilarArticles = async () => {
       if (!currentSlug) return;
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
 
       try {
         let query = supabase

@@ -1,23 +1,25 @@
-import { createClient } from "@supabase/supabase-js";
-
-// DEBUG - Vérification des variables d'environnement
-console.log("DEBUG Signup - URL:", import.meta.env.VITE_SUPABASE_URL);
-console.log("DEBUG Signup - KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY);
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-);
+import { supabase, requireSupabase } from "../lib/supabase";
 
 export default function Signup() {
   const handleSignup = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const client = requireSupabase();
+    const { error } = await client.auth.signInWithOAuth({
       provider: "google",
     });
     if (error) {
       console.error("Erreur Google Auth:", error.message);
     }
   };
+
+  if (!supabase) {
+    return (
+      <div className="flex items-center justify-center h-screen px-6">
+        <div className="w-full max-w-md rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 text-sm text-amber-200">
+          Supabase n'est pas configuré. Configurez VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center h-screen">

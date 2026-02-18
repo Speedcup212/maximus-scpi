@@ -10,6 +10,9 @@ export async function addRDV(rdv: {
   commentaire?: string;
 }) {
   try {
+    if (!supabase) {
+      throw new Error('Supabase not configured');
+    }
     const { data, error } = await supabase
       .from('crm_leads')
       .insert([
@@ -37,6 +40,9 @@ export async function addRDV(rdv: {
 
 export async function getRDV(limit = 5) {
   try {
+    if (!supabase) {
+      throw new Error('Supabase not configured');
+    }
     const { data, error } = await supabase
       .from('crm_leads')
       .select('*')

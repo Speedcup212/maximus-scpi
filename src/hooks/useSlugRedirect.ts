@@ -4,6 +4,7 @@ import { supabase } from '../supabaseClient';
 export function useSlugRedirect() {
   useEffect(() => {
     const checkRedirect = async () => {
+      if (!supabase) return;
       const currentSlug = window.location.pathname.replace(/^\//, '');
 
       if (!currentSlug) return;

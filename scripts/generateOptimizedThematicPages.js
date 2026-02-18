@@ -48,7 +48,7 @@ const priorityThematicPages = [
 
 // Template HTML optimisé pour chaque page thématique
 const generateOptimizedHTML = (slug, pageData, cssLinks, jsScripts) => {
-  const baseUrl = 'https://www.maximusscpi.com';
+  const baseUrl = 'https://maximusscpi.com';
   const pageUrl = `${baseUrl}/${slug}`;
 
   return `<!DOCTYPE html>
@@ -243,7 +243,7 @@ const generatePages = () => {
 
 ${priorityThematicPages.map((slug, i) => {
   const data = thematicData[slug];
-  return `${i + 1}. **[${data.title}](https://www.maximusscpi.com/${slug})**
+  return `${i + 1}. **[${data.title}](https://maximusscpi.com/${slug})**
    - URL: \`/${slug}\`
    - Meta: ${data.metaDescription.substring(0, 80)}...
 `;
@@ -297,7 +297,7 @@ Puis tester :
 ${priorityThematicPages.slice(0, 3).map(slug => `- http://localhost:4173/${slug}`).join('\n')}
 
 ### En Production
-${priorityThematicPages.slice(0, 3).map(slug => `- https://www.maximusscpi.com/${slug}`).join('\n')}
+${priorityThematicPages.slice(0, 3).map(slug => `- https://maximusscpi.com/${slug}`).join('\n')}
 
 ## 📈 Métriques Attendues
 

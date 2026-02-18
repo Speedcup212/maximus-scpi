@@ -20,6 +20,8 @@ import SemanticLinks from './components/SemanticLinks';
 import { getSemanticLinks } from './data/semanticCocon';
 import ErrorBoundary from './components/ErrorBoundary';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
+import AuthGuard from './app/components/AuthGuard';
+import RoleGuard from './app/components/RoleGuard';
 import Hero from './components/Hero';
 import ScpiTable from './components/ScpiTable';
 import QuickFilters from './components/QuickFilters';
@@ -84,6 +86,22 @@ const DynamicArticlePage = lazy(() => import('./components/DynamicArticlePage'))
 const OptimizedArticlePage = lazy(() => import('./components/OptimizedArticlePage'));
 const PartenaireCabinet = lazy(() => import('./pages/PartenaireCabinet'));
 const AdminPartners = lazy(() => import('./pages/admin/AdminPartners'));
+const AppEntry = lazy(() => import('./app/pages/AppEntry'));
+const AppLogin = lazy(() => import('./app/pages/AppLogin'));
+const AppSignup = lazy(() => import('./app/pages/AppSignup'));
+const AppOnboarding = lazy(() => import('./app/pages/AppOnboarding'));
+const AppClaim = lazy(() => import('./app/pages/AppClaim'));
+const SetPassword = lazy(() => import('./app/pages/SetPassword'));
+const SetupPage = lazy(() => import('./app/pages/SetupPage'));
+const ClientDashboard = lazy(() => import('./app/pages/ClientDashboard'));
+const ClientCases = lazy(() => import('./app/pages/ClientCases'));
+const ClientCaseDetail = lazy(() => import('./app/pages/ClientCaseDetail'));
+const PartnerDashboard = lazy(() => import('./app/pages/PartnerDashboard'));
+const PartnerClients = lazy(() => import('./app/pages/PartnerClients'));
+const PartnerClientDetail = lazy(() => import('./app/pages/PartnerClientDetail'));
+const PartnerCaseDetail = lazy(() => import('./app/pages/PartnerCaseDetail'));
+const AdminDashboard = lazy(() => import('./app/pages/AdminDashboard'));
+const AdminAccessRequests = lazy(() => import('./app/pages/AdminAccessRequests'));
 
 // 30 Articles Éducation SCPI
 const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle || m.default })));
@@ -182,13 +200,15 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [selectedLandingPage, setSelectedLandingPage] = useState<string | null>(null);
+  const [appCaseId, setAppCaseId] = useState<string | null>(null);
+  const [appClientId, setAppClientId] = useState<string | null>(null);
 
   useEffect(() => {
     const path = window.location.pathname.replace(/^\/|\/$/, '');
@@ -214,6 +234,84 @@ const App: React.FC = () => {
     }
 
     if (path) {
+      if (path.startsWith('app') || path.startsWith('espace')) {
+        const segments = path.split('/');
+        const base = segments[0];
+        const section = segments[1];
+        const sub = segments[2];
+        const id = segments[3];
+        if (segments.length === 1) {
+          setCurrentView('app-entry');
+          return;
+        }
+        if (section === 'login') {
+          setCurrentView('app-login');
+          return;
+        }
+        if (section === 'signup' || section === 'request-access') {
+          setCurrentView('app-request-access');
+          return;
+        }
+        if (section === 'onboarding') {
+          setCurrentView('app-onboarding');
+          return;
+        }
+        if (section === 'claim') {
+          setCurrentView('app-claim');
+          return;
+        }
+        if (section === 'set-password') {
+          setCurrentView('app-set-password');
+          return;
+        }
+        if (section === 'setup') {
+          setCurrentView('app-setup');
+          return;
+        }
+        if (section === 'client') {
+          if (sub === 'dossiers' && id) {
+            setAppCaseId(id);
+            setCurrentView('app-client-case');
+            return;
+          }
+          if (sub === 'dossiers') {
+            setCurrentView('app-client-cases');
+            return;
+          }
+          setCurrentView('app-client');
+          return;
+        }
+        if (section === 'partner') {
+          if (sub === 'clients' && id) {
+            setAppClientId(id);
+            setCurrentView('app-partner-client');
+            return;
+          }
+          if (sub === 'clients') {
+            setCurrentView('app-partner-clients');
+            return;
+          }
+          if (sub === 'dossiers' && id) {
+            setAppCaseId(id);
+            setCurrentView('app-partner-case');
+            return;
+          }
+          setCurrentView('app-partner');
+          return;
+        }
+        if (section === 'admin') {
+          if (sub === 'access-requests') {
+            setCurrentView('app-admin-requests');
+            return;
+          }
+          setCurrentView('app-admin');
+          return;
+        }
+        if (base === 'espace') {
+          setCurrentView('app-entry');
+          return;
+        }
+      }
       if (path.startsWith('comparateur/scpi/')) {
         const scpiSlug = path.replace('comparateur/scpi/', '');
         if (scpiSlug) {
@@ -649,6 +747,83 @@ const App: React.FC = () => {
         setSelectedLandingPage(null);
         setSelectedScpiKey(null);
         setSelectedThematicPage(null);
+      } else if (normalizedPath.startsWith('app') || normalizedPath.startsWith('espace')) {
+        const segments = normalizedPath.split('/');
+        const base = segments[0];
+        const section = segments[1];
+        const sub = segments[2];
+        const id = segments[3];
+        if (segments.length === 1) {
+          setCurrentView('app-entry');
+          return;
+        }
+        if (section === 'login') {
+          setCurrentView('app-login');
+          return;
+        }
+        if (section === 'signup' || section === 'request-access') {
+          setCurrentView('app-request-access');
+          return;
+        }
+        if (section === 'onboarding') {
+          setCurrentView('app-onboarding');
+          return;
+        }
+        if (section === 'claim') {
+          setCurrentView('app-claim');
+          return;
+        }
+        if (section === 'set-password') {
+          setCurrentView('app-set-password');
+          return;
+        }
+        if (section === 'setup') {
+          setCurrentView('app-setup');
+          return;
+        }
+        if (section === 'client') {
+          if (sub === 'dossiers' && id) {
+            setAppCaseId(id);
+            setCurrentView('app-client-case');
+            return;
+          }
+          if (sub === 'dossiers') {
+            setCurrentView('app-client-cases');
+            return;
+          }
+          setCurrentView('app-client');
+          return;
+        }
+        if (section === 'partner') {
+          if (sub === 'clients' && id) {
+            setAppClientId(id);
+            setCurrentView('app-partner-client');
+            return;
+          }
+          if (sub === 'clients') {
+            setCurrentView('app-partner-clients');
+            return;
+          }
+          if (sub === 'dossiers' && id) {
+            setAppCaseId(id);
+            setCurrentView('app-partner-case');
+            return;
+          }
+          setCurrentView('app-partner');
+          return;
+        }
+        if (section === 'admin') {
+          if (sub === 'access-requests') {
+            setCurrentView('app-admin-requests');
+            return;
+          }
+          setCurrentView('app-admin');
+          return;
+        }
+        if (base === 'espace') {
+          setCurrentView('app-entry');
+          return;
+        }
       } else if (normalizedPath === 'partenaire-cabinet') {
         setCurrentView('partenaire-cabinet');
       } else if (normalizedPath === 'admin/partners') {
@@ -813,6 +988,86 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToApp = (path: string) => {
+    const cleanPath = path.replace(/^\/|\/$/, '');
+    const segments = cleanPath.split('/');
+    if (segments[0] !== 'app' && segments[0] !== 'espace') {
+      navigateToView('app-entry', '/app');
+      return;
+    }
+    const section = segments[1];
+    const sub = segments[2];
+    const id = segments[3];
+    if (!section) {
+      navigateToView('app-entry', '/app');
+      return;
+    }
+    if (section === 'login') {
+      navigateToView('app-login', '/app/login');
+      return;
+    }
+    if (section === 'signup' || section === 'request-access') {
+      navigateToView('app-request-access', '/app/request-access');
+      return;
+    }
+    if (section === 'onboarding') {
+      navigateToView('app-onboarding', '/app/onboarding');
+      return;
+    }
+    if (section === 'claim') {
+      navigateToView('app-claim', '/app/claim');
+      return;
+    }
+    if (section === 'set-password') {
+      navigateToView('app-set-password', '/app/set-password');
+      return;
+    }
+    if (section === 'setup') {
+      navigateToView('app-setup', '/app/setup');
+      return;
+    }
+    if (section === 'client') {
+      if (sub === 'dossiers' && id) {
+        setAppCaseId(id);
+        navigateToView('app-client-case', `/app/client/dossiers/${id}`);
+        return;
+      }
+      if (sub === 'dossiers') {
+        navigateToView('app-client-cases', '/app/client/dossiers');
+        return;
+      }
+      navigateToView('app-client', '/app/client');
+      return;
+    }
+    if (section === 'partner') {
+      if (sub === 'clients' && id) {
+        setAppClientId(id);
+        navigateToView('app-partner-client', `/app/partner/clients/${id}`);
+        return;
+      }
+      if (sub === 'clients') {
+        navigateToView('app-partner-clients', '/app/partner/clients');
+        return;
+      }
+      if (sub === 'dossiers' && id) {
+        setAppCaseId(id);
+        navigateToView('app-partner-case', `/app/partner/dossiers/${id}`);
+        return;
+      }
+      navigateToView('app-partner', '/app/partner');
+      return;
+    }
+    if (section === 'admin') {
+      if (sub === 'access-requests') {
+        navigateToView('app-admin-requests', '/app/admin/access-requests');
+        return;
+      }
+      navigateToView('app-admin', '/app/admin');
+      return;
+    }
+    navigateToView('app-entry', '/app');
+  };
+
   const handleEducationClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
     setCurrentView('category');
@@ -917,6 +1172,7 @@ const App: React.FC = () => {
     const targetView = pathMapping[cleanPath] || 'home';
     navigateToView(targetView, path);
   };
+
 
   const handleSimulateurClick = (simulateurId: string) => {
     console.log('[Navigation] handleSimulateurClick appelé avec:', simulateurId);
@@ -1082,6 +1338,90 @@ const App: React.FC = () => {
       )}
     </Suspense>
   );
+
+  if (currentView.startsWith('app-')) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white">
+        <SEOHead title="Espace privé | MaximusSCPI" description="Espace privé MaximusSCPI" noIndex />
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
+          {currentView === 'app-entry' && <AppEntry onNavigate={navigateToApp} />}
+          {currentView === 'app-login' && <AppLogin onNavigate={navigateToApp} />}
+          {currentView === 'app-request-access' && <AppSignup onNavigate={navigateToApp} />}
+          {currentView === 'app-claim' && <AppClaim onNavigate={navigateToApp} />}
+          {currentView === 'app-set-password' && <SetPassword />}
+          {currentView === 'app-setup' && <SetupPage />}
+          {currentView === 'app-onboarding' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <AppOnboarding onNavigate={navigateToApp} />
+            </AuthGuard>
+          )}
+          {currentView === 'app-client' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['client']} onRedirect={navigateToApp}>
+                <ClientDashboard onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-client-cases' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['client']} onRedirect={navigateToApp}>
+                <ClientCases onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-client-case' && appCaseId && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['client']} onRedirect={navigateToApp}>
+                <ClientCaseDetail caseId={appCaseId} onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-partner' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['partner']} onRedirect={navigateToApp}>
+                <PartnerDashboard onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-partner-clients' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['partner']} onRedirect={navigateToApp}>
+                <PartnerClients onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-partner-client' && appClientId && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['partner']} onRedirect={navigateToApp}>
+                <PartnerClientDetail clientId={appClientId} onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-partner-case' && appCaseId && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['partner']} onRedirect={navigateToApp}>
+                <PartnerCaseDetail caseId={appCaseId} onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-admin' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['admin']} onRedirect={navigateToApp}>
+                <AdminDashboard onNavigate={navigateToApp} />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+          {currentView === 'app-admin-requests' && (
+            <AuthGuard onRedirect={navigateToApp}>
+              <RoleGuard roles={['admin']} onRedirect={navigateToApp}>
+                <AdminAccessRequests />
+              </RoleGuard>
+            </AuthGuard>
+          )}
+        </Suspense>
+      </div>
+    );
+  }
 
   if (currentView === 'partenaire-cabinet') {
     return (
@@ -2028,9 +2368,10 @@ const App: React.FC = () => {
     return (
       <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <SEOHead
-          title="Portefeuille SCPI : outil d’analyse & construction | MaximusSCPI"
-          description="Un outil pour analyser l’équilibre de votre portefeuille SCPI : diversification, risque, répartition et horizon, au‑delà du simple rendement."
-          canonical="https://www.maximusscpi.com/comparateur-scpi"
+          title="Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)"
+          description="Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS."
+          keywords={['comparateur SCPI', 'comparatif SCPI', 'comparer SCPI', 'meilleure SCPI 2026', 'rendement SCPI']}
+          canonical="https://maximusscpi.com/comparateur-scpi"
         />
         <Header
           isDarkMode={isDarkMode}

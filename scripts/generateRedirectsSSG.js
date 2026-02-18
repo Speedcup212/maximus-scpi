@@ -24,10 +24,10 @@ const generateRedirects = () => {
   let redirectsContent = `# Netlify/Vercel redirects for SPA routing with SSG
 
 # Redirections 301 pour anciens slugs d'articles (PRIORITAIRES)
-/fonds-euros-ou-scpi-2025 /fonds-euros-ou-scpi 301
+/fonds-euros-ou-scpi-2026 /fonds-euros-ou-scpi 301
 /scpi-direct-ou-assurance-vie /scpi-en-direct-ou-assurance-vie 301
-/scpi-credit-effet-levier-2025 /scpi-a-credit-effet-levier 301
-/fiscalite-scpi-2025-guide-complet /fiscalite-scpi-guide-complet 301
+/scpi-credit-effet-levier-2026 /scpi-a-credit-effet-levier 301
+/fiscalite-scpi-2026-guide-complet /fiscalite-scpi-guide-complet 301
 /garder-fonds-euros-ou-tout-passer-scpi /garder-fonds-euros-ou-passer-scpi 301
 /scpi-45-ans-150000-euros-strategie /scpi-strategie-45-ans-150000-euros 301
 /scpi-tmi-11-ou-30-pourcent-rentabilite /scpi-tmi-11-ou-30-rentabilite 301

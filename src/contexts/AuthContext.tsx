@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
+import { supabase, requireSupabase } from "../lib/supabase";
 import type { AuthError } from "@supabase/supabase-js";
 
 interface User {
@@ -33,6 +33,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
     // Récupérer la session actuelle
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ? {
@@ -57,12 +62,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const client = requireSupabase();
+    const { error } = await client.auth.signInWithPassword({ email, password });
     if (error) throw error;
   };
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ 
+    const client = requireSupabase();
+    const { error } = await client.auth.signUp({ 
       email, 
       password,
       options: {
@@ -73,6 +80,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithGoogle = async () => {
+    const client = requireSupabase();
     console.log('🔍 Démarrage Google OAuth...');
     console.log('🔗 Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
     console.log('🌐 Current URL:', window.location.origin);
@@ -80,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const redirectUrl = `${window.location.origin}/auth/callback`;
     console.log('🔄 Redirect URL:', redirectUrl);
     
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
@@ -114,12 +122,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log('✅ Google OAuth initié avec succès - Redirection en cours...');
   };
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    const client = requireSupabase();
+    const { error } = await client.auth.signOut();
     if (error) throw error;
   };
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const client = requireSupabase();
+    const { error } = await client.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/callback`
     });
     if (error) throw error;

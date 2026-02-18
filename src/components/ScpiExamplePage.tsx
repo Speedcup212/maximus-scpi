@@ -76,6 +76,9 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
     try {
       // Import Supabase dynamiquement
       const { supabase } = await import('../supabaseClient');
+      if (!supabase) {
+        throw new Error('Supabase not configured');
+      }
 
       // Récupérer les paramètres UTM et GCLID depuis l'URL
       const urlParams = new URLSearchParams(window.location.search);
