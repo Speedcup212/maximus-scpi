@@ -94,6 +94,30 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
     existingScripts.forEach(script => script.remove());
 
+    const orgSchema = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MaximusSCPI",
+      "url": "https://maximusscpi.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://maximusscpi.com/images/logo-96.webp"
+      },
+      "description": "Comparateur SCPI indépendant — Conseil en Investissements Financiers certifié ORIAS",
+      "founder": {
+        "@type": "Person",
+        "name": "Eric Bellaiche",
+        "jobTitle": "Conseiller en Investissements Financiers",
+        "url": "https://maximusscpi.com/qui-sommes-nous/"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "availableLanguage": "French"
+      },
+      "sameAs": []
+    };
+
     const websiteSchema = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -105,16 +129,13 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         "query-input": "required name=search_term_string"
       },
       "description": description,
-      "publisher": {
-        "@type": "Organization",
-        "name": "MaximusSCPI",
-        "url": "https://maximusscpi.com",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://maximusscpi.com/images/logo-96.webp"
-        }
-      }
+      "publisher": orgSchema
     };
+
+    const scriptOrg = document.createElement('script');
+    scriptOrg.type = 'application/ld+json';
+    scriptOrg.textContent = JSON.stringify(orgSchema);
+    document.head.appendChild(scriptOrg);
 
     const scriptWebsite = document.createElement('script');
     scriptWebsite.type = 'application/ld+json';

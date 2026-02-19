@@ -799,7 +799,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
               <Award className="w-8 h-8 inline-block text-amber-600 mr-2" />
-              Classement Officiel Top 5 SCPI de Rendement 2025
+              Classement Officiel Top 5 SCPI de Rendement 2026
             </h2>
 
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">

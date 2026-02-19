@@ -194,8 +194,8 @@ const ScpiEuropeennesHubPage: React.FC = () => {
 
   const faqQuestions = [
     {
-      question: "Quelle est la meilleure SCPI européenne en 2025 ?",
-      answer: "Comète (Alderan) affiche un taux de distribution 2025 de 9,00% avec une exposition majoritairement européenne (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne) et une ouverture au Canada. Transitions Europe (Arkéa REIM) suit avec 8,25% et une stratégie thématique transitions énergétique/numérique sur 5 pays. Épargne Pierre Europe (Atland Voisin) offre 6,75% avec une diversification Espagne/Irlande/Pays-Bas."
+      question: "Quelle est la meilleure SCPI européenne en 2026 ?",
+      answer: "Comète (Alderan) affiche un taux de distribution 2026 de 9,00% avec une exposition majoritairement européenne (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne) et une ouverture au Canada. Transitions Europe (Arkéa REIM) suit avec 8,25% et une stratégie thématique transitions énergétique/numérique sur 5 pays. Épargne Pierre Europe (Atland Voisin) offre 6,75% avec une diversification Espagne/Irlande/Pays-Bas."
     },
     {
       question: "Pourquoi investir dans les SCPI européennes ?",
@@ -218,8 +218,8 @@ const ScpiEuropeennesHubPage: React.FC = () => {
   const faqSchema = generateFAQSchema(faqQuestions);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://maximusscpi.com' },
-    { name: 'SCPI Européennes', url: 'https://maximusscpi.com/scpi-europeennes' }
+    { name: 'Accueil', url: 'https://maximusscpi.com/' },
+    { name: 'SCPI Européennes', url: 'https://maximusscpi.com/scpi-europeennes/' }
   ]);
 
   const combinedSchema = {
@@ -230,7 +230,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="SCPI Européennes 2025 : Top 12 SCPI Europe (Rendements 4% à 9.00%)"
+        title="SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 9.00%)"
         description="✓ 12 SCPI européennes analysées ✓ Comète 9.00% ✓ Transitions Europe 8.25% ✓ Remake Live 7.5% ✓ Espagne, Allemagne, Pays-Bas, Royaume-Uni ✓ Diversification Europe → Conseiller ORIAS"
         keywords={['scpi européennes', 'scpi europe', 'scpi allemagne', 'scpi espagne', 'scpi pays-bas', 'scpi royaume-uni', 'scpi irlande', 'comète scpi', 'transitions europe', 'diversification européenne']}
         canonical="https://maximusscpi.com/scpi-europeennes/"
@@ -247,7 +247,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
               <Flag className="w-10 h-10" />
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-              SCPI Européennes 2025 : Top 12 SCPI Europe (Rendements 4% à 9.00%)
+              SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 9.00%)
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-blue-100 max-w-4xl mx-auto">
               Investissez dans l'immobilier européen : Allemagne, Espagne, Pays-Bas, Royaume-Uni, Irlande, Pologne
@@ -448,7 +448,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
           <div className="space-y-6">
             {[
               {
-                q: 'Quelle est la meilleure SCPI européenne en 2025 ?',
+                q: 'Quelle est la meilleure SCPI européenne en 2026 ?',
                 a: 'Comète (Alderan) affiche 9,00% avec une exposition majoritairement européenne (Royaume-Uni 46,5%, Espagne 15,4%, Italie 12,4%, Pays-Bas 10,3%) et une ouverture au Canada. Transitions Europe (8,25%) excelle avec sa stratégie transitions énergétique/numérique. Épargne Pierre Europe (6,75%) offre la meilleure diversification Espagne/Irlande/Pays-Bas.'
               },
               {

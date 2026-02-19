@@ -74,7 +74,7 @@ const ScpiGestionnairesHubPage: React.FC = () => {
 
   const faqQuestions = [
     {
-      question: "Quel est le meilleur gestionnaire SCPI en 2025 ?",
+      question: "Quel est le meilleur gestionnaire SCPI en 2026 ?",
       answer: "Alderan se distingue comme leader avec 4.2 Mds€ d'encours et un rendement moyen de 7.8% sur ses 3 SCPI (Comète, Iroko Zen, et Remake). Perial Asset Management suit avec 3.8 Mds€ et 5 SCPI diversifiées offrant un rendement de 5.9%."
     },
     {
@@ -98,8 +98,8 @@ const ScpiGestionnairesHubPage: React.FC = () => {
   const faqSchema = generateFAQSchema(faqQuestions);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://maximusscpi.com' },
-    { name: 'SCPI par Gestionnaire', url: 'https://maximusscpi.com/scpi-gestionnaires' }
+    { name: 'Accueil', url: 'https://maximusscpi.com/' },
+    { name: 'SCPI par Gestionnaire', url: 'https://maximusscpi.com/scpi-gestionnaires/' }
   ]);
 
   const combinedSchema = {
@@ -110,9 +110,9 @@ const ScpiGestionnairesHubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="Gestionnaires SCPI : Top 38 Sociétés 2025 | Encours 80 Mds€"
+        title="Gestionnaires SCPI : Top 38 Sociétés 2026 | Encours 80 Mds€"
         description="✓ 38 gestionnaires SCPI classés ✓ Tier 1: Alderan 7.8% ✓ Tier 2: Spécialistes 8.2% ✓ 80 Mds€ encours ✓ 150+ SCPI analysées ✓ Comparatif complet → Conseiller ORIAS"
-        keywords={['gestionnaires scpi', 'sociétés de gestion scpi', 'alderan scpi', 'perial scpi', 'amundi scpi', 'classement gestionnaires 2025', 'meilleurs gestionnaires scpi']}
+        keywords={['gestionnaires scpi', 'sociétés de gestion scpi', 'alderan scpi', 'perial scpi', 'amundi scpi', 'classement gestionnaires 2026', 'meilleurs gestionnaires scpi']}
         canonical="https://maximusscpi.com/scpi-gestionnaires/"
         schemaData={combinedSchema}
       />
@@ -124,10 +124,10 @@ const ScpiGestionnairesHubPage: React.FC = () => {
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full mb-6">
               <Award className="w-5 h-5" />
-              <span className="font-semibold">Classement Officiel 2025</span>
+              <span className="font-semibold">Classement Officiel 2026</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-              Gestionnaires SCPI : Top 38 Sociétés 2025 (Encours 80 Mds€)
+              Gestionnaires SCPI : Top 38 Sociétés 2026 (Encours 80 Mds€)
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-purple-100 max-w-4xl mx-auto">
               Comparaison exhaustive des sociétés de gestion : encours, performances, expertises

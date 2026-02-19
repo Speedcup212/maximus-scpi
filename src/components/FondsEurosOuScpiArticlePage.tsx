@@ -46,7 +46,7 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
     { name: 'Comprendre les SCPI', url: 'https://maximusscpi.com/comprendre-scpi' },
-    { name: 'Fonds euros ou SCPI 2025', url: 'https://maximusscpi.com/fonds-euros-ou-scpi-2025' }
+    { name: 'Fonds euros ou SCPI 2026', url: 'https://maximusscpi.com/fonds-euros-ou-scpi/' }
   ]);
 
   const articleSchema = generateArticleSchema({
@@ -66,10 +66,10 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="Fonds euros ou SCPI 2025 : Comparatif Complet Rendement & TMI"
+        title="Fonds euros ou SCPI 2026 : Comparatif Complet Rendement & TMI"
         description="✓ Fonds euros 2% vs SCPI 5-6,5% ✓ Exemple 100k€ sur 15 ans ✓ Fiscalité TMI 11/30/41% ✓ 4 profils investisseurs ✓ Calculs détaillés ✓ Allocation optimale → Conseiller ORIAS"
         keywords={['fonds euros ou SCPI', 'rendement fonds euros 2025', 'SCPI assurance vie', 'arbitrage fonds euros SCPI', 'TMI SCPI', 'fiscalité SCPI', 'allocation fonds euros SCPI', 'SCPI européennes']}
-        canonical="https://maximusscpi.com/fonds-euros-ou-scpi-2025/"
+        canonical="https://maximusscpi.com/fonds-euros-ou-scpi/"
         schemaData={combinedSchema}
       />
 
@@ -998,8 +998,8 @@ const FondsEurosOuScpiArticlePage: React.FC = () => {
 
         {/* Semantic Links */}
         <SemanticLinks
-          currentPage="/fonds-euros-ou-scpi-2025"
-          links={getSemanticLinks('/fonds-euros-ou-scpi-2025')}
+          currentPage="/fonds-euros-ou-scpi"
+          links={getSemanticLinks('/fonds-euros-ou-scpi')}
           title="Poursuivez votre découverte des SCPI"
         />
       </div>

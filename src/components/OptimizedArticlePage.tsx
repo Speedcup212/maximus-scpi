@@ -132,8 +132,8 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
     headline: article.title,
     description: article.meta_description,
     author: 'Éric Bellaiche',
-    datePublished: article.published_at || '2025-01-20',
-    dateModified: article.published_at || '2025-01-20',
+    datePublished: article.published_at || '2026-01-20',
+    dateModified: article.published_at || '2026-01-20',
     image: 'https://maximusscpi.com/images/eric-192.webp'
   });
 

@@ -158,6 +158,32 @@ export const generateBreadcrumbSchema = (items: Array<{ name: string; url: strin
   };
 };
 
+export const generateSoftwareApplicationSchema = (simulator: {
+  name: string;
+  description: string;
+  url: string;
+}) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": simulator.name,
+    "description": simulator.description,
+    "url": simulator.url,
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "MaximusSCPI",
+      "url": "https://maximusscpi.com"
+    }
+  };
+};
+
 export const generateArticleSchema = (article: {
   headline: string;
   description: string;

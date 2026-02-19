@@ -67,7 +67,7 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEOHead
-        title="Analyse & Actu SCPI : Guides, Comparatifs et Stratégies 2025"
+        title="Analyse & Actu SCPI : Guides, Comparatifs et Stratégies 2026"
         description="Tous nos articles sur les SCPI : comparatifs (fonds euros, SCI, locatif), fiscalité (TMI 11-45%), stratégies retraite et revenus complémentaires."
         keywords="SCPI, articles, guides, comparatifs, fiscalité, stratégies, investissement, analyse, actualité"
         canonical="https://maximusscpi.com/analyse-actu/"
@@ -99,7 +99,7 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
               Analyse & Actualités SCPI
             </h1>
             <p className="text-xl sm:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              Guides complets, comparatifs détaillés et stratégies d'optimisation pour investir en SCPI en 2025
+              Guides complets, comparatifs détaillés et stratégies d'optimisation pour investir en SCPI en 2026
             </p>
           </div>
 

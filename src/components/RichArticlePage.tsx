@@ -64,7 +64,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEOHead
-        title={`${template.title} - Guide 2025`}
+        title={`${template.title} - Guide 2026`}
         description={template.metaDescription}
         keywords={template.keywords}
         canonical={`https://maximusscpi.com/${template.slug}/`}
@@ -111,7 +111,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>Janvier 2025</span>
+              <span>Février 2026</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -203,7 +203,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
 
 function getCategoryLabel(category: string): string {
   const labels: Record<string, string> = {
-    'comparatifs': 'Comparatif 2025',
+    'comparatifs': 'Comparatif 2026',
     'fiscalite': 'Fiscalité',
     'strategies': 'Stratégie Patrimoniale',
     'marche': 'Analyse Marché',

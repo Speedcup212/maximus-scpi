@@ -18,6 +18,7 @@ import ExpertBanner from './components/ExpertBanner';
 import { CookieConsent } from './components/CookieConsent';
 import SemanticLinks from './components/SemanticLinks';
 import { getSemanticLinks } from './data/semanticCocon';
+import { simulatorSeoConfig, getSimulatorSchemaData } from './data/simulatorSeoConfig';
 import ErrorBoundary from './components/ErrorBoundary';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import AuthGuard from './app/components/AuthGuard';
@@ -1508,8 +1509,10 @@ const App: React.FC = () => {
 
   // Render Net Income Simulator
   if (currentView === 'simulateur-revenus-nets') {
+    const seo = simulatorSeoConfig['simulateur-revenus-nets'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-revenus-nets')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1545,8 +1548,10 @@ const App: React.FC = () => {
 
   // Render Credit Simulator
   if (currentView === 'simulateur-credit') {
+    const seo = simulatorSeoConfig['simulateur-credit'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-credit')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1583,9 +1588,10 @@ const App: React.FC = () => {
 
   // Render Demembrement Simulator
   if (currentView === 'simulateur-demembrement') {
-    console.log('[App] Rendering simulateur-demembrement view');
+    const seo = simulatorSeoConfig['simulateur-demembrement'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-demembrement')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1623,9 +1629,10 @@ const App: React.FC = () => {
 
   // Render Envelope Comparator Simulator
   if (currentView === 'simulateur-enveloppes') {
-    console.log('[App] Rendering simulateur-enveloppes view');
+    const seo = simulatorSeoConfig['simulateur-enveloppes'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-enveloppes')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1662,8 +1669,10 @@ const App: React.FC = () => {
   }
 
   if (currentView === 'simulateur-tresorerie-is') {
+    const seo = simulatorSeoConfig['simulateur-tresorerie-is'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-tresorerie-is')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1692,8 +1701,10 @@ const App: React.FC = () => {
   }
 
   if (currentView === 'simulateur-impact-fiscal') {
+    const seo = simulatorSeoConfig['simulateur-impact-fiscal'];
     return (
       <div className="min-h-screen bg-slate-950 transition-colors duration-300 dark">
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-impact-fiscal')} />
         <Header
           isDarkMode={true}
           toggleTheme={toggleTheme}
@@ -1722,8 +1733,10 @@ const App: React.FC = () => {
   }
 
   if (currentView === 'simulateurs') {
+    const seo = simulatorSeoConfig['simulateurs'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateurs')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1753,8 +1766,10 @@ const App: React.FC = () => {
 
   // Render Profil Investisseur Simulator
   if (currentView === 'simulateur-profil-investisseur') {
+    const seo = simulatorSeoConfig['simulateur-profil-investisseur'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-profil-investisseur')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}
@@ -1785,9 +1800,10 @@ const App: React.FC = () => {
 
   // Render Comparateur Démembrement SCPI
   if (currentView === 'comparateur-demembrement') {
-    console.log('[App] Rendering comparateur-demembrement view');
+    const seo = simulatorSeoConfig['comparateur-demembrement'];
     return (
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('comparateur-demembrement')} />
         <Header
           isDarkMode={isDarkMode}
           toggleTheme={toggleTheme}

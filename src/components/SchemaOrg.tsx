@@ -71,7 +71,7 @@ export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
           "name": "Eric Bellaiche",
           "jobTitle": "Conseiller en Investissement Financier"
         },
-        "datePublished": data.datePublished || "2025-01-15",
+        "datePublished": data.datePublished || "2026-01-15",
         "dateModified": data.dateModified || new Date().toISOString().split('T')[0],
         "publisher": {
           "@type": "Organization",
@@ -140,7 +140,10 @@ export const generateBreadcrumbs = (path: string): BreadcrumbItem[] => {
     'scpi-secteurs': 'SCPI par Secteur',
     'scpi-gestionnaires': 'SCPI par Gestionnaire',
     'scpi-objectifs': 'SCPI par Objectif',
-    'scpi-europeennes': 'SCPI Européennes'
+    'scpi-europeennes': 'SCPI Européennes',
+    'expertise-orias-cif': 'Expertise ORIAS / CIF',
+    'methodologie-donnees-scpi': 'Méthodologie',
+    'avertissements-risques-scpi': 'Avertissements Risques'
   };
 
   let currentPath = '';

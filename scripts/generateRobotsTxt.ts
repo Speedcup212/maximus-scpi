@@ -25,15 +25,13 @@ Allow: /
 
 Sitemap: ${siteUrl}/sitemap.xml
 
-# Bloquer les pages parasites / test / merci / tracking
-Disallow: /test-*
-Disallow: /merci-*
-Disallow: /qa-*
-Disallow: /api/
 Disallow: /app/
-
-# Bloquer les ressources techniques
+Disallow: /api/
 Disallow: /*.json$
+Disallow: /merci-*
+Disallow: /test-*
+Disallow: /qa-*
+Disallow: /admin/
 `;
   } else {
     robotsContent = `# MaximusSCPI - Development/Preview robots.txt

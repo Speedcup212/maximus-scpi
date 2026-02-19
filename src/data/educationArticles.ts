@@ -11,7 +11,7 @@ export const educationArticles: Article[] = [
     publishDate: '18 septembre 2024',
     readTime: '8 min',
     content: {
-      intro: 'Les Sociétés Civiles de Placement Immobilier (SCPI) représentent une solution d\'investissement immobilier innovante et accessible. En 2025, avec plus de 90 milliards d\'euros de capitalisation, les SCPI constituent un pilier de l\'épargne immobilière des Français. Ce guide vous aide à comprendre ce placement prisé pour sa simplicité et son rendement attractif.',
+      intro: 'Les Sociétés Civiles de Placement Immobilier (SCPI) représentent une solution d\'investissement immobilier innovante et accessible. En 2026, avec plus de 90 milliards d\'euros de capitalisation, les SCPI constituent un pilier de l\'épargne immobilière des Français. Ce guide vous aide à comprendre ce placement prisé pour sa simplicité et son rendement attractif.',
       sections: [
         {
           title: 'Le principe fondamental des SCPI',
@@ -81,7 +81,7 @@ export const educationArticles: Article[] = [
           title: 'Les revenus générés par les parts',
           content: [
             'Chaque part donne droit à une quote-part des loyers encaissés par la SCPI, après déduction des charges de gestion (généralement 8% à 12% des loyers). La distribution s\'effectue trimestriellement, par virement bancaire automatique. Le montant varie selon le taux d\'occupation et les éventuels travaux.',
-            'Le taux de distribution sur valeur de marché (TDVM) exprime le rendement brut de votre investissement. En 2025, la moyenne du marché se situe autour de 4,5% à 5,5% pour les SCPI de bureaux et commerces, et jusqu\'à 6% à 7% pour certaines SCPI spécialisées (santé, logistique).',
+            'Le taux de distribution sur valeur de marché (TDVM) exprime le rendement brut de votre investissement. En 2026, la moyenne du marché se situe autour de 4,5% à 5,5% pour les SCPI de bureaux et commerces, et jusqu\'à 6% à 7% pour certaines SCPI spécialisées (santé, logistique).',
             'Les revenus sont imposables au barème progressif de l\'IR dans la catégorie des revenus fonciers, plus les prélèvements sociaux de 17,2%. La société de gestion vous fournit un IFU annuel détaillant vos revenus et charges déductibles pour votre déclaration fiscale.'
           ]
         },
@@ -113,7 +113,7 @@ export const educationArticles: Article[] = [
           title: 'Les SCPI de rendement : priorité aux revenus réguliers',
           content: [
             'Les SCPI de rendement investissent dans l\'immobilier d\'entreprise locatif : bureaux dans les quartiers d\'affaires, centres commerciaux, entrepôts logistiques, établissements de santé. Leur objectif principal consiste à générer des revenus locatifs stables et croissants, redistribués trimestriellement aux associés.',
-            'Le rendement moyen des SCPI de rendement oscille entre 4,5% et 6% en 2025, avec des distributions régulières et prévisibles. Ce taux reste nettement supérieur aux livrets réglementés ou aux fonds euros d\'assurance-vie. Certaines SCPI spécialisées (santé, éducation) affichent des performances encore plus élevées.',
+            'Le rendement moyen des SCPI de rendement oscille entre 4,5% et 6% en 2026, avec des distributions régulières et prévisibles. Ce taux reste nettement supérieur aux livrets réglementés ou aux fonds euros d\'assurance-vie. Certaines SCPI spécialisées (santé, éducation) affichent des performances encore plus élevées.',
             'Ces SCPI conviennent parfaitement aux investisseurs recherchant un complément de revenus immédiat, une préparation de la retraite ou une alternative aux placements obligataires. Elles s\'intègrent idéalement dans une stratégie patrimoniale axée sur les revenus plutôt que sur l\'optimisation fiscale.'
           ]
         },
@@ -273,7 +273,7 @@ export const educationArticles: Article[] = [
           title: 'L\'effet de levier du crédit immobilier',
           content: [
             'Financer tout ou partie de votre investissement en SCPI à crédit génère un double avantage fiscal. D\'abord, les intérêts d\'emprunt sont intégralement déductibles de vos revenus fonciers, réduisant significativement votre assiette imposable. Cette déduction peut même créer un déficit foncier reportable.',
-            'Ensuite, l\'effet de levier améliore mathématiquement votre rentabilité nette si le rendement de la SCPI excède le coût du crédit. Avec des taux d\'emprunt autour de 3% à 4% en 2025 et des SCPI rendant 5% à 6%, le différentiel positif amplifie votre performance, d\'autant plus que vous déduisez les intérêts.',
+            'Ensuite, l\'effet de levier améliore mathématiquement votre rentabilité nette si le rendement de la SCPI excède le coût du crédit. Avec des taux d\'emprunt autour de 3% à 4% en 2026 et des SCPI rendant 5% à 6%, le différentiel positif amplifie votre performance, d\'autant plus que vous déduisez les intérêts.',
             'Cette stratégie convient particulièrement aux investisseurs à TMI élevée disposant d\'une capacité d\'emprunt et souhaitant maximiser leur patrimoine avec un effet de levier. Le crédit amortissable permet également de se constituer progressivement un capital, les loyers couvrant une partie significative des mensualités.'
           ]
         },
@@ -354,7 +354,7 @@ export const educationArticles: Article[] = [
           content: [
             'Le Taux de Distribution sur Valeur de Marché (TDVM) exprime le rendement brut que vous percevez annuellement par rapport au prix d\'achat de vos parts. Un TDVM de 5% signifie qu\'une part achetée 1 000 euros génère 50 euros de revenus bruts par an. C\'est l\'indicateur le plus médiatisé, mais il ne raconte qu\'une partie de l\'histoire.',
             'Attention : le TDVM ne tient pas compte des frais d\'entrée (8% à 12%). La première année, votre rendement réel est donc nettement inférieur. Il faut généralement 2 à 3 ans pour amortir ces frais et bénéficier pleinement du TDVM annoncé. Privilégiez une vision pluriannuelle pour mesurer la performance réelle.',
-            'Comparez toujours le TDVM aux moyennes du marché (4,5% à 5,5% pour les SCPI diversifiées en 2025) et à l\'historique de la SCPI. Un TDVM exceptionnellement élevé (supérieur à 7%) mérite un examen approfondi : provient-il de revenus locatifs solides ou d\'une distribution de réserves temporaire ?'
+            'Comparez toujours le TDVM aux moyennes du marché (4,5% à 5,5% pour les SCPI diversifiées en 2026) et à l\'historique de la SCPI. Un TDVM exceptionnellement élevé (supérieur à 7%) mérite un examen approfondi : provient-il de revenus locatifs solides ou d\'une distribution de réserves temporaire ?'
           ]
         },
         {
@@ -640,7 +640,7 @@ export const educationArticles: Article[] = [
         {
           title: 'Rendement et performance',
           content: [
-            'Les SCPI affichent un rendement moyen de 4,5% à 6% en 2025, distribué trimestriellement. Ce rendement est brut de fiscalité mais net de charges (travaux, gestion, vacance mutualisée). La performance est régulière, avec peu de volatilité d\'une année sur l\'autre pour les SCPI de qualité.',
+            'Les SCPI affichent un rendement moyen de 4,5% à 6% en 2026, distribué trimestriellement. Ce rendement est brut de fiscalité mais net de charges (travaux, gestion, vacance mutualisée). La performance est régulière, avec peu de volatilité d\'une année sur l\'autre pour les SCPI de qualité.',
             'L\'immobilier locatif en direct génère un rendement brut de 4% à 8% selon la zone et le type de bien. Mais ce rendement brut doit être ajusté des charges réelles : travaux d\'entretien et de rénovation (0,5% à 1% de la valeur du bien par an), vacance locative (1 à 2 mois par an en moyenne), frais de gestion si vous déléguez (6% à 8% des loyers).',
             'Au final, le rendement net de l\'immobilier locatif en direct oscille entre 3% et 6%, comparable aux SCPI. L\'avantage de l\'immobilier direct réside dans le potentiel de plus-value à la revente, souvent supérieur grâce à une valorisation locale forte. Les SCPI valorisent également, mais de manière plus lissée.'
           ]
@@ -688,8 +688,8 @@ export const educationArticles: Article[] = [
         {
           title: 'Rendement : immobilier vs fonds euros et unités de compte',
           content: [
-            'Les SCPI délivrent un rendement moyen de 4,5% à 6% en 2025, provenant des loyers de l\'immobilier d\'entreprise. Ce rendement est régulier, prévisible et distribué trimestriellement. Il dépend de la performance locative et de la valorisation du patrimoine immobilier, avec une certaine volatilité selon les cycles de marché.',
-            'Les fonds euros de l\'assurance-vie, garantis en capital, offrent un rendement de 2% à 3% en 2025, en baisse structurelle depuis 10 ans. La sécurité totale du capital et la liquidité compensent cette faiblesse du rendement. Les fonds euros conviennent à l\'épargne de précaution, pas à la recherche de performance.',
+            'Les SCPI délivrent un rendement moyen de 4,5% à 6% en 2026, provenant des loyers de l\'immobilier d\'entreprise. Ce rendement est régulier, prévisible et distribué trimestriellement. Il dépend de la performance locative et de la valorisation du patrimoine immobilier, avec une certaine volatilité selon les cycles de marché.',
+            'Les fonds euros de l\'assurance-vie, garantis en capital, offrent un rendement de 2% à 3% en 2026, en baisse structurelle depuis 10 ans. La sécurité totale du capital et la liquidité compensent cette faiblesse du rendement. Les fonds euros conviennent à l\'épargne de précaution, pas à la recherche de performance.',
             'Les unités de compte de l\'assurance-vie (actions, obligations, immobilier) génèrent des rendements plus élevés mais variables : 5% à 8% en moyenne long terme pour un portefeuille équilibré, avec une volatilité annuelle de -10% à +20%. Le rendement dépend des marchés financiers et de l\'allocation choisie.'
           ]
         },
@@ -736,7 +736,7 @@ export const educationArticles: Article[] = [
         {
           title: 'Performance et rendement',
           content: [
-            'Les SCPI génèrent un rendement de 4,5% à 6% en 2025, distribué trimestriellement sous forme de revenus réguliers. Ce rendement provient des loyers de l\'immobilier d\'entreprise, avec une relative stabilité année après année. La valorisation du capital évolue lentement, avec une appréciation de 1% à 3% par an en moyenne.',
+            'Les SCPI génèrent un rendement de 4,5% à 6% en 2026, distribué trimestriellement sous forme de revenus réguliers. Ce rendement provient des loyers de l\'immobilier d\'entreprise, avec une relative stabilité année après année. La valorisation du capital évolue lentement, avec une appréciation de 1% à 3% par an en moyenne.',
             'La bourse délivre un rendement moyen de 8% à 10% sur le long terme (plus de 15 ans), mais avec une forte volatilité. Les revenus (dividendes) représentent 2% à 4%, le reste provenant de la plus-value potentielle. Cette performance supérieure rémunère un risque plus élevé : variations de -30% à +40% selon les années.',
             'La performance totale des SCPI (rendement + valorisation) oscille entre 5% et 8% par an, contre 8% à 10% pour la bourse sur longue période. La bourse surperforme, mais au prix d\'une volatilité significative qui peut tester votre résistance psychologique dans les phases baissières.'
           ]
@@ -773,8 +773,8 @@ export const educationArticles: Article[] = [
     id: 'comparatif-001',
     slug: 'fonds-euros-ou-scpi',
     category: 'comparatif',
-    title: 'Fonds euros ou SCPI : que choisir pour votre épargne en 2025 ?',
-    metaDescription: 'Comparaison complète entre fonds euros et SCPI : rendements, fiscalité, risques. Guide complet pour optimiser votre assurance-vie en 2025.',
+    title: 'Fonds euros ou SCPI : que choisir pour votre épargne en 2026 ?',
+    metaDescription: 'Comparaison complète entre fonds euros et SCPI : rendements, fiscalité, risques. Guide complet pour optimiser votre assurance-vie en 2026.',
     author: 'MaximusSCPI',
     publishDate: '21 novembre 2024',
     readTime: '12 min',
@@ -792,7 +792,7 @@ export const educationArticles: Article[] = [
         {
           title: 'Les SCPI : rendement mais moins de garanties',
           content: [
-            'Les SCPI offrent un rendement moyen de 4,5% à 6% en 2025, soit 2 à 3 fois supérieur aux fonds euros. Ce rendement provient des loyers encaissés sur un patrimoine immobilier diversifié (bureaux, commerces, santé, logistique) répartis en France et en Europe.',
+            'Les SCPI offrent un rendement moyen de 4,5% à 6% en 2026, soit 2 à 3 fois supérieur aux fonds euros. Ce rendement provient des loyers encaissés sur un patrimoine immobilier diversifié (bureaux, commerces, santé, logistique) répartis en France et en Europe.',
             'Contrairement aux fonds euros, le capital n\'est pas garanti. La valeur de vos parts peut fluctuer selon l\'évolution du marché immobilier. Les revenus locatifs ne sont pas non plus garantis et dépendent du taux d\'occupation des immeubles. Durant la crise sanitaire, certaines SCPI ont temporairement réduit leurs distributions.',
             'La liquidité est plus limitée : revendre vos parts de SCPI peut prendre de quelques semaines à plusieurs mois selon les conditions de marché. Les frais d\'entrée (8% à 12%) nécessitent également une vision long terme (8 à 10 ans minimum) pour amortir ces coûts et bénéficier pleinement du rendement.'
           ]

@@ -198,7 +198,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
 
               {/* Sous-titre - Promesse */}
               <p className="text-xl sm:text-2xl text-gray-700 font-semibold leading-relaxed">
-                Le guide objectif de la SCPI sans frais au rendement de +7% pour 2025.
+                Le guide objectif de la SCPI sans frais au rendement de +7% pour 2026.
               </p>
 
               {/* Dashboard Visuel - Data Simplifiée */}

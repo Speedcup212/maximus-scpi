@@ -197,7 +197,7 @@ const ScpiSecteursHubPage: React.FC = () => {
 
   const faqQuestions = [
     {
-      question: "Quel secteur SCPI est le plus rentable en 2025 ?",
+      question: "Quel secteur SCPI est le plus rentable en 2026 ?",
       answer: "Les SCPI Résidentiel offrent le rendement le plus élevé avec Remake Live à 7,5%, suivies des Bureaux à 5,5% (Novaxia NEO 6,01%, Paref Evo/Hexa 6%) et Logistique à 5,7% (Log In 6%, Opportunité Immo 5,62%). Les SCPI Santé (5,2%), Commerces (5,2%) et Hôtellerie (4,1%) offrent des rendements plus modérés."
     },
     {
@@ -221,8 +221,8 @@ const ScpiSecteursHubPage: React.FC = () => {
   const faqSchema = generateFAQSchema(faqQuestions);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Accueil', url: 'https://maximusscpi.com' },
-    { name: 'SCPI par Secteur', url: 'https://maximusscpi.com/scpi-secteurs' }
+    { name: 'Accueil', url: 'https://maximusscpi.com/' },
+    { name: 'SCPI par Secteur', url: 'https://maximusscpi.com/scpi-secteurs/' }
   ]);
 
   const combinedSchema = {
@@ -233,9 +233,9 @@ const ScpiSecteursHubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="SCPI par Secteur : Bureaux, Commerces, Logistique, Santé, Résidentiel, Hôtellerie 2025"
+        title="SCPI par Secteur : Bureaux, Commerces, Logistique, Santé, Résidentiel, Hôtellerie 2026"
         description="✓ 6 secteurs SCPI analysés ✓ Bureaux 5.5% ✓ Commerces 5.2% ✓ Logistique 5.7% ✓ Santé 5.2% ✓ Résidentiel 5.5% ✓ Hôtellerie 4.1% ✓ 51 SCPI réelles comparées → Conseiller ORIAS"
-        keywords={['scpi secteurs', 'scpi bureaux', 'scpi commerces', 'scpi logistique', 'scpi santé', 'scpi résidentiel', 'scpi hôtellerie', 'typologie scpi 2025']}
+        keywords={['scpi secteurs', 'scpi bureaux', 'scpi commerces', 'scpi logistique', 'scpi santé', 'scpi résidentiel', 'scpi hôtellerie', 'typologie scpi 2026']}
         canonical="https://maximusscpi.com/scpi-secteurs/"
         schemaData={combinedSchema}
       />
@@ -246,7 +246,7 @@ const ScpiSecteursHubPage: React.FC = () => {
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-              SCPI par Secteur Immobilier : 6 Typologies 2025 (Rendements 4.1% à 7.5%)
+              SCPI par Secteur Immobilier : 6 Typologies 2026 (Rendements 4.1% à 7.5%)
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-blue-100 max-w-4xl mx-auto">
               Bureaux, Commerces, Logistique, Santé, Résidentiel, Hôtellerie : comparatif complet
@@ -430,7 +430,7 @@ const ScpiSecteursHubPage: React.FC = () => {
           <div className="space-y-6">
             {[
               {
-                q: 'Quel secteur SCPI offre le meilleur rendement en 2025 ?',
+                q: 'Quel secteur SCPI offre le meilleur rendement en 2026 ?',
                 a: 'Les SCPI Résidentiel dominent avec Remake Live à 7,5%. Les Bureaux offrent 5,5% en moyenne (Novaxia NEO 6,01%, Paref Evo/Hexa 6%), suivis de la Logistique à 5,7% (Log In 6%, Opportunité Immo 5,62%). Les SCPI Santé (5,2%) et Commerces (5,2%) restent solides.'
               },
               {

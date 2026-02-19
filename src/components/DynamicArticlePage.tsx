@@ -42,8 +42,8 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
     headline: template.title,
     description: template.metaDescription,
     author: 'Éric Bellaiche',
-    datePublished: '2025-01-20',
-    dateModified: '2025-01-20',
+    datePublished: '2026-01-20',
+    dateModified: '2026-01-20',
     image: 'https://maximusscpi.com/images/eric-192.webp'
   });
 
@@ -89,7 +89,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>20 janvier 2025</span>
+              <span>20 janvier 2026</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -231,8 +231,8 @@ function generateArticleContent(template: ArticleTemplate) {
 // Génération d'introduction contextuelle
 function generateIntro(template: ArticleTemplate): string {
   const intros: Record<string, string> = {
-    'scpi-direct-ou-assurance-vie': 'Janvier 2025 : vous hésitez entre souscrire des SCPI en direct ou les loger dans votre contrat d\'assurance-vie. La différence fiscale peut représenter plusieurs milliers d\'euros sur 15 ans. Les SCPI en direct offrent 5% de rendement brut, mais subissent l\'IR + 17,2% de PS. En assurance-vie, les revenus capitalisent sans fiscalité annuelle, mais les frais de contrat réduisent le rendement net.',
-    'scpi-credit-effet-levier-2025': 'Avec des taux de crédit immobilier autour de 3,5% en janvier 2025, l\'effet de levier sur les SCPI reste-t-il pertinent ? Si vous empruntez 100 000€ à 3,5% sur 15 ans pour acheter des SCPI rendant 5%, votre cash-flow initial est négatif (-350€/mois). Mais à TMI 30-41%, la déductibilité des intérêts change la donne.',
+    'scpi-direct-ou-assurance-vie': 'Janvier 2026 : vous hésitez entre souscrire des SCPI en direct ou les loger dans votre contrat d\'assurance-vie. La différence fiscale peut représenter plusieurs milliers d\'euros sur 15 ans. Les SCPI en direct offrent 5% de rendement brut, mais subissent l\'IR + 17,2% de PS. En assurance-vie, les revenus capitalisent sans fiscalité annuelle, mais les frais de contrat réduisent le rendement net.',
+    'scpi-credit-effet-levier-2025': 'Avec des taux de crédit immobilier autour de 3,5% en janvier 2026, l\'effet de levier sur les SCPI reste-t-il pertinent ? Si vous empruntez 100 000€ à 3,5% sur 15 ans pour acheter des SCPI rendant 5%, votre cash-flow initial est négatif (-350€/mois). Mais à TMI 30-41%, la déductibilité des intérêts change la donne.',
     'scpi-demembrement-strategie-retraite': 'Vous avez 45 ans et visez une retraite complémentaire à 60 ans. Le démembrement de SCPI permet d\'acheter la nue-propriété avec 25% de décote, puis de récupérer l\'usufruit gratuitement dans 15 ans. Sur 100 000€ investis en nue-propriété, vous récupérez un flux de 5 000€/an de loyers à la retraite, sans impôt pendant 15 ans.',
     default: `En ${new Date().getFullYear()}, la question "${template.mainKeyword}" revient constamment chez les épargnants. Avec des fonds euros à 2% et des SCPI entre 5% et 11%, l'écart de rendement justifie-t-il de prendre plus de risque ?`
   };
@@ -245,7 +245,7 @@ function generateKeyPoints(template: ArticleTemplate): string[] {
   return [
     `Analyse complète : ${template.searchIntent}`,
     `Profil cible : ${template.targetAudience}`,
-    `Chiffres réels 2025 : rendements, fiscalité, frais`,
+    `Chiffres réels 2026 : rendements, fiscalité, frais`,
     `Stratégies concrètes selon votre situation`,
     `FAQ avec réponses d'expert CGP ORIAS`
   ];
@@ -271,7 +271,7 @@ function generateComparativeSection(template: ArticleTemplate) {
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                <td className="p-4 font-semibold text-gray-900 dark:text-white">Rendement brut 2025</td>
+                <td className="p-4 font-semibold text-gray-900 dark:text-white">Rendement brut 2026</td>
                 <td className="p-4 text-center text-gray-700 dark:text-gray-300">2,0%</td>
                 <td className="p-4 text-center text-gray-700 dark:text-gray-300">5,0% - 11%</td>
               </tr>
@@ -399,8 +399,8 @@ function generateGuideSection(template: ArticleTemplate) {
 function generateDynamicFAQ(template: ArticleTemplate): { question: string; answer: string }[] {
   const baseFAQ = [
     {
-      question: `Quel est le rendement réel des SCPI en 2025 ?`,
-      answer: `Les SCPI françaises affichent un rendement brut moyen de 5,0% en 2025, tandis que les SCPI européennes atteignent 6,5% à 11%. Après fiscalité (TMI + 17,2% de prélèvements sociaux), le rendement net varie de 2,09% (TMI 41%) à 3,59% (TMI 11%) pour une SCPI à 5%, et jusqu'à 7,91% (TMI 11%) pour une SCPI européenne à 11%.`
+      question: `Quel est le rendement réel des SCPI en 2026 ?`,
+      answer: `Les SCPI françaises affichent un rendement brut moyen de 5,0% en 2026, tandis que les SCPI européennes atteignent 6,5% à 11%. Après fiscalité (TMI + 17,2% de prélèvements sociaux), le rendement net varie de 2,09% (TMI 41%) à 3,59% (TMI 11%) pour une SCPI à 5%, et jusqu'à 7,91% (TMI 11%) pour une SCPI européenne à 11%.`
     },
     {
       question: `Quels sont les frais à prévoir ?`,

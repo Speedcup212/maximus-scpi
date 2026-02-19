@@ -22,15 +22,15 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 1,
     slug: 'fonds-euros-ou-scpi',
-    title: 'Fonds euros ou SCPI : que faire en 2025 ?',
+    title: 'Fonds euros ou SCPI : que faire en 2026 ?',
     mainKeyword: 'fonds euros ou SCPI',
     searchIntent: 'comparer fonds euros et SCPI pour décider où placer son épargne',
     targetAudience: 'particuliers TMI 11–30 %, au moins 50 000 € sur assurance-vie',
     category: 'comparatifs',
     wordCountTarget: 3500,
     featured: true,
-    metaDescription: 'Comparatif détaillé 2025 entre fonds euros (2%) et SCPI (5-6,5%). Rendements, fiscalité, risques et stratégies selon votre profil TMI.',
-    keywords: ['fonds euros ou SCPI', 'assurance-vie', 'rendement 2025', 'fiscalité', 'TMI', 'arbitrage']
+    metaDescription: 'Comparatif détaillé 2026 entre fonds euros (2%) et SCPI (5-6,5%). Rendements, fiscalité, risques et stratégies selon votre profil TMI.',
+    keywords: ['fonds euros ou SCPI', 'assurance-vie', 'rendement 2026', 'fiscalité', 'TMI', 'arbitrage']
   },
   {
     id: 2,
@@ -92,7 +92,7 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'TMI 30–41 %, revenus stables, capacité d\'emprunt',
     category: 'strategies',
     wordCountTarget: 2600,
-    metaDescription: 'SCPI à crédit en 2025 : analyse effet de levier avec taux 3-4%. Calculs cash-flow, déductibilité intérêts.',
+    metaDescription: 'SCPI à crédit en 2026 : analyse effet de levier avec taux 3-4%. Calculs cash-flow, déductibilité intérêts.',
     keywords: ['SCPI à crédit', 'effet de levier', 'taux crédit', 'cash-flow', 'TMI 30%']
   },
   {
@@ -208,13 +208,13 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 12,
     slug: 'scpi-fiscales-malraux-deficit-foncier-2025',
-    title: 'SCPI fiscales 2025 : Malraux, déficit foncier, quel dispositif choisir ?',
+    title: 'SCPI fiscales 2026 : Malraux, déficit foncier, quel dispositif choisir ?',
     mainKeyword: 'SCPI fiscales',
     searchIntent: 'défiscaliser avec SCPI',
     targetAudience: 'TMI 41-45%, recherche défiscalisation',
     category: 'fiscalite',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI fiscales 2025 : Malraux, Pinel, déficit foncier. Réductions d\'impôt, rentabilité nette, risques. Comparatif complet.',
+    metaDescription: 'SCPI fiscales 2026 : Malraux, Pinel, déficit foncier. Réductions d\'impôt, rentabilité nette, risques. Comparatif complet.',
     keywords: ['SCPI fiscales', 'Malraux', 'Pinel', 'déficit foncier', 'défiscalisation']
   },
   {
@@ -264,19 +264,19 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'investisseurs thématiques',
     category: 'guides',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI santé 2025 : EHPAD, cliniques, cabinets médicaux. Rendement 5-6%, secteur résilient, vieillissement population.',
+    metaDescription: 'SCPI santé 2026 : EHPAD, cliniques, cabinets médicaux. Rendement 5-6%, secteur résilient, vieillissement population.',
     keywords: ['SCPI santé', 'EHPAD', 'immobilier médical', 'vieillissement', 'résilience']
   },
   {
     id: 14,
     slug: 'scpi-bureaux-tertiaire-teletravail-2025',
-    title: 'SCPI de bureaux en 2025 : quel impact du télétravail ?',
+    title: 'SCPI de bureaux en 2026 : quel impact du télétravail ?',
     mainKeyword: 'SCPI bureaux',
     searchIntent: 'impact télétravail sur bureaux',
     targetAudience: 'investisseurs analysant secteur tertiaire',
     category: 'guides',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI bureaux 2025 : impact télétravail, immeubles prime vs secondaire, Paris vs régions. Analyse secteur tertiaire.',
+    metaDescription: 'SCPI bureaux 2026 : impact télétravail, immeubles prime vs secondaire, Paris vs régions. Analyse secteur tertiaire.',
     keywords: ['SCPI bureaux', 'télétravail', 'immobilier tertiaire', 'Paris', 'prime']
   },
   {
@@ -288,7 +288,7 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'investisseurs analysant retail',
     category: 'guides',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI commerces 2025 : retail de proximité résilient, galeries alimentaires, murs boutiques. Stratégies anti e-commerce.',
+    metaDescription: 'SCPI commerces 2026 : retail de proximité résilient, galeries alimentaires, murs boutiques. Stratégies anti e-commerce.',
     keywords: ['SCPI commerces', 'retail', 'e-commerce', 'pieds immeuble', 'alimentaire']
   },
   {
@@ -300,7 +300,7 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'investisseurs thématiques e-commerce',
     category: 'guides',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI logistique 2025 : entrepôts e-commerce, baux longues durées, rendement 6-7%. Secteur croissance forte.',
+    metaDescription: 'SCPI logistique 2026 : entrepôts e-commerce, baux longues durées, rendement 6-7%. Secteur croissance forte.',
     keywords: ['SCPI logistique', 'entrepôts', 'e-commerce', 'baux longues', 'croissance']
   },
   {
@@ -312,7 +312,7 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'investisseurs résidentiel',
     category: 'guides',
     wordCountTarget: 2500,
-    metaDescription: 'SCPI résidentielles 2025 : logement locatif, résilience, rendement 4-5%, crise logement. Alternative immobilier direct.',
+    metaDescription: 'SCPI résidentielles 2026 : logement locatif, résilience, rendement 4-5%, crise logement. Alternative immobilier direct.',
     keywords: ['SCPI résidentielles', 'logement', 'locatif', 'habitation', 'résilience']
   },
   {
@@ -336,7 +336,7 @@ export const articleTemplates: ArticleTemplate[] = [
     targetAudience: 'investisseurs analysant rentabilité nette',
     category: 'guides',
     wordCountTarget: 2400,
-    metaDescription: 'Frais SCPI 2025 : souscription 8-12%, gestion 10-12% HT, impact rendement net. Optimisation via AV, comparaison sociétés.',
+    metaDescription: 'Frais SCPI 2026 : souscription 8-12%, gestion 10-12% HT, impact rendement net. Optimisation via AV, comparaison sociétés.',
     keywords: ['frais SCPI', 'souscription', 'gestion', 'TTC', 'rendement net']
   },
   {
@@ -356,14 +356,14 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 23,
     slug: 'rendement-scpi-2025-tdvm-taux-distribution',
-    title: 'Rendement SCPI 2025 : comprendre le TDVM et le taux de distribution',
-    mainKeyword: 'rendement SCPI 2025',
+    title: 'Rendement SCPI 2026 : comprendre le TDVM et le taux de distribution',
+    mainKeyword: 'rendement SCPI 2026',
     searchIntent: 'comprendre les indicateurs de performance',
     targetAudience: 'investisseurs analysant rendements',
     category: 'analyse',
     wordCountTarget: 2500,
-    metaDescription: 'Rendement SCPI 2025 : TDVM 4-6,5%, taux distribution sur VR. Calculs, comparaisons, top 10 SCPI rendement 2025.',
-    keywords: ['rendement SCPI', 'TDVM', 'taux distribution', '2025', 'performance']
+    metaDescription: 'Rendement SCPI 2026 : TDVM 4-6,5%, taux distribution sur VR. Calculs, comparaisons, top 10 SCPI rendement 2026.',
+    keywords: ['rendement SCPI', 'TDVM', 'taux distribution', '2026', 'performance']
   },
   {
     id: 27,

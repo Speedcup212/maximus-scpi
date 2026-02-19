@@ -27,9 +27,9 @@ const FondsEurosScpiArticle: React.FC<FondsEurosScpiArticleProps> = ({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <SEOHead
-        title="Fonds euros ou SCPI : que choisir pour votre épargne en 2025 ?"
-        description="Comparaison complète entre fonds euros et SCPI : rendements, fiscalité, risques. Guide complet pour optimiser votre assurance-vie en 2025."
-        keywords="fonds euros, SCPI, assurance-vie, rendement, fiscalité, TMI, investissement, épargne, 2025"
+title="Fonds euros ou SCPI : que choisir pour votre épargne en 2026 ?"
+      description="Comparaison complète entre fonds euros et SCPI : rendements, fiscalité, risques. Guide complet pour optimiser votre assurance-vie en 2026."
+        keywords="fonds euros, SCPI, assurance-vie, rendement, fiscalité, TMI, investissement, épargne, 2026"
         canonical="https://maximusscpi.com/fonds-euros-ou-scpi/"
       />
 

@@ -146,7 +146,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
       <SEOHead
         title={content.title}
         description={content.metaDescription}
-        keywords={[content.slug, content.type === 'sector' ? `scpi ${content.urlFilter.sector}` : content.type === 'geography' ? `scpi ${content.urlFilter.geo}` : content.scpiName || 'scpi', 'investissement SCPI', 'rendement SCPI 2025', 'meilleure SCPI', 'comparateur SCPI']}
+        keywords={[content.slug, content.type === 'sector' ? `scpi ${content.urlFilter.sector}` : content.type === 'geography' ? `scpi ${content.urlFilter.geo}` : content.scpiName || 'scpi', 'investissement SCPI', 'rendement SCPI 2026', 'meilleure SCPI', 'comparateur SCPI']}
         canonical={`https://maximusscpi.com/${content.slug}/`}
       />
 

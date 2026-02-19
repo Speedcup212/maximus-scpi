@@ -20,7 +20,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
         data={{
           title: "Expert SCPI ORIAS : Certification CIF | MaximusSCPI",
           description: "Eric Bellaiche, Conseiller en Investissement Financier certifié ORIAS. Expertise indépendante SCPI, transparence totale, conformité AMF.",
-          datePublished: "2025-01-15",
+          datePublished: "2026-01-15",
           dateModified: currentDate,
           url: "/expertise-orias-cif"
         }}

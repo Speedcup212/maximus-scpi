@@ -10,14 +10,14 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
   // PAGE D'ACCUEIL - HUB CENTRAL
   '/': [
     {
-      title: 'Comprendre les SCPI : Guide Complet 2025',
+      title: 'Comprendre les SCPI : Guide Complet 2026',
       url: '/comprendre-scpi',
       description: 'Fonctionnement, fiscalité, avantages et risques des SCPI expliqués simplement',
       icon: 'book-open',
       type: 'child'
     },
     {
-      title: 'Top 10 Meilleures SCPI de Rendement 2025',
+      title: 'Top 10 Meilleures SCPI de Rendement 2026',
       url: '/meilleures-scpi-rendement',
       description: 'Classement exclusif des SCPI les plus performantes avec rendements actualisés',
       icon: 'trophy',
@@ -56,7 +56,7 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       type: 'parent'
     },
     {
-      title: 'Meilleures SCPI de Rendement 2025',
+      title: 'Meilleures SCPI de Rendement 2026',
       url: '/meilleures-scpi-rendement',
       description: 'Maintenant que vous comprenez les SCPI, découvrez les meilleures',
       icon: 'trending-up',
@@ -70,7 +70,7 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       type: 'child'
     },
     {
-      title: 'SCPI Sans Frais d\'Entrée 2025',
+      title: 'SCPI Sans Frais d\'Entrée 2026',
       url: '/scpi-sans-frais',
       description: '0% de frais de souscription : maximisez votre capital investi dès le départ',
       icon: 'percent',
