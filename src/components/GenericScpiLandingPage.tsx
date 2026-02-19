@@ -11,7 +11,7 @@ import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
-import { createProspect } from '../utils/prospectService';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface GenericScpiLandingPageProps {
   scpiData: ScpiLandingData;
@@ -70,87 +70,26 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Vérification des variables d'environnement avant tout
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+      const result = await submitLead({
+        channel: 'scpi_page',
+        form_type: 'lead_contact',
+        context_slug: scpiData.slug,
+        identity: {
+          nom: formData.nom,
+          prenom: formData.prenom,
+          email: formData.email,
+          telephone: formData.telephone,
+        },
+        message: `Montant: ${formData.montant}. Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
+      });
 
-      if (!supabaseUrl || !supabaseAnonKey) {
-        console.error('❌ Configuration manquante:', {
-          hasUrl: !!supabaseUrl,
-          hasKey: !!supabaseAnonKey
-        });
-        throw new Error('CONFIGURATION_MANQUANTE');
+      if (!result.ok) {
+        throw new Error(result.error || 'Submission failed');
       }
 
-      // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
-      const utmMedium = sessionStorage.getItem('utm_medium') || urlParams.get('utm_medium') || null;
-      const utmCampaign = sessionStorage.getItem('utm_campaign') || urlParams.get('utm_campaign') || null;
-      const gclid = sessionStorage.getItem('gclid') || urlParams.get('gclid') || null;
-
-      console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-
-      const metadata = {
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        gclid,
-        source: isFromGoogleAds ? 'google_ads' : 'site',
-        form: 'generic_scpi_landing',
-        scpi: scpiData.nom,
-        montant: formData.montant,
-        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`
-      };
-
-      const leadData: any = {
-        nom: formData.nom,
-        prenom: formData.prenom,
-        email: formData.email,
-        telephone: formData.telephone,
-        scpi: [scpiData.nom],
-        metadata,
-        statut: 'nouveau'
-      };
-
-      if (isFromGoogleAds) {
-        leadData.utm_source = utmSource;
-        leadData.utm_medium = utmMedium;
-        leadData.utm_campaign = utmCampaign;
-        leadData.gclid = gclid;
-      } else {
-        leadData.type_contact = 'formulaire';
-      }
-
-      console.log('📤 Tentative d\'insertion dans prospects:', leadData);
-
-      // Tentative d'insertion dans Supabase avec .select() pour confirmer
-      const { data, error } = await createProspect(leadData);
-
-      if (error) {
-        console.error('❌ Erreur Supabase lors de l\'insertion:', {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-          hint: error.hint
-        });
-        throw new Error(`SUPABASE_ERROR: ${error.message}`);
-      }
-
-      // Vérification explicite du succès de l'insertion
-      if (!data || data.length === 0) {
-        console.error('❌ Aucune donnée retournée après insertion');
-        throw new Error('INSERTION_FAILED');
-      }
-
-      console.log('✅ Lead enregistré avec succès:', data);
       setSubmitStatus('success');
 
-      // Tracking Google Ads UNIQUEMENT après succès confirmé
       if (window.gtag) {
-        console.log('📊 Envoi des événements de conversion Google Ads');
         window.gtag('event', 'conversion', {
           'send_to': `AW-CONVERSION_ID/${scpiData.slug.toUpperCase().replace(/-/g, '_')}`,
           'value': parseFloat(formData.montant.replace(/[^0-9.-]+/g,'')) || 1.0,
@@ -165,9 +104,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
         });
       }
 
-      // Redirection UNIQUEMENT après succès confirmé
       setTimeout(() => {
-        console.log('✅ Redirection vers la page de remerciement');
         window.location.href = '/merci-landing-page.html';
       }, 1500);
 
@@ -182,36 +119,8 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
       });
 
     } catch (error: any) {
-      console.error('❌ ERREUR CRITIQUE lors de la soumission:', error);
-
-      // Messages d'erreur spécifiques selon le type d'erreur
-      if (error.message === 'CONFIGURATION_MANQUANTE') {
-        console.error('🔧 Action requise: Vérifier les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY');
-      } else if (error.message === 'IMPORT_SUPABASE_FAILED') {
-        console.error('🔧 Action requise: Vérifier que supabaseClient.ts est accessible');
-      } else if (error.message?.includes('SUPABASE_ERROR')) {
-        console.error('🔧 Action requise: Vérifier la connexion à Supabase et les permissions de la table');
-      } else if (error.message === 'INSERTION_FAILED') {
-        console.error('🔧 Action requise: Vérifier la structure de la table et les règles RLS');
-      }
-
-      // Log pour diagnostic complet
-      console.error('📋 Informations de diagnostic:', {
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-        timestamp: new Date().toISOString(),
-        scpiSlug: scpiData.slug,
-        formData: {
-          nom: formData.nom,
-          prenom: formData.prenom,
-          email: formData.email,
-          hasPhone: !!formData.telephone
-        },
-        error: error.message || error
-      });
-
+      console.error('Erreur lors de la soumission:', error);
       setSubmitStatus('error');
-      // PAS de redirection en cas d'erreur (respect de la règle stratégique)
     } finally {
       setIsSubmitting(false);
     }

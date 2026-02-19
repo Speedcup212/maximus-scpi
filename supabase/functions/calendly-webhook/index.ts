@@ -3,158 +3,91 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-interface CalendlyInvitee {
-  email: string;
-  name: string;
-  first_name?: string;
-  last_name?: string;
-  text_reminder_number?: string;
-  timezone?: string;
-}
-
-interface CalendlyEvent {
-  uri: string;
-  name: string;
-  start_time: string;
-  end_time: string;
-}
-
-interface CalendlyWebhookPayload {
-  event: string;
-  payload: {
-    event_type: {
-      uri: string;
-      name: string;
-    };
-    event: CalendlyEvent;
-    invitee: CalendlyInvitee;
-    questions_and_answers?: Array<{
-      question: string;
-      answer: string;
-    }>;
-    tracking?: {
-      utm_campaign?: string;
-      utm_source?: string;
-      utm_medium?: string;
-      utm_content?: string;
-      utm_term?: string;
-    };
-  };
-}
-
-Deno.serve(async (req: Request) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
+    return new Response("ok", { headers: corsHeaders, status: 200 });
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const webhookData: CalendlyWebhookPayload = await req.json();
-    console.log('📥 Received Calendly webhook:', JSON.stringify(webhookData, null, 2));
+    const webhookData = await req.json();
+    console.log("Received Calendly webhook:", JSON.stringify(webhookData, null, 2));
 
-    if (webhookData.event !== 'invitee.created') {
-      console.log('⚠️ Event type not processed:', webhookData.event);
+    if (webhookData.event !== "invitee.created") {
       return new Response(
-        JSON.stringify({ message: 'Event type not processed', event: webhookData.event }),
-        {
-          status: 200,
-          headers: {
-            ...corsHeaders,
-            'Content-Type': 'application/json',
-          },
-        }
+        JSON.stringify({ ok: true, message: "Event type not processed", event: webhookData.event }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
       );
     }
 
     const event = webhookData.payload.event;
+    const invitee = webhookData.payload.invitee;
     const tracking = webhookData.payload.tracking || {};
+    const qna = webhookData.payload.questions_and_answers || [];
 
-    console.log('📊 Tracking data received from Calendly:', tracking);
-
-    const eventStartTime = new Date(event.start_time).toLocaleString('fr-FR', {
-      dateStyle: 'full',
-      timeStyle: 'short',
-      timeZone: 'Europe/Paris'
+    const eventStartTime = new Date(event.start_time).toLocaleString("fr-FR", {
+      dateStyle: "full",
+      timeStyle: "short",
+      timeZone: "Europe/Paris",
     });
 
-    const isFromGoogleAds = tracking.utm_source === 'google' || tracking.utm_source === 'googleads';
-
-    console.log('🔍 Lead routing decision:', {
-      utm_source: tracking.utm_source,
-      utm_medium: tracking.utm_medium,
-      utm_campaign: tracking.utm_campaign,
-      isFromGoogleAds,
-      targetTable: 'prospects'
-    });
-
-    const leadData: any = {
-      nom: 'RDV Calendly',
-      email: 'calendly@rdv.com',
-      creneau: eventStartTime,
-      metadata: {
-        utm_source: tracking.utm_source,
-        utm_medium: tracking.utm_medium,
-        utm_campaign: tracking.utm_campaign,
-        source: isFromGoogleAds ? 'google_ads' : 'calendly',
-        form: 'calendly_webhook'
-      },
-      statut: 'nouveau'
-    };
-
-    if (isFromGoogleAds) {
-      leadData.utm_source = tracking.utm_source;
-      leadData.utm_medium = tracking.utm_medium;
-      leadData.utm_campaign = tracking.utm_campaign;
-    } else {
-      leadData.type_contact = 'calendly';
+    const answersObj: Record<string, string> = {};
+    for (const item of qna) {
+      answersObj[item.question] = item.answer;
     }
+    answersObj.event_name = event.name;
+    answersObj.event_start = eventStartTime;
 
-    const { data, error } = await supabase
-      .from('prospects')
-      .insert([leadData])
-      .select();
+    const { error } = await supabase.from("contact_submissions").insert([
+      {
+        request_id: crypto.randomUUID(),
+        channel: "contact",
+        context_type: "calendly",
+        context_slug: event.name,
+        form_type: "lead_rdv",
+
+        email: (invitee.email || "calendly@rdv.com").trim().toLowerCase(),
+        nom: String(invitee.name || "Calendly").trim(),
+        prenom: null,
+        telephone: invitee.text_reminder_number
+          ? String(invitee.text_reminder_number).trim()
+          : null,
+
+        answers: answersObj,
+
+        utm_source: tracking.utm_source || null,
+        utm_medium: tracking.utm_medium || null,
+        utm_campaign: tracking.utm_campaign || null,
+        referrer: null,
+        page_url: "/calendly-webhook",
+
+        status: "new",
+      },
+    ]);
 
     if (error) {
-    console.error('❌ Error inserting lead into prospects:', error);
+      console.error("Error inserting into contact_submissions:", error);
       throw error;
     }
 
-    console.log('✅ Lead created successfully in prospects:', data);
+    console.log("Calendly lead saved to contact_submissions");
 
     return new Response(
-      JSON.stringify({ success: true, lead: data }),
-      {
-        status: 200,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-        },
-      }
+      JSON.stringify({ ok: true }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },
     );
-  } catch (error) {
-    console.error('Error processing webhook:', error);
+  } catch (e) {
+    console.error("Error processing webhook:", e);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
-      }),
-      {
-        status: 500,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-        },
-      }
+      JSON.stringify({ ok: false, error: String(e) }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 500 },
     );
   }
 });

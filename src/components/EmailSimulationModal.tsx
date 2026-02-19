@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Mail, Send, TrendingUp, Target, Shield, Leaf, Clock, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
-import { createProspect } from '../utils/prospectService';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface EmailSimulationModalProps {
   isOpen: boolean;
@@ -71,85 +71,22 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
     setStatus(null);
 
     try {
-      // Lire les paramètres depuis sessionStorage
-      const utmSource = sessionStorage.getItem('utm_source');
-      const utmMedium = sessionStorage.getItem('utm_medium');
-      const utmCampaign = sessionStorage.getItem('utm_campaign');
-      const gclid = sessionStorage.getItem('gclid');
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-
-      console.log('🔍 EmailSimulationModal - Insertion prospects:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const leadData: any = {
-        nom: 'Non renseigné',
-        email: formValues.email,
-        profil_risque: profilRisque,
-        profil_esg: profilESG,
-        scpi: scpiNames,
-        portfolio_selection: scpiNames.length > 0 ? scpiNames : null,
-        horizon: horizon,
-        objectifs: objectifs,
-        tmi: tmi,
-        metadata: {
-          utm_source: utmSource,
-          utm_medium: utmMedium,
-          utm_campaign: utmCampaign,
-          gclid,
-          source: isFromGoogleAds ? 'google_ads' : 'site',
-          form: 'email_simulation',
+      const result = await submitLead({
+        channel: 'profil_investisseur',
+        form_type: 'lead_simulation',
+        context_slug: 'simulation-email',
+        identity: { email: formValues.email },
+        answers: {
+          profil_risque: profilRisque,
+          profil_esg: profilESG,
           scpi: scpiNames,
-          horizon,
-          objectifs,
-          tmi
+          portfolio_selection: scpiNames.length > 0 ? scpiNames : null,
+          horizon, objectifs, tmi,
         },
-        statut: 'nouveau'
-      };
+      });
 
-      if (isFromGoogleAds) {
-        leadData.utm_source = utmSource;
-        leadData.utm_medium = utmMedium;
-        leadData.utm_campaign = utmCampaign;
-        leadData.gclid = gclid;
-      } else {
-        leadData.type_contact = 'formulaire';
-      }
-
-      const { data, error } = await createProspect(leadData);
-
-      if (error) {
-        console.error("Erreur Supabase:", error);
-        throw new Error(`Erreur: ${error.message}`);
-      }
-
-      console.log("✅ Simulation email enregistrée :", data);
-
-      const emailData = {
-        email: formValues.email,
-        profil_risque: profilRisque,
-        profil_esg: profilESG,
-        scpi: scpiNames,
-        portfolio_selection: scpiNames.length > 0 ? scpiNames : null,
-        horizon: horizon,
-        objectifs: objectifs,
-        tmi: tmi,
-        source: 'Simulation Email',
-      };
-
-      const emailApiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-lead-notification`;
-      const emailHeaders = {
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-      };
-
-      try {
-        await fetch(emailApiUrl, {
-          method: 'POST',
-          headers: emailHeaders,
-          body: JSON.stringify(emailData),
-        });
-      } catch (emailError) {
-        console.error("Erreur envoi email (non bloquant):", emailError);
+      if (!result.ok) {
+        throw new Error(result.error || 'Erreur insertion');
       }
 
       setStatus("✅ Votre simulation a été envoyée ! Vous recevrez une réponse rapidement.");

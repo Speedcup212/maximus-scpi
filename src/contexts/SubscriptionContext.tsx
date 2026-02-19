@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { SubscriptionState, SubscriptionContextType, SubscriptionStep, CoSubscriberState } from '../types/subscription';
 import { validateEmail, validatePhone, validatePostalCode, validateNif } from '../utils/subscriptionValidation';
+import { submitLead } from '../utils/leadSubmitter';
 
 const initialState: SubscriptionState = {
   // Étape 1
@@ -349,37 +350,29 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const submitPreDossier = useCallback(async () => {
     try {
-      // Vérifier que l'email et le téléphone sont présents
       if (!state.email || !state.phone) {
         throw new Error('L\'email et le téléphone sont obligatoires pour la soumission.');
       }
 
-      // Extraire email et téléphone pour les colonnes séparées
       const { email, phone, ...restOfState } = state;
-      
-      // Préparer l'objet simulation_result avec TOUT le reste de l'état
-      // Inclure aussi email et phone dans simulation_result pour avoir une trace complète
+
       const token = `predossier_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
-      // Forcer les valeurs pour NIF et TMI (champs retirés du formulaire)
+
       const stateWithDefaults = {
         ...restOfState,
         nif: restOfState.nif || 'A voir en RDV',
         averageTaxRate: restOfState.averageTaxRate || 0,
-        // Si co-souscripteur, forcer aussi ses valeurs
         coSubscriber: restOfState.coSubscriber ? {
           ...restOfState.coSubscriber,
           nif: restOfState.coSubscriber.nif || 'A voir en RDV',
           averageTaxRate: restOfState.coSubscriber.averageTaxRate || 0,
         } : undefined,
       };
-      
+
       const simulationResult = {
         ...stateWithDefaults,
-        // Inclure email et phone dans simulation_result aussi pour avoir une trace complète
         email,
         phone,
-        // Convertir la date de naissance au format ISO si nécessaire (pour faciliter les requêtes)
         birthDateFormatted: (() => {
           if (!state.birthDate) return null;
           const parts = state.birthDate.split('/');
@@ -389,62 +382,31 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
           if (/^\d{4}-\d{2}-\d{2}$/.test(state.birthDate)) {
             return state.birthDate;
           }
-          return state.birthDate; // Garder la valeur originale si le format n'est pas reconnu
+          return state.birthDate;
         })(),
-        // Métadonnées de soumission
         submittedAt: new Date().toISOString(),
         token
       };
-      
-      // Enregistrer en base dans la table prospects
-      const { supabase } = await import('../supabaseClient');
-      if (!supabase) {
-        throw new Error('Supabase not configured');
-      }
-      
-      // DEBUG - Vérification de la connexion Supabase
-      console.log("DEBUG SubscriptionContext - Tentative d'insertion dans 'prospects'");
-      console.log("DEBUG SubscriptionContext - Supabase URL utilisée:", import.meta.env.VITE_SUPABASE_URL);
-      
-      const { data, error } = await supabase
-        .from('prospects')
-        .insert([{
-          email: email,
+
+      const result = await submitLead({
+        channel: 'souscription',
+        form_type: 'lead_souscription',
+        context_slug: 'parcours-souscription',
+        identity: {
+          nom: state.lastName,
+          prenom: state.firstName,
+          email,
           telephone: phone,
-          simulation_result: simulationResult
-        }])
-        .select();
+        },
+        answers: simulationResult as Record<string, unknown>,
+      });
 
-      if (error) {
-        console.error('Erreur Supabase lors de l\'enregistrement:', {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-          hint: error.hint
-        });
-        
-        // Créer un message d'erreur plus détaillé
-        let errorMessage = 'Une erreur est survenue lors de l\'enregistrement.';
-        if (error.code === '23505') {
-          errorMessage = 'Cet email existe déjà dans notre base de données.';
-        } else if (error.code === 'PGRST116') {
-          errorMessage = 'Erreur de connexion à la base de données. Veuillez réessayer.';
-        } else if (error.message) {
-          errorMessage = `Erreur: ${error.message}`;
-        }
-        
-        throw new Error(errorMessage);
+      if (!result.ok) {
+        throw new Error(result.error || 'Une erreur est survenue lors de l\'enregistrement.');
       }
 
-      // Vérifier que les données ont bien été insérées
-      if (!data || data.length === 0) {
-        throw new Error('Aucune donnée n\'a été enregistrée. Veuillez réessayer.');
-      }
-
-      // Mettre à jour le state avec le token
       setState(prev => ({ ...prev, subscriptionToken: token, submittedAt: new Date() }));
 
-      // Tracking
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', 'predossier_submitted', {
           'event_category': 'subscription_funnel',
@@ -454,12 +416,11 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
         });
       }
 
-      return { success: true, token, data };
+      return { success: true, token, data: null };
 
     } catch (error: any) {
       console.error('Erreur lors de la soumission:', error);
-      
-      // Re-lancer l'erreur avec un message formaté
+
       if (error instanceof Error) {
         throw error;
       }

@@ -12,7 +12,7 @@ import Header from './Header';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
-import { createProspect } from '../utils/prospectService';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface IrokoZenLandingPageProps {
   onNavigateHome?: () => void;
@@ -70,53 +70,21 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
-      const utmMedium = sessionStorage.getItem('utm_medium') || urlParams.get('utm_medium') || null;
-      const utmCampaign = sessionStorage.getItem('utm_campaign') || urlParams.get('utm_campaign') || null;
-      const gclid = sessionStorage.getItem('gclid') || urlParams.get('gclid') || null;
+      const result = await submitLead({
+        channel: 'scpi_page',
+        form_type: 'lead_contact',
+        context_slug: 'iroko-zen',
+        identity: {
+          nom: formData.nom,
+          prenom: formData.prenom,
+          email: formData.email,
+          telephone: formData.telephone,
+        },
+        message: `Montant: ${formData.montant}. Objectif: ${formData.objectif}. ${formData.commentaire || ''}`,
+      });
 
-      console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-
-      const metadata = {
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        gclid,
-        source: isFromGoogleAds ? 'google_ads' : 'site',
-        form: 'iroko_zen_landing',
-        scpi: 'Iroko Zen',
-        montant: formData.montant,
-        commentaire: `Objectif: ${formData.objectif}. ${formData.commentaire || ''}`
-      };
-
-      const leadData: any = {
-        nom: formData.nom,
-        prenom: formData.prenom,
-        email: formData.email,
-        telephone: formData.telephone,
-        scpi: ['Iroko Zen'],
-        metadata,
-        statut: 'nouveau'
-      };
-
-      if (isFromGoogleAds) {
-        leadData.utm_source = utmSource;
-        leadData.utm_medium = utmMedium;
-        leadData.utm_campaign = utmCampaign;
-        leadData.gclid = gclid;
-      } else {
-        leadData.type_contact = 'formulaire';
-      }
-
-      const { error } = await createProspect(leadData);
-
-      if (error) {
-        console.error('Erreur Supabase:', error);
-        throw error;
+      if (!result.ok) {
+        throw new Error(result.error || 'Submission failed');
       }
 
       setSubmitStatus('success');

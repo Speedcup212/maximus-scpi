@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { submitLead } from '../utils/leadSubmitter';
 
 const LeadMagnetEmailForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,50 +19,41 @@ const LeadMagnetEmailForm: React.FC = () => {
     setIsSubmitting(true);
 
     try {
+      // Sender CRM call (fire before submitLead so contact is added regardless)
       const { supabase } = await import('../supabaseClient');
-      if (!supabase) {
-        alert('Service temporairement indisponible. Réessayez plus tard.');
-        setIsSubmitting(false);
-        return;
+      if (supabase) {
+        const { data: senderData, error: senderError } = await supabase.functions.invoke('sender-add-contact', {
+          body: {
+            email,
+            firstname: prenom,
+            lastname: nom,
+            group_id: 'LM_SCPI_SansFrais',
+            fields: {
+              source: 'Lead Magnet - Guide Comparatif',
+              date_telechargement: new Date().toISOString()
+            }
+          }
+        });
+
+        if (senderError) {
+          console.error('Erreur Sender:', senderError);
+        } else {
+          console.log('Contact ajouté à Sender:', senderData);
+        }
       }
 
-      // 1️⃣ Appeler l'edge function Sender directement
-      console.log('🚀 Appel Sender en cours...');
-      const { data: senderData, error: senderError } = await supabase.functions.invoke('sender-add-contact', {
-        body: {
+      const result = await submitLead({
+        channel: 'lead_magnet',
+        form_type: 'lead_magnet',
+        context_slug: 'guide-iroko-novaxia',
+        identity: {
+          nom,
+          prenom,
           email,
-          firstname: prenom,
-          lastname: nom,
-          group_id: 'LM_SCPI_SansFrais',
-          fields: {
-            source: 'Lead Magnet - Guide Comparatif',
-            date_telechargement: new Date().toISOString()
-          }
-        }
+        },
       });
 
-      if (senderError) {
-        console.error('❌ Erreur Sender:', senderError);
-        console.error('Détails:', JSON.stringify(senderError, null, 2));
-      } else {
-        console.log('✅ Contact ajouté à Sender:', senderData);
-      }
-
-      // 2️⃣ Sauvegarder dans Supabase
-      const { error } = await supabase
-        .from('leads_pdf_comparatif')
-        .insert([{
-          email,
-          prenom,
-          nom,
-          source_page: 'Guide Comparatif Iroko Zen vs Novaxia Neo',
-          consentement_marketing: true,
-          consentement_date: new Date().toISOString(),
-          source: 'Lead Magnet - Guide Comparatif'
-        }]);
-
-      if (error) {
-        console.error('Erreur Supabase:', error);
+      if (!result.ok) {
         alert('Une erreur est survenue. Veuillez réessayer.');
         setIsSubmitting(false);
         return;
@@ -74,7 +66,6 @@ const LeadMagnetEmailForm: React.FC = () => {
         });
       }
 
-      // 📧 Stocker l'email pour la page de remerciement
       localStorage.setItem('lead_email', email);
 
       window.location.href = `/merci-guide-comparatif.html?email=${encodeURIComponent(email)}`;

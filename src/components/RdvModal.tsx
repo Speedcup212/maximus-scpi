@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Shield, Leaf } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { createProspect } from '../utils/prospectService';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface RdvModalProps {
   isOpen: boolean;
@@ -83,78 +83,27 @@ const RdvModal: React.FC<RdvModalProps> = ({
     setStatus(null);
 
     try {
-      // Lire les paramètres depuis sessionStorage
-      const utmSource = sessionStorage.getItem('utm_source');
-      const utmMedium = sessionStorage.getItem('utm_medium');
-      const utmCampaign = sessionStorage.getItem('utm_campaign');
-      const gclid = sessionStorage.getItem('gclid');
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-
-      console.log('🔍 RdvModal - Insertion prospects:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const leadData: any = {
-        nom: formValues.name,
-        prenom: '',
-        email: formValues.email,
-        telephone: formValues.phone,
-        exactitude_info: true,
-        comprehension_risques: true,
-        accord_cif: true,
-        comprehension_process: true,
-        metadata: {
+      const result = await submitLead({
+        channel: 'contact',
+        form_type: 'lead_rdv',
+        context_slug: window.location.pathname,
+        identity: {
+          nom: formValues.name,
+          email: formValues.email,
+          telephone: formValues.phone,
+        },
+        message: formValues.commentaire,
+        answers: {
           montant: formValues.montant,
           creneau: formValues.creneau,
-          commentaire: formValues.commentaire,
-          source: 'popup-rdv',
-          page: window.location.pathname
-        }
-      };
+          profil_risque: profilRisque,
+          profil_esg: profilESG,
+          scpi: uniqueScpi.length > 0 ? uniqueScpi : scpi,
+        },
+      });
 
-      if (isFromGoogleAds) {
-        leadData.metadata.utm_source = utmSource;
-        leadData.metadata.utm_medium = utmMedium;
-        leadData.metadata.utm_campaign = utmCampaign;
-        leadData.metadata.gclid = gclid;
-      }
-
-      const { data, error } = await createProspect(leadData);
-
-      if (error) {
-        console.error("Erreur Supabase:", error);
-        throw new Error(`Erreur: ${error.message}`);
-      }
-
-      console.log("✅ Enregistrement créé :", data);
-
-      const emailData = {
-        nom: formValues.name,
-        email: formValues.email,
-        telephone: formValues.phone,
-        montant: formValues.montant,
-        commentaire: formValues.commentaire,
-        creneau: formValues.creneau,
-        profil_risque: profilRisque,
-        profil_esg: profilESG,
-        scpi: scpi,
-        portfolio_selection: uniqueScpi.length > 0 ? uniqueScpi : null,
-        source: 'Souscription',
-      };
-
-      const emailApiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-lead-notification`;
-      const emailHeaders = {
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-      };
-
-      try {
-        await fetch(emailApiUrl, {
-          method: 'POST',
-          headers: emailHeaders,
-          body: JSON.stringify(emailData),
-        });
-      } catch (emailError) {
-        console.error("Erreur envoi email (non bloquant):", emailError);
+      if (!result.ok) {
+        throw new Error(result.error || 'Erreur insertion');
       }
 
       setStatus("✅ Votre demande a bien été envoyée ! Vous recevrez une réponse rapidement.");

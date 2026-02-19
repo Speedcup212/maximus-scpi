@@ -15,6 +15,7 @@ import ThematicSimulator from './ThematicSimulator';
 import SemanticLinks from './SemanticLinks';
 import Logo from './Logo';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface OptimizedThematicLandingPageProps {
   pageKey: string;
@@ -51,6 +52,8 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
 
 
   const [formData, setFormData] = useState({
+    nom: '',
+    prenom: '',
     email: '',
     telephone: '',
     commentaire: ''
@@ -85,95 +88,27 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
 
     try {
       // Vérification des variables d'environnement avant tout
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !supabaseAnonKey) {
-        console.error('❌ Configuration manquante:', {
-          hasUrl: !!supabaseUrl,
-          hasKey: !!supabaseAnonKey
-        });
-        throw new Error('CONFIGURATION_MANQUANTE');
-      }
-
-      // Import du client Supabase
-      let supabase;
-      try {
-        const supabaseModule = await import('../supabaseClient');
-        supabase = supabaseModule.supabase;
-        console.log('✅ Client Supabase chargé avec succès');
-        if (!supabase) {
-          throw new Error('SUPABASE_NOT_CONFIGURED');
-        }
-      } catch (importError) {
-        console.error('❌ Erreur lors de l\'import de Supabase:', importError);
-        throw new Error('IMPORT_SUPABASE_FAILED');
-      }
-
-      // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
-      const utmMedium = sessionStorage.getItem('utm_medium') || urlParams.get('utm_medium') || null;
-      const utmCampaign = sessionStorage.getItem('utm_campaign') || urlParams.get('utm_campaign') || null;
-      const gclid = sessionStorage.getItem('gclid') || urlParams.get('gclid') || null;
-
-      console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-      const tableName = isFromGoogleAds ? 'leads_ads_formulaire' : 'leads_pdf_comparatif';
-
-      let leadData: any = {};
-
-      if (isFromGoogleAds) {
-        // Structure pour leads_ads_formulaire
-        leadData = {
+      const result = await submitLead({
+        channel: 'comparateur',
+        form_type: 'lead_contact',
+        context_type: 'thematic',
+        context_slug: pageKey,
+        identity: {
           nom: formData.nom || '',
           prenom: formData.prenom || '',
           email: formData.email,
           telephone: formData.telephone || '',
-          montant: '',
-          commentaire: `${formData.commentaire || ''}. Page: ${pageData.title}`,
-          scpi: [],
-          statut: 'nouveau',
-          utm_source: utmSource,
-          utm_medium: utmMedium,
-          utm_campaign: utmCampaign,
-          gclid: gclid
-        };
-      } else {
-        // Structure pour leads_pdf_comparatif
-        leadData = {
-          nom: formData.nom || 'Non renseigné',
-          prenom: formData.prenom || 'Non renseigné',
-          email: formData.email,
-          source_page: window.location.pathname,
-          source: pageData.title,
-          consentement_marketing: true,
-          consentement_date: new Date().toISOString()
-        };
+        },
+        message: formData.commentaire || '',
+        answers: { page_title: pageData.title },
+      });
+
+      if (!result.ok) {
+        throw new Error(`SUPABASE_ERROR: ${result.error}`);
       }
 
-      console.log('📤 Tentative d\'insertion dans', tableName, ':', leadData);
-
-      // Tentative d'insertion dans Supabase
-      const { error } = await supabase
-        .from(tableName)
-        .insert([leadData]);
-
-      if (error) {
-        console.error('❌ Erreur Supabase lors de l\'insertion:', {
-          code: error.code,
-          message: error.message,
-          details: error.details,
-          hint: error.hint
-        });
-        throw new Error(`SUPABASE_ERROR: ${error.message}`);
-      }
-
-      console.log('✅ Lead enregistré avec succès dans Supabase');
       setSubmitStatus('success');
 
-      // Appel Sender pour ajouter le contact au groupe LM_SCPI_SansFrais
       const senderGroupId = 'LM_SCPI_SansFrais';
       try {
         console.log('📧 Ajout du contact à Sender, groupe:', senderGroupId);
@@ -229,6 +164,8 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
       window.location.href = '/merci-landing-page.html';
 
       setFormData({
+        nom: '',
+        prenom: '',
         email: '',
         telephone: '',
         commentaire: ''
@@ -410,6 +347,37 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-sm font-semibold text-gray-800 mb-2">
+                              Prénom *
+                            </label>
+                            <input
+                              type="text"
+                              name="prenom"
+                              required
+                              value={formData.prenom}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                              placeholder="Jean"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-semibold text-gray-800 mb-2">
+                              Nom *
+                            </label>
+                            <input
+                              type="text"
+                              name="nom"
+                              required
+                              value={formData.nom}
+                              onChange={handleChange}
+                              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                              placeholder="Dupont"
+                            />
+                          </div>
+                        </div>
+
                         <div>
                           <label className="block text-sm font-semibold text-gray-800 mb-2">
                             Adresse e-mail *

@@ -2,132 +2,82 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-interface LeadData {
-  nom?: string;
-  email: string;
-  telephone?: string;
-  montant?: string;
-  commentaire?: string;
-  creneau?: string;
-  profil_risque?: string;
-  profil_esg?: string;
-  scpi?: string[];
-  portfolio_selection?: string[];
-  horizon?: string;
-  objectifs?: string;
-  tmi?: string;
-  source?: string;
-}
-
-Deno.serve(async (req: Request) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
+    return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    const leadData: LeadData = await req.json();
-    console.log('Received lead data:', JSON.stringify(leadData, null, 2));
+    const payload = await req.json();
 
-    const emailBody = `
-      <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-            .content { background: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px; }
-            .field { margin-bottom: 15px; padding: 10px; background: white; border-radius: 4px; }
-            .label { font-weight: bold; color: #1e40af; }
-            .value { color: #4b5563; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h2>Nouveau Lead MaximusSCPI</h2>
-            </div>
-            <div class="content">
-              ${leadData.nom ? `<div class="field"><span class="label">Nom:</span> <span class="value">${leadData.nom}</span></div>` : ''}
-              <div class="field"><span class="label">Email:</span> <span class="value">${leadData.email}</span></div>
-              ${leadData.telephone ? `<div class="field"><span class="label">Téléphone:</span> <span class="value">${leadData.telephone}</span></div>` : ''}
-              ${leadData.montant ? `<div class="field"><span class="label">Montant:</span> <span class="value">${leadData.montant}</span></div>` : ''}
-              ${leadData.creneau ? `<div class="field"><span class="label">Créneau:</span> <span class="value">${leadData.creneau}</span></div>` : ''}
-              ${leadData.profil_risque ? `<div class="field"><span class="label">Profil Risque:</span> <span class="value">${leadData.profil_risque}</span></div>` : ''}
-              ${leadData.profil_esg ? `<div class="field"><span class="label">Profil ESG:</span> <span class="value">${leadData.profil_esg}</span></div>` : ''}
-              ${leadData.horizon ? `<div class="field"><span class="label">Horizon:</span> <span class="value">${leadData.horizon}</span></div>` : ''}
-              ${leadData.objectifs ? `<div class="field"><span class="label">Objectifs:</span> <span class="value">${leadData.objectifs}</span></div>` : ''}
-              ${leadData.tmi ? `<div class="field"><span class="label">TMI:</span> <span class="value">${leadData.tmi}</span></div>` : ''}
-              ${leadData.scpi && leadData.scpi.length > 0 ? `<div class="field"><span class="label">SCPI:</span> <span class="value">${leadData.scpi.join(', ')}</span></div>` : ''}
-              ${leadData.portfolio_selection && leadData.portfolio_selection.length > 0 ? `<div class="field"><span class="label">Portfolio sélectionné (${leadData.portfolio_selection.length} SCPI):</span> <span class="value">${leadData.portfolio_selection.join(', ')}</span></div>` : ''}
-              ${leadData.commentaire ? `<div class="field"><span class="label">Commentaire:</span> <span class="value">${leadData.commentaire}</span></div>` : ''}
-              <div class="field"><span class="label">Source:</span> <span class="value">${leadData.source || 'Web'}</span></div>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    const resendApiKey = Deno.env.get('RESEND_API_KEY');
-    if (!resendApiKey) {
-      console.error('RESEND_API_KEY is not configured');
-      throw new Error('RESEND_API_KEY is not configured');
+    const email = payload.email;
+    if (!email) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "email missing" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
-    console.log('Sending email to maximusscpi@gmail.com...');
+    const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "eric.bellaiche@gmail.com";
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    if (!RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not configured");
+    }
 
-    const emailResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
+    const fullName = `${payload.prenom ?? ""} ${payload.nom ?? ""}`.trim() || "Non renseigné";
+    const subject = `Nouveau lead — ${payload.form_type ?? "web"} (${payload.context_slug ?? "n/a"})`;
+    const text = [
+      `Date: ${new Date().toISOString()}`,
+      `Email: ${email}`,
+      `Nom: ${fullName}`,
+      `Téléphone: ${payload.telephone ?? ""}`,
+      `Page: ${payload.page_url ?? ""}`,
+      `Form: ${payload.form_type ?? ""}`,
+      `Channel: ${payload.channel ?? ""}`,
+      `Context: ${payload.context_slug ?? ""}`,
+      `UTM: ${payload.utm_source ?? ""} / ${payload.utm_medium ?? ""} / ${payload.utm_campaign ?? ""}`,
+      `gclid: ${payload.gclid ?? ""}`,
+      `Message: ${payload.message ?? ""}`,
+      `Answers: ${JSON.stringify(payload.answers ?? {})}`,
+      `request_id: ${payload.request_id ?? ""}`,
+    ].join("\n");
+
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${resendApiKey}`,
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: 'MaximusSCPI <onboarding@resend.dev>',
-        to: ['maximusscpi@gmail.com'],
-        subject: `Nouveau Lead - ${leadData.source || 'Web'} - ${leadData.email}`,
-        html: emailBody,
+        from: "MaximusSCPI <onboarding@resend.dev>",
+        to: [ADMIN_EMAIL],
+        subject,
+        text,
       }),
     });
 
-    if (!emailResponse.ok) {
-      const errorText = await emailResponse.text();
-      console.error('Resend API Error:', errorText);
-      throw new Error(`Failed to send email: ${errorText}`);
+    if (!r.ok) {
+      const errText = await r.text();
+      console.error("Resend API error:", errText);
+      throw new Error(`Resend error: ${errText}`);
     }
 
-    const result = await emailResponse.json();
-    console.log('Email sent successfully:', result);
+    const result = await r.json();
+    console.log("Email sent:", result.id, "to:", ADMIN_EMAIL);
 
     return new Response(
-      JSON.stringify({ success: true, emailId: result.id }),
-      {
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-        },
-      }
+      JSON.stringify({ ok: true, emailId: result.id }),
+      { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (e) {
+    console.error("send-lead-notification error:", e);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
-      }),
-      {
-        status: 500,
-        headers: {
-          ...corsHeaders,
-          'Content-Type': 'application/json',
-        },
-      }
+      JSON.stringify({ ok: false, error: String(e) }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

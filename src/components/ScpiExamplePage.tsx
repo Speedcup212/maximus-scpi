@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import Logo from './Logo';
 import Header from './Header';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface ScpiExamplePageProps {
   onNavigateHome?: () => void;
@@ -74,45 +75,25 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Import Supabase dynamiquement
-      const { supabase } = await import('../supabaseClient');
-      if (!supabase) {
-        throw new Error('Supabase not configured');
-      }
-
-      // Récupérer les paramètres UTM et GCLID depuis l'URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = urlParams.get('utm_source') || null;
-      const utmMedium = urlParams.get('utm_medium') || null;
-      const utmCampaign = urlParams.get('utm_campaign') || null;
-      const gclid = urlParams.get('gclid') || null;
-
-      // Insérer dans la nouvelle table dédiée Google Ads Comète
-      const { error } = await supabase
-        .from('google_ads_comete_leads')
-        .insert([{
+      const result = await submitLead({
+        channel: 'scpi_page',
+        form_type: 'lead_contact',
+        context_slug: 'comete',
+        identity: {
           nom: formData.nom,
           prenom: formData.prenom,
           email: formData.email,
           telephone: formData.telephone,
-          montant_investissement: formData.montant,
-          commentaire: formData.commentaire || null,
-          source: 'Google Ads - SCPI Comète',
-          utm_source: utmSource,
-          utm_medium: utmMedium,
-          utm_campaign: utmCampaign,
-          gclid: gclid,
-          statut: 'nouveau'
-        }]);
+        },
+        message: `Montant: ${formData.montant}. ${formData.commentaire || ''}`,
+      });
 
-      if (error) {
-        console.error('Erreur Supabase:', error);
-        throw error;
+      if (!result.ok) {
+        throw new Error(result.error || 'Submission failed');
       }
 
       setSubmitStatus('success');
 
-      // Tracking Google Ads conversion
       if (window.gtag) {
         window.gtag('event', 'conversion', {
           'send_to': 'AW-CONVERSION_ID/SCPI_COMETE',
@@ -122,7 +103,6 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
         });
       }
 
-      // Envoyer aussi à Google Analytics
       if (window.gtag) {
         window.gtag('event', 'generate_lead', {
           'event_category': 'SCPI Comète',
@@ -131,7 +111,6 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
         });
       }
 
-      // Redirect to thank you page after short delay
       setTimeout(() => {
         window.location.href = '/merci-landing-page.html';
       }, 1500);

@@ -13,6 +13,7 @@ export const createProspect = async (leadData: Record<string, any>) => {
     commentaire,
     montant,
     creneau,
+    request_id,
     metadata: existingMetadata,
     ...baseLead
   } = leadData;
@@ -21,7 +22,8 @@ export const createProspect = async (leadData: Record<string, any>) => {
     ...(existingMetadata || {}),
     ...(commentaire !== undefined ? { commentaire } : {}),
     ...(montant !== undefined ? { montant } : {}),
-    ...(creneau !== undefined ? { creneau } : {})
+    ...(creneau !== undefined ? { creneau } : {}),
+    ...(request_id ? { request_id } : {}),
   };
 
   return supabase

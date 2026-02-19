@@ -11,7 +11,7 @@ import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
-import { createProspect } from '../utils/prospectService';
+import { submitLead } from '../utils/leadSubmitter';
 
 interface ScpiLandingPageProps {
   scpiKey: string;
@@ -89,58 +89,25 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Lire les paramètres depuis sessionStorage (priorité) ou URL (fallback)
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = sessionStorage.getItem('utm_source') || urlParams.get('utm_source') || null;
-      const utmMedium = sessionStorage.getItem('utm_medium') || urlParams.get('utm_medium') || null;
-      const utmCampaign = sessionStorage.getItem('utm_campaign') || urlParams.get('utm_campaign') || null;
-      const gclid = sessionStorage.getItem('gclid') || urlParams.get('gclid') || null;
+      const result = await submitLead({
+        channel: 'scpi_page',
+        form_type: 'lead_contact',
+        context_slug: scpiData.slug || scpiKey,
+        identity: {
+          nom: formData.nom,
+          prenom: formData.prenom,
+          email: formData.email,
+          telephone: formData.telephone,
+        },
+        message: `Montant: ${formData.montant}. ${formData.commentaire || ''}`,
+      });
 
-      console.log('🔍 Paramètres de tracking au moment de la soumission:', { utmSource, utmMedium, utmCampaign, gclid });
-
-      const isFromGoogleAds = utmSource === 'google' || gclid !== null;
-
-      const metadata = {
-        utm_source: utmSource,
-        utm_medium: utmMedium,
-        utm_campaign: utmCampaign,
-        gclid,
-        source: isFromGoogleAds ? 'google_ads' : 'site',
-        form: 'scpi_landing',
-        scpi: scpiData.nom,
-        montant: formData.montant,
-        commentaire: formData.commentaire || null
-      };
-
-      const leadData: any = {
-        nom: formData.nom,
-        prenom: formData.prenom,
-        email: formData.email,
-        telephone: formData.telephone,
-        scpi: [scpiData.nom],
-        metadata,
-        statut: 'nouveau'
-      };
-
-      if (isFromGoogleAds) {
-        leadData.utm_source = utmSource;
-        leadData.utm_medium = utmMedium;
-        leadData.utm_campaign = utmCampaign;
-        leadData.gclid = gclid;
-      } else {
-        leadData.type_contact = 'formulaire';
-      }
-
-      const { error } = await createProspect(leadData);
-
-      if (error) {
-        console.error('Erreur Supabase:', error);
-        throw error;
+      if (!result.ok) {
+        throw new Error(result.error || 'Submission failed');
       }
 
       setSubmitStatus('success');
 
-      // Tracking Google Ads conversion
       if (window.gtag) {
         window.gtag('event', 'conversion', {
           'send_to': 'AW-CONVERSION_ID/SCPI_COMETE',
@@ -150,7 +117,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         });
       }
 
-      // Envoyer aussi à Google Analytics
       if (window.gtag) {
         window.gtag('event', 'generate_lead', {
           'event_category': `SCPI ${scpiData.nom}`,
@@ -159,7 +125,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         });
       }
 
-      // Redirect to thank you page after short delay
       setTimeout(() => {
         window.location.href = '/merci-landing-page.html';
       }, 1500);

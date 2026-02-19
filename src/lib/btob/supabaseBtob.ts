@@ -1,5 +1,6 @@
 import type { PostgrestError, SupabaseClient } from '@supabase/supabase-js';
-import { supabase, requireSupabase } from '../supabase';
+import { requireSupabase } from '../supabase';
+import { submitLead } from '../../utils/leadSubmitter';
 
 export type PartnerLeadInsert = {
   cabinet_name: string;
@@ -21,8 +22,25 @@ export type PartnerLeadInsertResult = {
 export const getSupabaseBtobClient = (): SupabaseClient => requireSupabase();
 
 export const insertPartnerLead = async (payload: PartnerLeadInsert): Promise<PartnerLeadInsertResult> => {
-  if (!supabase) {
-    return { data: null, error: new Error('Supabase not configured') };
+  try {
+    const result = await submitLead({
+      channel: 'partner',
+      form_type: 'lead_partner',
+      context_slug: payload.source ?? undefined,
+      identity: {
+        nom: payload.cabinet_name,
+        prenom: payload.contact_name,
+        email: payload.email,
+        telephone: payload.phone,
+      },
+    });
+
+    if (!result.ok) {
+      return { data: null, error: new Error(result.error || 'Submission failed') };
+    }
+
+    return { data: { request_id: result.request_id }, error: null };
+  } catch (err) {
+    return { data: null, error: err instanceof Error ? err : new Error(String(err)) };
   }
-  return supabase.from('partner_leads').insert(payload);
 };
