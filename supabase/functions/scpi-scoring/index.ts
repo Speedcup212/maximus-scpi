@@ -7,6 +7,20 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+// ─── Reference cohort ─────────────────────────────────────────────────────────
+// Frozen copy of SCPI_REFERENCE_MARKET.json (meta.date: 2025-01-09, n=51).
+// Pre-sorted ascending — identical to the ingestion backend.
+// Using this instead of rList = items.map(...) eliminates batch-size dependency
+// and guarantees scores match the ingestion pipeline exactly.
+const REFERENCE_RENDEMENTS: readonly number[] = [
+  3.18,  3.5,   3.67,  3.82,  3.91,  4.0,   4.1,   4.2,   4.26,  4.3,
+  4.4,   4.5,   4.56,  4.61,  4.67,  4.75,  4.8,   4.87,  4.92,  5.0,
+  5.1,   5.19,  5.25,  5.3,   5.4,   5.5,   5.56,  5.64,  5.7,   5.76,
+  5.85,  5.92,  6.0,   6.08,  6.2,   6.37,  6.51,  6.75,  6.98,  7.16,
+  7.5,   7.8,   8.0,   8.25,  8.5,   9.0,   9.5,   10.0,  10.5,  11.0,
+  11.18,
+] as const;
+
 type SectorMap = Record<string, number>;
 type GeoMap = Record<string, number>;
 
@@ -116,13 +130,14 @@ function getGeoMap(s: ScpiInput): GeoMap | null {
   return s.repartition_geographique ?? s.repartitionGeo ?? null;
 }
 
-function scoreRendement(scpi: ScpiInput, allRendements: number[], audit: string[]): number {
+function scoreRendement(scpi: ScpiInput, audit: string[]): number {
   const r = Number(scpi.rendement);
   if (!Number.isFinite(r)) {
     audit.push(`Rendement manquant → percentile=0 → score 0`);
     return 0;
   }
-  const p = percentRank(allRendements, r);
+  // Use the frozen reference cohort — not the batch — to match the ingestion pipeline.
+  const p = percentRank([...REFERENCE_RENDEMENTS], r);
   let score = 40 * p;
   const fg = Number(scpi.frais_gestion) || 0;
   const malus = Math.max(fg - 10, 0) * 0.5;
@@ -240,10 +255,9 @@ function scoreTaille(scpi: ScpiInput, params: ScoringParams, audit: string[]): n
 }
 
 function scoreScpiBatch(items: ScpiInput[], params: ScoringParams = defaultParams): ScpiScores[] {
-  const rList = items.map(x => Number(x.rendement)).filter(x => Number.isFinite(x)) as number[];
   return items.map(scpi => {
     const audit: string[] = [];
-    const sr = scoreRendement(scpi, rList, audit);
+    const sr = scoreRendement(scpi, audit);
     const ss = scoreSecteur(scpi, params, audit);
     const sg = scoreGeo(scpi, params, audit);
     const sq = scoreQualite(scpi, params, audit);

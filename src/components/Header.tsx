@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Phone, Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User } from 'lucide-react';
+import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2 } from 'lucide-react';
 import { scpiDataExtended } from '../data/scpiDataExtended';
 import { scpiData } from '../data/scpiData';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
@@ -285,11 +285,11 @@ const Header: React.FC<HeaderProps> = ({
   ];
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="flex justify-between items-center h-20 gap-0">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 overflow-x-clip">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
+        <div className="flex items-center justify-between h-16 flex-nowrap">
           {/* Logo */}
-          <div className="flex items-center min-w-0 flex-shrink-0 max-w-[150px] lg:max-w-[200px]">
+          <div className="flex items-center shrink-0 max-w-[140px] lg:max-w-[180px]">
             <button
               onClick={() => {
                 resetAllHeaderStates();
@@ -310,7 +310,7 @@ const Header: React.FC<HeaderProps> = ({
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
@@ -321,15 +321,129 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center flex-nowrap space-x-0 min-w-0 flex-shrink max-w-full">
-            {/* SCPI Dropdown - Desktop */}
+          <nav className="ml-8 lg:ml-10 flex-1 min-w-0 hidden lg:flex justify-start" aria-label="Navigation principale">
+            <ul className="flex items-center gap-3 xl:gap-4 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
+            <li>
+            <button
+              onClick={() => {
+                resetAllHeaderStates();
+                if (onComparateurClick) onComparateurClick();
+              }}
+              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+              aria-label="Comparateur"
+            >
+              <BarChart2 className="w-4 h-4" />
+              <span>Comparateur</span>
+            </button>
+            </li>
+            <li>
+            <div className="relative pointer-events-auto" ref={simulateurDropdownRef}>
+              <button
+                onClick={() => {
+                  setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
+                  setIsScpiMenuOpen(false);
+                  setIsEducationOpen(false);
+                }}
+                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+                aria-label="Simulateurs"
+              >
+                <Calculator className="w-4 h-4" />
+                <span>Nos simulateurs</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isSimulateurMenuOpen && (
+                <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
+                  <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
+                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      Nos simulateurs
+                    </div>
+                  </div>
+
+                  <div className="py-2">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resetAllHeaderStates();
+                        if (onSimulateurClick) {
+                          onSimulateurClick('simulateurs');
+                        }
+                      }}
+                      className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 group"
+                    >
+                      <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400">
+                        Voir tous les simulateurs
+                      </div>
+                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                        Vue structurée par niveaux décisionnels
+                      </div>
+                    </button>
+
+                    {simulateurLevels.map((level) => (
+                      <div key={level.title} className="pt-3">
+                        <div className="px-4">
+                          <div className={`text-xs font-semibold uppercase tracking-wide ${level.color}`}>
+                            {level.title}
+                          </div>
+                          <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
+                            {level.description}
+                          </div>
+                        </div>
+                        {level.items.map((simulateur) => (
+                          <button
+                            key={simulateur.id}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            onTouchEnd={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 active:bg-green-100 dark:active:bg-green-900/30 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group touch-manipulation"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
+                          >
+                            <div className="flex items-start gap-3">
+                              <span className="text-2xl">{simulateur.icon}</span>
+                              <div className="flex-1">
+                                <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                                  {simulateur.label}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                  {simulateur.description}
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
+                      D'autres simulateurs arrivent bientôt
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            </li>
+            <li>
             <div className="relative" ref={scpiDropdownRef}>
               <button
                 onClick={() => {
                   setIsScpiMenuOpen(!isScpiMenuOpen);
                   setIsEducationOpen(false);
                 }}
-                className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
+                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Nos SCPI"
               >
                 <TrendingUp className="w-4 h-4" />
@@ -640,127 +754,21 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               )}
             </div>
-
-            {/* Simulateur Dropdown - Desktop */}
-            <div className="relative pointer-events-auto" ref={simulateurDropdownRef}>
-              <button
-                onClick={() => {
-                  setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
-                  setIsScpiMenuOpen(false);
-                  setIsEducationOpen(false);
-                }}
-                className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
-                aria-label="Simulateurs"
-              >
-                <Calculator className="w-4 h-4" />
-                <span className="hidden lg:inline">Nos simulateurs</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isSimulateurMenuOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
-                  <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
-                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Nos simulateurs
-                    </div>
-                  </div>
-
-                  <div className="py-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        resetAllHeaderStates();
-                        if (onSimulateurClick) {
-                          onSimulateurClick('simulateurs');
-                        }
-                      }}
-                      className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 group"
-                    >
-                      <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400">
-                        Voir tous les simulateurs
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        Vue structurée par niveaux décisionnels
-                      </div>
-                    </button>
-
-                    {simulateurLevels.map((level) => (
-                      <div key={level.title} className="pt-3">
-                        <div className="px-4">
-                          <div className={`text-xs font-semibold uppercase tracking-wide ${level.color}`}>
-                            {level.title}
-                          </div>
-                          <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
-                            {level.description}
-                          </div>
-                        </div>
-                        {level.items.map((simulateur) => (
-                          <button
-                            key={simulateur.id}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            onTouchEnd={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 active:bg-green-100 dark:active:bg-green-900/30 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group touch-manipulation"
-                            style={{ WebkitTapHighlightColor: 'transparent' }}
-                          >
-                            <div className="flex items-start gap-3">
-                              <span className="text-2xl">{simulateur.icon}</span>
-                              <div className="flex-1">
-                                <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                                  {simulateur.label}
-                                </div>
-                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                                  {simulateur.description}
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                      D'autres simulateurs arrivent bientôt
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Articles/Analyses & Actualités */}
+            </li>
+            <li>
             <button
               onClick={() => {
-                console.log('[Header] Clic sur Articles/Analyses & Actualités');
                 resetAllHeaderStates();
-                if (onArticlesClick) {
-                  console.log('[Header] onArticlesClick défini, appel...');
-                  onArticlesClick();
-                } else {
-                  console.error('[Header] onArticlesClick non défini!');
-                }
+                if (onArticlesClick) onArticlesClick();
               }}
-              className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
+              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
               aria-label="Analyses & Actualités"
             >
               <FileText className="w-4 h-4" />
               <span>Analyses & Actualités</span>
             </button>
-
-            {/* Comprendre les SCPI */}
+            </li>
+            <li>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => {
@@ -768,7 +776,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsScpiMenuOpen(false);
                   setIsSimulateurMenuOpen(false);
                 }}
-                className="hidden lg:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
+                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Comprendre les SCPI"
               >
                 <BookOpen className="w-4 h-4" />
@@ -813,8 +821,8 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               )}
             </div>
-
-            {/* Qui sommes-nous Dropdown - Desktop */}
+            </li>
+            <li>
             <div className="relative" ref={aboutDropdownRef}>
               <button
                 onClick={() => {
@@ -823,11 +831,11 @@ const Header: React.FC<HeaderProps> = ({
                   setIsSimulateurMenuOpen(false);
                   setIsEducationOpen(false);
                 }}
-                className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-1 text-sm h-[2.5rem] whitespace-nowrap"
+                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Qui sommes-nous"
               >
                 <Info className="w-4 h-4 flex-shrink-0" />
-                <span className="hidden lg:inline whitespace-nowrap">Qui sommes-nous</span>
+                <span className="whitespace-nowrap">Qui sommes-nous</span>
                 <ChevronDown className={`w-4 h-4 transition-transform flex-shrink-0 ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -896,17 +904,21 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               )}
             </div>
-
+            </li>
+            </ul>
+          </nav>
+            {/* Right: account + CTA */}
+            <div className="hidden lg:flex items-center gap-2 shrink-0 whitespace-nowrap ml-4">
             <div className="relative" ref={accountMenuRef}>
               {user ? (
                 <>
                   <button
                     onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                    className="hidden md:flex px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-[2.5rem] whitespace-nowrap"
+                    className="flex px-2 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
                     aria-label="Mon espace"
                   >
                     <User className="w-4 h-4" />
-                    <span className="hidden lg:inline">Mon espace</span>
+                    <span>Mon espace</span>
                     <ChevronDown className={`w-4 h-4 transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {isAccountMenuOpen && (
@@ -934,22 +946,12 @@ const Header: React.FC<HeaderProps> = ({
                 </>
               ) : null}
             </div>
-
-            <button
-              onClick={onContactClick}
-              className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-1 text-xs flex-shrink-0 h-[2.5rem] whitespace-nowrap"
-              aria-label="Prendre rendez-vous avec un expert SCPI"
-            >
-              <Phone className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:inline whitespace-nowrap">Prendre RDV</span>
-              <span className="sm:hidden whitespace-nowrap">RDV</span>
-            </button>
-          </div>
+            </div>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto">
+          <div className="lg:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden">
             <div className="space-y-2">
               {user && (
               <div className="px-4">
@@ -968,7 +970,92 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
               )}
-              {/* SCPI Section Mobile */}
+              {/* Comparateur - 1er Mobile */}
+              <div className="px-4">
+                <button
+                  onClick={() => {
+                    resetAllHeaderStates();
+                    if (onComparateurClick) onComparateurClick();
+                  }}
+                  className="w-full flex items-center justify-between py-3 text-gray-700 dark:text-gray-200 font-medium touch-manipulation"
+                >
+                  <div className="flex items-center gap-2">
+                    <BarChart2 className="w-4 h-4" />
+                    <span>Comparateur</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+              {/* Nos simulateurs - 2e Mobile */}
+              <div className="px-4">
+                <button
+                  onClick={() => setIsSimulateurMenuOpen(!isSimulateurMenuOpen)}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
+                  }}
+                  className="w-full flex items-center justify-between py-3 text-gray-700 dark:text-gray-200 font-medium touch-manipulation active:bg-gray-100 dark:active:bg-gray-800 rounded-lg transition-colors"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                >
+                  <div className="flex items-center gap-3">
+                    <Calculator className="w-5 h-5" />
+                    <span className="text-base">Nos simulateurs</span>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isSimulateurMenuOpen && (
+                  <div className="mt-2 space-y-3 pl-2">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resetAllHeaderStates();
+                        if (onSimulateurClick) {
+                          onSimulateurClick('simulateurs');
+                        }
+                      }}
+                      className="w-full text-left py-3 px-3 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
+                    >
+                      Voir tous les simulateurs
+                    </button>
+                    {simulateurLevels.map((level) => (
+                      <div key={level.title} className="space-y-1">
+                        <div className={`text-xs uppercase tracking-wide ${level.color} px-3`}>
+                          {level.title}
+                        </div>
+                        {level.items.map((simulateur) => (
+                          <button
+                            key={simulateur.id}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            onTouchEnd={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              resetAllHeaderStates();
+                              if (onSimulateurClick) {
+                                onSimulateurClick(simulateur.id);
+                              }
+                            }}
+                            className="w-full text-left py-3 px-3 active:bg-green-100 dark:active:bg-green-900/30 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg">{simulateur.icon}</span>
+                              <span className="font-medium">{simulateur.label}</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {/* SCPI Section - 3e Mobile */}
               <div className="px-4" ref={scpiMobileRef}>
                 <button
                   onClick={() => {
@@ -1240,83 +1327,6 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              {/* Simulateurs Section Mobile */}
-              <div className="px-4">
-                <button
-                  onClick={() => setIsSimulateurMenuOpen(!isSimulateurMenuOpen)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault();
-                    setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
-                  }}
-                  className="w-full flex items-center justify-between py-3 text-gray-700 dark:text-gray-200 font-medium touch-manipulation active:bg-gray-100 dark:active:bg-gray-800 rounded-lg transition-colors"
-                  style={{ WebkitTapHighlightColor: 'transparent' }}
-                >
-                  <div className="flex items-center gap-3">
-                    <Calculator className="w-5 h-5" />
-                    <span className="text-base">Nos simulateurs</span>
-                  </div>
-                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isSimulateurMenuOpen && (
-                  <div className="mt-2 space-y-3 pl-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        resetAllHeaderStates();
-                        if (onSimulateurClick) {
-                          onSimulateurClick('simulateurs');
-                        }
-                      }}
-                      className="w-full text-left py-3 px-3 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
-                    >
-                      Voir tous les simulateurs
-                    </button>
-                    {simulateurLevels.map((level) => (
-                      <div key={level.title} className="space-y-1">
-                        <div className={`text-xs uppercase tracking-wide ${level.color} px-3`}>
-                          {level.title}
-                        </div>
-                        {level.items.map((simulateur) => (
-                          <button
-                            key={simulateur.id}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            onTouchEnd={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            className="w-full text-left py-3 px-3 active:bg-green-100 dark:active:bg-green-900/30 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
-                            style={{ WebkitTapHighlightColor: 'transparent' }}
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="text-xl">{simulateur.icon}</span>
-                              <div className="flex-1">
-                                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                                  {simulateur.label}
-                                </div>
-                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                                  {simulateur.description}
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               {/* Analyses & Actualités */}
               <button
                 onClick={() => {
@@ -1449,17 +1459,6 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
                 )}
               </div>
-
-              <button
-                onClick={() => {
-                  resetAllHeaderStates();
-                  onContactClick();
-                }}
-                className="mx-4 mt-2 w-auto px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-              >
-                <Phone className="w-4 h-4" />
-                <span>Prendre RDV</span>
-              </button>
             </div>
           </div>
         )}

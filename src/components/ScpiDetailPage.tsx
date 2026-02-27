@@ -7,7 +7,9 @@ import {
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
 import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
-import { getLatestScpiScores } from '../utils/scpiScoringService';
+import { getLatestScore } from '../utils/scpiScoreService';
+import { scoreToStars } from '../utils/scoreToStars';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
@@ -25,29 +27,20 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
   onTakeAppointment
 }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'analysis'>('overview');
-  const [scpiScores, setScpiScores] = useState<Record<number, any>>({});
+  const [qualityScore, setQualityScore] = useState<number | null>(null);
   const [scoresLoaded, setScoresLoaded] = useState(false);
   const searchParams = new URLSearchParams(window.location.search);
   const isParcoursMode = searchParams.get('lock') === 'true' && searchParams.get('source') === 'parcours';
 
   const optimizedSEO = generateOptimizedScpiSEO(scpi);
 
-  const shouldLoadScores = import.meta.env.VITE_ENABLE_SCPI_SCORES === 'true';
-
   useEffect(() => {
-    if (!shouldLoadScores) {
+    const slug = createSlugFromName(scpi.name);
+    getLatestScore(slug).then(score => {
+      setQualityScore(score != null ? Math.round(score) : null);
       setScoresLoaded(true);
-      return;
-    }
-    const loadScores = async () => {
-      const result = await getLatestScpiScores();
-      if (result.success) {
-        setScpiScores(result.scores);
-      }
-      setScoresLoaded(true);
-    };
-    loadScores();
-  }, [shouldLoadScores]);
+    });
+  }, [scpi.id, scpi.name]);
 
   // Préparer les données pour les camemberts
   const sectorData = scpi.repartitionSector?.map((item, index) => ({
@@ -68,31 +61,11 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
     ][index % 10]
   })) || [];
 
-  // Score de qualité global depuis la base de données
-  const qualityScore = (() => {
-    const dbScore = scpiScores[scpi.id]?.score_total;
-    if (dbScore !== undefined) {
-      return Math.round(dbScore);
-    }
-
-    // Fallback si pas encore chargé
-    let score = 0;
-    if (scpi.yield >= 5) score += 25;
-    else if (scpi.yield >= 3.5) score += 15;
-
-    if (scpi.tof >= 95) score += 25;
-    else if (scpi.tof >= 90) score += 15;
-
-    if (scpi.isr) score += 20;
-    if (scpi.fees === 0) score += 15;
-    if (scpi.capitalization >= 500000000) score += 15;
-
-    return Math.min(score, 100);
-  })();
-
-  const getQualityColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
+  const getQualityColor = (score: number | null) => {
+    const stars = scoreToStars(score);
+    if (stars === null) return 'text-gray-400 dark:text-gray-500';
+    if (stars >= 5) return 'text-green-600 dark:text-green-400';
+    if (stars >= 4) return 'text-yellow-600 dark:text-yellow-400';
     return 'text-red-600 dark:text-red-400';
   };
 
@@ -123,7 +96,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
   const faqSchema = generateFAQSchema(faqQuestions);
 
-  const rating = qualityScore / 10;
+  const rating = qualityScore !== null ? qualityScore / 10 : 0;
   const financialProductSchema = generateFinancialProductSchema(scpi, rating);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -305,7 +278,11 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                 <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800">
                   <Award className="w-6 h-6 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
                   <div className={`text-2xl font-black mb-1 ${getQualityColor(qualityScore)}`}>
-                    {qualityScore}/100
+                    {scoresLoaded
+                      ? qualityScore !== null
+                        ? `${qualityScore}/100`
+                        : 'N/A'
+                      : '…'}
                   </div>
                   <div className="text-sm font-bold text-orange-700 dark:text-orange-300">
                     Score

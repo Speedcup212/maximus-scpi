@@ -1,10 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star, FileText, Newspaper, Plus, Check } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { scpiData } from '../../data/scpiData';
 import { getScpiAdvantages, getScpiPointsAttention, getScpiNews, getScpiKeyTakeaways, getCapitalizationCategory, formatCapitalizationWithLiquidity } from '../../utils/scpiAnalysis';
 import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/scpiDataCompleteness';
+import { getLatestScore } from '../../utils/scpiScoreService';
+import { scoreToStars } from '../../utils/scoreToStars';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -40,6 +43,19 @@ const CustomTooltip = ({ active, payload }: any) => {
 const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
+  const [starRating, setStarRating] = useState<number | null>(null);
+  const [scoreLoaded, setScoreLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen || !scpi) return;
+    setScoreLoaded(false);
+    setStarRating(null);
+    const slug = createSlugFromName(scpi.name);
+    getLatestScore(slug).then(score => {
+      setStarRating(scoreToStars(score));
+      setScoreLoaded(true);
+    });
+  }, [isOpen, scpi?.id, scpi?.name]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -98,80 +114,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   }, [scpiForAnalysis, scpi]);
 
   const completenessDisplay = completenessResult ? getCompletenessDisplay(completenessResult.donnees_completes_niveau) : null;
-
-  // Calculer la note sur 5 étoiles
-  const calculateRating = useMemo(() => {
-    if (!scpiForAnalysis) return 3; // Note par défaut si pas de données
-    
-    // Vérifier les critères pour une note minimale de 5/5
-    const capitalisationOk = scpiForAnalysis.capitalization >= 50000000; // 50 millions
-    const tofOk = scpiForAnalysis.tof >= 90;
-    
-    // Vérifier la décote (prix < valeur de reconstitution)
-    const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
-    const hasDiscount = reconstitutionVal > 0 && scpi.price < reconstitutionVal;
-    
-    // Vérifier le rendement selon la géographie
-    const isEurope = scpiForAnalysis.geography === 'europe' || scpiForAnalysis.european;
-    const rendementOk = isEurope 
-      ? scpiForAnalysis.yield >= 6 
-      : scpiForAnalysis.yield >= 5.5;
-    
-    // Vérifier l'endettement
-    const debt = scpiForAnalysis.debt || 0;
-    const endettementOk = debt <= 30;
-    
-    // Si tous les critères sont remplis, note minimale de 5/5
-    if (capitalisationOk && tofOk && hasDiscount && rendementOk && endettementOk) {
-      return 5;
-    }
-    
-    // Sinon, calculer la note normalement
-    let score = 0;
-    let maxScore = 0;
-
-    // Rendement (0-1.5 étoiles)
-    maxScore += 1.5;
-    if (scpiForAnalysis.yield >= 7) score += 1.5;
-    else if (scpiForAnalysis.yield >= 6) score += 1.2;
-    else if (scpiForAnalysis.yield >= 5) score += 1;
-    else if (scpiForAnalysis.yield >= 4) score += 0.7;
-    else if (scpiForAnalysis.yield >= 3) score += 0.4;
-
-    // TOF (0-1 étoile)
-    maxScore += 1;
-    if (scpiForAnalysis.tof >= 95) score += 1;
-    else if (scpiForAnalysis.tof >= 90) score += 0.7;
-    else if (scpiForAnalysis.tof >= 85) score += 0.4;
-
-    // Frais (0-0.5 étoile)
-    maxScore += 0.5;
-    if (scpiForAnalysis.fees === 0) score += 0.5;
-    else if (scpiForAnalysis.fees <= 3) score += 0.3;
-    else if (scpiForAnalysis.fees <= 5) score += 0.1;
-
-    // Qualité / Diversification (0-0.5 étoile)
-    maxScore += 0.5;
-    if (scpiForAnalysis.isr) score += 0.2;
-    if (scpiForAnalysis.repartitionSector && scpiForAnalysis.repartitionSector.length >= 3) score += 0.2;
-    if (scpiForAnalysis.capitalization >= 500000000) score += 0.1;
-
-    // Endettement (0-0.5 étoile)
-    maxScore += 0.5;
-    if (debt === 0) score += 0.5;
-    else if (debt <= 20) score += 0.4;
-    else if (debt <= 30) score += 0.2;
-
-    // Capitalisation / Liquidité (0-0.5 étoile)
-    maxScore += 0.5;
-    if (scpiForAnalysis.capitalization >= 1000000000) score += 0.5;
-    else if (scpiForAnalysis.capitalization >= 500000000) score += 0.3;
-    else if (scpiForAnalysis.capitalization >= 200000000) score += 0.1;
-
-    // Convertir le score en note sur 5
-    const rating = Math.round((score / maxScore) * 5);
-    return Math.max(1, Math.min(5, rating)); // Entre 1 et 5
-  }, [scpiForAnalysis, scpi]);
 
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
   const actualInvestment = numberOfShares * scpi.price;
@@ -345,14 +287,14 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <Star
                       key={star}
                       className={`w-5 h-5 ${
-                        star <= calculateRating
+                        starRating !== null && star <= starRating
                           ? 'fill-yellow-400 text-yellow-400'
                           : 'text-slate-600'
                       }`}
                     />
                   ))}
                   <span className="text-lg font-bold text-white ml-1">
-                    {calculateRating}/5
+                    {!scoreLoaded ? '…' : starRating !== null ? `${starRating}/5` : 'N/A'}
                   </span>
                 </div>
               </div>

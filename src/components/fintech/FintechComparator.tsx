@@ -14,6 +14,8 @@ import FilterPanel, { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
+import { getLatestScoresBatch } from '../../utils/scpiScoreService';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
 
@@ -43,6 +45,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [toastMessage, setToastMessage] = useState<string>('');
   const [showToast, setShowToast] = useState<boolean>(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
+  const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
   const [filters, setFilters] = useState<FilterState>({
     tmi: null,
     minYield: 0,
@@ -185,6 +188,20 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, sortBy, viewMode, filters]);
+
+  const paginatedSlugsKey = useMemo(
+    () => paginatedData.map(s => s.id).join(','),
+    [currentPage, filteredData, itemsPerPage]
+  );
+  useEffect(() => {
+    const slugs = paginatedData.map(s => createSlugFromName(s.name)).filter(Boolean);
+    if (slugs.length === 0) return;
+    getLatestScoresBatch(slugs).then(newScores => {
+      if (Object.keys(newScores).length > 0) {
+        setScoresBySlug(prev => ({ ...prev, ...newScores }));
+      }
+    });
+  }, [paginatedSlugsKey]);
 
 
   const handleAnalyze = (scpi: SCPIExtended) => {
@@ -355,6 +372,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <SCPICardDark
                         key={scpi.id}
                         scpi={scpi}
+                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
                         isSelected={selectedScpis.some(s => s.id === scpi.id)}
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}
@@ -367,13 +385,14 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                     <div className="overflow-x-auto">
                       <table className="w-full table-fixed">
                         <colgroup>
-                          <col className="w-[18%]" />
-                          <col className="w-[13%]" />
-                          <col className="w-[13%]" />
+                          <col className="w-[16%]" />
+                          <col className="w-[12%]" />
+                          <col className="w-[11%]" />
+                          <col className="w-[8%]" />
                           <col className="w-[9%]" />
                           <col className="w-[10%]" />
-                          <col className="w-[11%]" />
-                          <col className="w-[26%]" />
+                          <col className="w-[12%]" />
+                          <col className="w-[22%]" />
                         </colgroup>
                         <thead className="bg-slate-900/50 border-b border-slate-700">
                           <tr>
@@ -395,6 +414,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                             <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
                               Invest. Min.
                             </th>
+                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                              Note
+                            </th>
                             <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
                               Actions
                             </th>
@@ -405,6 +427,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                             <SCPITableRow
                               key={scpi.id}
                               scpi={scpi}
+                              score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
                               isSelected={selectedScpis.some(s => s.id === scpi.id)}
                               onToggleSelect={() => toggleSelect(scpi)}
                               onAnalyze={() => handleAnalyze(scpi)}
@@ -424,6 +447,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <SCPICardDark
                         key={scpi.id}
                         scpi={scpi}
+                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
                         isSelected={selectedScpis.some(s => s.id === scpi.id)}
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}

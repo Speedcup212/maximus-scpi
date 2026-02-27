@@ -1,0 +1,18 @@
+# SCPI bulletin sources — type html_page with pageUrl
+# Pipeline crawls pageUrl (fetch HTML or Playwright) → extracts bulletin PDF → upload → upsert DB
+
+sources:
+  - scpi: comete
+    pageUrl: https://alderan.fr/scpi-comete-documentation/
+
+  - scpi: novaxia-neo
+    pageUrl: https://www.novaxia-investissement.fr/produits/novaxia-neo/
+
+  - scpi: perial-oportunites-europe
+    pageUrl: https://www.perial.com/scpi/perial-opportunites-europe
+
+  - scpi: iroko-zen
+    pageUrl: https://www.iroko.eu/scpi-iroko-zen/
+
+  - scpi: remake-live
+    pageUrl: https://www.remake.immo/remake-live/

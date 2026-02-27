@@ -23,13 +23,19 @@ const Hero: React.FC<HeroProps> = ({ onCalendlyClick, onComparatorClick }) => {
           MaximusSCPI vous aide à comparer les SCPI au-delà du rendement : frais, secteurs, zones et diversification, puis à valider votre sélection <span className="text-green-400">en 2 minutes.</span>
         </p>
 
-        {/* CTA Button */}
-        <div className="flex items-center justify-center">
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={onComparatorClick || onCalendlyClick}
             className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-base transition-colors shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50"
           >
             Commencer
+          </button>
+          <button
+            onClick={onCalendlyClick}
+            className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-lg font-semibold text-base transition-colors border border-white/20"
+          >
+            Prendre RDV
           </button>
         </div>
         <p className="mt-4 text-xs sm:text-sm text-slate-400">

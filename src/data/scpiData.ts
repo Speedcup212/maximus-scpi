@@ -197,83 +197,6 @@ const isRecommended = (scpi: any): boolean => {
   return hasTofAbove90 && hasDiscountOrPar && hasCapitalizationAbove100M && hasYieldAbove5 && hasDebtBelow30;
 };
 
-/**
- * Calcule dynamiquement la note sur 5 étoiles basée sur les dernières données
- * La note évolue à la hausse comme à la baisse selon les performances
- */
-const calculateDynamicRating = (scpi: any): number | undefined => {
-  const yieldValue = scpi['Taux de distribution (%)'] || 0;
-  const tofValue = scpi['TOF (%)'] || 0;
-  const debtValue = scpi['Endettement (%)'];
-  const feesValue = scpi['Frais de souscription (TTC/%)'] || 0;
-  const capitalizationM = scpi['Capitalisation (M€)'] || 0;
-  const capitalization = capitalizationM * 1000000;
-  const isEurope = scpi['Répartition Géographique']?.includes('Europe') || scpi['Répartition Géographique']?.includes('Irlande') || scpi['Répartition Géographique']?.includes('Allemagne') || scpi['Répartition Géographique']?.includes('Espagne');
-  const isr = scpi['Label ISR'] === 'Oui';
-  const repartitionSector = scpi['Répartition Sectorielle JSON'];
-  const sectorCount = repartitionSector ? Object.keys(repartitionSector).length : 0;
-  
-  // Vérifier les critères pour une note minimale de 5/5
-  const capitalisationOk = capitalization >= 50000000; // 50 millions
-  const tofOk = tofValue >= 90;
-  const reconstitutionVal = scpi['Valeur de reconstitution (€)'];
-  const price = scpi['Prix de souscription (€)'] || 0;
-  const hasDiscount = reconstitutionVal && reconstitutionVal > 0 && price > 0 && price < reconstitutionVal;
-  const rendementOk = isEurope ? yieldValue >= 6 : yieldValue >= 5.5;
-  const endettementOk = debtValue === undefined || debtValue <= 30;
-  
-  // Si tous les critères sont remplis, note minimale de 5/5
-  if (capitalisationOk && tofOk && hasDiscount && rendementOk && endettementOk) {
-    return 5;
-  }
-  
-  // Sinon, calculer la note normalement
-  let score = 0;
-  let maxScore = 0;
-
-  // Rendement (0-1.5 étoiles)
-  maxScore += 1.5;
-  if (yieldValue >= 7) score += 1.5;
-  else if (yieldValue >= 6) score += 1.2;
-  else if (yieldValue >= 5) score += 1;
-  else if (yieldValue >= 4) score += 0.7;
-  else if (yieldValue >= 3) score += 0.4;
-
-  // TOF (0-1 étoile)
-  maxScore += 1;
-  if (tofValue >= 95) score += 1;
-  else if (tofValue >= 90) score += 0.7;
-  else if (tofValue >= 85) score += 0.4;
-
-  // Frais (0-0.5 étoile)
-  maxScore += 0.5;
-  if (feesValue === 0) score += 0.5;
-  else if (feesValue <= 3) score += 0.3;
-  else if (feesValue <= 5) score += 0.1;
-
-  // Qualité / Diversification (0-0.5 étoile)
-  maxScore += 0.5;
-  if (isr) score += 0.2;
-  if (sectorCount >= 3) score += 0.2;
-  if (capitalization >= 500000000) score += 0.1;
-
-  // Endettement (0-0.5 étoile)
-  maxScore += 0.5;
-  if (debtValue === undefined || debtValue === 0) score += 0.5;
-  else if (debtValue <= 20) score += 0.4;
-  else if (debtValue <= 30) score += 0.2;
-
-  // Capitalisation / Liquidité (0-0.5 étoile)
-  maxScore += 0.5;
-  if (capitalization >= 1000000000) score += 0.5;
-  else if (capitalization >= 500000000) score += 0.3;
-  else if (capitalization >= 200000000) score += 0.1;
-
-  // Convertir le score en note sur 5
-  const rating = Math.round((score / maxScore) * 5);
-  return Math.max(1, Math.min(5, rating)); // Entre 1 et 5
-};
-
 // Helper function to clean numeric values from Excel (handles "NC", null, undefined, strings)
 const cleanNumericValue = (value: any): number | undefined => {
   if (value === null || value === undefined || value === '' || value === 'NC' || value === 'N/A') {
@@ -449,7 +372,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     minInvest: scpi['Minimum de souscription €'] || 1000,
     repartitionSector: cleanRepartition(sectorDistribution),
     repartitionGeo: cleanRepartition(geoDistribution),
-    rating: calculateDynamicRating(scpi),
+    // rating: now comes from DB (scpi_bulletins.maximus_score) via getScoreBySlug; set undefined at load time
+    rating: undefined,
     isRecommended: recommended,
     debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined,
     // Champs supplémentaires depuis le fichier Excel

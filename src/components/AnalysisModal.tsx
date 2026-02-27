@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X, TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
@@ -8,6 +8,9 @@ import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
 import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import PieChart from './PieChart';
+import { getLatestScore } from '../utils/scpiScoreService';
+import { scoreToStars } from '../utils/scoreToStars';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
 // PDF Generator loaded dynamically if needed
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy both accordions to production
 
@@ -20,6 +23,18 @@ interface AnalysisModalProps {
 
 const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, onAddToPortfolio }) => {
   const [openSection, setOpenSection] = useState<'overview' | 'charts' | 'analysis' | null>(null);
+  const [qualityScore, setQualityScore] = useState<number | null>(null);
+  const [scoreLoaded, setScoreLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!scpi) return;
+    setScoreLoaded(false);
+    const slug = createSlugFromName(scpi.name);
+    getLatestScore(slug).then(score => {
+      setQualityScore(score != null ? Math.round(score) : null);
+      setScoreLoaded(true);
+    });
+  }, [scpi?.id, scpi?.name]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -55,25 +70,11 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
     { name: 'Ancienneté', value: new Date().getFullYear() - scpi.creation, max: 50, color: '#f59e0b' }
   ];
 
-  // Score de qualité global
-  const qualityScore = (() => {
-    let score = 0;
-    if (scpi.yield >= 5) score += 25;
-    else if (scpi.yield >= 3.5) score += 15;
-    
-    if (scpi.tof >= 95) score += 25;
-    else if (scpi.tof >= 90) score += 15;
-    
-    if (scpi.isr) score += 20;
-    if (scpi.fees === 0) score += 15;
-    if (scpi.capitalization >= 500000000) score += 15;
-    
-    return Math.min(score, 100);
-  })();
-
-  const getQualityColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
+  const getQualityColor = (score: number | null) => {
+    const stars = scoreToStars(score);
+    if (stars === null) return 'text-gray-400 dark:text-gray-500';
+    if (stars >= 5) return 'text-green-600 dark:text-green-400';
+    if (stars >= 4) return 'text-yellow-600 dark:text-yellow-400';
     return 'text-red-600 dark:text-red-400';
   };
 
@@ -205,7 +206,11 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                 <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800">
                   <Award className="w-6 h-6 text-orange-600 dark:text-orange-400 mx-auto mb-2" />
                   <div className={`text-2xl font-black mb-1 ${getQualityColor(qualityScore)}`}>
-                    {qualityScore}/100
+                    {scoreLoaded
+                      ? qualityScore !== null
+                        ? `${qualityScore}/100`
+                        : 'N/A'
+                      : '…'}
                   </div>
                   <div className="text-sm font-bold text-orange-700 dark:text-orange-300">
                     Score

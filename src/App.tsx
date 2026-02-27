@@ -478,8 +478,7 @@ const App: React.FC = () => {
         setSelectedThematicPage('revenu-complementaire-scpi');
         setCurrentView('thematic-optimized');
       } else if (path === 'comparateur-scpi') {
-        setSelectedThematicPage('comparateur-scpi');
-        setCurrentView('thematic-optimized');
+        setCurrentView('comparateur');
       } else if (path === 'scpi-bureaux-investissement') {
         setSelectedThematicPage('scpi-bureaux-investissement');
         setCurrentView('thematic-optimized');
@@ -2379,10 +2378,10 @@ const App: React.FC = () => {
 
   // === FIN RENDER 30 ARTICLES ===
 
-  // Render Comparateur SCPI
+  // Render Comparateur SCPI (page dédiée — design identique à la section accueil)
   if (currentView === 'comparateur') {
     return (
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+      <div className="min-h-screen bg-slate-900">
         <SEOHead
           title="Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)"
           description="Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS."
@@ -2406,18 +2405,41 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           currentView={currentView}
         />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-6">
-            <p className="text-lg sm:text-xl text-slate-200 font-semibold mb-4 text-center">
-              Sélectionnez les SCPI que vous envisagez. Analysez leur équilibre rendement / risque / diversification en 2 minutes.
-            </p>
-          </div>
-          <Suspense fallback={<LoadingSpinner />}>
-            <FintechComparator onCloseAnalysis={handleBackToHome} />
-          </Suspense>
-        </div>
-        <Footer />
+        <main>
+          <div id="comparator" data-comparator className="pt-8 sm:pt-12 pb-16 sm:pb-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Titre rattaché au comparateur — design identique à la page d'accueil */}
+              <div className="mb-6 text-center">
+                <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-emerald-300/90 mb-2">
+                  Comparateur SCPI autonome
+                </p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                  Construisez votre portefeuille SCPI en toute autonomie, avec des outils d'analyse complets
+                </h1>
+                <p className="text-base text-slate-300 font-medium max-w-2xl mx-auto">
+                  Comparez l'ensemble des SCPI, filtrez selon vos critères et composez votre allocation librement.
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
+                  Données objectives • Méthodologie indépendante • Aucune promesse de rendement
+                </p>
+              </div>
 
+              <Suspense fallback={<LoadingSpinner />}>
+                <FintechComparator
+                  onCloseAnalysis={handleBackToHome}
+                  onGuidedJourneyClick={() => {
+                    setCurrentView('guided-journey');
+                    window.history.pushState({}, '', '/parcours-guide');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  hideTitle={true}
+                  zScoreVariant="compact"
+                />
+              </Suspense>
+            </div>
+          </div>
+        </main>
+        <Footer />
         {renderGlobalModals()}
       </div>
     );

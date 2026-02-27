@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles, Star } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
+import { scoreToStars } from '../../utils/scoreToStars';
 
 interface SCPICardDarkProps {
   scpi: SCPIExtended;
+  score?: number | null;
   isSelected: boolean;
   onToggleSelect: () => void;
   onAnalyze: () => void;
@@ -12,7 +14,7 @@ interface SCPICardDarkProps {
   onGuidedJourneyClick?: () => void;
 }
 
-const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
+const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isEuropean = isEuropeanSCPI(scpi);
@@ -183,6 +185,21 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, isSelected, onToggleS
         <div>
           <p className="text-xs text-slate-400 mb-0.5">Investissement min.</p>
           <p className="text-lg font-bold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</p>
+        </div>
+        <div className="col-span-2">
+          <p className="text-xs text-slate-400 mb-0.5">Note MaximusSCPI</p>
+          <div className="flex items-center gap-2">
+            {[1, 2, 3, 4, 5].map(star => {
+              const stars = scoreToStars(score);
+              const filled = stars != null && star <= stars;
+              return (
+                <Star key={star} className={`w-4 h-4 ${filled ? 'fill-yellow-400 text-yellow-400' : 'text-slate-600'}`} />
+              );
+            })}
+            <span className="text-sm font-bold text-white ml-1">
+              {score != null ? `${Math.round(score)}/100` : 'N/A'}
+            </span>
+          </div>
         </div>
       </div>
 

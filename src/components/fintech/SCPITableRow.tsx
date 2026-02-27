@@ -1,10 +1,12 @@
 import React from 'react';
-import { Check, Plus, BarChart3, Sparkles } from 'lucide-react';
+import { Check, Plus, BarChart3, Sparkles, Star } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
+import { scoreToStars } from '../../utils/scoreToStars';
 
 interface SCPITableRowProps {
   scpi: SCPIExtended;
+  score?: number | null;
   isSelected: boolean;
   onToggleSelect: () => void;
   onAnalyze: () => void;
@@ -12,7 +14,7 @@ interface SCPITableRowProps {
   onGuidedJourneyClick?: () => void;
 }
 
-const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
+const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const getCategoryColor = (category: string) => {
@@ -90,6 +92,18 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, isSelected, onToggleS
       </td>
       <td className="px-4 py-3">
         <div className="text-sm font-semibold text-white truncate">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="flex items-center gap-1">
+          {[1, 2, 3, 4, 5].map(star => {
+            const stars = scoreToStars(score);
+            const filled = stars != null && star <= stars;
+            return (
+              <Star key={star} className={`w-4 h-4 ${filled ? 'fill-yellow-400 text-yellow-400' : 'text-slate-600'}`} />
+            );
+          })}
+          <span className="text-sm font-bold text-white ml-1">{score != null ? `${Math.round(score)}/100` : 'N/A'}</span>
+        </div>
       </td>
       <td className="px-4 py-3">
         <div className="flex flex-col items-end gap-2">
