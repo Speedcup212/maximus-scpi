@@ -140,6 +140,7 @@ const ScpiJeuneActif = lazy(() => import('./components/articles/InvestirScpiJeun
 const ExpertiseOriasPage = lazy(() => import('./components/ExpertiseOriasPage'));
 const MethodologieDonneesPage = lazy(() => import('./components/MethodologieDonneesPage'));
 const AvertissementsRisquesPage = lazy(() => import('./components/AvertissementsRisquesPage'));
+const FiscaliteScpiPage = lazy(() => import('./components/FiscaliteScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -2377,6 +2378,42 @@ const App: React.FC = () => {
   }
 
   // === FIN RENDER 30 ARTICLES ===
+
+  // Render Page Pivot Fiscalité SCPI
+  if (currentView === 'fiscalite-scpi') {
+    return (
+      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead
+          title="Fiscalité SCPI : Impôt sur les revenus fonciers et optimisation"
+          description="Découvrez comment sont imposés les revenus de vos SCPI. Comprenez l'impôt sur le revenu, les prélèvements sociaux et les dispositifs d'optimisation fiscale."
+          keywords={['fiscalité SCPI', 'revenus fonciers SCPI', 'imposition SCPI', 'prélèvements sociaux SCPI', 'optimisation fiscale SCPI']}
+          canonical="https://maximusscpi.com/fiscalite-scpi/"
+        />
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <FiscaliteScpiPage onNavigate={handleGenericNavigation} />
+        </Suspense>
+        <Footer />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
 
   // Render Comparateur SCPI (page dédiée — design identique à la section accueil)
   if (currentView === 'comparateur') {
