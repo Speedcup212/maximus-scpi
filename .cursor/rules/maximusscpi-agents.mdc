@@ -1,0 +1,35 @@
+---
+description: Règles opérationnelles MaximusSCPI — agents IA, conformité SCPI/CIF, périmètre d'intervention
+alwaysApply: true
+---
+
+# MaximusSCPI — Règles opérationnelles
+
+## Démarrage de chaque mission
+
+1. Lire `AGENTS.md` en premier.
+2. Consulter `agents/router.md` pour choisir l'agent adapté.
+3. Toute action sur le site doit être inscrite dans `tasks/backlog.md` avant exécution.
+
+## Périmètre d'intervention
+
+- **Interdit sans validation explicite :** modifier `src/`, `public/`, `supabase/`, `package.json`, `netlify.toml`, le sitemap ou tout fichier SEO technique.
+- **Autorisé librement :** lire n'importe quel fichier, modifier `/agents` et `/tasks`.
+- Ne jamais lire plus de 5 fichiers sans justification et validation.
+- Ne jamais faire de push sans demande explicite.
+- Commits petits, ciblés, documentés. Un commit = une mission.
+
+## Contraintes SCPI/CIF — non négociables
+
+- Pas de promesse de rendement (les taux cités sont des données historiques).
+- Pas de recommandation personnalisée sans recueil d'informations patrimoniales préalable.
+- Distinction obligatoire : information générale / pédagogie / conseil personnalisé.
+- Rappel des risques SCPI si des chiffres de performance sont cités.
+- Données SCPI sourcées uniquement (DIC, bulletin, rapport annuel, ASPIM). Pas d'extrapolation.
+
+## Style de réponse
+
+- Répondre en français.
+- Court, hiérarchisé, opérationnel.
+- Présenter les fichiers à consulter avant de les ouvrir — attendre validation.
+- Résumé des changements avant toute modification — attendre confirmation.
