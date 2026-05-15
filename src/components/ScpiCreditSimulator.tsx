@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { TrendingUp, DollarSign, Calendar, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import DisclaimerBox from './DisclaimerBox';
 
 interface ScpiCreditSimulatorProps {
   defaultAmount?: number;
@@ -731,7 +732,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       className="w-full"
                     />
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Hypothèse de variation du prix de la part. 0 % par défaut (scénario neutre).
+                      Hypothèse de variation du prix de la part. 0 % par défaut (scénario neutre). La revalorisation annuelle est une hypothèse de simulation. Elle peut être nulle ou négative.
                     </p>
                   </div>
 
@@ -803,6 +804,16 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                   )}
                 </div>
 
+                <div className="mt-4 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-700">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-orange-800 dark:text-orange-300 leading-relaxed">
+                      <span className="font-semibold">Risque lié à l'effet de levier crédit : </span>
+                      Le recours au crédit augmente l'exposition au risque. En cas de baisse des revenus distribués par les SCPI ou de baisse de la valeur des parts, les mensualités de crédit restent dues. L'effet de levier peut amplifier les gains comme les pertes et générer un effort d'épargne supérieur aux hypothèses initiales.
+                    </p>
+                  </div>
+                </div>
+
                 <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                   <div className="text-xs text-gray-600 dark:text-gray-300 mb-1">Cash-flow net la 1re année (avec délai de jouissance)</div>
                   <div className="font-bold text-gray-900 dark:text-white">
@@ -838,6 +849,9 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                   <span className="font-semibold text-gray-900 dark:text-white">Patrimoine net estimé</span>
                   <span className="font-bold text-2xl text-green-600 dark:text-green-400">{formatEuro(calculations.patrimoineNetHorizon)}</span>
                 </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 italic mt-1">
+                  Montant théorique calculé selon les hypothèses saisies, non garanti et non contractuel.
+                </p>
                 <div className="mt-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
                   <div className="text-xs text-purple-800 dark:text-purple-300 mb-1">TRI approximatif sur votre apport</div>
                   {calculations.triApport !== null && apport > 0 ? (
@@ -849,6 +863,9 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       Non calculé (aucun apport initial dans la simulation)
                     </div>
                   )}
+                  <p className="text-xs text-purple-700 dark:text-purple-300 mt-2 leading-relaxed">
+                    Le TRI dépend fortement des hypothèses de rendement, de revalorisation, de fiscalité, de durée de détention et de conditions de revente. Il ne constitue pas une performance future garantie.
+                  </p>
                 </div>
               </div>
             </div>
@@ -1017,6 +1034,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
             </div>
 
             {/* Disclaimer */}
+            <DisclaimerBox />
             <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 text-xs text-gray-600 dark:text-gray-400 space-y-3">
               <p>
                 ⚠️ Cette simulation est indicative et simplifiée. Elle ne prend pas en compte l'intégralité des paramètres fiscaux (déficit foncier, plafonds, situation globale du foyer) ni les frais détaillés (banque, notaire, conseil, etc.).
@@ -1028,7 +1046,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                 <span className="font-semibold">SCPI internationales :</span> Pour les SCPI investies principalement à l'international, la fiscalité est simplifiée dans ce simulateur. En pratique, les conventions fiscales et crédits d'impôt peuvent réduire la charge fiscale réelle.
               </p>
               <p className="pt-2 border-t border-gray-200 dark:border-gray-700">
-                Les SCPI sont un investissement de long terme présentant un risque de perte en capital, une liquidité limitée et une variabilité des revenus. Les résultats présentés ne constituent pas un conseil personnalisé et ne préjugent pas des performances futures.
+                Les SCPI sont un investissement de long terme présentant un risque de perte en capital, une liquidité limitée et des revenus non garantis. Les résultats présentés ne constituent pas un conseil personnalisé et ne préjugent pas des performances futures.
               </p>
             </div>
           </div>
