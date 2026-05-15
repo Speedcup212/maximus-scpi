@@ -31,7 +31,7 @@ const LegalFooter: React.FC = () => {
                 <Logo className="h-12 w-auto mb-3" isDarkMode={true} />
               </div>
               <p className="text-sm text-gray-400 leading-relaxed">
-                Plateforme d'analyse SCPI powered by IA pour optimiser vos investissements immobiliers.
+                Plateforme d'analyse SCPI powered by IA pour analyser la cohérence de votre portefeuille SCPI.
               </p>
             </div>
 
@@ -167,8 +167,8 @@ const LegalFooter: React.FC = () => {
                 </div>
               </div>
               <div className="text-xs text-gray-500 text-center md:text-right">
-                © 2025 MaximusSCPI. Tous droits réservés.<br />
-                Avertissement : Tout investissement présente des risques.
+                © {new Date().getFullYear()} MaximusSCPI. Tous droits réservés.<br />
+                Les SCPI sont des placements immobiliers non cotés présentant un risque de perte en capital. Les revenus ne sont pas garantis, la valeur des parts peut évoluer à la hausse comme à la baisse, et la liquidité peut être limitée. Les informations présentées sont pédagogiques et ne constituent pas une recommandation personnalisée.
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ const LegalFooter: React.FC = () => {
               <div className="hover:scale-105 transition-transform duration-300">
                 <Logo className="h-14 w-auto" isDarkMode={true} />
               </div>
-              <p className="text-xs text-gray-500">Votre expert en investissement SCPI</p>
+              <p className="text-xs text-gray-500">Analyser la cohérence de votre portefeuille SCPI</p>
             </div>
           </div>
         </div>
@@ -255,7 +255,7 @@ const LegalFooter: React.FC = () => {
                   </p>
                   <ul>
                     <li>Vous contacter suite à une demande de rendez-vous</li>
-                    <li>Vous envoyer votre analyse SCPI personnalisée</li>
+                    <li>Vous envoyer votre analyse indicative issue de vos réponses</li>
                     <li>Améliorer nos services</li>
                   </ul>
 

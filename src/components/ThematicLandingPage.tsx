@@ -1074,7 +1074,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                 MaximusSCPI<span className="text-xs align-super">™</span>
               </h3>
               <p className="text-sm text-gray-300 mb-2">
-                Votre expert en investissement SCPI
+                Analyse de cohérence de portefeuille SCPI
               </p>
               <p className="text-xs text-gray-400">
                 Marque déposée INPI
