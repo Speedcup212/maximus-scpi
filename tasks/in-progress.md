@@ -7,7 +7,7 @@
 
 ## En cours
 
-_(aucune tâche en cours)_
+| — | — | — | Aucune tâche en cours. | — | — |
 
 ---
 

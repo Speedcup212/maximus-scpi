@@ -740,18 +740,18 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 },
 
   // PAGES PAR SECTEUR - LANDING PAGES GOOGLE ADS
-  'scpi-bureaux-investissement': {
-    slug: 'scpi-bureaux-investissement',
-    title: 'Investir SCPI Bureaux 2026 | Obtenez votre Sélection Personnalisée',
-    metaDescription: 'Découvrez les meilleures SCPI spécialisées en bureaux. Rendements attractifs, diversification européenne et gestion professionnelle.',
+  'scpi-bureaux': {
+    slug: 'scpi-bureaux',
+    title: 'SCPI bureaux : analyse, comparaison et points de vigilance | MaximusSCPI',
+    metaDescription: 'Comprendre les SCPI spécialisées en bureaux : secteurs, caractéristiques, points de vigilance. Analyse pédagogique et comparaison indicative.',
     heroTitle: 'SCPI Bureaux',
-    heroTitleHighlight: 'Investissez dans l\'immobilier tertiaire',
-    heroSubtitle: 'Accédez aux meilleurs immeubles de bureaux en France et en Europe avec des rendements de 4% à 6%',
-    labelText: 'Secteur Bureaux - Valeur Refuge',
+    heroTitleHighlight: 'Analyser l\'immobilier tertiaire',
+    heroSubtitle: 'Comprendre les SCPI investies en bureaux : secteurs, zones géographiques et points de vigilance pour votre portefeuille',
+    labelText: 'Secteur Bureaux - Analyse pédagogique',
     keyMetrics: [
-      { value: '15+', label: 'SCPI bureaux' },
-      { value: '5,2%', label: 'Rendement moyen' },
-      { value: '95%', label: 'TOF moyen' }
+      { value: '15+', label: 'SCPI bureaux référencées' },
+      { value: 'Variable', label: 'Distribution passée non garantie' },
+      { value: '95%', label: 'TOF moyen (indicatif)' }
     ],
     benefits: [
       'Secteur historique et mature des SCPI',
@@ -771,8 +771,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'trending-up',
-          title: 'Rendements attractifs',
-          description: 'Rendements moyens de 4% à 6% avec des distributions trimestrielles régulières'
+          title: 'Distributions historiques',
+          description: 'Les taux de distribution passés varient selon les SCPI et les années. Ils ne sont pas garantis et ne préjugent pas des performances futures.'
         },
         {
           icon: 'globe',
@@ -794,7 +794,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'Caractéristiques',
           points: [
             'Ticket d\'entrée : 1 000€ à 5 000€',
-            'Rendement moyen : 4% à 6%',
+            'Distribution passée : variable selon les SCPI (non garantie)',
             'Délai de jouissance : 4 à 6 mois',
             'Frais de souscription : 8% à 12%'
           ]
@@ -832,7 +832,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Quel rendement espérer avec des SCPI bureaux ?',
-        answer: 'Le rendement moyen des SCPI bureaux se situe entre 4% et 6% selon les années et les SCPI. Ce rendement provient des loyers versés par les entreprises locataires. Il est généralement distribué trimestriellement.'
+        answer: 'Les taux de distribution des SCPI bureaux varient selon les SCPI et les années. Ils proviennent des loyers versés par les entreprises locataires et sont généralement distribués trimestriellement. Ces données passées ne préjugent pas des performances futures et ne sont pas garanties.'
       }
     ],
     temoignages: [
@@ -848,7 +848,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         nom: 'Christophe M., 58 ans',
-        texte: 'Éric m\'a orienté vers des SCPI bureaux bien positionnées dans les grandes métropoles. Les distributions sont régulières et conformes aux prévisions.',
+        texte: 'Éric m\'a orienté vers des SCPI bureaux bien positionnées dans les grandes métropoles. J\'apprécie la qualité des actifs et la diversification géographique proposée.',
         note: 5
       }
     ],
@@ -877,21 +877,21 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     }
   },
 
-  'scpi-commerces-investissement': {
-    slug: 'scpi-commerces-investissement',
-    title: 'Investir SCPI Commerces 2026 | Sélection Expert Personnalisée',
-    metaDescription: 'Investissez dans les meilleures SCPI commerces. Pieds d\'immeubles, centres commerciaux et retail parks avec des rendements attractifs.',
+  'scpi-commerces': {
+    slug: 'scpi-commerces',
+    title: 'SCPI commerces : analyse, comparaison et points de vigilance | MaximusSCPI',
+    metaDescription: 'Comprendre les SCPI investies en commerces : pieds d\'immeubles, retail parks, centres commerciaux. Analyse pédagogique et comparaison indicative.',
     heroTitle: 'SCPI Commerces',
-    heroTitleHighlight: 'Investissez dans le retail immobilier',
-    heroSubtitle: 'Accédez aux commerces de centre-ville, centres commerciaux et retail parks avec des rendements de 5% à 7%',
-    labelText: 'Secteur Commerce - Rendements Attractifs',
+    heroTitleHighlight: 'Analyser le retail immobilier',
+    heroSubtitle: 'Comprendre les SCPI investies en commerces : formats, zones géographiques et points de vigilance pour votre portefeuille',
+    labelText: 'Secteur Commerce - Analyse pédagogique',
     keyMetrics: [
-      { value: '8+', label: 'SCPI commerces' },
-      { value: '5,8%', label: 'Rendement moyen' },
-      { value: '93%', label: 'TOF moyen' }
+      { value: '8+', label: 'SCPI commerces référencées' },
+      { value: 'Variable', label: 'Distribution passée non garantie' },
+      { value: '93%', label: 'TOF moyen (indicatif)' }
     ],
     benefits: [
-      'Rendements supérieurs aux SCPI bureaux',
+      'Diversification sur plusieurs formats de commerce',
       'Diversification : centres-villes, retail parks, centres commerciaux',
       'Baux commerciaux 3-6-9 avec indexation',
       'Adaptation à l\'e-commerce (retail parks, drive)',
@@ -903,8 +903,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       features: [
         {
           icon: 'shopping-cart',
-          title: 'Rendements élevés',
-          description: 'Les SCPI commerces offrent des rendements de 5% à 7%, supérieurs aux SCPI bureaux grâce aux loyers commerciaux'
+          title: 'Loyers commerciaux',
+          description: 'Les loyers commerciaux constituent la source de distribution des SCPI commerces. Les taux de distribution passés varient selon les SCPI et ne sont pas garantis.'
         },
         {
           icon: 'map-pin',
@@ -931,7 +931,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'Caractéristiques',
           points: [
             'Ticket d\'entrée : 1 000€ à 5 000€',
-            'Rendement moyen : 5% à 7%',
+            'Distribution passée : variable selon les SCPI (non garantie)',
             'Délai de jouissance : 3 à 6 mois',
             'Frais de souscription : 8% à 12%'
           ]
@@ -964,12 +964,12 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les SCPI commerces se sont adaptées en privilégiant les commerces de proximité (alimentaire, santé, services) résistants à l\'e-commerce et les retail parks (bricolage, ameublement, jardinerie) qui bénéficient du click & collect. Les centres-villes premium restent attractifs.'
       },
       {
-        question: 'Pourquoi les rendements sont-ils plus élevés ?',
-        answer: 'Les loyers commerciaux sont traditionnellement plus élevés que les loyers de bureaux, ce qui permet aux SCPI commerces d\'offrir des rendements supérieurs. Cette prime de rendement compense un risque locatif légèrement supérieur.'
+        question: 'Quelle est la structure des loyers dans les SCPI commerces ?',
+        answer: 'Les loyers commerciaux sont encadrés par des baux 3-6-9, souvent indexés sur l\'Indice des Loyers Commerciaux (ILC). Leur niveau dépend de l\'emplacement, du locataire et des conditions du marché. Les taux de distribution passés ne préjugent pas des performances futures.'
       },
       {
-        question: 'Les SCPI commerces distribuent-elles régulièrement ?',
-        answer: 'Oui, comme toutes les SCPI, les SCPI commerces distribuent les loyers perçus, généralement de manière trimestrielle. Les rendements sont attractifs mais peuvent être plus volatils que les SCPI bureaux.'
+        question: 'Les SCPI commerces sont-elles adaptées à tous les profils ?',
+        answer: 'Les SCPI commerces peuvent convenir à des investisseurs cherchant une diversification sectorielle sur le commerce physique. Elles présentent un risque de vacance locative et de perte en capital. Une analyse de votre situation patrimoniale est nécessaire avant toute décision.'
       }
     ],
     temoignages: [
@@ -980,7 +980,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         nom: 'Laurent B., 51 ans',
-        texte: 'J\'ai investi dans une SCPI commerces spécialisée sur les centres-villes. Le rendement de 6% est attractif et les pieds d\'immeubles sont bien situés.',
+        texte: 'J\'ai investi dans une SCPI commerces spécialisée sur les centres-villes. J\'apprécie la qualité des emplacements et la diversification des formats proposés.',
         note: 5
       },
       {
@@ -1015,18 +1015,18 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     }
 },
 
-  'scpi-sante-investissement': {
-    slug: 'scpi-sante-investissement',
-    title: 'Investir SCPI Santé 2026 | Conseil Gratuit et Sélection sur Mesure',
-    metaDescription: 'Investissez dans les SCPI santé : cliniques, EHPAD, résidences seniors. Secteur résilient avec rendements de 4% à 5% et baux longue durée.',
+  'scpi-sante': {
+    slug: 'scpi-sante',
+    title: 'SCPI santé : analyse, comparaison et points de vigilance | MaximusSCPI',
+    metaDescription: 'Comprendre les SCPI investies dans l\'immobilier de santé : cliniques, EHPAD, résidences médicalisées. Analyse pédagogique et comparaison indicative.',
     heroTitle: 'SCPI Santé',
-    heroTitleHighlight: 'Investissez dans l\'immobilier médical',
-    heroSubtitle: 'Accédez aux cliniques, EHPAD et résidences médicalisées avec des rendements stables de 4% à 5%',
-    labelText: 'Secteur Santé - Valeur Défensive',
+    heroTitleHighlight: 'Analyser l\'immobilier médical',
+    heroSubtitle: 'Comprendre les SCPI investies dans l\'immobilier de santé : types d\'actifs, baux et points de vigilance pour votre portefeuille',
+    labelText: 'Secteur Santé - Analyse pédagogique',
     keyMetrics: [
-      { value: '6+', label: 'SCPI santé' },
-      { value: '4,5%', label: 'Rendement moyen' },
-      { value: '98%', label: 'TOF moyen' }
+      { value: '6+', label: 'SCPI santé référencées' },
+      { value: 'Variable', label: 'Distribution passée non garantie' },
+      { value: '98%', label: 'TOF moyen (indicatif)' }
     ],
     benefits: [
       'Secteur résilient et défensif',
@@ -1051,8 +1051,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'trending-up',
-          title: 'Revenus réguliers',
-          description: 'Rendements de 4% à 5% avec une très faible volatilité, idéal pour une stratégie patrimoniale défensive'
+          title: 'Distributions historiques',
+          description: 'Les taux de distribution passés des SCPI santé varient selon les SCPI et les années. Revenus non garantis, risque de perte en capital et liquidité limitée.'
         },
         {
           icon: 'users',
@@ -1069,7 +1069,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'Caractéristiques',
           points: [
             'Ticket d\'entrée : 1 000€ à 5 000€',
-            'Rendement moyen : 4% à 5%',
+            'Distribution passée : variable selon les SCPI (non garantie)',
             'Délai de jouissance : 3 à 6 mois',
             'Frais de souscription : 8% à 12%'
           ]
@@ -1098,12 +1098,12 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     },
     faq: [
       {
-        question: 'Les SCPI santé sont-elles plus sûres ?',
-        answer: 'Les SCPI santé sont considérées comme défensives grâce à des baux longue durée (9-12 ans), des locataires professionnels du secteur médical et une demande structurelle liée au vieillissement de la population. Le taux d\'occupation est généralement très élevé.'
+        question: 'Les SCPI santé sont-elles moins risquées ?',
+        answer: 'Les SCPI santé présentent des caractéristiques défensives : baux longue durée (9-12 ans), locataires professionnels du secteur médical et demande structurelle liée au vieillissement de la population. Cependant, elles restent soumises au risque de perte en capital, de vacance locative et de liquidité limitée, comme toute SCPI.'
       },
       {
-        question: 'Pourquoi les rendements sont-ils plus faibles ?',
-        answer: 'Les rendements de 4% à 5% reflètent la stabilité et la sécurité de ce secteur. Les investisseurs acceptent un rendement légèrement inférieur en contrepartie d\'une très faible volatilité et d\'un risque locatif minimal.'
+        question: 'Comment sont construits les taux de distribution des SCPI santé ?',
+        answer: 'Les distributions proviennent des loyers perçus sur les actifs de santé. Leur niveau dépend de l\'occupation, des baux en cours et de la gestion des actifs. Les données passées ne préjugent pas des performances futures et ne constituent pas une garantie de revenus.'
       },
       {
         question: 'Quel est l\'impact de la réglementation sur les EHPAD ?',
@@ -1118,7 +1118,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         nom: 'Catherine V., 56 ans',
-        texte: 'Les SCPI santé correspondent parfaitement à mon profil d\'investisseur prudent. Les baux longue durée et la demande croissante garantissent la pérennité.',
+        texte: 'Les SCPI santé correspondent à mon profil d\'investisseur prudent. J\'apprécie les baux longue durée et la qualité des actifs sélectionnés.',
         note: 5
       },
       {
@@ -1300,18 +1300,18 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       theme: 'indigo'
     }
 },
-  'scpi-france-investissement': {
-    slug: 'scpi-france-investissement',
-    title: 'Investir SCPI France 2026 | Votre Portefeuille Personnalisé Gratuit',
-    metaDescription: 'Découvrez les meilleures SCPI investies en France. Paris, Lyon, Marseille, Bordeaux : diversifiez dans l\'immobilier tertiaire français.',
+  'scpi-france': {
+    slug: 'scpi-france',
+    title: 'SCPI France : analyse, comparaison et points de vigilance | MaximusSCPI',
+    metaDescription: 'Comprendre les SCPI investies en France : Paris, Lyon, Bordeaux, grandes métropoles. Analyse pédagogique et comparaison indicative.',
     heroTitle: 'SCPI France',
-    heroTitleHighlight: 'Investissez dans l\'immobilier français',
-    heroSubtitle: 'Accédez aux meilleurs actifs immobiliers des grandes métropoles françaises avec des rendements de 4% à 6%',
-    labelText: 'Géographie France - Proximité',
+    heroTitleHighlight: 'Analyser l\'immobilier français',
+    heroSubtitle: 'Comprendre les SCPI investies sur le marché français : zones géographiques, secteurs et points de vigilance pour votre portefeuille',
+    labelText: 'Géographie France - Analyse pédagogique',
     keyMetrics: [
-      { value: '25+', label: 'SCPI France' },
-      { value: '5,0%', label: 'Rendement moyen' },
-      { value: '94%', label: 'TOF moyen' }
+      { value: '25+', label: 'SCPI France référencées' },
+      { value: 'Variable', label: 'Distribution passée non garantie' },
+      { value: '94%', label: 'TOF moyen (indicatif)' }
     ],
     benefits: [
       'Investissement sur un marché connu et transparent',
@@ -1341,8 +1341,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'trending-up',
-          title: 'Rendements attractifs',
-          description: 'Rendements de 4% à 6% selon les secteurs d\'activité (bureaux, commerces, santé, logistique)'
+          title: 'Distributions historiques',
+          description: 'Les taux de distribution varient selon les SCPI et les secteurs (bureaux, commerces, santé, logistique). Ces données passées ne sont pas garanties et ne préjugent pas des performances futures.'
         }
       ]
     },
@@ -1354,7 +1354,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'Caractéristiques',
           points: [
             'Ticket d\'entrée : 1 000€ à 5 000€',
-            'Rendement moyen : 4% à 6%',
+            'Distribution passée : variable selon les SCPI (non garantie)',
             'Délai de jouissance : 3 à 6 mois',
             'Frais de souscription : 8% à 12%'
           ]
@@ -1388,7 +1388,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Les SCPI France sont-elles moins rentables ?',
-        answer: 'Non, les rendements sont comparables aux SCPI européennes (4% à 6%). La différence réside dans l\'absence de risque de change et la concentration sur le marché français, ce qui peut être un avantage ou un inconvénient selon votre stratégie de diversification.'
+        answer: 'Les SCPI France et européennes présentent des niveaux de distribution historiques comparables, mais ces données passées ne sont pas garanties. La principale différence réside dans l\'absence de risque de change pour les SCPI France et la concentration sur le marché domestique, ce qui peut être un avantage ou un inconvénient selon votre stratégie.'
       },
       {
         question: 'Quelle fiscalité pour les SCPI France ?',

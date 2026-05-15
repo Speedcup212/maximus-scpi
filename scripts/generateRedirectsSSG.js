@@ -35,6 +35,18 @@ const generateRedirects = () => {
 /risque-perte-scpi-scenarios-baisse /risques-scpi-scenarios-baisse 301
 /portefeuille-scpi-100-pourcent-ligne-maximus /portefeuille-scpi-en-ligne 301
 
+# Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
+/scpi-bureaux-investissement /scpi-bureaux/ 301
+/scpi-bureaux-investissement/ /scpi-bureaux/ 301
+/scpi-commerces-investissement /scpi-commerces/ 301
+/scpi-commerces-investissement/ /scpi-commerces/ 301
+/scpi-sante-investissement /scpi-sante/ 301
+/scpi-sante-investissement/ /scpi-sante/ 301
+/scpi-france-investissement /scpi-france/ 301
+/scpi-france-investissement/ /scpi-france/ 301
+/scpi-europe /scpi-europeennes/ 301
+/scpi-europe/ /scpi-europeennes/ 301
+
 # Pages statiques générales
 /faq /index.html 200
 /comprendre-les-scpi /index.html 200
@@ -79,17 +91,10 @@ const generateRedirects = () => {
 /investir-scpi /index.html 200
 /scpi-rentable /index.html 200
 
-# Landing Pages - Secteurs
-/scpi-bureaux /index.html 200
-/scpi-commerces /index.html 200
-/scpi-sante /index.html 200
+# Landing Pages - Secteurs (scpi-bureaux, scpi-commerces, scpi-sante, scpi-france : pages statiques SSG)
 /scpi-logistique /index.html 200
 /scpi-residentiel /index.html 200
 /scpi-hotellerie /index.html 200
-
-# Landing Pages - Géographie
-/scpi-europe /index.html 200
-/scpi-france /index.html 200
 
 # Pages SCPI individuelles sont servies automatiquement via cleanUrls
 # Pas besoin de redirects car elles sont dans dist/scpi-*/index.html
