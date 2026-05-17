@@ -213,7 +213,7 @@ const App: React.FC = () => {
   const [appClientId, setAppClientId] = useState<string | null>(null);
 
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\/|\/$/, '');
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
     const thematicPage = (window as any).__THEMATIC_PAGE__;
     const initialPage = (window as any).__INITIAL_PAGE__;
     const initialRoute = (window as any).__INITIAL_ROUTE__;
