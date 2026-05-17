@@ -2384,9 +2384,9 @@ const App: React.FC = () => {
     return (
       <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <SEOHead
-          title="Fiscalité SCPI : Impôt sur les revenus fonciers et optimisation"
-          description="Découvrez comment sont imposés les revenus de vos SCPI. Comprenez l'impôt sur le revenu, les prélèvements sociaux et les dispositifs d'optimisation fiscale."
-          keywords={['fiscalité SCPI', 'revenus fonciers SCPI', 'imposition SCPI', 'prélèvements sociaux SCPI', 'optimisation fiscale SCPI']}
+          title="Fiscalité des SCPI : comprendre l'imposition de vos revenus fonciers | MaximusSCPI"
+          description="Revenus fonciers, prélèvements sociaux (17,2 %), SCPI européennes, optimisation fiscale (assurance-vie, PER, démembrement) : tout comprendre sur la fiscalité des SCPI. Données pédagogiques, non personnalisées."
+          keywords={['fiscalité SCPI', 'revenus fonciers SCPI', 'imposition SCPI', 'prélèvements sociaux SCPI', 'optimisation fiscale SCPI', 'SCPI européennes fiscalité', 'TMI SCPI']}
           canonical="https://maximusscpi.com/fiscalite-scpi/"
         />
         <Header
@@ -2407,7 +2407,11 @@ const App: React.FC = () => {
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
-          <FiscaliteScpiPage onNavigate={handleGenericNavigation} />
+          <FiscaliteScpiPage
+            onNavigate={handleGenericNavigation}
+            onRdvClick={() => setIsRdvModalOpen(true)}
+            onComparateurClick={handleComparateurClick}
+          />
         </Suspense>
         <Footer />
         {renderGlobalModals()}
