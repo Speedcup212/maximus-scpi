@@ -38,6 +38,7 @@ Agents disponibles :
 - 03-data-scpi.md
 - 04-conformite-cif.md
 - 05-crm-relance.md
+- 06-agent-validation-ux-seo-conformite.md
 - router.md
 
 ---
@@ -68,9 +69,25 @@ Vérifie les formulations sensibles, les risques de promesse de rendement, les r
 
 Structure les relances prospects, les messages commerciaux, les séquences emails et la conversion vers rendez-vous qualifié.
 
+### Agent 06 — Validation UX / SEO / Conformité CIF
+
+Valide automatiquement chaque brief, livrable ou modification de page avant implémentation. Produit un score sur 4 axes (SEO, visibilité IA, UX/CTA, conformité CIF) et détermine si la validation humaine est nécessaire ou si la validation IA seule suffit.
+
 ---
 
-## 4. Règles absolues
+## 4. Validation avant modification du site
+
+Tout livrable (brief SEO, FAQ, méta, contenu, CTA) doit passer par l'Agent 06 avant implémentation.
+
+L'Agent 06 produit un rapport avec 4 scores (/100) et une décision :
+
+- `VALIDATION IA : OK` + tous les scores ≥ 75 + aucun red flag → l'utilisateur peut écrire `VALIDÉ POUR MODIFICATION DU SITE`.
+- `VALIDATION IA : À CORRIGER` → corriger et re-soumettre avant modification.
+- `VALIDATION IA : BLOQUÉ` → validation humaine obligatoire, aucune modification du site.
+
+---
+
+## 5. Règles absolues
 
 Les agents doivent respecter les règles suivantes :
 
@@ -85,7 +102,7 @@ Les agents doivent respecter les règles suivantes :
 
 ---
 
-## 5. Règles Cursor
+## 6. Règles Cursor
 
 En phase actuelle, seuls ces fichiers peuvent être créés ou modifiés :
 
@@ -118,7 +135,7 @@ Sans cette phrase, les agents restent en mode analyse, brief ou recommandation.
 
 ---
 
-## 6. Workflow recommandé
+## 7. Workflow recommandé
 
 Pour chaque nouvelle demande :
 
@@ -127,14 +144,15 @@ Pour chaque nouvelle demande :
 3. Définir l’agent prioritaire.
 4. Produire un brief.
 5. Faire passer les sujets sensibles par 04-conformite-cif.md.
-6. Ne modifier aucun fichier du site sans validation explicite.
-7. Créer si besoin un rapport dans /agents/reports.
-8. Ne jamais faire Keep All sans revue fichier par fichier.
-9. Ne jamais faire Commit sans contrôle du git status.
+6. Soumettre le livrable à l'Agent 06 pour validation scoring.
+7. Ne modifier aucun fichier du site sans validation explicite et rapport Agent 06 OK.
+8. Créer si besoin un rapport dans /agents/reports.
+9. Ne jamais faire Keep All sans revue fichier par fichier.
+10. Ne jamais faire Commit sans contrôle du git status.
 
 ---
 
-## 7. Commandes utiles
+## 8. Commandes utiles
 
 Vérifier les modifications en cours :
 
@@ -154,7 +172,7 @@ Get-ChildItem agents -File | Select-Object Name, Length, LastWriteTime
 
 ---
 
-## 8. Objectif final
+## 9. Objectif final
 
 Le système d’agents MaximusSCPI doit aider à produire plus vite et mieux :
 
