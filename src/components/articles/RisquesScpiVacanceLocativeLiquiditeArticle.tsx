@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, TrendingDown, Lock, Home, DollarSign, FileText } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const RisquesScpiVacanceLocativeLiquiditeArticle: React.FC = () => {
   return (
@@ -80,6 +81,8 @@ export const RisquesScpiVacanceLocativeLiquiditeArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="risques" />
 
       {/* Risque 1 : Vacance locative */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -256,6 +259,8 @@ export const RisquesScpiVacanceLocativeLiquiditeArticle: React.FC = () => {
         </div>
       </section>
       
+
+      <ArticleCtaBlock variant="middle" topic="risques" />
 
       {/* Risque 3 : Valeur du capital et marché */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">

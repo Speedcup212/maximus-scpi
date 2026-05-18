@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, PieChart, Award, FileText, Globe, MapPin, TrendingDown, Percent } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const ScpiEuropeennesAvantagesPs0RendementArticle: React.FC = () => {
   return (
@@ -102,6 +103,8 @@ export const ScpiEuropeennesAvantagesPs0RendementArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="general" />
 
       {/* Mécanisme fiscal */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -362,6 +365,8 @@ export const ScpiEuropeennesAvantagesPs0RendementArticle: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="middle" topic="general" />
 
       {/* Meilleures SCPI */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">

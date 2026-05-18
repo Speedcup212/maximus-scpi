@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, Coins, Gift, ArrowUpRight, Percent } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const DemembrementScpiNueProprieteUsufruitArticle: React.FC = () => {
   return (
@@ -84,6 +85,8 @@ export const DemembrementScpiNueProprieteUsufruitArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="demembrement" />
 
       {/* Section 1 : Comprendre le démembrement */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -262,7 +265,8 @@ export const DemembrementScpiNueProprieteUsufruitArticle: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
+      <ArticleCtaBlock variant="middle" topic="demembrement" />
 
       {/* Section 3 : Fiscalité de l'usufruit */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
