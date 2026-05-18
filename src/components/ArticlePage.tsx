@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, Calendar, Clock, BookOpen, Target } from 'lucide-react';
+import ArticleCtaBlock from './ArticleCtaBlock';
 
 export interface Article {
   id: string;
@@ -76,17 +77,25 @@ const ArticlePage: React.FC<ArticlePageProps> = ({
               {article.content.intro}
             </div>
 
+            <ArticleCtaBlock variant="top" topic="general" />
+
             {article.content.sections.map((section, index) => (
-              <div key={index} className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                  {section.title}
-                </h2>
-                {section.content.map((paragraph, pIndex) => (
-                  <p key={pIndex} className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+              <React.Fragment key={index}>
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    {section.title}
+                  </h2>
+                  {section.content.map((paragraph, pIndex) => (
+                    <p key={pIndex} className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                {article.content.sections.length >= 2 &&
+                  index === Math.floor(article.content.sections.length / 2) - 1 && (
+                  <ArticleCtaBlock variant="middle" topic="general" />
+                )}
+              </React.Fragment>
             ))}
 
             <div className="mt-8 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
