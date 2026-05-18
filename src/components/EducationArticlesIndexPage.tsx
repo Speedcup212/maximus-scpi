@@ -228,6 +228,30 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {category === 'fiscalite' && (
+                  <a
+                    href="/fiscalite-scpi/"
+                    className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-green-200 dark:border-green-700 ${styles.borderHoverClass} group`}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-semibold rounded">
+                        📚 Guide pilier
+                      </span>
+                    </div>
+                    <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
+                      Fiscalité des SCPI : guide complet
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      Comprendre l'imposition des revenus fonciers, les prélèvements sociaux, les SCPI européennes, l'assurance-vie, le PER, le démembrement et les points de vigilance.
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
+                        fiscalité SCPI
+                      </span>
+                      <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
+                    </div>
+                  </a>
+                )}
                 {articles.map((article) => (
                   <button
                     key={article.slug}

@@ -140,6 +140,7 @@ const ScpiJeuneActif = lazy(() => import('./components/articles/InvestirScpiJeun
 const ExpertiseOriasPage = lazy(() => import('./components/ExpertiseOriasPage'));
 const MethodologieDonneesPage = lazy(() => import('./components/MethodologieDonneesPage'));
 const AvertissementsRisquesPage = lazy(() => import('./components/AvertissementsRisquesPage'));
+const FiscaliteScpiPage = lazy(() => import('./components/FiscaliteScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -212,7 +213,7 @@ const App: React.FC = () => {
   const [appClientId, setAppClientId] = useState<string | null>(null);
 
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\/|\/$/, '');
+    const path = window.location.pathname.replace(/^\/|\/$/g, '');
     const thematicPage = (window as any).__THEMATIC_PAGE__;
     const initialPage = (window as any).__INITIAL_PAGE__;
     const initialRoute = (window as any).__INITIAL_ROUTE__;
@@ -2377,6 +2378,46 @@ const App: React.FC = () => {
   }
 
   // === FIN RENDER 30 ARTICLES ===
+
+  // Render Page Pivot Fiscalité SCPI
+  if (currentView === 'fiscalite-scpi') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark">
+        <SEOHead
+          title="Fiscalité des SCPI : comprendre l'imposition de vos revenus fonciers | MaximusSCPI"
+          description="Revenus fonciers, prélèvements sociaux (17,2 %), SCPI européennes, optimisation fiscale (assurance-vie, PER, démembrement) : tout comprendre sur la fiscalité des SCPI. Données pédagogiques, non personnalisées."
+          keywords={['fiscalité SCPI', 'revenus fonciers SCPI', 'imposition SCPI', 'prélèvements sociaux SCPI', 'optimisation fiscale SCPI', 'SCPI européennes fiscalité', 'TMI SCPI']}
+          canonical="https://maximusscpi.com/fiscalite-scpi/"
+        />
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <FiscaliteScpiPage
+            onNavigate={handleGenericNavigation}
+            onRdvClick={() => setIsRdvModalOpen(true)}
+            onComparateurClick={handleComparateurClick}
+          />
+        </Suspense>
+        <Footer />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
 
   // Render Comparateur SCPI (page dédiée — design identique à la section accueil)
   if (currentView === 'comparateur') {
