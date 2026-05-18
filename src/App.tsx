@@ -2382,7 +2382,7 @@ const App: React.FC = () => {
   // Render Page Pivot Fiscalité SCPI
   if (currentView === 'fiscalite-scpi') {
     return (
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+      <div className="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark">
         <SEOHead
           title="Fiscalité des SCPI : comprendre l'imposition de vos revenus fonciers | MaximusSCPI"
           description="Revenus fonciers, prélèvements sociaux (17,2 %), SCPI européennes, optimisation fiscale (assurance-vie, PER, démembrement) : tout comprendre sur la fiscalité des SCPI. Données pédagogiques, non personnalisées."
