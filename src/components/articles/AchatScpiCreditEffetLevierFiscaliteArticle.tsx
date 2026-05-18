@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const AchatScpiCreditEffetLevierFiscaliteArticle: React.FC = () => {
   return (
@@ -79,6 +80,8 @@ export const AchatScpiCreditEffetLevierFiscaliteArticle: React.FC = () => {
         </div>
       </section>
 
+      <ArticleCtaBlock variant="top" topic="credit" />
+
       {/* Section principale */}
       
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -138,6 +141,8 @@ export const AchatScpiCreditEffetLevierFiscaliteArticle: React.FC = () => {
         </div>
       </section>
       
+
+      <ArticleCtaBlock variant="middle" topic="credit" />
 
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">

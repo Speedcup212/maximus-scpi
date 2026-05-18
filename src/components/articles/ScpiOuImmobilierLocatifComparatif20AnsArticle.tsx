@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, Home, Wrench, DollarSign, TrendingDown, Lock } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const ScpiOuImmobilierLocatifComparatif20AnsArticle: React.FC = () => {
   return (
@@ -80,6 +81,8 @@ export const ScpiOuImmobilierLocatifComparatif20AnsArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="general" />
 
       {/* Simulation : 100 000€ investis */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -276,6 +279,8 @@ export const ScpiOuImmobilierLocatifComparatif20AnsArticle: React.FC = () => {
         </div>
       </section>
       
+
+      <ArticleCtaBlock variant="middle" topic="general" />
 
       {/* 3 profils investisseurs */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">

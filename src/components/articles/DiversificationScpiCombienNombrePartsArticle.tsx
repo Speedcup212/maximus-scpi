@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, PieChart, Scale, Lightbulb, Eye, Calculator, Layers } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {
   return (
@@ -80,6 +81,8 @@ export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="general" />
 
       {/* Pourquoi diversifier ? */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -167,6 +170,8 @@ export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="middle" topic="general" />
 
       {/* Règle d'or : nombre optimal */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TrendingUp, Shield, Calculator, AlertTriangle, CheckCircle2, PieChart as PieChartIcon, Building, BarChart3, Users, Clock, Euro, Target, User, Calendar } from 'lucide-react';
 import PieChart from '../PieChart';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const FondsEurosOuScpiArticle: React.FC = () => {
   // Données pour le camembert allocation (profil dynamique)
@@ -92,6 +93,8 @@ export const FondsEurosOuScpiArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="general" />
 
       {/* Section Comprendre */}
       <section>
@@ -367,6 +370,8 @@ export const FondsEurosOuScpiArticle: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="middle" topic="general" />
 
       {/* Fiscalité détaillée */}
       <section>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3 } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const ScpiDirectOuAssuranceVieArticle: React.FC = () => {
   return (
@@ -80,6 +81,8 @@ export const ScpiDirectOuAssuranceVieArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="assurance-vie" />
 
       {/* Section 1 : Contexte & enjeux */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -255,6 +258,8 @@ export const ScpiDirectOuAssuranceVieArticle: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="middle" topic="assurance-vie" />
 
       {/* Section 3 : Stratégies recommandées */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">

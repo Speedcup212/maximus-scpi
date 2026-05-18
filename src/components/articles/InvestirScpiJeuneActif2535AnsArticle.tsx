@@ -1,5 +1,6 @@
 import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, Rocket, Zap, PiggyBank, TrendingDown, Repeat } from 'lucide-react';
+import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const InvestirScpiJeuneActif2535AnsArticle: React.FC = () => {
   return (
@@ -84,6 +85,8 @@ export const InvestirScpiJeuneActif2535AnsArticle: React.FC = () => {
           </ul>
         </div>
       </section>
+
+      <ArticleCtaBlock variant="top" topic="general" />
 
       {/* Section 1 : Pourquoi les SCPI entre 25-35 ans */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
@@ -332,6 +335,8 @@ export const InvestirScpiJeuneActif2535AnsArticle: React.FC = () => {
         </div>
       </section>
       
+
+      <ArticleCtaBlock variant="middle" topic="general" />
 
       {/* Section 3 : Optimisation fiscale */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
