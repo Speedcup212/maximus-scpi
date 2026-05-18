@@ -28,7 +28,11 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 
-dotenv.config();
+// Charger .env.local en priorité (utilisé par ce projet), puis .env comme fallback.
+// Ne jamais afficher les valeurs chargées.
+const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1')), '../..');
+dotenv.config({ path: path.join(rootDir, '.env.local') });
+dotenv.config({ path: path.join(rootDir, '.env') });
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
