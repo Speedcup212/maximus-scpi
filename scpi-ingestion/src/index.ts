@@ -683,7 +683,7 @@ async function runIngestion(runId: string, startedAt: Date, slugFilter: string |
 
   let { sources } = sourcesResult.value;
   if (slugFilter !== null) {
-    sources = sources.filter((s) => s.scpi === slugFilter);
+    sources = sources.filter((s) => s.id === slugFilter || s.scpi === slugFilter);
     if (sources.length === 0) {
       logger.error("slug_not_found", { runId, slug: slugFilter });
       process.exit(2);
