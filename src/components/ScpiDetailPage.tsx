@@ -14,6 +14,99 @@ import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
+import { getIndicator, getDataStatusLabel, getDataStatusColor } from '../data/scpiIndicators.generated';
+
+function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
+  const slug = scpiName
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+  const indicator = getIndicator(slug);
+  if (!indicator) return null;
+
+  const rows: { label: string; value: string | null; unit?: string }[] = [
+    { label: "Taux de distribution", value: indicator.distribution_rate != null ? `${indicator.distribution_rate}` : null, unit: `% (${indicator.distribution_year ?? '—'})` },
+    { label: "Prix de souscription", value: indicator.share_price != null ? `${indicator.share_price}` : null, unit: '€' },
+    { label: "Capitalisation", value: indicator.capitalization != null ? `${indicator.capitalization}` : null, unit: ' M€' },
+    { label: "Taux d'occupation (TOF)", value: indicator.tof != null ? `${indicator.tof}` : null, unit: '%' },
+    { label: "Frais de souscription", value: indicator.subscription_fees != null ? `${indicator.subscription_fees}` : null, unit: '%' },
+    { label: "Délai de jouissance", value: indicator.enjoyment_delay != null ? `${indicator.enjoyment_delay}` : null, unit: ' mois' },
+    { label: "Valeur de reconstitution", value: indicator.reconstitution_value != null ? `${indicator.reconstitution_value}` : null, unit: '€' },
+    { label: "Endettement", value: indicator.debt_ratio != null ? `${indicator.debt_ratio}` : null, unit: '%' },
+  ];
+
+  return (
+    <div className="mt-6 rounded-xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-4">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <h4 className="font-black text-gray-900 dark:text-white flex items-center gap-2 text-base">
+          <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+          Indicateurs publics disponibles
+        </h4>
+        <span className={`text-xs px-2 py-0.5 rounded border ${getDataStatusColor(indicator.data_status)}`}>
+          {getDataStatusLabel(indicator.data_status)}
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 mb-3">
+        {rows.map(r => (
+          <div key={r.label} className="bg-white dark:bg-gray-800 rounded-lg p-2 border border-blue-100 dark:border-blue-800">
+            <div className="text-xs text-gray-500 dark:text-gray-400 leading-tight">{r.label}</div>
+            <div className="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+              {r.value != null
+                ? `${r.value}${r.unit ?? ''}`
+                : <span className="text-gray-400 font-normal text-xs">À vérifier</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 border-t border-blue-100 dark:border-blue-800 pt-2">
+        <span>Source : {indicator.management_company}</span>
+        <span>Document : {indicator.source_document_type === 'bulletin_trimestriel' ? 'Bulletin trimestriel T3 2025' : indicator.source_document_type}</span>
+        <span>Extrait le : {indicator.extraction_date}</span>
+        {indicator.warning && (
+          <span className="text-amber-600 dark:text-amber-400 w-full mt-1">⚠ {indicator.warning}</span>
+        )}
+      </div>
+      <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+        Ces données sont issues de sources publiques officielles. Elles ne constituent pas une recommandation personnalisée.
+        Les performances passées ne préjugent pas des performances futures.
+      </p>
+    </div>
+  );
+}
+
+function ScpiCheckpoints() {
+  const points = [
+    "La fiscalité des revenus SCPI dépend de votre tranche marginale d'imposition (TMI) et de votre mode de détention.",
+    "La liquidité des parts n'est pas garantie : la revente peut prendre plusieurs semaines à plusieurs mois.",
+    "Risque de perte en capital : la valeur des parts peut évoluer à la hausse comme à la baisse.",
+    "Les revenus distribués ne sont pas garantis et peuvent varier d'une période à l'autre.",
+    "Les performances passées, notamment le taux de distribution, ne préjugent pas des performances futures.",
+    "L'adéquation avec votre objectif patrimonial nécessite une analyse de votre situation personnelle.",
+  ];
+
+  return (
+    <div className="mt-4 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-4">
+      <h4 className="font-black text-gray-900 dark:text-white flex items-center gap-2 text-base mb-3">
+        <Shield className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+        Points à vérifier avant d'investir
+      </h4>
+      <ul className="space-y-1.5">
+        {points.map((point, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+            <span className="text-amber-500 mt-0.5 flex-shrink-0">•</span>
+            {point}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+        Cette page présente des informations générales sur la SCPI. Elle ne constitue pas un conseil personnalisé au sens de la réglementation CIF.
+        Une analyse adaptée à votre situation patrimoniale est recommandée avant tout investissement.
+      </p>
+    </div>
+  );
+}
 
 interface ScpiDetailPageProps {
   scpi: Scpi;
@@ -566,6 +659,12 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           Selon votre profil investisseur, certains éléments comme la durée, la diversification ou la régularité peuvent être plus ou moins confortables à vivre.
         </p>
       </div>
+
+      {/* Bloc indicateurs publics enrichis */}
+      <ScpiPublicIndicators scpiName={scpi.name} />
+
+      {/* Bloc points à vérifier — conformité CIF */}
+      <ScpiCheckpoints />
 
       {/* Actions */}
       {!isParcoursMode && (

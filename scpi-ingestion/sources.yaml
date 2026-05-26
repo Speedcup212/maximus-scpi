@@ -1,18 +1,168 @@
-# SCPI bulletin sources — type html_page with pageUrl
-# Pipeline crawls pageUrl (fetch HTML or Playwright) → extracts bulletin PDF → upload → upsert DB
+# SCPI bulletin sources — pipeline MaximusSCPI
+# Format : slug SCPI (minuscules, tirets) + URL de la page documentation officielle
+#
+# Le pipeline charge pageUrl avec Playwright → extrait le lien PDF du bulletin
+# trimestriel → télécharge → analyse → stocke dans Supabase (scpi_indicators).
+#
+# Statuts :
+#   ✅ vérifié  — URL testée, bulletin accessible
+#   🔍 à tester — URL probable, non vérifiée manuellement
+#   ❌ à compléter — URL inconnue, nécessite vérification manuelle
+#
+# Pour tester une SCPI seule :
+#   npx tsx src/index.ts --slug iroko-zen
+#
+# Les entrées avec PLACEHOLDER dans l'URL sont exclues automatiquement par le
+# pipeline (fetchBestPdfLink échoue → failure loggée, pas de crash).
 
 sources:
-  - scpi: comete
+
+  # ── Alderan ──────────────────────────────────────────────────────────────────
+  - scpi: comete                       # ✅ vérifié
     pageUrl: https://alderan.fr/scpi-comete-documentation/
 
-  - scpi: novaxia-neo
-    pageUrl: https://www.novaxia-investissement.fr/produits/novaxia-neo/
+  - scpi: activimmo                    # 🔍 à tester
+    pageUrl: https://alderan.fr/scpi-activimmo-documentation/
 
-  - scpi: perial-oportunites-europe
-    pageUrl: https://www.perial.com/scpi/perial-opportunites-europe
+  # ── Remake Asset Management ───────────────────────────────────────────────────
+  - scpi: remake-live                  # ✅ vérifié
+    pageUrl: https://www.remake.immo/remake-live/
 
-  - scpi: iroko-zen
+  - scpi: transitions-europe           # 🔍 à tester
+    pageUrl: https://www.remake.immo/transitions-europe/
+
+  # ── Iroko ─────────────────────────────────────────────────────────────────────
+  - scpi: iroko-zen                    # ✅ vérifié
     pageUrl: https://www.iroko.eu/scpi-iroko-zen/
 
-  - scpi: remake-live
-    pageUrl: https://www.remake.immo/remake-live/
+  # ── Novaxia ───────────────────────────────────────────────────────────────────
+  - scpi: novaxia-neo                  # ✅ vérifié
+    pageUrl: https://www.novaxia-investissement.fr/produits/novaxia-neo/
+
+  # ── Perial ────────────────────────────────────────────────────────────────────
+  - scpi: perial-opportunites-europe   # ✅ vérifié
+    pageUrl: https://www.perial.com/scpi/perial-opportunites-europe
+
+  - scpi: perial-o2                    # 🔍 à tester
+    pageUrl: https://www.perial.com/scpi/perial-o2
+
+  - scpi: perial-hospitalite-europe    # 🔍 à tester
+    pageUrl: https://www.perial.com/scpi/perial-hospitalite-europe
+
+  - scpi: perial-grand-paris           # 🔍 à tester
+    pageUrl: https://www.perial.com/scpi/perial-grand-paris
+
+  # ── Sofidy ────────────────────────────────────────────────────────────────────
+  - scpi: efimmo-1                     # 🔍 à tester
+    pageUrl: https://www.sofidy.com/fr/scpi/efimmo-1
+
+  - scpi: immorente                    # 🔍 à tester
+    pageUrl: https://www.sofidy.com/fr/scpi/immorente
+
+  # ── Atland Voisin ─────────────────────────────────────────────────────────────
+  - scpi: epargne-pierre               # 🔍 à tester
+    pageUrl: https://www.atlandvoisin.fr/scpi/epargne-pierre/
+
+  - scpi: epargne-pierre-europe        # 🔍 à tester
+    pageUrl: https://www.atlandvoisin.fr/scpi/epargne-pierre-europe/
+
+  # ── La Française ─────────────────────────────────────────────────────────────
+  - scpi: lf-europimmo                 # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/lf-europimmo/
+
+  - scpi: lf-grand-paris-patrimoine    # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/lf-grand-paris-patrimoine/
+
+  - scpi: lf-avenir-sante              # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/lf-avenir-sante/
+
+  - scpi: epargne-fonciere             # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/epargne-fonciere/
+
+  - scpi: selectinvest-1               # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/selectinvest-1/
+
+  - scpi: selectipierre-2              # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/selectipierre-2/
+
+  - scpi: credit-mutuel-pierre-1       # 🔍 à tester
+    pageUrl: https://www.la-francaise.com/fr/nos-produits/scpi/credit-mutuel-pierre-1/
+
+  # ── Sogenial ─────────────────────────────────────────────────────────────────
+  - scpi: coeur-de-region              # 🔍 à tester
+    pageUrl: https://www.sogenial-immobilier.fr/scpi/coeur-de-region/
+
+  - scpi: coeur-d-europe               # 🔍 à tester
+    pageUrl: https://www.sogenial-immobilier.fr/scpi/coeur-d-europe/
+
+  - scpi: coeur-de-ville               # 🔍 à tester
+    pageUrl: https://www.sogenial-immobilier.fr/scpi/coeur-de-ville/
+
+  # ── Paref Gestion ─────────────────────────────────────────────────────────────
+  - scpi: novapierre-1                 # 🔍 à tester
+    pageUrl: https://www.paref-gestion.com/nos-scpi/novapierre-1/
+
+  - scpi: novapierre-residentiel       # 🔍 à tester
+    pageUrl: https://www.paref-gestion.com/nos-scpi/novapierre-residentiel/
+
+  - scpi: paref-evo                    # 🔍 à tester
+    pageUrl: https://www.paref-gestion.com/nos-scpi/paref-evo/
+
+  - scpi: paref-hexa                   # 🔍 à tester
+    pageUrl: https://www.paref-gestion.com/nos-scpi/paref-hexa/
+
+  # ── Aestiam ──────────────────────────────────────────────────────────────────
+  - scpi: aestiam-cap-hebergimmo       # 🔍 à tester
+    pageUrl: https://www.aestiam.com/scpi/cap-hebergimmo/
+
+  - scpi: aestiam-pierre-rendement     # 🔍 à tester
+    pageUrl: https://www.aestiam.com/scpi/pierre-rendement/
+
+  - scpi: aestiam-horizon              # 🔍 à tester
+    pageUrl: https://www.aestiam.com/scpi/horizon/
+
+  # ── Altixia ──────────────────────────────────────────────────────────────────
+  - scpi: altixia-cadence-12           # 🔍 à tester
+    pageUrl: https://www.altixia-reim.fr/scpi/cadence-xii/
+
+  - scpi: altixia-commerces            # 🔍 à tester
+    pageUrl: https://www.altixia-reim.fr/scpi/altixia-commerces/
+
+  # ── Kyaneos ──────────────────────────────────────────────────────────────────
+  - scpi: kyaneos-pierre               # 🔍 à tester
+    pageUrl: https://www.kyaneos-am.com/kyaneos-pierre/
+
+  # ── Primonial ─────────────────────────────────────────────────────────────────
+  - scpi: patrimmo-croissance-impact   # 🔍 à tester
+    pageUrl: https://www.primonialreim.fr/scpi/patrimmo-croissance-impact/
+
+  # ── NCap ──────────────────────────────────────────────────────────────────────
+  - scpi: ncap-regions                 # 🔍 à tester
+    pageUrl: https://www.ncap.fr/scpi/ncap-regions/
+
+  - scpi: ncap-education-sante         # 🔍 à tester
+    pageUrl: https://www.ncap.fr/scpi/ncap-education-sante/
+
+  # ── BNP Paribas REIM ──────────────────────────────────────────────────────────
+  - scpi: edissimo                     # 🔍 à tester
+    pageUrl: https://www.bnpparibas-reim.com/fr/produits/scpi/edissimo
+
+  # ── Atream ───────────────────────────────────────────────────────────────────
+  - scpi: atream-hotel                 # 🔍 à tester
+    pageUrl: https://www.atream.fr/scpi/atream-hotel/
+
+  # ── À compléter manuellement ──────────────────────────────────────────────────
+  # Les slugs ci-dessous sont identifiés mais leurs URLs de documentation sont
+  # inconnues. Vérifier sur le site de la société de gestion et compléter.
+  #
+  # - scpi: opportunite-immo           # ❌ société de gestion à identifier
+  # - scpi: cristal-life               # ❌ cristal-reim.fr ?
+  # - scpi: log-in                     # ❌ corum.fr ?
+  # - scpi: esg-pierre-capital         # ❌ à identifier
+  # - scpi: fonciere-des-praticiens    # ❌ à identifier
+  # - scpi: ficommerce-proximite       # ❌ à identifier
+  # - scpi: urban-coeur-de-commerce    # ❌ à identifier
+  # - scpi: buroboutic-metropoles      # ❌ à identifier
+  # - scpi: gma-essentialis            # ❌ à identifier
+  # - scpi: grand-paris-residentiel    # ❌ à identifier
+  # - scpi: sofiprime                  # ❌ sofidy.com ?

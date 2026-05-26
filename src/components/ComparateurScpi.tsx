@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpDown, Search } from 'lucide-react';
 import { findScpiSlug } from '../utils/scpiSlugMapper';
+import { getIndicator, getDataStatusLabel, getDataStatusColor, INDICATORS_GENERATED_AT } from '../data/scpiIndicators.generated';
 
 interface ScpiItem {
   id: number;
   name: string;
   company: string;
   yield: number;
+  yieldYear: number | null;
   tof: number;
   sector: string;
   price: number;
   fees: number;
   capitalization: number;
+  enjoymentDelay: number | null;
+  dataStatus: 'verified' | 'to_verify' | 'missing' | null;
+  slug: string | null;
 }
 
 interface ComparateurScpiProps {
@@ -30,17 +35,27 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
     console.log('[DEBUG ComparateurScpi] Component mounted, loading data...');
     import('../data/scpiData').then(module => {
       console.log('[DEBUG ComparateurScpi] Data loaded, scpiData length:', module.scpiData?.length);
-      const data = module.scpiData.map((scpi: any) => ({
-        id: scpi.id,
-        name: scpi.name,
-        company: scpi.company,
-        yield: scpi.yield || 0,
-        tof: scpi.tof || 0,
-        sector: scpi.sector || 'diversifie',
-        price: scpi.price || 0,
-        fees: scpi.fees || 0,
-        capitalization: scpi.capitalization || 0
-      }));
+      const data = module.scpiData.map((scpi: any) => {
+        const slug = findScpiSlug(scpi.name) ?? null;
+        const indicator = slug ? getIndicator(slug) : undefined;
+        return {
+          id: scpi.id,
+          name: scpi.name,
+          company: scpi.company,
+          yield: indicator?.distribution_rate ?? scpi.yield ?? 0,
+          yieldYear: indicator?.distribution_year ?? null,
+          tof: indicator?.tof ?? scpi.tof ?? 0,
+          sector: scpi.sector || 'diversifie',
+          price: indicator?.share_price ?? scpi.price ?? 0,
+          fees: indicator?.subscription_fees ?? scpi.fees ?? 0,
+          capitalization: indicator?.capitalization != null
+            ? indicator.capitalization * 1_000_000
+            : scpi.capitalization ?? 0,
+          enjoymentDelay: indicator?.enjoyment_delay ?? scpi.delaiJouissance ?? null,
+          dataStatus: indicator?.data_status ?? null,
+          slug,
+        };
+      });
       console.log('[DEBUG ComparateurScpi] Data processed, list length:', data.length);
       setScpiList(data);
       setLoading(false);
@@ -252,6 +267,9 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
                   <ArrowUpDown className="w-4 h-4" />
                 </button>
               </th>
+              <th className={`px-4 py-3 text-center ${!showAllColumns ? 'hidden md:table-cell' : ''}`}>
+                <span className="font-semibold text-gray-700">Délai jouissance</span>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -271,9 +289,17 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
                     {scpi.name}
                   </div>
                   <div className="text-xs md:text-sm text-gray-500">{scpi.company}</div>
+                  {scpi.dataStatus && (
+                    <span className={`inline-block mt-1 text-xs px-1.5 py-0.5 rounded border ${getDataStatusColor(scpi.dataStatus)}`}>
+                      {getDataStatusLabel(scpi.dataStatus)}
+                    </span>
+                  )}
                 </td>
                 <td className="px-4 py-4 text-center">
                   <span className="font-bold text-green-600 text-sm md:text-base">{formatNumber(scpi.yield)}%</span>
+                  {scpi.yieldYear && (
+                    <div className="text-xs text-gray-400 mt-0.5">{scpi.yieldYear}</div>
+                  )}
                 </td>
                 <td className="px-4 py-4 text-center">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -292,6 +318,11 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
                 </td>
                 <td className={`px-4 py-4 text-center text-gray-900 text-sm md:text-base ${!showAllColumns ? 'hidden md:table-cell' : ''}`}>
                   {formatNumber(scpi.fees)}%
+                </td>
+                <td className={`px-4 py-4 text-center text-gray-900 text-sm md:text-base ${!showAllColumns ? 'hidden md:table-cell' : ''}`}>
+                  {scpi.enjoymentDelay != null
+                    ? `${scpi.enjoymentDelay} mois`
+                    : <span className="text-gray-400 text-xs">À vérifier</span>}
                 </td>
               </tr>
             ))}
@@ -335,9 +366,14 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
               Cliquez sur les en-têtes pour trier les colonnes
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-600 bg-white px-4 py-2 rounded-lg shadow-sm">
-            <span className="inline-block w-2 h-2 bg-green-500 rounded-full"></span>
-            Données officielles 2024
+          <div className="flex flex-col items-end gap-1">
+            <div className="flex items-center gap-2 text-xs text-gray-600 bg-white px-4 py-2 rounded-lg shadow-sm">
+              <span className="inline-block w-2 h-2 bg-green-500 rounded-full"></span>
+              Données officielles — T3 2025
+            </div>
+            <div className="text-xs text-gray-400">
+              Enrichi le {INDICATORS_GENERATED_AT} — 5 SCPI avec source et statut
+            </div>
           </div>
         </div>
       </div>

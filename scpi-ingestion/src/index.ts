@@ -3,14 +3,34 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { loadSources } from "./loadSources.js";
 import { downloadPdf } from "./downloader.js";
-import { uploadPdf, recordBulletin, saveScore } from "./supabase.js";
+import { uploadPdf, recordBulletin, saveScore, saveExtraction, upsertIndicators, type IndicatorsPayload } from "./supabase.js";
 import { fetchBestPdfLink } from "./html.js";
 import { shutdownPlaywright } from "./playwright.js";
 import { runQa } from "./qa.js";
 import { buildReport } from "./report.js";
 import { logger } from "./logger.js";
 import { computeMaximusScore, fromExtraction } from "./scoring/maximusScore.js";
+import { extractFromText, toExtractedMetrics, type ExtractionResult } from "./extractor.js";
+import { parsePdfBuffer } from "./pdfParser.js";
 import { type Source, type DownloadSuccess, type DownloadFailure } from "./types.js";
+
+// ─── Empty extraction fallback ────────────────────────────────────────────────
+
+function emptyExtraction(): ExtractionResult {
+  return {
+    chiffres_cles:            {},
+    profil_risque:            {},
+    repartition_sectorielle:  [],
+    repartition_geographique: [],
+    structure_frais:          {},
+    indicateurs_locatifs:     {},
+    valorisation_risque:      {},
+    strategie_investissement: {},
+    actualite_trimestrielle:  { acquisitions: [], arbitrages: [] },
+    confidence:               0,
+    _meta:                    { critical_fields_total: 10, critical_fields_found: 0 },
+  };
+}
 
 // ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -194,6 +214,28 @@ async function processSource(
       });
     }
 
+    // ── Phase 1.5: extract structured data from PDF text ──────────────────
+    let extraction: ExtractionResult;
+    try {
+      const pdfText = await parsePdfBuffer(dl.buffer);
+      extraction = extractFromText(pdfText);
+      logger.info("pdf_extracted", {
+        sourceId:              source.id,
+        scpi:                  source.scpi,
+        confidence:            extraction.confidence,
+        critical_fields_found: extraction._meta.critical_fields_found,
+        critical_fields_total: extraction._meta.critical_fields_total,
+        has_capitalisation:    extraction.chiffres_cles.capitalisation !== undefined,
+        has_td:                extraction.chiffres_cles.taux_distribution !== undefined,
+        has_tof:               extraction.chiffres_cles.taux_occupation_financier !== undefined,
+        has_prime_decote:      extraction.valorisation_risque.prime_decote !== undefined,
+      });
+    } catch (extractErr) {
+      const message = extractErr instanceof Error ? extractErr.message : String(extractErr);
+      logger.warn("pdf_extraction_failed", { sourceId: source.id, scpi: source.scpi, message });
+      extraction = emptyExtraction();
+    }
+
     // ── Phase 3: record in scpi_bulletins ──────────────────────────────────
     const dbResult = await recordBulletin({
       scpi_slug:  source.scpi,
@@ -240,8 +282,91 @@ async function processSource(
       });
     }
 
+    // ── Phase 3.5: persist extraction JSON ────────────────────────────────
+    const extractionDbResult = await saveExtraction({
+      scpi_slug:  source.scpi,
+      period:     upload.period,
+      extraction,
+    });
+    if (!extractionDbResult.ok) {
+      logger.warn("extraction_save_failed", {
+        sourceId: source.id,
+        reason:   extractionDbResult.error.reason,
+        message:  extractionDbResult.error.message,
+      });
+    } else {
+      logger.info("extraction_saved", {
+        sourceId:   source.id,
+        confidence: extraction.confidence,
+        period:     upload.period,
+      });
+    }
+
+    // ── Phase 3.75: upsert scpi_indicators ────────────────────────────────
+    const c = extraction.chiffres_cles;
+    const f = extraction.structure_frais;
+    const v = extraction.valorisation_risque;
+    const l = extraction.indicateurs_locatifs;
+
+    // Calculer prime_décote si les deux prix sont disponibles dans le même bulletin
+    let primDecote: number | undefined;
+    if (c.prix_part !== undefined && v.prix_reconstitution !== undefined && v.prix_reconstitution > 0) {
+      primDecote = ((c.prix_part - v.prix_reconstitution) / v.prix_reconstitution) * 100;
+    } else if (v.prime_decote !== undefined) {
+      primDecote = v.prime_decote * 100;
+    }
+
+    const sectorMap = extraction.repartition_sectorielle.length > 0
+      ? Object.fromEntries(extraction.repartition_sectorielle.map(i => [i.secteur, i.poids]))
+      : undefined;
+
+    const geoMap = extraction.repartition_geographique.length > 0
+      ? Object.fromEntries(extraction.repartition_geographique.map(i => [i.pays, i.poids]))
+      : undefined;
+
+    const indicatorsPayload: IndicatorsPayload = {
+      scpi_slug:          source.scpi,
+      source_period:      upload.period,
+      source_confidence:  extraction.confidence,
+      ...(c.taux_distribution            !== undefined && { td:                          c.taux_distribution * 100 }),
+      ...(c.taux_occupation_financier    !== undefined && { tof:                         c.taux_occupation_financier * 100 }),
+      ...(c.taux_occupation_physique     !== undefined && { top:                         c.taux_occupation_physique * 100 }),
+      ...(c.capitalisation               !== undefined && { capitalisation:              c.capitalisation }),
+      ...(c.prix_part                    !== undefined && { prix_souscription:           c.prix_part }),
+      ...(v.prix_reconstitution          !== undefined && { prix_reconstitution:         v.prix_reconstitution }),
+      ...(primDecote                     !== undefined && { prime_decote:               primDecote }),
+      ...(f.frais_souscription           !== undefined && { frais_souscription:          f.frais_souscription * 100 }),
+      ...(f.frais_gestion                !== undefined && { frais_gestion:              f.frais_gestion * 100 }),
+      ...(f.commission_performance       !== undefined && { commission_performance:     f.commission_performance * 100 }),
+      ...(f.frais_sortie                 !== undefined && { frais_sortie:               f.frais_sortie * 100 }),
+      ...(extraction.profil_risque.niveau !== undefined && { srri:                      extraction.profil_risque.niveau }),
+      ...(c.journalisation               !== undefined && { duree_detention_recommandee: c.journalisation }),
+      ...(c.delai_jouissance             !== undefined && { delai_jouissance:           c.delai_jouissance / 30.44 }),
+      ...(l.walt                         !== undefined && { walt:                        l.walt }),
+      ...(l.walb                         !== undefined && { walb:                        l.walb }),
+      ...(sectorMap                      !== undefined && { repartition_sectorielle:    sectorMap }),
+      ...(geoMap                         !== undefined && { repartition_geographique:   geoMap }),
+    };
+
+    const indicatorsResult = await upsertIndicators(indicatorsPayload);
+    if (!indicatorsResult.ok) {
+      logger.warn("indicators_upsert_failed", {
+        sourceId: source.id,
+        reason:   indicatorsResult.error.reason,
+        message:  indicatorsResult.error.message,
+      });
+    } else if (extraction.confidence >= 0.3) {
+      logger.info("indicators_upserted", {
+        sourceId:   source.id,
+        scpi:       source.scpi,
+        confidence: extraction.confidence,
+        period:     upload.period,
+        prime_decote: primDecote,
+      });
+    }
+
     // ── Phase 4: quality assurance ─────────────────────────────────────────
-    const qaResult = runQa({ confidence: 0 });
+    const qaResult = runQa(toExtractedMetrics(extraction));
 
     if (qaResult.status === "NEEDS_REVIEW") {
       logger.warn("qa_needs_review", {
@@ -259,22 +384,7 @@ async function processSource(
     }
 
     // ── Phase 5: MaximusSCPI score ─────────────────────────────────────────
-    const scoringInput = fromExtraction(
-      source.scpi,
-      {
-        chiffres_cles:            {},
-        profil_risque:            {},
-        repartition_sectorielle:  [],
-        repartition_geographique: [],
-        structure_frais:          {},
-        indicateurs_locatifs:     {},
-        valorisation_risque:      {},
-        strategie_investissement: {},
-        actualite_trimestrielle:  { acquisitions: [], arbitrages: [] },
-        confidence:               0,
-        _meta:                    { critical_fields_total: 10, critical_fields_found: 0 },
-      }
-    );
+    const scoringInput = fromExtraction(source.scpi, extraction);
 
     const scoreResult = computeMaximusScore(scoringInput);
 

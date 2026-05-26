@@ -12,17 +12,21 @@
     "run:prod": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx/esm --test src/scoring/maximusScore.test.ts",
-    "playwright:install": "playwright install chromium --with-deps"
+    "playwright:install": "playwright install chromium --with-deps",
+    "sync": "npx tsx src/sync.ts",
+    "sync:prod": "npx tsx src/sync.ts --out ../src/data/scpi_complet.json"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
     "dotenv": "^17.3.1",
     "js-yaml": "^4.1.0",
+    "pdf-parse": "^2.4.5",
     "playwright": "^1.50.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.11.0",
+    "@types/pdf-parse": "^1.1.5",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
   }

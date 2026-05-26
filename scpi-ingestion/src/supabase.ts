@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { type MaximusScoreResult, type Result, ok, err } from "./types.js";
+import { type ExtractionResult } from "./extractor.js";
 
 const BUCKET = "scpi-bulletins";
 const TABLE  = "scpi_bulletins";
@@ -226,6 +227,141 @@ export async function recordBulletin(
 
   // ── Unexpected DB error ───────────────────────────────────────────────────
   return err({ reason: "DB_ERROR", message: insertError.message });
+}
+
+// ─── Public API: scpi_indicators upsert ──────────────────────────────────────
+
+export interface IndicatorsPayload {
+  readonly scpi_slug:          string;
+  readonly source_period:      string;
+  readonly source_confidence:  number;
+  readonly bulletin_id?:       string;
+  // Valeurs extraites — undefined = ne pas écraser l'existant
+  readonly td?:                number;
+  readonly tof?:               number;
+  readonly top?:               number;
+  readonly capitalisation?:    number;
+  readonly prix_souscription?: number;
+  readonly prix_reconstitution?: number;
+  readonly prime_decote?:      number;
+  readonly frais_souscription?: number;
+  readonly frais_gestion?:     number;
+  readonly commission_performance?: number;
+  readonly frais_sortie?:      number;
+  readonly srri?:              number;
+  readonly duree_detention_recommandee?: number;
+  readonly endettement?:       number;
+  readonly delai_jouissance?:  number;
+  readonly walt?:              number;
+  readonly walb?:              number;
+  readonly repartition_sectorielle?:  Record<string, number>;
+  readonly repartition_geographique?: Record<string, number>;
+  readonly collecte_nette?:    number;
+  readonly distribution_par_part?: number;
+  readonly report_a_nouveau?:  number;
+}
+
+/**
+ * Upsert into scpi_indicators.
+ * Only fields present in payload overwrite existing values.
+ * Fields absent from payload are preserved via COALESCE in the upsert.
+ * Skips upsert entirely if confidence < 0.3 (not worth polluting the table).
+ */
+export async function upsertIndicators(
+  payload: IndicatorsPayload
+): Promise<Result<void, DbError>> {
+  if (payload.source_confidence < 0.3) {
+    return ok(undefined);
+  }
+
+  let client: SupabaseClient;
+  try {
+    client = getClient();
+  } catch (e) {
+    return err({
+      reason:  "ENV_MISSING",
+      message: e instanceof Error ? e.message : String(e),
+    });
+  }
+
+  // Build update object — only include defined fields
+  const row: Record<string, unknown> = {
+    scpi_slug:          payload.scpi_slug,
+    source_period:      payload.source_period,
+    source_confidence:  payload.source_confidence,
+    source_type:        "pipeline",
+    updated_at:         new Date().toISOString(),
+  };
+
+  if (payload.bulletin_id             !== undefined) row["bulletin_id"]             = payload.bulletin_id;
+  if (payload.td                       !== undefined) row["td"]                      = payload.td;
+  if (payload.tof                      !== undefined) row["tof"]                     = payload.tof;
+  if (payload.top                      !== undefined) row["top"]                     = payload.top;
+  if (payload.capitalisation           !== undefined) row["capitalisation"]           = payload.capitalisation;
+  if (payload.prix_souscription        !== undefined) row["prix_souscription"]        = payload.prix_souscription;
+  if (payload.prix_reconstitution      !== undefined) row["prix_reconstitution"]      = payload.prix_reconstitution;
+  if (payload.prime_decote             !== undefined) row["prime_decote"]             = payload.prime_decote;
+  if (payload.frais_souscription       !== undefined) row["frais_souscription"]       = payload.frais_souscription;
+  if (payload.frais_gestion            !== undefined) row["frais_gestion"]            = payload.frais_gestion;
+  if (payload.commission_performance   !== undefined) row["commission_performance"]   = payload.commission_performance;
+  if (payload.frais_sortie             !== undefined) row["frais_sortie"]             = payload.frais_sortie;
+  if (payload.srri                     !== undefined) row["srri"]                     = payload.srri;
+  if (payload.duree_detention_recommandee !== undefined) row["duree_detention_recommandee"] = payload.duree_detention_recommandee;
+  if (payload.endettement              !== undefined) row["endettement"]              = payload.endettement;
+  if (payload.delai_jouissance         !== undefined) row["delai_jouissance"]         = payload.delai_jouissance;
+  if (payload.walt                     !== undefined) row["walt"]                     = payload.walt;
+  if (payload.walb                     !== undefined) row["walb"]                     = payload.walb;
+  if (payload.repartition_sectorielle  !== undefined) row["repartition_sectorielle"]  = payload.repartition_sectorielle;
+  if (payload.repartition_geographique !== undefined) row["repartition_geographique"] = payload.repartition_geographique;
+  if (payload.collecte_nette           !== undefined) row["collecte_nette"]           = payload.collecte_nette;
+  if (payload.distribution_par_part    !== undefined) row["distribution_par_part"]    = payload.distribution_par_part;
+  if (payload.report_a_nouveau         !== undefined) row["report_a_nouveau"]         = payload.report_a_nouveau;
+
+  const { error } = await client
+    .from("scpi_indicators")
+    .upsert(row, { onConflict: "scpi_slug", ignoreDuplicates: false });
+
+  if (error !== null) {
+    return err({ reason: "DB_ERROR", message: error.message });
+  }
+
+  return ok(undefined);
+}
+
+// ─── Public API: extraction storage ──────────────────────────────────────────
+
+/**
+ * Persists the full ExtractionResult onto the scpi_bulletins row identified by
+ * (scpi_slug, period) using a targeted UPDATE.
+ *
+ * Requires the extraction_json column (sql/03_add_extraction_column.sql).
+ */
+export async function saveExtraction(params: {
+  scpi_slug:  string;
+  period:     string;
+  extraction: ExtractionResult;
+}): Promise<Result<void, DbError>> {
+  let client: SupabaseClient;
+  try {
+    client = getClient();
+  } catch (e) {
+    return err({
+      reason:  "ENV_MISSING",
+      message: e instanceof Error ? e.message : String(e),
+    });
+  }
+
+  const { error } = await client
+    .from(TABLE)
+    .update({ extraction_json: params.extraction as unknown as Record<string, unknown> })
+    .eq("scpi_slug", params.scpi_slug)
+    .eq("period",    params.period);
+
+  if (error !== null) {
+    return err({ reason: "DB_ERROR", message: error.message });
+  }
+
+  return ok(undefined);
 }
 
 // ─── Public API: score storage ────────────────────────────────────────────────
