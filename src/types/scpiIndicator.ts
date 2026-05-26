@@ -63,6 +63,8 @@ export interface ScpiIndicator {
   source_url: string | null;
   source_document_type: DocumentType | null;
   source_publication_date: string | null;
+  /** Période du bulletin source (ex: "T3 2025") — identique à source_period dans Supabase */
+  source_period: string | null;
   extraction_date: string;
   confidence_score: number;
   data_status: DataStatus;

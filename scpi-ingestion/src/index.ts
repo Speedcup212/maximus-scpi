@@ -540,6 +540,8 @@ async function processSource(
       scpi_slug:          source.scpi,
       source_period:      upload.period,
       source_confidence:  extraction.confidence,
+      ...(source.nom !== undefined && { nom: source.nom }),
+      ...(source.societe_gestion !== undefined && { societe_gestion: source.societe_gestion }),
       ...(c.taux_distribution            !== undefined && { td:                          c.taux_distribution * 100 }),
       ...(c.taux_occupation_financier    !== undefined && { tof:                         c.taux_occupation_financier * 100 }),
       ...(c.taux_occupation_physique     !== undefined && { top:                         c.taux_occupation_physique * 100 }),

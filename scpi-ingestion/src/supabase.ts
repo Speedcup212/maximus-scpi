@@ -236,6 +236,10 @@ export interface IndicatorsPayload {
   readonly source_period:      string;
   readonly source_confidence:  number;
   readonly bulletin_id?:       string;
+  // Identité — écrits depuis sources.yaml quand renseignés
+  readonly nom?:               string;
+  readonly societe_gestion?:   string;
+  readonly categorie?:         string;
   // Valeurs extraites — undefined = ne pas écraser l'existant
   readonly td?:                number;
   readonly tof?:               number;
@@ -294,6 +298,9 @@ export async function upsertIndicators(
   };
 
   if (payload.bulletin_id             !== undefined) row["bulletin_id"]             = payload.bulletin_id;
+  if (payload.nom                      !== undefined) row["nom"]                     = payload.nom;
+  if (payload.societe_gestion          !== undefined) row["societe_gestion"]         = payload.societe_gestion;
+  if (payload.categorie                !== undefined) row["categorie"]               = payload.categorie;
   if (payload.td                       !== undefined) row["td"]                      = payload.td;
   if (payload.tof                      !== undefined) row["tof"]                     = payload.tof;
   if (payload.top                      !== undefined) row["top"]                     = payload.top;

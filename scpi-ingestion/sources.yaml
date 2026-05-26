@@ -49,20 +49,30 @@ sources:
 
   # ── Alderan — bulletins trimestriels ─────────────────────────────────────────
   - scpi: comete                       # ✅ vérifié
+    nom: "Comète"
+    societe_gestion: "Alderan"
     pageUrl: https://alderan.fr/scpi-comete-documentation/
 
   - scpi: activimmo                    # 🔍 à tester
+    nom: "Activimmo"
+    societe_gestion: "Alderan"
     pageUrl: https://alderan.fr/scpi-activimmo-documentation/
 
   # ── Remake Asset Management ───────────────────────────────────────────────────
   - scpi: remake-live                  # ✅ vérifié
+    nom: "Remake Live"
+    societe_gestion: "Remake Asset Management"
     pageUrl: https://www.remake.immo/remake-live/
 
   - scpi: transitions-europe           # 🔍 à tester
+    nom: "Transitions Europe"
+    societe_gestion: "Arkéa REIM"
     pageUrl: https://www.remake.immo/transitions-europe/
 
   # ── Iroko ─────────────────────────────────────────────────────────────────────
   - scpi: iroko-zen                    # ✅ vérifié
+    nom: "Iroko Zen"
+    societe_gestion: "Iroko"
     pageUrl: https://www.iroko.eu/scpi-iroko-zen/
 
   # ── Novaxia ───────────────────────────────────────────────────────────────────

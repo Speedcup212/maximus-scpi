@@ -32,6 +32,10 @@ export interface Source {
   readonly document_type: PipelineDocumentType;
   /** Target reporting year for rapport_annuel (e.g. 2024). Ignored for bulletin_trimestriel. */
   readonly ra_year?: number;
+  /** Human-readable SCPI name (e.g. "Iroko Zen") — written to scpi_indicators.nom when present */
+  readonly nom?: string;
+  /** Management company name (e.g. "Iroko") — written to scpi_indicators.societe_gestion when present */
+  readonly societe_gestion?: string;
 }
 
 export interface SourcesFile {

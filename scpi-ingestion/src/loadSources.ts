@@ -8,6 +8,8 @@ interface RawSource {
   pageUrl?: unknown;
   document_type?: unknown;
   ra_year?: unknown;
+  nom?: unknown;
+  societe_gestion?: unknown;
 }
 
 const VALID_DOCUMENT_TYPES = new Set<string>(["bulletin_trimestriel", "rapport_annuel"]);
@@ -32,12 +34,16 @@ function toSource(raw: RawSource): Source {
   const document_type = (raw.document_type as PipelineDocumentType | undefined) ?? "bulletin_trimestriel";
   const ra_year = raw.ra_year as number | undefined;
   const id = document_type === "rapport_annuel" ? `${scpi}:ra` : scpi;
+  const nom = typeof raw.nom === "string" && raw.nom.trim() !== "" ? raw.nom.trim() : undefined;
+  const societe_gestion = typeof raw.societe_gestion === "string" && raw.societe_gestion.trim() !== "" ? raw.societe_gestion.trim() : undefined;
   return {
     scpi,
     pageUrl,
     id,
     document_type,
     ...(ra_year !== undefined ? { ra_year } : {}),
+    ...(nom !== undefined ? { nom } : {}),
+    ...(societe_gestion !== undefined ? { societe_gestion } : {}),
   };
 }
 
