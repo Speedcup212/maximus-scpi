@@ -1,12 +1,20 @@
 import https from "node:https";
 import http from "node:http";
 import { type Result, ok, err } from "./types.js";
-import { type NormalizedPeriod, parsePeriod, comparePeriods } from "./period.js";
+import { type NormalizedPeriod, parsePeriod, comparePeriods, parseAnnualYear, type AnnualReportPeriod } from "./period.js";
 import { stripTrackingParams } from "./utils/url.js";
 import { logger } from "./logger.js";
 
-// ─── Exclusion patterns (DIC, KIID, prospectus, rapport annuel, SFDR, notice, etc.) ─
-const BULLETIN_EXCLUDE = /\b(dic|kiid|prospectus|statuts|rapport\s*annuel|sfdr|notice|reglement|doc\s*préalable)\b/i;
+// ─── Exclusion / inclusion patterns ───────────────────────────────────────────
+
+/** Bulletin mode: exclude DIC, KIID, prospectus, rapport annuel, SFDR, etc. */
+const BULLETIN_EXCLUDE = /\b(dic|kiid|prospectus|statuts|rapport\s*annuel|sfdr|notice|reglement|doc\s*pr[eé]alable)\b/i;
+
+/** Rapport annuel mode: require link to mention rapport annuel or activité */
+const RA_INCLUDE = /rapport\s*(?:annuel|d['']activit[eé]|de\s*gestion)|annual\s*report/i;
+
+/** Rapport annuel mode: exclude quarterly bulletins */
+const RA_EXCLUDE_BULLETIN = /\b(bulletin|trimestriel|quarterly|T[1-4]\b|Q[1-4]\b)/i;
 
 /** A raw PDF link extracted from an HTML page. */
 export interface PdfLink {
@@ -135,6 +143,13 @@ function shouldExcludeBulletin(href: string, text: string): boolean {
   return BULLETIN_EXCLUDE.test(combined);
 }
 
+/** Returns true if link matches a rapport annuel in rapport_annuel mode */
+function shouldIncludeRapportAnnuel(href: string, text: string): boolean {
+  const combined = `${href} ${text}`;
+  if (RA_EXCLUDE_BULLETIN.test(combined)) return false;
+  return RA_INCLUDE.test(combined);
+}
+
 /**
  * Attempts to unwrap a tracking / redirect URL by inspecting each query
  * parameter value.  If any decoded param value is itself a PDF URL, returns
@@ -165,11 +180,15 @@ interface LinkCollector {
   links(): PdfLink[];
 }
 
+type CollectorMode = 'bulletin_trimestriel' | 'rapport_annuel';
+
 /**
  * Creates a deduplicating collector that resolves relative URLs, unwraps
  * tracking redirects, and strips HTML tags from link text.
+ * mode='bulletin_trimestriel' excludes rapport annuel links (existing behaviour).
+ * mode='rapport_annuel' only keeps links that look like rapport annuel.
  */
-function makeLinkCollector(baseUrl: string): LinkCollector {
+function makeLinkCollector(baseUrl: string, mode: CollectorMode = 'bulletin_trimestriel'): LinkCollector {
   const seen      = new Set<string>();
   const collected: PdfLink[] = [];
 
@@ -191,7 +210,11 @@ function makeLinkCollector(baseUrl: string): LinkCollector {
         .replace(/\s+/g, " ")
         .trim();
 
-      if (shouldExcludeBulletin(resolved, text)) return;
+      if (mode === 'rapport_annuel') {
+        if (!shouldIncludeRapportAnnuel(resolved, text)) return;
+      } else {
+        if (shouldExcludeBulletin(resolved, text)) return;
+      }
 
       if (seen.has(resolved)) return;
       seen.add(resolved);
@@ -263,9 +286,13 @@ function extractScriptUrls(html: string, col: LinkCollector): void {
  *   1. <a href>       — static anchors (+ tracking-URL unwrapping)
  *   2. data-href      — CMS download widgets, JS-rendered buttons
  *   3. <script>       — inline JSON / JS variables that embed PDF paths
+ *
+ * mode controls which documents are kept:
+ *   'bulletin_trimestriel' — excludes rapport annuel (default)
+ *   'rapport_annuel'       — keeps only rapport annuel links
  */
-export function extractPdfLinks(html: string, baseUrl: string): PdfLink[] {
-  const col = makeLinkCollector(baseUrl);
+export function extractPdfLinks(html: string, baseUrl: string, mode: CollectorMode = 'bulletin_trimestriel'): PdfLink[] {
+  const col = makeLinkCollector(baseUrl, mode);
   extractAnchorHrefs(html, col);
   extractDataHrefs(html, col);
   extractScriptUrls(html, col);
@@ -343,6 +370,60 @@ function selectBestFromLinks(
   return ok({ url: best.link.href, period: { normalized: periodNorm }, linkText: best.link.text });
 }
 
+// ─── Annual report link selector ─────────────────────────────────────────────
+
+/**
+ * Selects the best rapport annuel PDF link: most recent year wins.
+ * Falls back to document order when no year can be extracted.
+ */
+function selectBestAnnualLink(
+  links: PdfLink[],
+  pageUrl: string,
+  preferredYear?: number,
+): Result<PdfCandidate, HtmlFetchError> {
+  if (links.length === 0) {
+    return err({ reason: "NO_PDF_LINKS", message: "no rapport annuel PDF links found on page", url: pageUrl });
+  }
+
+  interface ScoredAnnual {
+    link: PdfLink;
+    period: AnnualReportPeriod | null;
+    documentIndex: number;
+  }
+
+  const scored: ScoredAnnual[] = links.map((link, i) => {
+    let filename = "";
+    try {
+      filename = decodeURIComponent(new URL(link.href).pathname.split("/").pop() ?? "");
+    } catch { /* ignore */ }
+    const combined = `${link.text} ${filename}`;
+    const period = parseAnnualYear(combined);
+    return { link, period, documentIndex: i };
+  });
+
+  // Prefer the exact ra_year if provided, else take the most recent
+  scored.sort((a, b) => {
+    if (a.period !== null && b.period !== null) {
+      if (preferredYear !== undefined) {
+        const aMatch = a.period.year === preferredYear ? -1 : 0;
+        const bMatch = b.period.year === preferredYear ? -1 : 0;
+        if (aMatch !== bMatch) return aMatch - bMatch;
+      }
+      if (a.period.year !== b.period.year) return b.period.year - a.period.year;
+    } else if (a.period !== null) return -1;
+    else if (b.period !== null) return 1;
+    return b.documentIndex - a.documentIndex;
+  });
+
+  const best = scored[0];
+  if (best === undefined) {
+    return err({ reason: "NO_PDF_LINKS", message: "internal: scored array empty", url: pageUrl });
+  }
+
+  const periodNorm = best.period !== null ? best.period.normalized : "unknown";
+  return ok({ url: best.link.href, period: { normalized: periodNorm }, linkText: best.link.text });
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -351,7 +432,9 @@ function selectBestFromLinks(
  * for JS-rendered pages.
  */
 export async function fetchBestPdfLink(
-  pageUrl: string
+  pageUrl: string,
+  mode: CollectorMode = 'bulletin_trimestriel',
+  preferredYear?: number,
 ): Promise<Result<PdfCandidate, HtmlFetchError>> {
   logger.info("page_fetch_started", { url: pageUrl });
   // ── 1. Static HTML fetch (fast path) ─────────────────────────────────────
@@ -366,13 +449,18 @@ export async function fetchBestPdfLink(
     html = "";
   }
 
+  const selectBest = (links: PdfLink[]): Result<PdfCandidate, HtmlFetchError> =>
+    mode === 'rapport_annuel'
+      ? selectBestAnnualLink(links, pageUrl, preferredYear)
+      : selectBestFromLinks(links, pageUrl);
+
   if (html) {
-    const staticLinks = extractPdfLinks(html, pageUrl);
-    logger.info("page_fetch_done", { mode: "fetch", url: pageUrl, linkCount: staticLinks.length });
+    const staticLinks = extractPdfLinks(html, pageUrl, mode);
+    logger.info("page_fetch_done", { mode: "fetch", url: pageUrl, linkCount: staticLinks.length, document_type: mode });
     if (staticLinks.length > 0) {
       logger.info("pdf_candidates", { url: pageUrl, count: staticLinks.length, topUrls: staticLinks.slice(0, 5).map((l) => l.href) });
     }
-    const staticResult = selectBestFromLinks(staticLinks, pageUrl);
+    const staticResult = selectBest(staticLinks);
     if (staticResult.ok) return staticResult;
   }
 
@@ -385,7 +473,7 @@ export async function fetchBestPdfLink(
     const message = `failed to load Playwright: ${e instanceof Error ? e.message : String(e)}`;
     logger.warn("playwright_module_load_failed", { url: pageUrl, message });
     if (!html) return err({ reason: "PLAYWRIGHT_FAILED", message, url: pageUrl });
-    return err({ reason: "NO_PDF_LINKS", message: "no bulletin PDF found (static) and Playwright unavailable", url: pageUrl });
+    return err({ reason: "NO_PDF_LINKS", message: "no PDF found (static) and Playwright unavailable", url: pageUrl });
   }
 
   const renderResult = await fetchRenderedHtml(pageUrl);
@@ -393,11 +481,11 @@ export async function fetchBestPdfLink(
     return err({ reason: "PLAYWRIGHT_FAILED", message: renderResult.error.message, url: pageUrl });
   }
 
-  const pwLinks  = extractPdfLinks(renderResult.value, pageUrl);
-  logger.info("page_fetch_done", { mode: "playwright", url: pageUrl, linkCount: pwLinks.length });
+  const pwLinks  = extractPdfLinks(renderResult.value, pageUrl, mode);
+  logger.info("page_fetch_done", { mode: "playwright", url: pageUrl, linkCount: pwLinks.length, document_type: mode });
   if (pwLinks.length > 0) {
     logger.info("pdf_candidates", { url: pageUrl, count: pwLinks.length, topUrls: pwLinks.slice(0, 5).map((l) => l.href) });
   }
-  const pwResult = selectBestFromLinks(pwLinks, pageUrl);
+  const pwResult = selectBest(pwLinks);
   return pwResult;
 }

@@ -1033,3 +1033,120 @@ export function toExtractedMetrics(r: ExtractionResult): {
 
   return metrics;
 }
+
+// ─── Annual report targeted extraction ────────────────────────────────────────
+
+export interface AnnualTdResult {
+  /** Taux de distribution — decimal [0, 1] */
+  readonly td:   number;
+  /** Reporting year (e.g. 2024) */
+  readonly year: number;
+  /** Raw matched string (for audit trail) */
+  readonly raw:  string;
+}
+
+/**
+ * Targeted extraction of the annual distribution rate from a rapport annuel PDF.
+ *
+ * Annual reports state the TD more prominently than bulletins, with patterns like:
+ *   "Taux de distribution sur valeur de marché 2024 : 5,25%"
+ *   "TD DVM 2024 : 5,25%"
+ *   "taux de distribution de 5,25% en 2024"
+ *   "distribution 2024 de 5,25%"
+ *   "le taux de distribution s'établit à 5,25% (2024)"
+ *
+ * Returns the highest-confidence match, or null if none found.
+ */
+export function extractAnnualReportTd(rawText: string, targetYear?: number): AnnualTdResult | null {
+  const text = rawText
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n")
+    .replace(/ /g, " ")
+    .replace(/ /g, " ")
+    .replace(/’/g, "'")
+    .normalize("NFC");
+
+  // Patterns ordered by specificity (most specific first)
+  const patterns: RegExp[] = [
+    // "Taux de distribution sur valeur de marché 2024 : 5,25%"
+    /taux\s+de\s+distribution\s+sur\s+valeur\s+de\s+march[eé]\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    // "TDVM 2024 : 5,25%" or "TD DVM 2024 : 5,25%"
+    /TD(?:\s+DVM)?\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    // "taux de distribution 2024 : 5,25%"
+    /taux\s+de\s+distribution\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    // "distribution 2024 de 5,25%" or "distribution 2024 : 5,25%"
+    /distribution\s+(\d{4})\s*(?:de|:|\-|=)\s*([\d,\.]+)\s*%/i,
+    // "taux de distribution de 5,25% en 2024" or "...s'établit à 5,25% en 2024"
+    /taux\s+de\s+distribution\s+(?:annuel(?:le)?\s+)?(?:de|d[''']|est\s+de|s[''](?:é|e)tablit\s+[àa])\s+([\d,\.]+)\s*%[^.]{0,80}(?:en|pour|au\s+titre\s+de)\s+(\d{4})/i,
+    // "distribué en 2024 : 5,25%"
+    /distribu[eé]\s+en\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    // "rendement distribué 2024 : 5,25%"
+    /rendement\s+distribu[eé]\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    // Fallback: any TD mention near a 4-digit year (looser)
+    /taux\s+de\s+distribution\s*[:\-=]?\s*([\d,\.]+)\s*%[^.]{0,60}(20\d{2})/i,
+  ];
+
+  interface Candidate {
+    td: number;
+    year: number;
+    raw: string;
+    score: number; // lower index = more specific = higher score
+  }
+
+  const candidates: Candidate[] = [];
+
+  for (let i = 0; i < patterns.length; i++) {
+    const re = patterns[i]!;
+    let m: RegExpExecArray | null;
+    // Reset lastIndex for global-flagged patterns (none here, but safe)
+    re.lastIndex = 0;
+
+    while ((m = re.exec(text)) !== null) {
+      // Groups differ by pattern: some have (year, pct), some have (pct, year)
+      let yearStr: string | undefined;
+      let pctStr:  string | undefined;
+
+      if (i <= 5 || i === 6) {
+        // Patterns 0-6: group 1 = year, group 2 = pct (except pattern 4 reversed)
+        if (i === 4) {
+          pctStr  = m[1];
+          yearStr = m[2];
+        } else {
+          yearStr = m[1];
+          pctStr  = m[2];
+        }
+      } else {
+        // Patterns 7 (fallback): group 1 = pct, group 2 = year
+        pctStr  = m[1];
+        yearStr = m[2];
+      }
+
+      if (!yearStr || !pctStr) continue;
+
+      const year = parseInt(yearStr, 10);
+      if (year < 2015 || year > 2030) continue;
+
+      const td = parsePct(pctStr);
+      if (td === null || td < 0.01 || td > 0.20) continue; // sanity: 1%–20%
+
+      candidates.push({ td, year, raw: m[0].trim(), score: i });
+      // Only take first match per pattern to avoid duplicates from re.exec loop
+      break;
+    }
+  }
+
+  if (candidates.length === 0) return null;
+
+  // Prefer: targetYear match > most specific pattern > most recent year
+  candidates.sort((a, b) => {
+    if (targetYear !== undefined) {
+      const aMatch = a.year === targetYear ? 0 : 1;
+      const bMatch = b.year === targetYear ? 0 : 1;
+      if (aMatch !== bMatch) return aMatch - bMatch;
+    }
+    if (a.score !== b.score) return a.score - b.score;
+    return b.year - a.year;
+  });
+
+  return candidates[0]!;
+}

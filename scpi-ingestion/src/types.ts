@@ -14,13 +14,24 @@ export function err<E>(error: E): Err<E> {
 
 // ─── Source schema ───────────────────────────────────────────────────────────
 
+/**
+ * Type de document à extraire pour cette source.
+ * - bulletin_trimestriel : bulletin trimestriel T1-T4 (comportement par défaut)
+ * - rapport_annuel       : rapport annuel — seul le taux de distribution est extrait
+ */
+export type PipelineDocumentType = 'bulletin_trimestriel' | 'rapport_annuel';
+
 export interface Source {
   /** SCPI identifier slug (e.g. "iroko-zen", "comete") */
   readonly scpi: string;
   /** Official documentation page URL — pipeline loads with Playwright and extracts latest PDF */
   readonly pageUrl: string;
-  /** Derived id for logging (scpi slug) */
+  /** Derived id for logging (scpi slug, or scpi:ra for rapport annuel) */
   readonly id: string;
+  /** Document type to extract — defaults to "bulletin_trimestriel" */
+  readonly document_type: PipelineDocumentType;
+  /** Target reporting year for rapport_annuel (e.g. 2024). Ignored for bulletin_trimestriel. */
+  readonly ra_year?: number;
 }
 
 export interface SourcesFile {

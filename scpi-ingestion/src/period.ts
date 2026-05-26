@@ -171,3 +171,42 @@ export function comparePeriods(a: NormalizedPeriod, b: NormalizedPeriod): number
   if (a.year !== b.year) return a.year - b.year;
   return a.quarter - b.quarter;
 }
+
+// ─── Annual report period ─────────────────────────────────────────────────────
+
+/**
+ * Canonical period for a rapport annuel: "YYYY-RA".
+ * Not comparable to NormalizedPeriod (no quarter).
+ */
+export interface AnnualReportPeriod {
+  readonly year: number;
+  /** Canonical form: "2024-RA" */
+  readonly normalized: string;
+}
+
+/**
+ * Extracts a four-digit year (2000-2099) from a free-form string.
+ * Prefers the most recent valid year found.
+ * Returns null if no valid year found.
+ */
+export function parseAnnualYear(input: string): AnnualReportPeriod | null {
+  const s = normalize(input);
+  const yearRe = /\b(20\d{2})\b/g;
+  let m: RegExpExecArray | null;
+  let best: number | null = null;
+
+  while ((m = yearRe.exec(s)) !== null) {
+    const y = parseInt(m[1] ?? "", 10);
+    if (isValidYear(y) && (best === null || y > best)) best = y;
+  }
+
+  if (best === null) return null;
+  return { year: best, normalized: `${best}-RA` };
+}
+
+/**
+ * Builds an AnnualReportPeriod from an explicit year.
+ */
+export function makeAnnualPeriod(year: number): AnnualReportPeriod {
+  return { year, normalized: `${year}-RA` };
+}

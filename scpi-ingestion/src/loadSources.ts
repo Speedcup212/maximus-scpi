@@ -1,12 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
-import { type Result, type Source, type SourcesFile, ok, err } from "./types.js";
+import { type Result, type Source, type SourcesFile, type PipelineDocumentType, ok, err } from "./types.js";
 
 interface RawSource {
   scpi?: unknown;
   pageUrl?: unknown;
+  document_type?: unknown;
+  ra_year?: unknown;
 }
+
+const VALID_DOCUMENT_TYPES = new Set<string>(["bulletin_trimestriel", "rapport_annuel"]);
 
 function isSourcesFile(raw: unknown): raw is { sources: RawSource[] } {
   if (typeof raw !== "object" || raw === null) return false;
@@ -16,6 +20,8 @@ function isSourcesFile(raw: unknown): raw is { sources: RawSource[] } {
     if (typeof s !== "object" || s === null) return false;
     if (typeof s["scpi"] !== "string" || s["scpi"].trim() === "") return false;
     if (typeof s["pageUrl"] !== "string" || s["pageUrl"].trim() === "") return false;
+    if (s["document_type"] !== undefined && !VALID_DOCUMENT_TYPES.has(String(s["document_type"]))) return false;
+    if (s["ra_year"] !== undefined && typeof s["ra_year"] !== "number") return false;
   }
   return true;
 }
@@ -23,10 +29,15 @@ function isSourcesFile(raw: unknown): raw is { sources: RawSource[] } {
 function toSource(raw: RawSource): Source {
   const scpi = (raw.scpi as string).trim();
   const pageUrl = (raw.pageUrl as string).trim();
+  const document_type = (raw.document_type as PipelineDocumentType | undefined) ?? "bulletin_trimestriel";
+  const ra_year = raw.ra_year as number | undefined;
+  const id = document_type === "rapport_annuel" ? `${scpi}:ra` : scpi;
   return {
     scpi,
     pageUrl,
-    id: scpi,
+    id,
+    document_type,
+    ...(ra_year !== undefined ? { ra_year } : {}),
   };
 }
 

@@ -1,23 +1,53 @@
 # SCPI bulletin sources — pipeline MaximusSCPI
 # Format : slug SCPI (minuscules, tirets) + URL de la page documentation officielle
 #
-# Le pipeline charge pageUrl avec Playwright → extrait le lien PDF du bulletin
-# trimestriel → télécharge → analyse → stocke dans Supabase (scpi_indicators).
+# Champs optionnels :
+#   document_type : "bulletin_trimestriel" (défaut) | "rapport_annuel"
+#   ra_year       : année de reporting pour rapport_annuel (ex: 2024)
+#
+# Le pipeline charge pageUrl avec Playwright → extrait le lien PDF → télécharge
+# → analyse → stocke dans Supabase.
+#
+# Pour bulletin_trimestriel : pipeline complet (extraction + scoring + QA)
+# Pour rapport_annuel       : extraction ciblée du taux de distribution uniquement
+#                             Mise à jour partielle de scpi_indicators.td
 #
 # Statuts :
-#   ✅ vérifié  — URL testée, bulletin accessible
+#   ✅ vérifié  — URL testée, document accessible
 #   🔍 à tester — URL probable, non vérifiée manuellement
 #   ❌ à compléter — URL inconnue, nécessite vérification manuelle
 #
 # Pour tester une SCPI seule :
 #   npx tsx src/index.ts --slug iroko-zen
-#
-# Les entrées avec PLACEHOLDER dans l'URL sont exclues automatiquement par le
-# pipeline (fetchBestPdfLink échoue → failure loggée, pas de crash).
+#   npx tsx src/index.ts --slug iroko-zen:ra    (rapport annuel)
 
 sources:
 
-  # ── Alderan ──────────────────────────────────────────────────────────────────
+  # ── Rapports annuels — 5 SCPI pilotes (TASK-DATA-PUBLISH-001D) ───────────────
+  # Objectif : débloquer les taux de distribution manquants (null dans bulletins T3)
+  # Sources à tester manuellement avant la première run
+
+  - scpi: iroko-zen                    # 🔍 à tester
+    document_type: rapport_annuel
+    ra_year: 2024
+    pageUrl: https://www.iroko.eu/scpi-iroko-zen/
+
+  - scpi: transitions-europe           # 🔍 à tester
+    document_type: rapport_annuel
+    ra_year: 2024
+    pageUrl: https://arkeaim.com/nos-scpi/transitions-europe/
+
+  - scpi: comete                       # 🔍 à tester
+    document_type: rapport_annuel
+    ra_year: 2024
+    pageUrl: https://alderan.fr/scpi-comete-documentation/
+
+  - scpi: activimmo                    # 🔍 à tester
+    document_type: rapport_annuel
+    ra_year: 2024
+    pageUrl: https://alderan.fr/scpi-activimmo-documentation/
+
+  # ── Alderan — bulletins trimestriels ─────────────────────────────────────────
   - scpi: comete                       # ✅ vérifié
     pageUrl: https://alderan.fr/scpi-comete-documentation/
 

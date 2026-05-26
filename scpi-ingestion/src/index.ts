@@ -3,14 +3,15 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { loadSources } from "./loadSources.js";
 import { downloadPdf } from "./downloader.js";
-import { uploadPdf, recordBulletin, saveScore, saveExtraction, upsertIndicators, type IndicatorsPayload } from "./supabase.js";
+import { uploadPdf, recordBulletin, saveScore, saveExtraction, upsertIndicators, updateTdFromRapportAnnuel, type IndicatorsPayload } from "./supabase.js";
 import { fetchBestPdfLink } from "./html.js";
 import { shutdownPlaywright } from "./playwright.js";
 import { runQa } from "./qa.js";
 import { buildReport } from "./report.js";
 import { logger } from "./logger.js";
 import { computeMaximusScore, fromExtraction } from "./scoring/maximusScore.js";
-import { extractFromText, toExtractedMetrics, type ExtractionResult } from "./extractor.js";
+import { extractFromText, toExtractedMetrics, extractAnnualReportTd, type ExtractionResult } from "./extractor.js";
+import { makeAnnualPeriod } from "./period.js";
 import { parsePdfBuffer } from "./pdfParser.js";
 import { type Source, type DownloadSuccess, type DownloadFailure } from "./types.js";
 
@@ -88,6 +89,217 @@ async function processAllConcurrent<T>(
   await Promise.all(
     Array.from({ length: Math.min(limit, items.length) }, () => worker())
   );
+}
+
+// ─── Rapport annuel processor ─────────────────────────────────────────────────
+//
+// Simplified pipeline for rapport_annuel sources:
+//   fetch → download → upload → record → parse → extractAnnualReportTd → updateTd
+// No QA, no MaximusSCPI scoring (annual reports are not quarterly bulletins).
+
+async function processRapportAnnuelSource(
+  source: Source,
+  runId: string,
+  successes: DownloadSuccess[],
+  failures: DownloadFailure[]
+): Promise<void> {
+  const operationStartedAt = Date.now();
+  const elapsed = (): number => Date.now() - operationStartedAt;
+
+  try {
+    logger.info("source_started", {
+      sourceId:      source.id,
+      scpi:          source.scpi,
+      pageUrl:       source.pageUrl,
+      document_type: "rapport_annuel",
+      ra_year:       source.ra_year,
+    });
+
+    // ── Phase 0: find rapport annuel PDF ────────────────────────────────────
+    const linkResult = await fetchBestPdfLink(source.pageUrl, "rapport_annuel", source.ra_year);
+
+    if (!linkResult.ok) {
+      logger.warn("no_pdf_detected", {
+        scpi:          source.scpi,
+        pageUrl:       source.pageUrl,
+        document_type: "rapport_annuel",
+        reason:        linkResult.error.reason,
+        message:       linkResult.error.message,
+      });
+      failures.push({
+        sourceId:   source.id,
+        scpi:       source.scpi,
+        reason:     `[RA][${linkResult.error.reason}] ${linkResult.error.message}`,
+        durationMs: elapsed(),
+      });
+      return;
+    }
+
+    const candidate = linkResult.value;
+
+    // Resolve period: use the found period or fall back to ra_year
+    let period: string = candidate.period.normalized;
+    if (period === "unknown") {
+      const fallback = source.ra_year !== undefined
+        ? makeAnnualPeriod(source.ra_year)
+        : null;
+      if (fallback === null) {
+        failures.push({
+          sourceId:   source.id,
+          scpi:       source.scpi,
+          reason:     "[RA][PERIOD_NOT_FOUND] cannot determine year from link or ra_year",
+          durationMs: elapsed(),
+        });
+        return;
+      }
+      period = fallback.normalized;
+    }
+
+    logger.info("pdf_selected", {
+      scpi:          source.scpi,
+      pdfUrl:        candidate.url,
+      period,
+      document_type: "rapport_annuel",
+    });
+
+    const pdfUrl = candidate.url;
+
+    // ── Phase 1: download PDF ────────────────────────────────────────────────
+    const downloadResult = await downloadPdf(source, pdfUrl);
+
+    if (!downloadResult.ok) {
+      failures.push(downloadResult.error);
+      logger.warn("download_failed", {
+        sourceId:   downloadResult.error.sourceId,
+        reason:     downloadResult.error.reason,
+        durationMs: downloadResult.error.durationMs,
+      });
+      return;
+    }
+
+    const dl = downloadResult.value;
+    logger.info("download_complete", {
+      sourceId:      dl.sourceId,
+      sizeBytes:     dl.sizeBytes,
+      sha256:        dl.sha256,
+      document_type: "rapport_annuel",
+    });
+
+    // ── Phase 2: upload to Supabase Storage ─────────────────────────────────
+    const uploadResult = await uploadPdf({ scpi_slug: source.scpi, period, buffer: dl.buffer, sha256: dl.sha256 });
+
+    if (!uploadResult.ok) {
+      failures.push({
+        sourceId:   source.id,
+        scpi:       source.scpi,
+        reason:     `[RA][${uploadResult.error.reason}] ${uploadResult.error.message}`,
+        durationMs: elapsed(),
+      });
+      return;
+    }
+
+    const upload = uploadResult.value;
+    logger.info(upload.isNew ? "pdf_uploaded" : "duplicate_detected", {
+      path:          upload.storageKey,
+      document_type: "rapport_annuel",
+    });
+
+    // ── Phase 3: record in scpi_bulletins ────────────────────────────────────
+    await recordBulletin({ scpi_slug: source.scpi, period, pdf_path: upload.storageKey, pdf_sha256: dl.sha256, source_url: pdfUrl, run_id: runId });
+
+    // ── Phase 4: parse PDF text → extract TD ─────────────────────────────────
+    let tdResult: ReturnType<typeof extractAnnualReportTd> = null;
+    try {
+      const pdfText = await parsePdfBuffer(dl.buffer);
+      tdResult = extractAnnualReportTd(pdfText, source.ra_year);
+      logger.info("ra_td_extracted", {
+        sourceId: source.id,
+        scpi:     source.scpi,
+        found:    tdResult !== null,
+        td:       tdResult?.td,
+        year:     tdResult?.year,
+        raw:      tdResult?.raw,
+      });
+    } catch (e) {
+      logger.warn("ra_parse_failed", {
+        sourceId: source.id,
+        message:  e instanceof Error ? e.message : String(e),
+      });
+    }
+
+    if (tdResult === null) {
+      logger.warn("ra_td_not_found", {
+        sourceId: source.id,
+        scpi:     source.scpi,
+        period,
+        hint:     "TD not found in PDF — check extraction patterns or PDF structure",
+      });
+      failures.push({
+        sourceId:   source.id,
+        scpi:       source.scpi,
+        reason:     `[RA][TD_NOT_FOUND] taux de distribution not found in rapport annuel PDF`,
+        durationMs: elapsed(),
+      });
+      return;
+    }
+
+    // ── Phase 5: partial update scpi_indicators (td only) ────────────────────
+    const updateResult = await updateTdFromRapportAnnuel({
+      scpi_slug:  source.scpi,
+      td:         tdResult.td,
+      td_annee:   tdResult.year,
+      ra_period:  period,
+      ra_sha256:  dl.sha256,
+    });
+
+    if (!updateResult.ok) {
+      logger.warn("ra_td_update_failed", {
+        sourceId: source.id,
+        reason:   updateResult.error.reason,
+        message:  updateResult.error.message,
+      });
+      failures.push({
+        sourceId:   source.id,
+        scpi:       source.scpi,
+        reason:     `[RA][${updateResult.error.reason}] ${updateResult.error.message}`,
+        durationMs: elapsed(),
+      });
+      return;
+    }
+
+    logger.info("ra_td_updated", {
+      sourceId: source.id,
+      scpi:     source.scpi,
+      td:       tdResult.td,
+      year:     tdResult.year,
+      period,
+    });
+
+    // Minimal DownloadSuccess entry (no QA / score for rapport annuel)
+    const dummyQa: DownloadSuccess["qaResult"] = { status: "OK", warnings: [], metrics: { confidence: 0.5 } };
+    const dummyScore: DownloadSuccess["scoreResult"] = {
+      score_total: 0, score_rendement: 0, score_secteur: 0, score_geo: 0, score_qualite: 0, score_taille: 0,
+      rating: 1, audit_trail: [`rapport_annuel TD=${(tdResult.td * 100).toFixed(2)}% (${tdResult.year})`],
+      version: "v1", has_penalty: false, computed_at: new Date().toISOString(),
+    };
+
+    successes.push({
+      sourceId:   source.id,
+      scpi:       source.scpi,
+      storageKey: upload.storageKey,
+      sizeBytes:  dl.sizeBytes,
+      sha256:     dl.sha256,
+      isNew:      upload.isNew,
+      durationMs: elapsed(),
+      qaResult:   dummyQa,
+      scoreResult: dummyScore,
+    });
+
+  } catch (unexpected) {
+    const message = unexpected instanceof Error ? unexpected.message : String(unexpected);
+    failures.push({ sourceId: source.id, scpi: source.scpi, reason: `[RA] unexpected: ${message}`, durationMs: elapsed() });
+    logger.error("source_unexpected_error", { sourceId: source.id, message });
+  }
 }
 
 // ─── Per-source processor ─────────────────────────────────────────────────────
@@ -487,7 +699,10 @@ async function runIngestion(runId: string, startedAt: Date, slugFilter: string |
   await processAllConcurrent(
     sources,
     CONCURRENCY,
-    (source) => processSource(source, runId, successes, failures)
+    (source) =>
+      source.document_type === "rapport_annuel"
+        ? processRapportAnnuelSource(source, runId, successes, failures)
+        : processSource(source, runId, successes, failures)
   );
 
   const endedAt = new Date();

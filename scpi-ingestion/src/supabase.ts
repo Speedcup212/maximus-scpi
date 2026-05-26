@@ -405,3 +405,55 @@ export async function saveScore(params: {
 
   return ok(undefined);
 }
+
+// ─── Public API: rapport annuel TD update ─────────────────────────────────────
+
+/**
+ * Partial update of scpi_indicators: only sets td + td_annee + ra_source fields.
+ * Does NOT overwrite quarterly bulletin data (TOF, capitalisation, etc.).
+ * Safe to call even if the SCPI has no existing row (upsert inserts minimal row).
+ */
+export async function updateTdFromRapportAnnuel(params: {
+  readonly scpi_slug:   string;
+  /** Taux de distribution — decimal [0, 1] (e.g. 0.0567 for 5.67%) */
+  readonly td:          number;
+  /** Reporting year (e.g. 2024) */
+  readonly td_annee:    number;
+  /** Storage period string, e.g. "2024-RA" */
+  readonly ra_period:   string;
+  /** SHA-256 of the source PDF */
+  readonly ra_sha256:   string;
+}): Promise<Result<void, DbError>> {
+  let client: SupabaseClient;
+  try {
+    client = getClient();
+  } catch (e) {
+    return err({
+      reason:  "ENV_MISSING",
+      message: e instanceof Error ? e.message : String(e),
+    });
+  }
+
+  const { error } = await client
+    .from("scpi_indicators")
+    .upsert(
+      {
+        scpi_slug:        params.scpi_slug,
+        td:               params.td,
+        td_annee:         params.td_annee,
+        ra_source_period: params.ra_period,
+        ra_source_sha256: params.ra_sha256,
+        ra_updated_at:    new Date().toISOString(),
+      },
+      {
+        onConflict:       "scpi_slug",
+        ignoreDuplicates: false,
+      }
+    );
+
+  if (error !== null) {
+    return err({ reason: "DB_ERROR", message: error.message });
+  }
+
+  return ok(undefined);
+}
