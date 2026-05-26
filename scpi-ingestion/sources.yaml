@@ -27,10 +27,10 @@ sources:
   # Objectif : débloquer les taux de distribution manquants (null dans bulletins T3)
   # Sources à tester manuellement avant la première run
 
-  - scpi: iroko-zen                    # 🔍 à tester
+  - scpi: iroko-zen                    # ✅ vérifié (001E)
     document_type: rapport_annuel
     ra_year: 2024
-    pageUrl: https://www.iroko.eu/scpi-iroko-zen/
+    pageUrl: https://www.iroko.eu/documentation
 
   - scpi: transitions-europe           # 🔍 à tester
     document_type: rapport_annuel
