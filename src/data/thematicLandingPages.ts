@@ -136,11 +136,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Quelle est la meilleure SCPI de rendement en 2026 ?',
-        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2026 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2026.'
+        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2024 de 10,62%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2026.'
       },
       {
         question: 'Combien peut-on gagner avec 10 000€ investis dans ces SCPI ?',
-        answer: 'Avec 10 000€ investis dans Comète (9,00%), vous percevrez 900€ bruts par an, soit environ 75€ par mois. Après impôts (TMI 30% + PS 17,2%), cela représente environ 475€ nets par an. Les revenus des autres SCPI du Top 5 varient selon leur taux de distribution.'
+        answer: 'Avec 10 000€ investis dans Comète (10,62%), vous percevrez 1 062€ bruts par an, soit environ 89€ par mois. Après impôts (TMI 30% + PS 17,2%), cela représente environ 475€ nets par an. Les revenus des autres SCPI du Top 5 varient selon leur taux de distribution.'
       },
       {
         question: 'Les SCPI à haut rendement sont-elles plus risquées ?',
@@ -148,7 +148,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
-        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (9,00%), 30% Transitions Europe (8,25%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,03% avec une diversification France + Europe.'
+        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (10,62%), 30% Transitions Europe (8,25%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,70% avec une diversification France + Europe.'
       },
       {
         question: 'Quels sont les frais à prévoir pour investir dans ces SCPI ?',
@@ -1446,17 +1446,17 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     metaDescription: 'Découvrez les SCPI gérées par Alderan. Société de gestion innovante spécialisée dans l\'immobilier européen avec des rendements attractifs.',
     heroTitle: 'SCPI Alderan',
     heroTitleHighlight: 'L\'excellence de la gestion immobilière',
-    heroSubtitle: 'Alderan gère la SCPI Comète avec un taux de distribution 2026 de 9,00% et une stratégie internationale diversifiée',
+    heroSubtitle: 'Alderan gère la SCPI Comète avec un taux de distribution 2024 de 10,62% et une stratégie internationale diversifiée',
     labelText: 'Gestionnaire Premium - Innovation',
     keyMetrics: [
       { value: '1', label: 'SCPI gérée' },
-      { value: '9,00%', label: 'Taux de distribution 2026' },
+      { value: '10,62%', label: 'Taux de distribution 2024' },
       { value: '2023', label: 'Création Comète' }
     ],
     benefits: [
       'Gestionnaire innovant et dynamique',
       'Stratégie internationale diversifiée (7 pays)',
-      'SCPI Comète : distribution 2026 de 9,00%',
+      'SCPI Comète : distribution 2024 de 10,62%',
       'Expertise immobilière tertiaire',
       'Gestion transparente et professionnelle'
     ],
@@ -1467,7 +1467,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'trending-up',
           title: 'Performance robuste',
-          description: 'La SCPI Comète affiche un taux de distribution 2026 de 9,00%, soutenu par une stratégie immobilière internationale diversifiée'
+          description: 'La SCPI Comète affiche un taux de distribution 2024 de 10,62%, soutenu par une stratégie immobilière internationale diversifiée'
         },
         {
           icon: 'globe',
@@ -1504,7 +1504,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'SCPI Comète en détail',
           points: [
             'Créée en 2023, capitalisation en forte croissance',
-            'Taux de distribution 2026 : 9,00%',
+            'Taux de distribution 2024 : 10,62%',
             'TOF : 99,1% (T4 2026)',
             'Frais de souscription : 10% HT'
           ]
@@ -1524,11 +1524,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Qui est Alderan et que gère cette société ?',
-        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire international. Elle gère actuellement la SCPI Comète, créée en 2023, avec un taux de distribution 2026 de 9,00% et un TOF de 99,1%. Alderan se distingue par une approche innovante et une stratégie internationale ambitieuse.'
+        answer: 'Alderan est une société de gestion agréée AMF spécialisée dans l\'immobilier tertiaire international. Elle gère actuellement la SCPI Comète, créée en 2023, avec un taux de distribution 2024 de 10,62% et un TOF de 99,1%. Alderan se distingue par une approche innovante et une stratégie internationale ambitieuse.'
       },
       {
         question: 'Pourquoi la SCPI Comète d\'Alderan a-t-elle un rendement si élevé ?',
-        answer: 'Le taux de distribution 2026 de Comète (9,00%) s\'explique par plusieurs facteurs : une stratégie internationale diversifiée sur 7 pays, une sélection rigoureuse d\'actifs, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 99,1% au T4 2026.'
+        answer: 'Le taux de distribution 2026 de Comète (10,62%) s\'explique par plusieurs facteurs : une stratégie internationale diversifiée sur 7 pays, une sélection rigoureuse d\'actifs, et une phase de collecte dynamique. C\'est une SCPI récente (2023) en forte croissance avec un TOF de 99,1% au T4 2026.'
       },
       {
         question: 'La SCPI Comète est-elle risquée avec ce rendement élevé ?',
@@ -1546,7 +1546,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       {
         nom: 'Laurent B., 48 ans',
-        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2026 à 9,00% répond à mes attentes. La gestion est transparente et les distributions régulières.',
+        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2024 à 10,62% répond à mes attentes. La gestion est transparente et les distributions régulières.',
         note: 5
       },
       {

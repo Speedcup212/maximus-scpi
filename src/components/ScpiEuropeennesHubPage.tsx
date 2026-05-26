@@ -30,7 +30,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
       scpiCount: '10+',
       rendementMoyen: '7.8%',
       topScpi: [
-        { name: 'Comète', rendement: '9.00%', exposure: '15.4%' },
+        { name: 'Comète', rendement: '10.62%', exposure: '15.4%' },
         { name: 'Transitions Europe', rendement: '8.25%', exposure: '34%' },
         { name: 'Épargne Pierre Europe', rendement: '6.75%', exposure: '52.8%' }
       ]
@@ -44,7 +44,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
       scpiCount: '9+',
       rendementMoyen: '6.2%',
       topScpi: [
-        { name: 'Comète', rendement: '9.00%', exposure: '10.3%' },
+        { name: 'Comète', rendement: '10.62%', exposure: '10.3%' },
         { name: 'Transitions Europe', rendement: '8.25%', exposure: '27%' },
         { name: 'Épargne Pierre Europe', rendement: '6.75%', exposure: '19.86%' }
       ]
@@ -58,9 +58,9 @@ const ScpiEuropeennesHubPage: React.FC = () => {
       scpiCount: '5+',
       rendementMoyen: '6.5%',
       topScpi: [
-        { name: 'Comète', rendement: '9.00%', exposure: '46.5%' },
+        { name: 'Comète', rendement: '10.62%', exposure: '46.5%' },
         { name: 'Remake Live', rendement: '7.50%', exposure: '32.16%' },
-        { name: 'Iroko Zen', rendement: '6.01%', exposure: '16%' }
+        { name: 'Iroko Zen', rendement: '7.32%', exposure: '16%' }
       ]
     },
     {
@@ -73,7 +73,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
       rendementMoyen: '6.8%',
       topScpi: [
         { name: 'Épargne Pierre Europe', rendement: '6.75%', exposure: '27.34%' },
-        { name: 'Iroko Zen', rendement: '6.01%', exposure: '12%' },
+        { name: 'Iroko Zen', rendement: '7.32%', exposure: '12%' },
         { name: 'Remake Live', rendement: '7.50%', exposure: '7.20%' }
       ]
     },
@@ -97,7 +97,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
     {
       name: 'Comète',
       gestionnaire: 'Alderan',
-      rendement: '9.00%',
+      rendement: '10.62%',
       europePct: '93.4%',
       pays: 'Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada',
       secteur: 'Diversifié',
@@ -142,7 +142,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
     {
       name: 'Iroko Zen',
       gestionnaire: 'Iroko',
-      rendement: '6.01%',
+      rendement: '7.32%',
       europePct: '56%',
       pays: 'Royaume-Uni, Irlande, Pays-Bas, Allemagne, Espagne',
       secteur: 'Bureaux, Commerces, Logistique',
@@ -195,19 +195,19 @@ const ScpiEuropeennesHubPage: React.FC = () => {
   const faqQuestions = [
     {
       question: "Quelle est la meilleure SCPI européenne en 2026 ?",
-      answer: "Comète (Alderan) affiche un taux de distribution 2026 de 9,00% avec une exposition majoritairement européenne (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne) et une ouverture au Canada. Transitions Europe (Arkéa REIM) suit avec 8,25% et une stratégie thématique transitions énergétique/numérique sur 5 pays. Épargne Pierre Europe (Atland Voisin) offre 6,75% avec une diversification Espagne/Irlande/Pays-Bas."
+      answer: "Comète (Alderan) affiche un taux de distribution 2024 de 10,62% avec une exposition majoritairement européenne (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne) et une ouverture au Canada. Transitions Europe (Arkéa REIM) suit avec 8,25% et une stratégie thématique transitions énergétique/numérique sur 5 pays. Épargne Pierre Europe (Atland Voisin) offre 6,75% avec une diversification Espagne/Irlande/Pays-Bas."
     },
     {
       question: "Pourquoi investir dans les SCPI européennes ?",
-      answer: "Diversification géographique hors France, accès à des marchés porteurs (Espagne +7,8%, Pologne +7,2%), rendements supérieurs (Comète 9,00%, Transitions Europe 8,25%), exposition aux hubs technologiques (Dublin, Amsterdam) et logistiques européens. Les SCPI européennes bénéficient de la résilience du marché unique européen."
+      answer: "Diversification géographique hors France, accès à des marchés porteurs (Espagne +7,8%, Pologne +7,2%), rendements supérieurs (Comète 10,62%, Transitions Europe 8,25%), exposition aux hubs technologiques (Dublin, Amsterdam) et logistiques européens. Les SCPI européennes bénéficient de la résilience du marché unique européen."
     },
     {
       question: "Quels pays européens offrent les meilleurs rendements SCPI ?",
-      answer: "Espagne (7,8% moyen): Comète 9,00%, Transitions Europe 8,25% | Pologne (7,2% moyen): Remake Live 7,5%, Paref Evo 6% | Irlande (6,8% moyen): Épargne Pierre Europe 6,75% | Pays-Bas (6,2% moyen): hub logistique e-commerce | Royaume-Uni (6,5% moyen): bureaux Londres premium."
+      answer: "Espagne (7,8% moyen): Comète 10,62%, Transitions Europe 8,25% | Pologne (7,2% moyen): Remake Live 7,5%, Paref Evo 6% | Irlande (6,8% moyen): Épargne Pierre Europe 6,75% | Pays-Bas (6,2% moyen): hub logistique e-commerce | Royaume-Uni (6,5% moyen): bureaux Londres premium."
     },
     {
       question: "SCPI 100% européenne vs SCPI mixte France-Europe ?",
-      answer: "SCPI majoritairement Europe: Comète (9,00%), Transitions Europe (8,25%), Épargne Pierre Europe (6,75%), Paref Evo (6%) - exposition forte aux marchés européens. SCPI mixtes: Remake Live (43% Europe, 7,5%), Iroko Zen (56% Europe, 6,01%) - équilibre stabilité France + opportunités Europe. Choix selon profil diversification."
+      answer: "SCPI majoritairement Europe: Comète (10,62%), Transitions Europe (8,25%), Épargne Pierre Europe (6,75%), Paref Evo (6%) - exposition forte aux marchés européens. SCPI mixtes: Remake Live (43% Europe, 7,5%), Iroko Zen (56% Europe, 7,32%) - équilibre stabilité France + opportunités Europe. Choix selon profil diversification."
     },
     {
       question: "Comment diversifier son portefeuille avec des SCPI européennes ?",
@@ -230,8 +230,8 @@ const ScpiEuropeennesHubPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
-        title="SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 9.00%)"
-        description="✓ 12 SCPI européennes analysées ✓ Comète 9.00% ✓ Transitions Europe 8.25% ✓ Remake Live 7.5% ✓ Espagne, Allemagne, Pays-Bas, Royaume-Uni ✓ Diversification Europe → Conseiller ORIAS"
+        title="SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 10.62%)"
+        description="✓ 12 SCPI européennes analysées ✓ Comète 10.62% ✓ Transitions Europe 8.25% ✓ Remake Live 7.5% ✓ Espagne, Allemagne, Pays-Bas, Royaume-Uni ✓ Diversification Europe → Conseiller ORIAS"
         keywords={['scpi européennes', 'scpi europe', 'scpi allemagne', 'scpi espagne', 'scpi pays-bas', 'scpi royaume-uni', 'scpi irlande', 'comète scpi', 'transitions europe', 'diversification européenne']}
         canonical="https://maximusscpi.com/scpi-europeennes/"
         schemaData={combinedSchema}
@@ -247,7 +247,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
               <Flag className="w-10 h-10" />
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-              SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 9.00%)
+              SCPI Européennes 2026 : Top 12 SCPI Europe (Rendements 4% à 10.62%)
             </h1>
             <p className="text-xl sm:text-2xl mb-8 text-blue-100 max-w-4xl mx-auto">
               Investissez dans l'immobilier européen : Allemagne, Espagne, Pays-Bas, Royaume-Uni, Irlande, Pologne
@@ -259,11 +259,11 @@ const ScpiEuropeennesHubPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full">
                 <TrendingUp className="w-5 h-5" />
-                <span>Rendements 4% à 9.00%</span>
+                <span>Rendements 4% à 10.62%</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full">
                 <Award className="w-5 h-5" />
-                <span>Comète 9.00%</span>
+                <span>Comète 10.62%</span>
               </div>
             </div>
           </div>
@@ -279,13 +279,13 @@ const ScpiEuropeennesHubPage: React.FC = () => {
           <div className="prose dark:prose-invert max-w-none">
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
               Les <strong>SCPI européennes</strong> offrent une <strong>diversification géographique hors France</strong> avec des rendements attractifs
-              de <strong>4% à 9,00%</strong>. En investissant dans <strong>12 SCPI à exposition européenne</strong>, vous accédez aux marchés
+              de <strong>4% à 10,62%</strong>. En investissant dans <strong>12 SCPI à exposition européenne</strong>, vous accédez aux marchés
               immobiliers porteurs : <strong>Espagne</strong> (7,8% moyen), <strong>Pologne</strong> (7,2%), <strong>Irlande</strong> (6,8%),
               <strong> Pays-Bas</strong> (6,2% hub logistique).
             </p>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              <strong>Comète (9,00%)</strong>, <strong>Transitions Europe (8,25%)</strong> et <strong>Épargne Pierre Europe (6,75%)</strong> sont
-              les leaders 100% Europe. Les SCPI mixtes comme <strong>Remake Live (7,5%)</strong> et <strong>Iroko Zen (6,01%)</strong> combinent
+              <strong>Comète (10,62%)</strong>, <strong>Transitions Europe (8,25%)</strong> et <strong>Épargne Pierre Europe (6,75%)</strong> sont
+              les leaders 100% Europe. Les SCPI mixtes comme <strong>Remake Live (7,5%)</strong> et <strong>Iroko Zen (7,32%)</strong> combinent
               stabilité française et opportunités européennes.
             </p>
           </div>
@@ -449,11 +449,11 @@ const ScpiEuropeennesHubPage: React.FC = () => {
             {[
               {
                 q: 'Quelle est la meilleure SCPI européenne en 2026 ?',
-                a: 'Comète (Alderan) affiche 9,00% avec une exposition majoritairement européenne (Royaume-Uni 46,5%, Espagne 15,4%, Italie 12,4%, Pays-Bas 10,3%) et une ouverture au Canada. Transitions Europe (8,25%) excelle avec sa stratégie transitions énergétique/numérique. Épargne Pierre Europe (6,75%) offre la meilleure diversification Espagne/Irlande/Pays-Bas.'
+                a: 'Comète (Alderan) affiche 10,62% avec une exposition majoritairement européenne (Royaume-Uni 46,5%, Espagne 15,4%, Italie 12,4%, Pays-Bas 10,3%) et une ouverture au Canada. Transitions Europe (8,25%) excelle avec sa stratégie transitions énergétique/numérique. Épargne Pierre Europe (6,75%) offre la meilleure diversification Espagne/Irlande/Pays-Bas.'
               },
               {
                 q: 'SCPI 100% européenne ou SCPI mixte France-Europe ?',
-                a: 'SCPI majoritairement Europe (Comète 9,00%, Transitions Europe 8,25%) = forte exposition aux marchés européens dynamiques. SCPI mixtes (Remake Live 43% Europe, Iroko Zen 56% Europe) = équilibre stabilité France + opportunités Europe. Choix selon profil: audacieux Europe, équilibrés mixtes.'
+                a: 'SCPI majoritairement Europe (Comète 10,62%, Transitions Europe 8,25%) = forte exposition aux marchés européens dynamiques. SCPI mixtes (Remake Live 43% Europe, Iroko Zen 56% Europe) = équilibre stabilité France + opportunités Europe. Choix selon profil: audacieux Europe, équilibrés mixtes.'
               },
               {
                 q: 'Quels pays européens privilégier pour les SCPI ?',
@@ -461,7 +461,7 @@ const ScpiEuropeennesHubPage: React.FC = () => {
               },
               {
                 q: 'Les SCPI européennes sont-elles plus risquées que les SCPI françaises ?',
-                a: 'Risques: change EUR (limité zone euro), réglementations nationales, liquidité moindre. Atouts: diversification géographique, croissance marchés émergents (Pologne +7,2%, Espagne +7,8%), rendements supérieurs (Comète 9,00% vs moyenne France 4,5%). Marché unique européen = résilience. Balance risque/rendement favorable.'
+                a: 'Risques: change EUR (limité zone euro), réglementations nationales, liquidité moindre. Atouts: diversification géographique, croissance marchés émergents (Pologne +7,2%, Espagne +7,8%), rendements supérieurs (Comète 10,62% vs moyenne France 4,5%). Marché unique européen = résilience. Balance risque/rendement favorable.'
               }
             ].map((faq, idx) => (
               <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl p-6">

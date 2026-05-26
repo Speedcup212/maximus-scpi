@@ -45,7 +45,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
     label_isr: true,
     capitalisation: "519,6 M€",
     prix_souscription: "250 €",
-    rendement: "9,00%",
+    rendement: "10,62%",
     tof: "99,1%",
     decote: "-3,27%",
     endettement: "0%",
@@ -952,7 +952,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                 Quand vais-je recevoir mes premiers revenus ?
               </h3>
               <p className="text-gray-700">
-                Les revenus de la SCPI Comète sont versés trimestriellement. Vous recevrez votre premier versement le trimestre suivant votre investissement. Le taux de distribution 2025 est de 9,00% par an.
+                Les revenus de la SCPI Comète sont versés trimestriellement. Vous recevrez votre premier versement le trimestre suivant votre investissement. Le taux de distribution 2024 est de 10,62% par an.
               </p>
             </div>
 
@@ -982,7 +982,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                 Quels sont les frais à prévoir ?
               </h3>
               <p className="text-gray-700">
-                Les frais de souscription sont de 10% HT du montant investi. Les frais de gestion annuels sont de 10% HT des loyers perçus. Ces frais sont dans la moyenne du marché et déjà inclus dans le taux de distribution affiché de 9,00%.
+                Les frais de souscription sont de 10% HT du montant investi. Les frais de gestion annuels sont de 10% HT des loyers perçus. Ces frais sont dans la moyenne du marché et déjà inclus dans le taux de distribution affiché de 10,62%.
               </p>
             </div>
           </div>

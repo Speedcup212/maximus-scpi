@@ -42,7 +42,7 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     label_isr: true,
     capitalisation: "519,6 M€",
     prix_souscription: "250 €",
-    rendement: "9,00%",
+    rendement: "10,62%",
     tof: "99,1%",
     decote: "-3,27%",
     endettement: "0%",
@@ -66,16 +66,16 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
       "Éducation": 2.1
     },
     avantages: [
-      "Taux de distribution 2025 de 9,00%",
+      "Taux de distribution 2024 de 10,62%",
       "Taux d'occupation élevé de 99,1%",
       "Capitalisation solide de 519,6 M€",
       "Diversification internationale sur 7 pays",
       "Label ISR - Investissement durable"
     ],
-    description_courte: "SCPI internationale récente offrant un taux de distribution 2025 de 9,00% et une diversification sur 7 pays.",
-    description_longue: "Lancée en 2023 par Alderan, Comète est une SCPI internationale diversifiée qui investit dans l'immobilier tertiaire et commercial hors France métropolitaine. Avec un taux de distribution 2025 de 9,00% et un TOF de 99,1%, elle combine rendement et qualité locative. Son portefeuille diversifié sur 7 pays (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) et 7 typologies d'actifs apporte une résilience face aux cycles économiques.",
+    description_courte: "SCPI internationale récente offrant un taux de distribution 2024 de 10,62% et une diversification sur 7 pays.",
+    description_longue: "Lancée en 2023 par Alderan, Comète est une SCPI internationale diversifiée qui investit dans l'immobilier tertiaire et commercial hors France métropolitaine. Avec un taux de distribution 2024 de 10,62% et un TOF de 99,1%, elle combine rendement et qualité locative. Son portefeuille diversifié sur 7 pays (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) et 7 typologies d'actifs apporte une résilience face aux cycles économiques.",
     pourquoi_investir: [
-      "Taux de distribution 2025 : 9,00% annualisé",
+      "Taux de distribution 2024 : 10,62% annualisé",
       "Diversification internationale : exposition répartie sur 7 pays",
       "Label ISR : Engagement dans l'investissement socialement responsable",
       "Société de gestion reconnue : Alderan apporte son expertise et son réseau international",
@@ -338,7 +338,7 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     label_isr: true,
     capitalisation: "1 100 M€",
     prix_souscription: "202 €",
-    rendement: "6,01%",
+    rendement: "7,32%",
     tof: "97,7%",
     decote: "-5,76%",
     endettement: "26,18%",
@@ -360,18 +360,18 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
       "Enseignement": 1
     },
     avantages: [
-      "Rendement attractif de 6,01%",
+      "Rendement attractif de 7,32%",
       "Taux d'occupation élevé de 97,7%",
       "Capitalisation majeure de 1,1 Mds€",
       "Endettement modéré de 26%",
       "Sans frais de souscription (0%)"
     ],
-    description_courte: "SCPI européenne sans frais d'entrée offrant 6,01% de rendement avec des versements mensuels.",
+    description_courte: "SCPI européenne sans frais d'entrée offrant 7,32% de rendement avec des versements mensuels.",
     description_longue: "Iroko Zen se distingue par son modèle économique innovant : 0% de frais de souscription. Lancée en 2020, cette SCPI européenne a su rapidement séduire avec 1,1 milliard d'euros de capitalisation. Son portefeuille diversifié sur 6 pays et sa politique de versements mensuels en font un placement de choix pour générer des revenus réguliers.",
     pourquoi_investir: [
       "Économie immédiate : 0% de frais de souscription, soit 100% de votre capital investi dès le départ",
       "Revenus mensuels : Versements tous les mois pour un flux de trésorerie régulier",
-      "Rendement solide : 6,01% de taux de distribution annuel",
+      "Rendement solide : 7,32% de taux de distribution annuel",
       "Capitalisation importante : 1,1 milliard d'euros, gage de solidité",
       "Label ISR : Engagement environnemental et social fort"
     ],

@@ -207,7 +207,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
                   <div className="flex justify-center mb-3">
                     <TrendingUp className="w-8 h-8 text-emerald-600" />
                   </div>
-                  <div className="text-4xl font-black text-emerald-600 mb-1">6,01%</div>
+                  <div className="text-4xl font-black text-emerald-600 mb-1">7,32%</div>
                   <div className="text-sm text-gray-600 font-semibold">Taux de distribution 2024</div>
                 </div>
 
@@ -752,9 +752,9 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ThematicSimulator
             defaultInvestment={50000}
-            defaultYield={6.01}
+            defaultYield={7.32}
             title="Simulez votre investissement dans Iroko Zen"
-            subtitle="Estimez vos revenus mensuels avec un rendement de 6,01%"
+            subtitle="Estimez vos revenus mensuels avec un rendement de 7,32%"
           />
         </div>
       </div>
@@ -765,7 +765,7 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
             Prêt à investir dans Iroko Zen ?
           </h2>
           <p className="text-xl text-emerald-100 mb-8">
-            Profitez d'un rendement de 6,01% sans frais d'entrée avec des revenus mensuels
+            Profitez d'un rendement de 7,32% sans frais d'entrée avec des revenus mensuels
           </p>
           <button
             onClick={() => {
