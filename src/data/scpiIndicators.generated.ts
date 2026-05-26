@@ -38,8 +38,8 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     strategy_summary:
       'SCPI spécialisée logistique urbaine et entrepôts. Stratégie pan-européenne axée sur la durabilité, label ISR.',
 
-    distribution_rate: null,
-    distribution_year: null,
+    distribution_rate: 5.50,       // rapport annuel 2024 (PDF Alderan) — validé Supabase (001G)
+    distribution_year: 2024,
     share_price: null,
     capitalization: null,
     tof: null,
@@ -64,25 +64,23 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     geography_breakdown: null,
 
     source_url: 'https://alderan.fr',
-    source_document_type: null,
+    source_document_type: 'rapport_annuel',
     source_publication_date: null,
     source_period: null,
     extraction_date: '2026-05-26',
-    confidence_score: 0,
-    data_status: 'missing',
-    source_origin: 'missing',
+    confidence_score: 0.5,
+    data_status: 'to_verify',
+    source_origin: 'official_document',
 
     sources_checked: ['bulletin_trimestriel', 'page_officielle', 'rapport_annuel', 'dic', 'note_information'],
-    best_available_source: null,
+    best_available_source: 'rapport_annuel',
     missing_reason:
       'Bulletin T3 2025 absent de la pipeline d\'ingestion. ' +
-      'Page officielle alderan.fr consultée : données non structurées (formulaires PDF, pas de JSON). ' +
-      'Rapport annuel 2024 et DIC disponibles sur AMF GECO mais non traités automatiquement (PDF non parsé). ' +
-      'Frais de souscription et délai de jouissance présents dans la note d\'information AMF — ' +
-      'intégration manuelle requise avant publication.',
+      'share_price, tof, capitalisation : absents du rapport annuel 2024 et des sources complémentaires consultées. ' +
+      'subscription_fees, enjoyment_delay : présents dans la note d\'information AMF — intégration manuelle requise.',
     evidence_search_complete: true,
 
-    warning: 'Recherche multi-sources effectuée (bulletin, page officielle, rapport annuel, DIC, note AMF). Aucune donnée structurée accessible automatiquement pour Activimmo. Intégration manuelle requise.',
+    warning: 'Taux de distribution 5,50% extrait du rapport annuel 2024 (tableaux TDVM p.5, pattern P8). Cohérent avec le TDVM Activimmo publiquement connu. Tableau à 5 colonnes historiques — dernière valeur retenue comme 2024. Revue manuelle recommandée.',
   },
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -101,8 +99,9 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     strategy_summary:
       'SCPI diversifiée européenne à haute rentabilité. Stratégie opportuniste multi-pays, frais de gestion différés nuls.',
 
-    distribution_rate: null,       // absent bulletin T3 + rapport annuel 2024 non intégré
-    distribution_year: null,
+    distribution_rate: 10.62,      // rapport annuel 2024 (PDF Alderan) — validé Supabase (001G)
+    // Note conformité : 10,62% selon méthode Alderan ; 11,18% selon ASPIM (réduction honoraires sponsor) — valeur officielle rapport retenue
+    distribution_year: 2024,
     share_price: null,             // absent bulletin T3 2025 — page officielle : non structuré
     capitalization: null,          // absent bulletin T3 2025 — SCPI récente, données AMF limitées
     tof: null,                     // absent bulletin T3 2025 + page officielle
@@ -138,15 +137,15 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     sources_checked: ['bulletin_trimestriel', 'page_officielle', 'rapport_annuel', 'dic', 'note_information', 'plaquette_officielle'],
     best_available_source: 'bulletin_trimestriel',
     missing_reason:
-      'distribution_rate : absent du bulletin T3 2025 ; rapport annuel 2024 disponible sur AMF GECO (PDF) — non intégré pipeline. ' +
       'share_price, tof, capitalisation : absents du bulletin T3 2025 ; page officielle alderan.fr non structurée. ' +
       'subscription_fees, enjoyment_delay : présents dans la note d\'information AMF Comète — intégration manuelle requise. ' +
       'SCPI récente (2022) : historique limité, moins de sources publiques structurées disponibles.',
     evidence_search_complete: true,
 
     warning:
-      'Principaux indicateurs (prix, TOF, capitalisation, taux de distribution) absents du bulletin T3 2025 et des sources complémentaires consultées. ' +
-      'Seuls endettement (0,1%), WALT (10,4 ans), WALB (8,4 ans) et nombre de locataires (67) publiés officiellement.',
+      'Taux de distribution 10,62% extrait du rapport annuel 2024 (table TDVM, méthode Alderan). ' +
+      'Note : 11,18% selon ASPIM (réduction d\'honoraires sponsor incluse) — valeur Alderan retenue comme source officielle du rapport. Revue manuelle recommandée. ' +
+      'Indicateurs structurels : endettement (0,1%), WALT (10,4 ans), WALB (8,4 ans), locataires (67) — source bulletin T3 2025.',
     requires_manual_review: true,
   },
 
@@ -166,8 +165,8 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     strategy_summary:
       'SCPI zéro frais de souscription, diversifiée multi-secteurs et multi-pays. Délai de jouissance 1 mois.',
 
-    distribution_rate: null,       // tauxDistribution: null dans le bulletin T3 2025
-    distribution_year: null,
+    distribution_rate: 7.32,       // rapport annuel 2024 (PDF Iroko) — validé Supabase (001E)
+    distribution_year: 2024,
     share_price: 204,              // bulletin_iroko_zen_t3_2025.json — prixPart: 204
     capitalization: 1237,          // bulletin_iroko_zen_t3_2025.json — capitalisation: 1237
     tof: 98.1,                     // bulletin_iroko_zen_t3_2025.json — tof: 98.1
@@ -203,14 +202,13 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     sources_checked: ['bulletin_trimestriel', 'page_officielle', 'dic', 'note_information', 'rapport_annuel', 'plaquette_officielle'],
     best_available_source: 'bulletin_trimestriel',
     missing_reason:
-      'distribution_rate : tauxDistribution annuel 2024 absent du bulletin T3 2025 ; rapport annuel 2024 Iroko disponible (PDF) — non intégré pipeline automatique. ' +
       'discount_premium : decoteSurcote null dans le bulletin T3 2025. ' +
       'management_fees : non publié dans les sources structurées consultées (note d\'information AMF : taux de gestion présent en libellé mais non parsé automatiquement). ' +
       'sector_breakdown, geography_breakdown : absents du bulletin T3 2025.',
     evidence_search_complete: true,
 
     warning:
-      'Le taux de distribution annuel est absent du bulletin T3 2025 (champ tauxDistribution: null). ' +
+      'Taux de distribution 7,32% extrait du rapport annuel 2024 (PDF Iroko) — validé Supabase (001E). ' +
       'Acompte T3 2025 : 3,73€ brut / 3,03€ net de fiscalité étrangère par part. ' +
       'subscription_fees (0%) et enjoyment_delay (1 mois) confirmés par DIC et page officielle iroko.eu.',
     requires_manual_review: true,
@@ -312,9 +310,9 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     strategy_summary:
       'SCPI 100% européenne hors France, axée sur la transition énergétique et durable. Label ISR renouvelé 2025.',
 
-    distribution_rate: null,       // tauxDistribution: null dans le bulletin T3 2025
-    // Note conformité : objectif 7,5% mentionné dans bulletin et communiqué — non garanti, non intégré
-    distribution_year: null,
+    distribution_rate: 8.25,       // rapport annuel 2024 (PDF Arkéa REIM) — validé Supabase (001G)
+    // Note : extrait de la formule TRI (ra_2024_te.pdf, pattern P7). Table "Taux de Distribution Brut 8,16% 8,25%" confirme 8,25% = 2024.
+    distribution_year: 2024,
     share_price: 200,              // bulletin_transitions_europe_t3_2025.json — prixPart: 200
     capitalization: 948,           // bulletin_transitions_europe_t3_2025.json — capitalisation: 948
     tof: 97.54,                    // bulletin_transitions_europe_t3_2025.json — tof: 97.54
@@ -364,15 +362,12 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
     sources_checked: ['bulletin_trimestriel', 'page_officielle', 'dic', 'note_information', 'rapport_annuel', 'communique_officiel'],
     best_available_source: 'bulletin_trimestriel',
     missing_reason:
-      'distribution_rate : tauxDistribution annuel 2024 absent du bulletin T3 2025. ' +
-      'L\'objectif de TD mentionné (7,5% non garanti) dans le bulletin et communiqués Arkéa REIM — non intégré (objectif ≠ taux distribué). ' +
-      'Rapport annuel 2024 disponible sur arkeaim.com (PDF) — non traité automatiquement. ' +
       'subscription_fees, enjoyment_delay : présents dans note d\'information AMF — intégration manuelle requise.',
     evidence_search_complete: true,
 
     warning:
-      'Taux de distribution annuel absent du bulletin T3 2025 et des sources complémentaires consultées. ' +
-      'L\'objectif de TD (7,5% non garanti) mentionné dans communiqués officiels n\'est pas un taux distribué publié — non intégré. ' +
+      'Taux de distribution 8,25% extrait du rapport annuel 2024 (ra_2024_te.pdf, Arkéa REIM) — validé Supabase (001G). ' +
+      'Extrait de la formule TRI ; table "Taux de Distribution Brut 8,16% 8,25%" (colonne 2024). ' +
       'Acompte T3 2025 : 3€/part.',
     requires_manual_review: true,
   },
