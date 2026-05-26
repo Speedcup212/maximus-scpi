@@ -1084,6 +1084,12 @@ export function extractAnnualReportTd(rawText: string, targetYear?: number): Ann
     /rendement\s+distribu[eé]\s+(\d{4})\s*[:\-=]\s*([\d,\.]+)\s*%/i,
     // Fallback: any TD mention near a 4-digit year (looser)
     /taux\s+de\s+distribution\s*[:\-=]?\s*([\d,\.]+)\s*%[^.]{0,60}(20\d{2})/i,
+    // Table row: "Taux de distribution sur valeur de marché  0,00%  10,62% selon Alderan"
+    // — captures the LAST percentage (most recent year in a multi-column table)
+    // Non-greedy {0,40}? prevents the engine from consuming the percentages themselves.
+    /taux\s+de\s+distribution\s+sur\s+valeur\s+de\s+march[eé][^\n]{0,40}?(?:[\d,\.]+\s*%\s+)*([\d,\.]+)\s*%/i,
+    // "taux de distribution de X%" — year inferred from targetYear (no year on same line)
+    /taux\s+de\s+distribution\s+(?:annuel(?:le)?\s+)?(?:de|d['''])\s+([\d,\.]+)\s*%/i,
   ];
 
   interface Candidate {
@@ -1115,10 +1121,14 @@ export function extractAnnualReportTd(rawText: string, targetYear?: number): Ann
           yearStr = m[1];
           pctStr  = m[2];
         }
-      } else {
-        // Patterns 7 (fallback): group 1 = pct, group 2 = year
+      } else if (i === 7) {
+        // Pattern 7 (fallback): group 1 = pct, group 2 = year
         pctStr  = m[1];
         yearStr = m[2];
+      } else {
+        // Patterns 8-9: group 1 = pct only — year inferred from targetYear
+        pctStr  = m[1];
+        yearStr = targetYear !== undefined ? String(targetYear) : undefined;
       }
 
       if (!yearStr || !pctStr) continue;

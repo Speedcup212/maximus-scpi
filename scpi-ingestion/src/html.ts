@@ -11,10 +11,10 @@ import { logger } from "./logger.js";
 const BULLETIN_EXCLUDE = /\b(dic|kiid|prospectus|statuts|rapport\s*annuel|sfdr|notice|reglement|doc\s*pr[eé]alable)\b/i;
 
 /** Rapport annuel mode: require link to mention rapport annuel or activité */
-const RA_INCLUDE = /rapport\s*(?:annuel|d['']activit[eé]|de\s*gestion)|annual\s*report/i;
+const RA_INCLUDE = /rapport[\s-]*(?:annuel|d['']activit[eé]|de[\s-]*gestion)|annual\s*report|[-_\/]ra[-_\.]/i;
 
-/** Rapport annuel mode: exclude quarterly bulletins */
-const RA_EXCLUDE_BULLETIN = /\b(bulletin|trimestriel|quarterly|T[1-4]\b|Q[1-4]\b)/i;
+/** Rapport annuel mode: exclude quarterly bulletins and sustainability/ESG reports */
+const RA_EXCLUDE_BULLETIN = /\b(bulletin|trimestriel|quarterly|T[1-4]\b|Q[1-4]\b|sfdr|bd[6-9]\b|extra.financier|durabilit|article.(?:6|8|9)\b)/i;
 
 /** A raw PDF link extracted from an HTML page. */
 export interface PdfLink {
@@ -291,7 +291,24 @@ function extractScriptUrls(html: string, col: LinkCollector): void {
  *   'bulletin_trimestriel' — excludes rapport annuel (default)
  *   'rapport_annuel'       — keeps only rapport annuel links
  */
-export function extractPdfLinks(html: string, baseUrl: string, mode: CollectorMode = 'bulletin_trimestriel'): PdfLink[] {
+/**
+ * Reads the <base href> tag from HTML, if present.
+ * Some CMS sites (e.g. arkea-reim.com) use <base href="/"> so that relative
+ * hrefs resolve from the origin root rather than from the page path.
+ */
+function resolveBaseUrl(html: string, pageUrl: string): string {
+  const m = /<base\s[^>]*\bhref\s*=\s*(?:"([^"]*?)"|'([^']*?)')/i.exec(html);
+  const raw = m?.[1] ?? m?.[2] ?? "";
+  if (!raw) return pageUrl;
+  try {
+    return new URL(raw, pageUrl).href;
+  } catch {
+    return pageUrl;
+  }
+}
+
+export function extractPdfLinks(html: string, pageUrl: string, mode: CollectorMode = 'bulletin_trimestriel'): PdfLink[] {
+  const baseUrl = resolveBaseUrl(html, pageUrl);
   const col = makeLinkCollector(baseUrl, mode);
   extractAnchorHrefs(html, col);
   extractDataHrefs(html, col);

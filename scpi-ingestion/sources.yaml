@@ -32,20 +32,20 @@ sources:
     ra_year: 2024
     pageUrl: https://www.iroko.eu/documentation
 
-  - scpi: transitions-europe           # 🔍 à tester
+  - scpi: transitions-europe           # ✅ vérifié (001G)
     document_type: rapport_annuel
     ra_year: 2024
-    pageUrl: https://arkeaim.com/nos-scpi/transitions-europe/
+    pageUrl: https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe
 
   - scpi: comete                       # 🔍 à tester
     document_type: rapport_annuel
     ra_year: 2024
     pageUrl: https://alderan.fr/scpi-comete-documentation/
 
-  - scpi: activimmo                    # 🔍 à tester
+  - scpi: activimmo                    # ✅ vérifié (001G)
     document_type: rapport_annuel
     ra_year: 2024
-    pageUrl: https://alderan.fr/scpi-activimmo-documentation/
+    pageUrl: https://alderan.fr/scpi-documentation/
 
   # ── Alderan — bulletins trimestriels ─────────────────────────────────────────
   - scpi: comete                       # ✅ vérifié
