@@ -14,7 +14,8 @@ import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
-import { getIndicator, getDataStatusLabel, getDataStatusColor } from '../data/scpiIndicators.generated';
+import { getIndicator, getDataStatusLabel, getDataStatusColor, getDocumentTypeLabel } from '../data/scpiIndicators.generated';
+import { DocumentType } from '../types/scpiIndicator';
 
 function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
   const slug = scpiName
@@ -26,15 +27,32 @@ function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
   const indicator = getIndicator(slug);
   if (!indicator) return null;
 
-  const rows: { label: string; value: string | null; unit?: string }[] = [
-    { label: "Taux de distribution", value: indicator.distribution_rate != null ? `${indicator.distribution_rate}` : null, unit: `% (${indicator.distribution_year ?? '—'})` },
+  const docLabels: Record<DocumentType, string> = {
+    bulletin_trimestriel: 'Bulletin trim.',
+    rapport_annuel: 'Rapport annuel',
+    dic: 'DIC',
+    note_information: "Note d'info.",
+    page_officielle: 'Page officielle',
+    statuts: 'Statuts',
+    plaquette_officielle: 'Plaquette',
+    communique_officiel: 'Communiqué',
+    donnees_internes: 'Données internes',
+  };
+
+  const rows: { label: string; value: string | null; unit?: string; fromDic?: boolean }[] = [
+    { label: "Taux de distribution", value: indicator.distribution_rate != null ? `${indicator.distribution_rate}` : null, unit: indicator.distribution_rate != null ? `% (${indicator.distribution_year ?? '—'})` : undefined },
+    { label: "Acompte T3 2025", value: indicator.distribution_quarterly != null ? `${indicator.distribution_quarterly}` : null, unit: '€/part (net)' },
     { label: "Prix de souscription", value: indicator.share_price != null ? `${indicator.share_price}` : null, unit: '€' },
     { label: "Capitalisation", value: indicator.capitalization != null ? `${indicator.capitalization}` : null, unit: ' M€' },
     { label: "Taux d'occupation (TOF)", value: indicator.tof != null ? `${indicator.tof}` : null, unit: '%' },
-    { label: "Frais de souscription", value: indicator.subscription_fees != null ? `${indicator.subscription_fees}` : null, unit: '%' },
-    { label: "Délai de jouissance", value: indicator.enjoyment_delay != null ? `${indicator.enjoyment_delay}` : null, unit: ' mois' },
     { label: "Valeur de reconstitution", value: indicator.reconstitution_value != null ? `${indicator.reconstitution_value}` : null, unit: '€' },
+    { label: "Surcote / décote", value: indicator.discount_premium != null ? `${indicator.discount_premium > 0 ? '+' : ''}${indicator.discount_premium}` : null, unit: '%' },
     { label: "Endettement", value: indicator.debt_ratio != null ? `${indicator.debt_ratio}` : null, unit: '%' },
+    { label: "Frais souscription", value: indicator.subscription_fees != null ? `${indicator.subscription_fees}` : null, unit: '%', fromDic: indicator.subscription_fees != null && indicator.source_document_type !== 'dic' },
+    { label: "Délai de jouissance", value: indicator.enjoyment_delay != null ? `${indicator.enjoyment_delay}` : null, unit: ' mois', fromDic: indicator.enjoyment_delay != null },
+    { label: "WALT", value: indicator.walt != null ? `${indicator.walt}` : null, unit: ' ans' },
+    { label: "WALB", value: indicator.walb != null ? `${indicator.walb}` : null, unit: ' ans' },
+    { label: "Locataires", value: indicator.nombre_locataires != null ? `${indicator.nombre_locataires}` : null },
   ];
 
   return (
@@ -42,7 +60,7 @@ function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
       <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
         <h4 className="font-black text-gray-900 dark:text-white flex items-center gap-2 text-base">
           <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-          Indicateurs publics disponibles
+          Indicateurs publiés — sources officielles uniquement
         </h4>
         <span className={`text-xs px-2 py-0.5 rounded border ${getDataStatusColor(indicator.data_status)}`}>
           {getDataStatusLabel(indicator.data_status)}
@@ -54,23 +72,31 @@ function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
             <div className="text-xs text-gray-500 dark:text-gray-400 leading-tight">{r.label}</div>
             <div className="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
               {r.value != null
-                ? `${r.value}${r.unit ?? ''}`
-                : <span className="text-gray-400 font-normal text-xs">À vérifier</span>}
+                ? <>{`${r.value}${r.unit ?? ''}`}{r.fromDic && <span className="ml-1 text-xs font-normal text-blue-500">DIC</span>}</>
+                : <span className="text-gray-400 font-normal text-xs">Non publié</span>}
             </div>
           </div>
         ))}
       </div>
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400 border-t border-blue-100 dark:border-blue-800 pt-2">
         <span>Source : {indicator.management_company}</span>
-        <span>Document : {indicator.source_document_type === 'bulletin_trimestriel' ? 'Bulletin trimestriel T3 2025' : indicator.source_document_type}</span>
+        <span>Meilleure source : {getDocumentTypeLabel(indicator.best_available_source)}</span>
         <span>Extrait le : {indicator.extraction_date}</span>
+        {indicator.evidence_search_complete && (
+          <span className="text-green-600 dark:text-green-400">
+            Recherche multi-sources complète ({indicator.sources_checked.map(s => docLabels[s]).join(', ')})
+          </span>
+        )}
+        {indicator.missing_reason && (
+          <span className="text-gray-500 dark:text-gray-400 w-full mt-1 italic">Champs non publiés : {indicator.missing_reason}</span>
+        )}
         {indicator.warning && (
           <span className="text-amber-600 dark:text-amber-400 w-full mt-1">⚠ {indicator.warning}</span>
         )}
       </div>
       <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
-        Ces données sont issues de sources publiques officielles. Elles ne constituent pas une recommandation personnalisée.
-        Les performances passées ne préjugent pas des performances futures.
+        Données issues de bulletins trimestriels, DIC et pages officielles des sociétés de gestion. Les champs "Non publié" sont absents de toutes les sources consultées.
+        Ces données ne constituent pas une recommandation personnalisée. Les performances passées ne préjugent pas des performances futures.
       </p>
     </div>
   );

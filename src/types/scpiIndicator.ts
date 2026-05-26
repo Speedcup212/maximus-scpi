@@ -6,6 +6,9 @@ export type DocumentType =
   | 'dic'
   | 'note_information'
   | 'page_officielle'
+  | 'statuts'
+  | 'plaquette_officielle'
+  | 'communique_officiel'
   | 'donnees_internes';
 
 /**
@@ -47,6 +50,10 @@ export interface ScpiIndicator {
   ran: number | null;
   tri_5y: number | null;
   tri_10y: number | null;
+  walt?: number | null;
+  walb?: number | null;
+  nombre_locataires?: number | null;
+  distribution_quarterly?: number | null;
 
   main_sector: string | null;
   sector_breakdown: Record<string, number> | null;
@@ -63,6 +70,15 @@ export interface ScpiIndicator {
   source_origin: SourceOrigin;
   /** Champs issus de legacy_dataset quand l'entrée est mixte */
   legacy_fields?: string[];
+
+  /** Sources consultées dans l'ordre de priorité avant de marquer un champ missing */
+  sources_checked: DocumentType[];
+  /** Source la plus riche ayant fourni des données pour cette entrée */
+  best_available_source: DocumentType | null;
+  /** Explication des champs null après recherche multi-sources */
+  missing_reason: string | null;
+  /** true = recherche multi-sources complète effectuée ; false = bulletin seul consulté */
+  evidence_search_complete: boolean;
 
   previous_value?: number | null;
   new_value?: number | null;
