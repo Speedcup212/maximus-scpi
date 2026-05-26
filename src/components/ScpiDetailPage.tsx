@@ -16,6 +16,7 @@ import PieChart from './PieChart';
 import SEOHead from './SEOHead';
 import { getIndicator, getDataStatusLabel, getDataStatusColor, getDocumentTypeLabel } from '../data/scpiIndicators.generated';
 import { DocumentType } from '../types/scpiIndicator';
+import { usePublishedTds } from '../hooks/usePublishedTds';
 
 function ScpiPublicIndicators({ scpiName }: { scpiName: string }) {
   const slug = scpiName
@@ -153,13 +154,18 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
   const optimizedSEO = generateOptimizedScpiSEO(scpi);
 
+  // Couche publishable : TD résolu (supabase > snapshot > legacy) pour cette SCPI
+  const scpiSlug = createSlugFromName(scpi.name);
+  const publishedTds = usePublishedTds([scpiSlug]);
+  const pubTd = publishedTds[scpiSlug];
+
   useEffect(() => {
-    const slug = createSlugFromName(scpi.name);
+    const slug = scpiSlug;
     getLatestScore(slug).then(score => {
       setQualityScore(score != null ? Math.round(score) : null);
       setScoresLoaded(true);
     });
-  }, [scpi.id, scpi.name]);
+  }, [scpi.id, scpiSlug]);
 
   // Préparer les données pour les camemberts
   const sectorData = scpi.repartitionSector?.map((item, index) => ({
@@ -348,7 +354,11 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
               {(() => {
                 const yieldInfo = getYieldDisplayInfo(scpi);
                 return (
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-200 dark:border-green-800">
+                  <div
+                    className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-200 dark:border-green-800"
+                    data-source={pubTd?.source ?? 'legacy'}
+                    title={pubTd && pubTd.source !== 'legacy' ? `TD ${pubTd.year ?? '—'} · source: ${pubTd.source}` : undefined}
+                  >
                     <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400 mx-auto mb-2" />
                     <div className="text-2xl font-black text-green-600 dark:text-green-400 mb-1">
                       {yieldInfo.primaryValue.toFixed(2)}%

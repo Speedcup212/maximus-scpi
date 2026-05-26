@@ -1,6 +1,7 @@
 import { Scpi } from '../types/scpi';
 import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
 import scpiCompletJson from './scpi_complet.json';
+import { scpiIndicators } from './scpiIndicators.generated';
 // Force reload: Perial Opportunités Europe prix mis à jour à 44€
 
 // Helper function to parse sectorial distribution from string or JSON
@@ -354,12 +355,22 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   const recommended = isRecommended(scpi);
   const isAtPar = scpi['Surcote/décote (%)'] === 0;
 
+  // Snapshot enrichment : surcharge le TD legacy par la valeur validée (snapshot publishable)
+  const indicatorSlug = (scpi['Nom SCPI'] || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+  const snapshotRate = scpiIndicators[indicatorSlug]?.distribution_rate;
+  const publishedYield = snapshotRate != null ? snapshotRate : (scpi['Taux de distribution (%)'] || 0);
+
   return {
     id: index + 1,
     name: scpi['Nom SCPI'],
     sector: sector,
     geography: geography,
-    yield: scpi['Taux de distribution (%)'] || 0,
+    yield: publishedYield,
     capitalization: (scpi['Capitalisation (M€)'] || 0) * 1000000,
     tof: scpi['TOF (%)'] || 0,
     price: scpi['Prix de souscription (€)'] || 0,

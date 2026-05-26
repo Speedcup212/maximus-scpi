@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TrendingUp, Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
-import { findScpiSlug } from '../utils/scpiSlugMapper';
+import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
+import { usePublishedTds } from '../hooks/usePublishedTds';
 
 interface ScpiTableProps {
   scpiList: Scpi[];
@@ -21,6 +22,28 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
   onScpiClick
 }) => {
   const isSelected = (scpi: Scpi) => selectedScpi.some(s => s.id === scpi.id);
+
+  // Couche publishable : slugs → TD résolu (supabase > snapshot > legacy)
+  const allSlugs = useMemo(
+    () => scpiList.map(s => createSlugFromName(s.name)),
+    [scpiList],
+  );
+  const publishedTds = usePublishedTds(allSlugs);
+
+  // Pré-calcul par id SCPI pour éviter N lookups dans le render
+  const resolvedTds = useMemo(() => {
+    const m: Record<number, { displayYield: number; source: string; year: number | null }> = {};
+    scpiList.forEach(s => {
+      const slug = createSlugFromName(s.name);
+      const pub = publishedTds[slug];
+      m[s.id] = {
+        displayYield: pub?.value ?? s.yield,
+        source: pub?.source ?? 'legacy',
+        year: pub?.year ?? null,
+      };
+    });
+    return m;
+  }, [scpiList, publishedTds]);
 
   const handleNameClick = (e: React.MouseEvent, scpi: Scpi) => {
     e.stopPropagation();
@@ -145,9 +168,18 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                 </span>
               </td>
               <td className="px-3 py-3 text-center">
-                <span className={`font-bold text-xs sm:text-sm whitespace-nowrap ${getPerformanceColor(scpi.yield)}`}>
-                  {scpi.yield.toFixed(2)}%
-                </span>
+                {(() => {
+                  const { displayYield, source, year } = resolvedTds[scpi.id] ?? { displayYield: scpi.yield, source: 'legacy', year: null };
+                  return (
+                    <span
+                      className={`font-bold text-xs sm:text-sm whitespace-nowrap ${getPerformanceColor(displayYield)}`}
+                      data-source={source}
+                      title={source !== 'legacy' ? `TD ${year ?? '—'} · ${source}` : undefined}
+                    >
+                      {displayYield.toFixed(2)}%
+                    </span>
+                  );
+                })()}
               </td>
               <td className="px-3 py-3 text-center">
                 <span className={`font-bold text-xs whitespace-nowrap ${scpi.tof >= 95 ? 'text-green-500 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}`}>
