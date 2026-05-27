@@ -1,0 +1,92 @@
+[
+  {
+    "id": "anomalie-001",
+    "severity": "warning",
+    "field": ["walt", "walb"],
+    "type": "label_inversion",
+    "description": "Les libellés WALT/WALB diffèrent entre le Rapport Annuel 2024 et le Bulletin T1 2026.",
+    "detail": {
+      "rapport_annuel_2024": {
+        "duree_residuelle_baux": "6,71 ans",
+        "duree_ferme_baux": "2,55 ans"
+      },
+      "bulletin_t1_2026": {
+        "WALT_label": "Durée moyenne restante des baux = 2,6 ans",
+        "WALB_label": "Durée moyenne ferme des baux = 5,9 ans"
+      },
+      "interpretation": "Dans le bulletin T1 2026, WALT correspond à la durée résiduelle jusqu'au premier break (2,6 ans) et WALB à l'échéance totale (5,9 ans). Dans le RA 2024, 'durée ferme' (2,55 ans) ≈ WALT T1 2026 et 'durée résiduelle' (6,71 ans) ≈ WALB T1 2026. La terminologie est inversée mais les valeurs sont cohérentes avec l'évolution du patrimoine.",
+      "action": "Utiliser les valeurs et libellés du Bulletin T1 2026 (source prioritaire). Marquer manual_review en attente de confirmation convention ASPIM Altixia."
+    },
+    "source_a": "doc1-20250526-145625.pdf p20 (RA 2024)",
+    "source_b": "doc1-20260430-122013.pdf p8 (Bulletin T1 2026)"
+  },
+  {
+    "id": "anomalie-002",
+    "severity": "info",
+    "field": ["label_isr"],
+    "type": "non_confirme_pdf",
+    "description": "Label ISR non trouvé explicitement dans les pages PDF extraites des 4 documents.",
+    "detail": {
+      "legacy_excel": "Oui",
+      "pdf_extraction": "Aucune mention explicite de 'Label ISR' ou 'ISR' dans les pages lues.",
+      "action": "Vérifier sur le site www.altixia.fr ou dans les pages non extraites du RA. Statut : manual_review."
+    }
+  },
+  {
+    "id": "anomalie-003",
+    "severity": "info",
+    "field": ["sfdr"],
+    "type": "confirmation_indirecte",
+    "description": "Article SFDR déduit par contexte, non lu directement dans l'Annexe Disclosure.",
+    "detail": {
+      "indice_ra_2024_p5": "'Les investissements ne prennent pas en compte les critères de l'Union Européenne en matière d'activités économiques durables' — phrasing standard de la déclaration Article 8 SFDR sur la non-considération de la taxonomie",
+      "annexe_note_info": "Note d'information inclut une 'ANNEXE REGLEMENTS DISCLOSURE ET TAXONOMIE' (p38+) non lue intégralement",
+      "legacy_excel": "Article 8",
+      "action": "Lire l'annexe Disclosure de la note d'information pour confirmation directe. Statut : manual_review."
+    }
+  },
+  {
+    "id": "anomalie-004",
+    "severity": "info",
+    "field": ["tof"],
+    "type": "evolution_signalée",
+    "description": "Le TOF a baissé de 96,9% (31/12/2024) à 92,5% (31/03/2026) — évolution matérielle.",
+    "detail": {
+      "tof_31_12_2024": "96,9%",
+      "tof_31_03_2026": "92,5%",
+      "cause": "RA 2024 identifie les surfaces vacantes principales : Saint-Priest (1,63%), Boigny-sur-Bionne (0,82%), Rueil l'Arsenal (0,36%). Bulletin T1 2026 confirme 7,5% de locaux vacants en recherche.",
+      "action": "Utiliser 92,5% (T1 2026) comme valeur courante. La valeur 96,9% reste valide pour la période 2024."
+    },
+    "source_a": "doc1-20250526-145625.pdf p13 (RA 2024)",
+    "source_b": "doc1-20260430-122013.pdf p8 (Bulletin T1 2026)"
+  },
+  {
+    "id": "anomalie-005",
+    "severity": "info",
+    "field": ["valeur_realisation"],
+    "type": "valeur_retrait_vs_realisation",
+    "description": "Valeur de réalisation (163,80€) très inférieure au prix de souscription (200€) et au prix de retrait (182€).",
+    "detail": {
+      "prix_souscription": "200€",
+      "valeur_retrait": "182€",
+      "valeur_realisation": "163,80€",
+      "valeur_reconstitution": "199,40€",
+      "interpretation": "Pas d'anomalie — concepts distincts. La valeur de réalisation est la VAN comptable des actifs par part. Elle diffère structurellement du prix de souscription sur une SCPI à capital variable. Confirmé par RA 2024 (165,79€). La valeur de reconstitution (199,40€) est proche du prix de souscription, ce qui atteste de l'équité entre associés.",
+      "action": "Aucune correction requise. À documenter dans la fiche de la SCPI pour éviter la confusion utilisateur."
+    }
+  },
+  {
+    "id": "anomalie-006",
+    "severity": "info",
+    "field": ["repartition_sectorielle", "repartition_geographique"],
+    "type": "evolution_repartitions",
+    "description": "Les répartitions ont évolué entre le RA 2024 (31/12/2024) et le Bulletin T1 2026 (31/03/2026).",
+    "detail": {
+      "sectoriel_ra_2024": "Commerces 38%, Bureaux 26%, Activités 32%, Logistique 4%",
+      "sectoriel_t1_2026": "Commerces 37%, Bureaux 29%, Activités 30%, Logistique 3%",
+      "geo_ra_2024": "Paris 2,75%, IDF 22,88%, Régions 58,86%, Europe hors France 15,52%",
+      "geo_t1_2026": "Paris 4%, IDF 22%, Régions 56%, Espagne 13%, Irlande 6%",
+      "action": "Source prioritaire T1 2026 pour les répartitions courantes. RA 2024 conservé pour données historiques."
+    }
+  }
+]
