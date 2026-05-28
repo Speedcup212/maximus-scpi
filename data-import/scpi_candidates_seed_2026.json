@@ -1,0 +1,274 @@
+{
+  "_meta": {
+    "generated": "2026-05-28",
+    "updated": "2026-05-28",
+    "task": "TASK-DATA-SCPI-CANDIDATES-2026",
+    "purpose": "Fichier seed privé — brouillons SCPI candidates et SCPI existantes absentes du comparateur",
+    "visibility": "private",
+    "usage": "Ne pas intégrer dans le comparateur public sans validation explicite. Ne pas committer dans scpi_complet.json.",
+    "conflict_check": "Anti-doublon effectué vs scpi_complet.json (62 entrées) et SCPI_complet_avec_SFDR_Profil.json (51 entrées)",
+    "v2_changes": "NCap Education Santé déplacée de candidates_new_scpi vers existing_scpi_missing_from_comparator — confirmée existante par l'utilisateur (2026-05-28)"
+  },
+
+  "existing_scpi_missing_from_comparator": [
+    {
+      "canonical_name": "Épargne Pierre Europe",
+      "slug": "epargne-pierre-europe",
+      "status_data": "existing_scpi_missing_from_comparator",
+      "visibility": "private",
+      "comparator_status": "pending_integration",
+      "data_quality": "pending_validation",
+      "source_folder": "data-import/processed/epargne-pierre-europe/",
+      "data_locations": {
+        "scpi_complet_json": true,
+        "scpiDataExtended_ts": false,
+        "scpiIndicators_generated_ts": false,
+        "landingPagesData_ts": true,
+        "bulletin_json": "scripts/bulletin_epargne_pierre_europe_t3_2025.json"
+      },
+      "notes": "Entrée présente dans scpi_complet.json (données T3 2025 complètes : TD 5,5%, TOF 100%, capitalisation 479 M€, 16 immeubles) et dans landingPagesData.ts. Absent de scpiIndicators.generated.ts. Bulletin T3 2025 disponible dans scripts/. Raison d'absence du comparateur à clarifier : peut-être absence de page statique générée ou filtre actif non identifié. Société de gestion : Atland Voisin.",
+      "action_required": "1. Identifier la cause d'absence dans le comparateur. 2. Valider les données T3 2025. 3. Ajouter entrée dans scpiIndicators.generated.ts si données confirmées."
+    },
+    {
+      "canonical_name": "NCap Education Santé",
+      "slug": "ncap-education-sante",
+      "status_data": "existing_scpi_missing_from_comparator",
+      "visibility": "private",
+      "comparator_status": "pending_integration",
+      "data_quality": "pending_validation",
+      "source_folder": "data-import/vrac/ncap-education-sante/",
+      "data_locations": {
+        "scpi_complet_json": true,
+        "scpiDataExtended_ts": true,
+        "scpiIndicators_generated_ts": false,
+        "landingPagesData_ts": true,
+        "bulletin_json": null
+      },
+      "current_data": {
+        "societe_gestion": "Norma Capital",
+        "creation": 2018,
+        "td": "4,85 %",
+        "tof": "96,5 %",
+        "capitalisation": "110 M€",
+        "prix_souscription": "202 €",
+        "label_isr": "Oui (legacy)",
+        "nb_immeubles": 51,
+        "source": "scpi_complet.json — données legacy, non confirmées sur document officiel récent"
+      },
+      "notes": "SCPI existante confirmée par l'utilisateur (2026-05-28). Entrée présente dans scpi_complet.json (Norma Capital, données legacy), scpiDataExtended.ts et landingPagesData.ts. Absente de scpiIndicators.generated.ts. Aucun bulletin JSON disponible dans scripts/. Thématique santé/éducation/social (ISR). Ne pas créer de nouvelle entrée — utiliser le slug existant ncap-education-sante pour toute intégration future.",
+      "action_required": "1. Identifier la cause d'absence dans le comparateur (même diagnostic qu'Épargne Pierre Europe). 2. Collecter un bulletin trimestriel récent. 3. Ajouter entrée dans scpiIndicators.generated.ts si données confirmées."
+    }
+  ],
+
+  "existing_scpi_do_not_recreate": [
+    {
+      "canonical_name": "GMA Essentialis",
+      "slug": "gma-essentialis",
+      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1268)"],
+      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
+    },
+    {
+      "canonical_name": "LF Avenir Santé",
+      "slug": "lf-avenir-sante",
+      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1517)"],
+      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
+    },
+    {
+      "canonical_name": "Perial Hospitalité Europe",
+      "slug": "perial-hospitalite-europe",
+      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 2222)"],
+      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
+    },
+    {
+      "canonical_name": "Grand Paris Résidentiel",
+      "slug": "grand-paris-residentiel",
+      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1304)"],
+      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
+    },
+    {
+      "canonical_name": "Foncière des Praticiens",
+      "slug": "fonciere-des-praticiens",
+      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1228)"],
+      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
+    }
+  ],
+
+  "candidates_new_scpi": [
+    {
+      "canonical_name": "SCPI NCAP Continent",
+      "slug": "scpi-ncap-continent",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-ncap-continent/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Nouvelle SCPI Norma Capital. Aucun document disponible à ce jour. À ne pas confondre avec NCap Régions (slug: ncap-regions) déjà intégré."
+    },
+    {
+      "canonical_name": "Wemo One",
+      "slug": "wemo-one",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/wemo-one/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "SCPI sans préfixe 'SCPI'. Société de gestion inconnue à ce stade. Documents à collecter."
+    },
+    {
+      "canonical_name": "Iroko Atlas",
+      "slug": "iroko-atlas",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/iroko-atlas/",
+      "conflict_check": "OK — distinct de Iroko Zen (slug: iroko-zen) déjà intégré",
+      "notes": "Nouvelle SCPI du groupe Iroko. Attention à ne pas confondre avec Iroko Zen. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Remake UK 2025",
+      "slug": "scpi-remake-uk-2025",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-remake-uk-2025/",
+      "conflict_check": "OK — distinct de Remake Live (slug: remake-live) déjà intégré",
+      "notes": "SCPI UK Remake Asset Management. Attention : exposition au marché britannique — points fiscalité et réglementation FCA à clarifier. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Momentime",
+      "slug": "scpi-momentime",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-momentime/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue à ce stade. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Mistral Sélection",
+      "slug": "scpi-mistral-selection",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-mistral-selection/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue à ce stade. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Cœur Avenir",
+      "slug": "scpi-coeur-avenir",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-coeur-avenir/",
+      "conflict_check": "OK — distinct de Coeur d'Europe, Coeur de Région, Coeur de ville déjà intégrés",
+      "notes": "Attention ligature : 'Cœur' → slug 'coeur' (pas 'c-ur'). Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI EDR Europa",
+      "slug": "scpi-edr-europa",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-edr-europa/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "EDR = Edmond de Rothschild Asset Management probable. Société de gestion à confirmer. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Osmo Énergie",
+      "slug": "scpi-osmo-energie",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-osmo-energie/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Thématique énergie/transition probable. Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Eden",
+      "slug": "scpi-eden",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-eden/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI LinaClub",
+      "slug": "scpi-linaclub",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-linaclub/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "Epsicap Nano",
+      "slug": "epsicap-nano",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/epsicap-nano/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "SCPI sans préfixe 'SCPI'. Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Eliays",
+      "slug": "scpi-eliays",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-eliays/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Eurova",
+      "slug": "scpi-eurova",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-eurova/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "SCPI Alt Convictions",
+      "slug": "scpi-alt-convictions",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/scpi-alt-convictions/",
+      "conflict_check": "OK — aucun doublon slug ou nom détecté",
+      "notes": "Société de gestion inconnue. Documents à collecter."
+    },
+    {
+      "canonical_name": "Kyaneos Denormandie 4",
+      "slug": "kyaneos-denormandie-4",
+      "status_data": "candidate_new_scpi",
+      "visibility": "private",
+      "comparator_status": "not_ready",
+      "data_quality": "pending_documents",
+      "source_folder": "data-import/vrac/kyaneos-denormandie-4/",
+      "conflict_check": "OK — distinct de Kyaneos Pierre (slug: kyaneos-pierre) déjà intégré",
+      "notes": "Société de gestion Kyaneos Asset Management. SCPI Denormandie (dispositif fiscal). Documents à collecter."
+    }
+  ]
+}
