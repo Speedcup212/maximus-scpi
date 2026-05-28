@@ -371,6 +371,89 @@ export const scpiIndicators: Record<string, ScpiIndicator> = {
       'Acompte T3 2025 : 3€/part.',
     requires_manual_review: true,
   },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // CRÉDIT MUTUEL PIERRE 1 (La Française Real Estate Managers)
+  // Source primaire : Bulletin T1 2026 (A7_BT_20260331.pdf)
+  // Sources complémentaires : DIC PRIIPs (A7_DIC.pdf), Note d'information (A7_note_statuts.pdf)
+  // Package : data-import/processed/credit-mutuel-pierre-1/
+  // Date d'intégration : 2026-05-28
+  // Situation exceptionnelle : marché des parts suspendu depuis 2026-02-12
+  // ─────────────────────────────────────────────────────────────────────────
+  'credit-mutuel-pierre-1': {
+    slug: 'credit-mutuel-pierre-1',
+    name: 'Crédit Mutuel Pierre 1',
+    management_company: 'La Française Real Estate Managers',
+    category: 'Bureaux',
+    strategy_summary:
+      'SCPI bureaux francilienne historique (1973), orientée actifs de bureau. Stratégie de cession et repositionnement. Situation de liquidité exceptionnelle depuis février 2026.',
+
+    distribution_rate: 4.49,        // Bulletin T1 2026 — TD 2025
+    distribution_year: 2025,
+    share_price: 215,               // Bulletin T1 2026 — prix de souscription
+    capitalization: 800.35,         // Bulletin T1 2026 — 800 348 895 € / 1 000 000
+    tof: 82.3,                      // Bulletin T1 2026 — TOF au 31/03/2026
+    occupancy_rate: 77.1,           // Bulletin T1 2026 — TOP au 31/03/2026
+    subscription_fees: 9.60,        // Note d'information — 8,00% HT / 9,60% TTC
+    management_fees: 10.0,          // Note d'information — 10,00% HT max
+    enjoyment_delay: 1,             // Note d'information — 1er jour du mois suivant ≈ 1 mois
+    reconstitution_value: 219.50,   // Bulletin T1 2026
+    discount_premium: -2.05,        // Bulletin T1 2026 — (215 - 219,50) / 219,50
+    debt_ratio: 21.78,              // Bulletin T1 2026 — endettement réel au 31/03/2026
+    ran: null,
+    tri_5y: -2.74,                  // Bulletin T1 2026 — TRI 5 ans au 31/03/2026
+    tri_10y: 0.97,                  // Bulletin T1 2026 — TRI 10 ans au 31/03/2026
+    walt: null,                     // manual_review — libellés à vérifier vs convention ASPIM
+    walb: null,                     // manual_review — libellés à vérifier vs convention ASPIM
+    nombre_locataires: 439,         // Bulletin T1 2026 — nombre de baux directs et indirects
+    distribution_quarterly: 1.08,   // Bulletin T1 2026 — distribution T1 2026 versée le 29/04/2026
+
+    main_sector: 'Bureaux',
+    sector_breakdown: {
+      Bureaux: 84.94,
+      Commerces: 13.10,
+      'Hôtels, tourisme et loisirs': 1.96,
+    },
+    main_geography: 'Île-de-France',
+    geography_breakdown: {
+      'Île-de-France': 51.53,
+      'Régions France': 22.63,
+      Paris: 21.84,
+      Allemagne: 3.91,
+      Espagne: 0.09,
+    },
+
+    source_url: 'https://www.la-francaise.com',
+    source_document_type: 'bulletin_trimestriel',
+    source_publication_date: '2026-03-31',
+    source_period: 'T1 2026',
+    extraction_date: '2026-05-28',
+    confidence_score: 0.95,
+    data_status: 'to_verify',
+    source_origin: 'official_document',
+
+    sources_checked: ['bulletin_trimestriel', 'dic', 'note_information'],
+    best_available_source: 'bulletin_trimestriel',
+    missing_reason:
+      'walt, walb : manual_review — libellés à vérifier vs convention ASPIM avant publication. ' +
+      'label_isr : non confirmé dans le bulletin T1 2026 (legacy = Oui, non vérifié source officielle récente). ' +
+      'date_dissolution : conflit entre sources — ne pas publier. ' +
+      'tri_15y (2,52%) : champ absent du modèle ScpiIndicator. ' +
+      'collecte_nette_t1_2026 : affichée avec un tiret dans le bulletin. ' +
+      'Champs hors modèle (non publiés ici) : nombre_associes (18 413), nombre_parts (3 722 553), ' +
+      'surface_exploitation (253 825 m²), parts_en_attente_retrait (396 756), ' +
+      'montant_parts_en_attente (78,5 M€), ratio_parts_en_attente (10,7%), ' +
+      'marche_suspendu_depuis (2026-02-12), premiere_confrontation_prevue (2026-07-31).',
+    evidence_search_complete: true,
+
+    warning:
+      'Point d\'attention liquidité : le marché des parts est suspendu depuis le 12 février 2026. ' +
+      '396 756 parts sont en attente de retrait, représentant 10,7 % du total des parts (≈ 78,5 M€). ' +
+      'Première confrontation prévue au 31 juillet 2026. ' +
+      'Collecte brute T1 2026 : 1 100 €. ' +
+      'TRI 5 ans : −2,74 % — performance négative sur 5 ans.',
+    requires_manual_review: true,
+  },
 };
 
 export function getIndicator(slug: string): ScpiIndicator | undefined {

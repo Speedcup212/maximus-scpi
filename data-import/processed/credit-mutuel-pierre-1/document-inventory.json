@@ -1,0 +1,46 @@
+[
+  {
+    "id": "doc-001",
+    "filename": "A7_BT_20260331.pdf",
+    "type": "bulletin_trimestriel",
+    "period": "T1 2026",
+    "period_start": "2026-01-01",
+    "period_end": "2026-03-31",
+    "confidence": 0.99,
+    "classification_reason": "Titre explicite 'Bulletin Trimestriel au 31/03/2026 — Crédit Mutuel Pierre 1'",
+    "description": "Bulletin trimestriel T1 2026 — source primaire pour tous les indicateurs courants"
+  },
+  {
+    "id": "doc-002",
+    "filename": "A7_DIC.pdf",
+    "type": "dic",
+    "period": null,
+    "period_start": null,
+    "period_end": null,
+    "confidence": 0.99,
+    "classification_reason": "Document d'Information Clé PRIIPs — SRI, frais, durée recommandée",
+    "description": "DIC PRIIPs — source pour SRRI, durée de détention recommandée, frais TTC"
+  },
+  {
+    "id": "doc-003",
+    "filename": "A7_note_statuts.pdf",
+    "type": "note_information",
+    "period": null,
+    "period_start": null,
+    "period_end": null,
+    "confidence": 0.99,
+    "classification_reason": "Note d'information AMF — conditions juridiques et délais réglementaires",
+    "description": "Note d'information et statuts — source pour délai de jouissance, frais HT, conditions de souscription"
+  },
+  {
+    "id": "doc-004",
+    "filename": "Fiche commerciale Crédit Mutuel Pierre 1.pdf",
+    "type": "plaquette_officielle",
+    "period": null,
+    "period_start": null,
+    "period_end": null,
+    "confidence": 0.90,
+    "classification_reason": "Fiche produit La Française REM — données de présentation",
+    "description": "Fiche commerciale — données complémentaires, présentation stratégique"
+  }
+]
