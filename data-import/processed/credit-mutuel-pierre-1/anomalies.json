@@ -1,0 +1,102 @@
+[
+  {
+    "id": "anomalie-001",
+    "severity": "critical",
+    "field": ["marche_parts", "liquidite"],
+    "type": "liquidite_suspendue",
+    "description": "Marché des parts suspendu depuis le 12 février 2026 — situation exceptionnelle de liquidité.",
+    "detail": {
+      "date_suspension": "2026-02-12",
+      "parts_en_attente_retrait": 396756,
+      "montant_en_attente": "78 500 000 €",
+      "ratio_parts_en_attente": "10,7 % du total des parts",
+      "premiere_confrontation_prevue": "2026-07-31",
+      "collecte_brute_t1_2026": "1 100 €",
+      "interpretation": "La SCPI ne parvient pas à trouver des acheteurs suffisants pour les parts à céder. Le marché des parts est officiellement suspendu depuis février 2026. La situation est matérielle et doit être signalée à l'investisseur.",
+      "action": "Afficher en point d'attention visible dans la fiche SCPI. Ne pas formuler de manière alarmiste excessive mais mentionner clairement la suspension et le délai prévisionnel."
+    },
+    "source": "A7_BT_20260331.pdf (Bulletin T1 2026)"
+  },
+  {
+    "id": "anomalie-002",
+    "severity": "warning",
+    "field": ["walt", "walb"],
+    "type": "manual_review_requis",
+    "description": "WALT et WALB présents dans le bulletin mais non publiables en l'état — règle WALT/WALB applicable.",
+    "detail": {
+      "regle_applicable": "Règle établie sur TASK-DATA-SCPI-PILOT-ALTIXIA-CADENCE-XII-002",
+      "action": "Lire les libellés exacts du bulletin T1 2026 pour Crédit Mutuel Pierre 1 et vérifier la convention ASPIM vs La Française REIM avant publication.",
+      "statut": "manual_review"
+    },
+    "source": "A7_BT_20260331.pdf (Bulletin T1 2026)"
+  },
+  {
+    "id": "anomalie-003",
+    "severity": "warning",
+    "field": ["label_isr"],
+    "type": "non_confirme_pdf",
+    "description": "Label ISR non confirmé dans le bulletin T1 2026 — legacy dataset dit 'Oui'.",
+    "detail": {
+      "legacy": "Oui",
+      "bulletin_t1_2026": "Non mentionné explicitement",
+      "sfdr": "Article 9 — la classification SFDR article 9 n'implique pas forcément le label ISR",
+      "action": "Vérifier sur la page officielle de La Française REM ou dans un document officiel récent. Ne pas publier ISR = Oui automatiquement.",
+      "statut": "manual_review"
+    },
+    "source": "A7_BT_20260331.pdf + legacy dataset"
+  },
+  {
+    "id": "anomalie-004",
+    "severity": "warning",
+    "field": ["date_dissolution"],
+    "type": "conflit_sources",
+    "description": "Date de dissolution : conflit entre sources — ne pas publier.",
+    "detail": {
+      "action": "Vérifier dans les statuts et la note d'information. Ne pas publier la date de dissolution sans confirmation.",
+      "statut": "manual_review"
+    },
+    "source": "A7_note_statuts.pdf"
+  },
+  {
+    "id": "anomalie-005",
+    "severity": "info",
+    "field": ["tof"],
+    "type": "baisse_materielle",
+    "description": "TOF en forte baisse par rapport aux données legacy (93,8% → 82,3%) — évolution matérielle liée à la vacance.",
+    "detail": {
+      "tof_legacy": "93,8 %",
+      "tof_t1_2026": "82,3 %",
+      "top_t1_2026": "77,1 %",
+      "stock_vacants": "58 233 m²",
+      "surface_restructuration": "24 396 m²",
+      "interpretation": "La baisse est cohérente avec la situation de liquidité — la SCPI cède des actifs et gère une vacance élevée. Données T1 2026 à retenir.",
+      "action": "Utiliser 82,3% comme valeur courante. Mettre à jour le JSON source."
+    }
+  },
+  {
+    "id": "anomalie-006",
+    "severity": "info",
+    "field": ["capitalisation"],
+    "type": "divergence_majeure",
+    "description": "Capitalisation en forte baisse vs données legacy (2154,2 M€ → 800,35 M€).",
+    "detail": {
+      "capitalisation_legacy": "2 154,2 M€",
+      "capitalisation_t1_2026": "800,35 M€ (800 348 895 €)",
+      "interpretation": "Réduction massive due aux rachats et à l'impossibilité de trouver des acheteurs. Valeur T1 2026 officielle à retenir.",
+      "action": "Mettre à jour le JSON source avec 800,35 M€."
+    }
+  },
+  {
+    "id": "anomalie-007",
+    "severity": "info",
+    "field": ["collecte_nette_t1_2026"],
+    "type": "valeur_absente",
+    "description": "Collecte nette T1 2026 affichée avec un tiret dans le bulletin — valeur non exploitable.",
+    "detail": {
+      "collecte_brute_t1_2026": "1 100 €",
+      "collecte_nette_t1_2026": "— (tiret dans le bulletin)",
+      "interpretation": "La collecte nette est probablement très négative (rachats >> souscriptions) mais le bulletin ne publie pas le chiffre net. Ne pas calculer.",
+      "action": "manual_review — ne pas publier."
+    }
+  }
+]
