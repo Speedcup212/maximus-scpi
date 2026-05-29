@@ -686,46 +686,65 @@ const baseSCPIData: SCPIExtended[] = [
   {
     "id": 13,
     "name": "Crédit Mutuel Pierre 1",
-    "yield": 4.52,
-    "price": 210,
-    "minInvestment": 210,
+    "yield": 4.49,
+    "price": 215,
+    "minInvestment": 215,
     "category": "Bureaux",
-    "managementCompany": "La Française REM",
-    "tof": 93.8,
-    "capitalization": "2,2Md€",
+    "managementCompany": "La Française Real Estate Managers",
+    "tof": 82.3,
+    "capitalization": "800M€",
     "sectors": [
       {
         "name": "Bureaux",
-        "value": 80.1
+        "value": 84.94
       },
       {
-        "name": "Locaux commerciaux",
-        "value": 19.9
+        "name": "Commerces",
+        "value": 13.10
+      },
+      {
+        "name": "Hôtels, tourisme et loisirs",
+        "value": 1.96
       }
     ],
     "geography": [
       {
-        "name": "Paris",
-        "value": 26.9
+        "name": "Île-de-France",
+        "value": 51.53
       },
       {
-        "name": "Régions",
-        "value": 16.8
+        "name": "Régions France",
+        "value": 22.63
+      },
+      {
+        "name": "Paris",
+        "value": 21.84
       },
       {
         "name": "Allemagne",
-        "value": 3.1
+        "value": 3.91
       },
       {
-        "name": "Île-de-France",
-        "value": 53.2
+        "name": "Espagne",
+        "value": 0.09
       }
     ],
-    "reconstitutionValue": 207,
+    "reconstitutionValue": 219.50,
+    "valeurRetrait": 197.80,
+    "valeurRealisation": 179.26,
     "ranDays": 10,
-    "ltv": 26,
-    "hasWaitingShares": false,
-    "strategy": "Investissement principalement dans des immeubles de bureaux de qualité"
+    "ltv": 21.78,
+    "hasWaitingShares": true,
+    "entryFees": 9.60,
+    "managementFees": 12.00,
+    "delaiJouissance": 1,
+    "versementLoyers": "Trimestriel",
+    "dureeDetentionRecommandee": 9,
+    "assetsCount": 119,
+    "sfdr": "Article 9",
+    "profilRisque": 4,
+    "nbCessionsTrimestre": 3,
+    "strategy": "SCPI d'entreprise à capital variable investissant principalement dans des bureaux en Île-de-France et Régions. Point d'attention liquidité : marché des parts suspendu depuis le 12/02/2026 — 396 756 parts en attente de retrait (10,7 % des parts). Prochaine confrontation prévue au 31/07/2026."
   },
   {
     "id": 14,

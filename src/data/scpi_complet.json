@@ -678,7 +678,9 @@
       "Verification": "Official"
     },
     "Frais de souscription (TTC/%)": 9.6,
-    "SFDR": "Article 9"
+    "SFDR": "Article 9",
+    "Parts en attente de retrait": 396756,
+    "Nombre de cessions trimestre": 3
   },
   {
     "Nom SCPI": "Cristal Life",
