@@ -2729,6 +2729,289 @@ const baseSCPIData: SCPIExtended[] = [
     "ltv": 23,
     "hasWaitingShares": true,
     "strategy": "Portefeuille orienté vers les actifs commerciaux et de retail"
+  },
+  {
+    "id": 52,
+    "name": "NCap Continent",
+    "yield": 7.1,
+    "price": 210,
+    "minInvestment": 2100,
+    "category": "Diversifié",
+    "managementCompany": "Norma Capital",
+    "tof": 0,
+    "capitalization": "70.4M€",
+    "sectors": [
+      { "name": "Diversifié", "value": 100 }
+    ],
+    "geography": [
+      { "name": "France", "value": 55 },
+      { "name": "Europe", "value": 45 }
+    ],
+    "ltv": 11.42,
+    "versementLoyers": "Mensuel",
+    "distribution": 13.96,
+    "reconstitutionValue": 214.87,
+    "strategy": "SCPI diversifiée européenne multi-pays et multi-secteurs visant une diversification optimale"
+  },
+  {
+    "id": 53,
+    "name": "Wemo One",
+    "yield": 15.27,
+    "price": 210,
+    "minInvestment": 2100,
+    "category": "Diversifié",
+    "managementCompany": "Wemo REIM",
+    "tof": 100,
+    "capitalization": "121.9M€",
+    "sectors": [
+      { "name": "Diversifié", "value": 100 }
+    ],
+    "geography": [
+      { "name": "France", "value": 70 },
+      { "name": "Europe", "value": 30 }
+    ],
+    "versementLoyers": "Mensuel",
+    "strategy": "SCPI jeune (2024) à stratégie de rendement élevé, diversification pan-européenne (taux non représentatif d'un TD récurrent)"
+  },
+  {
+    "id": 54,
+    "name": "Iroko Atlas",
+    "yield": 9.66,
+    "price": 200,
+    "minInvestment": 2000,
+    "category": "Diversifié",
+    "managementCompany": "Iroko",
+    "tof": 0,
+    "capitalization": "120M€",
+    "sectors": [
+      { "name": "Commerces", "value": 63.6 },
+      { "name": "Entrepôts", "value": 10.1 },
+      { "name": "Santé-hôtellerie-autre", "value": 11.6 },
+      { "name": "Bureaux", "value": 9 },
+      { "name": "Autres", "value": 5.7 }
+    ],
+    "geography": [
+      { "name": "France", "value": 65 },
+      { "name": "Europe", "value": 35 }
+    ],
+    "versementLoyers": "Mensuel",
+    "distribution": 19.32,
+    "reconstitutionValue": 204.87,
+    "valeurRetrait": 200,
+    "strategy": "SCPI diversifiée multi-secteurs (commerces, entrepôts, bureaux) à vocation européenne, distributions mensuelles"
+  },
+  {
+    "id": 55,
+    "name": "Epsicap Nano",
+    "yield": 6.08,
+    "price": 257,
+    "minInvestment": 2570,
+    "category": "Diversifié",
+    "managementCompany": "Epsicap",
+    "tof": 0,
+    "capitalization": "200M€",
+    "sectors": [
+      { "name": "Diversifié", "value": 100 }
+    ],
+    "geography": [
+      { "name": "France", "value": 100 }
+    ],
+    "versementLoyers": "Mensuel",
+    "distribution": 18,
+    "strategy": "SCPI à dividendes mensuels, stratégie de rendement et liquidité pour investisseurs court terme"
+  },
+  {
+    "id": 56,
+    "name": "Alta Convictions",
+    "yield": 6.57,
+    "price": 308,
+    "minInvestment": 3080,
+    "category": "Diversifié",
+    "managementCompany": "Altarea Investment Managers",
+    "tof": 96,
+    "capitalization": "121M€",
+    "sectors": [
+      { "name": "Diversifié", "value": 100 }
+    ],
+    "geography": [
+      { "name": "France", "value": 100 }
+    ],
+    "versementLoyers": "Mensuel",
+    "distribution": 20.64,
+    "strategy": "SCPI à fortes convictions, sélection d'actifs premium en France et Europe"
+  },
+  {
+    "id": 57,
+    "name": "Cristal Rente",
+    "yield": 5,
+    "price": 255.68,
+    "minInvestment": 2556.8,
+    "category": "Diversifié",
+    "managementCompany": "Inter Gestion REIM",
+    "tof": 98.99,
+    "capitalization": "682.95M€",
+    "sectors": [
+      { "name": "Diversifié", "value": 100 }
+    ],
+    "geography": [
+      { "name": "France", "value": 90 },
+      { "name": "Europe", "value": 10 }
+    ],
+    "versementLoyers": "Trimestriel",
+    "distribution": 12.78,
+    "strategy": "SCPI de rendement diversifiée, actifs tertiaires sélectionnés pour leur qualité locative"
+  },
+  {
+    "id": 58,
+    "name": "Rivoli Avenir Patrimoine",
+    "yield": 3.69,
+    "price": 228,
+    "minInvestment": 2280,
+    "category": "Bureaux",
+    "managementCompany": "Amundi Immobilier",
+    "tof": 86.03,
+    "capitalization": "2 927M€",
+    "sectors": [
+      { "name": "Bureaux", "value": 79.1 },
+      { "name": "Commerces", "value": 13.9 },
+      { "name": "Hôtels", "value": 3.3 },
+      { "name": "Logistique", "value": 3.1 },
+      { "name": "Résidences Services", "value": 0.6 }
+    ],
+    "geography": [
+      { "name": "France", "value": 100 }
+    ],
+    "ltv": 38.6,
+    "versementLoyers": "Trimestriel",
+    "assetsCount": 181,
+    "strategy": "SCPI de bureaux franciliens et européens, grand patrimoine tertiaire avec diversification sectorielle"
+  },
+  {
+    "id": 59,
+    "name": "Primovie",
+    "yield": 4.04,
+    "price": 164,
+    "minInvestment": 1640,
+    "category": "Santé",
+    "managementCompany": "Praemia REIM France",
+    "tof": 94.7,
+    "capitalization": "4 200M€",
+    "sectors": [
+      { "name": "Sénior", "value": 78.6 },
+      { "name": "Bureaux", "value": 16.3 },
+      { "name": "Éducation", "value": 3.9 },
+      { "name": "Hôtellerie", "value": 1.2 }
+    ],
+    "geography": [
+      { "name": "France", "value": 85 },
+      { "name": "Europe", "value": 15 }
+    ],
+    "ltv": 29.2,
+    "versementLoyers": "Trimestriel",
+    "assetsCount": 298,
+    "valeurRealisation": 149.24,
+    "strategy": "SCPI santé et sénior, investissement en EHPAD, cliniques et résidences services en France et Europe"
+  },
+  {
+    "id": 60,
+    "name": "Praemia Hôtels Europe",
+    "yield": 3.9,
+    "price": 204,
+    "minInvestment": 2040,
+    "category": "Hôtellerie",
+    "managementCompany": "Praemia REIM France",
+    "tof": 97.7,
+    "capitalization": "252.5M€",
+    "sectors": [
+      { "name": "Hôtel", "value": 67.3 },
+      { "name": "Résidentiel", "value": 15.1 },
+      { "name": "Commerce", "value": 10 },
+      { "name": "Mixte Résidentiel-Commerce", "value": 7.6 }
+    ],
+    "geography": [
+      { "name": "Europe", "value": 65 },
+      { "name": "France", "value": 35 }
+    ],
+    "ltv": 30.9,
+    "versementLoyers": "Trimestriel",
+    "assetsCount": 117,
+    "distribution": 5.6,
+    "valeurRealisation": 170.19,
+    "reconstitutionValue": 201.43,
+    "strategy": "SCPI hôtelière européenne (ex-Primofamily), pivot stratégique vers l'hôtellerie et le résidentiel européen"
+  },
+  {
+    "id": 61,
+    "name": "Pierval Santé",
+    "yield": 4.39,
+    "price": 204,
+    "minInvestment": 2040,
+    "category": "Santé",
+    "managementCompany": "Euryale AM",
+    "tof": 94.59,
+    "capitalization": "2 500M€",
+    "sectors": [
+      { "name": "Médico-social", "value": 71.7 },
+      { "name": "Autres Santé", "value": 28.3 }
+    ],
+    "geography": [
+      { "name": "France", "value": 90 },
+      { "name": "Europe", "value": 10 }
+    ],
+    "ltv": 16.39,
+    "versementLoyers": "Trimestriel",
+    "distribution": 7.36,
+    "strategy": "SCPI santé référente, actifs médico-sociaux (cliniques, EHPAD, cabinets) en France et Europe"
+  },
+  {
+    "id": 62,
+    "name": "Patrimmo Commerce",
+    "yield": 3.38,
+    "price": 160,
+    "minInvestment": 1600,
+    "category": "Commerces",
+    "managementCompany": "Praemia REIM France",
+    "tof": 91,
+    "capitalization": "613.7M€",
+    "sectors": [
+      { "name": "Commerce", "value": 86.7 },
+      { "name": "Bureaux", "value": 11.6 },
+      { "name": "Activité-Logistique", "value": 1.7 }
+    ],
+    "geography": [
+      { "name": "France", "value": 100 }
+    ],
+    "ltv": 24.1,
+    "versementLoyers": "Trimestriel",
+    "assetsCount": 193,
+    "distribution": 5,
+    "valeurRealisation": 145.6,
+    "strategy": "SCPI de commerces, surfaces de pieds d'immeuble et commerces de centre-ville en France"
+  },
+  {
+    "id": 63,
+    "name": "Aestiam Agora",
+    "yield": 4.5,
+    "price": 922,
+    "minInvestment": 9220,
+    "category": "Diversifié",
+    "managementCompany": "Aestiam",
+    "tof": 91.7,
+    "capitalization": "N/A",
+    "sectors": [
+      { "name": "Commerces", "value": 57 },
+      { "name": "Hôtels-Séminaires", "value": 34 },
+      { "name": "Bureaux", "value": 6 },
+      { "name": "Enseignement", "value": 3 }
+    ],
+    "geography": [
+      { "name": "France", "value": 100 }
+    ],
+    "ltv": 12,
+    "versementLoyers": "Trimestriel",
+    "assetsCount": 193,
+    "distribution": 35.64,
+    "strategy": "SCPI diversifiée multisectorielle (commerces, hôtels, bureaux), patrimoine tertiaire de qualité"
   }
 ];
 
