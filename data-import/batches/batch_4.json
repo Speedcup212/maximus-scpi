@@ -1,0 +1,368 @@
+[
+  {
+    "name": "LF Avenir Santé",
+    "folder": "SCPI Lf Avenir Sante",
+    "docs": {
+      "AUTRE": [
+        "Fiche commerciale LF Avenir Santé.pdf",
+        "Q1_rapport_ESG_2025.pdf"
+      ],
+      "BT": [
+        "Q1_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "Q1_DIC.pdf"
+      ],
+      "NI": [
+        "Q1_note_statuts.pdf"
+      ],
+      "RA": [
+        "Q1_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 300,
+      "prix_retrait": 273,
+      "taux_distribution": 5.2,
+      "capitalisation": 231.71,
+      "tof": 100,
+      "endettement": 23.75,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 32.75,
+        "Ile-de-France": 5.58,
+        "Régions": 40.09,
+        "Belgique": 11.93,
+        "Irlande": 9.65
+      },
+      "repartition_sectorielle": {
+        "Soins de ville": 43,
+        "Établissements sanitaires": 41,
+        "Solutions d'accueil générationnelles": 16
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Lf Avenir Sante"
+  },
+  {
+    "name": "LF Europimmo",
+    "folder": "SCPI Europimmo",
+    "docs": {
+      "BT": [
+        "D1_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "D1_DIC.pdf"
+      ],
+      "NI": [
+        "D1_note_statuts.pdf"
+      ],
+      "RA": [
+        "D1_rapportannuel.pdf"
+      ],
+      "AUTRE": [
+        "Fiche commerciale LF Europimmo.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 725,
+      "prix_retrait": 667,
+      "taux_distribution": 4.3,
+      "capitalisation": 874,
+      "tof": 95.3,
+      "endettement": 17.87,
+      "nb_associes": 15314,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Allemagne": 71.6,
+        "France": 16.3,
+        "Pays-Bas": 8.8,
+        "Belgique": 2.2,
+        "Espagne": 1.1
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 87,
+        "Commerces": 12,
+        "Résidences gérées": 1
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Europimmo"
+  },
+  {
+    "name": "LF Grand Paris Patrimoine",
+    "folder": "LF Grand Paris Patrimoine",
+    "docs": {
+      "BT": [
+        "Z2_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "Z2_DIC.pdf"
+      ],
+      "NI": [
+        "Z2_note_statuts.pdf"
+      ],
+      "RA": [
+        "Z2_rapportannuel.pdf"
+      ],
+      "AUTRE": [
+        "Z2_rapport_ESG_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 218,
+      "prix_retrait": 200.56,
+      "taux_distribution": 4.4,
+      "capitalisation": 10698648661.07,
+      "tof": 88.1,
+      "endettement": 32.69,
+      "nb_associes": 14710,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 85,
+        "Régions": 15
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 75,
+        "Commerces": 25
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\LF Grand Paris Patrimoine"
+  },
+  {
+    "name": "Log In",
+    "folder": "SCPI Log In",
+    "docs": {
+      "SFDR": [
+        "240709_SCPI-Login_Annexe-SFDR-Art.10.pdf"
+      ],
+      "BT": [
+        "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette-Commerciale-LOG-IN-ISR-2.pdf",
+        "Politique-de-gestion-des-risques-ESG-de-Theoreim.pdf",
+        "SCPI-LOG-IN-Document-dinformations-cles-1.pdf"
+      ],
+      "RA": [
+        "SCPI-LOG-IN-Rapport-Annuel-2025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-LOG-IN-Statuts-2062025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 255,
+      "prix_retrait": 225,
+      "taux_distribution": 6.21,
+      "capitalisation": 240.8,
+      "tof": 100,
+      "endettement": 12026,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 37.3,
+        "Allemagne": 25.3,
+        "Royaume-Uni": 13.1,
+        "Italie": 7.6,
+        "Pays-Bas": 6.7,
+        "Espagne": 3.5,
+        "Portugal": 2.4,
+        "Grèce": 2.4,
+        "Autres pays": 1.7
+      },
+      "repartition_sectorielle": {
+        "Logistique / Activité": 36.9,
+        "Bureaux": 27.9,
+        "Hôtellerie": 8.7,
+        "Résidentiel": 7.7,
+        "Éducation": 7.5,
+        "Commerces": 5.5,
+        "Santé": 3.5,
+        "Autres": 2.3
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Log In"
+  },
+  {
+    "name": "NCap Education Santé",
+    "folder": "SCPI NCAP Education Santé",
+    "docs": {
+      "BT": [
+        "bt_ncap_education_sante_t1_2026.pdf"
+      ],
+      "NI": [
+        "ncap-education-sante_note-information_24122025.pdf"
+      ],
+      "AUTRE": [
+        "ncap-education-sante_plaquette.pdf"
+      ],
+      "DIC": [
+        "ncap-educationsante_dic_15122025.pdf"
+      ],
+      "Statuts": [
+        "ncap_educationsante_statuts_19062025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapeducationsante_2024.pdf",
+        "rapport_annuel_ncapeducationsante_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 202,
+      "prix_retrait": 181.8,
+      "taux_distribution": 4.85,
+      "capitalisation": 110,
+      "tof": 96.5,
+      "endettement": 22.96,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 70.0,
+        "Europe": 30.0
+      },
+      "repartition_sectorielle": {
+        "Santé / social": 66,
+        "Bien-être": 16,
+        "Éducation": 16,
+        "Environnement": 2
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI NCAP Education Santé"
+  },
+  {
+    "name": "NCap Régions",
+    "folder": "NCAPRégions",
+    "docs": {
+      "BT": [
+        "bt_ncap_regions_t1_2026.pdf"
+      ],
+      "AUTRE": [
+        "ncap-regions_-plaquette.pdf",
+        "scpi-ncap-regions-certificat-label-isr.pdf"
+      ],
+      "DIC": [
+        "ncap-regions_dic_15122025.pdf"
+      ],
+      "NI": [
+        "ncap-regions_note-information_24122025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapregions_2025-1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 682,
+      "prix_retrait": "613.80",
+      "taux_distribution": 5.72,
+      "capitalisation": 1097,
+      "tof": 92.7,
+      "endettement": 21.69,
+      "nb_associes": null,
+      "nb_immeubles": 175,
+      "repartition_geo": {
+        "Grandes agglomérations de province": 65,
+        "Ile-de-France": 35
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 54,
+        "Commerce": 32,
+        "Activités": 14,
+        "Hôtellerie": 0.5
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\NCAPRégions"
+  },
+  {
+    "name": "Novapierre 1",
+    "folder": "SCPI Novapierre 1",
+    "docs": {
+      "BT": [
+        "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf"
+      ],
+      "AUTRE": [
+        "7108f0d3-d728-45a0-a728-42b3ea50ab1e-Flyer-Novapierre-1-30-06-2025.pdf",
+        "ac7d4470-0f82-4043-bd24-6e1acce6a906-01.01.2026-NI-Novapierre-1.pdf"
+      ],
+      "RA": [
+        "b6f5a3f7-33ea-42f2-b038-577839639ef8-Rapport-annuel-SCPI-Novapierre-1-2024.pdf"
+      ],
+      "DIC": [
+        "bdb9ea23-61b7-4e75-beff-c3ddc078a54c-Novapierre-1-DIC2025.pdf"
+      ],
+      "Statuts": [
+        "de8deff5-61ed-4b24-ba06-b47826f6a0d0-11.07.2024-Statuts-Novapierre-1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 442,
+      "prix_retrait": "406.64",
+      "taux_distribution": 5,
+      "capitalisation": 172.1,
+      "tof": 85.3,
+      "endettement": 29.3,
+      "nb_associes": 2370,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Autres régions": 30.8,
+        "Paris": 28.6,
+        "12 métropoles régionales": 21.2,
+        "Ile-de-France hors Paris": 19.4
+      },
+      "repartition_sectorielle": {
+        "Alimentaire": 15.2,
+        "Santé": 9.8,
+        "Équipement de la maison": 30.3,
+        "Restauration": 15.7,
+        "Services": 12.5,
+        "Culture et loisirs": 6.6,
+        "Autres": 9.9
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Novapierre 1"
+  },
+  {
+    "name": "Novaxia NEO",
+    "folder": "SCPI Novaxia",
+    "docs": {
+      "DIC": [
+        "DIC-NOVAXIA-NEO-2025.pdf"
+      ],
+      "NI": [
+        "NOVAXIA-NEO-Note-dInformation-V23.04.2026.pdf"
+      ],
+      "AUTRE": [
+        "Novaxia-NEO-Reporting-31_03_2026.pdf"
+      ],
+      "Statuts": [
+        "NOVAXIA-NEO-Statuts-V06.2023.pdf"
+      ],
+      "SFDR": [
+        "Rapport-periodique-Article-9-SFDR-Novaxia-NEO-Reporting-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 176.68,
+      "prix_retrait": 187,
+      "taux_distribution": 5.5,
+      "capitalisation": 427.9,
+      "tof": 90.6,
+      "endettement": 35,
+      "nb_associes": 8952,
+      "nb_immeubles": 38,
+      "repartition_geo": {
+        "France": 54,
+        "Allemagne": 28,
+        "Espagne": 8,
+        "Irlande": 7,
+        "Belgique": 3
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 93,
+        "Activités": 2,
+        "Enseignement": 1,
+        "Hôtels": 4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Novaxia"
+  }
+]

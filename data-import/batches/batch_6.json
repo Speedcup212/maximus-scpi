@@ -1,0 +1,362 @@
+[
+  {
+    "name": "Perial Opportunités Europe",
+    "folder": "SCPI Opportunités Europe",
+    "docs": {
+      "Statuts": [
+        "695be6d69d4f14c9454b079d_POE Statuts Janv2026.pdf"
+      ],
+      "AUTRE": [
+        "69d74a5edc2a8e8bcab4fc26_Document d'information Clé.pdf"
+      ],
+      "NI": [
+        "69d74ab3a9bf4009ef491667_Note d'information.pdf"
+      ],
+      "SFDR": [
+        "69d74b31a9bf4009ef492e5c_Annexe SFDR - documentation précontractuelle - Art 8.pdf"
+      ],
+      "BT": [
+        "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf"
+      ],
+      "RA": [
+        "6a16ff98070156fbb255ec8c_Rapport annuel_POE_sfdr_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 44.0,
+      "prix_retrait": "39.82",
+      "taux_distribution": 6.1,
+      "capitalisation": 790461980790,
+      "tof": 89.4,
+      "endettement": 31.4,
+      "nb_associes": null,
+      "nb_immeubles": 127,
+      "repartition_geo": {
+        "France": 59.5,
+        "Pays-Bas": 13.8,
+        "Allemagne": 12.6,
+        "Espagne": 12.3,
+        "Italie": 1.9
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 47.7,
+        "Hôtels-tourisme": 27.3,
+        "Commerces": 18.6,
+        "Santé-éducation": 4.6,
+        "Logistique": 1.7,
+        "Alternatifs": 0.1
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Opportunités Europe"
+  },
+  {
+    "name": "Remake Live",
+    "folder": "SCPI Remake Live",
+    "docs": {
+      "AUTRE": [
+        "6.pdf",
+        "documen2t.pdf",
+        "documen5t.pdf",
+        "documen7t.pdf",
+        "document.4pdf.pdf",
+        "document.pdf",
+        "document1.pdf",
+        "document3.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": 204,
+      "taux_distribution": 7.05,
+      "capitalisation": 882,
+      "tof": 99.16,
+      "endettement": 18.64,
+      "nb_associes": null,
+      "nb_immeubles": 58,
+      "repartition_geo": {
+        "Royaume Uni": 29,
+        "France": 27.62,
+        "Espagne": 11.66,
+        "Irlande": 10.11,
+        "Pays-Bas": 9.93,
+        "Pologne": 8.04,
+        "Allemagne": 2.65,
+        "Portugal": 0.98
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 38.02,
+        "Santé & éducation": 21.92,
+        "Logistique et locaux d'activité": 14.12,
+        "Commerces": 12.06,
+        "Hôtels, tourisme, loisirs": 8.84,
+        "Résidentiel": 3.48,
+        "Alternatifs": 1.56
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Remake Live"
+  },
+  {
+    "name": "Selectinvest 1",
+    "folder": "SCPI Selectiinvest 1",
+    "docs": {
+      "AUTRE": [
+        "Fiche commerciale Sélectinvest 1.pdf"
+      ],
+      "BT": [
+        "I9_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "I9_DIC.pdf"
+      ],
+      "NI": [
+        "I9_note_statuts.pdf"
+      ],
+      "RA": [
+        "I9_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 530,
+      "prix_retrait": "490.00",
+      "taux_distribution": 4.4,
+      "capitalisation": 1552.4,
+      "tof": 89.8,
+      "endettement": 33.8,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 54.5,
+        "Régions": 24.8,
+        "Paris": 17.28,
+        "Allemagne": 3.42
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 72.52,
+        "Commerces": 21.41,
+        "Logistique et locaux d'activités": 3.87,
+        "Hotels": null,
+        "tourisme et loisirs": 1.68,
+        "Santé et éducation": 0.52
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Selectiinvest 1"
+  },
+  {
+    "name": "Selectipierre 2",
+    "folder": "SCPI Selectipierre 2 Paris",
+    "docs": {
+      "SFDR": [
+        "Annexe SFDR_SELECTIPIERRE 2.pdf"
+      ],
+      "BT": [
+        "BTI Selectipierre 2 T1 2026.pdf"
+      ],
+      "DIC": [
+        "DIC SELECTIPIERRE 2 31.12.2024.pdf"
+      ],
+      "NI": [
+        "Note d'information SELECTIPIERRE 2 01.2026.pdf"
+      ],
+      "RA": [
+        "Selectipierre 2 Paris - Rapport annuel 2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 773.0,
+      "prix_retrait": "695.70",
+      "taux_distribution": 4.14,
+      "capitalisation": 466.5,
+      "tof": 94.89,
+      "endettement": 6.96,
+      "nb_associes": 7871,
+      "nb_immeubles": 67,
+      "repartition_geo": {
+        "Paris": 71,
+        "Ile-de-France": 22.6,
+        "Régions": 6.4
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 70.9,
+        "Commerces": 17.3,
+        "Résidences hôtelières-étudiantes": 4.5,
+        "Logements": 5.9,
+        "Activité": 1.4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Selectipierre 2 Paris"
+  },
+  {
+    "name": "Sofiprime",
+    "folder": "SCPI Sofiprime",
+    "docs": {
+      "DIC": [
+        "DIC-SFP-042026.pdf"
+      ],
+      "AUTRE": [
+        "FP-SOP-042026-FR-3-2969.pdf",
+        "NI-SFP-042026.pdf",
+        "ST-SFP-072025-FR-2-2330_v2.pdf"
+      ],
+      "RA": [
+        "Sofidy_RA_SOFIPRIME_2025_OPTI.pdf"
+      ],
+      "BT": [
+        "SOFIPRIME-BT-1T-2026.pdf"
+      ],
+      "SFDR": [
+        "sofiprime-webdisclosure-1025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 280,
+      "prix_retrait": 238.5,
+      "taux_distribution": 0.54,
+      "capitalisation": 44.9,
+      "tof": 79.47,
+      "endettement": 21,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 41,
+        "Île-de-France hors Paris": 34,
+        "Régions françaises": 25
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 98,
+        "Commerces": 2
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Sofiprime"
+  },
+  {
+    "name": "Transitions Europe",
+    "folder": "SCPI Transition Europe",
+    "docs": {
+      "Statuts": [
+        "250630_scpi_transitions_europe_-_statuts.pdf"
+      ],
+      "RA": [
+        "arkea-reim-transition-europe-ra-2025_2026-05-18_18-57-3_193.pdf"
+      ],
+      "AUTRE": [
+        "scpi_transitions_europe_-_brochure_commerciale.pdf",
+        "te_t1-2026.pdf"
+      ],
+      "DIC": [
+        "scpi_transitions_europe_-_dic.pdf"
+      ],
+      "NI": [
+        "scpi_transitions_europe_-_note_d_information.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "180.00",
+      "taux_distribution": 8.6,
+      "capitalisation": 948,
+      "tof": 97.54,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Espagne": 36,
+        "Allemagne": 20,
+        "Pays-Bas": 19,
+        "Irlande": 12,
+        "Italie": 9,
+        "Pologne": 4
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 35,
+        "Commerce": 21,
+        "Logistique": 17,
+        "Life Science": 15,
+        "Hospitalité": 8,
+        "Éducation": 4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Transition Europe"
+  },
+  {
+    "name": "Urban Coeur de Commerce",
+    "folder": "Urban Coeur Commerce",
+    "docs": {
+      "SFDR": [
+        "Annexe-II-SFDR.pdf"
+      ],
+      "BT": [
+        "UCC_BT_1T2026.pdf"
+      ],
+      "DIC": [
+        "UCC_DIC_2026.pdf"
+      ],
+      "AUTRE": [
+        "UCC_Document-Commercial_2025.pdf",
+        "UCC_RA-2025.pdf"
+      ],
+      "Statuts": [
+        "Urban-Coeur-Commerce_NI-Statuts-public.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 303,
+      "prix_retrait": "264.50",
+      "taux_distribution": 5.3,
+      "capitalisation": 92.4,
+      "tof": 91.95,
+      "endettement": 12.2,
+      "nb_associes": 2002,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Province": 83,
+        "Île de France": 17
+      },
+      "repartition_sectorielle": {
+        "restauration": 34,
+        "Santé-sport-bien-être": 26,
+        "Opportunités-tendances": 27,
+        "Services proximité": 13
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Urban Coeur Commerce"
+  },
+  {
+    "name": "NCap Continent",
+    "folder": "SCPI NCAP Continent",
+    "docs": {
+      "AUTRE": [
+        "2026-01-21_ncapcontinent_dossier-candidature.pdf",
+        "ncap-continent-_plaquette-2.pdf",
+        "scpi-ncapcontinent_rapport-isr_2025.pdf"
+      ],
+      "BT": [
+        "bt_ncap_continent_t1_2026.pdf"
+      ],
+      "DIC": [
+        "ncap-continent_dic_15122025-1.pdf"
+      ],
+      "NI": [
+        "ncap-continent_note-information_24122025-1.pdf"
+      ],
+      "Statuts": [
+        "ncap_continent_statuts_19062025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapcontinent_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210,
+      "prix_retrait": null,
+      "taux_distribution": 7.1,
+      "capitalisation": 70.4,
+      "tof": null,
+      "endettement": 11.42,
+      "nb_associes": 2089,
+      "nb_immeubles": 18,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI NCAP Continent"
+  }
+]

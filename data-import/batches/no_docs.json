@@ -1,0 +1,106 @@
+[
+  {
+    "name": "Aestiam Cap'Hebergimmo",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 252,
+      "prix_retrait": "226.80",
+      "taux_distribution": 3.18,
+      "capitalisation": 82,
+      "tof": 91.79,
+      "endettement": 21,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Étranger": 42,
+        "Régions": 35,
+        "Région Parisienne": 23
+      },
+      "repartition_sectorielle": {
+        "Hôtels": 71,
+        "Séminaires": 27,
+        "Loisirs": 2
+      }
+    }
+  },
+  {
+    "name": "Aestiam Pierre Rendement",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 922,
+      "prix_retrait": "829.80",
+      "taux_distribution": 4.49,
+      "capitalisation": 401,
+      "tof": 94.25,
+      "endettement": 10.6,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 37,
+        "Région Parisienne": 30,
+        "Métropoles Régionales": 27,
+        "Étranger": 6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 69,
+        "Hôtels Séminaires": 21,
+        "Bureaux": 7,
+        "Enseignement": 3
+      }
+    }
+  },
+  {
+    "name": "ESG Pierre Capital",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 188,
+      "prix_retrait": "169.20",
+      "taux_distribution": 5.22,
+      "capitalisation": 116.91,
+      "tof": 96.28,
+      "endettement": 28,
+      "nb_associes": 1091,
+      "nb_immeubles": 10,
+      "repartition_geo": {
+        "Paris": 28.47,
+        "Ile_de_France": 17.89,
+        "Regions": 49.15,
+        "Allemagne": 4.48
+      },
+      "repartition_sectorielle": {
+        "Services": 27.3,
+        "Logistique": 24.23,
+        "Bureaux": 19.6,
+        "Hôtellerie": 17.4,
+        "Commerces": 11.46
+      }
+    }
+  },
+  {
+    "name": "Novapierre Résidentiel",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 1664,
+      "prix_retrait": "1498.43",
+      "taux_distribution": 1.2,
+      "capitalisation": 347.9,
+      "tof": 87.7,
+      "endettement": 15.6,
+      "nb_associes": 2384,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 76.9,
+        "Région parisienne": 12.6,
+        "Nice": 7.4,
+        "Autres": 2.7
+      },
+      "repartition_sectorielle": {
+        "Résidentiel": 100
+      }
+    }
+  }
+]

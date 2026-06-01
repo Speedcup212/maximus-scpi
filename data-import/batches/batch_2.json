@@ -1,0 +1,375 @@
+[
+  {
+    "name": "Coeur de ville",
+    "folder": "SCPI Coeur de ville",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf"
+      ],
+      "DIC": [
+        "Coeur-de-Ville-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-de-Ville.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-de-Ville.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-de-Ville.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210,
+      "prix_retrait": "184.80",
+      "taux_distribution": 6.2,
+      "capitalisation": 28.8,
+      "tof": 97.63,
+      "endettement": 30.23,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Province": 83,
+        "Paris": 17
+      },
+      "repartition_sectorielle": {
+        "Commerces alimentaires": 48.28,
+        "Commerces non alimentaires": 27.72,
+        "Services": 20.72,
+        "Santé et éducation": 3.27
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Coeur de ville"
+  },
+  {
+    "name": "Comète",
+    "folder": "SCPI Comete",
+    "docs": {
+      "AUTRE": [
+        "20250122-Plaquette-commerciale-Comete-1.pdf"
+      ],
+      "Statuts": [
+        "20250429-Statuts-Comete.pdf"
+      ],
+      "NI": [
+        "20251218-Note-dinformation-Comete.pdf"
+      ],
+      "RA": [
+        "20260410-Rapport-annuel-2025-Comete-1.pdf"
+      ],
+      "BT": [
+        "20260506-BTI-T1-2026-Comete.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": "225.00",
+      "taux_distribution": 9,
+      "capitalisation": 519.6,
+      "tof": 99.1,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Royaume-Uni": 46.5,
+        "Espagne": 15.4,
+        "Italie": 12.4,
+        "Pays-Bas": 10.3,
+        "Canada": 6.6,
+        "Pologne": 5.2,
+        "Irlande": 3.6
+      },
+      "repartition_sectorielle": {
+        "Commerce": 27.6,
+        "Logistique": 23.9,
+        "Hôtellerie": 16,
+        "Bureau": 13.7,
+        "Mixte": 10.9,
+        "Loisirs": 5.8,
+        "Éducation": 2.1
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Comete"
+  },
+  {
+    "name": "Crédit Mutuel Pierre 1",
+    "folder": "Credit Mutuel Pierre 1",
+    "docs": {
+      "BT": [
+        "A7_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "A7_DIC.pdf"
+      ],
+      "NI": [
+        "A7_note_statuts.pdf"
+      ],
+      "AUTRE": [
+        "Fiche commerciale Crédit Mutuel Pierre 1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 215,
+      "prix_retrait": 197.8,
+      "taux_distribution": 4.49,
+      "capitalisation": 800.35,
+      "tof": 82.3,
+      "endettement": 21.78,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 21.84,
+        "Île-de-France": 51.53,
+        "Régions France": 22.63,
+        "Allemagne": 3.91,
+        "Espagne": 0.09
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 84.94,
+        "Commerces": 13.1,
+        "Hôtels, tourisme et loisirs": 1.96
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Credit Mutuel Pierre 1"
+  },
+  {
+    "name": "Cristal Life",
+    "folder": "SCPI Cristal Life",
+    "docs": {
+      "NI": [
+        "IGCLNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "AUTRE": [
+        "IGCLPlaquetteComFR20251029.pdf"
+      ],
+      "BT": [
+        "IG_CLBulletin_Trimestriel2026_T1.pdf"
+      ],
+      "DIC": [
+        "IG_CL_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2025CL.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": 181.28,
+      "taux_distribution": 6.54,
+      "capitalisation": 387.43,
+      "tof": 95.57,
+      "endettement": 15.62,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France (Régions)": 50.41,
+        "Espagne": 21.86,
+        "Irlande": 12.01,
+        "Pays-Bas": 5.58,
+        "Estonie": 4.63,
+        "Royaume-Uni": 3.13,
+        "France (Île-de-France)": 2.38
+      },
+      "repartition_sectorielle": {
+        "Commerce": 33.11,
+        "Bureaux": 30.06,
+        "Hôtellerie": 16.64,
+        "Santé": 16.31,
+        "Activités": 3.88
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Cristal Life"
+  },
+  {
+    "name": "Edissimo",
+    "folder": "SCPI Edissimmo",
+    "docs": {
+      "AUTRE": [
+        "EDISSIMMO - Brochure commerciale - NOVEMBRE 2025.pdf",
+        "Edissimmo - Code de transparence 2024. pdf.pdf"
+      ],
+      "BT": [
+        "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf"
+      ],
+      "DIC": [
+        "EDISSIMMO - DIC PRIIPS 2025-07-31-1.pdf",
+        "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf"
+      ],
+      "RA": [
+        "EDISSIMMO- Rapport Annuel - 2024.pdf"
+      ],
+      "NI": [
+        "EDISSIMMO-Note Information- Statuts 08082025-1.pdf",
+        "EDISSIMMO-Note Information- Statuts 08082025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 172.0,
+      "prix_retrait": 158.25,
+      "taux_distribution": 4.45,
+      "capitalisation": 1639.5,
+      "tof": 89.45,
+      "endettement": 13.8,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 65,
+        "Île-de-France": 30,
+        "Régions": 5
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 88,
+        "Hôtellerie": 9,
+        "Logistique": 3
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Edissimmo"
+  },
+  {
+    "name": "Efimmo 1",
+    "folder": "SCPI Efimmo 1",
+    "docs": {
+      "AUTRE": [
+        "1-ST-EF-072025-FR-1-2360.pdf",
+        "FP-EF-042026-FR-3-2963.pdf",
+        "NI-EF-042026.pdf"
+      ],
+      "DIC": [
+        "DIC-EF-042026.pdf"
+      ],
+      "BT": [
+        "EFIMMO-BT-1T-2026.pdf"
+      ],
+      "SFDR": [
+        "efimmo1-webdisclosure-1025.pdf"
+      ],
+      "RA": [
+        "SOFIDY_RA_Efimmo_2025_OPTI.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 212,
+      "prix_retrait": "190.80",
+      "taux_distribution": 4.44,
+      "capitalisation": 1741,
+      "tof": 86.02,
+      "endettement": 22364,
+      "nb_associes": 21517,
+      "nb_immeubles": 239,
+      "repartition_geo": {
+        "France": 74.5,
+        "Étranger": 25.5
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 73.5,
+        "Autres locaux commerciaux": 9.3,
+        "Divers": 7.5,
+        "Commerces de centre-ville et milieu urbain": 5.2,
+        "Éducation": 4.5
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Efimmo 1"
+  },
+  {
+    "name": "Épargne Foncière",
+    "folder": "SCPI epargne fonciere",
+    "docs": {
+      "AUTRE": [
+        "29 LEC EPARGNE FONCIERE.pdf",
+        "Fiche commerciale Epargne Foncière.pdf"
+      ],
+      "BT": [
+        "EE_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "EE_DIC.pdf"
+      ],
+      "NI": [
+        "EE_note_statuts.pdf"
+      ],
+      "RA": [
+        "EE_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 670,
+      "prix_retrait": "619.75",
+      "taux_distribution": 4.86,
+      "capitalisation": 4143,
+      "tof": 88.7,
+      "endettement": 23.08,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 22.44,
+        "Île-de-France": 37.59,
+        "Régions": 31.82,
+        "Allemagne": 5.37,
+        "Pays-Bas": 1.47,
+        "Royaume-Uni": 0.9,
+        "Irlande": 0.41
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 70.99,
+        "Commerces": 19.36,
+        "Hôtels": 5.73,
+        "Santé et éducation": 3.4,
+        "Logistique et locaux d'activités": 0.52
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI epargne fonciere"
+  },
+  {
+    "name": "Épargne Pierre",
+    "folder": "SCPI Epargne Pierre",
+    "docs": {
+      "DIC": [
+        "2025-10-31-DIC_Epargne_Pierre.pdf"
+      ],
+      "NI": [
+        "20250625-EP-Note-information.pdf"
+      ],
+      "Statuts": [
+        "20250625_EP_Statuts.pdf"
+      ],
+      "AUTRE": [
+        "2026-Methodologie-devaluation-ESG-_-Epargne-Pierre.pdf",
+        "BPI1T2026-EP.pdf"
+      ],
+      "SFDR": [
+        "Annexe-2-Reglementation-delegue-SFDR-2025-SCPI-Epargne-Pierre-042026-V3.pdf",
+        "Information-sur-la-durabilite_SFDR_SCPI-Epargne-Pierre_042026-V2.pdf"
+      ],
+      "RA": [
+        "ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": "187.20",
+      "taux_distribution": 5.28,
+      "capitalisation": 2811,
+      "tof": 94.41,
+      "endettement": 11.2,
+      "nb_associes": 52337,
+      "nb_immeubles": 410,
+      "repartition_geo": {
+        "Paris": 27.57,
+        "Île-de-France": 15.43,
+        "Sud-Ouest": 17.39,
+        "Nord-Ouest": 12.92,
+        "Nord": 12.65,
+        "Sud-Est": 14.04
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 48.15,
+        "Commerces": 29.35,
+        "Activités/Entrepôts": 8.41,
+        "Tourisme/Hôtel": 8.7,
+        "Santé/Education": 5.23,
+        "Résidentiel/Alternatif": 0.16
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Epargne Pierre"
+  }
+]

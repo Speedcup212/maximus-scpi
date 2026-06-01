@@ -1,0 +1,58 @@
+[
+  {
+    "nom": "Opportunité Immo",
+    "champ": "Taux de distribution (%)",
+    "ancienne_valeur": 2025,
+    "nouvelle_valeur": 5.62,
+    "justification": "TDVM de référence scpiDataExtended (l'année 2025 avait été parsée comme taux)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 45810518734862295000,
+    "nouvelle_valeur": 458.0,
+    "justification": "Prix de référence scpiDataExtended (concaténation corrompue: 45810518...)"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 442001012026880,
+    "nouvelle_valeur": 44.0,
+    "justification": "Prix de référence scpiDataExtended (concaténation corrompue: 44200101...)"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 164240114643842,
+    "nouvelle_valeur": 164.0,
+    "justification": "Prix de référence scpiDataExtended (concaténation corrompue: 16424011...)"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 7001012026210.3,
+    "nouvelle_valeur": 210.0,
+    "justification": "Prix de référence scpiDataExtended (concaténation corrompue: 7001012026210.3)"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 77301032023,
+    "nouvelle_valeur": 773.0,
+    "justification": "Prix de référence scpiDataExtended (concaténation corrompue: 77301032023)"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "Taux de distribution (%)",
+    "ancienne_valeur": 15.272024,
+    "nouvelle_valeur": 15.27,
+    "justification": "TDVM corrigé (15.272024 → 15.27, année 2024 était concaténée)"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "Prix de souscription (€)",
+    "ancienne_valeur": 2002102026,
+    "nouvelle_valeur": 210.0,
+    "justification": "Prix corrigé (2002102026 → 210, date concaténée)"
+  }
+]

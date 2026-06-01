@@ -1,0 +1,341 @@
+[
+  {
+    "name": "Activimmo",
+    "folder": "SCPI Activimmo",
+    "docs": {
+      "RA": [
+        "20250410-Rapport-annuel-2025-ActivImmo.pdf"
+      ],
+      "AUTRE": [
+        "20260414-Plaquette-Commerciale-ActivImmo-2026.pdf"
+      ],
+      "BT": [
+        "20260507-BTI-ActivImmo.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 207,
+      "prix_retrait": "545.34",
+      "taux_distribution": 5.5,
+      "capitalisation": 1400,
+      "tof": 92.8,
+      "endettement": 1.46,
+      "nb_associes": 28934,
+      "nb_immeubles": 186,
+      "repartition_geo": {
+        "France": 78.2,
+        "Espagne": 13.8,
+        "Portugal": 4.2,
+        "Italie": 1.5,
+        "Allemagne": 1,
+        "Autres": 0.3
+      },
+      "repartition_sectorielle": {
+        "Entrepôts logistiques": 51,
+        "Locaux d'activités": 31,
+        "Logistique urbaine": 10,
+        "Transport": 7,
+        "Autres": 1
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Activimmo"
+  },
+  {
+    "name": "Aestiam Horizon",
+    "folder": "SCPI Aestiam Horizon",
+    "docs": {
+      "RA": [
+        "2025-rapport-annuel-aestiam-horizon.pdf"
+      ],
+      "BT": [
+        "2026-1t-bti-aestiam-horizon.pdf"
+      ],
+      "AUTRE": [
+        "aestiam-horizon-charte-esg.pdf"
+      ],
+      "DIC": [
+        "AestiamHorizon-DIC.pdf"
+      ],
+      "NI": [
+        "AestiamHorizon-NoteInformation.pdf"
+      ],
+      "Statuts": [
+        "AestiamHorizon-Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 350,
+      "prix_retrait": "315.00",
+      "taux_distribution": 5.1,
+      "capitalisation": 380,
+      "tof": 86.5,
+      "endettement": 11,
+      "nb_associes": 8557,
+      "nb_immeubles": 149,
+      "repartition_geo": {
+        "Paris": 20,
+        "Région Parisienne": 30,
+        "Régions": 39,
+        "Etranger": 11
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 76,
+        "Commerces": 16,
+        "Hôtels": 2,
+        "Enseignement": 4,
+        "Locaux d'activités": 2
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Aestiam Horizon"
+  },
+  {
+    "name": "Altixia Cadence 12",
+    "folder": "SCPI Altixia Cadence 12",
+    "docs": {
+      "AUTRE": [
+        "doc1-20250526-145625.pdf",
+        "doc1-20250617-153722.pdf",
+        "doc1-20260309-180655.pdf",
+        "doc1-20260430-122013.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "182.00",
+      "taux_distribution": 5.15,
+      "capitalisation": 190356200190.4,
+      "tof": 92.5,
+      "endettement": 10.99,
+      "nb_associes": 2448,
+      "nb_immeubles": 32,
+      "repartition_geo": {
+        "Régions": 56,
+        "Ile-de-France": 22,
+        "Paris": 3,
+        "Espagne": 13,
+        "Irlande": 6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 37,
+        "Activités": 30,
+        "Bureaux": 29,
+        "Logistique": 4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Altixia Cadence 12"
+  },
+  {
+    "name": "Altixia Commerces",
+    "folder": "SCPI Altixia Commerce",
+    "docs": {
+      "AUTRE": [
+        "doc1-20250617-153811.pdf",
+        "doc1-20250813-114849.pdf",
+        "doc1-20260203-160314.pdf",
+        "doc1-20260430-110640.pdf"
+      ],
+      "RA": [
+        "rapport-annuel-2024-altixia-commerces-256.PDF"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 203,
+      "prix_retrait": "197.92",
+      "taux_distribution": 5.12,
+      "capitalisation": 107.64,
+      "tof": 90.77,
+      "endettement": 5.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Régions": 62,
+        "Ile-de-France": 29,
+        "Paris": 9
+      },
+      "repartition_sectorielle": {
+        "Commerces en retail park": 58,
+        "Commerces en pied d'immeuble": 38,
+        "Bureaux et activités": 4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Altixia Commerce"
+  },
+  {
+    "name": "Atream Hotel",
+    "folder": "SCPI Atream Hotel",
+    "docs": {
+      "Statuts": [
+        "2024-03-20-SCPI-AH-Statuts-maj-transfert-de-siege-4-1.pdf"
+      ],
+      "AUTRE": [
+        "2026-01-SCPI-AH-NI.pdf"
+      ],
+      "DIC": [
+        "2026-03-11-DIC-PRIIPS-ATREAM-HOTELS-1.pdf"
+      ],
+      "BT": [
+        "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf"
+      ],
+      "RA": [
+        "Rapport-Annuel-SCPI-Atream-Hotels-2025-Web_114-pages_compressed.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 1000,
+      "prix_retrait": "900.00",
+      "taux_distribution": 5.05,
+      "capitalisation": 325996200326,
+      "tof": 100,
+      "endettement": 24.23,
+      "nb_associes": 5873,
+      "nb_immeubles": 23,
+      "repartition_geo": {
+        "France": 33,
+        "Allemagne": 30,
+        "Belgique": 23,
+        "Pays-Bas": 14
+      },
+      "repartition_sectorielle": {
+        "Hôtels": 71,
+        "Autres types d'hébergements touristiques": 29
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Atream Hotel"
+  },
+  {
+    "name": "Buroboutic Métropoles",
+    "folder": "SCPI Buroboutic",
+    "docs": {
+      "BT": [
+        "BTI Buroboutic T1 2026.pdf"
+      ],
+      "RA": [
+        "Buroboutic Métropoles - Rapport annuel 2025.pdf"
+      ],
+      "AUTRE": [
+        "Code de transparence Buroboutic 04.2024.pdf"
+      ],
+      "DIC": [
+        "DIC BUROBOUTIC 31.12.2024.pdf"
+      ],
+      "NI": [
+        "Note d'information et statuts Buroboutic - 01.2026.pdf",
+        "Note d'information et statuts Buroboutic - Actualisation - 02.01.2026.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 230,
+      "prix_retrait": "207.00",
+      "taux_distribution": 5.07,
+      "capitalisation": 318.5,
+      "tof": 97.17,
+      "endettement": 23.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Régions": 53.3,
+        "Ile-de-France": 31.9,
+        "Paris": 14.8
+      },
+      "repartition_sectorielle": {
+        "Locaux commerciaux": 50.8,
+        "Bureaux": 32.2,
+        "Locaux d'activités": 17
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Buroboutic"
+  },
+  {
+    "name": "Coeur d'Europe",
+    "folder": "scpi coeur europe",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf"
+      ],
+      "DIC": [
+        "Coeur-dEurope-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-dEurope.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-dEurope-1.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ISR-2025-–-Coeur-dEurope.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-dEurope.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": "176.00",
+      "taux_distribution": 6.25,
+      "capitalisation": 256,
+      "tof": 95.02,
+      "endettement": 3.9,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Portugal": 36.8,
+        "Espagne": 35.9,
+        "Belgique": 20.4,
+        "Allemagne": 6.9
+      },
+      "repartition_sectorielle": {
+        "Commerces": 54.32,
+        "Bureaux": 26.68,
+        "Logistique et locaux d'activités": 14.62,
+        "Santé et éducation": 4.38
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\scpi coeur europe"
+  },
+  {
+    "name": "Coeur de Région",
+    "folder": "SCPI Coeur de régions",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf"
+      ],
+      "DIC": [
+        "Coeur-de-Regions-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-de-Regions.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-de-Regions.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ISR-2025-–-Coeur-de-Regions.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-de-Regions.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 664,
+      "prix_retrait": "584.32",
+      "taux_distribution": 6.2,
+      "capitalisation": 415.79,
+      "tof": 95.16,
+      "endettement": 8.53,
+      "nb_associes": null,
+      "nb_immeubles": 82,
+      "repartition_geo": {
+        "Régions": 86,
+        "Île-de-France": 14
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 51.08,
+        "Commerces": 29.62,
+        "Logistique et locaux d'activités": 17.47,
+        "Santé et éducation": 1.77,
+        "Alternatifs": 0.06
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Coeur de régions"
+  }
+]

@@ -1,0 +1,5626 @@
+[
+  {
+    "nom": "Activimmo",
+    "champ": "prix_souscription",
+    "avant": "207",
+    "apres": "610",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "610,00€/part prix de souscription ; Le prix de souscription d'une part est fixé à six cent dix (610) euros"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "prix_retrait",
+    "avant": "545.34",
+    "apres": "545.34",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "545,34€ valeur de retrait ; l'associé se retirant perçoit 545,34 euros"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "tof",
+    "avant": "92.8",
+    "apres": "92.6",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "92,6% TOF (hors développements) au 31.03.2026"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "endettement",
+    "avant": "1.46",
+    "apres": "0.48",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "0,48% endettement (dont 0,11% emprunt bancaire, 0,37% VEFA)"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "nb_associes",
+    "avant": "28934",
+    "apres": "29645",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "29 645 associés"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "nb_immeubles",
+    "avant": "186",
+    "apres": "179",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "Actifs au 31.03.2026 : 179"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "373",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "373 locataires / 463 baux"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "repartition_geo",
+    "avant": "{'France': 78.2, 'Espagne': 13.8, 'Portugal': 4.2, 'Italie': 1.5, 'Allemagne': 1",
+    "apres": "{'France': 77.5, 'Espagne': 13.4, 'Italie': 4.1, 'Pays-Bas': 2.8, 'Irlande': 1.0",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "Répartition géographique : France 77,5%, Espagne 13,4%, Italie 4,1%, Pays-Bas 2,8%, Irlande 1,0%, Portugal 0,9%, Allemagne 0,3%"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Entrepôts logistiques': 51, \"Locaux d'activités\": 31, 'Logistique urbaine': 10",
+    "apres": "{'Entrepôt logistique': 53.2, \"Locaux d'activités\": 30.8, 'Logistique urbaine': ",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "Répartition typologique : 53,2% / 30,8% / 8,5% / 6,7% / 0,8%"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 0",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "Parts en attente de retrait en fin de période : 0 (T1 2026). Aucune transaction de gré à gré."
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "mensuelle",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "Distribution mensuelle (janvier 2,54€, février 2,54€, mars 2,42€)"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "frais_souscription",
+    "avant": "12.72",
+    "apres": "10.6",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "commission de souscription 10,6% HT (12,72% TTC)"
+  },
+  {
+    "nom": "Activimmo",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 0",
+    "source": "20260507-BTI-ActivImmo.pdf",
+    "extrait": "parts en attente de retrait: 0"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "prix_retrait",
+    "avant": "315.00",
+    "apres": "315",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "315 € Prix de retrait"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "tof",
+    "avant": "86.5",
+    "apres": "88.65",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "88,65 % TOF"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "nb_associes",
+    "avant": "8557",
+    "apres": "8357",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "8 357 Nombre d'associés"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "nb_immeubles",
+    "avant": "149",
+    "apres": "146",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "146 Biens immobiliers"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "217",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "217 Locataires"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 20, 'Région Parisienne': 30, 'Régions': 39, 'Etranger': 11}",
+    "apres": "{'IDF': 29, 'Paris': 21, 'Sud-Est': 12, 'Sud-Ouest': 12, 'Europe': 12, 'Nord-Oue",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "Paris 21%, IDF 29%, Nord 5%, Nord-Ouest 8%, Nord-Est 1%, Sud-Est 12%, Sud-Ouest 12%, Europe 12% (dont 9% Luxembourg, 2% Belgique, 1% Allemagne)"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 76, 'Commerces': 16, 'Hôtels': 2, 'Enseignement': 4, \"Locaux d'activ",
+    "apres": "{'Bureaux': 76, 'Commerces': 16, 'Hôtels': 4, \"Locaux d'activités\": 2, 'Enseigne",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "Bureaux 76%, Commerces 16%, Hôtels 4%, Locaux d'activités 2%, Enseignement 2%"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 44 872",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "Parts en attente de retraits : 44 872 (T1 2026) ; fonds de remboursement doté 1,3 M€ ; 4 765 parts annulées via fonds de remboursement"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "Dividende brut par part au 1er trimestre 2026 : 4,05 € ; distribution trimestrielle"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "AestiamHorizon-DIC.pdf",
+    "extrait": "Aestiam Horizon relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "AestiamHorizon-DIC.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "Commission de souscription 10 % HT du prix de souscription"
+  },
+  {
+    "nom": "Aestiam Horizon",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 44 872",
+    "source": "2026-1t-bti-aestiam-horizon.pdf",
+    "extrait": "parts en attente de retrait: 44 872"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "prix_retrait",
+    "avant": "182.00",
+    "apres": "182",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "VALEUR DE RETRAIT 182€ par part"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "capitalisation",
+    "avant": "190356200190.4",
+    "apres": "190.36",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "CAPITALISATION 190 356 200€ au 31.03.2026"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "95",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "NOMBRE DE LOCATAIRES 95"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 0",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "PARTS EN ATTENTE DE RETRAIT 0 ; Au 31 mars 2026, il n'y avait pas de parts en attente de retrait"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "mensuelle",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "La distribution des revenus est mensuelle"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "frais_souscription",
+    "avant": "10.8",
+    "apres": "9",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "COMMISSION DE SOUSCRIPTION : 9 % HT, soit 10,8 % TTC"
+  },
+  {
+    "nom": "Altixia Cadence 12",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 0",
+    "source": "doc1-20260430-122013.pdf",
+    "extrait": "parts en attente de retrait: 0"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "prix_retrait",
+    "avant": "197.92",
+    "apres": "197.92",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "VALEUR DE RETRAIT 197,92€ par part"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "taux_distribution",
+    "avant": "5.12",
+    "apres": "5.0",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "TAUX DE DISTRIBUTION 2025 5,0%"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "capitalisation",
+    "avant": "107.64",
+    "apres": "107.08",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "CAPITALISATION 107 084 530€ au 31.03.2026"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "tof",
+    "avant": "90.77",
+    "apres": "89.1",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "TAUX D'OCCUPATION FINANCIER 89,1%"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "endettement",
+    "avant": "5.1",
+    "apres": "14.3",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "DETTES ET ENGAGEMENTS 14,3%"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "1022",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "NOMBRE D'ASSOCIÉS 1 022"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "22",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "NOMBRE D'ACTIFS 22"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "73",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "NOMBRE DE LOCATAIRES 73"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "repartition_geo",
+    "avant": "{'Régions': 62, 'Ile-de-France': 29, 'Paris': 9}",
+    "apres": "{'Régions': 65, 'Ile-de-France': 27, 'Paris': 8}",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "Régions 65%, Ile-de-France 27%, Paris 8%"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces en retail park': 58, \"Commerces en pied d'immeuble\": 38, 'Bureaux et",
+    "apres": "{'Commerces en retail park': 61, \"Commerces de pied d'immeuble\": 35, 'Bureaux': ",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "Commerces en retail Park 61%, Commerces de pied d'immeuble 35%, Bureaux 2%, Activités 2%"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 13 559",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "Parts en attente de retrait 13 559 (31-03-2026)"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "La distribution des revenus est trimestrielle ; 2,04€ brut par part au 1T 2026"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "frais_souscription",
+    "avant": "3",
+    "apres": "2.5",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "COMMISSION DE SOUSCRIPTION : 2,5 % HT, soit 3 % TTC"
+  },
+  {
+    "nom": "Altixia Commerces",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 13 559",
+    "source": "doc1-20260430-110640.pdf",
+    "extrait": "parts en attente de retrait: 13 559"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "prix_retrait",
+    "avant": "900.00",
+    "apres": "900",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "Valeur de retrait 900,00 €"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "capitalisation",
+    "avant": "325996200326",
+    "apres": "325.99",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "Capitalisation 325 996 200 € au 31/03/2026"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "repartition_geo",
+    "avant": "{'France': 33, 'Allemagne': 30, 'Belgique': 23, 'Pays-Bas': 14}",
+    "apres": "{'France': 32, 'Allemagne': 29, 'Belgique': 22, 'Pays-Bas': 14, 'Italie': 3}",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "France 32%, Allemagne 29%, Belgique 22%, Pays-Bas 14%, Italie 3%"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "RAS / retraits compensés",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "Parts compensant les retraits 1 797 (T1 2026) ; pas de parts en attente mentionnées"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "Dividende brut 1T 2026 : 12,25 €/part ; distribution trimestrielle"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "2026-03-11-DIC-PRIIPS-ATREAM-HOTELS-1.pdf",
+    "extrait": "La SCPI promeut des critères environnementaux et sociaux au sens de l'article 8 du règlement européen dit Disclosure ou SFDR"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "2026-03-11-DIC-PRIIPS-ATREAM-HOTELS-1.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Atream Hotel",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf",
+    "extrait": "commission de souscription de 10 % HT (100 euros), soit 12 % TTC"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "prix_souscription",
+    "avant": "230",
+    "apres": "77",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Prix de souscription à compter du 01.01.2026 : 77 € (suite à division par 3 du nominal)"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "prix_retrait",
+    "avant": "207.00",
+    "apres": "69.3",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Prix de retrait : 69,30 € (suite à la division du prix de part le 01.01.2026)"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "taux_distribution",
+    "avant": "5.07",
+    "apres": "5.1",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "le taux de distribution (TD) 2025 s'est établi à 5,10 %"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "capitalisation",
+    "avant": "318.5",
+    "apres": "316",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Capitalisation 316 M€"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "tof",
+    "avant": "97.17",
+    "apres": "93.85",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Taux d'Occupation Financier 1er trimestre 2026 : 93,85 %"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "endettement",
+    "avant": "23.1",
+    "apres": "0",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Taux d'endettement au 31.03.2026 : 0 %"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "6779",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Associés 6 779"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "161",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Immeubles 161"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "263",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Nombre de locataires 263"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "repartition_geo",
+    "avant": "{'Régions': 53.3, 'Ile-de-France': 31.9, 'Paris': 14.8}",
+    "apres": "{'Régions': 53.6, 'Ile-de-France': 30.6, 'Paris': 15.8}",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Régions 53,6%, Ile-de-France 30,6%, Paris 15,8%"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Locaux commerciaux': 50.8, 'Bureaux': 32.2, \"Locaux d'activités\": 17}",
+    "apres": "{'Locaux commerciaux': 52.6, 'Bureaux': 31.8, \"Locaux d'activités\": 15.6}",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Locaux commerciaux 52,6%, Bureaux 31,8%, Locaux d'activités 15,6%"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 314 596",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "314 596 parts en attente de retrait au 31 mars 2026 ; 180 parts échangées de gré à gré"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Acomptes trimestriels ; 0,90 €/part au 1er trimestre 2026"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "La SCPI BUROBOUTIC est classée Article 8 au sens du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC BUROBOUTIC 31.12.2024.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "Commission de souscription : 10 % HT (12 % TTC)"
+  },
+  {
+    "nom": "Buroboutic Métropoles",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 314 596",
+    "source": "BTI Buroboutic T1 2026.pdf",
+    "extrait": "parts en attente de retrait: 314 596"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "prix_retrait",
+    "avant": "176.00",
+    "apres": "179.52",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Valeur de retrait 179,52 €"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "capitalisation",
+    "avant": "256",
+    "apres": "256.2",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Capitalisation 256 202 172 € au 31/03/2026"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "7575",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Nombre d'associés 7 575 au 31/03/2026"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "41",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "41 Biens immobiliers"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "132",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "132 Entreprises locataires"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "repartition_geo",
+    "avant": "{'Portugal': 36.8, 'Espagne': 35.9, 'Belgique': 20.4, 'Allemagne': 6.9}",
+    "apres": "{'Espagne': 43.8, 'Portugal': 33.5, 'Belgique': 15.5, 'Allemagne': 7.2}",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Espagne 43,8%, Portugal 33,5%, Belgique 15,5%, Allemagne 7,2%"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces': 54.32, 'Bureaux': 26.68, \"Logistique et locaux d'activités\": 14.62",
+    "apres": "{'Commerces': 47.2, \"Logistique et locaux d'activités\": 29.33, 'Bureaux': 20.16,",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Commerces 47,20%, Logistique et locaux d'activités 29,33%, Bureaux 20,16%, Santé et éducation 3,31%"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 0",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "0 part en attente de retrait et part cédée de gré à gré"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "Dividende brut versé au titre du 1er trimestre 2026 : 3,04 € par part"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Coeur-dEurope-DIC.pdf",
+    "extrait": "La SCPI CŒUR D'EUROPE est un produit classé Article 8 en application du règlement UE 2019/2088 dit Disclosure"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "Coeur-dEurope-DIC.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Coeur d'Europe",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 0",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf",
+    "extrait": "parts en attente de retrait: 0"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "prix_retrait",
+    "avant": "584.32",
+    "apres": "584.32",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Valeur de retrait 584,32 €"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "capitalisation",
+    "avant": "415.79",
+    "apres": "435.63",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Capitalisation 435 631 144 € au 31/03/2026"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "tof",
+    "avant": "95.16",
+    "apres": "95.03",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Taux d'occupation financier 95,03 %"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "endettement",
+    "avant": "8.53",
+    "apres": "9.88",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Endettement / Dettes et autres engagements 9,88 %"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "10051",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Nombre d'associés 10 051"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "nb_immeubles",
+    "avant": "82",
+    "apres": "93",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "93 Biens immobiliers"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "198",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "198 Entreprises locataires"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "repartition_geo",
+    "avant": "{'Régions': 86, 'Île-de-France': 14}",
+    "apres": "{'Régions': 86.7, 'Île-de-France': 13.3}",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Régions 86,7%, Île-de-France 13,3%"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 51.08, 'Commerces': 29.62, \"Logistique et locaux d'activités\": 17.47",
+    "apres": "{'Bureaux': 45.97, 'Commerces': 31.4, \"Logistique et locaux d'activités\": 21.35,",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Bureaux 45,97%, Commerces 31,40%, Logistique et locaux d'activités 21,35%, Santé et éducation 1,23%, Alternatifs 0,05%"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "parts en attente de retrait: 0",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "0 part en attente de retrait et part cédée de gré à gré"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "Dividende 1T 2026 : 10,29 € par part ; distribution trimestrielle"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Coeur-de-Regions-DIC.pdf",
+    "extrait": "La SCPI CŒUR DE REGIONS est un produit classé Article 8 en application du règlement UE 2019/2088 dit Disclosure"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "Coeur-de-Regions-DIC.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Coeur de Région",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : parts en attente de retrait: 0",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf",
+    "extrait": "parts en attente de retrait: 0"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "prix_retrait",
+    "avant": "184.80",
+    "apres": "184.8",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Valeur de retrait 184,80 €"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "capitalisation",
+    "avant": "28.8",
+    "apres": "28.84",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Capitalisation 28 837 620 € (au 31/03/2026)"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "643",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Nombre d'associés 643"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "32",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "32 Biens immobiliers"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "36",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "36 Entreprises locataires"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "repartition_geo",
+    "avant": "{'Province': 83, 'Paris': 17}",
+    "apres": "{'Régions': 80.2, 'Île-de-France': 19.8}",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Composition du patrimoine - Régions 80,2 % / Île-de-France 19,8 %"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces alimentaires': 48.28, 'Commerces non alimentaires': 27.72, 'Services",
+    "apres": "{'Commerces alimentaires': 55.87, 'Commerces non alimentaires': 25.67, 'Services",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Répartition typologique selon la valeur du patrimoine : Commerces alimentaires 55,87 %, Commerces non alimentaires 25,67 %, Services 15,80 %, Santé et éducation"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf",
+    "extrait": "Dividendes versés par trimestre (2T 2025 ... 1T 2026)"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "Coeur-de-Ville-DIC.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Coeur de ville",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "1.2",
+    "source": "Coeur-de-Ville-DIC.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 1,20 % de la valeur par an"
+  },
+  {
+    "nom": "Comète",
+    "champ": "prix_souscription",
+    "avant": "208",
+    "apres": "250.0",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "250,00 €/part prix de souscription commission de souscription incluse"
+  },
+  {
+    "nom": "Comète",
+    "champ": "prix_retrait",
+    "avant": "225.00",
+    "apres": "225.0",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "225,00 € valeur de retrait"
+  },
+  {
+    "nom": "Comète",
+    "champ": "capitalisation",
+    "avant": "519.6",
+    "apres": "652.0",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "652,0 M€ capitalisation au 31.03.2026"
+  },
+  {
+    "nom": "Comète",
+    "champ": "tof",
+    "avant": "99.1",
+    "apres": "99.5",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "99,5 % TOF (hors développements)"
+  },
+  {
+    "nom": "Comète",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "20907",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "20 907 associés"
+  },
+  {
+    "nom": "Comète",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "34",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "Actifs au 31.03.2026 : 34"
+  },
+  {
+    "nom": "Comète",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "94",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "94 locataires / 99 baux"
+  },
+  {
+    "nom": "Comète",
+    "champ": "repartition_geo",
+    "avant": "{'Royaume-Uni': 46.5, 'Espagne': 15.4, 'Italie': 12.4, 'Pays-Bas': 10.3, 'Canada",
+    "apres": "{'Royaume-Uni': 43.3, 'Canada': 16.2, 'Espagne': 15.2, 'Italie': 9.1, 'Pays-Bas'",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "Répartition géographique patrimoine au 31.03.2026 : Royaume-Uni 43,3 %, Canada 16,2 %, Espagne 15,2 %, Italie 9,1 %, Pays-Bas 7,8 %, Pologne 5,7 %, Irlande 2,7 "
+  },
+  {
+    "nom": "Comète",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "903",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "Parts en attente de retrait en fin de période : 903 (T1 2026)"
+  },
+  {
+    "nom": "Comète",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Mensuelle",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "Distributions mensuelles : janvier 1,56 € / février 1,55 € / mars 1,58 €"
+  },
+  {
+    "nom": "Comète",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "20250122-Plaquette-commerciale-Comete-1.pdf",
+    "extrait": "Produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Comète",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "20260506-BTI-T1-2026-Comete.pdf",
+    "extrait": "commission de souscription correspond à 10 % HT (soit 12 % TTC) du prix de souscription"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "18413",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "18 413 associés"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "64",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "64 Nombre d'immeubles en direct (+ 55 via des SCI)"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 21.84, 'Île-de-France': 51.53, 'Régions France': 22.63, 'Allemagne': 3",
+    "apres": "{'Île-de-France': 51.53, 'Régions': 22.63, 'Paris': 21.84, 'Allemagne': 3.91, 'E",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "Répartition géographique (valeur vénale) : Paris 21,84 %, Île-de-France 51,53 %, Régions 22,63 %, Allemagne 3,91 %, Espagne 0,09 %"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "396756",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "marché des parts suspendu depuis le 12 février 2026 ; Parts en attente de retrait 396 756 (78,5 M€) soit 10,7 % du total"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "Versements potentiels : 30 juillet 2026 / 29 octobre 2026 / 29 janvier 2027"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "A7_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 9 au sens de SFDR ; (BT) Classement SFDR : article 9"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "A7_DIC.pdf",
+    "extrait": "Ce produit a été catégorisé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Crédit Mutuel Pierre 1",
+    "champ": "frais_souscription",
+    "avant": "9.6",
+    "apres": "8",
+    "source": "A7_BT_20260331.pdf",
+    "extrait": "Commission de souscription : 8 % HT max, soit 9,60 % TTC"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "prix_retrait",
+    "avant": "181.28",
+    "apres": "183.04",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Valeur de retrait(6) 183,04 € ; retraits 1T 2026 valeur de retrait 183,04 €"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "13291",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Nombre d'associés 13 291 au 31/03/2026"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "42",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Actifs 42"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "repartition_geo",
+    "avant": "{'France (Régions)': 50.41, 'Espagne': 21.86, 'Irlande': 12.01, 'Pays-Bas': 5.58",
+    "apres": "{'France (Régions)': 56.34, 'Espagne': 17.92, 'Irlande': 9.21, 'Pays-Bas': 3.9, ",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Répartition géographique : Régions 56,34 %, Espagne 17,92 %, Irlande 9,21 %, Pays-Bas 3,90 %, Pologne 3,84 %, Estonie 3,76 %, Royaume-Uni 3,15 %, Île-de-France "
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerce': 33.11, 'Bureaux': 30.06, 'Hôtellerie': 16.64, 'Santé': 16.31, 'Acti",
+    "apres": "{'Commerce': 29.25, 'Bureau': 26.7, 'Santé': 23.0, 'Hôtel': 13.66, 'Activité & l",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Répartition par typologie : Commerce 29,25 %, Bureau 26,70 %, Santé 23,00 %, Hôtel 13,66 %, Activité & logistique 7,39 %"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "3863",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "1T 2026 Retraits 3 863 parts"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "Mensuelle",
+    "source": "IG_CLBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Distribution mensuelle - Dividende net perçu 1,027 € (28/02), 0,995 € (25/03), 0,976 € (25/04)"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "IG_CL_DIC20241203.pdf",
+    "extrait": "CRISTAL Life est un fonds labélisé ISR et relève du champ d'application de l'article 8 du règlement européen n° 2019/2088 (SFDR)"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "IG_CL_DIC20241203.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Cristal Life",
+    "champ": "frais_gestion",
+    "avant": "9",
+    "apres": "1.01",
+    "source": "IG_CL_DIC20241203.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 1,01 %"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "taux_distribution",
+    "avant": "4.45",
+    "apres": "3.63",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Distribution brute 6,94 €/part ÷ prix de souscription au 01/01/2025 (191 €) = 3,63 %"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "capitalisation",
+    "avant": "1639.5",
+    "apres": "3030",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Capitalisation : 3 030 M€"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "tof",
+    "avant": "89.45",
+    "apres": "87.03",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Taux d'occupation Financier annuel 87,03 % (TOF S2 86,47 %)"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "endettement",
+    "avant": "13.8",
+    "apres": "945",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Endettement : 945 M€"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "59148",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Nombre d'associés 59 148"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "178",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Nombre d'immeubles 178"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 65, 'Île-de-France': 30, 'Régions': 5}",
+    "apres": "{'Île-de-France': 30.2, 'Paris': 24.8, 'Régions': 21.0, 'Allemagne': 13.7, 'Espa",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Paris 24,8 %, Île-de-France 30,2 %, Régions 21,0 %, Allemagne 13,7 %, Espagne 3,5 %, Pays-Bas 3,4 %, Autriche 0,9 %, Rép.Tchèque 0,9 %, Belgique 0,9 %, Pologne "
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 88, 'Hôtellerie': 9, 'Logistique': 3}",
+    "apres": "{'Bureaux': 68.9, 'Commerces': 14.5, 'Logistique': 9.0, 'Hôtels': 4.3, 'Résidenc",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Bureaux 68,9 %, Commerces 14,5 %, Logistique 9,0 %, Hôtels 4,3 %, Résidences Services 1,6 %, Cliniques 1,2 %, Locaux d'activité 0,5 %"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "620526",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Nombre de parts en attente de retrait 620 526 (au 31/12/2025) ; fonds de remboursement utilisé 18,9 M€"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Distributions T1/T2/T3/T4 (dates de versement 22/04, 21/07, 20/10, 20/01)"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Le Produit promeut des critères ESG au sens de l'article 8 du Règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Nous avons classé ce Produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "duree_placement",
+    "avant": "10",
+    "apres": "8",
+    "source": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Période de détention recommandée : 8 ans"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "7.993",
+    "source": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Coûts d'entrée 7,993 % du montant que vous payez lors de l'entrée"
+  },
+  {
+    "nom": "Edissimo",
+    "champ": "frais_gestion",
+    "avant": "9.6",
+    "apres": "1.03",
+    "source": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Frais de gestion et autres coûts administratifs ou d'exploitation 1,03 % par an"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "prix_retrait",
+    "avant": "190.80",
+    "apres": "190.8",
+    "source": "EFIMMO-BT-1T-2026.pdf",
+    "extrait": "190,80 € prix de retrait de la part d'EFIMMO 1"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "endettement",
+    "avant": "22364",
+    "apres": "22",
+    "source": "EFIMMO-BT-1T-2026.pdf",
+    "extrait": "22 % dette / valeur du patrimoine (364 M€ de dette bancaire)"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "repartition_geo",
+    "avant": "{'France': 74.5, 'Étranger': 25.5}",
+    "apres": "{'France': 74.1, 'Allemagne': 10.0, 'Pays-Bas': 5.2, 'Royaume-Uni': 4.5, 'Belgiq",
+    "source": "FP-EF-042026-FR-3-2963.pdf",
+    "extrait": "France 74,1 % (Paris centre 9,8 %, Grand Paris 35,2 %, Métropoles 29,2 %) ; Étranger 25,9 % : Allemagne 10,0 %, Pays-Bas 5,2 %, Royaume-Uni 4,5 %, Belgique 2,3 "
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 73.5, 'Autres locaux commerciaux': 9.3, 'Divers': 7.5, 'Commerces de",
+    "apres": "{'Bureaux': 74.4, 'Divers': 9.4, 'Autres locaux commerciaux': 7.6, 'Commerces de",
+    "source": "FP-EF-042026-FR-3-2963.pdf",
+    "extrait": "Bureaux 74,4 %, Divers 9,4 %, Autres locaux commerciaux 7,6 %, Commerces de centre-ville et milieu urbain 5,2 %"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "436951",
+    "source": "EFIMMO-BT-1T-2026.pdf",
+    "extrait": "Parts en attente au 31/03/2026 : 436 951"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "FP-EF-042026-FR-3-2963.pdf",
+    "extrait": "Périodicité des distributions potentielles de revenus : Trimestrielle"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC-EF-042026.pdf",
+    "extrait": "Classification SFDR : Article 8"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC-EF-042026.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risques 3 sur 7"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "FP-EF-042026-FR-3-2963.pdf",
+    "extrait": "Frais de souscription : 10 % HT (12 % TTC) ; DIC coûts d'entrée 10 %"
+  },
+  {
+    "nom": "Efimmo 1",
+    "champ": "frais_gestion",
+    "avant": "9.6",
+    "apres": "10",
+    "source": "FP-EF-042026-FR-3-2963.pdf",
+    "extrait": "Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs encaissés"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "prix_retrait",
+    "avant": "619.75",
+    "apres": "619.75",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Valeur de retrait (A)-(B) 619,75 €"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "capitalisation",
+    "avant": "4143",
+    "apres": "4142.67",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Capitalisation 4 142 674 320 €"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "endettement",
+    "avant": "23.08",
+    "apres": "19.15",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Endettement réel au 31/03/2026 : 19,15 % (autorisation statutaire 30 %)"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "57341",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "57 341 associés"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "235",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "235 Nombre d'immeubles en direct (+ 172 via des SCI)"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 22.44, 'Île-de-France': 37.59, 'Régions': 31.82, 'Allemagne': 5.37, 'P",
+    "apres": "{'Île-de-France': 36.9, 'Régions': 32.67, 'Paris': 21.86, 'Allemagne': 5.57, 'Pa",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Paris 21,86 %, Île-de-France 36,90 %, Régions 32,67 %, Allemagne 5,57 %, Pays-Bas 1,60 %, Royaume-Uni 0,99 %, Irlande 0,41 %"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 70.99, 'Commerces': 19.36, 'Hôtels': 5.73, 'Santé et éducation': 3.4",
+    "apres": "{'Bureaux': 69.56, 'Commerces': 19.93, 'Hôtels, tourisme et loisirs': 6.26, 'San",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Bureaux 69,56 %, Commerces 19,93 %, Hôtels tourisme et loisirs 6,26 %, Santé et éducation 3,81 %, Logistique et locaux d'activités 0,44 %"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "480544",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Parts en attente de retrait 480 544 (297,8 M€) soit 7,8 % de la capitalisation"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Versements potentiels : 30 juillet 2026 / 29 octobre 2026 / 29 janvier 2027"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "EE_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 9 au sens de SFDR ; (BT) Classement SFDR : article 9"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "EE_DIC.pdf",
+    "extrait": "Ce produit a été catégorisé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Épargne Foncière",
+    "champ": "frais_souscription",
+    "avant": "9",
+    "apres": "7.5",
+    "source": "EE_BT_20260331.pdf",
+    "extrait": "Commission de souscription : 7,50 % HT max, soit 9 % TTC"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "prix_retrait",
+    "avant": "187.20",
+    "apres": "187.2",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Prix de retrait à partir du 01/01/2023 : 187,20 €"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "nb_associes",
+    "avant": "52337",
+    "apres": "52989",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "52 989 associés (au 31/03/2026)"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "nb_immeubles",
+    "avant": "410",
+    "apres": "414",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Nombre d'immeubles 414 (au 31/12/2025)"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "1020",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Nombre de baux 1 020 ; loués à plus de 1 000 entreprises"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 27.57, 'Île-de-France': 15.43, 'Sud-Ouest': 17.39, 'Nord-Ouest': 12.92",
+    "apres": "{'Paris / Île-de-France': 27.06, 'Nord-Ouest': 17.39, 'Sud-Ouest': 16.21, 'Nord-",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Paris Île-de-France 27,06 %, Nord-Ouest 17,39 %, Sud-Ouest 16,21 %, Nord-Est 13,70 %, Sud-Est 12,95 %, Nord 12,69 %"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 48.15, 'Commerces': 29.35, 'Activités/Entrepôts': 8.41, 'Tourisme/Hô",
+    "apres": "{'Bureaux': 46.88, 'Commerces': 28.95, 'Tourisme / Hôtel': 10.14, 'Activités / E",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Bureaux 46,88 %, Commerces 28,95 %, Tourisme/Hôtel 10,14 %, Activités/Entrepôts 8,28 %, Santé/Education 5,59 %, Résidentiel/Alternatif 0,16 %"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "40859",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Parts en attente de retrait sur le marché primaire au 31/03/2026 : 40 859"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "BPI1T2026-EP.pdf",
+    "extrait": "Revenus 2026 versés aux 1er, 2e, 3e et 4e trimestres"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "2025-10-31-DIC_Epargne_Pierre.pdf",
+    "extrait": "La SCPI relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "2025-10-31-DIC_Epargne_Pierre.pdf",
+    "extrait": "Nous avons classé EPARGNE PIERRE dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Épargne Pierre",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "0.97",
+    "source": "2025-10-31-DIC_Epargne_Pierre.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 97 € pour 10 000 € investis (≈ 0,97 %/an)"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "prix_retrait",
+    "avant": "180.00",
+    "apres": "180",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Prix de retrait 180,00 € par part"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "taux_distribution",
+    "avant": "5.5",
+    "apres": "6.75",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Taux de distribution brut de fiscalité étrangère 31/12/2025 : 6,75 % (net 5,54 %)"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "capitalisation",
+    "avant": "479",
+    "apres": "635",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Au 31/03/2026 Capitalisation 635 217 800 €"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "tof",
+    "avant": "100",
+    "apres": "99.88",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "TOF 99,88 %"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "nb_associes",
+    "avant": "13615",
+    "apres": "17816",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "17 816 ASSOCIÉS (au 31/03/2026)"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "nb_immeubles",
+    "avant": "16",
+    "apres": "27",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Nombre d'immeubles 31/12/2025 : 27"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "54",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Nombre de baux 31/12/2025 : 54"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "repartition_geo",
+    "avant": "{'Irlande': 33.97, 'Allemagne': 30.47, 'Espagne': 24.04, 'Pays-Bas': 11.52}",
+    "apres": "{'Espagne': 29.53, 'Irlande': 25.64, 'Allemagne': 23.88, 'Royaume-Uni': 11.99, '",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Répartition géographique (valeurs vénales) au 31/03/2026"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Hôtellerie': 35.56, 'Bureaux': 27.34, 'Commerces': 19.22, 'Activités/Entrepôts",
+    "apres": "{'Hôtellerie': 27.87, 'Commerces': 25.78, 'Bureaux': 24.61, 'Activités/Entrepôts",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Répartition sectorielle (valeurs vénales) au 31/03/2026"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "BPI1T2026-EPE-web-2.pdf",
+    "extrait": "Distributions trimestrielles (avril, juillet, octobre, janvier)"
+  },
+  {
+    "nom": "Épargne Pierre Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Annexe-2-Reglementation-delegue-SFDR-SCPI-Epargne-Pierre-Europe-042026-V3.pdf",
+    "extrait": "Informations précontractuelles pour les produits financiers relevant de l'article 8 du Règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "tof",
+    "avant": "95.72",
+    "apres": "94.56",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Taux d'Occupation Financier 1er trimestre 2026 : 94,56 %"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "endettement",
+    "avant": "1.79",
+    "apres": "6.86",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Taux d'endettement au 31.03.2026 : 6,86 %"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "443",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Nombre de locataires 443"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "repartition_geo",
+    "avant": "{'Régions': 51.8, 'Paris': 25.8, 'Île-de-France': 19.9, 'Europe': 2.5}",
+    "apres": "{'Régions': 51.9, 'Paris': 25.3, 'Île-de-France': 20.3, 'Europe': 2.5}",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Répartition géographique (valeur vénale au 31.03.2026)"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Locaux commerciaux': 84.9, 'Bureaux': 14.9, 'Entrepôts-activités': 0.2}",
+    "apres": "{'Locaux commerciaux': 84.9, 'Bureaux': 14.9, 'Entrepôts, activités et divers': ",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Répartition par destination (valeur vénale)"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "546508",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "546 508 parts en attente de retrait au 31 mars 2026 ; solde marché primaire T1 = +10 parts"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Acomptes trimestriels (distribution trimestrielle de 0,83 €/part au T1 2026)"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC FICOMMERCE 31.12.2024.pdf",
+    "extrait": "La SCPI relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC FICOMMERCE 31.12.2024.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Ficommerce Proximité",
+    "champ": "frais_gestion",
+    "avant": "9.3",
+    "apres": "11.4",
+    "source": "BTI Ficommerce T1 2026.pdf",
+    "extrait": "Commission de gestion : 9,5 % HT (11,4 % TTC) des produits locatifs encaissés HT"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "prix_retrait",
+    "avant": "1012.00",
+    "apres": "1012",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Valeur de retrait par part : 1 012 €"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "capitalisation",
+    "avant": "179.407",
+    "apres": "173",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Capitalisation 173 M€ (au 31/03/2026, capital nominal 152 662 884 €)"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "tof",
+    "avant": "97.08",
+    "apres": "96.7",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Taux d'occupation financier 96,70 %"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "endettement",
+    "avant": "22.15",
+    "apres": "20.69",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Dette et autres engagements 20,69 % (dont emprunts bancaires 10,87 % + VEFA/acquisitions à terme 9,82 %) au 31/03/2026"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "nb_associes",
+    "avant": "2768",
+    "apres": "2907",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "2 907 Associés (au 31/03/2026)"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "80",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "80 Locataires"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "repartition_geo",
+    "avant": "{'France': 70, 'Belgique': 30}",
+    "apres": "{'France': 68, 'Belgique': 32}",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Patrimoine diversifié en France et en Belgique 68 % / 32 % (valeur d'expertise)"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Lieux de soins, de traitement et de consultation': 46, \"Locaux d'accompagnemen",
+    "apres": "{'Lieux de soins, de traitement et de consultation': 45, \"Locaux d'accompagnemen",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Répartition par typologie (valeur vénale au 31/03/2026)"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Revenus distribués chaque trimestre (versements 31/07, 31/10, 31/01, 30/04)"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "BT-1T-2026-Fonciere-des-Praticiens.pdf",
+    "extrait": "Classification SFDR : article 8"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Foncière des Praticiens",
+    "champ": "duree_placement",
+    "avant": "8 à 12",
+    "apres": "8 à 12 ans",
+    "source": "DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf",
+    "extrait": "La durée de conservation des parts recommandée est de 8 à 12 ans"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "prix_souscription",
+    "avant": "150",
+    "apres": "206",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Prix de souscription depuis 14 juillet 2024 : 206,00 € (dont 150 € valeur nominale et 56 € prime d'émission)"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "prix_retrait",
+    "avant": "132.0",
+    "apres": "185.4",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Prix de retrait 185,40 €"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "taux_distribution",
+    "avant": "0",
+    "apres": "4.0",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Taux de distribution 2025 : 4,00 %"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "capitalisation",
+    "avant": "42.32",
+    "apres": "44.55",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Capitalisation 44 550 858 € (au 31/12/2025)"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "tof",
+    "avant": "99.67",
+    "apres": "99.7",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Taux d'occupation financier P3 2025 : 99,70 %"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "endettement",
+    "avant": "39.07",
+    "apres": "38.8",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Ratio de dettes : 38,8 % (dette 25,2 M€ au 31/12/2025)"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "999",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Nombre d'associés : 999"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "14",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "14 Actifs"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "19",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "19 Locataires"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Alimentaire': 90, 'Tertiaire': 10}",
+    "apres": "{'Commerce alimentaire': 96.49, 'Droguerie': 2.08, 'Autres commerces': 1.43}",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Répartition sectorielle : Commerce alimentaire 96,49 %, Droguerie 2,08 %, Autres commerces 1,43 %"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trois fois par an",
+    "source": "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf",
+    "extrait": "Les revenus sont versés trois fois par an, dans un délai de 45 jours suivant la fin de chaque période de souscription"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf",
+    "extrait": "La SCPI poursuit un objectif d'investissement durable au sens de l'article 9 SFDR"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "GMA Essentialis",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "14.4",
+    "source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
+    "extrait": "Commission de gestion annuelle 12 % HT maximum (soit 14,40 % TTC)"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "prix_retrait",
+    "avant": "176.00",
+    "apres": "176",
+    "source": "IG_GPRBulletin_Semestriel2025_S1.pdf",
+    "extrait": "Valeur de retrait 176 € (prix de souscription moins frais de souscription)"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "capitalisation",
+    "avant": "12.21",
+    "apres": "12.04",
+    "source": "IG_RapportAnnuel_2025GPR.pdf",
+    "extrait": "Capitalisation 12,04 M€ (12 043 000 € au 31/12/2025)"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "tof",
+    "avant": "92.14",
+    "apres": "92.38",
+    "source": "IG_RapportAnnuel_2025GPR.pdf",
+    "extrait": "TOF 2025 annuel : 92,38 % (locaux occupés)"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "endettement",
+    "avant": "38.44",
+    "apres": "38.77",
+    "source": "IG_RapportAnnuel_2025GPR.pdf",
+    "extrait": "Ratio d'endettement effectif au 31/12/2025 : 38,77 %"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "239",
+    "source": "IG_RapportAnnuel_2025GPR.pdf",
+    "extrait": "Au 31 décembre 2025, capital réparti entre 239 associés"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "7",
+    "source": "IG_GPRBulletin_Semestriel2025_S1.pdf",
+    "extrait": "Actifs 7 (2 678 m² répartis sur 7 immeubles)"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "repartition_geo",
+    "avant": "{'Ile-de-France': 87, 'Régions': 13}",
+    "apres": "{'Île-de-France': 87, 'Régions': 13}",
+    "source": "IG_GPRBulletin_Semestriel2025_S1.pdf",
+    "extrait": "Répartition géographique (% valeur vénale) : Île-de-France 87 %, Régions 13 %"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "2429",
+    "source": "IG_RapportAnnuel_2025GPR.pdf",
+    "extrait": "Demande de retrait en attente au 31/12/2025 : 2 429 parts ; délai moyen d'exécution d'un retrait 127,50 jours"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "6",
+    "source": "IG_GPRBulletin_Semestriel2025_S1.pdf",
+    "extrait": "Classification SFDR : La SCPI relève du champ d'application de l'article 6 du Règlement Européen n°2019/2088"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "IG_GPR_DIC20241203.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Grand Paris Résidentiel",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "12",
+    "source": "IG_GPRBulletin_Semestriel2025_S1.pdf",
+    "extrait": "Commission de gestion 12 % TTI (des produits locatifs HT encaissés et produits financiers nets)"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "prix_retrait",
+    "avant": "306.00",
+    "apres": "306",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "Prix de retrait de la part d'Immorente : 306 €"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "50244",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "Nombre d'associés au 31 mars 2026 : 50 244"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "994",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "Nombre d'immeubles au 31 mars 2026 : 994"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "3261",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "994 immeubles représentant 3 261 unités locatives"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "181973",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "181 973 parts en attente au 31/03/2026 ; délai de jouissance raccourci jusqu'au 31/12/2026 ou tant qu'il y a des demandes de retrait"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "IMMORENTE-BT-1T-2026-1.pdf",
+    "extrait": "Acompte du trimestre 3,51 € par part ; distribution trimestrielle"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC-IR-042026.pdf",
+    "extrait": "Classification SFDR : Article 8"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC-IR-042026.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risques 3 sur 7"
+  },
+  {
+    "nom": "Immorente",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "DIC-IR-042026.pdf",
+    "extrait": "Coûts d'entrée 10 % du montant payé au moment de l'entrée dans l'investissement"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "prix_souscription",
+    "avant": "200",
+    "apres": "204",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Prix de souscription au 31/03/2026 : 204 €"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "capitalisation",
+    "avant": "1237",
+    "apres": "1499",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Capitalisation 1,499 Md€ (au 31/03/2026)"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "tof",
+    "avant": "97",
+    "apres": "97.11",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Taux d'Occupation Financier (TOF) 97,11 %"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "endettement",
+    "avant": "30.1",
+    "apres": "25.07",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Ratio d'endettement (LTV) 25,07 %"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "29350",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Nombre total d'associés 29 350"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "nb_immeubles",
+    "avant": "164",
+    "apres": "177",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Nombre total d'actifs 177"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "411",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Nombre total de locataires 411"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "repartition_geo",
+    "avant": "{'France': 29.5, 'Royaume-Uni': 25.8, 'Pays-Bas': 13.3, 'Espagne': 11.5, 'Irland",
+    "apres": "{'France': 27.5, 'Royaume-Uni': 27.4, 'Pays-Bas': 13.7, 'Espagne': 11.3, 'Irland",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Répartition géographique (valeur d'expertise HD)"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces': 36.2, 'Bureaux': 29.4, \"Locaux d'activités\": 15.1, 'Entrepôts': 10",
+    "apres": "{'Commerces': 37.0, 'Bureaux': 27.7, \"Locaux d'activités\": 12.9, 'Logistique': 1",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Répartition par typologie (valeur d'expertise HD)"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "mensuelle",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "La distribution des dividendes est mensuelle"
+  },
+  {
+    "nom": "Iroko Zen",
+    "champ": "frais_gestion",
+    "avant": "12.5",
+    "apres": "14.4",
+    "source": "Iroko_Zen_bulletin_trimestriel.pdf",
+    "extrait": "Commission de gestion : 14,4 % TTC maximum du montant des produits locatifs et autres produits HT encaissés"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "capitalisation",
+    "avant": "445.7",
+    "apres": "445",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Capitalisation 445 M€ (445 694 k€ au 1T 2026)"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "endettement",
+    "avant": "0",
+    "apres": "24",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Ratio de dettes 24 % (la dette représente 24 % de la valeur de réalisation, max autorisé 40 %)"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "10778",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Associés 10 778"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "648",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Nombre d'actifs : 648 ; nombre de lots : 5 011"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Résidentiel': 80, 'Tertiaire': 20}",
+    "apres": "{'Habitations': 89.3, 'Commerces et bureaux': 10.7}",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Répartition typologique des loyers : Habitations 89,3 %, Commerces et bureaux 10,7 %"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Dividende par part versé chaque trimestre (2,44 € au T1 2026)"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "SCPI-Kyaneos-Pierre-Annexe-SFDR.pdf",
+    "extrait": "Annexe périodique SFDR pour les produits financiers visés à l'article 8 du règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "SCPI-KP-DIC-2025.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Kyaneos Pierre",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "8",
+    "source": "BT-T1-2026-KP.pdf",
+    "extrait": "Commission de gestion annuelle maximale de 8 % TTI, calculée sur les produits locatifs et financiers"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "taux_distribution",
+    "avant": "5.2",
+    "apres": "5.08",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Taux de distribution (1) 5,08 % (Performances 2025)"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "capitalisation",
+    "avant": "231.71",
+    "apres": "273.43",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "273 434 400 € Capitalisation"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "endettement",
+    "avant": "23.75",
+    "apres": "26.21",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Réel au 31/03/2026 : 26,21 % (autorisation statutaire 45 %)"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "9302",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "9 302 associés"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "35",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Nombre d'immeubles en direct 33 / via des SCI 2"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 32.75, 'Ile-de-France': 5.58, 'Régions': 40.09, 'Belgique': 11.93, 'Ir",
+    "apres": "{'Régions': 51.79, 'Paris': 25.97, 'Belgique': 9.56, 'Irlande': 7.54, 'Ile-de-Fr",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "RÉGIONS 51,79% / PARIS 25,97% / BELGIQUE 9,56% / IRLANDE 7,54% / ÎLE-DE-FRANCE 5,14%"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Soins de ville': 43, 'Établissements sanitaires': 41, \"Solutions d'accueil gén",
+    "apres": "{'Santé et éducation': 100.0}",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "100,00 % SANTÉ ET ÉDUCATION"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Aucune part en attente de retrait",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Parts en attente de retrait : - ; Montant des parts en attente de retrait : -"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Acomptes trimestriels; versement du trimestre 29 avril 2026"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Q1_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 8 au sens de SFDR"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "Q1_DIC.pdf",
+    "extrait": "catégorisé dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "9",
+    "source": "Q1_DIC.pdf",
+    "extrait": "Commission de souscription 9 % HT, soit 10,80 % TTC; coûts d'entrée 9,00 %"
+  },
+  {
+    "nom": "LF Avenir Santé",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Aucune part en attente de retrait",
+    "source": "Q1_BT_20260331.pdf",
+    "extrait": "Aucune part en attente de retrait"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "taux_distribution",
+    "avant": "4.3",
+    "apres": "4.63",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "Taux de distribution (1) 4,63 % (Performances 2025)"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "capitalisation",
+    "avant": "874",
+    "apres": "812.91",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "812 912 775 € Capitalisation"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "endettement",
+    "avant": "17.87",
+    "apres": "19.3",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "Réel au 31/03/2026 : 19,30 % (autorisation statutaire 35 %)"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "52",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "Nombre d'immeubles en direct / via des SCI : 3 et 49"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "repartition_geo",
+    "avant": "{'Allemagne': 71.6, 'France': 16.3, 'Pays-Bas': 8.8, 'Belgique': 2.2, 'Espagne':",
+    "apres": "{'Allemagne': 56.52, 'Royaume-Uni': 18.04, 'Pays-Bas': 7.99, 'Ile-de-France': 4.",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "ALLEMAGNE 56,52% / ROYAUME-UNI 18,04% / PAYS-BAS 7,99% / ÎLE-DE-FRANCE 4,93% / BELGIQUE 3,71% / LUXEMBOURG 2,27% / IRLANDE 2,10% / PARIS 2,06% / RÉGIONS 1,70% /"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 87, 'Commerces': 12, 'Résidences gérées': 1}",
+    "apres": "{'Bureaux': 76.83, 'Commerces': 13.5, 'Hôtels, tourisme et loisirs': 6.82, \"Logi",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "BUREAUX 76,83% / COMMERCES 13,50% / HÔTELS TOURISME ET LOISIRS 6,82% / LOGISTIQUE ET LOCAUX D'ACTIVITÉS 2,73% / SANTÉ ET ÉDUCATION 0,12%"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "78 222 parts en attente de retrait (52,2 M€, 7% des parts)",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "Parts en attente de retrait 78 222 ; Montant 52,2 M€ ; représente 7 % du total des parts"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "Acomptes trimestriels; versement du trimestre 29 avril 2026"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "D1_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 9 au sens de SFDR"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "D1_DIC.pdf",
+    "extrait": "catégorisé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "frais_souscription",
+    "avant": "9.6",
+    "apres": "8",
+    "source": "D1_DIC.pdf",
+    "extrait": "Commission de souscription 8 % HT, soit 9,60 % TTC; coûts d'entrée 8,00 %"
+  },
+  {
+    "nom": "LF Europimmo",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 78 222 parts en attente de retrait (52,2 M€, 7% des parts)",
+    "source": "D1_BT_20260331.pdf",
+    "extrait": "78 222 parts en attente de retrait (52,2 M€, 7% des parts)"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "taux_distribution",
+    "avant": "4.4",
+    "apres": "4.66",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "Taux de distribution (1) 4,66 % (Performances 2025)"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "capitalisation",
+    "avant": "10698648661.07",
+    "apres": "1069.86",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "1 069 864 866 € Capitalisation"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "endettement",
+    "avant": "32.69",
+    "apres": "30.85",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "Réel au 31/03/2026 : 30,85 % (autorisation statutaire 35 %)"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "58",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "Nombre d'immeubles en direct 31 / via des SCI 27"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "repartition_geo",
+    "avant": "{'Ile-de-France': 85, 'Régions': 15}",
+    "apres": "{'Ile-de-France': 67.3, 'Paris': 26.82, 'Régions': 5.88}",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "ÎLE-DE-FRANCE 67,30% / PARIS 26,82% / RÉGIONS 5,88%"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 75, 'Commerces': 25}",
+    "apres": "{'Bureaux': 91.95, 'Santé et éducation': 7.85, 'Commerces': 0.2}",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "BUREAUX 91,95% / SANTÉ ET ÉDUCATION 7,85% / COMMERCES 0,20%"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Marché des parts SUSPENDU depuis le 12/02/2026; 499 638 parts en attente de retr",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "le marché des parts de votre SCPI est suspendu depuis le 12 février 2026 ... mise en place de la suspension de la variabilité du capital ; Parts en attente de r"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "Acomptes trimestriels; versement du trimestre 29 avril 2026"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "Z2_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 9 au sens de SFDR"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "Z2_DIC.pdf",
+    "extrait": "catégorisé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "frais_souscription",
+    "avant": "9.6",
+    "apres": "8",
+    "source": "Z2_DIC.pdf",
+    "extrait": "Commission de souscription 8 % HT, soit 9,60 % TTC; coûts d'entrée 8,00 %"
+  },
+  {
+    "nom": "LF Grand Paris Patrimoine",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Marché des parts SUSPENDU depuis le 12/02/2026; 499 638 parts en att",
+    "source": "Z2_BT_20260331.pdf",
+    "extrait": "Marché des parts SUSPENDU depuis le 12/02/2026; 499 638 parts en attente de retrait (100,2 M€, 10,2% des parts)"
+  },
+  {
+    "nom": "Log In",
+    "champ": "prix_retrait",
+    "avant": "225",
+    "apres": "229.5",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "VALEUR DE RETRAIT 229,50 €"
+  },
+  {
+    "nom": "Log In",
+    "champ": "capitalisation",
+    "avant": "240.8",
+    "apres": "240.81",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "CAPITALISATION : 240 812 310 €"
+  },
+  {
+    "nom": "Log In",
+    "champ": "endettement",
+    "avant": "12026",
+    "apres": "0",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "A fin mars 2026, la SCPI n'avait pas recours au levier financier ; Dettes et autres engagements 0 %"
+  },
+  {
+    "nom": "Log In",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "5731",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "Associés T1 2026 : 5 731"
+  },
+  {
+    "nom": "Log In",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "20",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "NOMBRE D'IMMEUBLES 20"
+  },
+  {
+    "nom": "Log In",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "22",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "NOMBRE DE LOCATAIRES 22"
+  },
+  {
+    "nom": "Log In",
+    "champ": "repartition_geo",
+    "avant": "{'France': 37.3, 'Allemagne': 25.3, 'Royaume-Uni': 13.1, 'Italie': 7.6, 'Pays-Ba",
+    "apres": "{'Italie': 28, 'Espagne': 26, 'Royaume-Uni': 22, 'Allemagne': 12, 'Irlande': 8, ",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "ROYAUME-UNI 22% / ESPAGNE 26% / ALLEMAGNE 12% / ITALIE / IRLANDE / POLOGNE (4% et 8%)"
+  },
+  {
+    "nom": "Log In",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Logistique / Activité': 36.9, 'Bureaux': 27.9, 'Hôtellerie': 8.7, 'Résidentiel",
+    "apres": "{\"Locaux d'activités et sites de production\": 71, 'Logistique': 23, 'Life Scienc",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "Locaux d'activités et sites de production 71% / Logistique 23% / Life Science 5%"
+  },
+  {
+    "nom": "Log In",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Aucune part en attente de retrait au 31/03/2026",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "Nombre de parts en attente de retrait T1 2026 : - (49 442 parts rachetées, compensées)"
+  },
+  {
+    "nom": "Log In",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "Distribution par part T1 2026 3,79 € (date 04/05/26)"
+  },
+  {
+    "nom": "Log In",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "SCPI-LOG-IN-Document-dinformations-cles-1.pdf",
+    "extrait": "SFDR : 8. LOG IN intègre des caractéristiques environnementales et sociales au sens de l'article 8"
+  },
+  {
+    "nom": "Log In",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "SCPI-LOG-IN-Document-dinformations-cles-1.pdf",
+    "extrait": "classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Log In",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "0.88",
+    "source": "SCPI-LOG-IN-Document-dinformations-cles-1.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 0,88 % par an"
+  },
+  {
+    "nom": "Log In",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Aucune part en attente de retrait au 31/03/2026",
+    "source": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf",
+    "extrait": "Aucune part en attente de retrait au 31/03/2026"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "taux_distribution",
+    "avant": "4.85",
+    "apres": "4.52",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Taux de distribution brut de fiscalité étrangère 2025 : 4,52 %"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "capitalisation",
+    "avant": "110",
+    "apres": "116.7",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "116,7 M€ Capitalisation au 31/03/2026"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "tof",
+    "avant": "96.5",
+    "apres": "96.0",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "TOF 96 %"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "endettement",
+    "avant": "22.96",
+    "apres": "0.62",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Ratio des dettes et autres engagements au 31/03/2026 : 0,62 %"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "3412",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Nombre d'associés 31/03/2026 : 3 412"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "55",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "55 Nombre d'immeubles"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "75",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "75 Nombre de locataires"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Santé / social': 66, 'Bien-être': 16, 'Éducation': 16, 'Environnement': 2}",
+    "apres": "{'Santé/Social': 66, 'Bien-être': 17, 'Éducation': 10, 'Commerce': 6, 'Environne",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Répartition sectorielle (% des loyers) : Santé/Social 66% / Bien-être 17% / Éducation 10% / Commerce 6% / Environnement 1%"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Aucune part en attente de retrait (0 part)",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Parts en attente de retrait 31/03/2026 : 0 part"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Mensuelle",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Depuis février 2026, les dividendes des SCPI Norma Capital sont distribués mensuellement"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "ncap-educationsante_dic_15122025.pdf",
+    "extrait": "Le produit est conforme aux dispositions de l'article 8 du Règlement SFDR"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "ncap-educationsante_dic_15122025.pdf",
+    "extrait": "classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "La commission de souscription correspond à 10 % HT (soit 12 % TTC), soit 24,24 € TTC"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "0.56",
+    "source": "ncap-educationsante_dic_15122025.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 0,56 % par an"
+  },
+  {
+    "nom": "NCap Education Santé",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Aucune part en attente de retrait (0 part)",
+    "source": "bt_ncap_education_sante_t1_2026.pdf",
+    "extrait": "Aucune part en attente de retrait (0 part)"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "prix_retrait",
+    "avant": "613.80",
+    "apres": "613.8",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Valeur de retrait (par part) au 31/12/2025 613,80 €"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "capitalisation",
+    "avant": "1097",
+    "apres": "1097.1",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "1 097,1 M€ Capitalisation brute au 31/03/2026"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "tof",
+    "avant": "92.7",
+    "apres": "91.6",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "TOF 91,6 %"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "25661",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Nombre d'associés 31/03/2026 : 25 661"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "nb_immeubles",
+    "avant": "175",
+    "apres": "180",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "180 Nombre d'immeubles"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "425",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "425 Nombre de locataires"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "repartition_geo",
+    "avant": "{'Grandes agglomérations de province': 65, 'Ile-de-France': 35}",
+    "apres": "{'Ile-de-France': 22, 'PACA': 19, 'Occitanie': 11, 'Auvergne-Rhône-Alpes': 10, '",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Répartition géographique (% valeur vénale) par région: IDF 22% / PACA 19% / Occitanie 11% / AURA 10% / Hauts-de-France 10% / Pays de la Loire 8% / Bretagne 4% /"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 54, 'Commerce': 32, 'Activités': 14, 'Hôtellerie': 0.5}",
+    "apres": "{'Bureaux': 57, 'Commerce': 30, 'Activités': 13, 'Hôtellerie': 0.5}",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Répartition typologique : Bureaux 57% / Commerce 30% / Activités 13% / Hôtellerie <0,5%"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Aucune part en attente de retrait (0 part)",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Parts en attente de retrait 31/03/2026 : 0 part"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "Mensuelle",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Depuis février 2026, les dividendes des SCPI Norma Capital sont distribués mensuellement"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "ncap-regions_dic_15122025.pdf",
+    "extrait": "Le produit est conforme aux dispositions de l'article 8 du Règlement SFDR"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "ncap-regions_dic_15122025.pdf",
+    "extrait": "classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "La commission de souscription : 10 % HT soit 12 % TTC, soit 81,84 € TTC"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "0.65",
+    "source": "ncap-regions_dic_15122025.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 0,65 % par an"
+  },
+  {
+    "nom": "NCap Régions",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Aucune part en attente de retrait (0 part)",
+    "source": "bt_ncap_regions_t1_2026.pdf",
+    "extrait": "Aucune part en attente de retrait (0 part)"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "prix_retrait",
+    "avant": "406.64",
+    "apres": "406.64",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Valeur de retrait : 406,64 €"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "110",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Immeubles 110"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "206",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Baux 206 ; Nombre de baux : 206"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "31 398 parts en attente de retrait (sur 389 384 parts, ~8%)",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Le capital s'élève à 389 384 parts en fin de trimestre, dont 31 398 parts en attente de retrait"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "4 acomptes trimestriels par an; acompte T1 versé le 12/05/2026"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "6",
+    "source": "bdb9ea23-61b7-4e75-beff-c3ddc078a54c-Novapierre-1-DIC2025.pdf",
+    "extrait": "La SCPI relève de l'article 6 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "bdb9ea23-61b7-4e75-beff-c3ddc078a54c-Novapierre-1-DIC2025.pdf",
+    "extrait": "classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "8",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Commission de souscription : 8 % HT du prix de souscription (prime d'émission incluse)"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "8",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "Commission de gestion annuelle : 8 % HT maximum (9,6 % TTC) des recettes"
+  },
+  {
+    "nom": "Novapierre 1",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 31 398 parts en attente de retrait (sur 389 384 parts, ~8%)",
+    "source": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf",
+    "extrait": "31 398 parts en attente de retrait (sur 389 384 parts, ~8%)"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "endettement",
+    "avant": "35",
+    "apres": "32.8",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "LTV net de trésorerie 32,8 %"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "128",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "128 Locataires"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 93, 'Activités': 2, 'Enseignement': 1, 'Hôtels': 4}",
+    "apres": "{'Bureaux': 94, 'Hôtels': 4, 'Activités': 1, 'Enseignement': 1}",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "Bureaux 94% / Hôtels 4% / Activités 1% / Enseignement 1%"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "125 194 parts en attente de retrait (5,5% des parts totales)",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "Parts en attente de retrait au 31/03/26 : 125 194 (soit 5,5 % des parts totales) ; Collecte nette 0,55 M€"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "Mensuelle",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "Distribution des revenus potentiels : Mensuelle (0,60 €/mois versés au T1 2026)"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "labelisée ISR depuis 2020 et alignée sur l'article 9 du règlement SFDR"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "DIC-NOVAXIA-NEO-2025.pdf",
+    "extrait": "Nous avons classé Novaxia NEO dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Novaxia NEO",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 125 194 parts en attente de retrait (5,5% des parts totales)",
+    "source": "Novaxia-NEO-Reporting-31_03_2026.pdf",
+    "extrait": "125 194 parts en attente de retrait (5,5% des parts totales)"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "prix_retrait",
+    "avant": "184.73",
+    "apres": "184.73",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "Valeur de retrait (A)-(B) 184,73 €"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "taux_distribution",
+    "avant": "5.62",
+    "apres": "5.68",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "Taux de distribution (1) 5,68 % (au titre de 2025). NB : objectif 2026 attendu entre 5,05 % et 5,25 %"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "capitalisation",
+    "avant": "313015444313",
+    "apres": "313015444",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "313 015 444 € Capitalisation (soit ~313,0 M€)"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "endettement",
+    "avant": "14.45",
+    "apres": "21.46",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "ENDETTEMENT - Réel au 31/03/2026 : 21,46 % ; Autorisation statutaire : 30,00 % (% de la valeur d'acquisition des actifs)"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "nb_immeubles",
+    "avant": "46",
+    "apres": "48",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "39 Nombre d'immeubles en direct + 9 Nombre d'immeubles via des SCI"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "repartition_geo",
+    "avant": "{'Île-de-France': 47.82, 'Régions': 39.93, 'Espagne': 5.82, 'Allemagne': 4.5, 'R",
+    "apres": "{'Île-de-France': 45.07, 'Régions': 39.95, 'Espagne': 5.51, 'Allemagne': 4.52, '",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "ÎLE-DE-FRANCE 45,07 % / RÉGIONS 39,95 % / ESPAGNE 5,51 % / ALLEMAGNE 4,52 % / PAYS-BAS 3,11 % / ROYAUME-UNI 1,84 %"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "repartition_sectorielle",
+    "avant": "{\"Logistique et locaux d'activités\": 89.41, 'Bureaux': 10.59}",
+    "apres": "{\"Logistique et locaux d'activités\": 90.04, 'Bureaux': 9.96}",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "LOGISTIQUE ET LOCAUX D'ACTIVITÉS 90,04 % / BUREAUX 9,96 %"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "25 531 parts en attente de retrait (4,7 M€), soit 1,7 % des parts",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "Parts en attente de retrait 25 531 ; Montant 4,7 M€ ; représente 1,7 % du nombre de parts de la SCPI"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "acompte au premier trimestre de 2,28 euros par part ; versements potentiels suivants 30 juillet 2026 / 29 octobre 2026 / 29 janvier 2027"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "G0_DIC.pdf",
+    "extrait": "La SCPI a été classifiée article 9 au sens de SFDR"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "G0_DIC.pdf",
+    "extrait": "Ce produit a été catégorisé dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "frais_souscription",
+    "avant": "10.8",
+    "apres": "9",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "Commission de souscription : 9 % HT max, soit 10,80 % TTC (incluse dans le prix de souscription)"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "12",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "Commission de gestion locative : 12 % HT max, soit 14,40 % TTC du montant HT des produits locatifs"
+  },
+  {
+    "nom": "Opportunité Immo",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 25 531 parts en attente de retrait (4,7 M€), soit 1,7 % des parts",
+    "source": "G0_BT_20260331.pdf",
+    "extrait": "25 531 parts en attente de retrait (4,7 M€), soit 1,7 % des parts"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "capitalisation",
+    "avant": "93",
+    "apres": "92",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "CAPITALISATION : 92 M€ (au 31/12/2025)"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "tof",
+    "avant": "94.25",
+    "apres": "95.31",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "Taux d'occupation financier (TOF) 95,31 % ; 4,69 % locaux vacants"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "endettement",
+    "avant": "17.68",
+    "apres": "19.63",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "Taux d'endettement (LTV) : 19,63 %"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "nb_associes",
+    "avant": "1626",
+    "apres": "1578",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "1 578 ASSOCIÉS (au 31/12/2025)"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "83",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "83 LOCATAIRES (au 31/12/2025)"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 40.2, 'Commerces': 28.3, 'Activités et Logistique': 26.4, 'Santé et ",
+    "apres": "{'Bureaux': 40.2, 'Commerces': 28.3, 'Activités et Logistique': 26.4, 'Santé et ",
+    "source": "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+    "extrait": "40,2 % Bureaux / 28,3 % Commerces / 26,4 % Activités & Logistique / 5,1 % Santé & éducation (valeurs d'expertise au 31/12/2025)"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité non garantie ; en cas de blocage des retraits, possibilité de suspensi",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "En cas de blocage des retraits, la Société de Gestion a la faculté de suspendre la variabilité du capital et de mettre en place un marché secondaire par confron"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "Le produit est classifié « Article 8 » au sens de la réglementation SFDR"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "Coûts d'entrée 10,00 % du montant que vous payez au moment de l'entrée"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "0.95",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 0,95 % de la valeur de votre investissement par an"
+  },
+  {
+    "nom": "Optimale",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Liquidité non garantie ; en cas de blocage des retraits, possibilité",
+    "source": "DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf",
+    "extrait": "Liquidité non garantie ; en cas de blocage des retraits, possibilité de suspension de la variabilité du capital et de marché secondaire par confrontation des or"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "prix_retrait",
+    "avant": "225.00",
+    "apres": "225",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Valeur de retrait : 225 €"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "13",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Nombre de baux : 13 ; Baux 13"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "repartition_geo",
+    "avant": "{'Pologne': 100}",
+    "apres": "{'Pologne - Cracovie': 53.3, 'Pologne - Varsovie': 46.7}",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Cracovie 53,3 % / Varsovie 46,7 % (Pologne, 100 %)"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 89.4, 'Activité-autre': 10.6}",
+    "apres": "{'Bureaux': 89.4, \"Locaux d'activité\": 10.6}",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Bureaux 89,4 % / Locaux d'activité 10,6 %"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "840 parts en attente de retrait (sur 197 184 parts)",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Le capital s'élève à 197 184 parts en fin de trimestre, dont 840 part en attente de retrait"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "4 acomptes trimestriels par an"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "PAREF-Evo-DIC2025.pdf",
+    "extrait": "La SCPI relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "PAREF-Evo-DIC2025.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Commission de souscription : 10 % HT du prix de souscription (prime d'émission incluse)"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "frais_gestion",
+    "avant": "8.33",
+    "apres": "11",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "Commission de gestion annuelle : 11 % HT maximum (13,20 % TTC) des recettes encaissées HT"
+  },
+  {
+    "nom": "Paref Evo",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 840 parts en attente de retrait (sur 197 184 parts)",
+    "source": "BTI-T1-2026-PAREF-Evo.pdf",
+    "extrait": "840 parts en attente de retrait (sur 197 184 parts)"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "prix_retrait",
+    "avant": "189.00",
+    "apres": "154.8",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "Valeur de retrait : 154,80 €"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "75",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "Nombre de baux : 75 ; Baux 75"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "repartition_geo",
+    "avant": "{'Métropoles régionales': 56, 'Ile-de-France hors Paris': 26.7, 'Paris': 5.3, 'A",
+    "apres": "{'Métropoles régionales': 56.0, 'Ile-de-France hors Paris': 25.5, 'Autres région",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "12 métropoles régionales 56,0 % / Ile-de-France hors Paris 25,5 % / Autres régions 12,9 % / Paris 5,6 %"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 65.1, \"Locaux d'activité\": 3.9, 'Logistique-Messagerie': 4.8, 'Autre",
+    "apres": "{'Bureaux': 65.1, 'Autres': 26.2, 'Logistique & Messagerie': 4.8, \"Locaux d'acti",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "Bureaux 65,1 % / Locaux d'activité 3,9 % / Logistique & Messagerie 4,8 % / Autres 26,2 %"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "19 789 parts en attente de retrait (sur 1 169 445 parts)",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "Le capital s'élève à 1 169 445 parts en fin de trimestre, dont 19 789 parts en attente de retrait"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "4 acomptes trimestriels par an"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "PAREF-Hexa-DIC2025MAJ-ESG.pdf",
+    "extrait": "La SCPI relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "2",
+    "source": "PAREF-Hexa-DIC2025MAJ-ESG.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 2 sur 7"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "Commission de souscription : 10 % HT du prix de souscription (prime d'émission incluse)"
+  },
+  {
+    "nom": "Paref Hexa",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 19 789 parts en attente de retrait (sur 1 169 445 parts)",
+    "source": "BTI-T1-2026-PAREF-Hexa.pdf",
+    "extrait": "19 789 parts en attente de retrait (sur 1 169 445 parts)"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "repartition_geo",
+    "avant": "{'Région parisienne': 36.8, 'Paris': 32.6, 'Régions': 27.8, 'Parts SCPI': 2.8}",
+    "apres": "{'Île-de-France hors Paris': 36.8, 'Paris': 32.4, 'France hors région parisienne",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "36,8 % Île-de-France hors Paris / 32,4 % Paris / 28,4 % France hors région parisienne / 2,4 % SCPI"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Résidentiel': 97, 'SCPI': 3}",
+    "apres": "{'Résidentiel': 97.6, 'SCPI': 2.4}",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "97,6 % Résidentiel / 2,4 % SCPI"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "38 277 parts en attente de retrait (confirmées et non confirmées) au 31/03/2026 ",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "Au 31/03/2026, 38 277 parts (confirmées et non confirmées) sont en attente de retrait. La liquidité de la SCPI est par conséquent peu organisée. 100 % des actif"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "frequence_distribution",
+    "avant": "NC",
+    "apres": "Aucune (nue-propriété)",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "Patrimmo Croissance Impact n'a pas vocation à distribuer de revenus fonciers (investissement en nue-propriété)"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "SCPI Patrimmo Croissance - DIC.pdf",
+    "extrait": "La SCPI est classée « Article 9 » au sens du Règlement européen « SFDR »"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "SCPI Patrimmo Croissance - DIC.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "frais_gestion",
+    "avant": "9",
+    "apres": "10",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs"
+  },
+  {
+    "nom": "Patrimmo Croissance Impact",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 38 277 parts en attente de retrait (confirmées et non confirmées) au",
+    "source": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf",
+    "extrait": "38 277 parts en attente de retrait (confirmées et non confirmées) au 31/03/2026 ; liquidité peu organisée ; pas de marché secondaire (sauf blocage des retraits)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "taux_distribution",
+    "avant": "4.801",
+    "apres": "4.8",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Taux de distribution 2025 : 4,80 % (y compris 1,45 % de plus-values distribuées)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "capitalisation",
+    "avant": "10518734861.05",
+    "apres": "1051.87",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "CAPITALISATION au 31/03/2026 : 1 051 873 486 € (~1,1 Md€)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "endettement",
+    "avant": "33.8",
+    "apres": "35.0",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "TAUX D'ENDETTEMENT 35,0 % (max 40 %)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "321",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Nombre de baux 321"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "repartition_geo",
+    "avant": "{'Région Parisienne': 75.4, 'Paris': 20.3, 'Régions': 4.3}",
+    "apres": "{'Région Parisienne': 76.2, 'Paris': 19.6, 'Régions': 4.2}",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Région Parisienne 76,2 % / Paris 19,6 % / Régions 4,2 % (au 31/03/2026)"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 95.2, 'Hôtels': 1.7, 'Logistique': 1.9, 'Commerces': 1.3}",
+    "apres": "{'Bureaux': 95.2, \"Logistique et locaux d'activités\": 1.9, 'Hôtels, tourisme, lo",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Bureaux 95,2 % / Logistique et locaux d'activités 1,9 % / Hôtels, tourisme, loisirs 1,7 % / Commerces 1,3 %"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché se",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Depuis le 25 février 2026, la Société de gestion a suspendu temporairement la variabilité du capital de cette SCPI. Cette suspension entraine la création d'un m"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "La Société de Gestion procède à une distribution trimestrielle des acomptes sur dividende"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "69d74a4348d4ea189f2426d0_Document d'information Clé.pdf",
+    "extrait": "La SCPI est classée dans la définition de l'article 9 du règlement européen dit « Disclosure » ou « SFDR »"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "69d74a4348d4ea189f2426d0_Document d'information Clé.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "frais_souscription",
+    "avant": "11.4",
+    "apres": "9.5",
+    "source": "69d74a4348d4ea189f2426d0_Document d'information Clé.pdf",
+    "extrait": "Coûts d'entrée 9,50 % maximum du montant que vous payez au moment de l'entrée"
+  },
+  {
+    "nom": "Perial Grand Paris",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'",
+    "source": "PGP BTI T1 2026.pdf",
+    "extrait": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché secondaire (confrontation mensuelle des ordres) depuis avril 2026"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "prix_retrait",
+    "avant": "165.61",
+    "apres": "165.61",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "VALEUR DE RETRAIT 165,61 €"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "taux_distribution",
+    "avant": "4.02",
+    "apres": "4.11",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Taux de distribution 2025 : 4,11 %"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "capitalisation",
+    "avant": "333.11",
+    "apres": "333.04",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "CAPITALISATION au 31/03/2026 : 333 041 448 € (~333 M€)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "tof",
+    "avant": "98.1",
+    "apres": "99.3",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Taux d'occupation financier : 99,3 % au 31/03/2026"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "endettement",
+    "avant": "20.7",
+    "apres": "28.1",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "TAUX D'ENDETTEMENT 28,1 % (max 40 %)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "29",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Nombre d'immeubles 29"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "29",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Nombre de baux 29"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "repartition_geo",
+    "avant": "{'Allemagne': 67.5, 'Espagne': 17.6, 'Italie': 11.4, 'Pays-Bas': 3.5}",
+    "apres": "{'Allemagne': 65.1, 'Espagne': 18.0, 'Italie': 13.2, 'Pays-Bas': 3.7}",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Allemagne 65,1 % / Espagne 18,0 % / Italie 13,2 % / Pays-Bas 3,7 % (Europe hors France 100 %)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Santé et éducation': 61.0, 'Hôtels tourisme loisirs': 37.9, 'Alternatifs résid",
+    "apres": "{'Santé et éducation': 59.0, 'Hôtels, tourisme, loisirs': 40.4, 'Alternatifs (ré",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Santé et éducation 59,0 % / Hôtels, tourisme, loisirs 40,4 % / Alternatifs (résidence étudiante) 0,6 %"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "37 302 parts en attente de retrait au 31/03/2026 (variabilité du capital non sus",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "NOMBRE DE PARTS EN ATTENTE DE RETRAIT 37 302"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Dividendes en 2026 par trimestre (Trim. 1 à Trim. 4)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "69d74af6a5d1bdddcbf684f7_Annexe SFDR - documentation précontractuelle - Art 8.pdf",
+    "extrait": "Annexe SFDR - documentation précontractuelle - Art 8 (SCPI classée article 8 SFDR)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "frais_souscription",
+    "avant": "10.2",
+    "apres": "8.5",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "Commission de souscription 8,5 % HT (10,2 % TTC)"
+  },
+  {
+    "nom": "Perial Hospitalité Europe",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 37 302 parts en attente de retrait au 31/03/2026 (variabilité du cap",
+    "source": "PHE BTI T1 2026.pdf",
+    "extrait": "37 302 parts en attente de retrait au 31/03/2026 (variabilité du capital non suspendue)"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "capitalisation",
+    "avant": "2401",
+    "apres": "2401.59",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "CAPITALISATION au 31/03/2026 : 2 401 590 088 € (~2,4 Md€)"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "491",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Nombre de baux 491"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "repartition_geo",
+    "avant": "{'Régions': 38.4, 'Région parisienne': 36.6, 'Europe hors France': 22.5, 'Paris'",
+    "apres": "{'France': 76.5, 'Pays-Bas': 9.9, 'Allemagne': 4.4, 'Italie': 4.1, 'Belgique': 2",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "France 76,5 % (dont Région Parisienne 37,0 %, Régions 36,8 %, Paris 2,7 %) / Pays-Bas 9,9 % / Allemagne 4,4 % / Italie 4,1 % / Belgique 2,3 % / Portugal 1,5 % /"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 85.2, 'Hôtels-tourisme': 6.1, 'Commerces': 2.7, 'Santé-éducation': 5",
+    "apres": "{'Bureaux': 85.2, 'Hôtels, tourisme, loisirs': 6.1, 'Santé et éducation': 5.0, '",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Bureaux 85,2 % / Hôtels, tourisme, loisirs 6,1 % / Santé et éducation 5,0 % / Commerces 2,7 % / Logistique et locaux d'activités 0,9 %"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché se",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Depuis le 25 février 2026, la Société de gestion a suspendu temporairement la variabilité du capital de cette SCPI. Cette suspension entraine la création d'un m"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Les dividendes potentiels continuent à être distribués chaque trimestre"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "69d74a1c770ced450f0ac8cb_Document d'Information Clé.pdf",
+    "extrait": "La SCPI est classée dans la définition de l'article 9 du règlement européen dit « Disclosure » ou « SFDR »"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "69d74a1c770ced450f0ac8cb_Document d'Information Clé.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "frais_souscription",
+    "avant": "10.2",
+    "apres": "11.5",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Commission de souscription 11,5 % HT (13,8 % TTC)"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "frais_gestion",
+    "avant": "9.58",
+    "apres": "1.06",
+    "source": "69d74a1c770ced450f0ac8cb_Document d'Information Clé.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 1,06 % de la valeur de votre investissement par an"
+  },
+  {
+    "nom": "Perial O2",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'",
+    "source": "PO2 BTI 2026 T1 VDEF.pdf",
+    "extrait": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché secondaire (confrontation mensuelle des ordres) depuis avril 2026"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "prix_retrait",
+    "avant": "39.82",
+    "apres": "39.82",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "VALEUR DE RETRAIT 39,82€"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "capitalisation",
+    "avant": "790461980790",
+    "apres": "790.46",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "CAPITALISATION 790 461 980 € au 31/03/2026"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "endettement",
+    "avant": "31.4",
+    "apres": "30.7",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "TAUX D'ENDETTEMENT 30,7 %"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "repartition_geo",
+    "avant": "{'France': 59.5, 'Pays-Bas': 13.8, 'Allemagne': 12.6, 'Espagne': 12.3, 'Italie':",
+    "apres": "{'France': 58.7, 'Pays-Bas': 14.0, 'Espagne': 12.7, 'Allemagne': 12.6, 'Italie':",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "Répartition géographique au 31/03/2026 : France 58,7% / Pays-Bas 14,0% / Espagne 12,7% / Allemagne 12,6% / Italie 1,9%"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 47.7, 'Hôtels-tourisme': 27.3, 'Commerces': 18.6, 'Santé-éducation':",
+    "apres": "{'Bureaux': 47.7, 'Hôtels, tourisme, loisirs': 27.3, 'Commerces': 18.6, 'Santé e",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "Répartition sectorielle au 31/03/2026"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité normale",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "NOMBRE DE PART EN ATTENTE DE RETRAIT : - (aucune au 31/03/2026) ; retraits du trimestre 98 683 parts compensés par les souscriptions"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "Mensuelle",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "passage à une distribution mensuelle des acomptes sur dividendes depuis 2026"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "69d74a5edc2a8e8bcab4fc26_Document d'information Clé.pdf",
+    "extrait": "La SCPI est classée dans la définition de l'article 8 du règlement européen dit « SFDR »"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "69d74a5edc2a8e8bcab4fc26_Document d'information Clé.pdf",
+    "extrait": "classé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Perial Opportunités Europe",
+    "champ": "frais_souscription",
+    "avant": "11.4",
+    "apres": "9.5",
+    "source": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf",
+    "extrait": "Commission de souscription 9,5% HT (11,4% TTC)"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "endettement",
+    "avant": "18.64",
+    "apres": "24.42",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "Taux d'endettement 24,42 % au 31/03/2026 (dont endettement bancaire 23,82 %)"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "12333",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "Nombre d'associés 12 333"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "nb_immeubles",
+    "avant": "58",
+    "apres": "71",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "71 Immeubles au 31/03/2026"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "97",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "97 Locataires (137 baux) au 31/03/2026"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "repartition_geo",
+    "avant": "{'Royaume Uni': 29, 'France': 27.62, 'Espagne': 11.66, 'Irlande': 10.11, 'Pays-B",
+    "apres": "{'Royaume-Uni': 29.79, 'France': 23.88, 'Espagne': 10.01, 'Irlande': 9.57, 'Pays",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "Répartition géographique au 31/03/2026"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 38.02, 'Santé & éducation': 21.92, \"Logistique et locaux d'activité\"",
+    "apres": "{'Bureaux': 39.82, 'Santé & éducation': 19.57, \"Logistique et locaux d'activité\"",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "Répartition sectorielle au 31/03/2026"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité normale",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "0 Part en attente de retrait ; 4 357 parts retirées ; 0 transaction gré à gré au T1 2026"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Mensuelle",
+    "source": "document.4pdf.pdf (DIC) / document.pdf",
+    "extrait": "Distribution potentielle des revenus : Distribution mensuelle"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "document.4pdf.pdf (DIC)",
+    "extrait": "promeut des caractéristiques environnementales et sociales au sens de l'article 8 du Règlement (UE) 2019/2088 (SFDR)"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "document.4pdf.pdf (DIC)",
+    "extrait": "classé REMAKE LIVE dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Remake Live",
+    "champ": "frais_gestion",
+    "avant": "15",
+    "apres": "18.0",
+    "source": "document.pdf (Bulletin d'information T1 2026)",
+    "extrait": "Commission de gestion annuelle 18% TTC (15% HT) des produits locatifs HT"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "prix_retrait",
+    "avant": "490.00",
+    "apres": "496.88",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Valeur de retrait (A)-(B) 496,88 € (prix souscription 530€ moins commission 6,25% HT)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "taux_distribution",
+    "avant": "4.4",
+    "apres": "4.44",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Taux de distribution (1) 4,44 % (au titre de 2025)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "capitalisation",
+    "avant": "1552.4",
+    "apres": "1241.94",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Capitalisation 1 241 941 050 €"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "tof",
+    "avant": "89.8",
+    "apres": "84.1",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Taux d'Occupation Financier 84,1 % (1er trimestre 2026)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "endettement",
+    "avant": "33.8",
+    "apres": "24.54",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Endettement réel au 31/03/2026 : 24,54 % (autorisation statutaire 30 %)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "20468",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "20 468 associés"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "235",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "132 immeubles en direct + 103 immeubles via des SCI"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "repartition_geo",
+    "avant": "{'Ile-de-France': 54.5, 'Régions': 24.8, 'Paris': 17.28, 'Allemagne': 3.42}",
+    "apres": "{'Île-de-France': 54.93, 'Régions': 26.61, 'Paris': 15.08, 'Allemagne': 3.38}",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Répartition géographique (valeur vénale)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 72.52, 'Commerces': 21.41, \"Logistique et locaux d'activités\": 3.87,",
+    "apres": "{'Bureaux': 70.94, 'Commerces': 22.04, \"Logistique et locaux d'activités\": 4.19,",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Répartition sectorielle (valeur vénale)"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité fortement restreinte",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Marché des parts suspendu depuis le 12 février 2026 ; mise en place de la suspension de la variabilité du capital (vote AGE 29/04/2026) ; 212 272 parts en atten"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Distribution trimestrielle 3,54 € par part ; versements 29/04, 30/07, 29/10, 29/01"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "9",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Classement SFDR : article 9"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "I9_DIC.pdf",
+    "extrait": "catégorisé dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Selectinvest 1",
+    "champ": "frais_souscription",
+    "avant": "9",
+    "apres": "6.25",
+    "source": "I9_BT_20260331.pdf",
+    "extrait": "Commission de souscription : 6,25 % HT max, soit 7,50 % TTC"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "prix_retrait",
+    "avant": "695.70",
+    "apres": "695.7",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Conditions de retrait depuis le 01.03.2023 : Prix de retrait 695,70 €"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "254",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Nombre de locataires 254"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "repartition_geo",
+    "avant": "{'Paris': 71, 'Ile-de-France': 22.6, 'Régions': 6.4}",
+    "apres": "{'Paris': 74.0, 'Île-de-France': 19.3, 'Régions': 6.7}",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Répartition géographique (valeur vénale au 31.03.2026)"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 70.9, 'Commerces': 17.3, 'Résidences hôtelières-étudiantes': 4.5, 'L",
+    "apres": "{'Bureaux': 70.9, 'Locaux commerciaux': 17.3, \"Locaux d'habitation\": 5.9, 'Résid",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Répartition par destination (valeur vénale au 31.03.2026)"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité tendue",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Marché primaire T1 2026 : 1 510 parts souscrites / 10 308 retraits, solde -8 798 parts ; 5 305 parts en attente au 31 mars 2026 ; fonds de remboursement mis en "
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Acomptes trimestriels 6,50 € / part"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "La SCPI SELECTIPIERRE 2 est classée Article 8 au sens du Règlement SFDR"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC SELECTIPIERRE 2 31.12.2024.pdf",
+    "extrait": "classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10.0",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Commission de souscription : 10 % HT (12 % TTC) du montant de chaque souscription"
+  },
+  {
+    "nom": "Selectipierre 2",
+    "champ": "frais_gestion",
+    "avant": "9",
+    "apres": "9.2",
+    "source": "BTI Selectipierre 2 T1 2026.pdf",
+    "extrait": "Commission de gestion : 9,2 % HT (11,04 % TTC) des produits locatifs encaissés HT"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "620",
+    "source": "SOFIPRIME-BT-1T-2026.pdf",
+    "extrait": "620 NOMBRE D'ASSOCIÉS AU 31 MARS 2026"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "26",
+    "source": "SOFIPRIME-BT-1T-2026.pdf",
+    "extrait": "26 immeubles représentant 52 unités locatives (43 appartements)"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité limitée",
+    "source": "SOFIPRIME-BT-1T-2026.pdf",
+    "extrait": "1 004 parts en attente au 31/03/2026 ; sept ordres de cession ; confrontation mensuelle des ordres (aucune part échangée janv-mars 2026)"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Annuelle",
+    "source": "SOFIPRIME-BT-1T-2026.pdf",
+    "extrait": "Votre SCPI ne distribue qu'un seul acompte sur dividende par part ayant jouissance au mois de janvier"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC-SFP-042026.pdf",
+    "extrait": "Classification SFDR : Article 8"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC-SFP-042026.pdf",
+    "extrait": "classé ce produit dans la classe de risques 3 sur 7"
+  },
+  {
+    "nom": "Sofiprime",
+    "champ": "frais_souscription",
+    "avant": "11.6",
+    "apres": "10.0",
+    "source": "DIC-SFP-042026.pdf",
+    "extrait": "Coûts d'entrée 11,6 % (dont 10 % de commission de souscription HT + 1,6 % TVA)"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "prix_souscription",
+    "avant": "200",
+    "apres": "202.0",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Prix de souscription 202 € (prix au 01/01/2026)"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "prix_retrait",
+    "avant": "180.00",
+    "apres": "181.8",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Prix de retrait 181,80 €"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "taux_distribution",
+    "avant": "8.6",
+    "apres": "7.6",
+    "source": "te_t1-2026.pdf",
+    "extrait": "2025 : Taux de distribution brut 7,60 % (la PGA 2025 est de 8,60 %)"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "capitalisation",
+    "avant": "948",
+    "apres": "1250.0",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Capitalisation 1.25 Md€ au 31/03/2026"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "tof",
+    "avant": "97.54",
+    "apres": "98.5",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Taux d'occupation financier (TOF) 98.5 % au 31/03/2026"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "33756",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Associés 33 756"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "56",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Nombre d'actifs en portefeuille 56 au 31/03/2026"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "319",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Nombre de locataires 319 au 31/03/2026"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "repartition_geo",
+    "avant": "{'Espagne': 36, 'Allemagne': 20, 'Pays-Bas': 19, 'Irlande': 12, 'Italie': 9, 'Po",
+    "apres": "{'Espagne': 34.0, 'Allemagne': 20.0, 'Pays-Bas': 14.0, 'Italie': 12.0, 'Irlande'",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Répartition géographique (% valeur d'expertise HD)"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Bureaux': 35, 'Commerce': 21, 'Logistique': 17, 'Life Science': 15, 'Hospitali",
+    "apres": "{'Bureaux': 35.0, 'Commerce': 25.0, 'Logistique': 15.0, 'Life Science': 11.0, 'H",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Répartition typologique (% valeur d'expertise HD)"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité normale",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Nombre de part en attente de retrait 0 ; 730 250 parts souscrites / 11 830 retraits au T1 2026"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Fréquence de distribution potentielle : Trimestrielle"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "scpi_transitions_europe_-_dic.pdf",
+    "extrait": "Transitions Europe est classé article 8 au sens du Règlement SFDR"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "scpi_transitions_europe_-_dic.pdf",
+    "extrait": "classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Transitions Europe",
+    "champ": "frais_souscription",
+    "avant": "12",
+    "apres": "10.0",
+    "source": "te_t1-2026.pdf",
+    "extrait": "Commission de souscription 10 % HT max. du montant de la souscription"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "prix_retrait",
+    "avant": "264.50",
+    "apres": "264.31",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Valeur de retrait 264,31 € (valeur au 31/12/2025)"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "capitalisation",
+    "avant": "92.4",
+    "apres": "92.36",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Capitalisation nette 92 360 838 € (92,36 M€)"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "123",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "123 Actifs immobiliers détenus"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "104",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "104 Locataires effectifs et locaux sous loyers garantis"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "repartition_geo",
+    "avant": "{'Province': 83, 'Île de France': 17}",
+    "apres": "{'Province': 86.0, 'Île-de-France': 14.0}",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Répartition géographique (en % des loyers) : Province 86 % / Île-de-France 14 %"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "repartition_sectorielle",
+    "avant": "{'restauration': 34, 'Santé-sport-bien-être': 26, 'Opportunités-tendances': 27, ",
+    "apres": "{'Alimentation / Restauration': 34.0, 'Opportunités & tendances (discount, bijou",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Répartition des commerces par secteur d'activité"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité normale",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Nombre de parts en attente de retrait : - (aucune au 31/03/2026) ; T1 2026 : 9 923 parts émises / 1 564 retraits"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Acompte sur dividende au titre du 1er trimestre 2026 versé le 30 avril 2026 ; prochain acompte fin juillet 2026 (T2)"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "UCC_DIC_2026.pdf",
+    "extrait": "produit classé Article 8 en application du règlement UE 2019/2088 dit Disclosure"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "UCC_DIC_2026.pdf",
+    "extrait": "classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "frais_souscription",
+    "avant": "11.83",
+    "apres": "11.833",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Commission de souscription 11,833 % TTI du prix de la part (coûts d'entrée 11,83 % - DIC)"
+  },
+  {
+    "nom": "Urban Coeur de Commerce",
+    "champ": "frais_gestion",
+    "avant": "10",
+    "apres": "12.0",
+    "source": "UCC_BT_1T2026.pdf",
+    "extrait": "Commission de Gestion : 12 % TTI (6 % TTI gestion administrative + 5 % HT des produits locatifs)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "154.98",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Valeur de retrait (par part) au 31/12/2025 : 154,98 €"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "capitalisation",
+    "avant": "70.4",
+    "apres": "71.5",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Capitalisation brute 71,5 M€ au 31/03/2026 (70 412 883 € en prix de souscription)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "tof",
+    "avant": "None",
+    "apres": "100.0",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "TOF 100 % au 31/03/2026"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "25",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Nombre de locataires 25 (nombre de baux en cours)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Royaume-Uni': 54.0, 'Espagne': 38.0, 'Allemagne': 8.0}",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Répartition géographique (% de la valeur vénale des actifs)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "repartition_sectorielle",
+    "avant": "None",
+    "apres": "{'Commerce': 74.0, 'Bureaux': 12.0, 'Activités': 9.0, 'Éducation': 5.0}",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Répartition typologique (% de la valeur vénale des actifs)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Liquidité normale",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Parts en attente de retrait : 0 part au 31/03/2026 ; 33 264 parts souscrites augmentant le capital, 300 parts compensant des retraits"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "Mensuelle",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Depuis février 2026, les dividendes sont distribués mensuellement (auparavant trimestriellement)"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "ncap-continent_dic_15122025-1.pdf",
+    "extrait": "Le produit est conforme aux dispositions de l'article 8 du Règlement SFDR"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "ncap-continent_dic_15122025-1.pdf",
+    "extrait": "classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "8",
+    "source": "ncap-continent_dic_15122025-1.pdf",
+    "extrait": "durée de placement minimum recommandée est de huit (8) ans"
+  },
+  {
+    "nom": "NCap Continent",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "10.0",
+    "source": "bt_ncap_continent_t1_2026.pdf",
+    "extrait": "Commission de souscription incluse dans la prime d'émission : 10 % HT soit 12 % TTC (25,20 € TTC)"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "189",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "PRIX DE RETRAIT D'UNE PART 180 €(2) ... (2) Revalorisation à 189 € au 01/04/2026"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "endettement",
+    "avant": "None",
+    "apres": "14",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "RATIO DE DETTES PAR RAPPORT À LA VALEUR D'EXPERTISE DU PATRIMOINE 14 %"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "5133",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "5 133 NOMBRE D'ASSOCIÉS"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "33",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "33 actifs ... TOF (33 actifs)"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "0 part en attente de retrait au 31/03/2026",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "Parts en attente de retrait 0"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "mensuelle",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "DÉTAIL DES DIVIDENDES VERSÉS PAR MOIS au 1er trimestre 2026 (janvier/février/mars 2026)"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "6",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "La SCPI relève de l'article 6 au sens du règlement SFDR (UE) 2019/2088"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "3-SCPI-WEMO-ONE-DIC-2026-04-22.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "8",
+    "source": "3-SCPI-WEMO-ONE-DIC-2026-04-22.pdf",
+    "extrait": "La durée de placement recommandé pour ce produit est de 8 ans"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "10",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "COMMISSION DE SOUSCRIPTION 10,0 % HT soit 12,0 % TTC"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "11",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "COMMISSION DE GESTION 11,0 % HT max. soit 13,2 % TTC"
+  },
+  {
+    "nom": "Wemo One",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 0 part en attente de retrait au 31/03/2026",
+    "source": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf",
+    "extrait": "0 part en attente de retrait au 31/03/2026"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "tof",
+    "avant": "None",
+    "apres": "99.93",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Taux d'Occupation Financier (TOF) 99,93 %"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "endettement",
+    "avant": "None",
+    "apres": "0",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Ratio d'endettement (LTV) 0 %"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "20",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Nombre total de locataires 20"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Royaume-Uni': 37.6, 'Pays-Bas': 28.9, 'Allemagne': 10.8, 'Espagne': 10.2, 'Irl",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Royaume-Uni 37,6 % / Pays-Bas 28,9 % / Allemagne 10,8 % / Espagne 10,2 % / Irlande 6,9 % / Tchéquie 5,7 % (valeur d'expertise HD)"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces': 63.6, 'Santé-hôtellerie-autre': 11.6, 'Entrepôts': 10.1, 'Bureaux'",
+    "apres": "{'Commerces': 63.6, 'Santé, hôtellerie, autre': 11.6, 'Entrepôts': 10.1, 'Bureau",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Commerces 63,6 % / Santé, hôtellerie, autre 11,6 % / Entrepôts 10,1 % / Bureaux 9,0 % / Locaux d'activités 5,7 %"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "0 part en attente de retrait, 0 part retirée au T1 2026; commission de sortie 6 ",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "0 Part retirée et 0 en attente de retrait"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "mensuelle",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "La distribution des dividendes est mensuelle"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Iroko_Atlas_annexe_SFDR.pdf",
+    "extrait": "Informations pré-contractuelles pour les produits financiers visés à l'article 8 ... du règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "L'horizon de placement recommandé est de 10 ans"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "0",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Commission de souscription : 0 %"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "14,4 % TTC (zone euro) à 16,8 % TTC (hors zone euro)",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "Commission de gestion : 14,4 % - 16,8 % TTC des loyers perçus"
+  },
+  {
+    "nom": "Iroko Atlas",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 0 part en attente de retrait, 0 part retirée au T1 2026; commission ",
+    "source": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf",
+    "extrait": "0 part en attente de retrait, 0 part retirée au T1 2026; commission de sortie 6 % TTC avant 5 ans de détention (passe à 6 ans dès le 01/09/2026)"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "244.15",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "VALEUR DE RETRAIT 244,15 €"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "capitalisation",
+    "avant": "200",
+    "apres": "202",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "CAPITALISATION 202 m€"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "tof",
+    "avant": "None",
+    "apres": "97.9",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "Taux d'occupation financier 97,9 %"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "endettement",
+    "avant": "None",
+    "apres": "26.5",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "RATIO DETTES ET AUTRES ENGAGEMENTS 26,5 %"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "4799",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "# ASSOCIÉS 4 799"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "56",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "56 actifs"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'France': 62, 'Royaume-Uni': 22, 'Espagne': 12, 'Portugal': 4}",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "France 62 % / Royaume-Uni 22 % / Espagne 12 % / Portugal 4 %"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "repartition_sectorielle",
+    "avant": "None",
+    "apres": "{'Commerces': 54, \"Logistique, Locaux d'activité\": 19, 'Bureaux': 13, 'Hôtels, t",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "Commerces 54 % / Logistique, Locaux d'activité 19 % / Bureaux 13 % / Hôtels, tourisme, loisirs 8 % / Santé et éducation 5 % / Alternatifs 1 %"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "0 part en attente de retrait (784 824 parts composant le capital dont 0 en atten",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "PARTS COMPOSANT LE CAPITAL 784 824 dont 0 en attente de retrait"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "mensuelle",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "la SCPI Epsicap Nano a distribué 3 acomptes mensuels sur dividendes de 1,50 € par part"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Epsicap-Nano-Document-SFDR.pdf",
+    "extrait": "Informations précontractuelles pour les produits financiers visés à l'article 8 ... du règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "8",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "La société de gestion recommande de conserver les parts pendant une période d'au moins 8 ans"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "5",
+    "source": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+    "extrait": "une commission de souscription ... correspond à 5% HT (soit 6% TTC ...)"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "10",
+    "source": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+    "extrait": "une commission de gestion correspondant à 10% HT (soit 12% TTC ...) maximum du montant hors taxes des produits locatifs"
+  },
+  {
+    "nom": "Epsicap Nano",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 0 part en attente de retrait (784 824 parts composant le capital don",
+    "source": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+    "extrait": "0 part en attente de retrait (784 824 parts composant le capital dont 0 en attente)"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "281.97",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "281,97 € Valeur de retrait"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "endettement",
+    "avant": "None",
+    "apres": "10",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "Ratio de l'endettement au 31 mars 2026 (Méthode ASPIM) : emprunts bancaires 7 % + VEFA 3 %"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "2686",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "NOMBRE D'ASSOCIÉS 2 686"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "18",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "18 ACTIFS"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "30",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "LOCATAIRES / BAUX 30 / 39"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Nouvelle-Aquitaine': 43, 'Auvergne-Rhône-Alpes': 20, 'Île-de-France': 13, 'Esp",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "Nouvelle-Aquitaine 43 % / Île-de-France 13 % / Espagne 8 % / Grand Est 6 % / Hauts-de-France 6 % / Centre-Val de Loire 4 % / (Auvergne-Rhône-Alpes 20 %)"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "Sortie par rachat (retrait) dans la limite de la clause de variabilité; cession ",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "La Société de Gestion ne garantit ni la revente, ni le rachat des parts de la SCPI"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "frequence_distribution",
+    "avant": "Mensuel",
+    "apres": "trimestrielle jusqu'à mars 2026, puis mensuelle à compter d'avril 2026",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "À compter d'avril 2026, la distribution deviendra mensuelle"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Alta-Convictions_DIC_Avril-2026.pdf",
+    "extrait": "Classification SFDR : Article 8"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "Alta-Convictions_DIC_Avril-2026.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risques 3 sur 7"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "9",
+    "source": "Alta-Convictions_DIC_Avril-2026.pdf",
+    "extrait": "La période de détention recommandée est d'au moins 9 ans"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "8.45",
+    "source": "Alta-Convictions_DIC_Avril-2026.pdf",
+    "extrait": "Coûts d'entrée 8,45 % du montant que vous payez au moment de l'entrée dans l'investissement"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "0.74",
+    "source": "Alta-Convictions_DIC_Avril-2026.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation ... 0,74 % de la valeur de votre investissement par an"
+  },
+  {
+    "nom": "Alta Convictions",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : Sortie par rachat (retrait) dans la limite de la clause de variabili",
+    "source": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+    "extrait": "Sortie par rachat (retrait) dans la limite de la clause de variabilité; cession de gré à gré possible; la SG ne garantit ni la revente ni le rachat. Aucune part"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "225",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Valeur de retrait 225 €"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "12596",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Nombre d'associés 12 596 Au 31/03/2026"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "153",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Actifs 153"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Régions': 67.69, 'Île-de-France': 16.99, 'Espagne': 8.65, 'Irlande': 4.05, 'Pa",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Régions 67,69 % / Île-de-France 16,99 % / Espagne 8,65 % / Irlande 4,05 % / Pays-Bas 2,62 %"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "repartition_sectorielle",
+    "avant": "None",
+    "apres": "{'Commerce alimentaire': 48.51, 'Bricolage et jardinerie': 28.23, 'Restauration'",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Commerce alimentaire 48,51 % / Bricolage et jardinerie 28,23 % / Restauration 13,27 % / Autre 9,99 %"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "18 420 parts retirées au T1 2026 (valeur de retrait 225 €); vacance locative 0,8",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "1T2026 18 420 retraits, valeur de retrait 225 €"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "mensuelle",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Distribution mensuelle (Dividende net perçu : 1,014 € le 28 février 2026 ; 1,019 € le 25 mars 2026 ...)"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "La SCPI promeut des caractéristiques environnementales et / ou sociales au sens de l'article 8 du Règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "IG_CR_DIC20241203.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "IG_CR_DIC20241203.pdf",
+    "extrait": "Durée de détention recommandée 10 ans"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "12",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "Dont commission de souscription 12% TTI"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "1.12",
+    "source": "IG_CR_DIC20241203.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation ... 1,12 %"
+  },
+  {
+    "nom": "Cristal Rente",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 18 420 parts retirées au T1 2026 (valeur de retrait 225 €); vacance ",
+    "source": "IG_CRBulletin_Trimestriel2026_T1.pdf",
+    "extrait": "18 420 parts retirées au T1 2026 (valeur de retrait 225 €); vacance locative 0,88 %; aucun blocage du marché des parts mentionné"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "209.78",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Prix de retrait : 209,78 € par part"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "taux_distribution",
+    "avant": "3.688",
+    "apres": "3.46",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Taux de distribution ... 3,46 % (2025) - distribution brute 8,65 €/part / prix souscription 250 € au 01/01/2025"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "tof",
+    "avant": "86.032202586",
+    "apres": "86.03",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "TOF 86,03 % (2nd semestre 2025)"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "endettement",
+    "avant": "93138.6",
+    "apres": "931",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Endettement : 931 M€"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Paris': 45.6, 'Île-de-France': 23.4, 'Régions (France)': 11.0, 'Allemagne': 10",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Paris 45,6 % / Île-de-France 23,4 % / Régions 11,0 % / Europe 20,1 % (Allemagne 10,4 % / Espagne 3,7 % / Pays-Bas 2,7 % / Belgique 0,9 % / Autriche 0,9 % / Rép."
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "673 865 parts en attente de retrait au 31/12/2025 (5,25 % du capital); fonds de ",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Le poids des parts en attente de retrait représente 5,25 % au 31/12/2025 ... Nombre de parts en attente de retrait 673 865"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "Distributions 2025 T1/T2/T3/T4 (versements trimestriels)"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Le Produit promeut des critères ESG au sens de l'article 8 du Règlement (UE) 2019/2088"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Nous avons classé ce Produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "8",
+    "source": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Période de détention recommandée : 8 ans"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "7.993",
+    "source": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Coûts d'entrée 7,993 % du montant que vous payez lors de l'entrée dans cet investissement"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "0.89",
+    "source": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf",
+    "extrait": "Frais de gestion et autres coûts administratifs ou d'exploitation 0,89 % de la valeur de votre investissement par an"
+  },
+  {
+    "nom": "Rivoli Avenir Patrimoine",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 673 865 parts en attente de retrait au 31/12/2025 (5,25 % du capital",
+    "source": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf",
+    "extrait": "673 865 parts en attente de retrait au 31/12/2025 (5,25 % du capital); fonds de remboursement de 10,9 M€ disponible (19,1 M€ utilisés dont 6,6 M€ en 2025)"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "149.24",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Valeur de retrait 149,24 € (résidents)"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "capitalisation",
+    "avant": "4200",
+    "apres": "4.2",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "CAPITALISATION 4,2 Mds€"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "nb_associes",
+    "avant": "50122",
+    "apres": "50325",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Associés 1T 2026 : 50 325"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'France hors région parisienne': 37.5, 'Île-de-France hors Paris': 23.7, 'Allem",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "France hors région parisienne 37,5 % / Île-de-France hors Paris 23,7 % / Allemagne 18,5 % / Italie 12,8 % / Paris 4,8 % / Espagne 2,0 % / Belgique 0,5 % / Pays-"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Sénior': 78.6, 'Bureaux': 16.3, 'Éducation': 3.9, 'Hôtellerie': 1.2}",
+    "apres": "{'Santé / Sénior': 78.6, 'Bureaux': 16.3, 'Éducation': 3.9, 'Hôtellerie': 1.2}",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Santé / Sénior 78,6 % / Bureaux 16,3 % / Éducation 3,9 % / Hôtellerie 1,2 %"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "1 438 276 parts en attente de retrait au 31/03/2026; fonds de remboursement de 1",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Au 31/03/2026, 1 438 276 parts (confirmées et non confirmées) sont en attente de retrait. La liquidité de la SCPI Primovie est par conséquent peu organisée."
+  },
+  {
+    "nom": "Primovie",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "L'acompte sur dividende versé au premier trimestre est de 1,70 € par part"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf",
+    "extrait": "La société dispose du Label ISR ... met en œuvre une approche dite 'en amélioration de note' ... critères ESG (produit promouvant des caractéristiques E/S, arti"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf",
+    "extrait": "L'indicateur de risque part de l'hypothèse que vous conservez le produit 10 ans (période de détention recommandée)"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "9",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Frais de souscription : 9,00 % HT (exonérée de TVA) du prix de souscription prime d'émission incluse"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "10",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés (+ 5 % HT max des produits financiers nets)"
+  },
+  {
+    "nom": "Primovie",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 1 438 276 parts en attente de retrait au 31/03/2026; fonds de rembou",
+    "source": "PRAEMIA_BTI_Primovie_T1_2026.pdf",
+    "extrait": "1 438 276 parts en attente de retrait au 31/03/2026; fonds de remboursement de 15 M€ ouvert en décembre 2025 (utilisé ~50 % à fin mars); liquidité peu organisée"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "185.64",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "Valeur de retrait 185,64 € (résidents)"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'France hors région parisienne': 37.8, 'Grèce': 15.9, 'Irlande': 15.5, 'Île-de-",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "France hors région parisienne 37,8 % / Grèce 15,9 % / Irlande 15,5 % / Île-de-France hors Paris 12,9 % / Paris 7,9 % / Belgique 5,5 % / Espagne 4,2 % / Italie 0"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Hôtel': 67.3, 'Résidentiel': 15.1, 'Commerce': 10, 'Mixte Résidentiel-Commerce",
+    "apres": "{'Hôtel': 67.3, 'Résidentiel': 15.1, 'Commerce': 10.0, 'Mixte Résidentiel / Comm",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "Hôtel 67,3 % / Résidentiel 15,1 % / Commerce 10,0 % / Mixte Résidentiel / Commerce 7,6 %"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "120 187 parts en attente de retrait au 31/03/2026; fonds de remboursement doté d",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "Au 31/03/2026, 120 187 parts (confirmées et non confirmées) sont en attente de retrait. La liquidité de la SCPI ... est par conséquent peu organisée."
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "trimestrielle",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "L'acompte sur dividende versé pour le premier trimestre est de 1,40 € par part"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "Information précontractuelle art 8 SFDR Praemia Hotels Europe_10022026 - v1c.pdf",
+    "extrait": "Information précontractuelle art 8 SFDR Praemia Hotels Europe"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "2025 09 17 DIC PRAEMIA HOTELS EUROPE v3 EDHEC IEIF.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "2025 09 17 DIC PRAEMIA HOTELS EUROPE v3 EDHEC IEIF.pdf",
+    "extrait": "L'indicateur de risque part de l'hypothèse que vous conservez le produit 10 ans"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "9",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "Frais de souscription : 9,00 % HT (exonérée de TVA) du prix de souscription prime d'émission incluse"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "10",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés (+ 5 % HT max des produits financiers nets)"
+  },
+  {
+    "nom": "Praemia Hôtels Europe",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 120 187 parts en attente de retrait au 31/03/2026; fonds de rembours",
+    "source": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf",
+    "extrait": "120 187 parts en attente de retrait au 31/03/2026; fonds de remboursement doté de 1,5 M€ (retrait décoté à 154 €, max 200 parts/an/associé); liquidité peu organ"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "182.56",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Valeur de retrait (4) 182,56 € ; Prix de retrait : 182,56€"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "prix_reconstitution",
+    "avant": "None",
+    "apres": "199.2",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Valeur de reconstitution au 31/12/2025 199,20 €"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "taux_distribution",
+    "avant": "4.391",
+    "apres": "4.39",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Taux de distribution 2025 (3) 4,39 %"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "capitalisation",
+    "avant": "2500",
+    "apres": "3300",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "3,3 Mds € capitalisation (au 31/03/2026)"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "60909",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "60 909 associés (chiffres clés au 31/03/2026)"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "nb_immeubles",
+    "avant": "None",
+    "apres": "252",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Nombre d'actifs 252"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "1005",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Nombre de locataires 1 005"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Médico-social': 71.7, 'Cliniques et soins': 20.0, 'Autres actifs santé': 8.3}",
+    "apres": "{'Secteur médico-social (EHPAD/Alzheimer, hébergement, RSS)': 71.7, 'Secteur san",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "71,7% médico-social / 19,9% sanitaire et soins de ville / 8,4% autres secteurs santé (% valeur vénale hors droits)"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "466 128 parts en attente de retrait (2,58% de la capitalisation, soit 85 M€ au 3",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Parts en attente de retrait 466 128 (2,58 % de la capitalisation) ; Les parts en attente de retrait s'élèvent à 85 M€ au 31 mars 2026, soit 2,58 % de la capital"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "Le versement intervient trimestriellement ; acompte trimestriel 1,84 €/part (versement 30/04/2026)"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "DIC_SCPI_PIERVAL_SANTE_202411.pdf",
+    "extrait": "démarche d'investissement socialement responsable notamment dans le cadre de l'article 8 du règlement SFDR"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "DIC_SCPI_PIERVAL_SANTE_202411.pdf",
+    "extrait": "Nous avons classé le produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "DIC_SCPI_PIERVAL_SANTE_202411.pdf",
+    "extrait": "Période de détention recommandée : 10 ans"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "10.51",
+    "source": "DIC_SCPI_PIERVAL_SANTE_202411.pdf",
+    "extrait": "Coûts d'entrée 10,51% du montant que vous payez au moment de l'entrée (max) ; commission de souscription 21,44€ par part (BT)"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "1.22",
+    "source": "DIC_SCPI_PIERVAL_SANTE_202411.pdf",
+    "extrait": "Frais de gestion et autres frais administratifs et d'exploitation 1,22% de la valeur de votre investissement par an"
+  },
+  {
+    "nom": "Pierval Santé",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 466 128 parts en attente de retrait (2,58% de la capitalisation, soi",
+    "source": "BT_PIERVAL_SANTE_2026_T1.pdf",
+    "extrait": "466 128 parts en attente de retrait (2,58% de la capitalisation, soit 85 M€ au 31/03/2026). Liquidité par retrait/souscription, non garantie ; gré à gré et publ"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "145.6",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Valeur de retrait 145,60 € (résidents)"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "prix_realisation",
+    "avant": "None",
+    "apres": "126.8",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Valeur de réalisation au 31/12/2025 126,80 €"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "prix_reconstitution",
+    "avant": "None",
+    "apres": "151.36",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Valeur de reconstitution au 31/12/2025 151,36 €"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'France hors région parisienne': 47.1, 'Paris': 14.2, 'Belgique': 13.8, 'Île-de",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "47,1% France hors région parisienne / 14,2% Paris / 13,8% Belgique / 12,9% Île-de-France hors Paris / 5,5% Pays-Bas / 3,9% Italie / 2,6% Allemagne (% valeur vén"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerce': 86.7, 'Bureaux': 11.6, 'Activité-Logistique': 1.7}",
+    "apres": "{'Commerce': 86.7, 'Bureaux': 11.6, 'Activité / Logistique': 1.7}",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "86,7% Commerce / 11,6% Bureaux / 1,7% Activité / Logistique"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "765 342 parts en attente de retrait (confirmées et non confirmées) au 31/03/2026",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Au 31/03/2026, 765 342 parts (confirmées et non confirmées) sont en attente de retrait. La liquidité (...) est par conséquent peu organisée. 100 % des actifs (."
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Acompte sur dividende versé au premier trimestre 1,25 € par part (versement 30/04/2026)"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "8",
+    "source": "SCPI Patrimmo Commerce - DIC.pdf",
+    "extrait": "La SCPI est classée « Article 8 » au sens du Règlement européen « SFDR »"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "4",
+    "source": "SCPI Patrimmo Commerce - DIC.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 4 sur 7, qui est une classe de risque moyenne"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "SCPI Patrimmo Commerce - DIC.pdf",
+    "extrait": "Période de détention recommandée : 10 ans"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "9.0",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Frais de souscription : 9,00 % HT (exonérée de TVA) maximum du prix de souscription ; DIC: Coûts d'entrée 9,9% (inclus dans le prix)"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "10.0",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés (+ 5% HT max des produits financiers nets) ; DIC: frais de gestion 1,9%/an"
+  },
+  {
+    "nom": "Patrimmo Commerce",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 765 342 parts en attente de retrait (confirmées et non confirmées) a",
+    "source": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf",
+    "extrait": "765 342 parts en attente de retrait (confirmées et non confirmées) au 31/03/2026. Liquidité peu organisée, 100% des actifs considérés non liquides. Fonds de rem"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "prix_retrait",
+    "avant": "None",
+    "apres": "829.8",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "829,80 € Prix de retrait"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "prix_realisation",
+    "avant": "None",
+    "apres": "795.94",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Valeur de réalisation au 31/12/2025 795,94 €"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "prix_reconstitution",
+    "avant": "None",
+    "apres": "965.93",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Valeur de reconstitution au 31/12/2025 965,93 €"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "capitalisation",
+    "avant": "None",
+    "apres": "468",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "468 M€ Capitalisation (au 31/03/2026) ; valeur d'expertise 468 M€"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "nb_associes",
+    "avant": "None",
+    "apres": "7823",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "7 823 Nombre d'associés (au 31/03/2026)"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "nb_locataires",
+    "avant": "None",
+    "apres": "265",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "265 Locataires"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "repartition_geo",
+    "avant": "None",
+    "apres": "{'Paris': 30, 'Île-de-France (IDF)': 29, 'Sud-Est': 11, 'Europe': 11, 'Nord': 8,",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Paris 30% / IDF 29% / Sud-Est 11% / Europe 11% (dont Belgique 5%, Allemagne 4%, Espagne 2%) / Nord 8% / Nord-Est 4% / Sud-Ouest 4% / Nord-Ouest 3% (% valeur vén"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "repartition_sectorielle",
+    "avant": "{'Commerces': 57, 'Hôtels-Séminaires': 34, 'Bureaux': 6, 'Enseignement': 3}",
+    "apres": "{'Commerces': 57, 'Hôtels / Séminaires': 34, 'Bureaux': 6, 'Enseignement': 3}",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "57% Commerces / 34% Hôtels/Séminaires / 6% Bureaux / 3% Enseignement (% valeur vénale)"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "liquidite",
+    "avant": "None",
+    "apres": "38 858 parts en attente de retrait au 31/03/2026 (35 705 fin 2025). Fonds de rem",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Parts en attente de retraits 35 705 (2025) / 38 858 (T1 2026) ; Nombre de parts annulées dans le cadre du fonds de remboursement 947 ; alimenter le fonds de rem"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "frequence_distribution",
+    "avant": "Trimestriel",
+    "apres": "Trimestrielle",
+    "source": "AestiamAgora-DIC.pdf",
+    "extrait": "Distribution trimestrielle de dividendes potentiels ; dividende brut T1 2026 8,91 €/part (versement 25/04/2026)"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "sfdr_article",
+    "avant": "None",
+    "apres": "6",
+    "source": "AestiamAgora-DIC.pdf",
+    "extrait": "Aestiam Agora relève de l'article 6 du Règlement (UE) 2019/2088 dit SFDR du 27 novembre 2019"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "niveau_risque_dic",
+    "avant": "None",
+    "apres": "3",
+    "source": "AestiamAgora-DIC.pdf",
+    "extrait": "Nous avons classé ce produit dans la classe de risque 3 sur 7"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "duree_placement",
+    "avant": "None",
+    "apres": "10",
+    "source": "AestiamAgora-DIC.pdf",
+    "extrait": "Période de détention recommandée : 10 ans"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "frais_souscription",
+    "avant": "None",
+    "apres": "10.0",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Commission de souscription 10 % HT du prix de souscription ; DIC: coûts d'entrée 10,00%"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "frais_gestion",
+    "avant": "None",
+    "apres": "10.0",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "Commission de gestion 10 % HT prélevée sur les produits locatifs HT encaissés et sur les produits financiers nets ; DIC: autres coûts récurrents 1,17%/an"
+  },
+  {
+    "nom": "Aestiam Agora",
+    "champ": "maximus_warnings",
+    "avant": "",
+    "apres": "Liquidité : 38 858 parts en attente de retrait au 31/03/2026 (35 705 fin 2025). ",
+    "source": "2026-1t-bti-aestiam-agora.pdf",
+    "extrait": "38 858 parts en attente de retrait au 31/03/2026 (35 705 fin 2025). Fonds de remboursement actif (947 parts annulées via le fonds au T1 2026, doté de 1,1 M€ par"
+  }
+]

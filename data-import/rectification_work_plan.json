@@ -1,0 +1,2651 @@
+[
+  {
+    "name": "Activimmo",
+    "folder": "SCPI Activimmo",
+    "docs": {
+      "RA": [
+        "20250410-Rapport-annuel-2025-ActivImmo.pdf"
+      ],
+      "AUTRE": [
+        "20260414-Plaquette-Commerciale-ActivImmo-2026.pdf"
+      ],
+      "BT": [
+        "20260507-BTI-ActivImmo.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 207,
+      "prix_retrait": "545.34",
+      "taux_distribution": 5.5,
+      "capitalisation": 1400,
+      "tof": 92.8,
+      "endettement": 1.46,
+      "nb_associes": 28934,
+      "nb_immeubles": 186,
+      "repartition_geo": {
+        "France": 78.2,
+        "Espagne": 13.8,
+        "Portugal": 4.2,
+        "Italie": 1.5,
+        "Allemagne": 1,
+        "Autres": 0.3
+      },
+      "repartition_sectorielle": {
+        "Entrepôts logistiques": 51,
+        "Locaux d'activités": 31,
+        "Logistique urbaine": 10,
+        "Transport": 7,
+        "Autres": 1
+      }
+    }
+  },
+  {
+    "name": "Aestiam Cap'Hebergimmo",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 252,
+      "prix_retrait": "226.80",
+      "taux_distribution": 3.18,
+      "capitalisation": 82,
+      "tof": 91.79,
+      "endettement": 21,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Étranger": 42,
+        "Régions": 35,
+        "Région Parisienne": 23
+      },
+      "repartition_sectorielle": {
+        "Hôtels": 71,
+        "Séminaires": 27,
+        "Loisirs": 2
+      }
+    }
+  },
+  {
+    "name": "Aestiam Pierre Rendement",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 922,
+      "prix_retrait": "829.80",
+      "taux_distribution": 4.49,
+      "capitalisation": 401,
+      "tof": 94.25,
+      "endettement": 10.6,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 37,
+        "Région Parisienne": 30,
+        "Métropoles Régionales": 27,
+        "Étranger": 6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 69,
+        "Hôtels Séminaires": 21,
+        "Bureaux": 7,
+        "Enseignement": 3
+      }
+    }
+  },
+  {
+    "name": "Aestiam Horizon",
+    "folder": "SCPI Aestiam Horizon",
+    "docs": {
+      "RA": [
+        "2025-rapport-annuel-aestiam-horizon.pdf"
+      ],
+      "BT": [
+        "2026-1t-bti-aestiam-horizon.pdf"
+      ],
+      "AUTRE": [
+        "aestiam-horizon-charte-esg.pdf"
+      ],
+      "DIC": [
+        "AestiamHorizon-DIC.pdf"
+      ],
+      "NI": [
+        "AestiamHorizon-NoteInformation.pdf"
+      ],
+      "Statuts": [
+        "AestiamHorizon-Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 350,
+      "prix_retrait": "315.00",
+      "taux_distribution": 5.1,
+      "capitalisation": 380,
+      "tof": 86.5,
+      "endettement": 11,
+      "nb_associes": 8557,
+      "nb_immeubles": 149,
+      "repartition_geo": {
+        "Paris": 20,
+        "Région Parisienne": 30,
+        "Régions": 39,
+        "Etranger": 11
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 76,
+        "Commerces": 16,
+        "Hôtels": 2,
+        "Enseignement": 4,
+        "Locaux d'activités": 2
+      }
+    }
+  },
+  {
+    "name": "Altixia Cadence 12",
+    "folder": "SCPI Altixia Cadence 12",
+    "docs": {
+      "AUTRE": [
+        "doc1-20250526-145625.pdf",
+        "doc1-20250617-153722.pdf",
+        "doc1-20260309-180655.pdf",
+        "doc1-20260430-122013.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "182.00",
+      "taux_distribution": 5.15,
+      "capitalisation": 190356200190.4,
+      "tof": 92.5,
+      "endettement": 10.99,
+      "nb_associes": 2448,
+      "nb_immeubles": 32,
+      "repartition_geo": {
+        "Régions": 56,
+        "Ile-de-France": 22,
+        "Paris": 3,
+        "Espagne": 13,
+        "Irlande": 6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 37,
+        "Activités": 30,
+        "Bureaux": 29,
+        "Logistique": 4
+      }
+    }
+  },
+  {
+    "name": "Altixia Commerces",
+    "folder": "SCPI Altixia Commerce",
+    "docs": {
+      "AUTRE": [
+        "doc1-20250617-153811.pdf",
+        "doc1-20250813-114849.pdf",
+        "doc1-20260203-160314.pdf",
+        "doc1-20260430-110640.pdf"
+      ],
+      "RA": [
+        "rapport-annuel-2024-altixia-commerces-256.PDF"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 203,
+      "prix_retrait": "197.92",
+      "taux_distribution": 5.12,
+      "capitalisation": 107.64,
+      "tof": 90.77,
+      "endettement": 5.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Régions": 62,
+        "Ile-de-France": 29,
+        "Paris": 9
+      },
+      "repartition_sectorielle": {
+        "Commerces en retail park": 58,
+        "Commerces en pied d'immeuble": 38,
+        "Bureaux et activités": 4
+      }
+    }
+  },
+  {
+    "name": "Atream Hotel",
+    "folder": "SCPI Atream Hotel",
+    "docs": {
+      "Statuts": [
+        "2024-03-20-SCPI-AH-Statuts-maj-transfert-de-siege-4-1.pdf"
+      ],
+      "AUTRE": [
+        "2026-01-SCPI-AH-NI.pdf"
+      ],
+      "DIC": [
+        "2026-03-11-DIC-PRIIPS-ATREAM-HOTELS-1.pdf"
+      ],
+      "BT": [
+        "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf"
+      ],
+      "RA": [
+        "Rapport-Annuel-SCPI-Atream-Hotels-2025-Web_114-pages_compressed.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 1000,
+      "prix_retrait": "900.00",
+      "taux_distribution": 5.05,
+      "capitalisation": 325996200326,
+      "tof": 100,
+      "endettement": 24.23,
+      "nb_associes": 5873,
+      "nb_immeubles": 23,
+      "repartition_geo": {
+        "France": 33,
+        "Allemagne": 30,
+        "Belgique": 23,
+        "Pays-Bas": 14
+      },
+      "repartition_sectorielle": {
+        "Hôtels": 71,
+        "Autres types d'hébergements touristiques": 29
+      }
+    }
+  },
+  {
+    "name": "Buroboutic Métropoles",
+    "folder": "SCPI Buroboutic",
+    "docs": {
+      "BT": [
+        "BTI Buroboutic T1 2026.pdf"
+      ],
+      "RA": [
+        "Buroboutic Métropoles - Rapport annuel 2025.pdf"
+      ],
+      "AUTRE": [
+        "Code de transparence Buroboutic 04.2024.pdf"
+      ],
+      "DIC": [
+        "DIC BUROBOUTIC 31.12.2024.pdf"
+      ],
+      "NI": [
+        "Note d'information et statuts Buroboutic - 01.2026.pdf",
+        "Note d'information et statuts Buroboutic - Actualisation - 02.01.2026.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 230,
+      "prix_retrait": "207.00",
+      "taux_distribution": 5.07,
+      "capitalisation": 318.5,
+      "tof": 97.17,
+      "endettement": 23.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Régions": 53.3,
+        "Ile-de-France": 31.9,
+        "Paris": 14.8
+      },
+      "repartition_sectorielle": {
+        "Locaux commerciaux": 50.8,
+        "Bureaux": 32.2,
+        "Locaux d'activités": 17
+      }
+    }
+  },
+  {
+    "name": "Coeur d'Europe",
+    "folder": "scpi coeur europe",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf"
+      ],
+      "DIC": [
+        "Coeur-dEurope-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-dEurope.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-dEurope-1.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ISR-2025-–-Coeur-dEurope.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-dEurope.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": "176.00",
+      "taux_distribution": 6.25,
+      "capitalisation": 256,
+      "tof": 95.02,
+      "endettement": 3.9,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Portugal": 36.8,
+        "Espagne": 35.9,
+        "Belgique": 20.4,
+        "Allemagne": 6.9
+      },
+      "repartition_sectorielle": {
+        "Commerces": 54.32,
+        "Bureaux": 26.68,
+        "Logistique et locaux d'activités": 14.62,
+        "Santé et éducation": 4.38
+      }
+    }
+  },
+  {
+    "name": "Coeur de Région",
+    "folder": "SCPI Coeur de régions",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf"
+      ],
+      "DIC": [
+        "Coeur-de-Regions-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-de-Regions.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-de-Regions.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ISR-2025-–-Coeur-de-Regions.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-de-Regions.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 664,
+      "prix_retrait": "584.32",
+      "taux_distribution": 6.2,
+      "capitalisation": 415.79,
+      "tof": 95.16,
+      "endettement": 8.53,
+      "nb_associes": null,
+      "nb_immeubles": 82,
+      "repartition_geo": {
+        "Régions": 86,
+        "Île-de-France": 14
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 51.08,
+        "Commerces": 29.62,
+        "Logistique et locaux d'activités": 17.47,
+        "Santé et éducation": 1.77,
+        "Alternatifs": 0.06
+      }
+    }
+  },
+  {
+    "name": "Coeur de ville",
+    "folder": "SCPI Coeur de ville",
+    "docs": {
+      "BT": [
+        "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf"
+      ],
+      "DIC": [
+        "Coeur-de-Ville-DIC.pdf"
+      ],
+      "NI": [
+        "Note-dinformation-–-Coeur-de-Ville.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-–-Coeur-de-Ville.pdf"
+      ],
+      "Statuts": [
+        "Statuts-–-Coeur-de-Ville.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210,
+      "prix_retrait": "184.80",
+      "taux_distribution": 6.2,
+      "capitalisation": 28.8,
+      "tof": 97.63,
+      "endettement": 30.23,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Province": 83,
+        "Paris": 17
+      },
+      "repartition_sectorielle": {
+        "Commerces alimentaires": 48.28,
+        "Commerces non alimentaires": 27.72,
+        "Services": 20.72,
+        "Santé et éducation": 3.27
+      }
+    }
+  },
+  {
+    "name": "Comète",
+    "folder": "SCPI Comete",
+    "docs": {
+      "AUTRE": [
+        "20250122-Plaquette-commerciale-Comete-1.pdf"
+      ],
+      "Statuts": [
+        "20250429-Statuts-Comete.pdf"
+      ],
+      "NI": [
+        "20251218-Note-dinformation-Comete.pdf"
+      ],
+      "RA": [
+        "20260410-Rapport-annuel-2025-Comete-1.pdf"
+      ],
+      "BT": [
+        "20260506-BTI-T1-2026-Comete.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": "225.00",
+      "taux_distribution": 9,
+      "capitalisation": 519.6,
+      "tof": 99.1,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Royaume-Uni": 46.5,
+        "Espagne": 15.4,
+        "Italie": 12.4,
+        "Pays-Bas": 10.3,
+        "Canada": 6.6,
+        "Pologne": 5.2,
+        "Irlande": 3.6
+      },
+      "repartition_sectorielle": {
+        "Commerce": 27.6,
+        "Logistique": 23.9,
+        "Hôtellerie": 16,
+        "Bureau": 13.7,
+        "Mixte": 10.9,
+        "Loisirs": 5.8,
+        "Éducation": 2.1
+      }
+    }
+  },
+  {
+    "name": "Crédit Mutuel Pierre 1",
+    "folder": "Credit Mutuel Pierre 1",
+    "docs": {
+      "BT": [
+        "A7_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "A7_DIC.pdf"
+      ],
+      "NI": [
+        "A7_note_statuts.pdf"
+      ],
+      "AUTRE": [
+        "Fiche commerciale Crédit Mutuel Pierre 1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 215,
+      "prix_retrait": 197.8,
+      "taux_distribution": 4.49,
+      "capitalisation": 800.35,
+      "tof": 82.3,
+      "endettement": 21.78,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 21.84,
+        "Île-de-France": 51.53,
+        "Régions France": 22.63,
+        "Allemagne": 3.91,
+        "Espagne": 0.09
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 84.94,
+        "Commerces": 13.1,
+        "Hôtels, tourisme et loisirs": 1.96
+      }
+    }
+  },
+  {
+    "name": "Cristal Life",
+    "folder": "SCPI Cristal Life",
+    "docs": {
+      "NI": [
+        "IGCLNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "AUTRE": [
+        "IGCLPlaquetteComFR20251029.pdf"
+      ],
+      "BT": [
+        "IG_CLBulletin_Trimestriel2026_T1.pdf"
+      ],
+      "DIC": [
+        "IG_CL_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2025CL.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": 181.28,
+      "taux_distribution": 6.54,
+      "capitalisation": 387.43,
+      "tof": 95.57,
+      "endettement": 15.62,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France (Régions)": 50.41,
+        "Espagne": 21.86,
+        "Irlande": 12.01,
+        "Pays-Bas": 5.58,
+        "Estonie": 4.63,
+        "Royaume-Uni": 3.13,
+        "France (Île-de-France)": 2.38
+      },
+      "repartition_sectorielle": {
+        "Commerce": 33.11,
+        "Bureaux": 30.06,
+        "Hôtellerie": 16.64,
+        "Santé": 16.31,
+        "Activités": 3.88
+      }
+    }
+  },
+  {
+    "name": "Edissimo",
+    "folder": "SCPI Edissimmo",
+    "docs": {
+      "AUTRE": [
+        "EDISSIMMO - Brochure commerciale - NOVEMBRE 2025.pdf",
+        "Edissimmo - Code de transparence 2024. pdf.pdf"
+      ],
+      "BT": [
+        "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf"
+      ],
+      "DIC": [
+        "EDISSIMMO - DIC PRIIPS 2025-07-31-1.pdf",
+        "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf"
+      ],
+      "RA": [
+        "EDISSIMMO- Rapport Annuel - 2024.pdf"
+      ],
+      "NI": [
+        "EDISSIMMO-Note Information- Statuts 08082025-1.pdf",
+        "EDISSIMMO-Note Information- Statuts 08082025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 172.0,
+      "prix_retrait": 158.25,
+      "taux_distribution": 4.45,
+      "capitalisation": 1639.5,
+      "tof": 89.45,
+      "endettement": 13.8,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 65,
+        "Île-de-France": 30,
+        "Régions": 5
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 88,
+        "Hôtellerie": 9,
+        "Logistique": 3
+      }
+    }
+  },
+  {
+    "name": "Efimmo 1",
+    "folder": "SCPI Efimmo 1",
+    "docs": {
+      "AUTRE": [
+        "1-ST-EF-072025-FR-1-2360.pdf",
+        "FP-EF-042026-FR-3-2963.pdf",
+        "NI-EF-042026.pdf"
+      ],
+      "DIC": [
+        "DIC-EF-042026.pdf"
+      ],
+      "BT": [
+        "EFIMMO-BT-1T-2026.pdf"
+      ],
+      "SFDR": [
+        "efimmo1-webdisclosure-1025.pdf"
+      ],
+      "RA": [
+        "SOFIDY_RA_Efimmo_2025_OPTI.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 212,
+      "prix_retrait": "190.80",
+      "taux_distribution": 4.44,
+      "capitalisation": 1741,
+      "tof": 86.02,
+      "endettement": 22364,
+      "nb_associes": 21517,
+      "nb_immeubles": 239,
+      "repartition_geo": {
+        "France": 74.5,
+        "Étranger": 25.5
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 73.5,
+        "Autres locaux commerciaux": 9.3,
+        "Divers": 7.5,
+        "Commerces de centre-ville et milieu urbain": 5.2,
+        "Éducation": 4.5
+      }
+    }
+  },
+  {
+    "name": "Épargne Foncière",
+    "folder": "SCPI epargne fonciere",
+    "docs": {
+      "AUTRE": [
+        "29 LEC EPARGNE FONCIERE.pdf",
+        "Fiche commerciale Epargne Foncière.pdf"
+      ],
+      "BT": [
+        "EE_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "EE_DIC.pdf"
+      ],
+      "NI": [
+        "EE_note_statuts.pdf"
+      ],
+      "RA": [
+        "EE_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 670,
+      "prix_retrait": "619.75",
+      "taux_distribution": 4.86,
+      "capitalisation": 4143,
+      "tof": 88.7,
+      "endettement": 23.08,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 22.44,
+        "Île-de-France": 37.59,
+        "Régions": 31.82,
+        "Allemagne": 5.37,
+        "Pays-Bas": 1.47,
+        "Royaume-Uni": 0.9,
+        "Irlande": 0.41
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 70.99,
+        "Commerces": 19.36,
+        "Hôtels": 5.73,
+        "Santé et éducation": 3.4,
+        "Logistique et locaux d'activités": 0.52
+      }
+    }
+  },
+  {
+    "name": "Épargne Pierre",
+    "folder": "SCPI Epargne Pierre",
+    "docs": {
+      "DIC": [
+        "2025-10-31-DIC_Epargne_Pierre.pdf"
+      ],
+      "NI": [
+        "20250625-EP-Note-information.pdf"
+      ],
+      "Statuts": [
+        "20250625_EP_Statuts.pdf"
+      ],
+      "AUTRE": [
+        "2026-Methodologie-devaluation-ESG-_-Epargne-Pierre.pdf",
+        "BPI1T2026-EP.pdf"
+      ],
+      "SFDR": [
+        "Annexe-2-Reglementation-delegue-SFDR-2025-SCPI-Epargne-Pierre-042026-V3.pdf",
+        "Information-sur-la-durabilite_SFDR_SCPI-Epargne-Pierre_042026-V2.pdf"
+      ],
+      "RA": [
+        "ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 208,
+      "prix_retrait": "187.20",
+      "taux_distribution": 5.28,
+      "capitalisation": 2811,
+      "tof": 94.41,
+      "endettement": 11.2,
+      "nb_associes": 52337,
+      "nb_immeubles": 410,
+      "repartition_geo": {
+        "Paris": 27.57,
+        "Île-de-France": 15.43,
+        "Sud-Ouest": 17.39,
+        "Nord-Ouest": 12.92,
+        "Nord": 12.65,
+        "Sud-Est": 14.04
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 48.15,
+        "Commerces": 29.35,
+        "Activités/Entrepôts": 8.41,
+        "Tourisme/Hôtel": 8.7,
+        "Santé/Education": 5.23,
+        "Résidentiel/Alternatif": 0.16
+      }
+    }
+  },
+  {
+    "name": "Épargne Pierre Europe",
+    "folder": "Epargne Pierre Europe",
+    "docs": {
+      "NI": [
+        "20250624-EPE-Note-dinformation.pdf"
+      ],
+      "Statuts": [
+        "20250624_EPE_Statuts.pdf"
+      ],
+      "SFDR": [
+        "Annexe-2-Reglementation-delegue-SFDR-SCPI-Epargne-Pierre-Europe-042026-V3.pdf"
+      ],
+      "RA": [
+        "ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf"
+      ],
+      "AUTRE": [
+        "BPI1T2026-EPE-web-2.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "180.00",
+      "taux_distribution": 5.5,
+      "capitalisation": 479,
+      "tof": 100,
+      "endettement": 0,
+      "nb_associes": 13615,
+      "nb_immeubles": 16,
+      "repartition_geo": {
+        "Irlande": 33.97,
+        "Allemagne": 30.47,
+        "Espagne": 24.04,
+        "Pays-Bas": 11.52
+      },
+      "repartition_sectorielle": {
+        "Hôtellerie": 35.56,
+        "Bureaux": 27.34,
+        "Commerces": 19.22,
+        "Activités/Entrepôts": 11.52,
+        "Santé": 6.36
+      }
+    }
+  },
+  {
+    "name": "ESG Pierre Capital",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 188,
+      "prix_retrait": "169.20",
+      "taux_distribution": 5.22,
+      "capitalisation": 116.91,
+      "tof": 96.28,
+      "endettement": 28,
+      "nb_associes": 1091,
+      "nb_immeubles": 10,
+      "repartition_geo": {
+        "Paris": 28.47,
+        "Ile_de_France": 17.89,
+        "Regions": 49.15,
+        "Allemagne": 4.48
+      },
+      "repartition_sectorielle": {
+        "Services": 27.3,
+        "Logistique": 24.23,
+        "Bureaux": 19.6,
+        "Hôtellerie": 17.4,
+        "Commerces": 11.46
+      }
+    }
+  },
+  {
+    "name": "Ficommerce Proximité",
+    "folder": "SCPI FiCommerce Proximité",
+    "docs": {
+      "SFDR": [
+        "Annexe SFDR_FICOMMERCE.pdf"
+      ],
+      "BT": [
+        "BTI Ficommerce T1 2026.pdf"
+      ],
+      "DIC": [
+        "DIC FICOMMERCE 31.12.2024.pdf"
+      ],
+      "RA": [
+        "Ficommerce Proximité - Rapport Annuel 2025.pdf"
+      ],
+      "NI": [
+        "Note d'information et statuts Ficommerce - 01.2026.pdf",
+        "Note d'information et statuts Ficommerce - Actualisation - 02.01.2026.pdf"
+      ],
+      "AUTRE": [
+        "Rapport 2023 article 29_Complet_Ficommerce_VF.pdf",
+        "Rapport article 29 complet Ficommerce - 31.12.2023.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 70,
+      "prix_retrait": 63.0,
+      "taux_distribution": 5.1,
+      "capitalisation": 596,
+      "tof": 95.72,
+      "endettement": 1.79,
+      "nb_associes": 8120,
+      "nb_immeubles": 281,
+      "repartition_geo": {
+        "Régions": 51.8,
+        "Paris": 25.8,
+        "Île-de-France": 19.9,
+        "Europe": 2.5
+      },
+      "repartition_sectorielle": {
+        "Locaux commerciaux": 84.9,
+        "Bureaux": 14.9,
+        "Entrepôts-activités": 0.2
+      }
+    }
+  },
+  {
+    "name": "Foncière des Praticiens",
+    "folder": "SCPI Foncière des praticiens",
+    "docs": {
+      "NI": [
+        "2025.02.10-Note-dinformation-SCPI-Fonciere-des-Praticiens-V4.pdf"
+      ],
+      "BT": [
+        "BT-1T-2026-Fonciere-des-Praticiens.pdf"
+      ],
+      "DIC": [
+        "DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf"
+      ],
+      "Statuts": [
+        "Fonciere-des-Praticiens_Statuts.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ESG-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 1100,
+      "prix_retrait": "1012.00",
+      "taux_distribution": 5.5,
+      "capitalisation": 179.407,
+      "tof": 97.08,
+      "endettement": 22.15,
+      "nb_associes": 2768,
+      "nb_immeubles": 23,
+      "repartition_geo": {
+        "France": 70,
+        "Belgique": 30
+      },
+      "repartition_sectorielle": {
+        "Lieux de soins, de traitement et de consultation": 46,
+        "Locaux d'accompagnement et rééducation": 37,
+        "Locaux supports au secteur de la santé": 17
+      }
+    }
+  },
+  {
+    "name": "GMA Essentialis",
+    "folder": "SCPI GMA Essentialis",
+    "docs": {
+      "SFDR": [
+        "10_SCPI-GMA-Essentialis_Annexe-Pre-Contractuelle_Article-9-SFDR.pdf"
+      ],
+      "DIC": [
+        "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf"
+      ],
+      "Statuts": [
+        "GMA-Essentialis-STATUTS-CONSTITUTIFS-2025.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette_commerciale_SCPI_GMA_Essentialis_190226.pdf"
+      ],
+      "RA": [
+        "Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf"
+      ],
+      "NI": [
+        "SCPI-GMA-Essentialis-Note-dinformation-2025-Juillet.pdf"
+      ],
+      "BT": [
+        "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 150,
+      "prix_retrait": 132.0,
+      "taux_distribution": 0,
+      "capitalisation": 42.32,
+      "tof": 99.67,
+      "endettement": 39.07,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 51,
+        "Allemagne": 49
+      },
+      "repartition_sectorielle": {
+        "Alimentaire": 90,
+        "Tertiaire": 10
+      }
+    }
+  },
+  {
+    "name": "Grand Paris Résidentiel",
+    "folder": "Grans Paris Résidentiel",
+    "docs": {
+      "NI": [
+        "IGGPRNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "BT": [
+        "IG_GPRBulletin_Semestriel2025_S1.pdf"
+      ],
+      "DIC": [
+        "IG_GPR_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2025GPR.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "176.00",
+      "taux_distribution": 0,
+      "capitalisation": 12.21,
+      "tof": 92.14,
+      "endettement": 38.44,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 87,
+        "Régions": 13
+      },
+      "repartition_sectorielle": {
+        "Logement": 99.6,
+        "Commerces": 0.4
+      }
+    }
+  },
+  {
+    "name": "Immorente",
+    "folder": "SCPI Immorente",
+    "docs": {
+      "AUTRE": [
+        "Brochure-Immorente.pdf",
+        "FP-IR-042026-FR-3-2964.pdf",
+        "NI-IR-042026.pdf",
+        "ST-IR-072025-FR-3-2341.pdf"
+      ],
+      "DIC": [
+        "DIC-IR-042026.pdf"
+      ],
+      "BT": [
+        "IMMORENTE-BT-1T-2026-1.pdf"
+      ],
+      "SFDR": [
+        "immorente-webdisclosure-1025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 340,
+      "prix_retrait": "306.00",
+      "taux_distribution": 5,
+      "capitalisation": 4391,
+      "tof": 91.21,
+      "endettement": 19.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris Centre": 22.5,
+        "Grand Paris": 25,
+        "Métropoles françaises": 32.8,
+        "Pays-Bas": 7.9,
+        "Allemagne": 4.5,
+        "Belgique": 3,
+        "Royaume-Uni": 2.9,
+        "Irlande": 0.6,
+        "Reste de l'Europe": 0.8
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 36.3,
+        "Commerces de centre-ville et milieu urbain": 24.1,
+        "Galeries commerciales": 13.7,
+        "Autres": 9.5,
+        "Moyennes surfaces commerciales de périphéries": 16.4
+      }
+    }
+  },
+  {
+    "name": "Iroko Zen",
+    "folder": "IrokoZen",
+    "docs": {
+      "AUTRE": [
+        "Iroko_Atlas_methode_ESG.pdf",
+        "Iroko_Atlas_plaquette_commerciale.pdf"
+      ],
+      "BT": [
+        "Iroko_Zen_bulletin_trimestriel.pdf"
+      ],
+      "DIC": [
+        "Iroko_Zen_memo_DIC_PRIIPS.pdf"
+      ],
+      "NI": [
+        "Iroko_Zen_note_information.pdf"
+      ],
+      "RA": [
+        "Iroko_Zen_Rapport_annuel_2025.pdf"
+      ],
+      "Statuts": [
+        "Iroko_Zen_statuts_scpi.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": 204,
+      "taux_distribution": 7.12,
+      "capitalisation": 1237,
+      "tof": 97,
+      "endettement": 30.1,
+      "nb_associes": null,
+      "nb_immeubles": 164,
+      "repartition_geo": {
+        "France": 29.5,
+        "Royaume-Uni": 25.8,
+        "Pays-Bas": 13.3,
+        "Espagne": 11.5,
+        "Irlande": 10.9,
+        "Allemagne": 8,
+        "Italie": 1
+      },
+      "repartition_sectorielle": {
+        "Commerces": 36.2,
+        "Bureaux": 29.4,
+        "Locaux d'activités": 15.1,
+        "Entrepôts": 10.4,
+        "Santé / Crèches / Éducation / Hôtellerie": 9
+      }
+    }
+  },
+  {
+    "name": "Kyaneos Pierre",
+    "folder": "SCPI Kyaneos",
+    "docs": {
+      "BT": [
+        "BT-T1-2026-KP.pdf"
+      ],
+      "DIC": [
+        "SCPI-KP-DIC-2025.pdf"
+      ],
+      "NI": [
+        "SCPI-KP-Note-dinformation-01072025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-KP-Statuts-05-04-2024.pdf"
+      ],
+      "SFDR": [
+        "SCPI-Kyaneos-Pierre-Annexe-SFDR.pdf"
+      ],
+      "AUTRE": [
+        "SCPI-Kyaneos-Pierre-Plaquette-commerciale-au-01072025-vdef.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 224,
+      "prix_retrait": 199.36,
+      "taux_distribution": 4.35,
+      "capitalisation": 445.7,
+      "tof": 88.9,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 100
+      },
+      "repartition_sectorielle": {
+        "Résidentiel": 80,
+        "Tertiaire": 20
+      }
+    }
+  },
+  {
+    "name": "LF Avenir Santé",
+    "folder": "SCPI Lf Avenir Sante",
+    "docs": {
+      "AUTRE": [
+        "Fiche commerciale LF Avenir Santé.pdf",
+        "Q1_rapport_ESG_2025.pdf"
+      ],
+      "BT": [
+        "Q1_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "Q1_DIC.pdf"
+      ],
+      "NI": [
+        "Q1_note_statuts.pdf"
+      ],
+      "RA": [
+        "Q1_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 300,
+      "prix_retrait": 273,
+      "taux_distribution": 5.2,
+      "capitalisation": 231.71,
+      "tof": 100,
+      "endettement": 23.75,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 32.75,
+        "Ile-de-France": 5.58,
+        "Régions": 40.09,
+        "Belgique": 11.93,
+        "Irlande": 9.65
+      },
+      "repartition_sectorielle": {
+        "Soins de ville": 43,
+        "Établissements sanitaires": 41,
+        "Solutions d'accueil générationnelles": 16
+      }
+    }
+  },
+  {
+    "name": "LF Europimmo",
+    "folder": "SCPI Europimmo",
+    "docs": {
+      "BT": [
+        "D1_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "D1_DIC.pdf"
+      ],
+      "NI": [
+        "D1_note_statuts.pdf"
+      ],
+      "RA": [
+        "D1_rapportannuel.pdf"
+      ],
+      "AUTRE": [
+        "Fiche commerciale LF Europimmo.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 725,
+      "prix_retrait": 667,
+      "taux_distribution": 4.3,
+      "capitalisation": 874,
+      "tof": 95.3,
+      "endettement": 17.87,
+      "nb_associes": 15314,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Allemagne": 71.6,
+        "France": 16.3,
+        "Pays-Bas": 8.8,
+        "Belgique": 2.2,
+        "Espagne": 1.1
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 87,
+        "Commerces": 12,
+        "Résidences gérées": 1
+      }
+    }
+  },
+  {
+    "name": "LF Grand Paris Patrimoine",
+    "folder": "LF Grand Paris Patrimoine",
+    "docs": {
+      "BT": [
+        "Z2_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "Z2_DIC.pdf"
+      ],
+      "NI": [
+        "Z2_note_statuts.pdf"
+      ],
+      "RA": [
+        "Z2_rapportannuel.pdf"
+      ],
+      "AUTRE": [
+        "Z2_rapport_ESG_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 218,
+      "prix_retrait": 200.56,
+      "taux_distribution": 4.4,
+      "capitalisation": 10698648661.07,
+      "tof": 88.1,
+      "endettement": 32.69,
+      "nb_associes": 14710,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 85,
+        "Régions": 15
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 75,
+        "Commerces": 25
+      }
+    }
+  },
+  {
+    "name": "Log In",
+    "folder": "SCPI Log In",
+    "docs": {
+      "SFDR": [
+        "240709_SCPI-Login_Annexe-SFDR-Art.10.pdf"
+      ],
+      "BT": [
+        "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette-Commerciale-LOG-IN-ISR-2.pdf",
+        "Politique-de-gestion-des-risques-ESG-de-Theoreim.pdf",
+        "SCPI-LOG-IN-Document-dinformations-cles-1.pdf"
+      ],
+      "RA": [
+        "SCPI-LOG-IN-Rapport-Annuel-2025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-LOG-IN-Statuts-2062025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 255,
+      "prix_retrait": 225,
+      "taux_distribution": 6.21,
+      "capitalisation": 240.8,
+      "tof": 100,
+      "endettement": 12026,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 37.3,
+        "Allemagne": 25.3,
+        "Royaume-Uni": 13.1,
+        "Italie": 7.6,
+        "Pays-Bas": 6.7,
+        "Espagne": 3.5,
+        "Portugal": 2.4,
+        "Grèce": 2.4,
+        "Autres pays": 1.7
+      },
+      "repartition_sectorielle": {
+        "Logistique / Activité": 36.9,
+        "Bureaux": 27.9,
+        "Hôtellerie": 8.7,
+        "Résidentiel": 7.7,
+        "Éducation": 7.5,
+        "Commerces": 5.5,
+        "Santé": 3.5,
+        "Autres": 2.3
+      }
+    }
+  },
+  {
+    "name": "NCap Education Santé",
+    "folder": "SCPI NCAP Education Santé",
+    "docs": {
+      "BT": [
+        "bt_ncap_education_sante_t1_2026.pdf"
+      ],
+      "NI": [
+        "ncap-education-sante_note-information_24122025.pdf"
+      ],
+      "AUTRE": [
+        "ncap-education-sante_plaquette.pdf"
+      ],
+      "DIC": [
+        "ncap-educationsante_dic_15122025.pdf"
+      ],
+      "Statuts": [
+        "ncap_educationsante_statuts_19062025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapeducationsante_2024.pdf",
+        "rapport_annuel_ncapeducationsante_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 202,
+      "prix_retrait": 181.8,
+      "taux_distribution": 4.85,
+      "capitalisation": 110,
+      "tof": 96.5,
+      "endettement": 22.96,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 70.0,
+        "Europe": 30.0
+      },
+      "repartition_sectorielle": {
+        "Santé / social": 66,
+        "Bien-être": 16,
+        "Éducation": 16,
+        "Environnement": 2
+      }
+    }
+  },
+  {
+    "name": "NCap Régions",
+    "folder": "NCAPRégions",
+    "docs": {
+      "BT": [
+        "bt_ncap_regions_t1_2026.pdf"
+      ],
+      "AUTRE": [
+        "ncap-regions_-plaquette.pdf",
+        "scpi-ncap-regions-certificat-label-isr.pdf"
+      ],
+      "DIC": [
+        "ncap-regions_dic_15122025.pdf"
+      ],
+      "NI": [
+        "ncap-regions_note-information_24122025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapregions_2025-1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 682,
+      "prix_retrait": "613.80",
+      "taux_distribution": 5.72,
+      "capitalisation": 1097,
+      "tof": 92.7,
+      "endettement": 21.69,
+      "nb_associes": null,
+      "nb_immeubles": 175,
+      "repartition_geo": {
+        "Grandes agglomérations de province": 65,
+        "Ile-de-France": 35
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 54,
+        "Commerce": 32,
+        "Activités": 14,
+        "Hôtellerie": 0.5
+      }
+    }
+  },
+  {
+    "name": "Novapierre 1",
+    "folder": "SCPI Novapierre 1",
+    "docs": {
+      "BT": [
+        "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf"
+      ],
+      "AUTRE": [
+        "7108f0d3-d728-45a0-a728-42b3ea50ab1e-Flyer-Novapierre-1-30-06-2025.pdf",
+        "ac7d4470-0f82-4043-bd24-6e1acce6a906-01.01.2026-NI-Novapierre-1.pdf"
+      ],
+      "RA": [
+        "b6f5a3f7-33ea-42f2-b038-577839639ef8-Rapport-annuel-SCPI-Novapierre-1-2024.pdf"
+      ],
+      "DIC": [
+        "bdb9ea23-61b7-4e75-beff-c3ddc078a54c-Novapierre-1-DIC2025.pdf"
+      ],
+      "Statuts": [
+        "de8deff5-61ed-4b24-ba06-b47826f6a0d0-11.07.2024-Statuts-Novapierre-1.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 442,
+      "prix_retrait": "406.64",
+      "taux_distribution": 5,
+      "capitalisation": 172.1,
+      "tof": 85.3,
+      "endettement": 29.3,
+      "nb_associes": 2370,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Autres régions": 30.8,
+        "Paris": 28.6,
+        "12 métropoles régionales": 21.2,
+        "Ile-de-France hors Paris": 19.4
+      },
+      "repartition_sectorielle": {
+        "Alimentaire": 15.2,
+        "Santé": 9.8,
+        "Équipement de la maison": 30.3,
+        "Restauration": 15.7,
+        "Services": 12.5,
+        "Culture et loisirs": 6.6,
+        "Autres": 9.9
+      }
+    }
+  },
+  {
+    "name": "Novapierre Résidentiel",
+    "folder": null,
+    "docs": {},
+    "current_values": {
+      "prix_souscription": 1664,
+      "prix_retrait": "1498.43",
+      "taux_distribution": 1.2,
+      "capitalisation": 347.9,
+      "tof": 87.7,
+      "endettement": 15.6,
+      "nb_associes": 2384,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 76.9,
+        "Région parisienne": 12.6,
+        "Nice": 7.4,
+        "Autres": 2.7
+      },
+      "repartition_sectorielle": {
+        "Résidentiel": 100
+      }
+    }
+  },
+  {
+    "name": "Novaxia NEO",
+    "folder": "SCPI Novaxia",
+    "docs": {
+      "DIC": [
+        "DIC-NOVAXIA-NEO-2025.pdf"
+      ],
+      "NI": [
+        "NOVAXIA-NEO-Note-dInformation-V23.04.2026.pdf"
+      ],
+      "AUTRE": [
+        "Novaxia-NEO-Reporting-31_03_2026.pdf"
+      ],
+      "Statuts": [
+        "NOVAXIA-NEO-Statuts-V06.2023.pdf"
+      ],
+      "SFDR": [
+        "Rapport-periodique-Article-9-SFDR-Novaxia-NEO-Reporting-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 176.68,
+      "prix_retrait": 187,
+      "taux_distribution": 5.5,
+      "capitalisation": 427.9,
+      "tof": 90.6,
+      "endettement": 35,
+      "nb_associes": 8952,
+      "nb_immeubles": 38,
+      "repartition_geo": {
+        "France": 54,
+        "Allemagne": 28,
+        "Espagne": 8,
+        "Irlande": 7,
+        "Belgique": 3
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 93,
+        "Activités": 2,
+        "Enseignement": 1,
+        "Hôtels": 4
+      }
+    }
+  },
+  {
+    "name": "Opportunité Immo",
+    "folder": "SCPI LF Opportunité Immo",
+    "docs": {
+      "BT": [
+        "G0_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "G0_DIC.pdf"
+      ],
+      "NI": [
+        "G0_note_statuts.pdf"
+      ],
+      "RA": [
+        "G0_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 203,
+      "prix_retrait": "184.73",
+      "taux_distribution": 5.62,
+      "capitalisation": 313015444313,
+      "tof": 95,
+      "endettement": 14.45,
+      "nb_associes": 6023,
+      "nb_immeubles": 46,
+      "repartition_geo": {
+        "Île-de-France": 47.82,
+        "Régions": 39.93,
+        "Espagne": 5.82,
+        "Allemagne": 4.5,
+        "Royaume-Uni": 1.93
+      },
+      "repartition_sectorielle": {
+        "Logistique et locaux d'activités": 89.41,
+        "Bureaux": 10.59
+      }
+    }
+  },
+  {
+    "name": "Optimale",
+    "folder": "SCPI Optimale",
+    "docs": {
+      "NI": [
+        "2025.12.11-SCPI-OPTIMALE-Note-information-MAJ-PRIX-PART.pdf"
+      ],
+      "Statuts": [
+        "8.-SCPI-OPTIMALE-Statuts-mis-a-jour-AGM-3008-2024-verison-transfert_sign-EGuy.pdf"
+      ],
+      "DIC": [
+        "DIC_-_SCPI_OPTIMALE_-_2025-07-02_202507021643.pdf"
+      ],
+      "AUTRE": [
+        "PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+        "SCPI-OPTIMALE-Politique-ISR-012023.pdf"
+      ],
+      "SFDR": [
+        "SCPI-OPTIMALE-Annexe-SFDR-012023.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 255,
+      "prix_retrait": 229.5,
+      "taux_distribution": 6.5,
+      "capitalisation": 93,
+      "tof": 94.25,
+      "endettement": 17.68,
+      "nb_associes": 1626,
+      "nb_immeubles": 39,
+      "repartition_geo": {
+        "France": 100.0
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 40.2,
+        "Commerces": 28.3,
+        "Activités et Logistique": 26.4,
+        "Santé et Éducation": 5.1
+      }
+    }
+  },
+  {
+    "name": "Paref Evo",
+    "folder": "Paref Evo",
+    "docs": {
+      "DIC": [
+        "142a1e06-f75e-40ae-a51b-30dc3bc3ae30-PAREF-Evo-DIC2025.pdf"
+      ],
+      "AUTRE": [
+        "4963377c-6742-4ea1-8d05-17514a2400db-01.01.2026NI-PAREFEvo.pdf",
+        "4a5758c6-b9f8-4d8c-a4c7-6cb97c8a1716-Flyer-PAREF-Evo-30-06-2025.pdf"
+      ],
+      "Statuts": [
+        "6cdf12dc-8b42-4a57-98e9-09b938d94494-28.06.2024-Statuts-PAREF-Evo-clean2.pdf"
+      ],
+      "BT": [
+        "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf"
+      ],
+      "RA": [
+        "aad4f57d-cf78-4c7d-b647-274dd8c1a010-Rapport-annuel-SCPI-PAREF-Evo-2024.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 250,
+      "prix_retrait": "225.00",
+      "taux_distribution": 4.72,
+      "capitalisation": 49.3,
+      "tof": 87.8,
+      "endettement": 0,
+      "nb_associes": 1066,
+      "nb_immeubles": 5,
+      "repartition_geo": {
+        "Pologne": 100
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 89.4,
+        "Activité-autre": 10.6
+      }
+    }
+  },
+  {
+    "name": "Paref Hexa",
+    "folder": "SCPI HEXA",
+    "docs": {
+      "Statuts": [
+        "9f42e78c-a44c-46b5-af0e-67a3f1b6fd94-2025StatutsPAREFHexa.pdf"
+      ],
+      "DIC": [
+        "a6f53f84-2f52-4c1f-9e3d-5e5c9ac1982d-PAREF-Hexa-DIC2025MAJ-ESG.pdf"
+      ],
+      "AUTRE": [
+        "b108e992-030c-4618-9f9e-5ee9b1ace93e-01.01.2026NI-PAREF-Hexa.pdf"
+      ],
+      "RA": [
+        "be276c50-22c0-40de-af46-658831ee520d-Rapport-annuel-SCPI-PAREF-Hexa-2024.pdf"
+      ],
+      "BT": [
+        "d5acee18-1994-48e5-ac76-d343abbcf566-BTI-T1-2026-PAREF-Hexa.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 172,
+      "prix_retrait": "189.00",
+      "taux_distribution": 6,
+      "capitalisation": 201.1,
+      "tof": 84.9,
+      "endettement": 29.1,
+      "nb_associes": 3718,
+      "nb_immeubles": 41,
+      "repartition_geo": {
+        "Métropoles régionales": 56,
+        "Ile-de-France hors Paris": 26.7,
+        "Paris": 5.3,
+        "Autres régions": 12
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 65.1,
+        "Locaux d'activité": 3.9,
+        "Logistique-Messagerie": 4.8,
+        "Autres": 26.2
+      }
+    }
+  },
+  {
+    "name": "Patrimmo Croissance Impact",
+    "folder": "SCPI Patrimmo Croissance Impact",
+    "docs": {
+      "SFDR": [
+        "ART 10_patrimmocroissance.pdf",
+        "Règlement Disclosure - informations Patrimmo Croissance.pdf"
+      ],
+      "AUTRE": [
+        "Patrimmo Croissance Impact_Fonds à impact.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf"
+      ],
+      "RA": [
+        "Rapport Annuel 2024 Patrimmo Croissance Impact.pdf"
+      ],
+      "DIC": [
+        "SCPI Patrimmo Croissance - DIC.pdf"
+      ],
+      "NI": [
+        "SCPI Patrimmo Croissance - Note d'information.pdf"
+      ],
+      "Statuts": [
+        "SCPI Patrimmo Croissance - Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 677,
+      "prix_retrait": 597.38,
+      "taux_distribution": 0,
+      "capitalisation": 189.7,
+      "tof": 92.4,
+      "endettement": 6.4,
+      "nb_associes": 1879,
+      "nb_immeubles": 64,
+      "repartition_geo": {
+        "Région parisienne": 36.8,
+        "Paris": 32.6,
+        "Régions": 27.8,
+        "Parts SCPI": 2.8
+      },
+      "repartition_sectorielle": {
+        "Résidentiel": 97,
+        "SCPI": 3
+      }
+    }
+  },
+  {
+    "name": "Perial Grand Paris",
+    "folder": "SCPI Perial grand Paris",
+    "docs": {
+      "Statuts": [
+        "6931a8255c1d1f4f09a13fb0_Statuts PERIAL Grand Paris.pdf"
+      ],
+      "AUTRE": [
+        "69d74a4348d4ea189f2426d0_Document d'information Clé.pdf"
+      ],
+      "NI": [
+        "69d74a9eca7a32dc38352021_Note d'information.pdf"
+      ],
+      "SFDR": [
+        "69d74b0449f23acf84b68541_Annexe SFDR - documentation précontractuelle - Art 9.pdf"
+      ],
+      "BT": [
+        "69f21276045720608dcec789_PGP BTI T1 2026.pdf"
+      ],
+      "RA": [
+        "6a170142eee56f95d9d2e1e9_Rapport annuel_PGP_sfdr_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 458.0,
+      "prix_retrait": "449.00",
+      "taux_distribution": 4.801,
+      "capitalisation": 10518734861.05,
+      "tof": 84.4,
+      "endettement": 33.8,
+      "nb_associes": null,
+      "nb_immeubles": 91,
+      "repartition_geo": {
+        "Région Parisienne": 75.4,
+        "Paris": 20.3,
+        "Régions": 4.3
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 95.2,
+        "Hôtels": 1.7,
+        "Logistique": 1.9,
+        "Commerces": 1.3
+      }
+    }
+  },
+  {
+    "name": "Perial Hospitalité Europe",
+    "folder": "SCPI Perial Hospitalité Europe",
+    "docs": {
+      "Statuts": [
+        "6931acff7d15141b9abfdfe8_Statuts PERIAL Hospitalité Europe.pdf"
+      ],
+      "AUTRE": [
+        "69d74a31958e394a853ffcb7_Document d'information Clé.pdf"
+      ],
+      "NI": [
+        "69d74a8e6bf174eb7bd78401_Note d'information.pdf"
+      ],
+      "SFDR": [
+        "69d74af6a5d1bdddcbf684f7_Annexe SFDR - documentation précontractuelle - Art 8.pdf"
+      ],
+      "BT": [
+        "69f211f2615fb9af629c1495_PHE BTI T1 2026.pdf"
+      ],
+      "RA": [
+        "6a1700ee719f7ecaa2547fb8_Rapport annuel_PHE_sfdr_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 181,
+      "prix_retrait": "165.61",
+      "taux_distribution": 4.02,
+      "capitalisation": 333.11,
+      "tof": 98.1,
+      "endettement": 20.7,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Allemagne": 67.5,
+        "Espagne": 17.6,
+        "Italie": 11.4,
+        "Pays-Bas": 3.5
+      },
+      "repartition_sectorielle": {
+        "Santé et éducation": 61.0,
+        "Hôtels tourisme loisirs": 37.9,
+        "Alternatifs résidences étudiantes": 1.1
+      }
+    }
+  },
+  {
+    "name": "Perial O2",
+    "folder": "Perial O2",
+    "docs": {
+      "Statuts": [
+        "6931ae7df7f4749b4015f15d_Statuts PERIAL O₂.pdf"
+      ],
+      "AUTRE": [
+        "69d74a1c770ced450f0ac8cb_Document d'Information Clé.pdf"
+      ],
+      "NI": [
+        "69d74a80a2cac3ea9cfed066_Note d'information.pdf"
+      ],
+      "BT": [
+        "69f20de2eab70a16dc8ef27f_PO2 BTI 2026 T1 VDEF.pdf"
+      ],
+      "RA": [
+        "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 164.0,
+      "prix_retrait": "150.06",
+      "taux_distribution": 4.65,
+      "capitalisation": 2401,
+      "tof": 86.2,
+      "endettement": 31.2,
+      "nb_associes": null,
+      "nb_immeubles": 137,
+      "repartition_geo": {
+        "Régions": 38.4,
+        "Région parisienne": 36.6,
+        "Europe hors France": 22.5,
+        "Paris": 2.5
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 85.2,
+        "Hôtels-tourisme": 6.1,
+        "Commerces": 2.7,
+        "Santé-éducation": 5,
+        "Logistique": 0.9
+      }
+    }
+  },
+  {
+    "name": "Perial Opportunités Europe",
+    "folder": "SCPI Opportunités Europe",
+    "docs": {
+      "Statuts": [
+        "695be6d69d4f14c9454b079d_POE Statuts Janv2026.pdf"
+      ],
+      "AUTRE": [
+        "69d74a5edc2a8e8bcab4fc26_Document d'information Clé.pdf"
+      ],
+      "NI": [
+        "69d74ab3a9bf4009ef491667_Note d'information.pdf"
+      ],
+      "SFDR": [
+        "69d74b31a9bf4009ef492e5c_Annexe SFDR - documentation précontractuelle - Art 8.pdf"
+      ],
+      "BT": [
+        "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf"
+      ],
+      "RA": [
+        "6a16ff98070156fbb255ec8c_Rapport annuel_POE_sfdr_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 44.0,
+      "prix_retrait": "39.82",
+      "taux_distribution": 6.1,
+      "capitalisation": 790461980790,
+      "tof": 89.4,
+      "endettement": 31.4,
+      "nb_associes": null,
+      "nb_immeubles": 127,
+      "repartition_geo": {
+        "France": 59.5,
+        "Pays-Bas": 13.8,
+        "Allemagne": 12.6,
+        "Espagne": 12.3,
+        "Italie": 1.9
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 47.7,
+        "Hôtels-tourisme": 27.3,
+        "Commerces": 18.6,
+        "Santé-éducation": 4.6,
+        "Logistique": 1.7,
+        "Alternatifs": 0.1
+      }
+    }
+  },
+  {
+    "name": "Remake Live",
+    "folder": "SCPI Remake Live",
+    "docs": {
+      "AUTRE": [
+        "6.pdf",
+        "documen2t.pdf",
+        "documen5t.pdf",
+        "documen7t.pdf",
+        "document.4pdf.pdf",
+        "document.pdf",
+        "document1.pdf",
+        "document3.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": 204,
+      "taux_distribution": 7.05,
+      "capitalisation": 882,
+      "tof": 99.16,
+      "endettement": 18.64,
+      "nb_associes": null,
+      "nb_immeubles": 58,
+      "repartition_geo": {
+        "Royaume Uni": 29,
+        "France": 27.62,
+        "Espagne": 11.66,
+        "Irlande": 10.11,
+        "Pays-Bas": 9.93,
+        "Pologne": 8.04,
+        "Allemagne": 2.65,
+        "Portugal": 0.98
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 38.02,
+        "Santé & éducation": 21.92,
+        "Logistique et locaux d'activité": 14.12,
+        "Commerces": 12.06,
+        "Hôtels, tourisme, loisirs": 8.84,
+        "Résidentiel": 3.48,
+        "Alternatifs": 1.56
+      }
+    }
+  },
+  {
+    "name": "Selectinvest 1",
+    "folder": "SCPI Selectiinvest 1",
+    "docs": {
+      "AUTRE": [
+        "Fiche commerciale Sélectinvest 1.pdf"
+      ],
+      "BT": [
+        "I9_BT_20260331.pdf"
+      ],
+      "DIC": [
+        "I9_DIC.pdf"
+      ],
+      "NI": [
+        "I9_note_statuts.pdf"
+      ],
+      "RA": [
+        "I9_rapportannuel.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 530,
+      "prix_retrait": "490.00",
+      "taux_distribution": 4.4,
+      "capitalisation": 1552.4,
+      "tof": 89.8,
+      "endettement": 33.8,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 54.5,
+        "Régions": 24.8,
+        "Paris": 17.28,
+        "Allemagne": 3.42
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 72.52,
+        "Commerces": 21.41,
+        "Logistique et locaux d'activités": 3.87,
+        "Hotels": null,
+        "tourisme et loisirs": 1.68,
+        "Santé et éducation": 0.52
+      }
+    }
+  },
+  {
+    "name": "Selectipierre 2",
+    "folder": "SCPI Selectipierre 2 Paris",
+    "docs": {
+      "SFDR": [
+        "Annexe SFDR_SELECTIPIERRE 2.pdf"
+      ],
+      "BT": [
+        "BTI Selectipierre 2 T1 2026.pdf"
+      ],
+      "DIC": [
+        "DIC SELECTIPIERRE 2 31.12.2024.pdf"
+      ],
+      "NI": [
+        "Note d'information SELECTIPIERRE 2 01.2026.pdf"
+      ],
+      "RA": [
+        "Selectipierre 2 Paris - Rapport annuel 2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 773.0,
+      "prix_retrait": "695.70",
+      "taux_distribution": 4.14,
+      "capitalisation": 466.5,
+      "tof": 94.89,
+      "endettement": 6.96,
+      "nb_associes": 7871,
+      "nb_immeubles": 67,
+      "repartition_geo": {
+        "Paris": 71,
+        "Ile-de-France": 22.6,
+        "Régions": 6.4
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 70.9,
+        "Commerces": 17.3,
+        "Résidences hôtelières-étudiantes": 4.5,
+        "Logements": 5.9,
+        "Activité": 1.4
+      }
+    }
+  },
+  {
+    "name": "Sofiprime",
+    "folder": "SCPI Sofiprime",
+    "docs": {
+      "DIC": [
+        "DIC-SFP-042026.pdf"
+      ],
+      "AUTRE": [
+        "FP-SOP-042026-FR-3-2969.pdf",
+        "NI-SFP-042026.pdf",
+        "ST-SFP-072025-FR-2-2330_v2.pdf"
+      ],
+      "RA": [
+        "Sofidy_RA_SOFIPRIME_2025_OPTI.pdf"
+      ],
+      "BT": [
+        "SOFIPRIME-BT-1T-2026.pdf"
+      ],
+      "SFDR": [
+        "sofiprime-webdisclosure-1025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 280,
+      "prix_retrait": 238.5,
+      "taux_distribution": 0.54,
+      "capitalisation": 44.9,
+      "tof": 79.47,
+      "endettement": 21,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris": 41,
+        "Île-de-France hors Paris": 34,
+        "Régions françaises": 25
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 98,
+        "Commerces": 2
+      }
+    }
+  },
+  {
+    "name": "Transitions Europe",
+    "folder": "SCPI Transition Europe",
+    "docs": {
+      "Statuts": [
+        "250630_scpi_transitions_europe_-_statuts.pdf"
+      ],
+      "RA": [
+        "arkea-reim-transition-europe-ra-2025_2026-05-18_18-57-3_193.pdf"
+      ],
+      "AUTRE": [
+        "scpi_transitions_europe_-_brochure_commerciale.pdf",
+        "te_t1-2026.pdf"
+      ],
+      "DIC": [
+        "scpi_transitions_europe_-_dic.pdf"
+      ],
+      "NI": [
+        "scpi_transitions_europe_-_note_d_information.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "180.00",
+      "taux_distribution": 8.6,
+      "capitalisation": 948,
+      "tof": 97.54,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Espagne": 36,
+        "Allemagne": 20,
+        "Pays-Bas": 19,
+        "Irlande": 12,
+        "Italie": 9,
+        "Pologne": 4
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 35,
+        "Commerce": 21,
+        "Logistique": 17,
+        "Life Science": 15,
+        "Hospitalité": 8,
+        "Éducation": 4
+      }
+    }
+  },
+  {
+    "name": "Urban Coeur de Commerce",
+    "folder": "Urban Coeur Commerce",
+    "docs": {
+      "SFDR": [
+        "Annexe-II-SFDR.pdf"
+      ],
+      "BT": [
+        "UCC_BT_1T2026.pdf"
+      ],
+      "DIC": [
+        "UCC_DIC_2026.pdf"
+      ],
+      "AUTRE": [
+        "UCC_Document-Commercial_2025.pdf",
+        "UCC_RA-2025.pdf"
+      ],
+      "Statuts": [
+        "Urban-Coeur-Commerce_NI-Statuts-public.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 303,
+      "prix_retrait": "264.50",
+      "taux_distribution": 5.3,
+      "capitalisation": 92.4,
+      "tof": 91.95,
+      "endettement": 12.2,
+      "nb_associes": 2002,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Province": 83,
+        "Île de France": 17
+      },
+      "repartition_sectorielle": {
+        "restauration": 34,
+        "Santé-sport-bien-être": 26,
+        "Opportunités-tendances": 27,
+        "Services proximité": 13
+      }
+    }
+  },
+  {
+    "name": "NCap Continent",
+    "folder": "SCPI NCAP Continent",
+    "docs": {
+      "AUTRE": [
+        "2026-01-21_ncapcontinent_dossier-candidature.pdf",
+        "ncap-continent-_plaquette-2.pdf",
+        "scpi-ncapcontinent_rapport-isr_2025.pdf"
+      ],
+      "BT": [
+        "bt_ncap_continent_t1_2026.pdf"
+      ],
+      "DIC": [
+        "ncap-continent_dic_15122025-1.pdf"
+      ],
+      "NI": [
+        "ncap-continent_note-information_24122025-1.pdf"
+      ],
+      "Statuts": [
+        "ncap_continent_statuts_19062025.pdf"
+      ],
+      "RA": [
+        "rapport_annuel_ncapcontinent_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210,
+      "prix_retrait": null,
+      "taux_distribution": 7.1,
+      "capitalisation": 70.4,
+      "tof": null,
+      "endettement": 11.42,
+      "nb_associes": 2089,
+      "nb_immeubles": 18,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    }
+  },
+  {
+    "name": "Wemo One",
+    "folder": "scpi Wemo OIne",
+    "docs": {
+      "NI": [
+        "2-SCPI-WEMO-ONE-Note-dInformation-avril-2026.pdf"
+      ],
+      "DIC": [
+        "3-SCPI-WEMO-ONE-DIC-2026-04-22.pdf"
+      ],
+      "Statuts": [
+        "4-SCPI-WEMO-ONE-Statuts-17.04.2026.pdf"
+      ],
+      "BT": [
+        "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf"
+      ],
+      "RA": [
+        "RAPPORT-ANNUEL-N02-JANV-2026-Fina13_04_26.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210.0,
+      "prix_retrait": null,
+      "taux_distribution": 15.27,
+      "capitalisation": 121.9,
+      "tof": 100,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Italie": 46.1,
+        "Espagne": 29.4,
+        "France": 20.9,
+        "Irlande": 3.6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 66.7,
+        "Activités": 18.4,
+        "Industriel": 6.6,
+        "Éducation": 5.2,
+        "Bureaux": 3.1
+      }
+    }
+  },
+  {
+    "name": "Iroko Atlas",
+    "folder": "Iroko Atlas",
+    "docs": {
+      "SFDR": [
+        "Iroko_Atlas_annexe_SFDR.pdf"
+      ],
+      "BT": [
+        "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf"
+      ],
+      "AUTRE": [
+        "Iroko_Atlas_document_informations_cles.pdf",
+        "Iroko_Atlas_fiche_produit.pdf",
+        "Iroko_Atlas_methode_ESG.pdf",
+        "Iroko_Atlas_plaquette_commerciale.pdf",
+        "Iroko_Atlas_politique_engagement.pdf"
+      ],
+      "NI": [
+        "Iroko_Atlas_note_information.pdf"
+      ],
+      "RA": [
+        "Iroko_Atlas_rapport_annuel_2025.pdf"
+      ],
+      "Statuts": [
+        "Iroko_Atlas_statuts_scpi.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": 200,
+      "taux_distribution": null,
+      "capitalisation": 120,
+      "tof": null,
+      "endettement": null,
+      "nb_associes": 3502,
+      "nb_immeubles": 14,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerces": 63.6,
+        "Santé-hôtellerie-autre": 11.6,
+        "Entrepôts": 10.1,
+        "Bureaux": 9.0,
+        "Autres": 5.7
+      }
+    }
+  },
+  {
+    "name": "Epsicap Nano",
+    "folder": "Epsicap Nano",
+    "docs": {
+      "BT": [
+        "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf"
+      ],
+      "AUTRE": [
+        "Epsicap-Nano-Document-commercial-def.pdf"
+      ],
+      "SFDR": [
+        "Epsicap-Nano-Document-SFDR.pdf"
+      ],
+      "NI": [
+        "Epsicap-Nano-Note-dinformation-2026.05.pdf"
+      ],
+      "Statuts": [
+        "Epsicap-Nano-Statuts-a-jour.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-Epsicap-Nano.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 257,
+      "prix_retrait": null,
+      "taux_distribution": 6.08,
+      "capitalisation": 200,
+      "tof": null,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    }
+  },
+  {
+    "name": "Alta Convictions",
+    "folder": "SCPI Alta Convictions",
+    "docs": {
+      "AUTRE": [
+        "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+        "241209_Altarea_FicheProduit_PPP_WEB.pdf",
+        "Alta-Convictions-Rapport-ISR-Web-Planche.pdf",
+        "SCPI-Alta-Convictions-Plaquette-PAP-WEB.pdf"
+      ],
+      "RA": [
+        "Alta-Convictions-Rapport-annuel-2024-Web-PAP.pdf"
+      ],
+      "DIC": [
+        "Alta-Convictions_DIC_Avril-2026.pdf"
+      ],
+      "NI": [
+        "Alta-Convictions_Note-Information_Dec-2025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-Alta-Convictions-Statuts-au-16-05-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 308,
+      "prix_retrait": null,
+      "taux_distribution": 6.57,
+      "capitalisation": 121,
+      "tof": 96,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    }
+  },
+  {
+    "name": "Cristal Rente",
+    "folder": "SCPI Cristal Rente",
+    "docs": {
+      "NI": [
+        "IGCRNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "AUTRE": [
+        "IGCRPlaquetteComFR20251029.pdf"
+      ],
+      "BT": [
+        "IG_CRBulletin_Trimestriel2026_T1.pdf"
+      ],
+      "DIC": [
+        "IG_CR_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2024CR_WEB.pdf",
+        "IG_RapportAnnuel_2025CR.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 255.68,
+      "prix_retrait": null,
+      "taux_distribution": 5,
+      "capitalisation": 682.95,
+      "tof": 98.99,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    }
+  },
+  {
+    "name": "Rivoli Avenir Patrimoine",
+    "folder": "SCPI Rivoli Avenir Patrimoine",
+    "docs": {
+      "AUTRE": [
+        "RIVOLI AVENIR PATRIMOINE - Brochure commerciale - Novembre 2025.pdf"
+      ],
+      "BT": [
+        "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2-1.pdf",
+        "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf"
+      ],
+      "DIC": [
+        "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf"
+      ],
+      "RA": [
+        "RIVOLI AVENIR PATRIMOINE - Rapport Annuel - 2024.pdf"
+      ],
+      "NI": [
+        "RIVOLI AVENIR PATRIMOINE-Note Information- Statuts 08082025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 228,
+      "prix_retrait": null,
+      "taux_distribution": 3.688,
+      "capitalisation": 2927,
+      "tof": 86.032202586,
+      "endettement": 93138.6,
+      "nb_associes": 36768,
+      "nb_immeubles": 181,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Bureaux": 79.1,
+        "Commerces": 13.9,
+        "Hôtels": 3.3,
+        "Logistique": 3.1,
+        "Résidences Services": 0.7
+      }
+    }
+  },
+  {
+    "name": "Primovie",
+    "folder": "SCPI Primovie",
+    "docs": {
+      "SFDR": [
+        "ART 10_Primovie.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Primovie_T1_2026.pdf"
+      ],
+      "DIC": [
+        "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf"
+      ],
+      "RA": [
+        "Rapport Annuel 2024 Primovie.pdf"
+      ],
+      "AUTRE": [
+        "SCPI Primovie - L'Essentiel.pdf",
+        "SCPI Primovie - Politique ISR.pdf"
+      ],
+      "NI": [
+        "SCPI Primovie - Note information.pdf"
+      ],
+      "Statuts": [
+        "SCPI Primovie - Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 164,
+      "prix_retrait": null,
+      "taux_distribution": 4.04,
+      "capitalisation": 4200,
+      "tof": 94.7,
+      "endettement": 29.2,
+      "nb_associes": 50122,
+      "nb_immeubles": 298,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Sénior": 78.6,
+        "Bureaux": 16.3,
+        "Éducation": 3.9,
+        "Hôtellerie": 1.2
+      }
+    }
+  },
+  {
+    "name": "Praemia Hôtels Europe",
+    "folder": "scpi Praemia Hotels Europe",
+    "docs": {
+      "DIC": [
+        "2025 09 17 DIC PRAEMIA HOTELS EUROPE v3 EDHEC IEIF.pdf"
+      ],
+      "Statuts": [
+        "2026 02 10 (2025 09 17) Praemia Hotels Europe - Statuts v1c.pdf"
+      ],
+      "AUTRE": [
+        "2026 02 10 Praemia Hotels Europe - NI v3c.pdf",
+        "PRAEMIA_HOTELS_EUROPE - Plaquette 04 2026.pdf"
+      ],
+      "SFDR": [
+        "Information précontractuelle art 8 SFDR Praemia Hotels Europe_10022026 - v1c.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf"
+      ],
+      "RA": [
+        "Primofamily -Rapport annuel 2024.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": null,
+      "taux_distribution": 3.9,
+      "capitalisation": 252.5,
+      "tof": 97.7,
+      "endettement": 30.9,
+      "nb_associes": 2164,
+      "nb_immeubles": 117,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Hôtel": 67.3,
+        "Résidentiel": 15.1,
+        "Commerce": 10,
+        "Mixte Résidentiel-Commerce": 7.6
+      }
+    }
+  },
+  {
+    "name": "Pierval Santé",
+    "folder": "SCPI Pierval Santé",
+    "docs": {
+      "BT": [
+        "BT_PIERVAL_SANTE_2026_T1.pdf"
+      ],
+      "DIC": [
+        "DIC_SCPI_PIERVAL_SANTE_202411.pdf"
+      ],
+      "NI": [
+        "Note-information-SCPI-PIERVAL-SANTE-032026-annexes.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette-commerciale-Pierval-Sante-2026.pdf",
+        "Rapport_ESG_SCPI_Pierval_Sante_2024.pdf"
+      ],
+      "RA": [
+        "RA_PIERVAL_SANTE_2025.pdf"
+      ],
+      "Statuts": [
+        "Statuts-SCPI-Pierval-Sante_MAJ-AGE-30-06-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": null,
+      "taux_distribution": 4.391,
+      "capitalisation": 2500,
+      "tof": 94.59,
+      "endettement": 16.39,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Médico-social": 71.7,
+        "Cliniques et soins": 20.0,
+        "Autres actifs santé": 8.3
+      }
+    }
+  },
+  {
+    "name": "Patrimmo Commerce",
+    "folder": "SCPI Praemia",
+    "docs": {
+      "SFDR": [
+        "ART 10_PatrimmoCommerce.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf"
+      ],
+      "RA": [
+        "Rapport Annuel 2024 Patrimmo Commerce.pdf"
+      ],
+      "DIC": [
+        "SCPI Patrimmo Commerce - DIC.pdf"
+      ],
+      "NI": [
+        "SCPI Patrimmo Commerce - Note d'information.pdf"
+      ],
+      "Statuts": [
+        "SCPI Patrimmo Commerce - Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 160,
+      "prix_retrait": null,
+      "taux_distribution": 3.38,
+      "capitalisation": 613.7,
+      "tof": 91,
+      "endettement": 24.1,
+      "nb_associes": 6149,
+      "nb_immeubles": 193,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerce": 86.7,
+        "Bureaux": 11.6,
+        "Activité-Logistique": 1.7
+      }
+    }
+  },
+  {
+    "name": "Aestiam Agora",
+    "folder": "SCPI Aestiam Agora",
+    "docs": {
+      "RA": [
+        "2025-rapport-annuel-aestiam-agora.pdf"
+      ],
+      "BT": [
+        "2026-1t-bti-aestiam-agora.pdf"
+      ],
+      "DIC": [
+        "AestiamAgora-DIC.pdf"
+      ],
+      "NI": [
+        "AestiamAgora-NoteInformation.pdf"
+      ],
+      "Statuts": [
+        "AestiamAgora-Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 922,
+      "prix_retrait": null,
+      "taux_distribution": 4.5,
+      "capitalisation": null,
+      "tof": 91.7,
+      "endettement": 12,
+      "nb_associes": null,
+      "nb_immeubles": 193,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerces": 57,
+        "Hôtels-Séminaires": 34,
+        "Bureaux": 6,
+        "Enseignement": 3
+      }
+    }
+  }
+]

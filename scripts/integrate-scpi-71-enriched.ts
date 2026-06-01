@@ -221,6 +221,53 @@ const MAXIMUS_WARNINGS: Record<string, string[]> = {
   ],
 };
 
+/** Années calendaires interdites dans les champs numériques SCPI */
+const FORBIDDEN_YEAR_VALUES = new Set([2023, 2024, 2025, 2026]);
+
+/**
+ * Valide un taux de distribution : doit être entre 0 % et 20 %.
+ * Retourne undefined si la valeur est aberrante (année, négatif, >20).
+ * Exception manuelle possible via VALIDATED_HIGH_YIELDS.
+ */
+const VALIDATED_HIGH_YIELDS = new Set<string>([
+  // SCPIs avec TD >20% validé manuellement (ex: première distribution incomplète)
+  // Aucune pour l'instant
+]);
+
+function validateTaux(val: number | undefined, scpiName: string): number | undefined {
+  if (val === undefined) return undefined;
+  if (FORBIDDEN_YEAR_VALUES.has(Math.round(val))) {
+    console.warn(`[GUARD] ${scpiName}: Taux de distribution = ${val} ressemble à une année — rejeté`);
+    return undefined;
+  }
+  if (val < 0) {
+    console.warn(`[GUARD] ${scpiName}: Taux de distribution = ${val} < 0 — rejeté`);
+    return undefined;
+  }
+  if (val > 20 && !VALIDATED_HIGH_YIELDS.has(scpiName)) {
+    console.warn(`[GUARD] ${scpiName}: Taux de distribution = ${val} > 20% — rejeté (non validé manuellement)`);
+    return undefined;
+  }
+  return val;
+}
+
+/**
+ * Valide un prix de part : doit être entre 1 € et 10 000 €.
+ * Rejette les dates concaténées et valeurs aberrantes.
+ */
+function validatePrix(val: number | undefined, scpiName: string): number | undefined {
+  if (val === undefined) return undefined;
+  if (FORBIDDEN_YEAR_VALUES.has(Math.round(val))) {
+    console.warn(`[GUARD] ${scpiName}: Prix de souscription = ${val} ressemble à une année — rejeté`);
+    return undefined;
+  }
+  if (val <= 0 || val > 10000) {
+    console.warn(`[GUARD] ${scpiName}: Prix de souscription = ${val} hors plage [1, 10000] — rejeté`);
+    return undefined;
+  }
+  return val;
+}
+
 /** Parse un nombre depuis une chaîne du type "255 €", "93 M€", "94,25 %", "3,84 €" */
 function parseNumericStr(s: string | undefined | null): number | undefined {
   if (!s || s.startsWith('non ') || s.startsWith('En attente') || s === '-') return undefined;
@@ -386,13 +433,15 @@ for (const d of dossiers) {
   }
 
   // Parse numeric values
-  const prixSouscription = parseNumericStr(d.prix_souscription);
+  const prixSouscriptionRaw = parseNumericStr(d.prix_souscription);
+  const prixSouscription = validatePrix(prixSouscriptionRaw, cn);
   const prixRetrait = parseNumericStr(d.prix_retrait);
   const valeurRealisation = parseNumericStr(d.valeur_realisation);
   const valeurReconstitution = parseNumericStr(d.valeur_reconstitution);
   const capitalisation = parseNumericStr(d.capitalisation); // M€
   const tof = parseNumericStr(d.tof);
-  const td2025 = parseNumericStr(d.taux_distribution_2025);
+  const td2025Raw = parseNumericStr(d.taux_distribution_2025);
+  const td2025 = validateTaux(td2025Raw, cn);
   const endettement = parseNumericStr(d.endettement);
   const dividendeT1 = parseNumericStr(d.dividende_brut_t1_2026);
   const nbActifs = d.nb_actifs ? parseCount(d.nb_actifs) : undefined;
@@ -435,7 +484,20 @@ for (const d of dossiers) {
   if (dividendeT1 !== undefined) fieldsToInject['Distribution trimestrielle T1 2026 (€/part)'] = dividendeT1;
   if (distributionAnnuelle !== undefined) fieldsToInject['Distribution (€/part)'] = distributionAnnuelle;
   if (d.source_periode) fieldsToInject['Période bulletin trimestriel'] = d.source_periode;
-  if (sectorRep) fieldsToInject['Répartition Sectorielle JSON'] = sectorRep;
+  // Règle : n'injecter une répartition sectorielle générique (1 seul item "Diversifié")
+  // que si la cible n'a pas déjà une répartition détaillée (>1 item).
+  if (sectorRep) {
+    const sectorKeys = Object.keys(sectorRep);
+    const isGeneric = sectorKeys.length === 1 && /diversif/i.test(sectorKeys[0]);
+    if (!isGeneric) {
+      fieldsToInject['Répartition Sectorielle JSON'] = sectorRep;
+    }
+    // Si générique ET existant a déjà des données détaillées → ne pas injecter
+    // (sera géré dans la boucle d'update via l'absence de la clé dans fieldsToInject)
+    else {
+      fieldsToInject['Répartition Sectorielle JSON'] = sectorRep;
+    }
+  }
 
   // Maximus metadata
   if (warnings.length > 0) fieldsToInject['maximus_warnings'] = warnings;
@@ -464,8 +526,21 @@ for (const d of dossiers) {
             "Nombre d'immeubles", "Nombre d'associés", 'Nombre de parts',
             'Versement des loyers', 'Période bulletin trimestriel',
             'Répartition Sectorielle JSON',
+            'Répartition Géographique JSON',
           ];
           if (financialKeys.includes(key)) {
+            // Règle : une répartition détaillée ne doit pas être écrasée par une générique
+            if ((key === 'Répartition Sectorielle JSON' || key === 'Répartition Géographique JSON') &&
+                typeof currentVal === 'object' && currentVal !== null) {
+              const currentKeys = Object.keys(currentVal as object);
+              const newKeys = typeof value === 'object' && value !== null ? Object.keys(value as object) : [];
+              const currentIsDetailed = currentKeys.length > 1;
+              const newIsGeneric = newKeys.length === 1 && /diversif|^france$|^europe$/i.test(newKeys[0]);
+              if (currentIsDetailed && newIsGeneric) {
+                // Ne pas écraser une répartition détaillée par une générique
+                continue;
+              }
+            }
             (existing as Record<string, unknown>)[key] = value;
           }
         }
