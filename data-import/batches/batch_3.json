@@ -1,0 +1,363 @@
+[
+  {
+    "name": "Épargne Pierre Europe",
+    "folder": "Epargne Pierre Europe",
+    "docs": {
+      "NI": [
+        "20250624-EPE-Note-dinformation.pdf"
+      ],
+      "Statuts": [
+        "20250624_EPE_Statuts.pdf"
+      ],
+      "SFDR": [
+        "Annexe-2-Reglementation-delegue-SFDR-SCPI-Epargne-Pierre-Europe-042026-V3.pdf"
+      ],
+      "RA": [
+        "ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf"
+      ],
+      "AUTRE": [
+        "BPI1T2026-EPE-web-2.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "180.00",
+      "taux_distribution": 5.5,
+      "capitalisation": 479,
+      "tof": 100,
+      "endettement": 0,
+      "nb_associes": 13615,
+      "nb_immeubles": 16,
+      "repartition_geo": {
+        "Irlande": 33.97,
+        "Allemagne": 30.47,
+        "Espagne": 24.04,
+        "Pays-Bas": 11.52
+      },
+      "repartition_sectorielle": {
+        "Hôtellerie": 35.56,
+        "Bureaux": 27.34,
+        "Commerces": 19.22,
+        "Activités/Entrepôts": 11.52,
+        "Santé": 6.36
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Epargne Pierre Europe"
+  },
+  {
+    "name": "Ficommerce Proximité",
+    "folder": "SCPI FiCommerce Proximité",
+    "docs": {
+      "SFDR": [
+        "Annexe SFDR_FICOMMERCE.pdf"
+      ],
+      "BT": [
+        "BTI Ficommerce T1 2026.pdf"
+      ],
+      "DIC": [
+        "DIC FICOMMERCE 31.12.2024.pdf"
+      ],
+      "RA": [
+        "Ficommerce Proximité - Rapport Annuel 2025.pdf"
+      ],
+      "NI": [
+        "Note d'information et statuts Ficommerce - 01.2026.pdf",
+        "Note d'information et statuts Ficommerce - Actualisation - 02.01.2026.pdf"
+      ],
+      "AUTRE": [
+        "Rapport 2023 article 29_Complet_Ficommerce_VF.pdf",
+        "Rapport article 29 complet Ficommerce - 31.12.2023.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 70,
+      "prix_retrait": 63.0,
+      "taux_distribution": 5.1,
+      "capitalisation": 596,
+      "tof": 95.72,
+      "endettement": 1.79,
+      "nb_associes": 8120,
+      "nb_immeubles": 281,
+      "repartition_geo": {
+        "Régions": 51.8,
+        "Paris": 25.8,
+        "Île-de-France": 19.9,
+        "Europe": 2.5
+      },
+      "repartition_sectorielle": {
+        "Locaux commerciaux": 84.9,
+        "Bureaux": 14.9,
+        "Entrepôts-activités": 0.2
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI FiCommerce Proximité"
+  },
+  {
+    "name": "Foncière des Praticiens",
+    "folder": "SCPI Foncière des praticiens",
+    "docs": {
+      "NI": [
+        "2025.02.10-Note-dinformation-SCPI-Fonciere-des-Praticiens-V4.pdf"
+      ],
+      "BT": [
+        "BT-1T-2026-Fonciere-des-Praticiens.pdf"
+      ],
+      "DIC": [
+        "DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf"
+      ],
+      "Statuts": [
+        "Fonciere-des-Praticiens_Statuts.pdf"
+      ],
+      "AUTRE": [
+        "Rapport-ESG-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 1100,
+      "prix_retrait": "1012.00",
+      "taux_distribution": 5.5,
+      "capitalisation": 179.407,
+      "tof": 97.08,
+      "endettement": 22.15,
+      "nb_associes": 2768,
+      "nb_immeubles": 23,
+      "repartition_geo": {
+        "France": 70,
+        "Belgique": 30
+      },
+      "repartition_sectorielle": {
+        "Lieux de soins, de traitement et de consultation": 46,
+        "Locaux d'accompagnement et rééducation": 37,
+        "Locaux supports au secteur de la santé": 17
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Foncière des praticiens"
+  },
+  {
+    "name": "GMA Essentialis",
+    "folder": "SCPI GMA Essentialis",
+    "docs": {
+      "SFDR": [
+        "10_SCPI-GMA-Essentialis_Annexe-Pre-Contractuelle_Article-9-SFDR.pdf"
+      ],
+      "DIC": [
+        "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf"
+      ],
+      "Statuts": [
+        "GMA-Essentialis-STATUTS-CONSTITUTIFS-2025.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette_commerciale_SCPI_GMA_Essentialis_190226.pdf"
+      ],
+      "RA": [
+        "Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf"
+      ],
+      "NI": [
+        "SCPI-GMA-Essentialis-Note-dinformation-2025-Juillet.pdf"
+      ],
+      "BT": [
+        "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 150,
+      "prix_retrait": 132.0,
+      "taux_distribution": 0,
+      "capitalisation": 42.32,
+      "tof": 99.67,
+      "endettement": 39.07,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 51,
+        "Allemagne": 49
+      },
+      "repartition_sectorielle": {
+        "Alimentaire": 90,
+        "Tertiaire": 10
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI GMA Essentialis"
+  },
+  {
+    "name": "Grand Paris Résidentiel",
+    "folder": "Grans Paris Résidentiel",
+    "docs": {
+      "NI": [
+        "IGGPRNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "BT": [
+        "IG_GPRBulletin_Semestriel2025_S1.pdf"
+      ],
+      "DIC": [
+        "IG_GPR_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2025GPR.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": "176.00",
+      "taux_distribution": 0,
+      "capitalisation": 12.21,
+      "tof": 92.14,
+      "endettement": 38.44,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Ile-de-France": 87,
+        "Régions": 13
+      },
+      "repartition_sectorielle": {
+        "Logement": 99.6,
+        "Commerces": 0.4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Grans Paris Résidentiel"
+  },
+  {
+    "name": "Immorente",
+    "folder": "SCPI Immorente",
+    "docs": {
+      "AUTRE": [
+        "Brochure-Immorente.pdf",
+        "FP-IR-042026-FR-3-2964.pdf",
+        "NI-IR-042026.pdf",
+        "ST-IR-072025-FR-3-2341.pdf"
+      ],
+      "DIC": [
+        "DIC-IR-042026.pdf"
+      ],
+      "BT": [
+        "IMMORENTE-BT-1T-2026-1.pdf"
+      ],
+      "SFDR": [
+        "immorente-webdisclosure-1025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 340,
+      "prix_retrait": "306.00",
+      "taux_distribution": 5,
+      "capitalisation": 4391,
+      "tof": 91.21,
+      "endettement": 19.1,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Paris Centre": 22.5,
+        "Grand Paris": 25,
+        "Métropoles françaises": 32.8,
+        "Pays-Bas": 7.9,
+        "Allemagne": 4.5,
+        "Belgique": 3,
+        "Royaume-Uni": 2.9,
+        "Irlande": 0.6,
+        "Reste de l'Europe": 0.8
+      },
+      "repartition_sectorielle": {
+        "Bureaux": 36.3,
+        "Commerces de centre-ville et milieu urbain": 24.1,
+        "Galeries commerciales": 13.7,
+        "Autres": 9.5,
+        "Moyennes surfaces commerciales de périphéries": 16.4
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Immorente"
+  },
+  {
+    "name": "Iroko Zen",
+    "folder": "IrokoZen",
+    "docs": {
+      "AUTRE": [
+        "Iroko_Atlas_methode_ESG.pdf",
+        "Iroko_Atlas_plaquette_commerciale.pdf"
+      ],
+      "BT": [
+        "Iroko_Zen_bulletin_trimestriel.pdf"
+      ],
+      "DIC": [
+        "Iroko_Zen_memo_DIC_PRIIPS.pdf"
+      ],
+      "NI": [
+        "Iroko_Zen_note_information.pdf"
+      ],
+      "RA": [
+        "Iroko_Zen_Rapport_annuel_2025.pdf"
+      ],
+      "Statuts": [
+        "Iroko_Zen_statuts_scpi.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": 204,
+      "taux_distribution": 7.12,
+      "capitalisation": 1237,
+      "tof": 97,
+      "endettement": 30.1,
+      "nb_associes": null,
+      "nb_immeubles": 164,
+      "repartition_geo": {
+        "France": 29.5,
+        "Royaume-Uni": 25.8,
+        "Pays-Bas": 13.3,
+        "Espagne": 11.5,
+        "Irlande": 10.9,
+        "Allemagne": 8,
+        "Italie": 1
+      },
+      "repartition_sectorielle": {
+        "Commerces": 36.2,
+        "Bureaux": 29.4,
+        "Locaux d'activités": 15.1,
+        "Entrepôts": 10.4,
+        "Santé / Crèches / Éducation / Hôtellerie": 9
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\IrokoZen"
+  },
+  {
+    "name": "Kyaneos Pierre",
+    "folder": "SCPI Kyaneos",
+    "docs": {
+      "BT": [
+        "BT-T1-2026-KP.pdf"
+      ],
+      "DIC": [
+        "SCPI-KP-DIC-2025.pdf"
+      ],
+      "NI": [
+        "SCPI-KP-Note-dinformation-01072025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-KP-Statuts-05-04-2024.pdf"
+      ],
+      "SFDR": [
+        "SCPI-Kyaneos-Pierre-Annexe-SFDR.pdf"
+      ],
+      "AUTRE": [
+        "SCPI-Kyaneos-Pierre-Plaquette-commerciale-au-01072025-vdef.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 224,
+      "prix_retrait": 199.36,
+      "taux_distribution": 4.35,
+      "capitalisation": 445.7,
+      "tof": 88.9,
+      "endettement": 0,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "France": 100
+      },
+      "repartition_sectorielle": {
+        "Résidentiel": 80,
+        "Tertiaire": 20
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Kyaneos"
+  }
+]

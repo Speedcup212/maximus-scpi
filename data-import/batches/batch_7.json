@@ -1,0 +1,333 @@
+[
+  {
+    "name": "Wemo One",
+    "folder": "scpi Wemo OIne",
+    "docs": {
+      "NI": [
+        "2-SCPI-WEMO-ONE-Note-dInformation-avril-2026.pdf"
+      ],
+      "DIC": [
+        "3-SCPI-WEMO-ONE-DIC-2026-04-22.pdf"
+      ],
+      "Statuts": [
+        "4-SCPI-WEMO-ONE-Statuts-17.04.2026.pdf"
+      ],
+      "BT": [
+        "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf"
+      ],
+      "RA": [
+        "RAPPORT-ANNUEL-N02-JANV-2026-Fina13_04_26.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 210.0,
+      "prix_retrait": null,
+      "taux_distribution": 15.27,
+      "capitalisation": 121.9,
+      "tof": 100,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": {
+        "Italie": 46.1,
+        "Espagne": 29.4,
+        "France": 20.9,
+        "Irlande": 3.6
+      },
+      "repartition_sectorielle": {
+        "Commerces": 66.7,
+        "Activités": 18.4,
+        "Industriel": 6.6,
+        "Éducation": 5.2,
+        "Bureaux": 3.1
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\scpi Wemo OIne"
+  },
+  {
+    "name": "Iroko Atlas",
+    "folder": "Iroko Atlas",
+    "docs": {
+      "SFDR": [
+        "Iroko_Atlas_annexe_SFDR.pdf"
+      ],
+      "BT": [
+        "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf"
+      ],
+      "AUTRE": [
+        "Iroko_Atlas_document_informations_cles.pdf",
+        "Iroko_Atlas_fiche_produit.pdf",
+        "Iroko_Atlas_methode_ESG.pdf",
+        "Iroko_Atlas_plaquette_commerciale.pdf",
+        "Iroko_Atlas_politique_engagement.pdf"
+      ],
+      "NI": [
+        "Iroko_Atlas_note_information.pdf"
+      ],
+      "RA": [
+        "Iroko_Atlas_rapport_annuel_2025.pdf"
+      ],
+      "Statuts": [
+        "Iroko_Atlas_statuts_scpi.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 200,
+      "prix_retrait": 200,
+      "taux_distribution": null,
+      "capitalisation": 120,
+      "tof": null,
+      "endettement": null,
+      "nb_associes": 3502,
+      "nb_immeubles": 14,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerces": 63.6,
+        "Santé-hôtellerie-autre": 11.6,
+        "Entrepôts": 10.1,
+        "Bureaux": 9.0,
+        "Autres": 5.7
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Iroko Atlas"
+  },
+  {
+    "name": "Epsicap Nano",
+    "folder": "Epsicap Nano",
+    "docs": {
+      "BT": [
+        "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf"
+      ],
+      "AUTRE": [
+        "Epsicap-Nano-Document-commercial-def.pdf"
+      ],
+      "SFDR": [
+        "Epsicap-Nano-Document-SFDR.pdf"
+      ],
+      "NI": [
+        "Epsicap-Nano-Note-dinformation-2026.05.pdf"
+      ],
+      "Statuts": [
+        "Epsicap-Nano-Statuts-a-jour.pdf"
+      ],
+      "RA": [
+        "Rapport-annuel-2025-Epsicap-Nano.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 257,
+      "prix_retrait": null,
+      "taux_distribution": 6.08,
+      "capitalisation": 200,
+      "tof": null,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\Epsicap Nano"
+  },
+  {
+    "name": "Alta Convictions",
+    "folder": "SCPI Alta Convictions",
+    "docs": {
+      "AUTRE": [
+        "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf",
+        "241209_Altarea_FicheProduit_PPP_WEB.pdf",
+        "Alta-Convictions-Rapport-ISR-Web-Planche.pdf",
+        "SCPI-Alta-Convictions-Plaquette-PAP-WEB.pdf"
+      ],
+      "RA": [
+        "Alta-Convictions-Rapport-annuel-2024-Web-PAP.pdf"
+      ],
+      "DIC": [
+        "Alta-Convictions_DIC_Avril-2026.pdf"
+      ],
+      "NI": [
+        "Alta-Convictions_Note-Information_Dec-2025.pdf"
+      ],
+      "Statuts": [
+        "SCPI-Alta-Convictions-Statuts-au-16-05-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 308,
+      "prix_retrait": null,
+      "taux_distribution": 6.57,
+      "capitalisation": 121,
+      "tof": 96,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Alta Convictions"
+  },
+  {
+    "name": "Cristal Rente",
+    "folder": "SCPI Cristal Rente",
+    "docs": {
+      "NI": [
+        "IGCRNoteInfo_StatutsAMFEurope20260115.pdf"
+      ],
+      "AUTRE": [
+        "IGCRPlaquetteComFR20251029.pdf"
+      ],
+      "BT": [
+        "IG_CRBulletin_Trimestriel2026_T1.pdf"
+      ],
+      "DIC": [
+        "IG_CR_DIC20241203.pdf"
+      ],
+      "RA": [
+        "IG_RapportAnnuel_2024CR_WEB.pdf",
+        "IG_RapportAnnuel_2025CR.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 255.68,
+      "prix_retrait": null,
+      "taux_distribution": 5,
+      "capitalisation": 682.95,
+      "tof": 98.99,
+      "endettement": null,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": null
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Cristal Rente"
+  },
+  {
+    "name": "Rivoli Avenir Patrimoine",
+    "folder": "SCPI Rivoli Avenir Patrimoine",
+    "docs": {
+      "AUTRE": [
+        "RIVOLI AVENIR PATRIMOINE - Brochure commerciale - Novembre 2025.pdf"
+      ],
+      "BT": [
+        "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2-1.pdf",
+        "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf"
+      ],
+      "DIC": [
+        "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf"
+      ],
+      "RA": [
+        "RIVOLI AVENIR PATRIMOINE - Rapport Annuel - 2024.pdf"
+      ],
+      "NI": [
+        "RIVOLI AVENIR PATRIMOINE-Note Information- Statuts 08082025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 228,
+      "prix_retrait": null,
+      "taux_distribution": 3.688,
+      "capitalisation": 2927,
+      "tof": 86.032202586,
+      "endettement": 93138.6,
+      "nb_associes": 36768,
+      "nb_immeubles": 181,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Bureaux": 79.1,
+        "Commerces": 13.9,
+        "Hôtels": 3.3,
+        "Logistique": 3.1,
+        "Résidences Services": 0.7
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Rivoli Avenir Patrimoine"
+  },
+  {
+    "name": "Primovie",
+    "folder": "SCPI Primovie",
+    "docs": {
+      "SFDR": [
+        "ART 10_Primovie.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Primovie_T1_2026.pdf"
+      ],
+      "DIC": [
+        "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf"
+      ],
+      "RA": [
+        "Rapport Annuel 2024 Primovie.pdf"
+      ],
+      "AUTRE": [
+        "SCPI Primovie - L'Essentiel.pdf",
+        "SCPI Primovie - Politique ISR.pdf"
+      ],
+      "NI": [
+        "SCPI Primovie - Note information.pdf"
+      ],
+      "Statuts": [
+        "SCPI Primovie - Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 164,
+      "prix_retrait": null,
+      "taux_distribution": 4.04,
+      "capitalisation": 4200,
+      "tof": 94.7,
+      "endettement": 29.2,
+      "nb_associes": 50122,
+      "nb_immeubles": 298,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Sénior": 78.6,
+        "Bureaux": 16.3,
+        "Éducation": 3.9,
+        "Hôtellerie": 1.2
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Primovie"
+  },
+  {
+    "name": "Praemia Hôtels Europe",
+    "folder": "scpi Praemia Hotels Europe",
+    "docs": {
+      "DIC": [
+        "2025 09 17 DIC PRAEMIA HOTELS EUROPE v3 EDHEC IEIF.pdf"
+      ],
+      "Statuts": [
+        "2026 02 10 (2025 09 17) Praemia Hotels Europe - Statuts v1c.pdf"
+      ],
+      "AUTRE": [
+        "2026 02 10 Praemia Hotels Europe - NI v3c.pdf",
+        "PRAEMIA_HOTELS_EUROPE - Plaquette 04 2026.pdf"
+      ],
+      "SFDR": [
+        "Information précontractuelle art 8 SFDR Praemia Hotels Europe_10022026 - v1c.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf"
+      ],
+      "RA": [
+        "Primofamily -Rapport annuel 2024.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": null,
+      "taux_distribution": 3.9,
+      "capitalisation": 252.5,
+      "tof": 97.7,
+      "endettement": 30.9,
+      "nb_associes": 2164,
+      "nb_immeubles": 117,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Hôtel": 67.3,
+        "Résidentiel": 15.1,
+        "Commerce": 10,
+        "Mixte Résidentiel-Commerce": 7.6
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\scpi Praemia Hotels Europe"
+  }
+]

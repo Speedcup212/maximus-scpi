@@ -1,0 +1,124 @@
+[
+  {
+    "name": "Pierval Santé",
+    "folder": "SCPI Pierval Santé",
+    "docs": {
+      "BT": [
+        "BT_PIERVAL_SANTE_2026_T1.pdf"
+      ],
+      "DIC": [
+        "DIC_SCPI_PIERVAL_SANTE_202411.pdf"
+      ],
+      "NI": [
+        "Note-information-SCPI-PIERVAL-SANTE-032026-annexes.pdf"
+      ],
+      "AUTRE": [
+        "Plaquette-commerciale-Pierval-Sante-2026.pdf",
+        "Rapport_ESG_SCPI_Pierval_Sante_2024.pdf"
+      ],
+      "RA": [
+        "RA_PIERVAL_SANTE_2025.pdf"
+      ],
+      "Statuts": [
+        "Statuts-SCPI-Pierval-Sante_MAJ-AGE-30-06-2025.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 204,
+      "prix_retrait": null,
+      "taux_distribution": 4.391,
+      "capitalisation": 2500,
+      "tof": 94.59,
+      "endettement": 16.39,
+      "nb_associes": null,
+      "nb_immeubles": null,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Médico-social": 71.7,
+        "Cliniques et soins": 20.0,
+        "Autres actifs santé": 8.3
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Pierval Santé"
+  },
+  {
+    "name": "Patrimmo Commerce",
+    "folder": "SCPI Praemia",
+    "docs": {
+      "SFDR": [
+        "ART 10_PatrimmoCommerce.pdf"
+      ],
+      "BT": [
+        "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf"
+      ],
+      "RA": [
+        "Rapport Annuel 2024 Patrimmo Commerce.pdf"
+      ],
+      "DIC": [
+        "SCPI Patrimmo Commerce - DIC.pdf"
+      ],
+      "NI": [
+        "SCPI Patrimmo Commerce - Note d'information.pdf"
+      ],
+      "Statuts": [
+        "SCPI Patrimmo Commerce - Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 160,
+      "prix_retrait": null,
+      "taux_distribution": 3.38,
+      "capitalisation": 613.7,
+      "tof": 91,
+      "endettement": 24.1,
+      "nb_associes": 6149,
+      "nb_immeubles": 193,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerce": 86.7,
+        "Bureaux": 11.6,
+        "Activité-Logistique": 1.7
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Praemia"
+  },
+  {
+    "name": "Aestiam Agora",
+    "folder": "SCPI Aestiam Agora",
+    "docs": {
+      "RA": [
+        "2025-rapport-annuel-aestiam-agora.pdf"
+      ],
+      "BT": [
+        "2026-1t-bti-aestiam-agora.pdf"
+      ],
+      "DIC": [
+        "AestiamAgora-DIC.pdf"
+      ],
+      "NI": [
+        "AestiamAgora-NoteInformation.pdf"
+      ],
+      "Statuts": [
+        "AestiamAgora-Statuts.pdf"
+      ]
+    },
+    "current_values": {
+      "prix_souscription": 922,
+      "prix_retrait": null,
+      "taux_distribution": 4.5,
+      "capitalisation": null,
+      "tof": 91.7,
+      "endettement": 12,
+      "nb_associes": null,
+      "nb_immeubles": 193,
+      "repartition_geo": null,
+      "repartition_sectorielle": {
+        "Commerces": 57,
+        "Hôtels-Séminaires": 34,
+        "Bureaux": 6,
+        "Enseignement": 3
+      }
+    },
+    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Aestiam Agora"
+  }
+]

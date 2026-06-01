@@ -1,0 +1,182 @@
+[
+  {
+    "fichier": "scpi_complet",
+    "nom": "Comète",
+    "issues": [
+      "CHAMP_ANNEE [Année de création=2023]"
+    ],
+    "data": {
+      "Nom SCPI": "Comète",
+      "Société de gestion": "Alderan",
+      "Année de création": 2023,
+      "Label ISR": "Oui",
+      "Capitalisation (M€)": 519.6,
+      "Prix de souscription (€)": 208,
+      "Valeur de retrait (€)": "225.00",
+      "Surcote/décote (%)": -3.27,
+      "Valeur de reconstitution (€)": 258.45,
+      "Valeur de réalisation (€)": 221.08,
+      "Taux de distribution (%)": 9,
+      "Distribution (€/part)": 22.49,
+      "Endettement (%)": 0,
+      "TOF (%)": 99.1,
+      "Nombre d’immeubles": 9,
+      "Minimum de souscription €": 5000,
+      "Délai de jouissance (mois)": 6,
+      "Versement des loyers": "Trimestriel",
+      "Durée de détention recommandée (ans)": 8,
+      "Frais de gestion (HT/%)": 11,
+      "Répartition Géographique": "Royaume-Uni (46.5%), Espagne (15.4%), Italie (12.4%), Pays-Bas (10.3%), Canada (6.6%), Pologne (5.2%), Irlande (3.6%)",
+      "Répartition Sectorielle": "Commerce (27.6%), Logistique (23.9%), Hôtellerie (16.0%), Bureau (13.7%), Mixte (10.9%), Loisirs (5.8%), Éducation (2.1%)",
+      "Répartition Géographique JSON": {
+        "Royaume-Uni": 46.5,
+        "Espagne": 15.4,
+        "Italie": 12.4,
+        "Pays-Bas": 10.3,
+        "Canada": 6.6,
+        "Pologne": 5.2,
+        "Irlande": 3.6
+      },
+      "Répartition Sectorielle JSON": {
+        "Commerce": 27.6,
+        "Logistique": 23.9,
+        "Hôtellerie": 16,
+        "Bureau": 13.7,
+        "Mixte": 10.9,
+        "Loisirs": 5.8,
+        "Éducation": 2.1
+      },
+      "Profil_de_risque": {
+        "SRRI": 3,
+        "Echelle": "1-7",
+        "Source": "Valeur par défaut (Autre)",
+        "Verification": "Default"
+      },
+      "Nombre de locataires": 72,
+      "WALT": 10,
+      "WALB": 7.9,
+      "Collecte nette trimestre": 131600000,
+      "Nombre de cessions trimestre": 0
+    }
+  },
+  {
+    "fichier": "scpi_complet",
+    "nom": "Patrimmo Croissance Impact",
+    "issues": [
+      "CHAMP_ANNEE [Année de création=2025]"
+    ],
+    "data": {
+      "Nom SCPI": "Patrimmo Croissance Impact",
+      "Société de gestion": "Præmia REIM France",
+      "Année de création": 2025,
+      "Label ISR": "Oui",
+      "Capitalisation (M€)": 189.7,
+      "Prix de souscription (€)": 677,
+      "Valeur de retrait (€)": 597.38,
+      "Surcote/décote (%)": -3.17,
+      "Valeur de reconstitution (€)": 699.1531122025,
+      "Valeur de réalisation (€)": 576.1031122025,
+      "Taux de distribution (%)": 0,
+      "Distribution (€/part)": 0,
+      "Endettement (%)": 6.4,
+      "TOF (%)": 92.4,
+      "Nombre d’immeubles": 64,
+      "Minimum de souscription €": 7200,
+      "Délai de jouissance (mois)": 1,
+      "Versement des loyers": "NC",
+      "Durée de détention recommandée (ans)": 10,
+      "Frais de gestion (HT/%)": 9,
+      "Répartition Géographique": "Région parisienne (36.8%), Paris (32.6%), Régions (27.8%), Parts SCPI (2.8%)",
+      "Répartition Sectorielle": "Logement : 100 %",
+      "Répartition Géographique JSON": {
+        "Région parisienne": 36.8,
+        "Paris": 32.6,
+        "Régions": 27.8,
+        "Parts SCPI": 2.8
+      },
+      "Répartition Sectorielle JSON": {
+        "Résidentiel": 97,
+        "SCPI": 3
+      },
+      "Profil_de_risque": {
+        "SRRI": 3,
+        "Echelle": "1-7",
+        "Source": "Valeur par défaut (SCPI française)",
+        "Verification": "Default"
+      },
+      "Frais de souscription (TTC/%)": 11.76,
+      "Nombre d'immeubles": 64,
+      "Nombre d'associés": 1879,
+      "Nombre de parts": 280192,
+      "Distribution trimestrielle T1 2026 (€/part)": 0
+    }
+  },
+  {
+    "fichier": "public_json",
+    "nom": "Comète",
+    "issues": [
+      "CHAMP_ANNEE [Année de création=2023]"
+    ],
+    "data": {
+      "Nom SCPI": "Comète",
+      "Société de gestion": "Alderan",
+      "Année de création": 2023,
+      "Label ISR": "Oui",
+      "Capitalisation (M€)": 120.8,
+      "Prix de souscription (€)": 250,
+      "Valeur de retrait (€)": 225,
+      "Surcote/décote (%)": -3.27,
+      "Valeur de reconstitution (€)": 258.45,
+      "Valeur de réalisation (€)": 221.08,
+      "Taux de distribution (%)": 11.18,
+      "Distribution (€/part)": 26.56,
+      "Endettement (%)": 30,
+      "TOF (%)": 93.6,
+      "Nombre d’immeubles": 9,
+      "Minimum de souscription €": 5000,
+      "Délai de jouissance (mois)": 6,
+      "Versement des loyers": "Trimestriel",
+      "Durée de détention recommandée (ans)": 8,
+      "Frais de souscription (HT/%)": 10,
+      "SFDR": "Article 8",
+      "Profil cible": "Profil équilibré",
+      "Frais de gestion (HT/%)": 11,
+      "Répartition Sectorielle": "Bureaux (28%), Loisir (24%), Locaux mixtes (15%), Logistique (13%), Commerces (12%), Hôtellerie (9%)",
+      "Répartition Géographique": "{\"Espagne\": 31.0, \"Royaume-Uni\": 26.0, \"Pays-Bas\": 24.0, \"Italie\": 19.0}"
+    }
+  },
+  {
+    "fichier": "public_json",
+    "nom": "Patrimmo Croissance Impact",
+    "issues": [
+      "CHAMP_ANNEE [Année de création=2025]"
+    ],
+    "data": {
+      "Nom SCPI": "Patrimmo Croissance Impact",
+      "Société de gestion": "Præmia REIM France",
+      "Année de création": 2025,
+      "Label ISR": "Oui",
+      "Capitalisation (M€)": 189.7,
+      "Prix de souscription (€)": 677,
+      "Valeur de retrait (€)": 597.38,
+      "Surcote/décote (%)": 0,
+      "Valeur de reconstitution (€)": 678.58,
+      "Valeur de réalisation (€)": 566.77,
+      "Taux de distribution (%)": 0,
+      "Distribution (€/part)": 0,
+      "Endettement (%)": 6.21,
+      "TOF (%)": 92.4,
+      "Nombre d’immeubles": 64,
+      "Minimum de souscription €": 7200,
+      "Délai de jouissance (mois)": 1,
+      "Versement des loyers": "NC",
+      "Durée de détention recommandée (ans)": 10,
+      "Frais de souscription (HT/%)": 9.8,
+      "SFDR": "Article 8",
+      "Profil cible": "Profil équilibré",
+      "Frais de gestion (HT/%)": 9,
+      "Répartition Sectorielle": "Logement : 100 %",
+      "Répartition Géographique": "{\"Région parisienne\": 36.8, \"Paris\": 32.6, \"Régions\": 27.8, \"Parts SCPI\": 2.8}"
+    }
+  }
+]
