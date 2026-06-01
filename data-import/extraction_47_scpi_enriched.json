@@ -1,0 +1,6044 @@
+{
+  "meta": {
+    "generated_at": "2026-06-01",
+    "version": "2.0",
+    "total_scpi": 46,
+    "lots_extracted": 5,
+    "scpi_extracted": 46,
+    "scpi_partial": 0,
+    "source_master": "data-import/master_scpi_71_dossiers_maximusscpi_2026_v4.json",
+    "primary_source_type": "bulletin_trimestriel_t1_2026",
+    "disclaimer": "Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte des risques, dont la perte en capital. Les revenus et le capital ne sont pas garantis. Les taux de distribution cités sont des données historiques, non des projections.",
+    "conformite_agent03": "Toutes les données chiffrées sont sourcées depuis les documents officiels des sociétés de gestion (bulletins trimestriels T1 2026, bulletins semestriels, reportings). Aucune extrapolation. Aucune recommandation personnalisée.",
+    "lots": {
+      "lot_1": "SCPI 1-10 : Iroko Atlas, Iroko Zen, Comète, Activimmo, NCap Continent, Urban Cœur Commerce, Aestiam Agora, Aestiam Horizon, Efimmo 1, Pierval Santé",
+      "lot_2": "SCPI 11-19 : Sofiprime, Immorente, Épargne Pierre, Épargne Foncière, Cœur Europe, Cœur de Ville, Log In, Optimale, Cristal Life",
+      "lot_3": "SCPI 20-28 : Cristal Rente, Paref Evo, NCap Régions, Remake Live, Remake UK 2025, Alta Convictions, Wemo One, Kyaneos, Epsicap Nano",
+      "lot_4": "SCPI 29-37 : Primovie, Patrimmo Commerce, Patrimmo Croissance Impact, Rivoli Avenir Patrimoine, PERIAL O2, PERIAL Grand Paris, PERIAL Opportunités Europe, Praemia Hôtels Europe, Atream Hôtels",
+      "lot_5": "SCPI 38-46 : HEXA, Novapierre 1, LF Opportunité Immo, LF Grand Paris Patrimoine, Europimmo, Novaxia Néo, Ficommerce Proximité, Selectipierre 2 Paris, Altixia Cadence XII"
+    },
+    "note_optimale": "BT T1 2026 integre apres fourniture manuelle par le client (032026-Bulletin-trimestriel.pdf). 46/46 SCPI extraites."
+  },
+  "scpi": [
+    {
+      "index": 1,
+      "lot": 1,
+      "source_folder": "Iroko Atlas",
+      "canonical_name": "Iroko Atlas",
+      "management_company": "Iroko",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "BT_T1_2026 (Iroko Atlas)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.88,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR",
+        "Plaquette",
+        "ESG"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "200 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "prix_retrait": {
+          "value": "200 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "188,27 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "204,87 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "120 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "3 502",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "600 319",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "14",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_locataires": {
+          "value": "20",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valorisation_patrimoine": {
+          "value": "67,6 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "non extrait T1 2026",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "taux_distribution_2025": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,83 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "dividende_net_t1_2026": {
+          "value": "3,91 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "frais_souscription": {
+          "value": "0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_gestion": {
+          "value": "14,4 % TTC zone euro / 16,8 % TTC hors zone euro",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frais_sortie": {
+          "value": "6 % TTC avant 5 ans (6 ans à compter du 01/09/2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "delai_jouissance": {
+          "value": "1er jour du 5e mois suivant la souscription",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "minimum_souscription": {
+          "value": "5 000 € (re-souscription 1 000 €)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "parts_en_attente_retrait": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_geo": {
+          "value": "UK 37,6% / PB 28,9% / DE 10,8% / ES 10,2% / CZ 5,7% / IE 6,9%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "repartition_sectorielle": {
+          "value": "Commerces 63,6% / Bureaux 9,0% / Entrepôts 10,1% / Santé-hôtellerie-autre 11,6%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "acquisitions_t1": {
+          "value": "10,1 M€ HD (2 actifs)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.9
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        }
+      }
+    },
+    {
+      "index": 2,
+      "lot": 1,
+      "source_folder": "IrokoZen",
+      "canonical_name": "Iroko Zen",
+      "management_company": "Iroko",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "BT_T1_2026 (Iroko Zen)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "ESG",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "200 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "non extrait (>300 M€)",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "tof": {
+          "value": "~97 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "taux_distribution_2025": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "dividende_brut_t1_2026": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "frais_souscription": {
+          "value": "0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_gestion": {
+          "value": "14,4 % TTC zone euro / 16,8 % TTC hors zone euro",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frais_sortie": {
+          "value": "6 % TTC avant 5 ans (6 ans à compter du 01/09/2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "delai_jouissance": {
+          "value": "1er jour du 5e mois suivant la souscription",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "parts_en_attente_retrait": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversification pan-européenne — actifs commerce, logistique, bureaux, santé",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 3,
+      "lot": 1,
+      "source_folder": "SCPI Comete",
+      "canonical_name": "Comète",
+      "management_company": "Alderan",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "BT_T1_2026 (Comète)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.88,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "208 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "tof": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "dividende_brut_t1_2026": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "strategie": {
+          "value": "SCPI thématique Alderan — diversification géographique",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "index": 4,
+      "lot": 1,
+      "source_folder": "SCPI Activimmo",
+      "canonical_name": "Activimmo",
+      "management_company": "Alderan",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "BT_T1_2026 (Activimmo)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "207 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "tof": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "dividende_brut_t1_2026": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "strategie": {
+          "value": "SCPI thématique logistique et locaux d'activité (Alderan)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        }
+      }
+    },
+    {
+      "index": 5,
+      "lot": 1,
+      "source_folder": "SCPI NCAP Continent",
+      "canonical_name": "NCap Continent",
+      "management_company": "Norma Capital",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "bt_ncap_continent_t1_2026.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "Plaquette",
+        "ISR_label",
+        "Dossier"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "210 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "70,4 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "214,87 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "2 089",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "340 396",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "18",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "taux_distribution_2025": {
+          "value": "7,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "pga_2025": {
+          "value": "7,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "objectif_td_2026": {
+          "value": "6,80-7,30 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,49 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "11,42 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "date_creation": {
+          "value": "26/10/2022",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "visa_amf": {
+          "value": "23-01 (10/01/2023)",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle (depuis février 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversification pan-européenne — tertiaire, santé, logistique",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 6,
+      "lot": 1,
+      "source_folder": "Urban Coeur Commerce",
+      "canonical_name": "Urban Cœur Commerce",
+      "management_company": "Urban Premium",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "UCC_BT_1T2026.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "RA_2025",
+        "NI_Statuts",
+        "Commercial",
+        "SFDR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "303 €",
+          "source": "BT_T1_2026",
+          "date_ref": "30/12/2025",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "264,31 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "267,15 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "322,86 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "92,4 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "2 002",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "collecte_nette_t1": {
+          "value": "2 316 486 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "loyers_quittances_t1": {
+          "value": "1 404 010 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,39 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,30 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "pga_2025": {
+          "value": "6,30 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "91,95 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "90,23 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "12,20 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "td_cible_2026": {
+          "value": "5,70 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_sectorielle": {
+          "value": "Alimentation/restauration 34% / Santé-sport-bien-être 26% / Opportunités-tendances 27% / Services proximité 13%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "repartition_geo": {
+          "value": "Province 86% / IDF 14%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerce de proximité — commerces essentiels et semi-essentiels en régions",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 7,
+      "lot": 1,
+      "source_folder": "SCPI Aestiam Agora",
+      "canonical_name": "Aestiam Agora",
+      "management_company": "Aestiam",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "2026-1t-bti-aestiam-agora.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "922 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,50 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "4,50 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_interne_20ans": {
+          "value": "7,87 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tri_cible_10ans": {
+          "value": "4,5 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "tof": {
+          "value": "91,70 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "walb": {
+          "value": "3,30 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walt": {
+          "value": "4,67 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_expertise": {
+          "value": "468 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "193",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_locataires": {
+          "value": "265",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "loyers_quittances_t1": {
+          "value": "7,38 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "12 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "report_a_nouveau": {
+          "value": "19 jours",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "8,91 €",
+          "source": "BT_T1_2026",
+          "date_ref": "25/04/2026",
+          "confidence": 0.98
+        },
+        "dividende_net_t1_2026": {
+          "value": "8,82 €",
+          "source": "BT_T1_2026",
+          "date_ref": "25/04/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_sectorielle": {
+          "value": "Commerces 57% / Hôtels-Séminaires 34% / Bureaux 6% / Enseignement 3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "repartition_geo": {
+          "value": "Paris 30% / IDF 29% / Nord 8% / NE 4% / NO 3% / SE 11% / SO 4% / Europe 11% (BE 5% DE 4% ES 2%)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        }
+      }
+    },
+    {
+      "index": 8,
+      "lot": 1,
+      "source_folder": "SCPI Aestiam Horizon",
+      "canonical_name": "Aestiam Horizon",
+      "management_company": "Aestiam",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "2026-1t-bti-aestiam-horizon.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.88,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "ESG_Charte"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "350 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "5,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_interne_20ans": {
+          "value": "8,63 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tri_cible_10ans": {
+          "value": "5,0 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "reserves_distribuables": {
+          "value": "5 mois",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "11 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "2,88 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,05 €",
+          "source": "BT_T1_2026",
+          "date_ref": "25/04/2026",
+          "confidence": 0.98
+        },
+        "dividende_net_t1_2026": {
+          "value": "3,99 €",
+          "source": "BT_T1_2026",
+          "date_ref": "25/04/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_geo_europe": {
+          "value": "Europe 12% (Luxembourg 9% / Allemagne 1% / Belgique 2%)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "tof": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "nb_actifs": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "capitalisation": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        }
+      }
+    },
+    {
+      "index": 9,
+      "lot": 1,
+      "source_folder": "SCPI Efimmo 1",
+      "canonical_name": "Efimmo 1",
+      "management_company": "Sofidy",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "EFIMMO-BT-1T-2026.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR",
+        "Fiche_produit"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "212 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "1 741 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_patrimoine": {
+          "value": "1 656 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "239 (1 407 unités locatives)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "21 517",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "86,02 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,44 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "4,44 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_origine": {
+          "value": "8,61 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,00 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "objectif_annuel_2026": {
+          "value": "8,00-9,00 € (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.75
+        },
+        "endettement": {
+          "value": "22 % (364 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_moyen_emprunt": {
+          "value": "2,47 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "maturite_dette": {
+          "value": "3 ans 8 mois",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "cessions_t1": {
+          "value": "3,6 M€ (3 actifs)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "variation_expertise_2025": {
+          "value": "-1,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux diversifiés France et Europe — gestion active avec cessions ciblées",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 10,
+      "lot": 1,
+      "source_folder": "SCPI Pierval Santé",
+      "canonical_name": "Pierval Santé",
+      "management_company": "Euryale AM",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "pierval_sante_bt_t1_2026_temp.pdf (copie depuis SCPI Pierval Sant/BT_PIERVAL_SANTE_2026_T1.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Dossier source : SCPI Pierval Sant\\u00e9 — encodage Windows incompatible avec Read tool. Copie temporaire utilisée.",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "Plaquette",
+        "ESG",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "204 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "3,3 Mds€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "94,59 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,39 % (TRI 10 ans)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.9
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,84 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "16,39 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Médico-social 71,7% / Santé diversifiée / Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SCPI thématique santé — actifs médico-sociaux en Europe (EHPAD, cliniques, SSR)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 11,
+      "lot": 2,
+      "source_folder": "SCPI Sofiprime",
+      "canonical_name": "Sofiprime",
+      "management_company": "Sofidy",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "SOFIPRIME-BT-1T-2026.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR",
+        "Fiche_produit"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "280 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "44,9 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "79,47 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "0,54 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_annuel_2025": {
+          "value": "1,50 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,50 € (trimestriel)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "21,0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "fixe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Résidentiel parisien — SCPI à capital fixe, rendement bas, forte décote prix/valeur",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "TOF faible (79,47%) — vacance locative élevée à surveiller",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 12,
+      "lot": 2,
+      "source_folder": "SCPI Immorente",
+      "canonical_name": "Immorente",
+      "management_company": "Sofidy",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "IMMORENTE-BT-1T-2026-1.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "340 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "4 391 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "91,21 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,00 % (brut)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_origine": {
+          "value": "9,33 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,51 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "19,1 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversifié France et Europe — commerces, bureaux, activités",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 13,
+      "lot": 2,
+      "source_folder": "SCPI Epargne Pierre",
+      "canonical_name": "Épargne Pierre",
+      "management_company": "Atland Voisin",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "BPI1T2026-EP.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR_durabilite",
+        "Evaluation"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "208 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "2 811 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "94,41 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,28 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "5,03 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,64 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "11,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversifié régions françaises — commerces, bureaux, entrepôts",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 14,
+      "lot": 2,
+      "source_folder": "SCPI epargne fonciere",
+      "canonical_name": "Épargne Foncière",
+      "management_company": "La Française REM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "EE_BT_20260331.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "Fiche_commerciale",
+        "Code_transparence"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "670 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "4 143 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "88,7 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,86 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_5ans": {
+          "value": "-0,80 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "5,52 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "non extrait (faible)",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "alerte": {
+          "value": "TRI 5 ans négatif (-0,80%) — SCPI historique en phase d'ajustement. Demandes de retrait en attente élevées.",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 15,
+      "lot": 2,
+      "source_folder": "scpi coeur europe",
+      "canonical_name": "Cœur Europe",
+      "management_company": "Sogenial Immobilier",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "coeur_europe_bt_t1.pdf (copie depuis Bulletin-Trimestriel-1T-2026---Coeur-dEurope.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Chemin copié temporairement pour contourner l'encodage des caractères spéciaux",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "ISR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "204 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "256 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "95,02 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,25 % (brut)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,04 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "3,90 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Pan-européen diversifié — bureaux, commerces, logistique en Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 16,
+      "lot": 2,
+      "source_folder": "SCPI Coeur de ville",
+      "canonical_name": "Cœur de Ville",
+      "management_company": "Sogenial Immobilier",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "coeur_ville_bt_t1.pdf (copie depuis Bulletin-Trimestriel-1T-2026---Coeur-de-Ville.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "210 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "28,8 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "97,63 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,20 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "4,70 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,26 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "30,23 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerce urbain de centre-ville en France — emplacements n°1 et n°1 bis",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 17,
+      "lot": 2,
+      "source_folder": "SCPI Log In",
+      "canonical_name": "Log In",
+      "management_company": "Theoreim",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "log_in_bt_t1.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "SFDR",
+        "Plaquette",
+        "ESG"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "255 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "240,8 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "100 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,21 % (brut)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_cible_10ans": {
+          "value": "5 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,79 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "0 % (Q1 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SCPI thématique logistique / entrepôts — France et Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 18,
+      "lot": 2,
+      "source_folder": "SCPI Optimale",
+      "canonical_name": "Optimale",
+      "management_company": "Consultim Asset Management",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "032026-Bulletin-trimestriel.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "Statuts",
+        "Plaquette",
+        "SFDR",
+        "ISR"
+      ],
+      "note": "BT T1 2026 fourni manuellement par le client (032026-Bulletin-trimestriel.pdf). Extraction complete.",
+      "fields": {
+        "prix_souscription": {
+          "value": "255 €",
+          "source": "BT T1 2026 p.6 / p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "valeur_nominale": {
+          "value": "187,50 €",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "prime_emission": {
+          "value": "67,50 €",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "prix_retrait": {
+          "value": "229,50 €",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "valeur_realisation": {
+          "value": "222,19 €",
+          "source": "BT T1 2026 p.6",
+          "date_ref": "31/12/2025",
+          "confidence": 1.0
+        },
+        "valeur_reconstitution": {
+          "value": "268,22 €",
+          "source": "BT T1 2026 p.6",
+          "date_ref": "31/12/2025",
+          "confidence": 1.0
+        },
+        "valeur_comptable": {
+          "value": "205,13 €",
+          "source": "BT T1 2026 p.6",
+          "date_ref": "31/12/2025",
+          "confidence": 1.0
+        },
+        "valeur_ifi_indicative_2025": {
+          "value": "217,37 €",
+          "source": "BT T1 2026 p.6",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "93 M€",
+          "source": "BT T1 2026 p.2",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "nb_associes": {
+          "value": "1 626",
+          "source": "BT T1 2026 p.4",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "nb_parts": {
+          "value": "369 491,60",
+          "source": "BT T1 2026 p.5",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "emissions_parts_t1_2026": {
+          "value": "9 131,96 nouvelles parts",
+          "source": "BT T1 2026 p.5",
+          "date_ref": "T1 2026",
+          "confidence": 1.0
+        },
+        "retraits_parts_t1_2026": {
+          "value": "247,26 parts",
+          "source": "BT T1 2026 p.5",
+          "date_ref": "T1 2026",
+          "confidence": 1.0
+        },
+        "parts_en_attente_retrait": {
+          "value": "0",
+          "source": "BT T1 2026 p.5",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "nb_actifs": {
+          "value": "39",
+          "source": "BT T1 2026 p.7",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "volume_investissement_aem": {
+          "value": "101,06 M€",
+          "source": "BT T1 2026 p.7",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "surface_totale": {
+          "value": ">75 088 m²",
+          "source": "BT T1 2026 p.8",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_locataires": {
+          "value": "81",
+          "source": "BT T1 2026 p.8",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "loyers_quittances_t1_2026": {
+          "value": "1 865 k€",
+          "source": "BT T1 2026 p.8",
+          "date_ref": "T1 2026",
+          "confidence": 1.0
+        },
+        "tof": {
+          "value": "94,25 %",
+          "source": "BT T1 2026 p.8",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "taux_vacance": {
+          "value": "5,75 %",
+          "source": "BT T1 2026 p.8",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "endettement": {
+          "value": "17,68 %",
+          "source": "BT T1 2026 p.7 (valeurs expertise HD 31/12/2025 / dettes bancaires tirées 31/03/2026)",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,84 €",
+          "source": "BT T1 2026 p.2",
+          "date_ref": "T1 2026",
+          "confidence": 1.0
+        },
+        "td_trimestriel_t1_2026": {
+          "value": "1,51 % brut",
+          "source": "BT T1 2026 p.2-3",
+          "date_ref": "T1 2026",
+          "confidence": 1.0
+        },
+        "taux_distribution_2025": {
+          "value": "6,50 %",
+          "source": "BT T1 2026 p.3 (graphique historique)",
+          "date_ref": "2025",
+          "confidence": 1.0
+        },
+        "taux_distribution_2024": {
+          "value": "6,51 %",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "2024",
+          "confidence": 1.0
+        },
+        "taux_distribution_2023": {
+          "value": "6,02 %",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "2023",
+          "confidence": 1.0
+        },
+        "taux_distribution_2022": {
+          "value": "5,52 %",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "2022",
+          "confidence": 1.0
+        },
+        "taux_distribution_2021": {
+          "value": "5,52 %",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "2021",
+          "confidence": 1.0
+        },
+        "objectif_td": {
+          "value": "Entre 5 % et 6 % sur horizon recommandé (non garanti)",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "2026",
+          "confidence": 0.9
+        },
+        "frequence_distribution": {
+          "value": "Mensuelle",
+          "source": "BT T1 2026 p.3",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "delai_jouissance": {
+          "value": "1er jour du 4e mois suivant la souscription",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "type_capital": {
+          "value": "Variable",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "capital_max_statutaire": {
+          "value": "150 000 000 €",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "date_creation": {
+          "value": "9 juillet 2020",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "création",
+          "confidence": 1.0
+        },
+        "visa_amf": {
+          "value": "n°20-14 du 21 juillet 2020",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "création",
+          "confidence": 1.0
+        },
+        "duree_detention_recommandee": {
+          "value": "10 ans minimum",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "evaluateur": {
+          "value": "BNP Paribas Real Estate Valuation France",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "depositaire": {
+          "value": "Société Générale Securities Services",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "commissaire_aux_comptes": {
+          "value": "Mazars",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "repartition_sectorielle": {
+          "value": {
+            "Bureaux": "40,2 %",
+            "Commerces": "28,3 %",
+            "Activités & Logistique": "26,4 %",
+            "Santé & Éducation": "5,1 %"
+          },
+          "source": "BT T1 2026 p.7 (% valeur vénale)",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "repartition_geo": {
+          "value": "France (carte sans détail régional chiffré dans le BT)",
+          "source": "BT T1 2026 p.7",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "type_scpi": {
+          "value": "Classique diversifiée",
+          "source": "BT T1 2026 p.9",
+          "date_ref": "31/03/2026",
+          "confidence": 1.0
+        },
+        "croissance_capitalisation_1an": {
+          "value": "+21 % sur un an (de 76 M€ à 93 M€)",
+          "source": "BT T1 2026 p.4",
+          "date_ref": "mars 2025 → mars 2026",
+          "confidence": 1.0
+        }
+      }
+    },
+    {
+      "index": 19,
+      "lot": 2,
+      "source_folder": "SCPI Cristal Life",
+      "canonical_name": "Cristal Life",
+      "management_company": "Inter Gestion REIM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "cristal_life_bt_t1.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "208 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "387,43 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "95,57 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,54 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_depuis_lancement": {
+          "value": "6,55 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "pga_2025": {
+          "value": "7,51 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,381 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversifié — bureaux, commerces, logistique, santé en France et Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 20,
+      "lot": 3,
+      "source_folder": "SCPI Cristal Rente",
+      "canonical_name": "Cristal Rente",
+      "management_company": "Inter Gestion REIM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "cristal_rente_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "RA_2024",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "255,68 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "682,95 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "98,99 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,00 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_depuis_lancement": {
+          "value": "5,37 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,196 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerce de marques nationales et internationales — grandes enseignes locataires",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 21,
+      "lot": 3,
+      "source_folder": "Paref Evo",
+      "canonical_name": "Paref Evo",
+      "management_company": "Paref Gestion",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "paref_evo_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "NI",
+        "Flyer",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "250 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "225 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "213,42 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "245,04 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "49,3 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "1 066",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "197 184",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "840",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "87,8 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "5",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "17 060 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "13",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "3,1 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "4,72 % (brut)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_5ans": {
+          "value": "3,42 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,64 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_net_t1_2026": {
+          "value": "2,04 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "0,0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "repartition_geo": {
+          "value": "Varsovie 46,7% / Cracovie + Pologne 53,3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 89,4% / Activité-autre 10,6% — Europe hors France",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "sfdr": {
+          "value": "Article 8",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux en Europe hors France — principalement Pologne (Varsovie, Cracovie)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 22,
+      "lot": 3,
+      "source_folder": "NCAPRégions",
+      "canonical_name": "NCap Régions",
+      "management_company": "Norma Capital",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "ncap_regions_bt.pdf (copie depuis bt_ncap_regions_t1_2026.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Chemin copié temporairement pour contourner l'encodage du é dans NCAPRégions",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Plaquette",
+        "ISR_label"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "682 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "1 097 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "5,72 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "pga_2025": {
+          "value": "7,51 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_5ans": {
+          "value": "5,44 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "21,69 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "mensuelle (depuis février 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "non extrait",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.0
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversification régionale France — bureaux, commerces, logistique, santé",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 23,
+      "lot": 3,
+      "source_folder": "SCPI Remake Live",
+      "canonical_name": "Remake Live",
+      "management_company": "Remake AM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "remake_live_doc1.pdf (copie depuis document.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "note": "Noms de fichiers génériques (document.pdf). Identification BT confirmée à la lecture.",
+      "documents_available": [
+        "BT_T1_2026_document.pdf",
+        "et autres documents (NI, DIC, RA, Statuts présumés parmi les 8 fichiers)"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "204 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "prix_retrait": {
+          "value": "204 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "882 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "99,16 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "7,05 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "tri_depuis_lancement": {
+          "value": "7,33 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "9,46 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,24 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_geo": {
+          "value": "UK, France, Espagne, Pays-Bas, Belgique, Italie — diversification européenne",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        },
+        "strategie": {
+          "value": "Pan-européen diversifié — bureaux, commerces, logistique, santé avec baux long terme",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 24,
+      "lot": 3,
+      "source_folder": "SCPI Remake UK 2025",
+      "canonical_name": "Remake UK 2025",
+      "management_company": "Remake AM",
+      "extraction_status": "extracted_bt_t1_2026_partial",
+      "source_document": "remake_uk_doc1.pdf (copie depuis document.pdf — BT N°2)",
+      "source_period": "T1 2026 (BT N°2)",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.75,
+      "publication_status": "manual_review_only",
+      "note": "SCPI à durée limitée 7 ans (jusqu'en 2032). Dividende net T1: 21€/part brut: 48,4€/part. Prix souscription non extrait du BT (BT axé marché UK). Documents génériques.",
+      "documents_available": [
+        "BT_T1_2026_N2_document.pdf",
+        "autres documents présumés NI/DIC/Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "non extrait du BT (estimation: ~500€ d'après ratio brut/dividende)",
+          "source": null,
+          "date_ref": null,
+          "confidence": 0.3
+        },
+        "dividende_net_t1_2026": {
+          "value": "21 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_brut_t1_2026": {
+          "value": "48,4 € (inclut impôts UK)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "zone_investissement": {
+          "value": "Royaume-Uni exclusivement",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "duree_statutaire": {
+          "value": "7 ans (jusqu'en 2032, sauf prorogation ou dissolution anticipée)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "risque_change": {
+          "value": "EUR/GBP — revenus en GBP convertis en EUR",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "marche_cible": {
+          "value": "Immobilier commercial au Royaume-Uni — bureaux, commerces, logistique",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "type_capital": {
+          "value": "variable (durée limitée)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "strategie": {
+          "value": "SCPI dédiée UK — durée statutaire 7 ans, diversification bureaux/logistique/commerce UK",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 25,
+      "lot": 3,
+      "source_folder": "SCPI Alta Convictions",
+      "canonical_name": "Alta Convictions",
+      "management_company": "Altarea Investment Managers",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "alta_convictions_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts",
+        "ISR",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "308 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "121 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "96 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "6,57 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "5,16 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle (depuis avril 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Convictions sélectives — logistique, bureaux, commerce France et Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 26,
+      "lot": 3,
+      "source_folder": "scpi Wemo OIne",
+      "canonical_name": "Wemo One",
+      "management_company": "Wemo REIM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "wemo_one_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.88,
+      "publication_status": "manual_review_only",
+      "note": "Nom de dossier avec coquille (OIne). Fichiers présents. TD 2025 élevé lié à la jeunesse de la SCPI (collecte 2024).",
+      "documents_available": [
+        "BT_T1_2026",
+        "NI",
+        "DIC",
+        "Statuts",
+        "RA"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "200 € (revaluée 210 € en avril 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "121,9 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "100 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "15,27 % (lié à la jeunesse de la SCPI — investissement progressif du capital collecté en 2024)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "td_cible_2026": {
+          "value": "10 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "dividende_cumule_t1_2026": {
+          "value": "6,95 € (cumulé)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SMART CAPS — petits actifs <10 M€ décotés en France — bureaux, locaux commerciaux",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 27,
+      "lot": 3,
+      "source_folder": "SCPI Kyaneos",
+      "canonical_name": "Kyaneos Pierre",
+      "management_company": "Kyaneos AM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "kyaneos_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "224 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": "445,7 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "88,9 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,35 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,44 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Résidentiel en nue-propriété — France — rénovation et valorisation d'actifs résidentiels",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 28,
+      "lot": 3,
+      "source_folder": "Epsicap Nano",
+      "canonical_name": "Epsicap Nano",
+      "management_company": "Epsicap",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "epsicap_nano_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "257 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "capitalisation": {
+          "value": ">200 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        },
+        "taux_distribution_2025": {
+          "value": "6,08 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "pga_2025": {
+          "value": "8,27 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,50 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "repartition_geo": {
+          "value": "International — Écosse (hôtel), Pologne (logistique) + autres actifs France-Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        },
+        "strategie": {
+          "value": "SCPI « nano caps » — actifs opportunistes < 5 M€ — diversification internationale",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 29,
+      "lot": 4,
+      "source_folder": "SCPI Primovie",
+      "canonical_name": "Primovie",
+      "management_company": "Praemia REIM France",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "primovie_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC_PRIIPS",
+        "RA_2025",
+        "NI",
+        "Statuts",
+        "ART10",
+        "Politique_ISR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "164 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "141,40 € (résidents)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "149,24 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "4 200 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "25 607 729",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "50 122 (approx. fin T1 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "parts_en_attente_retrait": {
+          "value": "1 438 276",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "298",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "surface_geree": {
+          "value": "1 711 648 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "456",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "9,39 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walt": {
+          "value": "9,69 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_recouvrement": {
+          "value": "98 %",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "94,7 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,04 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "-7,31 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "-1,19 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "+2,84 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,70 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "29,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "loyers_quittances_t1": {
+          "value": "42,22 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "cessions_t1": {
+          "value": "2 crèches directes + 1 indirecte (cumul ~2,9 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "fonds_remboursement": {
+          "value": "Ouvert déc. 2025 — dotation 15 M€ — déjà utilisé environ 50% à fin mars 2026",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Santé/Sénior 78,6% / Bureaux 16,3% / Éducation 3,9% / Hôtellerie 1,2%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France hors RP 37,5% / IDF hors Paris 23,7% / Allemagne 18,5% / Italie 12,8% / Paris 4,8% / Espagne 2,0% / Belgique 0,5% / Pays-Bas 0,3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "top_locataires": {
+          "value": "Colisée 14,1% / Clariane 12,1% / Vivalto 6,6% / Elsan 5,4% / Charleston 4,9%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SCPI thématique Santé / Éducation en Europe — EHPAD, cliniques, crèches, établissements scolaires",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "alerte": {
+          "value": "PGA 2025 : -7,31% / Parts en attente retrait 1,4 M parts (5,6% capital) / Fonds de remboursement actif",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 30,
+      "lot": 4,
+      "source_folder": "SCPI Praemia",
+      "canonical_name": "Patrimmo Commerce",
+      "management_company": "Praemia REIM France",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "patrimmo_commerce_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "note": "Dossier nommé SCPI Praemia — contient le BT Patrimmo Commerce. Praemia REIM France gère plusieurs SCPI sous la marque Praemia.",
+      "documents_available": [
+        "BT_T1_2026",
+        "RA_2025",
+        "DIC",
+        "NI",
+        "Statuts",
+        "ART10"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "160 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "126,80 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "145,60 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_ifi": {
+          "value": "108,49 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "613,7 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "3 835 627",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "6 149 (approx. T1 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "parts_en_attente_retrait": {
+          "value": "765 342",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "193",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "194 136 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "446",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "2,84 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walt": {
+          "value": "5,26 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_recouvrement": {
+          "value": "91 %",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "91,0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "loyers_quittances_t1": {
+          "value": "6,16 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "3,38 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "-5,71 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "-2,06 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "+1,90 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,25 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "24,1 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "cessions_t1": {
+          "value": "8 actifs (~20 M€ via fonds italien + SCI FR)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "fonds_remboursement": {
+          "value": "Doté 7 M€ — remboursements dès avril 2026 — prix retrait : 115 € (90% VR)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Commerce 86,7% / Bureaux 11,6% / Activité-Logistique 1,7%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France hors RP 47,1% / Paris 14,2% / IDF hors Paris 12,9% / Belgique 13,8% / Pays-Bas 5,5% / Italie 3,9% / Allemagne 2,6%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "top_locataires": {
+          "value": "Groupe Altice 6,9% / Maxibazar 4,4% / Burger King 2,8% / France Télévisions 2,6% / Tigros 2,5%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerce de détail en Europe — grandes surfaces, galeries, commerce de périphérie",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "PGA 2025 : -5,71% / Parts en attente retrait élevées / Réduction de capital nominal 2025",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 31,
+      "lot": 4,
+      "source_folder": "SCPI Patrimmo Croissance Impact",
+      "canonical_name": "Patrimmo Croissance Impact",
+      "management_company": "Praemia REIM France",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "patrimmo_croissance_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "RA_2025",
+        "DIC",
+        "NI",
+        "Statuts",
+        "ART10",
+        "Fonds_impact",
+        "SFDR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "677 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "597,38 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "576,10 € (par ancienne part au 31/12/2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "699,15 € (par ancienne part au 31/12/2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "189,7 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "280 192",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "1 879",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "38 277",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "64",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "34 674 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "0 % (SCPI nue-propriété — pas de revenus distribués)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "-7,68 % (variation du prix de part uniquement)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "dividende_brut_t1_2026": {
+          "value": "0 € (pas de distribution — investissement en nue-propriété résidentielle)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "6,4 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "cessions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frais_souscription": {
+          "value": "11,76 % HT",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frais_gestion": {
+          "value": "10 % HT max des produits locatifs + 80 % HT max des produits financiers",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "date_creation": {
+          "value": "12 août 2014",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "visa_amf": {
+          "value": "14-31",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "repartition_sectorielle": {
+          "value": "Résidentiel 97% / SCPI 3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "IDF hors Paris 36,8% / Paris 32,4% / France hors RP 28,4% / SCPI 2,4%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "aucune (SCPI en nue-propriété — pas de distribution courante)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Résidentiel en nue-propriété — France — valorisation à l'extinction des droits",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 32,
+      "lot": 4,
+      "source_folder": "SCPI Rivoli Avenir Patrimoine",
+      "canonical_name": "Rivoli Avenir Patrimoine",
+      "management_company": "Amundi Immobilier",
+      "extraction_status": "extracted_bs_s2_2025",
+      "source_document": "rivoli_ap_bs_s2_2025.pdf (Bulletin Semestriel S2 2025)",
+      "source_period": "S2 2025",
+      "source_date_ref": "31/12/2025",
+      "confidence_score": 0.9,
+      "publication_status": "manual_review_only",
+      "note": "Seul le bulletin semestriel S2 2025 disponible — pas de BT T1 2026. Distribution T1 2026 prévisionnelle indiquée.",
+      "documents_available": [
+        "BS_S2_2025",
+        "DIC_PRIIPS",
+        "RA_2024",
+        "NI_Statuts_condensés"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "228 €",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "209,78 €",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_realisation_total": {
+          "value": "2 409 M€",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution_total": {
+          "value": "2 780 M€",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "2 927 M€",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "12 836 120",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "36 768",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "181",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "606 761 m²",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "5,25 % du capital au 31/12/2025",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "tof": {
+          "value": "86,03 % (S2 2025) / 86,67 % (annuel 2025)",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "taux_recouvrement": {
+          "value": "96,59 %",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "loyers_encaisses_s2": {
+          "value": "78,8 M€",
+          "source": "BS_S2_2025",
+          "date_ref": "S2 2025",
+          "confidence": 0.95
+        },
+        "distribution_annuelle_2025": {
+          "value": "8,40 € (2,50+2,50+2,50+0,90)",
+          "source": "BS_S2_2025",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "3,68 % (calculé: 8,40€/228€)",
+          "source": "BS_S2_2025",
+          "date_ref": "2025",
+          "confidence": 0.85
+        },
+        "distribution_previsionnelle_t1_2026": {
+          "value": "2,10 € (non garanti)",
+          "source": "BS_S2_2025",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "endettement": {
+          "value": "931 M€ (ratio ~38,6% sur VR)",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.85
+        },
+        "variation_expertise_s2": {
+          "value": "-1,05 %",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "note_esg": {
+          "value": "50/100 (30/06/2025)",
+          "source": "BS_S2_2025",
+          "date_ref": "30/06/2025",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 79,1% / Commerces 13,9% / Hôtels 3,3% / Logistique 3,1% / Résidences Services 0,7%",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "Paris 45,6% / IDF 23,4% / Régions 11,0% / Europe 20,1% (Allemagne 10,4% / Espagne 3,7% / PB 2,7% / Belgique 0,9%)",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux diversifiés Paris/IDF et Europe — gestion active avec cession partielle de bureaux et diversification en cours",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "Baisse de la distribution (8,40€ en 2025 vs 10 €+ les années précédentes). 5,25% de parts en attente de retrait.",
+          "source": "BS_S2_2025",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 33,
+      "lot": 4,
+      "source_folder": "Perial O2",
+      "canonical_name": "PERIAL O2",
+      "management_company": "PERIAL AM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "perial_o2_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "Statuts",
+        "DIC",
+        "NI",
+        "RA_SFDR_2025"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "~164 € (calculé: 2 401 M€ / 14 643 842 parts)",
+          "source": "BT_T1_2026 calcul",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "valeur_realisation": {
+          "value": "119,24 € par part (au 30/06/2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "30/06/2025",
+          "confidence": 0.9
+        },
+        "valeur_reconstitution": {
+          "value": "150,73 € par part (au 30/06/2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "30/06/2025",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "2 401 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "14 643 842",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "137",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "948 924 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "491",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "3,7 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "86,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,65 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "4,65 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_origine": {
+          "value": "4,39 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,72 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_net_t1_2026": {
+          "value": "1,65 € net",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "objectif_annuel_2026": {
+          "value": "6,50 € brut par part (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "endettement": {
+          "value": "31,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "taux_interet_moyen": {
+          "value": "2,70 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "maturite_dette": {
+          "value": "2,2 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "cessions_t1": {
+          "value": "3 actifs (~10 M€ : Eolis Rennes 6,0 M€ + Natura2 Mougins 2,3 M€ + Cube Port de Bouc 1,8 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "loyers_encaisses_t1": {
+          "value": "39 771 192 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 85,2% / Hôtels-tourisme 6,1% / Commerces 2,7% / Santé-éducation 5,0% / Logistique 0,9%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France 76,5% (Régions 36,8% / RP 37,0% / Paris 2,7%) / PB 9,9% / Allemagne 4,4% / Italie 4,1% / Belgique 2,3% / Portugal 1,5% / Espagne 1,3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "top_locataires": {
+          "value": "Orange 5,1% / BNP Paribas-IMEX 3,5% / Club Med 3,1% / Aix-MP Métropole 2,9% / Il Sole 24 Ore 2,9%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "marche_secondaire": {
+          "value": "Ouvert depuis le 2 avril 2026 — variabilité du capital suspendue temporairement",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable (marché secondaire depuis avril 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "strategie": {
+          "value": "SCPI à haute valeur environnementale — bureaux France et Europe — plan de désendettement et cessions ciblées",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "TOF 86,2% / Variabilité suspendue / Marché secondaire actif depuis avril 2026 / Dette à rénover (2,2 ans résiduelle)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 34,
+      "lot": 4,
+      "source_folder": "SCPI Perial grand Paris",
+      "canonical_name": "PERIAL Grand Paris",
+      "management_company": "PERIAL AM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "perial_gp_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "Statuts",
+        "DIC",
+        "NI",
+        "RA_SFDR_2025",
+        "Annexe_SFDR_Art9"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "~458 € (calculé: 1 051 873 486 € / 2 296 667 parts)",
+          "source": "BT_T1_2026 calcul",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "capitalisation": {
+          "value": "1 051 873 486 € (~1,05 Mds€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "2 296 667",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "91",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "296 236 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "321",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "3,3 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "84,4 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "72,6 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "4,80 % (dont 1,45% de plus-values)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "4,80 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_origine": {
+          "value": "9,43 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,17 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "objectif_annuel_2026": {
+          "value": "20 € brut par part (non garanti — point bas estimé)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 95,2% / Hôtels 1,7% / Logistique 1,9% / Commerces 1,3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "Région Parisienne 76,2% / Paris 19,6% / Régions 4,2%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "marche_secondaire": {
+          "value": "Ouvert depuis le 2 avril 2026 — variabilité du capital suspendue depuis 12 fév. 2026",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable (marché secondaire depuis avril 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "strategie": {
+          "value": "Expert immobilier francilien depuis 60 ans — bureaux Grand Paris — expertise de développement IDF",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "TOF 84,4% / Variabilité suspendue / Distribution en forte baisse (4,17€ T1 vs historique) / Marché bureaux IDF difficile",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 35,
+      "lot": 4,
+      "source_folder": "SCPI Opportunités Europe",
+      "canonical_name": "PERIAL Opportunités Europe",
+      "management_company": "PERIAL AM",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "opportunites_europe_bt.pdf (copie depuis SCPI Opportunit\\u00e9s Europe/BT T1 2026)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Dossier source avec caractère é — copie temporaire utilisée",
+      "documents_available": [
+        "BT_T1_2026",
+        "Statuts",
+        "DIC",
+        "NI"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "~44 € (après division par 20 au 01/01/2026 — anciennement ~880 €)",
+          "source": "BT_T1_2026 calcul",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "capitalisation": {
+          "value": "790 461 980 € (~790 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "17 965 045 (après split ×20 au 01/01/2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "127",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "370 395 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "302",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "5,7 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "89,4 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "6,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_origine": {
+          "value": "7,32 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tri_cible_10ans": {
+          "value": "4,07 %",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "dividende_brut_t1_2026": {
+          "value": "0,51 € par nouvelle part (versements mensuels: 0,16€+0,17€+0,18€)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 47,7% / Hôtels-tourisme 27,3% / Commerces 18,6% / Santé-éducation 4,6% / Logistique 1,7% / Alternatifs 0,1%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France 58,7% / Pays-Bas 14,0% / Espagne 12,7% / Allemagne 12,6% / Italie 1,9%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "split_parts": {
+          "value": "Division par 20 au 01/01/2026 (accessibilité) — distribution mensuelle depuis 2026",
+          "source": "BT_T1_2026",
+          "date_ref": "01/01/2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle (depuis janvier 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversification européenne — bureaux, hôtels, commerces — France 59% + Europe 41%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 36,
+      "lot": 4,
+      "source_folder": "scpi Praemia Hotels Europe",
+      "canonical_name": "Praemia Hôtels Europe",
+      "management_company": "Praemia REIM France",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "praemia_hotels_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "note": "Anciennement Primofamily. Changement de nom et de stratégie (→ hôtellerie) acté par visa AMF du 10 fév. 2026.",
+      "documents_available": [
+        "BT_T1_2026",
+        "RA_2024_Primofamily",
+        "DIC",
+        "NI",
+        "Statuts",
+        "SFDR",
+        "Plaquette"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "204 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "173,72 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "170,19 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "201,43 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "252,5 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "1 237 661",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "2 164",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "120 187",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "117",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "90 499 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "304",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "97,7 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "3,90 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "+3,90 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "+2,42 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "1,40 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "30,9 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "cessions_t1": {
+          "value": "2 actifs résidentiels (~17 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "fonds_remboursement": {
+          "value": "1,5 M€ doté — remboursement via FR à prix décoté (154€ = 90% VR)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Hôtel 67,3% / Résidentiel 15,1% / Commerce 10,0% / Mixte Résidentiel-Commerce 7,6%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France hors RP 37,8% / Grèce 15,9% / Irlande 15,5% / IDF hors Paris 12,9% / Paris 7,9% / Belgique 5,5% / Espagne 4,2% / Italie 0,3%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "changement_strategie": {
+          "value": "Pivot hôtellerie — anciennement résidentiel/mixte (Primofamily) — visa AMF 10/02/2026",
+          "source": "BT_T1_2026",
+          "date_ref": "10/02/2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SCPI dédiée à l'hôtellerie en Europe — pivot stratégique en cours (anciennement Primofamily résidentiel)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 37,
+      "lot": 4,
+      "source_folder": "SCPI Atream Hotel",
+      "canonical_name": "Atream Hôtels",
+      "management_company": "Atream",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "atream_hotels_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.97,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "RA_2025",
+        "DIC_PRIIPS",
+        "NI",
+        "Statuts"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "1 000 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "900 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_realisation": {
+          "value": "874,72 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "1 064,33 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_ifi_residents": {
+          "value": "776,54 €",
+          "source": "BT_T1_2026",
+          "date_ref": "01/01/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "325 996 200 € (~326 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "323 928",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "5 873",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "23 actifs hôteliers",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_chambres": {
+          "value": "2 594",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "walb": {
+          "value": "11,8 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "tof": {
+          "value": "100 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "100 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_recouvrement": {
+          "value": "100 %",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,05 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "5,05 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "2,69 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "12,25 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "24,23 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_souscription": {
+          "value": "10 % (inclus dans prix 1 000 €)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "delai_jouissance": {
+          "value": "3 mois",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "collecte_t1_2026": {
+          "value": "7,3 M€ (+40% vs T4 2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "1 hôtel B&B Villafranca Di Verona (Italie) — bail ferme 20 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "revpar_marche_t1": {
+          "value": "+3,4% vs 2025 (Europe). Italie +23,7% (JO Milan-Cortina)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.9
+        },
+        "repartition_geo": {
+          "value": "France 32% / Allemagne 29% / Belgique 22% / Pays-Bas 14% + Italie (nouvelle)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_type": {
+          "value": "Hôtels 71% / Autres hébergements touristiques 29%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_enseignes": {
+          "value": "14 enseignes internationales",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "visa_amf": {
+          "value": "21-13 (20/08/2021)",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "SCPI dédiée à l'hôtellerie en Europe — 14 enseignes internationales — 100% TOF — développement actif en 2026",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        }
+      }
+    },
+    {
+      "index": 38,
+      "lot": 5,
+      "source_folder": "SCPI HEXA",
+      "canonical_name": "PAREF Hexa",
+      "management_company": "PAREF Gestion",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "hexa_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "Statuts_2025",
+        "DIC_2025_MAJ_ESG",
+        "NI_2026",
+        "RA_2024"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "172 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "154,80 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "137,95 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "170,24 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_ifi": {
+          "value": "147,43 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "201,1 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "1 169 445",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "3 718",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "19 789",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "41",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "75",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "148 481 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_patrimoine": {
+          "value": "234,9 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "84,9 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "6,00 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "-12,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_15ans": {
+          "value": "4,43 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "3,05 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_5ans": {
+          "value": "0,41 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "3,00 € (dont 2,52€ courant + 0,48€ plus-value cession)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_annuel_2025": {
+          "value": "12,60 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "29,1 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dette_bancaire": {
+          "value": "68,3 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 65,1% / Locaux d'activité 3,9% / Logistique-Messagerie 4,8% / Autres 26,2%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "repartition_geo": {
+          "value": "Paris 25,5% / IDF hors Paris 56,0% / 12 métropoles régionales + autres régions",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "sfdr": {
+          "value": "Article 8 — Label ISR (renouvelé juin 2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "zone_investissement": {
+          "value": "France à titre principal (stratégie diversifiée depuis 11/07/2024)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux et locaux d'activité en France — stratégie diversifiée IDF/régions depuis 2024, plan de cession en cours",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "PGA 2025 : -12,10% / TOF 84,9% / TRI 5 ans : 0,41% — Contexte difficile bureaux périphérie parisienne",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 39,
+      "lot": 5,
+      "source_folder": "SCPI Novapierre 1",
+      "canonical_name": "Novapierre 1",
+      "management_company": "PAREF Gestion",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "novapierre1_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC_2025",
+        "NI_2026",
+        "RA_2024",
+        "Statuts",
+        "Flyer_2025"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "442 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "406,64 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "361,24 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "436,06 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_ifi": {
+          "value": "356,46 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "172,1 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_parts": {
+          "value": "389 384",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "2 370",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "31 398",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_baux": {
+          "value": "206",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_patrimoine": {
+          "value": "196,4 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "85,3 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,00 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "5,00 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_15ans": {
+          "value": "4,59 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_10ans": {
+          "value": "3,99 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "tri_5ans": {
+          "value": "3,35 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "4,44 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_annuel_2025": {
+          "value": "21,98 €",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.95
+        },
+        "endettement": {
+          "value": "29,3 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "commerce_essentiel": {
+          "value": "28,3 % du patrimoine",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "cessions_t1": {
+          "value": "2 actifs (Sens + Ris-Orangis, 405 K€ total, prix proche VE)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerces de proximité en France (SCPI prépondérance commerces ASPIM)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 40,
+      "lot": 5,
+      "source_folder": "SCPI LF Opportunité Immo",
+      "canonical_name": "LF Opportunité Immo",
+      "management_company": "La Française REM",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "lf_opportunite_bt.pdf (copie depuis SCPI LF Opportunit\\u00e9 Immo/G0_BT_20260331.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Dossier source avec caractère é — copie temporaire utilisée",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "203 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "184,73 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "174,00 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "214,64 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "313 015 444 € (~313 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "1 541 948",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "6 023",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "25 531 (1,7% du capital)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_souscription": {
+          "value": "9 % HT (18,27 €)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "delai_jouissance": {
+          "value": "1er jour du 6e mois suivant la souscription",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "tof": {
+          "value": "95,0 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "94,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "stable (variation prix nulle en 2025)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.7
+        },
+        "td_previsionnel_2026": {
+          "value": "5,05 % à 5,25 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,28 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "collecte_brute_t1": {
+          "value": "1,2 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "1 parc d'activités La Ciotat (13) — 4 320 m² — 7,9 M€ HT AEM",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "cessions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Opportunités diversifiées — bureaux, logistique, activités France et Europe",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "index": 41,
+      "lot": 5,
+      "source_folder": "LF Grand Paris Patrimoine",
+      "canonical_name": "LF Grand Paris Patrimoine",
+      "management_company": "La Française REM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "lf_grand_paris_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "ESG"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "218 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "200,56 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "173,40 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "216,96 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "1 069 864 866 € (~1,07 Mds€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "4 907 637",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "14 710",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "499 638 (10,2% du capital)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_souscription": {
+          "value": "8 % HT (17,44 €)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "88,1 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "82,2 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "variation_prix_2025": {
+          "value": "-14,51 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "dividende_brut_t1_2026": {
+          "value": "0,93 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "marche_parts_suspendu": {
+          "value": "Depuis le 12 février 2026 — marché de confrontation prévu dès juillet 2026",
+          "source": "BT_T1_2026",
+          "date_ref": "12/02/2026",
+          "confidence": 0.98
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "cessions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable (marché suspendu depuis 12/02/2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux Grand Paris et Île-de-France — expert francilien depuis 60 ans (La Française REM)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "Dividende T1 en forte baisse (0,93€ vs ~2,50€ avant) / Marché parts suspendu / Parts en attente 10,2% / Bureaux IDF très difficiles",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        }
+      }
+    },
+    {
+      "index": 42,
+      "lot": 5,
+      "source_folder": "SCPI Europimmo",
+      "canonical_name": "LF Europimmo",
+      "management_company": "La Française REM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "europimmo_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "Fiche_commerciale"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "725 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "667 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "639,53 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "773,78 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_ifi_residents": {
+          "value": "667 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "812 912 775 € (~813 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_parts": {
+          "value": "1 121 259",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "15 314",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "78 222 (7% du capital)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frais_souscription": {
+          "value": "8 % HT (58 €)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "95,3 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "variation_prix_2025": {
+          "value": "-23,28 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "dividende_brut_t1_2026": {
+          "value": "6,00 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "collecte_brute_t1": {
+          "value": "0,2 M€ (collecte à l'arrêt)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "acquisitions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "cessions_t1": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux Europe — focus sur cessions qualitatives pour maintenir TOF et distribution",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "alerte": {
+          "value": "Variation prix 2025 : -23,28% — Forte décote du prix vs VR — Collecte à l'arrêt — Marché bureaux très difficile",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 43,
+      "lot": 5,
+      "source_folder": "SCPI Novaxia",
+      "canonical_name": "Novaxia Néo",
+      "management_company": "Novaxia Investissement",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "novaxia_neo_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.92,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_Reporting_T1_2026",
+        "DIC",
+        "NI",
+        "Statuts",
+        "SFDR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "176,68 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "150,41 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "187,00 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "427,9 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "8 952",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "125 194 (5,5% du total)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_actifs": {
+          "value": "38",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_locataires": {
+          "value": "128",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "226 969 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_patrimoine": {
+          "value": "537 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "walb": {
+          "value": "3,45 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "90,6 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "top": {
+          "value": "90,4 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "taux_distribution_2025": {
+          "value": "5,50 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "5,50 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "7,08 % (31/03/2021-31/03/2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "historique_td": {
+          "value": "2020:6,15% / 2021:6,49% / 2022:6,33% / 2023:6,51% / 2024:6,01% / 2025:5,50%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_net_t1_2026": {
+          "value": "1,80 € net de fiscalité étrangère (0,60€/mois × 3)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "td_cible_2026": {
+          "value": ">5 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "ltv_net_tresorerie": {
+          "value": "32,8 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "maturite_dette": {
+          "value": "1,50 an",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "collecte_nette_t1": {
+          "value": "0,55 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux ~94% / Hôtels ~4% / Activités ~1% / Enseignement ~1%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.8
+        },
+        "repartition_geo": {
+          "value": "France + Europe (Pays-Bas, Espagne, Irlande, Belgique) — Paris, IDF, Madrid, Rotterdam, Dublin, Utrecht",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        },
+        "sfdr": {
+          "value": "Article 9 — Label ISR depuis 2020",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux diversifiés France et Europe — Article 9 SFDR — gestion ISR depuis 2020 — distributions mensuelles",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 44,
+      "lot": 5,
+      "source_folder": "SCPI FiCommerce Proximité",
+      "canonical_name": "Ficommerce Proximité",
+      "management_company": "Fiducial Gérance",
+      "extraction_status": "extracted_bt_t1_2026_path_fixed",
+      "source_document": "ficommerce_bt.pdf (copie depuis SCPI FiCommerce Proximit\\u00e9/BTI Ficommerce T1 2026.pdf)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.95,
+      "publication_status": "manual_review_only",
+      "path_encoding_note": "Dossier source avec caractère é — copie temporaire utilisée",
+      "note": "Division du nominal par 3 au 01/01/2026 (anciennement 210€/part → 70€/part). Dividende maintenu en valeur absolue pour les associés.",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI_Statuts",
+        "RA_2025",
+        "SFDR",
+        "Art29_x2"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "70 € (depuis 01/01/2026 — anciennement 210 €, division par 3)",
+          "source": "BT_T1_2026",
+          "date_ref": "01/01/2026",
+          "confidence": 0.98
+        },
+        "valeur_realisation": {
+          "value": "173,35 € (par ancienne part au 31/12/2025 — soit ~57,78 € par nouvelle part)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "valeur_reconstitution": {
+          "value": "207,88 € (par ancienne part — soit ~69,29 € par nouvelle part)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.9
+        },
+        "capitalisation": {
+          "value": "596 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "8 120",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "281",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "233 291 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_baux": {
+          "value": "443",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_locataires": {
+          "value": "443",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "loyers_annuels": {
+          "value": "37,1 M€ (HT/an)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": ">94 % (T1 2026)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "taux_distribution_2025": {
+          "value": "5,10 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "dividende_brut_t1_2026": {
+          "value": "0,83 € par nouvelle part (= 2,50 € par ancienne part — maintenu)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "date_creation": {
+          "value": "1986",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "sfdr": {
+          "value": "Article 8 — Label ISR Immobilier (mai 2024)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Locaux commerciaux 84,9% / Bureaux 14,9% / Entrepôts-activités 0,2%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "Régions 51,9% / Paris 25,3% / IDF 20,3% / Europe 2,5%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Commerce de proximité en France — 40 ans d'expérience — grandes surfaces, commerces de centre-ville",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 45,
+      "lot": 5,
+      "source_folder": "SCPI Selectipierre 2 Paris",
+      "canonical_name": "Selectipierre 2 Paris",
+      "management_company": "Fiducial Gérance",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "selectipierre2_bt.pdf",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.97,
+      "publication_status": "manual_review_only",
+      "documents_available": [
+        "BT_T1_2026",
+        "DIC",
+        "NI",
+        "RA_2025",
+        "SFDR"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "773 € (depuis 01/03/2023)",
+          "source": "BT_T1_2026",
+          "date_ref": "01/03/2023",
+          "confidence": 0.98
+        },
+        "valeur_realisation": {
+          "value": "652,21 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "785,00 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "466,5 M€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_associes": {
+          "value": "7 871",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_actifs": {
+          "value": "67",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "surface_geree": {
+          "value": "63 227 m²",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "nb_locataires": {
+          "value": "254",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "loyers_annuels": {
+          "value": "20,9 M€ (HT/an)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "tof": {
+          "value": "94,89 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "4,14 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "dividende_annuel_2025": {
+          "value": "32,00 € (dont 5€ PV)",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "historique_dividendes": {
+          "value": "2021: 29€ / 2022: 30€ / 2023: 31€ / 2024: 31,50€ / 2025: 32€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "6,50 €",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "endettement": {
+          "value": "6,96 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "date_creation": {
+          "value": "1978",
+          "source": "BT_T1_2026",
+          "date_ref": null,
+          "confidence": 0.98
+        },
+        "sfdr": {
+          "value": "Article 8 — Label ISR Immobilier (juin 2023)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_sectorielle": {
+          "value": "Bureaux 70,9% / Commerces 17,3% / Résidences hôtelières-étudiantes 4,5% / Logements 5,9% / Activité 1,4%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "Paris 74,0% / IDF 19,3% / Régions 6,7%",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "prix_historique": {
+          "value": "2021: 720€ / 2022: 742€ / 2023: 765€→773€ / stable 2024-2025: 773€",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "distinctions": {
+          "value": "Victoires Pierre Papier 2026 : Meilleure SCPI 10 ans + Meilleure SCPI bureaux 2026 (Gestion de Fortune)",
+          "source": "BT_T1_2026",
+          "date_ref": "2026",
+          "confidence": 0.95
+        },
+        "frequence_distribution": {
+          "value": "trimestrielle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Bureaux parisiens prime — Paris intra-muros prioritaire — gestion rigoureuse depuis 1978",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "index": 46,
+      "lot": 5,
+      "source_folder": "SCPI Altixia Cadence 12",
+      "canonical_name": "Altixia Cadence XII",
+      "management_company": "Altixia REIM",
+      "extraction_status": "extracted_bt_t1_2026",
+      "source_document": "altixia_cadence12_doc1.pdf (doc1-20260430-122013.pdf — BT T1 2026)",
+      "source_period": "T1 2026",
+      "source_date_ref": "31/03/2026",
+      "confidence_score": 0.93,
+      "publication_status": "manual_review_only",
+      "note": "Noms de fichiers génériques (doc1-date.pdf). BT T1 2026 identifié via le fichier daté d'avril 2026.",
+      "documents_available": [
+        "doc1_20250526.pdf",
+        "doc1_20250617.pdf",
+        "doc1_20260309.pdf",
+        "doc1_20260430.pdf (BT T1 2026)"
+      ],
+      "fields": {
+        "prix_souscription": {
+          "value": "200 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "valeur_retrait": {
+          "value": "182 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "valeur_realisation": {
+          "value": "163,80 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "valeur_reconstitution": {
+          "value": "199,40 €",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "capitalisation": {
+          "value": "190 356 200 € (~190,4 M€)",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "nb_associes": {
+          "value": "2 448",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "parts_en_attente_retrait": {
+          "value": "0",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "tof": {
+          "value": "92,5 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "taux_distribution_2025": {
+          "value": "5,15 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "pga_2025": {
+          "value": "5,15 %",
+          "source": "BT_T1_2026",
+          "date_ref": "2025",
+          "confidence": 0.98
+        },
+        "tri_5ans": {
+          "value": "3,75 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "dividende_brut_t1_2026": {
+          "value": "2,50 € (0,83€+0,83€+0,84€ mensuels)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.98
+        },
+        "dividende_t2_previsionnel": {
+          "value": "2,50 € (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T2 2026",
+          "confidence": 0.75
+        },
+        "td_previsionnel_2026": {
+          "value": "5,00 % à 5,20 % (non garanti)",
+          "source": "BT_T1_2026",
+          "date_ref": "T1 2026",
+          "confidence": 0.8
+        },
+        "endettement": {
+          "value": "10,99 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "rendement_moyen_brut": {
+          "value": "6,6 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        },
+        "variation_expertise_s2_2025": {
+          "value": "-0,45 %",
+          "source": "BT_T1_2026",
+          "date_ref": "31/12/2025",
+          "confidence": 0.95
+        },
+        "duree_detention_recommandee": {
+          "value": "9 ans",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.95
+        },
+        "repartition_geo": {
+          "value": "France + Espagne + Irlande (dynamiques) — diversification internationale",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.85
+        },
+        "frequence_distribution": {
+          "value": "mensuelle",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "type_capital": {
+          "value": "variable",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.98
+        },
+        "strategie": {
+          "value": "Diversification internationale — France, Espagne, Irlande — distributions mensuelles — petite capitalisation en croissance",
+          "source": "BT_T1_2026",
+          "date_ref": "31/03/2026",
+          "confidence": 0.9
+        }
+      }
+    }
+  ]
+}
