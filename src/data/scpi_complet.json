@@ -3585,7 +3585,8 @@
     "Frais de gestion (HT/%)": 1.22,
     "maximus_warnings": [
       "Risque de liquidité : 466 128 parts en attente de retrait (source : BT_PIERVAL_SANTE_2026_T1.pdf)"
-    ]
+    ],
+    "Valeur de reconstitution (€)": 199.2
   },
   {
     "Nom SCPI": "Patrimmo Commerce",
@@ -3635,7 +3636,8 @@
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
     "Frais de souscription (TTC/%)": 9.0,
-    "Frais de gestion (HT/%)": 10.0
+    "Frais de gestion (HT/%)": 10.0,
+    "Valeur de reconstitution (€)": 151.36
   },
   {
     "Nom SCPI": "Aestiam Agora",
@@ -3683,6 +3685,7 @@
     "Frais de gestion (HT/%)": 10.0,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 38 858 parts en attente de retrait ; fonds de remboursement activé (source : 2026-1t-bti-aestiam-agora.pdf)"
-    ]
+    ],
+    "Valeur de reconstitution (€)": 965.93
   }
 ]

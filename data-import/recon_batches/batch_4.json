@@ -1,0 +1,240 @@
+[
+  {
+    "name": "Novapierre 1",
+    "folder": "SCPI Novapierre 1",
+    "prix_souscription_actuel": 442,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "b6f5a3f7-33ea-42f2-b038-577839639ef8-Rapport-annuel-SCPI-Novapierre-1-2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "bdb9ea23-61b7-4e75-beff-c3ddc078a54c-Novapierre-1-DIC2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "7108f0d3-d728-45a0-a728-42b3ea50ab1e-Flyer-Novapierre-1-30-06-2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ac7d4470-0f82-4043-bd24-6e1acce6a906-01.01.2026-NI-Novapierre-1.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Novaxia NEO",
+    "folder": "SCPI Novaxia",
+    "prix_souscription_actuel": 176.68,
+    "sources": [
+      {
+        "type": "NI",
+        "file": "NOVAXIA-NEO-Note-dInformation-V23.04.2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC-NOVAXIA-NEO-2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Novaxia-NEO-Reporting-31_03_2026.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Opportunité Immo",
+    "folder": "SCPI LF Opportunité Immo",
+    "prix_souscription_actuel": 203,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "G0_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "G0_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "G0_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "G0_DIC.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Optimale",
+    "folder": "SCPI Optimale",
+    "prix_souscription_actuel": 255,
+    "sources": [
+      {
+        "type": "NI",
+        "file": "2025.12.11-SCPI-OPTIMALE-Note-information-MAJ-PRIX-PART.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC_-_SCPI_OPTIMALE_-_2025-07-02_202507021643.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "PLAQUETTE_SCPI_2026_Fev_V2.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI-OPTIMALE-Politique-ISR-012023.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Paref Evo",
+    "folder": "Paref Evo",
+    "prix_souscription_actuel": 250,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "aad4f57d-cf78-4c7d-b647-274dd8c1a010-Rapport-annuel-SCPI-PAREF-Evo-2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "142a1e06-f75e-40ae-a51b-30dc3bc3ae30-PAREF-Evo-DIC2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "4963377c-6742-4ea1-8d05-17514a2400db-01.01.2026NI-PAREFEvo.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "4a5758c6-b9f8-4d8c-a4c7-6cb97c8a1716-Flyer-PAREF-Evo-30-06-2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Paref Hexa",
+    "folder": "SCPI HEXA",
+    "prix_souscription_actuel": 172,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "be276c50-22c0-40de-af46-658831ee520d-Rapport-annuel-SCPI-PAREF-Hexa-2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "d5acee18-1994-48e5-ac76-d343abbcf566-BTI-T1-2026-PAREF-Hexa.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "a6f53f84-2f52-4c1f-9e3d-5e5c9ac1982d-PAREF-Hexa-DIC2025MAJ-ESG.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "b108e992-030c-4618-9f9e-5ee9b1ace93e-01.01.2026NI-PAREF-Hexa.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Patrimmo Croissance Impact",
+    "folder": "SCPI Patrimmo Croissance Impact",
+    "prix_souscription_actuel": 677,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport Annuel 2024 Patrimmo Croissance Impact.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "PRAEMIA_BTI_Patrimmo Croissance_T1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "SCPI Patrimmo Croissance - Note d'information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "SCPI Patrimmo Croissance - DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Patrimmo Croissance Impact_Fonds à impact.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Perial Grand Paris",
+    "folder": "SCPI Perial grand Paris",
+    "prix_souscription_actuel": 458.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "6a170142eee56f95d9d2e1e9_Rapport annuel_PGP_sfdr_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "69f21276045720608dcec789_PGP BTI T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "69d74a9eca7a32dc38352021_Note d'information.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "69d74a4348d4ea189f2426d0_Document d'information Clé.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Perial Hospitalité Europe",
+    "folder": "SCPI Perial Hospitalité Europe",
+    "prix_souscription_actuel": 181,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "6a1700ee719f7ecaa2547fb8_Rapport annuel_PHE_sfdr_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "69f211f2615fb9af629c1495_PHE BTI T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "69d74a8e6bf174eb7bd78401_Note d'information.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "69d74a31958e394a853ffcb7_Document d'information Clé.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Perial O2",
+    "folder": "Perial O2",
+    "prix_souscription_actuel": 164.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "69f20de2eab70a16dc8ef27f_PO2 BTI 2026 T1 VDEF.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "69d74a80a2cac3ea9cfed066_Note d'information.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "69d74a1c770ced450f0ac8cb_Document d'Information Clé.pdf"
+      }
+    ]
+  }
+]

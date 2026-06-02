@@ -1,0 +1,284 @@
+[
+  {
+    "name": "Crédit Mutuel Pierre 1",
+    "folder": "Credit Mutuel Pierre 1",
+    "prix_souscription_actuel": 215,
+    "sources": [
+      {
+        "type": "BT",
+        "file": "A7_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "A7_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "A7_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Fiche commerciale Crédit Mutuel Pierre 1.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Cristal Life",
+    "folder": "SCPI Cristal Life",
+    "prix_souscription_actuel": 208,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "IG_RapportAnnuel_2025CL.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "IG_CLBulletin_Trimestriel2026_T1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "IGCLNoteInfo_StatutsAMFEurope20260115.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "IG_CL_DIC20241203.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "IGCLPlaquetteComFR20251029.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Edissimo",
+    "folder": "SCPI Edissimmo",
+    "prix_souscription_actuel": 172.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "EDISSIMMO- Rapport Annuel - 2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "EDISSIMMO - Bulletin Semestriel 2025 S2.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "EDISSIMMO-Note Information- Statuts 08082025-1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "EDISSIMMO-Note Information- Statuts 08082025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "EDISSIMMO - DIC PRIIPS 2025-07-31-1.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "EDISSIMMO - DIC PRIIPS 2025-07-31.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "EDISSIMMO - Brochure commerciale - NOVEMBRE 2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Edissimmo - Code de transparence 2024. pdf.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Efimmo 1",
+    "folder": "SCPI Efimmo 1",
+    "prix_souscription_actuel": 212,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "SOFIDY_RA_Efimmo_2025_OPTI.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "EFIMMO-BT-1T-2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC-EF-042026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "1-ST-EF-072025-FR-1-2360.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "FP-EF-042026-FR-3-2963.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "NI-EF-042026.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Épargne Foncière",
+    "folder": "SCPI epargne fonciere",
+    "prix_souscription_actuel": 670,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "EE_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "EE_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "EE_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "EE_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "29 LEC EPARGNE FONCIERE.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Fiche commerciale Epargne Foncière.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Épargne Pierre",
+    "folder": "SCPI Epargne Pierre",
+    "prix_souscription_actuel": 208,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "20250625-EP-Note-information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "2025-10-31-DIC_Epargne_Pierre.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "2026-Methodologie-devaluation-ESG-_-Epargne-Pierre.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "BPI1T2026-EP.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Épargne Pierre Europe",
+    "folder": "Epargne Pierre Europe",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "20250624-EPE-Note-dinformation.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "BPI1T2026-EPE-web-2.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Ficommerce Proximité",
+    "folder": "SCPI FiCommerce Proximité",
+    "prix_souscription_actuel": 70,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Ficommerce Proximité - Rapport Annuel 2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "BTI Ficommerce T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note d'information et statuts Ficommerce - 01.2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note d'information et statuts Ficommerce - Actualisation - 02.01.2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC FICOMMERCE 31.12.2024.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport 2023 article 29_Complet_Ficommerce_VF.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport article 29 complet Ficommerce - 31.12.2023.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Foncière des Praticiens",
+    "folder": "SCPI Foncière des praticiens",
+    "prix_souscription_actuel": 1100,
+    "sources": [
+      {
+        "type": "BT",
+        "file": "BT-1T-2026-Fonciere-des-Praticiens.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "2025.02.10-Note-dinformation-SCPI-Fonciere-des-Praticiens-V4.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport-ESG-2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "GMA Essentialis",
+    "folder": "SCPI GMA Essentialis",
+    "prix_souscription_actuel": 150,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "SCPI-GMA-Essentialis-Note-dinformation-2025-Juillet.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Plaquette_commerciale_SCPI_GMA_Essentialis_190226.pdf"
+      }
+    ]
+  }
+]

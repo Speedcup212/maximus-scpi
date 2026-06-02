@@ -1,0 +1,284 @@
+[
+  {
+    "name": "Grand Paris Résidentiel",
+    "folder": "Grans Paris Résidentiel",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "IG_RapportAnnuel_2025GPR.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "IG_GPRBulletin_Semestriel2025_S1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "IGGPRNoteInfo_StatutsAMFEurope20260115.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "IG_GPR_DIC20241203.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Immorente",
+    "folder": "SCPI Immorente",
+    "prix_souscription_actuel": 340,
+    "sources": [
+      {
+        "type": "BT",
+        "file": "IMMORENTE-BT-1T-2026-1.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC-IR-042026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Brochure-Immorente.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "FP-IR-042026-FR-3-2964.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "NI-IR-042026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ST-IR-072025-FR-3-2341.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Iroko Zen",
+    "folder": "IrokoZen",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Iroko_Zen_Rapport_annuel_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Iroko_Zen_bulletin_trimestriel.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Iroko_Zen_note_information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Iroko_Zen_memo_DIC_PRIIPS.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_methode_ESG.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_plaquette_commerciale.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Kyaneos Pierre",
+    "folder": "SCPI Kyaneos",
+    "prix_souscription_actuel": 224,
+    "sources": [
+      {
+        "type": "BT",
+        "file": "BT-T1-2026-KP.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "SCPI-KP-Note-dinformation-01072025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "SCPI-KP-DIC-2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI-Kyaneos-Pierre-Plaquette-commerciale-au-01072025-vdef.pdf"
+      }
+    ]
+  },
+  {
+    "name": "LF Avenir Santé",
+    "folder": "SCPI Lf Avenir Sante",
+    "prix_souscription_actuel": 300,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Q1_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Q1_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Q1_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Q1_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Fiche commerciale LF Avenir Santé.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Q1_rapport_ESG_2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "LF Europimmo",
+    "folder": "SCPI Europimmo",
+    "prix_souscription_actuel": 725,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "D1_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "D1_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "D1_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "D1_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Fiche commerciale LF Europimmo.pdf"
+      }
+    ]
+  },
+  {
+    "name": "LF Grand Paris Patrimoine",
+    "folder": "LF Grand Paris Patrimoine",
+    "prix_souscription_actuel": 218,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Z2_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Z2_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Z2_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Z2_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Z2_rapport_ESG_2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Log In",
+    "folder": "SCPI Log In",
+    "prix_souscription_actuel": 255,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "SCPI-LOG-IN-Rapport-Annuel-2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-Trimestriel-LOG-IN-T1-2026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Plaquette-Commerciale-LOG-IN-ISR-2.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Politique-de-gestion-des-risques-ESG-de-Theoreim.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI-LOG-IN-Document-dinformations-cles-1.pdf"
+      }
+    ]
+  },
+  {
+    "name": "NCap Education Santé",
+    "folder": "SCPI NCAP Education Santé",
+    "prix_souscription_actuel": 202,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "rapport_annuel_ncapeducationsante_2024.pdf"
+      },
+      {
+        "type": "RA",
+        "file": "rapport_annuel_ncapeducationsante_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "bt_ncap_education_sante_t1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "ncap-education-sante_note-information_24122025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "ncap-educationsante_dic_15122025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ncap-education-sante_plaquette.pdf"
+      }
+    ]
+  },
+  {
+    "name": "NCap Régions",
+    "folder": "NCAPRégions",
+    "prix_souscription_actuel": 682,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "rapport_annuel_ncapregions_2025-1.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "bt_ncap_regions_t1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "ncap-regions_note-information_24122025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "ncap-regions_dic_15122025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ncap-regions_-plaquette.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "scpi-ncap-regions-certificat-label-isr.pdf"
+      }
+    ]
+  }
+]

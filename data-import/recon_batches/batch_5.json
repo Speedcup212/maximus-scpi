@@ -1,0 +1,292 @@
+[
+  {
+    "name": "Perial Opportunités Europe",
+    "folder": "SCPI Opportunités Europe",
+    "prix_souscription_actuel": 44.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "6a16ff98070156fbb255ec8c_Rapport annuel_POE_sfdr_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "69f34e5194509a2ff583710d_POE BTI T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "69d74ab3a9bf4009ef491667_Note d'information.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "69d74a5edc2a8e8bcab4fc26_Document d'information Clé.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Remake Live",
+    "folder": "SCPI Remake Live",
+    "prix_souscription_actuel": 204,
+    "sources": [
+      {
+        "type": "AUTRE",
+        "file": "6.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "documen2t.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "documen5t.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "documen7t.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "document.4pdf.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "document.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "document1.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "document3.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Selectinvest 1",
+    "folder": "SCPI Selectiinvest 1",
+    "prix_souscription_actuel": 530,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "I9_rapportannuel.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "I9_BT_20260331.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "I9_note_statuts.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "I9_DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Fiche commerciale Sélectinvest 1.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Selectipierre 2",
+    "folder": "SCPI Selectipierre 2 Paris",
+    "prix_souscription_actuel": 773.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Selectipierre 2 Paris - Rapport annuel 2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "BTI Selectipierre 2 T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note d'information SELECTIPIERRE 2 01.2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC SELECTIPIERRE 2 31.12.2024.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Sofiprime",
+    "folder": "SCPI Sofiprime",
+    "prix_souscription_actuel": 280,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Sofidy_RA_SOFIPRIME_2025_OPTI.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "SOFIPRIME-BT-1T-2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC-SFP-042026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "FP-SOP-042026-FR-3-2969.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "NI-SFP-042026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ST-SFP-072025-FR-2-2330_v2.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Transitions Europe",
+    "folder": "SCPI Transition Europe",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "arkea-reim-transition-europe-ra-2025_2026-05-18_18-57-3_193.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "scpi_transitions_europe_-_note_d_information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "scpi_transitions_europe_-_dic.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "scpi_transitions_europe_-_brochure_commerciale.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "te_t1-2026.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Urban Coeur de Commerce",
+    "folder": "Urban Coeur Commerce",
+    "prix_souscription_actuel": 303,
+    "sources": [
+      {
+        "type": "BT",
+        "file": "UCC_BT_1T2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "UCC_DIC_2026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "UCC_Document-Commercial_2025.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "UCC_RA-2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "NCap Continent",
+    "folder": "SCPI NCAP Continent",
+    "prix_souscription_actuel": 210,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "rapport_annuel_ncapcontinent_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "bt_ncap_continent_t1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "ncap-continent_note-information_24122025-1.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "ncap-continent_dic_15122025-1.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "2026-01-21_ncapcontinent_dossier-candidature.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "ncap-continent-_plaquette-2.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "scpi-ncapcontinent_rapport-isr_2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Wemo One",
+    "folder": "scpi Wemo OIne",
+    "prix_souscription_actuel": 210.0,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "RAPPORT-ANNUEL-N02-JANV-2026-Fina13_04_26.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "BULLETIN-TRIMESTRIEL-N07-1T-2026-VFINALE-ok.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "2-SCPI-WEMO-ONE-Note-dInformation-avril-2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "3-SCPI-WEMO-ONE-DIC-2026-04-22.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Iroko Atlas",
+    "folder": "Iroko Atlas",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Iroko_Atlas_rapport_annuel_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Iroko_Atlas_bulletin_trimestriel_T1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Iroko_Atlas_note_information.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_document_informations_cles.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_fiche_produit.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_methode_ESG.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_plaquette_commerciale.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Iroko_Atlas_politique_engagement.pdf"
+      }
+    ]
+  }
+]
