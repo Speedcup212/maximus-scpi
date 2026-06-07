@@ -27,7 +27,6 @@ import Hero from './components/Hero';
 import ScpiTable from './components/ScpiTable';
 import QuickFilters from './components/QuickFilters';
 import SearchBar from './components/SearchBar';
-import GuidedScpiEntryBlock from './components/GuidedScpiEntryBlock';
 
 // Lazy loaded components (loaded on demand)
 const DynamicHero = lazy(() => import('./components/DynamicHero'));
@@ -2952,14 +2951,18 @@ const App: React.FC = () => {
           </Suspense>
         </div>
 
-        {/* Bloc Parcours guidé SCPI (porte d'entrée principale) */}
-        <GuidedScpiEntryBlock
-          onStart={() => {
-            setCurrentView('guided-journey');
-            window.history.pushState({}, '', '/parcours-guide');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        />
+        {/* Lien discret vers la page Outils & simulateurs. Le questionnaire
+            profil investisseur complet n'est plus affiché sur la homepage :
+            il est accessible uniquement depuis /simulateurs. */}
+        <div className="mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8 flex justify-center">
+          <button
+            type="button"
+            onClick={() => handleSimulateurClick('simulateurs')}
+            className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            Accéder aux outils complets →
+          </button>
+        </div>
 
         {/* Section Comparateur avec titre intégré */}
         <div id="comparator" data-comparator className="mt-16 sm:mt-20 mb-16 sm:mb-20">

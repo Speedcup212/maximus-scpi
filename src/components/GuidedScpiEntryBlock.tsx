@@ -1,15 +1,25 @@
 import React from 'react';
 
 interface GuidedScpiEntryBlockProps {
-  // Callback déclenché au clic sur le CTA
+  // Callback déclenché au clic sur le CTA principal (quiz rapide → parcours guidé).
   onStart?: () => void;
+  // Callback vers la page « Outils & simulateurs SCPI » (lien secondaire discret).
+  onOpenTools?: () => void;
   // Optionnel : id d'ancre vers laquelle scroller si onStart n'est pas fourni
   targetId?: string;
   className?: string;
 }
 
+/**
+ * Bloc d'entrée homepage — « Quiz SCPI rapide » orienté conversion.
+ * Le questionnaire profil investisseur complet n'est plus affiché directement
+ * sur la homepage : il est désormais référencé dans la page « Outils &
+ * simulateurs SCPI » (/simulateurs). Outil informatif, sans recommandation
+ * personnalisée automatique.
+ */
 export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
   onStart,
+  onOpenTools,
   targetId = 'guided-journey',
   className = '',
 }) => {
@@ -24,6 +34,16 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  const openTools = () => {
+    if (onOpenTools) {
+      onOpenTools();
+      return;
+    }
+    window.history.pushState({}, '', '/simulateurs');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const scrollToComparator = () => {
@@ -52,62 +72,51 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
             <div className="flex flex-col gap-4">
               <p className="inline-flex items-center gap-2 rounded-full bg-slate-900/80 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-emerald-300/90 border border-slate-700/70">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                Test complet · 32 questions
+                Quiz rapide · informatif
               </p>
 
               <h2
                 id="guided-scpi-title"
                 className="text-2xl sm:text-3xl lg:text-[32px] font-semibold tracking-tight text-white"
               >
-                Testez votre profil investisseur
-                <br />
-                Obtenez une première sélection de SCPI à comparer.
+                Quiz SCPI rapide : par où commencer ?
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl">
-                En 8 minutes : profil identifié + pré-liste + points à vérifier (frais, secteurs, zones).
+                En quelques minutes, identifiez les grandes pistes à analyser selon votre fiscalité,
+                votre horizon et votre objectif patrimonial.
               </p>
             </div>
 
-            <div className="grid gap-4">
-              <div className="rounded-2xl border border-slate-700 bg-slate-950/70 p-5 sm:p-6 shadow-inner shadow-black/50">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-blue-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-blue-200">
-                    Test complet • 8 min
-                  </span>
-                  <span className="text-[11px] text-slate-400">32 questions</span>
-                </div>
-                <h3 className="mt-3 text-lg sm:text-xl font-semibold text-white">
-                  Ce que vous aller obtenir
-                </h3>
-                <p className="mt-2 text-sm text-slate-300">
-                  Profil investisseur + pré-liste de SCPI + points à vérifier avant décision.
-                </p>
-                <ul className="mt-3 space-y-1 text-xs sm:text-sm text-slate-300">
-                  <li>8 min • 32 questions</li>
-                  <li>Pré-liste + critères clés (frais, secteurs, zones)</li>
-                  <li>Résultat clair selon votre profil</li>
-                </ul>
-                <button
-                  type="button"
-                  onClick={start}
-                  className="mt-4 w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-400"
-                >
-                  Démarrer votre parcours
-                </button>
-                <button
-                  type="button"
-                  onClick={scrollToComparator}
-                  className="mt-2 w-full inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition"
-                >
-                  Comparer les SCPI directement
-                </button>
-              </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <button
+                type="button"
+                onClick={start}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-400"
+              >
+                Démarrer le quiz
+              </button>
+              <button
+                type="button"
+                onClick={scrollToComparator}
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 hover:bg-slate-800 transition"
+              >
+                Comparer les SCPI directement
+              </button>
             </div>
 
-            <p className="text-[10px] sm:text-xs text-slate-400">
-              Outil informatif : la pré-liste est une aide à la comparaison, pas une recommandation personnalisée.
-            </p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-[10px] sm:text-xs text-slate-400">
+                Outil informatif : ce quiz est une aide à la réflexion, pas une recommandation personnalisée.
+              </p>
+              <button
+                type="button"
+                onClick={openTools}
+                className="self-start text-sm font-medium text-emerald-300 hover:text-emerald-200"
+              >
+                Accéder aux outils complets →
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -116,4 +125,3 @@ export const GuidedScpiEntryBlock: React.FC<GuidedScpiEntryBlockProps> = ({
 };
 
 export default GuidedScpiEntryBlock;
-

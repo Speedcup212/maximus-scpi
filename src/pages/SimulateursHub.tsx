@@ -1,4 +1,70 @@
 import React from 'react';
+import { UserCheck, Sparkles, Calculator, Scale, BarChart3, ArrowRight, Info } from 'lucide-react';
+
+interface ToolCard {
+  title: string;
+  description: string;
+  path: string;
+  cta: string;
+  Icon: React.ComponentType<{ className?: string }>;
+}
+
+/**
+ * Outils & simulateurs SCPI — page regroupant les outils informatifs et
+ * préparatoires sous forme de cards. Aucun de ces outils ne constitue une
+ * recommandation personnalisée (cf. mention réglementaire MIF2 en bas de page).
+ */
+const PRIMARY_TOOLS: ToolCard[] = [
+  {
+    title: 'Questionnaire profil investisseur',
+    description:
+      'Préparez votre échange avec un conseiller en structurant votre profil, vos objectifs, votre horizon, vos connaissances financières et votre tolérance au risque.',
+    path: '/simulateur-profil-investisseur',
+    cta: 'Lancer le questionnaire',
+    Icon: UserCheck,
+  },
+  {
+    title: 'Quiz SCPI rapide',
+    description:
+      'Identifiez les grandes pistes à analyser selon votre fiscalité, votre horizon et votre objectif patrimonial.',
+    path: '/parcours-guide',
+    cta: 'Démarrer le quiz',
+    Icon: Sparkles,
+  },
+  {
+    title: 'Simulateur fiscalité SCPI',
+    description:
+      "Estimez l'impact fiscal potentiel des revenus de SCPI selon votre tranche marginale d'imposition.",
+    path: '/simulateur-impact-fiscal-scpi',
+    cta: 'Lancer le simulateur',
+    Icon: Calculator,
+  },
+  {
+    title: 'Simulateur démembrement',
+    description:
+      "Comprenez l'intérêt potentiel de la nue-propriété selon votre horizon d'investissement.",
+    path: '/simulateur-demembrement-scpi',
+    cta: 'Lancer le simulateur',
+    Icon: Scale,
+  },
+  {
+    title: 'Comparateur SCPI',
+    description: 'Analysez les SCPI référencées selon leurs principaux indicateurs.',
+    path: '/comparateur-scpi',
+    cta: 'Ouvrir le comparateur',
+    Icon: BarChart3,
+  },
+];
+
+// Outils complémentaires conservés (accessibles, non supprimés).
+const SECONDARY_TOOLS: { title: string; description: string; path: string }[] = [
+  { title: 'Revenus nets SCPI (IR)', description: 'Estimez vos revenus réels après fiscalité.', path: '/simulateur-revenus-nets-scpi' },
+  { title: 'SCPI à crédit', description: 'Effet de levier et cash-flow.', path: '/simulateur-credit-scpi' },
+  { title: 'Trésorerie IS – SCPI', description: 'Projection de trésorerie nette à l’impôt sur les sociétés.', path: '/simulateur-tresorerie-is' },
+  { title: 'Comparateur d’enveloppes', description: 'Direct, assurance-vie ou SCI à l’IS.', path: '/simulateur-enveloppes-scpi' },
+  { title: 'Comparateur démembrement', description: 'Pleine propriété vs nue-propriété vs usufruit.', path: '/comparateur-demembrement-scpi' },
+  { title: 'Fonds euros vs SCPI', description: 'Comparatif de réallocation.', path: '/simulateur-fonds-euros-scpi' },
+];
 
 const SimulateursHub: React.FC = () => {
   const navigateTo = (path: string) => {
@@ -7,222 +73,79 @@ const SimulateursHub: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerHeight = header ? header.getBoundingClientRect().height : 0;
-      const offset = headerHeight + 16;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
-  };
-
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="space-y-3">
-          <p className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400">Nos simulateurs</p>
-          <h1 className="text-3xl md:text-4xl font-semibold">Structurer votre décision SCPI</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Avant d’investir, comprenez votre profil et votre cadre fiscal.
+          <p className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400">Outils / Simulateurs</p>
+          <h1 className="text-3xl md:text-4xl font-semibold">Outils &amp; simulateurs SCPI</h1>
+          <p className="text-gray-600 dark:text-gray-300 max-w-3xl">
+            Des outils informatifs pour structurer votre réflexion avant d’échanger avec un conseiller :
+            comprenez votre profil, estimez l’impact fiscal et comparez les SCPI référencées.
           </p>
         </div>
 
-        <div className="mt-8 grid md:grid-cols-3 gap-4 text-sm text-gray-500 dark:text-gray-300">
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-4">
-            <div className="text-xs uppercase tracking-wide text-emerald-300">Niveau 1 — Comprendre</div>
-            <p className="mt-2">Pédagogie et prise de conscience.</p>
-          </div>
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-4">
-            <div className="text-xs uppercase tracking-wide text-blue-300">Niveau 2 — Structurer</div>
-            <p className="mt-2">Construire une stratégie adaptée.</p>
-          </div>
-          <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-4">
-            <div className="text-xs uppercase tracking-wide text-purple-300">Niveau 3 — Arbitrer</div>
-            <p className="mt-2">Comparer et optimiser les choix.</p>
-          </div>
+        {/* Cards principales */}
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {PRIMARY_TOOLS.map((tool) => (
+            <div
+              key={tool.path + tool.title}
+              className="flex flex-col rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-6 hover:border-emerald-400/60 hover:shadow-lg transition"
+            >
+              <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                <tool.Icon className="w-5 h-5" />
+              </div>
+              <h2 className="mt-4 text-lg font-semibold">{tool.title}</h2>
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 flex-1">{tool.description}</p>
+              <button
+                type="button"
+                onClick={() => navigateTo(tool.path)}
+                className="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400"
+              >
+                {tool.cta}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
         </div>
 
-        <section id="comprendre" className="mt-10 space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="text-xs uppercase tracking-wide text-emerald-300">Niveau 1 — Comprendre</span>
-            <span className="text-xs text-gray-400">Avant d’investir</span>
-          </div>
-          <h2 className="text-xl font-semibold">Comprendre votre profil et votre cadre fiscal</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            Ces outils sont des prérequis décisionnels pour clarifier votre situation.
+        {/* Autres simulateurs (conservés) */}
+        <section className="mt-14">
+          <h2 className="text-xl font-semibold">Autres simulateurs</h2>
+          <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+            Outils complémentaires pour approfondir un levier précis.
           </p>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Profil investisseur</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Évaluez votre profil AMF et votre tolérance au risque.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-profil-investisseur')}
-                className="inline-flex mt-4 text-sm text-emerald-300 hover:text-emerald-200"
+          <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {SECONDARY_TOOLS.map((tool) => (
+              <div
+                key={tool.path}
+                className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5"
               >
-                Lancer le simulateur →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Impact fiscal SCPI</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Direct IR vs SCI IR vs IS.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-impact-fiscal-scpi')}
-                className="inline-flex mt-4 text-sm text-emerald-300 hover:text-emerald-200"
-              >
-                Lancer le simulateur →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Fonds euros vs SCPI</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Comparatif de réallocation.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-fonds-euros-scpi')}
-                className="inline-flex mt-4 text-sm text-emerald-300 hover:text-emerald-200"
-              >
-                Lancer le simulateur →
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={() => scrollToSection('structurer')}
-              className="text-sm text-emerald-300 hover:text-emerald-200"
-            >
-              Passer à “Structurer votre stratégie” →
-            </button>
+                <h3 className="text-sm font-semibold">{tool.title}</h3>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{tool.description}</p>
+                <button
+                  type="button"
+                  onClick={() => navigateTo(tool.path)}
+                  className="mt-4 inline-flex items-center gap-1 text-sm text-emerald-500 hover:text-emerald-400"
+                >
+                  Lancer <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ))}
           </div>
         </section>
 
-        <section id="structurer" className="mt-12 space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="text-xs uppercase tracking-wide text-blue-300">Niveau 2 — Structurer</span>
-            <span className="text-xs text-gray-400">Leviers patrimoniaux</span>
+        {/* Mention réglementaire MIF2 */}
+        <div className="mt-12 rounded-2xl border border-amber-300/40 bg-amber-50 dark:bg-amber-950/20 p-5">
+          <div className="flex items-start gap-3">
+            <Info className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+              Ces outils sont informatifs et préparatoires. Ils ne constituent pas une recommandation
+              personnalisée au sens de la réglementation MIF2. Toute recommandation nécessite une analyse
+              complète validée par un conseiller.
+            </p>
           </div>
-          <h2 className="text-xl font-semibold">Structurer votre stratégie d’investissement</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            Choisissez le levier adapté à votre situation patrimoniale.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">SCPI à crédit</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Effet de levier et cash-flow.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-credit-scpi')}
-                className="inline-flex mt-4 text-sm text-blue-300 hover:text-blue-200"
-              >
-                Lancer →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Démembrement SCPI</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Nue-propriété vs usufruit.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-demembrement-scpi')}
-                className="inline-flex mt-4 text-sm text-blue-300 hover:text-blue-200"
-              >
-                Lancer →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Trésorerie IS – SCPI</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Projection cash net IS.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-tresorerie-is')}
-                className="inline-flex mt-4 text-sm text-blue-300 hover:text-blue-200"
-              >
-                Lancer →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Revenus nets SCPI (IR)</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Estimez vos revenus réels
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-revenus-nets-scpi')}
-                className="inline-flex mt-4 text-sm text-blue-300 hover:text-blue-200"
-              >
-                Lancer →
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={() => scrollToSection('arbitrer')}
-              className="text-sm text-blue-300 hover:text-blue-200"
-            >
-              Passer à “Arbitrer et optimiser” →
-            </button>
-          </div>
-        </section>
-
-        <section id="arbitrer" className="mt-12 space-y-4">
-          <div className="flex items-center gap-3">
-            <span className="text-xs uppercase tracking-wide text-purple-300">Niveau 3 — Arbitrer</span>
-            <span className="text-xs text-gray-400">Outils d’expert</span>
-          </div>
-          <h2 className="text-xl font-semibold">Arbitrer et optimiser vos choix</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            Outils d’arbitrage avancé pour comparer et optimiser.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Comparateur d’enveloppes</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Direct, assurance-vie ou SCI IS.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/simulateur-enveloppes-scpi')}
-                className="inline-flex mt-4 text-sm text-purple-300 hover:text-purple-200"
-              >
-                Lancer →
-              </button>
-            </div>
-            <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-5">
-              <h3 className="text-sm font-semibold">Comparateur démembrement</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                PP vs Nue-propriété vs Usufruit.
-              </p>
-              <button
-                type="button"
-                onClick={() => navigateTo('/comparateur-demembrement-scpi')}
-                className="inline-flex mt-4 text-sm text-purple-300 hover:text-purple-200"
-              >
-                Lancer →
-              </button>
-            </div>
-          </div>
-        </section>
+        </div>
       </section>
     </main>
   );

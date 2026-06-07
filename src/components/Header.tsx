@@ -347,10 +347,10 @@ const Header: React.FC<HeaderProps> = ({
                   setIsEducationOpen(false);
                 }}
                 className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-                aria-label="Simulateurs"
+                aria-label="Outils / Simulateurs"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Nos simulateurs</span>
+                <span>Outils / Simulateurs</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -358,7 +358,7 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
                     <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Nos simulateurs
+                      Outils / Simulateurs
                     </div>
                   </div>
 
@@ -1001,7 +1001,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-3">
                     <Calculator className="w-5 h-5" />
-                    <span className="text-base">Nos simulateurs</span>
+                    <span className="text-base">Outils / Simulateurs</span>
                   </div>
                   <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
                 </button>

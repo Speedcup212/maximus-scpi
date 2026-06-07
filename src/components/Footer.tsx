@@ -115,7 +115,7 @@ const Footer: React.FC = () => {
                   <a href="/meilleures-scpi-rendement/" className="hover:text-blue-400 transition-colors">Meilleures SCPI 2026</a>
                 </li>
                 <li>
-                  <a href="/simulateurs/" className="hover:text-blue-400 transition-colors">Simulateurs SCPI</a>
+                  <a href="/simulateurs/" className="hover:text-blue-400 transition-colors">Outils / Simulateurs</a>
                 </li>
                 <li>
                   <a href="/simulateur-revenus-nets-scpi/" className="hover:text-blue-400 transition-colors">Simulateur revenus nets</a>
