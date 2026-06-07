@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T05:31:48.952Z",
+  "generated_at": "2026-06-07T21:00:03.743Z",
   "formula": "(prix affiché - VR affichée) / VR affichée × 100",
   "tolerance_points": 0.2,
   "total_visible": 63,
@@ -12,7 +12,8 @@
     "ok": 15,
     "warning": 5,
     "fixed_or_neutralized": 43,
-    "critical_remaining": 0
+    "critical_remaining": 0,
+    "text_divergences": 0
   },
   "validation_passed": true,
   "entries": [
@@ -29,6 +30,11 @@
       "displayed_after": "-1.1%",
       "recalc_after": -1.07,
       "ecart_after": 0,
+      "kpi_discount": -1.07,
+      "text_mentions": [
+        -1.1
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -48,6 +54,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": 5.66,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "neutralisé (à vérifier)",
       "issues": [
@@ -67,6 +76,11 @@
       "displayed_after": "-3.2%",
       "recalc_after": -3.2,
       "ecart_after": 0,
+      "kpi_discount": -3.2,
+      "text_mentions": [
+        -3.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "neutralisé (à vérifier)",
       "issues": [
@@ -86,6 +100,9 @@
       "displayed_after": "+0.7%",
       "recalc_after": 0.68,
       "ecart_after": 0,
+      "kpi_discount": 0.68,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -105,6 +122,9 @@
       "displayed_after": "+0.3%",
       "recalc_after": 0.3,
       "ecart_after": 0,
+      "kpi_discount": 0.3,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -124,6 +144,11 @@
       "displayed_after": "-0.2%",
       "recalc_after": -0.24,
       "ecart_after": 0,
+      "kpi_discount": -0.24,
+      "text_mentions": [
+        -0.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -143,6 +168,11 @@
       "displayed_after": "-6.0%",
       "recalc_after": -6.04,
       "ecart_after": 0,
+      "kpi_discount": -6.04,
+      "text_mentions": [
+        -6
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -162,6 +192,9 @@
       "displayed_after": "+0.5%",
       "recalc_after": 0.54,
       "ecart_after": 0,
+      "kpi_discount": 0.54,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -181,6 +214,11 @@
       "displayed_after": "-7.0%",
       "recalc_after": -7.05,
       "ecart_after": 0,
+      "kpi_discount": -7.05,
+      "text_mentions": [
+        -7
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -200,6 +238,11 @@
       "displayed_after": "-2.9%",
       "recalc_after": -2.9,
       "ecart_after": 0,
+      "kpi_discount": -2.9,
+      "text_mentions": [
+        -2.9
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -219,6 +262,11 @@
       "displayed_after": "-6.4%",
       "recalc_after": -6.37,
       "ecart_after": 0,
+      "kpi_discount": -6.37,
+      "text_mentions": [
+        -6.4
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -238,6 +286,11 @@
       "displayed_after": "-1.5%",
       "recalc_after": -1.51,
       "ecart_after": 0,
+      "kpi_discount": -1.51,
+      "text_mentions": [
+        -1.5
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -257,6 +310,11 @@
       "displayed_after": "-2.1%",
       "recalc_after": -2.05,
       "ecart_after": 0,
+      "kpi_discount": -2.05,
+      "text_mentions": [
+        -2.1
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -274,6 +332,11 @@
       "displayed_after": "-8.2%",
       "recalc_after": -8.24,
       "ecart_after": 0,
+      "kpi_discount": -8.24,
+      "text_mentions": [
+        -8.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -293,6 +356,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": -52.81,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "WARNING",
       "decision": "à vérifier",
       "issues": [
@@ -312,6 +378,12 @@
       "displayed_after": "+7.4%",
       "recalc_after": 7.44,
       "ecart_after": 0,
+      "kpi_discount": 7.44,
+      "text_mentions": [
+        7.4,
+        7.4
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -331,6 +403,11 @@
       "displayed_after": "-4.8%",
       "recalc_after": -4.85,
       "ecart_after": 0,
+      "kpi_discount": -4.85,
+      "text_mentions": [
+        -4.8
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -350,6 +427,9 @@
       "displayed_after": "+0.4%",
       "recalc_after": 0.38,
       "ecart_after": 0,
+      "kpi_discount": 0.38,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -369,6 +449,11 @@
       "displayed_after": "-2.6%",
       "recalc_after": -2.63,
       "ecart_after": 0,
+      "kpi_discount": -2.63,
+      "text_mentions": [
+        -2.6
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -388,6 +473,9 @@
       "displayed_after": "+0.5%",
       "recalc_after": 0.48,
       "ecart_after": 0,
+      "kpi_discount": 0.48,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -405,6 +493,11 @@
       "displayed_after": "+1.0%",
       "recalc_after": 1.02,
       "ecart_after": 0,
+      "kpi_discount": 1.02,
+      "text_mentions": [
+        1
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -424,6 +517,12 @@
       "displayed_after": "+4.9%",
       "recalc_after": 4.9,
       "ecart_after": 0,
+      "kpi_discount": 4.9,
+      "text_mentions": [
+        4.9,
+        4.9
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -443,6 +542,11 @@
       "displayed_after": "-1.0%",
       "recalc_after": -0.98,
       "ecart_after": 0,
+      "kpi_discount": -0.98,
+      "text_mentions": [
+        -1
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -462,6 +566,12 @@
       "displayed_after": "+7.4%",
       "recalc_after": 7.38,
       "ecart_after": 0,
+      "kpi_discount": 7.38,
+      "text_mentions": [
+        7.4,
+        7.4
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -479,6 +589,12 @@
       "displayed_after": "+5.9%",
       "recalc_after": 5.91,
       "ecart_after": 0,
+      "kpi_discount": 5.91,
+      "text_mentions": [
+        5.9,
+        5.9
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -498,6 +614,11 @@
       "displayed_after": "-4.6%",
       "recalc_after": -4.65,
       "ecart_after": 0,
+      "kpi_discount": -4.65,
+      "text_mentions": [
+        -4.6
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -515,6 +636,11 @@
       "displayed_after": "-1.0%",
       "recalc_after": -0.97,
       "ecart_after": 0,
+      "kpi_discount": -0.97,
+      "text_mentions": [
+        -1
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -534,6 +660,11 @@
       "displayed_after": "-0.8%",
       "recalc_after": -0.76,
       "ecart_after": 0,
+      "kpi_discount": -0.76,
+      "text_mentions": [
+        -0.8
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -553,6 +684,11 @@
       "displayed_after": "-6.3%",
       "recalc_after": -6.3,
       "ecart_after": 0,
+      "kpi_discount": -6.3,
+      "text_mentions": [
+        -6.3
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -570,6 +706,9 @@
       "displayed_after": "+0.5%",
       "recalc_after": 0.48,
       "ecart_after": 0,
+      "kpi_discount": 0.48,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -589,6 +728,11 @@
       "displayed_after": "-4.4%",
       "recalc_after": -4.4,
       "ecart_after": 0,
+      "kpi_discount": -4.4,
+      "text_mentions": [
+        -4.4
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -608,6 +752,11 @@
       "displayed_after": "+1.8%",
       "recalc_after": 1.84,
       "ecart_after": 0,
+      "kpi_discount": 1.84,
+      "text_mentions": [
+        1.8
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -627,6 +776,11 @@
       "displayed_after": "-2.3%",
       "recalc_after": -2.33,
       "ecart_after": 0,
+      "kpi_discount": -2.33,
+      "text_mentions": [
+        -2.3
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -646,6 +800,11 @@
       "displayed_after": "+1.4%",
       "recalc_after": 1.36,
       "ecart_after": 0,
+      "kpi_discount": 1.36,
+      "text_mentions": [
+        1.4
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -665,6 +824,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": 6.49,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "neutralisé (à vérifier)",
       "issues": [
@@ -684,6 +846,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": -5.52,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "WARNING",
       "decision": "à vérifier",
       "issues": [
@@ -703,6 +868,11 @@
       "displayed_after": "-5.4%",
       "recalc_after": -5.42,
       "ecart_after": 0,
+      "kpi_discount": -5.42,
+      "text_mentions": [
+        -5.4
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -722,6 +892,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": -4.93,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "WARNING",
       "decision": "à vérifier",
       "issues": [
@@ -741,6 +914,11 @@
       "displayed_after": "+2.0%",
       "recalc_after": 2.02,
       "ecart_after": 0,
+      "kpi_discount": 2.02,
+      "text_mentions": [
+        2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -760,6 +938,11 @@
       "displayed_after": "+1.0%",
       "recalc_after": 1.03,
       "ecart_after": 0,
+      "kpi_discount": 1.03,
+      "text_mentions": [
+        1
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -779,6 +962,11 @@
       "displayed_after": "-0.2%",
       "recalc_after": -0.23,
       "ecart_after": 0,
+      "kpi_discount": -0.23,
+      "text_mentions": [
+        -0.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -798,6 +986,12 @@
       "displayed_after": "+8.2%",
       "recalc_after": 8.19,
       "ecart_after": 0,
+      "kpi_discount": 8.19,
+      "text_mentions": [
+        8.2,
+        8.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -817,6 +1011,11 @@
       "displayed_after": "+2.6%",
       "recalc_after": 2.57,
       "ecart_after": 0,
+      "kpi_discount": 2.57,
+      "text_mentions": [
+        2.6
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -836,6 +1035,12 @@
       "displayed_after": "+8.8%",
       "recalc_after": 8.8,
       "ecart_after": 0,
+      "kpi_discount": 8.8,
+      "text_mentions": [
+        8.8,
+        8.8
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -855,6 +1060,11 @@
       "displayed_after": "+2.5%",
       "recalc_after": 2.49,
       "ecart_after": 0,
+      "kpi_discount": 2.49,
+      "text_mentions": [
+        2.5
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -874,6 +1084,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": 0.24,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "WARNING",
       "decision": "à vérifier",
       "issues": [
@@ -893,6 +1106,11 @@
       "displayed_after": "-5.5%",
       "recalc_after": -5.52,
       "ecart_after": 0,
+      "kpi_discount": -5.52,
+      "text_mentions": [
+        -5.5
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -912,6 +1130,11 @@
       "displayed_after": "-1.5%",
       "recalc_after": -1.53,
       "ecart_after": 0,
+      "kpi_discount": -1.53,
+      "text_mentions": [
+        -1.5
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -931,6 +1154,11 @@
       "displayed_after": "-3.2%",
       "recalc_after": -3.25,
       "ecart_after": 0,
+      "kpi_discount": -3.25,
+      "text_mentions": [
+        -3.2
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -950,6 +1178,11 @@
       "displayed_after": "-2.6%",
       "recalc_after": -2.65,
       "ecart_after": 0,
+      "kpi_discount": -2.65,
+      "text_mentions": [
+        -2.6
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -969,6 +1202,9 @@
       "displayed_after": "0.0%",
       "recalc_after": 0,
       "ecart_after": 0,
+      "kpi_discount": 0,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -988,6 +1224,11 @@
       "displayed_after": "-2.3%",
       "recalc_after": -2.27,
       "ecart_after": 0,
+      "kpi_discount": -2.27,
+      "text_mentions": [
+        -2.3
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1005,6 +1246,11 @@
       "displayed_after": "-3.9%",
       "recalc_after": -3.89,
       "ecart_after": 0,
+      "kpi_discount": -3.89,
+      "text_mentions": [
+        -3.9
+      ],
+      "text_divergence": false,
       "status_after": "FIXED_OR_NEUTRALIZED",
       "decision": "corrigé (recalcul live)",
       "issues": [
@@ -1024,6 +1270,11 @@
       "displayed_after": "-2.4%",
       "recalc_after": -2.38,
       "ecart_after": 0,
+      "kpi_discount": -2.38,
+      "text_mentions": [
+        -2.4
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1041,6 +1292,11 @@
       "displayed_after": "-8.1%",
       "recalc_after": -8.07,
       "ecart_after": 0,
+      "kpi_discount": -8.07,
+      "text_mentions": [
+        -8.1
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1058,6 +1314,11 @@
       "displayed_after": "-7.7%",
       "recalc_after": -7.7,
       "ecart_after": 0,
+      "kpi_discount": -7.7,
+      "text_mentions": [
+        -7.7
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1075,6 +1336,11 @@
       "displayed_after": "-5.1%",
       "recalc_after": -5.06,
       "ecart_after": 0,
+      "kpi_discount": -5.06,
+      "text_mentions": [
+        -5.1
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1092,6 +1358,9 @@
       "displayed_after": "À vérifier",
       "recalc_after": null,
       "ecart_after": null,
+      "kpi_discount": null,
+      "text_mentions": [],
+      "text_divergence": false,
       "status_after": "WARNING",
       "decision": "à vérifier",
       "issues": [
@@ -1111,6 +1380,12 @@
       "displayed_after": "+7.4%",
       "recalc_after": 7.37,
       "ecart_after": 0,
+      "kpi_discount": 7.37,
+      "text_mentions": [
+        7.4,
+        7.4
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1128,6 +1403,11 @@
       "displayed_after": "+1.3%",
       "recalc_after": 1.28,
       "ecart_after": 0,
+      "kpi_discount": 1.28,
+      "text_mentions": [
+        1.3
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1145,6 +1425,11 @@
       "displayed_after": "+2.4%",
       "recalc_after": 2.41,
       "ecart_after": 0,
+      "kpi_discount": 2.41,
+      "text_mentions": [
+        2.4
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1162,6 +1447,12 @@
       "displayed_after": "+5.7%",
       "recalc_after": 5.71,
       "ecart_after": 0,
+      "kpi_discount": 5.71,
+      "text_mentions": [
+        5.7,
+        5.7
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []
@@ -1179,6 +1470,11 @@
       "displayed_after": "-4.5%",
       "recalc_after": -4.55,
       "ecart_after": 0,
+      "kpi_discount": -4.55,
+      "text_mentions": [
+        -4.5
+      ],
+      "text_divergence": false,
       "status_after": "OK",
       "decision": "aucune",
       "issues": []

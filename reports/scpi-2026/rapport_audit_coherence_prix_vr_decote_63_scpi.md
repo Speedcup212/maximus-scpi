@@ -1,6 +1,6 @@
 # Audit de cohérence prix / valeur de reconstitution / décote-surcote
 
-_Généré le 2026-06-07T05:31:48.961Z_
+_Généré le 2026-06-07T21:00:03.752Z_
 
 ## Méthode
 
@@ -8,6 +8,8 @@ _Généré le 2026-06-07T05:31:48.961Z_
 - Prix affiché = `scpi.price`.
 - **Avant correction** : décote = snapshot stocké (`discount`) ; VR affichée = priorité `scpiDataExtended`.
 - **Après correction** : décote = recalcul live `(prix - VR)/VR×100` ; VR affichée = priorité VR validée par part ; garde-fou legacy.
+- **Cohérence KPI / textes** : les mentions de décote/surcote dans Lecture rapide, points d'attention et analyse
+  sont extraites puis comparées à la valeur du bloc KPI ; divergence > tolérance ⇒ CRITICAL_REMAINING.
 - Tolérance : ±0.2 point.
 
 ## 1. Anomalies AVANT correction
@@ -24,6 +26,7 @@ _Généré le 2026-06-07T05:31:48.961Z_
 - WARNING (neutralisées QA) : **5**
 - FIXED_OR_NEUTRALIZED (corrigées ou masquées) : **43**
 - **CRITICAL_REMAINING : 0**
+- Divergences KPI / texte d'analyse : **0**
 
 ### Condition de validation : CRITICAL_REMAINING = 0 → **VALIDÉ ✅**
 

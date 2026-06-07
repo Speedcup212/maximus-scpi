@@ -30,6 +30,12 @@ export interface ScpiLandingData {
     subtitle?: string;
     theme?: 'blue' | 'green' | 'indigo';
   };
+  /**
+   * Vrai lorsque la fiche est GÉNÉRÉE automatiquement depuis les données live
+   * (SCPI sans contenu éditorial rédigé). Dans ce cas, le bloc « Verdict
+   * MaximusSCPI » est masqué pour éviter tout argument non sourcé.
+   */
+  _generated?: boolean;
 }
 
 export const scpiLandingPages: Record<string, ScpiLandingData> = {

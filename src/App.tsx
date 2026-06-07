@@ -149,6 +149,7 @@ import { educationArticles, getArticlesByCategory, getAllCategories, getArticleB
 import { getTemplateBySlug } from './data/articleTemplatesConfig';
 import type { Article } from './components/ArticlePage';
 import { scpiLandingPages } from './data/landingPagesData';
+import { buildScpiLandingData } from './utils/buildScpiLandingData';
 
 // Hooks and Utils
 import { useScpiFilters } from './hooks/useScpiFilters';
@@ -548,6 +549,10 @@ const App: React.FC = () => {
               // C'est une landing page sectorielle ou géographique, pas une SCPI
               setSelectedLandingPage(path);
               setCurrentView('landing');
+            } else if (buildScpiLandingData(path)) {
+              // SCPI sans fiche éditoriale : template riche généré (même structure que /sofiprime)
+              setSelectedScpiKey(path);
+              setCurrentView('scpi-optimized');
             } else {
               setSelectedScpiKey(path);
               setCurrentView('scpi-static');
@@ -1223,8 +1228,12 @@ const App: React.FC = () => {
       // Utiliser OptimizedScpiLandingPage avec le comparateur FintechComparator
       setSelectedScpiKey(scpiKey);
       setCurrentView('scpi-optimized');
+    } else if (buildScpiLandingData(slug)) {
+      // SCPI sans fiche éditoriale : template riche généré (même structure que /sofiprime)
+      setSelectedScpiKey(slug);
+      setCurrentView('scpi-optimized');
     } else {
-      // Fallback vers StaticScpiPage si la SCPI n'est pas dans scpiLandingPages
+      // Fallback ultime vers StaticScpiPage si le slug ne correspond à aucune SCPI connue
       setSelectedScpiKey(slug);
       setCurrentView('scpi-static');
     }
