@@ -8,6 +8,7 @@ import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/s
 import { getLatestScore } from '../../utils/scpiScoreService';
 import { scoreToStars } from '../../utils/scoreToStars';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import { computeDisplayedDiscount } from '../../utils/formatters';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -248,18 +249,13 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-xs text-slate-400">Décote/Surcote</div>
                 </div>
                 {(() => {
-                  // QA : ne jamais afficher une décote/surcote en manual_review comme fiable.
-                  if (scpi.discountQaStatus === 'manual_review') {
+                  // Recalcul à l'affichage : (prix affiché - VR comparable) / VR comparable × 100.
+                  // Jamais d'ancien prix snapshot ; "À vérifier" si manual_review ou VR/prix non comparable.
+                  const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution;
+                  const discountPremium = computeDisplayedDiscount(scpi.price, reconstitutionVal, scpi.discountQaStatus, scpi.discount);
+                  if (discountPremium == null) {
                     return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
                   }
-                  // Priorité à la valeur QA-validée (publishable) si disponible.
-                  const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
-                  const discountPremium =
-                    typeof scpi.discount === 'number'
-                      ? scpi.discount
-                      : reconstitutionVal > 0
-                        ? ((scpi.price - reconstitutionVal) / reconstitutionVal) * 100
-                        : 0;
                   const isDiscount = discountPremium < 0;
                   return (
                     <div className={`text-2xl font-bold ${isDiscount ? 'text-emerald-400' : discountPremium > 0 ? 'text-red-400' : 'text-slate-400'}`}>

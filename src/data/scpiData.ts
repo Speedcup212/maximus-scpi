@@ -383,7 +383,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     dureeDetentionRecommandee: cleanNumericValue(scpi['Durée de détention recommandée (ans)']),
     fraisGestion: cleanNumericValue(scpi['Frais de gestion (HT/%)']),
     valeurRetrait: cleanNumericValue(scpi['Valeur de retrait (€)']),
-    valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution (€)']),
+    // Priorité à la valeur de reconstitution PAR PART validée (QA) — même source que la décote/surcote affichée.
+    valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution par part (€)']) ?? cleanNumericValue(scpi['Valeur de reconstitution (€)']),
     valeurRealisation: cleanNumericValue(scpi['Valeur de réalisation (€)']),
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),

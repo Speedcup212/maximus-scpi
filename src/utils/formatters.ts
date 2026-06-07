@@ -41,38 +41,87 @@ export const getDiscountColor = (discount: number | undefined | null): string =>
 
 type DiscountQa = 'publishable' | 'manual_review' | 'excluded_non_scpi' | undefined;
 
+const DISCOUNT_NEUTRAL_CLASS =
+  'bg-gray-100 dark:bg-gray-900/50 text-gray-600 dark:text-gray-300 px-2 py-1 rounded font-semibold';
+
 /**
  * Décote/surcote fiable et affichable ?
- * Fiable si la QA est 'publishable' ou si aucun statut QA n'est défini (donnée historique non re-qualifiée).
- * Non fiable (à vérifier) si 'manual_review'.
+ * Non fiable (à vérifier) si 'manual_review' ou 'excluded_non_scpi'.
  */
 export const isDiscountReliable = (qaStatus: DiscountQa): boolean => {
-  return qaStatus !== 'manual_review';
+  return qaStatus !== 'manual_review' && qaStatus !== 'excluded_non_scpi';
+};
+
+/** Tolérance (points de %) entre décote recalculée et décote stockée pour les cas legacy. */
+export const DISCOUNT_CONSISTENCY_TOLERANCE = 0.2;
+
+/**
+ * Décote/surcote RECALCULÉE à l'affichage à partir du prix actuellement affiché
+ * et de la valeur de reconstitution comparable (par part).
+ * Formule : (prix affiché - VR comparable) / VR comparable × 100.
+ *
+ * Objectif : ne jamais afficher une décote calculée avec un ancien prix snapshot,
+ * ni une décote incohérente avec le prix/VR affichés.
+ *
+ * Retourne null (→ "à vérifier") si :
+ *  - statut QA non fiable (manual_review / excluded_non_scpi) ;
+ *  - prix affiché ou VR comparable absent ou non positif ;
+ *  - cas legacy (statut QA indéfini) avec une décote stockée qui DIVERGE du recalcul
+ *    (> tolérance) → les valeurs source ne sont pas comparables, on neutralise.
+ *
+ * Les SCPI 'publishable' (VR validée par part) sont toujours recalculées avec le prix courant,
+ * même si la décote stockée (snapshot) diffère (cas d'une revalorisation de prix).
+ *
+ * @param storedDiscount décote stockée (snapshot) éventuelle, pour le garde-fou legacy.
+ */
+export const computeDisplayedDiscount = (
+  price: number | undefined | null,
+  reconstitutionValue: number | undefined | null,
+  qaStatus: DiscountQa,
+  storedDiscount?: number | null
+): number | null => {
+  if (!isDiscountReliable(qaStatus)) return null;
+  if (price == null || reconstitutionValue == null) return null;
+  if (!(price > 0) || !(reconstitutionValue > 0)) return null;
+
+  const recalc = ((price - reconstitutionValue) / reconstitutionValue) * 100;
+
+  // VR validée par part → on fait confiance au recalcul avec le prix courant.
+  if (qaStatus === 'publishable') return recalc;
+
+  // Cas legacy (statut QA indéfini) : n'afficher que si cohérent avec la décote stockée.
+  if (storedDiscount == null) return recalc;
+  if (Math.abs(storedDiscount - recalc) > DISCOUNT_CONSISTENCY_TOLERANCE) return null;
+  return recalc;
 };
 
 /**
- * Libellé d'affichage de la décote/surcote en tenant compte du statut QA.
- * manual_review → "À vérifier" (jamais présenté comme fiable).
+ * Libellé d'affichage de la décote/surcote (recalculée prix affiché vs VR comparable).
+ * "À vérifier" si non fiable (manual_review), prix/VR non comparable, ou legacy incohérent.
  */
 export const formatDiscountQa = (
-  discount: number | undefined | null,
-  qaStatus: DiscountQa
+  price: number | undefined | null,
+  reconstitutionValue: number | undefined | null,
+  qaStatus: DiscountQa,
+  storedDiscount?: number | null
 ): string => {
-  if (!isDiscountReliable(qaStatus)) return 'À vérifier';
+  const discount = computeDisplayedDiscount(price, reconstitutionValue, qaStatus, storedDiscount);
+  if (discount == null) return 'À vérifier';
   return formatPercentage(discount);
 };
 
 /**
- * Classe couleur de la décote/surcote en tenant compte du statut QA.
- * manual_review → style neutre (gris), pas de signal d'opportunité/risque.
+ * Classe couleur de la décote/surcote (basée sur la valeur recalculée).
+ * Cas non comparable / manual_review / legacy incohérent → style neutre (gris), pas de signal.
  */
 export const getDiscountQaColor = (
-  discount: number | undefined | null,
-  qaStatus: DiscountQa
+  price: number | undefined | null,
+  reconstitutionValue: number | undefined | null,
+  qaStatus: DiscountQa,
+  storedDiscount?: number | null
 ): string => {
-  if (!isDiscountReliable(qaStatus)) {
-    return 'bg-gray-100 dark:bg-gray-900/50 text-gray-600 dark:text-gray-300 px-2 py-1 rounded font-semibold';
-  }
+  const discount = computeDisplayedDiscount(price, reconstitutionValue, qaStatus, storedDiscount);
+  if (discount == null) return DISCOUNT_NEUTRAL_CLASS;
   return getDiscountColor(discount);
 };
 
