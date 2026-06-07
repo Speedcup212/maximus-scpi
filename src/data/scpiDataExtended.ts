@@ -12,6 +12,9 @@ export interface SCPIExtended {
   geography: Array<{ name: string; value: number }>;
   strategy: string;
   reconstitutionValue?: number;
+  // Décote/surcote QA-validée (issue de la QA métier reconstitution) et son statut.
+  discount?: number;
+  discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
   ranDays?: number;
   ltv?: number;
   hasWaitingShares?: boolean;
@@ -3874,7 +3877,8 @@ const baseSCPIData: SCPIExtended[] = [
     "managementFees": 1.22,
     "dureeDetentionRecommandee": 10,
     "sfdr": "Article 8",
-    "nombreLocataires": 1005
+    "nombreLocataires": 1005,
+    "reconstitutionValue": 199.2
   },
   {
     "id": 62,
@@ -3940,7 +3944,8 @@ const baseSCPIData: SCPIExtended[] = [
     "entryFees": 9.0,
     "managementFees": 10.0,
     "dureeDetentionRecommandee": 10,
-    "sfdr": "Article 8"
+    "sfdr": "Article 8",
+    "reconstitutionValue": 151.36
   },
   {
     "id": 63,
@@ -4014,7 +4019,8 @@ const baseSCPIData: SCPIExtended[] = [
     "managementFees": 10.0,
     "dureeDetentionRecommandee": 10,
     "sfdr": "Article 6",
-    "nombreLocataires": 265
+    "nombreLocataires": 265,
+    "reconstitutionValue": 965.93
   }
 ];
 export const scpiDataExtended: SCPIExtended[] = baseSCPIData;

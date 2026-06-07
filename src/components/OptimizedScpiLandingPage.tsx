@@ -809,9 +809,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">
                     <div className="text-sm text-gray-600 mb-1">Décote/Surcote</div>
-                    <div className={`text-3xl font-bold ${realScpiData.discount <= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                      {realScpiData.discount > 0 ? '+' : ''}{formatPercentage(realScpiData.discount)}
-                    </div>
+                    {realScpiData.discountQaStatus === 'manual_review' ? (
+                      <div className="text-3xl font-bold text-gray-500">À vérifier</div>
+                    ) : (
+                      <div className={`text-3xl font-bold ${realScpiData.discount <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {realScpiData.discount > 0 ? '+' : ''}{formatPercentage(realScpiData.discount)}
+                      </div>
+                    )}
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">
                     <div className="text-sm text-gray-600 mb-1">Année de création</div>

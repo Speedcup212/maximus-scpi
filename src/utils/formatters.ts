@@ -39,6 +39,43 @@ export const getDiscountColor = (discount: number | undefined | null): string =>
   return 'bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-300 px-2 py-1 rounded font-bold';
 };
 
+type DiscountQa = 'publishable' | 'manual_review' | 'excluded_non_scpi' | undefined;
+
+/**
+ * Décote/surcote fiable et affichable ?
+ * Fiable si la QA est 'publishable' ou si aucun statut QA n'est défini (donnée historique non re-qualifiée).
+ * Non fiable (à vérifier) si 'manual_review'.
+ */
+export const isDiscountReliable = (qaStatus: DiscountQa): boolean => {
+  return qaStatus !== 'manual_review';
+};
+
+/**
+ * Libellé d'affichage de la décote/surcote en tenant compte du statut QA.
+ * manual_review → "À vérifier" (jamais présenté comme fiable).
+ */
+export const formatDiscountQa = (
+  discount: number | undefined | null,
+  qaStatus: DiscountQa
+): string => {
+  if (!isDiscountReliable(qaStatus)) return 'À vérifier';
+  return formatPercentage(discount);
+};
+
+/**
+ * Classe couleur de la décote/surcote en tenant compte du statut QA.
+ * manual_review → style neutre (gris), pas de signal d'opportunité/risque.
+ */
+export const getDiscountQaColor = (
+  discount: number | undefined | null,
+  qaStatus: DiscountQa
+): string => {
+  if (!isDiscountReliable(qaStatus)) {
+    return 'bg-gray-100 dark:bg-gray-900/50 text-gray-600 dark:text-gray-300 px-2 py-1 rounded font-semibold';
+  }
+  return getDiscountColor(discount);
+};
+
 /**
  * Normalise une chaîne de caractères en supprimant les accents et en la mettant en minuscules
  * Utilisé pour la recherche insensible aux accents

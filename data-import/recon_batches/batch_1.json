@@ -1,0 +1,252 @@
+[
+  {
+    "name": "Activimmo",
+    "folder": "SCPI Activimmo",
+    "prix_souscription_actuel": 207,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "20250410-Rapport-annuel-2025-ActivImmo.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "20260507-BTI-ActivImmo.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "20260414-Plaquette-Commerciale-ActivImmo-2026.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Aestiam Horizon",
+    "folder": "SCPI Aestiam Horizon",
+    "prix_souscription_actuel": 350,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "2025-rapport-annuel-aestiam-horizon.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "2026-1t-bti-aestiam-horizon.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "AestiamHorizon-NoteInformation.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "AestiamHorizon-DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "aestiam-horizon-charte-esg.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Altixia Cadence 12",
+    "folder": "SCPI Altixia Cadence 12",
+    "prix_souscription_actuel": 200,
+    "sources": [
+      {
+        "type": "AUTRE",
+        "file": "doc1-20250526-145625.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20250617-153722.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20260309-180655.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20260430-122013.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Altixia Commerces",
+    "folder": "SCPI Altixia Commerce",
+    "prix_souscription_actuel": 203,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "rapport-annuel-2024-altixia-commerces-256.PDF"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20250617-153811.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20250813-114849.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20260203-160314.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "doc1-20260430-110640.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Atream Hotel",
+    "folder": "SCPI Atream Hotel",
+    "prix_souscription_actuel": 1000,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-Annuel-SCPI-Atream-Hotels-2025-Web_114-pages_compressed.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-N2026_1T-SCPI_Atream_Hotels_WEB_10-PAGES-1.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "2026-03-11-DIC-PRIIPS-ATREAM-HOTELS-1.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "2026-01-SCPI-AH-NI.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Buroboutic Métropoles",
+    "folder": "SCPI Buroboutic",
+    "prix_souscription_actuel": 230,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Buroboutic Métropoles - Rapport annuel 2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "BTI Buroboutic T1 2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note d'information et statuts Buroboutic - 01.2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note d'information et statuts Buroboutic - Actualisation - 02.01.2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC BUROBOUTIC 31.12.2024.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Code de transparence Buroboutic 04.2024.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Coeur d'Europe",
+    "folder": "scpi coeur europe",
+    "prix_souscription_actuel": 204,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-annuel-2025-–-Coeur-dEurope-1.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-Trimestriel-1T-2026-–-Coeur-dEurope.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note-dinformation-–-Coeur-dEurope.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Coeur-dEurope-DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport-ISR-2025-–-Coeur-dEurope.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Coeur de Région",
+    "folder": "SCPI Coeur de régions",
+    "prix_souscription_actuel": 664,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-annuel-2025-–-Coeur-de-Regions.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Regions.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note-dinformation-–-Coeur-de-Regions.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Coeur-de-Regions-DIC.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport-ISR-2025-–-Coeur-de-Regions.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Coeur de ville",
+    "folder": "SCPI Coeur de ville",
+    "prix_souscription_actuel": 210,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-annuel-2025-–-Coeur-de-Ville.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-Trimestriel-1T-2026-–-Coeur-de-Ville.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note-dinformation-–-Coeur-de-Ville.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Coeur-de-Ville-DIC.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Comète",
+    "folder": "SCPI Comete",
+    "prix_souscription_actuel": 208,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "20260410-Rapport-annuel-2025-Comete-1.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "20260506-BTI-T1-2026-Comete.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "20251218-Note-dinformation-Comete.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "20250122-Plaquette-commerciale-Comete-1.pdf"
+      }
+    ]
+  }
+]

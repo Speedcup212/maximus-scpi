@@ -1,0 +1,212 @@
+[
+  {
+    "name": "Grand Paris Résidentiel",
+    "valeur_reconstitution": {
+      "new_value": 186.25,
+      "unit": "EUR/part",
+      "source_document": "IG_RapportAnnuel_2025GPR.pdf",
+      "page": "14",
+      "extract": "Valeur de reconstitution 11 215 250 € / PAR PART 186,25 €",
+      "status": "verified",
+      "comment": "Tableau « Valeur comptable, valeurs de réalisation et de reconstitution » au 31/12/2025 ; cohérent avec prix de souscription 200 €."
+    },
+    "valeur_realisation": {
+      "new_value": 155.56,
+      "unit": "EUR/part",
+      "source_document": "IG_RapportAnnuel_2025GPR.pdf",
+      "page": "14",
+      "extract": "Valeur de réalisation 9 367 274 € / PAR PART 155,56 €",
+      "status": "verified",
+      "comment": "Aussi reprise en chiffres clés (155,56 €) et rapport du conseil de surveillance au 31/12/2025."
+    }
+  },
+  {
+    "name": "Immorente",
+    "valeur_reconstitution": {
+      "new_value": 321.03,
+      "unit": "EUR/part",
+      "source_document": "IMMORENTE-BT-1T-2026-1.pdf",
+      "page": "5",
+      "extract": "Valeur de référence des parts (par part) au 31/12/2025 : 266,94 € / 321,03 € — Valeur de réalisation / Valeur de reconstitution",
+      "status": "verified",
+      "comment": "Pas de RA dans le lot ; BT T1 2026 (le plus récent) donne les valeurs par part au 31/12/2025. Cohérent avec prix de souscription 340 €."
+    },
+    "valeur_realisation": {
+      "new_value": 266.94,
+      "unit": "EUR/part",
+      "source_document": "IMMORENTE-BT-1T-2026-1.pdf",
+      "page": "5",
+      "extract": "Valeur de référence des parts (par part) au 31/12/2025 : 266,94 € (Valeur de réalisation)",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 indiquée dans le bulletin trimestriel T1 2026."
+    }
+  },
+  {
+    "name": "Iroko Zen",
+    "valeur_reconstitution": {
+      "new_value": 213.94,
+      "unit": "EUR/part",
+      "source_document": "Iroko_Zen_Rapport_annuel_2025.pdf",
+      "page": "1 (édito)",
+      "extract": "La valeur de reconstitution, atteignant 213,94 € au 31 décembre 2025, soit près de 5 % de plus que le prix de souscription",
+      "status": "verified",
+      "comment": "Confirmé par le BT (#22) : 213,94 € par part au 31/12/2025. Cohérent avec prix de souscription 204 €."
+    },
+    "valeur_realisation": {
+      "new_value": 185.90,
+      "unit": "EUR/part",
+      "source_document": "Iroko_Zen_bulletin_trimestriel.pdf",
+      "page": "4",
+      "extract": "185,90 € Valeur de réalisation (Valeurs au 31 décembre 2025 validées par l'expert AIFM)",
+      "status": "verified",
+      "comment": "Le RA ne donne la valeur de réalisation qu'en total (1 252 460 423 €) ; la valeur par part 185,90 € au 31/12/2025 est reprise du bulletin trimestriel."
+    }
+  },
+  {
+    "name": "Kyaneos Pierre",
+    "valeur_reconstitution": {
+      "new_value": 226.20,
+      "unit": "EUR/part",
+      "source_document": "BT-T1-2026-KP.pdf",
+      "page": "4",
+      "extract": "Valeurs de part au 31/12/2025 — Valeur de reconstitution 226,20 €",
+      "status": "verified",
+      "comment": "Pas de RA dans le lot ; BT T1 2026. Cohérent avec prix de souscription 224 €."
+    },
+    "valeur_realisation": {
+      "new_value": 187.10,
+      "unit": "EUR/part",
+      "source_document": "BT-T1-2026-KP.pdf",
+      "page": "4",
+      "extract": "Valeurs de part au 31/12/2025 — Valeur de réalisation 187,10 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 indiquée dans le bulletin trimestriel T1 2026."
+    }
+  },
+  {
+    "name": "LF Avenir Santé",
+    "valeur_reconstitution": {
+      "new_value": 302.30,
+      "unit": "EUR/part",
+      "source_document": "Q1_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de reconstitution 302,30 € (POSITIONNEMENT DU PRIX DE PART AU 31 DÉCEMBRE 2025)",
+      "status": "verified",
+      "comment": "RA 2025. Cohérent avec prix de souscription 300 €."
+    },
+    "valeur_realisation": {
+      "new_value": 244.18,
+      "unit": "EUR/part",
+      "source_document": "Q1_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de réalisation 244,18 € ; « pour s'établir à 244,18 euros par part » au 31 décembre 2025",
+      "status": "verified",
+      "comment": "RA 2025."
+    }
+  },
+  {
+    "name": "LF Europimmo",
+    "valeur_reconstitution": {
+      "new_value": 773.78,
+      "unit": "EUR/part",
+      "source_document": "D1_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de reconstitution 773,78 € (POSITIONNEMENT DU PRIX DE PART AU 31 DÉCEMBRE 2025)",
+      "status": "verified",
+      "comment": "RA 2025. Cohérent avec prix de souscription 725 €."
+    },
+    "valeur_realisation": {
+      "new_value": 639.53,
+      "unit": "EUR/part",
+      "source_document": "D1_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de réalisation 639,53 € ; « pour s'établir à 639,53 euros par part » au 31 décembre 2025",
+      "status": "verified",
+      "comment": "RA 2025."
+    }
+  },
+  {
+    "name": "LF Grand Paris Patrimoine",
+    "valeur_reconstitution": {
+      "new_value": 216.96,
+      "unit": "EUR/part",
+      "source_document": "Z2_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de reconstitution 216,96 € (POSITIONNEMENT DU PRIX DE PART AU 31 DÉCEMBRE 2025)",
+      "status": "verified",
+      "comment": "RA 2025. Cohérent avec prix de souscription 218 €."
+    },
+    "valeur_realisation": {
+      "new_value": 173.40,
+      "unit": "EUR/part",
+      "source_document": "Z2_rapportannuel.pdf",
+      "page": "4",
+      "extract": "Valeur de réalisation 173,40 € ; « pour s'établir à 173,40 euros par part » au 31 décembre 2025",
+      "status": "verified",
+      "comment": "RA 2025."
+    }
+  },
+  {
+    "name": "Log In",
+    "valeur_reconstitution": {
+      "new_value": 266.50,
+      "unit": "EUR/part",
+      "source_document": "SCPI-LOG-IN-Rapport-Annuel-2025.pdf",
+      "page": "11 (chiffres clés)",
+      "extract": "VALEUR DE RECONSTITUTION 266,50 € par part",
+      "status": "verified",
+      "comment": "RA 2025, chiffres clés au 31/12/2025. Cohérent avec prix de souscription 255 €."
+    },
+    "valeur_realisation": {
+      "new_value": 225.03,
+      "unit": "EUR/part",
+      "source_document": "SCPI-LOG-IN-Rapport-Annuel-2025.pdf",
+      "page": "11 (chiffres clés)",
+      "extract": "VALEUR DE RÉALISATION 225,03 € par part",
+      "status": "verified",
+      "comment": "RA 2025, chiffres clés au 31/12/2025."
+    }
+  },
+  {
+    "name": "NCap Education Santé",
+    "valeur_reconstitution": {
+      "new_value": 198.35,
+      "unit": "EUR/part",
+      "source_document": "rapport_annuel_ncapeducationsante_2025.pdf",
+      "page": "29",
+      "extract": "VALEUR DE RECONSTITUTION RAMENÉE À UNE PART 198,35 €",
+      "status": "verified",
+      "comment": "RA 2025 (plus récent que le RA 2024). Cohérent avec prix de souscription 202 €."
+    },
+    "valeur_realisation": {
+      "new_value": 166.49,
+      "unit": "EUR/part",
+      "source_document": "rapport_annuel_ncapeducationsante_2025.pdf",
+      "page": "29",
+      "extract": "VALEUR DE RÉALISATION RAMENÉE À UNE PART 166,49 €",
+      "status": "verified",
+      "comment": "RA 2025, section « Valeurs de la SCPI »."
+    }
+  },
+  {
+    "name": "NCap Régions",
+    "valeur_reconstitution": {
+      "new_value": 698.26,
+      "unit": "EUR/part",
+      "source_document": "rapport_annuel_ncapregions_2025-1.pdf",
+      "page": "31",
+      "extract": "VALEUR DE RECONSTITUTION RAMENÉE À UNE PART 698,26",
+      "status": "verified",
+      "comment": "RA 2025. Cohérent avec prix de souscription 682 €."
+    },
+    "valeur_realisation": {
+      "new_value": 570.64,
+      "unit": "EUR/part",
+      "source_document": "rapport_annuel_ncapregions_2025-1.pdf",
+      "page": "31",
+      "extract": "VALEUR DE RÉALISATION RAMENÉE À UNE PART 570,64 €",
+      "status": "verified",
+      "comment": "RA 2025, section « Valeurs de la SCPI »."
+    }
+  }
+]

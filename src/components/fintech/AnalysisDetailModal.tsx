@@ -236,10 +236,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-xs text-slate-400">Décote/Surcote</div>
                 </div>
                 {(() => {
+                  // QA : ne jamais afficher une décote/surcote en manual_review comme fiable.
+                  if (scpi.discountQaStatus === 'manual_review') {
+                    return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
+                  }
+                  // Priorité à la valeur QA-validée (publishable) si disponible.
                   const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution ?? 0;
-                  const discountPremium = reconstitutionVal > 0 
-                    ? ((scpi.price - reconstitutionVal) / reconstitutionVal * 100)
-                    : 0;
+                  const discountPremium =
+                    typeof scpi.discount === 'number'
+                      ? scpi.discount
+                      : reconstitutionVal > 0
+                        ? ((scpi.price - reconstitutionVal) / reconstitutionVal) * 100
+                        : 0;
                   const isDiscount = discountPremium < 0;
                   return (
                     <div className={`text-2xl font-bold ${isDiscount ? 'text-emerald-400' : discountPremium > 0 ? 'text-red-400' : 'text-slate-400'}`}>

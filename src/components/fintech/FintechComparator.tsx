@@ -16,6 +16,7 @@ import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
 import { getLatestScoresBatch } from '../../utils/scpiScoreService';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
 
@@ -73,6 +74,13 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     }
     return enriched;
   }, []);
+
+  // Note MaximusSCPI calculée côté client sur l'ensemble de la cohorte (percentile cohérent).
+  // Source de vérité de la note affichée ; Supabase reste une surcouche optionnelle.
+  const clientScoresBySlug = useMemo(
+    () => computeClientScores(enrichedScpiData).bySlug,
+    [enrichedScpiData]
+  );
 
   const toggleSelect = (scpi: SCPIExtended) => {
     setSelectedScpis(prev => {
@@ -372,7 +380,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <SCPICardDark
                         key={scpi.id}
                         scpi={scpi}
-                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
                         isSelected={selectedScpis.some(s => s.id === scpi.id)}
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}
@@ -427,7 +435,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                             <SCPITableRow
                               key={scpi.id}
                               scpi={scpi}
-                              score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                              score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
                               isSelected={selectedScpis.some(s => s.id === scpi.id)}
                               onToggleSelect={() => toggleSelect(scpi)}
                               onAnalyze={() => handleAnalyze(scpi)}
@@ -447,7 +455,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <SCPICardDark
                         key={scpi.id}
                         scpi={scpi}
-                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
                         isSelected={selectedScpis.some(s => s.id === scpi.id)}
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}

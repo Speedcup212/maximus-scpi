@@ -5,7 +5,7 @@ import {
   Shield, Target, Calculator, ChevronDown
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
+import { formatCurrency, getPerformanceColor, getDiscountQaColor, formatDiscountQa } from '../utils/formatters';
 import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import PieChart from './PieChart';
 import { getLatestScore } from '../utils/scpiScoreService';
@@ -233,8 +233,8 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                     </div>
                     <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Décote</span>
-                      <span className={`font-black text-sm ${getDiscountColor(scpi.discount)}`}>
-                        {formatPercentage(scpi.discount)}
+                      <span className={`font-black text-sm ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
+                        {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">

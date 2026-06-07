@@ -1,0 +1,257 @@
+[
+  {
+    "name": "Epsicap Nano",
+    "folder": "Epsicap Nano",
+    "prix_souscription_actuel": 257,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport-annuel-2025-Epsicap-Nano.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Epsicap-Nano-Note-dinformation-2026.05.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Epsicap-Nano-Document-commercial-def.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Alta Convictions",
+    "folder": "SCPI Alta Convictions",
+    "prix_souscription_actuel": 308,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Alta-Convictions-Rapport-annuel-2024-Web-PAP.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Alta-Convictions_Note-Information_Dec-2025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "Alta-Convictions_DIC_Avril-2026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "24032026_ALTA_BUL_TRIMESTRIEL_T1_26_PPP_WEB.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "241209_Altarea_FicheProduit_PPP_WEB.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Alta-Convictions-Rapport-ISR-Web-Planche.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI-Alta-Convictions-Plaquette-PAP-WEB.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Cristal Rente",
+    "folder": "SCPI Cristal Rente",
+    "prix_souscription_actuel": 255.68,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "IG_RapportAnnuel_2024CR_WEB.pdf"
+      },
+      {
+        "type": "RA",
+        "file": "IG_RapportAnnuel_2025CR.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "IG_CRBulletin_Trimestriel2026_T1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "IGCRNoteInfo_StatutsAMFEurope20260115.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "IG_CR_DIC20241203.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "IGCRPlaquetteComFR20251029.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Rivoli Avenir Patrimoine",
+    "folder": "SCPI Rivoli Avenir Patrimoine",
+    "prix_souscription_actuel": 228,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "RIVOLI AVENIR PATRIMOINE - Rapport Annuel - 2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2-1.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "RIVOLI AVENIR PATRIMOINE - Bulletin Semestriel 2025 S2.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "RIVOLI AVENIR PATRIMOINE-Note Information- Statuts 08082025.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "RIVOLI AVENIR PATRIMOINE - DIC PRIIPS 2025-07-31.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "RIVOLI AVENIR PATRIMOINE - Brochure commerciale - Novembre 2025.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Primovie",
+    "folder": "SCPI Primovie",
+    "prix_souscription_actuel": 164,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport Annuel 2024 Primovie.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "PRAEMIA_BTI_Primovie_T1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "SCPI Primovie - Note information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "PRIIPS 2 2025-04-01 DIC PRIMOVIE V1.0.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI Primovie - L'Essentiel.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "SCPI Primovie - Politique ISR.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Praemia Hôtels Europe",
+    "folder": "scpi Praemia Hotels Europe",
+    "prix_souscription_actuel": 204,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Primofamily -Rapport annuel 2024.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "PRAEMIA_BTI_Praemia_Hotels_Europe_T1_2026.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "2025 09 17 DIC PRAEMIA HOTELS EUROPE v3 EDHEC IEIF.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "2026 02 10 Praemia Hotels Europe - NI v3c.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "PRAEMIA_HOTELS_EUROPE - Plaquette 04 2026.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Pierval Santé",
+    "folder": "SCPI Pierval Santé",
+    "prix_souscription_actuel": 204,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "RA_PIERVAL_SANTE_2025.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "BT_PIERVAL_SANTE_2026_T1.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "Note-information-SCPI-PIERVAL-SANTE-032026-annexes.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "DIC_SCPI_PIERVAL_SANTE_202411.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Plaquette-commerciale-Pierval-Sante-2026.pdf"
+      },
+      {
+        "type": "AUTRE",
+        "file": "Rapport_ESG_SCPI_Pierval_Sante_2024.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Patrimmo Commerce",
+    "folder": "SCPI Praemia",
+    "prix_souscription_actuel": 160,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "Rapport Annuel 2024 Patrimmo Commerce.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "PRAEMIA_BTI_Patrimmo Commerce_T1_2026.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "SCPI Patrimmo Commerce - Note d'information.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "SCPI Patrimmo Commerce - DIC.pdf"
+      }
+    ]
+  },
+  {
+    "name": "Aestiam Agora",
+    "folder": "SCPI Aestiam Agora",
+    "prix_souscription_actuel": 922,
+    "sources": [
+      {
+        "type": "RA",
+        "file": "2025-rapport-annuel-aestiam-agora.pdf"
+      },
+      {
+        "type": "BT",
+        "file": "2026-1t-bti-aestiam-agora.pdf"
+      },
+      {
+        "type": "NI",
+        "file": "AestiamAgora-NoteInformation.pdf"
+      },
+      {
+        "type": "DIC",
+        "file": "AestiamAgora-DIC.pdf"
+      }
+    ]
+  }
+]

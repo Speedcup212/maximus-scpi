@@ -1,0 +1,212 @@
+[
+  {
+    "name": "Crédit Mutuel Pierre 1",
+    "valeur_reconstitution": {
+      "new_value": 219.5,
+      "unit": "EUR/part",
+      "source_document": "A7_BT_20260331.pdf (BT au 31/03/2026)",
+      "page": "4",
+      "extract": "Valeur de reconstitution = 219,50 € … Prix de souscription = 215,00 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 publiée dans le BT T1 2026. Cohérente avec le prix de souscription 215 € (+2,1 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 179.26,
+      "unit": "EUR/part",
+      "source_document": "A7_BT_20260331.pdf (BT au 31/03/2026)",
+      "page": "4",
+      "extract": "Valeur de réalisation 179,26 €",
+      "status": "verified",
+      "comment": "Valeur par part publiée dans le BT T1 2026."
+    }
+  },
+  {
+    "name": "Cristal Life",
+    "valeur_reconstitution": {
+      "new_value": 226.69,
+      "unit": "EUR/part",
+      "source_document": "IG_CLBulletin_Trimestriel2026_T1.pdf (BT T1 2026)",
+      "page": "2",
+      "extract": "Valeur de reconstitution(5) 226,69 €",
+      "status": "verified",
+      "comment": "Confirmée par le RA 2025 (p.24/53 : 379 726 957 € soit 226,69 €/part). Cohérente avec prix souscription 208 € (+9 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 186.88,
+      "unit": "EUR/part",
+      "source_document": "IG_CLBulletin_Trimestriel2026_T1.pdf (BT T1 2026)",
+      "page": "2",
+      "extract": "Valeur de réalisation(7) … 186,88 €",
+      "status": "verified",
+      "comment": "Confirmée par le RA 2025 (313 040 553 € soit 186,88 €/part)."
+    }
+  },
+  {
+    "name": "Edissimo",
+    "valeur_reconstitution": {
+      "new_value": 166.75,
+      "unit": "EUR/part",
+      "source_document": "EDISSIMMO- Rapport Annuel - 2024.pdf (RA 2024, au 31/12/2024)",
+      "page": "9 / 48 / 98",
+      "extract": "valeur de reconstitution : 2 946 139 174,67 €, soit 166,75 € par part",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2024. Le BT semestriel S2 2025 ne publie que des totaux en M€ (2 846 M€) sans valeur par part. Cohérente avec prix souscription 172 € (-3 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 145.19,
+      "unit": "EUR/part",
+      "source_document": "EDISSIMMO- Rapport Annuel - 2024.pdf (RA 2024, au 31/12/2024)",
+      "page": "9 / 48 / 98",
+      "extract": "valeur de réalisation : 2 565 223 423,37 €, soit 145,19 € par part",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2024. Le BT S2 2025 n'indique que le total 2 475 M€ sans valeur par part."
+    }
+  },
+  {
+    "name": "Efimmo 1",
+    "valeur_reconstitution": {
+      "new_value": 197.32,
+      "unit": "EUR/part",
+      "source_document": "SOFIDY_RA_Efimmo_2025_OPTI.pdf (RA 2025, au 31/12/2025)",
+      "page": "9 / 35",
+      "extract": "Valeur de reconstitution / part 197,32 (31/12/2025)",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025. Cohérente avec prix souscription 212 € (-6,9 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 164.04,
+      "unit": "EUR/part",
+      "source_document": "SOFIDY_RA_Efimmo_2025_OPTI.pdf (RA 2025, au 31/12/2025)",
+      "page": "9 / 35 / 41",
+      "extract": "Valeur de réalisation / part 164,04 (31/12/2025) … la valeur de réalisation unitaire de votre SCPI au 31 décembre 2025 s'élève à 164,04 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025."
+    }
+  },
+  {
+    "name": "Épargne Foncière",
+    "valeur_reconstitution": {
+      "new_value": 704.15,
+      "unit": "EUR/part",
+      "source_document": "EE_BT_20260331.pdf (BT au 31/03/2026)",
+      "page": "4",
+      "extract": "Valeur de reconstitution = 704,15 € … Prix de souscription = 670,00 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (reprise dans le RA, valeur de reconstitution ramenée à une part 704,15). Cohérente avec prix souscription 670 € (-4,8 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 581.52,
+      "unit": "EUR/part",
+      "source_document": "EE_BT_20260331.pdf (BT au 31/03/2026)",
+      "page": "4",
+      "extract": "Valeur de réalisation 581,52 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (RA : valeur de réalisation ramenée à une part 581,52)."
+    }
+  },
+  {
+    "name": "Épargne Pierre",
+    "valeur_reconstitution": {
+      "new_value": 207.22,
+      "unit": "EUR/part",
+      "source_document": "ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf (RA 2025, au 31/12/2025)",
+      "page": "14 / 22",
+      "extract": "Valeur de reconstitution 2 792 921 751 € 207,22 € … 207,22 €/part en 2025",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (confirmée BPI T1 2026 p.5 : 207,22 €). Cohérente avec prix souscription 208 € (-0,4 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 168.1,
+      "unit": "EUR/part",
+      "source_document": "ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf (RA 2025, au 31/12/2025)",
+      "page": "14 / 22",
+      "extract": "Valeur de réalisation 2 265 720 191 € 168,10 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (confirmée BPI T1 2026)."
+    }
+  },
+  {
+    "name": "Épargne Pierre Europe",
+    "valeur_reconstitution": {
+      "new_value": 205.4,
+      "unit": "EUR/part",
+      "source_document": "ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf (RA 2025, au 31/12/2025)",
+      "page": "14 / 20",
+      "extract": "Valeur de reconstitution 574 708 189 € 205,40 € … 205,40 € / PART",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (confirmée BPI T1 2026 p.5 : 205,40 €). Cohérente avec prix souscription 200 € (+2,7 %)."
+    },
+    "valeur_realisation": {
+      "new_value": 172.14,
+      "unit": "EUR/part",
+      "source_document": "ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf (RA 2025, au 31/12/2025)",
+      "page": "14 / 20",
+      "extract": "Valeur de réalisation 481 637 419 € 172,14 €",
+      "status": "verified",
+      "comment": "Valeur par part au 31/12/2025 (confirmée BPI T1 2026)."
+    }
+  },
+  {
+    "name": "Ficommerce Proximité",
+    "valeur_reconstitution": {
+      "new_value": null,
+      "unit": "EUR/part",
+      "source_document": "Ficommerce Proximité - Rapport Annuel 2025.pdf / BTI Ficommerce T1 2026.pdf",
+      "page": "RA p.5/41/44 ; BT p.2",
+      "extract": "Valeur de reconstitution par part 207,88 € (par part au 31.12.2025) — « la division du nominal de la part est intervenue au 1er janvier 2026, entraînant … la multiplication par 3 du nombre de parts … une part valorisée 210 € jusqu'au 31 décembre 2025 »",
+      "status": "manual_review",
+      "comment": "INCOHÉRENCE / split. Valeur documentée 207,88 €/part AVANT division par 3 du nominal au 01/01/2026 (prix de part passé de 210 € à 70 €). Équivalent post-division ≈ 69,29 €/part (207,88/3), cohérent avec prix souscription actuel 70 €, mais la valeur de reconstitution post-division n'est pas publiée explicitement dans les documents disponibles. À confirmer manuellement."
+    },
+    "valeur_realisation": {
+      "new_value": null,
+      "unit": "EUR/part",
+      "source_document": "Ficommerce Proximité - Rapport Annuel 2025.pdf / BTI Ficommerce T1 2026.pdf",
+      "page": "RA p.5/41/44 ; BT p.2",
+      "extract": "Valeur de réalisation par part 173,35 € (par part au 31.12.2025)",
+      "status": "manual_review",
+      "comment": "INCOHÉRENCE / split. Valeur documentée 173,35 €/part AVANT division par 3 du nominal au 01/01/2026. Équivalent post-division ≈ 57,78 €/part (173,35/3). Valeur post-division non publiée explicitement. À confirmer manuellement."
+    }
+  },
+  {
+    "name": "Foncière des Praticiens",
+    "valeur_reconstitution": {
+      "new_value": 1048.65,
+      "unit": "EUR/part",
+      "source_document": "BT-1T-2026-Fonciere-des-Praticiens.pdf (BT T1 2026)",
+      "page": "7",
+      "extract": "920,89 € (Valeur de réalisation par part) | 1 100 € (Prix de souscription) | 1 048,65 € (Valeur de reconstitution par part) | 1 012 € (Valeur de retrait)",
+      "status": "verified",
+      "comment": "Valeur par part la plus récente (BT T1 2026). Cohérente avec prix souscription 1 100 € (-4,7 %). La NI de 02/2025 mentionnait une valeur antérieure de 1 134,20 € (non encore approuvée à l'époque)."
+    },
+    "valeur_realisation": {
+      "new_value": 920.89,
+      "unit": "EUR/part",
+      "source_document": "BT-1T-2026-Fonciere-des-Praticiens.pdf (BT T1 2026)",
+      "page": "7",
+      "extract": "920,89 € … Valeur de réalisation par part",
+      "status": "verified",
+      "comment": "Valeur par part (BT T1 2026)."
+    }
+  },
+  {
+    "name": "GMA Essentialis",
+    "valeur_reconstitution": {
+      "new_value": 208.04,
+      "unit": "EUR/part",
+      "source_document": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf (BT P3 2025)",
+      "page": "3",
+      "extract": "Valeur de reconstitution2 (par part) 208,04 € … Prix de souscription 206,00 € depuis 14 juillet 2024",
+      "status": "verified",
+      "comment": "INCOHÉRENCE avec batch : la valeur par part (BT P3 2025) est cohérente avec le prix de souscription indiqué dans les documents (206 €, écart +1 %), mais PAS avec le prix_souscription_actuel=150 fourni dans le batch (écart +38 %). Le prix de 150 € n'apparaît dans aucun document fourni (DIC 15/12/2025 et NI 07/2025 ne publient pas de valeur par part) — prix batch probablement erroné/obsolète. RA 2024 indiquait 216,87 €/part au 31/12/2024."
+    },
+    "valeur_realisation": {
+      "new_value": 160.42,
+      "unit": "EUR/part",
+      "source_document": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf (BT P3 2025)",
+      "page": "3",
+      "extract": "Valeur de réalisation1 (par part) 160,42 €",
+      "status": "verified",
+      "comment": "Valeur par part la plus récente (BT P3 2025). RA 2024 indiquait 167,05 €/part au 31/12/2024."
+    }
+  }
+]
