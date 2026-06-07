@@ -96,33 +96,48 @@ export const computeDisplayedDiscount = (
 };
 
 /**
- * Libellé d'affichage de la décote/surcote (recalculée prix affiché vs VR comparable).
- * "À vérifier" si non fiable (manual_review), prix/VR non comparable, ou legacy incohérent.
+ * Objet minimal accepté par le résolveur unique de décote/surcote.
+ * Couvre aussi bien `Scpi` (valeurReconstitution) que `SCPIExtended` (reconstitutionValue).
  */
-export const formatDiscountQa = (
-  price: number | undefined | null,
-  reconstitutionValue: number | undefined | null,
-  qaStatus: DiscountQa,
-  storedDiscount?: number | null
-): string => {
-  const discount = computeDisplayedDiscount(price, reconstitutionValue, qaStatus, storedDiscount);
-  if (discount == null) return 'À vérifier';
-  return formatPercentage(discount);
-};
+export interface DiscountResolvable {
+  price?: number | null;
+  reconstitutionValue?: number | null;
+  valeurReconstitution?: number | null;
+  discountQaStatus?: DiscountQa;
+  /** Décote stockée (snapshot), uniquement pour le garde-fou legacy. */
+  discount?: number | null;
+}
+
+/** Résultat unique de la décote/surcote affichable, partagé par TOUTES les surfaces. */
+export interface ResolvedDiscount {
+  /** Valeur affichable (recalculée prix/VR), ou null si non affichable ("À vérifier"). */
+  value: number | null;
+  /** true si une valeur numérique fiable est affichable. */
+  reliable: boolean;
+  /** Libellé prêt à afficher : "x%" ou "À vérifier". */
+  formatted: string;
+  /** Classe couleur (signal opportunité/risque, ou neutre si non fiable). */
+  colorClass: string;
+}
 
 /**
- * Classe couleur de la décote/surcote (basée sur la valeur recalculée).
- * Cas non comparable / manual_review / legacy incohérent → style neutre (gris), pas de signal.
+ * FONCTION UNIQUE de résolution de la décote/surcote affichable.
+ *
+ * Règle maître : (prix affiché - VR affichée) / VR affichée × 100, calculée UNE seule fois,
+ * puis utilisée partout (carte comparateur, KPI, Lecture rapide, Analyse, fiche, tableau, textes).
+ *
+ * - VR affichée = `reconstitutionValue ?? valeurReconstitution` (centralisé ici).
+ * - Jamais d'ancienne décote snapshot dans le rendu : on recalcule.
+ * - null (→ "À vérifier") si VR ou prix absent, qa_status manual_review/excluded,
+ *   ou cas legacy incohérent (garde-fou).
  */
-export const getDiscountQaColor = (
-  price: number | undefined | null,
-  reconstitutionValue: number | undefined | null,
-  qaStatus: DiscountQa,
-  storedDiscount?: number | null
-): string => {
-  const discount = computeDisplayedDiscount(price, reconstitutionValue, qaStatus, storedDiscount);
-  if (discount == null) return DISCOUNT_NEUTRAL_CLASS;
-  return getDiscountColor(discount);
+export const resolveDisplayedDiscount = (scpi: DiscountResolvable): ResolvedDiscount => {
+  const vr = scpi.reconstitutionValue ?? scpi.valeurReconstitution;
+  const value = computeDisplayedDiscount(scpi.price, vr, scpi.discountQaStatus, scpi.discount);
+  if (value == null) {
+    return { value: null, reliable: false, formatted: 'À vérifier', colorClass: DISCOUNT_NEUTRAL_CLASS };
+  }
+  return { value, reliable: true, formatted: formatPercentage(value), colorClass: getDiscountColor(value) };
 };
 
 /**

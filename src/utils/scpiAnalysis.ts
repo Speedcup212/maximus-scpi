@@ -1,4 +1,13 @@
 import { Scpi } from '../types/scpi';
+import { computeDisplayedDiscount } from './formatters';
+
+/**
+ * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI (recalcul live prix/VR + garde-fou).
+ * Source unique partagée par les textes d'analyse afin d'éviter toute divergence KPI / texte.
+ * Retourne null quand la décote n'est pas fiable/comparable (→ ne pas la mentionner).
+ */
+const getDisplayedDiscount = (scpi: Scpi): number | null =>
+  computeDisplayedDiscount(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount);
 
 /**
  * Échelle de référence pour la capitalisation et la liquidité SCPI
@@ -162,8 +171,9 @@ export const getScpiPointsAttention = (scpi: Scpi): string[] => {
   concerns.push("Délai de revente à prévoir (liquidité non immédiate)");
   
   // Troisième point selon les caractéristiques spécifiques
-  if (scpi.discount > 3) {
-    concerns.push(`Surcote/décote de ${Math.abs(scpi.discount).toFixed(1)}% par rapport à la valeur de reconstitution`);
+  const displayedDiscount = getDisplayedDiscount(scpi);
+  if (displayedDiscount != null && displayedDiscount > 3) {
+    concerns.push(`Surcote/décote de ${Math.abs(displayedDiscount).toFixed(1)}% par rapport à la valeur de reconstitution`);
   } else if (scpi.tof < 90) {
     concerns.push(`Taux d'occupation de ${scpi.tof.toFixed(1)}%`);
   } else if (scpi.creation >= 2020) {
@@ -256,7 +266,8 @@ export const getScpiAnalysis = (scpi: Scpi): string => {
     analysis += "Excellent taux d'occupation (>95%) témoignant d'une gestion solide. ";
   }
   
-  if (scpi.discount < -5) {
+  const displayedDiscount = getDisplayedDiscount(scpi);
+  if (displayedDiscount != null && displayedDiscount < -5) {
     analysis += "🎯 <strong>Opportunité d'achat :</strong> Forte décote sur le marché secondaire. ";
   }
   
@@ -285,7 +296,7 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   const yieldValue = scpi.yield;
   const tofValue = scpi.tof;
   const debtValue = scpi.debt;
-  const discountValue = scpi.discount;
+  const discountValue = getDisplayedDiscount(scpi);
   const capitalizationM = scpi.capitalization / 1000000;
   const nbImmeubles = scpi.nbImmeubles;
   const walt = scpi.walt;

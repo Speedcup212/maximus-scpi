@@ -26,6 +26,12 @@ import { dirname, join } from 'node:path';
 import { scpiData } from '../../src/data/scpiData';
 import { scpiDataExtended } from '../../src/data/scpiDataExtended';
 import { computeDisplayedDiscount } from '../../src/utils/formatters';
+import {
+  getScpiKeyTakeaways,
+  getScpiPointsAttention,
+  getScpiAnalysis,
+} from '../../src/utils/scpiAnalysis';
+import type { Scpi } from '../../src/types/scpi';
 
 const ROOT = process.cwd();
 const OUT_JSON = join(ROOT, 'data-import/scpi-agent/audit_visible_scpi_price_reconstitution_consistency.json');
@@ -51,6 +57,10 @@ interface AuditEntry {
   displayed_after: string; // "x%" ou "À vérifier"
   recalc_after: number | null;
   ecart_after: number | null;
+  // Cohérence KPI / textes d'analyse
+  kpi_discount: number | null;
+  text_mentions: number[];
+  text_divergence: boolean;
   status_after: StatusAfter;
   decision: string;
   issues: string[];
@@ -75,6 +85,52 @@ function buildMatchMap() {
   const map = new Map<string, (typeof scpiData)[number]>();
   for (const s of scpiData) map.set(s.name.toLowerCase(), s);
   return map;
+}
+
+/**
+ * Extrait les valeurs SIGNÉES de décote/surcote mentionnées dans un texte d'analyse.
+ * "décote X%" → -X ; "surcote X%" → +X ; nombre signé entre parenthèses → tel quel.
+ * Ne capture que les pourcentages dont le contexte (≤25 car. avant) mentionne décote/surcote
+ * (pour ignorer rendement, TOF, etc.).
+ */
+function extractDiscountMentions(text: string): number[] {
+  const mentions: number[] = [];
+  const re = /([+-]?\d+(?:[.,]\d+)?)\s*%/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    const raw = m[1];
+    const num = parseFloat(raw.replace(',', '.'));
+    if (!Number.isFinite(num)) continue;
+    const ctx = text.slice(Math.max(0, m.index - 25), m.index).toLowerCase();
+    if (raw.startsWith('-') || raw.startsWith('+')) {
+      if (/décote|surcote/.test(ctx)) mentions.push(num);
+      continue;
+    }
+    if (/surcote/.test(ctx)) mentions.push(Math.abs(num)); // inclut "surcote/décote de"
+    else if (/décote/.test(ctx)) mentions.push(-Math.abs(num));
+  }
+  return mentions;
+}
+
+/** Mentions textuelles de décote/surcote produites par les zones d'analyse pour une SCPI. */
+function collectDiscountTextMentions(scpi: Scpi): number[] {
+  const texts: string[] = [];
+  try {
+    texts.push(...getScpiKeyTakeaways(scpi));
+  } catch {
+    /* ignore */
+  }
+  try {
+    texts.push(...getScpiPointsAttention(scpi));
+  } catch {
+    /* ignore */
+  }
+  try {
+    texts.push(getScpiAnalysis(scpi));
+  } catch {
+    /* ignore */
+  }
+  return texts.flatMap((t) => extractDiscountMentions(t));
 }
 
 function audit(): AuditEntry[] {
@@ -127,11 +183,27 @@ function audit(): AuditEntry[] {
     const ecartAfter =
       displayedAfterNum != null && recalcAfter != null ? Math.abs(displayedAfterNum - recalcAfter) : null;
 
+    // Cohérence KPI / textes d'analyse (Lecture rapide, points d'attention, analyse).
+    const kpiDiscount = displayedAfterNum;
+    const textMentions = matching ? collectDiscountTextMentions(matching) : [];
+    const divergentMentions = textMentions.filter((mention) =>
+      kpiDiscount == null ? true : Math.abs(mention - kpiDiscount) > ECART_TOLERANCE_PCT
+    );
+    const textDivergence = divergentMentions.length > 0;
+
     const issues: string[] = [];
     let statusAfter: StatusAfter;
     let decision: string;
 
-    if (displayedAfterNum != null && recalcAfter != null && Math.abs(displayedAfterNum - recalcAfter) > ECART_TOLERANCE_PCT) {
+    if (textDivergence) {
+      // Une mention textuelle de décote/surcote diffère de la valeur KPI affichée.
+      statusAfter = 'CRITICAL_REMAINING';
+      decision = 'corriger';
+      issues.push(
+        `Divergence KPI / texte : KPI ${kpiDiscount == null ? 'À vérifier' : fmtPct(round2(kpiDiscount))}, ` +
+          `mention(s) texte ${divergentMentions.map((v) => fmtPct(round2(v))).join(', ')}.`
+      );
+    } else if (displayedAfterNum != null && recalcAfter != null && Math.abs(displayedAfterNum - recalcAfter) > ECART_TOLERANCE_PCT) {
       // Une décote numérique encore affichée mais incohérente avec prix/VR affichés.
       statusAfter = 'CRITICAL_REMAINING';
       decision = 'corriger';
@@ -185,6 +257,9 @@ function audit(): AuditEntry[] {
       displayed_after: displayedAfter,
       recalc_after: round2(recalcAfter),
       ecart_after: round2(ecartAfter),
+      kpi_discount: round2(kpiDiscount),
+      text_mentions: textMentions.map((v) => round2(v) as number),
+      text_divergence: textDivergence,
       status_after: statusAfter,
       decision,
       issues,
@@ -217,6 +292,8 @@ function buildReport(entries: AuditEntry[]): string {
   L.push('- Prix affiché = `scpi.price`.');
   L.push('- **Avant correction** : décote = snapshot stocké (`discount`) ; VR affichée = priorité `scpiDataExtended`.');
   L.push('- **Après correction** : décote = recalcul live `(prix - VR)/VR×100` ; VR affichée = priorité VR validée par part ; garde-fou legacy.');
+  L.push('- **Cohérence KPI / textes** : les mentions de décote/surcote dans Lecture rapide, points d\'attention et analyse');
+  L.push('  sont extraites puis comparées à la valeur du bloc KPI ; divergence > tolérance ⇒ CRITICAL_REMAINING.');
   L.push(`- Tolérance : ±${ECART_TOLERANCE_PCT} point.`);
   L.push('');
 
@@ -235,6 +312,7 @@ function buildReport(entries: AuditEntry[]): string {
   L.push(`- WARNING (neutralisées QA) : **${afterWarning.length}**`);
   L.push(`- FIXED_OR_NEUTRALIZED (corrigées ou masquées) : **${afterFixed.length}**`);
   L.push(`- **CRITICAL_REMAINING : ${afterCritical.length}**`);
+  L.push(`- Divergences KPI / texte d'analyse : **${entries.filter((e) => e.text_divergence).length}**`);
   L.push('');
   L.push(`### Condition de validation : CRITICAL_REMAINING = 0 → **${validation}**`);
   L.push('');
@@ -297,6 +375,7 @@ function main() {
     warning: entries.filter((e) => e.status_after === 'WARNING').length,
     fixed_or_neutralized: entries.filter((e) => e.status_after === 'FIXED_OR_NEUTRALIZED').length,
     critical_remaining: entries.filter((e) => e.status_after === 'CRITICAL_REMAINING').length,
+    text_divergences: entries.filter((e) => e.text_divergence).length,
   };
 
   const payload = {
@@ -327,6 +406,7 @@ function main() {
       `FIXED_OR_NEUTRALIZED: ${summaryAfter.fixed_or_neutralized} | ` +
       `CRITICAL_REMAINING: ${summaryAfter.critical_remaining}`
   );
+  console.log(`  Divergences KPI / texte : ${summaryAfter.text_divergences}`);
   console.log(`\nValidation (CRITICAL_REMAINING = 0) : ${payload.validation_passed ? 'VALIDÉ' : 'NON VALIDÉ'}`);
 
   if (summaryAfter.critical_remaining > 0) {

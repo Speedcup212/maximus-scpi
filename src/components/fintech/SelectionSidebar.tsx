@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+import { resolveDisplayedDiscount } from '../../utils/formatters';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
@@ -39,12 +40,13 @@ const LEGEND_COLORS = {
   geography: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c']
 };
 
-// Calcule la décote/surcote en % à partir du prix et de la valeur de reconstitution
+// Décote/surcote affichée : MÊME source que le bloc KPI (recalcul live prix/VR + garde-fou QA).
+// Retourne null si la valeur n'est pas fiable/comparable → l'indicateur n'est pas affiché.
 const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
-  if (!scpi.reconstitutionValue || scpi.reconstitutionValue === 0) {
+  const value = resolveDisplayedDiscount(scpi).value;
+  if (value == null) {
     return null;
   }
-  const value = ((scpi.price - scpi.reconstitutionValue) / scpi.reconstitutionValue) * 100;
   return {
     value,
     isDiscount: value < 0
