@@ -11,6 +11,11 @@
     "test": "vitest run",
     "preview": "npx vite preview",
     "force-reload": "node scripts/force-reload-simple.cjs",
+    "typecheck": "tsc -b",
+    "audit:scpi-indicators": "npx tsx scripts/scpi-agents/audit-all-scpi-indicators.ts",
+    "audit:scpi-consistency": "npx tsx scripts/scpi-agents/audit-visible-scpi-price-reconstitution-consistency.ts",
+    "check:scpi-usages": "npx tsx scripts/scpi-agents/check-forbidden-scpi-usages.ts",
+    "qa:scpi": "npm run audit:scpi-indicators && npm run audit:scpi-consistency && npm run check:scpi-usages && npx vite build",
     "deploy": "npm run build && gh-pages -d dist",
     "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist"
   },

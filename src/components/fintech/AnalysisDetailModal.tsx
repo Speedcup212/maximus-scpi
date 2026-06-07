@@ -86,8 +86,19 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     
     // Prioriser l'entrée avec actualités trimestrielles
     const withNews = allMatching.find(s => s.actualitesTrimestrielles);
-    return withNews || allMatching[0];
-  }, [scpi.name]);
+    const base = withNews || allMatching[0];
+
+    // Aligner les champs de décote/surcote sur les valeurs AFFICHÉES (mêmes que le bloc KPI),
+    // afin que les textes (Lecture rapide, Analyse, points d'attention) recalculent une
+    // décote/surcote strictement identique à celle du bloc Chiffres clés.
+    return {
+      ...base,
+      price: scpi.price ?? base.price,
+      valeurReconstitution: scpi.reconstitutionValue ?? base.valeurReconstitution, // indicator-allow: alimente resolveScpiIndicator
+      discountQaStatus: scpi.discountQaStatus ?? base.discountQaStatus, // indicator-allow
+      discount: scpi.discount ?? base.discount, // indicator-allow: snapshot transmis au résolveur (garde-fou)
+    };
+  }, [scpi.name, scpi.price, scpi.reconstitutionValue, scpi.discountQaStatus, scpi.discount]); // indicator-allow
 
 
   // Récupérer les avantages et inconvénients

@@ -417,6 +417,11 @@ function main() {
   }
   console.log(`\nJSON : ${OUT_JSON}`);
   console.log(`Rapport : ${OUT_REPORT}`);
+
+  if (summaryAfter.critical_remaining > 0) {
+    console.error(`\n⛔ CRITICAL_REMAINING = ${summaryAfter.critical_remaining} → échec (exit 1).`);
+    process.exit(1);
+  }
 }
 
 main();
