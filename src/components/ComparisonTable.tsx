@@ -236,8 +236,8 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
                     </div>
                     <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Décote</div>
-                      <div className={`text-xl font-black ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
-                        {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
+                      <div className={`text-xl font-black ${getDiscountQaColor(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}`}>
+                        {formatDiscountQa(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}
                       </div>
                     </div>
                   </div>

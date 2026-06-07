@@ -6,6 +6,7 @@ import {
   ChevronRight, ChevronLeft, Zap, Calendar, ThumbsUp, AlertTriangle, CheckCircle
 } from 'lucide-react';
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
+import { computeDisplayedDiscount } from '../utils/formatters';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
@@ -809,13 +810,23 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">
                     <div className="text-sm text-gray-600 mb-1">Décote/Surcote</div>
-                    {realScpiData.discountQaStatus === 'manual_review' ? (
-                      <div className="text-3xl font-bold text-gray-500">À vérifier</div>
-                    ) : (
-                      <div className={`text-3xl font-bold ${realScpiData.discount <= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                        {realScpiData.discount > 0 ? '+' : ''}{formatPercentage(realScpiData.discount)}
-                      </div>
-                    )}
+                    {(() => {
+                      // Recalcul à l'affichage : (prix affiché - VR comparable) / VR comparable × 100.
+                      const displayedDiscount = computeDisplayedDiscount(
+                        realScpiData.price,
+                        realScpiData.valeurReconstitution,
+                        realScpiData.discountQaStatus,
+                        realScpiData.discount
+                      );
+                      if (displayedDiscount == null) {
+                        return <div className="text-3xl font-bold text-gray-500">À vérifier</div>;
+                      }
+                      return (
+                        <div className={`text-3xl font-bold ${displayedDiscount <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {displayedDiscount > 0 ? '+' : ''}{formatPercentage(displayedDiscount)}
+                        </div>
+                      );
+                    })()}
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">
                     <div className="text-sm text-gray-600 mb-1">Année de création</div>

@@ -312,8 +312,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   </div>
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Décote</span>
-                    <span className={`font-black text-sm ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
-                      {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
+                    <span className={`font-black text-sm ${getDiscountQaColor(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}`}>
+                      {formatDiscountQa(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">

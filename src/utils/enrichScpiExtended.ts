@@ -43,7 +43,10 @@ export function enrichScpiExtended(
     geography: geographyFromScpiData,
     
     // Valeurs de reconstitution/retrait/réalisation
-    reconstitutionValue: scpiExtended.reconstitutionValue ?? matchingScpi.valeurReconstitution,
+    // PRIORITÉ à la VR validée (par part) de scpiData, comme discount/tof/yield ci-dessous :
+    // garantit que la VR affichée est COMPARABLE au prix affiché (base par part) et cohérente
+    // avec la décote/surcote recalculée à l'affichage.
+    reconstitutionValue: matchingScpi.valeurReconstitution ?? scpiExtended.reconstitutionValue,
     valeurRetrait: matchingScpi.valeurRetrait ?? scpiExtended.valeurRetrait,
     valeurRealisation: matchingScpi.valeurRealisation ?? scpiExtended.valeurRealisation,
     valeurReconstitution: matchingScpi.valeurReconstitution ?? scpiExtended.valeurReconstitution,

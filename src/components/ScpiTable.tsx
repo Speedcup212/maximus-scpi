@@ -160,8 +160,8 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                 </span>
               </td>
               <td className="px-3 py-3 text-center">
-                <span className={`font-bold text-xs whitespace-nowrap ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
-                  {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
+                <span className={`font-bold text-xs whitespace-nowrap ${getDiscountQaColor(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}`}>
+                  {formatDiscountQa(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount)}
                 </span>
               </td>
               <td className="px-3 py-3 text-center">
