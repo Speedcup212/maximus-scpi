@@ -10,6 +10,7 @@ import { resolveDisplayedDiscount } from '../utils/formatters';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
 import { qualifyYield } from '../utils/yieldContext';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
+import SEOHead from './SEOHead';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
@@ -457,8 +458,17 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   // rédigé), on masque le bloc afin de ne jamais publier d'argument non sourcé.
   const verdict = isEditorial ? getExpertVerdict() : null;
 
+  // Canonical SANS préfixe (URL officielle de la fiche), quelle que soit l'URL
+  // d'arrivée (ex. /scpi-wemo-one redirigé 301 → /wemo-one).
+  const canonicalUrl = `https://maximusscpi.com/${landingData.slug}/`;
+
   return (
     <div className={`min-h-screen bg-gradient-to-br from-${colors.secondary}-50 via-white to-${colors.accent}-50`}>
+      <SEOHead
+        title={`SCPI ${landingData.nom} : analyse, rendement et avis | MaximusSCPI`}
+        description={landingData.description_courte || `Analyse complète de la SCPI ${landingData.nom} : rendement, capitalisation, frais, répartition et points de vigilance.`}
+        canonical={canonicalUrl}
+      />
       <Header
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
