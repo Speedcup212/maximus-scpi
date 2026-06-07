@@ -16,6 +16,8 @@ interface AnalysisDetailModalProps {
   onAdd?: () => void;
   isSelected?: boolean;
   onShowToast?: (message: string) => void;
+  /** Note MaximusSCPI (0-100) déjà résolue par le parent — MÊME source que les cartes. */
+  score?: number | null;
 }
 
 const GRADIENT_IDS = {
@@ -40,22 +42,32 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast }) => {
+const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast, score = null }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
-  const [starRating, setStarRating] = useState<number | null>(null);
+  const [fetchedScore, setFetchedScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
 
   useEffect(() => {
     if (!isOpen || !scpi) return;
+    // Si le parent fournit déjà la note (MÊME source que les cartes), l'utiliser directement.
+    if (score != null) {
+      setFetchedScore(null);
+      setScoreLoaded(true);
+      return;
+    }
     setScoreLoaded(false);
-    setStarRating(null);
+    setFetchedScore(null);
     const slug = createSlugFromName(scpi.name);
-    getLatestScore(slug).then(score => {
-      setStarRating(scoreToStars(score));
+    getLatestScore(slug).then(s => {
+      setFetchedScore(s);
       setScoreLoaded(true);
     });
-  }, [isOpen, scpi?.id, scpi?.name]);
+  }, [isOpen, scpi?.id, scpi?.name, score]);
+
+  // Note effective : priorité à la valeur du parent (cartes), sinon valeur récupérée en base.
+  const effectiveScore = score != null ? score : fetchedScore;
+  const starRating = scoreToStars(effectiveScore);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -302,7 +314,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     />
                   ))}
                   <span className="text-lg font-bold text-white ml-1">
-                    {!scoreLoaded ? '…' : starRating !== null ? `${starRating}/5` : 'N/A'}
+                    {!scoreLoaded ? '…' : effectiveScore != null ? `${Math.round(effectiveScore)}/100` : 'N/A'}
                   </span>
                 </div>
               </div>

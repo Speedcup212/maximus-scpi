@@ -567,6 +567,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             }, 50);
           }}
           scpi={analysisScpi}
+          score={scoresBySlug[createSlugFromName(analysisScpi.name)] ?? clientScoresBySlug[createSlugFromName(analysisScpi.name)] ?? null}
           onAdd={() => {
             // Ajouter la SCPI à la sélection
             toggleSelect(analysisScpi);
