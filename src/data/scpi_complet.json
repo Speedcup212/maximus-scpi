@@ -7,7 +7,7 @@
     "Capitalisation (M€)": 1400,
     "Prix de souscription (€)": 610,
     "Valeur de retrait (€)": 545.34,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": -1.07,
     "Valeur de reconstitution (€)": 609.65,
     "Valeur de réalisation (€)": 507.28,
     "Taux de distribution (%)": 5.5,
@@ -27,7 +27,7 @@
       "Espagne": 13.4,
       "Italie": 4.1,
       "Pays-Bas": 2.8,
-      "Irlande": 1.0,
+      "Irlande": 1,
       "Portugal": 0.9,
       "Allemagne": 0.3
     },
@@ -69,7 +69,9 @@
     "maximus_confidence_score": 0.9,
     "nb_locataires": 373,
     "liquidite": "parts en attente de retrait: 0",
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 616.58
   },
   {
     "Nom SCPI": "Aestiam Cap'Hebergimmo",
@@ -163,7 +165,7 @@
     "Capitalisation (M€)": 380,
     "Prix de souscription (€)": 350,
     "Valeur de retrait (€)": 315,
-    "Surcote/décote (%)": 11.11,
+    "Surcote/décote (%)": 0.68,
     "Valeur de reconstitution (€)": 346.02,
     "Valeur de réalisation (€)": 285.66,
     "Valeur d'expertise au 30/06/2025 (M€)": 360,
@@ -239,7 +241,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 44 872 parts en attente de retrait ; fonds de remboursement activé (source : 2026-1t-bti-aestiam-horizon.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 347.63
   },
   {
     "Nom SCPI": "Altixia Cadence 12",
@@ -303,7 +307,9 @@
     "maximus_confidence_score": 0.93,
     "nb_locataires": 95,
     "liquidite": "parts en attente de retrait: 0",
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 199.4
   },
   {
     "Nom SCPI": "Altixia Commerces",
@@ -313,10 +319,10 @@
     "Capitalisation (M€)": 107.08,
     "Prix de souscription (€)": 203,
     "Valeur de retrait (€)": 197.92,
-    "Surcote/décote (%)": -2.66,
+    "Surcote/décote (%)": -0.24,
     "Valeur de reconstitution (€)": 208.54,
     "Valeur de réalisation (€)": 187.35,
-    "Taux de distribution (%)": 5.0,
+    "Taux de distribution (%)": 5,
     "Distribution (€/part)": "2.49",
     "Endettement (%)": 14.3,
     "TOF (%)": 89.1,
@@ -355,7 +361,9 @@
     "liquidite": "parts en attente de retrait: 13 559",
     "maximus_warnings": [
       "Risque de liquidité : 13 559 parts en attente de retrait (source : doc1-20260430-110640.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 203.48
   },
   {
     "Nom SCPI": "Atream Hotel",
@@ -409,7 +417,9 @@
     "maximus_confidence_score": 0.97,
     "liquidite": "RAS / retraits compensés",
     "Article SFDR": "8",
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 1064.33
   },
   {
     "Nom SCPI": "Buroboutic Métropoles",
@@ -419,7 +429,7 @@
     "Capitalisation (M€)": 316,
     "Prix de souscription (€)": 77,
     "Valeur de retrait (€)": 69.3,
-    "Surcote/décote (%)": -2.44,
+    "Surcote/décote (%)": 0.54,
     "Valeur de reconstitution (€)": 235.76,
     "Valeur de réalisation (€)": 198.36,
     "Taux de distribution (%)": 5.1,
@@ -459,7 +469,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 314 596 parts en attente de retrait (source : BTI Buroboutic T1 2026.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 76.59
   },
   {
     "Nom SCPI": "Coeur de Région",
@@ -469,7 +481,7 @@
     "Capitalisation (M€)": 435.63,
     "Prix de souscription (€)": 664,
     "Valeur de retrait (€)": 584.32,
-    "Surcote/décote (%)": -2.63,
+    "Surcote/décote (%)": -2.9,
     "Valeur de reconstitution (€)": 681.94,
     "Valeur de réalisation (€)": 557.24,
     "Taux de distribution (%)": 6.2,
@@ -514,7 +526,9 @@
     "liquidite": "parts en attente de retrait: 0",
     "Article SFDR": "8",
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 683.82
   },
   {
     "Nom SCPI": "Coeur de ville",
@@ -524,7 +538,7 @@
     "Capitalisation (M€)": 28.84,
     "Prix de souscription (€)": 210,
     "Valeur de retrait (€)": 184.8,
-    "Surcote/décote (%)": -3.24,
+    "Surcote/décote (%)": -6.37,
     "Valeur de reconstitution (€)": 217.04,
     "Valeur de réalisation (€)": 177.78,
     "Taux de distribution (%)": 6.2,
@@ -607,7 +621,9 @@
     "Nombre d'associés": 643,
     "Nombre d'immeubles": 32,
     "nb_locataires": 36,
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 224.28
   },
   {
     "Nom SCPI": "Coeur d'Europe",
@@ -617,7 +633,7 @@
     "Capitalisation (M€)": 256.2,
     "Prix de souscription (€)": 204,
     "Valeur de retrait (€)": 179.52,
-    "Surcote/décote (%)": -3.95,
+    "Surcote/décote (%)": -7.05,
     "Valeur de reconstitution (€)": 212.39,
     "Valeur de réalisation (€)": 175.7,
     "Taux de distribution (%)": 6.25,
@@ -669,17 +685,19 @@
     "liquidite": "parts en attente de retrait: 0",
     "Article SFDR": "8",
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 219.47
   },
   {
     "Nom SCPI": "Comète",
     "Société de gestion": "Alderan",
     "Année de création": 2023,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 652.0,
-    "Prix de souscription (€)": 250.0,
-    "Valeur de retrait (€)": 225.0,
-    "Surcote/décote (%)": -3.27,
+    "Capitalisation (M€)": 652,
+    "Prix de souscription (€)": 250,
+    "Valeur de retrait (€)": 225,
+    "Surcote/décote (%)": -1.51,
     "Valeur de reconstitution (€)": 258.45,
     "Valeur de réalisation (€)": 221.08,
     "Taux de distribution (%)": 9,
@@ -737,7 +755,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 903 parts en attente de retrait (source : 20260506-BTI-T1-2026-Comete.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 253.83
   },
   {
     "Nom SCPI": "Crédit Mutuel Pierre 1",
@@ -791,7 +811,9 @@
     "niveau_risque_dic": 4,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 396 756 parts en attente de retrait (source : A7_BT_20260331.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 219.5
   },
   {
     "Nom SCPI": "Cristal Life",
@@ -801,7 +823,7 @@
     "Capitalisation (M€)": 387.43,
     "Prix de souscription (€)": 208,
     "Valeur de retrait (€)": 183.04,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": -8.24,
     "Valeur de reconstitution (€)": 224.93,
     "Valeur de réalisation (€)": 196.44,
     "Taux de distribution (%)": 6.54,
@@ -829,7 +851,7 @@
     "Répartition Sectorielle JSON": {
       "Commerce": 29.25,
       "Bureau": 26.7,
-      "Santé": 23.0,
+      "Santé": 23,
       "Hôtel": 13.66,
       "Activité & logistique": 7.39
     },
@@ -893,7 +915,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 3 863 parts en attente de retrait (source : IG_CLBulletin_Trimestriel2026_T1.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 226.69
   },
   {
     "Nom SCPI": "Edissimo",
@@ -901,7 +925,7 @@
     "Année de création": 1983,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 3030,
-    "Prix de souscription (€)": 172.0,
+    "Prix de souscription (€)": 172,
     "Valeur de retrait (€)": 158.25,
     "Surcote/décote (%)": -7.27,
     "Valeur de reconstitution (€)": 364.52,
@@ -921,7 +945,7 @@
     "Répartition Géographique JSON": {
       "Île-de-France": 30.2,
       "Paris": 24.8,
-      "Régions": 21.0,
+      "Régions": 21,
       "Allemagne": 13.7,
       "Espagne": 3.5,
       "Pays-Bas": 3.4,
@@ -933,7 +957,7 @@
     "Répartition Sectorielle JSON": {
       "Bureaux": 68.9,
       "Commerces": 14.5,
-      "Logistique": 9.0,
+      "Logistique": 9,
       "Hôtels": 4.3,
       "Résidences Services": 1.6,
       "Cliniques": 1.2,
@@ -954,7 +978,8 @@
     "Nombre d'immeubles": 178,
     "liquidite": 620526,
     "Article SFDR": 8,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "manual_review"
   },
   {
     "Nom SCPI": "Efimmo 1",
@@ -964,7 +989,7 @@
     "Capitalisation (M€)": 1741,
     "Prix de souscription (€)": 212,
     "Valeur de retrait (€)": 190.8,
-    "Surcote/décote (%)": 4.6,
+    "Surcote/décote (%)": 7.44,
     "Valeur de reconstitution (€)": 202.65,
     "Valeur de réalisation (€)": 168.78,
     "Taux de distribution (%)": 4.44,
@@ -981,7 +1006,7 @@
     "Répartition Sectorielle": "Bureaux (73.5%), Autres locaux commerciaux (9.3%), Divers (7.5%), Commerces de centre-ville et milieu urbain (5.2%), Éducation (4.5%)",
     "Répartition Géographique JSON": {
       "France": 74.1,
-      "Allemagne": 10.0,
+      "Allemagne": 10,
       "Pays-Bas": 5.2,
       "Royaume-Uni": 4.5,
       "Belgique": 2.3,
@@ -1038,7 +1063,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 436 951 parts en attente de retrait (source : EFIMMO-BT-1T-2026.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 197.32
   },
   {
     "Nom SCPI": "Patrimmo Croissance Impact",
@@ -1048,7 +1075,7 @@
     "Capitalisation (M€)": 189.7,
     "Prix de souscription (€)": 677,
     "Valeur de retrait (€)": 597.38,
-    "Surcote/décote (%)": -3.17,
+    "Surcote/décote (%)": -0.23,
     "Valeur de reconstitution (€)": 699.1531122025,
     "Valeur de réalisation (€)": 576.1031122025,
     "Taux de distribution (%)": 0,
@@ -1097,7 +1124,9 @@
     "maximus_confidence_score": 0.95,
     "liquidite": "38 277 parts en attente de retrait (confirmées et non confirmées) au 31/03/2026 ; liquidité peu organisée ; pas de marché secondaire (sauf blocage des retraits) ; 100 % des actifs considérés non liquides",
     "Article SFDR": 9,
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 678.58
   },
   {
     "Nom SCPI": "Perial Grand Paris",
@@ -1105,14 +1134,14 @@
     "Année de création": 2017,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 1051.87,
-    "Prix de souscription (€)": 458.0,
+    "Prix de souscription (€)": 458,
     "Valeur de retrait (€)": "449.00",
-    "Surcote/décote (%)": 1.84,
+    "Surcote/décote (%)": 8.19,
     "Valeur de reconstitution (€)": 449.73,
     "Valeur de réalisation (€)": 357.29,
     "Taux de distribution (%)": 4.8,
     "Distribution (€/part)": 16.68,
-    "Endettement (%)": 35.0,
+    "Endettement (%)": 35,
     "TOF (%)": 84.4,
     "Nombre d’immeubles": "I97",
     "Minimum de souscription €": 1000,
@@ -1157,7 +1186,9 @@
     "nb_locataires": 321,
     "liquidite": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché secondaire (confrontation mensuelle des ordres) depuis avril 2026",
     "Article SFDR": 9,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 423.34
   },
   {
     "Nom SCPI": "NCap Régions",
@@ -1167,7 +1198,7 @@
     "Capitalisation (M€)": 1097.1,
     "Prix de souscription (€)": 682,
     "Valeur de retrait (€)": 613.8,
-    "Surcote/décote (%)": -2.78,
+    "Surcote/décote (%)": -2.33,
     "Valeur de reconstitution (€)": 701.49,
     "Valeur de réalisation (€)": 576.68,
     "Taux de distribution (%)": 5.72,
@@ -1229,7 +1260,9 @@
     "liquidite": "Aucune part en attente de retrait (0 part)",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 698.26
   },
   {
     "Nom SCPI": "Novapierre 1",
@@ -1291,7 +1324,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 31 398 parts en attente de retrait (source : 5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 436.06
   },
   {
     "Nom SCPI": "Novapierre Résidentiel",
@@ -1402,7 +1437,8 @@
     "niveau_risque_dic": 4,
     "maximus_warnings": [
       "Risque de liquidité : 125 194 parts en attente de retrait (source : Novaxia-NEO-Reporting-31_03_2026.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "manual_review"
   },
   {
     "Nom SCPI": "Opportunité Immo",
@@ -1471,7 +1507,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 25 531 parts en attente de retrait (source : G0_BT_20260331.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 214.64
   },
   {
     "Nom SCPI": "Optimale",
@@ -1497,7 +1535,7 @@
     "Répartition Géographique": "Métropoles françaises",
     "Répartition Sectorielle": "Bureaux (43,2%), Commerces (29,1%), Activités & Logistique (23,4%), Santé & Éducation (4,3%)",
     "Répartition Géographique JSON": {
-      "France": 100.0
+      "France": 100
     },
     "Répartition Sectorielle JSON": {
       "Bureaux": 40.2,
@@ -1533,7 +1571,8 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire (source : DIC_-_SCPI_OPTIMALE_-_2025-07-02.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "manual_review"
   },
   {
     "Nom SCPI": "Paref Evo",
@@ -1590,7 +1629,9 @@
     "niveau_risque_dic": 4,
     "maximus_warnings": [
       "Risque de liquidité : 840 parts en attente de retrait (source : BTI-T1-2026-PAREF-Evo.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 245.04
   },
   {
     "Nom SCPI": "Paref Hexa",
@@ -1616,7 +1657,7 @@
     "Répartition Géographique": "Métropoles régionales (56.0%), Ile-de-France hors Paris (26.7%), Paris (5.3%), Autres régions (12.0%)",
     "Répartition Sectorielle": "Bureaux (67.2%), Locaux d'activité (24.8%), Logistique et Messagerie (4.5%), Autres (3.5%)",
     "Répartition Géographique JSON": {
-      "Métropoles régionales": 56.0,
+      "Métropoles régionales": 56,
       "Ile-de-France hors Paris": 25.5,
       "Autres régions": 12.9,
       "Paris": 5.6
@@ -1659,7 +1700,9 @@
     "nb_locataires": 75,
     "liquidite": "19 789 parts en attente de retrait (sur 1 169 445 parts)",
     "Article SFDR": 8,
-    "niveau_risque_dic": 2
+    "niveau_risque_dic": 2,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 170.24
   },
   {
     "Nom SCPI": "GMA Essentialis",
@@ -1669,10 +1712,10 @@
     "Capitalisation (M€)": 44.55,
     "Prix de souscription (€)": 206,
     "Valeur de retrait (€)": 185.4,
-    "Surcote/décote (%)": -9.86,
+    "Surcote/décote (%)": -0.98,
     "Valeur de reconstitution (€)": 166.45,
     "Valeur de réalisation (€)": 134.4,
-    "Taux de distribution (%)": 4.0,
+    "Taux de distribution (%)": 4,
     "Distribution (€/part)": "I13",
     "Endettement (%)": 38.8,
     "TOF (%)": 99.7,
@@ -1705,7 +1748,9 @@
     "nb_locataires": 19,
     "Article SFDR": 9,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 208.04
   },
   {
     "Nom SCPI": "Grand Paris Résidentiel",
@@ -1715,7 +1760,7 @@
     "Capitalisation (M€)": 12.04,
     "Prix de souscription (€)": 200,
     "Valeur de retrait (€)": 176,
-    "Surcote/décote (%)": -3.28,
+    "Surcote/décote (%)": 7.38,
     "Valeur de reconstitution (€)": 193.67,
     "Valeur de réalisation (€)": 161.76,
     "Taux de distribution (%)": 0,
@@ -1752,7 +1797,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 2 429 parts en attente de retrait (source : IG_RapportAnnuel_2025GPR.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 186.25
   },
   {
     "Nom SCPI": "Immorente",
@@ -1762,7 +1809,7 @@
     "Capitalisation (M€)": 4391,
     "Prix de souscription (€)": 340,
     "Valeur de retrait (€)": 306,
-    "Surcote/décote (%)": 6.33,
+    "Surcote/décote (%)": 5.91,
     "Valeur de reconstitution (€)": 319.75,
     "Valeur de réalisation (€)": 267.82,
     "Taux de distribution (%)": 5,
@@ -1816,7 +1863,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 181 973 parts en attente de retrait (source : IMMORENTE-BT-1T-2026-1.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 321.03
   },
   {
     "Nom SCPI": "Iroko Zen",
@@ -1826,7 +1875,7 @@
     "Capitalisation (M€)": 1499,
     "Prix de souscription (€)": 204,
     "Valeur de retrait (€)": 204,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": -4.65,
     "Valeur de reconstitution (€)": 213.65,
     "Valeur de réalisation (€)": 187.34,
     "Taux de distribution (%)": 7.12,
@@ -1851,7 +1900,7 @@
       "Italie": 0.9
     },
     "Répartition Sectorielle JSON": {
-      "Commerces": 37.0,
+      "Commerces": 37,
       "Bureaux": 27.7,
       "Locaux d'activités": 12.9,
       "Logistique": 11.4,
@@ -1873,7 +1922,9 @@
     "maximus_source_periode": "T1 2026",
     "maximus_confidence_score": 0.9,
     "Nombre d'associés": 29350,
-    "nb_locataires": 411
+    "nb_locataires": 411,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 213.94
   },
   {
     "Nom SCPI": "Kyaneos Pierre",
@@ -1883,7 +1934,7 @@
     "Capitalisation (M€)": 445,
     "Prix de souscription (€)": 224,
     "Valeur de retrait (€)": 199.36,
-    "Surcote/décote (%)": -3.66,
+    "Surcote/décote (%)": -0.97,
     "Valeur de reconstitution (€)": 232.55,
     "Valeur de réalisation (€)": 197.58,
     "Taux de distribution (%)": 4.35,
@@ -1922,7 +1973,9 @@
     "Nombre d'immeubles": 648,
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 226.2
   },
   {
     "Nom SCPI": "LF Avenir Santé",
@@ -1932,7 +1985,7 @@
     "Capitalisation (M€)": 273.43,
     "Prix de souscription (€)": 300,
     "Valeur de retrait (€)": 273,
-    "Surcote/décote (%)": -2.34,
+    "Surcote/décote (%)": -0.76,
     "Valeur de reconstitution (€)": 307.2,
     "Valeur de réalisation (€)": 242.62,
     "Taux de distribution (%)": 5.08,
@@ -1955,7 +2008,7 @@
       "Ile-de-France": 5.14
     },
     "Répartition Sectorielle JSON": {
-      "Santé et éducation": 100.0
+      "Santé et éducation": 100
     },
     "Profil_de_risque": {
       "SRRI": 3,
@@ -1969,7 +2022,9 @@
     "liquidite": "Aucune part en attente de retrait",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 302.3
   },
   {
     "Nom SCPI": "LF Europimmo",
@@ -2036,7 +2091,9 @@
     "Nombre d'immeubles": 52,
     "liquidite": "78 222 parts en attente de retrait (52,2 M€, 7% des parts)",
     "Article SFDR": 9,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 773.78
   },
   {
     "Nom SCPI": "LF Grand Paris Patrimoine",
@@ -2095,7 +2152,9 @@
     "Nombre d'immeubles": 58,
     "liquidite": "Marché des parts SUSPENDU depuis le 12/02/2026; 499 638 parts en attente de retrait (100,2 M€, 10,2% des parts)",
     "Article SFDR": 9,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 216.96
   },
   {
     "Nom SCPI": "Log In",
@@ -2105,7 +2164,7 @@
     "Capitalisation (M€)": 240.81,
     "Prix de souscription (€)": 255,
     "Valeur de retrait (€)": 229.5,
-    "Surcote/décote (%)": -3.18,
+    "Surcote/décote (%)": -4.4,
     "Valeur de reconstitution (€)": 258.21,
     "Valeur de réalisation (€)": 207.32,
     "Taux de distribution (%)": 6.21,
@@ -2153,7 +2212,9 @@
     "liquidite": "Aucune part en attente de retrait au 31/03/2026",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 266.73
   },
   {
     "Nom SCPI": "NCap Education Santé",
@@ -2163,13 +2224,13 @@
     "Capitalisation (M€)": 116.7,
     "Prix de souscription (€)": 202,
     "Valeur de retrait (€)": 181.8,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": 1.84,
     "Valeur de reconstitution (€)": 203.01,
     "Valeur de réalisation (€)": 173.23,
     "Taux de distribution (%)": 4.52,
     "Distribution (€/part)": "9.8",
     "Endettement (%)": 0.62,
-    "TOF (%)": 96.0,
+    "TOF (%)": 96,
     "Nombre d’immeubles": 51,
     "Minimum de souscription €": 2020,
     "Délai de jouissance (mois)": 6,
@@ -2179,8 +2240,8 @@
     "Répartition Géographique": "France, Zone euro et hors zone euro",
     "Répartition Sectorielle": "Santé / social (66%), Bien-être (16%), Éducation (16%), Environnement (2%)",
     "Répartition Géographique JSON": {
-      "France": 70.0,
-      "Europe": 30.0
+      "France": 70,
+      "Europe": 30
     },
     "Répartition Sectorielle JSON": {
       "Santé/Social": 66,
@@ -2202,7 +2263,9 @@
     "liquidite": "Aucune part en attente de retrait (0 part)",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 198.35
   },
   {
     "Nom SCPI": "Remake Live",
@@ -2224,7 +2287,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Mensuelle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 18.0,
+    "Frais de gestion (HT/%)": 18,
     "Répartition Géographique": "Royaume Uni (29,00%), France (27,62%), Espagne (11,66%), Irlande (10,11%), Pays-Bas (9,93%), Pologne (8,04%), Allemagne (2,65%), Portugal (0,98%)",
     "Répartition Sectorielle": "Bureaux (38,02%), Santé & éducation (21,92%), Logistique et locaux d'activité (14,12%), Commerces (12,06%), Hôtels, tourisme, loisirs (8,84%), Résidentiel (3,48%), Alternatifs (1,56%)",
     "Répartition Géographique JSON": {
@@ -2273,7 +2336,8 @@
     "liquidite": "Liquidité normale",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "manual_review"
   },
   {
     "Nom SCPI": "Perial Opportunités Europe",
@@ -2281,9 +2345,9 @@
     "Année de création": 1998,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 790.46,
-    "Prix de souscription (€)": 44.0,
+    "Prix de souscription (€)": 44,
     "Valeur de retrait (€)": 39.82,
-    "Surcote/décote (%)": null,
+    "Surcote/décote (%)": 2.49,
     "Valeur de reconstitution (€)": 43.5,
     "Valeur de réalisation (€)": 33.93,
     "Taux de distribution (%)": 6.1,
@@ -2300,7 +2364,7 @@
     "Répartition Sectorielle": "Bureaux (48,5%), Hôtels, tourisme, loisirs (26,4%), Commerces (18,5%), Santé et éducation (4,8%), Logistique et locaux d'activités (1,7%), Alternatifs (0,1%)",
     "Répartition Géographique JSON": {
       "France": 58.7,
-      "Pays-Bas": 14.0,
+      "Pays-Bas": 14,
       "Espagne": 12.7,
       "Allemagne": 12.6,
       "Italie": 1.9
@@ -2340,7 +2404,9 @@
     "maximus_confidence_score": 0.95,
     "liquidite": "Liquidité normale",
     "Article SFDR": 8,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 42.93
   },
   {
     "Nom SCPI": "Perial O2",
@@ -2348,9 +2414,9 @@
     "Année de création": 2009,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 2401.59,
-    "Prix de souscription (€)": 164.0,
+    "Prix de souscription (€)": 164,
     "Valeur de retrait (€)": "150.06",
-    "Surcote/décote (%)": 108960949417439.05,
+    "Surcote/décote (%)": 8.8,
     "Valeur de reconstitution (€)": 150.7330062025,
     "Valeur de réalisation (€)": 119.2430062025,
     "Taux de distribution (%)": 4.65,
@@ -2377,7 +2443,7 @@
     "Répartition Sectorielle JSON": {
       "Bureaux": 85.2,
       "Hôtels, tourisme, loisirs": 6.1,
-      "Santé et éducation": 5.0,
+      "Santé et éducation": 5,
       "Commerces": 2.7,
       "Logistique et locaux d'activités": 0.9
     },
@@ -2405,7 +2471,9 @@
     "nb_locataires": 491,
     "liquidite": "Variabilité du capital suspendue depuis le 25/02/2026 ; ouverture d'un marché secondaire (confrontation mensuelle des ordres) depuis avril 2026",
     "Article SFDR": 9,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 150.73
   },
   {
     "Nom SCPI": "Perial Hospitalité Europe",
@@ -2415,7 +2483,7 @@
     "Capitalisation (M€)": 333.04,
     "Prix de souscription (€)": 181,
     "Valeur de retrait (€)": 165.61,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": 2.57,
     "Valeur de reconstitution (€)": 181.17,
     "Valeur de réalisation (€)": 144.93,
     "Taux de distribution (%)": 4.11,
@@ -2432,12 +2500,12 @@
     "Répartition Sectorielle": "Santé et éducation (61,0%), Hôtels, tourisme, loisirs (37,9%), Alternatifs, résidences étudiantes (1,1%)",
     "Répartition Géographique JSON": {
       "Allemagne": 65.1,
-      "Espagne": 18.0,
+      "Espagne": 18,
       "Italie": 13.2,
       "Pays-Bas": 3.7
     },
     "Répartition Sectorielle JSON": {
-      "Santé et éducation": 59.0,
+      "Santé et éducation": 59,
       "Hôtels, tourisme, loisirs": 40.4,
       "Alternatifs (résidence étudiante)": 0.6
     },
@@ -2454,7 +2522,9 @@
     "Article SFDR": 8,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 37 302 parts en attente de retrait (source : PHE BTI T1 2026.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 176.47
   },
   {
     "Nom SCPI": "Sofiprime",
@@ -2464,7 +2534,7 @@
     "Capitalisation (M€)": 44.9,
     "Prix de souscription (€)": 280,
     "Valeur de retrait (€)": 238.5,
-    "Surcote/décote (%)": -1.31,
+    "Surcote/décote (%)": -3.25,
     "Valeur de reconstitution (€)": 283.72,
     "Valeur de réalisation (€)": 230.25,
     "Taux de distribution (%)": 0.54,
@@ -2494,7 +2564,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 10.0,
+    "Frais de souscription (TTC/%)": 10,
     "Distribution trimestrielle T1 2026 (€/part)": 1.5,
     "Période bulletin trimestriel": "T1 2026",
     "maximus_warnings": [
@@ -2510,7 +2580,9 @@
     "Nombre d'immeubles": 26,
     "liquidite": "Liquidité limitée",
     "Article SFDR": 8,
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 289.4
   },
   {
     "Nom SCPI": "Selectinvest 1",
@@ -2520,7 +2592,7 @@
     "Capitalisation (M€)": 1241.94,
     "Prix de souscription (€)": 530,
     "Valeur de retrait (€)": 496.88,
-    "Surcote/décote (%)": -9.46,
+    "Surcote/décote (%)": -5.52,
     "Valeur de reconstitution (€)": 585.36,
     "Valeur de réalisation (€)": 489.73,
     "Taux de distribution (%)": 4.44,
@@ -2562,17 +2634,19 @@
     "niveau_risque_dic": 4,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire (source : I9_BT_20260331.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 560.96
   },
   {
     "Nom SCPI": "Transitions Europe",
     "Société de gestion": "Arkéa REIM",
     "Année de création": 2022,
     "Label ISR": "Oui",
-    "Capitalisation (M€)": 1250.0,
-    "Prix de souscription (€)": 202.0,
+    "Capitalisation (M€)": 1250,
+    "Prix de souscription (€)": 202,
     "Valeur de retrait (€)": 181.8,
-    "Surcote/décote (%)": -3.4,
+    "Surcote/décote (%)": -2.65,
     "Valeur de reconstitution (€)": 207.02,
     "Valeur de réalisation (€)": 175.37,
     "Taux de distribution (%)": 7.6,
@@ -2588,22 +2662,22 @@
     "Répartition Géographique": "Espagne (34%), Pays-Bas (27%), Allemagne (20%), Irlande (12%), Pologne (7%)",
     "Répartition Sectorielle": "Bureaux (38%), Commerces (18%), Life Sciences (13%), Hospitalité (11%), Logistique (13%), Éducation (7%)",
     "Répartition Géographique JSON": {
-      "Espagne": 34.0,
-      "Allemagne": 20.0,
-      "Pays-Bas": 14.0,
-      "Italie": 12.0,
-      "Irlande": 10.0,
-      "Pologne": 7.0,
-      "Belgique": 3.0
+      "Espagne": 34,
+      "Allemagne": 20,
+      "Pays-Bas": 14,
+      "Italie": 12,
+      "Irlande": 10,
+      "Pologne": 7,
+      "Belgique": 3
     },
     "Répartition Sectorielle JSON": {
-      "Bureaux": 35.0,
-      "Commerce": 25.0,
-      "Logistique": 15.0,
-      "Life Science": 11.0,
-      "Hospitalité": 6.0,
-      "Activité": 5.0,
-      "Éducation": 3.0
+      "Bureaux": 35,
+      "Commerce": 25,
+      "Logistique": 15,
+      "Life Science": 11,
+      "Hospitalité": 6,
+      "Activité": 5,
+      "Éducation": 3
     },
     "Profil_de_risque": {
       "SRRI": 3,
@@ -2618,13 +2692,15 @@
     "WALT": 11.3,
     "WALB": 6.5,
     "Actualités trimestrielles": "Collecte nette de 135 M€ au T3 2025 | 8 nouvelles acquisitions pour un volume global de 179 M€ | Portefeuille composé de 43 actifs répartis sur 6 typologies et 6 pays | Renouvellement du Label ISR pour une 2ème période triennale | Distribution d'un acompte sur dividende de 3€ par part au titre du T3 | Montant total distribué de 12.50 € par part depuis le début de l'année | Objectif de taux de distribution cible réhaussé à 7,5% (non garanti) | Pipeline de 13 actifs sous exclusivité représentant environ 220 M€",
-    "Frais de souscription (TTC/%)": 10.0,
+    "Frais de souscription (TTC/%)": 10,
     "Nombre d'associés": 33756,
     "Nombre d'immeubles": 56,
     "nb_locataires": 319,
     "liquidite": "Liquidité normale",
     "Article SFDR": 8,
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 207.49
   },
   {
     "Nom SCPI": "Urban Coeur de Commerce",
@@ -2634,7 +2710,7 @@
     "Capitalisation (M€)": 92.36,
     "Prix de souscription (€)": 303,
     "Valeur de retrait (€)": 264.31,
-    "Surcote/décote (%)": -6.15,
+    "Surcote/décote (%)": 0,
     "Valeur de reconstitution (€)": 322.86,
     "Valeur de réalisation (€)": 267.15,
     "Taux de distribution (%)": 5.3,
@@ -2646,18 +2722,18 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 12.0,
+    "Frais de gestion (HT/%)": 12,
     "Répartition Géographique": "Province (83%), Île de France (17%)",
     "Répartition Sectorielle": "Commerces de services (30%), Commerces alimentaires, restauration (29%), Commerces de santé (16%), Commerces divers (25%)",
     "Répartition Géographique JSON": {
-      "Province": 86.0,
-      "Île-de-France": 14.0
+      "Province": 86,
+      "Île-de-France": 14
     },
     "Répartition Sectorielle JSON": {
-      "Alimentation / Restauration": 34.0,
-      "Opportunités & tendances (discount, bijouteries...)": 27.0,
-      "Santé, sport & bien-être": 26.0,
-      "Services de proximité": 13.0
+      "Alimentation / Restauration": 34,
+      "Opportunités & tendances (discount, bijouteries...)": 27,
+      "Santé, sport & bien-être": 26,
+      "Services de proximité": 13
     },
     "Profil_de_risque": {
       "SRRI": 3,
@@ -2678,7 +2754,9 @@
     "liquidite": "Liquidité normale",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 303
   },
   {
     "Nom SCPI": "Épargne Foncière",
@@ -2688,7 +2766,7 @@
     "Capitalisation (M€)": 4142.67,
     "Prix de souscription (€)": 670,
     "Valeur de retrait (€)": 619.75,
-    "Surcote/décote (%)": -9.83,
+    "Surcote/décote (%)": -4.85,
     "Valeur de reconstitution (€)": 743.07,
     "Valeur de réalisation (€)": 617.45,
     "Taux de distribution (%)": 4.86,
@@ -2741,7 +2819,9 @@
     "Nombre d'immeubles": 235,
     "liquidite": 480544,
     "Article SFDR": 9,
-    "niveau_risque_dic": 4
+    "niveau_risque_dic": 4,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 704.15
   },
   {
     "Nom SCPI": "Épargne Pierre",
@@ -2751,7 +2831,7 @@
     "Capitalisation (M€)": 2811,
     "Prix de souscription (€)": 208,
     "Valeur de retrait (€)": 187.2,
-    "Surcote/décote (%)": -0.31,
+    "Surcote/décote (%)": 0.38,
     "Valeur de reconstitution (€)": 208.64,
     "Valeur de réalisation (€)": 170.1,
     "Taux de distribution (%)": 5.28,
@@ -2818,7 +2898,9 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [
       "Risque de liquidité : 40 859 parts en attente de retrait (source : BPI1T2026-EP.pdf)"
-    ]
+    ],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 207.22
   },
   {
     "Nom SCPI": "Épargne Pierre Europe",
@@ -2828,7 +2910,7 @@
     "Capitalisation (M€)": 635,
     "Prix de souscription (€)": 200,
     "Valeur de retrait (€)": 180,
-    "Surcote/décote (%)": 0,
+    "Surcote/décote (%)": -2.63,
     "Valeur de reconstitution (€)": 206.51,
     "Valeur de réalisation (€)": 176.3,
     "Taux de distribution (%)": 6.75,
@@ -2889,7 +2971,9 @@
     "Montant acquisitions trimestre (M€)": 127.5,
     "nb_locataires": 54,
     "Article SFDR": 8,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 205.4
   },
   {
     "Nom SCPI": "ESG Pierre Capital",
@@ -2968,8 +3052,8 @@
     "Label ISR": "Oui",
     "Capitalisation (M€)": 596,
     "Prix de souscription (€)": 70,
-    "Valeur de retrait (€)": 63.0,
-    "Surcote/décote (%)": 3367702354502.58,
+    "Valeur de retrait (€)": 63,
+    "Surcote/décote (%)": 1.02,
     "Valeur de reconstitution (€)": 207.8869,
     "Valeur de réalisation (€)": 173.353112202557,
     "Taux de distribution (%)": 5.1,
@@ -3017,7 +3101,9 @@
     "nb_locataires": 443,
     "liquidite": 546508,
     "Article SFDR": 8,
-    "niveau_risque_dic": 3
+    "niveau_risque_dic": 3,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 69.29
   },
   {
     "Nom SCPI": "Foncière des Praticiens",
@@ -3027,7 +3113,7 @@
     "Capitalisation (M€)": 173,
     "Prix de souscription (€)": 1100,
     "Valeur de retrait (€)": 1012,
-    "Surcote/décote (%)": 8.7,
+    "Surcote/décote (%)": 4.9,
     "Valeur de reconstitution (€)": 1069.23,
     "Valeur de réalisation (€)": 938.88,
     "Taux de distribution (%)": 5.5,
@@ -3080,7 +3166,9 @@
     "nb_locataires": 80,
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 1048.65
   },
   {
     "Nom SCPI": "Selectipierre 2",
@@ -3088,9 +3176,9 @@
     "Année de création": 1978,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 466.5,
-    "Prix de souscription (€)": 773.0,
+    "Prix de souscription (€)": 773,
     "Valeur de retrait (€)": 695.7,
-    "Surcote/décote (%)": 9847265125.86,
+    "Surcote/décote (%)": -1.53,
     "Valeur de reconstitution (€)": 785,
     "Valeur de réalisation (€)": 652.21,
     "Taux de distribution (%)": 4.14,
@@ -3106,7 +3194,7 @@
     "Répartition Géographique": "Paris (71.0%), Ile-de-France (22.6%), Régions (6.4%)",
     "Répartition Sectorielle": "Bureaux (67.5%), Locaux commerciaux (21.3%), Résidence hôtelières / étudiantes (4.3%), Locaux d'habitation (5.6%), Locaux d'activité (1.3%)",
     "Répartition Géographique JSON": {
-      "Paris": 74.0,
+      "Paris": 74,
       "Île-de-France": 19.3,
       "Régions": 6.7
     },
@@ -3123,7 +3211,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 10.0,
+    "Frais de souscription (TTC/%)": 10,
     "Nombre d'immeubles": 67,
     "Nombre d'associés": 7871,
     "Distribution trimestrielle T1 2026 (€/part)": 6.5,
@@ -3136,7 +3224,9 @@
     "liquidite": "Liquidité tendue",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 785
   },
   {
     "Nom SCPI": "NCap Continent",
@@ -3159,31 +3249,33 @@
     "maximus_source_periode": "T1 2026",
     "maximus_confidence_score": 0.9,
     "Valeur de retrait (€)": 154.98,
-    "TOF (%)": 100.0,
+    "TOF (%)": 100,
     "nb_locataires": 25,
     "Répartition Géographique JSON": {
-      "Royaume-Uni": 54.0,
-      "Espagne": 38.0,
-      "Allemagne": 8.0
+      "Royaume-Uni": 54,
+      "Espagne": 38,
+      "Allemagne": 8
     },
     "Répartition Sectorielle JSON": {
-      "Commerce": 74.0,
-      "Bureaux": 12.0,
-      "Activités": 9.0,
-      "Éducation": 5.0
+      "Commerce": 74,
+      "Bureaux": 12,
+      "Activités": 9,
+      "Éducation": 5
     },
     "liquidite": "Liquidité normale",
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (TTC/%)": 10.0,
-    "maximus_warnings": []
+    "Frais de souscription (TTC/%)": 10,
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 214.87
   },
   {
     "Nom SCPI": "Wemo One",
     "Société de gestion": "Wemo REIM",
     "Taux de distribution (%)": 15.27,
-    "Prix de souscription (€)": 210.0,
+    "Prix de souscription (€)": 210,
     "Capitalisation (M€)": 121.9,
     "TOF (%)": 100,
     "Versement des loyers": "mensuelle",
@@ -3218,7 +3310,10 @@
     "niveau_risque_dic": 3,
     "Durée de détention recommandée (ans)": 8,
     "Frais de souscription (TTC/%)": 10,
-    "Frais de gestion (HT/%)": 11
+    "Frais de gestion (HT/%)": 11,
+    "Surcote/décote (%)": -8.47,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 218.5
   },
   {
     "Nom SCPI": "Iroko Atlas",
@@ -3240,7 +3335,7 @@
       "Commerces": 63.6,
       "Santé, hôtellerie, autre": 11.6,
       "Entrepôts": 10.1,
-      "Bureaux": 9.0,
+      "Bureaux": 9,
       "Locaux d'activités": 5.7
     },
     "maximus_data_status": "extracted_t1_2026",
@@ -3263,7 +3358,9 @@
     "Durée de détention recommandée (ans)": 10,
     "Frais de souscription (TTC/%)": 0,
     "Frais de gestion (HT/%)": "14,4 % TTC (zone euro) à 16,8 % TTC (hors zone euro)",
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 204.87
   },
   {
     "Nom SCPI": "Remake UK 2025",
@@ -3279,7 +3376,10 @@
     "maximus_data_status": "partial_review",
     "maximus_source_document": "remake_uk_doc1.pdf (copie depuis document.pdf — BT N°2)",
     "maximus_source_periode": "T1 2026 (BT N°2)",
-    "maximus_confidence_score": 0.75
+    "maximus_confidence_score": 0.75,
+    "Surcote/décote (%)": -1.17,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 1037.16
   },
   {
     "Nom SCPI": "Epsicap Nano",
@@ -3319,7 +3419,10 @@
     "Durée de détention recommandée (ans)": 8,
     "Frais de souscription (TTC/%)": 5,
     "Frais de gestion (HT/%)": 10,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Surcote/décote (%)": -8.07,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 279.57
   },
   {
     "Nom SCPI": "Alta Convictions",
@@ -3356,7 +3459,10 @@
     "Durée de détention recommandée (ans)": 9,
     "Frais de souscription (TTC/%)": 8.45,
     "Frais de gestion (HT/%)": 0.74,
-    "maximus_warnings": []
+    "maximus_warnings": [],
+    "Surcote/décote (%)": -7.7,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 333.68
   },
   {
     "Nom SCPI": "Cristal Rente",
@@ -3397,7 +3503,10 @@
     "Frais de gestion (HT/%)": 1.12,
     "maximus_warnings": [
       "Risque de liquidité : 18 420 parts en attente de retrait (source : IG_CRBulletin_Trimestriel2026_T1.pdf)"
-    ]
+    ],
+    "Surcote/décote (%)": -5.06,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 269.32
   },
   {
     "Nom SCPI": "Rivoli Avenir Patrimoine",
@@ -3433,7 +3542,7 @@
     "Répartition Géographique JSON": {
       "Paris": 45.6,
       "Île-de-France": 23.4,
-      "Régions (France)": 11.0,
+      "Régions (France)": 11,
       "Allemagne": 10.4,
       "Espagne": 3.7,
       "Pays-Bas": 2.7,
@@ -3447,7 +3556,8 @@
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 8,
     "Frais de souscription (TTC/%)": 7.993,
-    "Frais de gestion (HT/%)": 0.89
+    "Frais de gestion (HT/%)": 0.89,
+    "Décote/Surcote QA": "manual_review"
   },
   {
     "Nom SCPI": "Primovie",
@@ -3488,7 +3598,7 @@
       "Allemagne": 18.5,
       "Italie": 12.8,
       "Paris": 4.8,
-      "Espagne": 2.0,
+      "Espagne": 2,
       "Belgique": 0.5,
       "Pays-Bas": 0.3
     },
@@ -3497,7 +3607,10 @@
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
     "Frais de souscription (TTC/%)": 9,
-    "Frais de gestion (HT/%)": 10
+    "Frais de gestion (HT/%)": 10,
+    "Surcote/décote (%)": 7.37,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 152.74
   },
   {
     "Nom SCPI": "Praemia Hôtels Europe",
@@ -3520,7 +3633,7 @@
     "Répartition Sectorielle JSON": {
       "Hôtel": 67.3,
       "Résidentiel": 15.1,
-      "Commerce": 10.0,
+      "Commerce": 10,
       "Mixte Résidentiel / Commerce": 7.6
     },
     "maximus_warnings": [
@@ -3549,7 +3662,9 @@
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
     "Frais de souscription (TTC/%)": 9,
-    "Frais de gestion (HT/%)": 10
+    "Frais de gestion (HT/%)": 10,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 201.43
   },
   {
     "Nom SCPI": "Pierval Santé",
@@ -3586,7 +3701,10 @@
     "maximus_warnings": [
       "Risque de liquidité : 466 128 parts en attente de retrait (source : BT_PIERVAL_SANTE_2026_T1.pdf)"
     ],
-    "Valeur de reconstitution (€)": 199.2
+    "Valeur de reconstitution (€)": 199.2,
+    "Surcote/décote (%)": 2.41,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 199.2
   },
   {
     "Nom SCPI": "Patrimmo Commerce",
@@ -3635,9 +3753,12 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (TTC/%)": 9.0,
-    "Frais de gestion (HT/%)": 10.0,
-    "Valeur de reconstitution (€)": 151.36
+    "Frais de souscription (TTC/%)": 9,
+    "Frais de gestion (HT/%)": 10,
+    "Valeur de reconstitution (€)": 151.36,
+    "Surcote/décote (%)": 5.71,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 151.36
   },
   {
     "Nom SCPI": "Aestiam Agora",
@@ -3681,11 +3802,14 @@
     "Article SFDR": 6,
     "niveau_risque_dic": 3,
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (TTC/%)": 10.0,
-    "Frais de gestion (HT/%)": 10.0,
+    "Frais de souscription (TTC/%)": 10,
+    "Frais de gestion (HT/%)": 10,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 38 858 parts en attente de retrait ; fonds de remboursement activé (source : 2026-1t-bti-aestiam-agora.pdf)"
     ],
-    "Valeur de reconstitution (€)": 965.93
+    "Valeur de reconstitution (€)": 965.93,
+    "Surcote/décote (%)": -4.55,
+    "Décote/Surcote QA": "publishable",
+    "Valeur de reconstitution par part (€)": 965.93
   }
 ]

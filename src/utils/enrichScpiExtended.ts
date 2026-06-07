@@ -65,6 +65,10 @@ export function enrichScpiExtended(
     sfdr: matchingScpi.sfdr ?? scpiExtended.sfdr,
     profilCible: matchingScpi.profilCible ?? scpiExtended.profilCible,
     
+    // Décote/surcote QA-validée : PRIORITÉ aux données validées depuis scpiData (JSON)
+    discount: matchingScpi.discount,
+    discountQaStatus: matchingScpi.discountQaStatus,
+
     // Endettement (LTV) : PRIORITÉ aux données mises à jour depuis scpiData
     ltv: matchingScpi.debt !== undefined ? matchingScpi.debt : scpiExtended.ltv,
     

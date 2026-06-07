@@ -12,6 +12,9 @@ export interface SCPIExtended {
   geography: Array<{ name: string; value: number }>;
   strategy: string;
   reconstitutionValue?: number;
+  // Décote/surcote QA-validée (issue de la QA métier reconstitution) et son statut.
+  discount?: number;
+  discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
   ranDays?: number;
   ltv?: number;
   hasWaitingShares?: boolean;

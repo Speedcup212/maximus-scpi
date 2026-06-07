@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingUp, Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
+import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountQaColor, formatDiscountQa } from '../utils/formatters';
 import { findScpiSlug } from '../utils/scpiSlugMapper';
 
 interface ScpiTableProps {
@@ -160,8 +160,8 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                 </span>
               </td>
               <td className="px-3 py-3 text-center">
-                <span className={`font-bold text-xs whitespace-nowrap ${getDiscountColor(scpi.discount)}`}>
-                  {scpi.discount > 0 ? '+' : ''}{scpi.discount.toFixed(1)}%
+                <span className={`font-bold text-xs whitespace-nowrap ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
+                  {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
                 </span>
               </td>
               <td className="px-3 py-3 text-center">

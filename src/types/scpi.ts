@@ -13,6 +13,9 @@ export interface Scpi {
   tof: number;
   price: number;
   discount: number;
+  // Statut QA de la décote/surcote (issu de la QA métier reconstitution).
+  // 'publishable' = fiable et affichable ; 'manual_review' = à vérifier, ne pas afficher comme fiable.
+  discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
   fees: number;
   isr: boolean;
   european: boolean;

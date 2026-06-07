@@ -364,6 +364,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     tof: scpi['TOF (%)'] || 0,
     price: scpi['Prix de souscription (€)'] || 0,
     discount: scpi['Surcote/décote (%)'] !== undefined ? scpi['Surcote/décote (%)'] : 0,
+    discountQaStatus: scpi['Décote/Surcote QA'] || undefined,
     fees: scpi['Frais de souscription (TTC/%)'] || 0,
     isr: scpi['Label ISR'] === 'Oui',
     european: isEuropean(geography, geoDistribution),

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, TrendingUp, Building, Award, Target, Calendar, Phone, ChevronDown, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, formatPercentage, getPerformanceColor, getDiscountColor } from '../utils/formatters';
+import { formatCurrency, getPerformanceColor, getDiscountQaColor, formatDiscountQa } from '../utils/formatters';
 import ComparisonWarning from './ComparisonWarning';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy ComparisonTable accordion to production NOW
@@ -236,8 +236,8 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
                     </div>
                     <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg text-center">
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Décote</div>
-                      <div className={`text-xl font-black ${getDiscountColor(scpi.discount)}`}>
-                        {formatPercentage(scpi.discount)}
+                      <div className={`text-xl font-black ${getDiscountQaColor(scpi.discount, scpi.discountQaStatus)}`}>
+                        {formatDiscountQa(scpi.discount, scpi.discountQaStatus)}
                       </div>
                     </div>
                   </div>
