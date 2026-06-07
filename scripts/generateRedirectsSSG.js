@@ -10,6 +10,12 @@ const scpiDataPath = path.join(__dirname, '../src/data/SCPI_complet_avec_SFDR_Pr
 const scpiDataJson = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
 const scpiData = scpiDataJson.Sheet1 || scpiDataJson;
 
+// Liste COMPLÈTE des SCPI (64, inclut les SCPI récentes type Wemo One / Epsicap Nano
+// absentes du fichier SFDR). Utilisée pour couvrir TOUTES les redirections /scpi-*.
+const scpiCompletePath = path.join(__dirname, '../src/data/scpi_complet.json');
+const scpiCompleteJson = JSON.parse(fs.readFileSync(scpiCompletePath, 'utf-8'));
+const scpiComplete = Array.isArray(scpiCompleteJson) ? scpiCompleteJson : (scpiCompleteJson.Sheet1 || []);
+
 const createSlug = (name) => {
   return 'scpi-' + name
     .toLowerCase()
@@ -17,6 +23,33 @@ const createSlug = (name) => {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+};
+
+// Slug canonique sans préfixe (= URL des pages statiques + sitemap + canonical).
+const createNoPrefixSlug = (name) => {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+};
+
+// Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe.
+// Empêche toute duplication SEO /scpi-wemo-one ↔ /wemo-one.
+const buildScpiPrefixRedirects = () => {
+  const seen = new Set();
+  const lines = [];
+  for (const scpi of scpiComplete) {
+    const name = scpi['Nom SCPI'];
+    if (!name) continue;
+    const noPrefix = createNoPrefixSlug(name);
+    if (!noPrefix || seen.has(noPrefix)) continue;
+    seen.add(noPrefix);
+    lines.push(`/scpi-${noPrefix} /${noPrefix} 301`);
+    lines.push(`/scpi-${noPrefix}/ /${noPrefix} 301`);
+  }
+  return lines.join('\n');
 };
 
 // Generate redirects file with static pages
@@ -96,8 +129,10 @@ const generateRedirects = () => {
 /scpi-residentiel /index.html 200
 /scpi-hotellerie /index.html 200
 
-# Pages SCPI individuelles sont servies automatiquement via cleanUrls
-# Pas besoin de redirects car elles sont dans dist/scpi-*/index.html
+# Pages SCPI individuelles : servies via dist/{slug}/index.html (slug canonique sans préfixe)
+
+# Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe
+${buildScpiPrefixRedirects()}
 
 # Fallback pour toutes les autres routes vers la SPA
 /* /index.html 200

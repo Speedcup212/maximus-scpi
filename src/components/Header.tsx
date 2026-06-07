@@ -145,7 +145,9 @@ const Header: React.FC<HeaderProps> = ({
     const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
     return enriched.map(scpi => {
       const landingSlug = findScpiSlug(scpi.name);
-      const slug = landingSlug ?? `scpi-${createSlugFromName(scpi.name)}`;
+      // URL canonique sans préfixe (alignée sur les pages statiques + sitemap + canonical).
+      // Évite la duplication /wemo-one ↔ /scpi-wemo-one.
+      const slug = landingSlug ?? createSlugFromName(scpi.name);
       return {
         scpi,
         slug,

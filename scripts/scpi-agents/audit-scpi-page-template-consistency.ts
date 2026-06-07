@@ -28,7 +28,7 @@ import { resolve } from 'path';
 import { scpiData } from '../../src/data/scpiData';
 import { scpiDataExtended } from '../../src/data/scpiDataExtended';
 import { buildScpiLandingData } from '../../src/utils/buildScpiLandingData';
-import { createSlugFromName } from '../../src/utils/scpiSlugMapper';
+import { createSlugFromName, findScpiSlug } from '../../src/utils/scpiSlugMapper';
 import { qualifyYield } from '../../src/utils/yieldContext';
 
 type Severity = 'OK' | 'WARNING' | 'CRITICAL';
@@ -55,7 +55,13 @@ function worst(a: Severity, b: Severity): Severity {
 function auditScpi(name: string): ScpiPageAudit {
   const slug = createSlugFromName(name);
   const checks: CheckResult[] = [];
-  const built = buildScpiLandingData(slug);
+
+  // Slug RÉELLEMENT utilisé par les liens de l'app (Header / navigation),
+  // identique à Header.tsx : fiche éditoriale si elle existe, sinon slug
+  // canonique SANS préfixe (aligné sur pages statiques + sitemap + canonical).
+  const linkSlug = findScpiSlug(name) ?? slug;
+  const builtFromLink = buildScpiLandingData(linkSlug);
+  const built = builtFromLink ?? buildScpiLandingData(slug);
 
   if (!built) {
     return {
@@ -65,6 +71,39 @@ function auditScpi(name: string): ScpiPageAudit {
       status: 'CRITICAL',
       checks: [{ block: 'résolution', severity: 'CRITICAL', detail: `Aucune fiche résolue pour le slug "${slug}".` }],
     };
+  }
+
+  // Garde-fou anti "ancien template pauvre" : si le slug des liens ne résout pas
+  // vers le template complet, la route retombe sur StaticScpiPage (page pauvre).
+  if (!builtFromLink) {
+    checks.push({
+      block: 'template-route',
+      severity: 'CRITICAL',
+      detail: `Le slug de navigation "/${linkSlug}" ne résout pas vers le template complet → ancien template pauvre (StaticScpiPage).`,
+    });
+  } else {
+    checks.push({
+      block: 'template-route',
+      severity: 'OK',
+      detail: `Slug de navigation "/${linkSlug}" → template complet.`,
+    });
+  }
+
+  // Cohérence canonique : le slug de navigation doit être l'URL canonique
+  // (sans préfixe "scpi-", égale au slug de la fiche). Sinon, duplication SEO.
+  const canonicalSlug = built.data.slug;
+  if (linkSlug.startsWith('scpi-') || linkSlug !== canonicalSlug) {
+    checks.push({
+      block: 'canonical-coherence',
+      severity: 'CRITICAL',
+      detail: `Slug de navigation "/${linkSlug}" ≠ URL canonique "/${canonicalSlug}" → duplication SEO.`,
+    });
+  } else {
+    checks.push({
+      block: 'canonical-coherence',
+      severity: 'OK',
+      detail: `Slug de navigation = URL canonique "/${canonicalSlug}".`,
+    });
   }
 
   const data = built.data;

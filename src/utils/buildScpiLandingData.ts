@@ -81,9 +81,17 @@ function buildFactualWarnings(scpi: Scpi): string[] {
   return out;
 }
 
+/** Variantes de clé à tester (avec/sans préfixe `scpi-`). */
+function slugVariants(key: string): string[] {
+  const lower = key.toLowerCase();
+  const variants = new Set<string>([lower]);
+  if (lower.startsWith('scpi-')) variants.add(lower.slice('scpi-'.length));
+  return [...variants];
+}
+
 function findScpiBySlug(slug: string): Scpi | undefined {
-  const norm = slug.toLowerCase();
-  return scpiData.find((s) => createSlugFromName(s.name) === norm);
+  const variants = slugVariants(slug);
+  return scpiData.find((s) => variants.includes(createSlugFromName(s.name)));
 }
 
 export interface BuiltLandingData {
@@ -92,22 +100,26 @@ export interface BuiltLandingData {
 }
 
 export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
-  // 1. Fiche éditoriale par clé directe.
-  const direct = scpiLandingPages[scpiKey];
-  if (direct) return { data: direct, isEditorial: true };
+  const variants = slugVariants(scpiKey);
+
+  // 1. Fiche éditoriale par clé directe (avec/sans préfixe scpi-).
+  for (const v of variants) {
+    const direct = scpiLandingPages[v];
+    if (direct) return { data: direct, isEditorial: true };
+  }
 
   // 2. Fiche éditoriale par slug.
-  const bySlug = Object.values(scpiLandingPages).find((d) => d.slug === scpiKey);
+  const bySlug = Object.values(scpiLandingPages).find((d) => variants.includes(d.slug));
   if (bySlug) return { data: bySlug, isEditorial: true };
 
-  // 3. Génération depuis les données live.
+  // 3. Génération depuis les données live (slug normalisé sans préfixe scpi-).
   const scpi = findScpiBySlug(scpiKey);
   if (!scpi) return null;
 
   const yq = qualifyYield(scpi.yield);
   const generated: ScpiLandingData = {
     nom: scpi.name,
-    slug: scpiKey,
+    slug: createSlugFromName(scpi.name),
     h1_question: `SCPI ${scpi.name}`,
     societe_gestion: scpi.company || NA,
     annee_creation: scpi.creation || 0,
