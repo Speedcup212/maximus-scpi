@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "generated_at": "2026-06-06T13:31:39.706Z",
+    "provider": "deepseek",
+    "model": "deepseek-v4-pro",
+    "task": "extraction",
+    "source": {
+      "type": "fixture",
+      "path": "C:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\scpi-agent\\fixtures\\credit-mutuel-pierre-1-excerpt.txt"
+    },
+    "tokens": 2418
+  },
+  "extraction": {
+    "nom_scpi": "CRÉDIT MUTUEL PIERRE 1",
+    "source_document": "Bulletin trimestriel T1 2026",
+    "source_periode": "au 31/03/2026",
+    "prix_souscription": {
+      "value": 215,
+      "unit": "EUR/part",
+      "confidence": 1,
+      "extract": "Prix de souscription d'une part : 215,00 €",
+      "status": "verified",
+      "comment": null
+    },
+    "valeur_reconstitution": {
+      "value": 219.5,
+      "unit": "EUR/part",
+      "confidence": 0.9,
+      "extract": "Valeur de reconstitution = 219,50 €",
+      "status": "verified",
+      "comment": "Valeur au 31/12/2025, reprise dans le bulletin T1 2026"
+    },
+    "valeur_realisation": {
+      "value": 179.26,
+      "unit": "EUR/part",
+      "confidence": 0.9,
+      "extract": "Valeur de réalisation 179,26 €",
+      "status": "verified",
+      "comment": "Valeur au 31/12/2025, reprise dans le bulletin T1 2026"
+    },
+    "division_nominale": {
+      "detected": false,
+      "ratio": null,
+      "date_effet": null,
+      "prix_avant_split": null,
+      "prix_apres_split": null,
+      "vr_avant_split": null,
+      "vr_apres_split": null,
+      "comment": null
+    }
+  },
+  "decote_surcote": {
+    "computed": true,
+    "pct": -2.05,
+    "label": "decote",
+    "formula": "(prix_souscription 215 - valeur_reconstitution 219.5) / valeur_reconstitution 219.5 × 100 = -2.05 %",
+    "reason_if_skipped": null
+  }
+}

@@ -1,0 +1,1124 @@
+{
+  "meta": {
+    "generated_at": "2026-06-06T13:55:41.053Z",
+    "provider": "deepseek",
+    "model": "deepseek-v4-pro",
+    "scpi_tested": 10,
+    "stats": {
+      "verified": 9,
+      "verified_adjusted_split": 1,
+      "manual_review": 0,
+      "rejected": 0
+    },
+    "tokens": {
+      "prompt": 63193,
+      "completion": 22564,
+      "total": 85757
+    },
+    "estimated_cost_usd": 0.085757,
+    "disclaimer": "Données extraites automatiquement depuis documents officiels. Performances passées ne préjugent pas des performances futures. Pas de promesse de rendement."
+  },
+  "results": [
+    {
+      "nom_scpi": "Ficommerce Proximité",
+      "folder": "SCPI FiCommerce Proximité",
+      "document_source": "BTI Ficommerce T1 2026.pdf + Ficommerce Proximité - Rapport Annuel 2025.pdf + Note d'information et statuts Ficommerce - 01.2026.pdf",
+      "pages_source": [
+        2,
+        5,
+        24,
+        29,
+        41,
+        47,
+        48
+      ],
+      "pages_documents": [
+        {
+          "document": "BTI Ficommerce T1 2026.pdf",
+          "page": 2
+        },
+        {
+          "document": "Ficommerce Proximité - Rapport Annuel 2025.pdf",
+          "page": 5
+        },
+        {
+          "document": "Ficommerce Proximité - Rapport Annuel 2025.pdf",
+          "page": 41
+        },
+        {
+          "document": "Note d'information et statuts Ficommerce - 01.2026.pdf",
+          "page": 29
+        },
+        {
+          "document": "Ficommerce Proximité - Rapport Annuel 2025.pdf",
+          "page": 24
+        },
+        {
+          "document": "Note d'information et statuts Ficommerce - 01.2026.pdf",
+          "page": 47
+        },
+        {
+          "document": "Note d'information et statuts Ficommerce - 01.2026.pdf",
+          "page": 48
+        }
+      ],
+      "pages_sent_to_llm": 7,
+      "extraction": {
+        "nom_scpi": "Ficommerce Proximité",
+        "source_periode": "T1 2026",
+        "prix_souscription": {
+          "value": 70,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Prix de souscription à compter du 01.01.2026 70 €",
+          "source_document": "BTI Ficommerce T1 2026.pdf",
+          "source_page": 2,
+          "status": "verified",
+          "comment": "post-split"
+        },
+        "valeur_reconstitution": {
+          "value": 207.88,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de reconstitution (2) par part au 31.12.2025 207,88 €",
+          "source_document": "BTI Ficommerce T1 2026.pdf",
+          "source_page": 2,
+          "status": "verified",
+          "comment": "valeur pré-split au 31/12/2025"
+        },
+        "valeur_realisation": {
+          "value": 173.35,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de réalisation (2) par part au 31.12.2025 173,35 €",
+          "source_document": "BTI Ficommerce T1 2026.pdf",
+          "source_page": 2,
+          "status": "verified",
+          "comment": "valeur pré-split au 31/12/2025"
+        },
+        "division_nominale": {
+          "detected": true,
+          "ratio": 3,
+          "date_effet": "01/01/2026",
+          "prix_avant_split": 210,
+          "prix_apres_split": 70,
+          "vr_avant_split": 207.88,
+          "vr_apres_split": null,
+          "comment": "Division par 3 du nominal au 01/01/2026. Ancien prix: 210€, nouveau: 70€. VR de reconstitution pré-split: 207,88€. VR de réalisation pré-split: 173,35€ non reprise dans ce champ."
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": 69.29,
+        "formula": "207.88 / 3 = 69.29"
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": 1.02,
+        "label": "surcote",
+        "formula": "(prix 70 - VR comparable 69.29) / VR 69.29 × 100 = 1.02 % (Valeur de reconstitution ajustée post-division nominale.)",
+        "reason_if_skipped": null
+      },
+      "statut": "verified_adjusted_split",
+      "commentaire": "Prix: Prix de souscription à compter du 01.01.2026 70 € | VR: Valeur de reconstitution (2) par part au 31.12.2025 207,88 € | Division nominale ×3 (01/01/2026) | VR ajustée: 207.88 / 3 = 69.29 | Écart: 1.02 % (surcote) | Statut: verified_adjusted_split",
+      "usage": {
+        "prompt_tokens": 8565,
+        "completion_tokens": 3755,
+        "total_tokens": 12320,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3231
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8181
+      }
+    },
+    {
+      "nom_scpi": "Crédit Mutuel Pierre 1",
+      "folder": "Credit Mutuel Pierre 1",
+      "document_source": "A7_note_statuts.pdf + A7_BT_20260331.pdf",
+      "pages_source": [
+        4,
+        5,
+        9,
+        10,
+        12,
+        46
+      ],
+      "pages_documents": [
+        {
+          "document": "A7_note_statuts.pdf",
+          "page": 5
+        },
+        {
+          "document": "A7_note_statuts.pdf",
+          "page": 46
+        },
+        {
+          "document": "A7_BT_20260331.pdf",
+          "page": 4
+        },
+        {
+          "document": "A7_BT_20260331.pdf",
+          "page": 12
+        },
+        {
+          "document": "A7_note_statuts.pdf",
+          "page": 9
+        },
+        {
+          "document": "A7_note_statuts.pdf",
+          "page": 10
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Crédit Mutuel Pierre 1",
+        "source_periode": "2026-03-31",
+        "prix_souscription": {
+          "value": 215,
+          "unit": "EUR/part",
+          "confidence": 0.95,
+          "extract": "Prix de souscription = 215,00 €",
+          "source_document": "A7_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 219.5,
+          "unit": "EUR/part",
+          "confidence": 0.95,
+          "extract": "Valeur de reconstitution 219,50 €",
+          "source_document": "A7_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 179.26,
+          "unit": "EUR/part",
+          "confidence": 0.95,
+          "extract": "Valeur de réalisation 179,26 €",
+          "source_document": "A7_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": -2.05,
+        "label": "decote",
+        "formula": "(prix 215 - VR comparable 219.5) / VR 219.5 × 100 = -2.05 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: Prix de souscription = 215,00 € | VR: Valeur de reconstitution 219,50 € | Écart: -2.05 % (decote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 6026,
+        "completion_tokens": 1383,
+        "total_tokens": 7409,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 992
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5642
+      }
+    },
+    {
+      "nom_scpi": "Activimmo",
+      "folder": "SCPI Activimmo",
+      "document_source": "20250410-Rapport-annuel-2025-ActivImmo.pdf + 20260507-BTI-ActivImmo.pdf + 20260414-Plaquette-Commerciale-ActivImmo-2026.pdf",
+      "pages_source": [
+        5,
+        6,
+        9,
+        10,
+        58,
+        78
+      ],
+      "pages_documents": [
+        {
+          "document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "page": 6
+        },
+        {
+          "document": "20260507-BTI-ActivImmo.pdf",
+          "page": 9
+        },
+        {
+          "document": "20260414-Plaquette-Commerciale-ActivImmo-2026.pdf",
+          "page": 5
+        },
+        {
+          "document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "page": 58
+        },
+        {
+          "document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "page": 78
+        },
+        {
+          "document": "20260507-BTI-ActivImmo.pdf",
+          "page": 10
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Activimmo",
+        "source_periode": "31.12.2025",
+        "prix_souscription": {
+          "value": 610,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "610,00€/part prix de souscription",
+          "source_document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "source_page": 6,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 616.58,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "616,58€ valeur de reconstitution",
+          "source_document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "source_page": 6,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 513.68,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "513,68€ valeur de réalisation",
+          "source_document": "20250410-Rapport-annuel-2025-ActivImmo.pdf",
+          "source_page": 6,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": -1.07,
+        "label": "decote",
+        "formula": "(prix 610 - VR comparable 616.58) / VR 616.58 × 100 = -1.07 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: 610,00€/part prix de souscription | VR: 616,58€ valeur de reconstitution | Écart: -1.07 % (decote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 4929,
+        "completion_tokens": 1849,
+        "total_tokens": 6778,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1447
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4545
+      }
+    },
+    {
+      "nom_scpi": "Aestiam Horizon",
+      "folder": "SCPI Aestiam Horizon",
+      "document_source": "2026-1t-bti-aestiam-horizon.pdf + 2025-rapport-annuel-aestiam-horizon.pdf + AestiamHorizon-Statuts.pdf",
+      "pages_source": [
+        5,
+        6,
+        7,
+        9,
+        51
+      ],
+      "pages_documents": [
+        {
+          "document": "2026-1t-bti-aestiam-horizon.pdf",
+          "page": 5
+        },
+        {
+          "document": "2026-1t-bti-aestiam-horizon.pdf",
+          "page": 7
+        },
+        {
+          "document": "2025-rapport-annuel-aestiam-horizon.pdf",
+          "page": 9
+        },
+        {
+          "document": "2025-rapport-annuel-aestiam-horizon.pdf",
+          "page": 51
+        },
+        {
+          "document": "AestiamHorizon-Statuts.pdf",
+          "page": 7
+        },
+        {
+          "document": "AestiamHorizon-Statuts.pdf",
+          "page": 6
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Aestiam Horizon",
+        "source_periode": "T1 2026",
+        "prix_souscription": {
+          "value": 350,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "350 €",
+          "source_document": "2026-1t-bti-aestiam-horizon.pdf",
+          "source_page": 5,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 347.63,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "347,63 €",
+          "source_document": "2026-1t-bti-aestiam-horizon.pdf",
+          "source_page": 5,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 287.23,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "287,23 €",
+          "source_document": "2026-1t-bti-aestiam-horizon.pdf",
+          "source_page": 5,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": 0.68,
+        "label": "surcote",
+        "formula": "(prix 350 - VR comparable 347.63) / VR 347.63 × 100 = 0.68 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: 350 € | VR: 347,63 € | Écart: 0.68 % (surcote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 5019,
+        "completion_tokens": 1775,
+        "total_tokens": 6794,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1397
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4635
+      }
+    },
+    {
+      "nom_scpi": "Paref Evo",
+      "folder": "Paref Evo",
+      "document_source": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf + aad4f57d-cf78-4c7d-b647-274dd8c1a010-Rapport-annuel-SCPI-PAREF-Evo-2024.pdf + 6cdf12dc-8b42-4a57-98e9-09b938d94494-28.06.2024-Statuts-PAREF-Evo-clean2.pdf",
+      "pages_source": [
+        3,
+        6,
+        7,
+        8,
+        18
+      ],
+      "pages_documents": [
+        {
+          "document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "page": 7
+        },
+        {
+          "document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "page": 8
+        },
+        {
+          "document": "aad4f57d-cf78-4c7d-b647-274dd8c1a010-Rapport-annuel-SCPI-PAREF-Evo-2024.pdf",
+          "page": 6
+        },
+        {
+          "document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "page": 3
+        },
+        {
+          "document": "aad4f57d-cf78-4c7d-b647-274dd8c1a010-Rapport-annuel-SCPI-PAREF-Evo-2024.pdf",
+          "page": 18
+        },
+        {
+          "document": "6cdf12dc-8b42-4a57-98e9-09b938d94494-28.06.2024-Statuts-PAREF-Evo-clean2.pdf",
+          "page": 6
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Paref Evo",
+        "source_periode": "T1 2026",
+        "prix_souscription": {
+          "value": 250,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de la part : 250 €",
+          "source_document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "source_page": 3,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 245.04,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de reconstitution au 31/12/2025 : 245,04 €",
+          "source_document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "source_page": 3,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 213.42,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de réalisation au 31/12/2025 : 213,42 €",
+          "source_document": "8a9a6304-115c-4362-a792-09d176a013bf-BTI-T1-2026-PAREF-Evo.pdf",
+          "source_page": 3,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": 2.02,
+        "label": "surcote",
+        "formula": "(prix 250 - VR comparable 245.04) / VR 245.04 × 100 = 2.02 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: Valeur de la part : 250 € | VR: Valeur de reconstitution au 31/12/2025 : 245,04 € | Écart: 2.02 % (surcote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 7107,
+        "completion_tokens": 2280,
+        "total_tokens": 9387,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1804
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6723
+      }
+    },
+    {
+      "nom_scpi": "NCap Régions",
+      "folder": "NCAPRégions",
+      "document_source": "bt_ncap_regions_t1_2026.pdf + rapport_annuel_ncapregions_2025-1.pdf",
+      "pages_source": [
+        3,
+        4,
+        9,
+        22,
+        31
+      ],
+      "pages_documents": [
+        {
+          "document": "bt_ncap_regions_t1_2026.pdf",
+          "page": 3
+        },
+        {
+          "document": "bt_ncap_regions_t1_2026.pdf",
+          "page": 4
+        },
+        {
+          "document": "rapport_annuel_ncapregions_2025-1.pdf",
+          "page": 22
+        },
+        {
+          "document": "rapport_annuel_ncapregions_2025-1.pdf",
+          "page": 31
+        },
+        {
+          "document": "bt_ncap_regions_t1_2026.pdf",
+          "page": 9
+        },
+        {
+          "document": "rapport_annuel_ncapregions_2025-1.pdf",
+          "page": 3
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "NCap Régions",
+        "source_periode": "31/12/2025",
+        "prix_souscription": {
+          "value": 682,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Prix de souscription 682,00 €",
+          "source_document": "bt_ncap_regions_t1_2026.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 698.26,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de reconstitution (par part) au 31/12/2025 698,26 €",
+          "source_document": "bt_ncap_regions_t1_2026.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 570.64,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de réalisation (par part) au 31/12/2025 570,64 €",
+          "source_document": "bt_ncap_regions_t1_2026.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": -2.33,
+        "label": "decote",
+        "formula": "(prix 682 - VR comparable 698.26) / VR 698.26 × 100 = -2.33 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: Prix de souscription 682,00 € | VR: Valeur de reconstitution (par part) au 31/12/2025 698,26 € | Écart: -2.33 % (decote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 6482,
+        "completion_tokens": 2633,
+        "total_tokens": 9115,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2217
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 6098
+      }
+    },
+    {
+      "nom_scpi": "LF Grand Paris Patrimoine",
+      "folder": "LF Grand Paris Patrimoine",
+      "document_source": "Z2_note_statuts.pdf + Z2_BT_20260331.pdf + Z2_rapportannuel.pdf",
+      "pages_source": [
+        4,
+        5,
+        7,
+        12,
+        43
+      ],
+      "pages_documents": [
+        {
+          "document": "Z2_note_statuts.pdf",
+          "page": 5
+        },
+        {
+          "document": "Z2_note_statuts.pdf",
+          "page": 43
+        },
+        {
+          "document": "Z2_BT_20260331.pdf",
+          "page": 4
+        },
+        {
+          "document": "Z2_BT_20260331.pdf",
+          "page": 12
+        },
+        {
+          "document": "Z2_rapportannuel.pdf",
+          "page": 5
+        },
+        {
+          "document": "Z2_rapportannuel.pdf",
+          "page": 7
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "LF Grand Paris Patrimoine",
+        "source_periode": "2026-03-31",
+        "prix_souscription": {
+          "value": 218,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Minimum de souscription fixé à 1 part, soit (A)218,00 €",
+          "source_document": "Z2_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 216.96,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de reconstitution 216,96 €",
+          "source_document": "Z2_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 173.4,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de réalisation 173,40 €",
+          "source_document": "Z2_BT_20260331.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": 0.48,
+        "label": "surcote",
+        "formula": "(prix 218 - VR comparable 216.96) / VR 216.96 × 100 = 0.48 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: Minimum de souscription fixé à 1 part, soit (A)218,00 € | VR: Valeur de reconstitution 216,96 € | Écart: 0.48 % (surcote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 6371,
+        "completion_tokens": 1907,
+        "total_tokens": 8278,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1511
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5987
+      }
+    },
+    {
+      "nom_scpi": "Iroko Atlas",
+      "folder": "Iroko Atlas",
+      "document_source": "Iroko_Atlas_rapport_annuel_2025.pdf + Iroko_Atlas_statuts_scpi.pdf",
+      "pages_source": [
+        3,
+        9,
+        18,
+        39,
+        57,
+        63
+      ],
+      "pages_documents": [
+        {
+          "document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "page": 18
+        },
+        {
+          "document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "page": 39
+        },
+        {
+          "document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "page": 3
+        },
+        {
+          "document": "Iroko_Atlas_statuts_scpi.pdf",
+          "page": 9
+        },
+        {
+          "document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "page": 57
+        },
+        {
+          "document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "page": 63
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Iroko Atlas",
+        "source_periode": "31/12/2025",
+        "prix_souscription": {
+          "value": 200,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "supérieure au prix de souscription de 200 €",
+          "source_document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "source_page": 18,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 204.87,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "valeur de reconstitution d’Iroko Atlas atteint 204,87 €/part",
+          "source_document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "source_page": 18,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 188.27,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "188,27 euros par part",
+          "source_document": "Iroko_Atlas_rapport_annuel_2025.pdf",
+          "source_page": 57,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": -2.38,
+        "label": "decote",
+        "formula": "(prix 200 - VR comparable 204.87) / VR 204.87 × 100 = -2.38 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: supérieure au prix de souscription de 200 € | VR: valeur de reconstitution d’Iroko Atlas atteint 204,87 €/part | Écart: -2.38 % (decote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 4916,
+        "completion_tokens": 1625,
+        "total_tokens": 6541,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1213
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4532
+      }
+    },
+    {
+      "nom_scpi": "Epsicap Nano",
+      "folder": "Epsicap Nano",
+      "document_source": "Epsicap-Nano-Note-dinformation-2026.05.pdf + Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+      "pages_source": [
+        4,
+        5,
+        6,
+        11,
+        14,
+        15
+      ],
+      "pages_documents": [
+        {
+          "document": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+          "page": 11
+        },
+        {
+          "document": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+          "page": 14
+        },
+        {
+          "document": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+          "page": 4
+        },
+        {
+          "document": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+          "page": 5
+        },
+        {
+          "document": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+          "page": 15
+        },
+        {
+          "document": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+          "page": 6
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Epsicap Nano",
+        "source_periode": "1T 2026 (valorisation au 31/12/2025, prix de souscription applicable depuis le 01/07/2025)",
+        "prix_souscription": {
+          "value": 257,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "À compter du 1er juillet 2025, le prix de souscription d'un part est de 257 €",
+          "source_document": "Epsicap-Nano-Note-dinformation-2026.05.pdf",
+          "source_page": 11,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 279.57,
+          "unit": "EUR/part",
+          "confidence": 0.95,
+          "extract": "Au 31/12/2025, la valeur de reconstitution par part d’Epsicap Nano s’établit à 279,57€",
+          "source_document": "Bulletin-trimestriel-1T-2026-Epsicap-Nano-1.pdf",
+          "source_page": 4,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": null,
+          "unit": null,
+          "confidence": 0,
+          "extract": null,
+          "source_document": null,
+          "source_page": null,
+          "status": "missing",
+          "comment": "Value not found in provided pages"
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": -8.07,
+        "label": "decote",
+        "formula": "(prix 257 - VR comparable 279.57) / VR 279.57 × 100 = -8.07 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: À compter du 1er juillet 2025, le prix de souscription d'un part est de 257 € | VR: Au 31/12/2025, la valeur de reconstitution par part d’Epsicap Nano s’établit à 279,57€ | Écart: -8.07 % (decote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 4780,
+        "completion_tokens": 2356,
+        "total_tokens": 7136,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1909
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 4396
+      }
+    },
+    {
+      "nom_scpi": "Perial O2",
+      "folder": "Perial O2",
+      "document_source": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf + 69f20de2eab70a16dc8ef27f_PO2 BTI 2026 T1 VDEF.pdf",
+      "pages_source": [
+        7,
+        10,
+        12,
+        17,
+        24,
+        31
+      ],
+      "pages_documents": [
+        {
+          "document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "page": 12
+        },
+        {
+          "document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "page": 31
+        },
+        {
+          "document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "page": 17
+        },
+        {
+          "document": "69f20de2eab70a16dc8ef27f_PO2 BTI 2026 T1 VDEF.pdf",
+          "page": 7
+        },
+        {
+          "document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "page": 10
+        },
+        {
+          "document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "page": 24
+        }
+      ],
+      "pages_sent_to_llm": 6,
+      "extraction": {
+        "nom_scpi": "Perial O2",
+        "source_periode": "31/12/2025",
+        "prix_souscription": {
+          "value": 164,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Prix de souscription au 01/01 *196,00196,00196,00164,00164,00",
+          "source_document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "source_page": 12,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_reconstitution": {
+          "value": 150.73,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de reconstitution 2 207 311 543 150,73100%",
+          "source_document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "source_page": 12,
+          "status": "verified",
+          "comment": null
+        },
+        "valeur_realisation": {
+          "value": 119.24,
+          "unit": "EUR/part",
+          "confidence": 1,
+          "extract": "Valeur de réalisation 1 746 142 372 119,2479%",
+          "source_document": "6a1701a2bd2947234367b710_Rapport annuel_PO2_sfdr_2025.pdf",
+          "source_page": 12,
+          "status": "verified",
+          "comment": null
+        },
+        "division_nominale": {
+          "detected": false,
+          "ratio": null,
+          "date_effet": null,
+          "prix_avant_split": null,
+          "prix_apres_split": null,
+          "vr_avant_split": null,
+          "vr_apres_split": null,
+          "comment": null
+        }
+      },
+      "valeur_reconstitution_ajustee": {
+        "value": null,
+        "formula": null
+      },
+      "decote_surcote": {
+        "computed": true,
+        "pct": 8.8,
+        "label": "surcote",
+        "formula": "(prix 164 - VR comparable 150.73) / VR 150.73 × 100 = 8.8 %",
+        "reason_if_skipped": null
+      },
+      "statut": "verified",
+      "commentaire": "Prix: Prix de souscription au 01/01 *196,00196,00196,00164,00164,00 | VR: Valeur de reconstitution 2 207 311 543 150,73100% | Écart: 8.8 % (surcote) | Statut: verified",
+      "usage": {
+        "prompt_tokens": 8998,
+        "completion_tokens": 3001,
+        "total_tokens": 11999,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2524
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 8614
+      }
+    }
+  ]
+}
