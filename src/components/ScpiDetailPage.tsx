@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
@@ -10,6 +10,8 @@ import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, g
 import { getLatestScore } from '../utils/scpiScoreService';
 import { scoreToStars } from '../utils/scoreToStars';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
+import { computeClientScores } from '../utils/computeClientScores';
+import { scpiDataExtended } from '../data/scpiDataExtended';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
@@ -34,13 +36,17 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
   const optimizedSEO = generateOptimizedScpiSEO(scpi);
 
+  // Même source de repli que les cartes : note déterministe client si la base est vide.
+  const clientScoresBySlug = useMemo(() => computeClientScores(scpiDataExtended).bySlug, []);
+
   useEffect(() => {
     const slug = createSlugFromName(scpi.name);
     getLatestScore(slug).then(score => {
-      setQualityScore(score != null ? Math.round(score) : null);
+      const resolved = score != null ? score : (clientScoresBySlug[slug] ?? null);
+      setQualityScore(resolved != null ? Math.round(resolved) : null);
       setScoresLoaded(true);
     });
-  }, [scpi.id, scpi.name]);
+  }, [scpi.id, scpi.name, clientScoresBySlug]);
 
   // Préparer les données pour les camemberts
   const sectorData = scpi.repartitionSector?.map((item, index) => ({

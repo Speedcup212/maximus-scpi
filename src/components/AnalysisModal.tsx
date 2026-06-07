@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   X, TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
@@ -11,6 +11,8 @@ import PieChart from './PieChart';
 import { getLatestScore } from '../utils/scpiScoreService';
 import { scoreToStars } from '../utils/scoreToStars';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
+import { computeClientScores } from '../utils/computeClientScores';
+import { scpiDataExtended } from '../data/scpiDataExtended';
 // PDF Generator loaded dynamically if needed
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy both accordions to production
 
@@ -26,15 +28,19 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
   const [qualityScore, setQualityScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
 
+  // Même source de repli que les cartes : note déterministe client si la base est vide.
+  const clientScoresBySlug = useMemo(() => computeClientScores(scpiDataExtended).bySlug, []);
+
   useEffect(() => {
     if (!scpi) return;
     setScoreLoaded(false);
     const slug = createSlugFromName(scpi.name);
     getLatestScore(slug).then(score => {
-      setQualityScore(score != null ? Math.round(score) : null);
+      const resolved = score != null ? score : (clientScoresBySlug[slug] ?? null);
+      setQualityScore(resolved != null ? Math.round(resolved) : null);
       setScoreLoaded(true);
     });
-  }, [scpi?.id, scpi?.name]);
+  }, [scpi?.id, scpi?.name, clientScoresBySlug]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
