@@ -8,7 +8,7 @@ import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/s
 import { getLatestScore } from '../../utils/scpiScoreService';
 import { scoreToStars } from '../../utils/scoreToStars';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
-import { computeDisplayedDiscount } from '../../utils/formatters';
+import { resolveDisplayedDiscount } from '../../utils/formatters';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -249,10 +249,8 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-xs text-slate-400">Décote/Surcote</div>
                 </div>
                 {(() => {
-                  // Recalcul à l'affichage : (prix affiché - VR comparable) / VR comparable × 100.
-                  // Jamais d'ancien prix snapshot ; "À vérifier" si manual_review ou VR/prix non comparable.
-                  const reconstitutionVal = scpi.reconstitutionValue ?? scpi.valeurReconstitution;
-                  const discountPremium = computeDisplayedDiscount(scpi.price, reconstitutionVal, scpi.discountQaStatus, scpi.discount);
+                  // Source unique : résolveur partagé (recalcul prix affiché vs VR affichée).
+                  const discountPremium = resolveDisplayedDiscount(scpi).value;
                   if (discountPremium == null) {
                     return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
                   }

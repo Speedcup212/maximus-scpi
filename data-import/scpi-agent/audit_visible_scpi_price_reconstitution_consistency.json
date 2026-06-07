@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-07T06:33:30.913Z",
+  "generated_at": "2026-06-07T06:42:54.765Z",
   "formula": "(prix affiché - VR affichée) / VR affichée × 100",
   "tolerance_points": 0.2,
   "total_visible": 63,

@@ -141,6 +141,41 @@ export const resolveDisplayedDiscount = (scpi: DiscountResolvable): ResolvedDisc
 };
 
 /**
+ * Wrapper rétro-compatible : libellé d'affichage de la décote/surcote.
+ * Délègue à la source unique (`resolveDisplayedDiscount`) → "x%" ou "À vérifier".
+ * Conservé pour les appelants utilisant la signature explicite (prix, VR, qa, snapshot).
+ */
+export const formatDiscountQa = (
+  price: number | undefined | null,
+  reconstitutionValue: number | undefined | null,
+  qaStatus: DiscountQa,
+  storedDiscount?: number | null
+): string =>
+  resolveDisplayedDiscount({
+    price,
+    valeurReconstitution: reconstitutionValue,
+    discountQaStatus: qaStatus,
+    discount: storedDiscount,
+  }).formatted;
+
+/**
+ * Wrapper rétro-compatible : classe couleur de la décote/surcote.
+ * Délègue à la source unique (`resolveDisplayedDiscount`) → couleur signal ou neutre.
+ */
+export const getDiscountQaColor = (
+  price: number | undefined | null,
+  reconstitutionValue: number | undefined | null,
+  qaStatus: DiscountQa,
+  storedDiscount?: number | null
+): string =>
+  resolveDisplayedDiscount({
+    price,
+    valeurReconstitution: reconstitutionValue,
+    discountQaStatus: qaStatus,
+    discount: storedDiscount,
+  }).colorClass;
+
+/**
  * Normalise une chaîne de caractères en supprimant les accents et en la mettant en minuscules
  * Utilisé pour la recherche insensible aux accents
  */

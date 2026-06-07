@@ -6,7 +6,7 @@ import {
   ChevronRight, ChevronLeft, Zap, Calendar, ThumbsUp, AlertTriangle, CheckCircle
 } from 'lucide-react';
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
-import { computeDisplayedDiscount } from '../utils/formatters';
+import { resolveDisplayedDiscount } from '../utils/formatters';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
@@ -811,13 +811,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <div className="bg-white rounded-lg p-6 shadow">
                     <div className="text-sm text-gray-600 mb-1">Décote/Surcote</div>
                     {(() => {
-                      // Recalcul à l'affichage : (prix affiché - VR comparable) / VR comparable × 100.
-                      const displayedDiscount = computeDisplayedDiscount(
-                        realScpiData.price,
-                        realScpiData.valeurReconstitution,
-                        realScpiData.discountQaStatus,
-                        realScpiData.discount
-                      );
+                      // Source unique : résolveur partagé (recalcul prix affiché vs VR affichée).
+                      const displayedDiscount = resolveDisplayedDiscount(realScpiData).value;
                       if (displayedDiscount == null) {
                         return <div className="text-3xl font-bold text-gray-500">À vérifier</div>;
                       }

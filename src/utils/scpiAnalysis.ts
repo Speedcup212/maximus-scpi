@@ -1,13 +1,13 @@
 import { Scpi } from '../types/scpi';
-import { computeDisplayedDiscount } from './formatters';
+import { resolveDisplayedDiscount } from './formatters';
 
 /**
- * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI (recalcul live prix/VR + garde-fou).
- * Source unique partagée par les textes d'analyse afin d'éviter toute divergence KPI / texte.
+ * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI (résolveur unique partagé).
+ * Utilisée par les textes d'analyse afin d'éviter toute divergence KPI / texte.
  * Retourne null quand la décote n'est pas fiable/comparable (→ ne pas la mentionner).
  */
 const getDisplayedDiscount = (scpi: Scpi): number | null =>
-  computeDisplayedDiscount(scpi.price, scpi.valeurReconstitution, scpi.discountQaStatus, scpi.discount);
+  resolveDisplayedDiscount(scpi).value;
 
 /**
  * Échelle de référence pour la capitalisation et la liquidité SCPI
