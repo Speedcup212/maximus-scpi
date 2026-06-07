@@ -1,13 +1,17 @@
 import { Scpi } from '../types/scpi';
-import { resolveDisplayedDiscount } from './formatters';
+import { resolveScpiIndicator } from '../indicators/resolveScpiIndicator';
 
 /**
- * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI (résolveur unique partagé).
- * Utilisée par les textes d'analyse afin d'éviter toute divergence KPI / texte.
- * Retourne null quand la décote n'est pas fiable/comparable (→ ne pas la mentionner).
+ * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI.
+ * Source UNIQUE imposée : `resolveScpiIndicator(scpi, 'decote_surcote')` — la même
+ * fonction que le KPI. Interdit tout recours direct à scpi.discount / snapshot.
+ * Retourne null quand la décote n'est pas fiable/comparable (manual_review,
+ * prix/VR non comparables) → on ne mentionne PAS la décote dans les textes.
  */
-const getDisplayedDiscount = (scpi: Scpi): number | null =>
-  resolveDisplayedDiscount(scpi).value;
+const getDisplayedDiscount = (scpi: Scpi): number | null => {
+  const resolved = resolveScpiIndicator(scpi, 'decote_surcote');
+  return typeof resolved.value === 'number' ? resolved.value : null;
+};
 
 /**
  * Échelle de référence pour la capitalisation et la liquidité SCPI

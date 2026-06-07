@@ -1,6 +1,6 @@
 # Audit global des indicateurs SCPI
 
-_Généré le 2026-06-07T19:56:56.509Z_
+_Généré le 2026-06-07T21:00:01.167Z_
 
 Toutes les valeurs proviennent du résolveur unique `resolveScpiIndicator` (registre `scpiIndicatorRegistry`).
 

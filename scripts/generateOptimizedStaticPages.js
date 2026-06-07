@@ -256,8 +256,14 @@ const generateScpiPages = () => {
     const isEuropean = isEuropeanScpi(scpi['Répartition Géographique']);
     const sector = determineSector(scpi['Répartition Sectorielle']);
 
-    const performanceLevel = scpi['Taux de distribution (%)'] >= 7 ? 'Excellent' :
-                             scpi['Taux de distribution (%)'] >= 5.5 ? 'Attractif' : 'Solide';
+    // Qualification factuelle du rendement (garde-fou marketing, cf. src/utils/yieldContext.ts).
+    // Jamais de label valorisant déconnecté de la donnée (ex. "Excellent" sur 0,54 %).
+    const tdValue = scpi['Taux de distribution (%)'];
+    const performanceLevel = !(typeof tdValue === 'number' && isFinite(tdValue)) ? 'à analyser' :
+                             tdValue < 2 ? 'faible / à analyser' :
+                             tdValue < 4 ? 'modéré' :
+                             tdValue < 6 ? 'courant' :
+                             tdValue <= 8 ? 'élevé' : 'atypique';
     const tofQuality = scpi['TOF (%)'] >= 95 ? 'Taux d\'occupation optimal' : 'Bien occupée';
     const sectorKeyword = sector === 'bureaux' ? 'Bureaux Premium' :
                          sector === 'commerces' ? 'Commerce & Retail' :
@@ -267,11 +273,11 @@ const generateScpiPages = () => {
                          sector === 'hotellerie' ? 'Hôtellerie & Tourisme' : 'Diversifié';
 
     const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2026 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
-    const metaDescription = `✓ SCPI ${scpi['Nom SCPI']} (${scpi['Société de gestion']}) : ${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% ✓ ${tofQuality} ${scpi['TOF (%)']}% ✓ Capitalisation ${scpi['Capitalisation (M€)'].toFixed(0)}M€ ✓ ${sectorKeyword}${isISR ? ' ✓ Label ISR' : ''} ✓ Prix ${scpi['Prix de souscription (€)']}€ ✓ Analyse complète & conseils expert gratuits`;
+    const metaDescription = `✓ SCPI ${scpi['Nom SCPI']} (${scpi['Société de gestion']}) : rendement ${scpi['Taux de distribution (%)']}% (${performanceLevel}) ✓ ${tofQuality} ${scpi['TOF (%)']}% ✓ Capitalisation ${scpi['Capitalisation (M€)'].toFixed(0)}M€ ✓ ${sectorKeyword}${isISR ? ' ✓ Label ISR' : ''} ✓ Prix ${scpi['Prix de souscription (€)']}€ ✓ Analyse complète & conseils expert gratuits`;
 
     // Using variant A by default (variants B and C can be used for A/B testing)
     const h1 = h1Variants.variant_a(scpi);
-    const subtitle = `${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% avec ${scpi['Société de gestion']} | ${sectorKeyword}`;
+    const subtitle = `Rendement ${scpi['Taux de distribution (%)']}% (${performanceLevel}) avec ${scpi['Société de gestion']} | ${sectorKeyword}`;
 
     const htmlContent = `<!doctype html>
 <html lang="fr" translate="no">

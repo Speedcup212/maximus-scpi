@@ -1,0 +1,4927 @@
+{
+  "generatedAt": "2026-06-07T21:00:06.299Z",
+  "counts": {
+    "total": 63,
+    "ok": 61,
+    "warning": 2,
+    "critical": 0,
+    "editorial": 51,
+    "generated": 12
+  },
+  "audits": [
+    {
+      "name": "Activimmo",
+      "slug": "activimmo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Activimmo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Alderan"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.5% · capi 1400000000 · prix 610€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "9 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.5%."
+        }
+      ]
+    },
+    {
+      "name": "Aestiam Cap'Hebergimmo",
+      "slug": "aestiam-cap-hebergimmo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Aestiam Cap'Hebergimmo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Aestiam"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 3.18% · capi 82000000 · prix 252€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement modéré\" cohérent avec TD 3.18%."
+        }
+      ]
+    },
+    {
+      "name": "Aestiam Pierre Rendement",
+      "slug": "aestiam-pierre-rendement",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Aestiam Pierre Rendement"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Aestiam"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.49% · capi 401000000 · prix 922€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.49%."
+        }
+      ]
+    },
+    {
+      "name": "Aestiam Horizon",
+      "slug": "aestiam-horizon",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Aestiam Horizon"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Aestiam"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.1% · capi 380000000 · prix 350€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.1%."
+        }
+      ]
+    },
+    {
+      "name": "Altixia Cadence 12",
+      "slug": "altixia-cadence-12",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Altixia Cadence 12"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: ALTIXIA REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.15% · capi 190360000 · prix 200€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.15%."
+        }
+      ]
+    },
+    {
+      "name": "Altixia Commerces",
+      "slug": "altixia-commerces",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Altixia Commerces"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: ALTIXIA REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5% · capi 107080000 · prix 203€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5%."
+        }
+      ]
+    },
+    {
+      "name": "Atream Hotel",
+      "slug": "atream-hotel",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Atream Hotel"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Atream"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.05% · capi 325990000 · prix 1000€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.05%."
+        }
+      ]
+    },
+    {
+      "name": "Buroboutic Métropoles",
+      "slug": "buroboutic-metropoles",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Buroboutic Métropoles"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: FIDUCIAL Gérance"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.1% · capi 316000000 · prix 77€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.1%."
+        }
+      ]
+    },
+    {
+      "name": "Coeur d'Europe",
+      "slug": "coeur-d-europe",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Coeur d'Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Sogenial Immobilier"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.25% · capi 256200000 · prix 204€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.25%."
+        }
+      ]
+    },
+    {
+      "name": "Coeur de Région",
+      "slug": "coeur-de-region",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Coeur de Région"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Sogenial Immobilier"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.2% · capi 435630000 · prix 664€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.2%."
+        }
+      ]
+    },
+    {
+      "name": "Coeur de ville",
+      "slug": "coeur-de-ville",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Coeur de ville"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Sogenial Immobilier"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.2% · capi 28840000 · prix 210€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.2%."
+        }
+      ]
+    },
+    {
+      "name": "Comète",
+      "slug": "comete",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Comète"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Alderan"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 9% · capi 652000000 · prix 250€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "7 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "7 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement atypique à contextualiser\" cohérent avec TD 9%."
+        }
+      ]
+    },
+    {
+      "name": "Crédit Mutuel Pierre 1",
+      "slug": "credit-mutuel-pierre-1",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Crédit Mutuel Pierre 1"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.49% · capi 800350000 · prix 215€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.49%."
+        }
+      ]
+    },
+    {
+      "name": "Cristal Life",
+      "slug": "cristal-life",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Cristal Life"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Inter Gestion REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.54% · capi 387430000 · prix 208€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.54%."
+        }
+      ]
+    },
+    {
+      "name": "Edissimo",
+      "slug": "edissimo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Edissimo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Amundi Immobilier"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 3.63% · capi 3030000000 · prix 172€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement modéré\" cohérent avec TD 3.63%."
+        }
+      ]
+    },
+    {
+      "name": "Efimmo 1",
+      "slug": "efimmo-1",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Efimmo 1"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Sofidy"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.44% · capi 1741000000 · prix 212€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.44%."
+        }
+      ]
+    },
+    {
+      "name": "Épargne Foncière",
+      "slug": "epargne-fonciere",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Épargne Foncière"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.86% · capi 4142670000 · prix 670€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "7 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.86%."
+        }
+      ]
+    },
+    {
+      "name": "Épargne Pierre",
+      "slug": "epargne-pierre",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Épargne Pierre"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Atland Voisin"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.28% · capi 2811000000 · prix 208€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.28%."
+        }
+      ]
+    },
+    {
+      "name": "Épargne Pierre Europe",
+      "slug": "epargne-pierre-europe",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Épargne Pierre Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Atland Voisin"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.75% · capi 635000000 · prix 200€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.75%."
+        }
+      ]
+    },
+    {
+      "name": "ESG Pierre Capital",
+      "slug": "esg-pierre-capital",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: ESG Pierre Capital"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Swiss Life AM France"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.22% · capi 116910000 · prix 188€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.22%."
+        }
+      ]
+    },
+    {
+      "name": "Ficommerce Proximité",
+      "slug": "ficommerce-proximite",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Ficommerce Proximité"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: FIDUCIAL Gérance"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.1% · capi 596000000 · prix 70€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.1%."
+        }
+      ]
+    },
+    {
+      "name": "Foncière des Praticiens",
+      "slug": "fonciere-des-praticiens",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Foncière des Praticiens"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: MAGELLIM REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.5% · capi 173000000 · prix 1100€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.5%."
+        }
+      ]
+    },
+    {
+      "name": "GMA Essentialis",
+      "slug": "gma-essentialis",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: GMA Essentialis"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: GREENMAN ARTH"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4% · capi 44550000 · prix 206€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4%."
+        }
+      ]
+    },
+    {
+      "name": "Grand Paris Résidentiel",
+      "slug": "grand-paris-residentiel",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Grand Paris Résidentiel"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Inter Gestion REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 0% · capi 12040000 · prix 200€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement faible / à analyser\" cohérent avec TD 0%."
+        }
+      ]
+    },
+    {
+      "name": "Immorente",
+      "slug": "immorente",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Immorente"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: SOFIDY"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5% · capi 4391000000 · prix 340€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "9 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5%."
+        }
+      ]
+    },
+    {
+      "name": "Iroko Zen",
+      "slug": "iroko-zen",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Iroko Zen"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Iroko"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 7.12% · capi 1499000000 · prix 204€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "6 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "6 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 7.12%."
+        }
+      ]
+    },
+    {
+      "name": "Kyaneos Pierre",
+      "slug": "kyaneos-pierre",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Kyaneos Pierre"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: KYANEOS ASSET MANAGEMENT"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.35% · capi 445000000 · prix 224€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "1 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.35%."
+        }
+      ]
+    },
+    {
+      "name": "LF Avenir Santé",
+      "slug": "lf-avenir-sante",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: LF Avenir Santé"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.08% · capi 273430000 · prix 300€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.08%."
+        }
+      ]
+    },
+    {
+      "name": "LF Europimmo",
+      "slug": "lf-europimmo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: LF Europimmo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.63% · capi 812910000 · prix 725€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.63%."
+        }
+      ]
+    },
+    {
+      "name": "LF Grand Paris Patrimoine",
+      "slug": "lf-grand-paris-patrimoine",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: LF Grand Paris Patrimoine"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.66% · capi 1069859999.9999999 · prix 218€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.66%."
+        }
+      ]
+    },
+    {
+      "name": "Log In",
+      "slug": "log-in",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Log In"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: THEOREIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.21% · capi 240810000 · prix 255€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.21%."
+        }
+      ]
+    },
+    {
+      "name": "NCap Education Santé",
+      "slug": "ncap-education-sante",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: NCap Education Santé"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Norma Capital"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.52% · capi 116700000 · prix 202€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.52%."
+        }
+      ]
+    },
+    {
+      "name": "NCap Régions",
+      "slug": "ncap-regions",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: NCap Régions"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Norma Capital"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.72% · capi 1097100000 · prix 682€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.72%."
+        }
+      ]
+    },
+    {
+      "name": "Novapierre 1",
+      "slug": "novapierre-1",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Novapierre 1"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PAREF GESTION"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5% · capi 172100000 · prix 442€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "7 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5%."
+        }
+      ]
+    },
+    {
+      "name": "Novapierre Résidentiel",
+      "slug": "novapierre-residentiel",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Novapierre Résidentiel"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PAREF GESTION"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 1.2% · capi 347900000 · prix 1664€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "1 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "5 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement faible / à analyser\" cohérent avec TD 1.2%."
+        }
+      ]
+    },
+    {
+      "name": "Novaxia NEO",
+      "slug": "novaxia-neo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Novaxia NEO"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Novaxia Investissement"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.5% · capi 427900000 · prix 176.68€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.5%."
+        }
+      ]
+    },
+    {
+      "name": "Opportunité Immo",
+      "slug": "opportunite-immo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Opportunité Immo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.68% · capi 313015444000000 · prix 203€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.68%."
+        }
+      ]
+    },
+    {
+      "name": "Optimale",
+      "slug": "optimale",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Optimale"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: CONSULTIM Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.5% · capi 92000000 · prix 255€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "1 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.5%."
+        }
+      ]
+    },
+    {
+      "name": "Paref Evo",
+      "slug": "paref-evo",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Paref Evo"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PAREF GESTION"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.72% · capi 49300000 · prix 250€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "1 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.72%."
+        }
+      ]
+    },
+    {
+      "name": "Paref Hexa",
+      "slug": "paref-hexa",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Paref Hexa"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PAREF GESTION"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6% · capi 201100000 · prix 172€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6%."
+        }
+      ]
+    },
+    {
+      "name": "Patrimmo Croissance Impact",
+      "slug": "patrimmo-croissance-impact",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Patrimmo Croissance Impact"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Præmia REIM France"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 0% · capi 189700000 · prix 677€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "1 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement faible / à analyser\" cohérent avec TD 0%."
+        }
+      ]
+    },
+    {
+      "name": "Perial Grand Paris",
+      "slug": "perial-grand-paris",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Perial Grand Paris"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PERIAL Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.8% · capi 1051869999.9999999 · prix 458€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.8%."
+        }
+      ]
+    },
+    {
+      "name": "Perial Hospitalité Europe",
+      "slug": "perial-hospitalite-europe",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Perial Hospitalité Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PERIAL Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.11% · capi 333040000 · prix 181€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.11%."
+        }
+      ]
+    },
+    {
+      "name": "Perial O2",
+      "slug": "perial-o2",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Périal O2"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PERIAL Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.65% · capi 2401590000 · prix 164€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "5 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.65%."
+        }
+      ]
+    },
+    {
+      "name": "Perial Opportunités Europe",
+      "slug": "perial-opportunites-europe",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Perial Opportunités Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: PERIAL Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.1% · capi 790460000 · prix 44€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "6 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.1%."
+        }
+      ]
+    },
+    {
+      "name": "Remake Live",
+      "slug": "remake-live",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Remake Live"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Remake Asset Management"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 7.05% · capi 882000000 · prix 204€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "8 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "7 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 7.05%."
+        }
+      ]
+    },
+    {
+      "name": "Selectinvest 1",
+      "slug": "selectinvest-1",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Selectinvest 1"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: La Française REM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.44% · capi 1241940000 · prix 530€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.44%."
+        }
+      ]
+    },
+    {
+      "name": "Selectipierre 2",
+      "slug": "selectipierre-2",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Selectipierre 2"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: FIDUCIAL Gérance"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.14% · capi 466500000 · prix 773€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.14%."
+        }
+      ]
+    },
+    {
+      "name": "Sofiprime",
+      "slug": "sofiprime",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Sofiprime"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Sofidy"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 0.54% · capi 44900000 · prix 280€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "2 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "4 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement faible / à analyser\" cohérent avec TD 0.54%."
+        }
+      ]
+    },
+    {
+      "name": "Transitions Europe",
+      "slug": "transitions-europe",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Transitions Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Arkéa REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 7.6% · capi 1250000000 · prix 202€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "6 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 7.6%."
+        }
+      ]
+    },
+    {
+      "name": "Urban Coeur de Commerce",
+      "slug": "urban-coeur-de-commerce",
+      "isEditorial": true,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Urban Coeur de Commerce"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Urban Premium"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5.3% · capi 92360000 · prix 303€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "2 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "On aime / Points de vigilance présents."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5.3%."
+        }
+      ]
+    },
+    {
+      "name": "NCap Continent",
+      "slug": "ncap-continent",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: NCap Continent"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Norma Capital"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 7.1% · capi 71500000 · prix 210€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "3 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=7.1"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 7.1%."
+        }
+      ]
+    },
+    {
+      "name": "Wemo One",
+      "slug": "wemo-one",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Wemo One"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Wemo REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 15.27% · capi 121900000 · prix 210€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=15.27"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "3 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement atypique à contextualiser\" cohérent avec TD 15.27%."
+        }
+      ]
+    },
+    {
+      "name": "Iroko Atlas",
+      "slug": "iroko-atlas",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Iroko Atlas"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Iroko"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 0% · capi 120000000 · prix 200€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "6 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=0"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement faible / à analyser\" cohérent avec TD 0%."
+        }
+      ]
+    },
+    {
+      "name": "Epsicap Nano",
+      "slug": "epsicap-nano",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Epsicap Nano"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Epsicap"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.08% · capi 202000000 · prix 257€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "4 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "6 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=6.08"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.08%."
+        }
+      ]
+    },
+    {
+      "name": "Alta Convictions",
+      "slug": "alta-convictions",
+      "isEditorial": false,
+      "status": "WARNING",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Alta Convictions"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Altarea Investment Managers"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 6.57% · capi 121000000 · prix 308€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "7 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "WARNING",
+          "detail": "Vide → fallback \"Donnée à vérifier\" affiché."
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=6.57"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "WARNING",
+          "detail": "0 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement élevé\" cohérent avec TD 6.57%."
+        }
+      ]
+    },
+    {
+      "name": "Cristal Rente",
+      "slug": "cristal-rente",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Cristal Rente"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Inter Gestion REIM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 5% · capi 682950000 · prix 255.68€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "5 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 5%."
+        }
+      ]
+    },
+    {
+      "name": "Rivoli Avenir Patrimoine",
+      "slug": "rivoli-avenir-patrimoine",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Rivoli Avenir Patrimoine"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Amundi Immobilier"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 3.46% · capi 2927000000 · prix 228€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "10 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "5 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=3.46"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement modéré\" cohérent avec TD 3.46%."
+        }
+      ]
+    },
+    {
+      "name": "Primovie",
+      "slug": "primovie",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Primovie"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Praemia REIM France"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.04% · capi 4200000 · prix 164€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "8 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=4.04"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.04%."
+        }
+      ]
+    },
+    {
+      "name": "Praemia Hôtels Europe",
+      "slug": "praemia-hotels-europe",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Praemia Hôtels Europe"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Praemia REIM France"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 3.9% · capi 252500000 · prix 204€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "8 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=3.9"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement modéré\" cohérent avec TD 3.9%."
+        }
+      ]
+    },
+    {
+      "name": "Pierval Santé",
+      "slug": "pierval-sante",
+      "isEditorial": false,
+      "status": "WARNING",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Pierval Santé"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Euryale AM"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.39% · capi 3300000000 · prix 204€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "WARNING",
+          "detail": "Vide → fallback \"Donnée à vérifier\" affiché."
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=4.39"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.39%."
+        }
+      ]
+    },
+    {
+      "name": "Patrimmo Commerce",
+      "slug": "patrimmo-commerce",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Patrimmo Commerce"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Praemia REIM France"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 3.38% · capi 613700000 · prix 160€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "7 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "3 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=3.38"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "1 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement modéré\" cohérent avec TD 3.38%."
+        }
+      ]
+    },
+    {
+      "name": "Aestiam Agora",
+      "slug": "aestiam-agora",
+      "isEditorial": false,
+      "status": "OK",
+      "checks": [
+        {
+          "block": "hero",
+          "severity": "OK",
+          "detail": "Nom: Aestiam Agora"
+        },
+        {
+          "block": "hero.societe",
+          "severity": "OK",
+          "detail": "Société de gestion: Aestiam"
+        },
+        {
+          "block": "hero.stats",
+          "severity": "OK",
+          "detail": "TD 4.5% · capi 468000000 · prix 922€"
+        },
+        {
+          "block": "onglets",
+          "severity": "OK",
+          "detail": "Performance & Historique / Frais & Conditions (rendus avec données live)."
+        },
+        {
+          "block": "chiffres-cles",
+          "severity": "OK",
+          "detail": "TD, TOF, capi, endettement, décote, année — alimentés."
+        },
+        {
+          "block": "formulaire-cta",
+          "severity": "OK",
+          "detail": "Formulaire analyse personnalisée présent (structurel)."
+        },
+        {
+          "block": "graphique-geo",
+          "severity": "OK",
+          "detail": "8 zones"
+        },
+        {
+          "block": "graphique-secteur",
+          "severity": "OK",
+          "detail": "4 secteurs"
+        },
+        {
+          "block": "simulateur",
+          "severity": "OK",
+          "detail": "defaultYield=4.5"
+        },
+        {
+          "block": "verdict",
+          "severity": "OK",
+          "detail": "Fiche générée → bloc Verdict masqué (décision validée)."
+        },
+        {
+          "block": "points-vigilance",
+          "severity": "OK",
+          "detail": "2 point(s)."
+        },
+        {
+          "block": "avertissement-risques",
+          "severity": "OK",
+          "detail": "Bloc avertissement (perte capital, liquidité, durée) présent (structurel)."
+        },
+        {
+          "block": "rdv-telephonique",
+          "severity": "OK",
+          "detail": "Bloc RDV conseiller Calendly présent (structurel)."
+        },
+        {
+          "block": "label-marketing",
+          "severity": "OK",
+          "detail": "Label \"Rendement courant\" cohérent avec TD 4.5%."
+        }
+      ]
+    }
+  ]
+}

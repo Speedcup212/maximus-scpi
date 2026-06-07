@@ -5,8 +5,11 @@ import {
   Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck,
   ChevronRight, ChevronLeft, Zap, Calendar, ThumbsUp, AlertTriangle, CheckCircle
 } from 'lucide-react';
-import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
+import { ScpiLandingData } from '../data/landingPagesData';
 import { resolveDisplayedDiscount } from '../utils/formatters';
+import { buildScpiLandingData } from '../utils/buildScpiLandingData';
+import { qualifyYield } from '../utils/yieldContext';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
@@ -51,9 +54,9 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   isDarkMode = false,
   toggleTheme = () => {}
 }) => {
-  const landingData: ScpiLandingData = scpiLandingPages[scpiKey];
+  const built = buildScpiLandingData(scpiKey);
 
-  if (!landingData) {
+  if (!built) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-red-600">SCPI non trouvée</p>
@@ -61,14 +64,20 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     );
   }
 
-  // Récupérer les vraies données de la SCPI depuis scpiData
+  const landingData: ScpiLandingData = built.data;
+  const isEditorial = built.isEditorial;
+
+  // Récupérer les vraies données de la SCPI depuis scpiData.
+  // Comparaison par slug (insensible aux accents/espaces) pour éviter les
+  // décalages de nommage (ex. "Périal O2" éditorial vs "Perial O2" data).
+  const landingSlug = createSlugFromName(landingData.nom);
   const realScpiData = scpiData.find(
-    scpi => scpi.name.toLowerCase() === landingData.nom.toLowerCase()
+    scpi => createSlugFromName(scpi.name) === landingSlug
   );
 
   // Récupérer l'endettement depuis le JSON complet
   const completeData = scpiCompleteJson.Sheet1.find(
-    (scpi: any) => scpi['Nom SCPI'].toLowerCase() === landingData.nom.toLowerCase()
+    (scpi: any) => createSlugFromName(scpi['Nom SCPI']) === landingSlug
   );
   const endettement = completeData ? completeData['Endettement (%)'] : null;
 
@@ -320,11 +329,16 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     }
   };
 
+  // Qualification factuelle du rendement (garde-fou marketing) : jamais de
+  // « Performance exceptionnelle » sur un rendement faible.
+  const heroYieldValue = realScpiData ? realScpiData.yield : parseFloat(String(landingData.rendement).replace(',', '.'));
+  const yieldQualif = qualifyYield(heroYieldValue);
+
   const getBadgeText = () => {
     if (landingData.frais_souscription === "0%") {
       return "0% de frais d'entrée - Votre capital investi à 100%";
     }
-    return `${landingData.rendement} de rendement - Performance exceptionnelle`;
+    return `${landingData.rendement} de rendement - ${yieldQualif.label}`;
   };
 
   const formatCurrency = (amount: number): string => {
@@ -439,7 +453,9 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     };
   };
 
-  const verdict = getExpertVerdict();
+  // Verdict éditorial uniquement : pour les fiches générées (SCPI sans contenu
+  // rédigé), on masque le bloc afin de ne jamais publier d'argument non sourcé.
+  const verdict = isEditorial ? getExpertVerdict() : null;
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-${colors.secondary}-50 via-white to-${colors.accent}-50`}>
@@ -474,9 +490,16 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                     {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} de rendement
                   </span>
                   <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
-                    {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : "Performance exceptionnelle"}
+                    {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : yieldQualif.label}
                   </span>
                 </h1>
+
+                {yieldQualif.alert && (
+                  <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 px-4 py-2 rounded-lg text-sm text-yellow-100">
+                    <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                    {yieldQualif.alert}
+                  </div>
+                )}
 
                 <p className={`text-xl sm:text-2xl text-${colors.secondary}-50 leading-relaxed`}>
                   {landingData.description_courte}
@@ -690,6 +713,12 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Répartition géographique</h3>
               </div>
+              {Object.keys(landingData.geographie).length === 0 ? (
+                <div className="flex items-center justify-center h-[300px] text-gray-500 text-center px-4">
+                  Donnée à vérifier — répartition géographique non disponible pour cette SCPI.
+                </div>
+              ) : (
+              <>
               <div className="flex justify-center">
                 <PieChart
                   data={Object.entries(landingData.geographie).map(([pays, pct], index) => ({
@@ -720,6 +749,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   </div>
                 ))}
               </div>
+              </>
+              )}
             </div>
 
             <div className={`bg-gradient-to-br from-${colors.accent}-50 to-${colors.secondary}-50 rounded-xl p-8 border-2 border-${colors.accent}-200`}>
@@ -729,6 +760,12 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900">Répartition sectorielle</h3>
               </div>
+              {Object.keys(landingData.secteurs).length === 0 ? (
+                <div className="flex items-center justify-center h-[300px] text-gray-500 text-center px-4">
+                  Donnée à vérifier — répartition sectorielle non disponible pour cette SCPI.
+                </div>
+              ) : (
+              <>
               <div className="flex justify-center">
                 <PieChart
                   data={Object.entries(landingData.secteurs).map(([secteur, pct], index) => ({
@@ -759,6 +796,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   </div>
                 ))}
               </div>
+              </>
+              )}
             </div>
           </div>
 
@@ -899,7 +938,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       )}
 
-      {/* Bloc Verdict de l'Expert */}
+      {/* Bloc Verdict de l'Expert — éditorial uniquement */}
+      {verdict && (
       <div className="bg-white py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
@@ -959,6 +999,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
       </div>
+      )}
 
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
