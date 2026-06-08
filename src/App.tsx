@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+﻿import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Building, TrendingUp, PieChart, MapPin, Calendar,
   Download, User, Target, Award, Phone,
@@ -2427,7 +2427,7 @@ const App: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-900">
         <SEOHead
-          title="Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)"
+          title="Comparateur SCPI 2026 : Comparez 63 SCPI (Rendement, Frais, Secteur)"
           description="Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS."
           keywords={['comparateur SCPI', 'comparatif SCPI', 'comparer SCPI', 'meilleure SCPI 2026', 'rendement SCPI']}
           canonical="https://maximusscpi.com/comparateur-scpi/"
@@ -2584,7 +2584,7 @@ const App: React.FC = () => {
     );
   }
 
-  // Render Static SCPI Page (toutes les 51 SCPI automatiquement)
+  // Render Static SCPI Page (toutes les 63 SCPI automatiquement)
   if (currentView === 'scpi-static' && selectedScpiKey) {
     return (
       <>
