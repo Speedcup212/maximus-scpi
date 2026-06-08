@@ -199,27 +199,43 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
     setLocked(false)
   }
 
-  const optionButtonClass =
-    'w-full text-left px-5 py-4 rounded-xl border border-slate-700 bg-slate-800/60 text-slate-100 font-medium transition-all duration-300 ease-in-out hover:border-[#00C896] hover:bg-slate-800 hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-[#00C896]'
+  const optionButtonClass = (selected: boolean) =>
+    [
+      'group w-full text-left px-4 py-3.5 rounded-xl border text-slate-100 font-medium',
+      'transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400/40',
+      'flex items-center justify-between gap-3',
+      selected
+        ? 'border-emerald-400/60 bg-emerald-400/15'
+        : 'border-slate-700/70 bg-slate-800/40 hover:border-emerald-400/60 hover:bg-emerald-400/10',
+    ].join(' ')
 
   const renderProgress = () => (
-    <div className="mb-8">
+    <div className="mb-7">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-slate-300">
+        <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
           Étape {Math.min(step + 1, TOTAL_STEPS)} sur {TOTAL_STEPS}
         </span>
-        <span className="text-sm font-semibold" style={{ color: '#00C896' }}>
-          {Math.round(((step) / TOTAL_STEPS) * 100)}%
+        <span className="text-xs font-bold" style={{ color: '#00C896' }}>
+          {Math.round((step / TOTAL_STEPS) * 100)}%
         </span>
       </div>
-      <div className="h-2 w-full rounded-full bg-slate-700 overflow-hidden">
+      <div className="h-2.5 w-full rounded-full bg-slate-800 overflow-hidden ring-1 ring-inset ring-slate-700/60">
         <div
           className="h-full rounded-full transition-all duration-300 ease-in-out"
           style={{
             width: `${(step / TOTAL_STEPS) * 100}%`,
-            backgroundColor: '#00C896',
+            background: 'linear-gradient(90deg, #0056b3 0%, #00C896 100%)',
           }}
         />
+      </div>
+      <div className="mt-2 flex gap-1.5">
+        {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+          <span
+            key={i}
+            className="h-1 flex-1 rounded-full transition-colors duration-300"
+            style={{ backgroundColor: i <= step ? '#00C896' : 'rgba(148,163,184,0.25)' }}
+          />
+        ))}
       </div>
     </div>
   )
@@ -227,21 +243,28 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
   const renderQuestion = (
     title: ReactNode,
     options: { value: string; label: string }[],
-    onSelect: (value: string) => void
+    onSelect: (value: string) => void,
+    selectedValue?: string
   ) => (
     <div className="transition-all duration-300 ease-in-out">
-      <h3 className="text-xl sm:text-2xl font-semibold text-white mb-6">
+      <h3 className="text-lg sm:text-xl font-semibold text-white mb-5">
         {title}
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {options.map((opt) => (
           <button
             key={opt.value}
             type="button"
             onClick={() => onSelect(opt.value)}
-            className={optionButtonClass}
+            className={optionButtonClass(selectedValue === opt.value)}
           >
-            {opt.label}
+            <span>{opt.label}</span>
+            <span
+              className={`h-2 w-2 rounded-full transition-opacity ${
+                selectedValue === opt.value ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'
+              }`}
+              style={{ backgroundColor: '#00C896' }}
+            />
           </button>
         ))}
       </div>
@@ -258,83 +281,106 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
       : null
 
   return (
-    <section
+    <div
       id="quiz-section"
-      className="py-16 sm:py-20"
-      style={{ backgroundColor: '#0D1117' }}
+      className="scroll-mt-28 rounded-3xl border border-emerald-400/20 bg-slate-900/80 p-5 sm:p-7 shadow-2xl shadow-emerald-500/10 backdrop-blur-xl"
     >
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-slate-700/70 bg-slate-900/60 p-6 sm:p-10 shadow-2xl">
-          {step < TOTAL_STEPS && renderProgress()}
+      {/* Barre supérieure type module SaaS */}
+      <div className="mb-5 flex items-center justify-between border-b border-slate-700/60 pb-4">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" style={{ backgroundColor: '#00C896' }} />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full" style={{ backgroundColor: '#00C896' }} />
+          </span>
+          <span className="text-sm font-semibold text-slate-200">
+            Simulation pédagogique
+          </span>
+        </div>
+        <span className="rounded-full border border-slate-700/70 bg-slate-800/60 px-2.5 py-1 text-xs font-medium text-slate-300">
+          4 questions
+        </span>
+      </div>
 
-          {/* Bouton Précédent — disponible à partir de Q2 */}
-          {step > 0 && step < TOTAL_STEPS && (
+      <div>
+        {step < TOTAL_STEPS && renderProgress()}
+
+        {/* Bouton Précédent — disponible à partir de Q2 */}
+        {step > 0 && step < TOTAL_STEPS && (
+          <button
+            type="button"
+            onClick={goBack}
+            className="mb-4 text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors"
+          >
+            ← Précédent
+          </button>
+        )}
+
+        {/* Q1 — Montant */}
+        {step === 0 &&
+          renderQuestion(
+            'Quel montant souhaitez-vous investir ?',
+            MONTANT_OPTIONS,
+            (v) => selectAnswer('montant', v as Montant),
+            data.montant
+          )}
+
+        {/* Q2 — TMI */}
+        {step === 1 && (
+          <div className="transition-all duration-300 ease-in-out">
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+              Quelle est votre tranche marginale d'imposition ?
+            </h3>
             <button
               type="button"
-              onClick={goBack}
-              className="mb-4 text-sm font-medium text-slate-400 hover:text-slate-200 transition-colors"
+              onClick={() => setShowTmiTooltip((v) => !v)}
+              className="text-sm underline text-slate-400 hover:text-slate-200 transition-colors mb-3"
             >
-              ← Précédent
+              (Comment la trouver ?)
             </button>
-          )}
-
-          {/* Q1 — Montant */}
-          {step === 0 &&
-            renderQuestion(
-              'Quel montant souhaitez-vous investir ?',
-              MONTANT_OPTIONS,
-              (v) => selectAnswer('montant', v as Montant)
+            {showTmiTooltip && (
+              <p className="mb-4 rounded-lg border border-slate-700/70 bg-slate-800/80 px-4 py-3 text-sm text-slate-300 transition-all duration-300 ease-in-out">
+                Consultez votre dernier avis d'imposition, rubrique Taux
+                marginal d'imposition.
+              </p>
             )}
-
-          {/* Q2 — TMI */}
-          {step === 1 && (
-            <div className="transition-all duration-300 ease-in-out">
-              <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
-                Quelle est votre tranche marginale d'imposition ?
-              </h3>
-              <button
-                type="button"
-                onClick={() => setShowTmiTooltip((v) => !v)}
-                className="text-sm underline text-slate-400 hover:text-slate-200 transition-colors mb-3"
-              >
-                (Comment la trouver ?)
-              </button>
-              {showTmiTooltip && (
-                <p className="mb-4 rounded-lg border border-slate-700 bg-slate-800/80 px-4 py-3 text-sm text-slate-300 transition-all duration-300 ease-in-out">
-                  Consultez votre dernier avis d'imposition, rubrique Taux
-                  marginal d'imposition.
-                </p>
-              )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {TMI_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => selectAnswer('tmi', opt.value)}
-                    className={optionButtonClass}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {TMI_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => selectAnswer('tmi', opt.value)}
+                  className={optionButtonClass(data.tmi === opt.value)}
+                >
+                  <span>{opt.label}</span>
+                  <span
+                    className={`h-2 w-2 rounded-full transition-opacity ${
+                      data.tmi === opt.value ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    style={{ backgroundColor: '#00C896' }}
+                  />
+                </button>
+              ))}
             </div>
+          </div>
+        )}
+
+        {/* Q3 — Horizon */}
+        {step === 2 &&
+          renderQuestion(
+            "Quel est votre horizon d'investissement ?",
+            HORIZON_OPTIONS,
+            (v) => selectAnswer('horizon', v as Horizon),
+            data.horizon
           )}
 
-          {/* Q3 — Horizon */}
-          {step === 2 &&
-            renderQuestion(
-              "Quel est votre horizon d'investissement ?",
-              HORIZON_OPTIONS,
-              (v) => selectAnswer('horizon', v as Horizon)
-            )}
-
-          {/* Q4 — Objectif */}
-          {step === 3 &&
-            renderQuestion(
-              'Quel est votre objectif principal ?',
-              OBJECTIF_OPTIONS,
-              (v) => selectAnswer('objectif', v as Objectif)
-            )}
+        {/* Q4 — Objectif */}
+        {step === 3 &&
+          renderQuestion(
+            'Quel est votre objectif principal ?',
+            OBJECTIF_OPTIONS,
+            (v) => selectAnswer('objectif', v as Objectif),
+            data.objectif
+          )}
 
           {/* Écran résultat */}
           {result && (
@@ -405,8 +451,7 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
               </div>
             </div>
           )}
-        </div>
       </div>
-    </section>
+    </div>
   )
 }

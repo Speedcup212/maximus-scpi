@@ -2946,68 +2946,91 @@ const App: React.FC = () => {
             </Suspense>
           </div>
         ) : (
-          <section className="py-16 sm:py-24" style={{ backgroundColor: '#0D1117' }}>
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h1 className="text-3xl sm:text-5xl font-bold text-pink-400 leading-tight">
-                Trouvez les SCPI adaptées à votre profil fiscal en 2 minutes
-              </h1>
-              <p className="mt-4 text-base sm:text-lg text-slate-300">
-                Outil indépendant • CGP certifié AMF • Aucune commission cachée
-              </p>
+          <section className="relative overflow-hidden" style={{ backgroundColor: '#0D1117' }}>
+            {/* Gradients radiaux subtils : vert, bleu, rose */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(55% 50% at 12% 8%, rgba(0,200,150,0.14) 0%, transparent 60%), radial-gradient(50% 50% at 92% 18%, rgba(0,86,179,0.20) 0%, transparent 60%), radial-gradient(45% 45% at 75% 95%, rgba(244,114,182,0.10) 0%, transparent 60%)',
+              }}
+            />
 
-              <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4">
-                <button
-                  type="button"
-                  onClick={() =>
-                    window.document
-                      .getElementById('quiz-section')
-                      ?.scrollIntoView({ behavior: 'smooth' })
-                  }
-                  className="px-7 py-4 rounded-xl font-semibold text-[#0D1117] transition-all duration-300 ease-in-out hover:opacity-90"
-                  style={{ backgroundColor: '#00C896' }}
-                >
-                  Démarrer mon analyse gratuite
-                </button>
-                <a
-                  href="/comparateur-scpi"
-                  className="text-sm underline text-slate-300 hover:text-white transition-colors"
-                >
-                  Accéder directement au comparateur →
-                </a>
-              </div>
-
-              {/* Bande de réassurance */}
-              <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3 sm:gap-6 text-sm text-slate-300">
-                {[
-                  'Indépendant de toute société de gestion',
-                  'Données objectives sur 63 SCPI',
-                  'Accompagnement CGP certifié AMF inclus',
-                ].map((item) => (
-                  <span key={item} className="inline-flex items-center gap-2 justify-center">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#00C896"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                      className="shrink-0"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    {item}
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+                {/* Colonne gauche — discours */}
+                <div>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold tracking-wide text-emerald-300">
+                    Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
-                ))}
+
+                  <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
+                    Une première lecture claire de votre projet SCPI
+                  </h1>
+
+                  <p className="mt-5 text-base sm:text-lg text-slate-300 max-w-xl">
+                    En 2 minutes, identifiez les grandes familles de SCPI à
+                    étudier selon votre montant, votre fiscalité et votre horizon
+                    d'investissement.
+                  </p>
+
+                  <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        window.document
+                          .getElementById('quiz-section')
+                          ?.scrollIntoView({ behavior: 'smooth' })
+                      }
+                      className="px-7 py-4 rounded-xl font-semibold text-[#0D1117] shadow-2xl shadow-emerald-500/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
+                      style={{ backgroundColor: '#00C896' }}
+                    >
+                      Démarrer l'analyse
+                    </button>
+                    <a
+                      href="/comparateur-scpi"
+                      className="px-6 py-4 rounded-xl font-semibold text-slate-200 border border-slate-700/70 bg-slate-900/40 backdrop-blur-sm text-center transition-all duration-200 hover:border-emerald-400/50 hover:text-white"
+                    >
+                      Voir le comparateur complet
+                    </a>
+                  </div>
+
+                  {/* 3 micro-bullets */}
+                  <ul className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-x-6 sm:gap-y-2 text-sm text-slate-300">
+                    {[
+                      'Pré-orientation pédagogique',
+                      'Comparateur 63 SCPI',
+                      'Accompagnement CGP-CIF',
+                    ].map((item) => (
+                      <li key={item} className="inline-flex items-center gap-2">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#00C896"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                          className="shrink-0"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Colonne droite — module quiz */}
+                <div className="lg:pl-2">
+                  <InvestorQuiz onComplete={handleLeadCapture} />
+                </div>
               </div>
             </div>
           </section>
         )}
-
-        {/* Section 2 — Quiz court de pré-orientation SCPI */}
-        <InvestorQuiz onComplete={handleLeadCapture} />
 
         {/* Section 3 — Preuve sociale */}
         <PreuveSociale />

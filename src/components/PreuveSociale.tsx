@@ -1,66 +1,56 @@
 // MaximusSCPI — PreuveSociale — refonte homepage
 
-const METRIQUES = [
-  // TODO: remplacer par les vraies valeurs
-  { chiffre: '247', label: 'investisseurs accompagnés' },
-  { chiffre: '12 M€', label: 'de SCPI analysées' },
-  { chiffre: '4.9/5', label: 'sur Google (38 avis)' },
-]
+import { Database, Scale, Users } from 'lucide-react'
 
-const VERBATIMS = [
-  // TODO: remplacer par de vrais verbatims clients
+const CARTES = [
   {
-    citation:
-      "J'ai enfin compris pourquoi certaines SCPI étaient à éviter selon ma situation fiscale.",
-    auteur: 'Sophie M., Lyon',
+    Icon: Database,
+    titre: 'Données structurées',
+    texte:
+      'Rendements, frais, TOF, zones géographiques et indicateurs clés regroupés pour comparer plus vite.',
   },
   {
-    citation:
-      'Le RDV a duré 45 minutes, concret et sans pression commerciale.',
-    auteur: 'François D., Bordeaux',
+    Icon: Scale,
+    titre: 'Lecture fiscale',
+    texte:
+      'Une première grille de lecture selon TMI, horizon et objectif patrimonial.',
+  },
+  {
+    Icon: Users,
+    titre: 'Accompagnement humain',
+    texte:
+      'Le simulateur ne remplace pas un conseil personnalisé : il prépare un échange utile.',
   },
 ]
 
 export default function PreuveSociale() {
   return (
-    <section className="py-16 sm:py-20" style={{ backgroundColor: '#0D1117' }}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Métriques */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center gap-8 md:gap-0">
-          {METRIQUES.map((m, i) => (
+    <section className="relative py-14 sm:py-16" style={{ backgroundColor: '#0D1117' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {CARTES.map(({ Icon, titre, texte }) => (
             <div
-              key={m.label}
-              className={`flex-1 text-center ${
-                i > 0 ? 'md:border-l md:border-slate-700' : ''
-              }`}
+              key={titre}
+              className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6 shadow-2xl shadow-emerald-500/5 backdrop-blur-sm transition-all duration-200 hover:border-emerald-400/40"
             >
               <div
-                className="text-3xl font-bold"
-                style={{ color: '#00C896' }}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-400/20"
+                style={{ backgroundColor: 'rgba(0,200,150,0.10)' }}
               >
-                {m.chiffre}
+                <Icon className="h-5 w-5" style={{ color: '#00C896' }} />
               </div>
-              <div className="text-sm text-gray-400 mt-1">{m.label}</div>
+              <h3 className="mt-4 text-lg font-semibold text-white">{titre}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                {texte}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* Verbatims */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {VERBATIMS.map((v) => (
-            <figure
-              key={v.auteur}
-              className="rounded-2xl border border-slate-700/70 bg-slate-900/60 p-6"
-            >
-              <blockquote className="italic text-slate-200">
-                «&nbsp;{v.citation}&nbsp;»
-              </blockquote>
-              <figcaption className="mt-3 text-sm text-gray-400">
-                — {v.auteur}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <p className="mt-6 text-center text-xs text-slate-500">
+          Outil pédagogique — ne constitue pas une recommandation personnalisée
+          au sens de la réglementation MIF2.
+        </p>
       </div>
     </section>
   )
