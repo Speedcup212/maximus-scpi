@@ -2448,21 +2448,15 @@ const App: React.FC = () => {
           currentView={currentView}
         />
         <main>
-          <div id="comparator" data-comparator className="pt-8 sm:pt-12 pb-16 sm:pb-20">
+          <div id="comparator" data-comparator className="pt-6 sm:pt-8 pb-16 sm:pb-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Titre rattaché au comparateur — design identique à la page d'accueil */}
-              <div className="mb-6 text-center">
-                <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-emerald-300/90 mb-2">
-                  Comparateur SCPI autonome
-                </p>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                  Construisez votre portefeuille SCPI en toute autonomie, avec des outils d'analyse complets
+              {/* Intro discrète — pas de hero marketing ni de formulaire sur /comparateur-scpi */}
+              <div className="mb-5">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">
+                  Comparateur SCPI
                 </h1>
-                <p className="text-base text-slate-300 font-medium max-w-2xl mx-auto">
-                  Comparez l'ensemble des SCPI, filtrez selon vos critères et composez votre allocation librement.
-                </p>
-                <p className="mt-1 text-xs text-slate-400">
-                  Données objectives • Méthodologie indépendante • Aucune promesse de rendement
+                <p className="mt-1 text-sm text-slate-400 max-w-3xl">
+                  Comparez les SCPI selon leurs indicateurs clés : rendement, frais, TOF, capitalisation, secteurs et zones géographiques.
                 </p>
               </div>
 
