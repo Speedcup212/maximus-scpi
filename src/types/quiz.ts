@@ -31,8 +31,25 @@ export type QuizData = {
   objectif: Objectif
 }
 
+export type AllocationItem = {
+  label: string
+  value: number
+}
+
+export type AnalysisCriterion = {
+  label: string
+  status: 'prioritaire' | 'important' | 'a-verifier'
+  description: string
+}
+
 export type QuizResult = {
   profil: string
+  score: number
   recommandations: string[]
   alerte?: string
+  geographicAllocation: AllocationItem[]
+  sectorAllocation: AllocationItem[]
+  criteria: AnalysisCriterion[]
+  fiscalStrategy: string[]
+  vigilancePoints: string[]
 }
