@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
@@ -46,7 +46,7 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
       {/* Introduction */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <p className="text-xl text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
-          <strong>Revendre ses parts de SCPI : comprendre l'écart prix d'achat / valeur de retrait.</strong> Sur les <strong>51 SCPI MaximusSCPI analysées</strong> : <strong>70,6% sont neutres</strong> (écart = frais de souscription 8-12%), <strong>25,5% perdent au-delà des frais</strong> (perte moyenne -14,20%), et <strong>3,9% gagnent</strong> (2 SCPI). <strong>Important :</strong> l'écart prix/valeur retrait reflète d'abord les <strong>frais de souscription</strong> (normaux dans 70% des cas). Les vraies pertes concernent 13 SCPI, dont 1 cas extrême : Edissimo -53%. Ce guide analyse les délais réels de revente et les stratégies de sortie.
+          <strong>Revendre ses parts de SCPI : comprendre l'écart prix d'achat / valeur de retrait.</strong> Sur les <strong>63 SCPI MaximusSCPI analysées</strong> : <strong>70,6% sont neutres</strong> (écart = frais de souscription 8-12%), <strong>25,5% perdent au-delà des frais</strong> (perte moyenne -14,20%), et <strong>3,9% gagnent</strong> (2 SCPI). <strong>Important :</strong> l'écart prix/valeur retrait reflète d'abord les <strong>frais de souscription</strong> (normaux dans 70% des cas). Les vraies pertes concernent 13 SCPI, dont 1 cas extrême : Edissimo -53%. Ce guide analyse les délais réels de revente et les stratégies de sortie.
         </p>
 
         <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border-l-4 border-blue-500">
@@ -58,7 +58,7 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
             
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
-              <span>51 SCPI analysées : 70,6% neutres (écart = frais 8-12%), 25,5% perdantes, 3,9% gagnantes</span>
+              <span>63 SCPI analysées : 70,6% neutres (écart = frais 8-12%), 25,5% perdantes, 3,9% gagnantes</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
@@ -108,28 +108,28 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
         </div>
 
         <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-          Le <strong>marché secondaire</strong> permet de revendre vos parts de SCPI. Sur les <strong>51 SCPI MaximusSCPI analysées</strong>, voici la réalité des écarts prix d'achat / valeur de retrait :
+          Le <strong>marché secondaire</strong> permet de revendre vos parts de SCPI. Sur les <strong>63 SCPI MaximusSCPI analysées</strong>, voici la réalité des écarts prix d'achat / valeur de retrait :
         </p>
 
         <div className="bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900/20 dark:to-slate-900/20 rounded-xl p-6 mb-6">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <TrendingUp className="w-6 h-6 text-gray-600" />
-            Analyse complète : 51 SCPI MaximusSCPI (données 2024-2025)
+            Analyse complète : 63 SCPI MaximusSCPI (données 2024-2025)
           </h3>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border-2 border-green-200 dark:border-green-800">
               <p className="text-3xl font-bold text-gray-600">70,6%</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI neutres (36/51)</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI neutres (36/63)</p>
               <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Écart = frais de souscription normaux (8-12%)</p>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border-2 border-red-200 dark:border-red-800">
               <p className="text-3xl font-bold text-red-600">25,5%</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI perdantes (13/51)</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI perdantes (13/63)</p>
               <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Perte moyenne -14,20% (au-delà des frais)</p>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border-2 border-green-200 dark:border-green-800">
               <p className="text-3xl font-bold text-green-600">3,9%</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI gagnantes (2/51)</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-semibold">SCPI gagnantes (2/63)</p>
               <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Valeur retrait {'>'} prix achat</p>
             </div>
           </div>
@@ -163,7 +163,7 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
             TDVM 4,45% | Capitalisation 1 639,5 M€
           </p>
           <p className="text-xs text-gray-600 dark:text-gray-400 italic mt-3 bg-white dark:bg-gray-800 rounded-lg p-3">
-            ⚠️ <strong>Contexte important :</strong> Edissimo est le seul cas extrême parmi les 51 SCPI MaximusSCPI. Cette perte de -53% dépasse largement les frais de souscription normaux (8-12%) et reflète des difficultés spécifiques à cette SCPI. Ce cas ne représente pas la norme du marché.
+            ⚠️ <strong>Contexte important :</strong> Edissimo est le seul cas extrême parmi les 63 SCPI MaximusSCPI. Cette perte de -53% dépasse largement les frais de souscription normaux (8-12%) et reflète des difficultés spécifiques à cette SCPI. Ce cas ne représente pas la norme du marché.
           </p>
         </div>
 
@@ -219,19 +219,19 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
         </div>
 
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mt-6">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Points clés à retenir (51 SCPI MaximusSCPI analysées)</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Points clés à retenir (63 SCPI MaximusSCPI analysées)</h3>
           <ul className="space-y-3 text-gray-700 dark:text-gray-300">
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span><strong>70,6% des SCPI sont neutres</strong> (36/51) : l'écart prix/valeur retrait = frais de souscription normaux 8-12%</span>
+              <span><strong>70,6% des SCPI sont neutres</strong> (36/63) : l'écart prix/valeur retrait = frais de souscription normaux 8-12%</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span><strong>25,5% perdent au-delà des frais</strong> (13/51) : perte moyenne -14,20%</span>
+              <span><strong>25,5% perdent au-delà des frais</strong> (13/63) : perte moyenne -14,20%</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span><strong>3,9% gagnent</strong> (2/51) : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>
+              <span><strong>3,9% gagnent</strong> (2/63) : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />

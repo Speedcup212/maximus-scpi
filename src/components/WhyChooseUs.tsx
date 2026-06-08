@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Shield, Zap, Award, BarChart3, TrendingUp, Users, Check, Star, Heart, Target, Lightbulb, Phone, Mail, Clock, Calendar, BadgeCheck, BookOpen, Headphones as HeadphonesIcon, FileCheck, Sparkles, Globe, Lock, Briefcase } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
 
@@ -7,7 +7,7 @@ const WhyChooseUs: React.FC = () => {
     {
       icon: <BarChart3 className="w-8 h-8" />,
       title: "Outils d'analyse avancés",
-      description: "Comparez les 51 SCPI du marché avec nos tableaux interactifs, filtres intelligents et analyses détaillées. Simulez votre investissement en temps réel.",
+      description: "Comparez les 63 SCPI du marché avec nos tableaux interactifs, filtres intelligents et analyses détaillées. Simulez votre investissement en temps réel.",
       color: "from-blue-600 to-cyan-600",
       details: ["Comparateur en temps réel", "Filtres intelligents", "Simulateur IA", "Rapports détaillés"]
     },
@@ -44,7 +44,7 @@ const WhyChooseUs: React.FC = () => {
     {
       icon: <Lightbulb className="w-8 h-8 text-orange-600" />,
       title: "Recommandations personnalisées",
-      description: "Notre IA analyse 51 SCPI et vous propose le portefeuille optimal adapté à votre profil",
+      description: "Notre IA analyse 63 SCPI et vous propose le portefeuille optimal adapté à votre profil",
       process: "Instantané"
     },
     {
@@ -101,7 +101,7 @@ const WhyChooseUs: React.FC = () => {
   ];
 
   const stats = [
-    { number: "51", label: "SCPI analysées", sublabel: "Marché complet", icon: <BarChart3 className="w-6 h-6" /> },
+    { number: "63", label: "SCPI analysées", sublabel: "Marché complet", icon: <BarChart3 className="w-6 h-6" /> },
     { number: "15 ans", label: "D'expérience", sublabel: "Expertise prouvée", icon: <Award className="w-6 h-6" /> },
     { number: "100%", label: "Gratuit", sublabel: "Pour l'investisseur", icon: <Shield className="w-6 h-6" /> },
     { number: "24/7", label: "Disponibilité", sublabel: "Plateforme accessible", icon: <Clock className="w-6 h-6" /> },
@@ -156,7 +156,7 @@ const WhyChooseUs: React.FC = () => {
     {
       step: "1",
       title: "Analyse approfondie",
-      description: "Nous analysons en détail les 51 SCPI du marché : rendement, qualité du patrimoine, taux d'occupation, équipe de gestion, stratégie, risques..."
+      description: "Nous analysons en détail les 63 SCPI du marché : rendement, qualité du patrimoine, taux d'occupation, équipe de gestion, stratégie, risques..."
     },
     {
       step: "2",

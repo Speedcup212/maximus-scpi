@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building, Calendar, Shield, Award, CheckCircle, Zap, TrendingUp, BarChart3 } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
 
@@ -118,7 +118,7 @@ const DynamicHero: React.FC<DynamicHeroProps> = ({
           </div>
           <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/20">
             <BarChart3 className="w-5 h-5 text-blue-300" />
-            <span className="text-sm sm:text-base font-bold text-white">51 SCPI analysées</span>
+            <span className="text-sm sm:text-base font-bold text-white">63 SCPI analysées</span>
           </div>
         </div>
       </div>

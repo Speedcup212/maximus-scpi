@@ -1,4 +1,4 @@
-export interface ThematicLandingPageData {
+﻿export interface ThematicLandingPageData {
   slug: string;
   title: string;
   metaDescription: string;
@@ -62,11 +62,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
       { value: '5,5%', label: 'Rendement moyen' },
-      { value: '51', label: 'SCPI analysées' },
+      { value: '63', label: 'SCPI analysées' },
       { value: '95%+', label: 'TOF moyen' }
     ],
     benefits: [
-      'Sélection rigoureuse parmi 51 SCPI du marché',
+      'Sélection rigoureuse parmi 63 SCPI du marché',
       'Rendements moyens de 4% à 6%',
       'Diversification géographique et sectorielle',
       'Taux d\'occupation financier supérieur à 93%',
@@ -163,7 +163,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         nom: 'Marc L., 56 ans',
-        texte: 'Après avoir comparé les 51 SCPI avec MaximusSCPI, j\'ai choisi le Top 3 pour préparer ma retraite. Le rendement de 9% en moyenne dépasse toutes mes attentes.',
+        texte: 'Après avoir comparé les 63 SCPI avec MaximusSCPI, j\'ai choisi le Top 3 pour préparer ma retraite. Le rendement de 9% en moyenne dépasse toutes mes attentes.',
         note: 5
       },
       {
@@ -607,14 +607,14 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'comparateur-scpi': {
     slug: 'comparateur-scpi',
-    title: 'Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)',
+    title: 'Comparateur SCPI 2026 : Comparez 63 SCPI (Rendement, Frais, Secteur)',
     metaDescription: 'Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS.',
     heroTitle: 'Comparateur SCPI',
-    heroTitleHighlight: '51 SCPI à comparer',
+    heroTitleHighlight: '63 SCPI à comparer',
     heroSubtitle: 'Comparez les performances de toutes les SCPI du marché français',
     labelText: 'Comparaison Gratuite',
     keyMetrics: [
-      { value: '51', label: 'SCPI analysées' },
+      { value: '63', label: 'SCPI analysées' },
       { value: '100%', label: 'Données officielles' },
       { value: 'Gratuit', label: 'Sans engagement' }
     ],
@@ -631,7 +631,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       features: [
         {
           icon: 'database',
-          title: '51 SCPI comparées',
+          title: '63 SCPI comparées',
           description: 'Accédez à la totalité des SCPI disponibles sur le marché français avec leurs données actualisées.'
         },
         {

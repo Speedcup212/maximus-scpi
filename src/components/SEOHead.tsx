@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+﻿import { useEffect } from 'react';
 
 interface SEOHeadProps {
   title?: string;
@@ -11,7 +11,7 @@ interface SEOHeadProps {
 
 const SEOHead: React.FC<SEOHeadProps> = ({
   title = 'MaximusSCPI — Investir en SCPI avec un Expert Certifié ORIAS',
-  description = 'Comparez 51 SCPI en temps réel ✓ Rendements jusqu\'à 11,18% ✓ Simulateurs gratuits ✓ Conseiller certifié ORIAS ✓ Investissez dès 200€',
+  description = 'Comparez 63 SCPI en temps réel ✓ Rendements jusqu\'à 11,18% ✓ Simulateurs gratuits ✓ Conseiller certifié ORIAS ✓ Investissez dès 200€',
   keywords = ['comparateur SCPI', 'meilleure SCPI 2026', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI', 'conseil SCPI gratuit'],
   canonical,
   schemaData,

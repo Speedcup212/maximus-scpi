@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 interface SchemaOrgProps {
   type: 'Organization' | 'BreadcrumbList' | 'FAQPage' | 'Article' | 'FinancialProduct';
@@ -14,7 +14,7 @@ export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
         "@context": "https://schema.org",
         "@type": "FinancialService",
         "name": "MaximusSCPI",
-        "description": "Comparateur indépendant SCPI : 51 SCPI analysées, simulation gratuite, conseiller ORIAS",
+        "description": "Comparateur indépendant SCPI : 63 SCPI analysées, simulation gratuite, conseiller ORIAS",
         "url": "https://maximusscpi.com",
         "logo": "https://maximusscpi.com/Maximus%20logo%20250x50%204.svg",
         "founder": {

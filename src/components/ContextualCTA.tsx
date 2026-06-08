@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Calculator, BarChart3, TrendingUp, FileText, PiggyBank, Euro, Target } from 'lucide-react';
 
 interface ContextualCTAProps {
@@ -60,7 +60,7 @@ const contextualCTAs: Record<string, CTA> = {
   },
   comparateur: {
     title: 'Comparateur Intelligent',
-    description: 'Comparez 51 SCPI selon vos critères personnalisés',
+    description: 'Comparez 63 SCPI selon vos critères personnalisés',
     link: '/',
     icon: <BarChart3 className="h-6 w-6" />,
     bgColor: 'from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20',

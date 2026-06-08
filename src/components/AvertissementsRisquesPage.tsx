@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { AlertTriangle, XCircle, TrendingDown, Clock, DollarSign, FileText } from 'lucide-react';
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg';
 import Breadcrumb from './Breadcrumb';
@@ -76,7 +76,7 @@ const AvertissementsRisquesPage: React.FC<AvertissementsRisquesPageProps> = ({ o
                     </p>
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-3">
                       <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                        <strong>Exemple réel (51 SCPI MaximusSCPI) :</strong>
+                        <strong>Exemple réel (63 SCPI MaximusSCPI) :</strong>
                       </p>
                       <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1 ml-4">
                         <li>• 70,6% des SCPI : écart prix/valeur retrait = frais de souscription normaux (8-12%)</li>

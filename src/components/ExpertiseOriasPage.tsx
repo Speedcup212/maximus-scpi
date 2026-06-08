@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Shield, Award, CheckCircle2, FileText, Phone, Mail, Calendar } from 'lucide-react';
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg';
 import Breadcrumb from './Breadcrumb';
@@ -48,7 +48,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
 
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8 border-l-4 border-blue-600">
             <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-              <strong className="text-blue-900 dark:text-blue-200">MaximusSCPI</strong> est un service de conseil en investissement indépendant spécialisé en SCPI. Notre mission : vous aider à investir en toute transparence, avec une analyse objective de 51 SCPI et un accompagnement personnalisé par un conseiller certifié ORIAS.
+              <strong className="text-blue-900 dark:text-blue-200">MaximusSCPI</strong> est un service de conseil en investissement indépendant spécialisé en SCPI. Notre mission : vous aider à investir en toute transparence, avec une analyse objective de 63 SCPI et un accompagnement personnalisé par un conseiller certifié ORIAS.
             </p>
           </div>
 
@@ -68,7 +68,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse de 51 fonds, accompagnement 350+ clients</span>
+                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse de 63 fonds, accompagnement 350+ clients</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
@@ -82,7 +82,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>51 SCPI analysées</strong> en détail : rendement, patrimoine, risques, fiscalité</span>
+                    <span><strong>63 SCPI analysées</strong> en détail : rendement, patrimoine, risques, fiscalité</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />

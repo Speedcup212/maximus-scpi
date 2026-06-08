@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Target, Users, Award, TrendingUp, Shield, Lightbulb, Heart, Zap, Sparkles, Brain, UserCircle } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
 
@@ -40,7 +40,7 @@ const AboutUsPage: React.FC = () => {
                   </p>
 
                   <p>
-                    Notre comparateur intelligent analyse en temps réel <span className="font-semibold text-emerald-600 dark:text-emerald-400">51 SCPI</span> sélectionnées selon <span className="font-semibold text-emerald-600 dark:text-emerald-400">35 critères</span> pour vous offrir une clarté absolue.
+                    Notre comparateur intelligent analyse en temps réel <span className="font-semibold text-emerald-600 dark:text-emerald-400">63 SCPI</span> sélectionnées selon <span className="font-semibold text-emerald-600 dark:text-emerald-400">35 critères</span> pour vous offrir une clarté absolue.
                   </p>
 
                   <p>
@@ -203,7 +203,7 @@ const AboutUsPage: React.FC = () => {
                   Intelligence Artificielle
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Algorithmes d'IA avancés analysant <span className="font-bold text-blue-600">35 critères</span> quantitatifs et qualitatifs sur <span className="font-bold text-blue-600">51 SCPI</span> sélectionnées. Notre technologie identifie les meilleures opportunités et construit des portefeuilles optimisés selon votre profil.
+                  Algorithmes d'IA avancés analysant <span className="font-bold text-blue-600">35 critères</span> quantitatifs et qualitatifs sur <span className="font-bold text-blue-600">63 SCPI</span> sélectionnées. Notre technologie identifie les meilleures opportunités et construit des portefeuilles optimisés selon votre profil.
                 </p>
               </div>
             </div>
@@ -338,7 +338,7 @@ const AboutUsPage: React.FC = () => {
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/30">
-                  <div className="text-3xl font-black">51</div>
+                  <div className="text-3xl font-black">63</div>
                   <div className="text-sm text-blue-100">SCPI analysées</div>
                 </div>
                 <div className="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3 border border-white/30">

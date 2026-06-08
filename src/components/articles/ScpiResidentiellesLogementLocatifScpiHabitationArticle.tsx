@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
@@ -46,7 +46,7 @@ export const ScpiResidentiellesLogementLocatifScpiHabitationArticle: React.FC = 
       {/* Introduction */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <p className="text-xl text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
-          <strong>Les SCPI résidentielles existent-elles vraiment en France ?</strong> La réponse est brutale : <strong>quasiment non</strong>. Sur les <strong>51 SCPI MaximusSCPI</strong>, seules <strong>3 SCPI investissent dans le résidentiel</strong> : <strong>Patrimmo Croissance Impact</strong> (Præmia, 100% logement, 189,7 M€, TDVM 0%), <strong>Novapierre Résidentiel</strong> (PAREF, 100% résidentiel, 347,9 M€, TDVM 0%) et <strong>Kyaneos Pierre</strong> (Kyaneos, 80% résidentiel, 384,78 M€, TDVM 4,96%). Seule <strong>Kyaneos Pierre distribue un rendement</strong> (4,96%). La raison de ces faibles performances ? Le rendement locatif résidentiel français (2,5-3%) est <strong>structurellement trop faible</strong> pour couvrir les frais de gestion SCPI (10-12%) et offrir un rendement compétitif. Ce guide analyse les 3 SCPI à composante résidentielle et explique pourquoi ce modèle ne fonctionne pas.
+          <strong>Les SCPI résidentielles existent-elles vraiment en France ?</strong> La réponse est brutale : <strong>quasiment non</strong>. Sur les <strong>63 SCPI MaximusSCPI</strong>, seules <strong>3 SCPI investissent dans le résidentiel</strong> : <strong>Patrimmo Croissance Impact</strong> (Præmia, 100% logement, 189,7 M€, TDVM 0%), <strong>Novapierre Résidentiel</strong> (PAREF, 100% résidentiel, 347,9 M€, TDVM 0%) et <strong>Kyaneos Pierre</strong> (Kyaneos, 80% résidentiel, 384,78 M€, TDVM 4,96%). Seule <strong>Kyaneos Pierre distribue un rendement</strong> (4,96%). La raison de ces faibles performances ? Le rendement locatif résidentiel français (2,5-3%) est <strong>structurellement trop faible</strong> pour couvrir les frais de gestion SCPI (10-12%) et offrir un rendement compétitif. Ce guide analyse les 3 SCPI à composante résidentielle et explique pourquoi ce modèle ne fonctionne pas.
         </p>
 
         <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border-l-4 border-blue-500">
@@ -61,7 +61,7 @@ export const ScpiResidentiellesLogementLocatifScpiHabitationArticle: React.FC = 
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
-              <span>3 SCPI résidentielles sur 51 : Patrimmo (100%, 0%), Novapierre Résidentiel (100%, 0%), Kyaneos Pierre (80%, 4,96%)</span>
+              <span>3 SCPI résidentielles sur 63 : Patrimmo (100%, 0%), Novapierre Résidentiel (100%, 0%), Kyaneos Pierre (80%, 4,96%)</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
@@ -125,7 +125,7 @@ export const ScpiResidentiellesLogementLocatifScpiHabitationArticle: React.FC = 
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-8">Les 3 SCPI résidentielles du marché MaximusSCPI</h3>
 
         <p className="text-gray-700 dark:text-gray-300 mb-6">
-          Sur les <strong>51 SCPI MaximusSCPI, seulement 3 investissent dans le résidentiel</strong> (100% ou majoritaire). La réalité est brutale : <strong>2 sur 3 ne distribuent AUCUN dividende</strong> (TDVM 0%).
+          Sur les <strong>63 SCPI MaximusSCPI, seulement 3 investissent dans le résidentiel</strong> (100% ou majoritaire). La réalité est brutale : <strong>2 sur 3 ne distribuent AUCUN dividende</strong> (TDVM 0%).
         </p>
 
         <div className="space-y-6">
@@ -214,7 +214,7 @@ export const ScpiResidentiellesLogementLocatifScpiHabitationArticle: React.FC = 
             Et les SCPI diversifiées avec poche résidentielle ?
           </h3>
           <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-            Sur les 51 SCPI MaximusSCPI, <strong>2 SCPI diversifiées intègrent une poche résidentielle minoritaire</strong> (5-12%) tout en distribuant un rendement correct :
+            Sur les 63 SCPI MaximusSCPI, <strong>2 SCPI diversifiées intègrent une poche résidentielle minoritaire</strong> (5-12%) tout en distribuant un rendement correct :
           </p>
           <ul className="text-sm space-y-2 text-gray-700 dark:text-gray-300">
             <li>• <strong>Cristal Life (Inter Gestion) :</strong> 12% résidentiel + 42% commerce + 22% bureaux = TDVM 5,2% (capitalisation 290,4 M€)</li>
@@ -227,7 +227,7 @@ export const ScpiResidentiellesLogementLocatifScpiHabitationArticle: React.FC = 
           <ul className="space-y-3 text-gray-700 dark:text-gray-300">
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span>Sur 51 SCPI MaximusSCPI, <strong>seulement 3 investissent dans le résidentiel</strong> : 2 avec TDVM 0%, 1 seule viable (Kyaneos Pierre, 4,96%)</span>
+              <span>Sur 63 SCPI MaximusSCPI, <strong>seulement 3 investissent dans le résidentiel</strong> : 2 avec TDVM 0%, 1 seule viable (Kyaneos Pierre, 4,96%)</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />

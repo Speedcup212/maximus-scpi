@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import {
   Building2, TrendingUp, Euro, Users, FileText, CheckCircle, ChevronDown, ChevronUp,
   Clock, Shield, Calculator, Briefcase, Home, Store, Cross, Warehouse,
@@ -538,7 +538,7 @@ const UnderstandingSCPI: React.FC = () => {
             Prêt à investir en SCPI ?
           </h3>
           <p className="text-xl text-green-100 mb-6 max-w-2xl mx-auto">
-            MaximusSCPI analyse les 51 SCPI du marché pour vous proposer le portefeuille optimal
+            MaximusSCPI analyse les 63 SCPI du marché pour vous proposer le portefeuille optimal
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <div className="flex items-center gap-2 text-left bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3">

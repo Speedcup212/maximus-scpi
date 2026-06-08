@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Générateur automatique d'articles SEO pour MaximusSCPI
  * Basé sur les templates définis dans articleTemplatesConfig.ts
  */
@@ -642,7 +642,7 @@ function generateCTA(): string {
         <div class="text-4xl mb-4">🔍</div>
         <h3 class="text-xl font-bold mb-3">Comparateur SCPI</h3>
         <p class="text-blue-100 mb-4">
-          Comparez 51 SCPI : rendements, secteurs, zones géographiques, frais. Trouvez les SCPI adaptées à votre profil.
+          Comparez 63 SCPI : rendements, secteurs, zones géographiques, frais. Trouvez les SCPI adaptées à votre profil.
         </p>
         <button class="w-full px-6 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-all">
           Accéder au comparateur

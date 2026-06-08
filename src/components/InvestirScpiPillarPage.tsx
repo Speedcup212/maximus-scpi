@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TrendingUp, Shield, Target, Coins, ArrowRight, BookOpen } from 'lucide-react';
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg';
 import Breadcrumb from './Breadcrumb';
@@ -26,7 +26,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
         type="Article"
         data={{
           title: "Investir en SCPI 2025 : Guide Complet | MaximusSCPI",
-          description: "Guide complet pour investir en SCPI : 51 SCPI analysées, profils investisseurs, montants, enveloppes fiscales. Conseils expert ORIAS.",
+          description: "Guide complet pour investir en SCPI : 63 SCPI analysées, profils investisseurs, montants, enveloppes fiscales. Conseils expert ORIAS.",
           datePublished: "2025-01-15",
           dateModified: currentDate,
           url: "/investir-en-scpi"
@@ -56,7 +56,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
 
             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-600">
               <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                <strong>Investir en SCPI permet d'accéder à l'immobilier professionnel sans gestion locative</strong>, avec des rendements moyens de 4,5% à 6,5% (TDVM 2024). Ce guide complet analyse <strong>51 SCPI</strong>, les profils investisseurs adaptés, les montants recommandés, et les stratégies d'optimisation fiscale.
+                <strong>Investir en SCPI permet d'accéder à l'immobilier professionnel sans gestion locative</strong>, avec des rendements moyens de 4,5% à 6,5% (TDVM 2024). Ce guide complet analyse <strong>63 SCPI</strong>, les profils investisseurs adaptés, les montants recommandés, et les stratégies d'optimisation fiscale.
               </p>
             </div>
           </header>
@@ -277,7 +277,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
 
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-600">
             <p className="text-sm text-gray-800 dark:text-gray-200">
-              <strong>💡 Besoin d'aide ?</strong> Consultez notre <a href="/comparateur-scpi" className="text-blue-600 hover:underline">comparateur de 51 SCPI</a> ou <a href="https://calendly.com/maximusscpi" className="text-blue-600 hover:underline">prenez rendez-vous</a> avec notre conseiller CIF.
+              <strong>💡 Besoin d'aide ?</strong> Consultez notre <a href="/comparateur-scpi" className="text-blue-600 hover:underline">comparateur de 63 SCPI</a> ou <a href="https://calendly.com/maximusscpi" className="text-blue-600 hover:underline">prenez rendez-vous</a> avec notre conseiller CIF.
             </p>
           </div>
         </article>

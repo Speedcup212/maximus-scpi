@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
@@ -46,7 +46,7 @@ export const FraisScpiSouscriptionGestionPerformanceArticle: React.FC = () => {
       {/* Introduction */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <p className="text-xl text-gray-800 dark:text-gray-200 leading-relaxed mb-6">
-          <strong>Les frais SCPI peuvent réduire votre rendement de 30 à 40% sur 20 ans.</strong> Sur les <strong>225 SCPI françaises</strong>, les frais de souscription varient de <strong>0% à 10,6%</strong> et les frais de gestion de <strong>1% à 15%</strong>. Un investissement de 50 000 € dans une SCPI à 10% de frais d'entrée vous coûte 5 000 € dès la première année, avant même de percevoir le moindre loyer. Ce guide analyse les 3 types de frais SCPI (souscription, gestion, arbitrage) avec des <strong>données réelles sur 51 SCPI sélectionnées</strong> par MaximusSCPI, et vous explique comment réduire ces coûts de 50 à 70% en choisissant les bonnes enveloppes et les bons véhicules d'investissement.
+          <strong>Les frais SCPI peuvent réduire votre rendement de 30 à 40% sur 20 ans.</strong> Sur les <strong>225 SCPI françaises</strong>, les frais de souscription varient de <strong>0% à 10,6%</strong> et les frais de gestion de <strong>1% à 15%</strong>. Un investissement de 50 000 € dans une SCPI à 10% de frais d'entrée vous coûte 5 000 € dès la première année, avant même de percevoir le moindre loyer. Ce guide analyse les 3 types de frais SCPI (souscription, gestion, arbitrage) avec des <strong>données réelles sur 63 SCPI sélectionnées</strong> par MaximusSCPI, et vous explique comment réduire ces coûts de 50 à 70% en choisissant les bonnes enveloppes et les bons véhicules d'investissement.
         </p>
 
         <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border-l-4 border-blue-500">
@@ -61,7 +61,7 @@ export const FraisScpiSouscriptionGestionPerformanceArticle: React.FC = () => {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
-              <span>Analyse de 51 SCPI : 3 SCPI sans frais d'entrée (Iroko Zen, Novaxia NEO, Remake Live)</span>
+              <span>Analyse de 63 SCPI : 3 SCPI sans frais d'entrée (Iroko Zen, Novaxia NEO, Remake Live)</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
@@ -86,7 +86,7 @@ export const FraisScpiSouscriptionGestionPerformanceArticle: React.FC = () => {
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
           <BookOpen className="w-8 h-8 text-blue-600" />
-          Les 3 types de frais SCPI (données réelles 51 SCPI MaximusSCPI)
+          Les 3 types de frais SCPI (données réelles 63 SCPI MaximusSCPI)
         </h2>
 
         <div className="space-y-6">
@@ -251,7 +251,7 @@ export const FraisScpiSouscriptionGestionPerformanceArticle: React.FC = () => {
           <ul className="space-y-3 text-gray-700 dark:text-gray-300">
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span>Sur 51 SCPI MaximusSCPI, <strong>70% ont des frais de souscription 9-10%</strong> et <strong>78% ont des frais de gestion 9-10%</strong></span>
+              <span>Sur 63 SCPI MaximusSCPI, <strong>70% ont des frais de souscription 9-10%</strong> et <strong>78% ont des frais de gestion 9-10%</strong></span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />

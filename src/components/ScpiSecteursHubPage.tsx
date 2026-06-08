@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, ShoppingCart, HeartPulse, Warehouse, Home, Hotel, TrendingUp, Users, Award, ExternalLink } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
@@ -234,7 +234,7 @@ const ScpiSecteursHubPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800">
       <SEOHead
         title="SCPI par Secteur : Bureaux, Commerces, Logistique, Santé, Résidentiel, Hôtellerie 2026"
-        description="✓ 6 secteurs SCPI analysés ✓ Bureaux 5.5% ✓ Commerces 5.2% ✓ Logistique 5.7% ✓ Santé 5.2% ✓ Résidentiel 5.5% ✓ Hôtellerie 4.1% ✓ 51 SCPI réelles comparées → Conseiller ORIAS"
+        description="✓ 6 secteurs SCPI analysés ✓ Bureaux 5.5% ✓ Commerces 5.2% ✓ Logistique 5.7% ✓ Santé 5.2% ✓ Résidentiel 5.5% ✓ Hôtellerie 4.1% ✓ 63 SCPI réelles comparées → Conseiller ORIAS"
         keywords={['scpi secteurs', 'scpi bureaux', 'scpi commerces', 'scpi logistique', 'scpi santé', 'scpi résidentiel', 'scpi hôtellerie', 'typologie scpi 2026']}
         canonical="https://maximusscpi.com/scpi-secteurs/"
         schemaData={combinedSchema}

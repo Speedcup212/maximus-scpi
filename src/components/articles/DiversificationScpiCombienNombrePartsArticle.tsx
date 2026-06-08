@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, PieChart, Scale, Lightbulb, Eye, Calculator, Layers } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
@@ -835,7 +835,7 @@ export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {
                 href="/comparateur-scpi"
                 className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors"
               >
-                Comparer 51 SCPI
+                Comparer 63 SCPI
               </a>
               <a
                 href="/contact"
