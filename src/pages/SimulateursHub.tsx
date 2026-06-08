@@ -6,6 +6,7 @@ interface ToolCard {
   description: string;
   path: string;
   cta: string;
+  badge?: string;
   Icon: React.ComponentType<{ className?: string }>;
 }
 
@@ -16,18 +17,19 @@ interface ToolCard {
  */
 const PRIMARY_TOOLS: ToolCard[] = [
   {
-    title: 'Questionnaire profil investisseur',
+    title: 'Questionnaire profil investisseur complet',
     description:
-      'Préparez votre échange avec un conseiller en structurant votre profil, vos objectifs, votre horizon, vos connaissances financières et votre tolérance au risque.',
-    path: '/simulateur-profil-investisseur',
-    cta: 'Lancer le questionnaire',
+      'Évaluez votre profil, votre horizon, vos connaissances financières et votre tolérance au risque à travers le questionnaire complet.',
+    path: '/parcours-guide',
+    cta: 'Démarrer le questionnaire complet',
+    badge: 'Test complet — 32 questions',
     Icon: UserCheck,
   },
   {
     title: 'Quiz SCPI rapide',
     description:
       'Identifiez les grandes pistes à analyser selon votre fiscalité, votre horizon et votre objectif patrimonial.',
-    path: '/parcours-guide',
+    path: '/simulateur-profil-investisseur',
     cta: 'Démarrer le quiz',
     Icon: Sparkles,
   },
@@ -92,8 +94,15 @@ const SimulateursHub: React.FC = () => {
               key={tool.path + tool.title}
               className="flex flex-col rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-6 hover:border-emerald-400/60 hover:shadow-lg transition"
             >
-              <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-                <tool.Icon className="w-5 h-5" />
+              <div className="flex items-center justify-between gap-2">
+                <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+                  <tool.Icon className="w-5 h-5" />
+                </div>
+                {tool.badge && (
+                  <span className="inline-flex items-center rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-300 px-2.5 py-1 text-[11px] font-semibold">
+                    {tool.badge}
+                  </span>
+                )}
               </div>
               <h2 className="mt-4 text-lg font-semibold">{tool.title}</h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 flex-1">{tool.description}</p>

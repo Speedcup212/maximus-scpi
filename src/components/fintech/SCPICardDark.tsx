@@ -168,15 +168,22 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             <div className="flex items-baseline gap-2 flex-wrap">
               <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
               {yieldContext.isExceptional && (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-50 text-[10px] font-semibold uppercase tracking-wide">
+                <span
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-50 text-[10px] font-semibold uppercase tracking-wide cursor-help"
+                  title={yieldContext.note}
+                  aria-label={yieldContext.note}
+                >
                   <AlertTriangle className="w-3 h-3" />
                   {yieldContext.badgeLabel}
                 </span>
               )}
             </div>
             {yieldContext.isExceptional && (
-              <p className="text-[10px] text-amber-50/95 leading-tight mt-1.5">
-                {yieldContext.note}
+              <p
+                className="text-[10px] text-amber-50/95 leading-tight mt-1.5"
+                title={yieldContext.note}
+              >
+                {yieldContext.shortNote}
               </p>
             )}
             {isExpanded && (
