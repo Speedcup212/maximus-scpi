@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
-  Building, TrendingUp, PieChart, BarChart3, MapPin, Calendar,
-  Download, User, Target, Award, Shield, DollarSign, Phone,
+  Building, TrendingUp, PieChart, MapPin, Calendar,
+  Download, User, Target, Award, Phone,
   Info, Star, Moon, Sun, ExternalLink, AlertTriangle
 } from 'lucide-react';
 
@@ -23,7 +23,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import AuthGuard from './app/components/AuthGuard';
 import RoleGuard from './app/components/RoleGuard';
-import Hero from './components/Hero';
+import InvestorQuiz from './components/InvestorQuiz';
+import PreuveSociale from './components/PreuveSociale';
+import TeaserComparateur from './components/TeaserComparateur';
+import type { QuizData } from './types/quiz';
 import ScpiTable from './components/ScpiTable';
 import QuickFilters from './components/QuickFilters';
 import SearchBar from './components/SearchBar';
@@ -920,22 +923,6 @@ const App: React.FC = () => {
 
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerHeight = header ? header.getBoundingClientRect().height : 0;
-      const offset = headerHeight + 16;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   const handleScpiAnalysis = (scpi: Scpi) => {
     setSelectedScpiForAnalysis(scpi);
@@ -2908,6 +2895,16 @@ const App: React.FC = () => {
     );
   }
 
+  // Refonte homepage — capture du lead issu du quiz court de pré-orientation SCPI.
+  // Le CTA Calendly (VITE_CALENDLY_URL) est porté par le composant InvestorQuiz.
+  const handleLeadCapture = (data: QuizData): void => {
+    // TODO: connecter à Supabase
+    // Table cible : leads
+    // Colonnes : montant, tmi, horizon, objectif, created_at
+    // Utiliser le client Supabase existant si déjà configuré
+    console.log('[MaximusSCPI] Lead quiz capturé :', data);
+  };
+
   return (
     <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <SEOHead
@@ -2935,183 +2932,88 @@ const App: React.FC = () => {
         currentView={currentView}
       />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        {/* Hero Section */}
-        <div className="mb-12 sm:mb-12">
-          <Suspense fallback={<div className="h-64 flex items-center justify-center"><LoadingSpinner /></div>}>
-            {hasLandingParams && currentLandingPage ? (
+      {/* Main Content — refonte homepage conversion (Hero → Quiz → Preuves → Teaser) */}
+      <main>
+        {/* Section 1 — Hero */}
+        {hasLandingParams && currentLandingPage ? (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <Suspense fallback={<div className="h-64 flex items-center justify-center"><LoadingSpinner /></div>}>
               <DynamicHero
                 onCalendlyClick={() => setIsRdvModalOpen(true)}
                 h1={currentLandingPage.h1}
                 description={currentLandingPage.description}
               />
-            ) : (
-              <Hero 
-                onCalendlyClick={() => setIsRdvModalOpen(true)}
-                onComparatorClick={() => {
-                  scrollToSection('comparator');
-                }}
-              />
-            )}
-          </Suspense>
-        </div>
-
-        {/* Lien discret vers la page Outils & simulateurs. Le questionnaire
-            profil investisseur complet n'est plus affiché sur la homepage :
-            il est accessible uniquement depuis /simulateurs. */}
-        <div className="mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8 flex justify-center">
-          <button
-            type="button"
-            onClick={() => handleSimulateurClick('simulateurs')}
-            className="text-sm font-medium text-emerald-400 hover:text-emerald-300 transition-colors"
-          >
-            Accéder aux outils complets →
-          </button>
-        </div>
-
-        {/* Section Comparateur avec titre intégré */}
-        <div id="comparator" data-comparator className="mt-16 sm:mt-20 mb-16 sm:mb-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Titre rattaché au comparateur */}
-            <div className="mb-6">
-              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-emerald-300/90 mb-2">
-                Comparateur SCPI autonome
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                Construisez votre portefeuille SCPI en toute autonomie, avec des outils d’analyse complets
-              </h2>
-              <p className="text-base text-slate-300 font-medium">
-                Comparez l’ensemble des SCPI, filtrez selon vos critères et composez votre allocation librement.
-              </p>
-              <p className="mt-1 text-xs text-slate-400">
-                Données objectives • Méthodologie indépendante • Aucune promesse de rendement
-              </p>
-            </div>
-
-            <div className="mb-6 rounded-xl border border-slate-700/70 bg-slate-900/50 px-4 py-3">
-              <div className="text-sm font-semibold text-slate-200 mb-1">
-                🔍 Comment lire les SCPI selon votre profil investisseur
-              </div>
-              <p className="text-sm text-slate-300">
-                Votre profil investisseur n’indique pas quelles SCPI choisir.
-                Il vous aide à comprendre quels critères peuvent être plus ou moins confortables à vivre selon votre manière de réagir aux cycles et aux variations.
-              </p>
-            </div>
-            
-            {/* Comparateur */}
-            <Suspense fallback={<LoadingSpinner />}>
-              <FintechComparator 
-                onCloseAnalysis={handleBackToHome}
-                onGuidedJourneyClick={() => {
-                  setCurrentView('guided-journey');
-                  window.history.pushState({}, '', '/parcours-guide');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                hideTitle={true}
-                zScoreVariant="compact"
-              />
             </Suspense>
           </div>
-        </div>
+        ) : (
+          <section className="py-16 sm:py-24" style={{ backgroundColor: '#0D1117' }}>
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 className="text-3xl sm:text-5xl font-bold text-pink-400 leading-tight">
+                Trouvez les SCPI adaptées à votre profil fiscal en 2 minutes
+              </h1>
+              <p className="mt-4 text-base sm:text-lg text-slate-300">
+                Outil indépendant • CGP certifié AMF • Aucune commission cachée
+              </p>
 
-        {/* Product Spotlight - Dashboard Portfolio (descendu sous le comparateur) */}
-        <div className="mb-12 sm:mb-16 lg:mb-20">
-          {/* Titre au-dessus de l'image */}
-          <div className="mb-4 sm:mb-6 text-center">
-            <h2 className="text-xl sm:text-2xl font-semibold text-white">
-              Exemple de tableau d’analyse avancée généré par MaximusSCPI
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-300">
-              Ces graphiques sont accessibles une fois votre sélection effectuée ou via le parcours guidé.
-            </p>
-          </div>
+              <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4">
+                <button
+                  type="button"
+                  onClick={() =>
+                    window.document
+                      .getElementById('quiz-section')
+                      ?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                  className="px-7 py-4 rounded-xl font-semibold text-[#0D1117] transition-all duration-300 ease-in-out hover:opacity-90"
+                  style={{ backgroundColor: '#00C896' }}
+                >
+                  Démarrer mon analyse gratuite
+                </button>
+                <a
+                  href="/comparateur-scpi"
+                  className="text-sm underline text-slate-300 hover:text-white transition-colors"
+                >
+                  Accéder directement au comparateur →
+                </a>
+              </div>
 
-          {/* Style CSS pour perspective desktop uniquement */}
-          <style>{`
-            @media (min-width: 1024px) {
-              .product-spotlight-container {
-                transform: perspective(1200px) rotateX(3deg);
-                transform-style: preserve-3d;
-              }
-            }
-          `}</style>
-          
-          {/* Container principal avec fond gradient sombre */}
-          <div className="relative w-full flex justify-center px-2 sm:px-3 lg:px-4 py-4 sm:py-6 lg:py-8">
-            {/* Fond gradient sombre pour détachement net */}
-            <div 
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.2) 50%, transparent 100%)',
-              }}
-            ></div>
-            
-            {/* Spotlight Halo - Effet lumineux emerald (identité MaximusSCPI) */}
-            {/* Blur large (120px) pour effet spotlight discret et premium */}
-            <div 
-              className="absolute inset-0 flex justify-center items-center pointer-events-none"
-              style={{
-                background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(16, 185, 129, 0.12) 0%, rgba(5, 150, 105, 0.08) 30%, transparent 70%)',
-                filter: 'blur(120px)',
-              }}
-            ></div>
-            
-            {/* Container image avec perspective desktop uniquement */}
-            <div className="relative w-full sm:w-[95%] lg:w-[90%] max-w-[1400px] product-spotlight-container">
-              {/* Image produit avec profondeur premium */}
-              {/* Border-radius élégant (rounded-3xl), bordure fine semi-transparente, ombre produit marquée */}
-              <img 
-                src="/images/image%20home.webp" 
-                alt="Dashboard d'analyse de portefeuille SCPI - Rendement, revenus mensuels, répartition sectorielle et géographique, projection sur 15 ans, avis expert"
-                className="w-full h-auto max-h-[700px] sm:max-h-[800px] lg:max-h-[1000px] object-contain rounded-3xl shadow-[0_25px_80px_-20px_rgba(0,0,0,0.4),0_0_60px_-15px_rgba(16,185,129,0.2),inset_0_1px_0_0_rgba(255,255,255,0.05)] border border-white/10 dark:border-white/5 backdrop-blur-sm"
-                loading="lazy"
-                style={{
-                  transform: 'translateZ(0)',
-                }}
-              />
+              {/* Bande de réassurance */}
+              <div className="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3 sm:gap-6 text-sm text-slate-300">
+                {[
+                  'Indépendant de toute société de gestion',
+                  'Données objectives sur 63 SCPI',
+                  'Accompagnement CGP certifié AMF inclus',
+                ].map((item) => (
+                  <span key={item} className="inline-flex items-center gap-2 justify-center">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#00C896"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className="shrink-0"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
+          </section>
+        )}
 
-        {/* Value Proposition Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 text-center">
-            <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <BarChart3 className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Analyse IA Avancée
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Une sélection de SCPI adaptée à vos objectifs patrimoniaux
-            </p>
-          </div>
+        {/* Section 2 — Quiz court de pré-orientation SCPI */}
+        <InvestorQuiz onComplete={handleLeadCapture} />
 
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 text-center">
-            <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <DollarSign className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Optimisation Fiscale
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Des stratégies concrètes pour réduire l'impôt et améliorer vos revenus nets
-            </p>
-          </div>
+        {/* Section 3 — Preuve sociale */}
+        <PreuveSociale />
 
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 text-center">
-            <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Shield className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Expertise & Sécurité
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              15+ ans d'expérience pour investir en SCPI avec confiance et sérénité
-            </p>
-          </div>
-        </div>
+        {/* Section 4 — Teaser comparateur (statique, sans import de ScpiComparator) */}
+        <TeaserComparateur />
 
       </main>
 
