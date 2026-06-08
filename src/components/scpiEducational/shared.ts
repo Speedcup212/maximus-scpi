@@ -18,6 +18,11 @@ export const INTERNAL_LINKS = [
   { href: '/scpi-demembrement', label: 'Démembrement SCPI — nue-propriété et stratégie' },
   { href: '/scpi-assurance-vie', label: 'SCPI en assurance-vie — fiscalité et frais' },
   { href: '/frais-scpi', label: 'Frais SCPI — coûts et rendement net' },
+  { href: '/risques-scpi', label: 'Risques SCPI — perte en capital, liquidité et fiscalité' },
+  { href: '/liquidite-scpi', label: 'Liquidité SCPI — revente, délais et risques' },
+  { href: '/baisse-prix-part-scpi', label: 'Baisse du prix de part SCPI — causes et conséquences' },
+  { href: '/delai-jouissance-scpi', label: 'Délai de jouissance SCPI — impact sur le rendement' },
+  { href: '/report-a-nouveau-scpi', label: 'Report à nouveau SCPI — réserve et distribution' },
 ] as const
 
 export interface TableRow {

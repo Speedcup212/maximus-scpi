@@ -41,8 +41,11 @@ Pages prioritaires :
 - /endettement-scpi/ — publié
 - /rendement-net-scpi/ — publié
 - /frais-scpi/ — publié (Batch 1)
-- /report-a-nouveau-scpi/
-- /report-a-nouveau-scpi/
+- /report-a-nouveau-scpi/ — publié (Batch 2)
+- /delai-jouissance-scpi/ — publié (Batch 2)
+- /baisse-prix-part-scpi/ — publié (Batch 2)
+- /risques-scpi/ — publié (Batch 2)
+- /liquidite-scpi/ — publié (Batch 2)
 - /collecte-scpi/
 - /taux-distribution-scpi/
 - /delai-jouissance-scpi/

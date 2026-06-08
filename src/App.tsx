@@ -155,6 +155,11 @@ const AssuranceVieScpiPage = lazy(() => import('./components/AssuranceVieScpiPag
 const Tmi11ScpiPage = lazy(() => import('./components/Tmi11ScpiPage'));
 const Tmi30ScpiPage = lazy(() => import('./components/Tmi30ScpiPage'));
 const FraisScpiPage = lazy(() => import('./components/FraisScpiPage'));
+const RisquesScpiPage = lazy(() => import('./components/RisquesScpiPage'));
+const LiquiditeScpiPage = lazy(() => import('./components/LiquiditeScpiPage'));
+const BaissePrixPartScpiPage = lazy(() => import('./components/BaissePrixPartScpiPage'));
+const DelaiJouissanceScpiPage = lazy(() => import('./components/DelaiJouissanceScpiPage'));
+const ReportANouveauScpiPage = lazy(() => import('./components/ReportANouveauScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -217,7 +222,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -541,6 +546,16 @@ const App: React.FC = () => {
         setCurrentView('scpi-tmi-30');
       } else if (path === 'frais-scpi') {
         setCurrentView('frais-scpi');
+      } else if (path === 'risques-scpi') {
+        setCurrentView('risques-scpi');
+      } else if (path === 'liquidite-scpi') {
+        setCurrentView('liquidite-scpi');
+      } else if (path === 'baisse-prix-part-scpi') {
+        setCurrentView('baisse-prix-part-scpi');
+      } else if (path === 'delai-jouissance-scpi') {
+        setCurrentView('delai-jouissance-scpi');
+      } else if (path === 'report-a-nouveau-scpi') {
+        setCurrentView('report-a-nouveau-scpi');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -919,6 +934,16 @@ const App: React.FC = () => {
         setCurrentView('scpi-tmi-30');
       } else if (normalizedPath === 'frais-scpi') {
         setCurrentView('frais-scpi');
+      } else if (normalizedPath === 'risques-scpi') {
+        setCurrentView('risques-scpi');
+      } else if (normalizedPath === 'liquidite-scpi') {
+        setCurrentView('liquidite-scpi');
+      } else if (normalizedPath === 'baisse-prix-part-scpi') {
+        setCurrentView('baisse-prix-part-scpi');
+      } else if (normalizedPath === 'delai-jouissance-scpi') {
+        setCurrentView('delai-jouissance-scpi');
+      } else if (normalizedPath === 'report-a-nouveau-scpi') {
+        setCurrentView('report-a-nouveau-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -2640,6 +2665,71 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/frais-scpi/',
       },
       FraisScpiPage
+    );
+  }
+
+  if (currentView === 'risques-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Risques SCPI : comprendre les risques avant d\'investir',
+        description:
+          'Comprenez les principaux risques des SCPI : perte en capital, liquidité limitée, revenus non garantis, baisse du prix de part, fiscalité, endettement et risque immobilier.',
+        keywords: ['risques SCPI', 'perte en capital SCPI', 'liquidité SCPI', 'baisse prix de part SCPI', 'SCPI risque'],
+        canonical: 'https://maximusscpi.com/risques-scpi/',
+      },
+      RisquesScpiPage
+    );
+  }
+
+  if (currentView === 'liquidite-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Liquidité SCPI : revente, délais et risques à connaître',
+        description:
+          'Comprenez la liquidité des SCPI : revente des parts, délai de retrait, marché secondaire, capital variable, capital fixe et risques en cas de besoin rapide de trésorerie.',
+        keywords: ['liquidité SCPI', 'revente parts SCPI', 'délai retrait SCPI', 'capital variable SCPI', 'marché secondaire SCPI'],
+        canonical: 'https://maximusscpi.com/liquidite-scpi/',
+      },
+      LiquiditeScpiPage
+    );
+  }
+
+  if (currentView === 'baisse-prix-part-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Baisse prix de part SCPI : causes, risques et analyse',
+        description:
+          'Comprenez pourquoi une SCPI peut baisser son prix de part : valeur du patrimoine, marché immobilier, taux, expertises, décote, surcote et conséquences pour l\'investisseur.',
+        keywords: ['baisse prix de part SCPI', 'prix part SCPI', 'valeur reconstitution SCPI', 'surcote SCPI', 'expertise SCPI'],
+        canonical: 'https://maximusscpi.com/baisse-prix-part-scpi/',
+      },
+      BaissePrixPartScpiPage
+    );
+  }
+
+  if (currentView === 'delai-jouissance-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Délai de jouissance SCPI : comprendre son impact sur les revenus',
+        description:
+          'Comprenez le délai de jouissance d\'une SCPI, son effet sur les premiers revenus, le rendement réel la première année et les critères à comparer avant d\'investir.',
+        keywords: ['délai jouissance SCPI', 'date jouissance SCPI', 'premiers revenus SCPI', 'rendement SCPI', 'souscription SCPI'],
+        canonical: 'https://maximusscpi.com/delai-jouissance-scpi/',
+      },
+      DelaiJouissanceScpiPage
+    );
+  }
+
+  if (currentView === 'report-a-nouveau-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Report à nouveau SCPI : définition, utilité et limites',
+        description:
+          'Comprenez le report à nouveau d\'une SCPI : réserve de distribution, capacité d\'amortissement, limites, rendement, TOF et critères à croiser avant d\'investir.',
+        keywords: ['report à nouveau SCPI', 'RAN SCPI', 'réserve distribution SCPI', 'lissage distribution SCPI', 'analyse SCPI'],
+        canonical: 'https://maximusscpi.com/report-a-nouveau-scpi/',
+      },
+      ReportANouveauScpiPage
     );
   }
 

@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -522,6 +522,67 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les frais des SCPI : frais de souscription, gestion, cession, assurance-vie, frais indirects et impact sur le rendement net.',
     keywords: ['frais SCPI', 'frais souscription SCPI', 'frais gestion SCPI', 'rendement net SCPI']
+  },
+  // === Risques et vigilance SCPI ===
+  {
+    id: 42,
+    slug: 'risques-scpi',
+    title: 'Risques SCPI : comprendre les risques avant d\'investir',
+    mainKeyword: 'risques SCPI',
+    searchIntent: 'comprendre les principaux risques des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les principaux risques des SCPI : perte en capital, liquidité limitée, revenus non garantis, baisse du prix de part, fiscalité, endettement et risque immobilier.',
+    keywords: ['risques SCPI', 'perte en capital SCPI', 'liquidité SCPI', 'baisse prix de part SCPI']
+  },
+  {
+    id: 43,
+    slug: 'liquidite-scpi',
+    title: 'Liquidité SCPI : peut-on revendre facilement ses parts ?',
+    mainKeyword: 'liquidité SCPI',
+    searchIntent: 'comprendre la liquidité des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez la liquidité des SCPI : revente des parts, délai de retrait, marché secondaire, capital variable, capital fixe et risques en cas de besoin rapide de trésorerie.',
+    keywords: ['liquidité SCPI', 'revente parts SCPI', 'délai retrait SCPI', 'marché secondaire SCPI']
+  },
+  {
+    id: 44,
+    slug: 'baisse-prix-part-scpi',
+    title: 'Baisse du prix de part SCPI : causes et conséquences',
+    mainKeyword: 'baisse prix de part SCPI',
+    searchIntent: 'comprendre les causes de baisse du prix de part d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez pourquoi une SCPI peut baisser son prix de part : valeur du patrimoine, marché immobilier, taux, expertises, décote, surcote et conséquences pour l\'investisseur.',
+    keywords: ['baisse prix de part SCPI', 'prix part SCPI', 'valeur reconstitution SCPI', 'surcote SCPI']
+  },
+  {
+    id: 45,
+    slug: 'delai-jouissance-scpi',
+    title: 'Délai de jouissance SCPI : impact sur le rendement',
+    mainKeyword: 'délai de jouissance SCPI',
+    searchIntent: 'comprendre l\'impact du délai de jouissance',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le délai de jouissance d\'une SCPI, son effet sur les premiers revenus, le rendement réel la première année et les critères à comparer avant d\'investir.',
+    keywords: ['délai jouissance SCPI', 'date jouissance SCPI', 'premiers revenus SCPI', 'rendement SCPI']
+  },
+  {
+    id: 46,
+    slug: 'report-a-nouveau-scpi',
+    title: 'Report à nouveau SCPI : réserve, utilité et limites',
+    mainKeyword: 'report à nouveau SCPI',
+    searchIntent: 'comprendre le report à nouveau d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le report à nouveau d\'une SCPI : réserve de distribution, capacité d\'amortissement, limites, rendement, TOF et critères à croiser avant d\'investir.',
+    keywords: ['report à nouveau SCPI', 'RAN SCPI', 'réserve distribution SCPI', 'analyse SCPI']
   }
 ];
 
