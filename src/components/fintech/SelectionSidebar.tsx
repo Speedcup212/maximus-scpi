@@ -2176,7 +2176,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 onClick={() => setIsResultOpen(false)}
                 className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
               >
-                Commencer ma pré-souscription
+                Valider ma sélection avec un expert
                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
             </div>
