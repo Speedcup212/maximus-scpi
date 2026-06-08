@@ -2960,11 +2960,6 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <p className="mt-4 text-sm sm:text-base font-semibold text-slate-200">
-                    Plus de 650 investisseurs accompagnés — plus de 30 M€ de
-                    projets patrimoniaux analysés
-                  </p>
-
                   <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
                     Une première lecture claire de votre projet SCPI
                   </h1>
@@ -3007,7 +3002,7 @@ const App: React.FC = () => {
                     {[
                       'Pré-orientation pédagogique',
                       'Comparateur 63 SCPI',
-                      'Accompagnement par Éric Bellaiche, CGP certifié AMF • Orias n°13001580',
+                      'Vous serez accompagné par le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580',
                     ].map((item) => (
                       <li key={item} className="inline-flex items-center gap-2">
                         <svg
@@ -3028,6 +3023,11 @@ const App: React.FC = () => {
                       </li>
                     ))}
                   </ul>
+
+                  <p className="mt-4 text-sm sm:text-base font-semibold text-slate-200">
+                    Plus de 650 investisseurs accompagnés — plus de 30 M€ de
+                    projets patrimoniaux analysés
+                  </p>
 
                   {/* Micro-indication desktop : le quiz est déjà affiché à droite. */}
                   <p className="hidden lg:block mt-4 text-sm text-slate-400">
