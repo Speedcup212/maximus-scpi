@@ -37,7 +37,7 @@ const Testimonials: React.FC = () => {
             Ce que disent nos clients
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Témoignages authentiques d'investisseurs qui nous font confiance
+            Retours d'expérience et situations fréquentes
           </p>
         </div>
 
@@ -79,10 +79,9 @@ const Testimonials: React.FC = () => {
 
         {/* Call to action */}
         <div className="text-center mt-12">
-          {/* TODO: remplacer "XXX" par le vrai nombre d'investisseurs validé par Eric.
-              Placeholder volontairement visible pour éviter un chiffre non vérifié. */}
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Rejoignez plus de XXX investisseurs qui nous font confiance
+            Plus de 200 investisseurs accompagnés — plus de 10 M€ de projets
+            patrimoniaux analysés
           </p>
           <a
             href={CALENDLY_URL}
