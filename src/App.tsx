@@ -2969,6 +2969,9 @@ const App: React.FC = () => {
                   </p>
 
                   <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                    {/* Bouton "Démarrer l'analyse" : utile uniquement < lg, où le quiz
+                        passe sous le hero. Masqué sur desktop (lg+) car le quiz est
+                        déjà visible dans la colonne de droite. */}
                     <button
                       type="button"
                       onClick={() =>
@@ -2976,7 +2979,7 @@ const App: React.FC = () => {
                           .getElementById('quiz-section')
                           ?.scrollIntoView({ behavior: 'smooth' })
                       }
-                      className="px-7 py-4 rounded-xl font-semibold text-[#0D1117] shadow-2xl shadow-emerald-500/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
+                      className="lg:hidden px-7 py-4 rounded-xl font-semibold text-[#0D1117] shadow-2xl shadow-emerald-500/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
                       style={{ backgroundColor: '#00C896' }}
                     >
                       Démarrer l'analyse
@@ -3015,6 +3018,11 @@ const App: React.FC = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Micro-indication desktop : le quiz est déjà affiché à droite. */}
+                  <p className="hidden lg:block mt-4 text-sm text-slate-400">
+                    Répondez aux 4 questions à droite pour obtenir une première orientation.
+                  </p>
                 </div>
 
                 {/* Colonne droite — module quiz */}
