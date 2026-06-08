@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight } from 'lucide-react';
+import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3 } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
@@ -46,6 +46,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
       case 'guides': return BookOpen;
       case 'marche': return AlertTriangle;
       case 'analyse': return TrendingUp;
+      case 'analyse-criteres': return BarChart3;
       default: return BookOpen;
     }
   };
@@ -94,6 +95,13 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         badgeClass: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300',
         arrowClass: 'text-indigo-600'
       };
+      case 'analyse-criteres': return {
+        iconClass: 'text-cyan-600',
+        borderHoverClass: 'hover:border-cyan-500',
+        titleHoverClass: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-400',
+        badgeClass: 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300',
+        arrowClass: 'text-cyan-600'
+      };
       default: return {
         iconClass: 'text-gray-600',
         borderHoverClass: 'hover:border-gray-500',
@@ -118,14 +126,15 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     strategies: 'Stratégies',
     guides: 'Guides Pratiques',
     marche: 'Marché & Risques',
-    analyse: 'Analyses & Comparaisons'
+    analyse: 'Analyses & Comparaisons',
+    'analyse-criteres': "Critères d'analyse SCPI"
   };
 
   return (
     <>
       <SEOHead
         title="Articles Éducatifs SCPI | MaximusSCPI"
-        description="30 articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché."
+        description="36 articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché."
         keywords={['articles SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
         canonical="https://maximusscpi.com/articles/"
       />
@@ -162,7 +171,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             Articles Éducatifs SCPI
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-            30 articles experts pour maîtriser votre investissement en SCPI : comparatifs détaillés,
+            36 articles experts pour maîtriser votre investissement en SCPI : comparatifs détaillés,
             optimisation fiscale, stratégies patrimoniales et guides pratiques.
           </p>
         </div>
@@ -250,9 +259,33 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                       </span>
                       <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
                     </div>
-                  </a>
+                    </a>
                 )}
-                {articles.map((article) => (
+                {category === 'analyse-criteres'
+                  ? articles.map((article) => {
+                      const articleUrl = `/${article.slug}/`;
+                      return (
+                        <a
+                          key={article.slug}
+                          href={articleUrl}
+                          className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
+                        >
+                          <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
+                            {article.title}
+                          </h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                            {article.metaDescription}
+                          </p>
+                          <div className="flex items-center justify-between">
+                            <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
+                              {article.mainKeyword}
+                            </span>
+                            <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
+                          </div>
+                        </a>
+                      );
+                    })
+                  : articles.map((article) => (
                   <button
                     key={article.slug}
                     onClick={() => onArticleClick(article.slug)}

@@ -388,6 +388,79 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'SCPI vs OPCI : liquidité, composition, fiscalité, performance. Avantages/inconvénients, quel placement choisir selon profil.',
     keywords: ['SCPI vs OPCI', 'différence', 'liquidité', 'fiscalité', 'performance']
+  },
+  // === Critères d'analyse SCPI ===
+  {
+    id: 31,
+    slug: 'tof-scpi',
+    title: 'TOF SCPI : comprendre le taux d\'occupation financier',
+    mainKeyword: 'TOF SCPI',
+    searchIntent: 'comprendre le taux d\'occupation financier des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprendre le TOF d\'une SCPI, ses seuils d\'interprétation, ses limites et les critères à croiser avant d\'investir.',
+    keywords: ['TOF SCPI', 'taux occupation financier', 'occupation locative SCPI', 'analyse SCPI']
+  },
+  {
+    id: 32,
+    slug: 'capitalisation-scpi',
+    title: 'Capitalisation SCPI : comprendre la taille d\'une SCPI',
+    mainKeyword: 'capitalisation SCPI',
+    searchIntent: 'analyser la taille d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Analyser la capitalisation d\'une SCPI, la mutualisation du risque, la taille critique et les limites d\'une grosse ou petite capitalisation.',
+    keywords: ['capitalisation SCPI', 'taille SCPI', 'diversification SCPI', 'analyse SCPI']
+  },
+  {
+    id: 33,
+    slug: 'decote-valeur-reconstitution-scpi',
+    title: 'Décote et surcote SCPI : lire la valeur de reconstitution',
+    mainKeyword: 'décote SCPI',
+    searchIntent: 'comprendre la décote et surcote des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprendre l\'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d\'entrée d\'une SCPI.',
+    keywords: ['décote SCPI', 'surcote SCPI', 'valeur de reconstitution', 'prix souscription SCPI']
+  },
+  {
+    id: 34,
+    slug: 'endettement-scpi',
+    title: 'Endettement SCPI : analyser la dette avant d\'investir',
+    mainKeyword: 'endettement SCPI',
+    searchIntent: 'comprendre l\'endettement des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprendre le niveau d\'endettement d\'une SCPI, le risque de taux, la maturité de la dette et les critères à surveiller.',
+    keywords: ['endettement SCPI', 'dette SCPI', 'risque taux SCPI', 'analyse SCPI']
+  },
+  {
+    id: 35,
+    slug: 'rendement-net-scpi',
+    title: 'Rendement net SCPI : comparer le rendement réel',
+    mainKeyword: 'rendement net SCPI',
+    searchIntent: 'comparer le rendement net des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Comparer rendement brut, rendement net fiscal, frais, fiscalité française, SCPI européennes, assurance-vie et démembrement.',
+    keywords: ['rendement net SCPI', 'TDVM SCPI', 'fiscalité SCPI', 'rendement brut SCPI']
+  },
+  {
+    id: 36,
+    slug: 'scpi-europeennes',
+    title: 'SCPI européennes : fiscalité, rendement net et diversification',
+    mainKeyword: 'SCPI européennes',
+    searchIntent: 'comprendre l\'intérêt des SCPI européennes',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprendre l\'intérêt des SCPI européennes pour la fiscalité, la diversification géographique et l\'analyse patrimoniale.',
+    keywords: ['SCPI européennes', 'fiscalité SCPI européennes', 'rendement net SCPI', 'diversification SCPI']
   }
 ];
 
