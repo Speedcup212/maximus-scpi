@@ -23,6 +23,16 @@ export const INTERNAL_LINKS = [
   { href: '/baisse-prix-part-scpi', label: 'Baisse du prix de part SCPI — causes et conséquences' },
   { href: '/delai-jouissance-scpi', label: 'Délai de jouissance SCPI — impact sur le rendement' },
   { href: '/report-a-nouveau-scpi', label: 'Report à nouveau SCPI — réserve et distribution' },
+  { href: '/choisir-scpi', label: 'Comment choisir une SCPI — méthode complète' },
+  { href: '/meilleures-scpi-attention', label: 'Meilleures SCPI — limites des classements' },
+  { href: '/comparateur-scpi-fiable', label: 'Comparateur SCPI fiable — critères à vérifier' },
+  { href: '/allocation-scpi', label: 'Allocation SCPI — diversification et fiscalité' },
+  { href: '/combien-investir-scpi', label: 'Combien investir en SCPI — montant et patrimoine' },
+  { href: '/scpi-sante', label: 'SCPI santé — stabilité et limites' },
+  { href: '/scpi-logistique', label: 'SCPI logistique — entrepôts et e-commerce' },
+  { href: '/scpi-bureaux', label: 'SCPI bureaux — analyse et perspectives' },
+  { href: '/scpi-commerce', label: 'SCPI commerce — rendement et risque locatif' },
+  { href: '/scpi-diversifiees', label: 'SCPI diversifiées — mutualisation ou lisibilité' },
 ] as const
 
 export interface TableRow {

@@ -46,6 +46,11 @@ Pages prioritaires :
 - /baisse-prix-part-scpi/ — publié (Batch 2)
 - /risques-scpi/ — publié (Batch 2)
 - /liquidite-scpi/ — publié (Batch 2)
+- /choisir-scpi/ — publié (Batch 3)
+- /meilleures-scpi-attention/ — publié (Batch 3)
+- /comparateur-scpi-fiable/ — publié (Batch 3)
+- /allocation-scpi/ — publié (Batch 3)
+- /combien-investir-scpi/ — publié (Batch 3)
 - /collecte-scpi/
 - /taux-distribution-scpi/
 - /delai-jouissance-scpi/
@@ -180,12 +185,12 @@ Pages :
 ## Silo 7 — Secteurs immobiliers
 
 Pages :
-- /scpi-sante/
-- /scpi-logistique/
-- /scpi-bureaux/
-- /scpi-commerce/
+- /scpi-sante/ — publié (Batch 4)
+- /scpi-logistique/ — publié (Batch 4)
+- /scpi-bureaux/ — publié (Batch 4)
+- /scpi-commerce/ — publié (Batch 4)
 - /scpi-residentiel/
-- /scpi-diversifiees/
+- /scpi-diversifiees/ — publié (Batch 4)
 - /scpi-hotellerie/
 - /scpi-education/
 - /scpi-cliniques/

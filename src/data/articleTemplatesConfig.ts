@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -583,6 +583,128 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 3000,
     metaDescription: 'Comprenez le report à nouveau d\'une SCPI : réserve de distribution, capacité d\'amortissement, limites, rendement, TOF et critères à croiser avant d\'investir.',
     keywords: ['report à nouveau SCPI', 'RAN SCPI', 'réserve distribution SCPI', 'analyse SCPI']
+  },
+  // === Choisir et comparer les SCPI ===
+  {
+    id: 47,
+    slug: 'choisir-scpi',
+    title: 'Comment choisir une SCPI : méthode complète d\'analyse',
+    mainKeyword: 'choisir SCPI',
+    searchIntent: 'comprendre comment choisir une SCPI avec une méthode structurée',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'choix-comparatifs',
+    wordCountTarget: 3000,
+    metaDescription: 'Découvrez comment choisir une SCPI avec une méthode structurée : rendement, TOF, capitalisation, frais, fiscalité, décote, endettement, liquidité et diversification.',
+    keywords: ['choisir SCPI', 'méthode choix SCPI', 'critères SCPI', 'analyser SCPI']
+  },
+  {
+    id: 48,
+    slug: 'meilleures-scpi-attention',
+    title: 'Meilleures SCPI : pourquoi les classements peuvent tromper',
+    mainKeyword: 'meilleures SCPI',
+    searchIntent: 'comprendre les limites des classements SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'choix-comparatifs',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez pourquoi les classements des meilleures SCPI peuvent être trompeurs : rendement, frais, fiscalité, liquidité, risque, TOF, capitalisation et horizon.',
+    keywords: ['meilleures SCPI', 'classement SCPI', 'top SCPI', 'limites classement SCPI']
+  },
+  {
+    id: 49,
+    slug: 'comparateur-scpi-fiable',
+    title: 'Comparateur SCPI fiable : quels critères vérifier ?',
+    mainKeyword: 'comparateur SCPI fiable',
+    searchIntent: 'reconnaître un comparateur SCPI fiable',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'choix-comparatifs',
+    wordCountTarget: 3000,
+    metaDescription: 'Découvrez comment reconnaître un comparateur SCPI fiable : données, frais, rendement, TOF, capitalisation, décote, endettement, fiscalité, limites et transparence.',
+    keywords: ['comparateur SCPI', 'comparateur SCPI fiable', 'outil comparaison SCPI']
+  },
+  {
+    id: 50,
+    slug: 'allocation-scpi',
+    title: 'Allocation SCPI : diversification, fiscalité et construction cohérente',
+    mainKeyword: 'allocation SCPI',
+    searchIntent: 'construire une allocation SCPI cohérente',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'choix-comparatifs',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez comment construire une allocation SCPI cohérente : diversification sectorielle, géographique, fiscalité, rendement net, risques, TOF et liquidité.',
+    keywords: ['allocation SCPI', 'diversification SCPI', 'portefeuille SCPI']
+  },
+  {
+    id: 51,
+    slug: 'combien-investir-scpi',
+    title: 'Combien investir en SCPI selon son patrimoine ?',
+    mainKeyword: 'combien investir SCPI',
+    searchIntent: 'déterminer le montant à investir en SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'choix-comparatifs',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez combien investir en SCPI selon votre patrimoine, votre fiscalité, votre horizon, votre besoin de revenus, votre liquidité et votre tolérance au risque.',
+    keywords: ['combien investir SCPI', 'montant SCPI', 'calibrage SCPI']
+  },
+  // === Secteurs immobiliers SCPI ===
+  {
+    id: 52,
+    slug: 'scpi-sante',
+    title: 'SCPI santé : stabilité, rendement et limites à analyser',
+    mainKeyword: 'SCPI santé',
+    searchIntent: 'comprendre les SCPI santé',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les SCPI santé : cliniques, laboratoires, cabinets médicaux, EHPAD, rendement, stabilité locative, risques et critères à analyser.',
+    keywords: ['SCPI santé', 'immobilier santé SCPI', 'investir santé SCPI']
+  },
+  {
+    id: 53,
+    slug: 'scpi-logistique',
+    title: 'SCPI logistique : entrepôts, e-commerce et risques sectoriels',
+    mainKeyword: 'SCPI logistique',
+    searchIntent: 'comprendre les SCPI logistique',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les SCPI logistique : entrepôts, locaux d\'activité, e-commerce, rendement, occupation, risques sectoriels, localisation et critères d\'analyse.',
+    keywords: ['SCPI logistique', 'entrepôts SCPI', 'immobilier logistique SCPI']
+  },
+  {
+    id: 54,
+    slug: 'scpi-bureaux',
+    title: 'SCPI bureaux : faut-il encore investir ?',
+    mainKeyword: 'SCPI bureaux',
+    searchIntent: 'comprendre les SCPI bureaux',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les SCPI bureaux : télétravail, vacance, baisse des valeurs, rendement, TOF, localisation, qualité des actifs et critères à analyser.',
+    keywords: ['SCPI bureaux', 'immobilier bureaux SCPI', 'analyse SCPI bureaux']
+  },
+  {
+    id: 55,
+    slug: 'scpi-commerce',
+    title: 'SCPI commerce : rendement, emplacement et risque locatif',
+    mainKeyword: 'SCPI commerce',
+    searchIntent: 'comprendre les SCPI commerce',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les SCPI commerce : murs de magasins, retail parks, commerces alimentaires, emplacement, rendement, vacance, e-commerce et critères d\'analyse.',
+    keywords: ['SCPI commerce', 'immobilier commercial SCPI', 'retail parks SCPI']
+  },
+  {
+    id: 56,
+    slug: 'scpi-diversifiees',
+    title: 'SCPI diversifiées : mutualisation ou manque de lisibilité ?',
+    mainKeyword: 'SCPI diversifiées',
+    searchIntent: 'comprendre les SCPI diversifiées',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les SCPI diversifiées : bureaux, commerces, santé, logistique, résidentiel, diversification sectorielle, rendement, risques et critères à analyser.',
+    keywords: ['SCPI diversifiées', 'SCPI multi-secteurs', 'diversification SCPI']
   }
 ];
 

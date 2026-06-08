@@ -160,6 +160,16 @@ const LiquiditeScpiPage = lazy(() => import('./components/LiquiditeScpiPage'));
 const BaissePrixPartScpiPage = lazy(() => import('./components/BaissePrixPartScpiPage'));
 const DelaiJouissanceScpiPage = lazy(() => import('./components/DelaiJouissanceScpiPage'));
 const ReportANouveauScpiPage = lazy(() => import('./components/ReportANouveauScpiPage'));
+const ChoisirScpiPage = lazy(() => import('./components/ChoisirScpiPage'));
+const MeilleuresScpiAttentionPage = lazy(() => import('./components/MeilleuresScpiAttentionPage'));
+const ComparateurScpiFiablePage = lazy(() => import('./components/ComparateurScpiFiablePage'));
+const AllocationScpiPage = lazy(() => import('./components/AllocationScpiPage'));
+const CombienInvestirScpiPage = lazy(() => import('./components/CombienInvestirScpiPage'));
+const ScpiSantePage = lazy(() => import('./components/ScpiSantePage'));
+const ScpiLogistiquePage = lazy(() => import('./components/ScpiLogistiquePage'));
+const ScpiBureauxPage = lazy(() => import('./components/ScpiBureauxPage'));
+const ScpiCommercePage = lazy(() => import('./components/ScpiCommercePage'));
+const ScpiDiversifieesPage = lazy(() => import('./components/ScpiDiversifieesPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -222,7 +232,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -556,6 +566,26 @@ const App: React.FC = () => {
         setCurrentView('delai-jouissance-scpi');
       } else if (path === 'report-a-nouveau-scpi') {
         setCurrentView('report-a-nouveau-scpi');
+      } else if (path === 'choisir-scpi') {
+        setCurrentView('choisir-scpi');
+      } else if (path === 'meilleures-scpi-attention') {
+        setCurrentView('meilleures-scpi-attention');
+      } else if (path === 'comparateur-scpi-fiable') {
+        setCurrentView('comparateur-scpi-fiable');
+      } else if (path === 'allocation-scpi') {
+        setCurrentView('allocation-scpi');
+      } else if (path === 'combien-investir-scpi') {
+        setCurrentView('combien-investir-scpi');
+      } else if (path === 'scpi-sante') {
+        setCurrentView('scpi-sante');
+      } else if (path === 'scpi-logistique') {
+        setCurrentView('scpi-logistique');
+      } else if (path === 'scpi-bureaux') {
+        setCurrentView('scpi-bureaux');
+      } else if (path === 'scpi-commerce') {
+        setCurrentView('scpi-commerce');
+      } else if (path === 'scpi-diversifiees') {
+        setCurrentView('scpi-diversifiees');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -944,6 +974,26 @@ const App: React.FC = () => {
         setCurrentView('delai-jouissance-scpi');
       } else if (normalizedPath === 'report-a-nouveau-scpi') {
         setCurrentView('report-a-nouveau-scpi');
+      } else if (normalizedPath === 'choisir-scpi') {
+        setCurrentView('choisir-scpi');
+      } else if (normalizedPath === 'meilleures-scpi-attention') {
+        setCurrentView('meilleures-scpi-attention');
+      } else if (normalizedPath === 'comparateur-scpi-fiable') {
+        setCurrentView('comparateur-scpi-fiable');
+      } else if (normalizedPath === 'allocation-scpi') {
+        setCurrentView('allocation-scpi');
+      } else if (normalizedPath === 'combien-investir-scpi') {
+        setCurrentView('combien-investir-scpi');
+      } else if (normalizedPath === 'scpi-sante') {
+        setCurrentView('scpi-sante');
+      } else if (normalizedPath === 'scpi-logistique') {
+        setCurrentView('scpi-logistique');
+      } else if (normalizedPath === 'scpi-bureaux') {
+        setCurrentView('scpi-bureaux');
+      } else if (normalizedPath === 'scpi-commerce') {
+        setCurrentView('scpi-commerce');
+      } else if (normalizedPath === 'scpi-diversifiees') {
+        setCurrentView('scpi-diversifiees');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -1238,7 +1288,9 @@ const App: React.FC = () => {
       '': 'home'
     };
 
-    const targetView = pathMapping[cleanPath] || 'home';
+    // Use the mapped view if it exists, otherwise fall back to the path itself
+    // (educational pages and other routes use their path as the currentView)
+    const targetView = pathMapping[cleanPath] || cleanPath || 'home';
     navigateToView(targetView, path);
   };
 
@@ -2730,6 +2782,136 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/report-a-nouveau-scpi/',
       },
       ReportANouveauScpiPage
+    );
+  }
+
+  if (currentView === 'choisir-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Comment choisir une SCPI : critères, fiscalité, risques et rendement',
+        description:
+          'Découvrez comment choisir une SCPI avec une méthode structurée : rendement, TOF, capitalisation, frais, fiscalité, décote, endettement, liquidité et diversification.',
+        keywords: ['choisir SCPI', 'méthode choix SCPI', 'critères SCPI', 'analyser SCPI', 'comparer SCPI'],
+        canonical: 'https://maximusscpi.com/choisir-scpi/',
+      },
+      ChoisirScpiPage
+    );
+  }
+
+  if (currentView === 'meilleures-scpi-attention') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Meilleures SCPI : limites des classements et critères à vérifier',
+        description:
+          'Comprenez pourquoi les classements des meilleures SCPI peuvent être trompeurs : rendement, frais, fiscalité, liquidité, risque, TOF, capitalisation et horizon.',
+        keywords: ['meilleures SCPI', 'classement SCPI', 'top SCPI', 'limites classement SCPI', 'comparer SCPI'],
+        canonical: 'https://maximusscpi.com/meilleures-scpi-attention/',
+      },
+      MeilleuresScpiAttentionPage
+    );
+  }
+
+  if (currentView === 'comparateur-scpi-fiable') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Comparateur SCPI fiable : méthode, données et critères d\'analyse',
+        description:
+          'Découvrez comment reconnaître un comparateur SCPI fiable : données, frais, rendement, TOF, capitalisation, décote, endettement, fiscalité, limites et transparence.',
+        keywords: ['comparateur SCPI', 'comparateur SCPI fiable', 'critères comparateur SCPI', 'analyse SCPI', 'outil comparaison SCPI'],
+        canonical: 'https://maximusscpi.com/comparateur-scpi-fiable/',
+      },
+      ComparateurScpiFiablePage
+    );
+  }
+
+  if (currentView === 'allocation-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Allocation SCPI : comment diversifier entre secteurs, pays et fiscalité',
+        description:
+          'Comprenez comment construire une allocation SCPI cohérente : diversification sectorielle, géographique, fiscalité, rendement net, risques, TOF et liquidité.',
+        keywords: ['allocation SCPI', 'diversification SCPI', 'répartition SCPI', 'portefeuille SCPI', 'construction allocation SCPI'],
+        canonical: 'https://maximusscpi.com/allocation-scpi/',
+      },
+      AllocationScpiPage
+    );
+  }
+
+  if (currentView === 'combien-investir-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Combien investir en SCPI : montant, diversification, risque et fiscalité',
+        description:
+          'Comprenez combien investir en SCPI selon votre patrimoine, votre fiscalité, votre horizon, votre besoin de revenus, votre liquidité et votre tolérance au risque.',
+        keywords: ['combien investir SCPI', 'montant SCPI', 'investir SCPI montant', 'calibrage SCPI', 'budget SCPI'],
+        canonical: 'https://maximusscpi.com/combien-investir-scpi/',
+      },
+      CombienInvestirScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-sante') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI santé : avantages, risques, rendement et critères d\'analyse',
+        description:
+          'Comprenez les SCPI santé : cliniques, laboratoires, cabinets médicaux, EHPAD, rendement, stabilité locative, risques et critères à analyser.',
+        keywords: ['SCPI santé', 'immobilier santé SCPI', 'SCPI cliniques', 'SCPI EHPAD', 'investir santé SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-sante/',
+      },
+      ScpiSantePage
+    );
+  }
+
+  if (currentView === 'scpi-logistique') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI logistique : rendement, entrepôts, e-commerce et vigilance',
+        description:
+          'Comprenez les SCPI logistique : entrepôts, locaux d\'activité, e-commerce, rendement, occupation, risques sectoriels, localisation et critères d\'analyse.',
+        keywords: ['SCPI logistique', 'entrepôts SCPI', 'SCPI e-commerce', 'immobilier logistique SCPI', 'investir logistique SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-logistique/',
+      },
+      ScpiLogistiquePage
+    );
+  }
+
+  if (currentView === 'scpi-bureaux') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI bureaux : risques, rendement, valorisation et analyse',
+        description:
+          'Comprenez les SCPI bureaux : télétravail, vacance, baisse des valeurs, rendement, TOF, localisation, qualité des actifs et critères à analyser.',
+        keywords: ['SCPI bureaux', 'immobilier bureaux SCPI', 'télétravail SCPI bureaux', 'investir bureaux SCPI', 'analyse SCPI bureaux'],
+        canonical: 'https://maximusscpi.com/scpi-bureaux/',
+      },
+      ScpiBureauxPage
+    );
+  }
+
+  if (currentView === 'scpi-commerce') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI commerce : avantages, risques, rendement et analyse',
+        description:
+          'Comprenez les SCPI commerce : murs de magasins, retail parks, commerces alimentaires, emplacement, rendement, vacance, e-commerce et critères d\'analyse.',
+        keywords: ['SCPI commerce', 'immobilier commercial SCPI', 'retail parks SCPI', 'commerces SCPI', 'investir commerce SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-commerce/',
+      },
+      ScpiCommercePage
+    );
+  }
+
+  if (currentView === 'scpi-diversifiees') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI diversifiées : secteurs, risques, rendement et analyse',
+        description:
+          'Comprenez les SCPI diversifiées : bureaux, commerces, santé, logistique, résidentiel, diversification sectorielle, rendement, risques et critères à analyser.',
+        keywords: ['SCPI diversifiées', 'SCPI multi-secteurs', 'diversification SCPI', 'SCPI équilibrée', 'investir SCPI diversifiée'],
+        canonical: 'https://maximusscpi.com/scpi-diversifiees/',
+      },
+      ScpiDiversifieesPage
     );
   }
 
