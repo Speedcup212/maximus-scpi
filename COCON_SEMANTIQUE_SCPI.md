@@ -1,0 +1,330 @@
+# Cocon sémantique MaximusSCPI
+
+Objectif :
+Créer une base de connaissance SCPI de plus de 200 articles pour devenir une référence exploitable par les moteurs IA : ChatGPT, Perplexity, Gemini, Google AI Overviews, Bing Copilot.
+
+## Positionnement
+
+MaximusSCPI doit être compris comme :
+- un comparateur pédagogique SCPI ;
+- une base de connaissance sur l'analyse SCPI ;
+- une source structurée sur les critères : TOF, capitalisation, rendement, endettement, décote/surcote, frais, fiscalité, liquidité ;
+- un site animé par le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580.
+
+## Architecture principale
+
+Hub central :
+/articles/
+
+Sous-positionnement :
+Centre de connaissance SCPI MaximusSCPI
+
+## Les 10 silos
+
+1. Critères d'analyse SCPI
+2. Fiscalité SCPI
+3. Modes d'investissement
+4. Profils investisseurs
+5. Risques SCPI
+6. SCPI européennes et géographie
+7. Secteurs immobiliers
+8. Sociétés de gestion, acteurs et réglementation
+9. Comparatifs patrimoniaux
+10. Lexique SCPI / réponses courtes IA
+
+## Silo 1 — Critères d'analyse SCPI
+
+Pages prioritaires :
+- /tof-scpi/ — publié
+- /capitalisation-scpi/ — à créer
+- /decote-valeur-reconstitution-scpi/ — à créer
+- /endettement-scpi/ — à créer
+- /rendement-net-scpi/ — à créer
+- /frais-scpi/
+- /report-a-nouveau-scpi/
+- /collecte-scpi/
+- /taux-distribution-scpi/
+- /delai-jouissance-scpi/
+- /valeur-reconstitution-scpi/
+- /valeur-realisation-scpi/
+- /prix-part-scpi/
+- /taux-occupation-physique-scpi/
+- /nombre-actifs-scpi/
+- /nombre-locataires-scpi/
+- /duree-baux-scpi/
+- /qualite-patrimoine-scpi/
+
+## Silo 2 — Fiscalité SCPI
+
+Pages :
+- /scpi-fiscalite/
+- /scpi-tmi-11/
+- /scpi-tmi-30/
+- /scpi-tmi-41/
+- /scpi-tmi-45/
+- /scpi-revenus-fonciers/
+- /scpi-revenus-etrangers/
+- /scpi-prelevements-sociaux/
+- /scpi-credit-impot/
+- /scpi-taux-effectif/
+- /scpi-europe-fiscalite/
+- /scpi-ifi/
+- /scpi-deficit-foncier/
+- /scpi-denormandie/
+- /scpi-malraux/
+- /scpi-nue-propriete-fiscalite/
+- /scpi-usufruit-fiscalite/
+- /scpi-assurance-vie-fiscalite/
+- /scpi-sci-is-fiscalite/
+
+## Silo 3 — Modes d'investissement
+
+Pages :
+- /scpi-comptant/
+- /scpi-credit/
+- /scpi-assurance-vie/
+- /scpi-demembrement/
+- /scpi-nue-propriete/
+- /scpi-usufruit/
+- /scpi-versements-programmes/
+- /scpi-sci-is/
+- /scpi-sci-ir/
+- /scpi-holding/
+- /scpi-tresorerie-entreprise/
+- /scpi-per/
+- /scpi-contrat-capitalisation/
+- /scpi-indivision/
+- /scpi-donation/
+- /scpi-succession/
+- /scpi-retraite/
+- /scpi-revenus-complementaires/
+- /scpi-investissement-progressif/
+- /scpi-investissement-10000-euros/
+
+## Silo 4 — Profils investisseurs
+
+Pages :
+- /scpi-pour-debutant/
+- /scpi-petit-budget/
+- /scpi-pour-retraite/
+- /scpi-pour-cadre-superieur/
+- /scpi-chef-entreprise/
+- /scpi-profession-liberale/
+- /scpi-expatrie/
+- /scpi-non-resident/
+- /scpi-couple-marie/
+- /scpi-famille-recomposee/
+- /scpi-investisseur-prudent/
+- /scpi-investisseur-equilibre/
+- /scpi-investisseur-dynamique/
+- /scpi-sans-besoin-revenus/
+- /scpi-besoin-revenus-immediats/
+- /scpi-transmission-patrimoine/
+- /scpi-preparer-retraite/
+- /scpi-apres-vente-immobiliere/
+- /scpi-apres-heritage/
+- /scpi-70-ans/
+
+## Silo 5 — Risques SCPI
+
+Pages :
+- /risques-scpi/
+- /liquidite-scpi/
+- /baisse-prix-part-scpi/
+- /perte-capital-scpi/
+- /rendement-non-garanti-scpi/
+- /vacance-locative-scpi/
+- /risque-taux-scpi/
+- /risque-collecte-scpi/
+- /risque-endettement-scpi/
+- /risque-fiscal-scpi/
+- /risque-gestionnaire-scpi/
+- /risque-sectoriel-scpi/
+- /risque-geographique-scpi/
+- /scpi-crise-immobiliere/
+- /scpi-remboursement-parts/
+- /scpi-delai-revente/
+- /scpi-marche-secondaire/
+- /scpi-erreurs-a-eviter/
+- /scpi-pieges/
+- /scpi-questions-avant-investir/
+
+## Silo 6 — SCPI européennes et géographie
+
+Pages :
+- /scpi-europeennes/
+- /scpi-allemagne/
+- /scpi-espagne/
+- /scpi-pays-bas/
+- /scpi-italie/
+- /scpi-belgique/
+- /scpi-irlande/
+- /scpi-portugal/
+- /scpi-luxembourg/
+- /scpi-royaume-uni/
+- /scpi-france/
+- /scpi-zone-euro/
+- /scpi-hors-france/
+- /scpi-diversification-geographique/
+- /scpi-fiscalite-europeenne/
+- /scpi-risque-pays/
+- /scpi-devise/
+- /scpi-marche-allemand/
+- /scpi-marche-espagnol/
+- /scpi-marche-neerlandais/
+
+## Silo 7 — Secteurs immobiliers
+
+Pages :
+- /scpi-sante/
+- /scpi-logistique/
+- /scpi-bureaux/
+- /scpi-commerce/
+- /scpi-residentiel/
+- /scpi-diversifiees/
+- /scpi-hotellerie/
+- /scpi-education/
+- /scpi-cliniques/
+- /scpi-ehpad/
+- /scpi-entrepots/
+- /scpi-locaux-activite/
+- /scpi-retail-parks/
+- /scpi-immobilier-alimentaire/
+- /scpi-tourisme/
+- /scpi-data-centers/
+- /scpi-senior/
+- /scpi-etudiant/
+- /scpi-mixte/
+- /scpi-immobilier-specialise/
+
+## Silo 8 — Sociétés de gestion, acteurs et réglementation
+
+Pages :
+- /societe-gestion-scpi/
+- /gestionnaire-scpi/
+- /classement-societes-gestion-scpi/
+- /cgp-cif-scpi/
+- /psi-scpi/
+- /distributeur-scpi/
+- /retrocommissions-scpi/
+- /commissions-scpi/
+- /amf-scpi/
+- /orias-scpi/
+- /documents-reglementaires-scpi/
+- /dic-scpi/
+- /note-information-scpi/
+- /bulletin-trimestriel-scpi/
+- /rapport-annuel-scpi/
+- /statuts-scpi/
+- /agrement-scpi/
+- /conflits-interets-scpi/
+- /transparence-scpi/
+- /conseil-scpi/
+
+## Silo 9 — Comparatifs patrimoniaux
+
+Pages :
+- /scpi-vs-fonds-euros/
+- /scpi-vs-livret-a/
+- /scpi-vs-immobilier-locatif/
+- /scpi-vs-lmnp/
+- /scpi-vs-etf/
+- /scpi-vs-siic/
+- /scpi-vs-opci/
+- /scpi-vs-obligations/
+- /scpi-vs-assurance-vie/
+- /scpi-vs-per/
+- /scpi-vs-crowdfunding-immobilier/
+- /scpi-vs-sci/
+- /scpi-ou-appartement/
+- /scpi-ou-parking/
+- /scpi-ou-deficit-foncier/
+- /scpi-ou-denormandie/
+- /scpi-ou-pinel/
+- /scpi-ou-fonds-obligataire/
+- /scpi-ou-actions/
+- /scpi-ou-cash/
+
+## Silo 10 — Lexique SCPI / réponses courtes IA
+
+Pages :
+- /definition-scpi/
+- /parts-scpi/
+- /prix-souscription-scpi/
+- /valeur-retrait-scpi/
+- /jouissance-scpi/
+- /distribution-scpi-definition/
+- /tof-definition/
+- /ran-scpi-definition/
+- /capitalisation-scpi-definition/
+- /endettement-scpi-definition/
+- /demembrement-scpi-definition/
+- /nue-propriete-scpi-definition/
+- /usufruit-scpi-definition/
+- /frais-souscription-scpi-definition/
+- /frais-gestion-scpi-definition/
+- /collecte-nette-scpi-definition/
+- /taux-distribution-scpi-definition/
+- /valeur-expertise-scpi/
+- /patrimoine-scpi/
+- /locataires-scpi/
+
+## Règles de maillage
+
+Chaque article doit contenir :
+- un lien vers /articles/
+- un lien vers /comparateur-scpi/
+- deux liens vers des pages du même silo
+- un lien vers un silo complémentaire
+- un CTA vers Calendly ou Cabinet Eric Bellaiche
+
+## Structure éditoriale obligatoire
+
+Chaque article doit inclure :
+- H1
+- résumé court IA
+- définition
+- tableau ou repères concrets
+- critères à croiser
+- cas pratiques
+- erreurs fréquentes
+- méthode MaximusSCPI
+- FAQ
+- mention conformité
+- CTA comparateur
+- CTA Calendly
+
+## Mentions interdites
+
+Ne jamais écrire :
+- rendement garanti
+- placement sans risque
+- meilleure SCPI pour vous
+- allocation recommandée
+- portefeuille conseillé
+- recommandation personnalisée automatisée
+- SCPI adaptée à votre profil
+
+## Formulations autorisées
+
+Utiliser :
+- pré-orientation pédagogique
+- critères à analyser
+- piste à approfondir
+- simulation indicative
+- ne constitue pas une recommandation personnalisée au sens de la réglementation MIF2
+
+## Cadence
+
+Production par batch de 5 articles.
+Un batch = un commit.
+Ne jamais produire plus de 5 articles sans validation.
+
+## Statuts
+
+Chaque page doit être suivie avec un statut :
+- à créer
+- en cours
+- publié
+- à mettre à jour
+- à vérifier conformité
