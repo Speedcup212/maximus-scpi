@@ -247,23 +247,56 @@ const TOFScpiPage: React.FC<TOFScpiPageProps> = ({ onNavigate, onComparateurClic
               </thead>
               <tbody className="text-slate-300">
                 <tr className="border-b border-slate-800">
-                  <td className="py-4 pr-4 font-medium text-white">TOF élevé</td>
-                  <td className="py-4 pr-4">Meilleure occupation apparente du patrimoine</td>
-                  <td className="py-4">Peut masquer un rendement faible ou une surcote sur valeur de reconstitution</td>
+                  <td className="py-4 pr-4 font-medium text-white whitespace-nowrap">TOF ≥ 95 %</td>
+                  <td className="py-4 pr-4">
+                    Occupation financière élevée, généralement rassurante sur la capacité à
+                    facturer les loyers.
+                  </td>
+                  <td className="py-4">
+                    Ne garantit pas le rendement. À croiser avec le prix de souscription, la
+                    surcote éventuelle et la qualité du patrimoine.
+                  </td>
                 </tr>
                 <tr className="border-b border-slate-800">
-                  <td className="py-4 pr-4 font-medium text-white">TOF moyen</td>
-                  <td className="py-4 pr-4">Situation parfois temporaire (travaux, relocation)</td>
-                  <td className="py-4">Comprendre les causes avant toute conclusion</td>
+                  <td className="py-4 pr-4 font-medium text-white whitespace-nowrap">TOF entre 90 % et 95 %</td>
+                  <td className="py-4 pr-4">
+                    Niveau généralement solide, compatible avec une SCPI correctement occupée.
+                  </td>
+                  <td className="py-4">
+                    Analyser l'évolution sur plusieurs trimestres et comprendre les éventuelles
+                    vacances ou relocations.
+                  </td>
+                </tr>
+                <tr className="border-b border-slate-800">
+                  <td className="py-4 pr-4 font-medium text-white whitespace-nowrap">TOF entre 85 % et 90 %</td>
+                  <td className="py-4 pr-4">
+                    Situation parfois temporaire : travaux, arbitrages, relocation ou
+                    repositionnement du patrimoine.
+                  </td>
+                  <td className="py-4">
+                    Zone de vigilance. Il faut identifier les causes et vérifier si la baisse
+                    est ponctuelle ou structurelle.
+                  </td>
                 </tr>
                 <tr>
-                  <td className="py-4 pr-4 font-medium text-white">TOF faible</td>
-                  <td className="py-4 pr-4">Potentiel de revalorisation si vacance temporaire</td>
-                  <td className="py-4">Risque locatif, baisse de revenus, difficulté structurelle du patrimoine</td>
+                  <td className="py-4 pr-4 font-medium text-white whitespace-nowrap">TOF &lt; 85 %</td>
+                  <td className="py-4 pr-4">
+                    Potentiel de redressement si la vacance est temporaire et bien expliquée.
+                  </td>
+                  <td className="py-4">
+                    Signal faible. Risque de vacance durable, baisse des revenus ou difficulté
+                    d'attractivité du patrimoine.
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <p className="mt-4 text-xs text-slate-500 leading-relaxed">
+            Ces seuils sont des repères indicatifs. Ils ne suffisent pas à juger une SCPI. Le
+            TOF doit être croisé avec le secteur immobilier, la capitalisation, le rendement,
+            l'endettement, les frais, la décote ou surcote sur valeur de reconstitution et
+            l'évolution historique du patrimoine.
+          </p>
         </section>
 
         {/* Critères à croiser */}
