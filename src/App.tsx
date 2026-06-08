@@ -83,7 +83,6 @@ const SimulateursHub = lazy(() => import('./pages/SimulateursHub'));
 const ScpiSecteursHubPage = lazy(() => import('./components/ScpiSecteursHubPage'));
 const ScpiGestionnairesHubPage = lazy(() => import('./components/ScpiGestionnairesHubPage'));
 const ScpiObjectifsHubPage = lazy(() => import('./components/ScpiObjectifsHubPage'));
-const ScpiEuropeennesHubPage = lazy(() => import('./components/ScpiEuropeennesHubPage'));
 const FondsEurosScpiArticle = lazy(() => import('./components/FondsEurosScpiArticle'));
 const ArticleGeneratorPage = lazy(() => import('./components/ArticleGeneratorPage'));
 const EducationArticlesIndexPage = lazy(() => import('./components/EducationArticlesIndexPage'));
@@ -146,6 +145,11 @@ const MethodologieDonneesPage = lazy(() => import('./components/MethodologieDonn
 const AvertissementsRisquesPage = lazy(() => import('./components/AvertissementsRisquesPage'));
 const FiscaliteScpiPage = lazy(() => import('./components/FiscaliteScpiPage'));
 const TOFScpiPage = lazy(() => import('./components/TOFScpiPage'));
+const CapitalisationScpiPage = lazy(() => import('./components/CapitalisationScpiPage'));
+const DecoteValeurReconstitutionScpiPage = lazy(() => import('./components/DecoteValeurReconstitutionScpiPage'));
+const EndettementScpiPage = lazy(() => import('./components/EndettementScpiPage'));
+const RendementNetScpiPage = lazy(() => import('./components/RendementNetScpiPage'));
+const ScpiEuropeennesPage = lazy(() => import('./components/ScpiEuropeennesPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -208,7 +212,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -400,6 +404,14 @@ const App: React.FC = () => {
         setCurrentView('fiscalite-scpi');
       } else if (path === 'tof-scpi') {
         setCurrentView('tof-scpi');
+      } else if (path === 'capitalisation-scpi') {
+        setCurrentView('capitalisation-scpi');
+      } else if (path === 'decote-valeur-reconstitution-scpi') {
+        setCurrentView('decote-valeur-reconstitution-scpi');
+      } else if (path === 'endettement-scpi') {
+        setCurrentView('endettement-scpi');
+      } else if (path === 'rendement-net-scpi') {
+        setCurrentView('rendement-net-scpi');
       } else if (path === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (path === 'test-sender-react') {
@@ -874,6 +886,14 @@ const App: React.FC = () => {
         setCurrentView('fiscalite-scpi');
       } else if (normalizedPath === 'tof-scpi') {
         setCurrentView('tof-scpi');
+      } else if (normalizedPath === 'capitalisation-scpi') {
+        setCurrentView('capitalisation-scpi');
+      } else if (normalizedPath === 'decote-valeur-reconstitution-scpi') {
+        setCurrentView('decote-valeur-reconstitution-scpi');
+      } else if (normalizedPath === 'endettement-scpi') {
+        setCurrentView('endettement-scpi');
+      } else if (normalizedPath === 'rendement-net-scpi') {
+        setCurrentView('rendement-net-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -1346,6 +1366,37 @@ const App: React.FC = () => {
         />
       )}
     </Suspense>
+  );
+
+  const renderEducationalScpiPage = (
+    seo: { title: string; description: string; keywords: string[]; canonical: string },
+    Page: React.ComponentType<{ onNavigate?: (path: string) => void; onComparateurClick?: () => void }>
+  ) => (
+    <div className="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark">
+      <SEOHead title={seo.title} description={seo.description} keywords={seo.keywords} canonical={seo.canonical} />
+      <Header
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+        onContactClick={() => setIsRdvModalOpen(true)}
+        onAboutClick={handleAboutUsClick}
+        onEducationClick={handleEducationClick}
+        onLogoClick={handleBackToHome}
+        onScpiPageClick={handleScpiClick}
+        onFaqClick={handleFaqClick}
+        onUnderstandingClick={handleComprendreClick}
+        onAboutSectionClick={handleAboutUsClick}
+        onAboutNavigation={handleGenericNavigation}
+        onComparateurClick={handleComparateurClick}
+        onSimulateurClick={handleSimulateurClick}
+        onArticlesClick={handleArticlesClick}
+        currentView={currentView}
+      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Page onNavigate={handleGenericNavigation} onComparateurClick={handleComparateurClick} />
+      </Suspense>
+      <Footer />
+      {renderGlobalModals()}
+    </div>
   );
 
   if (currentView.startsWith('app-')) {
@@ -2050,33 +2101,17 @@ const App: React.FC = () => {
     );
   }
 
-  // Render SCPI Européennes Hub
+  // Render Page Pivot SCPI Européennes
   if (currentView === 'scpi-europeennes-hub') {
-    return (
-      <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
-        <Header
-          isDarkMode={isDarkMode}
-          toggleTheme={toggleTheme}
-          onContactClick={() => setIsRdvModalOpen(true)}
-          onAboutClick={handleAboutUsClick}
-          onEducationClick={handleEducationClick}
-          onLogoClick={handleBackToHome}
-          onScpiPageClick={handleScpiClick}
-          onFaqClick={handleFaqClick}
-          onUnderstandingClick={handleComprendreClick}
-          onAboutSectionClick={handleAboutUsClick}
-          onAboutNavigation={handleGenericNavigation}
-          onComparateurClick={handleComparateurClick}
-          onSimulateurClick={handleSimulateurClick}
-          onArticlesClick={handleArticlesClick}
-          currentView={currentView}
-        />
-        <Suspense fallback={<LoadingSpinner />}>
-          <ScpiEuropeennesHubPage />
-        </Suspense>
-        <Footer />
-        {renderGlobalModals()}
-      </div>
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI européennes : fiscalité, rendement net et diversification',
+        description:
+          'Comprenez les avantages et limites des SCPI européennes : fiscalité, rendement net, diversification géographique, TOF, capitalisation, endettement et risques à analyser.',
+        keywords: ['SCPI européennes', 'fiscalité SCPI européennes', 'rendement net SCPI', 'diversification SCPI', 'SCPI Allemagne', 'SCPI internationale'],
+        canonical: 'https://maximusscpi.com/scpi-europeennes/',
+      },
+      ScpiEuropeennesPage
     );
   }
 
@@ -2463,6 +2498,58 @@ const App: React.FC = () => {
         <Footer />
         {renderGlobalModals()}
       </div>
+    );
+  }
+
+  if (currentView === 'capitalisation-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Capitalisation SCPI : définition, seuils et analyse avant d\'investir',
+        description:
+          'Comprenez la capitalisation d\'une SCPI, ses seuils, ses limites et les critères à croiser : TOF, rendement, endettement, décote, frais et diversification.',
+        keywords: ['capitalisation SCPI', 'taille SCPI', 'analyse SCPI', 'diversification SCPI', 'comparateur SCPI'],
+        canonical: 'https://maximusscpi.com/capitalisation-scpi/',
+      },
+      CapitalisationScpiPage
+    );
+  }
+
+  if (currentView === 'decote-valeur-reconstitution-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Décote SCPI et valeur de reconstitution : comprendre avant d\'investir',
+        description:
+          'Découvrez comment analyser la décote ou surcote d\'une SCPI par rapport à sa valeur de reconstitution, et pourquoi ce critère doit être croisé avec TOF, rendement, capitalisation et endettement.',
+        keywords: ['décote SCPI', 'surcote SCPI', 'valeur de reconstitution', 'prix souscription SCPI', 'analyse SCPI'],
+        canonical: 'https://maximusscpi.com/decote-valeur-reconstitution-scpi/',
+      },
+      DecoteValeurReconstitutionScpiPage
+    );
+  }
+
+  if (currentView === 'endettement-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Endettement SCPI : seuils, risques et analyse avant d\'investir',
+        description:
+          'Comprenez l\'endettement d\'une SCPI, ses effets sur la performance, le risque de taux, la liquidité et les critères à croiser avant d\'investir.',
+        keywords: ['endettement SCPI', 'dette SCPI', 'levier SCPI', 'risque taux SCPI', 'analyse SCPI'],
+        canonical: 'https://maximusscpi.com/endettement-scpi/',
+      },
+      EndettementScpiPage
+    );
+  }
+
+  if (currentView === 'rendement-net-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Rendement net SCPI : brut, net fiscal, frais et analyse avant d\'investir',
+        description:
+          'Comprenez la différence entre rendement brut et rendement net d\'une SCPI, l\'impact de la fiscalité, des frais, des SCPI européennes et du démembrement.',
+        keywords: ['rendement net SCPI', 'TDVM SCPI', 'fiscalité SCPI', 'rendement brut SCPI', 'comparateur SCPI'],
+        canonical: 'https://maximusscpi.com/rendement-net-scpi/',
+      },
+      RendementNetScpiPage
     );
   }
 
