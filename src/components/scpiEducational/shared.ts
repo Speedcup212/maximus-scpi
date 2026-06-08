@@ -15,6 +15,9 @@ export const INTERNAL_LINKS = [
   { href: '/endettement-scpi', label: 'Endettement SCPI — dette et levier' },
   { href: '/rendement-net-scpi', label: 'Rendement net SCPI — brut, fiscalité et frais' },
   { href: '/scpi-europeennes', label: 'SCPI européennes — fiscalité et diversification' },
+  { href: '/scpi-demembrement', label: 'Démembrement SCPI — nue-propriété et stratégie' },
+  { href: '/scpi-assurance-vie', label: 'SCPI en assurance-vie — fiscalité et frais' },
+  { href: '/frais-scpi', label: 'Frais SCPI — coûts et rendement net' },
 ] as const
 
 export interface TableRow {

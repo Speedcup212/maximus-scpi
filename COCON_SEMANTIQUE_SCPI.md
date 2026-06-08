@@ -36,11 +36,12 @@ Centre de connaissance SCPI MaximusSCPI
 
 Pages prioritaires :
 - /tof-scpi/ — publié
-- /capitalisation-scpi/ — à créer
-- /decote-valeur-reconstitution-scpi/ — à créer
-- /endettement-scpi/ — à créer
-- /rendement-net-scpi/ — à créer
-- /frais-scpi/
+- /capitalisation-scpi/ — publié
+- /decote-valeur-reconstitution-scpi/ — publié
+- /endettement-scpi/ — publié
+- /rendement-net-scpi/ — publié
+- /frais-scpi/ — publié (Batch 1)
+- /report-a-nouveau-scpi/
 - /report-a-nouveau-scpi/
 - /collecte-scpi/
 - /taux-distribution-scpi/
@@ -58,8 +59,8 @@ Pages prioritaires :
 
 Pages :
 - /scpi-fiscalite/
-- /scpi-tmi-11/
-- /scpi-tmi-30/
+- /scpi-tmi-11/ — publié (Batch 1)
+- /scpi-tmi-30/ — publié (Batch 1)
 - /scpi-tmi-41/
 - /scpi-tmi-45/
 - /scpi-revenus-fonciers/
@@ -82,8 +83,8 @@ Pages :
 Pages :
 - /scpi-comptant/
 - /scpi-credit/
-- /scpi-assurance-vie/
-- /scpi-demembrement/
+- /scpi-assurance-vie/ — publié (Batch 1)
+- /scpi-demembrement/ — publié (Batch 1)
 - /scpi-nue-propriete/
 - /scpi-usufruit/
 - /scpi-versements-programmes/
@@ -152,7 +153,7 @@ Pages :
 ## Silo 6 — SCPI européennes et géographie
 
 Pages :
-- /scpi-europeennes/
+- /scpi-europeennes/ — publié
 - /scpi-allemagne/
 - /scpi-espagne/
 - /scpi-pays-bas/

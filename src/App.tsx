@@ -150,6 +150,11 @@ const DecoteValeurReconstitutionScpiPage = lazy(() => import('./components/Decot
 const EndettementScpiPage = lazy(() => import('./components/EndettementScpiPage'));
 const RendementNetScpiPage = lazy(() => import('./components/RendementNetScpiPage'));
 const ScpiEuropeennesPage = lazy(() => import('./components/ScpiEuropeennesPage'));
+const DemembrementScpiPage = lazy(() => import('./components/DemembrementScpiPage'));
+const AssuranceVieScpiPage = lazy(() => import('./components/AssuranceVieScpiPage'));
+const Tmi11ScpiPage = lazy(() => import('./components/Tmi11ScpiPage'));
+const Tmi30ScpiPage = lazy(() => import('./components/Tmi30ScpiPage'));
+const FraisScpiPage = lazy(() => import('./components/FraisScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -212,7 +217,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -526,6 +531,16 @@ const App: React.FC = () => {
         setCurrentView('scpi-objectifs-hub');
       } else if (path === 'scpi-europeennes') {
         setCurrentView('scpi-europeennes-hub');
+      } else if (path === 'scpi-demembrement') {
+        setCurrentView('scpi-demembrement');
+      } else if (path === 'scpi-assurance-vie') {
+        setCurrentView('scpi-assurance-vie');
+      } else if (path === 'scpi-tmi-11') {
+        setCurrentView('scpi-tmi-11');
+      } else if (path === 'scpi-tmi-30') {
+        setCurrentView('scpi-tmi-30');
+      } else if (path === 'frais-scpi') {
+        setCurrentView('frais-scpi');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -894,6 +909,16 @@ const App: React.FC = () => {
         setCurrentView('endettement-scpi');
       } else if (normalizedPath === 'rendement-net-scpi') {
         setCurrentView('rendement-net-scpi');
+      } else if (normalizedPath === 'scpi-demembrement') {
+        setCurrentView('scpi-demembrement');
+      } else if (normalizedPath === 'scpi-assurance-vie') {
+        setCurrentView('scpi-assurance-vie');
+      } else if (normalizedPath === 'scpi-tmi-11') {
+        setCurrentView('scpi-tmi-11');
+      } else if (normalizedPath === 'scpi-tmi-30') {
+        setCurrentView('scpi-tmi-30');
+      } else if (normalizedPath === 'frais-scpi') {
+        setCurrentView('frais-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -2550,6 +2575,71 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/rendement-net-scpi/',
       },
       RendementNetScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-demembrement') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI en démembrement : fiscalité, décote, durée et stratégie patrimoniale',
+        description:
+          'Comprenez le démembrement de SCPI : nue-propriété, usufruit, décote, fiscalité, durée, absence de revenus temporaires et critères à analyser avant d\'investir.',
+        keywords: ['démembrement SCPI', 'nue-propriété SCPI', 'usufruit SCPI', 'décote SCPI', 'fiscalité SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-demembrement/',
+      },
+      DemembrementScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-assurance-vie') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI en assurance-vie : fiscalité, frais, rendement et limites',
+        description:
+          'Comprenez l\'intérêt des SCPI en assurance-vie : fiscalité, liquidité, frais du contrat, choix limité, rendement reversé et critères à comparer avant d\'investir.',
+        keywords: ['SCPI assurance-vie', 'unité de compte SCPI', 'fiscalité assurance-vie', 'UC SCPI', 'frais gestion UC'],
+        canonical: 'https://maximusscpi.com/scpi-assurance-vie/',
+      },
+      AssuranceVieScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-tmi-11') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI TMI 11 % : fiscalité, rendement net et SCPI européennes',
+        description:
+          'Comprenez comment analyser les SCPI avec une tranche marginale d\'imposition à 11 % : rendement net, SCPI européennes, fiscalité, frais et diversification.',
+        keywords: ['SCPI TMI 11', 'fiscalité SCPI', 'rendement net SCPI', 'SCPI européennes', 'prélèvements sociaux'],
+        canonical: 'https://maximusscpi.com/scpi-tmi-11/',
+      },
+      Tmi11ScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-tmi-30') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI TMI 30 % : rendement net, fiscalité et stratégies à analyser',
+        description:
+          'Comprenez les critères d\'analyse des SCPI avec une TMI à 30 % : fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et rendement net.',
+        keywords: ['SCPI TMI 30', 'fiscalité SCPI', 'rendement net', 'SCPI européennes', 'démembrement SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-tmi-30/',
+      },
+      Tmi30ScpiPage
+    );
+  }
+
+  if (currentView === 'frais-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Frais SCPI : souscription, gestion, arbitrage et rendement net',
+        description:
+          'Comprenez les frais des SCPI : frais de souscription, gestion, cession, assurance-vie, frais indirects et impact sur le rendement net.',
+        keywords: ['frais SCPI', 'frais souscription SCPI', 'frais gestion SCPI', 'rendement net SCPI', 'frais UC'],
+        canonical: 'https://maximusscpi.com/frais-scpi/',
+      },
+      FraisScpiPage
     );
   }
 

@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -461,6 +461,67 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 3000,
     metaDescription: 'Comprendre l\'intérêt des SCPI européennes pour la fiscalité, la diversification géographique et l\'analyse patrimoniale.',
     keywords: ['SCPI européennes', 'fiscalité SCPI européennes', 'rendement net SCPI', 'diversification SCPI']
+  },
+  // === Fiscalité et modes d'investissement SCPI ===
+  {
+    id: 37,
+    slug: 'scpi-demembrement',
+    title: 'SCPI en démembrement : fiscalité, décote et stratégie',
+    mainKeyword: 'démembrement SCPI',
+    searchIntent: 'comprendre le démembrement de SCPI',
+    targetAudience: 'investisseurs SCPI sans besoin de revenus immédiats',
+    category: 'fiscalite-modes',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le démembrement de SCPI : nue-propriété, usufruit, décote, fiscalité, durée, absence de revenus temporaires et critères à analyser avant d\'investir.',
+    keywords: ['démembrement SCPI', 'nue-propriété SCPI', 'usufruit SCPI', 'décote SCPI']
+  },
+  {
+    id: 38,
+    slug: 'scpi-assurance-vie',
+    title: 'SCPI en assurance-vie : avantages, limites et frais',
+    mainKeyword: 'SCPI assurance-vie',
+    searchIntent: 'comprendre l\'intérêt des SCPI en assurance-vie',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-modes',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez l\'intérêt des SCPI en assurance-vie : fiscalité, liquidité, frais du contrat, choix limité, rendement reversé et critères à comparer avant d\'investir.',
+    keywords: ['SCPI assurance-vie', 'unité de compte SCPI', 'fiscalité assurance-vie', 'UC SCPI']
+  },
+  {
+    id: 39,
+    slug: 'scpi-tmi-11',
+    title: 'SCPI avec TMI 11 % : quel rendement net attendre ?',
+    mainKeyword: 'SCPI TMI 11',
+    searchIntent: 'comprendre la fiscalité SCPI avec TMI 11 %',
+    targetAudience: 'investisseurs TMI 11 %',
+    category: 'fiscalite-modes',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez comment analyser les SCPI avec une tranche marginale d\'imposition à 11 % : rendement net, SCPI européennes, fiscalité, frais et diversification.',
+    keywords: ['SCPI TMI 11', 'fiscalité SCPI', 'rendement net SCPI', 'SCPI européennes']
+  },
+  {
+    id: 40,
+    slug: 'scpi-tmi-30',
+    title: 'SCPI avec TMI 30 % : fiscalité, Europe et démembrement',
+    mainKeyword: 'SCPI TMI 30',
+    searchIntent: 'comprendre les stratégies SCPI avec TMI 30 %',
+    targetAudience: 'investisseurs TMI 30 %',
+    category: 'fiscalite-modes',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les critères d\'analyse des SCPI avec une TMI à 30 % : fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et rendement net.',
+    keywords: ['SCPI TMI 30', 'fiscalité SCPI', 'rendement net', 'SCPI européennes']
+  },
+  {
+    id: 41,
+    slug: 'frais-scpi',
+    title: 'Frais SCPI : souscription, gestion et impact sur le rendement',
+    mainKeyword: 'frais SCPI',
+    searchIntent: 'comprendre les frais SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-modes',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les frais des SCPI : frais de souscription, gestion, cession, assurance-vie, frais indirects et impact sur le rendement net.',
+    keywords: ['frais SCPI', 'frais souscription SCPI', 'frais gestion SCPI', 'rendement net SCPI']
   }
 ];
 
