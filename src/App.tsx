@@ -1194,6 +1194,12 @@ const App: React.FC = () => {
       'tresorerie-is': { view: 'simulateur-tresorerie-is', route: '/simulateur-tresorerie-is' },
       'impact-fiscal': { view: 'simulateur-impact-fiscal', route: '/simulateur-impact-fiscal-scpi' },
       'comparateur-demembrement': { view: 'comparateur-demembrement', route: '/comparateur-demembrement-scpi' },
+      // Questionnaire profil investisseur COMPLET (32 questions) = parcours guidé
+      'questionnaire-complet': { view: 'guided-journey', route: '/parcours-guide' },
+      // Quiz / pré-sélection rapide (questionnaire court)
+      'quiz-rapide': { view: 'simulateur-profil-investisseur', route: '/simulateur-profil-investisseur' },
+      // Comparateur SCPI principal
+      'comparateur-scpi': { view: 'comparateur', route: '/comparateur-scpi' },
       // Futurs simulateurs
       // 'diversification': { view: 'simulateur-diversification', route: '/simulateur-diversification' },
       // 'rendement': { view: 'simulateur-rendement', route: '/simulateur-rendement' }

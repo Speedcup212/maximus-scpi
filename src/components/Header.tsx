@@ -210,52 +210,46 @@ const Header: React.FC<HeaderProps> = ({
 
   const simulateurLevels = [
     {
-      title: 'Niveau 1 — Comprendre',
+      title: 'Questionnaires',
       color: 'text-emerald-300',
-      description: 'Avant d’investir, comprenez votre profil et votre cadre fiscal.',
+      description: 'Évaluez votre profil avant d’investir.',
       items: [
         {
-          id: 'profil-investisseur',
-          label: 'Profil investisseur',
-          description: 'Évaluez votre profil AMF',
+          id: 'questionnaire-complet',
+          label: 'Questionnaire investisseur complet',
+          description: '32 questions pour évaluer votre profil, votre horizon et votre tolérance au risque',
           icon: '🧭'
         },
         {
-          id: 'impact-fiscal',
-          label: 'Impact fiscal SCPI',
-          description: 'Direct IR vs SCI IR vs IS',
-          icon: '🧮'
-        },
-        {
-          id: 'fonds-euros-scpi',
-          label: 'Fonds euros → SCPI',
-          description: 'Comparatif de réallocation',
-          icon: '💶'
+          id: 'quiz-rapide',
+          label: 'Quiz SCPI rapide',
+          description: 'Pré-sélection rapide selon votre fiscalité et votre objectif',
+          icon: '⚡'
         }
       ]
     },
     {
-      title: 'Niveau 2 — Structurer',
+      title: 'Simulateurs',
       color: 'text-blue-300',
-      description: 'Choisissez le levier adapté à votre situation patrimoniale.',
+      description: 'Estimez l’impact de vos choix patrimoniaux.',
       items: [
         {
-          id: 'credit',
-          label: 'SCPI à crédit',
-          description: 'Effet de levier & cash-flow',
-          icon: '🏦'
+          id: 'impact-fiscal',
+          label: 'Simulateur fiscalité SCPI',
+          description: 'Direct IR vs SCI IR vs IS',
+          icon: '🧮'
         },
         {
           id: 'demembrement',
-          label: 'Démembrement SCPI',
+          label: 'Simulateur démembrement',
           description: 'Nue-propriété vs Usufruit',
           icon: '⚖️'
         },
         {
-          id: 'tresorerie-is',
-          label: 'Trésorerie IS – SCPI',
-          description: 'Projection cash net IS',
-          icon: '🏢'
+          id: 'credit',
+          label: 'Simulateur SCPI à crédit',
+          description: 'Effet de levier & cash-flow',
+          icon: '🏦'
         },
         {
           id: 'revenus-nets',
@@ -266,19 +260,25 @@ const Header: React.FC<HeaderProps> = ({
       ]
     },
     {
-      title: 'Niveau 3 — Arbitrer',
+      title: 'Comparateurs',
       color: 'text-purple-300',
-      description: 'Outils d’arbitrage avancé.',
+      description: 'Comparez SCPI, enveloppes et stratégies.',
       items: [
+        {
+          id: 'comparateur-scpi',
+          label: 'Comparateur SCPI',
+          description: 'Analysez les SCPI selon leurs principaux indicateurs',
+          icon: '📊'
+        },
         {
           id: 'enveloppes',
           label: 'Comparateur d\'enveloppes',
           description: 'Direct, Assurance-vie ou SCI IS',
-          icon: '📊'
+          icon: '🗂️'
         },
         {
           id: 'comparateur-demembrement',
-          label: 'Comparateur Démembrement',
+          label: 'Comparateur démembrement',
           description: 'PP vs Nue-propriété vs Usufruit',
           icon: '🔄'
         }
@@ -347,10 +347,10 @@ const Header: React.FC<HeaderProps> = ({
                   setIsEducationOpen(false);
                 }}
                 className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-                aria-label="Outils / Simulateurs"
+                aria-label="Outils SCPI"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Outils / Simulateurs</span>
+                <span>Outils SCPI</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -358,7 +358,7 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
                     <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Outils / Simulateurs
+                      Outils SCPI
                     </div>
                   </div>
 
@@ -374,10 +374,10 @@ const Header: React.FC<HeaderProps> = ({
                       className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 group"
                     >
                       <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400">
-                        Voir tous les simulateurs
+                        Voir tous les outils
                       </div>
                       <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        Vue structurée par niveaux décisionnels
+                        Questionnaires, simulateurs et comparateurs
                       </div>
                     </button>
 
@@ -1001,7 +1001,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-3">
                     <Calculator className="w-5 h-5" />
-                    <span className="text-base">Outils / Simulateurs</span>
+                    <span className="text-base">Outils SCPI</span>
                   </div>
                   <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -1018,7 +1018,7 @@ const Header: React.FC<HeaderProps> = ({
                       }}
                       className="w-full text-left py-3 px-3 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
                     >
-                      Voir tous les simulateurs
+                      Voir tous les outils
                     </button>
                     {simulateurLevels.map((level) => (
                       <div key={level.title} className="space-y-1">
