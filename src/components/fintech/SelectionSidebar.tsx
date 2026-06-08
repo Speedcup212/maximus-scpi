@@ -8,6 +8,7 @@ import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
+import { CALENDLY_URL } from '../../config/calendly';
 import EricAvatar from '../EricAvatar';
 
 interface SelectionSidebarProps {
@@ -2168,18 +2169,16 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               >
                 Revenir au comparateur
               </button>
-              <button
-                onClick={() => {
-                  setIsResultOpen(false);
-                  window.history.pushState({ scpis: selectedScpis }, '', '/souscription');
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsResultOpen(false)}
                 className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
               >
                 Commencer ma pré-souscription
                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </button>
+              </a>
             </div>
           </div>
         </div>
