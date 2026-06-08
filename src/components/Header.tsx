@@ -210,9 +210,9 @@ const Header: React.FC<HeaderProps> = ({
 
   const simulateurLevels = [
     {
-      title: 'Questionnaires',
+      title: '1. Démarrer',
       color: 'text-emerald-300',
-      description: 'Évaluez votre profil avant d’investir.',
+      description: 'Définissez votre profil investisseur.',
       items: [
         {
           id: 'questionnaire-complet',
@@ -223,63 +223,69 @@ const Header: React.FC<HeaderProps> = ({
         {
           id: 'quiz-rapide',
           label: 'Quiz SCPI rapide',
-          description: 'Pré-sélection rapide selon votre fiscalité et votre objectif',
+          description: 'Première orientation selon fiscalité, horizon et objectif',
           icon: '⚡'
         }
       ]
     },
     {
-      title: 'Simulateurs',
+      title: '2. Calculer',
       color: 'text-blue-300',
-      description: 'Estimez l’impact de vos choix patrimoniaux.',
+      description: 'Simulez votre stratégie d’investissement.',
       items: [
         {
           id: 'impact-fiscal',
-          label: 'Simulateur fiscalité SCPI',
-          description: 'Direct IR vs SCI IR vs IS',
+          label: 'Fiscalité SCPI',
+          description: 'Estimer l’impact IR / IFI / prélèvements sociaux',
           icon: '🧮'
         },
         {
-          id: 'demembrement',
-          label: 'Simulateur démembrement',
-          description: 'Nue-propriété vs Usufruit',
-          icon: '⚖️'
-        },
-        {
           id: 'credit',
-          label: 'Simulateur SCPI à crédit',
-          description: 'Effet de levier & cash-flow',
+          label: 'SCPI à crédit',
+          description: 'Mesurer effort d’épargne, levier et cash-flow',
           icon: '🏦'
         },
         {
+          id: 'demembrement',
+          label: 'Démembrement SCPI',
+          description: 'Comparer pleine propriété, nue-propriété et usufruit',
+          icon: '⚖️'
+        },
+        {
           id: 'revenus-nets',
-          label: 'Revenus nets SCPI (IR)',
-          description: 'Lecture synthétique des revenus nets',
+          label: 'Revenus nets SCPI',
+          description: 'Estimer les revenus réellement encaissés après fiscalité',
           icon: '💰'
+        },
+        {
+          id: 'tresorerie-is',
+          label: 'Trésorerie IS – SCPI',
+          description: 'Projeter une détention via société à l’IS',
+          icon: '🏢'
         }
       ]
     },
     {
-      title: 'Comparateurs',
+      title: '3. Comparer',
       color: 'text-purple-300',
-      description: 'Comparez SCPI, enveloppes et stratégies.',
+      description: 'Comparez les solutions et enveloppes.',
       items: [
         {
           id: 'comparateur-scpi',
           label: 'Comparateur SCPI',
-          description: 'Analysez les SCPI selon leurs principaux indicateurs',
+          description: 'Comparer les SCPI référencées',
           icon: '📊'
         },
         {
           id: 'enveloppes',
           label: 'Comparateur d\'enveloppes',
-          description: 'Direct, Assurance-vie ou SCI IS',
+          description: 'Comparer direct, assurance-vie, SCI IS',
           icon: '🗂️'
         },
         {
           id: 'comparateur-demembrement',
           label: 'Comparateur démembrement',
-          description: 'PP vs Nue-propriété vs Usufruit',
+          description: 'Comparer les scénarios de propriété',
           icon: '🔄'
         }
       ]
@@ -347,10 +353,10 @@ const Header: React.FC<HeaderProps> = ({
                   setIsEducationOpen(false);
                 }}
                 className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-                aria-label="Outils SCPI"
+                aria-label="Simuler mon projet"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Outils SCPI</span>
+                <span>Simuler mon projet</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -358,7 +364,7 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
                   <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
                     <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Outils SCPI
+                      Simuler mon projet
                     </div>
                   </div>
 
@@ -430,9 +436,18 @@ const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
-                      D'autres simulateurs arrivent bientôt
-                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        resetAllHeaderStates();
+                        if (onSimulateurClick) {
+                          onSimulateurClick('simulateurs');
+                        }
+                      }}
+                      className="w-full text-center text-xs font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors"
+                    >
+                      Voir tous les simulateurs →
+                    </button>
                   </div>
                 </div>
               )}
@@ -1001,7 +1016,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-3">
                     <Calculator className="w-5 h-5" />
-                    <span className="text-base">Outils SCPI</span>
+                    <span className="text-base">Simuler mon projet</span>
                   </div>
                   <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
                 </button>

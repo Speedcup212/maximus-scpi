@@ -150,15 +150,15 @@ const SimulateursHub: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="space-y-3">
           <p className="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400">MaximusSCPI</p>
-          <h1 className="text-3xl md:text-4xl font-semibold">Outils SCPI</h1>
+          <h1 className="text-3xl md:text-4xl font-semibold">Simuler et structurer votre projet SCPI</h1>
           <p className="text-gray-600 dark:text-gray-300 max-w-3xl">
-            Questionnaires, simulateurs et comparateurs pour préparer votre décision d’investissement.
+            Questionnaires, simulateurs et comparateurs pour préparer une décision d’investissement cohérente.
           </p>
         </div>
 
-        {/* Section 1 — Questionnaires */}
+        {/* Section 1 — Définir votre profil */}
         <section className="mt-12">
-          <h2 className="text-xl font-semibold">Questionnaires</h2>
+          <h2 className="text-xl font-semibold">Définir votre profil</h2>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
             Évaluez votre profil avant d’investir.
           </p>
@@ -167,9 +167,9 @@ const SimulateursHub: React.FC = () => {
           </div>
         </section>
 
-        {/* Section 2 — Simulateurs */}
+        {/* Section 2 — Simuler votre stratégie */}
         <section className="mt-12">
-          <h2 className="text-xl font-semibold">Simulateurs</h2>
+          <h2 className="text-xl font-semibold">Simuler votre stratégie</h2>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
             Estimez l’impact de vos choix patrimoniaux.
           </p>
@@ -178,9 +178,9 @@ const SimulateursHub: React.FC = () => {
           </div>
         </section>
 
-        {/* Section 3 — Comparateurs */}
+        {/* Section 3 — Comparer les solutions */}
         <section className="mt-12">
-          <h2 className="text-xl font-semibold">Comparateurs</h2>
+          <h2 className="text-xl font-semibold">Comparer les solutions</h2>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
             Comparez SCPI, enveloppes et stratégies de détention.
           </p>
