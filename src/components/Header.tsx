@@ -208,90 +208,6 @@ const Header: React.FC<HeaderProps> = ({
     { id: 'comparatif', label: 'Comparatif placements', icon: '⚖️' }
   ];
 
-  const simulateurLevels = [
-    {
-      title: '1. Démarrer',
-      color: 'text-emerald-300',
-      description: 'Définissez votre profil investisseur.',
-      items: [
-        {
-          id: 'questionnaire-complet',
-          label: 'Questionnaire investisseur complet',
-          description: '32 questions pour évaluer votre profil, votre horizon et votre tolérance au risque',
-          icon: '🧭'
-        },
-        {
-          id: 'quiz-rapide',
-          label: 'Quiz SCPI rapide',
-          description: 'Première orientation selon fiscalité, horizon et objectif',
-          icon: '⚡'
-        }
-      ]
-    },
-    {
-      title: '2. Calculer',
-      color: 'text-blue-300',
-      description: 'Simulez votre stratégie d’investissement.',
-      items: [
-        {
-          id: 'impact-fiscal',
-          label: 'Fiscalité SCPI',
-          description: 'Estimer l’impact IR / IFI / prélèvements sociaux',
-          icon: '🧮'
-        },
-        {
-          id: 'credit',
-          label: 'SCPI à crédit',
-          description: 'Mesurer effort d’épargne, levier et cash-flow',
-          icon: '🏦'
-        },
-        {
-          id: 'demembrement',
-          label: 'Démembrement SCPI',
-          description: 'Comparer pleine propriété, nue-propriété et usufruit',
-          icon: '⚖️'
-        },
-        {
-          id: 'revenus-nets',
-          label: 'Revenus nets SCPI',
-          description: 'Estimer les revenus réellement encaissés après fiscalité',
-          icon: '💰'
-        },
-        {
-          id: 'tresorerie-is',
-          label: 'Trésorerie IS – SCPI',
-          description: 'Projeter une détention via société à l’IS',
-          icon: '🏢'
-        }
-      ]
-    },
-    {
-      title: '3. Comparer',
-      color: 'text-purple-300',
-      description: 'Comparez les solutions et enveloppes.',
-      items: [
-        {
-          id: 'comparateur-scpi',
-          label: 'Comparateur SCPI',
-          description: 'Comparer les SCPI référencées',
-          icon: '📊'
-        },
-        {
-          id: 'enveloppes',
-          label: 'Comparateur d\'enveloppes',
-          description: 'Comparer direct, assurance-vie, SCI IS',
-          icon: '🗂️'
-        },
-        {
-          id: 'comparateur-demembrement',
-          label: 'Comparateur démembrement',
-          description: 'Comparer les scénarios de propriété',
-          icon: '🔄'
-        }
-      ]
-    }
-  ];
-
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 overflow-x-clip">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
@@ -345,113 +261,19 @@ const Header: React.FC<HeaderProps> = ({
             </button>
             </li>
             <li>
-            <div className="relative pointer-events-auto" ref={simulateurDropdownRef}>
               <button
                 onClick={() => {
-                  setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
-                  setIsScpiMenuOpen(false);
-                  setIsEducationOpen(false);
+                  resetAllHeaderStates();
+                  if (onSimulateurClick) {
+                    onSimulateurClick('simulateurs');
+                  }
                 }}
                 className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Simuler mon projet"
               >
                 <Calculator className="w-4 h-4" />
                 <span>Simuler mon projet</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
               </button>
-
-              {isSimulateurMenuOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-[110] overflow-hidden">
-                  <div className="p-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-800">
-                    <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                      Simuler mon projet
-                    </div>
-                  </div>
-
-                  <div className="py-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        resetAllHeaderStates();
-                        if (onSimulateurClick) {
-                          onSimulateurClick('simulateurs');
-                        }
-                      }}
-                      className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700 group"
-                    >
-                      <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400">
-                        Voir tous les outils
-                      </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                        Questionnaires, simulateurs et comparateurs
-                      </div>
-                    </button>
-
-                    {simulateurLevels.map((level) => (
-                      <div key={level.title} className="pt-3">
-                        <div className="px-4">
-                          <div className={`text-xs font-semibold uppercase tracking-wide ${level.color}`}>
-                            {level.title}
-                          </div>
-                          <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
-                            {level.description}
-                          </div>
-                        </div>
-                        {level.items.map((simulateur) => (
-                          <button
-                            key={simulateur.id}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            onTouchEnd={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            className="w-full px-4 py-3 text-left hover:bg-green-50 dark:hover:bg-gray-700 active:bg-green-100 dark:active:bg-green-900/30 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group touch-manipulation"
-                            style={{ WebkitTapHighlightColor: 'transparent' }}
-                          >
-                            <div className="flex items-start gap-3">
-                              <span className="text-2xl">{simulateur.icon}</span>
-                              <div className="flex-1">
-                                <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                                  {simulateur.label}
-                                </div>
-                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                                  {simulateur.description}
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        resetAllHeaderStates();
-                        if (onSimulateurClick) {
-                          onSimulateurClick('simulateurs');
-                        }
-                      }}
-                      className="w-full text-center text-xs font-semibold text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 transition-colors"
-                    >
-                      Voir tous les simulateurs →
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
             </li>
             <li>
             <div className="relative" ref={scpiDropdownRef}>
@@ -1003,74 +825,21 @@ const Header: React.FC<HeaderProps> = ({
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
-              {/* Nos simulateurs - 2e Mobile */}
+              {/* Simuler mon projet - 2e Mobile (lien direct vers /simulateurs) */}
               <div className="px-4">
                 <button
-                  onClick={() => setIsSimulateurMenuOpen(!isSimulateurMenuOpen)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault();
-                    setIsSimulateurMenuOpen(!isSimulateurMenuOpen);
+                  onClick={() => {
+                    resetAllHeaderStates();
+                    if (onSimulateurClick) onSimulateurClick('simulateurs');
                   }}
-                  className="w-full flex items-center justify-between py-3 text-gray-700 dark:text-gray-200 font-medium touch-manipulation active:bg-gray-100 dark:active:bg-gray-800 rounded-lg transition-colors"
-                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                  className="w-full flex items-center justify-between py-3 text-gray-700 dark:text-gray-200 font-medium touch-manipulation"
                 >
-                  <div className="flex items-center gap-3">
-                    <Calculator className="w-5 h-5" />
-                    <span className="text-base">Simuler mon projet</span>
+                  <div className="flex items-center gap-2">
+                    <Calculator className="w-4 h-4" />
+                    <span>Simuler mon projet</span>
                   </div>
-                  <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isSimulateurMenuOpen ? 'rotate-180' : ''}`} />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-
-                {isSimulateurMenuOpen && (
-                  <div className="mt-2 space-y-3 pl-2">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        resetAllHeaderStates();
-                        if (onSimulateurClick) {
-                          onSimulateurClick('simulateurs');
-                        }
-                      }}
-                      className="w-full text-left py-3 px-3 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200"
-                    >
-                      Voir tous les outils
-                    </button>
-                    {simulateurLevels.map((level) => (
-                      <div key={level.title} className="space-y-1">
-                        <div className={`text-xs uppercase tracking-wide ${level.color} px-3`}>
-                          {level.title}
-                        </div>
-                        {level.items.map((simulateur) => (
-                          <button
-                            key={simulateur.id}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            onTouchEnd={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              resetAllHeaderStates();
-                              if (onSimulateurClick) {
-                                onSimulateurClick(simulateur.id);
-                              }
-                            }}
-                            className="w-full text-left py-3 px-3 active:bg-green-100 dark:active:bg-green-900/30 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors touch-manipulation"
-                            style={{ WebkitTapHighlightColor: 'transparent' }}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-lg">{simulateur.icon}</span>
-                              <span className="font-medium">{simulateur.label}</span>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
               {/* SCPI Section - 3e Mobile */}
               <div className="px-4" ref={scpiMobileRef}>
