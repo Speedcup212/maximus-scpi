@@ -79,10 +79,6 @@ const Testimonials: React.FC = () => {
 
         {/* Call to action */}
         <div className="text-center mt-12">
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Plus de 200 investisseurs accompagnés — plus de 10 M€ de projets
-            patrimoniaux analysés
-          </p>
           <a
             href={CALENDLY_URL}
             target="_blank"
