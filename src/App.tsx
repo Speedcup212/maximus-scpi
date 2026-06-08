@@ -145,6 +145,7 @@ const ExpertiseOriasPage = lazy(() => import('./components/ExpertiseOriasPage'))
 const MethodologieDonneesPage = lazy(() => import('./components/MethodologieDonneesPage'));
 const AvertissementsRisquesPage = lazy(() => import('./components/AvertissementsRisquesPage'));
 const FiscaliteScpiPage = lazy(() => import('./components/FiscaliteScpiPage'));
+const TOFScpiPage = lazy(() => import('./components/TOFScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -207,7 +208,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -397,6 +398,8 @@ const App: React.FC = () => {
         setCurrentView('rendement-scpi');
       } else if (path === 'fiscalite-scpi') {
         setCurrentView('fiscalite-scpi');
+      } else if (path === 'tof-scpi') {
+        setCurrentView('tof-scpi');
       } else if (path === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (path === 'test-sender-react') {
@@ -869,6 +872,8 @@ const App: React.FC = () => {
         setCurrentView('rendement-scpi');
       } else if (normalizedPath === 'fiscalite-scpi') {
         setCurrentView('fiscalite-scpi');
+      } else if (normalizedPath === 'tof-scpi') {
+        setCurrentView('tof-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -2413,6 +2418,45 @@ const App: React.FC = () => {
           <FiscaliteScpiPage
             onNavigate={handleGenericNavigation}
             onRdvClick={() => setIsRdvModalOpen(true)}
+            onComparateurClick={handleComparateurClick}
+          />
+        </Suspense>
+        <Footer />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  // Render Page Pivot TOF SCPI
+  if (currentView === 'tof-scpi') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark">
+        <SEOHead
+          title="TOF SCPI : définition, calcul et analyse avant d'investir"
+          description="Comprenez le TOF d'une SCPI, ses limites et les critères à croiser : rendement, capitalisation, endettement, décote, frais et fiscalité."
+          keywords={['TOF SCPI', 'taux occupation financier SCPI', 'occupation locative SCPI', 'analyse SCPI', 'comparateur SCPI TOF']}
+          canonical="https://maximusscpi.com/tof-scpi/"
+        />
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <TOFScpiPage
+            onNavigate={handleGenericNavigation}
             onComparateurClick={handleComparateurClick}
           />
         </Suspense>
