@@ -1,9 +1,11 @@
 import React from 'react';
 import { Star, Shield, Award, MessageCircle } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
+import { CALENDLY_URL } from '../config/calendly';
 
 interface ExpertBannerProps {
   isDarkMode: boolean;
+  // Conservé pour compat : la prise de RDV passe désormais par un lien Calendly direct.
   onContactClick?: () => void;
   compact?: boolean;
 }
@@ -86,13 +88,15 @@ const ExpertBanner: React.FC<ExpertBannerProps> = ({
 
           {onContactClick && (
             <div className="flex-shrink-0 w-full md:w-auto">
-              <button
-                onClick={onContactClick}
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group"
               >
                 <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span>Prendre RDV</span>
-              </button>
+              </a>
             </div>
           )}
         </div>

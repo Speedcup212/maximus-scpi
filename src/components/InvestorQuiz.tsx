@@ -10,11 +10,7 @@ import type {
   QuizData,
   QuizResult,
 } from '../types/quiz'
-
-// Fallback explicite si VITE_CALENDLY_URL n'est pas défini en production.
-const CALENDLY_URL =
-  import.meta.env.VITE_CALENDLY_URL ||
-  'https://calendly.com/eric-bellaiche/seance-decouverte-du-fonctionnement-des-scpi-clone'
+import { CALENDLY_URL } from '../config/calendly'
 
 interface InvestorQuizProps {
   onComplete: (data: QuizData) => void
