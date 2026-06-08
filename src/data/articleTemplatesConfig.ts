@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -705,6 +705,127 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les SCPI diversifiées : bureaux, commerces, santé, logistique, résidentiel, diversification sectorielle, rendement, risques et critères à analyser.',
     keywords: ['SCPI diversifiées', 'SCPI multi-secteurs', 'diversification SCPI']
+  },
+  // === Fiscalité avancée SCPI ===
+  {
+    id: 57,
+    slug: 'scpi-fiscalite',
+    title: 'Fiscalité SCPI : comprendre l\'imposition avant d\'investir',
+    mainKeyword: 'fiscalité SCPI',
+    searchIntent: 'comprendre la fiscalité des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez la fiscalité des SCPI : revenus fonciers, prélèvements sociaux, SCPI européennes, crédit d\'impôt, IFI, assurance-vie, démembrement et SCI à l\'IS.',
+    keywords: ['fiscalité SCPI', 'imposition SCPI', 'revenus fonciers SCPI', 'IFI SCPI', 'crédit impôt SCPI']
+  },
+  {
+    id: 58,
+    slug: 'scpi-tmi-41',
+    title: 'SCPI avec TMI 41 % : fiscalité, rendement net et arbitrages',
+    mainKeyword: 'SCPI TMI 41',
+    searchIntent: 'comprendre l\'impact fiscal des SCPI à TMI 41 %',
+    targetAudience: 'investisseurs TMI 41 %',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les critères d\'analyse des SCPI avec une TMI à 41 % : rendement net, fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et SCI à l\'IS.',
+    keywords: ['SCPI TMI 41', 'fiscalité 41%', 'rendement net SCPI', 'SCPI européennes', 'démembrement']
+  },
+  {
+    id: 59,
+    slug: 'scpi-tmi-45',
+    title: 'SCPI avec TMI 45 % : analyse fiscale renforcée',
+    mainKeyword: 'SCPI TMI 45',
+    searchIntent: 'comprendre l\'impact fiscal des SCPI à TMI 45 %',
+    targetAudience: 'investisseurs TMI 45 %',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les points de vigilance des SCPI avec une TMI à 45 % : fiscalité élevée, rendement net, SCPI européennes, démembrement, assurance-vie, SCI à l\'IS et IFI.',
+    keywords: ['SCPI TMI 45', 'fiscalité 45%', 'rendement net SCPI', 'SCPI européennes', 'IFI']
+  },
+  {
+    id: 60,
+    slug: 'scpi-revenus-etrangers',
+    title: 'Revenus étrangers de SCPI : comprendre la fiscalité européenne',
+    mainKeyword: 'revenus étrangers SCPI',
+    searchIntent: 'comprendre la fiscalité des revenus étrangers de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez la fiscalité des revenus étrangers de SCPI : pays d\'investissement, conventions fiscales, crédit d\'impôt, taux effectif, rendement net et déclaration.',
+    keywords: ['revenus étrangers SCPI', 'crédit impôt SCPI', 'taux effectif SCPI', 'SCPI européennes', 'convention fiscale']
+  },
+  {
+    id: 61,
+    slug: 'scpi-revenus-fonciers',
+    title: 'Revenus fonciers SCPI : imposition, fiscalité et rendement net',
+    mainKeyword: 'revenus fonciers SCPI',
+    searchIntent: 'comprendre l\'imposition des revenus fonciers de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez les revenus fonciers issus des SCPI : fiscalité française, prélèvements sociaux, TMI, rendement net, déduction des intérêts d\'emprunt et points de vigilance.',
+    keywords: ['revenus fonciers SCPI', 'fiscalité SCPI', 'prélèvements sociaux', 'TMI', 'rendement net SCPI']
+  },
+  {
+    id: 62,
+    slug: 'scpi-prelevements-sociaux',
+    title: 'Prélèvements sociaux SCPI : impact sur le rendement net',
+    mainKeyword: 'prélèvements sociaux SCPI',
+    searchIntent: 'comprendre l\'impact des prélèvements sociaux sur les SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez l\'impact des prélèvements sociaux sur les revenus de SCPI, leur effet sur le rendement net, les différences entre revenus français et étrangers et les points à vérifier.',
+    keywords: ['prélèvements sociaux SCPI', 'CSG CRDS SCPI', 'rendement net', 'SCPI européennes PS']
+  },
+  {
+    id: 63,
+    slug: 'scpi-credit-impot',
+    title: 'Crédit d\'impôt SCPI : comprendre le mécanisme des revenus étrangers',
+    mainKeyword: 'crédit impôt SCPI',
+    searchIntent: 'comprendre le crédit d\'impôt des SCPI européennes',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le crédit d\'impôt applicable à certains revenus étrangers de SCPI : principe, limites, conventions fiscales, rendement net et points de vigilance.',
+    keywords: ['crédit impôt SCPI', 'double imposition SCPI', 'fiscalité SCPI européennes', 'convention fiscale']
+  },
+  {
+    id: 64,
+    slug: 'scpi-taux-effectif',
+    title: 'Taux effectif SCPI : comprendre la fiscalité des revenus étrangers',
+    mainKeyword: 'taux effectif SCPI',
+    searchIntent: 'comprendre le taux effectif des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le taux effectif appliqué à certains revenus étrangers de SCPI : principe, fiscalité européenne, rendement net, déclaration et points de vigilance.',
+    keywords: ['taux effectif SCPI', 'fiscalité étrangère SCPI', 'crédit impôt', 'SCPI européennes', 'déclaration revenus']
+  },
+  {
+    id: 65,
+    slug: 'scpi-ifi',
+    title: 'SCPI et IFI : faut-il déclarer ses parts ?',
+    mainKeyword: 'IFI SCPI',
+    searchIntent: 'comprendre le traitement IFI des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez le traitement des SCPI à l\'IFI : parts imposables, valeur à déclarer, détention en direct, assurance-vie, nue-propriété, SCI et points de vigilance.',
+    keywords: ['IFI SCPI', 'impôt fortune immobilière SCPI', 'valeur IFI SCPI', 'assurance-vie IFI', 'déclaration IFI']
+  },
+  {
+    id: 66,
+    slug: 'scpi-sci-is-fiscalite',
+    title: 'SCPI en SCI à l\'IS : fiscalité, avantages et limites',
+    mainKeyword: 'SCI IS SCPI',
+    searchIntent: 'comprendre la fiscalité des SCPI en SCI à l\'IS',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 3000,
+    metaDescription: 'Comprenez la détention de SCPI via une SCI à l\'IS : fiscalité société, trésorerie, capitalisation, distribution, plus-value, frais, limites et points de vigilance.',
+    keywords: ['SCI IS SCPI', 'fiscalité SCI SCPI', 'amortissement SCPI', 'capitalisation SCPI', 'transmission SCPI']
   }
 ];
 

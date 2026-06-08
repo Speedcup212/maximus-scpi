@@ -33,6 +33,16 @@ export const INTERNAL_LINKS = [
   { href: '/scpi-bureaux', label: 'SCPI bureaux — analyse et perspectives' },
   { href: '/scpi-commerce', label: 'SCPI commerce — rendement et risque locatif' },
   { href: '/scpi-diversifiees', label: 'SCPI diversifiées — mutualisation ou lisibilité' },
+  { href: '/scpi-fiscalite', label: 'Fiscalité SCPI — comprendre l\'imposition' },
+  { href: '/scpi-tmi-41', label: 'SCPI TMI 41 % — fiscalité et rendement net' },
+  { href: '/scpi-tmi-45', label: 'SCPI TMI 45 % — analyse fiscale renforcée' },
+  { href: '/scpi-revenus-etrangers', label: 'Revenus étrangers SCPI — fiscalité européenne' },
+  { href: '/scpi-revenus-fonciers', label: 'Revenus fonciers SCPI — imposition' },
+  { href: '/scpi-prelevements-sociaux', label: 'Prélèvements sociaux SCPI — impact sur le rendement' },
+  { href: '/scpi-credit-impot', label: 'Crédit d\'impôt SCPI — revenus étrangers' },
+  { href: '/scpi-taux-effectif', label: 'Taux effectif SCPI — fiscalité étrangère' },
+  { href: '/scpi-ifi', label: 'SCPI et IFI — déclaration des parts' },
+  { href: '/scpi-sci-is-fiscalite', label: 'SCPI en SCI à l\'IS — fiscalité' },
 ] as const
 
 export interface TableRow {

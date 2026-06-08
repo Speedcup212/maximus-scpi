@@ -170,6 +170,16 @@ const ScpiLogistiquePage = lazy(() => import('./components/ScpiLogistiquePage'))
 const ScpiBureauxPage = lazy(() => import('./components/ScpiBureauxPage'));
 const ScpiCommercePage = lazy(() => import('./components/ScpiCommercePage'));
 const ScpiDiversifieesPage = lazy(() => import('./components/ScpiDiversifieesPage'));
+const FiscaliteAvanceeScpiPage = lazy(() => import('./components/FiscaliteAvanceeScpiPage'));
+const Tmi41ScpiPage = lazy(() => import('./components/Tmi41ScpiPage'));
+const Tmi45ScpiPage = lazy(() => import('./components/Tmi45ScpiPage'));
+const RevenusEtrangersScpiPage = lazy(() => import('./components/RevenusEtrangersScpiPage'));
+const RevenusFonciersScpiPage = lazy(() => import('./components/RevenusFonciersScpiPage'));
+const PrelevementsSociauxScpiPage = lazy(() => import('./components/PrelevementsSociauxScpiPage'));
+const CreditImpotScpiPage = lazy(() => import('./components/CreditImpotScpiPage'));
+const TauxEffectifScpiPage = lazy(() => import('./components/TauxEffectifScpiPage'));
+const IfiScpiPage = lazy(() => import('./components/IfiScpiPage'));
+const SciIsFiscaliteScpiPage = lazy(() => import('./components/SciIsFiscaliteScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -232,7 +242,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -586,6 +596,26 @@ const App: React.FC = () => {
         setCurrentView('scpi-commerce');
       } else if (path === 'scpi-diversifiees') {
         setCurrentView('scpi-diversifiees');
+      } else if (path === 'scpi-fiscalite') {
+        setCurrentView('scpi-fiscalite');
+      } else if (path === 'scpi-tmi-41') {
+        setCurrentView('scpi-tmi-41');
+      } else if (path === 'scpi-tmi-45') {
+        setCurrentView('scpi-tmi-45');
+      } else if (path === 'scpi-revenus-etrangers') {
+        setCurrentView('scpi-revenus-etrangers');
+      } else if (path === 'scpi-revenus-fonciers') {
+        setCurrentView('scpi-revenus-fonciers');
+      } else if (path === 'scpi-prelevements-sociaux') {
+        setCurrentView('scpi-prelevements-sociaux');
+      } else if (path === 'scpi-credit-impot') {
+        setCurrentView('scpi-credit-impot');
+      } else if (path === 'scpi-taux-effectif') {
+        setCurrentView('scpi-taux-effectif');
+      } else if (path === 'scpi-ifi') {
+        setCurrentView('scpi-ifi');
+      } else if (path === 'scpi-sci-is-fiscalite') {
+        setCurrentView('scpi-sci-is-fiscalite');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -994,6 +1024,26 @@ const App: React.FC = () => {
         setCurrentView('scpi-commerce');
       } else if (normalizedPath === 'scpi-diversifiees') {
         setCurrentView('scpi-diversifiees');
+      } else if (normalizedPath === 'scpi-fiscalite') {
+        setCurrentView('scpi-fiscalite');
+      } else if (normalizedPath === 'scpi-tmi-41') {
+        setCurrentView('scpi-tmi-41');
+      } else if (normalizedPath === 'scpi-tmi-45') {
+        setCurrentView('scpi-tmi-45');
+      } else if (normalizedPath === 'scpi-revenus-etrangers') {
+        setCurrentView('scpi-revenus-etrangers');
+      } else if (normalizedPath === 'scpi-revenus-fonciers') {
+        setCurrentView('scpi-revenus-fonciers');
+      } else if (normalizedPath === 'scpi-prelevements-sociaux') {
+        setCurrentView('scpi-prelevements-sociaux');
+      } else if (normalizedPath === 'scpi-credit-impot') {
+        setCurrentView('scpi-credit-impot');
+      } else if (normalizedPath === 'scpi-taux-effectif') {
+        setCurrentView('scpi-taux-effectif');
+      } else if (normalizedPath === 'scpi-ifi') {
+        setCurrentView('scpi-ifi');
+      } else if (normalizedPath === 'scpi-sci-is-fiscalite') {
+        setCurrentView('scpi-sci-is-fiscalite');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -2912,6 +2962,136 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/scpi-diversifiees/',
       },
       ScpiDiversifieesPage
+    );
+  }
+
+  if (currentView === 'scpi-fiscalite') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Fiscalité SCPI : revenus fonciers, Europe, IFI et rendement net',
+        description:
+          'Comprenez la fiscalité des SCPI : revenus fonciers, prélèvements sociaux, SCPI européennes, crédit d\'impôt, IFI, assurance-vie, démembrement et SCI à l\'IS.',
+        keywords: ['fiscalité SCPI', 'imposition SCPI', 'revenus fonciers SCPI', 'IFI SCPI', 'crédit impôt SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-fiscalite/',
+      },
+      FiscaliteAvanceeScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-tmi-41') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI TMI 41 % : fiscalité, Europe, démembrement et rendement net',
+        description:
+          'Comprenez les critères d\'analyse des SCPI avec une TMI à 41 % : rendement net, fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et SCI à l\'IS.',
+        keywords: ['SCPI TMI 41', 'fiscalité 41%', 'rendement net SCPI', 'SCPI européennes', 'démembrement'],
+        canonical: 'https://maximusscpi.com/scpi-tmi-41/',
+      },
+      Tmi41ScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-tmi-45') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI TMI 45 % : fiscalité, rendement net et stratégies à étudier',
+        description:
+          'Comprenez les points de vigilance des SCPI avec une TMI à 45 % : fiscalité élevée, rendement net, SCPI européennes, démembrement, assurance-vie, SCI à l\'IS et IFI.',
+        keywords: ['SCPI TMI 45', 'fiscalité 45%', 'rendement net SCPI', 'SCPI européennes', 'IFI'],
+        canonical: 'https://maximusscpi.com/scpi-tmi-45/',
+      },
+      Tmi45ScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-revenus-etrangers') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Revenus étrangers SCPI : fiscalité, crédit d\'impôt et taux effectif',
+        description:
+          'Comprenez la fiscalité des revenus étrangers de SCPI : pays d\'investissement, conventions fiscales, crédit d\'impôt, taux effectif, rendement net et déclaration.',
+        keywords: ['revenus étrangers SCPI', 'crédit impôt SCPI', 'taux effectif SCPI', 'SCPI européennes', 'convention fiscale'],
+        canonical: 'https://maximusscpi.com/scpi-revenus-etrangers/',
+      },
+      RevenusEtrangersScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-revenus-fonciers') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Revenus fonciers SCPI : fiscalité, prélèvements sociaux et déclaration',
+        description:
+          'Comprenez les revenus fonciers issus des SCPI : fiscalité française, prélèvements sociaux, TMI, rendement net, déduction des intérêts d\'emprunt et points de vigilance.',
+        keywords: ['revenus fonciers SCPI', 'fiscalité SCPI', 'prélèvements sociaux', 'TMI', 'rendement net SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-revenus-fonciers/',
+      },
+      RevenusFonciersScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-prelevements-sociaux') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Prélèvements sociaux SCPI : revenus fonciers et rendement net',
+        description:
+          'Comprenez l\'impact des prélèvements sociaux sur les revenus de SCPI, leur effet sur le rendement net, les différences entre revenus français et étrangers et les points à vérifier.',
+        keywords: ['prélèvements sociaux SCPI', 'CSG CRDS SCPI', 'rendement net', 'SCPI européennes PS'],
+        canonical: 'https://maximusscpi.com/scpi-prelevements-sociaux/',
+      },
+      PrelevementsSociauxScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-credit-impot') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Crédit d\'impôt SCPI : fiscalité des SCPI européennes expliquée',
+        description:
+          'Comprenez le crédit d\'impôt applicable à certains revenus étrangers de SCPI : principe, limites, conventions fiscales, rendement net et points de vigilance.',
+        keywords: ['crédit impôt SCPI', 'double imposition SCPI', 'fiscalité SCPI européennes', 'convention fiscale'],
+        canonical: 'https://maximusscpi.com/scpi-credit-impot/',
+      },
+      CreditImpotScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-taux-effectif') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Taux effectif SCPI : fiscalité étrangère et rendement net',
+        description:
+          'Comprenez le taux effectif appliqué à certains revenus étrangers de SCPI : principe, fiscalité européenne, rendement net, déclaration et points de vigilance.',
+        keywords: ['taux effectif SCPI', 'fiscalité étrangère SCPI', 'crédit impôt', 'SCPI européennes', 'déclaration revenus'],
+        canonical: 'https://maximusscpi.com/scpi-taux-effectif/',
+      },
+      TauxEffectifScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-ifi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI IFI : déclaration, valorisation et points de vigilance',
+        description:
+          'Comprenez le traitement des SCPI à l\'IFI : parts imposables, valeur à déclarer, détention en direct, assurance-vie, nue-propriété, SCI et points de vigilance.',
+        keywords: ['IFI SCPI', 'impôt fortune immobilière SCPI', 'valeur IFI SCPI', 'assurance-vie IFI', 'déclaration IFI'],
+        canonical: 'https://maximusscpi.com/scpi-ifi/',
+      },
+      IfiScpiPage
+    );
+  }
+
+  if (currentView === 'scpi-sci-is-fiscalite') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI SCI à l\'IS : fiscalité, amortissement, trésorerie et risques',
+        description:
+          'Comprenez la détention de SCPI via une SCI à l\'IS : fiscalité société, trésorerie, capitalisation, distribution, plus-value, frais, limites et points de vigilance.',
+        keywords: ['SCI IS SCPI', 'fiscalité SCI SCPI', 'amortissement SCPI', 'capitalisation SCPI', 'transmission SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-sci-is-fiscalite/',
+      },
+      SciIsFiscaliteScpiPage
     );
   }
 

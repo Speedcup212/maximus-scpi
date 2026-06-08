@@ -66,25 +66,25 @@ Pages prioritaires :
 ## Silo 2 — Fiscalité SCPI
 
 Pages :
-- /scpi-fiscalite/
+- /scpi-fiscalite/ — publié (Batch 5)
 - /scpi-tmi-11/ — publié (Batch 1)
 - /scpi-tmi-30/ — publié (Batch 1)
-- /scpi-tmi-41/
-- /scpi-tmi-45/
-- /scpi-revenus-fonciers/
-- /scpi-revenus-etrangers/
-- /scpi-prelevements-sociaux/
-- /scpi-credit-impot/
-- /scpi-taux-effectif/
+- /scpi-tmi-41/ — publié (Batch 5)
+- /scpi-tmi-45/ — publié (Batch 5)
+- /scpi-revenus-fonciers/ — publié (Batch 5)
+- /scpi-revenus-etrangers/ — publié (Batch 5)
+- /scpi-prelevements-sociaux/ — publié (Batch 5)
+- /scpi-credit-impot/ — publié (Batch 5)
+- /scpi-taux-effectif/ — publié (Batch 5)
 - /scpi-europe-fiscalite/
-- /scpi-ifi/
+- /scpi-ifi/ — publié (Batch 5)
 - /scpi-deficit-foncier/
 - /scpi-denormandie/
 - /scpi-malraux/
 - /scpi-nue-propriete-fiscalite/
 - /scpi-usufruit-fiscalite/
 - /scpi-assurance-vie-fiscalite/
-- /scpi-sci-is-fiscalite/
+- /scpi-sci-is-fiscalite/ — publié (Batch 5)
 
 ## Silo 3 — Modes d'investissement
 

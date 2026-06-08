@@ -51,6 +51,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
       case 'risques-vigilance': return AlertTriangle;
       case 'choix-comparatifs': return BarChart3;
       case 'secteurs-immo': return Target;
+      case 'fiscalite-avancee': return Shield;
       default: return BookOpen;
     }
   };
@@ -134,6 +135,13 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         badgeClass: 'bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300',
         arrowClass: 'text-purple-600'
       };
+      case 'fiscalite-avancee': return {
+        iconClass: 'text-green-600',
+        borderHoverClass: 'hover:border-green-500',
+        titleHoverClass: 'group-hover:text-green-600 dark:group-hover:text-green-400',
+        badgeClass: 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300',
+        arrowClass: 'text-green-600'
+      };
       default: return {
         iconClass: 'text-gray-600',
         borderHoverClass: 'hover:border-gray-500',
@@ -163,14 +171,15 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     'fiscalite-modes': "Fiscalité et modes d'investissement SCPI",
     'risques-vigilance': "Risques et vigilance SCPI",
     'choix-comparatifs': "Choisir et comparer les SCPI",
-    'secteurs-immo': "Secteurs immobiliers SCPI"
+    'secteurs-immo': "Secteurs immobiliers SCPI",
+    'fiscalite-avancee': "Fiscalité avancée SCPI"
   };
 
   return (
     <>
       <SEOHead
         title="Articles Éducatifs SCPI | MaximusSCPI"
-        description="56 articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché."
+        description="66 articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché."
         keywords={['articles SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
         canonical="https://maximusscpi.com/articles/"
       />
@@ -207,7 +216,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             Articles Éducatifs SCPI
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-            56 articles experts pour maîtriser votre investissement en SCPI : comparatifs détaillés,
+            66 articles experts pour maîtriser votre investissement en SCPI : comparatifs détaillés,
             optimisation fiscale, stratégies patrimoniales et guides pratiques.
           </p>
         </div>
@@ -297,7 +306,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                     </div>
                     </a>
                 )}
-                {category === 'analyse-criteres' || category === 'fiscalite-modes' || category === 'risques-vigilance' || category === 'choix-comparatifs' || category === 'secteurs-immo'
+                {category === 'analyse-criteres' || category === 'fiscalite-modes' || category === 'risques-vigilance' || category === 'choix-comparatifs' || category === 'secteurs-immo' || category === 'fiscalite-avancee'
                   ? articles.map((article) => {
                       const articleUrl = `/${article.slug}/`;
                       return (
