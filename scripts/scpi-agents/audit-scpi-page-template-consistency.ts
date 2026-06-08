@@ -177,7 +177,7 @@ function auditScpi(name: string): ScpiPageAudit {
   // 10. Cohérence du label marketing (garde-fou)
   if (realScpi) {
     const q = qualifyYield(realScpi.yield);
-    const incoherent = realScpi.yield < 4 && (q.tier === 'eleve' || q.tier === 'atypique');
+    const incoherent = realScpi.yield < 4 && q.tier === 'eleve';
     checks.push({
       block: 'label-marketing',
       severity: incoherent ? 'CRITICAL' : 'OK',

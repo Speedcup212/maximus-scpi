@@ -504,13 +504,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   </span>
                 </h1>
 
-                {yieldQualif.alert && (
-                  <div className="inline-flex items-center gap-2 bg-white/15 border border-white/25 px-4 py-2 rounded-lg text-sm text-yellow-100">
-                    <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                    {yieldQualif.alert}
-                  </div>
-                )}
-
                 <p className={`text-xl sm:text-2xl text-${colors.secondary}-50 leading-relaxed`}>
                   {landingData.description_courte}
                 </p>

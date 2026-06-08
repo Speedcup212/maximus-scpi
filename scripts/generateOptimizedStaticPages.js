@@ -262,8 +262,7 @@ const generateScpiPages = () => {
     const performanceLevel = !(typeof tdValue === 'number' && isFinite(tdValue)) ? 'à analyser' :
                              tdValue < 2 ? 'faible / à analyser' :
                              tdValue < 4 ? 'modéré' :
-                             tdValue < 6 ? 'courant' :
-                             tdValue <= 8 ? 'élevé' : 'atypique';
+                             tdValue < 6 ? 'courant' : 'élevé';
     const tofQuality = scpi['TOF (%)'] >= 95 ? 'Taux d\'occupation optimal' : 'Bien occupée';
     const sectorKeyword = sector === 'bureaux' ? 'Bureaux Premium' :
                          sector === 'commerces' ? 'Commerce & Retail' :

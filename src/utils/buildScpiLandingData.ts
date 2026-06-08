@@ -75,9 +75,6 @@ function buildFactualWarnings(scpi: Scpi): string[] {
   if (topSector && topSector.value >= 50) {
     out.push(`Concentration sectorielle : ${topSector.name} représente ${topSector.value.toFixed(0)} % du patrimoine.`);
   }
-  if (qualifyYield(scpi.yield).isAtypical) {
-    out.push("Rendement atypique (> 8 %) : non garanti, à contextualiser.");
-  }
   return out;
 }
 

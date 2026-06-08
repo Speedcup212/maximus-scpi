@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles, Star, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles, Star } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
 import { scoreToStars } from '../../utils/scoreToStars';
-import { getYieldContext } from '../../utils/yieldContext';
 
 interface SCPICardDarkProps {
   scpi: SCPIExtended;
@@ -20,7 +19,6 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
 
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
-  const yieldContext = getYieldContext(scpi.yield);
 
   const getSectorIcon = (sectorName: string) => {
     const name = sectorName.toLowerCase();
@@ -167,25 +165,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             </p>
             <div className="flex items-baseline gap-2 flex-wrap">
               <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
-              {yieldContext.isExceptional && (
-                <span
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/25 text-amber-50 text-[10px] font-semibold uppercase tracking-wide cursor-help"
-                  title={yieldContext.note}
-                  aria-label={yieldContext.note}
-                >
-                  <AlertTriangle className="w-3 h-3" />
-                  {yieldContext.badgeLabel}
-                </span>
-              )}
             </div>
-            {yieldContext.isExceptional && (
-              <p
-                className="text-[10px] text-amber-50/95 leading-tight mt-1.5"
-                title={yieldContext.note}
-              >
-                {yieldContext.shortNote}
-              </p>
-            )}
             {isExpanded && (
               <div className="mt-2 pt-2 border-t border-emerald-400/20">
                 <p className="text-[10px] text-emerald-100/80 leading-tight">
