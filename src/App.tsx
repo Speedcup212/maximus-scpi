@@ -12,7 +12,9 @@ import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import Footer from './components/Footer';
 import LoadingSpinner from './components/LoadingSpinner';
-import UnderstandingSCPI from './components/UnderstandingSCPI';
+// MOVED_TO_PAGE — UnderstandingSCPI n'est plus monté sur la homepage (cf. <main>).
+// Le composant reste utilisé par ComprendreSCPIPage (route /comprendre-les-scpi).
+// import UnderstandingSCPI from './components/UnderstandingSCPI';
 import DisclaimerBox from './components/DisclaimerBox';
 import ExpertBanner from './components/ExpertBanner';
 import { CookieConsent } from './components/CookieConsent';
@@ -2984,9 +2986,12 @@ const App: React.FC = () => {
                     >
                       Démarrer l'analyse
                     </button>
+                    {/* CTA secondaire : texte souligné uniquement, poids visuel
+                        nettement inférieur au CTA primaire vert (cf. étape 3D). */}
                     <a
                       href="/comparateur-scpi"
-                      className="px-6 py-4 rounded-xl font-semibold text-slate-200 border border-slate-700/70 bg-slate-900/40 backdrop-blur-sm text-center transition-all duration-200 hover:border-emerald-400/50 hover:text-white"
+                      className="text-center font-medium underline underline-offset-4 transition-opacity duration-200 hover:opacity-80"
+                      style={{ color: '#00C896' }}
                     >
                       Voir le comparateur complet
                     </a>
@@ -2997,7 +3002,7 @@ const App: React.FC = () => {
                     {[
                       'Pré-orientation pédagogique',
                       'Comparateur 63 SCPI',
-                      'Accompagnement CGP-CIF',
+                      'Accompagnement par Éric Bellaiche, CGP certifié AMF • Orias n°13001580',
                     ].map((item) => (
                       <li key={item} className="inline-flex items-center gap-2">
                         <svg
@@ -3034,29 +3039,33 @@ const App: React.FC = () => {
           </section>
         )}
 
-        {/* Section 3 — Preuve sociale */}
+        {/* POSITION 2 — Bloc Éric Bellaiche + accréditations (déplacé sous le hero) */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <ExpertBanner
+            isDarkMode={isDarkMode}
+            onContactClick={() => setIsRdvModalOpen(true)}
+          />
+        </div>
+
+        {/* POSITION 3 — Témoignages clients + CTA RDV (déplacé) */}
+        <Suspense fallback={<div className="py-12"><LoadingSpinner /></div>}>
+          <Testimonials />
+        </Suspense>
+
+        {/* POSITION 4 — Preuve sociale (réassurance, non chiffrée) */}
         <PreuveSociale />
 
-        {/* Section 4 — Teaser comparateur (statique, sans import de ScpiComparator) */}
+        {/* POSITION 5 — Teaser comparateur (statique, sans import de ScpiComparator) */}
         <TeaserComparateur />
 
       </main>
 
-      {/* Expert Banner - Eric Bellaiche */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <ExpertBanner
-          isDarkMode={isDarkMode}
-          onContactClick={() => setIsRdvModalOpen(true)}
-        />
-      </div>
-
-      {/* Testimonials Section */}
-      <Suspense fallback={<div className="py-12"><LoadingSpinner /></div>}>
-        <Testimonials />
-      </Suspense>
-
-      {/* Understanding SCPI Section */}
-      <UnderstandingSCPI />
+      {/* MOVED_TO_PAGE — Bloc pédagogique "Comprendre les SCPI" / "Comment ça fonctionne" /
+          "Types d'actifs" / "Façons d'investir" / "Trois grandes familles".
+          Déjà disponible sur la page dédiée /comprendre-les-scpi
+          (currentView === 'comprendre' → ComprendreSCPIPage → UnderstandingSCPI).
+          Retiré de la homepage pour alléger le tunnel de conversion. */}
+      {/* <UnderstandingSCPI /> */}
 
       {/* Landing Pages Menu */}
       <Suspense fallback={<div className="py-12"><LoadingSpinner /></div>}>

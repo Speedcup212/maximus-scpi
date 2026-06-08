@@ -14,7 +14,9 @@ const Testimonials: React.FC = () => {
       name: "Pierre M.",
       role: "Chef d'entreprise",
       avatar: "👨‍💼",
-      text: "Interface claire, conseils pertinents et accompagnement d'Eric exceptionnel. Mes revenus SCPI ont augmenté de 30% depuis que j'utilise la plateforme.",
+      // Verbatim remanié : suppression de la performance chiffrée non vérifiable
+      // (risque de publicité trompeuse au sens AMF).
+      text: "L'analyse par profil fiscal m'a permis d'identifier des SCPI que je n'aurais pas sélectionnées seul. Le RDV a été décisif.",
       rating: 5
     },
     {
@@ -76,8 +78,10 @@ const Testimonials: React.FC = () => {
 
         {/* Call to action */}
         <div className="text-center mt-12">
+          {/* TODO: remplacer "XXX" par le vrai nombre d'investisseurs validé par Eric.
+              Placeholder volontairement visible pour éviter un chiffre non vérifié. */}
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Rejoignez plus de 500 investisseurs qui nous font confiance
+            Rejoignez plus de XXX investisseurs qui nous font confiance
           </p>
           <button
             onClick={() => {
