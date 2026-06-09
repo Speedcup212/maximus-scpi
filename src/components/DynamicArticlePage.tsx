@@ -25,6 +25,21 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
     );
   }
 
+  // Catégories lisibles pour le badge
+  const categoryLabels: Record<string, string> = {
+    'strategies-patrimoniales': 'Stratégies patrimoniales SCPI',
+    'fiscalite-modes': 'Fiscalité et modes de détention',
+    'analyse-criteres': 'Critères d\'analyse SCPI',
+    'risques-vigilance': 'Risques, liquidité et vigilance',
+    'gestionnaires-acteurs': 'Gestionnaires & acteurs SCPI',
+    'scpi-societes-gestion': 'Sociétés de gestion SCPI',
+    'comparatifs': 'Comparatifs SCPI',
+    'fiscalite': 'Fiscalité SCPI',
+    'strategies': 'Stratégies SCPI',
+    'guides': 'Guides SCPI',
+  };
+  const displayCategory = categoryLabels[template.category] || template.category;
+
   // Essayer d'abord le contenu riche, sinon utiliser le contenu générique
   const richSections = generateRichArticleContent(template);
   const useRichContent = richSections && richSections.length > 0;
@@ -71,7 +86,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
         <header className="mb-12">
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-sm font-semibold rounded-full">
-              {template.category}
+              {displayCategory}
             </span>
             {template.featured && (
               <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm font-semibold rounded-full">
