@@ -48,6 +48,16 @@ export const INTERNAL_LINKS = [
   { href: '/scpi-taux-effectif', label: 'Taux effectif SCPI — fiscalité étrangère' },
   { href: '/scpi-ifi', label: 'SCPI et IFI — déclaration des parts' },
   { href: '/scpi-sci-is-fiscalite', label: 'SCPI en SCI à l\'IS — fiscalité' },
+  { href: '/amf-scpi', label: 'AMF SCPI — contrôle et réglementation' },
+  { href: '/orias-scpi', label: 'ORIAS SCPI — vérification des statuts' },
+  { href: '/documents-reglementaires-scpi', label: 'Documents réglementaires SCPI — DIC, note, rapports' },
+  { href: '/dic-scpi', label: 'DIC SCPI — document d\'informations clés' },
+  { href: '/note-information-scpi', label: 'Note d\'information SCPI — avant souscription' },
+  { href: '/scpi-credit', label: 'SCPI à crédit — effet de levier et fiscalité' },
+  { href: '/scpi-comptant', label: 'SCPI au comptant — avantages et limites' },
+  { href: '/scpi-retraite', label: 'SCPI pour la retraite — revenus et horizon' },
+  { href: '/scpi-revenus-complementaires', label: 'SCPI revenus complémentaires — rendement net' },
+  { href: '/scpi-transmission', label: 'SCPI et transmission — donation et succession' },
 ] as const
 
 export interface TableRow {

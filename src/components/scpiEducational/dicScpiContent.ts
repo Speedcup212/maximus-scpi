@@ -1,0 +1,152 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const dicScpiConfig: ScpiEducationalPageConfig = {
+  path: '/dic-scpi',
+  badge: 'Document clé',
+  h1: 'DIC SCPI : comment lire le document d\'informations clés ?',
+  heroSubtitle:
+    "Le DIC (Document d'Informations Clés) est un document obligatoire qui résume les caractéristiques essentielles d'une SCPI : niveau de risque, frais, durée de détention recommandée et scénarios de performance. Il constitue une première lecture, mais ne remplace pas l'analyse complète.",
+  seoTitle: 'DIC SCPI : risques, frais, scénario et informations clés à lire',
+  seoDescription:
+    "Comprenez le DIC d'une SCPI : objectif, risques, frais, durée recommandée, scénarios, limites et points à vérifier avant d'investir.",
+  shortAnswerTitle: "Qu'est-ce que le DIC d'une SCPI ?",
+  shortAnswer:
+    "Le DIC (Document d'Informations Clés) est un document standardisé qui doit être remis avant toute souscription. Il présente le niveau de risque (échelle de 1 à 7), la durée de détention recommandée, les frais (souscription, gestion), des scénarios de performance et le coût dans le temps. Il permet une première comparaison entre SCPI, mais ses limites sont importantes : les scénarios sont purement indicatifs, les frais réels peuvent varier et le DIC ne remplace pas la lecture de la note d'information.",
+  keyMessage: "Le DIC est un point d'entrée utile, mais il ne remplace pas l'analyse complète de la SCPI et de la situation de l'investisseur.",
+  definitionParagraphs: [
+    "Le Document d'Informations Clés (DIC), anciennement DICI, est un document réglementaire standardisé au niveau européen (règlement PRIIPs). Il doit être remis à tout investisseur avant la souscription de parts de SCPI. Son objectif est de fournir une information synthétique, claire et comparable entre différents produits d'investissement. Le DIC tient sur quelques pages et se veut accessible au grand public.",
+    "Le DIC présente le niveau de risque de la SCPI sur une échelle de 1 à 7. Cette échelle intègre à la fois le risque de marché (volatilité du prix de part) et les autres risques spécifiques (liquidité, concentration, endettement). Un niveau de risque élevé (6 ou 7) indique une forte volatilité potentielle, pas nécessairement un risque de perte en capital plus élevé à long terme.",
+    "La rubrique des frais est essentielle. Le DIC distingue plusieurs types de frais : les frais de souscription (payés une fois à l'entrée), les frais de gestion (prélevés chaque année sur les revenus ou le patrimoine), et les frais de sortie éventuels. Certains DIC présentent également les frais courants et les frais liés à la composition du portefeuille. La comparaison des frais entre SCPI est un élément clé de l'analyse.",
+    "Le DIC inclut des scénarios de performance : scénario de tension, scénario défavorable, scénario intermédiaire et scénario favorable. Ces scénarios sont des simulations mathématiques basées sur des hypothèses de marché, pas des prévisions. Ils montrent comment la SCPI pourrait se comporter dans différentes conditions, mais ils ne constituent en aucun cas une garantie de rendement.",
+    "Le coût dans le temps est une autre rubrique importante. Le DIC calcule l'impact cumulé des frais sur la performance de l'investissement sur la durée de détention recommandée. Cet indicateur permet de visualiser concrètement l'effet des frais sur le rendement net. Plus les frais sont élevés et plus la durée de détention est longue, plus l'impact est significatif.",
+    "Malgré son utilité, le DIC a des limites qu'il faut connaître. Les scénarios de performance sont basés sur des données passées et des hypothèses qui peuvent ne pas se réaliser. Les frais présentés sont des frais maximum et les frais réels peuvent être inférieurs (ou différents selon les conditions de souscription). Enfin, le DIC ne contient pas d'informations sur la stratégie d'investissement, la qualité du patrimoine, l'équipe de gestion ou la fiscalité détaillée.",
+  ],
+  tableTitle: 'Rubrique du DIC / Ce qu\'elle indique / Limite de lecture',
+  tableRows: [
+    {
+      level: 'Niveau de risque (échelle 1-7)',
+      advantage: 'Permet d\'évaluer rapidement la volatilité potentielle de la SCPI et de la comparer à d\'autres produits.',
+      vigilance: 'L\'échelle de risque est standardisée mais peut masquer des risques spécifiques non capturés (liquidité, concentration sectorielle).',
+    },
+    {
+      level: 'Frais (souscription, gestion, courants)',
+      advantage: 'Comparaison standardisée des frais entre SCPI. Indicateur clé de l\'impact des frais sur le rendement.',
+      vigilance: 'Les frais présentés sont des maximums. Les frais réels peuvent varier selon les conditions de souscription et les canaux de distribution.',
+    },
+    {
+      level: 'Scénarios de performance',
+      advantage: 'Illustration des performances possibles dans différentes conditions de marché.',
+      vigilance: 'Les scénarios sont des simulations mathématiques, pas des prévisions ni des garanties. Ils ne prédisent pas la performance future.',
+    },
+    {
+      level: 'Durée de détention recommandée',
+      advantage: 'Indique l\'horizon temporel conseillé pour amortir les frais d\'entrée et lisser les cycles immobiliers.',
+      vigilance: 'La durée recommandée est une indication générique. L\'horizon pertinent dépend de la situation personnelle de l\'investisseur.',
+    },
+    {
+      level: 'Coût dans le temps (impact des frais)',
+      advantage: 'Visualise l\'effet cumulé des frais sur la performance sur la durée de détention recommandée.',
+      vigilance: 'Le calcul est basé sur des hypothèses fixes. L\'impact réel peut différer en fonction de la performance effective de la SCPI.',
+    },
+  ],
+  tableNote:
+    'Le DIC est un outil de première lecture. Pour une analyse approfondie, il doit être complété par la note d\'information, le rapport annuel et les statuts de la SCPI.',
+  criteriaTitle: 'Au-delà du DIC, que vérifier ?',
+  criteriaCards: [
+    {
+      title: 'Comparer les DIC de plusieurs SCPI',
+      text: 'Le DIC étant standardisé, il permet une comparaison rapide du risque, des frais et de la durée recommandée entre plusieurs SCPI. C\'est un premier filtre efficace.',
+    },
+    {
+      title: 'Lire la note d\'information en complément',
+      text: 'La note d\'information détaille ce que le DIC résume : stratégie d\'investissement, fiscalité, modalités de souscription et de retrait, risques spécifiques.',
+    },
+    {
+      title: 'Vérifier le rapport annuel',
+      text: 'Le rapport annuel permet de confronter les indicateurs du DIC aux résultats réels : TOF, collecte, évolution du prix de part, endettement.',
+    },
+    {
+      title: 'Ne pas se fier uniquement aux scénarios',
+      text: 'Les scénarios de performance sont indicatifs. L\'analyse doit porter sur les fondamentaux de la SCPI : qualité du patrimoine, équipe de gestion, stratégie.',
+    },
+    {
+      title: 'Intégrer la fiscalité personnelle',
+      text: 'Le DIC ne tient pas compte de la fiscalité personnelle de l\'investisseur. L\'impact fiscal sur le rendement net doit être calculé selon la situation de chacun.',
+    },
+  ],
+  commonErrors: [
+    'Confondre le DIC avec une analyse complète de la SCPI : le DIC est une synthèse, pas une évaluation de la qualité de l\'investissement.',
+    'Prendre les scénarios de performance pour des prévisions : ce sont des simulations mathématiques, pas des promesses de rendement.',
+    'Comparer les frais sans vérifier ce qu\'ils incluent réellement : certains DIC présentent des frais maximum qui peuvent ne pas s\'appliquer.',
+    'Ignorer la durée de détention recommandée et souscrire avec un horizon trop court : les frais d\'entrée peuvent annuler le rendement sur une courte période.',
+    'Se contenter du DIC sans lire la note d\'information ni le rapport annuel : ces documents contiennent des informations essentielles absentes du DIC.',
+    'Ne pas vérifier la date du DIC : un DIC ancien peut ne pas refléter les caractéristiques actuelles de la SCPI.',
+  ],
+  practicalCases: [
+    {
+      title: 'Investisseur comparant deux SCPI via leur DIC',
+      text: 'Un investisseur télécharge le DIC de deux SCPI. Il compare le niveau de risque (4 vs 5), les frais de souscription (8 % vs 10 %) et la durée de détention recommandée (8 ans vs 10 ans). Le DIC lui permet d\'identifier les différences principales avant d\'approfondir son analyse. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+    },
+    {
+      title: 'Investisseur lisant les scénarios de performance',
+      text: 'Un investisseur consulte les scénarios du DIC d\'une SCPI. Il note que le scénario intermédiaire prévoit un rendement annuel de 5 % mais que le scénario de tension affiche une performance négative. Il comprend que les résultats ne sont pas garantis et décide de consulter la note d\'information. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+    },
+    {
+      title: 'Investisseur analysant l\'impact des frais dans le temps',
+      text: 'Un investisseur regarde la rubrique « coût dans le temps » du DIC et constate que les frais réduisent significativement la performance sur les premières années. Il comprend l\'importance de respecter la durée de détention recommandée pour amortir les frais d\'entrée. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+    },
+  ],
+  methodParagraphs: [
+    'La méthode MaximusSCPI utilise le DIC comme premier outil de filtrage et de comparaison entre SCPI. Le DIC permet d\'identifier rapidement les SCPI qui correspondent aux critères généraux de recherche de l\'investisseur.',
+    'Cependant, la méthode MaximusSCPI ne s\'arrête pas au DIC. Chaque SCPI présélectionnée fait l\'objet d\'une analyse approfondie de sa note d\'information, de son rapport annuel et de ses statuts. Le DIC est un point de départ, pas une destination.',
+    'Le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580, intègre la lecture du DIC dans son processus d\'analyse mais insiste sur la nécessité de compléter par les autres documents réglementaires pour une pré-orientation pédagogique pertinente.',
+  ],
+  conclusionParagraphs: [
+    'Le DIC est un document utile et obligatoire qui permet une première approche standardisée des SCPI. Niveau de risque, frais, durée de détention, scénarios : il offre une synthèse rapide et comparable.',
+    'Sources : documents réglementaires des SCPI (DIC), site AMF (amf-france.org), règlement européen PRIIPs, documentation des sociétés de gestion.',
+    'Pour une analyse complète, ne vous arrêtez pas au DIC. Consultez la note d\'information, le rapport annuel et les statuts, et faites-vous accompagner par un CGP-CIF pour valider votre projet.',
+  ],
+  faqItems: [
+    {
+      question: 'Qu\'est-ce que le DIC d\'une SCPI ?',
+      answer: 'Le Document d\'Informations Clés est un document standardisé qui résume les caractéristiques essentielles d\'une SCPI : risque, frais, durée recommandée et scénarios de performance.',
+    },
+    {
+      question: 'Le DIC est-il obligatoire ?',
+      answer: 'Oui, le DIC doit être remis à tout investisseur avant la souscription de parts de SCPI. C\'est une obligation réglementaire européenne (règlement PRIIPs).',
+    },
+    {
+      question: 'Que signifie l\'échelle de risque de 1 à 7 ?',
+      answer: 'L\'échelle indique le niveau de risque global de la SCPI, intégrant la volatilité et les risques spécifiques. 1 est le niveau le plus faible, 7 le plus élevé.',
+    },
+    {
+      question: 'Les scénarios de performance du DIC sont-ils fiables ?',
+      answer: 'Les scénarios sont des simulations mathématiques basées sur des hypothèses et des données passées. Ils sont indicatifs et ne constituent pas des prévisions ni des garanties.',
+    },
+    {
+      question: 'Le DIC permet-il de comparer deux SCPI ?',
+      answer: 'Oui, grâce à sa standardisation, le DIC permet une première comparaison du risque, des frais et de la durée recommandée entre plusieurs SCPI.',
+    },
+    {
+      question: 'Quels sont les frais présentés dans le DIC ?',
+      answer: 'Le DIC présente les frais de souscription, les frais de gestion, les frais courants et les frais de sortie éventuels. Ce sont généralement des frais maximum.',
+    },
+    {
+      question: 'Le DIC remplace-t-il la note d\'information ?',
+      answer: 'Non. Le DIC est une synthèse. La note d\'information contient les informations détaillées sur le fonctionnement, les risques spécifiques, la fiscalité et les modalités de souscription et de retrait.',
+    },
+    {
+      question: 'Comment obtenir le DIC d\'une SCPI ?',
+      answer: 'Le DIC est disponible sur le site de la société de gestion, sur demande auprès d\'un conseiller ou d\'un distributeur, et sur les plateformes de comparaison SCPI.',
+    },
+    {
+      question: 'Le DIC prend-il en compte la fiscalité personnelle ?',
+      answer: 'Non. Le DIC ne tient pas compte de la situation fiscale personnelle de l\'investisseur. L\'impact fiscal doit être calculé selon la TMI, les prélèvements sociaux et les éventuels crédits d\'impôt.',
+    },
+    {
+      question: 'Que faire si le DIC d\'une SCPI n\'est pas disponible ?',
+      answer: 'C\'est un signal d\'alerte. La remise du DIC est obligatoire avant souscription. En l\'absence de DIC, il est déconseillé d\'investir.',
+    },
+  ],
+  comparateurCtaLabel: 'Lire le DIC avec les autres documents avant d\'investir',
+}

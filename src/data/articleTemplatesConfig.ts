@@ -887,6 +887,128 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 3000,
     metaDescription: 'Comprenez la détention de SCPI via une SCI à l\'IS : fiscalité société, trésorerie, capitalisation, distribution, plus-value, frais, limites et points de vigilance.',
     keywords: ['SCI IS SCPI', 'fiscalité SCI SCPI', 'amortissement SCPI', 'capitalisation SCPI', 'transmission SCPI']
+  },
+  // === Acteurs, réglementation et transparence ===
+  {
+    id: 72,
+    slug: 'amf-scpi',
+    title: 'AMF SCPI : contrôle, réglementation et documents à vérifier',
+    mainKeyword: 'AMF SCPI',
+    searchIntent: 'comprendre le rôle de l\'AMF dans les SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le rôle de l\'AMF dans l\'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.',
+    keywords: ['AMF SCPI', 'agrément AMF', 'réglementation SCPI', 'documents réglementaires SCPI']
+  },
+  {
+    id: 73,
+    slug: 'orias-scpi',
+    title: 'ORIAS SCPI : vérifier le statut d\'un conseiller ou distributeur',
+    mainKeyword: 'ORIAS SCPI',
+    searchIntent: 'vérifier le statut d\'un intermédiaire SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le rôle de l\'ORIAS dans l\'univers des SCPI : vérification des statuts professionnels, CGP-CIF, intermédiaires, distribution et points de vigilance.',
+    keywords: ['ORIAS SCPI', 'registre ORIAS', 'CIF SCPI', 'vérification statut SCPI']
+  },
+  {
+    id: 74,
+    slug: 'documents-reglementaires-scpi',
+    title: 'Documents réglementaires SCPI : DIC, note d\'information, statuts et rapports',
+    mainKeyword: 'documents réglementaires SCPI',
+    searchIntent: 'comprendre les documents réglementaires d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les documents réglementaires d\'une SCPI : DIC, note d\'information, statuts, rapport annuel, bulletin trimestriel, frais, risques et indicateurs clés.',
+    keywords: ['documents réglementaires SCPI', 'DIC SCPI', 'note information SCPI', 'rapport annuel SCPI']
+  },
+  {
+    id: 75,
+    slug: 'dic-scpi',
+    title: 'DIC SCPI : risques, frais et informations clés à lire',
+    mainKeyword: 'DIC SCPI',
+    searchIntent: 'comprendre le document d\'informations clés d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le DIC d\'une SCPI : objectif, risques, frais, durée recommandée, scénarios, limites et points à vérifier avant d\'investir.',
+    keywords: ['DIC SCPI', 'document informations clés SCPI', 'risques SCPI', 'frais SCPI']
+  },
+  {
+    id: 76,
+    slug: 'note-information-scpi',
+    title: 'Note d\'information SCPI : frais, risques et souscription',
+    mainKeyword: 'note information SCPI',
+    searchIntent: 'comprendre la note d\'information d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez la note d\'information d\'une SCPI : fonctionnement, frais, risques, modalités de souscription, retrait, fiscalité, stratégie et points de vigilance.',
+    keywords: ['note information SCPI', 'frais SCPI', 'risques SCPI', 'souscription SCPI']
+  },
+  // === Stratégies patrimoniales SCPI ===
+  {
+    id: 77,
+    slug: 'scpi-credit',
+    title: 'SCPI à crédit : effet de levier, fiscalité et risques à analyser',
+    mainKeyword: 'SCPI à crédit',
+    searchIntent: 'comprendre le financement de SCPI à crédit',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez l\'investissement en SCPI à crédit : effet de levier, intérêts d\'emprunt, fiscalité, cash-flow, risque de taux et revenus non garantis.',
+    keywords: ['SCPI crédit', 'effet levier SCPI', 'financement SCPI', 'crédit immobilier SCPI']
+  },
+  {
+    id: 78,
+    slug: 'scpi-comptant',
+    title: 'SCPI au comptant : avantages, limites et critères à vérifier',
+    mainKeyword: 'SCPI au comptant',
+    searchIntent: 'comprendre l\'achat de SCPI au comptant',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez l\'achat de SCPI au comptant : revenus potentiels, fiscalité, liquidité, frais, diversification, rendement net et points de vigilance.',
+    keywords: ['SCPI comptant', 'achat SCPI comptant', 'rendement net SCPI', 'fiscalité SCPI']
+  },
+  {
+    id: 79,
+    slug: 'scpi-retraite',
+    title: 'SCPI pour préparer sa retraite : revenus, fiscalité et horizon',
+    mainKeyword: 'SCPI retraite',
+    searchIntent: 'utiliser les SCPI pour préparer la retraite',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez comment analyser les SCPI pour préparer la retraite : revenus complémentaires, fiscalité, horizon long terme, démembrement, assurance-vie, liquidité et risques.',
+    keywords: ['SCPI retraite', 'préparer retraite SCPI', 'revenus complémentaires SCPI', 'démembrement SCPI']
+  },
+  {
+    id: 80,
+    slug: 'scpi-revenus-complementaires',
+    title: 'SCPI et revenus complémentaires : ce qu\'il faut vérifier',
+    mainKeyword: 'SCPI revenus complémentaires',
+    searchIntent: 'générer des revenus complémentaires avec des SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les SCPI pour générer des revenus complémentaires : rendement potentiel, fiscalité, prélèvements sociaux, liquidité, risques et points de vigilance.',
+    keywords: ['SCPI revenus complémentaires', 'SCPI revenus', 'distributions SCPI', 'rendement net SCPI']
+  },
+  {
+    id: 81,
+    slug: 'scpi-transmission',
+    title: 'SCPI et transmission : donation, démembrement et succession',
+    mainKeyword: 'SCPI transmission',
+    searchIntent: 'transmettre des parts de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez l\'utilisation des SCPI dans une stratégie de transmission : donation, démembrement, nue-propriété, usufruit, assurance-vie, succession et points de vigilance.',
+    keywords: ['SCPI transmission', 'donation SCPI', 'démembrement SCPI', 'succession SCPI', 'nue-propriété SCPI']
   }
 ];
 

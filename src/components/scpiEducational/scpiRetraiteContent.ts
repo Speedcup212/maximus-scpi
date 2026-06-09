@@ -1,0 +1,161 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const scpiRetraiteConfig: ScpiEducationalPageConfig = {
+  path: '/scpi-retraite',
+  badge: 'Stratégie patrimoniale',
+  h1: 'SCPI pour préparer sa retraite : revenus, fiscalité et horizon',
+  heroSubtitle:
+    "Les SCPI peuvent s'inscrire dans une stratégie de préparation à la retraite, en recherchant des revenus complémentaires, une diversification ou une transmission. L'horizon long terme, la fiscalité, le démembrement et la liquidité sont à analyser.",
+  seoTitle: 'SCPI retraite : revenus complémentaires, fiscalité, démembrement et risques',
+  seoDescription:
+    "Comprenez comment analyser les SCPI pour préparer la retraite : revenus complémentaires, fiscalité, horizon long terme, démembrement, assurance-vie, liquidité et risques.",
+  shortAnswerTitle: "Pourquoi des SCPI dans une stratégie retraite ?",
+  shortAnswer:
+    "Les SCPI peuvent être intégrées à une stratégie de préparation à la retraite pour plusieurs raisons : elles distribuent des revenus potentiels réguliers, elles offrent une diversification immobilière sans contrainte de gestion locative directe, et elles peuvent être combinées avec des dispositifs comme le démembrement ou l'assurance-vie pour différer la fiscalité ou optimiser la transmission. L'horizon long terme (10-15 ans minimum) est cohérent avec le profil de liquidité des SCPI, mais il ne garantit ni la régularité ni le montant des distributions. La fiscalité des revenus à la retraite (TMI potentiellement plus basse) peut améliorer le rendement net perçu. L'absence de contrainte de crédit et la perception de revenus complémentaires sont des atouts dans une phase de baisse de revenus professionnels.",
+  keyMessage:
+    "Les SCPI peuvent contribuer à une stratégie retraite, mais elles doivent être calibrées selon le besoin de revenus, l'horizon, la fiscalité et la liquidité.",
+  definitionParagraphs: [
+    "La préparation de la retraite par les SCPI repose sur un principe simple : investir pendant la phase d'épargne (avant la retraite) pour percevoir des revenus complémentaires pendant la phase de distribution (pendant la retraite). L'horizon long permet de lisser les frais de souscription et de bénéficier d'une éventuelle revalorisation du patrimoine.",
+    "La fiscalité des revenus SCPI à la retraite dépend de la TMI du foyer à ce moment-là. Si les revenus professionnels cessent ou diminuent, la TMI peut être plus basse (11 % ou 0 %), ce qui améliore le rendement net perçu par rapport à un investisseur en activité en TMI 30 % ou 41 %. Les prélèvements sociaux (17,2 %) restent dus quel que soit l'âge.",
+    "Le démembrement temporaire (achat en nue-propriété pendant une période donnée) peut être une stratégie adaptée : pendant la phase d'épargne, l'investisseur ne perçoit pas de loyers mais achète les parts avec une décote. À l'issue de la période, il récupère la pleine propriété et commence à percevoir les loyers, souvent au moment du départ à la retraite.",
+    "L'assurance-vie peut aussi servir de support pour loger des SCPI dans une stratégie retraite : les revenus sont capitalisés sans imposition immédiate, et la fiscalité à la sortie est allégée après 8 ans. L'abattement fiscal peut être valorisé à la retraite si l'investisseur effectue des rachats programmés.",
+    "Les SCPI ne sont pas un produit d'épargne retraite comme un PER ou un contrat Madelin : elles n'offrent pas de déduction fiscale à l'entrée. En revanche, elles ne bloquent pas les fonds jusqu'à un âge fixé : l'investisseur peut revendre ses parts à tout moment (sous réserve des délais de liquidité).",
+    "La diversification sectorielle et géographique des SCPI est un atout pour réduire la dépendance à un seul marché immobilier. Une SCPI diversifiée (bureaux, commerces, logistique, santé, résidentiel) répartit les risques locatifs, ce qui peut être pertinent à l'approche de la retraite.",
+    "L'investissement en SCPI pour la retraite doit être cohérent avec le reste du patrimoine : épargne de précaution, immobilier détenu en direct, assurance-vie, PER, valeurs mobilières. Les SCPI viennent en complément de ces supports, pas en remplacement.",
+  ],
+  tableTitle: 'Objectif retraite / Solution à étudier / Vigilance',
+  tableRows: [
+    {
+      level: 'Revenus immédiats à la retraite',
+      advantage:
+        "SCPI en pleine propriété au comptant. Revenus perçus dès la souscription. Fiscalité potentiellement allégée si TMI plus basse à la retraite.",
+      vigilance:
+        "Revenus non garantis. Liquidité limitée. Fiscalité immédiate chaque année. L'horizon et la régularité des distributions sont des critères déterminants.",
+    },
+    {
+      level: 'Revenus différés (pendant la phase épargne)',
+      advantage:
+        "Démembrement temporaire : achat en nue-propriété avec décote, perception de l'intégralité des revenus à l'issue. Pas de fiscalité pendant la phase de démembrement.",
+      vigilance:
+        "Aucun revenu perçu pendant la durée du démembrement (souvent 10-15 ans). La décote doit être analysée précisément. L'horizon doit être compatible avec la date de retraite visée.",
+    },
+    {
+      level: 'Transmission',
+      advantage:
+        'Donation de parts de SCPI avec réserve d\'usufruit. Transmission de capital aux enfants tout en conservant des revenus. Fiscalité successorale allégée par le démembrement.',
+      vigilance:
+        "L'usufruit s'éteint au décès de l'usufruitier. La valorisation des parts pour la donation doit être justifiée. Impact sur la succession à analyser selon la composition familiale.",
+    },
+    {
+      level: 'Démembrement',
+      advantage:
+        "Décote à l'entrée (20-40 % selon la durée). Absence d'imposition des revenus pendant la période de démembrement. Récupération de la pleine propriété à l'issue.",
+      vigilance:
+        "Aucun revenu pendant la période. Horizon long. Fiscalité à la reconstitution de la pleine propriété. La décote varie selon les SCPI et les conditions de marché.",
+    },
+    {
+      level: 'Assurance-vie',
+      advantage:
+        "Capitalisation sans impôt immédiat. Fiscalité allégée après 8 ans. Rachats programmés possibles. Abattement successoral de 152 500 € par bénéficiaire.",
+      vigilance:
+        "Frais UC en sus des frais SCPI. Taux de reversement variable. Choix limité de SCPI. Rendement reversé inférieur au TDVM brut. Horizon minimum 8 ans recommandé.",
+    },
+  ],
+  tableNote:
+    "Ce tableau est une synthèse pédagogique. Le choix entre ces stratégies dépend de la date de retraite, de la TMI, du patrimoine existant et des objectifs de revenus et de transmission.",
+  criteriaTitle: "Critères à croiser pour les SCPI dans une stratégie retraite",
+  criteriaCards: [
+    { title: 'Horizon', text: "L'horizon doit être cohérent avec la date de retraite visée. Un investissement en pleine propriété peut être envisagé à 5-10 ans de la retraite. Le démembrement nécessite un horizon plus long (10-15 ans minimum)." },
+    { title: 'Rendement net après fiscalité à la retraite', text: "Simuler la TMI estimée à la retraite (souvent plus basse qu'en activité). Une TMI à 11 % améliore significativement le rendement net perçu par rapport à une TMI à 30 % ou 41 %. Les prélèvements sociaux restent à 17,2 %." },
+    { title: 'Régularité des distributions', text: "Un TOF élevé (> 95 %) et un report à nouveau positif sont des indicateurs de régularité des distributions. Ces critères sont essentiels pour un besoin de revenus réguliers à la retraite." },
+    { title: 'Liquidité', text: "À la retraite, la capacité à mobiliser rapidement du capital peut être nécessaire. Vérifier le délai de cession des parts et la profondeur du marché secondaire de la SCPI." },
+    { title: 'Diversification sectorielle', text: 'Une SCPI diversifiée sectoriellement et géographiquement est généralement plus résiliente. L\'exposition à un seul secteur (bureaux, commerce) augmente la volatilité potentielle des revenus.' },
+    { title: 'Capitalisation et endettement', text: 'Une capitalisation élevée et un endettement maîtrisé (< 30 %) sont des indicateurs de stabilité. Ces critères sont importants pour un investissement long terme dans une stratégie retraite.' },
+    { title: 'Fiscalité successorale', text: "Si la transmission fait partie des objectifs, analyser le cadre fiscal : donation, démembrement, assurance-vie. Chaque solution a des implications successorales différentes." },
+    { title: 'Compatibilité avec le PER', text: "Le PER et les SCPI ne sont pas exclusifs. Le PER offre une déduction fiscale à l'entrée, les SCPI offrent une liquidité relative et une diversification immobilière. Les deux peuvent coexister dans une stratégie retraite." },
+  ],
+  commonErrors: [
+    "Croire que les revenus SCPI sont garantis à la retraite comme une rente viagère.",
+    "Investir en SCPI sans simuler l'impact de la TMI réduite à la retraite sur le rendement net.",
+    "Confondre SCPI et PER : les SCPI n'offrent pas de déduction fiscale à l'entrée et ne bloquent pas les fonds jusqu'à la retraite.",
+    "Sous-estimer le délai de cession des parts en cas de besoin de trésorerie à la retraite.",
+    "Choisir une SCPI uniquement sur son rendement passé sans analyser la régularité des distributions (TOF, report à nouveau).",
+    "Oublier de vérifier la compatibilité du démembrement avec la date de retraite prévue.",
+    "Ne pas intégrer les prélèvements sociaux (17,2 %) dans la simulation des revenus nets à la retraite, quels que soient l'âge et la TMI.",
+    "Investir en SCPI sans épargne de précaution disponible pour les aléas de la vie courante à la retraite.",
+  ],
+  practicalCases: [
+    {
+      title: "Investisseur à 10 ans de la retraite — Achat en pleine propriété",
+      text: "Hypothèses théoriques : souscription de 80 000 € de SCPI au comptant à 55 ans pour un départ à la retraite à 65 ans. Rendement brut : 4,5 % (3 600 €/an). Frais de gestion : 12 % (432 €). Revenus nets avant impôt : 3 168 €/an (264 €/mois). TMI estimée à la retraite : 11 % (contre 30 % en activité). Économie d'impôt estimée : environ 600 €/an par rapport à la situation en activité. Revenu net perçu à la retraite : environ 2 270 €/an (189 €/mois). L'investisseur bénéficie d'une TMI réduite et de 10 ans de capitalisation avant la retraite. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.",
+    },
+    {
+      title: "Retraité cherchant des revenus complémentaires",
+      text: "Hypothèses théoriques : retraité de 68 ans, TMI 11 %, souscription de 50 000 € de parts de SCPI au comptant. Rendement brut : 5 % (2 500 €/an). Frais de gestion : 12 % (300 €). Revenus nets avant impôt : 2 200 €/an (183 €/mois). TMI 11 % + PS 17,2 % = 28,2 %. Impôt : 620 €. Revenu net perçu : 1 580 €/an, soit 132 €/mois. L'investisseur perçoit un complément de revenu modeste mais régulier. La régularité des distributions dépend de la qualité de la SCPI. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.",
+    },
+    {
+      title: "Investisseur fortement fiscalisé sans besoin de revenus immédiats",
+      text: "Hypothèses théoriques : investisseur de 50 ans, TMI 45 %, sans besoin de revenus complémentaires immédiats. Achète 100 000 € de nue-propriété de SCPI avec un démembrement de 15 ans, décote de 35 % (prix d'acquisition : 65 000 €). Pendant 15 ans, aucun revenu perçu, aucune fiscalité. À 65 ans, récupération de la pleine propriété, valorisation estimée des parts : hypothèse de stabilité (100 000 €). Perception de l'intégralité des loyers à partir de 65 ans, avec une TMI potentiellement réduite. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.",
+    },
+  ],
+  methodParagraphs: [
+    "MaximusSCPI compare les SCPI selon leurs indicateurs clés. Pour une stratégie retraite, l'analyse doit intégrer l'horizon, la fiscalité future, la régularité des distributions et le cadre de détention (pleine propriété, démembrement, assurance-vie).",
+    "La première étape consiste à définir la date de retraite et le besoin de revenus complémentaires à cette échéance. L'horizon détermine la pertinence du démembrement ou de la pleine propriété.",
+    "La deuxième étape simule la TMI estimée à la retraite. Une baisse de TMI peut améliorer significativement le rendement net des SCPI perçues pendant la retraite par rapport à un investissement réalisé pendant l'activité.",
+    "La troisième étape sélectionne les SCPI dans le comparateur selon leur régularité de distribution (TOF, report à nouveau), leur capitalisation et leur diversification. La régularité est prioritaire pour un objectif de revenus.",
+    "La quatrième étape arbitre entre les modes de détention : pleine propriété pour des revenus immédiats ou à court terme, démembrement pour différer les revenus, assurance-vie pour capitaliser avec un cadre fiscal spécifique.",
+    "MaximusSCPI ne constitue pas une recommandation personnalisée. Un échange avec le Cabinet Eric Bellaiche permet de simuler une stratégie SCPI cohérente avec votre date de retraite, votre TMI future, votre patrimoine existant et vos objectifs de revenus.",
+  ],
+  conclusionParagraphs: [
+    "Les SCPI peuvent être un outil pertinent dans une stratégie de préparation à la retraite, à condition d'être calibrées selon l'horizon, le besoin de revenus, la fiscalité future et la liquidité. Le démembrement, l'assurance-vie et la pleine propriété offrent des profils différents qui peuvent être combinés.",
+    "Sources à consulter : DIC des SCPI, bulletins trimestriels, rapports annuels, contrat d'assurance-vie, simulation de TMI à la retraite, barème de l'IR.",
+    "Utilisez le comparateur MaximusSCPI pour identifier les SCPI correspondant à vos critères de régularité et de diversification, puis validez votre stratégie avec un conseiller pour une simulation adaptée à votre date de retraite, votre TMI et votre situation patrimoniale.",
+  ],
+  faqItems: [
+    {
+      question: 'Les SCPI sont-elles un bon placement pour la retraite ?',
+      answer: "Les SCPI peuvent s'inscrire dans une stratégie retraite pour leurs revenus potentiels et leur diversification immobilière. Elles ne sont ni garanties ni comparables à une rente viagère. Leur intérêt dépend de l'horizon, de la fiscalité et de la régularité des distributions.",
+    },
+    {
+      question: "Quelle différence entre SCPI et PER pour la retraite ?",
+      answer: "Le PER offre une déduction fiscale à l'entrée mais bloque les fonds jusqu'à la retraite. Les SCPI n'offrent pas de déduction fiscale à l'entrée mais ne bloquent pas les fonds : l'investisseur peut revendre ses parts à tout moment (sous réserve des délais de liquidité).",
+    },
+    {
+      question: "Qu'est-ce que le démembrement de SCPI pour la retraite ?",
+      answer: "L'achat en nue-propriété permet d'acquérir des parts avec une décote (20-40 %) sans percevoir de loyers pendant la durée du démembrement. À l'échéance, la pleine propriété est récupérée et les loyers sont perçus intégralement. C'est une stratégie pour différer les revenus à la retraite.",
+    },
+    {
+      question: 'Peut-on vivre des revenus de ses SCPI à la retraite ?',
+      answer: "Les revenus perçus dépendent du capital investi, du rendement de la SCPI et de la fiscalité. Pour un complément de revenu significatif, un capital conséquent est nécessaire. Les revenus ne sont pas garantis et peuvent varier dans le temps.",
+    },
+    {
+      question: "Quelle fiscalité pour les SCPI à la retraite ?",
+      answer: "Les revenus SCPI sont imposés chaque année à la TMI du foyer (qui peut être plus basse à la retraite) et aux prélèvements sociaux (17,2 %). Une TMI à 11 % améliore le rendement net par rapport à une TMI à 30 % ou 41 % pendant l'activité.",
+    },
+    {
+      question: "Les prélèvements sociaux s'appliquent-ils aux retraités ?",
+      answer: "Oui, les prélèvements sociaux (17,2 %) s'appliquent à tous les revenus du patrimoine, quel que soit l'âge ou le statut fiscal du contribuable, y compris les retraités.",
+    },
+    {
+      question: "Quel horizon pour des SCPI dans une stratégie retraite ?",
+      answer: "L'horizon recommandé est de 10 à 15 ans minimum pour lisser les frais de souscription et bénéficier de la revalorisation potentielle du patrimoine. Le démembrement nécessite un horizon correspondant à la durée du démembrement.",
+    },
+    {
+      question: "Peut-on combiner SCPI et assurance-vie pour la retraite ?",
+      answer: "Oui, l'assurance-vie permet de loger des SCPI avec capitalisation des revenus sans imposition immédiate et fiscalité allégée après 8 ans. Les rachats programmés peuvent fournir un complément de revenu régulier à la retraite.",
+    },
+    {
+      question: "Les SCPI sont-elles liquides à la retraite ?",
+      answer: "La revente des parts peut prendre 2 à 12 mois sur le marché secondaire. À la retraite, il est recommandé de conserver une épargne de précaution suffisante pour ne pas être contraint de vendre dans l'urgence.",
+    },
+    {
+      question: "Quels indicateurs privilégier pour une SCPI retraite ?",
+      answer: "Privilégier le TOF (régularité locative), le report à nouveau (capacité à maintenir les distributions), la capitalisation (stabilité), la diversification sectorielle et géographique (réduction des risques), et la liquidité sur le marché secondaire.",
+    },
+    {
+      question: 'Comment MaximusSCPI aide-t-il à préparer sa retraite avec des SCPI ?',
+      answer: "Le comparateur MaximusSCPI permet d'analyser les indicateurs de régularité et de stabilité des SCPI. Cette analyse est une piste à approfondir dans le cadre d'une stratégie retraite globale, à valider avec un conseiller en gestion de patrimoine.",
+    },
+  ],
+  comparateurCtaLabel: "Étudier les SCPI dans votre stratégie retraite",
+}

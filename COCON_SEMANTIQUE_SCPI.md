@@ -89,8 +89,8 @@ Pages :
 ## Silo 3 — Modes d'investissement
 
 Pages :
-- /scpi-comptant/
-- /scpi-credit/
+- /scpi-comptant/ — publié (Batch 7)
+- /scpi-credit/ — publié (Batch 7)
 - /scpi-assurance-vie/ — publié (Batch 1)
 - /scpi-demembrement/ — publié (Batch 1)
 - /scpi-nue-propriete/
@@ -105,8 +105,9 @@ Pages :
 - /scpi-indivision/
 - /scpi-donation/
 - /scpi-succession/
-- /scpi-retraite/
-- /scpi-revenus-complementaires/
+- /scpi-retraite/ — publié (Batch 7)
+- /scpi-revenus-complementaires/ — publié (Batch 7)
+- /scpi-transmission/ — publié (Batch 7)
 - /scpi-investissement-progressif/
 - /scpi-investissement-10000-euros/
 
@@ -217,11 +218,11 @@ Pages :
 - /distributeur-scpi/
 - /retrocommissions-scpi/ — publié (Batch 6)
 - /commissions-scpi/
-- /amf-scpi/
-- /orias-scpi/
-- /documents-reglementaires-scpi/
-- /dic-scpi/
-- /note-information-scpi/
+- /amf-scpi/ — publié (Batch 7)
+- /orias-scpi/ — publié (Batch 7)
+- /documents-reglementaires-scpi/ — publié (Batch 7)
+- /dic-scpi/ — publié (Batch 7)
+- /note-information-scpi/ — publié (Batch 7)
 - /bulletin-trimestriel-scpi/
 - /rapport-annuel-scpi/
 - /statuts-scpi/

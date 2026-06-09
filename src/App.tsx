@@ -185,6 +185,16 @@ const CreditImpotScpiPage = lazy(() => import('./components/CreditImpotScpiPage'
 const TauxEffectifScpiPage = lazy(() => import('./components/TauxEffectifScpiPage'));
 const IfiScpiPage = lazy(() => import('./components/IfiScpiPage'));
 const SciIsFiscaliteScpiPage = lazy(() => import('./components/SciIsFiscaliteScpiPage'));
+const ScpiAmfPage = lazy(() => import('./components/ScpiAmfPage'));
+const ScpiOriasPage = lazy(() => import('./components/ScpiOriasPage'));
+const ScpiDocumentsReglementairesPage = lazy(() => import('./components/ScpiDocumentsReglementairesPage'));
+const ScpiDicPage = lazy(() => import('./components/ScpiDicPage'));
+const ScpiNoteInformationPage = lazy(() => import('./components/ScpiNoteInformationPage'));
+const ScpiCreditPage = lazy(() => import('./components/ScpiCreditPage'));
+const ScpiComptantPage = lazy(() => import('./components/ScpiComptantPage'));
+const ScpiRetraitePage = lazy(() => import('./components/ScpiRetraitePage'));
+const ScpiRevenusComplementairesPage = lazy(() => import('./components/ScpiRevenusComplementairesPage'));
+const ScpiTransmissionPage = lazy(() => import('./components/ScpiTransmissionPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -247,7 +257,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -631,6 +641,26 @@ const App: React.FC = () => {
         setCurrentView('scpi-ifi');
       } else if (path === 'scpi-sci-is-fiscalite') {
         setCurrentView('scpi-sci-is-fiscalite');
+      } else if (path === 'amf-scpi') {
+        setCurrentView('amf-scpi');
+      } else if (path === 'orias-scpi') {
+        setCurrentView('orias-scpi');
+      } else if (path === 'documents-reglementaires-scpi') {
+        setCurrentView('documents-reglementaires-scpi');
+      } else if (path === 'dic-scpi') {
+        setCurrentView('dic-scpi');
+      } else if (path === 'note-information-scpi') {
+        setCurrentView('note-information-scpi');
+      } else if (path === 'scpi-credit') {
+        setCurrentView('scpi-credit');
+      } else if (path === 'scpi-comptant') {
+        setCurrentView('scpi-comptant');
+      } else if (path === 'scpi-retraite') {
+        setCurrentView('scpi-retraite');
+      } else if (path === 'scpi-revenus-complementaires') {
+        setCurrentView('scpi-revenus-complementaires');
+      } else if (path === 'scpi-transmission') {
+        setCurrentView('scpi-transmission');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -1069,6 +1099,26 @@ const App: React.FC = () => {
         setCurrentView('scpi-ifi');
       } else if (normalizedPath === 'scpi-sci-is-fiscalite') {
         setCurrentView('scpi-sci-is-fiscalite');
+      } else if (normalizedPath === 'amf-scpi') {
+        setCurrentView('amf-scpi');
+      } else if (normalizedPath === 'orias-scpi') {
+        setCurrentView('orias-scpi');
+      } else if (normalizedPath === 'documents-reglementaires-scpi') {
+        setCurrentView('documents-reglementaires-scpi');
+      } else if (normalizedPath === 'dic-scpi') {
+        setCurrentView('dic-scpi');
+      } else if (normalizedPath === 'note-information-scpi') {
+        setCurrentView('note-information-scpi');
+      } else if (normalizedPath === 'scpi-credit') {
+        setCurrentView('scpi-credit');
+      } else if (normalizedPath === 'scpi-comptant') {
+        setCurrentView('scpi-comptant');
+      } else if (normalizedPath === 'scpi-retraite') {
+        setCurrentView('scpi-retraite');
+      } else if (normalizedPath === 'scpi-revenus-complementaires') {
+        setCurrentView('scpi-revenus-complementaires');
+      } else if (normalizedPath === 'scpi-transmission') {
+        setCurrentView('scpi-transmission');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -3182,6 +3232,136 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/scpi-sci-is-fiscalite/',
       },
       SciIsFiscaliteScpiPage
+    );
+  }
+
+  if (currentView === 'amf-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'AMF SCPI : contrôle, réglementation et documents à vérifier',
+        description:
+          "Comprenez le rôle de l'AMF dans l'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.",
+        keywords: ['AMF SCPI', 'agrément AMF', 'réglementation SCPI', 'documents réglementaires SCPI'],
+        canonical: 'https://maximusscpi.com/amf-scpi/',
+      },
+      ScpiAmfPage
+    );
+  }
+
+  if (currentView === 'orias-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: "ORIAS SCPI : vérifier le statut d'un conseiller ou distributeur",
+        description:
+          "Comprenez le rôle de l'ORIAS dans l'univers des SCPI : vérification des statuts professionnels, CGP-CIF, intermédiaires, distribution et points de vigilance.",
+        keywords: ['ORIAS SCPI', 'registre ORIAS', 'CIF SCPI', 'vérification statut SCPI'],
+        canonical: 'https://maximusscpi.com/orias-scpi/',
+      },
+      ScpiOriasPage
+    );
+  }
+
+  if (currentView === 'documents-reglementaires-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: "Documents réglementaires SCPI : DIC, note d'information, statuts et rapports",
+        description:
+          "Comprenez les documents réglementaires d'une SCPI : DIC, note d'information, statuts, rapport annuel, bulletin trimestriel, frais, risques et indicateurs clés.",
+        keywords: ['documents réglementaires SCPI', 'DIC SCPI', 'note information SCPI', 'rapport annuel SCPI'],
+        canonical: 'https://maximusscpi.com/documents-reglementaires-scpi/',
+      },
+      ScpiDocumentsReglementairesPage
+    );
+  }
+
+  if (currentView === 'dic-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'DIC SCPI : risques, frais et informations clés à lire',
+        description:
+          "Comprenez le DIC d'une SCPI : objectif, risques, frais, durée recommandée, scénarios, limites et points à vérifier avant d'investir.",
+        keywords: ['DIC SCPI', 'document informations clés SCPI', 'risques SCPI', 'frais SCPI'],
+        canonical: 'https://maximusscpi.com/dic-scpi/',
+      },
+      ScpiDicPage
+    );
+  }
+
+  if (currentView === 'note-information-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: "Note d'information SCPI : frais, risques et souscription",
+        description:
+          "Comprenez la note d'information d'une SCPI : fonctionnement, frais, risques, modalités de souscription, retrait, fiscalité, stratégie et points de vigilance.",
+        keywords: ['note information SCPI', 'frais SCPI', 'risques SCPI', 'souscription SCPI'],
+        canonical: 'https://maximusscpi.com/note-information-scpi/',
+      },
+      ScpiNoteInformationPage
+    );
+  }
+
+  if (currentView === 'scpi-credit') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI à crédit : effet de levier, fiscalité et risques à analyser',
+        description:
+          "Comprenez l'investissement en SCPI à crédit : effet de levier, intérêts d'emprunt, fiscalité, cash-flow, risque de taux et revenus non garantis.",
+        keywords: ['SCPI crédit', 'effet levier SCPI', 'financement SCPI', 'crédit immobilier SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-credit/',
+      },
+      ScpiCreditPage
+    );
+  }
+
+  if (currentView === 'scpi-comptant') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI au comptant : avantages, limites et critères à vérifier',
+        description:
+          'Comprenez l\'achat de SCPI au comptant : revenus potentiels, fiscalité, liquidité, frais, diversification, rendement net et points de vigilance.',
+        keywords: ['SCPI comptant', 'achat SCPI comptant', 'rendement net SCPI', 'fiscalité SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-comptant/',
+      },
+      ScpiComptantPage
+    );
+  }
+
+  if (currentView === 'scpi-retraite') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI pour préparer sa retraite : revenus, fiscalité et horizon',
+        description:
+          'Comprenez comment analyser les SCPI pour préparer la retraite : revenus complémentaires, fiscalité, horizon long terme, démembrement, assurance-vie, liquidité et risques.',
+        keywords: ['SCPI retraite', 'préparer retraite SCPI', 'revenus complémentaires SCPI', 'démembrement SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-retraite/',
+      },
+      ScpiRetraitePage
+    );
+  }
+
+  if (currentView === 'scpi-revenus-complementaires') {
+    return renderEducationalScpiPage(
+      {
+        title: "SCPI et revenus complémentaires : ce qu'il faut vérifier",
+        description:
+          'Comprenez les SCPI pour générer des revenus complémentaires : rendement potentiel, fiscalité, prélèvements sociaux, liquidité, risques et points de vigilance.',
+        keywords: ['SCPI revenus complémentaires', 'SCPI revenus', 'distributions SCPI', 'rendement net SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-revenus-complementaires/',
+      },
+      ScpiRevenusComplementairesPage
+    );
+  }
+
+  if (currentView === 'scpi-transmission') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI et transmission : donation, démembrement et succession',
+        description:
+          "Comprenez l'utilisation des SCPI dans une stratégie de transmission : donation, démembrement, nue-propriété, usufruit, assurance-vie, succession et points de vigilance.",
+        keywords: ['SCPI transmission', 'donation SCPI', 'démembrement SCPI', 'succession SCPI', 'nue-propriété SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-transmission/',
+      },
+      ScpiTransmissionPage
     );
   }
 

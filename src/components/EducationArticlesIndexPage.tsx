@@ -45,6 +45,8 @@ const CATEGORY_FAMILY_MAP: Record<string, ArticleFamily> = {
   'risques-vigilance': 'risques-vigilance',
   'secteurs-immo': 'secteurs-immo',
   strategies: 'strategies',
+  'acteurs-reglementation': 'acteurs-reglementation',
+  'strategies-patrimoniales': 'strategies',
 };
 
 // Mapping spécifique par slug pour les articles "guides" répartis dans plusieurs familles
@@ -146,7 +148,7 @@ const FAMILY_CONFIG: Record<ArticleFamily, {
     titleHoverClass: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
     badgeClass: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
     arrowClass: 'text-amber-600',
-    description: 'Sociétés de gestion, CGP-CIF, PSI, rétrocessions, conformité',
+    description: 'Sociétés de gestion, AMF, ORIAS, CGP-CIF, PSI, rétrocessions, documents réglementaires',
   },
   strategies: {
     label: 'Stratégies patrimoniales SCPI',
@@ -156,7 +158,7 @@ const FAMILY_CONFIG: Record<ArticleFamily, {
     titleHoverClass: 'group-hover:text-orange-600 dark:group-hover:text-orange-400',
     badgeClass: 'bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300',
     arrowClass: 'text-orange-600',
-    description: 'Crédit, retraite, transmission, diversification, PER, SCI',
+    description: 'Crédit, comptant, retraite, revenus complémentaires, transmission, PER, SCI',
   },
 };
 
@@ -187,6 +189,8 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'scpi-revenus-etrangers', 'scpi-revenus-fonciers', 'scpi-prelevements-sociaux',
   'scpi-credit-impot', 'scpi-taux-effectif', 'scpi-ifi', 'scpi-sci-is-fiscalite',
   'societe-gestion-scpi', 'gestionnaire-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi',
+  'amf-scpi', 'orias-scpi', 'documents-reglementaires-scpi', 'dic-scpi', 'note-information-scpi',
+  'scpi-credit', 'scpi-comptant', 'scpi-retraite', 'scpi-revenus-complementaires', 'scpi-transmission',
 ]);
 
 const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
