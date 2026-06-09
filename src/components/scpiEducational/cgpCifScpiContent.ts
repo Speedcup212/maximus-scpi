@@ -1,0 +1,138 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const cgpCifScpiConfig: ScpiEducationalPageConfig = {
+  path: '/cgp-cif-scpi',
+  badge: 'Conseil personnalisé',
+  h1: 'CGP-CIF et SCPI : quel rôle dans l\'analyse avant souscription ?',
+  heroSubtitle:
+    'Un comparateur peut aider à lire les données. L\'analyse finale doit tenir compte de la situation patrimoniale, fiscale et personnelle de l\'investisseur. Le CGP-CIF (Conseiller en Gestion de Patrimoine – Conseil en Investissement Financier) est le professionnel habilité à réaliser cette analyse personnalisée.',
+  seoTitle: 'CGP-CIF SCPI : conseil, analyse patrimoniale, adéquation et limites',
+  seoDescription:
+    'Comprenez le rôle d\'un CGP-CIF dans l\'analyse SCPI : recueil d\'informations, fiscalité, horizon, risques, adéquation, rémunération, transparence et distinction avec un comparateur automatique.',
+  shortAnswerTitle: 'Quel est le rôle d\'un CGP-CIF dans un investissement SCPI ?',
+  shortAnswer:
+    'Un CGP-CIF (Conseiller en Gestion de Patrimoine inscrit au registre ORIAS en tant que Conseil en Investissement Financier) accompagne l\'investisseur dans l\'analyse de son projet SCPI. Il recueille des informations sur la situation patrimoniale, la fiscalité, l\'horizon, les objectifs et la tolérance au risque. Il analyse les supports disponibles (SCPI, enveloppes) et remet une déclaration d\'adéquation si un conseil est fourni. La différence avec un comparateur est fondamentale : le comparateur présente des données objectives, le CGP-CIF les analyse dans le contexte personnel de l\'investisseur.',
+  keyMessage:
+    'Un comparateur peut aider à lire les données. L\'analyse finale doit tenir compte de la situation patrimoniale, fiscale et personnelle de l\'investisseur.',
+  definitionParagraphs: [
+    'Un CGP-CIF est un professionnel de la gestion de patrimoine inscrit au registre ORIAS en tant que Conseil en Investissement Financier (CIF). Il est soumis à une obligation de conseil et de transparence.',
+    'Lors d\'un investissement en SCPI, le CGP-CIF commence par recueillir des informations sur la situation de l\'investisseur : patrimoine, revenus, fiscalité (TMI, PS, IFI), horizon, objectifs (revenus, transmission, retraite), tolérance au risque.',
+    'Il analyse ensuite les SCPI et les enveloppes (direct, assurance-vie, PER, SCI) en fonction de ces informations, et propose une pré-orientation pédagogique.',
+    'Le CGP-CIF remet une déclaration d\'adéquation qui explique en quoi les supports proposés sont adaptés à la situation de l\'investisseur (ou une déclaration de non-adéquation si ce n\'est pas le cas).',
+    'La rémunération du CGP-CIF peut être constituée d\'honoraires, de commissions (rétrocessions) versées par les sociétés de gestion, ou d\'un mix des deux. Cette rémunération doit être transparente.',
+    'La différence entre un comparateur et un CGP-CIF est fondamentale : le comparateur est un outil, le CGP-CIF est un professionnel qui analyse la situation personnelle et engage sa responsabilité.',
+  ],
+  tableTitle: 'Étape d\'accompagnement / Objectif / Vigilance',
+  tableRows: [
+    {
+      level: 'Recueil d\'informations',
+      advantage: 'Permet de comprendre la situation patrimoniale, fiscale et les objectifs.',
+      vigilance: 'Un conseil sans recueil préalable d\'informations n\'est pas conforme à la réglementation MIF2.',
+    },
+    {
+      level: 'Analyse des supports',
+      advantage: 'Évalue les SCPI selon les critères pertinents pour la situation personnelle.',
+      vigilance: 'L\'analyse doit être multicritère et ne pas se limiter au rendement.',
+    },
+    {
+      level: 'Déclaration d\'adéquation',
+      advantage: 'Document qui explique en quoi les supports sont adaptés à la situation de l\'investisseur.',
+      vigilance: 'Vérifier que la déclaration est remise et comprendre son contenu.',
+    },
+    {
+      level: 'Transparence des rémunérations',
+      advantage: 'L\'investisseur sait comment son conseiller est rémunéré.',
+      vigilance: 'En cas de rétrocession, vérifier qu\'elle n\'influence pas la recommandation.',
+    },
+    {
+      level: 'Suivi dans le temps',
+      advantage: 'Le conseiller peut réévaluer la stratégie en fonction des évolutions personnelles ou de marché.',
+      vigilance: 'Le suivi n\'est pas toujours inclus. Vérifier les conditions dans le contrat de conseil.',
+    },
+  ],
+  tableNote:
+    'Ces étapes sont indicatives. Le contenu exact de la mission dépend du périmètre défini entre le conseiller et l\'investisseur.',
+  criteriaTitle: 'Points de vigilance sur le conseil CGP-CIF',
+  criteriaCards: [
+    { title: 'Vérifier l\'inscription ORIAS', text: 'Le conseiller doit être inscrit au registre ORIAS en tant que CIF. Vérifier le numéro et l\'absence de sanction.' },
+    { title: 'Comprendre la rémunération', text: 'Honoraires, rétrocessions, mixte. La transparence sur la rémunération est obligatoire et permet d\'évaluer les éventuels conflits d\'intérêts.' },
+    { title: 'Distinguer information et conseil', text: 'Un conseil personnalisé nécessite un recueil d\'informations préalable. Une simple information ne l\'exige pas.' },
+    { title: 'Vérifier le périmètre', text: 'Le conseiller propose-t-il un suivi dans le temps ou uniquement un conseil ponctuel ?' },
+    { title: 'Poser des questions', text: 'Horizon, fiscalité, liquidité, risque : un bon conseiller aborde tous ces sujets et répond à vos questions.' },
+  ],
+  commonErrors: [
+    'Confondre comparateur SCPI et conseil personnalisé.',
+    'Investir sans recueil d\'informations préalable.',
+    'Ne pas vérifier l\'inscription ORIAS du conseiller.',
+    'Ne pas comprendre comment le conseiller est rémunéré.',
+    'Accepter une recommandation sans déclaration d\'adéquation.',
+    'Confondre conseil ponctuel et suivi dans le temps.',
+  ],
+  practicalCases: [
+    {
+      title: 'Investisseur avec TMI 41 % — analyse personnalisée',
+      text: 'Un investisseur TMI 41 % consulte un CGP-CIF. Celui-ci recueille sa situation, analyse la fiscalité et recommande une combinaison de SCPI européennes en direct et de SCPI en assurance-vie. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+    },
+    {
+      title: 'Comparateur vs conseil — la différence',
+      text: 'Un investisseur utilise un comparateur pour présélectionner 4 SCPI. Il consulte un CGP-CIF qui valide la cohérence avec son horizon et sa fiscalité et ajuste la répartition. Simulation pédagogique : l\'outil et le professionnel sont complémentaires.',
+    },
+    {
+      title: 'Investisseur sans recueil d\'informations',
+      text: 'Un investisseur reçoit une recommandation de SCPI sans que son conseiller ait recueilli d\'informations sur sa situation. Cette approche n\'est pas conforme à MIF2. Simulation pédagogique : exiger un recueil préalable.',
+    },
+  ],
+  methodParagraphs: [
+    'MaximusSCPI, à travers le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580, propose un accompagnement personnalisé.',
+    'La méthode MaximusSCPI combine l\'utilisation d\'un comparateur transparent et l\'analyse personnalisée d\'un professionnel.',
+    'MaximusSCPI ne constitue pas une recommandation personnalisée automatisée. L\'analyse finale est réalisée par un CGP-CIF.',
+  ],
+  conclusionParagraphs: [
+    'Le CGP-CIF est le professionnel qui analyse la situation personnelle de l\'investisseur pour proposer une stratégie cohérente. Son rôle est distinct de celui d\'un comparateur.',
+    'Sources et points à vérifier : registre ORIAS, site AMF, documents d\'entrée en relation, déclaration d\'adéquation, informations sur la rémunération.',
+    'Consultez un CGP-CIF pour valider votre analyse SCPI.',
+  ],
+  faqItems: [
+    {
+      question: 'Qu\'est-ce qu\'un CGP-CIF ?',
+      answer: 'Un Conseiller en Gestion de Patrimoine inscrit au registre ORIAS en tant que Conseil en Investissement Financier (CIF).',
+    },
+    {
+      question: 'Quel est son rôle dans un investissement SCPI ?',
+      answer: 'Recueillir la situation personnelle, analyser les supports, proposer une stratégie adaptée et remettre une déclaration d\'adéquation.',
+    },
+    {
+      question: 'Quelle différence avec un comparateur SCPI ?',
+      answer: 'Le comparateur présente des données. Le CGP-CIF les analyse dans le contexte personnel de l\'investisseur.',
+    },
+    {
+      question: 'Comment vérifier qu\'un conseiller est bien inscrit ?',
+      answer: 'Consulter le registre ORIAS (orias.fr) avec son numéro d\'inscription.',
+    },
+    {
+      question: 'Un conseil sans recueil d\'informations est-il valable ?',
+      answer: 'Non. Un conseil personnalisé nécessite un recueil préalable d\'informations sur la situation et les objectifs.',
+    },
+    {
+      question: 'Comment le CGP-CIF est-il rémunéré ?',
+      answer: 'Par honoraires, rétrocessions (commissions des sociétés de gestion) ou un mix des deux. Cette information doit être transparente.',
+    },
+    {
+      question: 'Qu\'est-ce qu\'une déclaration d\'adéquation ?',
+      answer: 'Un document qui explique en quoi les supports proposés sont adaptés à la situation de l\'investisseur (ou non).',
+    },
+    {
+      question: 'Un CGP-CIF peut-il recommander des SCPI ?',
+      answer: 'Oui, après recueil d\'informations et analyse de la situation, il peut proposer une pré-orientation pédagogique.',
+    },
+    {
+      question: 'Faut-il un suivi régulier avec son conseiller ?',
+      answer: 'C\'est conseillé, surtout si la situation personnelle évolue (mariage, héritage, changement de TMI, départ en retraite).',
+    },
+    {
+      question: 'Comment MaximusSCPI intègre le conseil ?',
+      answer: 'Le Cabinet Eric Bellaiche, CGP-CIF, assure l\'accompagnement personnalisé. Le comparateur est un outil d\'aide à la réflexion.',
+    },
+  ],
+  comparateurCtaLabel: 'Valider votre analyse SCPI avec un CGP-CIF',
+}

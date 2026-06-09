@@ -1,0 +1,142 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const retrocommissionsScpiConfig: ScpiEducationalPageConfig = {
+  path: '/retrocommissions-scpi',
+  badge: 'Transparence des coûts',
+  h1: 'Rétrocessions SCPI : commissions, frais et transparence',
+  heroSubtitle:
+    'Les frais et rétrocessions ne rendent pas une SCPI mauvaise, mais ils doivent être compris, expliqués et intégrés dans l\'analyse. La transparence sur les rémunérations est essentielle pour une décision éclairée.',
+  seoTitle: 'Rétrocessions SCPI : frais, commissions et transparence',
+  seoDescription:
+    'Comprenez les rétrocessions SCPI : frais de souscription, commissions de distribution, rémunération du conseiller, frais de gestion, transparence des coûts, conflits d\'intérêts potentiels et points à vérifier avant d\'investir.',
+  shortAnswerTitle: 'Que sont les rétrocessions dans les SCPI ?',
+  shortAnswer:
+    'Les rétrocessions sont des commissions versées par la société de gestion de la SCPI aux intermédiaires (distributeurs, conseillers, apporteurs d\'affaires) lors de la souscription de parts. Elles sont prélevées sur les frais de souscription (généralement 8 à 12 % du montant investi). Une partie de ces frais peut être rétrocédée au conseiller qui a recommandé la SCPI. La transparence sur ces rétrocessions est obligatoire. Elles ne rendent pas une SCPI mauvaise en soi, mais elles doivent être comprises par l\'investisseur pour évaluer les éventuels conflits d\'intérêts.',
+  keyMessage:
+    'Les frais et rétrocessions ne rendent pas une SCPI mauvaise, mais ils doivent être compris, expliqués et intégrés dans l\'analyse.',
+  definitionParagraphs: [
+    'Les frais de souscription sont les frais payés par l\'investisseur lors de l\'achat de parts de SCPI. Ils varient généralement de 8 à 12 % du montant investi. Une partie de ces frais peut être rétrocédée au distributeur ou au conseiller.',
+    'Les rétrocessions sont des commissions versées par la société de gestion à l\'intermédiaire (CGP-CIF, PSI, banque, courtier) qui a apporté l\'investisseur. Elles sont incluses dans les frais de souscription.',
+    'Les frais de gestion sont prélevés annuellement sur les loyers encaissés (généralement 10 à 12 % HT). Ils rémunèrent la société de gestion pour la gestion locative et la gestion de la SCPI.',
+    'Un conseiller rémunéré par rétrocessions peut être incité à recommander certaines SCPI qui versent des commissions plus élevées. C\'est pourquoi la transparence sur les rémunérations est essentielle.',
+    'Certains conseillers proposent un mode de rémunération par honoraires (sans rétrocessions), ce qui peut réduire les conflits d\'intérêts potentiels.',
+    'Une rétrocession ne signifie pas que la SCPI est mauvaise. De nombreuses SCPI de qualité versent des commissions de distribution. L\'important est que l\'investisseur soit informé et que le conseil reste objectif.',
+  ],
+  tableTitle: 'Type de rémunération / Qui la perçoit / Impact pour l\'investisseur / Vigilance',
+  tableRows: [
+    {
+      level: 'Frais de souscription',
+      advantage: 'Rémunèrent le travail de distribution et de conseil. Inclus dans le prix de souscription.',
+      vigilance: '8 à 12 % du montant investi. Réduisent le montant net investi. Vérifier le taux exact.',
+    },
+    {
+      level: 'Rétrocession sur souscription',
+      advantage: 'Reverse une partie des frais au conseiller ou distributeur.',
+      vigilance: 'Peut créer un conflit d\'intérêts si le conseiller privilégie les SCPI aux plus fortes commissions.',
+    },
+    {
+      level: 'Frais de gestion annuels',
+      advantage: 'Rémunèrent la gestion locative et la gestion de la SCPI.',
+      vigilance: '10 à 12 % HT des loyers. Impact direct sur le rendement net. Comparer entre SCPI.',
+    },
+    {
+      level: 'Honoraires de conseil',
+      advantage: 'Le conseiller est rémunéré directement par l\'investisseur, sans rétrocession.',
+      vigilance: 'Coût explicite. Transparence totale. Réduit les conflits d\'intérêts potentiels.',
+    },
+    {
+      level: 'Commissions de souscription en AV',
+      advantage: 'L\'assureur perçoit des commissions sur les UC SCPI, intégrées dans les frais du contrat.',
+      vigilance: 'Vérifier les frais du contrat AV et les éventuelles commissions supplémentaires.',
+    },
+  ],
+  tableNote:
+    'Ces informations sont des généralités. Chaque SCPI et chaque intermédiaire ont des conditions spécifiques. La transparence est obligatoire.',
+  criteriaTitle: 'Points à vérifier sur les rétrocessions',
+  criteriaCards: [
+    { title: 'Demander le détail des frais', text: 'Frais de souscription, frais de gestion, frais de cession éventuels. Tout doit être documenté.' },
+    { title: 'Comprendre la rémunération du conseiller', text: 'Honoraires, rétrocessions, mixte. La transparence est une obligation réglementaire.' },
+    { title: 'Comparer l\'impact sur le rendement net', text: 'Des frais de souscription élevés réduisent le montant investi. Simuler l\'impact sur le rendement net à long terme.' },
+    { title: 'Vérifier les frais en assurance-vie', text: 'Les frais du contrat AV s\'ajoutent aux frais de la SCPI. L\'impact cumulé peut être significatif.' },
+    { title: 'Évaluer le conflit d\'intérêts potentiel', text: 'Un conseiller rémunéré par rétrocession peut être incité à recommander certaines SCPI. Poser la question.' },
+  ],
+  commonErrors: [
+    'Ignorer les frais de souscription et leur impact sur le montant net investi.',
+    'Ne pas demander comment le conseiller est rémunéré.',
+    'Croire qu\'une SCPI sans frais de souscription est toujours meilleure.',
+    'Confondre frais de souscription et frais de gestion (les deux existent).',
+    'Ne pas comparer les frais entre SCPI avant d\'investir.',
+    'Oublier que les frais en assurance-vie s\'ajoutent aux frais des SCPI.',
+  ],
+  practicalCases: [
+    {
+      title: 'Investisseur qui ne regarde que le rendement brut',
+      text: 'Un investisseur compare deux SCPI : l\'une avec 10 % de frais de souscription et un TDVM de 5,5 %, l\'autre avec 8 % de frais et un TDVM de 5 %. La différence de rendement net après frais peut modifier la hiérarchie. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+    },
+    {
+      title: 'SCPI avec frais élevés mais patrimoine solide',
+      text: 'Une SCPI de grande qualité avec 12 % de frais de souscription peut offrir un meilleur couple rendement/risque qu\'une SCPI à 8 % de frais mais avec un TOF bas ou un endettement élevé. Simulation pédagogique : les frais ne sont pas le seul critère.',
+    },
+    {
+      title: 'SCPI avec frais bas mais risques plus élevés',
+      text: 'Une SCPI sans frais de souscription peut sembler attractive, mais si son TOF est bas ou son endettement élevé, le risque peut être supérieur. Simulation pédagogique : les frais bas ne compensent pas une mauvaise qualité de patrimoine.',
+    },
+    {
+      title: 'Conseil rémunéré par rétrocession',
+      text: 'Un conseiller recommande une SCPI avec des frais de souscription de 10 % dont 6 % lui sont rétrocédés. L\'investisseur doit être informé de cette rémunération. Simulation pédagogique : la transparence permet une décision éclairée.',
+    },
+  ],
+  methodParagraphs: [
+    'MaximusSCPI intègre les frais dans l\'analyse des SCPI : frais de souscription, frais de gestion, impact sur le rendement net.',
+    'La méthode MaximusSCPI encourage la transparence sur les rémunérations et la comparaison des frais entre SCPI.',
+    'MaximusSCPI ne constitue pas une recommandation personnalisée. Les frais et rétrocessions doivent être expliqués par le conseiller.',
+  ],
+  conclusionParagraphs: [
+    'Les frais et rétrocessions font partie intégrante de l\'investissement en SCPI. Ils ne rendent pas une SCPI mauvaise, mais ils doivent être compris, comparés et intégrés dans l\'analyse.',
+    'Sources et points à vérifier : DIC, note d\'information, documents d\'entrée en relation, informations sur les rémunérations, bulletin trimestriel.',
+    'Utilisez le comparateur MaximusSCPI pour comparer les frais, puis validez avec un conseiller.',
+  ],
+  faqItems: [
+    {
+      question: 'Qu\'est-ce qu\'une rétrocession en SCPI ?',
+      answer: 'Une commission versée par la société de gestion à l\'intermédiaire (conseiller, distributeur) lors de la souscription de parts. Elle est incluse dans les frais de souscription.',
+    },
+    {
+      question: 'Quels sont les frais d\'une SCPI ?',
+      answer: 'Frais de souscription (8-12 %), frais de gestion annuels (10-12 % HT des loyers), frais de cession éventuels.',
+    },
+    {
+      question: 'Les rétrocessions sont-elles obligatoires ?',
+      answer: 'Non, elles dépendent des accords entre la société de gestion et l\'intermédiaire. Le conseiller peut aussi être rémunéré par honoraires.',
+    },
+    {
+      question: 'Une rétrocession crée-t-elle un conflit d\'intérêts ?',
+      answer: 'Potentiellement, si le conseiller privilégie les SCPI aux plus fortes commissions. La transparence est obligatoire.',
+    },
+    {
+      question: 'Comment savoir si mon conseiller perçoit des rétrocessions ?',
+      answer: 'Il doit vous informer de sa rémunération. C\'est une obligation réglementaire.',
+    },
+    {
+      question: 'Les frais de souscription sont-ils négociables ?',
+      answer: 'Dans certains cas, oui. Certains conseillers proposent des rabais. Poser la question.',
+    },
+    {
+      question: 'Quelle est la différence entre frais de souscription et frais de gestion ?',
+      answer: 'Les frais de souscription sont payés une fois à l\'achat. Les frais de gestion sont prélevés chaque année sur les loyers.',
+    },
+    {
+      question: 'Les frais en assurance-vie s\'ajoutent-ils ?',
+      answer: 'Oui, les frais du contrat d\'assurance-vie (frais d\'entrée, frais de gestion du contrat) s\'ajoutent aux frais de la SCPI.',
+    },
+    {
+      question: 'Des frais élevés signifient-ils une mauvaise SCPI ?',
+      answer: 'Non. Une SCPI de qualité avec des frais plus élevés peut offrir un meilleur rendement net qu\'une SCPI médiocre avec des frais bas.',
+    },
+    {
+      question: 'Comment MaximusSCPI traite les rétrocessions ?',
+      answer: 'Les contenus pédagogiques expliquent les frais et encouragent la transparence. L\'approche est pédagogique.',
+    },
+  ],
+  comparateurCtaLabel: 'Comprendre les frais et rétrocessions avant de souscrire',
+}

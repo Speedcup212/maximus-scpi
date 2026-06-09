@@ -170,6 +170,11 @@ const ScpiLogistiquePage = lazy(() => import('./components/ScpiLogistiquePage'))
 const ScpiBureauxPage = lazy(() => import('./components/ScpiBureauxPage'));
 const ScpiCommercePage = lazy(() => import('./components/ScpiCommercePage'));
 const ScpiDiversifieesPage = lazy(() => import('./components/ScpiDiversifieesPage'));
+const SocieteGestionScpiPage = lazy(() => import('./components/SocieteGestionScpiPage'));
+const GestionnaireScpiPage = lazy(() => import('./components/GestionnaireScpiPage'));
+const CgpCifScpiPage = lazy(() => import('./components/CgpCifScpiPage'));
+const PsiScpiPage = lazy(() => import('./components/PsiScpiPage'));
+const RetrocommissionsScpiPage = lazy(() => import('./components/RetrocommissionsScpiPage'));
 const FiscaliteAvanceeScpiPage = lazy(() => import('./components/FiscaliteAvanceeScpiPage'));
 const Tmi41ScpiPage = lazy(() => import('./components/Tmi41ScpiPage'));
 const Tmi45ScpiPage = lazy(() => import('./components/Tmi45ScpiPage'));
@@ -242,7 +247,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -594,8 +599,16 @@ const App: React.FC = () => {
         setCurrentView('scpi-bureaux');
       } else if (path === 'scpi-commerce') {
         setCurrentView('scpi-commerce');
-      } else if (path === 'scpi-diversifiees') {
-        setCurrentView('scpi-diversifiees');
+      } else if (path === 'societe-gestion-scpi') {
+        setCurrentView('societe-gestion-scpi');
+      } else if (path === 'gestionnaire-scpi') {
+        setCurrentView('gestionnaire-scpi');
+      } else if (path === 'cgp-cif-scpi') {
+        setCurrentView('cgp-cif-scpi');
+      } else if (path === 'psi-scpi') {
+        setCurrentView('psi-scpi');
+      } else if (path === 'retrocommissions-scpi') {
+        setCurrentView('retrocommissions-scpi');
       } else if (path === 'scpi-fiscalite') {
         setCurrentView('scpi-fiscalite');
       } else if (path === 'scpi-tmi-41') {
@@ -1024,6 +1037,16 @@ const App: React.FC = () => {
         setCurrentView('scpi-commerce');
       } else if (normalizedPath === 'scpi-diversifiees') {
         setCurrentView('scpi-diversifiees');
+      } else if (normalizedPath === 'societe-gestion-scpi') {
+        setCurrentView('societe-gestion-scpi');
+      } else if (normalizedPath === 'gestionnaire-scpi') {
+        setCurrentView('gestionnaire-scpi');
+      } else if (normalizedPath === 'cgp-cif-scpi') {
+        setCurrentView('cgp-cif-scpi');
+      } else if (normalizedPath === 'psi-scpi') {
+        setCurrentView('psi-scpi');
+      } else if (normalizedPath === 'retrocommissions-scpi') {
+        setCurrentView('retrocommissions-scpi');
       } else if (normalizedPath === 'scpi-fiscalite') {
         setCurrentView('scpi-fiscalite');
       } else if (normalizedPath === 'scpi-tmi-41') {
@@ -2962,6 +2985,71 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/scpi-diversifiees/',
       },
       ScpiDiversifieesPage
+    );
+  }
+
+  if (currentView === 'societe-gestion-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Société de gestion SCPI : rôle, agrément, gestion et critères d\'analyse',
+        description:
+          'Comprenez le rôle d\'une société de gestion de SCPI : sélection des actifs, gestion locative, politique de distribution, documents réglementaires, agrément AMF, transparence et points de vigilance.',
+        keywords: ['société de gestion SCPI', 'agrément AMF', 'gestion SCPI', 'sélection actifs', 'distribution SCPI'],
+        canonical: 'https://maximusscpi.com/societe-gestion-scpi/',
+      },
+      SocieteGestionScpiPage
+    );
+  }
+
+  if (currentView === 'gestionnaire-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Gestionnaire SCPI : société de gestion, asset manager, property manager',
+        description:
+          'Comprenez qui intervient dans la gestion d\'une SCPI : société de gestion, asset manager, property manager, distributeur, CGP-CIF et rôle de chacun dans la chaîne de valeur.',
+        keywords: ['gestionnaire SCPI', 'asset manager SCPI', 'property manager', 'société de gestion', 'conseiller'],
+        canonical: 'https://maximusscpi.com/gestionnaire-scpi/',
+      },
+      GestionnaireScpiPage
+    );
+  }
+
+  if (currentView === 'cgp-cif-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'CGP-CIF SCPI : conseil, analyse patrimoniale, adéquation et limites',
+        description:
+          'Comprenez le rôle d\'un CGP-CIF dans l\'analyse SCPI : recueil d\'informations, fiscalité, horizon, risques, adéquation, rémunération, transparence et distinction avec un comparateur automatique.',
+        keywords: ['CGP-CIF', 'conseil SCPI', 'analyse patrimoniale', 'déclaration adéquation', 'ORIAS'],
+        canonical: 'https://maximusscpi.com/cgp-cif-scpi/',
+      },
+      CgpCifScpiPage
+    );
+  }
+
+  if (currentView === 'psi-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'PSI SCPI : rôle, statut, distribution et cadre réglementaire',
+        description:
+          'Comprenez le rôle des PSI dans l\'univers des SCPI : services d\'investissement, distribution de parts, conseil, différence avec CIF, vérification ORIAS et points de vigilance.',
+        keywords: ['PSI SCPI', 'prestataire services investissement', 'distribution SCPI', 'ORIAS', 'conseil investissement'],
+        canonical: 'https://maximusscpi.com/psi-scpi/',
+      },
+      PsiScpiPage
+    );
+  }
+
+  if (currentView === 'retrocommissions-scpi') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Rétrocessions SCPI : frais, commissions et transparence',
+        description:
+          'Comprenez les rétrocessions SCPI : frais de souscription, commissions de distribution, rémunération du conseiller, frais de gestion, transparence des coûts, conflits d\'intérêts potentiels et points à vérifier avant d\'investir.',
+        keywords: ['rétrocessions SCPI', 'frais souscription', 'commissions distribution', 'conflits intérêts', 'frais SCPI'],
+        canonical: 'https://maximusscpi.com/retrocommissions-scpi/',
+      },
+      RetrocommissionsScpiPage
     );
   }
 

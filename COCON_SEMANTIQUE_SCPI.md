@@ -185,12 +185,12 @@ Pages :
 ## Silo 7 — Secteurs immobiliers
 
 Pages :
-- /scpi-sante/ — publié (Batch 4)
-- /scpi-logistique/ — publié (Batch 4)
-- /scpi-bureaux/ — publié (Batch 4)
-- /scpi-commerce/ — publié (Batch 4)
+- /scpi-sante/ — publié (enrichi Batch 6)
+- /scpi-logistique/ — publié (enrichi Batch 6)
+- /scpi-bureaux/ — publié (enrichi Batch 6)
+- /scpi-commerce/ — publié (enrichi Batch 6)
 - /scpi-residentiel/
-- /scpi-diversifiees/ — publié (Batch 4)
+- /scpi-diversifiees/ — publié (enrichi Batch 6)
 - /scpi-hotellerie/
 - /scpi-education/
 - /scpi-cliniques/
@@ -209,13 +209,13 @@ Pages :
 ## Silo 8 — Sociétés de gestion, acteurs et réglementation
 
 Pages :
-- /societe-gestion-scpi/
-- /gestionnaire-scpi/
+- /societe-gestion-scpi/ — publié (Batch 6)
+- /gestionnaire-scpi/ — publié (Batch 6)
 - /classement-societes-gestion-scpi/
-- /cgp-cif-scpi/
-- /psi-scpi/
+- /cgp-cif-scpi/ — publié (Batch 6)
+- /psi-scpi/ — publié (Batch 6)
 - /distributeur-scpi/
-- /retrocommissions-scpi/
+- /retrocommissions-scpi/ — publié (Batch 6)
 - /commissions-scpi/
 - /amf-scpi/
 - /orias-scpi/
