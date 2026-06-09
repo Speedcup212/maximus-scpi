@@ -71,6 +71,22 @@ function getArticleFamily(article: ArticleTemplate): ArticleFamily {
   return CATEGORY_FAMILY_MAP[article.category] || 'comprendre';
 }
 
+/** Renvoie une string vide au lieu de null/undefined, puis lowercase + trim */
+function safeStr(val: unknown): string {
+  if (typeof val !== 'string') return '';
+  return val.toLowerCase().trim();
+}
+
+/** Supprime les accents et caractères diacritiques */
+function stripAccents(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/** Normalise un texte pour la recherche : safeStr + suppression des accents */
+function normalizeText(val: unknown): string {
+  return stripAccents(safeStr(val));
+}
+
 const FAMILY_CONFIG: Record<ArticleFamily, {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -245,14 +261,16 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     }
 
     // Apply search query
-    const query = searchQuery.toLowerCase().trim();
+    const query = searchQuery.trim();
     if (query) {
+      const normalizedQuery = normalizeText(query);
       filtered = filtered.filter(a =>
-        a.title.toLowerCase().includes(query) ||
-        a.slug.toLowerCase().includes(query) ||
-        a.metaDescription.toLowerCase().includes(query) ||
-        a.category.toLowerCase().includes(query) ||
-        a.mainKeyword.toLowerCase().includes(query)
+        normalizeText(a.title).includes(normalizedQuery) ||
+        normalizeText(a.slug).includes(normalizedQuery) ||
+        normalizeText(a.metaDescription).includes(normalizedQuery) ||
+        normalizeText(a.category).includes(normalizedQuery) ||
+        normalizeText(a.mainKeyword).includes(normalizedQuery) ||
+        (a.keywords || []).some(k => normalizeText(k).includes(normalizedQuery))
       );
     }
 
@@ -378,6 +396,26 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                 Réinitialiser les filtres
               </button>
             </p>
+          </div>
+        )}
+
+        {/* État vide : aucun résultat */}
+        {hasActiveFilters && filteredArticles.length === 0 && (
+          <div className="text-center py-16">
+            <Search className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              Aucun article ne correspond à votre recherche.
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+              Essayez un autre mot-clé comme fiscalité, rendement, TOF, IFI, crédit, ou transmission.
+            </p>
+            <button
+              onClick={clearSearch}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            >
+              <X className="w-5 h-5" />
+              Réinitialiser les filtres
+            </button>
           </div>
         )}
 
