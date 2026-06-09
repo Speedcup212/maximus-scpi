@@ -270,6 +270,7 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'scpi-revenus-etrangers', 'scpi-revenus-fonciers', 'scpi-prelevements-sociaux',
   'scpi-credit-impot', 'scpi-taux-effectif', 'scpi-ifi', 'scpi-sci-is-fiscalite',
   'societe-gestion-scpi', 'gestionnaire-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi',
+  'gestionnaires-acteurs-scpi',
   'amf-scpi', 'orias-scpi', 'documents-reglementaires-scpi', 'dic-scpi', 'note-information-scpi',
   'scpi-credit', 'scpi-comptant', 'scpi-retraite', 'scpi-revenus-complementaires', 'scpi-transmission',
   'scpi-france',
@@ -685,6 +686,33 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                         fiscalité SCPI
                       </span>
                       <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
+                    </div>
+                    </a>
+                )}
+
+                {/* Carte spéciale : portail gestionnaires & acteurs */}
+                {family === 'gestionnaires-acteurs' && (
+                  <a
+                    href="/gestionnaires-acteurs-scpi/"
+                    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-amber-200 dark:border-amber-700 group"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 text-xs font-semibold rounded">
+                        🏛️ Portail dédié
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                      Gestionnaires & acteurs SCPI
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      Société de gestion, CGP-CIF, PSI, distributeurs et rétrocessions — annuaire complet des acteurs
+                      avec recherche par société, SCPI gérées et statut de vérification.
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs px-2 py-1 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded font-medium">
+                        gestionnaires & acteurs
+                      </span>
+                      <ArrowRight className="w-5 h-5 text-amber-600 group-hover:translate-x-1 transition-transform" />
                     </div>
                     </a>
                 )}

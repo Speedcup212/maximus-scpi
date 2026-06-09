@@ -175,6 +175,7 @@ const SocieteGestionScpiPage = lazy(() => import('./components/SocieteGestionScp
 const SocietesDeGestionScpiPage = lazy(() => import('./components/SocietesDeGestionScpiPage'));
 const ManagementCompanyArticlePage = lazy(() => import('./components/ManagementCompanyArticlePage'));
 const GestionnaireScpiPage = lazy(() => import('./components/GestionnaireScpiPage'));
+const GestionnairesActeursScpiPage = lazy(() => import('./components/GestionnairesActeursScpiPage'));
 const CgpCifScpiPage = lazy(() => import('./components/CgpCifScpiPage'));
 const PsiScpiPage = lazy(() => import('./components/PsiScpiPage'));
 const RetrocommissionsScpiPage = lazy(() => import('./components/RetrocommissionsScpiPage'));
@@ -262,7 +263,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
@@ -634,6 +635,8 @@ const App: React.FC = () => {
         setCurrentView('societe-gestion-scpi');
       } else if (path === 'gestionnaire-scpi') {
         setCurrentView('gestionnaire-scpi');
+      } else if (path === 'gestionnaires-acteurs-scpi') {
+        setCurrentView('gestionnaires-acteurs-scpi');
       } else if (path === 'cgp-cif-scpi') {
         setCurrentView('cgp-cif-scpi');
       } else if (path === 'psi-scpi') {
@@ -1107,6 +1110,8 @@ const App: React.FC = () => {
         setCurrentView('societe-gestion-scpi');
       } else if (normalizedPath === 'gestionnaire-scpi') {
         setCurrentView('gestionnaire-scpi');
+      } else if (normalizedPath === 'gestionnaires-acteurs-scpi') {
+        setCurrentView('gestionnaires-acteurs-scpi');
       } else if (normalizedPath === 'cgp-cif-scpi') {
         setCurrentView('cgp-cif-scpi');
       } else if (normalizedPath === 'psi-scpi') {
@@ -1399,6 +1404,12 @@ const App: React.FC = () => {
     // Rediriger la page hub sociétés de gestion
     if (slug === 'societes-de-gestion-scpi') {
       window.location.href = '/societes-de-gestion-scpi/';
+      return;
+    }
+
+    // Rediriger la page portail gestionnaires & acteurs
+    if (slug === 'gestionnaires-acteurs-scpi') {
+      window.location.href = '/gestionnaires-acteurs-scpi/';
       return;
     }
 
@@ -3235,6 +3246,33 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/gestionnaire-scpi/',
       },
       GestionnaireScpiPage
+    );
+  }
+
+  if (currentView === 'gestionnaires-acteurs-scpi') {
+    return (
+      <div className={isDarkMode ? 'dark' : ''}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <GestionnairesActeursScpiPage
+            isDarkMode={isDarkMode}
+            toggleTheme={toggleTheme}
+            onContactClick={() => setIsRdvModalOpen(true)}
+            onAboutClick={handleAboutUsClick}
+            onLogoClick={handleBackToHome}
+            onFaqClick={handleFaqClick}
+            onScpiPageClick={handleScpiClick}
+            onUnderstandingClick={handleComprendreClick}
+            onAboutSectionClick={handleAboutUsClick}
+            onComparateurClick={handleComparateurClick}
+            onSimulateurClick={handleSimulateurClick}
+            onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
+            onEducationClick={handleEducationClick}
+          />
+        </Suspense>
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
     );
   }
 

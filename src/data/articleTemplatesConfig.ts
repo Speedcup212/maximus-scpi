@@ -1637,6 +1637,19 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Otoktone 3i, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Otoktone 3i', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
+  },
+  {
+    id: 134,
+    slug: 'gestionnaires-acteurs-scpi',
+    title: 'Gestionnaires & acteurs SCPI',
+    mainKeyword: 'gestionnaires acteurs SCPI',
+    searchIntent: 'comprendre les acteurs de l\'univers SCPI : sociétés de gestion, CGP-CIF, PSI, distributeurs',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'gestionnaires-acteurs',
+    wordCountTarget: 2500,
+    featured: true,
+    metaDescription: 'Comprenez les principaux acteurs de l\'univers SCPI : sociétés de gestion, gestionnaires, CGP-CIF, PSI, distributeurs, rétrocessions et points de vigilance.',
+    keywords: ['gestionnaires SCPI', 'acteurs SCPI', 'société de gestion', 'CGP-CIF', 'PSI', 'distributeur', 'rétrocessions', 'AMF', 'ORIAS']
   }
 ];
 

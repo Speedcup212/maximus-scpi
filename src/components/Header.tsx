@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2 } from 'lucide-react';
+import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Building2, ShieldAlert } from 'lucide-react';
 import { scpiDataExtended } from '../data/scpiDataExtended';
 import { scpiData } from '../data/scpiData';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
@@ -603,15 +603,74 @@ const Header: React.FC<HeaderProps> = ({
             </button>
             </li>
             <li>
-            <a
-              href="/articles/"
-              onClick={resetAllHeaderStates}
-              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap cursor-pointer"
-              aria-label="Comprendre les SCPI"
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>Comprendre les SCPI</span>
-            </a>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => {
+                    setIsEducationOpen(!isEducationOpen);
+                    setIsScpiMenuOpen(false);
+                    setIsSimulateurMenuOpen(false);
+                    setIsAboutMenuOpen(false);
+                  }}
+                  className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+                  aria-label="Comprendre les SCPI"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Comprendre les SCPI</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform flex-shrink-0 ${isEducationOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isEducationOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 max-w-[min(18rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
+                    <a
+                      href="/articles/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                    >
+                      <BookOpen className="w-4 h-4 text-blue-600" />
+                      <div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Tous les articles</span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Bibliothèque complète</p>
+                      </div>
+                    </a>
+                    <hr className="border-gray-200 dark:border-gray-700 mx-3" />
+                    <a
+                      href="/gestionnaires-acteurs-scpi/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full px-4 py-3 text-left hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                    >
+                      <Building2 className="w-4 h-4 text-amber-600" />
+                      <div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Gestionnaires & acteurs SCPI</span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Sociétés de gestion, CGP-CIF, PSI</p>
+                      </div>
+                    </a>
+                    <hr className="border-gray-200 dark:border-gray-700 mx-3" />
+                    <a
+                      href="/scpi-fiscalite/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                    >
+                      <TrendingUp className="w-4 h-4 text-green-600" />
+                      <div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Fiscalité SCPI</span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">TMI, IFI, revenus</p>
+                      </div>
+                    </a>
+                    <hr className="border-gray-200 dark:border-gray-700 mx-3" />
+                    <a
+                      href="/risques-scpi/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                    >
+                      <ShieldAlert className="w-4 h-4 text-red-600" />
+                      <div>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Risques & liquidité</span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Vacance locative, perte en capital</p>
+                      </div>
+                    </a>
+                  </div>
+                )}
+              </div>
             </li>
             <li>
             <div className="relative" ref={aboutDropdownRef}>
@@ -1088,6 +1147,16 @@ const Header: React.FC<HeaderProps> = ({
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Comprendre les SCPI</span>
+              </a>
+
+              <a
+                href="/gestionnaires-acteurs-scpi/"
+                onClick={resetAllHeaderStates}
+                className="w-full flex items-center gap-2 px-4 py-2 pl-8 text-gray-600 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-gray-800 transition-colors text-sm"
+                aria-label="Gestionnaires et acteurs SCPI"
+              >
+                <Building2 className="w-4 h-4 text-amber-600" />
+                <span>Gestionnaires & acteurs SCPI</span>
               </a>
 
               {/* Qui sommes-nous Section Mobile */}
