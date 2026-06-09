@@ -1,0 +1,682 @@
+[
+  {
+    "scpi_name": "AEW (société de gestion)",
+    "management_company": "AEW",
+    "management_company_slug": "aew",
+    "source_type": "to_verify",
+    "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, site officiel)",
+    "status": "active",
+    "confidence": "to_verify",
+    "notes": "Société de gestion non trouvée dans les données internes. AEW est un acteur majeur de l'immobilier tertiaire en Europe."
+  },
+  {
+    "scpi_name": "Advenis REIM (société de gestion)",
+    "management_company": "Advenis REIM",
+    "management_company_slug": "advenis-reim",
+    "source_type": "to_verify",
+    "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, site officiel)",
+    "status": "active",
+    "confidence": "to_verify",
+    "notes": "Société de gestion non trouvée dans les données internes. Advenis REIM gère des SCPI de diversification."
+  },
+  {
+    "scpi_name": "Aestiam Agora",
+    "management_company": "Aestiam",
+    "management_company_slug": "aestiam",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Aestiam Cap'Hebergimmo",
+    "management_company": "Aestiam",
+    "management_company_slug": "aestiam",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Aestiam Horizon",
+    "management_company": "Aestiam",
+    "management_company_slug": "aestiam",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Aestiam Pierre Rendement",
+    "management_company": "Aestiam",
+    "management_company_slug": "aestiam",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Activimmo",
+    "management_company": "Alderan",
+    "management_company_slug": "alderan",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Comète",
+    "management_company": "Alderan",
+    "management_company_slug": "alderan",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Alta Convictions",
+    "management_company": "Altarea Investment Managers",
+    "management_company_slug": "altarea-investment-managers",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Altixia Cadence 12",
+    "management_company": "Altixia REIM",
+    "management_company_slug": "altixia-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Altixia Commerces",
+    "management_company": "Altixia REIM",
+    "management_company_slug": "altixia-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Edissimo",
+    "management_company": "Amundi Immobilier",
+    "management_company_slug": "amundi-immobilier",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Rivoli Avenir Patrimoine",
+    "management_company": "Amundi Immobilier",
+    "management_company_slug": "amundi-immobilier",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Transitions Europe",
+    "management_company": "Arkéa REIM",
+    "management_company_slug": "arkea-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Épargne Pierre",
+    "management_company": "Atland Voisin",
+    "management_company_slug": "atland-voisin",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Épargne Pierre Europe",
+    "management_company": "Atland Voisin",
+    "management_company_slug": "atland-voisin",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Atream Hotel",
+    "management_company": "Atream",
+    "management_company_slug": "atream",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "BNP Paribas REIM France (société de gestion)",
+    "management_company": "BNP Paribas REIM France",
+    "management_company_slug": "bnp-paribas-reim-france",
+    "source_type": "to_verify",
+    "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, site officiel)",
+    "status": "active",
+    "confidence": "to_verify",
+    "notes": "Société de gestion non trouvée dans les données internes. Connue pour gérer Accès Valeur Pierre, Diversipierre (possible confusion avec Amundi)."
+  },
+  {
+    "scpi_name": "Optimale",
+    "management_company": "Consultim Asset Management",
+    "management_company_slug": "consultim-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Corum AM (société de gestion)",
+    "management_company": "Corum AM",
+    "management_company_slug": "corum-am",
+    "source_type": "to_verify",
+    "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, AMF/GECO)",
+    "status": "active",
+    "confidence": "to_verify",
+    "notes": "Société de gestion non trouvée dans les données internes. Connue pour gérer Corum Origin, Corum Convictions, Corum XL."
+  },
+  {
+    "scpi_name": "Epsicap Nano",
+    "management_company": "Epsicap",
+    "management_company_slug": "epsicap",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Pierval Santé",
+    "management_company": "Euryale AM",
+    "management_company_slug": "euryale-am",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Buroboutic Métropoles",
+    "management_company": "Fiducial Gérance",
+    "management_company_slug": "fiducial-gerance",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Ficommerce Proximité",
+    "management_company": "Fiducial Gérance",
+    "management_company_slug": "fiducial-gerance",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Selectipierre 2",
+    "management_company": "Fiducial Gérance",
+    "management_company_slug": "fiducial-gerance",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "GMA Essentialis",
+    "management_company": "Greenman Arth",
+    "management_company_slug": "greenman-arth",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Cristal Life",
+    "management_company": "Inter Gestion REIM",
+    "management_company_slug": "inter-gestion-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Cristal Rente",
+    "management_company": "Inter Gestion REIM",
+    "management_company_slug": "inter-gestion-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Grand Paris Résidentiel",
+    "management_company": "Inter Gestion REIM",
+    "management_company_slug": "inter-gestion-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Iroko Atlas",
+    "management_company": "Iroko",
+    "management_company_slug": "iroko",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Iroko Zen",
+    "management_company": "Iroko",
+    "management_company_slug": "iroko",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Kyaneos Pierre",
+    "management_company": "Kyaneos Asset Management",
+    "management_company_slug": "kyaneos-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Crédit Mutuel Pierre 1",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "LF Avenir Santé",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "LF Europimmo",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "LF Grand Paris Patrimoine",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Opportunité Immo",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Selectinvest 1",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Épargne Foncière",
+    "management_company": "La Française REM",
+    "management_company_slug": "la-francaise-rem",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Foncière des Praticiens",
+    "management_company": "Magellim REIM",
+    "management_company_slug": "magellim-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "NCap Continent",
+    "management_company": "Norma Capital",
+    "management_company_slug": "norma-capital",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "NCap Education Santé",
+    "management_company": "Norma Capital",
+    "management_company_slug": "norma-capital",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "NCap Régions",
+    "management_company": "Norma Capital",
+    "management_company_slug": "norma-capital",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Novaxia NEO",
+    "management_company": "Novaxia Investissement",
+    "management_company_slug": "novaxia-investissement",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Novapierre 1",
+    "management_company": "Paref Gestion",
+    "management_company_slug": "paref-gestion",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Novapierre Résidentiel",
+    "management_company": "Paref Gestion",
+    "management_company_slug": "paref-gestion",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Paref Evo",
+    "management_company": "Paref Gestion",
+    "management_company_slug": "paref-gestion",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Paref Hexa",
+    "management_company": "Paref Gestion",
+    "management_company_slug": "paref-gestion",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Perial Grand Paris",
+    "management_company": "Perial Asset Management",
+    "management_company_slug": "perial-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Perial Hospitalité Europe",
+    "management_company": "Perial Asset Management",
+    "management_company_slug": "perial-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Perial O2",
+    "management_company": "Perial Asset Management",
+    "management_company_slug": "perial-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Perial Opportunités Europe",
+    "management_company": "Perial Asset Management",
+    "management_company_slug": "perial-asset-management",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Patrimmo Commerce",
+    "management_company": "Praemia REIM France",
+    "management_company_slug": "praemia-reim-france",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Patrimmo Croissance Impact",
+    "management_company": "Praemia REIM France",
+    "management_company_slug": "praemia-reim-france",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Praemia Hôtels Europe",
+    "management_company": "Praemia REIM France",
+    "management_company_slug": "praemia-reim-france",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Primovie",
+    "management_company": "Praemia REIM France",
+    "management_company_slug": "praemia-reim-france",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Remake Live",
+    "management_company": "Remake AM",
+    "management_company_slug": "remake-am",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Remake UK 2025",
+    "management_company": "Remake AM",
+    "management_company_slug": "remake-am",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Efimmo 1",
+    "management_company": "Sofidy",
+    "management_company_slug": "sofidy",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Immorente",
+    "management_company": "Sofidy",
+    "management_company_slug": "sofidy",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Sofiprime",
+    "management_company": "Sofidy",
+    "management_company_slug": "sofidy",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Coeur d'Europe",
+    "management_company": "Sogenial Immobilier",
+    "management_company_slug": "sogenial-immobilier",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Coeur de Région",
+    "management_company": "Sogenial Immobilier",
+    "management_company_slug": "sogenial-immobilier",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Coeur de ville",
+    "management_company": "Sogenial Immobilier",
+    "management_company_slug": "sogenial-immobilier",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "ESG Pierre Capital",
+    "management_company": "Swiss Life Asset Managers France",
+    "management_company_slug": "swiss-life-asset-managers-france",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Log In",
+    "management_company": "Theoreim",
+    "management_company_slug": "theoreim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Urban Coeur de Commerce",
+    "management_company": "Urban Premium",
+    "management_company_slug": "urban-premium",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  },
+  {
+    "scpi_name": "Wemo One",
+    "management_company": "Wemo REIM",
+    "management_company_slug": "wemo-reim",
+    "source_type": "internal_data",
+    "source_detail": "src/data/scpi_complet.json",
+    "status": "active",
+    "confidence": "verified",
+    "notes": ""
+  }
+]
