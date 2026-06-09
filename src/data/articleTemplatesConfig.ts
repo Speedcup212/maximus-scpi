@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee' | 'acteurs-reglementation' | 'strategies-patrimoniales';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee' | 'strategies-patrimoniales' | 'gestionnaires-acteurs' | 'reglementation-transparence';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -714,7 +714,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'société de gestion SCPI',
     searchIntent: 'comprendre le rôle d\'une société de gestion SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'secteurs-immo',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le rôle d\'une société de gestion de SCPI : sélection des actifs, gestion locative, politique de distribution, documents réglementaires, agrément AMF.',
     keywords: ['société de gestion SCPI', 'agrément AMF', 'gestion SCPI']
@@ -726,7 +726,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'gestionnaire SCPI',
     searchIntent: 'comprendre qui gère une SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'secteurs-immo',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez qui intervient dans la gestion d\'une SCPI : société de gestion, asset manager, property manager, distributeur, CGP-CIF et rôle de chacun.',
     keywords: ['gestionnaire SCPI', 'asset manager SCPI', 'property manager']
@@ -738,7 +738,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'CGP-CIF SCPI',
     searchIntent: 'comprendre le rôle d\'un CGP-CIF dans l\'analyse SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'secteurs-immo',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le rôle d\'un CGP-CIF dans l\'analyse SCPI : recueil d\'informations, fiscalité, horizon, risques, adéquation, rémunération et distinction avec un comparateur.',
     keywords: ['CGP-CIF', 'conseil SCPI', 'analyse patrimoniale SCPI']
@@ -750,7 +750,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'PSI SCPI',
     searchIntent: 'comprendre le rôle des PSI dans les SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'secteurs-immo',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le rôle des PSI dans l\'univers des SCPI : services d\'investissement, distribution, conseil, cadre réglementaire, différence avec CIF.',
     keywords: ['PSI SCPI', 'prestataire services investissement', 'distribution SCPI']
@@ -762,7 +762,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'rétrocessions SCPI',
     searchIntent: 'comprendre les rétrocessions dans les SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'secteurs-immo',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez les rétrocessions SCPI : frais de souscription, commissions, rémunération du conseiller, transparence, conflits d\'intérêts potentiels.',
     keywords: ['rétrocessions SCPI', 'frais souscription SCPI', 'transparence SCPI']
@@ -896,7 +896,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'AMF SCPI',
     searchIntent: 'comprendre le rôle de l\'AMF dans les SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le rôle de l\'AMF dans l\'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.',
     keywords: ['AMF SCPI', 'agrément AMF', 'réglementation SCPI', 'documents réglementaires SCPI']
@@ -908,7 +908,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'ORIAS SCPI',
     searchIntent: 'vérifier le statut d\'un intermédiaire SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le rôle de l\'ORIAS dans l\'univers des SCPI : vérification des statuts professionnels, CGP-CIF, intermédiaires, distribution et points de vigilance.',
     keywords: ['ORIAS SCPI', 'registre ORIAS', 'CIF SCPI', 'vérification statut SCPI']
@@ -920,7 +920,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'documents réglementaires SCPI',
     searchIntent: 'comprendre les documents réglementaires d\'une SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez les documents réglementaires d\'une SCPI : DIC, note d\'information, statuts, rapport annuel, bulletin trimestriel, frais, risques et indicateurs clés.',
     keywords: ['documents réglementaires SCPI', 'DIC SCPI', 'note information SCPI', 'rapport annuel SCPI']
@@ -932,7 +932,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'DIC SCPI',
     searchIntent: 'comprendre le document d\'informations clés d\'une SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez le DIC d\'une SCPI : objectif, risques, frais, durée recommandée, scénarios, limites et points à vérifier avant d\'investir.',
     keywords: ['DIC SCPI', 'document informations clés SCPI', 'risques SCPI', 'frais SCPI']
@@ -944,7 +944,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'note information SCPI',
     searchIntent: 'comprendre la note d\'information d\'une SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'reglementation-transparence',
     wordCountTarget: 2500,
     metaDescription: 'Comprenez la note d\'information d\'une SCPI : fonctionnement, frais, risques, modalités de souscription, retrait, fiscalité, stratégie et points de vigilance.',
     keywords: ['note information SCPI', 'frais SCPI', 'risques SCPI', 'souscription SCPI']
@@ -1029,7 +1029,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Arkéa REIM SCPI',
     searchIntent: 'analyser la société de gestion Arkéa REIM et ses SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Arkéa REIM, société de gestion immobilière. SCPI Transitions Europe, stratégie d\'investissement, indicateurs clés et points de vigilance.',
     keywords: ['Arkéa REIM', 'société de gestion SCPI', 'Transitions Europe', 'gestionnaire SCPI']
@@ -1041,7 +1041,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Iroko société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Iroko et ses SCPI Iroko Zen, Iroko Atlas',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Iroko, société de gestion. SCPI Iroko Zen et Iroko Atlas, frais d\'entrée, stratégie, indicateurs et points de vigilance.',
     keywords: ['Iroko', 'Iroko Zen', 'Iroko Atlas', 'société de gestion SCPI', 'frais réduits']
@@ -1053,7 +1053,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Corum AM société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Corum AM et ses SCPI européennes',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Corum AM, société de gestion spécialisée dans les SCPI européennes et internationales. Corum Origin, Corum Convictions, Corum XL — données à vérifier.',
     keywords: ['Corum AM', 'Corum Origin', 'Corum Convictions', 'SCPI européennes', 'société de gestion SCPI']
@@ -1065,7 +1065,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Alderan société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Alderan et ses SCPI Activimmo, Comète',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Alderan, société de gestion. SCPI Activimmo et Comète, exposition logistique, indicateurs clés et points de vigilance.',
     keywords: ['Alderan', 'Activimmo', 'Comète', 'SCPI logistique', 'société de gestion SCPI']
@@ -1077,7 +1077,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Atland Voisin société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Atland Voisin et ses SCPI Épargne Pierre',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Atland Voisin, société de gestion immobilière historique. SCPI Épargne Pierre, Épargne Pierre Europe, stratégie, indicateurs et points de vigilance.',
     keywords: ['Atland Voisin', 'Épargne Pierre', 'Épargne Pierre Europe', 'société de gestion SCPI']
@@ -1089,7 +1089,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Sofidy société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Sofidy et ses SCPI Immorente, Efimmo 1, Sofiprime',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Sofidy, société de gestion historique. SCPI Immorente, Efimmo 1, Sofiprime, gamme de produits, indicateurs et points de vigilance.',
     keywords: ['Sofidy', 'Immorente', 'Efimmo 1', 'Sofiprime', 'société de gestion SCPI']
@@ -1101,7 +1101,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Remake AM société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Remake AM et ses SCPI Remake Live, Remake UK 2025',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Remake AM, société de gestion. SCPI Remake Live et Remake UK 2025, frais, stratégie, indicateurs et points de vigilance.',
     keywords: ['Remake AM', 'Remake Live', 'Remake UK 2025', 'société de gestion SCPI']
@@ -1113,7 +1113,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Wemo REIM société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Wemo REIM et sa SCPI Wemo One',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Wemo REIM, société de gestion. SCPI Wemo One, stratégie d\'investissement, indicateurs et points de vigilance.',
     keywords: ['Wemo REIM', 'Wemo One', 'société de gestion SCPI']
@@ -1125,7 +1125,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Sogenial Immobilier société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Sogenial Immobilier et ses SCPI Coeur de Région, Coeur de ville, Coeur d\'Europe',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Sogenial Immobilier, société de gestion. SCPI Coeur de Région, Coeur de ville, Coeur d\'Europe, stratégie et indicateurs.',
     keywords: ['Sogenial Immobilier', 'Coeur de Région', 'Coeur de ville', 'Coeur d\'Europe', 'société de gestion SCPI']
@@ -1137,7 +1137,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'Norma Capital société de gestion SCPI',
     searchIntent: 'analyser la société de gestion Norma Capital et ses SCPI NCap Régions, NCap Education Santé, NCap Continent',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Norma Capital, société de gestion. SCPI NCap Régions, NCap Education Santé, NCap Continent, indicateurs et points de vigilance.',
     keywords: ['Norma Capital', 'NCap Régions', 'NCap Education Santé', 'NCap Continent', 'société de gestion SCPI']
@@ -1149,7 +1149,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'sociétés de gestion SCPI',
     searchIntent: 'comparer les sociétés de gestion de SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     wordCountTarget: 2000,
     metaDescription: 'Retrouvez les principales sociétés de gestion de SCPI, leurs SCPI associées, leur rôle, les critères à analyser et les points de vigilance avant d\'investir.',
     keywords: ['sociétés de gestion SCPI', 'liste sociétés de gestion', 'comparer sociétés de gestion', 'acteurs SCPI', 'gestionnaire SCPI', 'AMF']

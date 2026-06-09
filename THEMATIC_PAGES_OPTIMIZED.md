@@ -1,6 +1,6 @@
 # 🚀 Landing Pages Thématiques Optimisées
 
-## ✅ Pages Générées (37)
+## ✅ Pages Générées (32)
 
 1. **[Meilleures SCPI 2026 : Top SCPI Rendement (jusqu\u2019à 11,18%)](https://maximusscpi.com/meilleures-scpi-rendement)**
    - URL: `/meilleures-scpi-rendement`
@@ -18,135 +18,115 @@
    - URL: `/revenu-complementaire-scpi`
    - Meta: Générez un revenu complémentaire régulier avec les SCPI. Percevez des loyers men...
 
-5. **[Comparateur SCPI 2026 : Comparez 51 SCPI (Rendement, Frais, Secteur)](https://maximusscpi.com/comparateur-scpi)**
-   - URL: `/comparateur-scpi`
-   - Meta: Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, ...
-
-6. **[Investir SCPI Bureaux 2026 | Obtenez votre Sélection Personnalisée](https://maximusscpi.com/scpi-bureaux-investissement)**
-   - URL: `/scpi-bureaux-investissement`
-   - Meta: Découvrez les meilleures SCPI spécialisées en bureaux. Rendements attractifs, di...
-
-7. **[Investir SCPI Commerces 2026 | Sélection Expert Personnalisée](https://maximusscpi.com/scpi-commerces-investissement)**
-   - URL: `/scpi-commerces-investissement`
-   - Meta: Investissez dans les meilleures SCPI commerces. Pieds d\...
-
-8. **[Investir SCPI Santé 2026 | Conseil Gratuit et Sélection sur Mesure](https://maximusscpi.com/scpi-sante-investissement)**
-   - URL: `/scpi-sante-investissement`
-   - Meta: Investissez dans les SCPI santé : cliniques, EHPAD, résidences seniors. Secteur ...
-
-9. **[Investir SCPI France 2026 | Votre Portefeuille Personnalisé Gratuit](https://maximusscpi.com/scpi-france-investissement)**
-   - URL: `/scpi-france-investissement`
-   - Meta: Découvrez les meilleures SCPI investies en France. Paris, Lyon, Marseille, Borde...
-
-10. **[SCPI Sans Frais VS Avec Frais 2026 | Comparatif et Conseils](https://maximusscpi.com/scpi-sans-frais)**
+5. **[SCPI Sans Frais VS Avec Frais 2026 | Comparatif et Conseils](https://maximusscpi.com/scpi-sans-frais)**
    - URL: `/scpi-sans-frais`
    - Meta: Découvrez les différences entre SCPI sans frais de souscription et SCPI avec fra...
 
-11. **[SCPI et Recyclage Urbain 2026 | Investir dans la Transformation Immobilière](https://maximusscpi.com/recyclage-urbain-scpi)**
+6. **[SCPI et Recyclage Urbain 2026 | Investir dans la Transformation Immobilière](https://maximusscpi.com/recyclage-urbain-scpi)**
    - URL: `/recyclage-urbain-scpi`
    - Meta: Découvrez comment investir dans le recyclage urbain via les SCPI. Transformation...
 
-12. **[SCPI Alderan 2026 | Comète - Expertise et Performance](https://maximusscpi.com/alderan-scpi)**
+7. **[SCPI Alderan 2026 | Comète - Expertise et Performance](https://maximusscpi.com/alderan-scpi)**
    - URL: `/alderan-scpi`
    - Meta: Découvrez les SCPI gérées par Alderan. Société de gestion innovante spécialisée ...
 
-13. **[SCPI Arkéa REIM 2026 | Transitions Europe - Expertise Immobilière](https://maximusscpi.com/arkea-reim-scpi)**
+8. **[SCPI Arkéa REIM 2026 | Transitions Europe - Expertise Immobilière](https://maximusscpi.com/arkea-reim-scpi)**
    - URL: `/arkea-reim-scpi`
    - Meta: Découvrez les SCPI gérées par Arkéa REIM. Groupe Arkéa, solidité financière et e...
 
-14. **[SCPI La Française REM 2026 | Leader Français - Expertise Reconnue](https://maximusscpi.com/la-francaise-rem-scpi)**
+9. **[SCPI La Française REM 2026 | Leader Français - Expertise Reconnue](https://maximusscpi.com/la-francaise-rem-scpi)**
    - URL: `/la-francaise-rem-scpi`
    - Meta: Découvrez les SCPI gérées par La Française REM, leader français de la gestion im...
 
-15. **[SCPI Atland Voisin 2026 | Épargne Pierre Europe - Expertise Patrimoniale](https://maximusscpi.com/atland-voisin-scpi)**
+10. **[SCPI Atland Voisin 2026 | Épargne Pierre Europe - Expertise Patrimoniale](https://maximusscpi.com/atland-voisin-scpi)**
    - URL: `/atland-voisin-scpi`
    - Meta: Découvrez les SCPI gérées par Atland Voisin, spécialiste du conseil patrimonial ...
 
-16. **[SCPI Aestiam 2026 | Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%)](https://maximusscpi.com/aestiam-scpi)**
+11. **[SCPI Aestiam 2026 | Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%)](https://maximusscpi.com/aestiam-scpi)**
    - URL: `/aestiam-scpi`
    - Meta: Aestiam : gestionnaire historique de SCPI avec 30 ans d\...
 
-17. **[SCPI Altixia REIM 2026 | Commerces, Cadence 12, Convictions](https://maximusscpi.com/altixia-reim-scpi)**
+12. **[SCPI Altixia REIM 2026 | Commerces, Cadence 12, Convictions](https://maximusscpi.com/altixia-reim-scpi)**
    - URL: `/altixia-reim-scpi`
    - Meta: Découvrez les SCPI Altixia REIM : Commerces (4.61%), Cadence 12 (5.10%), Convict...
 
-18. **[SCPI Amundi Immobilier 2026 | Primo et AgriNova](https://maximusscpi.com/amundi-immobilier-scpi)**
+13. **[SCPI Amundi Immobilier 2026 | Primo et AgriNova](https://maximusscpi.com/amundi-immobilier-scpi)**
    - URL: `/amundi-immobilier-scpi`
    - Meta: Découvrez les SCPI Amundi Immobilier : Primo (4.50%) et AgriNova. La puissance d...
 
-19. **[SCPI Atream 2026 | Pierre Capitale, Eurovalys](https://maximusscpi.com/atream-scpi)**
+14. **[SCPI Atream 2026 | Pierre Capitale, Eurovalys](https://maximusscpi.com/atream-scpi)**
    - URL: `/atream-scpi`
    - Meta: Découvrez les SCPI Atream : Pierre Capitale et Eurovalys. Gestionnaire indépenda...
 
-20. **[SCPI Consultim Asset Management 2026](https://maximusscpi.com/consultim-asset-management-scpi)**
+15. **[SCPI Consultim Asset Management 2026](https://maximusscpi.com/consultim-asset-management-scpi)**
    - URL: `/consultim-asset-management-scpi`
    - Meta: Découvrez les SCPI gérées par Consultim Asset Management. Gestionnaire spécialis...
 
-21. **[SCPI Fiducial Gérance 2026 | Force du Groupe Fiducial N°1 France](https://maximusscpi.com/fiducial-gerance-scpi)**
+16. **[SCPI Fiducial Gérance 2026 | Force du Groupe Fiducial N°1 France](https://maximusscpi.com/fiducial-gerance-scpi)**
    - URL: `/fiducial-gerance-scpi`
    - Meta: Fiducial Gérance : filiale immobilière du groupe Fiducial, N°1 français services...
 
-22. **[SCPI Greenman ARTH 2026](https://maximusscpi.com/greenman-arth-scpi)**
+17. **[SCPI Greenman ARTH 2026](https://maximusscpi.com/greenman-arth-scpi)**
    - URL: `/greenman-arth-scpi`
    - Meta: Découvrez les SCPI Greenman ARTH. Gestionnaire spécialisé dans l\...
 
-23. **[SCPI Inter Gestion REIM 2026](https://maximusscpi.com/inter-gestion-reim-scpi)**
+18. **[SCPI Inter Gestion REIM 2026](https://maximusscpi.com/inter-gestion-reim-scpi)**
    - URL: `/inter-gestion-reim-scpi`
    - Meta: Découvrez les SCPI Inter Gestion REIM. Gestionnaire indépendant spécialisé en im...
 
-24. **[SCPI Iroko 2026 | Zen (5.80%), Global (4.70%)](https://maximusscpi.com/iroko-scpi)**
+19. **[SCPI Iroko 2026 | Zen (5.80%), Global (4.70%)](https://maximusscpi.com/iroko-scpi)**
    - URL: `/iroko-scpi`
    - Meta: Découvrez les SCPI Iroko : Zen (5.80%) et Global (4.70%). Gestionnaire innovant ...
 
-25. **[SCPI Kyaneos Asset Management 2026](https://maximusscpi.com/kyaneos-asset-management-scpi)**
+20. **[SCPI Kyaneos Asset Management 2026](https://maximusscpi.com/kyaneos-asset-management-scpi)**
    - URL: `/kyaneos-asset-management-scpi`
    - Meta: Découvrez les SCPI Kyaneos Asset Management. Gestionnaire spécialisé en immobili...
 
-26. **[SCPI Magellim REIM 2026](https://maximusscpi.com/magellim-reim-scpi)**
+21. **[SCPI Magellim REIM 2026](https://maximusscpi.com/magellim-reim-scpi)**
    - URL: `/magellim-reim-scpi`
    - Meta: Découvrez les SCPI Magellim REIM. Gestionnaire spécialisé en immobilier d\...
 
-27. **[SCPI Norma Capital 2026](https://maximusscpi.com/norma-capital-scpi)**
+22. **[SCPI Norma Capital 2026](https://maximusscpi.com/norma-capital-scpi)**
    - URL: `/norma-capital-scpi`
    - Meta: Découvrez les SCPI Norma Capital. Gestionnaire spécialisé en immobilier d\...
 
-28. **[SCPI Novaxia Investissement 2026 | Neo (4.90%), Immorente](https://maximusscpi.com/novaxia-investissement-scpi)**
+23. **[SCPI Novaxia Investissement 2026 | Neo (4.90%), Immorente](https://maximusscpi.com/novaxia-investissement-scpi)**
    - URL: `/novaxia-investissement-scpi`
    - Meta: Découvrez les SCPI Novaxia : Neo (4.90%) et Immorente. Spécialiste de la transfo...
 
-29. **[SCPI Paref Gestion 2026](https://maximusscpi.com/paref-gestion-scpi)**
+24. **[SCPI Paref Gestion 2026](https://maximusscpi.com/paref-gestion-scpi)**
    - URL: `/paref-gestion-scpi`
    - Meta: Découvrez les SCPI Paref Gestion. Gestionnaire historique spécialisé en immobili...
 
-30. **[SCPI Perial Asset Management 2026 | PF Grand Paris, PFO2, PF Hospitalité Europe](https://maximusscpi.com/perial-asset-management-scpi)**
+25. **[SCPI Perial Asset Management 2026 | PF Grand Paris, PFO2, PF Hospitalité Europe](https://maximusscpi.com/perial-asset-management-scpi)**
    - URL: `/perial-asset-management-scpi`
    - Meta: Découvrez les SCPI Perial : PF Grand Paris (4.51%), PFO2 (4.40%), PF Hospitalité...
 
-31. **[SCPI Praemia REIM France 2026 | Pierre Patrimoine, Interpierre](https://maximusscpi.com/praemia-reim-france-scpi)**
+26. **[SCPI Praemia REIM France 2026 | Pierre Patrimoine, Interpierre](https://maximusscpi.com/praemia-reim-france-scpi)**
    - URL: `/praemia-reim-france-scpi`
    - Meta: Découvrez les SCPI Praemia REIM : Pierre Patrimoine et Interpierre. Gestionnaire...
 
-32. **[SCPI Remake Asset Management 2026](https://maximusscpi.com/remake-asset-management-scpi)**
+27. **[SCPI Remake Asset Management 2026](https://maximusscpi.com/remake-asset-management-scpi)**
    - URL: `/remake-asset-management-scpi`
    - Meta: Découvrez les SCPI Remake Asset Management. Gestionnaire spécialisé en transform...
 
-33. **[SCPI Sofidy 2026 | Edissimmo, InterContinents, Immorente 2](https://maximusscpi.com/sofidy-scpi)**
+28. **[SCPI Sofidy 2026 | Edissimmo, InterContinents, Immorente 2](https://maximusscpi.com/sofidy-scpi)**
    - URL: `/sofidy-scpi`
    - Meta: Découvrez les SCPI Sofidy : Edissimmo (4.40%), InterContinents (4.70%). Gestionn...
 
-34. **[SCPI Sogenial Immobilier 2026 | Remake Live (7.70%), Immorente (4.35%)](https://maximusscpi.com/sogenial-immobilier-scpi)**
+29. **[SCPI Sogenial Immobilier 2026 | Remake Live (7.70%), Immorente (4.35%)](https://maximusscpi.com/sogenial-immobilier-scpi)**
    - URL: `/sogenial-immobilier-scpi`
    - Meta: Découvrez les SCPI Sogenial : Remake Live (7.70% - transformation urbaine), Immo...
 
-35. **[SCPI Swiss Life AM France 2026 | Renovalys, Swiss Life Dynapierre](https://maximusscpi.com/swiss-life-am-france-scpi)**
+30. **[SCPI Swiss Life AM France 2026 | Renovalys, Swiss Life Dynapierre](https://maximusscpi.com/swiss-life-am-france-scpi)**
    - URL: `/swiss-life-am-france-scpi`
    - Meta: Découvrez les SCPI Swiss Life : Renovalys et Dynapierre. La puissance du groupe ...
 
-36. **[SCPI Théoreim 2026](https://maximusscpi.com/theoreim-scpi)**
+31. **[SCPI Théoreim 2026](https://maximusscpi.com/theoreim-scpi)**
    - URL: `/theoreim-scpi`
    - Meta: Découvrez les SCPI Théoreim. Gestionnaire spécialisé en immobilier d\...
 
-37. **[SCPI Urban Premium 2026](https://maximusscpi.com/urban-premium-scpi)**
+32. **[SCPI Urban Premium 2026](https://maximusscpi.com/urban-premium-scpi)**
    - URL: `/urban-premium-scpi`
    - Meta: Découvrez les SCPI Urban Premium. Gestionnaire spécialisé en immobilier premium ...
 
@@ -226,4 +206,4 @@ Les pages sont automatiquement générées dans `dist/`.
 
 ---
 
-Généré le 19/02/2026 11:14:40
+Généré le 09/06/2026 19:36:16

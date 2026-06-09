@@ -36,7 +36,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Arkéa REIM, société de gestion immobilière. SCPI Transitions Europe, stratégie d\'investissement, indicateurs clés et points de vigilance.',
     mainKeyword: 'Arkéa REIM SCPI',
     keywords: ['Arkéa REIM', 'société de gestion SCPI', 'Transitions Europe', 'SCPI Arkéa', 'gestionnaire SCPI', 'AMF'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Transitions Europe', status: 'verified', sector: 'Diversifié Europe' }
     ],
@@ -93,7 +93,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Iroko, société de gestion. SCPI Iroko Zen et Iroko Atlas, frais d\'entrée, stratégie, indicateurs et points de vigilance.',
     mainKeyword: 'Iroko société de gestion SCPI',
     keywords: ['Iroko', 'Iroko Zen', 'Iroko Atlas', 'société de gestion SCPI', 'frais réduits', 'SCPI digitale', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Iroko Zen', status: 'verified', sector: 'Diversifié France/Europe' },
       { name: 'Iroko Atlas', status: 'verified', sector: 'Diversifié Europe' }
@@ -150,7 +150,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Corum AM, société de gestion spécialisée dans les SCPI européennes et internationales. Corum Origin, Corum Convictions, Corum XL — données à vérifier.',
     mainKeyword: 'Corum AM société de gestion SCPI',
     keywords: ['Corum AM', 'Corum Origin', 'Corum Convictions', 'Corum XL', 'SCPI européennes', 'société de gestion SCPI', 'PS 0%', 'fiscalité SCPI'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Corum Origin', status: 'to_verify', sector: 'Diversifié Europe' },
       { name: 'Corum Convictions', status: 'to_verify', sector: 'Diversifié Europe' },
@@ -202,7 +202,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Alderan, société de gestion. SCPI Activimmo et Comète, exposition logistique, indicateurs clés et points de vigilance.',
     mainKeyword: 'Alderan société de gestion SCPI',
     keywords: ['Alderan', 'Activimmo', 'Comète', 'SCPI logistique', 'société de gestion SCPI', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Activimmo', status: 'verified', sector: 'Logistique' },
       { name: 'Comète', status: 'verified', sector: 'Diversifié' }
@@ -250,7 +250,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Atland Voisin, société de gestion immobilière historique. SCPI Épargne Pierre, Épargne Pierre Europe, stratégie, indicateurs et points de vigilance.',
     mainKeyword: 'Atland Voisin société de gestion SCPI',
     keywords: ['Atland Voisin', 'Épargne Pierre', 'Épargne Pierre Europe', 'société de gestion SCPI', 'SCPI patrimoniale', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Épargne Pierre', status: 'verified', sector: 'Diversifié France' },
       { name: 'Épargne Pierre Europe', status: 'verified', sector: 'Diversifié Europe' }
@@ -296,7 +296,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Sofidy, société de gestion historique. SCPI Immorente, Efimmo 1, Sofiprime, gamme de produits, indicateurs et points de vigilance.',
     mainKeyword: 'Sofidy société de gestion SCPI',
     keywords: ['Sofidy', 'Immorente', 'Efimmo 1', 'Sofiprime', 'société de gestion SCPI', 'SCPI Sofidy', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Immorente', status: 'verified', sector: 'Commerces' },
       { name: 'Efimmo 1', status: 'verified', sector: 'Bureaux' },
@@ -345,7 +345,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Remake AM, société de gestion. SCPI Remake Live et Remake UK 2025, frais, stratégie, indicateurs et points de vigilance.',
     mainKeyword: 'Remake AM société de gestion SCPI',
     keywords: ['Remake AM', 'Remake Live', 'Remake UK 2025', 'société de gestion SCPI', 'SCPI résidentiel', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Remake Live', status: 'verified', sector: 'Résidentiel France' },
       { name: 'Remake UK 2025', status: 'verified', sector: 'Résidentiel Royaume-Uni' }
@@ -392,7 +392,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Wemo REIM, société de gestion. SCPI Wemo One, stratégie d\'investissement, indicateurs et points de vigilance.',
     mainKeyword: 'Wemo REIM société de gestion SCPI',
     keywords: ['Wemo REIM', 'Wemo One', 'société de gestion SCPI', 'SCPI', 'gestion immobilière'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Wemo One', status: 'verified', sector: 'Diversifié' }
     ],
@@ -437,7 +437,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Sogenial Immobilier, société de gestion. SCPI Coeur de Région, Coeur de ville, Coeur d\'Europe, stratégie et indicateurs.',
     mainKeyword: 'Sogenial Immobilier société de gestion SCPI',
     keywords: ['Sogenial Immobilier', 'Coeur de Région', 'Coeur de ville', 'Coeur d\'Europe', 'société de gestion SCPI', 'SCPI Sogenial'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'Coeur de Région', status: 'verified', sector: 'Bureaux/Commerces régions' },
       { name: 'Coeur de ville', status: 'verified', sector: 'Commerces de proximité' },
@@ -486,7 +486,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     metaDescription: 'Analyse de Norma Capital, société de gestion. SCPI NCap Régions, NCap Education Santé, NCap Continent, indicateurs et points de vigilance.',
     mainKeyword: 'Norma Capital société de gestion SCPI',
     keywords: ['Norma Capital', 'NCap Régions', 'NCap Education Santé', 'NCap Continent', 'société de gestion SCPI', 'SCPI Norma'],
-    category: 'acteurs-reglementation',
+    category: 'gestionnaires-acteurs',
     managedScpis: [
       { name: 'NCap Régions', status: 'verified', sector: 'Bureaux/Commerces régions' },
       { name: 'NCap Education Santé', status: 'verified', sector: 'Santé/Éducation' },

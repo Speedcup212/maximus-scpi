@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3, Users, PiggyBank, Search, X } from 'lucide-react';
+import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3, Building2, ShieldCheck, PiggyBank, Search, X } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
@@ -23,7 +23,7 @@ interface EducationArticlesIndexPageProps {
   onEducationClick?: (category: string, slug: string) => void;
 }
 
-// Les 8 familles principales d'articles
+// Les 10 familles principales d'articles
 type ArticleFamily = 
   | 'comprendre'
   | 'choix-comparatifs'
@@ -31,7 +31,8 @@ type ArticleFamily =
   | 'fiscalite-detention'
   | 'risques-vigilance'
   | 'secteurs-immo'
-  | 'acteurs-reglementation'
+  | 'gestionnaires-acteurs'
+  | 'reglementation-transparence'
   | 'strategies';
 
 // Mapping catégorie d'origine → famille
@@ -46,7 +47,9 @@ const CATEGORY_FAMILY_MAP: Record<string, ArticleFamily> = {
   'risques-vigilance': 'risques-vigilance',
   'secteurs-immo': 'secteurs-immo',
   strategies: 'strategies',
-  'acteurs-reglementation': 'acteurs-reglementation',
+  'acteurs-reglementation': 'gestionnaires-acteurs',
+  'gestionnaires-acteurs': 'gestionnaires-acteurs',
+  'reglementation-transparence': 'reglementation-transparence',
   'strategies-patrimoniales': 'strategies',
 };
 
@@ -207,15 +210,25 @@ const FAMILY_CONFIG: Record<ArticleFamily, {
     arrowClass: 'text-purple-600',
     description: 'Santé, logistique, bureaux, commerce, diversifiées, résidentiel',
   },
-  'acteurs-reglementation': {
-    label: 'Acteurs, réglementation et transparence',
-    icon: Users,
+  'gestionnaires-acteurs': {
+    label: 'Gestionnaires & acteurs SCPI',
+    icon: Building2,
     iconClass: 'text-amber-600',
     borderHoverClass: 'hover:border-amber-500',
     titleHoverClass: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
     badgeClass: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300',
     arrowClass: 'text-amber-600',
-    description: 'Sociétés de gestion, AMF, ORIAS, CGP-CIF, PSI, rétrocessions, documents réglementaires',
+    description: 'Sociétés de gestion, CGP-CIF, PSI et acteurs du marché des SCPI',
+  },
+  'reglementation-transparence': {
+    label: 'Réglementation & transparence',
+    icon: ShieldCheck,
+    iconClass: 'text-slate-600',
+    borderHoverClass: 'hover:border-slate-500',
+    titleHoverClass: 'group-hover:text-slate-600 dark:group-hover:text-slate-400',
+    badgeClass: 'bg-slate-50 dark:bg-slate-900/30 text-slate-700 dark:text-slate-300',
+    arrowClass: 'text-slate-600',
+    description: 'AMF, ORIAS, DIC, note d\'information, frais, rétrocessions et cadre réglementaire',
   },
   strategies: {
     label: 'Stratégies patrimoniales SCPI',
@@ -237,7 +250,8 @@ const FAMILY_ORDER: ArticleFamily[] = [
   'fiscalite-detention',
   'risques-vigilance',
   'secteurs-immo',
-  'acteurs-reglementation',
+  'gestionnaires-acteurs',
+  'reglementation-transparence',
   'strategies',
 ];
 
