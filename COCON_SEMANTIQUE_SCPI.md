@@ -285,7 +285,43 @@ Données SCPI associées : certaines sociétés (Allianz Immovalor, Axipit Real 
 
 ### Récapitulatif sociétés de gestion
 
-Total SCPI gérées configurées : 10 (Batch 1) + 10 (Batch 2) + 10 (Batch 3) = 30 sociétés de gestion.
+Total SCPI gérées configurées : 10 (Batch 1) + 10 (Batch 2) + 10 (Batch 3) + 10 (Batch 4) + 10 (Batch 5) = 50 sociétés de gestion.
+
+### Articles sociétés de gestion — Batch 4
+
+Pages créées :
+- /societe-gestion/kyaneos-am/ — créé
+- /societe-gestion/magellim-reim/ — créé
+- /societe-gestion/mata-capital-im/ — créé
+- /societe-gestion/mnk-partners/ — créé
+- /societe-gestion/mysharecompany/ — créé
+- /societe-gestion/novaxia-investissement/ — créé
+- /societe-gestion/paref-gestion/ — créé
+- /societe-gestion/telamon/ — créé
+- /societe-gestion/urban-premium/ — créé
+- /societe-gestion/unofi-gestion-dactifs/ — créé
+
+Statut : Batch 4 terminé — sociétés de gestion complémentaires.
+Catégorie : Gestionnaires & acteurs SCPI
+Données SCPI associées : Kyaneos AM (Kyaneos Pierre ✅), Magellim REIM (Foncière des Praticiens ✅), Novaxia Investissement (Novaxia NEO ✅), Paref Gestion (4 SCPI ✅), Urban Premium (Urban Coeur de Commerce ✅) ont des associations confirmées. Mata Capital IM, MNK Partners, MyShareCompany, Telamon, Unofi Gestion d'Actifs n'ont aucune SCPI identifiée dans les données internes — à vérifier auprès des sources officielles (ASPIM, AMF/GECO).
+
+### Articles sociétés de gestion — Batch 5
+
+Pages créées :
+- /societe-gestion/aroxys/ — créé
+- /societe-gestion/bagan-asset-management/ — créé
+- /societe-gestion/balzac-reim/ — créé
+- /societe-gestion/clubfunding-am/ — créé
+- /societe-gestion/elevation-capital-partners/ — créé
+- /societe-gestion/greenman-arth/ — créé
+- /societe-gestion/hsbc-reim-france/ — créé
+- /societe-gestion/midi-2i/ — créé
+- /societe-gestion/ofi-invest-real-estate/ — créé
+- /societe-gestion/otoktone-3i/ — créé
+
+Statut : Batch 5 terminé — sociétés à vérifier / acteurs récents ou spécialisés.
+Catégorie : Gestionnaires & acteurs SCPI
+Données SCPI associées : Greenman Arth (GMA Essentialis ✅) a une association confirmée. Aroxys, Bagan Asset Management, Balzac REIM, ClubFunding AM, Elevation Capital Partners, HSBC REIM France, MIDI 2i, Ofi Invest Real Estate, Otoktone 3i n'ont aucune SCPI identifiée dans les données internes — à vérifier auprès des sources officielles (ASPIM, AMF/GECO).
 
 ## Silo 9 — Comparatifs patrimoniaux
 

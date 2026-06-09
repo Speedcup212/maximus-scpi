@@ -206,4 +206,4 @@ Les pages sont automatiquement générées dans `dist/`.
 
 ---
 
-Généré le 09/06/2026 20:18:56
+Généré le 09/06/2026 20:36:32
