@@ -110,6 +110,10 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
     casPratiques,
     faq,
     internalLinks,
+    internalScpiCoverage,
+    externalVerificationStatus,
+    dataConfidence,
+    sourcePriority,
   } = config;
 
   const [openFaqIndex, setOpenFaqIndex] = React.useState<number | null>(null);
@@ -214,59 +218,165 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
                 SCPI gérées par {displayName}
               </h2>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Les SCPI identifiées comme étant gérées par cette société de gestion, issues du référentiel interne
-              (données à vérifier dans les DIC, notes d'information et sites officiels).
-            </p>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-100 dark:bg-gray-800">
-                    <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">SCPI</th>
-                    <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Secteur</th>
-                    <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Statut de vérification</th>
-                    <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Points à analyser</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {managedScpis.map((scpi, idx) => (
-                    <tr key={scpi.name} className={`${idx % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800/50'} border-b dark:border-gray-700`}>
-                      <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{scpi.name}</td>
-                      <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{scpi.sector || 'Donnée à vérifier'}</td>
-                      <td className="px-4 py-3">
-                        {scpi.status === 'verified' ? (
-                          <span className="inline-flex items-center gap-1 text-sm text-green-600 dark:text-green-400">
-                            <CheckCircle2 className="w-4 h-4" />
-                            Vérifié
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400">
-                            <AlertTriangle className="w-4 h-4" />
-                            À vérifier
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                        Rendement, TOF, endettement, frais, capitalisation, liquidité
-                      </td>
-                    </tr>
-                  ))}
-                  {managedScpis.length === 0 && (
-                    <tr>
-                      <td colSpan={4} className="px-4 py-6 text-center text-gray-500 dark:text-gray-400 italic">
-                        Données à vérifier — consulter l'ASPIM, l'AMF/GECO et les DIC pour la liste exacte des SCPI gérées.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-            {managedScpis.some(s => s.status === 'to_verify') && (
-              <p className="mt-3 text-sm text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                <AlertTriangle className="w-4 h-4" />
-                Certaines associations SCPI ↔ société de gestion sont à vérifier auprès des sources officielles.
-              </p>
+            {managedScpis.length > 0 ? (
+              <>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  Les SCPI identifiées comme étant gérées par cette société de gestion, issues du référentiel interne
+                  MaximusSCPI (données à vérifier dans les DIC, notes d'information et sites officiels).
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">SCPI</th>
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Secteur</th>
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Statut de vérification</th>
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">Points à analyser</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {managedScpis.map((scpi, idx) => (
+                        <tr key={scpi.name} className={`${idx % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800/50'} border-b dark:border-gray-700`}>
+                          <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{scpi.name}</td>
+                          <td className="px-4 py-3 text-gray-600 dark:text-gray-400">{scpi.sector || 'Donnée à vérifier'}</td>
+                          <td className="px-4 py-3">
+                            {scpi.status === 'verified' ? (
+                              <span className="inline-flex items-center gap-1 text-sm text-green-600 dark:text-green-400">
+                                <CheckCircle2 className="w-4 h-4" />
+                                Vérifié
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400">
+                                <AlertTriangle className="w-4 h-4" />
+                                À vérifier
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
+                            Rendement, TOF, endettement, frais, capitalisation, liquidité
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {managedScpis.some(s => s.status === 'to_verify') && (
+                  <p className="mt-3 text-sm text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                    <AlertTriangle className="w-4 h-4" />
+                    Certaines associations SCPI ↔ société de gestion sont à vérifier auprès des sources officielles.
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <AlertTriangle className="w-6 h-6 text-amber-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-amber-800 dark:text-amber-300 mb-2">
+                      SCPI à vérifier hors référentiel MaximusSCPI
+                    </h3>
+                    <p className="text-sm text-amber-700 dark:text-amber-400 leading-relaxed">
+                      Aucune SCPI associée à {displayName} n'est présente dans le référentiel interne MaximusSCPI
+                      à ce stade. Cela ne signifie pas nécessairement que la société ne gère aucune SCPI. Les
+                      associations doivent être vérifiées dans les sources officielles.
+                    </p>
+                  </div>
+                </div>
+                <div className="overflow-x-auto mt-4">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-amber-100 dark:bg-amber-900/40">
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-amber-800 dark:text-amber-300 border-b dark:border-amber-800">Source à consulter</th>
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-amber-800 dark:text-amber-300 border-b dark:border-amber-800">Ce qu'il faut vérifier</th>
+                        <th className="text-left px-4 py-3 text-sm font-semibold text-amber-800 dark:text-amber-300 border-b dark:border-amber-800">Statut</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-white dark:bg-amber-900/10 border-b dark:border-amber-800">
+                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">AMF / GECO</td>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">Existence de produits SCPI associés à la société</td>
+                        <td className="px-4 py-3"><span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400"><AlertTriangle className="w-4 h-4" /> À vérifier</span></td>
+                      </tr>
+                      <tr className="bg-amber-50 dark:bg-amber-900/5 border-b dark:border-amber-800">
+                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">ASPIM</td>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">Présence dans les publications de marché</td>
+                        <td className="px-4 py-3"><span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400"><AlertTriangle className="w-4 h-4" /> À vérifier</span></td>
+                      </tr>
+                      <tr className="bg-white dark:bg-amber-900/10 border-b dark:border-amber-800">
+                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">DIC / Note d'information</td>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">Société de gestion officielle de chaque SCPI</td>
+                        <td className="px-4 py-3"><span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400"><AlertTriangle className="w-4 h-4" /> À vérifier</span></td>
+                      </tr>
+                      <tr className="bg-amber-50 dark:bg-amber-900/5">
+                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">Site officiel</td>
+                        <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">Gamme de fonds / SCPI publiée</td>
+                        <td className="px-4 py-3"><span className="inline-flex items-center gap-1 text-sm text-amber-600 dark:text-amber-400"><AlertTriangle className="w-4 h-4" /> À vérifier</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             )}
+          </section>
+
+          {/* ===== 3b. STATUT DE VÉRIFICATION MAXIMUSSCPI ===== */}
+          <section className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <Shield className="w-8 h-8 text-blue-600" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Statut de vérification MaximusSCPI
+              </h2>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3">
+                  <FileSearch className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">SCPI dans le référentiel interne</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {managedScpis.length > 0
+                        ? `Oui — ${managedScpis.length} SCPI identifiée(s)`
+                        : 'Non — aucune SCPI identifiée à ce stade'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">Vérification externe réalisée</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {externalVerificationStatus === 'verified' && 'Oui — associations confirmées'}
+                      {externalVerificationStatus === 'partial' && 'Partielle — certaines SCPI sont confirmées'}
+                      {(!externalVerificationStatus || externalVerificationStatus === 'to_verify') && 'Non — à réaliser via sources officielles'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <BarChart3 className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">Niveau de confiance</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {dataConfidence === 'verified' && 'Vérifié — données confirmées'}
+                      {dataConfidence === 'probable' && 'Probable — données non confirmées'}
+                      {dataConfidence === 'to_verify' && 'À vérifier — sources externes nécessaires'}
+                      {dataConfidence === 'no_internal_scpi_found' && 'Aucune SCPI interne — vérification externe requise'}
+                      {!dataConfidence && 'Non défini'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <FileText className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">Sources à consulter</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {(sourcePriority && sourcePriority.length > 0)
+                        ? sourcePriority.join(', ')
+                        : 'AMF/GECO, ASPIM, DIC, note d\'information, rapport annuel, site officiel'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* ===== 4. POURQUOI ANALYSER LA SOCIÉTÉ DE GESTION ===== */}

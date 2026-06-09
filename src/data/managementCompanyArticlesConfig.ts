@@ -24,6 +24,14 @@ export interface ManagementCompanyConfig {
   faq: { question: string; reponse: string }[];
   internalLinks: { label: string; url: string }[];
   angle: string;
+  /** Indique si des SCPI de cette société sont présentes dans le référentiel interne MaximusSCPI */
+  internalScpiCoverage?: 'found' | 'none';
+  /** Statut de la vérification externe */
+  externalVerificationStatus?: 'verified' | 'partial' | 'to_verify';
+  /** Niveau de confiance global */
+  dataConfidence?: 'verified' | 'probable' | 'to_verify' | 'no_internal_scpi_found';
+  /** Sources prioritaires à consulter pour vérifier les associations SCPI */
+  sourcePriority?: string[];
 }
 
 export const managementCompanyConfigs: ManagementCompanyConfig[] = [
@@ -759,21 +767,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'AEW',
     title: 'AEW : société de gestion immobilière européenne',
     seoTitle: 'AEW SCPI : société de gestion immobilière européenne | MaximusSCPI',
-    metaDescription: 'Analyse de AEW, société de gestion immobilière européenne de premier plan. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de AEW, société de gestion immobilière européenne de premier plan. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'AEW société de gestion SCPI',
     keywords: ['AEW', 'société de gestion SCPI', 'immobilier européen', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'AEW est une société de gestion immobilière internationale, acteur majeur de l\'immobilier tertiaire en Europe, à analyser avec prudence. Les SCPI associées à AEW sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'AEW est une société de gestion immobilière internationale, acteur majeur de l\'immobilier tertiaire en Europe. Aucune SCPI associée à AEW n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas nécessairement que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Acteur majeur de l\'immobilier tertiaire en Europe',
       'Présence internationale significative',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels des SCPI gérées' },
       { critere: 'Présence internationale', importance: 'Exposition à plusieurs pays et devises', vigilance: 'Analyser les risques de change et la diversification géographique' }
     ],
@@ -782,7 +790,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { titre: 'Investisseur qui compare AEW à d\'autres gestionnaires européens', description: 'Un investisseur compare le positionnement d\'AEW (immobilier tertiaire européen) avec Corum AM ou La Française REM sur les SCPI européennes.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par AEW ?', reponse: 'Les SCPI gérées par AEW sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion. Les données internes ne contiennent pas cette information à ce stade.' }
+      { question: 'Quelles SCPI sont gérées par AEW ?', reponse: 'Aucune SCPI associée à AEW n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas qu\'AEW ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -796,7 +804,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Risques SCPI', url: '/risques-scpi/' },
       { label: 'SCPI européennes', url: '/scpi-europeennes/' }
     ],
-    angle: 'Acteur majeur de l\'immobilier tertiaire européen, SCPI associées à vérifier.'
+    angle: 'Acteur majeur de l\'immobilier tertiaire européen — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'perial-asset-management',
@@ -958,20 +970,20 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Advenis REIM',
     title: 'Advenis REIM : SCPI gérées, stratégie et points de vigilance',
     seoTitle: 'Advenis REIM SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Advenis REIM, société de gestion de diversification. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Advenis REIM, société de gestion. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Advenis REIM société de gestion SCPI',
     keywords: ['Advenis REIM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Advenis REIM est une société de gestion à analyser avec prudence. Les SCPI associées à Advenis REIM sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Advenis REIM est une société de gestion immobilière de diversification. Aucune SCPI associée à Advenis REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas nécessairement que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion de diversification',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
       { critere: 'Historique de gestion', importance: 'Évaluer l\'ancienneté et l\'expérience', vigilance: 'Consulter les sources officielles pour connaître l\'historique' }
     ],
@@ -979,7 +991,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { titre: 'Investisseur qui recherche les SCPI gérées par Advenis REIM', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Advenis REIM pour identifier les SCPI gérées avant toute analyse complémentaire.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Advenis REIM ?', reponse: 'Les SCPI gérées par Advenis REIM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Advenis REIM ?', reponse: 'Aucune SCPI associée à Advenis REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas qu\'Advenis REIM ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -992,7 +1004,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion de diversification — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'altixia-reim',
@@ -1107,20 +1123,20 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Allianz Immovalor',
     title: 'Allianz Immovalor : SCPI gérées, stratégie et analyse',
     seoTitle: 'Allianz Immovalor SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Allianz Immovalor, société de gestion du groupe Allianz. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Allianz Immovalor, société de gestion du groupe Allianz. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Allianz Immovalor société de gestion SCPI',
     keywords: ['Allianz Immovalor', 'société de gestion SCPI', 'groupe Allianz', 'assureur SCPI', 'gestionnaire SCPI', 'AMF'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Allianz Immovalor est la société de gestion immobilière du groupe Allianz en France, à analyser avec prudence. Les SCPI associées à Allianz Immovalor sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Allianz Immovalor est la société de gestion immobilière du groupe Allianz en France. Aucune SCPI associée à Allianz Immovalor n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas nécessairement que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion du groupe d\'assurance Allianz',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
       { critere: 'Solidité du groupe', importance: 'Le groupe Allianz est un assureur de premier plan', vigilance: 'La solidité du groupe ne préjuge pas de la performance des SCPI gérées' }
     ],
@@ -1128,7 +1144,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { titre: 'Investisseur qui recherche les SCPI gérées par Allianz Immovalor', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Allianz Immovalor pour identifier les SCPI gérées avant toute analyse complémentaire.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Allianz Immovalor ?', reponse: 'Les SCPI gérées par Allianz Immovalor sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Allianz Immovalor ?', reponse: 'Aucune SCPI associée à Allianz Immovalor n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas qu\'Allianz Immovalor ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1141,7 +1157,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion du groupe Allianz, SCPI associées à vérifier dans les documents réglementaires.'
+    angle: 'Société de gestion du groupe Allianz — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'atream',
@@ -1197,20 +1217,20 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Axipit Real Estate Partners',
     title: 'Axipit Real Estate Partners : SCPI gérées et analyse',
     seoTitle: 'Axipit Real Estate Partners SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Axipit Real Estate Partners, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Axipit Real Estate Partners, société de gestion. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Axipit Real Estate Partners société de gestion SCPI',
     keywords: ['Axipit Real Estate Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Axipit Real Estate Partners est une société de gestion à analyser avec prudence. Les SCPI associées à Axipit Real Estate Partners sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Axipit Real Estate Partners est une société de gestion immobilière. Aucune SCPI associée n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
       { critere: 'Historique de gestion', importance: 'Évaluer l\'ancienneté et l\'expérience', vigilance: 'Consulter les sources officielles pour connaître l\'historique' }
     ],
@@ -1218,7 +1238,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { titre: 'Investisseur qui recherche les SCPI gérées par Axipit', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Axipit Real Estate Partners pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Axipit Real Estate Partners ?', reponse: 'Les SCPI gérées par Axipit Real Estate Partners sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Axipit Real Estate Partners ?', reponse: 'Aucune SCPI associée à Axipit Real Estate Partners n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1231,7 +1251,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'consultim-am',
@@ -1286,27 +1310,27 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Darwin Invest',
     title: 'Darwin Invest : SCPI gérées, stratégie et analyse',
     seoTitle: 'Darwin Invest SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Darwin Invest, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Darwin Invest, société de gestion. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Darwin Invest société de gestion SCPI',
     keywords: ['Darwin Invest', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Darwin Invest est une société de gestion à analyser avec prudence. Les SCPI associées à Darwin Invest sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Darwin Invest est une société de gestion immobilière. Aucune SCPI associée à Darwin Invest n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Darwin Invest', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Darwin Invest pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Darwin Invest ?', reponse: 'Les SCPI gérées par Darwin Invest sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Darwin Invest ?', reponse: 'Aucune SCPI associée à Darwin Invest n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1319,7 +1343,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'fiducial-gerance',
@@ -1381,27 +1409,27 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Foncières & Territoires',
     title: 'Foncières & Territoires : SCPI gérées et analyse',
     seoTitle: 'Foncières & Territoires SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Foncières & Territoires, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Foncières & Territoires, société de gestion. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Foncières & Territoires société de gestion SCPI',
     keywords: ['Foncières et Territoires', 'Foncières & Territoires', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Foncières & Territoires est une société de gestion à analyser avec prudence. Les SCPI associées à Foncières & Territoires sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Foncières & Territoires est une société de gestion immobilière. Aucune SCPI associée à Foncières & Territoires n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Foncières & Territoires', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Foncières & Territoires pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Foncières & Territoires ?', reponse: 'Les SCPI gérées par Foncières & Territoires sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Foncières & Territoires ?', reponse: 'Aucune SCPI associée à Foncières & Territoires n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1414,7 +1442,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'groupama-gan-reim',
@@ -1422,20 +1454,20 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Groupama Gan REIM',
     title: 'Groupama Gan REIM : SCPI gérées et analyse',
     seoTitle: 'Groupama Gan REIM SCPI : société de gestion | MaximusSCPI',
-    metaDescription: 'Analyse de Groupama Gan REIM, société de gestion du groupe Groupama. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    metaDescription: 'Analyse de Groupama Gan REIM, société de gestion du groupe Groupama. SCPI associées non présentes dans le référentiel interne MaximusSCPI — à vérifier dans les sources officielles.',
     mainKeyword: 'Groupama Gan REIM société de gestion SCPI',
     keywords: ['Groupama Gan REIM', 'société de gestion SCPI', 'groupe Groupama', 'assureur SCPI', 'gestionnaire SCPI', 'AMF'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Groupama Gan REIM est la société de gestion immobilière du groupe Groupama, à analyser avec prudence. Les SCPI associées à Groupama Gan REIM sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Groupama Gan REIM est la société de gestion immobilière du groupe Groupama. Aucune SCPI associée à Groupama Gan REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI — les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
-      'Société de gestion du groupe d\'assurance Groupama Gan',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Société de gestion du groupe d\'assurance Groupama',
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel',
       'Points de vigilance : transparence, documentation'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
       { critere: 'Solidité du groupe', importance: 'Le groupe Groupama est un assureur mutualiste', vigilance: 'La solidité du groupe ne préjuge pas de la performance des SCPI gérées' }
     ],
@@ -1443,7 +1475,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { titre: 'Investisseur qui recherche les SCPI gérées par Groupama Gan REIM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Groupama Gan REIM pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Groupama Gan REIM ?', reponse: 'Les SCPI gérées par Groupama Gan REIM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Groupama Gan REIM ?', reponse: 'Aucune SCPI associée à Groupama Gan REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1456,7 +1488,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion du groupe Groupama, SCPI associées à vérifier dans les documents réglementaires.'
+    angle: 'Société de gestion du groupe Groupama — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'inter-gestion-reim',
@@ -1616,21 +1652,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Mata Capital IM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Mata Capital IM est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Mata Capital IM est une société de gestion immobilière. Aucune SCPI associée à Mata Capital IM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Mata Capital IM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Mata Capital IM pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Mata Capital IM ?', reponse: 'Les SCPI gérées par Mata Capital IM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Mata Capital IM ?', reponse: 'Aucune SCPI associée à Mata Capital IM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1642,7 +1678,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'mnk-partners',
@@ -1655,21 +1695,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['MNK Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'MNK Partners est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'MNK Partners est une société de gestion immobilière. Aucune SCPI associée à MNK Partners n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par MNK Partners', description: 'Un investisseur consulte l\'ASPIM et le site officiel de MNK Partners pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par MNK Partners ?', reponse: 'Les SCPI gérées par MNK Partners sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par MNK Partners ?', reponse: 'Aucune SCPI associée à MNK Partners n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1681,7 +1721,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'mysharecompany',
@@ -1694,21 +1738,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['MyShareCompany', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'MyShareCompany est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'MyShareCompany est une société de gestion immobilière. Aucune SCPI associée à MyShareCompany n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par MyShareCompany', description: 'Un investisseur consulte l\'ASPIM et le site officiel de MyShareCompany pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par MyShareCompany ?', reponse: 'Les SCPI gérées par MyShareCompany sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par MyShareCompany ?', reponse: 'Aucune SCPI associée à MyShareCompany n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1720,7 +1764,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'novaxia-investissement',
@@ -1826,21 +1874,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Telamon', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Telamon est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Telamon est une société de gestion immobilière. Aucune SCPI associée à Telamon n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Telamon', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Telamon pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Telamon ?', reponse: 'Les SCPI gérées par Telamon sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Telamon ?', reponse: 'Aucune SCPI associée à Telamon n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1852,7 +1900,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'urban-premium',
@@ -1910,21 +1962,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Unofi Gestion d\'Actifs', 'Unofi', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Unofi Gestion d\'Actifs est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Unofi Gestion d\'Actifs est une société de gestion immobilière. Aucune SCPI associée à Unofi Gestion d\'Actifs n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Unofi', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Unofi Gestion d\'Actifs pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Unofi Gestion d\'Actifs ?', reponse: 'Les SCPI gérées par Unofi Gestion d\'Actifs sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Unofi Gestion d\'Actifs ?', reponse: 'Aucune SCPI associée à Unofi Gestion d\'Actifs n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1936,7 +1988,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   // === Batch 5 — Sociétés à vérifier / acteurs récents ou spécialisés ===
   {
@@ -1950,21 +2006,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Aroxys', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Aroxys est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Aroxys est une société de gestion immobilière. Aucune SCPI associée à Aroxys n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Aroxys', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Aroxys pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Aroxys ?', reponse: 'Les SCPI gérées par Aroxys sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Aroxys ?', reponse: 'Aucune SCPI associée à Aroxys n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -1976,7 +2032,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'bagan-asset-management',
@@ -1989,21 +2049,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Bagan Asset Management', 'Bagan AM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Bagan Asset Management est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Bagan Asset Management est une société de gestion immobilière. Aucune SCPI associée à Bagan Asset Management n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Bagan AM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Bagan Asset Management pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Bagan Asset Management ?', reponse: 'Les SCPI gérées par Bagan Asset Management sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Bagan Asset Management ?', reponse: 'Aucune SCPI associée à Bagan Asset Management n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2015,7 +2075,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'balzac-reim',
@@ -2028,21 +2092,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Balzac REIM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Balzac REIM est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Balzac REIM est une société de gestion immobilière. Aucune SCPI associée à Balzac REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Balzac REIM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Balzac REIM pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Balzac REIM ?', reponse: 'Les SCPI gérées par Balzac REIM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Balzac REIM ?', reponse: 'Aucune SCPI associée à Balzac REIM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2054,7 +2118,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'clubfunding-am',
@@ -2067,21 +2135,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['ClubFunding AM', 'ClubFunding', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'ClubFunding AM est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'ClubFunding AM est une société de gestion immobilière. Aucune SCPI associée à ClubFunding AM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par ClubFunding AM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de ClubFunding AM pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par ClubFunding AM ?', reponse: 'Les SCPI gérées par ClubFunding AM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par ClubFunding AM ?', reponse: 'Aucune SCPI associée à ClubFunding AM n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2093,7 +2161,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'elevation-capital-partners',
@@ -2106,21 +2178,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Elevation Capital Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Elevation Capital Partners est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Elevation Capital Partners est une société de gestion immobilière. Aucune SCPI associée à Elevation Capital Partners n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Elevation Capital Partners', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Elevation Capital Partners pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Elevation Capital Partners ?', reponse: 'Les SCPI gérées par Elevation Capital Partners sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Elevation Capital Partners ?', reponse: 'Aucune SCPI associée à Elevation Capital Partners n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2132,7 +2204,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'greenman-arth',
@@ -2189,21 +2265,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['HSBC REIM France', 'HSBC', 'société de gestion SCPI', 'gestionnaire SCPI', 'banque SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'HSBC REIM France est la société de gestion immobilière du groupe HSBC, à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'HSBC REIM France est la société de gestion immobilière du groupe HSBC. Aucune SCPI associée à HSBC REIM France n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion du groupe HSBC',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par HSBC REIM France', description: 'Un investisseur consulte l\'ASPIM et le site officiel de HSBC REIM France pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par HSBC REIM France ?', reponse: 'Les SCPI gérées par HSBC REIM France sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par HSBC REIM France ?', reponse: 'Aucune SCPI associée à HSBC REIM France n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2215,7 +2291,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion du groupe HSBC — SCPI associées à vérifier.'
+    angle: 'Société de gestion du groupe HSBC — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'midi-2i',
@@ -2228,21 +2308,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['MIDI 2i', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'MIDI 2i est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'MIDI 2i est une société de gestion immobilière. Aucune SCPI associée à MIDI 2i n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par MIDI 2i', description: 'Un investisseur consulte l\'ASPIM et le site officiel de MIDI 2i pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par MIDI 2i ?', reponse: 'Les SCPI gérées par MIDI 2i sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par MIDI 2i ?', reponse: 'Aucune SCPI associée à MIDI 2i n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2254,7 +2334,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'ofi-invest-real-estate',
@@ -2267,21 +2351,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Ofi Invest Real Estate', 'Ofi Invest', 'société de gestion SCPI', 'gestionnaire SCPI', 'assureur SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Ofi Invest Real Estate est la société de gestion immobilière du groupe Ofi Invest, à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Ofi Invest Real Estate est la société de gestion immobilière du groupe Ofi Invest. Aucune SCPI associée n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion du groupe Ofi Invest (assureur)',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Ofi Invest Real Estate', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Ofi Invest Real Estate pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Ofi Invest Real Estate ?', reponse: 'Les SCPI gérées par Ofi Invest Real Estate sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Ofi Invest Real Estate ?', reponse: 'Aucune SCPI associée à Ofi Invest Real Estate n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2293,7 +2377,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion du groupe Ofi Invest — SCPI associées à vérifier.'
+    angle: 'Société de gestion du groupe Ofi Invest — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
     slug: 'otoktone-3i',
@@ -2306,21 +2394,21 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     keywords: ['Otoktone 3i', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
     category: 'gestionnaires-acteurs',
     managedScpis: [],
-    summary: 'Otoktone 3i est une société de gestion à analyser avec prudence. Les SCPI associées sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    summary: 'Otoktone 3i est une société de gestion immobilière. Aucune SCPI associée à Otoktone 3i n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Les associations doivent être vérifiées dans les sources officielles (AMF/GECO, ASPIM, DIC, site officiel).',
     keyPoints: [
       'Société de gestion à vérifier',
-      'SCPI associées non identifiées dans les données internes',
-      'Données à vérifier : ASPIM, AMF/GECO, site officiel'
+      'Aucune SCPI associée identifiée dans le référentiel interne MaximusSCPI',
+      'Vérification externe nécessaire : ASPIM, AMF/GECO, site officiel'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée dans le référentiel interne MaximusSCPI', vigilance: 'Ne signifie pas que la société ne gère aucune SCPI — vérifier dans les sources officielles (AMF/GECO, ASPIM, DIC)' },
       { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
     ],
     casPratiques: [
       { titre: 'Investisseur qui recherche les SCPI gérées par Otoktone 3i', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Otoktone 3i pour identifier les SCPI gérées.' }
     ],
     faq: [
-      { question: 'Quelles SCPI sont gérées par Otoktone 3i ?', reponse: 'Les SCPI gérées par Otoktone 3i sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+      { question: 'Quelles SCPI sont gérées par Otoktone 3i ?', reponse: 'Aucune SCPI associée à Otoktone 3i n\'est présente dans le référentiel interne MaximusSCPI à ce stade. Cela ne signifie pas que la société ne gère aucune SCPI. La vérification doit être faite dans les sources officielles : AMF/GECO, ASPIM, DIC, site de la société de gestion.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -2332,7 +2420,11 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
-    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+    angle: 'Société de gestion à vérifier — aucune SCPI dans le référentiel interne, vérification externe nécessaire.',
+    internalScpiCoverage: 'none',
+    externalVerificationStatus: 'to_verify',
+    dataConfidence: 'no_internal_scpi_found',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   }
 ];
 
