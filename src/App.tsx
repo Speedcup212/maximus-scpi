@@ -172,6 +172,7 @@ const ScpiBureauxPage = lazy(() => import('./components/ScpiBureauxPage'));
 const ScpiCommercePage = lazy(() => import('./components/ScpiCommercePage'));
 const ScpiDiversifieesPage = lazy(() => import('./components/ScpiDiversifieesPage'));
 const SocieteGestionScpiPage = lazy(() => import('./components/SocieteGestionScpiPage'));
+const ManagementCompanyArticlePage = lazy(() => import('./components/ManagementCompanyArticlePage'));
 const GestionnaireScpiPage = lazy(() => import('./components/GestionnaireScpiPage'));
 const CgpCifScpiPage = lazy(() => import('./components/CgpCifScpiPage'));
 const PsiScpiPage = lazy(() => import('./components/PsiScpiPage'));
@@ -203,6 +204,7 @@ import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
 // scpiData lazy loaded on demand (275 Ko)
 import { educationArticles, getArticlesByCategory, getAllCategories, getArticleBySlug } from './data/educationArticles';
 import { getTemplateBySlug } from './data/articleTemplatesConfig';
+import { managementCompanyConfigs } from './data/managementCompanyArticlesConfig';
 import type { Article } from './components/ArticlePage';
 import { scpiLandingPages } from './data/landingPagesData';
 import { buildScpiLandingData } from './utils/buildScpiLandingData';
@@ -259,8 +261,9 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
+  const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -615,6 +618,15 @@ const App: React.FC = () => {
         setCurrentView('scpi-commerce');
       } else if (path === 'scpi-diversifiees') {
         setCurrentView('scpi-diversifiees');
+      } else if (path.startsWith('societe-gestion/')) {
+        const mgmtSegments = path.split('/');
+        const mgmtSlug = mgmtSegments[1];
+        if (mgmtSlug && managementCompanyConfigs.find(c => c.slug === mgmtSlug)) {
+          setManagementCompanySlug(mgmtSlug);
+          setCurrentView('societe-gestion-article');
+        } else {
+          setCurrentView('societe-gestion-scpi');
+        }
       } else if (path === 'societe-gestion-scpi') {
         setCurrentView('societe-gestion-scpi');
       } else if (path === 'gestionnaire-scpi') {
@@ -1077,6 +1089,15 @@ const App: React.FC = () => {
         setCurrentView('scpi-commerce');
       } else if (normalizedPath === 'scpi-diversifiees') {
         setCurrentView('scpi-diversifiees');
+      } else if (normalizedPath.startsWith('societe-gestion/')) {
+        const mgmtSegments = normalizedPath.split('/');
+        const mgmtSlug = mgmtSegments[1];
+        if (mgmtSlug && managementCompanyConfigs.find(c => c.slug === mgmtSlug)) {
+          setManagementCompanySlug(mgmtSlug);
+          setCurrentView('societe-gestion-article');
+        } else {
+          setCurrentView('societe-gestion-scpi');
+        }
       } else if (normalizedPath === 'societe-gestion-scpi') {
         setCurrentView('societe-gestion-scpi');
       } else if (normalizedPath === 'gestionnaire-scpi') {
@@ -1369,6 +1390,12 @@ const App: React.FC = () => {
   };
 
   const handleArticleFromListClick = (slug: string) => {
+
+    // Rediriger les articles société de gestion vers /societe-gestion/slug/
+    if (managementCompanyConfigs.find(c => c.slug === slug)) {
+      window.location.href = `/societe-gestion/${slug}`;
+      return;
+    }
 
     // Redirige vers /education/slug pour tous les articles du template config
     const articleTemplate = getTemplateBySlug(slug);
@@ -3109,6 +3136,42 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/scpi-diversifiees/',
       },
       ScpiDiversifieesPage
+    );
+  }
+
+  if (currentView === 'societe-gestion-article') {
+    const mgmtConfig = managementCompanySlug
+      ? managementCompanyConfigs.find(c => c.slug === managementCompanySlug)
+      : undefined;
+    if (!mgmtConfig) {
+      setCurrentView('societe-gestion-scpi');
+      return (
+        <>
+          {null}
+        </>
+      );
+    }
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center"><div className="animate-pulse text-gray-500">Chargement...</div></div>}>
+        <ManagementCompanyArticlePage
+          config={mgmtConfig}
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onLogoClick={handleBackToHome}
+          onFaqClick={handleFaqClick}
+          onScpiPageClick={handleScpiClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
+          onEducationClick={handleEducationClick}
+          onArticleClick={handleArticleFromListClick}
+        />
+      </Suspense>
     );
   }
 

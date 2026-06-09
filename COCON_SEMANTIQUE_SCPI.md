@@ -231,6 +231,22 @@ Pages :
 - /transparence-scpi/
 - /conseil-scpi/
 
+### Articles sociétés de gestion — Batch 1
+
+Pages créées :
+- /societe-gestion/arkea-reim/ — créé
+- /societe-gestion/iroko/ — créé
+- /societe-gestion/corum-am/ — créé
+- /societe-gestion/alderan/ — créé
+- /societe-gestion/atland-voisin/ — créé
+- /societe-gestion/sofidy/ — créé
+- /societe-gestion/remake-am/ — créé
+- /societe-gestion/wemo-reim/ — créé
+- /societe-gestion/sogenial-immobilier/ — créé
+- /societe-gestion/norma-capital/ — créé
+
+Statut : Batch 1 terminé — architecture scalable pour batchs suivants.
+
 ## Silo 9 — Comparatifs patrimoniaux
 
 Pages :

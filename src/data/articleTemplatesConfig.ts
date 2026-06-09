@@ -10,7 +10,7 @@ export interface ArticleTemplate {
   mainKeyword: string;
   searchIntent: string;
   targetAudience: string;
-  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee';
+  category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee' | 'acteurs-reglementation' | 'strategies-patrimoniales';
   wordCountTarget: number;
   featured?: boolean;
   metaDescription: string;
@@ -1021,6 +1021,126 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'Comprenez les SCPI investies principalement en France : revenus fonciers, fiscalité, prélèvements sociaux, rendement net, secteurs, risques et critères à comparer.',
     keywords: ['SCPI France', 'fiscalité SCPI', 'revenus fonciers', 'rendement net SCPI', 'prélèvements sociaux']
+  },
+  {
+    id: 83,
+    slug: 'arkea-reim',
+    title: 'Arkéa REIM : SCPI gérées, stratégie et points de vigilance',
+    mainKeyword: 'Arkéa REIM SCPI',
+    searchIntent: 'analyser la société de gestion Arkéa REIM et ses SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Arkéa REIM, société de gestion immobilière. SCPI Transitions Europe, stratégie d\'investissement, indicateurs clés et points de vigilance.',
+    keywords: ['Arkéa REIM', 'société de gestion SCPI', 'Transitions Europe', 'gestionnaire SCPI']
+  },
+  {
+    id: 84,
+    slug: 'iroko',
+    title: 'Iroko : SCPI gérées, frais et stratégie d\'investissement',
+    mainKeyword: 'Iroko société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Iroko et ses SCPI Iroko Zen, Iroko Atlas',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Iroko, société de gestion. SCPI Iroko Zen et Iroko Atlas, frais d\'entrée, stratégie, indicateurs et points de vigilance.',
+    keywords: ['Iroko', 'Iroko Zen', 'Iroko Atlas', 'société de gestion SCPI', 'frais réduits']
+  },
+  {
+    id: 85,
+    slug: 'corum-am',
+    title: 'Corum AM : SCPI gérées, fiscalité européenne et diversification',
+    mainKeyword: 'Corum AM société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Corum AM et ses SCPI européennes',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Corum AM, société de gestion spécialisée dans les SCPI européennes et internationales. Corum Origin, Corum Convictions, Corum XL — données à vérifier.',
+    keywords: ['Corum AM', 'Corum Origin', 'Corum Convictions', 'SCPI européennes', 'société de gestion SCPI']
+  },
+  {
+    id: 86,
+    slug: 'alderan',
+    title: 'Alderan : SCPI gérées, stratégie logistique et analyse',
+    mainKeyword: 'Alderan société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Alderan et ses SCPI Activimmo, Comète',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Alderan, société de gestion. SCPI Activimmo et Comète, exposition logistique, indicateurs clés et points de vigilance.',
+    keywords: ['Alderan', 'Activimmo', 'Comète', 'SCPI logistique', 'société de gestion SCPI']
+  },
+  {
+    id: 87,
+    slug: 'atland-voisin',
+    title: 'Atland Voisin : SCPI gérées, stratégie patrimoniale et indicateurs',
+    mainKeyword: 'Atland Voisin société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Atland Voisin et ses SCPI Épargne Pierre',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Atland Voisin, société de gestion immobilière historique. SCPI Épargne Pierre, Épargne Pierre Europe, stratégie, indicateurs et points de vigilance.',
+    keywords: ['Atland Voisin', 'Épargne Pierre', 'Épargne Pierre Europe', 'société de gestion SCPI']
+  },
+  {
+    id: 88,
+    slug: 'sofidy',
+    title: 'Sofidy : SCPI gérées, gamme de produits et analyse patrimoniale',
+    mainKeyword: 'Sofidy société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Sofidy et ses SCPI Immorente, Efimmo 1, Sofiprime',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Sofidy, société de gestion historique. SCPI Immorente, Efimmo 1, Sofiprime, gamme de produits, indicateurs et points de vigilance.',
+    keywords: ['Sofidy', 'Immorente', 'Efimmo 1', 'Sofiprime', 'société de gestion SCPI']
+  },
+  {
+    id: 89,
+    slug: 'remake-am',
+    title: 'Remake AM : SCPI gérées, stratégie et points de vigilance',
+    mainKeyword: 'Remake AM société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Remake AM et ses SCPI Remake Live, Remake UK 2025',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Remake AM, société de gestion. SCPI Remake Live et Remake UK 2025, frais, stratégie, indicateurs et points de vigilance.',
+    keywords: ['Remake AM', 'Remake Live', 'Remake UK 2025', 'société de gestion SCPI']
+  },
+  {
+    id: 90,
+    slug: 'wemo-reim',
+    title: 'Wemo REIM : SCPI Wemo One, stratégie et analyse',
+    mainKeyword: 'Wemo REIM société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Wemo REIM et sa SCPI Wemo One',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Wemo REIM, société de gestion. SCPI Wemo One, stratégie d\'investissement, indicateurs et points de vigilance.',
+    keywords: ['Wemo REIM', 'Wemo One', 'société de gestion SCPI']
+  },
+  {
+    id: 91,
+    slug: 'sogenial-immobilier',
+    title: 'Sogenial Immobilier : SCPI gérées et analyse patrimoniale',
+    mainKeyword: 'Sogenial Immobilier société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Sogenial Immobilier et ses SCPI Coeur de Région, Coeur de ville, Coeur d\'Europe',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Sogenial Immobilier, société de gestion. SCPI Coeur de Région, Coeur de ville, Coeur d\'Europe, stratégie et indicateurs.',
+    keywords: ['Sogenial Immobilier', 'Coeur de Région', 'Coeur de ville', 'Coeur d\'Europe', 'société de gestion SCPI']
+  },
+  {
+    id: 92,
+    slug: 'norma-capital',
+    title: 'Norma Capital : SCPI gérées, diversification et analyse',
+    mainKeyword: 'Norma Capital société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Norma Capital et ses SCPI NCap Régions, NCap Education Santé, NCap Continent',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Norma Capital, société de gestion. SCPI NCap Régions, NCap Education Santé, NCap Continent, indicateurs et points de vigilance.',
+    keywords: ['Norma Capital', 'NCap Régions', 'NCap Education Santé', 'NCap Continent', 'société de gestion SCPI']
   }
 ];
 
