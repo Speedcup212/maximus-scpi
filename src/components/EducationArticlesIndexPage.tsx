@@ -277,8 +277,10 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'societes-de-gestion-scpi',
 ]);
 
-// Slugs des articles "Acteurs" (CGP-CIF, PSI, rétrocessions, etc.)
-const ACTEUR_SLUGS = new Set(['cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi']);
+// Slugs des articles "Contrôle & distribution" (AMF, ORIAS, CGP-CIF, PSI, rétrocessions)
+const CONTROLE_DISTRIBUTION_SLUGS = new Set([
+  'amf-scpi', 'orias-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi'
+]);
 
 const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   onArticleClick,
@@ -320,7 +322,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFamily, setActiveFamily] = useState<ArticleFamily | null>(null);
   // Sous-onglet pour la catégorie Gestionnaires & acteurs SCPI
-  const [actorsSubTab, setActorsSubTab] = useState<'gestionnaires' | 'acteurs'>('gestionnaires');
+  const [actorsSubTab, setActorsSubTab] = useState<'gestionnaires' | 'controle-distribution'>('gestionnaires');
 
   // Filtered articles based on search + active family
   const filteredArticles = useMemo(() => {
@@ -659,8 +661,8 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           if (shouldShowSubTabs) {
             articles = articles.filter(a =>
               actorsSubTab === 'gestionnaires'
-                ? !ACTEUR_SLUGS.has(a.slug)
-                : ACTEUR_SLUGS.has(a.slug)
+                ? !CONTROLE_DISTRIBUTION_SLUGS.has(a.slug)
+                : CONTROLE_DISTRIBUTION_SLUGS.has(a.slug)
             );
           }
 
@@ -698,15 +700,15 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                   </button>
                   <button
                     type="button"
-                    onClick={() => setActorsSubTab('acteurs')}
+                    onClick={() => setActorsSubTab('controle-distribution')}
                     className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
-                      actorsSubTab === 'acteurs'
+                      actorsSubTab === 'controle-distribution'
                         ? 'bg-amber-600 text-white shadow-md'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                     }`}
                   >
                     <Shield className="w-4 h-4 inline-block mr-2" />
-                    Acteurs
+                    Contrôle & distribution
                   </button>
                 </div>
               )}
