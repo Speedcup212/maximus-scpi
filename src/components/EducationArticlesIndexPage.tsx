@@ -331,18 +331,22 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         </div>
 
         {/* Barre de recherche */}
-        <div className="mb-10 max-w-3xl mx-auto">
+        <form onSubmit={(e) => e.preventDefault()} className="mb-10 max-w-3xl mx-auto">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') e.preventDefault();
+              }}
               placeholder="Rechercher un article : fiscalité, rendement, TOF, IFI, crédit, transmission…"
               className="w-full pl-12 pr-12 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800 transition-all text-base"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
@@ -350,12 +354,13 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               </button>
             )}
           </div>
-        </div>
+        </form>
 
         {/* Filtres par thématique */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex flex-wrap justify-center gap-2">
             <button
+              type="button"
               onClick={() => setActiveFamily(null)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 !activeFamily
@@ -369,6 +374,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               const config = FAMILY_CONFIG[family];
               return (
                 <button
+                  type="button"
                   key={family}
                   onClick={() => setActiveFamily(activeFamily === family ? null : family)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
@@ -392,7 +398,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               {activeFamily && ` dans "${FAMILY_CONFIG[activeFamily].label}"`}
               {searchQuery.trim() && ` pour "${searchQuery.trim()}"`}
               {' — '}
-              <button onClick={clearSearch} className="text-blue-600 hover:underline font-medium">
+              <button type="button" onClick={clearSearch} className="text-blue-600 hover:underline font-medium">
                 Réinitialiser les filtres
               </button>
             </p>
@@ -410,6 +416,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               Essayez un autre mot-clé comme fiscalité, rendement, TOF, IFI, crédit, ou transmission.
             </p>
             <button
+              type="button"
               onClick={clearSearch}
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
@@ -439,12 +446,13 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                 const articles = groupedByFamily[family];
 
                 return (
-                  <button
-                    key={family}
-                    onClick={() => {
-                      const element = document.getElementById(`family-${family}`);
-                      element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}
+                <button
+                  type="button"
+                  key={family}
+                  onClick={() => {
+                    const element = document.getElementById(`family-${family}`);
+                    element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
                     className={`group flex flex-col items-center gap-3 p-6 rounded-xl border-2 transition-all duration-300 hover:scale-105 hover:shadow-lg ${styles.borderHoverClass} bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600`}
                   >
                     <div className={`w-16 h-16 flex items-center justify-center rounded-full ${styles.badgeClass} group-hover:scale-110 transition-transform`}>
@@ -551,6 +559,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                     </a>
                   ) : (
                     <button
+                      type="button"
                       key={article.slug}
                       onClick={() => onArticleClick(article.slug)}
                       className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
@@ -591,6 +600,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             Échangez avec Éric Bellaiche, conseiller en gestion de patrimoine ORIAS
           </p>
           <button
+            type="button"
             onClick={onContactClick}
             className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
           >
