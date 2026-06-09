@@ -5,109 +5,110 @@ export const meilleuresScpiAttentionConfig: ScpiEducationalPageConfig = {
   badge: 'Limites des classements',
   h1: 'Meilleures SCPI : pourquoi les classements peuvent tromper',
   heroSubtitle:
-    'Une \"meilleure SCPI\" n\'existe pas de manière universelle. Un classement fondé uniquement sur le rendement peut ignorer la fiscalité, le risque de liquidité, le prix de part, la qualité du patrimoine, la concentration sectorielle ou l\'horizon de détention.',
-  seoTitle: 'Meilleures SCPI : limites des classements et critères à vérifier',
+    'Une "meilleure SCPI" n\'existe pas de manière universelle. Un classement fondé uniquement sur le rendement peut ignorer la fiscalité personnelle, le risque de liquidité, l\'écart avec la valeur de reconstitution, la concentration sectorielle, la qualité du gestionnaire et l\'horizon d\'investissement. Cette page explique pourquoi les classements sont utiles mais insuffisants.',
+  seoTitle: 'Meilleures SCPI : classements, limites et analyse multicritère',
   seoDescription:
-    'Comprenez pourquoi les classements des meilleures SCPI peuvent être trompeurs : rendement, frais, fiscalité, liquidité, risque, TOF, capitalisation et horizon.',
+    'Analyse critique des classements SCPI : pourquoi il n\'existe pas de meilleure SCPI universelle, limites des tops rendement, biais marketing, fiscalité personnelle, risques cachés. Méthode pour dépasser les classements.',
   shortAnswerTitle: 'Pourquoi les classements SCPI peuvent-ils induire en erreur ?',
   shortAnswer:
-    'Les classements de SCPI sont souvent construits sur un seul critère, généralement le taux de distribution. Cette approche ignore des dimensions essentielles : la fiscalité de l\'investisseur, le risque de liquidité, l\'écart avec la valeur de reconstitution, le niveau d\'endettement, le TOF, les frais réels, la concentration sectorielle ou géographique et l\'horizon d\'investissement. Une SCPI bien classée peut être inadaptée à un profil donné.',
+    'Les classements de SCPI sont souvent construits sur un seul critère, généralement le taux de distribution (TDVM). Cette approche ignore des dimensions essentielles : la fiscalité de l\'investisseur (qui peut modifier significativement le rendement net), le risque de liquidité, l\'écart entre prix de part et valeur de reconstitution (surcote), le niveau d\'endettement, le TOF et son évolution, les frais réels, la concentration sectorielle ou géographique, la qualité de la société de gestion et l\'horizon d\'investissement. Une SCPI bien classée peut être totalement inadaptée à un profil donné.',
   keyMessage:
-    'Le classement peut aider à repérer des SCPI, mais il ne remplace jamais une analyse patrimoniale et multicritère.',
+    'Un classement peut aider à repérer des SCPI, mais il ne remplace jamais une analyse patrimoniale, fiscale et multicritère.',
   definitionParagraphs: [
     'Un classement SCPI est un ordre établi sur un ou plusieurs indicateurs, généralement le TDVM (taux de distribution). Il donne une photographie instantanée de la performance passée, sans tenir compte de la situation personnelle de l\'investisseur.',
-    'Le rendement passé n\'est pas un indicateur fiable du rendement futur. Une SCPI en tête de classement une année peut se retrouver en bas de tableau l\'année suivante si son TOF baisse ou si elle ajuste son prix de part.',
-    'Les classements ignorent la fiscalité individuelle : une SCPI française avec un TDVM de 5,5 % peut offrir un rendement net inférieur à une SCPI européenne avec un TDVM de 5 % selon la TMI de l\'investisseur.',
-    'La liquidité n\'est jamais prise en compte dans les classements. Une SCPI bien classée peut être difficile à revendre rapidement.',
+    'Le rendement passé n\'est pas un indicateur fiable du rendement futur. Une SCPI en tête de classement une année peut se retrouver en bas de tableau l\'année suivante si son TOF baisse durablement ou si elle ajuste son prix de part.',
+    'Les classements ignorent la fiscalité individuelle : une SCPI française avec un TDVM de 5,5 % peut offrir un rendement net inférieur à une SCPI européenne affichant 5 % pour un investisseur à TMI 30 % ou 41 %, en raison de l\'exonération de prélèvements sociaux.',
+    'La liquidité n\'est jamais prise en compte dans les classements. Une SCPI bien classée peut être difficile à revendre rapidement avec un délai de retrait de plusieurs mois.',
     'Les frais de souscription et de gestion ne sont pas toujours intégrés. Une SCPI avec des frais plus élevés peut afficher un meilleur TDVM tout en offrant un rendement net inférieur.',
-    'Les SCPI récentes bénéficient parfois d\'un avantage mécanique : peu d\'actifs, TOF élevé par construction, frais limités. Leur classement peut ne pas refléter leur maturité.',
-    'La capitalisation et la diversification sont rarement pondérées. Une petite SCPI très concentrée peut temporairement surperformer une grande SCPI diversifiée.',
+    'Les SCPI récentes bénéficient parfois d\'un avantage mécanique : peu d\'actifs, TOF élevé par construction (pas encore de vacance), frais limités. Leur classement peut ne pas refléter leur maturité ni leur capacité à gérer des cycles.',
+    'La capitalisation et la diversification sont rarement pondérées. Une petite SCPI très concentrée peut temporairement surperformer une grande SCPI diversifiée, mais avec un risque bien plus élevé.',
+    'Les classements peuvent être influencés par des biais marketing : mise en avant des SCPI partenaires, absence de transparence sur la méthodologie, pondération subjective des critères.',
   ],
-  tableTitle: 'Classements SCPI : utilité et limites',
+  tableTitle: 'Type de classement / Ce qu\'il montre / Ce qu\'il oublie / Vigilance',
   tableRows: [
     {
-      level: 'Classement par rendement',
-      advantage:
-        'Permet d\'identifier les SCPI avec les meilleurs taux de distribution historiques.',
-      vigilance:
-        'Ignore la fiscalité, les frais, le risque et la liquidité. Le rendement passé ne préjuge pas de l\'avenir.',
+      level: 'Classement par rendement (TDVM)',
+      advantage: 'Montre les SCPI avec les meilleurs taux de distribution historiques.',
+      vigilance: 'Oublie la fiscalité, les frais, le risque de perte en capital, la liquidité. Le rendement passé ne préjuge pas de l\'avenir.',
     },
     {
       level: 'Classement par capitalisation',
-      advantage:
-        'Repère les SCPI les plus importantes et potentiellement les plus diversifiées.',
-      vigilance:
-        'La taille ne garantit ni le rendement, ni la qualité de gestion, ni la liquidité.',
+      advantage: 'Repère les SCPI les plus importantes, potentiellement plus diversifiées.',
+      vigilance: 'La taille ne garantit ni le rendement, ni la qualité de gestion, ni la liquidité. Peut masquer des faiblesses.',
     },
     {
       level: 'Classement par secteur',
-      advantage:
-        'Aide à identifier les SCPI spécialisées dans un secteur recherché.',
-      vigilance:
-        'Un secteur porteur ne garantit pas la qualité de chaque SCPI. Analyser chaque actif.',
+      advantage: 'Identifie les SCPI spécialisées dans un secteur recherché (santé, logistique).',
+      vigilance: 'Un secteur porteur ne garantit pas la qualité de chaque SCPI. Analyser chaque actif individuellement.',
     },
     {
       level: 'Classement par notoriété',
-      advantage:
-        'Met en avant des sociétés de gestion reconnues.',
-      vigilance:
-        'La notoriété ne remplace pas l\'analyse des indicateurs clés de la SCPI.',
+      advantage: 'Met en avant des sociétés de gestion reconnues et historiques.',
+      vigilance: 'La notoriété ne remplace pas l\'analyse des indicateurs clés de la SCPI. Un grand nom peut gérer une SCPI moyenne.',
     },
     {
       level: 'Classement multicritère',
-      advantage:
-        'Approche plus complète, intégrant plusieurs indicateurs.',
-      vigilance:
-        'La pondération des critères reste subjective. Vérifier la méthodologie utilisée.',
+      advantage: 'Approche plus complète intégrant plusieurs indicateurs.',
+      vigilance: 'La pondération des critères reste subjective. Vérifier la méthodologie et les sources utilisées.',
     },
   ],
   tableNote:
     'Ces repères sont valables quel que soit le classement consulté. Aucun classement ne peut remplacer une analyse personnalisée.',
   criteriaTitle: 'Critères à vérifier au-delà du classement',
   criteriaCards: [
-    { title: 'Rendement net', text: 'Calculer le rendement après fiscalité (TMI + PS) et après frais de souscription et de gestion.' },
-    { title: 'TOF et évolution', text: 'Un TOF stable et élevé est plus important qu\'un classement ponctuel.' },
-    { title: 'Capitalisation', text: 'Vérifier si la SCPI est suffisamment capitalisée pour mutualiser les risques.' },
-    { title: 'Endettement', text: 'Analyser le niveau et le coût de l\'endettement, ainsi que la part à taux fixe.' },
-    { title: 'Frais réels', text: 'Comparer les frais de souscription et de gestion entre SCPI du même classement.' },
-    { title: 'Décote / surcote', text: 'Comparer le prix de souscription à la valeur de reconstitution.' },
-    { title: 'Liquidité', text: 'Vérifier le type de capital et le délai de retrait publié.' },
+    { title: 'Rendement net', text: 'Calculer le rendement après fiscalité (TMI + PS) et après frais de souscription et de gestion. Le TDVM brut ne suffit pas.' },
+    { title: 'TOF et évolution', text: 'Un TOF stable et élevé (> 95 %) est plus important qu\'un classement ponctuel. Analyser sur 3-5 ans.' },
+    { title: 'Capitalisation', text: 'Vérifier si la SCPI est suffisamment capitalisée pour mutualiser les risques (> 100 M€ recommandé).' },
+    { title: 'Endettement', text: 'Analyser le niveau et le coût de l\'endettement, la part à taux fixe et la maturité de la dette.' },
+    { title: 'Frais réels', text: 'Comparer les frais de souscription (8-12 %) et de gestion (10-12 %) entre SCPI du même classement.' },
+    { title: 'Décote / surcote', text: 'Comparer le prix de souscription à la valeur de reconstitution. Une surcote excessive est un signal de risque.' },
+    { title: 'Liquidité', text: 'Vérifier le type de capital (variable/fixe) et le délai de retrait publié par la société de gestion.' },
+    { title: 'Société de gestion', text: 'Analyser l\'ancienneté, la transparence, la politique d\'investissement et l\'équipe de gestion.' },
+    { title: 'Horizon', text: 'Le classement n\'intègre pas l\'horizon. Une SCPI bien classée peut être risquée pour un horizon court.' },
   ],
   commonErrors: [
-    'Choisir une SCPI uniquement parce qu\'elle est en tête d\'un classement.',
-    'Ignorer la fiscalité personnelle dans l\'analyse du rendement.',
+    'Choisir une SCPI uniquement parce qu\'elle est en tête d\'un classement de rendement.',
+    'Ignorer la fiscalité personnelle dans l\'analyse du rendement net.',
     'Confondre classement ponctuel et qualité patrimoniale durable.',
-    'Ne pas vérifier si le classement intègre les frais.',
-    'Croire qu\'une SCPI récemment créée est moins risquée car elle est bien classée.',
-    'Se fier à un seul classement sans recouper les sources.',
+    'Ne pas vérifier si le classement intègre les frais de souscription et de gestion.',
+    'Croire qu\'une SCPI récente bien classée est moins risquée.',
+    'Se fier à un seul classement sans recouper les sources et les méthodologies.',
+    'Oublier que les classements ne tiennent pas compte de la liquidité.',
+    'Comparer des SCPI de catégories différentes sans ajuster les critères.',
   ],
   practicalCases: [
     {
-      title: 'SCPI A — tête de classement, TOF en baisse',
-      text: 'Une SCPI affiche le meilleur TDVM de sa catégorie. Cependant, son TOF est passé de 97 % à 85 % en deux ans et son prix de part n\'a pas été ajusté. Simulation pédagogique : le classement reflète le passé, pas la tendance locative.',
+      title: 'Top rendement avec faible historique',
+      text: 'Une SCPI récente (2 ans) affiche le meilleur TDVM de sa catégorie à 7,5 %. Son historique est trop court pour juger de sa capacité à maintenir ce rendement. Le TOF est à 98 % mais peu d\'actifs. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
     {
-      title: 'SCPI B — classement moyen, patrimoine solide',
-      text: 'Une SCPI diversifiée de 2 Mds€ affiche un TDVM de 5 % (contre 6 % pour la tête de classement). Son TOF est stable à 96 %, son endettement est modéré et sa VR est cohérente. Simulation pédagogique : un classement moyen peut cacher une SCPI de qualité.',
+      title: 'SCPI ancienne moins spectaculaire mais plus diversifiée',
+      text: 'Une SCPI de 1,5 Md€ avec 15 ans d\'historique affiche un TDVM de 5 %, TOF 96 %, endettement 18 %. Elle n\'est pas en tête des classements mais offre une régularité et une diversification solides. Simulation pédagogique : la régularité sur le long terme peut être préférable à une performance ponctuelle.',
     },
     {
-      title: 'Investisseur — classement vs situation personnelle',
-      text: 'Deux investisseurs comparent une SCPI française bien classée et une SCPI européenne moins bien classée. Selon leur TMI (11 % ou 41 %), le rendement net après fiscalité peut inverser la hiérarchie. Simulation pédagogique : la fiscalité personnelle change tout.',
+      title: 'SCPI européenne fiscalement intéressante',
+      text: 'Une SCPI européenne affiche un TDVM de 4,8 %, moins bien classée que les SCPI françaises à 5,5 %. Pour un investisseur TMI 30 %, le rendement net après fiscalité peut être supérieur grâce à l\'exonération de PS. Simulation pédagogique : la fiscalité personnelle peut inverser la hiérarchie des classements.',
+    },
+    {
+      title: 'SCPI en forte collecte mais prix à surveiller',
+      text: 'Une SCPI très bien classée enregistre une collecte record. Son prix de souscription s\'éloigne de la VR (surcote de 15 %). Simulation pédagogique : la forte collecte peut masquer un risque de correction du prix de part. La surcote est un signal de vigilance que le classement n\'intègre pas.',
     },
   ],
   methodParagraphs: [
-    'MaximusSCPI ne diffuse pas de classement unique des SCPI, car une \"meilleure SCPI\" n\'existe pas de manière absolue. Le comparateur affiche les indicateurs clés pour que chaque investisseur puisse construire sa propre analyse.',
+    'MaximusSCPI ne diffuse pas de classement unique des SCPI, car une "meilleure SCPI" n\'existe pas de manière absolue. Le comparateur affiche les indicateurs clés pour que chaque investisseur puisse construire sa propre analyse.',
     'La méthode MaximusSCPI encourage une pré-orientation pédagogique basée sur le croisement des critères, jamais sur un classement simplifié.',
     'MaximusSCPI ne constitue pas une recommandation personnalisée. L\'analyse des classements doit être approfondie avec un conseiller en investissements financiers.',
+    'Un conseiller certifié (CIF) peut intégrer l\'ensemble des dimensions : patrimoine, fiscalité, horizon, objectifs et tolérance au risque.',
   ],
   conclusionParagraphs: [
-    'Les classements SCPI sont des outils de repérage utiles, mais ils ne doivent pas être utilisés comme unique critère de décision. Une analyse multicritère et personnalisée est indispensable.',
+    'Les classements SCPI sont des outils de repérage utiles, mais ils ne doivent pas être utilisés comme unique critère de décision. Ils présentent des limites importantes : absence de prise en compte de la fiscalité personnelle, des frais, de la liquidité et des risques.',
+    'Sources et points à vérifier : DIC, note d\'information, rapport annuel, bulletin trimestriel, fiche ASPIM, documents des sociétés de gestion, données officielles.',
     'Utilisez le comparateur MaximusSCPI pour analyser les SCPI sur plusieurs indicateurs, puis validez votre pré-orientation avec un conseiller.',
   ],
   faqItems: [
     {
-      question: 'Existe-t-il une meilleure SCPI ?',
-      answer: 'Non. La meilleure SCPI dépend de la situation patrimoniale, fiscale, de l\'horizon et des objectifs de chaque investisseur.',
+      question: 'Existe-t-il une meilleure SCPI universelle ?',
+      answer: 'Non. La meilleure SCPI dépend de la situation patrimoniale, fiscale, de l\'horizon et des objectifs de chaque investisseur. Il n\'existe pas de réponse unique.',
     },
     {
       question: 'Pourquoi les classements SCPI peuvent-ils être trompeurs ?',
@@ -115,28 +116,36 @@ export const meilleuresScpiAttentionConfig: ScpiEducationalPageConfig = {
     },
     {
       question: 'Faut-il suivre les tops rendement ?',
-      answer: 'Avec prudence. Un rendement élevé peut être le signe d\'un risque plus important. Il doit être croisé avec le TOF, l\'endettement et la qualité du patrimoine.',
+      answer: 'Avec prudence. Un rendement élevé peut être le signe d\'un risque plus important. Il doit être croisé avec le TOF, l\'endettement, les frais et la qualité du patrimoine.',
     },
     {
-      question: 'Comment comparer les SCPI sans biais ?',
-      answer: 'Utiliser une grille multicritère intégrant le rendement net fiscal, le TOF, la capitalisation, l\'endettement, les frais, la décote/surcote et la liquidité.',
+      question: 'Comment comparer les SCPI sans biais de classement ?',
+      answer: 'Utiliser une grille multicritère : rendement net fiscal, TOF, capitalisation, endettement, frais, décote/surcote, liquidité, qualité du gestionnaire.',
     },
     {
       question: 'Une SCPI récente peut-elle être mieux classée ?',
-      answer: 'Oui, mécaniquement, une SCPI récente peut afficher un TOF élevé par construction et un rendement temporairement avantageux, sans recul suffisant.',
+      answer: 'Oui, mécaniquement. Une SCPI récente peut afficher un TOF élevé par construction et un rendement temporairement avantageux, sans recul suffisant sur sa capacité à traverser un cycle.',
     },
     {
-      question: 'Quel rôle joue la fiscalité ?',
-      answer: 'La fiscalité personnelle peut modifier significativement le rendement net. Un classement brut ne tient pas compte de cet élément.',
+      question: 'Quel rôle joue la fiscalité dans les classements ?',
+      answer: 'La fiscalité personnelle peut modifier significativement le rendement net. Un classement brut ne tient pas compte de cet élément déterminant.',
+    },
+    {
+      question: 'Comment repérer les biais marketing dans un classement ?',
+      answer: 'Vérifier la méthodologie, les sources, la date de mise à jour, et si le classement est sponsorisé par des sociétés de gestion.',
+    },
+    {
+      question: 'Une SCPI en tête de classement est-elle risquée ?',
+      answer: 'Pas nécessairement, mais il faut analyser pourquoi elle est en tête : rendement élevé mais risqué, ou performance durable avec des fondamentaux solides.',
+    },
+    {
+      question: 'Combien de classements consulter ?',
+      answer: 'Croiser plusieurs sources et méthodologies. Ne jamais se baser sur un seul classement pour prendre une décision.',
     },
     {
       question: 'Comment MaximusSCPI évite les classements simplistes ?',
-      answer: 'Le comparateur affiche plusieurs indicateurs sans pondération unique. MaximusSCPI privilégie une approche pédagogique et transparente.',
-    },
-    {
-      question: 'Quelle méthode utiliser à la place ?',
-      answer: 'Analyser plusieurs critères, les croiser avec sa situation personnelle, diversifier et consulter un conseiller certifié.',
+      answer: 'Le comparateur affiche plusieurs indicateurs sans pondération unique. MaximusSCPI privilégie une approche pédagogique et transparente, sans formuler de recommandation automatisée.',
     },
   ],
-  comparateurCtaLabel: 'Découvrir le comparateur SCPI MaximusSCPI',
+  comparateurCtaLabel: 'Dépasser les classements et comparer les vrais critères SCPI',
 }

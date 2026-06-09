@@ -2,164 +2,191 @@ import type { ScpiEducationalPageConfig } from './shared'
 
 export const choisirScpiConfig: ScpiEducationalPageConfig = {
   path: '/choisir-scpi',
-  badge: 'Méthode & sélection',
-  h1: 'Comment choisir une SCPI : méthode complète d\'analyse',
+  badge: 'Méthode & sélection — Page pilier',
+  h1: 'Comment choisir une SCPI : méthode d\'analyse multicritère',
   heroSubtitle:
-    'Choisir une SCPI ne se résume pas à comparer des taux de distribution. La décision doit croiser des critères patrimoniaux, fiscaux, immobiliers et réglementaires : rendement net, TOF, capitalisation, endettement, frais, décote ou surcote, liquidité, fiscalité, secteur, géographie et horizon d\'investissement.',
-  seoTitle: 'Comment choisir une SCPI : critères, fiscalité, risques et rendement',
+    'Choisir une SCPI ne se résume pas à comparer des taux de distribution. La décision doit croiser des critères patrimoniaux, fiscaux, immobiliers et réglementaires : rendement net, TOF, capitalisation, endettement, frais, décote ou surcote, liquidité, fiscalité, secteur, géographie, qualité du gestionnaire et horizon d\'investissement. Cette page pilier détaille la méthode MaximusSCPI pour une analyse structurée.',
+  seoTitle: 'Comment choisir une SCPI : méthode multicritère, TOF, fiscalité, rendement',
   seoDescription:
-    'Découvrez comment choisir une SCPI avec une méthode structurée : rendement, TOF, capitalisation, frais, fiscalité, décote, endettement, liquidité et diversification.',
+    'Méthode complète pour choisir une SCPI : analyse multicritère (rendement net, TOF, capitalisation, endettement, frais, décote/surcote, liquidité, fiscalité), 7 étapes, cas pratiques, erreurs fréquentes. Comparateur SCPI inclus.',
   shortAnswerTitle: 'Comment choisir une SCPI de manière structurée ?',
   shortAnswer:
-    'Choisir une SCPI nécessite une approche multicritère : analyser le rendement net après fiscalité, le TOF et son évolution, la capitalisation et la mutualisation, l\'endettement et son coût, les frais de souscription et de gestion, l\'écart entre prix de part et valeur de reconstitution, la liquidité, la qualité de la société de gestion, les secteurs immobiliers, la géographie, la fiscalité applicable selon la TMI et l\'horizon d\'investissement.',
+    'Choisir une SCPI nécessite une approche multicritère car aucun indicateur pris isolément ne suffit. Il faut analyser le rendement net après fiscalité et frais (le TDVM brut n\'est qu\'un point de départ), le TOF et son évolution sur plusieurs exercices, la capitalisation et la mutualisation des risques, l\'endettement (coût moyen, maturité, part fixe/variable), les frais de souscription et de gestion, l\'écart entre le prix de part et la valeur de reconstitution (surcote ou décote), la liquidité selon le type de capital, les secteurs immobiliers et la répartition géographique, la qualité de la société de gestion, la fiscalité applicable selon la TMI et l\'enveloppe, l\'horizon d\'investissement, le besoin ou non de revenus, et le mode de détention (direct, assurance-vie, démembrement, SCI à l\'IS).',
   keyMessage:
     'Choisir une SCPI consiste à construire une cohérence patrimoniale, pas à sélectionner le rendement le plus élevé.',
   definitionParagraphs: [
-    'Le rendement net après fiscalité est le point de départ : il ne suffit pas de comparer des TDVM bruts, il faut intégrer l\'imposition (TMI, prélèvements sociaux, PS à 0 % pour les SCPI européennes) et les frais.',
-    'Le TOF est un indicateur de la qualité locative. Un TOF en baisse durable peut signaler une difficulté structurelle qui impactera les distributions futures.',
-    'La capitalisation reflète la taille de la SCPI et sa capacité à mutualiser les risques. Une SCPI de grande taille n\'est pas automatiquement meilleure, mais elle est généralement plus diversifiée.',
-    'L\'endettement peut amplifier la performance en période favorable, mais il augmente le risque en cas de hausse des taux ou de baisse des loyers. La maturité de la dette et son coût moyen doivent être analysés.',
-    'Les frais pèsent sur le rendement net : frais de souscription (8-12 %), frais de gestion annuels (10-12 % HT des loyers), frais de cession éventuels. Ils doivent être intégrés dans la comparaison.',
-    'La décote ou la surcote par rapport à la valeur de reconstitution est un indicateur de la justesse du prix d\'entrée. Une surcote élevée expose au risque de baisse de prix de part.',
-    'La liquidité varie selon le type de capital (variable ou fixe) et les conditions de marché. Elle doit être anticipée en fonction de l\'horizon d\'investissement.',
-    'La fiscalité est un critère clé : SCPI françaises (revenus fonciers), SCPI européennes (PS à 0 %), SCPI en assurance-vie, démembrement. Le choix doit tenir compte de la TMI et des objectifs patrimoniaux.',
+    'Le rendement net après fiscalité est le point de départ : il ne suffit pas de comparer des TDVM bruts, il faut intégrer l\'imposition (TMI, prélèvements sociaux) et les frais de souscription et de gestion. Une SCPI avec un TDVM de 5,5 % peut offrir un rendement net inférieur à une SCPI à 5 % selon la fiscalité.',
+    'Le TOF mesure la qualité locative. Un TOF stable et élevé (> 95 %) indique une bonne occupation du patrimoine. Un TOF en baisse durable sur plusieurs trimestres est un signal de vigilance qui doit être analysé.',
+    'La capitalisation reflète la taille de la SCPI et sa capacité à mutualiser les risques. Une SCPI de 1 Md€ ou plus est généralement plus diversifiée, mais la taille ne garantit ni le rendement ni la qualité de gestion.',
+    'L\'endettement peut amplifier la performance en période favorable, mais il augmente le risque en cas de hausse des taux ou de baisse des loyers. La maturité de la dette et son coût moyen doivent être analysés, ainsi que la proportion de dette à taux variable.',
+    'Les frais pèsent sur le rendement net : frais de souscription (8-12 % en moyenne), frais de gestion annuels (10-12 % HT des loyers), frais de cession éventuels. Ils doivent être intégrés dans toute comparaison.',
+    'La décote ou surcote par rapport à la valeur de reconstitution est un indicateur de la justesse du prix d\'entrée. Une surcote excessive (> 10 %) expose au risque de baisse de prix de part. Une décote peut signaler une défiance du marché mais aussi une opportunité.',
+    'La liquidité varie selon le type de capital (variable ou fixe) et les conditions de marché. Une SCPI à capital variable avec une collecte positive offre généralement une meilleure liquidité.',
+    'La fiscalité est un critère clé : les SCPI françaises sont imposées comme des revenus fonciers (TMI + PS). Les SCPI européennes bénéficient d\'une exonération de PS (taux réduit à 0 % selon les conventions). L\'assurance-vie permet un report de l\'imposition et un abattement après 8 ans. Le démembrement peut orienter la fiscalité sur l\'usufruitier.',
   ],
-  tableTitle: 'Critères pour choisir une SCPI : ce qu\'il faut analyser',
+  tableTitle: 'Critère / Ce qu\'il mesure / Pourquoi c\'est utile / Point de vigilance',
   tableRows: [
     {
       level: 'Rendement net',
-      advantage:
-        'Comparer le TDVM net de fiscalité et de frais. Le rendement brut n\'est pas suffisant.',
-      vigilance:
-        'Un rendement élevé peut masquer un risque plus important. Toujours croiser avec les autres critères.',
+      advantage: 'Mesure le revenu après fiscalité et frais. Permet de comparer objectivement le gain réel.',
+      vigilance: 'Un rendement brut élevé peut cacher des frais importants ou une fiscalité lourde. Toujours raisonner en net.',
     },
     {
       level: 'TOF',
-      advantage:
-        'Mesure la qualité locative et la capacité à générer des loyers.',
-      vigilance:
-        'Un TOF en baisse durable est un signal fort. Analyser l\'évolution sur 3 à 5 ans.',
+      advantage: 'Indique la qualité locative et la stabilité des loyers. Un TOF stable > 95 % est rassurant.',
+      vigilance: 'Analyser l\'évolution sur 3 à 5 ans. Un TOF en baisse durable est un signal fort de difficulté locative.',
     },
     {
       level: 'Capitalisation',
-      advantage:
-        'Une SCPI plus grande mutualise mieux les risques. Facilite la revente.',
-      vigilance:
-        'La taille ne garantit ni le rendement ni la qualité de gestion.',
+      advantage: 'Reflète la taille et la capacité de mutualisation. Facilite la liquidité.',
+      vigilance: 'La taille ne garantit ni le rendement ni la qualité de gestion. Une petite SCPI peut être excellente.',
     },
     {
       level: 'Endettement',
-      advantage:
-        'Un endettement modéré peut améliorer le rendement par effet de levier.',
-      vigilance:
-        'Un endettement élevé amplifie le risque en cas de hausse des taux ou de baisse des loyers.',
+      advantage: 'Un endettement modéré (15-25 %) peut améliorer le rendement par effet de levier.',
+      vigilance: 'Vérifier le coût moyen, la maturité et la part à taux variable. Un endettement > 35 % est un signal de vigilance.',
     },
     {
       level: 'Frais',
-      advantage:
-        'Des frais réduits améliorent le rendement net et la rentabilité à long terme.',
-      vigilance:
-        'Des frais très faibles peuvent cacher une qualité de gestion moindre. À croiser avec la performance.',
+      advantage: 'Des frais réduits améliorent le rendement net et la rentabilité long terme.',
+      vigilance: 'Des frais très faibles peuvent cacher une qualité de gestion moindre. Croiser avec la performance.',
     },
     {
       level: 'Décote / surcote',
-      advantage:
-        'La comparaison avec la valeur de reconstitution indique si le prix d\'entrée est cohérent.',
-      vigilance:
-        'Une surcote excessive expose au risque de baisse de prix. Une décote peut signaler une défiance du marché.',
+      advantage: 'Compare prix de part et valeur de reconstitution pour évaluer la cohérence du prix d\'entrée.',
+      vigilance: 'Surcote > 10 % : risque de baisse de prix. Décote : possible défiance ou opportunité.',
     },
     {
       level: 'Liquidité',
-      advantage:
-        'Une bonne liquidité permet de sortir plus facilement en cas de besoin.',
-      vigilance:
-        'La liquidité n\'est jamais garantie. Toujours prévoir un horizon long terme.',
+      advantage: 'Une bonne liquidité facilite la sortie. Capital variable généralement plus liquide.',
+      vigilance: 'La liquidité n\'est jamais garantie. Toujours prévoir un horizon > 8-10 ans.',
+    },
+    {
+      level: 'Secteur immobilier',
+      advantage: 'La diversification sectorielle réduit le risque de dépendance à un seul marché.',
+      vigilance: 'Certains secteurs (bureaux secondaires, commerces fragiles) sont plus exposés aux cycles.',
+    },
+    {
+      level: 'Géographie',
+      advantage: 'La diversification géographique France + Europe réduit le risque pays.',
+      vigilance: 'Les SCPI européennes ont une fiscalité différente et parfois une liquidité plus limitée.',
     },
     {
       level: 'Fiscalité',
-      advantage:
-        'Le choix du régime fiscal peut améliorer significativement le rendement net.',
-      vigilance:
-        'Ne pas choisir une SCPI uniquement pour sa fiscalité. La qualité du patrimoine reste centrale.',
+      advantage: 'Choisir l\'enveloppe adaptée (direct, AV, PER, SCI) peut améliorer significativement le net perçu.',
+      vigilance: 'Ne pas choisir une SCPI uniquement pour sa fiscalité. La qualité du patrimoine reste centrale.',
+    },
+    {
+      level: 'Horizon',
+      advantage: 'Un horizon long (> 10 ans) permet d\'absorber les cycles et de réduire le risque de perte.',
+      vigilance: 'Un horizon < 8 ans expose au risque de sortie en période défavorable.',
+    },
+    {
+      level: 'Mode de détention',
+      advantage: 'Direct, AV, démembrement, SCI à l\'IS. Chaque mode a des implications fiscales et patrimoniales.',
+      vigilance: 'Le mode de détention doit être cohérent avec la situation personnelle et les objectifs.',
     },
   ],
   tableNote:
     'Ces critères sont des repères pour une analyse structurée. Aucun critère ne doit être pris isolément. La cohérence d\'ensemble avec la situation personnelle est primordiale.',
-  criteriaTitle: 'Étapes pour choisir une SCPI',
+  criteriaTitle: 'Les 7 étapes pour choisir une SCPI',
   criteriaCards: [
-    { title: '1. Définir son objectif', text: 'Revenus complémentaires, transmission, fiscalité, diversification patrimoniale ou préparation de retraite.' },
-    { title: '2. Analyser sa fiscalité', text: 'TMI, prélèvements sociaux, exonérations possibles, enveloppe (direct, AV, PER, SCI).' },
-    { title: '3. Filtrer par indicateurs', text: 'TOF, capitalisation, endettement, frais, décote/surcote, liquidité, rendement net.' },
-    { title: '4. Vérifier le patrimoine', text: 'Secteurs, pays, nombre d\'actifs, nombre de locataires, durée des baux.' },
-    { title: '5. Croiser avec l\'horizon', text: 'Un investissement SCPI est recommandé sur 8-10 ans minimum.' },
-    { title: '6. Diversifier', text: 'Plusieurs SCPI, secteurs, zones géographiques et modes de détention.' },
-    { title: '7. Valider avec un conseiller', text: 'L\'analyse multicritère ne remplace pas un conseil personnalisé conforme MIF2.' },
+    { title: '1. Définir son objectif', text: 'Revenus complémentaires, transmission, diversification patrimoniale, préparation de retraite, fiscalité. L\'objectif détermine la stratégie.' },
+    { title: '2. Analyser sa fiscalité', text: 'TMI, prélèvements sociaux, exonérations possibles, enveloppe disponible (direct, AV, PER, SCI). La fiscalité modifie le rendement net.' },
+    { title: '3. Filtrer par indicateurs', text: 'TOF > 90 %, capitalisation > 100 M€, endettement < 30 %, frais de gestion < 12 %, décote ou surcote modérée. Ajuster selon les objectifs.' },
+    { title: '4. Vérifier le patrimoine', text: 'Secteurs immobiliers, pays, nombre d\'actifs, nombre de locataires, durée des baux, qualité des locataires.' },
+    { title: '5. Croiser avec l\'horizon', text: 'Un investissement SCPI est recommandé sur 8-10 ans minimum. Plus l\'horizon est long, plus l\'éventail de choix s\'élargit.' },
+    { title: '6. Diversifier', text: 'Plusieurs SCPI, secteurs, zones géographiques et modes de détention pour réduire les risques.' },
+    { title: '7. Valider avec un conseiller', text: 'L\'analyse multicritère ne remplace pas un conseil personnalisé conforme MIF2. Le conseiller intègre la situation globale.' },
   ],
   commonErrors: [
-    'Choisir une SCPI uniquement sur son rendement affiché.',
-    'Ignorer le TOF et son évolution.',
-    'Ne pas vérifier l\'écart avec la valeur de reconstitution.',
-    'Sous-estimer l\'impact des frais sur le rendement net.',
-    'Investir sans tenir compte de sa fiscalité personnelle.',
-    'Mettre toute son épargne sur une seule SCPI.',
-    'Investir sans horizon long terme.',
+    'Choisir une SCPI uniquement sur son rendement affiché sans vérifier les risques.',
+    'Ignorer le TOF et son évolution sur plusieurs années.',
+    'Ne pas vérifier l\'écart avec la valeur de reconstitution (surcote méconnue).',
+    'Sous-estimer l\'impact des frais de souscription et de gestion sur le rendement net.',
+    'Investir sans tenir compte de sa fiscalité personnelle (TMI + PS).',
+    'Mettre toute son épargne disponible sur une seule SCPI.',
+    'Investir sans horizon long terme et sans anticiper la liquidité.',
+    'Choisir une SCPI sans vérifier la qualité de la société de gestion.',
+    'Confondre rendement brut et rendement net après fiscalité et frais.',
+    'Négliger l\'impact du délai de jouissance sur le rendement de première année.',
   ],
   practicalCases: [
     {
-      title: 'Investisseur A — TMI 30 %, besoin de revenus',
-      text: 'Un investisseur avec TMI 30 % cherche 5 000 € de revenus annuels complémentaires. Simulation : comparer SCPI française en direct (revenus fonciers imposés TMI + PS) vs SCPI en assurance-vie (flat tax ou barème après 8 ans) vs SCPI européenne (PS 0 %, pas d\'IR). Pré-orientation pédagogique : selon l\'enveloppe et le choix, le rendement net peut varier.',
+      title: 'Investisseur qui cherche des revenus immédiats',
+      text: 'Un investisseur de 62 ans cherche 6 000 € de revenus annuels complémentaires pour préparer sa retraite. TMI 30 %. Simulation : SCPI française en direct avec un bon TOF (> 95 %) et un délai de jouissance court, ou SCPI en AV en gestion libre. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
     {
-      title: 'Investisseur B — TMI 11 %, long terme',
-      text: 'Un jeune actif avec TMI 11 % souhaite investir 20 000 € pour 15 ans. SCPI française en direct avec frais réduits ou SCPI européenne en assurance-vie. Simulation pédagogique : comparer l\'impact des frais, de la fiscalité et du délai de jouissance.',
+      title: 'Investisseur fortement fiscalisé (TMI 41 %)',
+      text: 'Un investisseur TMI 41 % avec 150 000 € cherche à réduire l\'impact fiscal. Simulation : privilégier les SCPI européennes en direct (PS à 0 %, pas d\'IR si convention) ou les SCPI en assurance-vie (flat tax à 12,8 % après 8 ans, ou barème selon situation). Comparaison pédagogique du rendement net selon l\'enveloppe.',
     },
     {
-      title: 'Investisseur C — diversification, 100 000 €',
-      text: 'Un couple avec TMI 30 % dispose de 100 000 €. Simulation : répartir entre 3 SCPI (bureaux prime, logistique, diversifiée) et 2 enveloppes (direct et AV). Pré-orientation pédagogique : analyser la cohérence d\'ensemble.',
+      title: 'Investisseur qui ne regarde que le rendement',
+      text: 'Un investisseur compare deux SCPI : SCPI A avec TDVM 6,5 %, TOF 82 %, capitalisation 50 M€, endettement 40 %. SCPI B avec TDVM 4,8 %, TOF 96 %, capitalisation 1,2 Md€, endettement 18 %. Simulation pédagogique : la SCPI B offre un meilleur couple rendement/risque malgré un TDVM inférieur.',
+    },
+    {
+      title: 'Investisseur qui veut diversifier son patrimoine',
+      text: 'Un couple TMI 30 % dispose déjà d\'un bien immobilier en direct et souhaite diversifier avec des SCPI. Simulation : 100 000 € répartis entre 3 SCPI (une diversifiée France, une logistique, une européenne) et 2 enveloppes (direct et AV). Pré-orientation pédagogique à valider selon leur situation.',
+    },
+    {
+      title: 'Investisseur avec horizon court (5 ans)',
+      text: 'Un investisseur prévoit de récupérer son capital sous 5 ans pour un projet. Simulation pédagogique : l\'horizon est court pour une SCPI (8-10 ans recommandé). Si l\'investissement est maintenu, privilégier une SCPI à capital variable avec une collecte positive et un délai de retrait court. Rester vigilant sur le risque de liquidité et de sortie en baisse.',
     },
   ],
   methodParagraphs: [
     'MaximusSCPI propose une grille de lecture multicritère dans son comparateur : TOF, capitalisation, endettement, décote/surcote, frais, rendement. Ces indicateurs sont présentés pour faciliter la pré-orientation pédagogique.',
-    'La méthode MaximusSCPI ne remplace pas un conseil personnalisé. Elle structure l\'analyse pour que l\'investisseur puisse poser les bonnes questions.',
-    'L\'équipe MaximusSCPI, à travers le Cabinet Eric Bellaiche, accompagne les investisseurs dans leur analyse patrimoniale.',
+    'La première étape de la méthode MaximusSCPI est de qualifier l\'objectif : revenus, transmission, diversification, fiscalité, retraite. L\'objectif détermine les critères prioritaires.',
+    'La deuxième étape analyse la fiscalité personnelle : TMI, PS, enveloppes disponibles, IFI. La fiscalité modifie le rendement net et oriente le choix du mode de détention.',
+    'La troisième étape applique la grille multicritère pour filtrer les SCPI selon des seuils minimums : TOF, capitalisation, endettement, décote/surcote, frais.',
+    'La quatrième étape valide la cohérence globale : allocation, diversification, adéquation avec l\'horizon et les objectifs.',
+    'La méthode MaximusSCPI ne remplace pas un conseil personnalisé. L\'équipe du Cabinet Eric Bellaiche accompagne les investisseurs dans leur analyse patrimoniale.',
   ],
   conclusionParagraphs: [
-    'Choisir une SCPI est une décision patrimoniale qui ne doit pas se résumer à un seul indicateur. La méthode multicritère permet d\'éviter les biais et de construire une stratégie cohérente.',
+    'Choisir une SCPI est une décision patrimoniale qui ne doit pas se résumer à un seul indicateur. La méthode multicritère permet d\'éviter les biais et de construire une stratégie cohérente avec sa situation personnelle.',
+    'Sources et points à vérifier : DIC, note d\'information, rapport annuel, bulletin trimestriel de chaque SCPI, site ASPIM, documents des sociétés de gestion, impots.gouv.fr pour la fiscalité.',
     'Utilisez le comparateur MaximusSCPI pour visualiser les indicateurs clés, puis validez votre analyse avec un conseiller pour une approche personnalisée conforme à votre situation.',
   ],
   faqItems: [
     {
       question: 'Quels critères regarder pour choisir une SCPI ?',
-      answer: 'Rendement net après fiscalité, TOF, capitalisation, endettement, frais, décote/surcote, liquidité, secteur, géographie, société de gestion et horizon.',
+      answer: 'Rendement net après fiscalité, TOF, capitalisation, endettement, frais, décote/surcote, liquidité, secteurs, géographie, société de gestion, horizon, mode de détention.',
     },
     {
       question: 'Faut-il choisir la SCPI au meilleur rendement ?',
-      answer: 'Non. Un rendement élevé peut masquer des risques plus importants. Il doit être croisé avec le TOF, l\'endettement, les frais et la fiscalité.',
+      answer: 'Non. Un rendement élevé peut masquer des risques importants : TOF bas, endettement élevé, frais importants, surcote excessive. Le croisement des critères est essentiel.',
     },
     {
-      question: 'Comment comparer deux SCPI ?',
-      answer: 'Utiliser une grille multicritère : rendement net, TOF, capitalisation, frais, endettement, décote/surcote, liquidité, secteurs, pays.',
+      question: 'Comment comparer deux SCPI entre elles ?',
+      answer: 'Utiliser une grille multicritère : comparer le rendement net après fiscalité et frais, le TOF sur 3-5 ans, la capitalisation, l\'endettement, la décote/surcote et la liquidité.',
     },
     {
       question: 'Quelle importance donner au TOF ?',
-      answer: 'Le TOF est un indicateur clé de la qualité locative. Un TOF bas ou en baisse durable est un signal de vigilance important.',
+      answer: 'Le TOF est un indicateur clé de la qualité locative. Un TOF bas (< 90 %) ou en baisse durable est un signal de vigilance important.',
     },
     {
-      question: 'La fiscalité doit-elle guider le choix ?',
-      answer: 'Oui, elle impacte significativement le rendement net. Le choix de l\'enveloppe (direct, AV, PER) doit être cohérent avec la TMI.',
+      question: 'La fiscalité doit-elle guider le choix d\'une SCPI ?',
+      answer: 'Oui, elle impacte significativement le rendement net. Le choix de l\'enveloppe (direct, AV, PER, SCI) doit être cohérent avec la TMI.',
     },
     {
       question: 'Faut-il diversifier entre plusieurs SCPI ?',
-      answer: 'Oui, la diversification sectorielle, géographique et par enveloppe est recommandée pour réduire les risques.',
+      answer: 'Oui, la diversification sectorielle, géographique et par enveloppe est recommandée pour réduire les risques de concentration.',
     },
     {
-      question: 'Comment éviter les erreurs fréquentes ?',
-      answer: 'Analyser plusieurs critères, ne pas se fier uniquement au rendement, anticiper la fiscalité, diversifier et consulter un conseiller.',
+      question: 'Quel est le bon mode de détention ?',
+      answer: 'Direct pour la simplicité et les frais réduits. AV pour le report d\'imposition et l\'abattement après 8 ans. Démembrement pour la transmission. SCI à l\'IS pour les gros volumes.',
+    },
+    {
+      question: 'Quel horizon pour investir en SCPI ?',
+      answer: '8-10 ans minimum recommandé. L\'horizon long permet d\'absorber les cycles immobiliers et de réduire le risque de perte en capital.',
+    },
+    {
+      question: 'Comment évaluer la société de gestion ?',
+      answer: 'Analyser son ancienneté, ses équipes, sa transparence, sa politique d\'investissement, son historique de distribution et sa communication.',
     },
     {
       question: 'Comment MaximusSCPI aide à choisir une SCPI ?',
-      answer: 'Le comparateur affiche les indicateurs clés. Les contenus pédagogiques structurent l\'analyse. MaximusSCPI ne constitue pas une recommandation personnalisée.',
+      answer: 'Le comparateur affiche les indicateurs clés. Les contenus pédagogiques structurent l\'analyse. MaximusSCPI ne constitue pas une recommandation personnalisée au sens de MIF2.',
     },
   ],
-  comparateurCtaLabel: 'Découvrir le comparateur SCPI MaximusSCPI',
+  comparateurCtaLabel: 'Comparer les SCPI avec une méthode multicritère',
 }

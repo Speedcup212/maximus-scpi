@@ -2,145 +2,155 @@ import type { ScpiEducationalPageConfig } from './shared'
 
 export const comparateurScpiFiableConfig: ScpiEducationalPageConfig = {
   path: '/comparateur-scpi-fiable',
-  badge: 'Outil d\'analyse',
-  h1: 'Comparateur SCPI fiable : quels critères vérifier ?',
+  badge: 'Outil d\'analyse — Page pilier',
+  h1: 'Comparateur SCPI fiable : à quoi sert-il et comment l\'utiliser ?',
   heroSubtitle:
-    'Un comparateur SCPI fiable ne doit pas décider à la place de l\'investisseur. Il doit rendre les critères lisibles pour faciliter une analyse structurée : données claires, indicateurs multiples, transparence sur les sources et limites explicites.',
-  seoTitle: 'Comparateur SCPI fiable : méthode, données et critères d\'analyse',
+    'Un comparateur SCPI fiable ne doit pas décider à la place de l\'investisseur. Il doit rendre les critères lisibles pour faciliter une analyse structurée : données claires, indicateurs multiples, transparence sur les sources et limites explicites. Cette page détaille ce qu\'un comparateur peut et ne doit pas faire.',
+  seoTitle: 'Comparateur SCPI fiable : indicateurs, sources et transparence',
   seoDescription:
-    'Découvrez comment reconnaître un comparateur SCPI fiable : données, frais, rendement, TOF, capitalisation, décote, endettement, fiscalité, limites et transparence.',
-  shortAnswerTitle: 'Qu\'est-ce qu\'un comparateur SCPI fiable ?',
+    'Guide complet pour utiliser un comparateur SCPI fiable : indicateurs indispensables (rendement, TOF, capitalisation, endettement, frais, décote, liquidité), sources des données, limites, transparence, rôle du conseiller.',
+  shortAnswerTitle: 'Qu\'est-ce qu\'un comparateur SCPI fiable et à quoi sert-il ?',
   shortAnswer:
-    'Un comparateur SCPI fiable présente plusieurs indicateurs (rendement, TOF, capitalisation, endettement, décote/surcote, frais, liquidité), source ses données (rapports annuels, ASPIM, sociétés de gestion), met à jour régulièrement ses informations, explique ses limites et ne formule pas de recommandation automatisée. Il aide à structurer l\'analyse sans se substituer à un conseil personnalisé.',
+    'Un comparateur SCPI fiable est un outil en ligne qui agrège et présente les indicateurs clés de différentes SCPI pour faciliter leur comparaison. Il doit présenter plusieurs indicateurs (rendement, TOF, capitalisation, endettement, décote/surcote, frais, liquidité, secteur, géographie), sourcer ses données à partir des documents réglementaires (rapport annuel, bulletin trimestriel, note d\'information, fiche ASPIM), les mettre à jour régulièrement, expliquer sa méthodologie et ses limites, et ne pas formuler de recommandation automatisée. Il aide à structurer l\'analyse sans se substituer à un conseil personnalisé.',
   keyMessage:
     'Un comparateur SCPI fiable ne doit pas décider à la place de l\'investisseur. Il doit rendre les critères lisibles pour faciliter une analyse structurée.',
   definitionParagraphs: [
-    'Un comparateur SCPI est un outil en ligne qui agrège et présente les indicateurs clés de différentes SCPI pour faciliter leur comparaison. Il peut inclure le rendement, le TOF, la capitalisation, l\'endettement, les frais, la décote ou surcote sur valeur de reconstitution, et d\'autres critères.',
-    'Pour être fiable, un comparateur doit sourcer ses données : les indicateurs doivent provenir des documents réglementaires (rapport annuel, bulletin trimestriel, note d\'information, fiche ASPIM). Les données doivent être mises à jour régulièrement.',
+    'Un comparateur SCPI est un outil en ligne qui agrège et présente les indicateurs clés de différentes SCPI pour faciliter leur comparaison. Il peut inclure le rendement, le TOF, la capitalisation, l\'endettement, les frais, la décote ou surcote sur valeur de reconstitution, la liquidité, les secteurs et la géographie.',
+    'Pour être fiable, un comparateur doit sourcer ses données : les indicateurs doivent provenir des documents réglementaires (rapport annuel, bulletin trimestriel, note d\'information, fiche ASPIM). Les données doivent être mises à jour régulièrement, idéalement chaque trimestre.',
     'Un bon comparateur ne se limite pas à un seul indicateur. Il présente plusieurs critères pour permettre une analyse multicritère. Il explique également la signification de chaque indicateur et ses limites.',
     'La transparence est essentielle : l\'outil doit indiquer clairement s\'il est financé par des commissions, des partenariats ou des abonnements. Il doit distinguer les données objectives des interprétations.',
-    'Un comparateur fiable ne propose pas de \"meilleure SCPI\" automatique ni de classement unique. Il laisse l\'utilisateur construire sa propre analyse à partir des indicateurs présentés.',
-    'Enfin, l\'outil doit rappeler qu\'il ne constitue pas un conseil personnalisé et que toute décision d\'investissement doit être validée par un conseiller certifié.',
+    'Un comparateur fiable ne propose pas de "meilleure SCPI" automatique ni de classement unique pondéré de manière opaque. Il laisse l\'utilisateur construire sa propre analyse à partir des indicateurs présentés.',
+    'La différence entre comparaison et conseil personnalisé est fondamentale : le comparateur présente des données objectives, tandis que le conseil personnalisé analyse la situation de l\'investisseur pour formuler une préconisation adaptée conforme à la réglementation MIF2.',
+    'Enfin, un outil fiable rappelle qu\'il ne constitue pas un conseil personnalisé et que toute décision d\'investissement doit être validée par un conseiller en investissements financiers certifié (CIF).',
   ],
-  tableTitle: 'Comparateur SCPI : ce qu\'il doit apporter',
+  tableTitle: 'Fonction d\'un comparateur / Utilité / Limite / Ce que l\'investisseur doit vérifier',
   tableRows: [
     {
-      level: 'Données claires',
-      advantage:
-        'Les indicateurs sont présentés de manière compréhensible, avec des définitions accessibles.',
-      vigilance:
-        'Méfiance si les indicateurs sont présentés sans explication ou avec des termes techniques non définis.',
+      level: 'Agrégation de données',
+      advantage: 'Centraliser les indicateurs de plusieurs SCPI en un seul endroit pour gagner du temps.',
+      vigilance: 'Les données doivent être sourcées (rapports annuels, ASPIM) et datées. Vérifier la date de mise à jour.',
     },
     {
-      level: 'Indicateurs multiples',
-      advantage:
-        'Rendement, TOF, capitalisation, endettement, frais, décote/surcote, liquidité sont affichés.',
-      vigilance:
-        'Un comparateur avec un seul indicateur (rendement) est incomplet et potentiellement trompeur.',
+      level: 'Comparaison multicritère',
+      advantage: 'Visualiser plusieurs critères simultanément : rendement, TOF, endettement, frais, décote.',
+      vigilance: 'Un comparateur avec un seul critère (rendement) est insuffisant. Rechercher au moins 5-6 indicateurs.',
     },
     {
-      level: 'Sources transparentes',
-      advantage:
-        'L\'origine des données est indiquée : rapports annuels, ASPIM, sociétés de gestion.',
-      vigilance:
-        'Si les sources ne sont pas mentionnées, la fiabilité des données ne peut pas être vérifiée.',
+      level: 'Filtrage et tri',
+      advantage: 'Permettre à l\'utilisateur de filtrer les SCPI selon ses critères prioritaires.',
+      vigilance: 'Le filtrage ne constitue pas une recommandation. Il reflète les choix de l\'utilisateur, pas un conseil.',
     },
     {
-      level: 'Mise à jour régulière',
-      advantage:
-        'Les données sont actualisées au minimum chaque trimestre ou semestre.',
-      vigilance:
-        'Des données obsolètes peuvent induire en erreur sur la situation récente de la SCPI.',
+      level: 'Transparence',
+      advantage: 'Indiquer la source de chaque donnée, la méthodologie et les limites de l\'outil.',
+      vigilance: 'Si les sources ne sont pas mentionnées ou si la méthodologie est opaque, la fiabilité est douteuse.',
     },
     {
-      level: 'Limites explicites',
-      advantage:
-        'L\'outil indique ce qu\'il ne fait pas : pas de recommandation, pas de conseil personnalisé.',
-      vigilance:
-        'Un comparateur qui recommande des SCPI sans recueil d\'information peut être non conforme MIF2.',
+      level: 'Pas de recommandation',
+      advantage: 'Un comparateur conforme MIF2 ne recommande pas de SCPI sans recueil d\'information patrimoniale.',
+      vigilance: 'Un outil qui recommande des SCPI sans questionnement préalable peut être non conforme.',
     },
     {
-      level: 'Absence de classement unique',
-      advantage:
-        'Plusieurs critères sont disponibles sans pondération imposée.',
-      vigilance:
-        'Un classement unique basé sur un seul indicateur est réducteur.',
+      level: 'Orientation vers un conseiller',
+      advantage: 'L\'outil encourage à valider l\'analyse avec un CIF pour une approche personnalisée.',
+      vigilance: 'L\'absence de mention d\'un conseiller peut signaler un outil incomplet ou non conforme.',
     },
   ],
   tableNote:
     'Ces critères permettent d\'évaluer la fiabilité d\'un comparateur SCPI. Aucun outil ne remplace un conseil personnalisé.',
-  criteriaTitle: 'Points de vigilance sur un comparateur SCPI',
+  criteriaTitle: 'Indicateurs indispensables dans un comparateur SCPI',
   criteriaCards: [
-    { title: 'Données sourcées', text: 'Vérifier si les données proviennent des documents réglementaires ou de sources non vérifiables.' },
-    { title: 'Mise à jour', text: 'Une date de mise à jour récente est un gage de sérieux. Se méfier des données anciennes.' },
-    { title: 'Indépendance', text: 'Vérifier si le comparateur est financé par des commissions de sociétés de gestion, ce qui peut biaiser la présentation.' },
-    { title: 'Nombre de critères', text: 'Plusieurs indicateurs valent mieux qu\'un seul. Un comparateur limité au rendement est insuffisant.' },
-    { title: 'Transparence', text: 'L\'outil doit expliquer sa méthodologie, ses sources et ses limites.' },
-    { title: 'Conformité', text: 'Un comparateur conforme MIF2 ne recommande pas de SCPI sans recueil d\'information préalable.' },
+    { title: 'Rendement (TDVM)', text: 'Taux de distribution sur l\'exercice. À comparer avec le TOF et les frais pour évaluer la soutenabilité.' },
+    { title: 'Rendement net estimé', text: 'Simulation du rendement après fiscalité et frais. Certains comparateurs l\'intègrent, c\'est un plus.' },
+    { title: 'TOF', text: 'Taux d\'occupation financier. Essentiel pour juger la qualité locative. À suivre sur plusieurs exercices.' },
+    { title: 'Capitalisation', text: 'Taille de la SCPI en millions d\'euros. Indicateur de mutualisation et de liquidité potentielle.' },
+    { title: 'Endettement', text: 'Taux d\'endettement, coût moyen de la dette, maturité, part fixe/variable.' },
+    { title: 'Décote / surcote', text: 'Écart entre prix de souscription et valeur de reconstitution. Indicateur de risque de correction.' },
+    { title: 'Frais', text: 'Frais de souscription et frais de gestion annuels. Impact direct sur le rendement net.' },
+    { title: 'Liquidité', text: 'Type de capital (variable/fixe), délai de retrait publié, collecte nette.' },
+    { title: 'Secteur et géographie', text: 'Répartition sectorielle et géographique du patrimoine. Essentiel pour la diversification.' },
+    { title: 'Société de gestion', text: 'Nom, ancienneté, réputation. Un indicateur qualitatif important.' },
   ],
   commonErrors: [
     'Croire qu\'un comparateur peut recommander une SCPI à votre place.',
-    'Utiliser un comparateur qui n\'affiche que le rendement.',
-    'Ignorer la date de mise à jour des données.',
-    'Ne pas vérifier si les sources sont fiables.',
-    'Confondre comparaison et conseil personnalisé.',
+    'Utiliser un comparateur qui n\'affiche que le rendement sans autres indicateurs.',
+    'Ignorer la date de mise à jour des données (données obsolètes = décision risquée).',
+    'Ne pas vérifier si les sources sont fiables et documentées.',
+    'Confondre comparaison (données objectives) et conseil personnalisé (analyse adaptée à la situation).',
+    'Se fier à un classement unique sans comprendre la pondération des critères.',
+    'Utiliser un comparateur sans vérifier son indépendance et son mode de financement.',
   ],
   practicalCases: [
     {
-      title: 'Comparateur A — complet et transparent',
-      text: 'Un comparateur affiche 12 indicateurs, sourcés des rapports annuels, mis à jour trimestriellement. Il explique chaque indicateur et précise ses limites. L\'utilisateur peut filtrer selon ses critères. Simulation pédagogique : l\'outil aide à structurer l\'analyse.',
+      title: 'Investisseur qui compare uniquement le TDVM',
+      text: 'Un investisseur utilise un comparateur qui n\'affiche que le TDVM. Il choisit la SCPI au meilleur taux sans vérifier le TOF (82 %), l\'endettement (38 %) ni les frais (12 % de souscription, 14 % de gestion). Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
     {
-      title: 'Comparateur B — limité au rendement',
-      text: 'Un comparateur n\'affiche que le TDVM. Les SCPI en tête de classement sont mises en avant. Aucune information sur le TOF, l\'endettement ou les frais. Simulation pédagogique : ce type d\'outil peut induire en erreur.',
+      title: 'Investisseur avec TMI élevée',
+      text: 'Un investisseur TMI 41 % utilise un comparateur qui affiche le TDVM brut. Il ne voit pas que les SCPI françaises seront imposées à TMI + PS, contrairement à certaines SCPI européennes (PS à 0 % selon conventions). Le rendement net après fiscalité peut être très différent.',
     },
     {
-      title: 'Investisseur — utilisation responsable',
-      text: 'Un investisseur utilise un comparateur pour identifier 4 SCPI potentielles, puis valide son analyse avec son conseiller. Simulation pédagogique : l\'outil est utilisé comme support, pas comme décision.',
+      title: 'Investisseur qui veut éviter une SCPI concentrée',
+      text: 'Un investisseur utilise un comparateur avec filtres. Il sélectionne les SCPI avec une capitalisation > 500 M€, un TOF > 95 %, un endettement < 25 % et au moins 3 secteurs immobiliers. Il obtient 5 SCPI qu\'il analyse plus en détail. Simulation pédagogique : le comparateur est utilisé comme outil de pré-filtrage.',
+    },
+    {
+      title: 'Investisseur qui veut comprendre la décote ou surcote',
+      text: 'Un investisseur compare deux SCPI : l\'une avec une surcote de 12 % (prix supérieur à la VR), l\'autre avec une décote de 3 %. Le comparateur affiche l\'écart et explique le risque. Simulation pédagogique : l\'indicateur de décote/surcote permet d\'affiner la sélection.',
     },
   ],
   methodParagraphs: [
     'MaximusSCPI propose un comparateur qui affiche plusieurs indicateurs clés : rendement, TOF, capitalisation, endettement, décote/surcote, frais. Chaque indicateur est présenté avec sa source et sa signification.',
     'Le comparateur MaximusSCPI ne formule pas de recommandation personnalisée. Il est conçu comme un outil d\'aide à l\'analyse, pas comme un décisionnaire.',
-    'MaximusSCPI rappelle dans chaque utilisation que la comparaison ne remplace pas un conseil personnalisé conforme MIF2.',
+    'La méthodologie MaximusSCPI est transparente : les données proviennent des documents réglementaires et sont mises à jour périodiquement.',
+    'Le comparateur MaximusSCPI rappelle dans chaque utilisation que la comparaison ne remplace pas un conseil personnalisé conforme MIF2.',
+    'L\'étape finale de la méthode MaximusSCPI est un échange avec un conseiller du Cabinet Eric Bellaiche pour valider la pré-orientation.',
   ],
   conclusionParagraphs: [
     'Un comparateur SCPI fiable est un outil précieux pour structurer l\'analyse, mais il ne remplace pas une démarche patrimoniale complète. La transparence, la pluralité des indicateurs et l\'absence de recommandation automatisée sont les marques d\'un outil sérieux.',
+    'Sources et points à vérifier : DIC, note d\'information, rapport annuel, bulletin trimestriel, fiche ASPIM, données des sociétés de gestion, site AMF.',
     'Utilisez le comparateur MaximusSCPI comme point de départ de votre analyse, puis validez avec un conseiller.',
   ],
   faqItems: [
     {
       question: 'À quoi sert un comparateur SCPI ?',
-      answer: 'À visualiser et comparer les indicateurs clés de plusieurs SCPI pour faciliter l\'analyse et la pré-orientation.',
+      answer: 'À visualiser et comparer les indicateurs clés de plusieurs SCPI pour faciliter l\'analyse et la pré-orientation pédagogique.',
     },
     {
       question: 'Quels critères doit afficher un comparateur fiable ?',
-      answer: 'Rendement, TOF, capitalisation, endettement, frais, décote/surcote, liquidité. Au moins 5-6 indicateurs pour une analyse pertinente.',
+      answer: 'Au minimum : rendement, TOF, capitalisation, endettement, frais, décote/surcote, liquidité. Idéalement 8 à 10 indicateurs.',
     },
     {
       question: 'Un comparateur peut-il recommander une SCPI ?',
       answer: 'Non. Un comparateur conforme MIF2 ne recommande pas de SCPI sans recueil d\'information patrimoniale préalable.',
     },
     {
-      question: 'Pourquoi comparer plusieurs indicateurs ?',
-      answer: 'Un seul indicateur, comme le rendement, ne reflète pas la qualité d\'une SCPI. Le croisement des critères évite les biais.',
+      question: 'Pourquoi comparer plusieurs indicateurs et pas un seul ?',
+      answer: 'Un seul indicateur, comme le rendement, ne reflète pas la qualité d\'une SCPI. Le croisement des critères évite les biais et les mauvaises surprises.',
     },
     {
-      question: 'Les données doivent-elles être sourcées ?',
-      answer: 'Oui. Les données doivent provenir des documents réglementaires (rapport annuel, bulletin, fiche ASPIM) pour être fiables.',
+      question: 'Les données d\'un comparateur doivent-elles être sourcées ?',
+      answer: 'Oui. Les données doivent provenir des documents réglementaires (rapport annuel, bulletin, fiche ASPIM) pour être considérées comme fiables.',
     },
     {
-      question: 'Quelle différence entre comparaison et conseil ?',
-      answer: 'La comparaison présente des données objectives. Le conseil personnalisé analyse la situation de l\'investisseur pour formuler une préconisation adaptée.',
+      question: 'Quelle différence entre comparaison et conseil personnalisé ?',
+      answer: 'La comparaison présente des données objectives et standardisées. Le conseil personnalisé analyse la situation de l\'investisseur pour formuler une préconisation adaptée.',
     },
     {
-      question: 'Comment MaximusSCPI classe les SCPI ?',
-      answer: 'Le comparateur affiche plusieurs indicateurs sans classement unique. L\'utilisateur peut filtrer selon ses critères.',
+      question: 'Comment vérifier l\'indépendance d\'un comparateur ?',
+      answer: 'Vérifier son mode de financement, s\'il perçoit des commissions des sociétés de gestion, et si les SCPI présentées sont exhaustives ou sélectionnées.',
     },
     {
-      question: 'Pourquoi valider avec un conseiller ?',
-      answer: 'Un conseiller prend en compte la situation patrimoniale, fiscale et les objectifs personnels, ce qu\'un comparateur ne peut pas faire.',
+      question: 'À quelle fréquence les données doivent-elles être mises à jour ?',
+      answer: 'Idéalement chaque trimestre, au minimum chaque semestre, pour refléter les dernières publications des sociétés de gestion.',
+    },
+    {
+      question: 'Un comparateur peut-il aider à choisir une enveloppe ?',
+      answer: 'Un bon comparateur peut indiquer les modes de détention possibles (direct, AV, PER), mais le choix de l\'enveloppe dépend de la situation personnelle.',
+    },
+    {
+      question: 'Comment MaximusSCPI rend son comparateur fiable ?',
+      answer: 'Sources documentées, indicateurs multiples, mise à jour régulière, transparence sur la méthodologie, pas de recommandation automatisée, orientation vers un CIF.',
     },
   ],
-  comparateurCtaLabel: 'Découvrir le comparateur SCPI MaximusSCPI',
+  comparateurCtaLabel: 'Utiliser le comparateur SCPI puis valider l\'analyse avec un CGP-CIF',
 }
