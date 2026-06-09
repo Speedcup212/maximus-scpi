@@ -599,6 +599,8 @@ const App: React.FC = () => {
         setCurrentView('scpi-bureaux');
       } else if (path === 'scpi-commerce') {
         setCurrentView('scpi-commerce');
+      } else if (path === 'scpi-diversifiees') {
+        setCurrentView('scpi-diversifiees');
       } else if (path === 'societe-gestion-scpi') {
         setCurrentView('societe-gestion-scpi');
       } else if (path === 'gestionnaire-scpi') {
