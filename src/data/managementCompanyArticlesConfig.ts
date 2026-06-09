@@ -526,10 +526,996 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Risques SCPI', url: '/risques-scpi/' }
     ],
     angle: 'Société de gestion à analyser via les SCPI associées, diversification, indicateurs, fiscalité et risques.'
+  },
+  // ============================================================
+  // Batch 2 — Sociétés structurantes
+  // ============================================================
+  {
+    slug: 'bnp-paribas-reim-france',
+    name: 'BNP Paribas REIM France',
+    displayName: 'BNP Paribas REIM France',
+    title: 'BNP Paribas REIM France : SCPI gérées, stratégie et analyse',
+    seoTitle: 'BNP Paribas REIM France SCPI : société de gestion, Accès Valeur Pierre | MaximusSCPI',
+    metaDescription: 'Analyse de BNP Paribas REIM France, société de gestion du groupe BNP Paribas. Accès Valeur Pierre, Diversipierre — données à vérifier.',
+    mainKeyword: 'BNP Paribas REIM France SCPI',
+    keywords: ['BNP Paribas REIM France', 'Accès Valeur Pierre', 'Diversipierre', 'société de gestion SCPI', 'groupe BNP Paribas', 'gestionnaire SCPI', 'AMF'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Accès Valeur Pierre', status: 'to_verify', sector: 'Diversifié France' },
+      { name: 'Diversipierre', status: 'to_verify', sector: 'Diversifié France' }
+    ],
+    summary: 'BNP Paribas REIM France est la société de gestion immobilière du groupe BNP Paribas, à analyser avec prudence. Les SCPI associées (Accès Valeur Pierre, Diversipierre) sont à vérifier auprès des sources officielles (ASPIM, AMF/GECO, DIC, site de la société de gestion). Une société de gestion ne garantit ni le rendement, ni la liquidité, ni le capital.',
+    keyPoints: [
+      'Société de gestion du groupe BNP Paribas, acteur bancaire de premier plan',
+      'SCPI identifiées : Accès Valeur Pierre, Diversipierre — à vérifier',
+      'Stratégie orientée diversification France',
+      'Points de vigilance : vérifier la liste exacte des SCPI gérées via l\'ASPIM'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Les données internes sont à confirmer', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et les DIC des SCPI' },
+      { critere: 'Capitalisation des véhicules', importance: 'La taille des SCPI influence la liquidité', vigilance: 'Vérifier la capitalisation dans les bulletins trimestriels' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Comparer avec la moyenne du marché (85-95%)' },
+      { critere: 'Endettement', importance: 'Impact sur la résilience en cas de crise', vigilance: 'Vérifier le ratio d\'endettement dans les rapports annuels' },
+      { critere: 'Frais', importance: 'Impact direct sur le rendement net', vigilance: 'Frais de souscription et de gestion à comparer avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui vérifie les SCPI gérées par BNP Paribas REIM France', description: 'Un investisseur identifie Accès Valeur Pierre et Diversipierre comme SCPI potentielles du groupe. Il vérifie sur le site de la société de gestion et l\'ASPIM avant toute analyse.' },
+      { titre: 'Investisseur qui compare avec d\'autres sociétés de gestion bancaires', description: 'Un investisseur compare BNP Paribas REIM France avec Amundi Immobilier et La Française REM pour évaluer la gamme, les frais et le rendement.' }
+    ],
+    faq: [
+      { question: 'BNP Paribas REIM France est-elle une société de gestion importante ?', reponse: 'BNP Paribas REIM France bénéficie de la solidité du groupe BNP Paribas. L\'importance se mesure à la capitalisation des SCPI gérées, à la qualité du patrimoine et à la transparence documentaire.' },
+      { question: 'Faut-il vérifier les SCPI gérées par BNP Paribas REIM France ?', reponse: 'Oui, il est recommandé de vérifier la liste exacte des SCPI gérées sur le site officiel de la société de gestion ou l\'ASPIM.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'ORIAS SCPI', url: '/orias-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Note d\'information SCPI', url: '/note-information-scpi/' },
+      { label: 'Choisir une SCPI', url: '/choisir-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
+      { label: 'Endettement SCPI', url: '/endettement-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe BNP Paribas, données SCPI à vérifier auprès des sources officielles.'
+  },
+  {
+    slug: 'amundi-immobilier',
+    name: 'Amundi Immobilier',
+    displayName: 'Amundi Immobilier',
+    title: 'Amundi Immobilier : SCPI gérées, stratégie et analyse patrimoniale',
+    seoTitle: 'Amundi Immobilier SCPI : société de gestion, Edissimo, Rivoli Avenir Patrimoine | MaximusSCPI',
+    metaDescription: 'Analyse de Amundi Immobilier, société de gestion du groupe Amundi (Crédit Agricole). SCPI Edissimo et Rivoli Avenir Patrimoine, indicateurs et points de vigilance.',
+    mainKeyword: 'Amundi Immobilier société de gestion SCPI',
+    keywords: ['Amundi Immobilier', 'Edissimo', 'Rivoli Avenir Patrimoine', 'société de gestion SCPI', 'Crédit Agricole', 'gestionnaire SCPI', 'AMF'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Edissimo', status: 'verified', sector: 'Éducation' },
+      { name: 'Rivoli Avenir Patrimoine', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Amundi Immobilier est une société de gestion appartenant au groupe Amundi (Crédit Agricole), à analyser via ses SCPI Edissimo (secteur éducation) et Rivoli Avenir Patrimoine (diversification France). L\'analyse porte sur la stratégie, la diversification, la collecte et les indicateurs de performance.',
+    keyPoints: [
+      'Société de gestion du groupe Amundi / Crédit Agricole, acteur financier majeur',
+      'Edissimo : SCPI spécialisée dans l\'immobilier éducatif (crèches, écoles)',
+      'Rivoli Avenir Patrimoine : diversification France multi-secteurs',
+      'À analyser via : capitalisation, TOF, endettement, frais, rendement, transparence'
+    ],
+    vigilancePoints: [
+      { critere: 'Spécialisation éducation', importance: 'Edissimo est exposé au secteur éducatif (crèches, écoles)', vigilance: 'Analyser la résilience du secteur et la solidité des exploitants' },
+      { critere: 'Taille des véhicules', importance: 'Edissimo est une SCPI de niche', vigilance: 'Vérifier la capitalisation et la liquidité potentielle' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur intéressé par le secteur éducatif', description: 'Un investisseur analyse Edissimo d\'Amundi Immobilier : qualité des exploitants, durée des baux, résilience du secteur éducatif.' },
+      { titre: 'Investisseur qui compare les SCPI du groupe Amundi', description: 'Un investisseur compare Edissimo et Rivoli Avenir Patrimoine pour évaluer la complémentarité et la cohérence de l\'allocation.' }
+    ],
+    faq: [
+      { question: 'Le secteur éducatif des SCPI est-il résilient ?', reponse: 'L\'immobilier éducatif (crèches, écoles) est généralement considéré comme résilient car les besoins éducatifs sont peu sensibles aux cycles économiques. La qualité des exploitants et la durée des baux restent des critères clés.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'ORIAS SCPI', url: '/orias-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Note d\'information SCPI', url: '/note-information-scpi/' },
+      { label: 'Choisir une SCPI', url: '/choisir-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
+      { label: 'Endettement SCPI', url: '/endettement-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe Amundi (Crédit Agricole), SCPI Edissimo (éducation) et Rivoli Avenir Patrimoine à analyser.'
+  },
+  {
+    slug: 'la-francaise-rem',
+    name: 'La Française REM',
+    displayName: 'La Française REM',
+    title: 'La Française REM : SCPI gérées, stratégie et gamme étendue',
+    seoTitle: 'La Française REM SCPI : société de gestion, LF Europimmo, Opportunité Immo | MaximusSCPI',
+    metaDescription: 'Analyse de La Française REM, société de gestion immobilière. SCPI LF Europimmo, LF Avenir Santé, LF Grand Paris Patrimoine, Opportunité Immo, Épargne Foncière — indicateurs.',
+    mainKeyword: 'La Française REM société de gestion SCPI',
+    keywords: ['La Française REM', 'LF Europimmo', 'LF Avenir Santé', 'LF Grand Paris Patrimoine', 'Opportunité Immo', 'Épargne Foncière', 'Selectinvest 1', 'Crédit Mutuel Pierre 1', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Crédit Mutuel Pierre 1', status: 'verified', sector: 'Diversifié France' },
+      { name: 'LF Avenir Santé', status: 'verified', sector: 'Santé' },
+      { name: 'LF Europimmo', status: 'verified', sector: 'Diversifié Europe' },
+      { name: 'LF Grand Paris Patrimoine', status: 'verified', sector: 'Bureaux/Commerces Grand Paris' },
+      { name: 'Opportunité Immo', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Selectinvest 1', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Épargne Foncière', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'La Française REM est une société de gestion immobilière majeure, à analyser via la profondeur de sa gamme (7 SCPI identifiées), sa stratégie multi-secteurs, la diversification géographique et la qualité du reporting. Une société de gestion ne garantit ni le rendement, ni la liquidité, ni le capital.',
+    keyPoints: [
+      'Société de gestion immobilière importante, gamme de 7 SCPI',
+      'Couverture multi-secteurs : santé, bureaux, commerces, diversification Europe',
+      'LF Europimmo : diversification européenne',
+      'LF Avenir Santé : exposition à l\'immobilier santé',
+      'À analyser via : rendement, TOF, endettement, frais, transparence pour chaque SCPI'
+    ],
+    vigilancePoints: [
+      { critere: 'Gamme étendue', importance: 'Chaque SCPI a sa propre stratégie et ses propres indicateurs', vigilance: 'Analyser chaque SCPI individuellement, ne pas se fier à la seule notoriété du gestionnaire' },
+      { critere: 'Exposition santé', importance: 'LF Avenir Santé est exposé au secteur médical', vigilance: 'Analyser la qualité des exploitants et la durée des baux' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Transparence', importance: 'La qualité du reporting varie selon les SCPI', vigilance: 'Consulter les DIC, notes d\'information et rapports annuels disponibles' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI de La Française REM', description: 'Un investisseur compare LF Europimmo (Europe), LF Avenir Santé (santé) et Opportunité Immo (France) selon son allocation souhaitée.' },
+      { titre: 'Investisseur qui diversifie entre plusieurs SCPI du même gestionnaire', description: 'Un investisseur construit une allocation avec plusieurs SCPI de La Française REM en vérifiant la cohérence globale (secteurs, zones géographiques, risque de concentration).' }
+    ],
+    faq: [
+      { question: 'La Française REM est-elle une société de gestion fiable ?', reponse: 'La Française REM est un acteur établi avec une gamme étendue. La fiabilité s\'analyse en croisant les indicateurs de chaque SCPI, la qualité du reporting et la transparence documentaire.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'SCPI santé', url: '/scpi-sante/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion majeure, gamme étendue de 7 SCPI à analyser individuellement.'
+  },
+  {
+    slug: 'praemia-reim',
+    name: 'Praemia REIM',
+    displayName: 'Praemia REIM',
+    title: 'Praemia REIM : SCPI gérées, stratégie et analyse immobilière',
+    seoTitle: 'Praemia REIM SCPI : société de gestion, Patrimmo Commerce, Praemia Hôtels Europe | MaximusSCPI',
+    metaDescription: 'Analyse de Praemia REIM, société de gestion. SCPI Patrimmo Commerce, Patrimmo Croissance Impact, Praemia Hôtels Europe, Primovie — indicateurs et vigilance.',
+    mainKeyword: 'Praemia REIM société de gestion SCPI',
+    keywords: ['Praemia REIM', 'Patrimmo Commerce', 'Patrimmo Croissance Impact', 'Praemia Hôtels Europe', 'Primovie', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Patrimmo Commerce', status: 'verified', sector: 'Commerces' },
+      { name: 'Patrimmo Croissance Impact', status: 'verified', sector: 'Diversifié' },
+      { name: 'Praemia Hôtels Europe', status: 'verified', sector: 'Hôtellerie Europe' },
+      { name: 'Primovie', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Praemia REIM est une société de gestion structurante, à analyser via sa gamme de 4 SCPI (Patrimmo Commerce, Patrimmo Croissance Impact, Praemia Hôtels Europe, Primovie). L\'analyse porte sur la diversification sectorielle et géographique, les indicateurs de performance et la qualité du reporting.',
+    keyPoints: [
+      'Gamme de 4 SCPI couvrant plusieurs segments',
+      'Patrimmo Commerce : immobilier commercial',
+      'Praemia Hôtels Europe : exposition hôtelière européenne',
+      'Primovie : diversification France',
+      'Patrimmo Croissance Impact : stratégie à impact'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition hôtelière', importance: 'Praemia Hôtels Europe est exposé au secteur hôtelier, cyclique', vigilance: 'Analyser la résilience du secteur et la qualité des enseignes exploitées' },
+      { critere: 'Exposition commerce', importance: 'Patrimmo Commerce est exposé au retail', vigilance: 'Évaluer l\'impact du e-commerce et la qualité des emplacements' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Endettement', importance: 'Impact sur la résilience', vigilance: 'Vérifier le ratio d\'endettement consolidé' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Praemia REIM', description: 'Un investisseur compare Patrimmo Commerce, Praemia Hôtels Europe et Primovie selon son exposition sectorielle et géographique souhaitée.' },
+      { titre: 'Investisseur qui analyse l\'exposition hôtelière', description: 'Un investisseur analyse Praemia Hôtels Europe : saisonnalité, qualité des exploitants, localisation des actifs, résilience post-crise.' }
+    ],
+    faq: [
+      { question: 'Le secteur hôtelier en SCPI est-il risqué ?', reponse: 'L\'hôtellerie est un secteur cyclique, plus sensible aux crises économiques que d\'autres secteurs (bureaux, santé). Il est important d\'analyser la qualité des exploitants, la localisation et la diversification.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'SCPI commerce', url: '/scpi-commerce/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
+      { label: 'Endettement SCPI', url: '/endettement-scpi/' }
+    ],
+    angle: 'Société structurante, gamme de 4 SCPI, diversification sectorielle, indicateurs à analyser.'
+  },
+  {
+    slug: 'aew',
+    name: 'AEW',
+    displayName: 'AEW',
+    title: 'AEW : société de gestion immobilière européenne',
+    seoTitle: 'AEW SCPI : société de gestion immobilière européenne | MaximusSCPI',
+    metaDescription: 'Analyse de AEW, société de gestion immobilière européenne de premier plan. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'AEW société de gestion SCPI',
+    keywords: ['AEW', 'société de gestion SCPI', 'immobilier européen', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'AEW est une société de gestion immobilière internationale, acteur majeur de l\'immobilier tertiaire en Europe, à analyser avec prudence. Les SCPI associées à AEW sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Acteur majeur de l\'immobilier tertiaire en Europe',
+      'Présence internationale significative',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels des SCPI gérées' },
+      { critere: 'Présence internationale', importance: 'Exposition à plusieurs pays et devises', vigilance: 'Analyser les risques de change et la diversification géographique' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par AEW', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'AEW pour identifier les SCPI gérées avant toute analyse complémentaire.' },
+      { titre: 'Investisseur qui compare AEW à d\'autres gestionnaires européens', description: 'Un investisseur compare le positionnement d\'AEW (immobilier tertiaire européen) avec Corum AM ou La Française REM sur les SCPI européennes.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par AEW ?', reponse: 'Les SCPI gérées par AEW sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion. Les données internes ne contiennent pas cette information à ce stade.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'SCPI européennes', url: '/scpi-europeennes/' }
+    ],
+    angle: 'Acteur majeur de l\'immobilier tertiaire européen, SCPI associées à vérifier.'
+  },
+  {
+    slug: 'perial-asset-management',
+    name: 'Perial Asset Management',
+    displayName: 'Perial Asset Management',
+    title: 'Perial Asset Management : SCPI gérées et stratégie patrimoniale',
+    seoTitle: 'Perial Asset Management SCPI : société de gestion, Perial Grand Paris | MaximusSCPI',
+    metaDescription: 'Analyse de Perial Asset Management, société de gestion. SCPI Perial Grand Paris, Perial O2, Perial Hospitalité Europe, Perial Opportunités Europe — indicateurs.',
+    mainKeyword: 'Perial Asset Management société de gestion SCPI',
+    keywords: ['Perial Asset Management', 'Perial Grand Paris', 'Perial O2', 'Perial Hospitalité Europe', 'Perial Opportunités Europe', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Perial Grand Paris', status: 'verified', sector: 'Bureaux/Commerces Grand Paris' },
+      { name: 'Perial Hospitalité Europe', status: 'verified', sector: 'Hôtellerie Europe' },
+      { name: 'Perial O2', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Perial Opportunités Europe', status: 'verified', sector: 'Diversifié Europe' }
+    ],
+    summary: 'Perial Asset Management est une société de gestion à analyser via sa gamme de 4 SCPI (Perial Grand Paris, Perial O2, Perial Hospitalité Europe, Perial Opportunités Europe). L\'analyse porte sur la diversification, la stratégie d\'investissement et les indicateurs de performance.',
+    keyPoints: [
+      'Gamme de 4 SCPI couvrant plusieurs segments',
+      'Perial Grand Paris : exposition au marché francilien',
+      'Perial Hospitalité Europe : diversification hôtelière européenne',
+      'Perial O2 et Perial Opportunités Europe : diversification',
+      'À analyser via : rendement, TOF, endettement, frais, transparence'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition Grand Paris', importance: 'Perial Grand Paris est concentré sur la région parisienne', vigilance: 'Analyser la diversification au sein du patrimoine francilien' },
+      { critere: 'Exposition hôtelière', importance: 'Perial Hospitalité Europe est exposé à l\'hôtellerie', vigilance: 'Évaluer la résilience sectorielle et la qualité des exploitants' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais de souscription et de gestion avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Perial', description: 'Un investisseur compare Perial Grand Paris, Perial O2 et Perial Hospitalité Europe selon son exposition géographique et sectorielle souhaitée.' },
+      { titre: 'Investisseur qui analyse l\'exposition francilienne', description: 'Un investisseur déjà exposé à l\'immobilier francilien en direct analyse si Perial Grand Paris apporte une diversification ou une concentration du risque.' }
+    ],
+    faq: [
+      { question: 'Perial Asset Management est-elle une société de gestion diversifiée ?', reponse: 'Perial Asset Management propose une gamme diversifiée couvrant la France et l\'Europe, avec des expositions sectorielles variées. Chaque SCPI doit être analysée individuellement.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
+      { label: 'Endettement SCPI', url: '/endettement-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via sa gamme de 4 SCPI, diversification, indicateurs et transparence.'
+  },
+  {
+    slug: 'swiss-life-asset-managers-france',
+    name: 'Swiss Life Asset Managers France',
+    displayName: 'Swiss Life Asset Managers France',
+    title: 'Swiss Life Asset Managers France : SCPI gérées et analyse',
+    seoTitle: 'Swiss Life Asset Managers France SCPI : société de gestion, ESG Pierre Capital | MaximusSCPI',
+    metaDescription: 'Analyse de Swiss Life Asset Managers France, société de gestion. SCPI ESG Pierre Capital, stratégie ESG, indicateurs et points de vigilance.',
+    mainKeyword: 'Swiss Life Asset Managers France société de gestion SCPI',
+    keywords: ['Swiss Life Asset Managers France', 'ESG Pierre Capital', 'société de gestion SCPI', 'SCPI ESG', 'gestionnaire SCPI', 'assureur SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'ESG Pierre Capital', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Swiss Life Asset Managers France est la société de gestion immobilière du groupe Swiss Life en France, à analyser via la SCPI ESG Pierre Capital et sa stratégie responsable. L\'analyse porte sur les critères ESG, la diversification, les indicateurs de performance et la transparence.',
+    keyPoints: [
+      'Société de gestion du groupe d\'assurance Swiss Life',
+      'ESG Pierre Capital : SCPI intégrant des critères ESG',
+      'Stratégie immobilière responsable',
+      'À analyser via : capitalisation, TOF, endettement, frais, rendement, transparence'
+    ],
+    vigilancePoints: [
+      { critere: 'Intégration ESG', importance: 'Les critères ESG peuvent structurer la stratégie d\'investissement', vigilance: 'Vérifier la définition des critères ESG et leur impact sur la sélection des actifs' },
+      { critere: 'Taille du véhicule', importance: 'ESG Pierre Capital a une capitalisation à vérifier', vigilance: 'Consulter les bulletins trimestriels pour la capitalisation et la liquidité' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle' },
+      { critere: 'Transparence', importance: 'Qualité du reporting ESG et financier', vigilance: 'Vérifier la disponibilité des rapports annuels et des DIC' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur sensible aux critères ESG', description: 'Un investisseur analyse ESG Pierre Capital pour son intégration de critères environnementaux, sociaux et de gouvernance dans la sélection des actifs.' },
+      { titre: 'Investisseur qui compare les SCPI d\'assureurs', description: 'Un investisseur compare ESG Pierre Capital (Swiss Life) avec d\'autres SCPI gérées par des assureurs (Groupama Gan REIM, Allianz Immovalor).' }
+    ],
+    faq: [
+      { question: 'Les critères ESG garantissent-ils une meilleure performance ?', reponse: 'Non, les critères ESG ne garantissent pas une performance supérieure. Ils peuvent orienter la sélection des actifs et réduire certains risques mais n\'assurent pas le rendement.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe Swiss Life, SCPI ESG Pierre Capital à analyser via critères ESG et indicateurs.'
+  },
+  {
+    slug: 'euryale-am',
+    name: 'Euryale AM',
+    displayName: 'Euryale AM',
+    title: 'Euryale AM : SCPI gérées, stratégie santé et analyse',
+    seoTitle: 'Euryale AM SCPI : société de gestion, Pierval Santé | MaximusSCPI',
+    metaDescription: 'Analyse de Euryale AM, société de gestion. SCPI Pierval Santé, stratégie immobilière santé, indicateurs et points de vigilance.',
+    mainKeyword: 'Euryale AM société de gestion SCPI',
+    keywords: ['Euryale AM', 'Pierval Santé', 'société de gestion SCPI', 'SCPI santé', 'gestionnaire SCPI', 'immobilier médical'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Pierval Santé', status: 'verified', sector: 'Santé' }
+    ],
+    summary: 'Euryale AM est une société de gestion à analyser via la SCPI Pierval Santé (immobilier médical). L\'analyse porte sur la stratégie santé, la qualité du patrimoine, les indicateurs de performance et la transparence documentaire.',
+    keyPoints: [
+      'Société de gestion spécialisée, SCPI Pierval Santé',
+      'Exposition à l\'immobilier médical et paramédical',
+      'Secteur santé : résilience potentielle mais dépendance aux exploitants',
+      'À analyser via : capitalisation, TOF, endettement, frais, rendement, transparence'
+    ],
+    vigilancePoints: [
+      { critere: 'Spécialisation santé', importance: 'Pierval Santé est concentré sur le secteur médical', vigilance: 'Analyser la dépendance aux exploitants, la durée des baux et la réglementation sanitaire' },
+      { critere: 'Taille du véhicule', importance: 'La capitalisation influence la liquidité', vigilance: 'Vérifier la capitalisation et le nombre d\'associés dans le rapport annuel' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché des SCPI santé' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur intéressé par l\'immobilier santé', description: 'Un investisseur analyse Pierval Santé d\'Euryale AM : qualité des établissements de santé, solidité des exploitants, résilience du secteur.' },
+      { titre: 'Investisseur qui compare les SCPI santé', description: 'Un investisseur compare Pierval Santé avec LF Avenir Santé (La Française REM) et NCap Education Santé (Norma Capital) pour évaluer le positionnement.' }
+    ],
+    faq: [
+      { question: 'L\'immobilier santé est-il un secteur résilient ?', reponse: 'L\'immobilier santé est généralement considéré comme défensif car les besoins de santé sont peu sensibles aux cycles économiques. La résilience dépend de la qualité des exploitants, de la durée des baux et de la diversification au sein du secteur.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'SCPI santé', url: '/scpi-sante/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion spécialisée, SCPI Pierval Santé (immobilier médical) à analyser.'
+  },
+  {
+    slug: 'advenis-reim',
+    name: 'Advenis REIM',
+    displayName: 'Advenis REIM',
+    title: 'Advenis REIM : SCPI gérées, stratégie et points de vigilance',
+    seoTitle: 'Advenis REIM SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Advenis REIM, société de gestion de diversification. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Advenis REIM société de gestion SCPI',
+    keywords: ['Advenis REIM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Advenis REIM est une société de gestion à analyser avec prudence. Les SCPI associées à Advenis REIM sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion de diversification',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
+      { critere: 'Historique de gestion', importance: 'Évaluer l\'ancienneté et l\'expérience', vigilance: 'Consulter les sources officielles pour connaître l\'historique' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Advenis REIM', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Advenis REIM pour identifier les SCPI gérées avant toute analyse complémentaire.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Advenis REIM ?', reponse: 'Les SCPI gérées par Advenis REIM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+  },
+  {
+    slug: 'altixia-reim',
+    name: 'Altixia REIM',
+    displayName: 'Altixia REIM',
+    title: 'Altixia REIM : SCPI gérées, stratégie et analyse immobilière',
+    seoTitle: 'Altixia REIM SCPI : société de gestion, Altixia Cadence 12 | MaximusSCPI',
+    metaDescription: 'Analyse de Altixia REIM, société de gestion. SCPI Altixia Cadence 12, Altixia Commerces, stratégie, indicateurs et points de vigilance.',
+    mainKeyword: 'Altixia REIM société de gestion SCPI',
+    keywords: ['Altixia REIM', 'Altixia Cadence 12', 'Altixia Commerces', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Altixia Cadence 12', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Altixia Commerces', status: 'verified', sector: 'Commerces' }
+    ],
+    summary: 'Altixia REIM est une société de gestion à analyser via ses SCPI Altixia Cadence 12 (diversification France) et Altixia Commerces (immobilier commercial). L\'analyse porte sur la diversification, la stratégie, les indicateurs de performance et la transparence.',
+    keyPoints: [
+      'Gamme de 2 SCPI : Altixia Cadence 12 et Altixia Commerces',
+      'Altixia Commerces : exposition au secteur commercial',
+      'Altixia Cadence 12 : diversification France',
+      'Points de vigilance : exposition commerce, taille des véhicules, TOF'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition commerce', importance: 'Altixia Commerces est exposé au retail', vigilance: 'Analyser l\'impact du e-commerce et la qualité des emplacements' },
+      { critere: 'Taille des véhicules', importance: 'Des SCPI de taille modeste peuvent être moins liquides', vigilance: 'Vérifier la capitalisation dans les rapports annuels' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Altixia REIM', description: 'Un investisseur compare Altixia Cadence 12 et Altixia Commerces selon son exposition sectorielle souhaitée.' },
+      { titre: 'Investisseur qui analyse l\'exposition commerce', description: 'Un investisseur analyse la résilience d\'Altixia Commerces face à l\'évolution du commerce physique.' }
+    ],
+    faq: [
+      { question: 'Altixia REIM est-elle une société de gestion récente ?', reponse: 'Altixia REIM est une société de gestion à analyser via ses SCPI et son historique. Il est recommandé de consulter les documents réglementaires pour évaluer son expérience.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'SCPI commerce', url: '/scpi-commerce/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via ses SCPI, diversification et exposition commerce.'
+  },
+  // ============================================================
+  // Batch 3 — Sociétés complémentaires
+  // ============================================================
+  {
+    slug: 'aestiam',
+    name: 'Aestiam',
+    displayName: 'Aestiam',
+    title: 'Aestiam : SCPI gérées, gamme patrimoniale et analyse',
+    seoTitle: 'Aestiam SCPI : société de gestion, Aestiam Agora, Aestiam Pierre Rendement | MaximusSCPI',
+    metaDescription: 'Analyse de Aestiam, société de gestion. SCPI Aestiam Agora, Aestiam Cap\'Hebergimmo, Aestiam Horizon, Aestiam Pierre Rendement — indicateurs.',
+    mainKeyword: 'Aestiam société de gestion SCPI',
+    keywords: ['Aestiam', 'Aestiam Agora', 'Aestiam Cap\'Hebergimmo', 'Aestiam Horizon', 'Aestiam Pierre Rendement', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Aestiam Agora', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Aestiam Cap\'Hebergimmo', status: 'verified', sector: 'Diversifié' },
+      { name: 'Aestiam Horizon', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Aestiam Pierre Rendement', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Aestiam est une société de gestion à analyser via sa gamme de 4 SCPI (Aestiam Agora, Aestiam Cap\'Hebergimmo, Aestiam Horizon, Aestiam Pierre Rendement). L\'analyse porte sur la diversification, les indicateurs de performance et la transparence documentaire.',
+    keyPoints: [
+      'Gamme de 4 SCPI multi-segments',
+      'Aestiam Pierre Rendement : SCPI de rendement diversifiée',
+      'Aestiam Horizon : diversification France',
+      'Aestiam Cap\'Hebergimmo : diversification',
+      'À analyser via : capitalisation, TOF, endettement, frais, rendement'
+    ],
+    vigilancePoints: [
+      { critere: 'Gamme étendue', importance: 'Plusieurs SCPI à analyser individuellement', vigilance: 'Ne pas se fier à la seule marque Aestiam — chaque SCPI a ses propres indicateurs' },
+      { critere: 'Taille des véhicules', importance: 'Des SCPI de taille modeste peuvent être moins liquides', vigilance: 'Vérifier la capitalisation de chaque SCPI dans les rapports annuels' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Aestiam', description: 'Un investisseur compare Aestiam Agora, Aestiam Pierre Rendement et Aestiam Horizon selon son profil et ses objectifs.' },
+      { titre: 'Investisseur qui analyse la gamme Aestiam', description: 'Un investisseur évalue la cohérence de la gamme Aestiam et la complémentarité entre les différents véhicules.' }
+    ],
+    faq: [
+      { question: 'Peut-on investir dans plusieurs SCPI Aestiam ?', reponse: 'Oui, il est possible de diversifier entre les SCPI de la gamme Aestiam, à condition d\'analyser la cohérence globale de l\'allocation et d\'éviter la concentration.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via sa gamme de 4 SCPI, diversification et transparence.'
+  },
+  {
+    slug: 'allianz-immovalor',
+    name: 'Allianz Immovalor',
+    displayName: 'Allianz Immovalor',
+    title: 'Allianz Immovalor : SCPI gérées, stratégie et analyse',
+    seoTitle: 'Allianz Immovalor SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Allianz Immovalor, société de gestion du groupe Allianz. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Allianz Immovalor société de gestion SCPI',
+    keywords: ['Allianz Immovalor', 'société de gestion SCPI', 'groupe Allianz', 'assureur SCPI', 'gestionnaire SCPI', 'AMF'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Allianz Immovalor est la société de gestion immobilière du groupe Allianz en France, à analyser avec prudence. Les SCPI associées à Allianz Immovalor sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion du groupe d\'assurance Allianz',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
+      { critere: 'Solidité du groupe', importance: 'Le groupe Allianz est un assureur de premier plan', vigilance: 'La solidité du groupe ne préjuge pas de la performance des SCPI gérées' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Allianz Immovalor', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Allianz Immovalor pour identifier les SCPI gérées avant toute analyse complémentaire.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Allianz Immovalor ?', reponse: 'Les SCPI gérées par Allianz Immovalor sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe Allianz, SCPI associées à vérifier dans les documents réglementaires.'
+  },
+  {
+    slug: 'atream',
+    name: 'Atream',
+    displayName: 'Atream',
+    title: 'Atream : SCPI Atream Hotel, stratégie hôtelière et analyse',
+    seoTitle: 'Atream SCPI : société de gestion, Atream Hotel | MaximusSCPI',
+    metaDescription: 'Analyse de Atream, société de gestion. SCPI Atream Hotel, stratégie hôtelière, indicateurs et points de vigilance.',
+    mainKeyword: 'Atream société de gestion SCPI',
+    keywords: ['Atream', 'Atream Hotel', 'société de gestion SCPI', 'SCPI hôtelière', 'gestionnaire SCPI', 'immobilier hôtelier'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Atream Hotel', status: 'verified', sector: 'Hôtellerie' }
+    ],
+    summary: 'Atream est une société de gestion à analyser via la SCPI Atream Hotel, spécialisée dans l\'immobilier hôtelier. L\'analyse porte sur la stratégie hôtelière, la qualité des exploitants, la localisation des actifs et les indicateurs de performance.',
+    keyPoints: [
+      'Société de gestion spécialisée, SCPI Atream Hotel',
+      'Exposition au secteur hôtelier',
+      'Segments hôteliers à analyser : économiques, milieu de gamme, haut de gamme',
+      'Points de vigilance : cyclicité du secteur, saisonnalité, dépendance aux exploitants'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition hôtelière', importance: 'L\'hôtellerie est un secteur cyclique', vigilance: 'Analyser la résilience du secteur et la qualité des enseignes exploitées' },
+      { critere: 'Dépendance aux exploitants', importance: 'La qualité de l\'exploitation impacte directement les revenus', vigilance: 'Vérifier la solidité des chaînes hôtelières et la durée des baux' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle' },
+      { critere: 'Saisonnalité', importance: 'Les revenus hôteliers peuvent varier selon les saisons', vigilance: 'Analyser les variations saisonnières et leur impact sur les distributions' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui analyse une SCPI hôtelière', description: 'Un investisseur analyse Atream Hotel : qualité des enseignes, localisation, saisonnalité, résilience du secteur hôtelier.' },
+      { titre: 'Investisseur qui compare Atream à Praemia Hôtels Europe', description: 'Un investisseur compare Atream Hotel (France ou Europe) avec Praemia Hôtels Europe pour évaluer le positionnement et la diversification.' }
+    ],
+    faq: [
+      { question: 'L\'hôtellerie en SCPI est-elle plus risquée ?', reponse: 'L\'hôtellerie est un secteur cyclique qui peut offrir des rendements attractifs mais avec une volatilité plus élevée. L\'analyse de la qualité des exploitants et de la localisation est primordiale.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' }
+    ],
+    angle: 'Société de gestion spécialisée en immobilier hôtelier, SCPI Atream Hotel à analyser.'
+  },
+  {
+    slug: 'axipit-real-estate-partners',
+    name: 'Axipit Real Estate Partners',
+    displayName: 'Axipit Real Estate Partners',
+    title: 'Axipit Real Estate Partners : SCPI gérées et analyse',
+    seoTitle: 'Axipit Real Estate Partners SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Axipit Real Estate Partners, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Axipit Real Estate Partners société de gestion SCPI',
+    keywords: ['Axipit Real Estate Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Axipit Real Estate Partners est une société de gestion à analyser avec prudence. Les SCPI associées à Axipit Real Estate Partners sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion à vérifier',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation, vérification des SCPI gérées'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée dans les données internes', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et le site officiel' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
+      { critere: 'Historique de gestion', importance: 'Évaluer l\'ancienneté et l\'expérience', vigilance: 'Consulter les sources officielles pour connaître l\'historique' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Axipit', description: 'Un investisseur consulte l\'ASPIM et le site officiel d\'Axipit Real Estate Partners pour identifier les SCPI gérées.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Axipit Real Estate Partners ?', reponse: 'Les SCPI gérées par Axipit Real Estate Partners sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+  },
+  {
+    slug: 'consultim-am',
+    name: 'Consultim AM',
+    displayName: 'Consultim AM',
+    title: 'Consultim AM : SCPI Optimale, stratégie et analyse',
+    seoTitle: 'Consultim AM SCPI : société de gestion, Optimale | MaximusSCPI',
+    metaDescription: 'Analyse de Consultim AM, société de gestion. SCPI Optimale, stratégie, indicateurs et points de vigilance.',
+    mainKeyword: 'Consultim AM société de gestion SCPI',
+    keywords: ['Consultim AM', 'Optimale', 'société de gestion SCPI', 'gestionnaire SCPI', 'immobilier'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Optimale', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Consultim AM est une société de gestion à analyser via la SCPI Optimale. L\'analyse porte sur la stratégie d\'investissement, la diversification, les indicateurs de performance et la transparence documentaire.',
+    keyPoints: [
+      'Société de gestion, SCPI Optimale',
+      'Stratégie diversifiée France',
+      'Points de vigilance : capitalisation, TOF, endettement, frais, rendement',
+      'À analyser via les documents réglementaires disponibles'
+    ],
+    vigilancePoints: [
+      { critere: 'Taille du véhicule', importance: 'Optimale a une capitalisation à vérifier', vigilance: 'Consulter les bulletins trimestriels pour la capitalisation et la liquidité' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui analyse la SCPI Optimale', description: 'Un investisseur analyse Optimale de Consultim AM : capitalisation, TOF, endettement, frais, rendement et transparence.' }
+    ],
+    faq: [
+      { question: 'La SCPI Optimale est-elle accessible aux petits budgets ?', reponse: 'Le prix de souscription d\'Optimale est à vérifier dans le DIC. Certaines SCPI ont un prix de part accessible, d\'autres non.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via sa SCPI Optimale, indicateurs et transparence.'
+  },
+  {
+    slug: 'darwin-invest',
+    name: 'Darwin Invest',
+    displayName: 'Darwin Invest',
+    title: 'Darwin Invest : SCPI gérées, stratégie et analyse',
+    seoTitle: 'Darwin Invest SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Darwin Invest, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Darwin Invest société de gestion SCPI',
+    keywords: ['Darwin Invest', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Darwin Invest est une société de gestion à analyser avec prudence. Les SCPI associées à Darwin Invest sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion à vérifier',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Darwin Invest', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Darwin Invest pour identifier les SCPI gérées.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Darwin Invest ?', reponse: 'Les SCPI gérées par Darwin Invest sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+  },
+  {
+    slug: 'fiducial-gerance',
+    name: 'Fiducial Gérance',
+    displayName: 'Fiducial Gérance',
+    title: 'Fiducial Gérance : SCPI gérées, stratégie et analyse',
+    seoTitle: 'Fiducial Gérance SCPI : société de gestion, Buroboutic Métropoles | MaximusSCPI',
+    metaDescription: 'Analyse de Fiducial Gérance, société de gestion. SCPI Buroboutic Métropoles, Ficommerce Proximité, Selectipierre 2 — indicateurs et vigilance.',
+    mainKeyword: 'Fiducial Gérance société de gestion SCPI',
+    keywords: ['Fiducial Gérance', 'Buroboutic Métropoles', 'Ficommerce Proximité', 'Selectipierre 2', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Buroboutic Métropoles', status: 'verified', sector: 'Bureaux' },
+      { name: 'Ficommerce Proximité', status: 'verified', sector: 'Commerces de proximité' },
+      { name: 'Selectipierre 2', status: 'verified', sector: 'Diversifié France' }
+    ],
+    summary: 'Fiducial Gérance est une société de gestion à analyser via sa gamme de 3 SCPI (Buroboutic Métropoles, Ficommerce Proximité, Selectipierre 2). L\'analyse porte sur la diversification, les indicateurs de performance et la transparence.',
+    keyPoints: [
+      'Gamme de 3 SCPI : bureaux, commerces de proximité, diversification',
+      'Buroboutic Métropoles : exposition aux bureaux en régions',
+      'Ficommerce Proximité : commerces de proximité',
+      'Selectipierre 2 : diversification France',
+      'À analyser via : TOF, endettement, frais, rendement, capitalisation'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition bureaux', importance: 'Buroboutic Métropoles est exposé aux bureaux en régions', vigilance: 'Analyser la résilience du marché des bureaux en régions face au télétravail' },
+      { critere: 'Exposition commerces de proximité', importance: 'Ficommerce Proximité est exposé au retail', vigilance: 'Évaluer la résilience des commerces de proximité' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Taille des véhicules', importance: 'Des SCPI de taille modeste peuvent être moins liquides', vigilance: 'Vérifier la capitalisation dans les rapports annuels' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Fiducial Gérance', description: 'Un investisseur compare Buroboutic Métropoles, Ficommerce Proximité et Selectipierre 2 selon son exposition sectorielle souhaitée.' },
+      { titre: 'Investisseur qui analyse les commerces de proximité', description: 'Un investisseur analyse Ficommerce Proximité : qualité des emplacements, solidité des locataires, résilience face au e-commerce.' }
+    ],
+    faq: [
+      { question: 'Fiducial Gérance propose-t-elle des SCPI diversifiées ?', reponse: 'Fiducial Gérance propose 3 SCPI couvrant les bureaux, les commerces de proximité et la diversification France. Chaque SCPI doit être analysée individuellement.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'SCPI bureaux', url: '/scpi-bureaux/' },
+      { label: 'SCPI commerce', url: '/scpi-commerce/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via sa gamme de 3 SCPI, diversification et indicateurs.'
+  },
+  {
+    slug: 'foncieres-et-territoires',
+    name: 'Foncières & Territoires',
+    displayName: 'Foncières & Territoires',
+    title: 'Foncières & Territoires : SCPI gérées et analyse',
+    seoTitle: 'Foncières & Territoires SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Foncières & Territoires, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Foncières & Territoires société de gestion SCPI',
+    keywords: ['Foncières et Territoires', 'Foncières & Territoires', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Foncières & Territoires est une société de gestion à analyser avec prudence. Les SCPI associées à Foncières & Territoires sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion à vérifier',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Foncières & Territoires', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Foncières & Territoires pour identifier les SCPI gérées.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Foncières & Territoires ?', reponse: 'Les SCPI gérées par Foncières & Territoires sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion à vérifier — SCPI associées non identifiées dans les données internes.'
+  },
+  {
+    slug: 'groupama-gan-reim',
+    name: 'Groupama Gan REIM',
+    displayName: 'Groupama Gan REIM',
+    title: 'Groupama Gan REIM : SCPI gérées et analyse',
+    seoTitle: 'Groupama Gan REIM SCPI : société de gestion | MaximusSCPI',
+    metaDescription: 'Analyse de Groupama Gan REIM, société de gestion du groupe Groupama. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
+    mainKeyword: 'Groupama Gan REIM société de gestion SCPI',
+    keywords: ['Groupama Gan REIM', 'société de gestion SCPI', 'groupe Groupama', 'assureur SCPI', 'gestionnaire SCPI', 'AMF'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [],
+    summary: 'Groupama Gan REIM est la société de gestion immobilière du groupe Groupama, à analyser avec prudence. Les SCPI associées à Groupama Gan REIM sont à vérifier dans les documents réglementaires (ASPIM, AMF/GECO, DIC, site officiel de la société de gestion). Aucune SCPI n\'a été identifiée dans le référentiel interne à ce stade.',
+    keyPoints: [
+      'Société de gestion du groupe d\'assurance Groupama Gan',
+      'SCPI associées non identifiées dans les données internes',
+      'Données à vérifier : ASPIM, AMF/GECO, site officiel',
+      'Points de vigilance : transparence, documentation'
+    ],
+    vigilancePoints: [
+      { critere: 'Association SCPI ↔ société de gestion', importance: 'Aucune SCPI associée identifiée', vigilance: 'Donnée à vérifier — consulter l\'ASPIM et l\'AMF/GECO' },
+      { critere: 'Transparence documentaire', importance: 'Vérifier la disponibilité des documents réglementaires', vigilance: 'Rechercher les DIC, notes d\'information et rapports annuels' },
+      { critere: 'Solidité du groupe', importance: 'Le groupe Groupama est un assureur mutualiste', vigilance: 'La solidité du groupe ne préjuge pas de la performance des SCPI gérées' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui recherche les SCPI gérées par Groupama Gan REIM', description: 'Un investisseur consulte l\'ASPIM et le site officiel de Groupama Gan REIM pour identifier les SCPI gérées.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Groupama Gan REIM ?', reponse: 'Les SCPI gérées par Groupama Gan REIM sont à vérifier auprès des sources officielles : ASPIM, AMF/GECO, site de la société de gestion.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'Documents réglementaires SCPI', url: '/documents-reglementaires-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe Groupama, SCPI associées à vérifier dans les documents réglementaires.'
+  },
+  {
+    slug: 'inter-gestion-reim',
+    name: 'Inter Gestion REIM',
+    displayName: 'Inter Gestion REIM',
+    title: 'Inter Gestion REIM : SCPI gérées, stratégie et analyse',
+    seoTitle: 'Inter Gestion REIM SCPI : société de gestion, Cristal Life, Cristal Rente | MaximusSCPI',
+    metaDescription: 'Analyse de Inter Gestion REIM, société de gestion. SCPI Cristal Life, Cristal Rente, Grand Paris Résidentiel — indicateurs et points de vigilance.',
+    mainKeyword: 'Inter Gestion REIM société de gestion SCPI',
+    keywords: ['Inter Gestion REIM', 'Cristal Life', 'Cristal Rente', 'Grand Paris Résidentiel', 'société de gestion SCPI', 'gestionnaire SCPI'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Cristal Life', status: 'verified', sector: 'Diversifié' },
+      { name: 'Cristal Rente', status: 'verified', sector: 'Diversifié' },
+      { name: 'Grand Paris Résidentiel', status: 'verified', sector: 'Résidentiel Grand Paris' }
+    ],
+    summary: 'Inter Gestion REIM est une société de gestion à analyser via sa gamme de 3 SCPI (Cristal Life, Cristal Rente, Grand Paris Résidentiel). L\'analyse porte sur la diversification, les indicateurs de performance et la transparence documentaire.',
+    keyPoints: [
+      'Gamme de 3 SCPI : Cristal Life, Cristal Rente, Grand Paris Résidentiel',
+      'Cristal Life et Cristal Rente : SCPI diversifiées',
+      'Grand Paris Résidentiel : exposition au résidentiel francilien',
+      'À analyser via : capitalisation, TOF, endettement, frais, rendement'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition résidentiel Grand Paris', importance: 'Grand Paris Résidentiel est concentré sur le marché francilien', vigilance: 'Analyser la diversification au sein du patrimoine résidentiel francilien' },
+      { critere: 'Taille des véhicules', importance: 'Des SCPI de taille modeste peuvent être moins liquides', vigilance: 'Vérifier la capitalisation dans les rapports annuels' },
+      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Surveiller l\'évolution trimestrielle pour chaque SCPI' },
+      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Comparer les frais avec le marché' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui compare les SCPI Inter Gestion REIM', description: 'Un investisseur compare Cristal Life, Cristal Rente et Grand Paris Résidentiel selon son profil de risque et ses objectifs.' },
+      { titre: 'Investisseur intéressé par le résidentiel francilien', description: 'Un investisseur analyse Grand Paris Résidentiel : typologie des logements, localisation, qualité locative, résilience du marché francilien.' }
+    ],
+    faq: [
+      { question: 'Inter Gestion REIM est-elle une société de gestion diversifiée ?', reponse: 'Inter Gestion REIM propose une gamme de 3 SCPI couvrant plusieurs segments. Chaque SCPI doit être analysée individuellement.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'ORIAS SCPI', url: '/orias-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Note d\'information SCPI', url: '/note-information-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
+      { label: 'Endettement SCPI', url: '/endettement-scpi/' }
+    ],
+    angle: 'Société de gestion à analyser via sa gamme de 3 SCPI, diversification et indicateurs.'
   }
 ];
 
-/** Lookup helper */
 export function getManagementCompanyConfig(slug: string): ManagementCompanyConfig | undefined {
   return managementCompanyConfigs.find(c => c.slug === slug);
 }

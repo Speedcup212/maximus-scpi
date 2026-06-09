@@ -247,6 +247,46 @@ Pages créées :
 
 Statut : Batch 1 terminé — architecture scalable pour batchs suivants.
 
+### Articles sociétés de gestion — Batch 2
+
+Pages créées :
+- /societe-gestion/bnp-paribas-reim-france/ — créé
+- /societe-gestion/amundi-immobilier/ — créé
+- /societe-gestion/la-francaise-rem/ — créé
+- /societe-gestion/praemia-reim/ — créé
+- /societe-gestion/aew/ — créé
+- /societe-gestion/perial-asset-management/ — créé
+- /societe-gestion/swiss-life-asset-managers-france/ — créé
+- /societe-gestion/euryale-am/ — créé
+- /societe-gestion/advenis-reim/ — créé
+- /societe-gestion/altixia-reim/ — créé
+
+Statut : Batch 2 terminé — sociétés structurantes.
+Catégorie : Gestionnaires & acteurs SCPI
+Données SCPI associées : certaines SCPI sont à vérifier selon le master (BNP Paribas REIM France, AEW, Advenis REIM — aucune SCPI identifiée dans les données internes à ce stade).
+
+### Articles sociétés de gestion — Batch 3
+
+Pages créées :
+- /societe-gestion/aestiam/ — créé
+- /societe-gestion/allianz-immovalor/ — créé
+- /societe-gestion/atream/ — créé
+- /societe-gestion/axipit-real-estate-partners/ — créé
+- /societe-gestion/consultim-am/ — créé
+- /societe-gestion/darwin-invest/ — créé
+- /societe-gestion/fiducial-gerance/ — créé
+- /societe-gestion/foncieres-et-territoires/ — créé
+- /societe-gestion/groupama-gan-reim/ — créé
+- /societe-gestion/inter-gestion-reim/ — créé
+
+Statut : Batch 3 terminé — sociétés complémentaires.
+Catégorie : Gestionnaires & acteurs SCPI
+Données SCPI associées : certaines sociétés (Allianz Immovalor, Axipit Real Estate Partners, Darwin Invest, Foncières & Territoires, Groupama Gan REIM) n'ont aucune SCPI identifiée dans les données internes — à vérifier auprès des sources officielles (ASPIM, AMF/GECO).
+
+### Récapitulatif sociétés de gestion
+
+Total SCPI gérées configurées : 10 (Batch 1) + 10 (Batch 2) + 10 (Batch 3) = 30 sociétés de gestion.
+
 ## Silo 9 — Comparatifs patrimoniaux
 
 Pages :
