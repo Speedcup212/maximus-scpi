@@ -5,67 +5,68 @@ export const fraisScpiConfig: ScpiEducationalPageConfig = {
   badge: 'Coûts & transparence',
   h1: 'Frais SCPI : comprendre les coûts avant d\'investir',
   heroSubtitle:
-    'Les frais des SCPI sont souvent mal compris. Ils ne doivent pas être analysés isolément, mais en lien avec l\'horizon de détention, le rendement net, la qualité du patrimoine, la liquidité, le mode de détention et la fiscalité.',
-  seoTitle: 'Frais SCPI : souscription, gestion, arbitrage et rendement net',
+    'Les frais des SCPI sont souvent mal compris. Ils ne doivent pas être analysés isolément, mais en lien avec l\'horizon de détention, le rendement net, la qualité du patrimoine, la liquidité, le mode de détention et la fiscalité. Des frais élevés ne signifient pas automatiquement une mauvaise SCPI, et des frais bas ne garantissent pas un bon investissement.',
+  seoTitle: 'Frais SCPI : souscription, gestion, cession, AV, impact et transparence',
   seoDescription:
-    'Comprenez les frais des SCPI : frais de souscription, gestion, cession, assurance-vie, frais indirects et impact sur le rendement net.',
+    'Analyse complète des frais SCPI : frais de souscription (8-12 %), frais de gestion annuels (10-12 % des loyers), frais UC en assurance-vie, rétrocessions, délai de jouissance. Tableau des frais, exemple chiffré 100 000 €, cas pratiques horizon court/long.',
   shortAnswerTitle: 'Pourquoi les frais SCPI sont-ils importants ?',
   shortAnswer:
-    'Les frais SCPI impactent directement le rendement net perçu par l\'investisseur. Frais de souscription (8 % à 12 %), frais de gestion (10 % à 12 % des loyers), frais UC en assurance-vie, rétrocessions éventuelles : chaque coût doit être rapporté à la durée de détention, à la qualité de la SCPI et au rendement net attendu. Des frais élevés ne signifient pas automatiquement une mauvaise SCPI, et des frais bas ne garantissent pas un bon investissement.',
+    'Les frais SCPI impactent directement le rendement net perçu par l\'investisseur. Frais de souscription (8 % à 12 %), frais de gestion (10 % à 12 % des loyers), frais UC en assurance-vie, rétrocessions éventuelles, délai de jouissance : chaque coût doit être rapporté à la durée de détention, à la qualité de la SCPI et au rendement net attendu. Des frais faibles ne sont pas un gage de qualité : une SCPI sans frais d\'entrée peut offrir un rendement inférieur ou un TOF moins bon. À l\'inverse, des frais élevés peuvent être justifiés par une qualité patrimoniale supérieure et une régularité des distributions. L\'analyse des frais doit être intégrée dans une approche globale.',
   keyMessage:
     'Les frais ne doivent jamais être analysés seuls. Ils doivent être rapportés à la durée de détention, au rendement net et à la qualité réelle de la SCPI.',
   definitionParagraphs: [
     'Les frais de souscription sont prélevés au moment de l\'achat des parts, généralement compris entre 8 % et 12 % du montant investi. Ils rémunèrent la commercialisation et les frais d\'acquisition des actifs. Une partie peut être rétrocédée au distributeur, ce qui constitue un conflit d\'intérêts potentiel à connaître.',
-    'Les frais de gestion sont prélevés chaque année par la société de gestion, généralement entre 10 % et 12 % des loyers encaissés. Ils couvrent la gestion locative, la comptabilité, la communication et les frais de structure. Ils s\'appliquent même si le TOF n\'est pas à 100 %.',
+    'Les frais de gestion sont prélevés chaque année par la société de gestion, généralement entre 10 % et 12 % des loyers encaissés. Ils couvrent la gestion locative, la comptabilité, la communication et les frais de structure. Ils s\'appliquent même si le TOF n\'est pas à 100 %, ce qui peut réduire les distributions nettes perçues.',
     'Les frais de cession ou de retrait peuvent s\'appliquer lors de la revente de parts. Certaines SCPI les intègrent dans le prix de souscription, d\'autres les facturent au vendeur. Le marché secondaire peut également appliquer une décote ou une surcote indépendante des frais.',
-    'Dans l\'assurance-vie, les frais de gestion des unités de compte (UC) s\'ajoutent aux frais de la SCPI. Généralement compris entre 0,5 % et 1 % par an, ils réduisent le rendement reversé à l\'investisseur. Un contrat à 1 % de frais UC peut absorber une part significative des loyers sur la durée.',
+    'Dans l\'assurance-vie, les frais de gestion des unités de compte (UC) s\'ajoutent aux frais de la SCPI. Généralement compris entre 0,5 % et 1 % par an, ils réduisent le rendement reversé à l\'investisseur. Un contrat à 1 % de frais UC peut absorber une part significative des loyers sur la durée (20 % du rendement brut sur une SCPI à 5 % de TDVM).',
     'Les rétrocessions de commissions sont des sommes versées par la société de gestion au distributeur (conseiller, plateforme, banque) dans le cadre de la commercialisation des parts. Elles sont incluses dans les frais de souscription mais rarement visibles pour l\'investisseur. La transparence sur ces rétrocessions varie selon les canaux de distribution.',
-    'L\'impact des frais sur le rendement net dépend de l\'horizon de détention. Sur un horizon court (moins de 5 ans), les frais de souscription pèsent lourdement. Sur un horizon long (10-15 ans), leur impact s\'amortit. Un investisseur long terme peut tolérer des frais d\'entrée plus élevés si la qualité de la SCPI le justifie.',
-    'Des frais de souscription réduits ou nuls existent sur le marché secondaire (achat de parts déjà émises) ou sur certaines SCPI en collecte. Il faut alors vérifier les conditions : décote possible, mais absence de frais ne signifie pas absence de risque.',
+    'Le délai de jouissance est le décalage entre la souscription et la perception des premiers revenus, généralement un trimestre. Il constitue un coût indirect : l\'investisseur ne perçoit pas de loyers pendant cette période, ce qui réduit le rendement effectif la première année.',
+    'L\'impact des frais sur le rendement net dépend fortement de l\'horizon de détention. Sur un horizon court (moins de 5 ans), les frais de souscription pèsent lourdement. Sur un horizon long (10-15 ans), leur impact s\'amortit. Un investisseur long terme peut tolérer des frais d\'entrée plus élevés si la qualité de la SCPI le justifie.',
+    'Des frais de souscription réduits ou nuls existent sur le marché secondaire (achat de parts déjà émises) ou sur certaines SCPI en collecte. Il faut alors vérifier les conditions : décote possible, mais absence de frais ne signifie pas absence de risque. La qualité de la SCPI prime sur le niveau des frais.',
   ],
-  tableTitle: 'Frais SCPI : quand s\'appliquent-ils ?',
+  tableTitle: 'Type de frais / Quand il s\'applique / Impact possible / Vigilance',
   tableRows: [
     {
       level: 'Frais de souscription',
       advantage:
-        'Rémunèrent la commercialisation. S\'amortissent sur la durée de détention.',
+        'À l\'achat. 8-12 % du montant investi. Impact fort sur horizon court, s\'amortit sur longue durée.',
       vigilance:
-        '8-12 % du montant investi. Impact fort sur horizon court. À comparer selon les SCPI et les canaux.',
+        'Vérifier si des rétrocessions sont incluses. Comparer selon les SCPI et les canaux de distribution. Négociables sur certains marchés secondaires.',
     },
     {
       level: 'Frais de gestion',
       advantage:
-        'Couvrent la gestion locative et administrative de la SCPI.',
+        'Chaque année. 10-12 % des loyers encaissés. Impact direct sur le rendement net annuel.',
       vigilance:
-        '10-12 % des loyers encaissés. S\'appliquent même en cas de vacance partielle.',
-    },
-    {
-      level: 'Frais UC (assurance-vie)',
-      advantage:
-        'Frais de gestion du contrat sur les unités de compte.',
-      vigilance:
-        '0,5-1 % par an en sus des frais de la SCPI. Réduisent le rendement reversé.',
+        'S\'appliquent quelle que soit l\'occupation. Vérifier l\'assiette exacte dans le DIC. À comparer entre SCPI.',
     },
     {
       level: 'Frais de cession / retrait',
       advantage:
-        'Frais de sortie ou de revente de parts.',
+        'À la revente ou au retrait. Variable selon les SCPI. Peut réduire le produit de cession.',
       vigilance:
-        'Peuvent varier selon les SCPI. Vérifier les conditions avant la souscription.',
+        'Vérifier les conditions avant la souscription. Certaines SCPI ne facturent pas de frais de cession.',
+    },
+    {
+      level: 'Frais UC (assurance-vie)',
+      advantage:
+        'Chaque année. 0,5-1 % de l\'encours UC. S\'ajoutent aux frais de la SCPI. Réduisent le rendement reversé.',
+      vigilance:
+        'Comparer entre contrats. Un contrat à 1 % de frais UC absorbe 20 % du rendement brut d\'une SCPI à 5 %.',
     },
     {
       level: 'Rétrocessions distributeur',
       advantage:
-        'Commissions versées au distributeur sur les frais de souscription.',
+        'Intégrées dans les frais de souscription. Rarement visibles pour l\'investisseur.',
       vigilance:
-        'Généralement incluses dans les frais de souscription. Transparence variable selon les canaux.',
+        'Poser la question au distributeur. La transparence est un critère de sérieux.',
     },
     {
       level: 'Délai de jouissance',
       advantage:
-        'Période entre la souscription et le premier versement de revenus.',
+        'Période entre souscription et 1er versement. Généralement 1 trimestre. Coût indirect.',
       vigilance:
-        'Un trimestre de loyers non perçu = frais indirect. À intégrer dans le calcul du rendement net.',
+        'Réduit le rendement effectif la première année. À intégrer dans le calcul du rendement net.',
     },
   ],
   tableNote:
@@ -73,57 +74,68 @@ export const fraisScpiConfig: ScpiEducationalPageConfig = {
   criteriaTitle: 'Critères à croiser avec les frais',
   criteriaCards: [
     { title: 'Horizon de détention', text: 'Un horizon long (10+ ans) amortit l\'impact des frais de souscription. Sur horizon court, les frais pèsent fortement sur le rendement net.' },
-    { title: 'Rendement net', text: 'Les frais réduisent le rendement net. Comparer le rendement après frais, pas le TDVM brut.' },
-    { title: 'TOF', text: 'Des frais de gestion élevés avec un TOF faible amplifient l\'impact sur les distributions nettes perçues.' },
-    { title: 'Capitalisation', text: 'Les SCPI très capitalisées ont parfois des frais de gestion plus compétitifs grâce aux économies d\'échelle.' },
-    { title: 'Mode de détention', text: 'En assurance-vie, les frais UC s\'ajoutent. En direct, seuls les frais SCPI s\'appliquent.' },
-    { title: 'Transparence', text: 'La clarté des documents réglementaires sur les frais est un critère de sérieux du gestionnaire.' },
+    { title: 'Rendement net', text: 'Les frais réduisent le rendement net. Comparer le rendement après frais, pas le TDVM brut. Intégrer les frais UC en AV.' },
+    { title: 'TOF', text: 'Des frais de gestion élevés avec un TOF faible amplifient l\'impact sur les distributions nettes perçues par l\'investisseur.' },
+    { title: 'Capitalisation', text: 'Les SCPI très capitalisées ont parfois des frais de gestion plus compétitifs grâce aux économies d\'échelle et à la mutualisation.' },
+    { title: 'Mode de détention', text: 'En AV, les frais UC s\'ajoutent. En direct, seuls les frais SCPI s\'appliquent. En démembrement : pas de frais supplémentaires.' },
+    { title: 'Transparence', text: 'La clarté des documents réglementaires sur les frais (notamment les rétrocessions) est un critère de sérieux du gestionnaire.' },
+    { title: 'Qualité du patrimoine', text: 'Des frais plus élevés peuvent être justifiés par un patrimoine de meilleure qualité, un TOF plus élevé ou une meilleure régularité des distributions.' },
   ],
   commonErrors: [
     'Choisir une SCPI uniquement parce que ses frais de souscription sont faibles.',
-    'Ignorer les frais de gestion annuels qui s\'appliquent chaque année.',
-    'Oublier les frais UC en assurance-vie, qui s\'ajoutent aux frais de la SCPI.',
-    'Négliger le délai de jouissance qui retarde la perception des premiers revenus.',
-    'Croire que des frais élevés sont toujours injustifiés.',
-    'Ne pas lire les documents réglementaires avant de souscrire.',
+    'Ignorer les frais de gestion annuels qui s\'appliquent chaque année quelle que soit l\'occupation.',
+    'Oublier les frais UC en assurance-vie, qui s\'ajoutent aux frais de la SCPI (double frais).',
+    'Négliger le délai de jouissance qui retarde la perception des premiers revenus la première année.',
+    'Croire que des frais élevés sont toujours injustifiés (ils peuvent refléter une gestion de meilleure qualité).',
+    'Ne pas lire les documents réglementaires (DIC, note d\'information) avant de souscrire.',
+    'Comparer des frais de SCPI sans tenir compte de la qualité du patrimoine et du TOF.',
   ],
   practicalCases: [
     {
-      title: 'SCPI A — frais de souscription élevés, horizon long',
-      text: 'Une SCPI affiche 12 % de frais de souscription mais un TOF élevé et un TDVM stable sur 10 ans. Sur un horizon de 15 ans, les frais s\'amortissent et le rendement net reste compétitif. L\'analyse de la qualité patrimoniale prime sur le seul niveau de frais.',
+      title: 'Exemple chiffré — 100 000 €, 10 % de frais',
+      text: 'Investissement théorique : 100 000 €. Frais de souscription : 10 % soit 10 000 €. Capital réellement investi productif : 90 000 €. TDVM 6 % sur 90 000 € = 5 400 € de revenus. Rendement net apparent : 5,4 % (mais calculé sur 100 000 €, le rendement réel est inférieur). Simulation pédagogique simplifiée, hors frais de gestion, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
     {
-      title: 'SCPI B — frais réduits sur le marché secondaire',
-      text: 'L\'achat de parts de SCPI sur le marché secondaire peut réduire ou supprimer les frais de souscription. L\'investisseur paie le prix de marché, avec une décote possible. La disponibilité dépend des vendeurs et le choix est limité.',
+      title: 'Investisseur horizon court (5 ans) — Impact fort des frais',
+      text: 'Investissement 100 000 €. Frais 10 %. Rendement brut 5 %. Sur 5 ans, revenus totaux : 5 × 4 500 € = 22 500 €. Frais : 10 000 €. Le coût d\'entrée représente 44 % des revenus perçus sur la période. Simulation pédagogique : sur horizon court, les frais réduisent fortement le rendement net.',
     },
     {
-      title: 'SCPI en assurance-vie — frais UC élevés',
-      text: 'Un contrat d\'assurance-vie avec 1 % de frais UC sur une SCPI à 5 % de TDVM réduit le rendement reversé de 20 % par an, avant même la fiscalité. L\'investisseur doit comparer ce rendement net avec le direct.',
+      title: 'Investisseur horizon long (15 ans) — Frais amortis',
+      text: 'Même investissement. Sur 15 ans, revenus totaux : 15 × 4 500 € = 67 500 €. Frais : 10 000 €. Le coût d\'entrée représente 15 % des revenus perçus. Rendement net annuel moyen après frais : environ 4,3 % (avant fiscalité). Simulation pédagogique : l\'horizon long amortit l\'impact des frais.',
+    },
+    {
+      title: 'SCPI sans frais d\'entrée — Rendement plus faible',
+      text: 'Une SCPI propose 0 % de frais de souscription mais un TDVM de 4 %. Investissement 100 000 €, revenus annuels : 4 000 €. Comparé à une SCPI à 10 % de frais et 5,5 % de rendement, le calcul dépend de l\'horizon. Simulation pédagogique : ne pas choisir uniquement sur les frais.',
+    },
+    {
+      title: 'SCPI en assurance-vie — Frais cumulés',
+      text: 'SCPI à 5 % de TDVM. Frais de gestion SCPI : 12 % des loyers. Frais UC AV : 0,75 %/an. Rendement net reversé : ~3,7 %. Contre ~4,4 % en direct hors fiscalité. L\'écart de 0,7 % par an est dû aux frais UC. Simulation pédagogique : intégrer tous les frais dans la comparaison.',
     },
   ],
   methodParagraphs: [
     'MaximusSCPI présente les frais dans le comparateur comme un critère de lecture, jamais isolément. L\'objectif est d\'encourager une analyse intégrant les frais, le rendement net, la qualité de la SCPI et l\'horizon de détention.',
     'La première étape consiste à identifier l\'ensemble des frais : souscription, gestion, assurance-vie le cas échéant, cession éventuelle.',
-    'La deuxième étape rapporte ces frais à l\'horizon de détention. Un investisseur long terme peut accepter des frais d\'entrée plus élevés.',
-    'La troisième étape vérifie la transparence des documents réglementaires et les éventuelles rétrocessions.',
+    'La deuxième étape rapporte ces frais à l\'horizon de détention. Un investisseur long terme peut accepter des frais d\'entrée plus élevés si la qualité de la SCPI le justifie.',
+    'La troisième étape vérifie la transparence des documents réglementaires et les éventuelles rétrocessions. Un distributeur transparent sur ses commissions inspire davantage confiance.',
     'MaximusSCPI ne constitue pas une recommandation personnalisée. Un échange avec le Cabinet Eric Bellaiche permet d\'analyser l\'impact des frais selon votre horizon et votre mode de détention.',
   ],
   conclusionParagraphs: [
     'Les frais SCPI sont un critère important, mais jamais isolé. Analysez-les avec l\'horizon, le rendement net, le TOF, la capitalisation, l\'endettement et la qualité du patrimoine.',
+    'Sources et points à vérifier : DIC (Document d\'Information Clé), note d\'information, bulletin trimestriel, rapport annuel de chaque SCPI. Pour les frais UC : notice d\'information du contrat d\'assurance-vie.',
     'Utilisez le comparateur MaximusSCPI pour visualiser les frais des SCPI, puis approfondissez avec les documents réglementaires et un conseiller pour une analyse adaptée à votre situation.',
   ],
   faqItems: [
     {
-      question: 'Quels sont les frais d\'une SCPI ?',
-      answer: 'Frais de souscription (8-12 %), frais de gestion annuels (10-12 % des loyers), frais de cession ou de retrait éventuels, et en assurance-vie des frais UC supplémentaires (0,5-1 % par an).',
+      question: 'Quels sont les principaux frais d\'une SCPI ?',
+      answer: 'Frais de souscription (8-12 %), frais de gestion annuels (10-12 % des loyers), frais de cession ou retrait éventuels, et en assurance-vie des frais UC supplémentaires (0,5-1 % par an).',
     },
     {
       question: 'Les frais de souscription sont-ils perdus ?',
-      answer: 'Ils ne sont pas remboursés à la revente. Ils s\'amortissent sur la durée de détention : plus l\'horizon est long, moins leur impact relatif est important.',
+      answer: 'Ils ne sont pas remboursés à la revente. Ils s\'amortissent sur la durée de détention : plus l\'horizon est long, moins leur impact relatif est important sur le rendement net annuel.',
     },
     {
       question: 'Les SCPI sans frais sont-elles toujours meilleures ?',
-      answer: 'Non. Des frais de souscription réduits ou nuls peuvent être compensés par des frais de gestion plus élevés, un TOF plus faible ou un rendement moins régulier. L\'absence de frais n\'est pas un gage de qualité.',
+      answer: 'Non. Des frais réduits ou nuls peuvent être compensés par des frais de gestion plus élevés, un TOF plus faible ou un rendement moins régulier. L\'absence de frais n\'est pas un gage de qualité.',
     },
     {
       question: 'Quel est l\'impact des frais sur le rendement ?',
@@ -135,16 +147,24 @@ export const fraisScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       question: 'Que sont les rétrocessions SCPI ?',
-      answer: 'Ce sont des commissions versées par la société de gestion au distributeur (conseiller, plateforme). Elles sont incluses dans les frais de souscription et ne sont pas toujours visibles pour l\'investisseur.',
+      answer: 'Ce sont des commissions versées par la société de gestion au distributeur. Elles sont incluses dans les frais de souscription et ne sont pas toujours visibles pour l\'investisseur.',
     },
     {
       question: 'Où trouver les frais officiels ?',
-      answer: 'Dans la note d\'information, le Document d\'Information Clé (DIC) et le bulletin trimestriel de chaque SCPI. Le comparateur MaximusSCPI centralise ces indicateurs pour une pré-lecture.',
+      answer: 'Dans le DIC, la note d\'information et le bulletin trimestriel de chaque SCPI. Le comparateur MaximusSCPI centralise ces indicateurs pour une pré-lecture.',
+    },
+    {
+      question: 'Qu\'est-ce que le délai de jouissance ?',
+      answer: 'C\'est le décalage entre la souscription et la perception des premiers revenus, généralement un trimestre. Il réduit le rendement effectif la première année.',
+    },
+    {
+      question: 'Des frais élevés peuvent-ils être justifiés ?',
+      answer: 'Oui, si la SCPI offre un patrimoine de meilleure qualité, un TOF plus élevé, une meilleure régularité des distributions ou une gestion plus active. L\'analyse doit être globale.',
     },
     {
       question: 'Comment MaximusSCPI analyse les frais ?',
-      answer: 'Les frais sont affichés dans le comparateur comme un critère de lecture parmi d\'autres. L\'analyse intègre le rendement net, l\'horizon et la qualité de la SCPI. MaximusSCPI ne constitue pas une recommandation personnalisée.',
+      answer: 'Les frais sont affichés dans le comparateur comme un critère parmi d\'autres. L\'analyse intègre le rendement net, l\'horizon et la qualité de la SCPI. L\'approche est pédagogique.',
     },
   ],
-  comparateurCtaLabel: 'Comparer les SCPI selon leurs frais',
+  comparateurCtaLabel: 'Comparer les frais SCPI avec le rendement net et l\'horizon',
 }
