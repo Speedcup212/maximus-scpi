@@ -277,6 +277,9 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'societes-de-gestion-scpi',
 ]);
 
+// Slugs des articles "Acteurs" (CGP-CIF, PSI, rétrocessions, etc.)
+const ACTEUR_SLUGS = new Set(['cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi']);
+
 const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   onArticleClick,
   isDarkMode,
@@ -316,6 +319,8 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFamily, setActiveFamily] = useState<ArticleFamily | null>(null);
+  // Sous-onglet pour la catégorie Gestionnaires & acteurs SCPI
+  const [actorsSubTab, setActorsSubTab] = useState<'gestionnaires' | 'acteurs'>('gestionnaires');
 
   // Filtered articles based on search + active family
   const filteredArticles = useMemo(() => {
@@ -642,9 +647,22 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           const config = FAMILY_CONFIG[family];
           const Icon = config.icon;
           const styles = config;
-          const articles = hasActiveFilters
+          const isGestionnairesFamily = family === 'gestionnaires-acteurs';
+          const isSearchMode = searchQuery.trim() !== '';
+          const shouldShowSubTabs = isGestionnairesFamily && !isSearchMode;
+
+          let articles = hasActiveFilters
             ? filteredArticles.filter(a => getArticleFamily(a) === family)
             : groupedByFamily[family];
+
+          // Filtrer par sous-onglet pour la catégorie Gestionnaires & acteurs SCPI (hors recherche)
+          if (shouldShowSubTabs) {
+            articles = articles.filter(a =>
+              actorsSubTab === 'gestionnaires'
+                ? !ACTEUR_SLUGS.has(a.slug)
+                : ACTEUR_SLUGS.has(a.slug)
+            );
+          }
 
           if (articles.length === 0) return null;
 
@@ -662,6 +680,36 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               <p className="text-gray-600 dark:text-gray-400 mb-8 ml-1">
                 {styles.description}
               </p>
+
+              {/* Sous-onglets Gestionnaires / Acteurs */}
+              {shouldShowSubTabs && (
+                <div className="flex items-center gap-2 mb-8 ml-1">
+                  <button
+                    type="button"
+                    onClick={() => setActorsSubTab('gestionnaires')}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                      actorsSubTab === 'gestionnaires'
+                        ? 'bg-amber-600 text-white shadow-md'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    <Building2 className="w-4 h-4 inline-block mr-2" />
+                    Gestionnaires
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActorsSubTab('acteurs')}
+                    className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+                      actorsSubTab === 'acteurs'
+                        ? 'bg-amber-600 text-white shadow-md'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    <Shield className="w-4 h-4 inline-block mr-2" />
+                    Acteurs
+                  </button>
+                </div>
+              )}
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Carte spéciale : guide pilier fiscalité */}
