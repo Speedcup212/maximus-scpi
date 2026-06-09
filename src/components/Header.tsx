@@ -200,13 +200,6 @@ const Header: React.FC<HeaderProps> = ({
     );
   }, [scpiMenuItems]);
 
-  const educationCategories = [
-    { id: 'bases', label: 'Bases des SCPI', icon: '📚' },
-    { id: 'fiscalite', label: 'Fiscalité', icon: '💰' },
-    { id: 'performance', label: 'Performance & Risques', icon: '📈' },
-    { id: 'pratique', label: 'Investissement pratique', icon: '🎯' },
-    { id: 'comparatif', label: 'Comparatif placements', icon: '⚖️' }
-  ];
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 overflow-x-clip">
@@ -601,10 +594,10 @@ const Header: React.FC<HeaderProps> = ({
                 if (onArticlesClick) onArticlesClick();
               }}
               className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-              aria-label="Analyses & Actualités"
+              aria-label="Actualités"
             >
               <FileText className="w-4 h-4" />
-              <span>Analyses & Actualités</span>
+              <span>Actualités</span>
             </button>
             </li>
             <li>
@@ -624,39 +617,102 @@ const Header: React.FC<HeaderProps> = ({
               </button>
 
               {isEducationOpen && (
-                <div className="absolute top-full right-0 mt-2 w-64 max-w-[min(16rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
-                  {educationCategories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => {
-                        resetAllHeaderStates();
-                        if (onEducationClick) {
-                          onEducationClick(category.id, 'overview');
-                        }
-                      }}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
-                    >
-                      <span className="text-xl">{category.icon}</span>
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                        {category.label}
-                      </span>
-                    </button>
-                  ))}
+                <div className="absolute top-full right-0 mt-2 w-72 max-w-[min(20rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
+                  <a
+                    href="/articles/"
+                    onClick={resetAllHeaderStates}
+                    className="w-full px-4 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-lg">📚</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Bases des SCPI</span>
+                  </a>
+                  <a
+                    href="/scpi-fiscalite/"
+                    onClick={resetAllHeaderStates}
+                    className="w-full px-4 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-lg">💰</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Fiscalité</span>
+                  </a>
+                  <a
+                    href="/risques-scpi/"
+                    onClick={resetAllHeaderStates}
+                    className="w-full px-4 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  >
+                    <span className="text-lg">📈</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Performance & risques</span>
+                  </a>
                   <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
-                  <button
-                    onClick={() => {
-                      resetAllHeaderStates();
-                      if (onFaqClick) {
-                        onFaqClick();
-                      }
-                    }}
-                    className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
+                  <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Investissement pratique</div>
+                  <a href="/scpi-comptant/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    SCPI au comptant
+                  </a>
+                  <a href="/scpi-credit/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    SCPI à crédit
+                  </a>
+                  <a href="/scpi-demembrement/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Démembrement
+                  </a>
+                  <a href="/scpi-assurance-vie/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Assurance-vie
+                  </a>
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                  <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Choisir et comparer</div>
+                  <a href="/choisir-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Comment choisir
+                  </a>
+                  <a href="/comparateur-scpi-fiable/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Comparateur fiable
+                  </a>
+                  <a href="/allocation-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Allocation
+                  </a>
+                  <a href="/combien-investir-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Combien investir
+                  </a>
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                  <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Secteurs immobiliers</div>
+                  <a href="/scpi-sante/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Santé
+                  </a>
+                  <a href="/scpi-logistique/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Logistique
+                  </a>
+                  <a href="/scpi-bureaux/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Bureaux
+                  </a>
+                  <a href="/scpi-commerce/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Commerce
+                  </a>
+                  <a href="/scpi-diversifiees/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Diversifiées
+                  </a>
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                  <div className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Réglementation & acteurs</div>
+                  <a href="/amf-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    AMF
+                  </a>
+                  <a href="/orias-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    ORIAS
+                  </a>
+                  <a href="/societe-gestion-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Société de gestion
+                  </a>
+                  <a href="/cgp-cif-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    CGP-CIF
+                  </a>
+                  <a href="/retrocommissions-scpi/" onClick={resetAllHeaderStates} className="w-full px-4 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm text-gray-600 dark:text-gray-300 block">
+                    Rétrocessions
+                  </a>
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                  <a
+                    href="/faq/"
+                    onClick={resetAllHeaderStates}
+                    className="w-full px-4 py-2.5 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
                   >
                     <HelpCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                      FAQ
-                    </span>
-                  </button>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">FAQ</span>
+                  </a>
                 </div>
               )}
             </div>
@@ -1113,7 +1169,7 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
-              {/* Analyses & Actualités */}
+              {/* Actualités */}
               <button
                 onClick={() => {
                   resetAllHeaderStates();
@@ -1124,7 +1180,7 @@ const Header: React.FC<HeaderProps> = ({
                 className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
               >
                 <FileText className="w-4 h-4" />
-                <span>Analyses & Actualités</span>
+                <span>Actualités</span>
               </button>
 
               {/* Comprendre les SCPI */}
@@ -1146,34 +1202,65 @@ const Header: React.FC<HeaderProps> = ({
 
                 {isEducationMobileOpen && (
                   <div className="mt-2 ml-6 space-y-2 border-l-2 border-blue-500 dark:border-blue-400 pl-4">
-                    {educationCategories.map((category) => (
-                      <button
-                        key={category.id}
-                        onClick={() => {
-                          resetAllHeaderStates();
-                          if (onEducationClick) {
-                            onEducationClick(category.id, 'overview');
-                          }
-                        }}
-                        className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                      >
-                        <span className="text-lg">{category.icon}</span>
-                        <span className="text-sm font-medium">{category.label}</span>
-                      </button>
-                    ))}
+                    <a
+                      href="/articles/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">📚</span>
+                      <span className="text-sm font-medium">Bases des SCPI</span>
+                    </a>
+                    <a
+                      href="/scpi-fiscalite/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">💰</span>
+                      <span className="text-sm font-medium">Fiscalité</span>
+                    </a>
+                    <a
+                      href="/risques-scpi/"
+                      onClick={resetAllHeaderStates}
+                      className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      <span className="text-lg">📈</span>
+                      <span className="text-sm font-medium">Performance & risques</span>
+                    </a>
                     <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
-                    <button
-                      onClick={() => {
-                        resetAllHeaderStates();
-                        if (onFaqClick) {
-                          onFaqClick();
-                        }
-                      }}
+                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 py-1">Investissement pratique</div>
+                    <a href="/scpi-comptant/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">SCPI au comptant</a>
+                    <a href="/scpi-credit/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">SCPI à crédit</a>
+                    <a href="/scpi-demembrement/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Démembrement</a>
+                    <a href="/scpi-assurance-vie/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Assurance-vie</a>
+                    <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 py-1">Choisir et comparer</div>
+                    <a href="/choisir-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Comment choisir</a>
+                    <a href="/comparateur-scpi-fiable/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Comparateur fiable</a>
+                    <a href="/allocation-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Allocation</a>
+                    <a href="/combien-investir-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Combien investir</a>
+                    <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 py-1">Secteurs immobiliers</div>
+                    <a href="/scpi-sante/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Santé</a>
+                    <a href="/scpi-logistique/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Logistique</a>
+                    <a href="/scpi-bureaux/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Bureaux</a>
+                    <a href="/scpi-commerce/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Commerce</a>
+                    <a href="/scpi-diversifiees/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Diversifiées</a>
+                    <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 py-1">Réglementation & acteurs</div>
+                    <a href="/amf-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">AMF</a>
+                    <a href="/orias-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">ORIAS</a>
+                    <a href="/societe-gestion-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Société de gestion</a>
+                    <a href="/cgp-cif-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">CGP-CIF</a>
+                    <a href="/retrocommissions-scpi/" onClick={resetAllHeaderStates} className="block py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Rétrocessions</a>
+                    <div className="border-t border-gray-300 dark:border-gray-600 my-2"></div>
+                    <a
+                      href="/faq/"
+                      onClick={resetAllHeaderStates}
                       className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       <HelpCircle className="w-5 h-5" />
                       <span className="text-sm font-medium">FAQ</span>
-                    </button>
+                    </a>
                   </div>
                 )}
               </div>
