@@ -87,6 +87,56 @@ function normalizeText(val: unknown): string {
   return stripAccents(safeStr(val));
 }
 
+/** Calcule un score de pertinence pour le classement des résultats de recherche */
+function calculateSearchScore(article: ArticleTemplate, query: string): number {
+  const nq = normalizeText(query);
+  const nTitle = normalizeText(article.title);
+  const nSlug = normalizeText(article.slug).replace(/-/g, ' ');
+  const nKeywords = (article.keywords || []).map(k => normalizeText(k));
+  const nCategory = normalizeText(article.category);
+  const nDesc = normalizeText(article.metaDescription);
+  const nMainKw = normalizeText(article.mainKeyword);
+
+  let score = 0;
+
+  // Titre égal ou quasi exact
+  if (nTitle === nq) score += 150;
+
+  // Titre commence par la recherche
+  if (nTitle.startsWith(nq)) score += 120;
+
+  // Terme exact dans le titre (mot entier)
+  if (nTitle.includes(` ${nq} `) || nTitle.startsWith(`${nq} `) || nTitle.endsWith(` ${nq}`)) score += 100;
+
+  // Terme exact dans le slug
+  if (nSlug.includes(` ${nq} `) || nSlug.startsWith(`${nq} `) || nSlug.endsWith(` ${nq}`) || nSlug === nq) score += 90;
+
+  // Terme exact dans les tags / keywords
+  if (nKeywords.some(k => k === nq)) score += 80;
+  if (nKeywords.some(k => k.includes(` ${nq} `) || k.startsWith(`${nq} `) || k.endsWith(` ${nq}`) || k === nq)) score += 70;
+
+  // Terme dans le mainKeyword
+  if (nMainKw === nq) score += 80;
+  if (nMainKw.includes(` ${nq} `) || nMainKw.startsWith(`${nq} `) || nMainKw.endsWith(` ${nq}`) || nMainKw === nq) score += 60;
+
+  // Terme dans la catégorie
+  if (nCategory.includes(nq)) score += 40;
+
+  // Terme dans la description
+  if (nDesc.includes(nq)) score += 20;
+
+  // Article pilier (featured)
+  if (article.featured) score += 10;
+
+  // Match partiel faible dans le titre
+  if (nTitle.includes(nq) && score < 5) score += 5;
+
+  // Match partiel dans keywords (fallback)
+  if (nKeywords.some(k => k.includes(nq)) && score < 5) score += 5;
+
+  return score;
+}
+
 const FAMILY_CONFIG: Record<ArticleFamily, {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -284,6 +334,26 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
 
   const hasActiveFilters = searchQuery.trim() !== '' || activeFamily !== null;
 
+  // Ranked results for search mode (flat list sorted by relevance)
+  const rankedResults = useMemo(() => {
+    const query = searchQuery.trim();
+    if (!query) return [];
+
+    let candidates = articleTemplates;
+    if (activeFamily) {
+      candidates = candidates.filter(a => getArticleFamily(a) === activeFamily);
+    }
+
+    return candidates
+      .map(article => ({
+        article,
+        score: calculateSearchScore(article, query),
+        family: getArticleFamily(article),
+      }))
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score);
+  }, [searchQuery, activeFamily]);
+
   return (
     <>
       <SEOHead
@@ -426,6 +496,83 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           </div>
         )}
 
+        {searchQuery.trim() ? (
+          <>
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                Résultats les plus pertinents pour « {searchQuery.trim()} »
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">
+                {rankedResults.length} résultat{rankedResults.length > 1 ? 's' : ''} trouvé{rankedResults.length > 1 ? 's' : ''}
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {rankedResults.map(({ article, score, family }) => {
+                const config = FAMILY_CONFIG[family];
+                const Icon = config.icon;
+                const styles = config;
+                const articleUrl = `/${article.slug}/`;
+                const isDirectRoute = DIRECT_ROUTE_SLUGS.has(article.slug);
+
+                return isDirectRoute ? (
+                  <a
+                    key={article.slug}
+                    href={articleUrl}
+                    className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
+                  >
+                    {article.featured && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-semibold rounded">
+                          ⭐ Article Pilier
+                        </span>
+                      </div>
+                    )}
+                    <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
+                      {article.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                      {article.metaDescription}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
+                        {article.mainKeyword}
+                      </span>
+                      <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
+                    </div>
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    key={article.slug}
+                    onClick={() => onArticleClick(article.slug)}
+                    className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
+                  >
+                    {article.featured && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-semibold rounded">
+                          ⭐ Article Pilier
+                        </span>
+                      </div>
+                    )}
+                    <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
+                      {article.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                      {article.metaDescription}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
+                        {article.mainKeyword}
+                      </span>
+                      <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
         {/* Navigation rapide par famille (uniquement si aucun filtre actif) */}
         {!hasActiveFilters && (
         <div className="mb-16">
@@ -590,6 +737,8 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             </div>
           );
         })}
+          </>
+        )}
 
         {/* CTA Section */}
         <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-center text-white">
