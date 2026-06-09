@@ -475,7 +475,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         )}
 
         {/* Articles par famille — afficher toutes les familles si aucun filtre, sinon seulement la famille active */}
-        {(hasActiveFilters ? [activeFamily!] : FAMILY_ORDER).map((family) => {
+        {(activeFamily ? [activeFamily] : FAMILY_ORDER).map((family) => {
           const config = FAMILY_CONFIG[family];
           const Icon = config.icon;
           const styles = config;
