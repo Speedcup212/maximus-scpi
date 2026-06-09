@@ -4135,7 +4135,7 @@ const App: React.FC = () => {
                   </span>
 
                   <h1 className="mt-5 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
-                    Une première lecture claire de votre projet SCPI
+                    Obtenez une première lecture claire de votre projet SCPI
                   </h1>
 
                   <p className="mt-5 text-base sm:text-lg text-slate-300 max-w-xl">
