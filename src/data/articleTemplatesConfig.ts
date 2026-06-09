@@ -1791,7 +1791,7 @@ export const articleTemplates: ArticleTemplate[] = [
     mainKeyword: 'SCPI non résident fiscal',
     searchIntent: 'comprendre comment investir en SCPI quand on est non-résident fiscal français',
     targetAudience: 'expatriés et non-résidents fiscaux français',
-    category: 'fiscalite-avancee',
+    category: 'fiscalite-modes',
     wordCountTarget: 2500,
     metaDescription: 'Investir en SCPI en tant que non-résident fiscal : fiscalité des revenus fonciers, prélèvements sociaux, conventions fiscales, crédit d\'impôt et points de vigilance.',
     keywords: ['SCPI non résident', 'non résident fiscal SCPI', 'expatrié SCPI', 'fiscalité SCPI', 'revenus fonciers', 'convention fiscale', 'crédit impôt']
