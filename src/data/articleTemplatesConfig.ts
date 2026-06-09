@@ -1650,6 +1650,42 @@ export const articleTemplates: ArticleTemplate[] = [
     featured: true,
     metaDescription: 'Comprenez les principaux acteurs de l\'univers SCPI : sociétés de gestion, gestionnaires, CGP-CIF, PSI, distributeurs, rétrocessions et points de vigilance.',
     keywords: ['gestionnaires SCPI', 'acteurs SCPI', 'société de gestion', 'CGP-CIF', 'PSI', 'distributeur', 'rétrocessions', 'AMF', 'ORIAS']
+  },
+  {
+    id: 135,
+    slug: 'altarea-investment-managers',
+    title: 'Altarea Investment Managers : SCPI Alta Convictions, stratégie et analyse',
+    mainKeyword: 'Altarea Investment Managers société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Altarea Investment Managers et sa SCPI Alta Convictions',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'gestionnaires-acteurs',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Altarea Investment Managers, société de gestion du groupe Altarea (SBF 120). SCPI Alta Convictions, stratégie d\'investissement et indicateurs.',
+    keywords: ['Altarea Investment Managers', 'Alta Convictions', 'société de gestion SCPI', 'gestionnaire SCPI', 'groupe Altarea', 'AMF', 'ASPIM', 'documents réglementaires']
+  },
+  {
+    id: 136,
+    slug: 'epsicap',
+    title: 'Epsicap : SCPI Epsicap Nano, stratégie et analyse immobilière',
+    mainKeyword: 'Epsicap société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Epsicap et sa SCPI Epsicap Nano',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'gestionnaires-acteurs',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Epsicap, société de gestion. SCPI Epsicap Nano, stratégie diversifiée commerces/logistique/bureaux, indicateurs et points de vigilance.',
+    keywords: ['Epsicap', 'Epsicap Nano', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI', 'AMF', 'ASPIM', 'documents réglementaires']
+  },
+  {
+    id: 137,
+    slug: 'theoreim',
+    title: 'Theoreim : SCPI Log In, stratégie et points de vigilance',
+    mainKeyword: 'Theoreim société de gestion SCPI',
+    searchIntent: 'analyser la société de gestion Theoreim et sa SCPI Log In',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'gestionnaires-acteurs',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse de Theoreim, société de gestion. SCPI Log In, spécialisation logistique/activités en Europe, indicateurs et points de vigilance.',
+    keywords: ['Theoreim', 'Log In', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI logistique', 'AMF', 'ASPIM', 'documents réglementaires']
   }
 ];
 

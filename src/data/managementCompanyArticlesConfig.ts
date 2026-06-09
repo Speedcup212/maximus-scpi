@@ -2425,6 +2425,179 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     externalVerificationStatus: 'to_verify',
     dataConfidence: 'no_internal_scpi_found',
     sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
+  },
+  {
+    slug: 'altarea-investment-managers',
+    name: 'Altarea Investment Managers',
+    displayName: 'Altarea Investment Managers',
+    title: 'Altarea Investment Managers : SCPI Alta Convictions, stratégie et analyse',
+    seoTitle: 'Altarea Investment Managers SCPI : société de gestion, Alta Convictions | MaximusSCPI',
+    metaDescription: 'Analyse de Altarea Investment Managers, société de gestion immobilière du groupe Altarea. SCPI Alta Convictions, stratégie d\'investissement, indicateurs et points de vigilance.',
+    mainKeyword: 'Altarea Investment Managers société de gestion SCPI',
+    keywords: ['Altarea Investment Managers', 'Alta Convictions', 'société de gestion SCPI', 'gestionnaire SCPI', 'groupe Altarea', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Alta Convictions', status: 'verified', sector: 'Diversifié France/Espagne' }
+    ],
+    summary: 'Altarea Investment Managers est la société de gestion immobilière du groupe Altarea, coté au SBF 120. La SCPI Alta Convictions propose une diversification géographique France/Espagne. L\'analyse porte sur la stratégie d\'investissement, les indicateurs de performance et les points de vigilance.',
+    keyPoints: [
+      'Société de gestion du groupe Altarea (SBF 120)',
+      'SCPI Alta Convictions : 18 immeubles, capitalisation 121 M€',
+      'Taux de distribution 2025 : 6,57 %',
+      'TOF : 96 %, endettement modéré (10 %)',
+      'Diversification France (86 %) et Espagne (8 %)'
+    ],
+    vigilancePoints: [
+      { critere: 'Capitalisation modérée', importance: '121 M€ — taille encore modeste', vigilance: 'Analyser la capacité de la SCPI à atteindre une taille critique et la liquidité des parts' },
+      { critere: 'TOF', importance: '96 % — légèrement sous la moyenne du marché', vigilance: 'Surveiller l\'évolution trimestrielle du taux d\'occupation' },
+      { critere: 'Concentration géographique', importance: 'Forte exposition à la Nouvelle-Aquitaine (43 %)', vigilance: 'Analyser la dépendance à une seule région et la diversification réelle' },
+      { critere: 'Jeunesse de la SCPI', importance: 'SCPI récente, historique limité', vigilance: 'Évaluer la maturité du patrimoine et la stabilité des distributions' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui analyse Alta Convictions', description: 'Un investisseur analyse la SCPI Alta Convictions : localisation, secteurs, rendement, TOF, endettement, frais et liquidité.' },
+      { titre: 'Comparaison avec d\'autres SCPI diversifiées', description: 'Un investisseur compare Alta Convictions avec d\'autres SCPI diversifiées à capitalisation modérée pour évaluer le rapport rendement/risque.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Altarea Investment Managers ?', reponse: 'Dans le référentiel interne MaximusSCPI, la SCPI Alta Convictions est associée à Altarea Investment Managers avec un statut vérifié. Il est recommandé de consulter le site officiel d\'Altarea et l\'AMF/GECO pour confirmer l\'intégralité de la gamme.' },
+      { question: 'Quel est le rendement de la SCPI Alta Convictions ?', reponse: 'Le taux de distribution 2025 est de 6,57 % (données bulletin trimestriel T1 2026). Le rendement net dépend de la fiscalité de l\'investisseur (TMI, prélèvements sociaux, crédit d\'impôt éventuel).' },
+      { question: 'Quels sont les risques de la SCPI Alta Convictions ?', reponse: 'Risques : capitalisation modeste (121 M€), concentration régionale (Nouvelle-Aquitaine 43 %), TOF à surveiller (96 %), historique court. Comme toute SCPI, la perte en capital, la liquidité limitée et les revenus non garantis sont des risques à considérer.' },
+      { question: 'Altarea Investment Managers est-elle une société de gestion agréée ?', reponse: 'Altarea Investment Managers est la société de gestion du groupe Altarea, agréée par l\'AMF. Il est recommandé de vérifier l\'agrément sur le site de l\'AMF/GECO.' },
+      { question: 'Comment investir dans Alta Convictions ?', reponse: 'La souscription s\'effectue via un CGP-CIF, un conseiller en gestion de patrimoine ou une plateforme d\'investissement. Il convient d\'analyser les documents réglementaires (DIC, note d\'information) avant toute souscription.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' }
+    ],
+    angle: 'Société de gestion du groupe Altarea (SBF 120) — SCPI Alta Convictions, diversification France/Espagne, analyse à construire.',
+    internalScpiCoverage: 'found',
+    externalVerificationStatus: 'verified',
+    dataConfidence: 'verified',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel', 'bulletin trimestriel']
+  },
+  {
+    slug: 'epsicap',
+    name: 'Epsicap',
+    displayName: 'Epsicap',
+    title: 'Epsicap : SCPI Epsicap Nano, stratégie et analyse immobilière',
+    seoTitle: 'Epsicap SCPI : société de gestion, Epsicap Nano | MaximusSCPI',
+    metaDescription: 'Analyse de Epsicap, société de gestion. SCPI Epsicap Nano, stratégie d\'investissement, indicateurs de performance et points de vigilance.',
+    mainKeyword: 'Epsicap société de gestion SCPI',
+    keywords: ['Epsicap', 'Epsicap Nano', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Epsicap Nano', status: 'verified', sector: 'Diversifié (Commerces, Logistique, Bureaux)' }
+    ],
+    summary: 'Epsicap est une société de gestion à analyser via la SCPI Epsicap Nano, positionnée sur un segment diversifié (commerces, logistique, bureaux). L\'analyse porte sur la stratégie d\'investissement, les indicateurs de performance et les points de vigilance.',
+    keyPoints: [
+      'Société de gestion, SCPI Epsicap Nano',
+      'Capitalisation : 202 M€, 56 immeubles',
+      'Taux de distribution 2025 : 6,08 %',
+      'TOF : 97,9 %, endettement maîtrisé (26,5 %)',
+      'Diversification sectorielle : commerces (54 %), logistique (19 %), bureaux (13 %)'
+    ],
+    vigilancePoints: [
+      { critere: 'Exposition commerce', importance: '54 % du patrimoine en commerces', vigilance: 'Analyser la résilience du secteur commerce face à l\'e-commerce et la qualité des locataires' },
+      { critere: 'TOF', importance: '97,9 % — bon niveau', vigilance: 'Surveiller l\'évolution trimestrielle' },
+      { critere: 'Endettement', importance: '26,5 % — niveau modéré', vigilance: 'Vérifier la maturité de la dette et l\'exposition aux taux variables' },
+      { critere: 'Liquidité', importance: 'Capitalisation de 202 M€, taille intermédiaire', vigilance: 'Analyser le marché secondaire et les délais de retrait' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui analyse Epsicap Nano', description: 'Un investisseur analyse la SCPI Epsicap Nano : diversification sectorielle, rendement, TOF, endettement et liquidité.' },
+      { titre: 'Comparaison avec d\'autres SCPI diversifiées', description: 'Un investisseur compare Epsicap Nano avec d\'autres SCPI à dominante commerce/logistique pour évaluer le positionnement.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Epsicap ?', reponse: 'Dans le référentiel interne MaximusSCPI, la SCPI Epsicap Nano est associée à Epsicap avec un statut vérifié. Il est recommandé de consulter le site officiel et l\'AMF/GECO pour confirmer l\'intégralité de la gamme.' },
+      { question: 'Quel est le rendement de la SCPI Epsicap Nano ?', reponse: 'Le taux de distribution 2025 est de 6,08 % (données bulletin trimestriel T1 2026). Le rendement net dépend de la fiscalité de l\'investisseur.' },
+      { question: 'Quels sont les risques de la SCPI Epsicap Nano ?', reponse: 'Risques : exposition commerce (54 %), endettement à surveiller, taille intermédiaire. Comme toute SCPI, perte en capital, liquidité limitée et revenus non garantis.' },
+      { question: 'Epsicap est-elle une société de gestion agréée par l\'AMF ?', reponse: 'Oui, Epsicap est une société de gestion agréée par l\'AMF. Il est recommandé de vérifier l\'agrément sur le site de l\'AMF/GECO.' },
+      { question: 'Comment investir dans Epsicap Nano ?', reponse: 'La souscription s\'effectue via un CGP-CIF ou une plateforme. Il convient d\'analyser les documents réglementaires (DIC, note d\'information) avant toute souscription.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' }
+    ],
+    angle: 'Société de gestion — SCPI Epsicap Nano, diversification commerces/logistique/bureaux, analyse à construire.',
+    internalScpiCoverage: 'found',
+    externalVerificationStatus: 'verified',
+    dataConfidence: 'verified',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel', 'bulletin trimestriel']
+  },
+  {
+    slug: 'theoreim',
+    name: 'Theoreim',
+    displayName: 'Theoreim',
+    title: 'Theoreim : SCPI Log In, stratégie et points de vigilance',
+    seoTitle: 'Theoreim SCPI : société de gestion, Log In | MaximusSCPI',
+    metaDescription: 'Analyse de Theoreim, société de gestion. SCPI Log In, stratégie logistique et diversification européenne, indicateurs et points de vigilance.',
+    mainKeyword: 'Theoreim société de gestion SCPI',
+    keywords: ['Theoreim', 'Log In', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI logistique', 'AMF', 'documents réglementaires'],
+    category: 'gestionnaires-acteurs',
+    managedScpis: [
+      { name: 'Log In', status: 'verified', sector: 'Logistique/Activités Europe' }
+    ],
+    summary: 'Theoreim est une société de gestion à analyser via la SCPI Log In, spécialisée dans l\'immobilier logistique et d\'activités en Europe. L\'analyse porte sur la stratégie d\'investissement, la diversification européenne, les indicateurs de performance et les points de vigilance.',
+    keyPoints: [
+      'Société de gestion, SCPI Log In',
+      'Capitalisation : 241 M€, 16 immeubles',
+      'Taux de distribution 2025 : 6,21 %',
+      'TOF : 100 %, endettement nul (0 %)',
+      'Spécialisation logistique/activités : 71 % locaux d\'activités, 23 % logistique',
+      'Diversification européenne : Italie, Espagne, Royaume-Uni, Allemagne, Irlande, Pologne'
+    ],
+    vigilancePoints: [
+      { critere: 'Concentration sectorielle', importance: 'Forte exposition logistique/activités (94 %)', vigilance: 'Analyser la dépendance à un seul secteur et la résilience en cas de retournement' },
+      { critere: 'Jeunesse de la SCPI', importance: 'Création 2022, historique limité', vigilance: 'Évaluer la maturité du patrimoine et la stabilité des distributions' },
+      { critere: 'Exposition pays', importance: 'Italie (28 %), Espagne (26 %), Royaume-Uni (22 %)', vigilance: 'Analyser les risques de change et la stabilité économique de chaque pays' },
+      { critere: 'Nombre d\'immeubles limité', importance: '16 immeubles, mutualisation encore faible', vigilance: 'Surveiller l\'évolution du parc et le risque de vacance sur un actif significatif' }
+    ],
+    casPratiques: [
+      { titre: 'Investisseur qui analyse Log In', description: 'Un investisseur analyse la SCPI Log In : spécialisation logistique/activités, diversification européenne, rendement, endettement nul.' },
+      { titre: 'Comparaison avec d\'autres SCPI logistiques', description: 'Un investisseur compare Log In avec d\'autres SCPI logistiques (ex : Iroko) pour évaluer le positionnement et la diversification.' }
+    ],
+    faq: [
+      { question: 'Quelles SCPI sont gérées par Theoreim ?', reponse: 'Dans le référentiel interne MaximusSCPI, la SCPI Log In est associée à Theoreim avec un statut vérifié. Il est recommandé de consulter le site officiel et l\'AMF/GECO pour confirmer l\'intégralité de la gamme.' },
+      { question: 'Quel est le rendement de la SCPI Log In ?', reponse: 'Le taux de distribution 2025 est de 6,21 % (données T1 2026). Le rendement net dépend de la fiscalité de l\'investisseur (TMI, prélèvements sociaux, crédit d\'impôt éventuel).' },
+      { question: 'Quels sont les risques de la SCPI Log In ?', reponse: 'Risques : concentration logistique (94 %), jeune SCPI (2022), nombre d\'immeubles limité (16), exposition pays étrangers. Comme toute SCPI, perte en capital, liquidité limitée et revenus non garantis.' },
+      { question: 'Theoreim est-elle une société de gestion agréée ?', reponse: 'Theoreim est une société de gestion agréée par l\'AMF. Il est recommandé de vérifier l\'agrément sur le site de l\'AMF/GECO.' },
+      { question: 'Comment investir dans Log In ?', reponse: 'La souscription s\'effectue via un CGP-CIF ou une plateforme. Il convient d\'analyser les documents réglementaires (DIC, note d\'information) avant toute souscription.' }
+    ],
+    internalLinks: [
+      { label: 'Comprendre les SCPI', url: '/articles/' },
+      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
+      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
+      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
+      { label: 'AMF SCPI', url: '/amf-scpi/' },
+      { label: 'DIC SCPI', url: '/dic-scpi/' },
+      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
+      { label: 'Risques SCPI', url: '/risques-scpi/' },
+      { label: 'Frais SCPI', url: '/frais-scpi/' },
+      { label: 'Rendement net SCPI', url: '/rendement-net-scpi/' },
+      { label: 'TOF SCPI', url: '/tof-scpi/' },
+      { label: 'SCPI logistique', url: '/scpi-logistique/' }
+    ],
+    angle: 'Société de gestion — SCPI Log In, spécialisation logistique/activités, diversification européenne, endettement nul.',
+    internalScpiCoverage: 'found',
+    externalVerificationStatus: 'verified',
+    dataConfidence: 'verified',
+    sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel', 'bulletin trimestriel']
   }
 ];
 
