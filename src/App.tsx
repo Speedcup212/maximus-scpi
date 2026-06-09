@@ -86,6 +86,7 @@ const ScpiObjectifsHubPage = lazy(() => import('./components/ScpiObjectifsHubPag
 const FondsEurosScpiArticle = lazy(() => import('./components/FondsEurosScpiArticle'));
 const ArticleGeneratorPage = lazy(() => import('./components/ArticleGeneratorPage'));
 const EducationArticlesIndexPage = lazy(() => import('./components/EducationArticlesIndexPage'));
+const ActualitesPage = lazy(() => import('./components/ActualitesPage'));
 const DynamicArticlePage = lazy(() => import('./components/DynamicArticlePage'));
 const OptimizedArticlePage = lazy(() => import('./components/OptimizedArticlePage'));
 const PartenaireCabinet = lazy(() => import('./pages/PartenaireCabinet'));
@@ -258,7 +259,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
   const [selectedThematicPage, setSelectedThematicPage] = useState<string | null>(null);
@@ -466,6 +467,8 @@ const App: React.FC = () => {
         setCurrentView('article-generator');
       } else if (path === 'articles') {
         setCurrentView('articles-list');
+      } else if (path === 'actualites') {
+        setCurrentView('actualites');
       } else if (path === 'fonds-euros-ou-scpi') {
         setCurrentView('fonds-euros-ou-scpi');
       } else if (path === 'education/fonds-euros-ou-scpi') {
@@ -995,6 +998,8 @@ const App: React.FC = () => {
         setCurrentView('articles-list');
         setSelectedCategory(null);
         setSelectedArticle(null);
+      } else if (normalizedPath === 'actualites') {
+        setCurrentView('actualites');
       } else if (normalizedPath === 'faq') {
         setCurrentView('faq');
       } else if (normalizedPath === 'comprendre-les-scpi') {
@@ -1154,6 +1159,8 @@ const App: React.FC = () => {
         setCurrentView('simulateur-profil-investisseur');
       } else if (normalizedPath === 'comparateur-demembrement-scpi') {
         setCurrentView('comparateur-demembrement');
+      } else if (normalizedPath === 'actualites') {
+        setCurrentView('actualites');
       } else if (normalizedPath === 'articles') {
         setCurrentView('articles-list');
       }
@@ -1349,6 +1356,10 @@ const App: React.FC = () => {
   const handleArticlesClick = () => {
     console.log('[Navigation] handleArticlesClick appelé');
     navigateToView('articles-list', '/articles');
+  };
+
+  const handleActualitesClick = () => {
+    navigateToView('actualites', '/actualites');
   };
 
   const handleDynamicArticleClick = (slug: string) => {
@@ -1621,6 +1632,7 @@ const App: React.FC = () => {
         onComparateurClick={handleComparateurClick}
         onSimulateurClick={handleSimulateurClick}
         onArticlesClick={handleArticlesClick}
+        onActualitesClick={handleActualitesClick}
         currentView={currentView}
       />
       <Suspense fallback={<LoadingSpinner />}>
@@ -1733,6 +1745,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -1785,6 +1798,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -1819,6 +1833,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -1858,6 +1873,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -1898,6 +1914,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
@@ -1939,6 +1956,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
@@ -1979,6 +1997,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2011,6 +2030,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2043,6 +2063,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2076,6 +2097,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2110,6 +2132,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
@@ -2144,6 +2167,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2174,6 +2198,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2203,6 +2228,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2232,6 +2258,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2262,6 +2289,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2292,6 +2320,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2322,6 +2351,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2367,6 +2397,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2398,6 +2429,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2429,6 +2461,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2460,6 +2493,35 @@ const App: React.FC = () => {
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
             onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
+            onEducationClick={handleEducationClick}
+          />
+        </Suspense>
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  // Render Actualites Page
+  if (currentView === 'actualites') {
+    return (
+      <div className={isDarkMode ? 'dark' : ''}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <ActualitesPage
+            isDarkMode={isDarkMode}
+            toggleTheme={toggleTheme}
+            onContactClick={() => setIsRdvModalOpen(true)}
+            onAboutClick={handleAboutUsClick}
+            onLogoClick={handleBackToHome}
+            onFaqClick={handleFaqClick}
+            onScpiPageClick={handleScpiClick}
+            onUnderstandingClick={handleComprendreClick}
+            onAboutSectionClick={handleAboutUsClick}
+            onComparateurClick={handleComparateurClick}
+            onSimulateurClick={handleSimulateurClick}
+            onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
             onEducationClick={handleEducationClick}
           />
         </Suspense>
@@ -2544,6 +2606,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <main className="container mx-auto px-4 py-8">
@@ -2575,6 +2638,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <main className="container mx-auto px-4 py-8">
@@ -2639,6 +2703,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <main className="container mx-auto px-4 py-8">
@@ -2679,6 +2744,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -2719,6 +2785,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -3408,6 +3475,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <main>
@@ -3534,6 +3602,7 @@ const App: React.FC = () => {
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
             isDarkMode={isDarkMode}
@@ -3559,6 +3628,7 @@ const App: React.FC = () => {
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
             isDarkMode={isDarkMode}
@@ -3584,6 +3654,7 @@ const App: React.FC = () => {
             onNavigateToScpi={handleScpiClick}
             onContactClick={() => setIsRdvModalOpen(true)}
             onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
             isDarkMode={isDarkMode}
@@ -3631,6 +3702,7 @@ const App: React.FC = () => {
             onComparateurClick={handleComparateurClick}
             onSimulateurClick={handleSimulateurClick}
             onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
           currentView={currentView}
           />
           <Suspense fallback={<LoadingSpinner />}>
@@ -3706,6 +3778,7 @@ const App: React.FC = () => {
           onComparateurClick={handleComparateurClick}
           onSimulateurClick={handleSimulateurClick}
           onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
           currentView={currentView}
         />
         <Suspense fallback={<LoadingSpinner />}>
@@ -3773,6 +3846,7 @@ const App: React.FC = () => {
               onUnderstandingClick={handleComprendreClick}
               onAboutSectionClick={handleAboutUsClick}
               onArticlesClick={handleArticlesClick}
+              onActualitesClick={handleActualitesClick}
               onComparateurClick={handleComparateurClick}
               onSimulateurClick={handleSimulateurClick}
             />
@@ -3886,6 +3960,7 @@ const App: React.FC = () => {
         onComparateurClick={handleComparateurClick}
         onSimulateurClick={handleSimulateurClick}
         onArticlesClick={handleArticlesClick}
+        onActualitesClick={handleActualitesClick}
         currentView={currentView}
       />
 

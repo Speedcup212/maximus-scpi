@@ -1,5 +1,5 @@
-import React from 'react';
-import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3, Users, PiggyBank } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3, Users, PiggyBank, Search, X } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
@@ -19,6 +19,7 @@ interface EducationArticlesIndexPageProps {
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onEducationClick?: (category: string, slug: string) => void;
 }
 
@@ -208,6 +209,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   onComparateurClick,
   onSimulateurClick,
   onArticlesClick,
+  onActualitesClick,
   onEducationClick
 }) => {
   // Grouper les articles par famille
@@ -229,12 +231,47 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
 
   const totalArticles = articleTemplates.length;
 
+  // Search & filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFamily, setActiveFamily] = useState<ArticleFamily | null>(null);
+
+  // Filtered articles based on search + active family
+  const filteredArticles = useMemo(() => {
+    let filtered = articleTemplates;
+
+    // Apply family filter
+    if (activeFamily) {
+      filtered = filtered.filter(a => getArticleFamily(a) === activeFamily);
+    }
+
+    // Apply search query
+    const query = searchQuery.toLowerCase().trim();
+    if (query) {
+      filtered = filtered.filter(a =>
+        a.title.toLowerCase().includes(query) ||
+        a.slug.toLowerCase().includes(query) ||
+        a.metaDescription.toLowerCase().includes(query) ||
+        a.category.toLowerCase().includes(query) ||
+        a.mainKeyword.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [searchQuery, activeFamily]);
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setActiveFamily(null);
+  };
+
+  const hasActiveFilters = searchQuery.trim() !== '' || activeFamily !== null;
+
   return (
     <>
       <SEOHead
-        title="Articles Éducatifs SCPI | MaximusSCPI"
-        description={`${totalArticles} articles experts pour tout comprendre sur les SCPI : comparatifs, fiscalité, stratégies d'investissement, guides pratiques et analyse de marché.`}
-        keywords={['articles SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
+        title="Comprendre les SCPI | MaximusSCPI"
+        description={"Guides, fiscalité, risques, critères d'analyse et stratégies pour analyser les SCPI avec méthode. " + totalArticles + " articles experts."}
+        keywords={['comprendre les SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
         canonical="https://maximusscpi.com/articles/"
       />
 
@@ -257,25 +294,95 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           onArticlesClick={onArticlesClick || (() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           })}
+          onActualitesClick={onActualitesClick}
           currentView="articles-list"
         />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
             <BookOpen className="w-20 h-20 text-blue-600" />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Articles Éducatifs SCPI
+            Comprendre les SCPI
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-            {totalArticles} articles experts pour maîtriser votre investissement en SCPI : comparatifs détaillés,
-            optimisation fiscale, stratégies patrimoniales et guides pratiques.
+            Guides, fiscalité, risques, critères d'analyse et stratégies pour analyser les SCPI avec méthode.
           </p>
         </div>
 
-        {/* Navigation rapide par famille */}
+        {/* Barre de recherche */}
+        <div className="mb-10 max-w-3xl mx-auto">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Rechercher un article : fiscalité, rendement, TOF, IFI, crédit, transmission…"
+              className="w-full pl-12 pr-12 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-800 transition-all text-base"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Filtres par thématique */}
+        <div className="mb-12 max-w-4xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-2">
+            <button
+              onClick={() => setActiveFamily(null)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                !activeFamily
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Tous les articles
+            </button>
+            {FAMILY_ORDER.filter(f => groupedByFamily[f].length > 0).map((family) => {
+              const config = FAMILY_CONFIG[family];
+              return (
+                <button
+                  key={family}
+                  onClick={() => setActiveFamily(activeFamily === family ? null : family)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    activeFamily === family
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {config.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Résultats de recherche */}
+        {hasActiveFilters && (
+          <div className="mb-8 text-center">
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''}
+              {activeFamily && ` dans "${FAMILY_CONFIG[activeFamily].label}"`}
+              {searchQuery.trim() && ` pour "${searchQuery.trim()}"`}
+              {' — '}
+              <button onClick={clearSearch} className="text-blue-600 hover:underline font-medium">
+                Réinitialiser les filtres
+              </button>
+            </p>
+          </div>
+        )}
+
+        {/* Navigation rapide par famille (uniquement si aucun filtre actif) */}
+        {!hasActiveFilters && (
         <div className="mb-16">
           <div className="bg-gradient-to-br from-white via-gray-50 to-white dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
             <div className="text-center mb-8">
@@ -319,13 +426,16 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             </div>
           </div>
         </div>
+        )}
 
-        {/* Articles par famille */}
-        {FAMILY_ORDER.map((family) => {
+        {/* Articles par famille — afficher toutes les familles si aucun filtre, sinon seulement la famille active */}
+        {(hasActiveFilters ? [activeFamily!] : FAMILY_ORDER).map((family) => {
           const config = FAMILY_CONFIG[family];
           const Icon = config.icon;
           const styles = config;
-          const articles = groupedByFamily[family];
+          const articles = hasActiveFilters
+            ? filteredArticles.filter(a => getArticleFamily(a) === family)
+            : groupedByFamily[family];
 
           if (articles.length === 0) return null;
 
