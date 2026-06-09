@@ -172,7 +172,7 @@ Pages :
 - /scpi-portugal/
 - /scpi-luxembourg/
 - /scpi-royaume-uni/
-- /scpi-france/
+- /scpi-france/ — publié (Batch 7)
 - /scpi-zone-euro/
 - /scpi-hors-france/
 - /scpi-diversification-geographique/

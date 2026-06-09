@@ -58,6 +58,7 @@ export const INTERNAL_LINKS = [
   { href: '/scpi-retraite', label: 'SCPI pour la retraite — revenus et horizon' },
   { href: '/scpi-revenus-complementaires', label: 'SCPI revenus complémentaires — rendement net' },
   { href: '/scpi-transmission', label: 'SCPI et transmission — donation et succession' },
+  { href: '/scpi-france', label: 'SCPI France — fiscalité et rendement' },
 ] as const
 
 export interface TableRow {

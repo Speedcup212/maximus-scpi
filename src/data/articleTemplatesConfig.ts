@@ -1009,6 +1009,18 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'Comprenez l\'utilisation des SCPI dans une stratégie de transmission : donation, démembrement, nue-propriété, usufruit, assurance-vie, succession et points de vigilance.',
     keywords: ['SCPI transmission', 'donation SCPI', 'démembrement SCPI', 'succession SCPI', 'nue-propriété SCPI']
+  },
+  {
+    id: 82,
+    slug: 'scpi-france',
+    title: 'SCPI France : fiscalité, rendement et points de vigilance',
+    mainKeyword: 'SCPI France',
+    searchIntent: 'comprendre les SCPI investies en France',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'fiscalite-modes',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les SCPI investies principalement en France : revenus fonciers, fiscalité, prélèvements sociaux, rendement net, secteurs, risques et critères à comparer.',
+    keywords: ['SCPI France', 'fiscalité SCPI', 'revenus fonciers', 'rendement net SCPI', 'prélèvements sociaux']
   }
 ];
 

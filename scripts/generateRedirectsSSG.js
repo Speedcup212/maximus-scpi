@@ -79,6 +79,10 @@ const generateRedirects = () => {
 /scpi-france-investissement/ /scpi-france/ 301
 /scpi-europe /scpi-europeennes/ 301
 /scpi-europe/ /scpi-europeennes/ 301
+/scpi-fiscales /scpi-fiscalite/ 301
+/scpi-fiscales/ /scpi-fiscalite/ 301
+/preparer-retraite-scpi /scpi-retraite/ 301
+/preparer-retraite-scpi/ /scpi-retraite/ 301
 
 # Pages statiques générales
 /faq /index.html 200
@@ -132,6 +136,7 @@ const generateRedirects = () => {
 /scpi-logistique /index.html 200
 /scpi-residentiel /index.html 200
 /scpi-hotellerie /index.html 200
+/scpi-france /index.html 200
 
 # Pages SCPI individuelles : servies via dist/{slug}/index.html (slug canonique sans préfixe)
 

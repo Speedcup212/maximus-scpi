@@ -13,7 +13,7 @@ const priorityThematicPages = [
   'revenu-complementaire-scpi',
   // 'comparateur-scpi' retiré : la route /comparateur-scpi est rendue par le SPA (App.tsx),
   // pas par une landing statique. Voir aussi generateThematicPages.js.
-  'scpi-france',
+  // 'scpi-france' retiré : la route /scpi-france/ est rendue par le SPA en tant qu'article éducatif.
   'scpi-sans-frais',
   'recyclage-urbain-scpi',
   'alderan-scpi',

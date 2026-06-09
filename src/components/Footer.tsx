@@ -148,21 +148,24 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Géographie */}
+            {/* Articles essentiels */}
             <div>
-              <h4 className="font-semibold text-blue-400 mb-3">Géographie</h4>
+              <h4 className="font-semibold text-blue-400 mb-3">Articles essentiels</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <a href="/scpi-france/" className="hover:text-blue-400 transition-colors">SCPI France</a>
                 </li>
                 <li>
-                  <a href="/scpi-europe/" className="hover:text-blue-400 transition-colors">SCPI Europe</a>
+                  <a href="/scpi-europeennes/" className="hover:text-blue-400 transition-colors">SCPI européennes</a>
                 </li>
                 <li>
-                  <a href="/scpi-fiscales/" className="hover:text-blue-400 transition-colors">SCPI Fiscales</a>
+                  <a href="/scpi-fiscalite/" className="hover:text-blue-400 transition-colors">Fiscalité SCPI</a>
                 </li>
                 <li>
-                  <a href="/preparer-retraite-scpi/" className="hover:text-blue-400 transition-colors">Préparer sa retraite</a>
+                  <a href="/scpi-retraite/" className="hover:text-blue-400 transition-colors">SCPI pour la retraite</a>
+                </li>
+                <li>
+                  <a href="/scpi-credit/" className="hover:text-blue-400 transition-colors">SCPI à crédit</a>
                 </li>
               </ul>
             </div>
