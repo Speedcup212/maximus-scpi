@@ -5,91 +5,92 @@ export const delaiJouissanceScpiConfig: ScpiEducationalPageConfig = {
   badge: 'Impact sur le rendement',
   h1: 'Délai de jouissance SCPI : impact réel sur le rendement',
   heroSubtitle:
-    'Le délai de jouissance est souvent sous-estimé par les investisseurs. Il correspond à la période entre la souscription et le premier versement de revenus. Ce délai impacte le rendement réel de la première année et doit être comparé entre SCPI.',
-  seoTitle: 'Délai de jouissance SCPI : comprendre son impact sur les revenus',
+    'Le délai de jouissance est souvent sous-estimé par les investisseurs. Il correspond à la période entre la souscription et le premier versement de revenus. Ce délai impacte le rendement réel de la première année et doit être intégré dans la comparaison entre SCPI, surtout en cas d\'achat à crédit ou de besoin de revenus immédiats.',
+  seoTitle: 'Délai de jouissance SCPI : impact, calcul et comparaison',
   seoDescription:
-    'Comprenez le délai de jouissance d\'une SCPI, son effet sur les premiers revenus, le rendement réel la première année et les critères à comparer avant d\'investir.',
+    'Analyse complète du délai de jouissance des SCPI : définition, date de jouissance, impact sur le rendement de première année, comparaison entre SCPI, effet sur l\'achat à crédit, stratégie de calendrier. Exemple chiffré 100 000 €.',
   shortAnswerTitle: 'Qu\'est-ce que le délai de jouissance et pourquoi est-ce important ?',
   shortAnswer:
-    'Le délai de jouissance est la période entre la date de souscription des parts et la date à laquelle l\'investisseur commence à percevoir les revenus. Pendant cette période, les loyers perçus par la SCPI ne sont pas reversés au nouvel associé. Ce délai varie selon les SCPI : il peut être de quelques jours (jouissance rapide) ou de plusieurs mois (1er jour du trimestre suivant, ou du 4e, 5e, 6e mois). Il réduit mécaniquement le rendement de la première année et doit être intégré dans la comparaison entre SCPI.',
+    'Le délai de jouissance est la période entre la date de souscription des parts et la date à laquelle l\'investisseur commence à percevoir les revenus. Pendant cette période, les loyers perçus par la SCPI ne sont pas reversés au nouvel associé. Ce délai varie selon les SCPI : de quelques jours (jouissance rapide) à plusieurs mois (1er jour du 4e, 5e ou 6e mois). Il réduit mécaniquement le rendement de la première année et doit être intégré dans la comparaison entre SCPI. Son impact s\'amortit sur un horizon long, mais il est particulièrement significatif en cas d\'achat à crédit ou de besoin de revenus rapides.',
   keyMessage:
     'Le délai de jouissance ne change pas la qualité d\'une SCPI, mais il modifie le rendement réellement perçu au début de l\'investissement.',
   definitionParagraphs: [
-    'La date de jouissance est la date à laquelle l\'investisseur devient éligible aux revenus distribués par la SCPI. Avant cette date, les loyers perçus sur les parts souscrites sont attribués au vendeur ou à la société de gestion selon le fonctionnement.',
-    'Le délai de jouissance est exprimé en jours ou en mois à compter de la souscription. Certaines SCPI offrent une jouissance rapide (1er jour du mois suivant), d\'autres une jouissance au 1er jour du 4e mois suivant la souscription, voire plus.',
-    'L\'impact du délai de jouissance est double : d\'une part, l\'investisseur ne perçoit pas les revenus pendant cette période ; d\'autre part, le rendement réel de la première année est mécaniquement inférieur au TDVM affiché.',
-    'À titre d\'exemple pédagogique, pour un investissement de 100 000 € avec un taux de distribution théorique de 5 % et un délai de jouissance de 5 mois, les revenus de la première année seront réduits d\'environ 5/12, soit un rendement net de première année inférieur au taux affiché. Ce chiffre est une simulation indicative, pas une promesse de rendement.',
+    'La date de jouissance est la date à laquelle l\'investisseur devient éligible aux revenus distribués par la SCPI. Avant cette date, les loyers perçus sur les parts souscrites sont attribués au vendeur ou à la société de gestion selon le fonctionnement de la SCPI.',
+    'Le délai de jouissance est exprimé en jours ou en mois à compter de la souscription. Certaines SCPI offrent une jouissance rapide (1er jour du mois suivant), d\'autres une jouissance au 1er jour du 4e, 5e ou 6e mois suivant la souscription.',
+    'L\'impact du délai de jouissance est double : l\'investisseur ne perçoit pas de revenus pendant cette période, et le rendement réel de la première année est mécaniquement inférieur au TDVM affiché. Par exemple, un délai de 5 mois réduit les revenus de première année d\'environ 5/12 par rapport à un scénario sans délai.',
+    'Plus l\'horizon est long, plus l\'impact relatif du délai de jouissance s\'amortit. Sur 10 ans, un délai de 4 mois réduit le rendement annualisé d\'environ 0,2 % à 0,3 %. Sur un horizon court (3-5 ans), l\'impact est plus marqué.',
+    'En cas d\'investissement à crédit, l\'impact est amplifié : les intérêts d\'emprunt courent dès le déblocage des fonds, avant la perception des premiers revenus. Le cash-flow de première année peut être négatif si le délai est long.',
     'Le délai de jouissance n\'est pas un critère de qualité de la SCPI, mais un élément pratique à intégrer dans la comparaison. Une SCPI avec un délai court peut sembler plus attractive, mais le TOF, la capitalisation, l\'endettement et le rendement restent des critères plus déterminants.',
     'En assurance-vie, le délai de jouissance peut différer selon le contrat et la date de valorisation des UC. Il est généralement plus court qu\'en direct, mais les frais UC et le taux de reversement doivent être analysés en parallèle.',
   ],
-  tableTitle: 'Délai de jouissance : impact sur la première année',
+  tableTitle: 'Délai de jouissance / Impact sur les premiers revenus / Vigilance',
   tableRows: [
     {
       level: 'Jouissance rapide (1er jour M+1)',
-      advantage:
-        'Délai minimal, les premiers revenus arrivent rapidement. Impact faible sur le rendement de première année.',
-      vigilance:
-        'Vérifier les conditions précises de date de valeur. Peut varier selon le calendrier de souscription.',
+      advantage: 'Délai minimal. Les premiers revenus arrivent rapidement. Impact faible sur le rendement de première année.',
+      vigilance: 'Vérifier les conditions précises de date de valeur selon la date de souscription.',
     },
     {
       level: '1er jour du 4e mois',
-      advantage:
-        'Délai standard sur le marché. Environ 3 mois sans revenus.',
-      vigilance:
-        'Le rendement de première année est réduit d\'environ 1/4 par rapport au TDVM.',
+      advantage: 'Délai standard sur le marché. Environ 3 mois sans revenus.',
+      vigilance: 'Le rendement de première année est réduit d\'environ 1/4 par rapport au TDVM annoncé.',
     },
     {
       level: '1er jour du 5e ou 6e mois',
-      advantage:
-        'Délai plus long. Impact plus marqué sur le rendement de première année.',
-      vigilance:
-        'Comparer avec d\'autres SCPI. Sur un horizon long, l\'impact s\'amortit.',
+      advantage: 'Délai plus long. Le rendement de première année est plus significativement impacté.',
+      vigilance: 'Comparer avec d\'autres SCPI. Sur un horizon long (10+ ans), l\'impact s\'amortit mais reste visible la première année.',
     },
     {
       level: 'Investissement à crédit',
-      advantage:
-        'Les intérêts d\'emprunt courent dès le déblocage des fonds, avant la perception des premiers revenus.',
-      vigilance:
-        'L\'impact du délai de jouissance est amplifié par le coût du crédit. Simuler le cash-flow de première année.',
+      advantage: 'Les intérêts courent dès le déblocage des fonds, avant les premiers revenus.',
+      vigilance: 'L\'impact du délai de jouissance est amplifié par le coût du crédit. Simuler le cash-flow de première année avant de souscrire.',
     },
     {
       level: 'Besoin de revenus immédiats',
-      advantage:
-        'Privilégier les SCPI avec un délai de jouissance court ou un investissement programmé.',
-      vigilance:
-        'Le délai de jouissance ne doit pas être le critère unique, mais il compte en cas de besoin de revenus rapides.',
+      advantage: 'Privilégier les SCPI avec un délai de jouissance court.',
+      vigilance: 'Le délai de jouissance ne doit pas être le critère unique, mais il devient important en cas de besoin de revenus rapides.',
     },
   ],
   tableNote:
     'Ces repères sont des simulations indicatives. L\'impact exact dépend du montant investi, du TDVM et du calendrier de souscription.',
   criteriaTitle: 'Critères à croiser avec le délai de jouissance',
   criteriaCards: [
-    { title: 'Rendement (TDVM)', text: 'Comparer le TDVM et le délai de jouissance ensemble. Un TDVM plus élevé peut compenser un délai plus long sur un horizon long.' },
+    { title: 'Rendement (TDVM)', text: 'Comparer le TDVM et le délai ensemble. Un TDVM plus élevé peut compenser un délai plus long sur un horizon long.' },
     { title: 'TOF', text: 'Un bon TOF garantit une meilleure régularité des revenus une fois la jouissance acquise.' },
-    { title: 'Frais de souscription', text: 'Des frais élevés combinés à un délai long réduisent le rendement net de première année.' },
-    { title: 'Capitalisation', text: 'La taille de la SCPI n\'a pas d\'impact direct sur le délai de jouissance, mais influence la régularité des distributions.' },
-    { title: 'Horizon', text: 'Plus l\'horizon est long, plus l\'impact du délai de jouissance s\'amortit. Sur 10-15 ans, la différence est faible.' },
+    { title: 'Frais de souscription', text: 'Des frais élevés combinés à un délai long réduisent le rendement net de première année de manière cumulée.' },
+    { title: 'Capitalisation', text: 'La taille de la SCPI n\'a pas d\'impact direct sur le délai mais influence la régularité des distributions futures.' },
+    { title: 'Horizon', text: 'Plus l\'horizon est long, plus l\'impact du délai s\'amortit. Sur 10-15 ans, l\'effet est marginal.' },
     { title: 'Mode de détention', text: 'En assurance-vie, le délai peut être différent. Vérifier la date de jouissance dans le contrat.' },
+    { title: 'Crédit', text: 'Si achat à crédit, le délai de jouissance amplifie le décalage de trésorerie les premiers mois.' },
   ],
   commonErrors: [
     'Oublier d\'intégrer le délai de jouissance dans le calcul du rendement de première année.',
     'Comparer deux SCPI uniquement sur leur TDVM sans tenir compte du délai de jouissance.',
-    'Sous-estimer l\'impact du délai en cas d\'investissement à crédit.',
-    'Choisir une SCPI uniquement parce que son délai de jouissance est court.',
-    'Ignorer le délai de jouissance en assurance-vie.',
+    'Sous-estimer l\'impact du délai en cas d\'investissement à crédit (intérêts avant revenus).',
+    'Choisir une SCPI uniquement parce que son délai de jouissance est court sans analyser les fondamentaux.',
+    'Ignorer le délai de jouissance en assurance-vie (il existe aussi mais peut être différent).',
+    'Comparer des rendements nets de première année sans intégrer le délai dans la simulation.',
   ],
   practicalCases: [
     {
-      title: 'SCPI A — délai court, TDVM 4,5 %',
-      text: 'Une SCPI avec jouissance au 1er jour du mois suivant et un TDVM de 4,5 % offre un rendement perçu la première année proche du taux affiché. Simulation pédagogique : un investisseur souscrivant en début de mois perçoit ses premiers revenus à la fin du trimestre suivant.',
+      title: 'Exemple chiffré — 100 000 €, TDVM 5 %, délai 5 mois',
+      text: 'Investissement théorique : 100 000 €. TDVM théorique : 5 %. Délai de jouissance : 5 mois. Revenus théoriques attendus la 1ère année avec délai : 5 000 € × 7/12 ≈ 2 917 € (au lieu de 5 000 € sans délai). Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
     {
-      title: 'SCPI B — délai 5 mois, TDVM 5,5 %',
-      text: 'Investissement de 100 000 €, TDVM 5,5 %, délai de jouissance de 5 mois. Les premiers revenus sont perçus au 6e mois. Le rendement réel de la première année est inférieur au TDVM. Simulation pédagogique : la différence s\'estompe sur un horizon de 10 ans.',
+      title: 'SCPI A — Délai court, TDVM 4,5 %',
+      text: 'Une SCPI avec jouissance au 1er jour du mois suivant et un TDVM de 4,5 % offre un rendement perçu la première année proche du taux affiché. Simulation pédagogique : un investisseur souscrivant en début de mois perçoit ses premiers revenus dès le trimestre suivant.',
     },
     {
-      title: 'SCPI C — achat à crédit, délai long',
-      text: 'Un investisseur finance l\'achat à crédit avec un taux à 3,5 %. Le délai de jouissance de 4 mois retarde les premiers revenus, tandis que les intérêts courent dès le déblocage. Simulation pédagogique : le cash-flow de première année est négatif.',
+      title: 'SCPI B — Délai 5 mois, TDVM 5,5 %',
+      text: 'Investissement de 100 000 €, TDVM 5,5 %, délai de jouissance de 5 mois. Les premiers revenus sont perçus au 6e mois. Rendement réel de première année : ~3,2 % au lieu de 5,5 % avant frais et fiscalité. Simulation pédagogique : l\'impact est significatif la première année mais s\'estompe sur un horizon de 10 ans.',
+    },
+    {
+      title: 'SCPI C — Achat à crédit, délai long',
+      text: 'Un investisseur finance l\'achat à crédit avec un taux à 3,5 %. Le délai de jouissance de 4 mois retarde les premiers revenus, tandis que les intérêts courent dès le déblocage. Simulation pédagogique : le cash-flow de première année est négatif, ce qui doit être anticipé.',
+    },
+    {
+      title: 'Stratégie de calendrier',
+      text: 'Un investisseur peut planifier sa souscription en fin de mois pour réduire le délai effectif si la jouissance est au 1er jour du mois suivant. Exemple : souscription le 28 février pour une jouissance au 1er mars. Simulation pédagogique : le calendrier de souscription peut optimiser légèrement le délai.',
     },
   ],
   methodParagraphs: [
@@ -100,21 +101,22 @@ export const delaiJouissanceScpiConfig: ScpiEducationalPageConfig = {
     'MaximusSCPI ne constitue pas une recommandation personnalisée. Un échange avec le Cabinet Eric Bellaiche permet d\'affiner la simulation selon votre situation.',
   ],
   conclusionParagraphs: [
-    'Le délai de jouissance est un critère souvent sous-estimé mais impactant, surtout en première année et en cas d\'investissement à crédit. Il doit être intégré dans la comparaison des SCPI.',
+    'Le délai de jouissance est un critère souvent sous-estimé mais impactant, surtout en première année et en cas d\'investissement à crédit. Il doit être intégré dans la comparaison des SCPI pour ne pas surévaluer le rendement de démarrage.',
+    'Sources et points à vérifier : note d\'information de la SCPI, conditions générales du contrat d\'assurance-vie le cas échéant, bulletin trimestriel mentionnant la date de jouissance.',
     'Utilisez le comparateur MaximusSCPI pour identifier les SCPI, puis validez votre analyse avec un conseiller pour une simulation adaptée à votre calendrier de souscription.',
   ],
   faqItems: [
     {
       question: 'Qu\'est-ce que le délai de jouissance d\'une SCPI ?',
-      answer: 'C\'est la période entre la souscription des parts et le début de la perception des revenus. Avant cette date, les loyers perçus ne sont pas reversés au nouvel associé.',
+      answer: 'C\'est la période entre la souscription des parts et le début de la perception des revenus. Pendant cette période, les loyers perçus ne sont pas reversés au nouvel associé.',
     },
     {
       question: 'Quand commence-t-on à percevoir les revenus ?',
       answer: 'Cela dépend de la SCPI. Certaines offrent une jouissance rapide (1er jour du mois suivant), d\'autres au 1er jour du 4e, 5e ou 6e mois après la souscription.',
     },
     {
-      question: 'Quel impact sur le rendement ?',
-      answer: 'Le rendement de première année est mécaniquement réduit par l\'absence de revenus pendant la période de non-jouissance. Plus le délai est long, plus l\'écart est important.',
+      question: 'Quel impact sur le rendement de première année ?',
+      answer: 'Le rendement de première année est mécaniquement réduit par l\'absence de revenus pendant la période. Plus le délai est long, plus l\'écart entre rendement affiché et rendement perçu est important.',
     },
     {
       question: 'Un délai court est-il toujours préférable ?',
@@ -122,20 +124,28 @@ export const delaiJouissanceScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       question: 'Comment comparer deux SCPI avec des délais différents ?',
-      answer: 'Calculer le rendement théorique de première année en déduisant les mois sans revenus. La comparaison sur 5-10 ans s\'affranchit progressivement de ce biais.',
+      answer: 'Calculer le rendement théorique de première année en déduisant les mois sans revenus. Sur 5-10 ans, la différence de rendement annualisé devient marginale.',
     },
     {
       question: 'Le délai de jouissance existe-t-il en assurance-vie ?',
       answer: 'Oui, le contrat peut prévoir une date de jouissance spécifique pour les UC. Vérifier les conditions générales du contrat.',
     },
     {
-      question: 'Quel impact avec un achat à crédit ?',
-      answer: 'Les intérêts d\'emprunt courent avant la perception des premiers revenus, ce qui amplifie l\'impact du délai de jouissance sur le cash-flow de première année.',
+      question: 'Quel est l\'impact du délai avec un achat à crédit ?',
+      answer: 'Les intérêts d\'emprunt courent avant la perception des premiers revenus, ce qui amplifie le décalage de trésorerie. Le cash-flow de première année doit être simulé.',
     },
     {
-      question: 'Comment MaximusSCPI prend en compte le délai de jouissance ?',
-      answer: 'Le délai de jouissance est intégré dans les contenus pédagogiques comme critère pratique de comparaison, sans constituer une recommandation.',
+      question: 'Le délai de jouissance impacte-t-il la qualité de la SCPI ?',
+      answer: 'Non. Il impacte le rendement perçu la première année mais ne change rien à la qualité locative, au TOF ou à la gestion du patrimoine.',
+    },
+    {
+      question: 'Peut-on optimiser le délai par le calendrier ?',
+      answer: 'Partiellement, en souscrivant à une date qui minimise le délai effectif (par exemple en fin de mois si la jouissance est au 1er du mois suivant).',
+    },
+    {
+      question: 'Comment MaximusSCPI prend-il en compte le délai de jouissance ?',
+      answer: 'Le délai est intégré dans les contenus pédagogiques comme critère pratique de comparaison, sans constituer une recommandation personnalisée.',
     },
   ],
-  comparateurCtaLabel: 'Comparer les SCPI',
+  comparateurCtaLabel: 'Comparer le rendement réel après délai de jouissance',
 }

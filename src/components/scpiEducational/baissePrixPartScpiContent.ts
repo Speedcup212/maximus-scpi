@@ -3,148 +3,157 @@ import type { ScpiEducationalPageConfig } from './shared'
 export const baissePrixPartScpiConfig: ScpiEducationalPageConfig = {
   path: '/baisse-prix-part-scpi',
   badge: 'Risque & valorisation',
-  h1: 'Baisse du prix de part SCPI : comprendre les causes et les conséquences',
+  h1: 'Baisse du prix de part SCPI : causes, conséquences et analyse',
   heroSubtitle:
-    'Une baisse du prix de part n\'est pas un accident impossible en SCPI. Elle peut provenir d\'une dégradation du marché immobilier, d\'une surcote excessive, d\'une baisse des valeurs d\'expertise, d\'un TOF dégradé ou d\'un endettement mal maîtrisé. L\'investisseur doit comprendre ces mécanismes pour analyser sereinement.',
-  seoTitle: 'Baisse prix de part SCPI : causes, risques et analyse',
+    'Une baisse du prix de part n\'est pas un accident impossible en SCPI. Elle peut provenir d\'une dégradation du marché immobilier, d\'une surcote excessive, d\'une baisse des valeurs d\'expertise, d\'un TOF dégradé ou d\'un endettement mal maîtrisé. Comprendre ces mécanismes permet à l\'investisseur d\'analyser sereinement et de ne pas prendre de décision précipitée.',
+  seoTitle: 'Baisse prix de part SCPI : causes, indicateurs et analyse',
   seoDescription:
-    'Comprenez pourquoi une SCPI peut baisser son prix de part : valeur du patrimoine, marché immobilier, taux, expertises, décote, surcote et conséquences pour l\'investisseur.',
+    'Analyse complète de la baisse du prix de part d\'une SCPI : causes (surcote, expertises, TOF, taux, endettement), conséquences, différence avec baisse des revenus, valeur de reconstitution, cas pratiques et méthode d\'analyse.',
   shortAnswerTitle: 'Pourquoi le prix de part d\'une SCPI peut-il baisser ?',
   shortAnswer:
-    'Le prix de part d\'une SCPI n\'est pas fixe. Il peut être ajusté à la baisse par la société de gestion si la valeur du patrimoine immobilier diminue, si les expertises baissent, si le TOF se dégrade, si l\'endettement pèse ou si le marché immobilier se retourne. Une surcote excessive par rapport à la valeur de reconstitution est souvent un signal précurseur. L\'investisseur doit suivre ces indicateurs et adapter son horizon.',
+    'Le prix de part d\'une SCPI n\'est pas fixe. Il peut être ajusté à la baisse par la société de gestion si la valeur du patrimoine immobilier diminue, si les expertises baissent, si le TOF se dégrade durablement, si l\'endettement pèse sur la structure financière ou si le marché immobilier se retourne (hausse des taux, baisse des valeurs). Une surcote excessive par rapport à la valeur de reconstitution est souvent un signal précurseur. Une baisse du prix de part ne signifie pas automatiquement que la SCPI est mauvaise, mais elle rappelle que le capital n\'est pas garanti et que l\'horizon doit être adapté.',
   keyMessage:
-    'Une baisse du prix de part rappelle que la SCPI n\'est pas un support garanti. Le prix doit être analysé avec la valeur de reconstitution, la qualité du patrimoine, le TOF, l\'endettement et la stratégie de gestion.',
+    'Une baisse du prix de part rappelle que la SCPI n\'est pas un support garanti. Le prix doit être analysé avec la valeur de reconstitution, la qualité du patrimoine, le TOF et l\'endettement.',
   definitionParagraphs: [
     'Le prix de souscription est le prix auquel un investisseur achète une part de SCPI. Il intègre la valeur de reconstitution du patrimoine et les frais de souscription. Il peut être modifié par la société de gestion, généralement une fois par an ou en cas d\'événement patrimonial significatif.',
-    'La valeur de reconstitution est la référence patrimoniale : elle estime le coût de reconstruction du patrimoine immobilier. Quand le prix de souscription s\'éloigne de cette valeur (surcote), le risque de baisse augmente à terme.',
+    'La valeur de reconstitution (VR) est la référence patrimoniale : elle estime le coût de reconstruction du patrimoine immobilier. Quand le prix de souscription s\'éloigne de cette valeur (surcote), le risque de baisse augmente à terme car la société de gestion peut aligner le prix sur la VR.',
     'Les expertises immobilières réalisées périodiquement par des experts indépendants peuvent conduire à une révision à la baisse de la valeur des actifs si le marché locatif se dégrade, si les loyers baissent ou si les taux de capitalisation immobiliers augmentent.',
-    'Une baisse du TOF (taux d\'occupation financier) réduit les revenus locatifs et peut impacter la valorisation du patrimoine. Si elle est durable, elle peut justifier une baisse du prix de part.',
-    'La hausse des taux d\'intérêt peut entraîner une baisse des valeurs immobilières : les investisseurs exigent un rendement plus élevé pour compenser le coût du crédit, ce qui mécaniquement réduit la valorisation des actifs.',
+    'Une baisse du TOF (taux d\'occupation financier) réduit les revenus locatifs et peut impacter la valorisation du patrimoine. Si elle est durable, elle peut justifier une baisse du prix de part car la capacité de la SCPI à générer des loyers est diminuée.',
+    'La hausse des taux d\'intérêt peut entraîner une baisse des valeurs immobilières de manière mécanique : les investisseurs exigent un rendement plus élevé pour compenser le coût du crédit, ce qui réduit la valorisation des actifs. Les SCPI avec une surcote élevée y sont particulièrement sensibles.',
     'L\'endettement peut amplifier le mouvement : une SCPI endettée avec des actifs dont la valeur baisse voit son ratio prêt/valeur se dégrader, ce qui peut peser sur la notation financière et le prix de part.',
+    'La différence entre baisse de prix et baisse de revenus est importante : une SCPI peut baisser son prix de part (baisse de la valeur du capital) tout en maintenant ses distributions (revenus). L\'inverse est également possible. Les deux phénomènes ne sont pas nécessairement corrélés.',
   ],
-  tableTitle: 'Causes de baisse du prix de part : ce qu\'il faut surveiller',
+  tableTitle: 'Cause possible / Impact potentiel / Indicateurs à vérifier / Vigilance',
   tableRows: [
     {
-      level: 'Surcote élevée',
-      advantage:
-        'Un écart important entre prix de souscription et valeur de reconstitution peut signaler un risque de correction.',
-      vigilance:
-        'Comparer régulièrement le prix de souscription à la VR. Suivre l\'évolution de l\'écart sur plusieurs trimestres.',
+      level: 'Surcote excessive',
+      advantage: 'Écart prix / VR > 10 %. L\'ajustement à la baisse est probable si la qualité du patrimoine ne justifie pas la prime.',
+      vigilance: 'Comparer le prix à la VR. Suivre l\'écart sur plusieurs trimestres. Une surcote durable sans justification patrimoniale est un signal.',
     },
     {
       level: 'Baisse des expertises',
-      advantage:
-        'Les expertises périodiques peuvent réévaluer le patrimoine à la baisse si les conditions de marché se dégradent.',
-      vigilance:
-        'Consulter les rapports annuels et les bulletins trimestriels pour suivre l\'évolution des valeurs d\'expertise.',
+      advantage: 'Révision à la baisse de la valeur des actifs par les experts. Déclencheur principal d\'une baisse de prix.',
+      vigilance: 'Consulter les rapports annuels. Analyser les causes : marché, secteur, qualité des actifs.',
     },
     {
       level: 'Baisse du TOF',
-      advantage:
-        'Un TOF en baisse durable réduit les loyers et peut impacter la valorisation du patrimoine.',
-      vigilance:
-        'Analyser les causes de la baisse (vacance, travaux, repositionnement) et la durée estimée.',
-    },
-    {
-      level: 'Endettement sous pression',
-      advantage:
-        'Une dette élevée combinée à une baisse des valeurs d\'actifs dégrade le ratio prêt/valeur.',
-      vigilance:
-        'Vérifier le coût moyen de la dette, sa maturité et la part à taux variable.',
+      advantage: 'Un TOF en baisse durable réduit les loyers et la valorisation. Peut entraîner une baisse de prix.',
+      vigilance: 'Analyser les causes (vacance, travaux, repositionnement) et la durée prévisible. Distinguer temporaire et structurel.',
     },
     {
       level: 'Hausse des taux immobiliers',
-      advantage:
-        'La hausse des taux de capitalisation réduit mécaniquement la valorisation des actifs immobiliers.',
-      vigilance:
-        'Suivre l\'évolution des taux de rendement immobiliers dans les secteurs de la SCPI.',
+      advantage: 'La hausse des taux de capitalisation réduit mécaniquement la valorisation des actifs immobiliers.',
+      vigilance: 'Suivre l\'évolution des taux directeurs et des taux de rendement immobiliers. Sensibilité accrue pour les SCPI en surcote.',
+    },
+    {
+      level: 'Endettement sous pression',
+      advantage: 'Une dette élevée combinée à une baisse des valeurs d\'actifs dégrade le ratio prêt/valeur.',
+      vigilance: 'Vérifier le coût moyen, la maturité et la part à taux variable. Croiser avec le TOF.',
     },
     {
       level: 'Collecte en baisse',
-      advantage:
-        'Une collecte nette négative peut signaler une perte de confiance et peser sur le prix.',
-      vigilance:
-        'Surveiller le rapport collecte/capitalisation. Une collecte négative persistante est un signal.',
+      advantage: 'Une collecte nette négative peut signaler une perte de confiance et peser sur le prix, surtout pour les SCPI à capital variable.',
+      vigilance: 'Surveiller le rapport collecte/capitalisation. Une collecte négative persistante est un signal de vigilance.',
+    },
+    {
+      level: 'Actifs obsolètes',
+      advantage: 'Des immeubles vieillissants ou mal situés perdent de la valeur. La SCPI doit investir pour les maintenir.',
+      vigilance: 'Analyser la qualité et la localisation des actifs, l\'âge du patrimoine et les investissements réalisés.',
     },
   ],
   tableNote:
     'Ces causes peuvent se cumuler. Une baisse de prix de part n\'est pas automatiquement synonyme de mauvaise SCPI, mais elle mérite une analyse approfondie des raisons.',
   criteriaTitle: 'Critères à croiser avec le prix de part',
   criteriaCards: [
-    { title: 'Valeur de reconstitution', text: 'Comparer le prix de souscription à la VR pour évaluer la surcote ou décote. Suivre l\'évolution trimestrielle.' },
+    { title: 'Valeur de reconstitution', text: 'Comparer le prix de souscription à la VR. Une surcote > 10 % est un signal de risque de baisse.' },
     { title: 'TOF', text: 'Un TOF en baisse durable peut précéder une baisse de prix. Analyser l\'évolution sur plusieurs exercices.' },
     { title: 'Endettement', text: 'Un endettement élevé amplifie le risque de baisse en cas de retournement du marché immobilier.' },
-    { title: 'Expertises', text: 'Les expertises périodiques sont le principal déclencheur d\'une révision de prix. Les consulter dans les rapports annuels.' },
-    { title: 'Collecte nette', text: 'Une collecte positive soutient le prix ; une collecte négative peut l\'affaiblir.' },
-    { title: 'Secteur immobilier', text: 'Les secteurs en tension (bureaux secondaires, commerces fragiles) sont plus exposés au risque de baisse.' },
+    { title: 'Expertises immobilières', text: 'Les expertises périodiques sont le principal déclencheur d\'une révision de prix. Les consulter dans les rapports annuels.' },
+    { title: 'Collecte nette', text: 'Une collecte positive soutient le prix. Une collecte négative peut l\'affaiblir, surtout pour les SCPI à capital variable.' },
+    { title: 'Secteur immobilier', text: 'Les secteurs en tension (bureaux secondaires, commerces fragiles) sont plus exposés au risque de baisse de prix.' },
     { title: 'Historique de prix', text: 'Une SCPI qui n\'a jamais baissé son prix n\'est pas immunisée. L\'historique sur 10-15 ans est plus parlant.' },
+    { title: 'Valeur de réalisation', text: 'La valeur de réalisation (estimation de liquidation) peut différer de la VR. L\'écart entre les deux est un indicateur complémentaire.' },
   ],
   commonErrors: [
-    'Considérer qu\'une SCPI qui n\'a jamais baissé son prix est sans risque.',
+    'Considérer qu\'une SCPI qui n\'a jamais baissé son prix est sans risque de baisse.',
     'Acheter une SCPI sans vérifier l\'écart avec la valeur de reconstitution.',
-    'Paniquer et vendre après une baisse sans analyser les causes.',
-    'Ignorer les expertises immobilières et leur impact sur le prix.',
-    'Confondre stabilité passée et garantie future du prix.',
-    'Ne pas diversifier pour réduire l\'impact d\'une baisse isolée.',
+    'Paniquer et vendre après une baisse sans analyser les causes profondes.',
+    'Ignorer les expertises immobilières et leur impact direct sur le prix de part.',
+    'Confondre stabilité passée du prix et garantie future.',
+    'Ne pas diversifier pour réduire l\'impact d\'une baisse isolée sur une seule SCPI.',
+    'Croire qu\'une baisse du prix de part signifie automatiquement une baisse des distributions.',
   ],
   practicalCases: [
     {
-      title: 'SCPI en surcote — ajustement à la baisse',
-      text: 'Une SCPI de commerces affichait une surcote de 12 % par rapport à sa VR. Après une baisse des valeurs d\'expertise liée au marché du retail, le prix de souscription a été réduit de 8 %. Les associés de long terme ont vu leur investissement temporairement baisser.',
+      title: 'SCPI en surcote — Ajustement du prix',
+      text: 'Une SCPI de commerces affichait une surcote de 12 % par rapport à sa VR. Après une baisse des valeurs d\'expertise liée au marché du retail, le prix de souscription a été réduit de 8 %. Les associés de long terme ont vu la valeur de leur investissement baisser, mais les distributions sont restées stables. Simulation pédagogique : la surcote excessive était un signal précurseur.',
     },
     {
-      title: 'SCPI bureaux — hausse des taux, baisse des valeurs',
-      text: 'La hausse des taux d\'intérêt a entraîné une baisse des valeurs d\'expertise dans le secteur des bureaux en région. Le prix de part d\'une SCPI spécialisée a été ajusté à la baisse de 5 %. Le TOF reste élevé.',
+      title: 'SCPI bureaux — Hausse des taux, baisse des valeurs',
+      text: 'La hausse des taux d\'intérêt a entraîné une baisse des valeurs d\'expertise dans le secteur des bureaux en région. Le prix de part d\'une SCPI spécialisée a été ajusté à la baisse de 5 %. Le TOF reste élevé et les distributions sont maintenues. Simulation pédagogique : le contexte macroéconomique peut impacter le prix sans dégrader le patrimoine.',
     },
     {
-      title: 'SCPI diversifiée — baisse limitée, résilience',
-      text: 'Malgré un contexte immobilier difficile, une SCPI diversifiée (logistique, santé, bureaux prime) a limité la baisse de son prix de part à 2 %. La diversification sectorielle a joué son rôle.',
+      title: 'Investisseur long terme après baisse',
+      text: 'Un investisseur a acheté des parts au prix de 200 €. Le prix est passé à 180 € après une baisse. Il conserve ses parts et continue de percevoir des distributions stables. Après 5 ans, le prix remonte à 195 €. Simulation pédagogique : un horizon long permet d\'attendre une revalorisation, sans garantie.',
+    },
+    {
+      title: 'Investisseur qui achète après une baisse',
+      text: 'Une SCPI a baissé son prix de 10 % suite à une correction du marché. Un nouvel investisseur achète au nouveau prix, plus proche de la VR. Son rendement à l\'entrée est mécaniquement plus élevé. Simulation pédagogique : une baisse peut créer une opportunité d\'entrée si les fondamentaux restent solides.',
     },
   ],
   methodParagraphs: [
     'MaximusSCPI suit le prix de part et l\'écart avec la valeur de reconstitution dans son comparateur, comme indicateur de lecture patrimoniale.',
-    'La première étape consiste à comparer le prix de souscription à la VR et à suivre l\'évolution de cet écart sur plusieurs trimestres.',
-    'La deuxième étape analyse les causes potentielles de baisse : évolution du TOF, de l\'endettement, du secteur immobilier et du contexte macroéconomique.',
-    'La troisième étape intègre l\'horizon : une baisse temporaire peut être absorbée sur un horizon long, mais une baisse durable mérite une réévaluation.',
+    'La première étape consiste à comparer le prix de souscription à la VR et à suivre l\'évolution de cet écart sur plusieurs trimestres. Une tendance à la hausse de l\'écart (surcote croissante) est un signal de vigilance.',
+    'La deuxième étape analyse les causes potentielles de baisse : évolution du TOF, de l\'endettement, du secteur immobilier et du contexte macroéconomique (taux).',
+    'La troisième étape intègre l\'horizon : une baisse temporaire peut être absorbée sur un horizon long, mais une baisse durable avec dégradation des fondamentaux mérite une réévaluation.',
     'MaximusSCPI ne constitue pas une recommandation personnalisée. Un échange avec le Cabinet Eric Bellaiche permet d\'analyser l\'évolution du prix dans votre situation.',
   ],
   conclusionParagraphs: [
-    'Le prix de part d\'une SCPI peut baisser. C\'est un risque à connaître, à anticiper et à gérer par une analyse régulière du TOF, de la VR, de l\'endettement et du contexte immobilier.',
+    'Le prix de part d\'une SCPI peut baisser. C\'est un risque à connaître, à anticiper et à gérer par une analyse régulière de la valeur de reconstitution, du TOF, de l\'endettement et du contexte immobilier.',
+    'Sources et points à vérifier : bulletins trimestriels, rapports annuels, expertises immobilières, historique du prix de part et de la VR communiqués par la société de gestion.',
     'Utilisez le comparateur MaximusSCPI pour suivre les indicateurs de prix, puis validez votre analyse avec un conseiller pour une approche adaptée à votre horizon.',
   ],
   faqItems: [
     {
       question: 'Pourquoi une SCPI baisse-t-elle son prix de part ?',
-      answer: 'Baisse des valeurs d\'expertise, dégradation du TOF, surcote excessive, hausse des taux, endettement sous pression, collecte négative ou retournement du marché immobilier.',
+      answer: 'Baisse des valeurs d\'expertise, dégradation du TOF, surcote excessive, hausse des taux d\'intérêt, endettement sous pression, collecte négative ou retournement du marché immobilier.',
     },
     {
       question: 'Une baisse du prix de part signifie-t-elle que la SCPI est mauvaise ?',
-      answer: 'Pas nécessairement. Elle peut refléter un contexte de marché défavorable. L\'analyse des causes est essentielle avant de conclure.',
+      answer: 'Pas nécessairement. Elle peut refléter un contexte de marché défavorable. L\'analyse des causes est essentielle avant de conclure sur la qualité du véhicule.',
     },
     {
-      question: 'Quelle différence entre prix de part et rendement ?',
-      answer: 'Le prix de part reflète la valorisation du patrimoine. Le rendement (TDVM) mesure les distributions par rapport au prix. Les deux peuvent évoluer indépendamment.',
+      question: 'Quelle différence entre baisse du prix de part et baisse des revenus ?',
+      answer: 'Le prix de part reflète la valorisation du capital. Les revenus (distributions) sont les loyers reversés aux associés. Les deux peuvent évoluer indépendamment.',
     },
     {
       question: 'Peut-on anticiper une baisse de prix ?',
-      answer: 'Surveiller la surcote, les expertises, l\'évolution du TOF, l\'endettement et le secteur immobilier permet d\'identifier des signaux, sans garantie de prédiction.',
+      answer: 'Surveiller la surcote (écart prix/VR), les expertises, l\'évolution du TOF, l\'endettement et le contexte des taux permet d\'identifier des signaux. Sans garantie de prédiction.',
     },
     {
       question: 'Quel rôle joue la valeur de reconstitution ?',
-      answer: 'La VR est la référence patrimoniale. Un écart important et durable entre prix de souscription et VR est un signal de risque de correction.',
+      answer: 'La VR est la référence patrimoniale. Un écart important et durable entre le prix de souscription et la VR est un signal de risque de correction du prix de part.',
     },
     {
       question: 'Faut-il vendre après une baisse ?',
-      answer: 'Cela dépend des causes de la baisse et de l\'horizon de l\'investisseur. Une vente précipitée peut transformer une baisse temporaire en perte définitive.',
+      answer: 'Cela dépend des causes et de l\'horizon. Vendre précipitamment peut transformer une baisse temporaire en perte définitive. Analyser les fondamentaux d\'abord.',
     },
     {
       question: 'Comment analyser une SCPI qui a baissé son prix ?',
-      answer: 'Analyser les causes (TOF, expertises, endettement, secteur), vérifier la réaction de la société de gestion, et recouper avec la tendance du marché.',
+      answer: 'Analyser les causes (TOF, expertises, endettement, secteur), vérifier la réaction de la société de gestion, et recouper avec la tendance du marché immobilier.',
+    },
+    {
+      question: 'Les SCPI européennes sont-elles plus exposées ?',
+      answer: 'Elles peuvent l\'être si elles sont concentrées sur un pays ou un secteur en crise. La diversification géographique peut au contraire réduire le risque de baisse.',
+    },
+    {
+      question: 'Un prix de part stable est-il un gage de qualité ?',
+      answer: 'Pas forcément. Un prix stable peut masquer une surcote croissante qui finira par se corriger, ou un patrimoine sous-évalué. L\'analyse de l\'écart avec la VR est plus parlante.',
     },
     {
       question: 'Comment MaximusSCPI suit le prix de part ?',
-      answer: 'Le comparateur affiche le prix de souscription et la VR. Les contenus pédagogiques aident à interpréter les écarts. MaximusSCPI ne constitue pas une recommandation.',
+      answer: 'Le comparateur affiche le prix de souscription et la VR. Les contenus pédagogiques aident à interpréter les écarts. L\'approche est pédagogique.',
     },
   ],
-  comparateurCtaLabel: 'Comparer les SCPI selon leur prix de part',
+  comparateurCtaLabel: 'Analyser la valeur de reconstitution avant d\'acheter',
 }
