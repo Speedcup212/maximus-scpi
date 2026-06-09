@@ -14,9 +14,6 @@ const thematicPages = [
   'revenu-complementaire-scpi',
   // 'comparateur-scpi' retiré : la route /comparateur-scpi est rendue par le SPA (App.tsx),
   // pas par une landing statique. Voir aussi generateOptimizedThematicPages.js.
-  'scpi-bureaux',
-  'scpi-commerces',
-  'scpi-sante',
   'scpi-sans-frais',
   'scpi-france',
   'alderan-scpi',
