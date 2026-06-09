@@ -706,6 +706,67 @@ export const articleTemplates: ArticleTemplate[] = [
     metaDescription: 'Comprenez les SCPI diversifiées : bureaux, commerces, santé, logistique, résidentiel, diversification sectorielle, rendement, risques et critères à analyser.',
     keywords: ['SCPI diversifiées', 'SCPI multi-secteurs', 'diversification SCPI']
   },
+  // === Acteurs, statuts et réglementation SCPI ===
+  {
+    id: 67,
+    slug: 'societe-gestion-scpi',
+    title: 'Société de gestion SCPI : rôle, agrément et responsabilités',
+    mainKeyword: 'société de gestion SCPI',
+    searchIntent: 'comprendre le rôle d\'une société de gestion SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le rôle d\'une société de gestion de SCPI : sélection des actifs, gestion locative, politique de distribution, documents réglementaires, agrément AMF.',
+    keywords: ['société de gestion SCPI', 'agrément AMF', 'gestion SCPI']
+  },
+  {
+    id: 68,
+    slug: 'gestionnaire-scpi',
+    title: 'Gestionnaire de SCPI : qui gère vraiment votre investissement ?',
+    mainKeyword: 'gestionnaire SCPI',
+    searchIntent: 'comprendre qui gère une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez qui intervient dans la gestion d\'une SCPI : société de gestion, asset manager, property manager, distributeur, CGP-CIF et rôle de chacun.',
+    keywords: ['gestionnaire SCPI', 'asset manager SCPI', 'property manager']
+  },
+  {
+    id: 69,
+    slug: 'cgp-cif-scpi',
+    title: 'CGP-CIF et SCPI : quel rôle dans l\'analyse avant souscription ?',
+    mainKeyword: 'CGP-CIF SCPI',
+    searchIntent: 'comprendre le rôle d\'un CGP-CIF dans l\'analyse SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le rôle d\'un CGP-CIF dans l\'analyse SCPI : recueil d\'informations, fiscalité, horizon, risques, adéquation, rémunération et distinction avec un comparateur.',
+    keywords: ['CGP-CIF', 'conseil SCPI', 'analyse patrimoniale SCPI']
+  },
+  {
+    id: 70,
+    slug: 'psi-scpi',
+    title: 'PSI et SCPI : comprendre le rôle des prestataires de services d\'investissement',
+    mainKeyword: 'PSI SCPI',
+    searchIntent: 'comprendre le rôle des PSI dans les SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez le rôle des PSI dans l\'univers des SCPI : services d\'investissement, distribution, conseil, cadre réglementaire, différence avec CIF.',
+    keywords: ['PSI SCPI', 'prestataire services investissement', 'distribution SCPI']
+  },
+  {
+    id: 71,
+    slug: 'retrocommissions-scpi',
+    title: 'Rétrocessions SCPI : comprendre les commissions et conflits d\'intérêts',
+    mainKeyword: 'rétrocessions SCPI',
+    searchIntent: 'comprendre les rétrocessions dans les SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les rétrocessions SCPI : frais de souscription, commissions, rémunération du conseiller, transparence, conflits d\'intérêts potentiels.',
+    keywords: ['rétrocessions SCPI', 'frais souscription SCPI', 'transparence SCPI']
+  },
   // === Fiscalité avancée SCPI ===
   {
     id: 57,
