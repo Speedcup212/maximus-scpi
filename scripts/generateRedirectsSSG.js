@@ -124,7 +124,11 @@ const generateRedirects = () => {
 /investir-scpi /index.html 200
 /scpi-rentable /index.html 200
 
-# Landing Pages - Secteurs (scpi-bureaux, scpi-commerces, scpi-sante, scpi-france : pages statiques SSG)
+# Pages secteurs SCPI : articles éducatifs servis via le SPA (pas de page statique)
+/scpi-bureaux /index.html 200
+/scpi-sante /index.html 200
+/scpi-commerces /index.html 200
+/scpi-diversifiees /index.html 200
 /scpi-logistique /index.html 200
 /scpi-residentiel /index.html 200
 /scpi-hotellerie /index.html 200
