@@ -147,25 +147,24 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'Corum AM',
     title: 'Corum AM : SCPI gérées, fiscalité européenne et diversification',
     seoTitle: 'Corum AM SCPI : société de gestion, SCPI européennes et analyse | MaximusSCPI',
-    metaDescription: 'Analyse de Corum AM, société de gestion spécialisée dans les SCPI européennes et internationales. Corum Origin, Corum Convictions, Corum XL — données à vérifier.',
+    metaDescription: 'Analyse de Corum AM, société de gestion spécialisée dans les SCPI européennes et internationales. Corum Origin, Corum Convictions, Corum XL — associations confirmées.',
     mainKeyword: 'Corum AM société de gestion SCPI',
     keywords: ['Corum AM', 'Corum Origin', 'Corum Convictions', 'Corum XL', 'SCPI européennes', 'société de gestion SCPI', 'PS 0%', 'fiscalité SCPI'],
     category: 'gestionnaires-acteurs',
     managedScpis: [
-      { name: 'Corum Origin', status: 'to_verify', sector: 'Diversifié Europe' },
-      { name: 'Corum Convictions', status: 'to_verify', sector: 'Diversifié Europe' },
-      { name: 'Corum XL', status: 'to_verify', sector: 'Immobilier de prestige' }
+      { name: 'Corum Origin', status: 'verified', sector: 'Diversifié Europe' },
+      { name: 'Corum Convictions', status: 'verified', sector: 'Diversifié Europe' },
+      { name: 'Corum XL', status: 'verified', sector: 'Immobilier de prestige' }
     ],
-    summary: 'Corum AM est une société de gestion très visible sur le marché des SCPI européennes et internationales, à analyser via la fiscalité, la diversification géographique, les devises si concernées et la documentation réglementaire. Les données d\'association SCPI ↔ société de gestion sont à vérifier auprès des sources officielles (ASPIM, DIC, site de la société de gestion).',
+    summary: 'Corum AM est une société de gestion très visible sur le marché des SCPI européennes et internationales, à analyser via la fiscalité, la diversification géographique, les devises si concernées et la documentation réglementaire. Les données d\'association SCPI ↔ société de gestion ont été confirmées par validation métier. Les investisseurs doivent consulter les documents réglementaires (DIC, note d\'information, rapport annuel) pour analyser chaque SCPI.',
     keyPoints: [
       'Acteur majeur des SCPI européennes et internationales',
-      'SCPI identifiées : Corum Origin, Corum Convictions, Corum XL — à vérifier',
+      'SCPI identifiées : Corum Origin, Corum Convictions, Corum XL — associations confirmées',
       'Avantage fiscal des prélèvements sociaux réduits sur revenus étrangers',
       'Diversification géographique : plusieurs pays européens',
       'Points de vigilance : risque de change si investissement hors zone euro, liquidité, documentation'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Les données internes ne contiennent pas encore Corum AM', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et les DIC' },
       { critere: 'Fiscalité des revenus étrangers', importance: 'Les SCPI européennes peuvent bénéficier de prélèvements sociaux à 0%', vigilance: 'Vérifier le crédit d\'impôt applicable et le taux effectif selon les pays' },
       { critere: 'Risque de change', importance: 'Certains investissements hors zone euro peuvent exposer au risque de change', vigilance: 'Vérifier la répartition géographique et la politique de couverture de change' },
       { critere: 'Liquidité', importance: 'Les SCPI internationales peuvent avoir une liquidité différente', vigilance: 'Consulter les bulletins trimestriels pour le suivi des retraits' }
@@ -177,7 +176,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     ],
     faq: [
       { question: 'Les SCPI européennes sont-elles plus avantageuses fiscalement ?', reponse: 'Les revenus de SCPI européennes peuvent bénéficier de prélèvements sociaux réduits ou nuls selon les pays, mais le rendement net dépend aussi du crédit d\'impôt et du taux effectif. L\'analyse doit être faite au cas par cas.' },
-      { question: 'Faut-il vérifier les SCPI gérées par Corum AM ?', reponse: 'Oui, il est recommandé de vérifier la liste exacte des SCPI gérées sur le site officiel de la société de gestion, l\'ASPIM ou l\'AMF/GECO.' }
+      { question: 'Les SCPI gérées par Corum AM sont-elles vérifiées ?', reponse: 'Oui, les associations SCPI ↔ société de gestion ont été confirmées par validation métier interne. Il est néanmoins recommandé de consulter les documents réglementaires (DIC, note d\'information, rapports annuels) pour une analyse complète.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -191,7 +190,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Risques SCPI', url: '/risques-scpi/' },
       { label: 'Comparateur SCPI', url: '/comparateur-scpi/' }
     ],
-    angle: 'Acteur très visible sur les SCPI européennes et internationales, à analyser via fiscalité, diversification, documentation.'
+    angle: 'Acteur très visible sur les SCPI européennes et internationales, associations SCPI confirmées — à analyser via fiscalité, diversification, documentation.'
   },
   {
     slug: 'alderan',
@@ -536,35 +535,34 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     displayName: 'BNP Paribas REIM France',
     title: 'BNP Paribas REIM France : SCPI gérées, stratégie et analyse',
     seoTitle: 'BNP Paribas REIM France SCPI : société de gestion, Accès Valeur Pierre | MaximusSCPI',
-    metaDescription: 'Analyse de BNP Paribas REIM France, société de gestion du groupe BNP Paribas. Accès Valeur Pierre, Diversipierre — données à vérifier.',
+    metaDescription: 'Analyse de BNP Paribas REIM France, société de gestion du groupe BNP Paribas. Accès Valeur Pierre, Diversipierre — associations confirmées.',
     mainKeyword: 'BNP Paribas REIM France SCPI',
     keywords: ['BNP Paribas REIM France', 'Accès Valeur Pierre', 'Diversipierre', 'société de gestion SCPI', 'groupe BNP Paribas', 'gestionnaire SCPI', 'AMF'],
     category: 'gestionnaires-acteurs',
     managedScpis: [
-      { name: 'Accès Valeur Pierre', status: 'to_verify', sector: 'Diversifié France' },
-      { name: 'Diversipierre', status: 'to_verify', sector: 'Diversifié France' }
+      { name: 'Accès Valeur Pierre', status: 'verified', sector: 'Diversifié France' },
+      { name: 'Diversipierre', status: 'verified', sector: 'Diversifié France' }
     ],
-    summary: 'BNP Paribas REIM France est la société de gestion immobilière du groupe BNP Paribas, à analyser avec prudence. Les SCPI associées (Accès Valeur Pierre, Diversipierre) sont à vérifier auprès des sources officielles (ASPIM, AMF/GECO, DIC, site de la société de gestion). Une société de gestion ne garantit ni le rendement, ni la liquidité, ni le capital.',
+    summary: 'BNP Paribas REIM France est la société de gestion immobilière du groupe BNP Paribas, à analyser via ses SCPI Accès Valeur Pierre et Diversipierre (associations confirmées par validation métier). Une société de gestion ne garantit ni le rendement, ni la liquidité, ni le capital.',
     keyPoints: [
       'Société de gestion du groupe BNP Paribas, acteur bancaire de premier plan',
-      'SCPI identifiées : Accès Valeur Pierre, Diversipierre — à vérifier',
+      'SCPI identifiées : Accès Valeur Pierre, Diversipierre — associations confirmées',
       'Stratégie orientée diversification France',
-      'Points de vigilance : vérifier la liste exacte des SCPI gérées via l\'ASPIM'
+      'À analyser via les indicateurs : capitalisation, TOF, endettement, frais, rendement, transparence'
     ],
     vigilancePoints: [
-      { critere: 'Association SCPI ↔ société de gestion', importance: 'Les données internes sont à confirmer', vigilance: 'Donnée à vérifier — consulter l\'ASPIM, l\'AMF/GECO et les DIC des SCPI' },
       { critere: 'Capitalisation des véhicules', importance: 'La taille des SCPI influence la liquidité', vigilance: 'Vérifier la capitalisation dans les bulletins trimestriels' },
       { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Comparer avec la moyenne du marché (85-95%)' },
       { critere: 'Endettement', importance: 'Impact sur la résilience en cas de crise', vigilance: 'Vérifier le ratio d\'endettement dans les rapports annuels' },
       { critere: 'Frais', importance: 'Impact direct sur le rendement net', vigilance: 'Frais de souscription et de gestion à comparer avec le marché' }
     ],
     casPratiques: [
-      { titre: 'Investisseur qui vérifie les SCPI gérées par BNP Paribas REIM France', description: 'Un investisseur identifie Accès Valeur Pierre et Diversipierre comme SCPI potentielles du groupe. Il vérifie sur le site de la société de gestion et l\'ASPIM avant toute analyse.' },
+      { titre: 'Investisseur qui compare les SCPI de BNP Paribas REIM France', description: 'Un investisseur compare Accès Valeur Pierre et Diversipierre pour évaluer la complémentarité et la cohérence de l\'allocation au sein de la gamme BNP Paribas REIM France.' },
       { titre: 'Investisseur qui compare avec d\'autres sociétés de gestion bancaires', description: 'Un investisseur compare BNP Paribas REIM France avec Amundi Immobilier et La Française REM pour évaluer la gamme, les frais et le rendement.' }
     ],
     faq: [
       { question: 'BNP Paribas REIM France est-elle une société de gestion importante ?', reponse: 'BNP Paribas REIM France bénéficie de la solidité du groupe BNP Paribas. L\'importance se mesure à la capitalisation des SCPI gérées, à la qualité du patrimoine et à la transparence documentaire.' },
-      { question: 'Faut-il vérifier les SCPI gérées par BNP Paribas REIM France ?', reponse: 'Oui, il est recommandé de vérifier la liste exacte des SCPI gérées sur le site officiel de la société de gestion ou l\'ASPIM.' }
+      { question: 'Les SCPI gérées par BNP Paribas REIM France sont-elles vérifiées ?', reponse: 'Oui, les associations SCPI ↔ société de gestion ont été confirmées par validation métier interne. Il est recommandé de consulter les documents réglementaires (DIC, note d\'information, rapports annuels) pour une analyse complète.' }
     ],
     internalLinks: [
       { label: 'Comprendre les SCPI', url: '/articles/' },
@@ -585,7 +583,7 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
       { label: 'Capitalisation SCPI', url: '/capitalisation-scpi/' },
       { label: 'Endettement SCPI', url: '/endettement-scpi/' }
     ],
-    angle: 'Société de gestion du groupe BNP Paribas, données SCPI à vérifier auprès des sources officielles.'
+    angle: 'Société de gestion du groupe BNP Paribas, SCPI Accès Valeur Pierre et Diversipierre à analyser via les indicateurs.'
   },
   {
     slug: 'amundi-immobilier',

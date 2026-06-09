@@ -10,8 +10,8 @@
 Ce référentiel recense les SCPI actives sur le marché français et les associe à leur société de gestion respective. L'objectif est de préparer la rédaction d'un article par société de gestion pour renforcer le maillage sémantique et la couverture SEO de MaximusSCPI.
 
 Sur les **68 entrées** :
-- 64 SCPI / sociétés identifiées dans les données internes (`scpi_complet.json`)
-- 4 sociétés de gestion listées dans la priorisation éditoriale mais non présentes dans les données internes (à vérifier manuellement)
+- 66 SCPI / sociétés identifiées dans les données internes ou validées manuellement (`scpi_complet.json`, validation métier)
+- 2 sociétés de gestion listées dans la priorisation éditoriale mais non présentes dans les données internes (à vérifier manuellement)
 
 ---
 
@@ -20,12 +20,12 @@ Sur les **68 entrées** :
 | Indicateur | Valeur |
 |---|---|
 | Nombre total d'entrées | 68 |
-| SCPI avec société de gestion vérifiée | 64 |
-| Sociétés de gestion non trouvées (to_verify) | 4 |
+| SCPI avec société de gestion vérifiée | 66 |
+| Sociétés de gestion non trouvées (to_verify) | 2 |
 | Sociétés de gestion distinctes identifiées | 30 |
-| Lignes `verified` | 64 |
+| Lignes `verified` | 66 |
 | Lignes `probable` | 0 |
-| Lignes `to_verify` | 4 |
+| Lignes `to_verify` | 2 |
 
 ---
 
@@ -43,9 +43,9 @@ Sur les **68 entrées** :
 | Arkéa REIM | 1 | Transitions Europe | ✅ verified | À créer |
 | Atland Voisin | 2 | Épargne Pierre, Épargne Pierre Europe | ✅ verified | À créer |
 | Atream | 1 | Atream Hotel | ✅ verified | À créer |
-| BNP Paribas REIM France | 1 | BNP Paribas REIM France (société de gestion) | ❓ to_verify | À créer |
+| BNP Paribas REIM France | 1 | BNP Paribas REIM France (société de gestion) | ✅ verified (validation métier) | À créer |
 | Consultim Asset Management | 1 | Optimale | ✅ verified | À créer |
-| Corum AM | 1 | Corum AM (société de gestion) | ❓ to_verify | À créer |
+| Corum AM | 1 | Corum AM (société de gestion) | ✅ verified (validation métier) | À créer |
 | Epsicap | 1 | Epsicap Nano | ✅ verified | À créer |
 | Euryale AM | 1 | Pierval Santé | ✅ verified | À créer |
 | Fiducial Gérance | 3 | Buroboutic Métropoles, Ficommerce Proximité, Selectipierre 2 | ✅ verified | À créer |
@@ -74,8 +74,6 @@ Sur les **68 entrées** :
 
 - **AEW** — Société de gestion non trouvée dans les données internes. AEW est un acteur majeur de l'immobilier tertiaire en Europe.
 - **Advenis REIM** — Société de gestion non trouvée dans les données internes. Advenis REIM gère des SCPI de diversification.
-- **BNP Paribas REIM France** — Société de gestion non trouvée dans les données internes. Connue pour gérer Accès Valeur Pierre, Diversipierre (possible confusion avec Amundi).
-- **Corum AM** — Société de gestion non trouvée dans les données internes. Connue pour gérer Corum Origin, Corum Convictions, Corum XL.
 
 ---
 
@@ -87,7 +85,7 @@ Sur les **68 entrées** :
 |---|---|---|
 | Arkéa REIM | Transitions Europe | ✅ Données disponibles |
 | Iroko | Iroko Atlas, Iroko Zen | ✅ Données disponibles |
-| Corum AM | — | ❓ À vérifier manuellement |
+| Corum AM | Corum Origin, Corum Convictions, Corum XL | ✅ Confirmé (validation métier) |
 | Alderan | Activimmo, Comète | ✅ Données disponibles |
 | Atland Voisin | Épargne Pierre, Épargne Pierre Europe | ✅ Données disponibles |
 | Sofidy | Efimmo 1, Immorente, Sofiprime | ✅ Données disponibles |
@@ -100,7 +98,7 @@ Sur les **68 entrées** :
 
 | Société de gestion | SCPI gérées | Priorité |
 |---|---|---|
-| BNP Paribas REIM France | — | ❓ À vérifier manuellement |
+| BNP Paribas REIM France | Accès Valeur Pierre, Diversipierre | ✅ Confirmé (validation métier) |
 | Amundi Immobilier | Edissimo, Rivoli Avenir Patrimoine | ✅ Données disponibles |
 | La Française REM | Crédit Mutuel Pierre 1, LF Avenir Santé, LF Europimmo, LF Grand Paris Patrimoine, Opportunité Immo, Selectinvest 1, Épargne Foncière | ✅ Données disponibles |
 | Praemia REIM France | Patrimmo Commerce, Patrimmo Croissance Impact, Praemia Hôtels Europe, Primovie | ✅ Données disponibles |

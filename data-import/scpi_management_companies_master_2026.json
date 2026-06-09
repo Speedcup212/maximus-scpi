@@ -173,11 +173,11 @@
     "scpi_name": "BNP Paribas REIM France (société de gestion)",
     "management_company": "BNP Paribas REIM France",
     "management_company_slug": "bnp-paribas-reim-france",
-    "source_type": "to_verify",
+    "source_type": "manual_validation",
     "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, site officiel)",
     "status": "active",
-    "confidence": "to_verify",
-    "notes": "Société de gestion non trouvée dans les données internes. Connue pour gérer Accès Valeur Pierre, Diversipierre (possible confusion avec Amundi)."
+    "confidence": "verified",
+    "notes": "Association SCPI ↔ société de gestion confirmée par validation métier interne. Gère Accès Valeur Pierre et Diversipierre."
   },
   {
     "scpi_name": "Optimale",
@@ -193,11 +193,11 @@
     "scpi_name": "Corum AM (société de gestion)",
     "management_company": "Corum AM",
     "management_company_slug": "corum-am",
-    "source_type": "to_verify",
+    "source_type": "manual_validation",
     "source_detail": "Non présente dans scpi_complet.json — source externe à vérifier (ASPIM, AMF/GECO)",
     "status": "active",
-    "confidence": "to_verify",
-    "notes": "Société de gestion non trouvée dans les données internes. Connue pour gérer Corum Origin, Corum Convictions, Corum XL."
+    "confidence": "verified",
+    "notes": "Association SCPI ↔ société de gestion confirmée par validation métier interne. Gère Corum Origin, Corum Convictions, Corum XL."
   },
   {
     "scpi_name": "Epsicap Nano",
