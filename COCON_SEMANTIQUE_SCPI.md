@@ -371,6 +371,45 @@ Pages :
 - /patrimoine-scpi/
 - /locataires-scpi/
 
+| Silo 5 | Risques SCPI | risqué-vigilance | |
+| Silo 6 | SCPI européennes et géographie | — | |
+| Silo 7 | Secteurs immobiliers | secteurs-immo | |
+| Silo 8 | Sociétés de gestion, acteurs et réglementation | gestionnaires-acteurs + reglementation-transparence | |
+| Silo 9 | Comparatifs patrimoniaux | choix-comparatifs | |
+| Silo 10 | Lexique SCPI / réponses courtes IA | — | |
+
+## Batch Nouveaux Articles 1 — Juin 2026
+
+Articles créés dans le Batch Nouveaux Articles 1 :
+
+| ID | Slug | Titre | Catégorie |
+|---|---|---|---|
+| 138 | `scpi-ou-lmnp` | SCPI ou LMNP : quel investissement locatif choisir en 2026 ? | Stratégies patrimoniales |
+| 139 | `scpi-ou-immobilier-locatif` | SCPI ou immobilier locatif direct : avantages, fiscalité et rendement | Stratégies patrimoniales |
+| 140 | `scpi-ou-assurance-vie` | SCPI ou assurance-vie : que choisir pour votre épargne ? | Fiscalité et modes de détention |
+| 141 | `scpi-capital-fixe-capital-variable` | SCPI à capital fixe ou capital variable : comprendre les différences | Critères d'analyse |
+| 142 | `bulletin-trimestriel-scpi` | Comment lire un bulletin trimestriel de SCPI : guide complet | Critères d'analyse |
+| 143 | `rapport-annuel-scpi` | Comment lire un rapport annuel de SCPI : points clés à vérifier | Critères d'analyse |
+| 144 | `delai-revente-scpi` | Délai de revente d'une SCPI : combien de temps pour récupérer son argent ? | Risques et liquidité |
+| 145 | `investir-scpi-apres-50-ans` | Investir en SCPI après 50 ans : stratégie patrimoniale et revenus | Stratégies patrimoniales |
+| 146 | `scpi-non-resident-fiscal` | SCPI pour non-résident fiscal : fiscalité et investissement | Fiscalité |
+
+Article non créé (déjà existant) : `scpi-transmission` (ID 81).
+
+### Rattachement aux silos
+
+| Article | Silo principal |
+|---|---|
+| `scpi-ou-lmnp` | Silo 9 — Comparatifs patrimoniaux |
+| `scpi-ou-immobilier-locatif` | Silo 9 — Comparatifs patrimoniaux |
+| `scpi-ou-assurance-vie` | Silo 9 — Comparatifs patrimoniaux |
+| `scpi-capital-fixe-capital-variable` | Silo 1 — Critères d'analyse |
+| `bulletin-trimestriel-scpi` | Silo 8 — Documents réglementaires |
+| `rapport-annuel-scpi` | Silo 8 — Documents réglementaires |
+| `delai-revente-scpi` | Silo 5 — Risques SCPI |
+| `investir-scpi-apres-50-ans` | Silo 4 — Profils investisseurs |
+| `scpi-non-resident-fiscal` | Silo 2 — Fiscalité SCPI |
+
 ## Règles de maillage
 
 Chaque article doit contenir :

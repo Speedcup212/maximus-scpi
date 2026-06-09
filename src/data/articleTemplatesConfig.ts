@@ -1686,6 +1686,115 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Theoreim, société de gestion. SCPI Log In, spécialisation logistique/activités en Europe, indicateurs et points de vigilance.',
     keywords: ['Theoreim', 'Log In', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI logistique', 'AMF', 'ASPIM', 'documents réglementaires']
+  },
+  // === Batch Nouveaux Articles 1 — Business direct ===
+  {
+    id: 138,
+    slug: 'scpi-ou-lmnp',
+    title: 'SCPI ou LMNP : quel investissement locatif choisir en 2026 ?',
+    mainKeyword: 'SCPI ou LMNP',
+    searchIntent: 'comparer SCPI et LMNP pour choisir le meilleur investissement locatif',
+    targetAudience: 'investisseurs immobiliers comparant SCPI et location meublée',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comparatif SCPI vs LMNP en 2026 : rendement, fiscalité, gestion, frais, risques. Simulation sur 15 ans pour choisir selon votre profil investisseur.',
+    keywords: ['SCPI ou LMNP', 'LMNP', 'location meublée', 'comparatif investissement', 'fiscalité LMNP', 'SCPI vs LMNP']
+  },
+  {
+    id: 139,
+    slug: 'scpi-ou-immobilier-locatif',
+    title: 'SCPI ou immobilier locatif direct : avantages, fiscalité et rendement',
+    mainKeyword: 'SCPI ou immobilier locatif direct',
+    searchIntent: 'comparer SCPI et achat immobilier en direct pour investir',
+    targetAudience: 'investisseurs hésitant entre SCPI et achat immobilier direct',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'SCPI vs immobilier locatif direct : rentabilité nette, gestion locative, frais, fiscalité, effet de levier. Analyse comparative pour guider votre choix.',
+    keywords: ['SCPI ou immobilier locatif', 'immobilier direct', 'comparatif SCPI', 'achat immobilier', 'gestion locative']
+  },
+  {
+    id: 140,
+    slug: 'scpi-ou-assurance-vie',
+    title: 'SCPI ou assurance-vie : que choisir pour votre épargne ?',
+    mainKeyword: 'SCPI ou assurance vie',
+    searchIntent: 'comparer SCPI et assurance-vie pour orienter son épargne',
+    targetAudience: 'épargnants comparant SCPI et contrat d\'assurance-vie',
+    category: 'fiscalite-modes',
+    wordCountTarget: 2500,
+    metaDescription: 'Comparatif SCPI vs assurance-vie en 2026 : rendement, fiscalité, liquidité, frais, transmission. Aide à la décision selon votre horizon et votre TMI.',
+    keywords: ['SCPI ou assurance vie', 'comparatif SCPI', 'assurance vie', 'épargne', 'fiscalité', 'transmission']
+  },
+  {
+    id: 141,
+    slug: 'scpi-capital-fixe-capital-variable',
+    title: 'SCPI à capital fixe ou capital variable : comprendre les différences',
+    mainKeyword: 'SCPI capital fixe capital variable',
+    searchIntent: 'comprendre la différence entre SCPI à capital fixe et capital variable',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les différences entre SCPI à capital fixe et capital variable : liquidité, prix de part, souscription, retrait, risques et critères à analyser avant d\'investir.',
+    keywords: ['SCPI capital fixe', 'SCPI capital variable', 'capital fixe', 'capital variable', 'liquidité SCPI', 'prix de part SCPI']
+  },
+  {
+    id: 142,
+    slug: 'bulletin-trimestriel-scpi',
+    title: 'Comment lire un bulletin trimestriel de SCPI : guide complet',
+    mainKeyword: 'bulletin trimestriel SCPI',
+    searchIntent: 'comprendre et analyser le bulletin trimestriel d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 2500,
+    metaDescription: 'Guide pour lire un bulletin trimestriel de SCPI : TOF, distribution, endettement, capitalisation, collecte, faits marquants. Points clés à vérifier chaque trimestre.',
+    keywords: ['bulletin trimestriel SCPI', 'lire BT SCPI', 'indicateurs SCPI', 'TOF', 'distribution SCPI', 'collecte SCPI']
+  },
+  {
+    id: 143,
+    slug: 'rapport-annuel-scpi',
+    title: 'Comment lire un rapport annuel de SCPI : points clés à vérifier',
+    mainKeyword: 'rapport annuel SCPI',
+    searchIntent: 'comprendre et analyser le rapport annuel d\'une SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'analyse-criteres',
+    wordCountTarget: 2500,
+    metaDescription: 'Guide pour lire un rapport annuel de SCPI : comptes annuels, patrimoine, expertises, distribution, frais, perspectives. Documents à analyser avant d\'investir.',
+    keywords: ['rapport annuel SCPI', 'lire rapport SCPI', 'comptes annuels SCPI', 'expertise SCPI', 'patrimoine SCPI']
+  },
+  {
+    id: 144,
+    slug: 'delai-revente-scpi',
+    title: 'Délai de revente d\'une SCPI : combien de temps pour récupérer son argent ?',
+    mainKeyword: 'délai de revente SCPI',
+    searchIntent: 'connaître le délai de revente des parts de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'risques-vigilance',
+    wordCountTarget: 2500,
+    metaDescription: 'Comprenez les délais de revente d\'une SCPI : marché secondaire, retrait, capital fixe vs variable, délais moyens, décote possible et points de vigilance avant d\'investir.',
+    keywords: ['délai revente SCPI', 'revente parts SCPI', 'marché secondaire SCPI', 'liquidité SCPI', 'retrait SCPI', 'délai retrait']
+  },
+  {
+    id: 145,
+    slug: 'investir-scpi-apres-50-ans',
+    title: 'Investir en SCPI après 50 ans : stratégie patrimoniale et revenus',
+    mainKeyword: 'investir SCPI après 50 ans',
+    searchIntent: 'investir en SCPI quand on a plus de 50 ans',
+    targetAudience: 'investisseurs de 50 ans et plus cherchant des revenus complémentaires',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Investir en SCPI après 50 ans : stratégie patrimoniale, revenus complémentaires, préparation retraite, démembrement, assurance-vie et transmission. Guide pour les 50-65 ans.',
+    keywords: ['SCPI après 50 ans', 'investir SCPI', 'retraite SCPI', 'revenus complémentaires', 'démembrement SCPI', 'transmission SCPI']
+  },
+  {
+    id: 146,
+    slug: 'scpi-non-resident-fiscal',
+    title: 'SCPI pour non-résident fiscal : fiscalité et investissement',
+    mainKeyword: 'SCPI non résident fiscal',
+    searchIntent: 'comprendre comment investir en SCPI quand on est non-résident fiscal français',
+    targetAudience: 'expatriés et non-résidents fiscaux français',
+    category: 'fiscalite-avancee',
+    wordCountTarget: 2500,
+    metaDescription: 'Investir en SCPI en tant que non-résident fiscal : fiscalité des revenus fonciers, prélèvements sociaux, conventions fiscales, crédit d\'impôt et points de vigilance.',
+    keywords: ['SCPI non résident', 'non résident fiscal SCPI', 'expatrié SCPI', 'fiscalité SCPI', 'revenus fonciers', 'convention fiscale', 'crédit impôt']
   }
 ];
 
