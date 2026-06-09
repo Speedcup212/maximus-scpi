@@ -259,6 +259,7 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'amf-scpi', 'orias-scpi', 'documents-reglementaires-scpi', 'dic-scpi', 'note-information-scpi',
   'scpi-credit', 'scpi-comptant', 'scpi-retraite', 'scpi-revenus-complementaires', 'scpi-transmission',
   'scpi-france',
+  'societes-de-gestion-scpi',
 ]);
 
 const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({

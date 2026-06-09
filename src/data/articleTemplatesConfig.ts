@@ -1141,6 +1141,18 @@ export const articleTemplates: ArticleTemplate[] = [
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Norma Capital, société de gestion. SCPI NCap Régions, NCap Education Santé, NCap Continent, indicateurs et points de vigilance.',
     keywords: ['Norma Capital', 'NCap Régions', 'NCap Education Santé', 'NCap Continent', 'société de gestion SCPI']
+  },
+  {
+    id: 93,
+    slug: 'societes-de-gestion-scpi',
+    title: 'Sociétés de gestion SCPI : liste, rôle et critères d\'analyse',
+    mainKeyword: 'sociétés de gestion SCPI',
+    searchIntent: 'comparer les sociétés de gestion de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux',
+    category: 'acteurs-reglementation',
+    wordCountTarget: 2000,
+    metaDescription: 'Retrouvez les principales sociétés de gestion de SCPI, leurs SCPI associées, leur rôle, les critères à analyser et les points de vigilance avant d\'investir.',
+    keywords: ['sociétés de gestion SCPI', 'liste sociétés de gestion', 'comparer sociétés de gestion', 'acteurs SCPI', 'gestionnaire SCPI', 'AMF']
   }
 ];
 

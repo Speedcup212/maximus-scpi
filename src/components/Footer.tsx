@@ -200,6 +200,9 @@ const Footer: React.FC = () => {
                   <a href="/comprendre-les-scpi/" className="hover:text-blue-400 transition-colors">Comprendre les SCPI</a>
                 </li>
                 <li>
+                  <a href="/societes-de-gestion-scpi/" className="hover:text-blue-400 transition-colors">Sociétés de gestion SCPI</a>
+                </li>
+                <li>
                   <a href="/faq/" className="hover:text-blue-400 transition-colors">FAQ</a>
                 </li>
                 <li>

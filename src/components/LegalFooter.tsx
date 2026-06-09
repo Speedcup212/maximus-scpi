@@ -33,6 +33,14 @@ const LegalFooter: React.FC = () => {
               <p className="text-sm text-gray-400 leading-relaxed">
                 Plateforme d'analyse SCPI powered by IA pour analyser la cohérence de votre portefeuille SCPI.
               </p>
+              <div className="mt-4 space-y-1">
+                <a href="/societes-de-gestion-scpi/" className="text-xs text-gray-500 hover:text-blue-400 transition-colors block">
+                  Sociétés de gestion SCPI
+                </a>
+                <a href="/articles/" className="text-xs text-gray-500 hover:text-blue-400 transition-colors block">
+                  Comprendre les SCPI
+                </a>
+              </div>
             </div>
 
             {/* Outils */}
