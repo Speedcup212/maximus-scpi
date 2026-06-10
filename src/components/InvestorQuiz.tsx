@@ -60,9 +60,8 @@ export function calculateResult(data: QuizData): QuizResult {
       profil: 'Investisseur orienté optimisation fiscale',
       score: 84,
       geographicAllocation: [
-        { label: 'Europe hors France', value: 60 },
-        { label: 'France', value: 25 },
-        { label: 'International', value: 15 },
+        { label: 'Europe hors France', value: 75 },
+        { label: 'International', value: 25 },
       ],
       sectorAllocation: [
         { label: 'Santé / éducation', value: 25 },
@@ -107,9 +106,8 @@ export function calculateResult(data: QuizData): QuizResult {
       profil: 'Investisseur patrimonial long terme',
       score: 88,
       geographicAllocation: [
-        { label: 'Europe hors France', value: 55 },
-        { label: 'France', value: 25 },
-        { label: 'International', value: 20 },
+        { label: 'Europe hors France', value: 75 },
+        { label: 'International', value: 25 },
       ],
       sectorAllocation: [
         { label: 'Bureaux', value: 20 },
@@ -326,7 +324,7 @@ const STATUS_LABELS: Record<AnalysisCriterion['status'], string> = {
 function AllocationBars({ items, colors }: { items: AllocationItem[]; colors: string[] }) {
   return (
     <div className="space-y-2.5">
-      {items.map((item, i) => (
+      {items.filter(i => i.value > 0).map((item, i) => (
         <div key={item.label}>
           <div className="flex items-center justify-between text-xs mb-1">
             <span className="text-slate-300 truncate pr-2">{item.label}</span>
