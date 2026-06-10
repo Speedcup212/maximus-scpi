@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx vite",
     "prebuild": "npx tsx scripts/generateSitemapFromDB.ts && cross-env NODE_ENV=production npx tsx scripts/generateRobotsTxt.ts && node scripts/generateRedirectsSSG.js",
-    "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateThematicPages.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js",
+    "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateThematicPages.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js && node scripts/copyFinalSitemapToDist.js && node scripts/assertFinalSitemap.js",
     "lint": "eslint .",
     "test": "vitest run",
     "preview": "npx vite preview",
