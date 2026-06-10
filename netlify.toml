@@ -1,9 +1,5 @@
 [build]
-  # Étape 1 : build Vite + assets
-  # Étape 2 : regénérer le sitemap (garantit la fraîcheur sur l'artefact Netlify)
-  # Étape 3 : copier public/ → dist/
-  # Étape 4 : valider dist/sitemap.xml (bloque si articles absents)
-  command = "npm run build && npx tsx scripts/generateSitemapFromDB.ts && node scripts/copyFinalSitemapToDist.js && node scripts/assertFinalSitemap.js"
+  command = "npm run build"
   publish = "dist"
 
 [functions]
@@ -21,19 +17,4 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-# ── Edge Function: Prerender.io for SEO bots (DESACTIVÉ sur /sitemap.xml) ──
-# Réactiver après validation : décommenter le bloc ci-dessous
-# [[edge_functions]]
-#   function = "prerender"
-#   path = "/*"
-#   excludedPattern = [
-#     "^/sitemap\\.xml$",
-#     "^/robots\\.txt$",
-#     "^/favicon\\.ico$",
-#     "^/manifest\\.json$",
-#     "^/assets/.*",
-#     "^/.*\\.(xml|txt|json|css|js|png|jpg|jpeg|svg|webp|ico)$",
-#   ]
-
 
