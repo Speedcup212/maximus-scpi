@@ -4134,7 +4134,7 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <h1 className="mt-5 mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
+                  <h1 className="mt-5 mb-4 pb-2 overflow-visible text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
                     Obtenez une première lecture claire de votre projet SCPI
                   </h1>
 
