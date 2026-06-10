@@ -89,6 +89,18 @@ export const scpiCreditConfig: ScpiEducationalPageConfig = {
   ],
   practicalCases: [
     {
+      title: 'Hausse des taux et effet de levier inversé',
+      text: 'Un investisseur emprunte à taux variable pour financer 100 000 € de SCPI. Simulation pédagogique : si les taux passent de 3 % à 5 %, la mensualité augmente significativement. Le rendement net de la SCPI peut devenir inférieur au coût du crédit, générant un effet de levier négatif. Simulation non contractuelle.',
+    },
+    {
+      title: 'Baisse des distributions et cash-flow tendu',
+      text: 'Un investisseur a monté un crédit sur la base d\'un rendement SCPI de 5 %. Simulation pédagogique : si la SCPI réduit sa distribution à 3,5 % (baisse de taux d\'occupation, travaux), les revenus ne couvrent plus les mensualités. L\'effort d\'épargne augmente ou le crédit doit être renégocié. Simulation non contractuelle.',
+    },
+    {
+      title: 'Revente impossible et mensualités qui courent',
+      text: 'Un investisseur doit revendre ses parts pour rembourser son crédit. Simulation pédagogique : le délai de revente peut atteindre 6 à 12 mois. Pendant cette période, les mensualités restent dues. Si les parts sont cédées avec une décote, la perte en capital s\'ajoute au coût du crédit. Simulation non contractuelle.',
+    },
+    {
       title: 'Investisseur TMI 30 % — Crédit de 100 000 € sur 15 ans',
       text: "Hypothèses théoriques : souscription de 100 000 € de parts de SCPI (frais inclus). Rendement brut : 5 % (5 000 €/an). Crédit à 3,5 % fixe sur 15 ans : mensualité de 715 € (hors assurance). Intérêts première année : environ 3 200 €. Économie d'impôt TMI 30 % : 960 €. Loyers nets de frais de gestion : environ 4 400 €/an (367 €/mois). Cash-flow mensuel net après économie d'impôt : environ -268 €. Le projet nécessite un apport mensuel complémentaire. Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.",
     },

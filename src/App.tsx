@@ -200,6 +200,13 @@ const ScpiRetraitePage = lazy(() => import('./components/ScpiRetraitePage'));
 const ScpiRevenusComplementairesPage = lazy(() => import('./components/ScpiRevenusComplementairesPage'));
 const ScpiTransmissionPage = lazy(() => import('./components/ScpiTransmissionPage'));
 const ScpiFrancePage = lazy(() => import('./components/ScpiFrancePage'));
+const ScpiExpatrieFiscalitePage = lazy(() => import('./components/ScpiExpatrieFiscalitePage'));
+const DeclarationRevenusScpiErreursPage = lazy(() => import('./components/DeclarationRevenusScpiErreursPage'));
+const ScpiInvestirEnCouplePage = lazy(() => import('./components/ScpiInvestirEnCouplePage'));
+const ScpiHotellerieTourismePage = lazy(() => import('./components/ScpiHotellerieTourismePage'));
+const InvestirScpiUneFoisOuProgressivementPage = lazy(() => import('./components/InvestirScpiUneFoisOuProgressivementPage'));
+const ScpiInternationalesDiversificationPage = lazy(() => import('./components/ScpiInternationalesDiversificationPage'));
+const ConstruirePortefeuilleScpiPage = lazy(() => import('./components/ConstruirePortefeuilleScpiPage'));
 
 // Types and Data
 import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
@@ -263,7 +270,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
@@ -685,6 +692,20 @@ const App: React.FC = () => {
         setCurrentView('scpi-transmission');
       } else if (path === 'scpi-france') {
         setCurrentView('scpi-france');
+      } else if (path === 'scpi-expatrie-fiscalite') {
+        setCurrentView('scpi-expatrie-fiscalite');
+      } else if (path === 'declaration-revenus-scpi-erreurs') {
+        setCurrentView('declaration-revenus-scpi-erreurs');
+      } else if (path === 'scpi-investir-en-couple') {
+        setCurrentView('scpi-investir-en-couple');
+      } else if (path === 'scpi-hotellerie-tourisme') {
+        setCurrentView('scpi-hotellerie-tourisme');
+      } else if (path === 'investir-scpi-une-fois-ou-progressivement') {
+        setCurrentView('investir-scpi-une-fois-ou-progressivement');
+      } else if (path === 'scpi-internationales-diversification') {
+        setCurrentView('scpi-internationales-diversification');
+      } else if (path === 'articles/construire-portefeuille-scpi') {
+        setCurrentView('construire-portefeuille-scpi');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
       } else {
@@ -1160,6 +1181,20 @@ const App: React.FC = () => {
         setCurrentView('scpi-transmission');
       } else if (normalizedPath === 'scpi-france') {
         setCurrentView('scpi-france');
+      } else if (normalizedPath === 'scpi-expatrie-fiscalite') {
+        setCurrentView('scpi-expatrie-fiscalite');
+      } else if (normalizedPath === 'declaration-revenus-scpi-erreurs') {
+        setCurrentView('declaration-revenus-scpi-erreurs');
+      } else if (normalizedPath === 'scpi-investir-en-couple') {
+        setCurrentView('scpi-investir-en-couple');
+      } else if (normalizedPath === 'scpi-hotellerie-tourisme') {
+        setCurrentView('scpi-hotellerie-tourisme');
+      } else if (normalizedPath === 'investir-scpi-une-fois-ou-progressivement') {
+        setCurrentView('investir-scpi-une-fois-ou-progressivement');
+      } else if (normalizedPath === 'scpi-internationales-diversification') {
+        setCurrentView('scpi-internationales-diversification');
+      } else if (normalizedPath === 'articles/construire-portefeuille-scpi') {
+        setCurrentView('construire-portefeuille-scpi');
       } else if (normalizedPath === 'acheter-scpi') {
         setCurrentView('acheter-scpi');
       } else if (normalizedPath.startsWith('comparateur/scpi/')) {
@@ -3585,6 +3620,110 @@ const App: React.FC = () => {
         canonical: 'https://maximusscpi.com/scpi-france/',
       },
       ScpiFrancePage
+    );
+  }
+
+  // === 6 NOUVEAUX ARTICLES COLLECTION PORTEFEUILLE SCPI ===
+
+  if (currentView === 'scpi-expatrie-fiscalite') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI pour expatrié : opportunité ou complexité fiscale ?',
+        description: 'Analyse des points de vigilance pour un investissement en SCPI depuis l\'étranger : résidence fiscale, conventions, revenus de source française, déclaration et risques.',
+        keywords: ['SCPI expatrié', 'fiscalité internationale SCPI', 'non-résident SCPI', 'SCPI étranger', 'convention fiscale SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-expatrie-fiscalite/',
+      },
+      ScpiExpatrieFiscalitePage
+    );
+  }
+  if (currentView === 'declaration-revenus-scpi-erreurs') {
+    return renderEducationalScpiPage(
+      {
+        title: 'Déclaration des revenus SCPI : les erreurs fréquentes',
+        description: 'Guide des erreurs courantes dans la déclaration des revenus SCPI : IFU, brut/net, revenus étrangers, prélèvements sociaux, assurance-vie, intérêts d\'emprunt.',
+        keywords: ['déclaration revenus SCPI', 'IFU SCPI', 'erreurs déclaration SCPI', 'fiscalité SCPI', 'revenus fonciers SCPI'],
+        canonical: 'https://maximusscpi.com/declaration-revenus-scpi-erreurs/',
+      },
+      DeclarationRevenusScpiErreursPage
+    );
+  }
+  if (currentView === 'scpi-investir-en-couple') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI en couple : faut-il investir seul, à deux ou via société ?',
+        description: 'Comparaison des modes de détention de SCPI en couple : indivision, communauté, séparation de biens, société. Fiscalité, transmission, traçabilité des fonds.',
+        keywords: ['SCPI couple', 'investir SCPI à deux', 'indivision SCPI', 'régime matrimonial SCPI', 'SCI SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-investir-en-couple/',
+      },
+      ScpiInvestirEnCouplePage
+    );
+  }
+  if (currentView === 'scpi-hotellerie-tourisme') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI hôtellerie et tourisme : opportunité ou volatilité ?',
+        description: 'Analyse du secteur SCPI hôtellerie et tourisme : rendement potentiel, cyclicité, dépendance aux opérateurs, qualité des baux, localisation, diversification sectorielle.',
+        keywords: ['SCPI hôtellerie', 'SCPI tourisme', 'hôtels SCPI', 'secteur hôtelier SCPI', 'SCPI secteur'],
+        canonical: 'https://maximusscpi.com/scpi-hotellerie-tourisme/',
+      },
+      ScpiHotellerieTourismePage
+    );
+  }
+  if (currentView === 'investir-scpi-une-fois-ou-progressivement') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI : faut-il investir en une fois ou progressivement ?',
+        description: 'Comparaison entre investissement SCPI en une fois et investissement progressif : exposition immédiate, lissage du prix, frais, diversification temporelle.',
+        keywords: ['investir SCPI une fois', 'investir SCPI progressif', 'versements programmés SCPI', 'lissage prix SCPI', 'stratégie SCPI'],
+        canonical: 'https://maximusscpi.com/investir-scpi-une-fois-ou-progressivement/',
+      },
+      InvestirScpiUneFoisOuProgressivementPage
+    );
+  }
+  if (currentView === 'scpi-internationales-diversification') {
+    return renderEducationalScpiPage(
+      {
+        title: 'SCPI internationales : diversification ou effet marketing ?',
+        description: 'Analyse des SCPI internationales : distinction avec les SCPI européennes, zones géographiques, risque de change, fiscalité étrangère, stabilité juridique.',
+        keywords: ['SCPI internationale', 'SCPI Europe', 'diversification SCPI', 'risque change SCPI', 'fiscalité étrangère SCPI'],
+        canonical: 'https://maximusscpi.com/scpi-internationales-diversification/',
+      },
+      ScpiInternationalesDiversificationPage
+    );
+  }
+  if (currentView === 'construire-portefeuille-scpi') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark">
+        <SEOHead
+          title="Construire son portefeuille SCPI intelligemment – Guides et méthodes"
+          description="Guides, méthodes et points de vigilance pour comprendre comment assembler une allocation SCPI cohérente selon son montant, son horizon, sa fiscalité et son besoin de revenus."
+          keywords={['portefeuille SCPI', 'allocation SCPI', 'construire SCPI', 'stratégie SCPI', 'diversification SCPI', 'méthode SCPI']}
+          canonical="https://maximusscpi.com/articles/construire-portefeuille-scpi/"
+        />
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
+          currentView={currentView}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <ConstruirePortefeuilleScpiPage />
+        </Suspense>
+        <Footer />
+        {renderGlobalModals()}
+      </div>
     );
   }
 

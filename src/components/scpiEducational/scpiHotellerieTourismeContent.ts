@@ -1,0 +1,110 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const scpiHotellerieTourismeContent: ScpiEducationalPageConfig = {
+  path: '/scpi-hotellerie-tourisme',
+  badge: 'Secteurs immobiliers SCPI',
+  h1: 'SCPI hôtellerie et tourisme : opportunité ou volatilité ?',
+  heroSubtitle:
+    'Les SCPI du secteur hôtellerie et tourisme offrent un rendement potentiellement attractif, mais elles sont exposées à la cyclicité du tourisme, à la dépendance aux opérateurs hôteliers et aux chocs exogènes (crises sanitaires, géopolitiques, économiques). Cette page analyse les caractéristiques du secteur sans faire de recommandation produit.',
+  seoTitle: 'SCPI hôtellerie et tourisme : rendement, cyclicité, risques',
+  seoDescription:
+    'Analyse du secteur SCPI hôtellerie et tourisme : rendement potentiel, cyclicité, dépendance aux opérateurs, qualité des baux, localisation, reprise du marché, diversification sectorielle, points de vigilance.',
+  shortAnswerTitle: 'Les SCPI hôtelières sont-elles différentes des autres SCPI ?',
+  shortAnswer:
+    'Oui, les SCPI investies dans l\'hôtellerie et le tourisme présentent des caractéristiques spécifiques : les revenus dépendent directement de l\'activité des hôtels et de la fréquentation touristique, les baux sont souvent des baux commerciaux avec des clauses de loyer variable ou indexé sur le chiffre d\'affaires, et le secteur est plus cyclique que l\'immobilier de bureaux ou de santé. Le rendement potentiel peut être plus élevé, mais la volatilité des revenus est généralement plus forte.',
+  keyMessage:
+    'Les SCPI hôtelières offrent un potentiel de rendement attractif mais sont plus cycliques et dépendantes de la conjoncture touristique. Elles doivent être analysées avec une attention particulière à la qualité des baux, des opérateurs et de la localisation.',
+  definitionParagraphs: [
+    'Les SCPI hôtelières investissent dans des murs d\'hôtels, des résidences de tourisme, des complexes hôteliers. Elles perçoivent des loyers versés par les exploitants hôteliers (groupes internationaux, chaînes, indépendants).',
+    'Le bail hôtelier est un bail commercial spécifique qui peut inclure : un loyer fixe de base, un loyer variable indexé sur le chiffre d\'affaires de l\'hôtel, une clause de recettes minimales garanties.',
+    'La performance d\'une SCPI hôtelière dépend de la qualité de l\'exploitant, de la localisation de l\'hôtel, de la conjoncture touristique (saisonnalité, événements, tendances), et de la résilience du secteur face aux chocs exogènes.',
+    'Le secteur hôtelier a connu une forte volatilité lors de la crise sanitaire (2020-2021), avec des baisses de revenus significatives pour les SCPI exposées. La reprise a été rapide mais inégale selon les zones géographiques et les segments (hôtellerie d\'affaires, de loisirs, haut de gamme, économique).',
+    'Les baux hôteliers sont généralement indexés sur l\'inflation ou sur le chiffre d\'affaires, ce qui peut offrir une certaine protection contre l\'inflation mais aussi exposer à la baisse d\'activité.',
+  ],
+  tableTitle: 'Profil d\'exposition / Rendement potentiel / Risque / Points à vérifier',
+  tableRows: [
+    {
+      level: 'Hôtels d\'affaires (centres-villes, aéroports)',
+      advantage: 'Rendement stable si bonne fréquentation. Baux longs possibles avec grands groupes.',
+      vigilance: 'Dépendance à la conjoncture économique et au tourisme d\'affaires. Télétravail et visioconférences peuvent réduire la demande.',
+    },
+    {
+      level: 'Hôtels de loisirs (littoral, montagne, villes touristiques)',
+      advantage: 'Potentiel de rendement élevé en haute saison. Marché porté par le tourisme international.',
+      vigilance: 'Saisonnalité marquée. Dépendance à la météo, aux événements géopolitiques et aux tendances touristiques.',
+    },
+    {
+      level: 'Résidences de tourisme (meublés, appart-hôtels)',
+      advantage: 'Baux souvent longs avec des gestionnaires spécialisés. Loyer fixe ou mixte.',
+      vigilance: 'Vérifier la solidité du gestionnaire et la clause de sortie. Rotation locative plus élevée.',
+    },
+    {
+      level: 'Hôtels haut de gamme / luxe',
+      advantage: 'Clientèle moins sensible aux cycles économiques. Marges plus élevées pour l\'exploitant.',
+      vigilance: 'Investissement plus coûteux. Dépendance à la réputation et à la marque.',
+    },
+  ],
+  tableNote:
+    'Ces repères sont des simulations indicatives. La performance passée ne préjuge pas des résultats futurs. Aucune promesse de rendement.',
+  criteriaTitle: 'Points d\'analyse pour une SCPI hôtelière',
+  criteriaCards: [
+    { title: 'Qualité de l\'exploitant', text: 'Vérifier la solidité financière, l\'expertise et la réputation de l\'opérateur hôtelier.' },
+    { title: 'Type de bail', text: 'Bail fixe, variable, ou mixte ? Une part de loyer variable expose à la baisse d\'activité.' },
+    { title: 'Localisation', text: 'L\'emplacement détermine la fréquentation et la résilience de l\'hôtel face aux cycles.' },
+    { title: 'Diversification du portefeuille', text: 'Une SCPI hôtelière avec plusieurs hôtels dans différents pays et segments est moins risquée.' },
+    { title: 'Historique de distribution', text: 'Analyser la régularité des distributions sur plusieurs années, y compris en période de crise.' },
+    { title: 'Endettement', text: 'Un endettement élevé peut fragiliser la SCPI en cas de baisse des revenus hôteliers.' },
+    { title: 'Concurrence', text: 'Analyser l\'offre hôtelière locale et les projets concurrents à venir.' },
+    { title: 'Conjoncture touristique', text: 'Le secteur est sensible aux chocs exogènes. Évaluer la résilience du portefeuille.' },
+  ],
+  commonErrors: [
+    'Investir dans une SCPI hôtelière sans analyser la qualité des baux et des exploitants.',
+    'Confondre rendement brut et rendement net après fiscalité et frais.',
+    'Sous-estimer la cyclicité du secteur hôtelier.',
+    'Investir dans une SCPI hôtelière trop concentrée sur une seule zone géographique.',
+    'Ne pas vérifier l\'historique de distribution en période de crise.',
+    'Ignorer la part de loyer variable dans le bail.',
+  ],
+  practicalCases: [
+    {
+      title: 'SCPI hôtelière diversifiée en Europe',
+      text: 'Une SCPI hôtelière détient 15 hôtels dans 6 pays européens, avec des baux mixtes (fixe + variable). Simulation pédagogique : le loyer fixe couvre 70 % des charges, la part variable dépend de la fréquentation. En période de reprise touristique, le rendement peut être amélioré par la part variable. En période de baisse, le fixe protège partiellement. Simulation non contractuelle.',
+    },
+    {
+      title: 'SCPI hôtelière concentrée sur une région',
+      text: 'Une SCPI hôtelière concentrée sur une région touristique avec un seul exploitant. Simulation pédagogique : le risque de dépendance est élevé. Une baisse de fréquentation ou un changement d\'exploitant peut impacter significativement les distributions. Simulation non contractuelle.',
+    },
+  ],
+  methodParagraphs: [
+    'MaximusSCPI fournit des repères pédagogiques sur les secteurs immobiliers des SCPI. Ce contenu n\'est pas une recommandation produit.',
+    'L\'analyse d\'une SCPI hôtelière nécessite de vérifier la qualité des baux, des exploitants et de la diversification du portefeuille.',
+    'Consulter le comparateur MaximusSCPI pour visualiser les indicateurs clés des SCPI hôtelières.',
+  ],
+  conclusionParagraphs: [
+    'Les SCPI hôtelières peuvent offrir un rendement attractif et une diversification sectorielle intéressante, mais leur cyclicité et leur dépendance aux opérateurs et à la conjoncture touristique nécessitent une analyse approfondie.',
+    'Sources et points à vérifier : DIC, note d\'information, rapport annuel, bulletins trimestriels, qualité des baux et des exploitants.',
+    'Utilisez le comparateur MaximusSCPI pour visualiser les SCPI hôtelières, puis validez votre projet avec un conseiller.',
+  ],
+  faqItems: [
+    {
+      question: 'Quel est le rendement moyen des SCPI hôtelières ?',
+      answer: 'Le rendement varie selon les SCPI et la conjoncture. Il peut être plus élevé que la moyenne des SCPI diversifiées, mais aussi plus volatil. Aucune promesse de rendement.',
+    },
+    {
+      question: 'Les SCPI hôtelières sont-elles plus risquées ?',
+      answer: 'Elles sont généralement plus cycliques et dépendantes de la conjoncture touristique. La qualité des baux et des exploitants est déterminante.',
+    },
+    {
+      question: 'Comment sont indexés les loyers des SCPI hôtelières ?',
+      answer: 'Les baux hôteliers peuvent inclure un loyer fixe, un loyer variable indexé sur le chiffre d\'affaires, ou une combinaison des deux.',
+    },
+    {
+      question: 'Les SCPI hôtelières ont-elles bien résisté à la crise sanitaire ?',
+      answer: 'Le secteur a été fortement impacté en 2020-2021. Certaines SCPI ont réduit temporairement leurs distributions. La reprise a été rapide mais inégale.',
+    },
+    {
+      question: 'Faut-il investir dans une SCPI hôtelière pour diversifier son portefeuille ?',
+      answer: 'La diversification sectorielle est une bonne pratique. Les SCPI hôtelières peuvent compléter un portefeuille diversifié. À analyser selon son profil.',
+    },
+  ],
+}

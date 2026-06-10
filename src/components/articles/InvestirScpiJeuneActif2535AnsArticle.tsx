@@ -762,6 +762,63 @@ export const InvestirScpiJeuneActif2535AnsArticle: React.FC = () => {
         </div>
       </section>
 
+      {/* SCPI par âge */}
+      <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">SCPI à 30 ans, 40 ans, 50 ans ou 60 ans : la logique change</h2>
+        <p className="text-gray-700 dark:text-gray-300 mb-6">
+          La stratégie d'investissement en SCPI évolue avec l'âge. Ce qui est pertinent à 30 ans ne l'est pas forcément à 50 ou 60 ans. Voici les logiques à ajuster à chaque étape de la vie.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 border border-blue-100 dark:border-blue-800">
+            <h3 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-3">30 ans — Horizon long, capitalisation, diversification</h3>
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+              <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-1">•</span><span>Horizon de 25-35 ans : le temps joue pour vous, les intérêts composés maximisent la croissance.</span></li>
+              <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-1">•</span><span>Privilégier la capitalisation : réinvestir les revenus pour accélérer l'effet boule de neige.</span></li>
+              <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-1">•</span><span>Diversification large : secteurs et géographies variés, sans crainte de la volatilité à court terme.</span></li>
+              <li className="flex items-start gap-2"><span className="text-blue-600 font-bold mt-1">•</span><span>Enveloppe : assurance-vie pour la fiscalité différée, ou direct pour commencer simplement.</span></li>
+            </ul>
+          </div>
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-indigo-100 dark:border-indigo-800">
+            <h3 className="text-xl font-bold text-indigo-900 dark:text-indigo-200 mb-3">40 ans — Équilibre entre effort d'épargne et fiscalité</h3>
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+              <li className="flex items-start gap-2"><span className="text-indigo-600 font-bold mt-1">•</span><span>Horizon de 15-25 ans : cap sur la constitution d'un capital pour la retraite.</span></li>
+              <li className="flex items-start gap-2"><span className="text-indigo-600 font-bold mt-1">•</span><span>Revenus généralement plus élevés : capacité d'épargne accrue, optimiser le rendement net après fiscalité.</span></li>
+              <li className="flex items-start gap-2"><span className="text-indigo-600 font-bold mt-1">•</span><span>Fiscalité à optimiser : SCPI européennes, assurance-vie, démembrement selon la TMI.</span></li>
+              <li className="flex items-start gap-2"><span className="text-indigo-600 font-bold mt-1">•</span><span>Effet de levier possible via le crédit, si la capacité d'endettement le permet.</span></li>
+            </ul>
+          </div>
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-100 dark:border-amber-800">
+            <h3 className="text-xl font-bold text-amber-900 dark:text-amber-200 mb-3">50 ans — Préparation retraite, revenus futurs</h3>
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+              <li className="flex items-start gap-2"><span className="text-amber-600 font-bold mt-1">•</span><span>Horizon de 10-15 ans : viser des revenus complémentaires pour la retraite.</span></li>
+              <li className="flex items-start gap-2"><span className="text-amber-600 font-bold mt-1">•</span><span>Commencer à privilégier les SCPI de rendement avec un bon historique de distribution.</span></li>
+              <li className="flex items-start gap-2"><span className="text-amber-600 font-bold mt-1">•</span><span>Vérifier la liquidité : horizon plus court, donc la capacité à revendre dans des délais raisonnables est importante.</span></li>
+              <li className="flex items-start gap-2"><span className="text-amber-600 font-bold mt-1">•</span><span>Transmission à anticiper si le patrimoine devient conséquent.</span></li>
+            </ul>
+          </div>
+          <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 rounded-xl p-6 border border-red-100 dark:border-red-800">
+            <h3 className="text-xl font-bold text-red-900 dark:text-red-200 mb-3">60 ans — Liquidité, fiscalité, transmission, prudence accrue</h3>
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+              <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-1">•</span><span>Horizon de 5-10 ans : privilégier les SCPI à bonne liquidité et collecte positive.</span></li>
+              <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-1">•</span><span>Revenus complémentaires : priorité aux SCPI de rendement avec distributions régulières.</span></li>
+              <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-1">•</span><span>Fiscalité : vérifier l'impact des prélèvements sociaux et de l'IFI le cas échéant.</span></li>
+              <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-1">•</span><span>Transmission : planifier la donation des parts ou leur intégration dans une stratégie successorale.</span></li>
+              <li className="flex items-start gap-2"><span className="text-red-600 font-bold mt-1">•</span><span>Ne pas immobiliser toute son épargne : conserver une liquidité de précaution suffisante.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-xl p-6 mt-6 border-l-4 border-yellow-500">
+          <div className="flex items-start gap-3">
+            <Lightbulb className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
+            <div>
+              <p className="text-gray-700 dark:text-gray-300">
+                <strong>À retenir :</strong> La stratégie SCPI évolue avec l'âge. Plus l'horizon est long, plus la capitalisation et la diversification sont pertinentes. Plus l'horizon se réduit, plus la liquidité et les revenus immédiats deviennent prioritaires. Adapter sa stratégie à chaque étape de la vie est la clé d'un investissement cohérent.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Questions fréquentes</h2>

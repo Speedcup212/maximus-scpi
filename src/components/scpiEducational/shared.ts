@@ -59,6 +59,12 @@ export const INTERNAL_LINKS = [
   { href: '/scpi-revenus-complementaires', label: 'SCPI revenus complémentaires — rendement net' },
   { href: '/scpi-transmission', label: 'SCPI et transmission — donation et succession' },
   { href: '/scpi-france', label: 'SCPI France — fiscalité et rendement' },
+  { href: '/scpi-expatrie-fiscalite', label: 'SCPI pour expatrié — fiscalité internationale' },
+  { href: '/declaration-revenus-scpi-erreurs', label: 'Déclaration revenus SCPI — erreurs fréquentes' },
+  { href: '/scpi-investir-en-couple', label: 'SCPI en couple — investir seul, à deux ou société ?' },
+  { href: '/scpi-hotellerie-tourisme', label: 'SCPI hôtellerie et tourisme — opportunité ou volatilité ?' },
+  { href: '/investir-scpi-une-fois-ou-progressivement', label: 'Investir SCPI — une fois ou progressivement ?' },
+  { href: '/scpi-internationales-diversification', label: 'SCPI internationales — diversification ou marketing ?' },
 ] as const
 
 export interface TableRow {

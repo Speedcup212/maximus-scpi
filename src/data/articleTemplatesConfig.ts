@@ -1687,7 +1687,79 @@ export const articleTemplates: ArticleTemplate[] = [
     metaDescription: 'Analyse de Theoreim, société de gestion. SCPI Log In, spécialisation logistique/activités en Europe, indicateurs et points de vigilance.',
     keywords: ['Theoreim', 'Log In', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI logistique', 'AMF', 'ASPIM', 'documents réglementaires']
   },
-  // === (Batch Nouveaux Articles 1 supprimé — juin 2026) ===
+  // === 6 NOUVEAUX ARTICLES — Collection Construire son portefeuille SCPI ===
+  {
+    id: 136,
+    slug: 'scpi-expatrie-fiscalite',
+    title: 'SCPI pour expatrié : opportunité ou complexité fiscale ?',
+    mainKeyword: 'SCPI expatrié fiscalité',
+    searchIntent: 'comprendre les points de vigilance pour investir en SCPI depuis l\'étranger',
+    targetAudience: 'expatriés, non-résidents, investisseurs français à l\'étranger',
+    category: 'fiscalite-modes',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse des points de vigilance pour un investissement en SCPI depuis l\'étranger : résidence fiscale, conventions, revenus de source française, déclaration, liquidité, mode de détention.',
+    keywords: ['SCPI expatrié', 'fiscalité internationale SCPI', 'non-résident SCPI', 'convention fiscale SCPI', 'déclaration revenus SCPI']
+  },
+  {
+    id: 137,
+    slug: 'declaration-revenus-scpi-erreurs',
+    title: 'Déclaration des revenus SCPI : les erreurs fréquentes',
+    mainKeyword: 'déclaration revenus SCPI erreurs',
+    searchIntent: 'éviter les erreurs dans la déclaration des revenus de SCPI',
+    targetAudience: 'investisseurs SCPI tous niveaux, déclarants',
+    category: 'fiscalite-modes',
+    wordCountTarget: 2500,
+    metaDescription: 'Guide des erreurs courantes dans la déclaration des revenus SCPI : IFU, brut/net, revenus étrangers, prélèvements sociaux, assurance-vie, intérêts d\'emprunt.',
+    keywords: ['déclaration revenus SCPI', 'IFU SCPI', 'erreurs déclaration SCPI', 'fiscalité SCPI', 'revenus fonciers SCPI', 'prélèvements sociaux SCPI']
+  },
+  {
+    id: 138,
+    slug: 'scpi-investir-en-couple',
+    title: 'SCPI en couple : faut-il investir seul, à deux ou via société ?',
+    mainKeyword: 'SCPI investir en couple',
+    searchIntent: 'comprendre les modes de détention de SCPI en couple',
+    targetAudience: 'couples, mariés, pacsés, investisseurs en couple',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comparaison des modes de détention de SCPI en couple : indivision, communauté, séparation de biens, société. Fiscalité, transmission, traçabilité des fonds.',
+    keywords: ['SCPI couple', 'investir SCPI à deux', 'indivision SCPI', 'régime matrimonial SCPI', 'SCI SCPI']
+  },
+  {
+    id: 139,
+    slug: 'scpi-hotellerie-tourisme',
+    title: 'SCPI hôtellerie et tourisme : opportunité ou volatilité ?',
+    mainKeyword: 'SCPI hôtellerie tourisme',
+    searchIntent: 'analyser le secteur SCPI hôtellerie et tourisme',
+    targetAudience: 'investisseurs SCPI, diversification sectorielle',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse du secteur SCPI hôtellerie et tourisme : rendement potentiel, cyclicité, dépendance aux opérateurs, qualité des baux, localisation, diversification sectorielle.',
+    keywords: ['SCPI hôtellerie', 'SCPI tourisme', 'hôtels SCPI', 'secteur hôtelier SCPI', 'bail hôtelier SCPI']
+  },
+  {
+    id: 140,
+    slug: 'investir-scpi-une-fois-ou-progressivement',
+    title: 'SCPI : faut-il investir en une fois ou progressivement ?',
+    mainKeyword: 'investir SCPI une fois ou progressif',
+    searchIntent: 'comparer investissement SCPI en une fois et progressif',
+    targetAudience: 'investisseurs SCPI, épargnants avec capacité mensuelle',
+    category: 'strategies-patrimoniales',
+    wordCountTarget: 2500,
+    metaDescription: 'Comparaison entre investissement SCPI en une fois et investissement progressif : exposition immédiate, lissage du prix, frais, diversification temporelle, effort d\'épargne.',
+    keywords: ['investir SCPI une fois', 'investir SCPI progressif', 'versements programmés SCPI', 'lissage prix SCPI']
+  },
+  {
+    id: 141,
+    slug: 'scpi-internationales-diversification',
+    title: 'SCPI internationales : diversification ou effet marketing ?',
+    mainKeyword: 'SCPI internationales diversification',
+    searchIntent: 'comprendre la différence entre SCPI européennes et internationales',
+    targetAudience: 'investisseurs SCPI, diversification géographique',
+    category: 'secteurs-immo',
+    wordCountTarget: 2500,
+    metaDescription: 'Analyse des SCPI internationales : distinction avec les SCPI européennes, zones géographiques, risque de change, fiscalité étrangère, stabilité juridique, limites marketing.',
+    keywords: ['SCPI internationale', 'SCPI Europe', 'diversification SCPI', 'risque change SCPI', 'fiscalité étrangère SCPI']
+  },
 ];
 
 export function getTemplateById(id: number): ArticleTemplate | undefined {

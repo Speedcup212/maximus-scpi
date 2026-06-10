@@ -64,6 +64,12 @@ const SLUG_FAMILY_MAP: Record<string, ArticleFamily> = {
   'risques-scpi-vacance-locative-liquidite': 'risques-vigilance',
   'frais-scpi-souscription-gestion-performance': 'analyse-criteres',
   'revendre-parts-scpi-delais-marche-secondaire': 'risques-vigilance',
+  'scpi-expatrie-fiscalite': 'fiscalite-detention',
+  'declaration-revenus-scpi-erreurs': 'fiscalite-detention',
+  'scpi-investir-en-couple': 'strategies',
+  'scpi-hotellerie-tourisme': 'secteurs-immo',
+  'investir-scpi-une-fois-ou-progressivement': 'strategies',
+  'scpi-internationales-diversification': 'secteurs-immo',
 };
 
 function getArticleFamily(article: ArticleTemplate): ArticleFamily {
@@ -275,6 +281,8 @@ const DIRECT_ROUTE_SLUGS = new Set([
   'scpi-credit', 'scpi-comptant', 'scpi-retraite', 'scpi-revenus-complementaires', 'scpi-transmission',
   'scpi-france',
   'societes-de-gestion-scpi',
+  'scpi-expatrie-fiscalite', 'declaration-revenus-scpi-erreurs', 'scpi-investir-en-couple',
+  'scpi-hotellerie-tourisme', 'investir-scpi-une-fois-ou-progressivement', 'scpi-internationales-diversification',
 ]);
 
 // Slugs des articles "Contrôle & distribution" (AMF, ORIAS, CGP-CIF, PSI, rétrocessions)
@@ -765,6 +773,32 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                       <ArrowRight className="w-5 h-5 text-amber-600 group-hover:translate-x-1 transition-transform" />
                     </div>
                     </a>
+                )}
+
+                {/* Carte spéciale : collection Construire son portefeuille SCPI */}
+                {family === 'strategies' && (
+                  <a
+                    href="/articles/construire-portefeuille-scpi"
+                    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-orange-200 dark:border-orange-700 group row-span-1"
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 text-xs font-semibold rounded">
+                        📖 Collection spéciale
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                      Construire son portefeuille SCPI intelligemment
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      Une série de guides pour apprendre à construire une allocation SCPI cohérente selon son montant, son horizon, sa fiscalité, son besoin de revenus, sa diversification et sa tolérance au risque.
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs px-2 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded font-medium">
+                        Voir la collection
+                      </span>
+                      <ArrowRight className="w-5 h-5 text-orange-600 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </a>
                 )}
 
                 {articles.map((article) => {

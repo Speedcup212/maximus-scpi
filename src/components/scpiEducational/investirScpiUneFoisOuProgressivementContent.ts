@@ -1,0 +1,110 @@
+import type { ScpiEducationalPageConfig } from './shared'
+
+export const investirScpiUneFoisOuProgressivementContent: ScpiEducationalPageConfig = {
+  path: '/investir-scpi-une-fois-ou-progressivement',
+  badge: 'Stratégies patrimoniales SCPI',
+  h1: 'SCPI : faut-il investir en une fois ou progressivement ?',
+  heroSubtitle:
+    'Investir en SCPI en une seule fois ou progressivement ? Chaque approche présente des avantages et des inconvénients. L\'investissement en une fois permet d\'être exposé immédiatement, tandis que l\'investissement progressif lisse le prix d\'entrée et le risque de calendrier. Cette page compare les deux logiques sans promettre de meilleure performance.',
+  seoTitle: 'SCPI : investir en une fois ou progressivement ? Comparaison',
+  seoDescription:
+    'Comparaison entre investissement SCPI en une fois et investissement progressif : exposition immédiate, lissage du prix, frais, diversification temporelle, effort d\'épargne, risque de calendrier, points de vigilance.',
+  shortAnswerTitle: 'Investir en une fois ou progressivement : quelle différence ?',
+  shortAnswer:
+    'Investir en une fois (en bloc) permet d\'être exposé immédiatement au rendement des SCPI et de percevoir des revenus dès le trimestre suivant. Investir progressivement (via des versements programmés ou achats échelonnés) permet de lisser le prix d\'entrée, de réduire le risque de calendrier, et d\'adapter son investissement à sa capacité d\'épargne mensuelle. Il n\'existe pas de solution universellement supérieure : le choix dépend de la situation financière, de l\'horizon et de la tolérance au risque.',
+  keyMessage:
+    'Investir en une fois expose immédiatement au marché. Investir progressivement lisse le risque de calendrier mais retarde l\'exposition. Aucune des deux approches n\'est intrinsèquement supérieure.',
+  definitionParagraphs: [
+    'L\'investissement en une fois (ou en bloc) consiste à investir la totalité du montant prévu en une seule souscription. L\'investisseur est exposé immédiatement et perçoit des revenus dès la jouissance des parts.',
+    'L\'investissement progressif peut prendre plusieurs formes : versements programmés réguliers, achats échelonnés sur le marché secondaire, ou souscription progressive via une assurance-vie. Chaque achat est effectué au prix de souscription du moment.',
+    'Le principal avantage de l\'investissement progressif est le lissage du prix d\'entrée (effet de moyenne). Si le prix des parts varie, le prix d\'entrée moyen est lissé. Cet effet est neutre dans un marché stable mais peut être favorable ou défavorable selon l\'évolution du marché.',
+    'L\'investissement en une fois est plus simple et permet une exposition immédiate. Il évite le risque de ne pas investir (attentiste) et le coût d\'opportunité d\'une trésorerie non investie.',
+    'Le délai de jouissance peut impacter la comparaison : en cas de délai long, les revenus commencent plus tard, ce qui peut inciter à investir plus tôt.',
+    'Les frais de souscription (8 à 12 %) s\'appliquent à chaque souscription. Investir en plusieurs fois peut multiplier les frais si les achats sont effectués sur le marché primaire.',
+  ],
+  tableTitle: 'Approche / Avantage possible / Inconvénient possible / À considérer',
+  tableRows: [
+    {
+      level: 'Investissement en une fois',
+      advantage: 'Exposition immédiate. Simplicité. Revenus dès la jouissance.',
+      vigilance: 'Risque de calendrier (prix d\'entrée unique). Mobilisation immédiate des fonds.',
+    },
+    {
+      level: 'Versements programmés',
+      advantage: 'Lissage du prix d\'entrée. Effort d\'épargne mensualisé. Accessible dès petits montants.',
+      vigilance: 'Frais potentiellement multipliés. Exposition retardée. Nécessite une discipline d\'épargne.',
+    },
+    {
+      level: 'Achats échelonnés sur le marché secondaire',
+      advantage: 'Prix d\'entrée moyen lissé. Possibilité d\'acheter à décote.',
+      vigilance: 'Disponibilité des parts non garantie. Délais variables. Complexité accrue.',
+    },
+    {
+      level: 'Progressive via assurance-vie',
+      advantage: 'Fiscalité différée. Versements libres. Flexibilité.',
+      vigilance: 'Frais de gestion du contrat. Choix de SCPI limité. Rendement net après frais.',
+    },
+  ],
+  tableNote:
+    'Ces repères sont des simulations indicatives. Aucune promesse de performance ou de rendement.',
+  criteriaTitle: 'Critères pour choisir entre investissement en une fois ou progressif',
+  criteriaCards: [
+    { title: 'Disponibilité des fonds', text: 'Si les fonds sont disponibles immédiatement, l\'investissement en une fois est possible. Sinon, le progressif permet d\'épargner.' },
+    { title: 'Risque de calendrier', text: 'Investir en une fois expose au prix du jour. Le progressif lisse ce risque.' },
+    { title: 'Coût des frais', text: 'Les frais de souscription s\'appliquent à chaque achat. À vérifier selon la fréquence.' },
+    { title: 'Exposition souhaitée', text: 'Si l\'exposition immédiate est prioritaire, privilégier l\'investissement en une fois.' },
+    { title: 'Discipline d\'épargne', text: 'Les versements programmés imposent une régularité. L\'investissement en une fois est plus ponctuel.' },
+    { title: 'Horizon', text: 'Plus l\'horizon est long, moins le mode d\'entrée a d\'impact sur la performance finale.' },
+    { title: 'Délai de jouissance', text: 'Un délai long peut inciter à investir plus tôt pour commencer à percevoir des revenus.' },
+  ],
+  commonErrors: [
+    'Attendre trop longtemps pour investir en espérant un meilleur prix d\'entrée (risque attentiste).',
+    'Investir en une fois sans tenir compte du risque de calendrier.',
+    'Multiplier les frais de souscription en investissant trop fréquemment.',
+    'Confondre lissage du prix et meilleure performance.',
+    'Investir progressivement sans objectif de montant final.',
+    'Sous-estimer le coût d\'opportunité d\'une trésorerie non investie.',
+  ],
+  practicalCases: [
+    {
+      title: 'Investisseur avec 50 000 € disponibles',
+      text: 'Un investisseur dispose de 50 000 €. Simulation pédagogique : investir 50 000 € en une fois dans 2 SCPI. Exposition immédiate. Revenus dès le trimestre suivant la jouissance. Alternative : investir 25 000 € maintenant et 25 000 € dans 6 mois pour lisser le prix d\'entrée. Simulation non contractuelle.',
+    },
+    {
+      title: 'Investisseur avec capacité d\'épargne mensuelle',
+      text: 'Un investisseur souhaite investir 30 000 € sur 12 mois via des versements programmés. Simulation pédagogique : versements mensuels de 2 500 €. Lissage du prix d\'entrée. Effort d\'épargne régulier. À vérifier : frais de souscription sur chaque versement. Simulation non contractuelle.',
+    },
+  ],
+  methodParagraphs: [
+    'MaximusSCPI fournit des repères pédagogiques sur les stratégies d\'investissement en SCPI.',
+    'Le choix entre investissement en une fois et progressif dépend de la situation personnelle, de la disponibilité des fonds et de la tolérance au risque.',
+    'Consulter un conseiller pour déterminer l\'approche adaptée à son projet.',
+  ],
+  conclusionParagraphs: [
+    'Investir en une fois ou progressivement n\'est pas un choix binaire. L\'approche dépend de la situation financière, de l\'horizon et de la tolérance au risque de calendrier. L\'essentiel est d\'investir de manière cohérente avec ses objectifs.',
+    'Sources : DIC, notes d\'information, conditions de souscription des SCPI.',
+    'Utilisez le comparateur MaximusSCPI pour visualiser les SCPI, puis validez votre stratégie avec un conseiller.',
+  ],
+  faqItems: [
+    {
+      question: 'Est-il préférable d\'investir en une fois ou progressivement ?',
+      answer: 'Il n\'existe pas de réponse universelle. L\'investissement en une fois expose immédiatement, le progressif lisse le risque de calendrier.',
+    },
+    {
+      question: 'Les frais sont-ils plus élevés en investissement progressif ?',
+      answer: 'Oui, si chaque versement est soumis aux frais de souscription. À vérifier selon les conditions de la SCPI ou du contrat.',
+    },
+    {
+      question: 'Investir progressivement protège-t-il d\'une baisse du marché ?',
+      answer: 'Le lissage du prix d\'entrée peut réduire l\'impact d\'une baisse ponctuelle, mais ne protège pas contre une baisse générale du marché.',
+    },
+    {
+      question: 'Peut-on investir progressivement en SCPI via une assurance-vie ?',
+      answer: 'Oui, l\'assurance-vie permet des versements programmés et une exposition progressive aux SCPI.',
+    },
+    {
+      question: 'Quel est le risque d\'investir en une fois au mauvais moment ?',
+      answer: 'Le risque de calendrier existe : investir au plus haut du marché peut réduire le rendement initial. Le progressif lisse ce risque.',
+    },
+  ],
+}

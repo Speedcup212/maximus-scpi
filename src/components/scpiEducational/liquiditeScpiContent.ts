@@ -22,6 +22,11 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     'En période de crise immobilière ou de tensions sur le marché, les délais de retrait peuvent s\'allonger significativement. Certaines SCPI ont historiquement suspendu temporairement les retraits pour préserver l\'égalité entre associés et éviter des cessions forcées à perte.',
     'La liquidité perçue en assurance-vie est différente : l\'arbitrage vers le fonds euros ou le rachat est généralement rapide (quelques jours), mais la valeur de rachat dépend du prix de souscription de la SCPI au moment de la sortie. La liquidité du contrat n\'équivaut pas à une garantie de valeur.',
     'Le prix de retrait est le prix auquel la société de gestion rachète les parts. Il peut être inférieur au prix de souscription. Surveiller son évolution est un indicateur de la liquidité effective.',
+    'Les parts en attente de retrait sont des parts dont le propriétaire a demandé la revente mais qui n\'ont pas encore trouvé d\'acquéreur. Elles sont enregistrées dans un carnet d\'ordres ou une file d\'attente. Le nombre de parts en attente et le délai moyen de retrait sont des indicateurs de la liquidité réelle de la SCPI.',
+    'Une part en attente de retrait n\'est pas nécessairement un signal catastrophique. Dans une SCPI à capital variable avec collecte positive, les nouvelles souscriptions permettent de racheter régulièrement les parts des associés qui souhaitent sortir. Le délai peut être court si la collecte est dynamique.',
+    'En revanche, un volume croissant de parts en attente de retrait, combiné à une collecte nette négative ou en baisse, est un signal d\'alerte. Il peut indiquer que les investisseurs cherchent à sortir alors que les nouveaux entrants sont moins nombreux, ce qui allonge les délais et peut entraîner une décote sur le prix de retrait.',
+    'La différence entre SCPI à capital variable et SCPI à capital fixe est importante : dans une SCPI à capital variable, la société de gestion rachète les parts avec les nouvelles souscriptions. Dans une SCPI à capital fixe, la revente dépend exclusivement du marché secondaire et de la confrontation entre ordres d\'achat et de vente.',
+    'Pour analyser la liquidité d\'une SCPI, il est recommandé de consulter les bulletins trimestriels qui indiquent le nombre de parts en attente de retrait, le délai moyen de cession et l\'évolution de la collecte nette. Ces données permettent d\'évaluer la tension sur le marché secondaire.',
   ],
   tableTitle: 'Situation / Lecture / Vigilance / Questions à poser avant d\'investir',
   tableRows: [
@@ -149,6 +154,10 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     {
       question: 'Comment MaximusSCPI analyse la liquidité ?',
       answer: 'Le comparateur affiche les indicateurs de liquidité. L\'approche est pédagogique et ne constitue pas une recommandation personnalisée au sens de la réglementation MIF2.',
+    },
+    {
+      question: 'Comment savoir si une SCPI a des problèmes de liquidité ?',
+      answer: 'Consulter les bulletins trimestriels : nombre de parts en attente de retrait, délai moyen de cession, collecte nette. Une augmentation du délai et des parts en attente combinée à une collecte négative est un signal d\'alerte.',
     },
   ],
   comparateurCtaLabel: 'Tester la cohérence entre SCPI et besoin de liquidité',

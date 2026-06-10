@@ -70,6 +70,18 @@ export const combienInvestirScpiConfig: ScpiEducationalPageConfig = {
   ],
   practicalCases: [
     {
+      title: 'Investir 10 000 € en SCPI : bien commencer',
+      text: 'Avec 10 000 €, l\'objectif n\'est pas de construire un portefeuille complet mais de poser une première pierre de qualité. Simulation pédagogique : choisir une SCPI diversifiée (bureaux, commerces, santé) avec un bon historique de distribution et un TOF élevé. Comprendre que les frais de souscription (8-12 %) réduisent le capital net investi à environ 8 800-9 200 €. Éviter de disperser ce montant sur plusieurs SCPI : une seule SCPI de qualité est préférable à deux SCPI d\'entrée de gamme.',
+    },
+    {
+      title: 'Investir 50 000 € en SCPI : construire une première allocation',
+      text: 'Avec 50 000 €, une première diversification est envisageable. Simulation pédagogique : répartir entre 2 et 3 SCPI de secteurs complémentaires (bureaux, commerces, logistique ou santé). Par exemple : 25 000 € sur une SCPI de bureaux diversifiée, 15 000 € sur une SCPI de commerces et 10 000 € sur une SCPI santé. L\'enveloppe (direct, assurance-vie ou mix) doit être choisie selon la TMI. Simulation non contractuelle, hors frais et fiscalité réelle.',
+    },
+    {
+      title: 'Investir 100 000 € en SCPI : fiscalité, diversification et détention',
+      text: 'Avec 100 000 €, l\'enjeu dépasse le simple choix de SCPI. Simulation pédagogique : arbitrer entre enveloppes (direct, assurance-vie, PER) selon la TMI. À TMI 30-41 %, l\'assurance-vie réduit l\'IR immédiat. À TMI 11 %, les SCPI européennes en direct (PS 0 %) maximisent le rendement net. Diversifier sur 3 à 5 SCPI couvrant plusieurs secteurs et géographies (France + Europe). Envisager le démembrement ou le crédit selon les objectifs. Simulation non contractuelle, hors frais et fiscalité réelle.',
+    },
+    {
       title: 'Exemple pédagogique — 100 000 € d\'épargne disponible',
       text: 'Un investisseur dispose de 100 000 € d\'épargne financière. Simulation : conserver 20 000 € de liquidité de précaution. Investir 80 000 € en SCPI. Répartition possible : 2 SCPI en direct (50 000 €) et 1 SCPI en AV (30 000 €). Simulation pédagogique simplifiée, hors frais, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
     },
