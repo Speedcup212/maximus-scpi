@@ -4,6 +4,17 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
 
+// Source locale fiable pour tous les slugs d'articles statiques
+import { articleTemplates } from '../src/data/articleTemplatesConfig';
+
+// Slugs des articles éducatifs dédiés (renderEducationalScpiPage) qui sont déjà dans articleTemplatesConfig.
+// Les templates couvrent aujourd'hui ~141 articles dont les 6 nouveaux de la collection portefeuille.
+// Liste manuelle des slugs supplémentaires (pages sans entrée template) :
+const STATIC_COLLECTION_SLUGS = [
+  'articles',                              // Index /articles
+  'articles/construire-portefeuille-scpi',  // Hub collection
+];
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -49,9 +60,35 @@ async function generateSitemap() {
   console.log('🚀 Génération du sitemap.xml...');
   const today = new Date().toISOString().split('T')[0];
 
+  // Slugs to EXCLUDE from sitemap (test, merci, debug, copy, qa, tracking)
+  const excludePatterns = [
+    /^test-/,
+    /^merci-/,
+    /^qa-/,
+    /copy$/,
+    /debug/,
+    /tracking/,
+    /^log-in$/,
+  ];
+
+  const isExcluded = (slug: string) => excludePatterns.some(p => p.test(slug));
+
   let articles: Article[] = [];
   let scpiData: SCPI[] = [];
 
+  // ── 1. Récupérer les slugs locaux depuis articleTemplatesConfig ──
+  const localArticleSlugs: string[] = articleTemplates
+    .map(t => t.slug)
+    .filter(slug => !excludePatterns.some(p => p.test(slug)));
+
+  // ── 2. Ajouter les slugs de collection supplémentaires ──
+  const staticArticleRoutes: { path: string; priority: string; changefreq: string }[] = [
+    ...localArticleSlugs.map(s => ({ path: s, priority: '0.7' as const, changefreq: 'monthly' as const })),
+    { path: 'articles', priority: '0.8', changefreq: 'weekly' },
+    { path: 'articles/construire-portefeuille-scpi', priority: '0.8', changefreq: 'weekly' },
+  ];
+
+  // ── 3. Tentative Supabase pour les articles (peut échouer → fallback local) ──
   try {
     const { data, error } = await supabase
       .from('articles_seo')
@@ -75,18 +112,6 @@ async function generateSitemap() {
     console.warn('⚠️ SCPI fetch error:', e.message);
   }
 
-  // Slugs to EXCLUDE from sitemap (test, merci, debug, copy, qa, tracking)
-  const excludePatterns = [
-    /^test-/,
-    /^merci-/,
-    /^qa-/,
-    /copy$/,
-    /debug/,
-    /tracking/,
-    /^log-in$/,
-  ];
-
-  const isExcluded = (slug: string) => excludePatterns.some(p => p.test(slug));
 
   const scpiSlugs = scpiData
     .map(scpi => scpi.nom.toLowerCase()
@@ -100,9 +125,39 @@ async function generateSitemap() {
       .replace(/[^a-z0-9-]/g, ''))
     .filter(s => !isExcluded(s));
 
-  const validArticles = articles.filter(a => !isExcluded(a.slug));
-  const legalArticles = validArticles.filter(a => ['Légal', 'À propos'].includes(a.category || ''));
-  const contentArticles = validArticles.filter(a => !['Légal', 'À propos'].includes(a.category || ''));
+  // ── Construire la liste finale d'articles : fusion locale + Supabase ──
+  const supabaseArticleMap = new Map<string, Article>();
+  for (const a of articles.filter(a => !isExcluded(a.slug))) {
+    supabaseArticleMap.set(a.slug, a);
+  }
+
+  // Les slugs locaux sont la source de vérité ; on surcharge les dates avec Supabase si dispo
+  const mergedArticlePaths = staticArticleRoutes.map(entry => {
+    const supabase = supabaseArticleMap.get(entry.path);
+    return {
+      path: entry.path,
+      priority: entry.priority,
+      changefreq: entry.changefreq,
+      lastmod: supabase?.updated_at?.split('T')[0] || today,
+    };
+  });
+
+  // Ajouter les articles Supabase qui n'existent PAS dans la source locale
+  for (const a of articles) {
+    if (isExcluded(a.slug)) continue;
+    if (!staticArticleRoutes.some(r => r.path === a.slug)) {
+      const lastmod = a.updated_at?.split('T')[0] || today;
+      mergedArticlePaths.push({
+        path: a.slug,
+        priority: a.category === 'Légal' || a.category === 'À propos' ? '0.5' : '0.7',
+        changefreq: 'monthly',
+        lastmod,
+      });
+    }
+  }
+
+  const legalArticles = articles.filter(a => ['Légal', 'À propos'].includes(a.category || ''));
+  const contentArticlesFromDb = articles.filter(a => !['Légal', 'À propos'].includes(a.category || ''));
 
   const urls: string[] = [];
 
@@ -200,16 +255,21 @@ async function generateSitemap() {
     urls.push(urlEntry(`${siteUrl}/${slug}`, '0.7', 'weekly', today));
   }
 
-  // ── Priority 0.7: Educational articles (from DB) ──
-  for (const a of contentArticles) {
-    const lastmod = a.updated_at?.split('T')[0] || today;
-    urls.push(urlEntry(`${siteUrl}/${a.slug}`, '0.7', 'monthly', lastmod));
-  }
-
-  // ── Priority 0.5: Legal pages (from DB) ──
-  for (const a of legalArticles) {
-    const lastmod = a.updated_at?.split('T')[0] || today;
-    urls.push(urlEntry(`${siteUrl}/${a.slug}`, '0.5', 'monthly', lastmod));
+  // ── Priority 0.7 / 0.8 / 0.5: Articles statiques + Supabase ──
+  let staticArticleCount = 0;
+  let supabaseOnlyCount = 0;
+  for (const entry of mergedArticlePaths) {
+    // Les articles de collection (articles/, articles/construire-portefeuille-scpi) ont priority 0.8
+    // Les articles normaux ont 0.7 ; les légaux Supabase ont 0.5
+    urls.push(urlEntry(
+      `${siteUrl}/${entry.path}`,
+      entry.priority,
+      entry.changefreq,
+      entry.lastmod,
+    ));
+    if (entry.priority === '0.8') staticArticleCount++;
+    else if (!supabaseArticleMap.has(entry.path)) staticArticleCount++;
+    else supabaseOnlyCount++;
   }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -225,7 +285,12 @@ ${urls.join('\n')}
   console.log(`   Thematic: ${thematicPages.length}`);
   console.log(`   Simulators: ${simulators.length}`);
   console.log(`   SCPI: ${scpiSlugs.length}`);
-  console.log(`   Articles: ${contentArticles.length}`);
+  console.log(`   Articles statiques locaux: ${mergedArticlePaths.length} URLs (templates + collection)`);
+  console.log(`     ↳ ${localArticleSlugs.length} slugs depuis articleTemplatesConfig`);
+  console.log(`     ↳ ${STATIC_COLLECTION_SLUGS.length} pages de collection (/articles, hub)`);
+  if (articles.length > 0) {
+    console.log(`   Articles Supabase supplémentaires: ${supabaseOnlyCount} URLs`);
+  }
   console.log(`   📄 ${outputPath}`);
 }
 
