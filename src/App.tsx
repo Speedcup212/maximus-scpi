@@ -4176,7 +4176,7 @@ const App: React.FC = () => {
                     {[
                       'Pré-orientation pédagogique',
                       'Comparateur 63 SCPI',
-                      'Vous serez accompagné par le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580',
+                      'En cas de projet de souscription, vous serez accompagné par le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580.',
                     ].map((item) => (
                       <li key={item} className="inline-flex items-center gap-2">
                         <svg
