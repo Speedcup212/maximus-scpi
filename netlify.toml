@@ -22,18 +22,18 @@
   to = "/index.html"
   status = 200
 
-# ── Edge Function: Prerender.io for SEO bots ──
-# Exclure fichiers statiques et SEO pour servir le fichier directement depuis dist/
-[[edge_functions]]
-  function = "prerender"
-  path = "/*"
-  excludedPattern = [
-    "^/sitemap\\.xml$",
-    "^/robots\\.txt$",
-    "^/favicon\\.ico$",
-    "^/manifest\\.json$",
-    "^/assets/.*",
-    "^/.*\\.(xml|txt|json|css|js|png|jpg|jpeg|svg|webp|ico)$",
-  ]
+# ── Edge Function: Prerender.io for SEO bots (DESACTIVÉ sur /sitemap.xml) ──
+# Réactiver après validation : décommenter le bloc ci-dessous
+# [[edge_functions]]
+#   function = "prerender"
+#   path = "/*"
+#   excludedPattern = [
+#     "^/sitemap\\.xml$",
+#     "^/robots\\.txt$",
+#     "^/favicon\\.ico$",
+#     "^/manifest\\.json$",
+#     "^/assets/.*",
+#     "^/.*\\.(xml|txt|json|css|js|png|jpg|jpeg|svg|webp|ico)$",
+#   ]
 
 
