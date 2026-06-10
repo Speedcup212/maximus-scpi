@@ -1,5 +1,9 @@
 [build]
-  command = "npm run build"
+  # Étape 1 : build Vite + assets
+  # Étape 2 : regénérer le sitemap (garantit la fraîcheur sur l'artefact Netlify)
+  # Étape 3 : copier public/ → dist/
+  # Étape 4 : valider dist/sitemap.xml (bloque si articles absents)
+  command = "npm run build && npx tsx scripts/generateSitemapFromDB.ts && node scripts/copyFinalSitemapToDist.js && node scripts/assertFinalSitemap.js"
   publish = "dist"
 
 [functions]
