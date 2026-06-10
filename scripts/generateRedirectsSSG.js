@@ -54,7 +54,10 @@ const buildScpiPrefixRedirects = () => {
 
 // Generate redirects file with static pages
 const generateRedirects = () => {
-  let redirectsContent = `# Netlify/Vercel redirects for SPA routing with SSG
+  let redirectsContent = `# Redirection sitemap vers le fichier stable (garantit le bon sitemap en production)
+/sitemap.xml /sitemap-final.xml 200!
+
+# Netlify/Vercel redirects for SPA routing with SSG
 
 # Redirections 301 pour anciens slugs d'articles (PRIORITAIRES)
 /fonds-euros-ou-scpi-2026 /fonds-euros-ou-scpi 301
