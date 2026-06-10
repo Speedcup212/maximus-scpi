@@ -47,6 +47,18 @@ function ensureTrailingSlash(url: string): string {
   return url + '/';
 }
 
+/**
+ * Normalise un slug d'article pour le placer sous /articles/.
+ * - slug = "scpi-expatrie-fiscalite" → "articles/scpi-expatrie-fiscalite"
+ * - slug = "articles/construire-portefeuille-scpi" → "articles/construire-portefeuille-scpi"
+ * - slug = "articles" → "articles"  (page index)
+ */
+function toArticlePath(slug: string): string {
+  const clean = slug.replace(/^\/+|\/+$/g, '');
+  if (clean === 'articles' || clean.startsWith('articles/')) return clean;
+  return `articles/${clean}`;
+}
+
 function urlEntry(loc: string, priority: string, changefreq: string, lastmod: string): string {
   return `  <url>
     <loc>${ensureTrailingSlash(loc)}</loc>
@@ -255,14 +267,15 @@ async function generateSitemap() {
     urls.push(urlEntry(`${siteUrl}/${slug}`, '0.7', 'weekly', today));
   }
 
-  // ── Priority 0.7 / 0.8 / 0.5: Articles statiques + Supabase ──
+  // ── Priority 0.7 / 0.8 / 0.5: Articles statiques + Supabase (sous /articles/) ──
   let staticArticleCount = 0;
   let supabaseOnlyCount = 0;
   for (const entry of mergedArticlePaths) {
     // Les articles de collection (articles/, articles/construire-portefeuille-scpi) ont priority 0.8
     // Les articles normaux ont 0.7 ; les légaux Supabase ont 0.5
+    // Tous les slugs articles sont normalisés sous /articles/ via toArticlePath()
     urls.push(urlEntry(
-      `${siteUrl}/${entry.path}`,
+      `${siteUrl}/${toArticlePath(entry.path)}`,
       entry.priority,
       entry.changefreq,
       entry.lastmod,
@@ -285,7 +298,7 @@ ${urls.join('\n')}
   console.log(`   Thematic: ${thematicPages.length}`);
   console.log(`   Simulators: ${simulators.length}`);
   console.log(`   SCPI: ${scpiSlugs.length}`);
-  console.log(`   Articles statiques locaux: ${mergedArticlePaths.length} URLs (templates + collection)`);
+  console.log(`   Articles statiques locaux: ${mergedArticlePaths.length} URLs sous /articles/ (templates + collection)`);
   console.log(`     ↳ ${localArticleSlugs.length} slugs depuis articleTemplatesConfig`);
   console.log(`     ↳ ${STATIC_COLLECTION_SLUGS.length} pages de collection (/articles, hub)`);
   if (articles.length > 0) {
