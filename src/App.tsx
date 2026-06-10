@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Building, TrendingUp, PieChart, MapPin, Calendar,
   Download, User, Target, Award, Phone,
@@ -4199,8 +4199,7 @@ const App: React.FC = () => {
                   </ul>
 
                   <p className="mt-4 text-sm sm:text-base font-semibold text-slate-200">
-                    Plus de 650 investisseurs accompagnés — plus de 30 M€ de
-                    projets patrimoniaux analysés
+                    Plus de 4 650 situations patrimoniales étudiées — plus de 330 M€ de projets analysés
                   </p>
 
                   {/* Micro-indication desktop : le quiz est déjà affiché à droite. */}
