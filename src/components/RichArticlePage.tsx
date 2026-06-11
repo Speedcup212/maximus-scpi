@@ -9,7 +9,6 @@ import SEOHead from './SEOHead';
 import Header from './Header';
 import Footer from './Footer';
 import { CookieConsent } from './CookieConsent';
-import ScpiLeadCta from './ScpiLeadCta';
 import type { ArticleTemplate } from '../data/articleTemplatesConfig';
 import { generateRichArticleContent } from '../utils/richArticleContentGenerator';
 
@@ -184,9 +183,6 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
             </div>
           </div>
         </section>
-
-        {/* Lead CTA — Analyse personnalisée */}
-        <ScpiLeadCta />
 
         {/* Disclaimer */}
         <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 border border-gray-300 dark:border-gray-700">

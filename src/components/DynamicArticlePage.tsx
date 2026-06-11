@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowLeft, Calendar, User, Clock, TrendingUp, Shield, Calculator, AlertTriangle, CheckCircle2, PieChart, Target, Download, Phone } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
-import ScpiLeadCta from './ScpiLeadCta';
 import { getSemanticLinks } from '../data/semanticCocon';
 import { generateFAQSchema, generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { getTemplateBySlug, ArticleTemplate } from '../data/articleTemplatesConfig';
@@ -165,9 +164,6 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
             </a>
           </div>
         </div>
-
-        {/* Lead CTA — Analyse personnalisée */}
-        <ScpiLeadCta />
 
         {/* FAQ Section */}
         {articleContent.faq.length > 0 && (
