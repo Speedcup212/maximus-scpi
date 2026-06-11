@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Calendar, Clock, BookOpen, Target } from 'lucide-react';
 import ArticleCtaBlock from './ArticleCtaBlock';
+import ScpiLeadCta from './ScpiLeadCta';
 
 export interface Article {
   id: string;
@@ -107,6 +108,8 @@ const ArticlePage: React.FC<ArticlePageProps> = ({
               </p>
             </div>
           </div>
+
+          <ScpiLeadCta />
 
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl p-8 border border-green-200 dark:border-green-800">

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg'
 import Breadcrumb from './Breadcrumb'
+import ScpiLeadCta from './ScpiLeadCta'
 import { CALENDLY_URL } from '../config/calendly'
 import {
   AUTHOR_CREDIT,
@@ -285,6 +286,9 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
             </a>
           </div>
         </section>
+
+        {/* Lead CTA — Analyse personnalisée */}
+        <ScpiLeadCta />
 
         {/* Maillage */}
         <section className={sectionClass}>

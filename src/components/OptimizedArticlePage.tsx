@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PieChart, Calculator } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
+import ScpiLeadCta from './ScpiLeadCta';
 import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
@@ -176,6 +177,9 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
             </a>
           </div>
         </div>
+
+        {/* Lead CTA — Analyse personnalisée */}
+        <ScpiLeadCta />
 
         {/* Semantic Links */}
         <SemanticLinks

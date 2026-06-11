@@ -27,6 +27,7 @@ import {
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
+import ScpiLeadCta from './ScpiLeadCta';
 import { ManagementCompanyConfig } from '../data/managementCompanyArticlesConfig';
 
 interface ManagementCompanyArticlePageProps {
@@ -649,6 +650,9 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
               </button>
             </div>
           </section>
+
+          {/* ===== Lead CTA — Analyse personnalisée ===== */}
+          <ScpiLeadCta />
 
           {/* ===== 14. MENTION CONFORMITÉ ===== */}
           <section className="mb-8">
