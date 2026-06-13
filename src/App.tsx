@@ -4273,18 +4273,21 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <h1 className="mt-5 mb-4 pb-2 overflow-visible text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
-                    Obtenez une première lecture claire de votre projet SCPI
+                  <h1 className="mt-5 mb-2 overflow-visible leading-[1.18]">
+                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100">
+                      Investissez en SCPI.
+                    </span>
+                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent">
+                      Prenez le bon départ.
+                    </span>
                   </h1>
 
                   <p className="mt-5 text-base sm:text-lg text-slate-300 max-w-xl">
-                    En 2 minutes, identifiez les grandes familles de SCPI à
-                    étudier selon votre montant, votre fiscalité et votre horizon
-                    d'investissement.
+                    En 2 minutes, obtenez une première orientation pédagogique selon votre montant, votre fiscalité, votre horizon d'investissement et votre tolérance au risque.
                   </p>
 
                   <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                    {/* Bouton "Démarrer l'analyse" : utile uniquement < lg, où le quiz
+                    {/* Bouton "Faire ma simulation pédagogique" : utile uniquement < lg, où le quiz
                         passe sous le hero. Masqué sur desktop (lg+) car le quiz est
                         déjà visible dans la colonne de droite. */}
                     <button
@@ -4297,7 +4300,7 @@ const App: React.FC = () => {
                       className="lg:hidden px-7 py-4 rounded-xl font-semibold text-[#0D1117] shadow-2xl shadow-emerald-500/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
                       style={{ backgroundColor: '#00C896' }}
                     >
-                      Démarrer l'analyse
+                      Faire ma simulation pédagogique
                     </button>
                     {/* CTA secondaire : texte souligné uniquement, poids visuel
                         nettement inférieur au CTA primaire vert (cf. étape 3D). */}
@@ -4310,32 +4313,10 @@ const App: React.FC = () => {
                     </a>
                   </div>
 
-                  {/* 3 micro-bullets */}
-                  <ul className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-x-6 sm:gap-y-2 text-sm text-slate-300">
-                    {[
-                      'Pré-orientation pédagogique',
-                      'Comparateur 63 SCPI',
-                      'En cas de projet de souscription, vous serez accompagné par le Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580.',
-                    ].map((item) => (
-                      <li key={item} className="inline-flex items-center gap-2">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#00C896"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                          className="shrink-0"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Ligne de preuve courte */}
+                  <p className="mt-6 text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
+                    Comparateur, simulateurs, fiches SCPI, fiscalité, risques et rendement net&nbsp;: une expérience complète pour avancer avec méthode.
+                  </p>
 
                   <p className="mt-4 text-sm sm:text-base font-semibold text-slate-200">
                     Plus de 4 650 situations patrimoniales étudiées — plus de 330 M€ de projets analysés
