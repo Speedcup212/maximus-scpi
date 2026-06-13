@@ -17,9 +17,10 @@ import {
   ExternalLink,
   MapPin,
   Calendar,
-  ChevronDown,
-  ChevronUp,
   TrendingUp,
+  Eye,
+  AlertCircle,
+  ArrowUpRight,
 } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
@@ -31,28 +32,36 @@ import sourcesJson from '../../data/scpi-investment-news-sources.json';
 
 const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson) ? (newsJson as InvestmentNewsItem[]) : [];
 
+type ScpiStatus = 'acquisition' | 'active' | 'incomplete';
+
 interface TrackedScpi {
   slug: string;
   name: string;
   managementCompany: string;
   enabled: boolean;
-  officialUrl: string;
+  hasAnyUrl: boolean;
+  status: ScpiStatus;
 }
 
-// Extraction des SCPI uniques suivies (dédupliquées par nom)
+/** Déduplication + enrichissement : chaque SCPI avec son statut */
 const TRACKED_SCPIS: TrackedScpi[] = (() => {
   const seen = new Set<string>();
   const list: TrackedScpi[] = [];
-  for (const s of sourcesJson as Array<{ slug: string; name: string; managementCompany: string; enabled: boolean; officialUrl: string }>) {
+  for (const s of sourcesJson as Array<{
+    slug: string;
+    name: string;
+    managementCompany: string;
+    enabled: boolean;
+    officialUrl: string;
+    newsUrl: string;
+    rssUrl: string;
+  }>) {
     if (!s.name || seen.has(s.name)) continue;
     seen.add(s.name);
-    list.push({
-      slug: s.slug,
-      name: s.name,
-      managementCompany: s.managementCompany || '',
-      enabled: s.enabled !== false,
-      officialUrl: s.officialUrl || '',
-    });
+    const hasAnyUrl = !!(s.officialUrl || s.newsUrl || s.rssUrl);
+    const active = s.enabled !== false;
+    const status: ScpiStatus = active && hasAnyUrl ? 'active' : 'incomplete';
+    list.push({ slug: s.slug, name: s.name, managementCompany: s.managementCompany || '', enabled: active, hasAnyUrl, status });
   }
   return list;
 })();
@@ -166,16 +175,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | AssetType>('all');
-  const [scpiSearchQuery, setScpiSearchQuery] = useState('');
-  const [showAllScpis, setShowAllScpis] = useState(false);
 
-  // ── Investissements affichables ──
-  const displayable = useMemo(() => {
-    const valid = ALL_NEWS.filter((i) => i.dataQuality !== 'weak' && i.editorialPriority > 0);
-    if (activeFilter === 'all') return valid;
-    return valid.filter((item) => item.assetType === activeFilter);
-  }, [activeFilter]);
-
+  // ── Investissements par type d'actif ──
   const filteredByAsset = useMemo(() => {
     if (activeFilter === 'all') return ALL_NEWS;
     return ALL_NEWS.filter((item) => item.assetType === activeFilter);
@@ -193,18 +194,6 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   }, [filteredByAsset, searchQuery]);
 
   const searchedDisplayable = useMemo(() => searched.filter((i) => i.dataQuality !== 'weak' && i.editorialPriority > 0), [searched]);
-  const featured = useMemo(() => displayable.slice(0, 3), [displayable]);
-
-  // ── Compteurs par type d'actif ──
-  const assetCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const item of ALL_NEWS) {
-      if (item.dataQuality !== 'weak' && item.editorialPriority > 0) {
-        counts[item.assetType] = (counts[item.assetType] || 0) + 1;
-      }
-    }
-    return counts;
-  }, []);
 
   // ── Investissements par SCPI ──
   const scpiInvestments = useMemo(() => {
@@ -218,50 +207,64 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     return map;
   }, []);
 
-  // Associe chaque SCPI suivie à ses investissements + dernier actif
-  const trackedScpiData = useMemo(() => {
+  // Enrichit TRACKED_SCPIS avec investissements + dernier actif
+  const enrichedScpis = useMemo(() => {
     return TRACKED_SCPIS.map((scpi) => {
       const investments = scpiInvestments[scpi.name] || [];
-      // Cherche aussi par nom partiel (la SCPI peut apparaître comme sous-chaîne)
       const altMatches = !investments.length
-        ? Object.entries(scpiInvestments).filter(([key]) =>
-            key.toLowerCase().includes(scpi.name.toLowerCase()) || scpi.name.toLowerCase().includes(key.toLowerCase())
-          ).flatMap(([, items]) => items)
+        ? Object.entries(scpiInvestments)
+            .filter(([key]) =>
+              key.toLowerCase().includes(scpi.name.toLowerCase()) ||
+              scpi.name.toLowerCase().includes(key.toLowerCase()),
+            )
+            .flatMap(([, items]) => items)
         : [];
       const all = investments.length ? investments : altMatches;
       const latest = all.length > 0 ? all.sort((a, b) => b.date.localeCompare(a.date))[0] : null;
-      return { ...scpi, count: all.length, latest };
+      const count = all.length;
+      const status: ScpiStatus = count > 0 ? 'acquisition' : scpi.status;
+      return { ...scpi, count, latest, status };
     });
   }, [scpiInvestments]);
 
-  // Filtrage des cartes SCPI
+  // Filtrage des cartes SCPI par la recherche globale
   const filteredScpis = useMemo(() => {
-    let list = trackedScpiData;
-    if (scpiSearchQuery.trim()) {
-      const q = scpiSearchQuery.trim().toLowerCase();
-      list = list.filter((s) =>
-        s.name.toLowerCase().includes(q) || (s.managementCompany || '').toLowerCase().includes(q)
+    let list = enrichedScpis;
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          (s.managementCompany || '').toLowerCase().includes(q),
       );
     }
-    // Tri : SCPI avec investissements d'abord, puis alphabétique
+    // Tri : acquisitions d'abord, puis actif, puis alphabétique
     list = [...list].sort((a, b) => {
       if (a.count > 0 && b.count === 0) return -1;
       if (b.count > 0 && a.count === 0) return 1;
+      if (a.status === 'active' && b.status === 'incomplete') return -1;
+      if (b.status === 'active' && a.status === 'incomplete') return 1;
       return a.name.localeCompare(b.name);
     });
     return list;
-  }, [trackedScpiData, scpiSearchQuery]);
+  }, [enrichedScpis, searchQuery]);
 
-  // Affichage progressif
-  const scpisWithInvestments = useMemo(() => filteredScpis.filter((s) => s.count > 0), [filteredScpis]);
-  const DEFAULT_VISIBLE = 12;
-  const visibleScpis = useMemo(() => {
-    if (showAllScpis) return filteredScpis;
-    if (scpisWithInvestments.length > 0) return scpisWithInvestments;
-    return filteredScpis.slice(0, DEFAULT_VISIBLE);
-  }, [filteredScpis, scpisWithInvestments, showAllScpis]);
-  const hasMore = filteredScpis.length > visibleScpis.length;
+  // Stats globales
+  const totalAcquisitions = useMemo(() => filteredScpis.reduce((sum, s) => sum + s.count, 0), [filteredScpis]);
+  const scpisWithAcquisitions = useMemo(() => filteredScpis.filter((s) => s.count > 0).length, [filteredScpis]);
 
+  // Compteurs par type d'actif
+  const assetCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const item of ALL_NEWS) {
+      if (item.dataQuality !== 'weak' && item.editorialPriority > 0) {
+        counts[item.assetType] = (counts[item.assetType] || 0) + 1;
+      }
+    }
+    return counts;
+  }, []);
+
+  const featured = useMemo(() => searchedDisplayable.slice(0, 3), [searchedDisplayable]);
   const clearSearch = () => setSearchQuery('');
 
   return (
@@ -292,9 +295,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           currentView="actualites"
         />
 
-        {/* ============================================
-            HERO
-        ============================================ */}
+        {/* ====== HERO ====== */}
         <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 py-16 sm:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex justify-center mb-6">
@@ -313,9 +314,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
         </section>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          {/* ============================================
-              BARRE DE RECHERCHE INVESTISSEMENTS
-          ============================================ */}
+          {/* ====== BARRE DE RECHERCHE GLOBALE ====== */}
           <div className="max-w-2xl mx-auto mb-8">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -327,16 +326,17 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 className="w-full pl-12 pr-10 py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm sm:text-base"
               />
               {searchQuery && (
-                <button onClick={clearSearch} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
                   <X className="w-5 h-5" />
                 </button>
               )}
             </div>
           </div>
 
-          {/* ============================================
-              FILTRES EN PILLS
-          ============================================ */}
+          {/* ====== FILTRES EN PILLS ====== */}
           {!searchQuery && (
             <div className="flex flex-wrap justify-center gap-2 mb-12">
               {PILL_FILTERS.map((f) => (
@@ -355,96 +355,70 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
           )}
 
-          {/* ============================================
-              INVESTISSEMENTS PAR SCPI
-          ============================================ */}
-          {!searchQuery && (
-            <section className="mb-14">
-              <div className="text-center mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                  Investissements par SCPI
-                </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-                  Recherchez une SCPI et consultez les derniers actifs acquis à partir des sources officielles suivies.
+          {/* ====== INVESTISSEMENTS PAR SCPI ====== */}
+          <section className="mb-14">
+            <div className="text-center mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                Investissements par SCPI
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+                Accédez directement aux SCPI suivies et consultez les acquisitions détectées à partir des sources officielles.
+              </p>
+            </div>
+
+            {/* Compteur */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-8 text-sm">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                <Building2 className="w-3.5 h-3.5" />
+                <span className="font-semibold">{filteredScpis.length}</span> SCPI
+                {searchQuery ? ' trouvée' : 's'} suivie{filteredScpis.length > 1 ? 's' : ''}
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
+                <TrendingUp className="w-3.5 h-3.5" />
+                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} détectée{totalAcquisitions > 1 ? 's' : ''}
+              </span>
+              {scpisWithAcquisitions > 0 && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <span className="font-semibold">{scpisWithAcquisitions}</span> SCPI concernée{scpisWithAcquisitions > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+
+            {/* État vide recherche */}
+            {filteredScpis.length === 0 && searchQuery && (
+              <div className="text-center py-12">
+                <Search className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-500 dark:text-gray-400">
+                  Aucune SCPI ne correspond à votre recherche.
                 </p>
               </div>
+            )}
 
-              {/* Barre de recherche SCPI */}
-              <div className="max-w-lg mx-auto mb-8">
-                <div className="relative">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400" />
-                  <input
-                    type="text"
-                    value={scpiSearchQuery}
-                    onChange={(e) => setScpiSearchQuery(e.target.value)}
-                    placeholder="Rechercher une SCPI : Iroko Zen, Remake Live, Épargne Pierre Europe…"
-                    className="w-full pl-10 pr-10 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  />
-                  {scpiSearchQuery && (
-                    <button onClick={() => setScpiSearchQuery('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-              </div>
+            {/* Grille premium des SCPI */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredScpis.map((scpi) => (
+                <ScpiCard
+                  key={scpi.slug}
+                  scpi={scpi}
+                  onClick={() => {
+                    if (scpi.count > 0) setSearchQuery(scpi.name);
+                  }}
+                />
+              ))}
+            </div>
+          </section>
 
-              {/* Grille des cartes SCPI */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-                {visibleScpis.map((scpi) => (
-                  <ScpiCard
-                    key={scpi.slug}
-                    scpi={scpi}
-                    hasInvestments={scpi.count > 0}
-                    onClick={() => {
-                      setScpiSearchQuery(scpi.name);
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* État vide recherche SCPI */}
-              {filteredScpis.length === 0 && scpiSearchQuery && (
-                <div className="text-center py-10">
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Aucune SCPI ne correspond à "{scpiSearchQuery}".
-                  </p>
-                </div>
-              )}
-
-              {/* Bouton "Voir toutes les SCPI suivies" */}
-              {hasMore && (
-                <div className="text-center mt-6">
-                  <button
-                    onClick={() => setShowAllScpis(true)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                    Voir toutes les SCPI suivies ({filteredScpis.length})
-                  </button>
-                </div>
-              )}
-              {showAllScpis && hasMore && (
-                <div className="text-center mt-3">
-                  <button
-                    onClick={() => setShowAllScpis(false)}
-                    className="inline-flex items-center gap-1.5 text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                  >
-                    <ChevronUp className="w-3.5 h-3.5" />
-                    Réduire
-                  </button>
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* ============================================
-              ACCÈS RAPIDE PAR TYPE D'ACTIF
-          ============================================ */}
+          {/* ====== ACCÈS RAPIDE PAR TYPE D'ACTIF (secondaire) ====== */}
           {!searchQuery && (
             <section className="mb-14">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                Accès rapide par type d'actif
-              </h2>
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="h-px flex-1 max-w-16 bg-gray-200 dark:bg-gray-700" />
+                <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  Accès rapide par type d'actif
+                </h3>
+                <div className="h-px flex-1 max-w-16 bg-gray-200 dark:bg-gray-700" />
+              </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {QUICK_ACCESS.map(({ value, icon: Icon }) => (
                   <button
@@ -467,9 +441,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </section>
           )}
 
-          {/* ============================================
-              À LA UNE (top 3)
-          ============================================ */}
+          {/* ====== À LA UNE ====== */}
           {!searchQuery && activeFilter === 'all' && featured.length > 0 && (
             <section className="mb-14">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
@@ -483,9 +455,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </section>
           )}
 
-          {/* ============================================
-              LISTE COMPLÈTE
-          ============================================ */}
+          {/* ====== LISTE COMPLÈTE ====== */}
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
@@ -503,13 +473,13 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
 
             {searchedDisplayable.length === 0 ? (
-              <div className="text-center py-20">
-                <Newspaper className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-500 dark:text-gray-400 text-lg">
-                  Aucun investissement récent n'a encore été détecté.
+              <div className="text-center py-16">
+                <Newspaper className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                <p className="text-gray-500 dark:text-gray-400">
+                  Aucun investissement récent n'a encore été détecté dans les sources suivies.
                 </p>
                 <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
-                  Les acquisitions immobilières des SCPI seront publiées ici dès leur détection.
+                  Les acquisitions officiellement identifiées apparaîtront ici avec la SCPI concernée, le type d'actif, la localisation et la source.
                 </p>
               </div>
             ) : (
@@ -532,75 +502,141 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   );
 };
 
-/* ------------------------------------------------------------------ */
-/*  Sous-composants internes                                          */
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
+/*  Sous-composants                                                    */
+/* ================================================================== */
 
-/** Carte SCPI compacte pour la section "Investissements par SCPI" */
+/** Carte SCPI premium — design dark sobre avec badge de statut */
 const ScpiCard: React.FC<{
-  scpi: { name: string; managementCompany: string; slug: string; count: number; latest: InvestmentNewsItem | null };
-  hasInvestments: boolean;
+  scpi: TrackedScpi & { count: number; latest: InvestmentNewsItem | null; status: ScpiStatus };
   onClick: () => void;
-}> = ({ scpi, hasInvestments, onClick }) => {
+}> = ({ scpi, onClick }) => {
+  const isAcquisition = scpi.status === 'acquisition';
+  const isActive = scpi.status === 'active';
+  const isIncomplete = scpi.status === 'incomplete';
   const latest = scpi.latest;
+
   const AssetIcon = latest ? (ASSET_TYPE_ICON_MAP[latest.assetType] || Building) : Building;
-  const colorClass = latest ? (ASSET_COLORS[latest.assetType] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300') : '';
+
+  // Couleurs de carte selon statut
+  const cardBorder = isAcquisition
+    ? 'border-emerald-500/25 hover:border-emerald-400/60'
+    : isActive
+    ? 'border-gray-600/30 hover:border-blue-400/50'
+    : 'border-gray-600/20 hover:border-amber-400/40';
+
+  const cardBg = isAcquisition
+    ? 'bg-gradient-to-br from-emerald-950/40 via-gray-800/50 to-gray-800/30'
+    : isActive
+    ? 'bg-gray-800/40'
+    : 'bg-gray-800/20';
+
+  const hoverGlow = isAcquisition
+    ? 'hover:shadow-emerald-500/10'
+    : isActive
+    ? 'hover:shadow-blue-500/10'
+    : 'hover:shadow-amber-500/05';
+
+  const accentBar = isAcquisition
+    ? 'bg-emerald-400/60'
+    : isActive
+    ? 'bg-blue-400/40'
+    : 'bg-amber-400/20';
+
+  // Badge de statut
+  const badgeBg = isAcquisition
+    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25'
+    : isActive
+    ? 'bg-blue-500/10 text-blue-300 border-blue-500/20'
+    : 'bg-amber-500/10 text-amber-300 border-amber-500/15';
+
+  const badgeLabel = isAcquisition
+    ? 'Acquisition détectée'
+    : isActive
+    ? 'Veille active'
+    : 'Source à enrichir';
+
+  const BadgeIcon = isAcquisition ? TrendingUp : isActive ? Eye : AlertCircle;
 
   return (
     <div
       onClick={onClick}
-      className={`rounded-xl border p-4 transition-all cursor-pointer ${
-        hasInvestments
-          ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-900/10 hover:shadow-md hover:border-emerald-300 dark:hover:border-emerald-600'
-          : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm'
-      }`}
+      className={`group relative rounded-2xl border ${cardBorder} ${cardBg} backdrop-blur-sm p-5 transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl ${hoverGlow}`}
     >
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="min-w-0">
-          <p className="font-semibold text-gray-900 dark:text-white text-sm truncate">{scpi.name}</p>
+      {/* Barre d'accent en haut */}
+      <div className={`absolute top-0 left-4 right-4 h-0.5 rounded-full ${accentBar} opacity-60 group-hover:opacity-100 transition-opacity`} />
+
+      {/* En-tête : nom + badge statut */}
+      <div className="flex items-start justify-between gap-2 mb-3 pt-1">
+        <div className="min-w-0 flex-1">
+          <p className="font-bold text-gray-100 text-sm leading-snug truncate">{scpi.name}</p>
           {scpi.managementCompany && (
-            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{scpi.managementCompany}</p>
+            <p className="text-[11px] text-gray-500 truncate mt-0.5">{scpi.managementCompany}</p>
           )}
         </div>
-        {hasInvestments ? (
-          <span className="flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-            <TrendingUp className="w-3 h-3" />
+        <span
+          className={`flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${badgeBg}`}
+        >
+          <BadgeIcon className="w-3 h-3" />
+          {badgeLabel}
+        </span>
+      </div>
+
+      {/* Compteur d'acquisitions */}
+      <div className="flex items-center gap-4 mb-3 text-xs">
+        <span className="text-gray-400">
+          <span className={`font-bold ${isAcquisition ? 'text-emerald-300' : 'text-gray-300'}`}>
             {scpi.count}
-          </span>
+          </span>{' '}
+          acquisition{scpi.count > 1 ? 's' : ''}
+        </span>
+      </div>
+
+      {/* Dernière acquisition ou message neutre */}
+      <div className="pt-3 border-t border-gray-700/50">
+        {latest ? (
+          <div className="flex items-center gap-2 text-xs">
+            <span className="flex-shrink-0 p-1 rounded-md bg-gray-700/40">
+              <AssetIcon className="w-3.5 h-3.5 text-emerald-400" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-gray-300 font-medium truncate text-[11px]">
+                Dernier actif
+              </p>
+              <p className="text-gray-400 truncate text-[11px] flex items-center gap-1">
+                <MapPin className="w-3 h-3 flex-shrink-0 text-gray-500" />
+                {latest.city || '—'}{latest.country ? `, ${latest.country}` : ''}
+                {latest.assetType && (
+                  <span className="text-gray-500">
+                    — {ASSET_TYPE_LABELS[latest.assetType]}
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
         ) : (
-          <span className="flex-shrink-0 text-xs text-gray-300 dark:text-gray-600">—</span>
+          <p className="text-[11px] text-gray-500 italic leading-relaxed">
+            Aucune acquisition récente détectée dans les sources suivies.
+          </p>
         )}
       </div>
 
-      {latest && (
-        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1 pt-2 border-t border-gray-100 dark:border-gray-700">
-          <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium ${colorClass}`}>
-            <AssetIcon className="w-3 h-3" />
-            {ASSET_TYPE_LABELS[latest.assetType]}
-          </span>
-          <span className="truncate flex items-center gap-1">
-            <MapPin className="w-3 h-3 flex-shrink-0" />
-            {latest.city || '—'}, {latest.country || '—'}
-          </span>
-        </div>
-      )}
-      {!latest && (
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 pt-2 border-t border-gray-100 dark:border-gray-700 italic">
-          Aucune acquisition récente détectée dans nos sources.
-        </p>
-      )}
-
-      {scpi.count > 0 && (
-        <div className="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-          <span className="text-xs text-blue-600 dark:text-blue-400 font-medium flex items-center gap-1">
-            Voir les investissements
-            <ChevronDown className="w-3 h-3" />
+      {/* Lien "Voir les acquisitions" */}
+      {isAcquisition && (
+        <div className="mt-3 pt-2 border-t border-gray-700/30">
+          <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
+            Voir les acquisitions
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
       )}
     </div>
   );
 };
+
+/* ------------------------------------------------------------------ */
+/*  Cartes d'investissement (conservées)                               */
+/* ------------------------------------------------------------------ */
 
 const InvestmentCard: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
   const AssetIcon = ASSET_TYPE_ICON_MAP[item.assetType] || Building;
