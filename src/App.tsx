@@ -4273,11 +4273,11 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <h1 className="mt-5 mb-7 md:mb-8 lg:mb-10 overflow-visible leading-[1.15] md:leading-[1.12]">
-                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 overflow-visible">
+                  <h1 className="mt-5 mb-8 md:mb-9 lg:mb-10 overflow-visible">
+                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] text-slate-100">
                       Investissez en SCPI.
                     </span>
-                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-0.5 overflow-visible">
+                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
                       Prenez le bon départ.
                     </span>
                   </h1>
