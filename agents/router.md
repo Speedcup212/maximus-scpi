@@ -15,6 +15,7 @@ Pour chaque demande, identifie la nature de la mission → sélectionne l'agent 
 | Audit conformité, checklist CIF, mentions légales | 04 — Conformité | `templates/conformity-task.md` |
 | Parcours CRM, email, séquence, RGPD | 05 — CRM | `templates/crm-task.md` |
 | Validation UX, scoring SEO, validation avant modification site | 06 — Validation | — |
+| Veille acquisitions immobilières SCPI, actualités investissement | 06 — Veille Investissements | — |
 | Modification code, correctif technique, audit dev | 00 → Cursor | `templates/dev-task.md` |
 | Mission transverse ou arbitrage entre agents | 00 — Superviseur | — |
 
