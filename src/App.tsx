@@ -4273,7 +4273,7 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <h1 className="mt-5 mb-2 overflow-visible leading-[1.18]">
+                  <h1 className="mt-5 mb-6 overflow-visible leading-[1.12]">
                     <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100">
                       Investissez en SCPI.
                     </span>
@@ -4282,7 +4282,7 @@ const App: React.FC = () => {
                     </span>
                   </h1>
 
-                  <p className="mt-5 text-base sm:text-lg text-slate-300 max-w-xl">
+                  <p className="text-base sm:text-lg text-slate-300 max-w-xl">
                     En 2 minutes, obtenez une première orientation pédagogique selon votre montant, votre fiscalité, votre horizon d'investissement et votre tolérance au risque.
                   </p>
 
