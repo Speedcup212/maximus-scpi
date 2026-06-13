@@ -7,7 +7,7 @@
     "newsUrl": "https://www.iroko.eu/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Site vérifié 2026-06-13 : /actualites/ retourne 404, mais la homepage contient une section 'Les dernières acquisitions d'Iroko' avec acquisitions détaillées (Martos, Bruxelles, Soesterberg, Londres, Cracovie, Markdorf, Norwich, Dublin, Nancy, Assen)."
+    "notes": "Site vérifié 2026-06-13 : la homepage contient une section 'Les dernières acquisitions d'Iroko'. Page documentaire possible : /documents-legaux/ ou /ressources/ (à vérifier)."
   },
   {
     "slug": "iroko-atlas",
@@ -17,7 +17,7 @@
     "newsUrl": "https://www.iroko.eu/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même site qu'Iroko Zen. Acquisitions mixtes Zen/Atlas visibles sur la homepage."
+    "notes": "Même site qu'Iroko Zen. Page documentaire possible : /documents-legaux/ ou /ressources/ (à vérifier)."
   },
   {
     "slug": "comete",
@@ -27,7 +27,7 @@
     "newsUrl": "https://www.alderan.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Site vérifié 2026-06-13 : section 'Dernières opérations' avec acquisitions détaillées (Dublin, Peterborough, Cwmbrân). L'ancienne URL /nos-scpi/comete/ ne répondait pas."
+    "notes": "Section 'Dernières opérations' avec acquisitions détaillées. Page documentaire possible : /documents/ ou /documentation/ (à vérifier)."
   },
   {
     "slug": "activimmo",
@@ -37,7 +37,7 @@
     "newsUrl": "https://www.alderan.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que Comète"
+    "notes": "Même société de gestion que Comète. Page documentaire possible : /documents/ (à vérifier)."
   },
   {
     "slug": "coeur-de-region",
@@ -47,7 +47,7 @@
     "newsUrl": "https://www.sogenial.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "URL vérifiée 2026-06-13 : page active avec communiqués d'acquisition (Brest, Waterloo Office Park)"
+    "notes": "Page active avec communiqués. Page documentaire possible : /documentation/ ou /publications/ (à vérifier)."
   },
   {
     "slug": "coeur-d-europe",
@@ -57,7 +57,7 @@
     "newsUrl": "https://www.sogenial.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que Cœur de Région. Actualités incluent acquisitions commerce Halberstadt (Allemagne)"
+    "notes": "Même SDG que Cœur de Région. Page documentaire possible : /documentation/ (à vérifier)."
   },
   {
     "slug": "coeur-de-ville",
@@ -67,7 +67,7 @@
     "newsUrl": "https://www.sogenial.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que Cœur de Région"
+    "notes": "Même SDG que Cœur de Région."
   },
   {
     "slug": "pfo2",
@@ -77,7 +77,7 @@
     "newsUrl": "https://www.perial.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Site Perial vérifié 2026-06-13. L'URL /nos-scpi/pfo2/ retourne 404. Site principal actif. Section 'Suivez la vie de votre SCPI au fil du temps : acquisitions, nouveaux locataires...'"
+    "notes": "Section 'Suivez la vie de votre SCPI au fil du temps : acquisitions, nouveaux locataires...'. Page documentaire possible : /documents-reglementaires/ ou /espace-investisseur/ (à vérifier)."
   },
   {
     "slug": "perial-grand-paris",
@@ -87,7 +87,7 @@
     "newsUrl": "https://www.perial.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que PFO2"
+    "notes": "Même SDG que PFO2."
   },
   {
     "slug": "perial-hospitalite-europe",
@@ -97,7 +97,7 @@
     "newsUrl": "https://www.perial.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que PFO2"
+    "notes": "Même SDG que PFO2."
   },
   {
     "slug": "perial-opportunites-europe",
@@ -107,7 +107,7 @@
     "newsUrl": "https://www.perial.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion que PFO2"
+    "notes": "Même SDG que PFO2."
   },
   {
     "slug": "epargne-pierre",
@@ -117,7 +117,7 @@
     "newsUrl": "https://www.atland-voisin.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": ""
+    "notes": "Page documentaire possible : /documents/ ou /documentation/ (à vérifier)."
   },
   {
     "slug": "epargne-pierre-europe",
@@ -127,7 +127,7 @@
     "newsUrl": "https://www.atland-voisin.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Épargne Pierre"
+    "notes": "Même SDG qu'Épargne Pierre."
   },
   {
     "slug": "pierval-sante",
@@ -137,7 +137,7 @@
     "newsUrl": "https://www.euryale-am.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Site vérifié 2026-06-13 : acquisitions détaillées visibles avec dates, montants, surfaces, locataires (Boulogne-Billancourt, Montréal, Maizières-lès-Metz)"
+    "notes": "Acquisitions détaillées visibles avec dates, montants, surfaces, locataires. Page documentaire possible : /documents/ ou /publications/ (à vérifier)."
   },
   {
     "slug": "immorente",
@@ -147,7 +147,7 @@
     "newsUrl": "https://www.sofidy.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Site vérifié 2026-06-13 : catégorie 'Acquisitions immobilières' dans les actualités (entrepôt logistique Gironde pour Sofidynamic)"
+    "notes": "Catégorie 'Acquisitions immobilières' dans les actualités. Page documentaire possible : /documents-reglementaires/ ou /publications/ (à vérifier)."
   },
   {
     "slug": "efimmo-1",
@@ -157,7 +157,7 @@
     "newsUrl": "https://www.sofidy.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Immorente"
+    "notes": "Même SDG qu'Immorente."
   },
   {
     "slug": "sofiprime",
@@ -167,57 +167,57 @@
     "newsUrl": "https://www.sofidy.com/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Immorente"
+    "notes": "Même SDG qu'Immorente."
   },
   {
     "slug": "epargne-fonciere",
     "name": "Épargne Foncière",
     "managementCompany": "La Française REM",
     "officialUrl": "https://www.la-francaise.com/",
-    "newsUrl": "",
+    "newsUrl": "https://www.la-francaise.com/fr/presse-et-medias/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "La Française REM est la filiale immobilière de La Française Group. Page actualités spécifique REM non trouvée (404). En attente d'une URL vérifiée."
+    "notes": "La Française REM = filiale immobilière de La Française Group. /presse-et-medias/ devrait contenir les communiqués. Page documentaire possible : /publications/ (à vérifier)."
   },
   {
     "slug": "lf-avenir-sante",
     "name": "LF Avenir Santé",
     "managementCompany": "La Française REM",
     "officialUrl": "https://www.la-francaise.com/",
-    "newsUrl": "",
+    "newsUrl": "https://www.la-francaise.com/fr/presse-et-medias/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Épargne Foncière"
+    "notes": "Même SDG qu'Épargne Foncière."
   },
   {
     "slug": "lf-europimmo",
     "name": "LF Europimmo",
     "managementCompany": "La Française REM",
     "officialUrl": "https://www.la-francaise.com/",
-    "newsUrl": "",
+    "newsUrl": "https://www.la-francaise.com/fr/presse-et-medias/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Épargne Foncière"
+    "notes": "Même SDG qu'Épargne Foncière."
   },
   {
     "slug": "lf-grand-paris-patrimoine",
     "name": "LF Grand Paris Patrimoine",
     "managementCompany": "La Française REM",
     "officialUrl": "https://www.la-francaise.com/",
-    "newsUrl": "",
+    "newsUrl": "https://www.la-francaise.com/fr/presse-et-medias/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Épargne Foncière"
+    "notes": "Même SDG qu'Épargne Foncière."
   },
   {
     "slug": "credit-mutuel-pierre-1",
     "name": "Crédit Mutuel Pierre 1",
     "managementCompany": "La Française REM",
     "officialUrl": "https://www.la-francaise.com/",
-    "newsUrl": "",
+    "newsUrl": "https://www.la-francaise.com/fr/presse-et-medias/",
     "rssUrl": "",
     "enabled": true,
-    "notes": "Même société de gestion qu'Épargne Foncière"
+    "notes": "Même SDG qu'Épargne Foncière."
   },
   {
     "slug": "primovie",
