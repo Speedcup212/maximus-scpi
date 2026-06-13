@@ -43,10 +43,12 @@ const HORIZON_OPTIONS: Option<Horizon>[] = [
 ]
 
 const OBJECTIF_OPTIONS: Option<Objectif>[] = [
-  { value: 'revenus', label: 'Revenus complémentaires' },
-  { value: 'fiscalite', label: 'Réduction fiscale' },
-  { value: 'diversification', label: 'Diversification patrimoine' },
-  { value: 'transmission', label: 'Transmission' },
+  { value: 'revenus', label: 'Rechercher des revenus complémentaires' },
+  { value: 'fiscalite', label: 'Réduire ma fiscalité' },
+  { value: 'diversification', label: 'Diversifier mon patrimoine' },
+  { value: 'croissance', label: 'Faire fructifier mon capital' },
+  { value: 'retraite', label: 'Préparer ma retraite' },
+  { value: 'transmission', label: 'Transmettre mon patrimoine' },
 ]
 
 const GEO_COLORS = ['#00C896', '#0056b3', '#f472b6', '#8b5cf6']
@@ -670,7 +672,32 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
           renderQuestion("Quel est votre horizon d'investissement ?", HORIZON_OPTIONS, (v) => selectAnswer('horizon', v as Horizon), data.horizon)}
 
         {step === 3 &&
-          renderQuestion('Quel est votre objectif principal ?', OBJECTIF_OPTIONS, (v) => selectAnswer('objectif', v as Objectif), data.objectif)}
+          <div className="transition-all duration-300 ease-in-out">
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
+              Quel est votre objectif principal ?
+            </h3>
+            <p className="text-sm text-slate-400 mb-5">
+              Choisissez l'objectif qui compte le plus pour vous aujourd'hui.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {OBJECTIF_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => selectAnswer('objectif', opt.value as Objectif)}
+                  className={optionButtonClass(data.objectif === opt.value)}
+                >
+                  <span>{opt.label}</span>
+                  <span
+                    className={`h-2 w-2 rounded-full transition-opacity ${
+                      data.objectif === opt.value ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'
+                    }`}
+                    style={{ backgroundColor: '#00C896' }}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>}
 
         {result && <QuizResultDashboard result={result} onReset={reset} />}
       </div>

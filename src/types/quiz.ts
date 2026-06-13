@@ -22,6 +22,8 @@ export type Objectif =
   | 'revenus'
   | 'fiscalite'
   | 'diversification'
+  | 'croissance'
+  | 'retraite'
   | 'transmission'
 
 export type QuizData = {
