@@ -1,0 +1,52 @@
+[
+  {
+    "slug": "iroko-zen",
+    "name": "Iroko Zen",
+    "managementCompany": "Iroko",
+    "officialUrl": "https://www.iroko.eu/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": ""
+  },
+  {
+    "slug": "comete",
+    "name": "Comète",
+    "managementCompany": "Alderan",
+    "officialUrl": "https://www.alderan.fr/nos-scpi/comete/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": ""
+  },
+  {
+    "slug": "epargne-pierre",
+    "name": "Épargne Pierre",
+    "managementCompany": "Atland Voisin",
+    "officialUrl": "https://www.atland-voisin.com/nos-scpi/epargne-pierre/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": ""
+  },
+  {
+    "slug": "coeur-de-region",
+    "name": "Cœur de Région",
+    "managementCompany": "Sogenial Immobilier",
+    "officialUrl": "https://www.sogenial.fr/nos-scpi/coeur-de-region",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": ""
+  },
+  {
+    "slug": "pfo2",
+    "name": "PFO2",
+    "managementCompany": "Perial Asset Management",
+    "officialUrl": "https://www.perial.com/nos-scpi/pfo2/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": ""
+  }
+]

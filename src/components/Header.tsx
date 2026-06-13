@@ -1070,7 +1070,7 @@ const Header: React.FC<HeaderProps> = ({
                 onClick={() => {
                   resetAllHeaderStates();
                   if (onActualitesClick) {
-                    onArticlesClick();
+                    onActualitesClick();
                   }
                 }}
                 className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
