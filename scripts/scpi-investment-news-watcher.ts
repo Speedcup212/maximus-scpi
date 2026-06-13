@@ -4,13 +4,11 @@
  * Agent de veille des acquisitions immobilières des SCPI.
  * Exécution : npm run news:investments
  *
- * Stratégie v2 :
- * 1. Charge les sources et la liste complète des SCPI
- * 2. Déduplique les URLs identiques entre sources (traite 1x, réattribue à toutes les SCPI concernées)
- * 3. Pour chaque URL unique : fetch, scanne les blocs HTML contenant des mots-clés d'acquisition
- * 4. Suit jusqu'à 10 liens internes pertinents (actualités, communiqués)
- * 5. Extrait les données structurées (titre, date, ville, montant, surface, type d'actif)
- * 6. Classifie, déduplique, génère rapport et fichiers JSON
+ * Stratégie v3 — Filtrage strict :
+ * 1. 3 conditions obligatoires : SCPI identifiée + verbe d'acquisition + actif immobilier
+ * 2. Liste de rejet corporate noise (market analysis, ESG, rapports, etc.)
+ * 3. Scoring de confiance avec seuil minimum (80)
+ * 4. Tracking des faux positifs rejetés
  */
 
 import * as fs from 'node:fs';
@@ -47,6 +45,19 @@ interface InvestmentNewsItem {
   editorialPriority: EditorialPriority;
   confidence: number;
   disclaimer: string;
+  // ── Détection flags v3 ──
+  acquisitionVerbDetected: boolean;
+  realEstateAssetDetected: boolean;
+  scpiDetected: boolean;
+  rejectedByCorporateNoise: boolean;
+  rejectionReason: string;
+}
+
+interface RejectedNewsItem {
+  title: string;
+  scpi: string;
+  sourceUrl: string;
+  rejectionReason: string;
 }
 
 interface NewsSourceEntry {
@@ -124,6 +135,71 @@ const NOISE_KEYWORDS = [
   'inconvénients', 'frais de', 'rendement', 'taux de',
   'danger', 'risque', 'prémunir',
 ];
+
+// ── v3 : Verbes d'acquisition STRICTS (condition 2 obligatoire) ────────────
+const ACQUISITION_VERBS = [
+  'acquisition', "l'acquisition",
+  'acquiert', 'acquièrent',
+  'a acquis', 'ont acquis',
+  'acquisition de', 'acquisition d\'un', 'acquisition d\'une',
+  "l'acquisition de", "l'acquisition d'un", "l'acquisition d'une",
+  'annonce l\'acquisition', 'vient d\'acquérir', 'vient d\'acheter',
+  'achète', 'a acheté', 'ont acheté', 'acheté',
+  'achat de', "l'achat de", "l'achat d'un",
+  'investit dans un immeuble', 'investit dans un actif',
+  'investissement dans un actif immobilier',
+  'acquisition of', 'acquisition du', 'acquisition des',
+  'purchase of', 'purchased', 'has acquired', 'have acquired',
+  'acquires', 'buys', 'bought',
+  'réalise l\'acquisition', 'réalise sa première acquisition',
+  'a réalisé l\'acquisition', 'a signé l\'acquisition',
+  'a finalisé l\'acquisition', 'a procédé à l\'acquisition',
+  'signature de l\'acquisition',
+];
+
+// ── v3 : Actifs immobiliers CONCRETS (condition 3 obligatoire) ─────────────
+const REAL_ESTATE_ASSETS = [
+  'immeuble', 'immeubles',
+  'actif immobilier', 'actifs immobiliers',
+  'bureaux', 'bureau', 'commerce', 'commerces',
+  'retail park', 'centre commercial',
+  'logistique', 'entrepôt', 'entrepôts', 'entrepot', 'entrepots',
+  'locaux d\'activité', 'locaux d\'activités', 'locaux dactivite', 'locaux dactivites',
+  'clinique', 'cliniques', 'ehpad', 'EHPAD', 'maison de retraite', 'hôpital',
+  'crèche', 'crèches', 'école', 'écoles', 'campus',
+  'hôtel', 'hôtels', 'hotel', 'hotels',
+  'résidence', 'coliving', 'co-living',
+  'portefeuille immobilier', 'ensemble immobilier',
+  'office building', 'retail asset', 'logistics asset', 'warehouse',
+  'healthcare asset', 'hotel property', 'residential property',
+  'real estate asset', 'property acquisition',
+];
+
+// ── v3 : Expressions de REJET AUTOMATIQUE (corporate noise) ────────────────
+const CORPORATE_REJECTION_KEYWORDS = [
+  'market analysis', 'inflation risks', 'inflation risk',
+  'central banks', 'central bank',
+  'engagement and voting', 'voting policy', 'stewardship report',
+  'esg document', 'social capital policy', 'esg report',
+  'our publications', 'all our publications', 'all publications',
+  'annual report', 'annual financial report',
+  'rapport annuel', 'rapport financier annuel',
+  'bulletin trimestriel', 'quarterly report', 'quarterly bulletin',
+  'document d\'information clé', 'dic', 'note d\'information',
+  'note d\'information', 'document d\'information',
+  'société de gestion', 'management company', 'asset management division',
+  'access the site', 'home page', 'back to business',
+  'listed securities', 'securities', 'private debt',
+  'fonds', 'fund', 'opci', 'opcvm',
+  'communiqué corporate', 'corporate communication',
+  'nomination', 'interview', 'webinaire', 'webinar',
+  'salon', 'prix', 'récompense', 'award', 'trophy',
+  'market trends', 'market outlook', 'macroeconomic',
+  'credit rating', 'bond', 'maturity',
+];
+
+// ── v3 : Traqueur de faux positifs rejetés ─────────────────────────────────
+const rejectedItems: RejectedNewsItem[] = [];
 
 // ── Types d'actif → AssetType mapping ──────────────────────────────────────
 const ASSET_TYPE_KEYWORDS: [AssetType, string[]][] = [
@@ -683,6 +759,87 @@ function extractTitleAndSummary(block: string): { title: string; summary: string
   return { title, summary };
 }
 
+// ── v3 : Validation stricte d'un bloc ──────────────────────────────────────
+function validateBlock(
+  block: string,
+  scpiName: string,
+  pageUrl: string,
+): { valid: boolean; confidence: number; rejectionReason: string; flags: { acquisitionVerbDetected: boolean; realEstateAssetDetected: boolean; scpiDetected: boolean; rejectedByCorporateNoise: boolean } } {
+  const lower = block.toLowerCase();
+
+  // Condition 1 : SCPI identifiée
+  const scpiDetected = scpiName && scpiName.length > 3;
+  if (!scpiDetected) {
+    return { valid: false, confidence: 0, rejectionReason: 'Aucune SCPI identifiée', flags: { acquisitionVerbDetected: false, realEstateAssetDetected: false, scpiDetected: false, rejectedByCorporateNoise: false } };
+  }
+
+  // Condition 2 : Verbe d'acquisition fort
+  const acquisitionVerbDetected = ACQUISITION_VERBS.some(kw => lower.includes(kw.toLowerCase()));
+  if (!acquisitionVerbDetected) {
+    // Vérifier aussi les mots-clés forts originaux (compatibilité)
+    const strongAcq = STRONG_ACQUISITION_KEYWORDS.some(kw => lower.includes(kw.toLowerCase()));
+    if (!strongAcq) {
+      return { valid: false, confidence: 0, rejectionReason: 'Aucun verbe d\'acquisition détecté', flags: { acquisitionVerbDetected: false, realEstateAssetDetected: false, scpiDetected: true, rejectedByCorporateNoise: false } };
+    }
+    // Si le mot-clé fort matche mais pas un verbe strict, on continue quand même (ex: "acquisition" dans le titre de la page)
+  }
+
+  // Condition 3 : Actif immobilier concret
+  const realEstateAssetDetected = REAL_ESTATE_ASSETS.some(kw => lower.includes(kw.toLowerCase()));
+  if (!realEstateAssetDetected) {
+    return { valid: false, confidence: 0, rejectionReason: 'Aucun actif immobilier identifiable', flags: { acquisitionVerbDetected: acquisitionVerbDetected, realEstateAssetDetected: false, scpiDetected: true, rejectedByCorporateNoise: false } };
+  }
+
+  // ── Scoring ──
+  let confidence = 0;
+
+  // +40 si verbe d'acquisition fort
+  if (acquisitionVerbDetected) confidence += 40;
+
+  // +30 si actif immobilier identifiable
+  if (realEstateAssetDetected) confidence += 30;
+
+  // +20 si nom de SCPI détecté
+  if (scpiDetected) confidence += 20;
+
+  // +10 si ville ou pays détecté
+  const { city, country } = extractCity(block);
+  if (city || country) confidence += 10;
+
+  // ── Vérification bruit corporate ──
+  const rejectedByCorporateNoise = CORPORATE_REJECTION_KEYWORDS.some(kw => lower.includes(kw.toLowerCase()));
+
+  // -50 si expression de rejet détectée
+  if (rejectedByCorporateNoise) {
+    confidence -= 50;
+  }
+
+  // -30 si le contenu ressemble à une page institutionnelle (trop de mots corporate en proportion)
+  const corporateIndicatorWords = ['management', 'fund', 'fonds', 'investor', 'investisseur', 'asset management', 'securities', 'bond', 'shareholder', 'actionnaire', 'regulated', 'regulation', 'compliance', 'risk management'];
+  const corporateIndicatorCount = corporateIndicatorWords.filter(kw => lower.includes(kw)).length;
+  if (corporateIndicatorCount >= 4) confidence -= 30;
+
+  // Trouver la raison de rejet si applicable
+  let rejectionReason = '';
+  if (rejectedByCorporateNoise) {
+    const matchedRejections = CORPORATE_REJECTION_KEYWORDS.filter(kw => lower.includes(kw.toLowerCase()));
+    rejectionReason = `Bruit corporate : ${matchedRejections.slice(0, 3).join(', ')}`;
+  }
+
+  const valid = confidence >= 80 && acquisitionVerbDetected && realEstateAssetDetected && scpiDetected && !rejectedByCorporateNoise;
+  if (!valid && !rejectionReason) {
+    if (confidence < 80) rejectionReason = `Score de confiance insuffisant (${confidence}/100)`;
+    else if (rejectedByCorporateNoise) rejectionReason = 'Rejeté par bruit corporate';
+  }
+
+  return {
+    valid,
+    confidence,
+    rejectionReason,
+    flags: { acquisitionVerbDetected, realEstateAssetDetected, scpiDetected, rejectedByCorporateNoise },
+  };
+}
+
 // ── Traite une page HTML ───────────────────────────────────────────────────
 function processPage(
   html: string,
@@ -712,16 +869,20 @@ function processPage(
     // Si aucune SCPI identifiée dans le bloc, utiliser le nom de la première source
     const effectiveScpis = scpiNames.length > 0 ? scpiNames : urlSources.map(s => s.name);
 
-    // Vérifier que c'est bien une acquisition réelle
-    const lower = block.toLowerCase();
-    const hasStrongAcq = STRONG_ACQUISITION_KEYWORDS.some(kw => lower.includes(kw.toLowerCase()));
-    const hasLocation = !!(city || country);
-    const hasAssetInfo = assetType !== 'autre_immobilier' || amount !== 'Non communiqué' || surface !== 'Non communiqué';
-
-    if (!hasStrongAcq && !(hasLocation && hasAssetInfo)) continue;
-
-    // Créer un item pour chaque SCPI identifiée
+    // Validation stricte v3
     for (const scpiName of effectiveScpis) {
+      const validation = validateBlock(block, scpiName, pageUrl);
+
+      if (!validation.valid) {
+        rejectedItems.push({
+          title: title || block.substring(0, 80),
+          scpi: scpiName,
+          sourceUrl: pageUrl,
+          rejectionReason: validation.rejectionReason || 'Score insuffisant',
+        });
+        continue;
+      }
+
       const source = urlSources.find(s => s.name === scpiName) || urlSources[0];
 
       const item: InvestmentNewsItem = {
@@ -746,8 +907,13 @@ function processPage(
         investmentRelated: true,
         dataQuality: 'weak',
         editorialPriority: 0,
-        confidence: 0.5,
+        confidence: validation.confidence / 100,
         disclaimer: DISCLAIMER,
+        acquisitionVerbDetected: validation.flags.acquisitionVerbDetected,
+        realEstateAssetDetected: validation.flags.realEstateAssetDetected,
+        scpiDetected: validation.flags.scpiDetected,
+        rejectedByCorporateNoise: validation.flags.rejectedByCorporateNoise,
+        rejectionReason: '',
       };
 
       classifyItem(item);
@@ -899,6 +1065,7 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
     `- Pages scannées : ${totalPagesScanned}`,
     `- Investissements détectés : ${allItems.length}`,
     `- Investissements conservés : ${priority1.length + priority2.length + priority3.length}`,
+    `- Faux positifs rejetés : ${rejectedItems.length}`,
     `- Nouveaux investissements ajoutés : ${newCount}`,
     '',
   ];
@@ -912,7 +1079,7 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
   }
 
   if (priority1.length + priority2.length + priority3.length === 0) {
-    lines.push('## Sources sans acquisition détectée');
+    lines.push('## Sources sans acquisition réelle détectée');
     for (const src of successSources) {
       if (!erroredSources.includes(src.slug)) {
         lines.push(`- ${src.name} (${src.slug}) — ${src.notes || 'Aucune note'}`);
@@ -934,6 +1101,7 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
       if (item.tenant !== 'Non communiqué') lines.push(`- **Locataire** : ${item.tenant}`);
       lines.push(`- **Qualité de donnée** : ${item.dataQuality}`);
       lines.push(`- **Confiance** : ${Math.round(item.confidence * 100)}%`);
+      lines.push(`- **Flags** : verbe=${item.acquisitionVerbDetected}, actif=${item.realEstateAssetDetected}, scpi=${item.scpiDetected}, rejeté=${item.rejectedByCorporateNoise}`);
       lines.push(`- ${item.summary}`);
       lines.push(`- [Source](${item.sourceUrl})`);
       lines.push('');
@@ -946,6 +1114,7 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
       lines.push(`- **${item.scpi}** — ${item.title}`);
       lines.push(`  - ${item.city || '?'}, ${item.country || '?'} — ${item.assetType}`);
       lines.push(`  - Date : ${item.date || '?'} | Qualité : ${item.dataQuality} | Confiance : ${Math.round(item.confidence * 100)}%`);
+      lines.push(`  - Flags : verbe=${item.acquisitionVerbDetected}, actif=${item.realEstateAssetDetected}, scpi=${item.scpiDetected}`);
       lines.push(`  - [Source](${item.sourceUrl})`);
       lines.push('');
     }
@@ -959,6 +1128,23 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
     lines.push('');
   }
 
+  // ── Faux positifs rejetés ──
+  if (rejectedItems.length > 0) {
+    lines.push('## Faux positifs rejetés');
+    lines.push('');
+    // Dédupliquer les rejets
+    const seenRejects = new Set<string>();
+    for (const item of rejectedItems) {
+      const key = `${item.scpi}|${item.title}|${item.rejectionReason}`;
+      if (seenRejects.has(key)) continue;
+      seenRejects.add(key);
+      lines.push(`- **${item.scpi}** : ${item.title}`);
+      lines.push(`  - Raison : ${item.rejectionReason}`);
+      lines.push(`  - [Source](${item.sourceUrl})`);
+      lines.push('');
+    }
+  }
+
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
   fs.writeFileSync(reportPath, lines.join('\n'), 'utf-8');
   logInfo(`Rapport généré : ${reportPath}`);
@@ -967,7 +1153,7 @@ function generateReport(sources: NewsSourceEntry[], allItems: InvestmentNewsItem
 // ── Main ───────────────────────────────────────────────────────────────────
 async function main() {
   console.log('');
-  logInfo('=== SCPI Investment News Watcher v2 ===');
+  logInfo('=== SCPI Investment News Watcher v3 ===');
   logInfo(`Démarrage : ${new Date().toISOString()}`);
   console.log('');
 
@@ -1057,6 +1243,7 @@ async function main() {
   logInfo(`  → Priorité 1 : ${displayable.filter(i => i.editorialPriority === 1).length}`);
   logInfo(`  → Priorité 2 : ${displayable.filter(i => i.editorialPriority === 2).length}`);
   logInfo(`  → Priorité 3 : ${displayable.filter(i => i.editorialPriority === 3).length}`);
+  logInfo(`Faux positifs rejetés     : ${rejectedItems.length}`);
   logInfo(`Nouveaux ajouts           : ${newCount}`);
   logInfo('═══════════════════════════════════════');
   console.log('');
