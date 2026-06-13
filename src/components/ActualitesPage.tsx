@@ -319,14 +319,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
         />
 
         {/* ====== HERO ====== */}
-        <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 py-16 sm:py-20">
+        <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 py-10 sm:py-14">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-400/20">
-                <Building2 className="w-10 h-10 text-emerald-400" />
+            <div className="flex justify-center mb-4">
+              <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-400/20">
+                <Building2 className="w-8 h-8 text-emerald-400" />
               </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
               Derniers investissements immobiliers des SCPI
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
@@ -407,6 +407,13 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 </span>
               )}
             </div>
+
+            {/* Phrase d'explication quand 0 acquisition détectée */}
+            {!searchQuery && totalAcquisitions === 0 && (
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+                Les acquisitions apparaîtront automatiquement dès qu'elles seront identifiées dans les sources officielles.
+              </p>
+            )}
 
             {/* État vide recherche */}
             {filteredScpis.length === 0 && searchQuery && (
@@ -574,7 +581,7 @@ const ScpiCard: React.FC<{
     ? 'Acquisition détectée'
     : isActive
     ? 'Veille active'
-    : 'Source à enrichir';
+    : 'Veille à compléter';
 
   const BadgeIcon = isAcquisition ? TrendingUp : isActive ? Eye : AlertCircle;
 
@@ -603,7 +610,7 @@ const ScpiCard: React.FC<{
           <span className={`font-bold ${isAcquisition ? 'text-emerald-300' : 'text-gray-300'}`}>
             {scpi.count}
           </span>{' '}
-          acquisition{scpi.count > 1 ? 's' : ''}
+          acquisition{scpi.count > 1 ? 's' : ''} détectée{scpi.count > 1 ? 's' : ''}
         </span>
       </div>
 
@@ -626,16 +633,23 @@ const ScpiCard: React.FC<{
           </div>
         ) : (
           <p className="text-[11px] text-gray-500 italic leading-relaxed">
-            Aucune acquisition récente détectée dans les sources suivies.
+            Veille en cours sur les sources officielles.
           </p>
         )}
       </div>
 
-      {isAcquisition && (
+      {isAcquisition ? (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
             Voir les acquisitions
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </span>
+        </div>
+      ) : (
+        <div className="mt-3 pt-2 border-t border-gray-700/30">
+          <span className="text-[11px] text-gray-500 font-medium flex items-center gap-1 group-hover:text-gray-400 transition-colors">
+            Voir la veille
+            <ArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-60 transition-opacity" />
           </span>
         </div>
       )}
