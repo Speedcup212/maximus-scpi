@@ -4,49 +4,259 @@
     "name": "Iroko Zen",
     "managementCompany": "Iroko",
     "officialUrl": "https://www.iroko.eu/",
-    "newsUrl": "",
+    "newsUrl": "https://www.iroko.eu/",
     "rssUrl": "",
     "enabled": true,
-    "notes": ""
+    "notes": "Site vérifié 2026-06-13 : /actualites/ retourne 404, mais la homepage contient une section 'Les dernières acquisitions d'Iroko' avec acquisitions détaillées (Martos, Bruxelles, Soesterberg, Londres, Cracovie, Markdorf, Norwich, Dublin, Nancy, Assen)."
+  },
+  {
+    "slug": "iroko-atlas",
+    "name": "Iroko Atlas",
+    "managementCompany": "Iroko",
+    "officialUrl": "https://www.iroko.eu/",
+    "newsUrl": "https://www.iroko.eu/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même site qu'Iroko Zen. Acquisitions mixtes Zen/Atlas visibles sur la homepage."
   },
   {
     "slug": "comete",
     "name": "Comète",
     "managementCompany": "Alderan",
-    "officialUrl": "https://www.alderan.fr/nos-scpi/comete/",
-    "newsUrl": "",
+    "officialUrl": "https://www.alderan.fr/",
+    "newsUrl": "https://www.alderan.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": ""
+    "notes": "Site vérifié 2026-06-13 : section 'Dernières opérations' avec acquisitions détaillées (Dublin, Peterborough, Cwmbrân). L'ancienne URL /nos-scpi/comete/ ne répondait pas."
   },
   {
-    "slug": "epargne-pierre",
-    "name": "Épargne Pierre",
-    "managementCompany": "Atland Voisin",
-    "officialUrl": "https://www.atland-voisin.com/nos-scpi/epargne-pierre/",
-    "newsUrl": "",
+    "slug": "activimmo",
+    "name": "Activimmo",
+    "managementCompany": "Alderan",
+    "officialUrl": "https://www.alderan.fr/",
+    "newsUrl": "https://www.alderan.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": ""
+    "notes": "Même société de gestion que Comète"
   },
   {
     "slug": "coeur-de-region",
     "name": "Cœur de Région",
     "managementCompany": "Sogenial Immobilier",
     "officialUrl": "https://www.sogenial.fr/nos-scpi/coeur-de-region",
-    "newsUrl": "",
+    "newsUrl": "https://www.sogenial.fr/actualites/",
     "rssUrl": "",
     "enabled": true,
-    "notes": ""
+    "notes": "URL vérifiée 2026-06-13 : page active avec communiqués d'acquisition (Brest, Waterloo Office Park)"
+  },
+  {
+    "slug": "coeur-d-europe",
+    "name": "Cœur d'Europe",
+    "managementCompany": "Sogenial Immobilier",
+    "officialUrl": "https://www.sogenial.fr/",
+    "newsUrl": "https://www.sogenial.fr/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion que Cœur de Région. Actualités incluent acquisitions commerce Halberstadt (Allemagne)"
+  },
+  {
+    "slug": "coeur-de-ville",
+    "name": "Cœur de Ville",
+    "managementCompany": "Sogenial Immobilier",
+    "officialUrl": "https://www.sogenial.fr/",
+    "newsUrl": "https://www.sogenial.fr/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion que Cœur de Région"
   },
   {
     "slug": "pfo2",
     "name": "PFO2",
     "managementCompany": "Perial Asset Management",
-    "officialUrl": "https://www.perial.com/nos-scpi/pfo2/",
-    "newsUrl": "",
+    "officialUrl": "https://www.perial.com/",
+    "newsUrl": "https://www.perial.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Site Perial vérifié 2026-06-13. L'URL /nos-scpi/pfo2/ retourne 404. Site principal actif. Section 'Suivez la vie de votre SCPI au fil du temps : acquisitions, nouveaux locataires...'"
+  },
+  {
+    "slug": "perial-grand-paris",
+    "name": "Perial Grand Paris",
+    "managementCompany": "Perial Asset Management",
+    "officialUrl": "https://www.perial.com/",
+    "newsUrl": "https://www.perial.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion que PFO2"
+  },
+  {
+    "slug": "perial-hospitalite-europe",
+    "name": "Perial Hospitalité Europe",
+    "managementCompany": "Perial Asset Management",
+    "officialUrl": "https://www.perial.com/",
+    "newsUrl": "https://www.perial.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion que PFO2"
+  },
+  {
+    "slug": "perial-opportunites-europe",
+    "name": "Perial Opportunités Europe",
+    "managementCompany": "Perial Asset Management",
+    "officialUrl": "https://www.perial.com/",
+    "newsUrl": "https://www.perial.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion que PFO2"
+  },
+  {
+    "slug": "epargne-pierre",
+    "name": "Épargne Pierre",
+    "managementCompany": "Atland Voisin",
+    "officialUrl": "https://www.atland-voisin.com/",
+    "newsUrl": "https://www.atland-voisin.com/actualites/",
     "rssUrl": "",
     "enabled": true,
     "notes": ""
+  },
+  {
+    "slug": "epargne-pierre-europe",
+    "name": "Épargne Pierre Europe",
+    "managementCompany": "Atland Voisin",
+    "officialUrl": "https://www.atland-voisin.com/",
+    "newsUrl": "https://www.atland-voisin.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Épargne Pierre"
+  },
+  {
+    "slug": "pierval-sante",
+    "name": "Pierval Santé",
+    "managementCompany": "Euryale AM",
+    "officialUrl": "https://www.euryale-am.fr/",
+    "newsUrl": "https://www.euryale-am.fr/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Site vérifié 2026-06-13 : acquisitions détaillées visibles avec dates, montants, surfaces, locataires (Boulogne-Billancourt, Montréal, Maizières-lès-Metz)"
+  },
+  {
+    "slug": "immorente",
+    "name": "Immorente",
+    "managementCompany": "Sofidy",
+    "officialUrl": "https://www.sofidy.com/",
+    "newsUrl": "https://www.sofidy.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Site vérifié 2026-06-13 : catégorie 'Acquisitions immobilières' dans les actualités (entrepôt logistique Gironde pour Sofidynamic)"
+  },
+  {
+    "slug": "efimmo-1",
+    "name": "Efimmo 1",
+    "managementCompany": "Sofidy",
+    "officialUrl": "https://www.sofidy.com/",
+    "newsUrl": "https://www.sofidy.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Immorente"
+  },
+  {
+    "slug": "sofiprime",
+    "name": "Sofiprime",
+    "managementCompany": "Sofidy",
+    "officialUrl": "https://www.sofidy.com/",
+    "newsUrl": "https://www.sofidy.com/actualites/",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Immorente"
+  },
+  {
+    "slug": "epargne-fonciere",
+    "name": "Épargne Foncière",
+    "managementCompany": "La Française REM",
+    "officialUrl": "https://www.la-francaise.com/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "La Française REM est la filiale immobilière de La Française Group. Site groupe vérifié 2026-06-13. L'URL spécifique REM reste à confirmer (la-francaise-rem.com ou sous-domaine)."
+  },
+  {
+    "slug": "lf-avenir-sante",
+    "name": "LF Avenir Santé",
+    "managementCompany": "La Française REM",
+    "officialUrl": "https://www.la-francaise.com/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Épargne Foncière"
+  },
+  {
+    "slug": "lf-europimmo",
+    "name": "LF Europimmo",
+    "managementCompany": "La Française REM",
+    "officialUrl": "https://www.la-francaise.com/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Épargne Foncière"
+  },
+  {
+    "slug": "lf-grand-paris-patrimoine",
+    "name": "LF Grand Paris Patrimoine",
+    "managementCompany": "La Française REM",
+    "officialUrl": "https://www.la-francaise.com/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Épargne Foncière"
+  },
+  {
+    "slug": "credit-mutuel-pierre-1",
+    "name": "Crédit Mutuel Pierre 1",
+    "managementCompany": "La Française REM",
+    "officialUrl": "https://www.la-francaise.com/",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "Même société de gestion qu'Épargne Foncière"
+  },
+  {
+    "slug": "primovie",
+    "name": "Primovie",
+    "managementCompany": "Praemia REIM France",
+    "officialUrl": "",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": true,
+    "notes": "URL non vérifiée (timeout). Praemia REIM = ex-Primonial REIM. Site probable : praemia-reim.com. À vérifier manuellement."
+  },
+  {
+    "slug": "patrimmo-commerce",
+    "name": "Patrimmo Commerce",
+    "managementCompany": "Praemia REIM France",
+    "officialUrl": "",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": false,
+    "notes": "URL non vérifiée. Activé une fois l'URL confirmée."
+  },
+  {
+    "slug": "remake-live",
+    "name": "Remake Live",
+    "managementCompany": "Remake Asset Management",
+    "officialUrl": "",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": false,
+    "notes": "URL non vérifiée (timeout sur remake-am.com). À vérifier manuellement."
+  },
+  {
+    "slug": "transitions-europe",
+    "name": "Transitions Europe",
+    "managementCompany": "Arkéa REIM",
+    "officialUrl": "",
+    "newsUrl": "",
+    "rssUrl": "",
+    "enabled": false,
+    "notes": "URL non vérifiée. Arkéa REIM fait partie du groupe Crédit Mutuel Arkéa. À vérifier manuellement."
   }
 ]
