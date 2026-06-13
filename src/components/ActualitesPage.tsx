@@ -27,8 +27,11 @@ import Header from './Header';
 import LegalFooter from './LegalFooter';
 import type { InvestmentNewsItem, AssetType } from '../types/investmentNews';
 import { ASSET_TYPE_LABELS } from '../types/investmentNews';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
 import newsJson from '../../data/news/scpi-investment-news-latest.json';
 import sourcesJson from '../../data/scpi-investment-news-sources.json';
+// Liste complète de toutes les SCPI du projet (63+ entrées)
+import scpiCompletRaw from '../data/scpi_complet.json';
 
 const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson) ? (newsJson as InvestmentNewsItem[]) : [];
 
@@ -38,30 +41,36 @@ interface TrackedScpi {
   slug: string;
   name: string;
   managementCompany: string;
-  enabled: boolean;
-  hasAnyUrl: boolean;
   status: ScpiStatus;
 }
 
-/** Déduplication + enrichissement : chaque SCPI avec son statut */
+/** Construit l'index des sources par nom de SCPI */
+const sourceByName = new Map<string, { slug: string; hasUrl: boolean; enabled: boolean }>();
+for (const s of sourcesJson as Array<{ slug: string; name: string; enabled: boolean; officialUrl: string; newsUrl: string; rssUrl: string }>) {
+  if (!s.name) continue;
+  sourceByName.set(s.name.toLowerCase(), {
+    slug: s.slug,
+    hasUrl: !!(s.officialUrl || s.newsUrl || s.rssUrl),
+    enabled: s.enabled !== false,
+  });
+}
+
+/** Liste COMPLÈTE de toutes les SCPI du projet (63 unique) */
 const TRACKED_SCPIS: TrackedScpi[] = (() => {
   const seen = new Set<string>();
   const list: TrackedScpi[] = [];
-  for (const s of sourcesJson as Array<{
-    slug: string;
-    name: string;
-    managementCompany: string;
-    enabled: boolean;
-    officialUrl: string;
-    newsUrl: string;
-    rssUrl: string;
-  }>) {
-    if (!s.name || seen.has(s.name)) continue;
-    seen.add(s.name);
-    const hasAnyUrl = !!(s.officialUrl || s.newsUrl || s.rssUrl);
-    const active = s.enabled !== false;
-    const status: ScpiStatus = active && hasAnyUrl ? 'active' : 'incomplete';
-    list.push({ slug: s.slug, name: s.name, managementCompany: s.managementCompany || '', enabled: active, hasAnyUrl, status });
+  for (const entry of scpiCompletRaw as Array<{ [key: string]: unknown }>) {
+    const name = (entry['Nom SCPI'] as string) || '';
+    if (!name || seen.has(name)) continue;
+    seen.add(name);
+    const company = (entry['Société de gestion'] as string) || '';
+    const slug = createSlugFromName(name);
+    // Détermine le statut à partir du fichier sources
+    const src = sourceByName.get(name.toLowerCase()) || sourceByName.get(company.toLowerCase());
+    const hasSourceUrl = src?.hasUrl;
+    const sourceActive = src ? src.enabled : false;
+    const status: ScpiStatus = sourceActive && hasSourceUrl ? 'active' : 'incomplete';
+    list.push({ slug, name, managementCompany: company, status });
   }
   return list;
 })();
@@ -195,28 +204,27 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 
   const searchedDisplayable = useMemo(() => searched.filter((i) => i.dataQuality !== 'weak' && i.editorialPriority > 0), [searched]);
 
-  // ── Investissements par SCPI ──
+  // ── Index des investissements par SCPI ──
   const scpiInvestments = useMemo(() => {
     const map: Record<string, InvestmentNewsItem[]> = {};
     for (const item of ALL_NEWS) {
       if (item.dataQuality === 'weak' || item.editorialPriority === 0) continue;
-      const key = item.scpi;
+      const key = item.scpi.toLowerCase();
       if (!map[key]) map[key] = [];
       map[key].push(item);
     }
     return map;
   }, []);
 
-  // Enrichit TRACKED_SCPIS avec investissements + dernier actif
+  // ── Enrichit la liste complète avec les acquisitions détectées ──
   const enrichedScpis = useMemo(() => {
     return TRACKED_SCPIS.map((scpi) => {
-      const investments = scpiInvestments[scpi.name] || [];
+      const key = scpi.name.toLowerCase();
+      const investments = scpiInvestments[key] || [];
+      // Recherche par correspondance partielle si aucune correspondance exacte
       const altMatches = !investments.length
         ? Object.entries(scpiInvestments)
-            .filter(([key]) =>
-              key.toLowerCase().includes(scpi.name.toLowerCase()) ||
-              scpi.name.toLowerCase().includes(key.toLowerCase()),
-            )
+            .filter(([k]) => k.includes(key) || key.includes(k))
             .flatMap(([, items]) => items)
         : [];
       const all = investments.length ? investments : altMatches;
@@ -227,18 +235,32 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     });
   }, [scpiInvestments]);
 
-  // Filtrage des cartes SCPI par la recherche globale
+  // ── Filtrage des cartes SCPI par la recherche globale ──
   const filteredScpis = useMemo(() => {
     let list = enrichedScpis;
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase();
       list = list.filter(
-        (s) =>
-          s.name.toLowerCase().includes(q) ||
-          (s.managementCompany || '').toLowerCase().includes(q),
+        (s) => {
+          // Recherche dans le nom SCPI
+          if (s.name.toLowerCase().includes(q)) return true;
+          // Recherche dans la société de gestion
+          if ((s.managementCompany || '').toLowerCase().includes(q)) return true;
+          // Recherche dans les acquisitions détectées (ville, pays, type, locataire)
+          if (s.latest) {
+            const fields = [
+              s.latest.city,
+              s.latest.country,
+              s.latest.assetType,
+              s.latest.tenant,
+            ];
+            if (fields.some((f) => (f || '').toLowerCase().includes(q))) return true;
+          }
+          return false;
+        },
       );
     }
-    // Tri : acquisitions d'abord, puis actif, puis alphabétique
+    // Tri : acquisitions d'abord, puis actif, puis alphabetique
     list = [...list].sort((a, b) => {
       if (a.count > 0 && b.count === 0) return -1;
       if (b.count > 0 && a.count === 0) return 1;
@@ -249,11 +271,11 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     return list;
   }, [enrichedScpis, searchQuery]);
 
-  // Stats globales
+  // ── Stats globales ──
   const totalAcquisitions = useMemo(() => filteredScpis.reduce((sum, s) => sum + s.count, 0), [filteredScpis]);
   const scpisWithAcquisitions = useMemo(() => filteredScpis.filter((s) => s.count > 0).length, [filteredScpis]);
 
-  // Compteurs par type d'actif
+  // ── Compteurs par type d'actif ──
   const assetCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     for (const item of ALL_NEWS) {
@@ -263,6 +285,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     }
     return counts;
   }, []);
+  const hasAnyAcquisition = totalAcquisitions > 0;
 
   const featured = useMemo(() => searchedDisplayable.slice(0, 3), [searchedDisplayable]);
   const clearSearch = () => setSearchQuery('');
@@ -355,7 +378,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
           )}
 
-          {/* ====== INVESTISSEMENTS PAR SCPI ====== */}
+          {/* ====== INVESTISSEMENTS PAR SCPI — GRILLE COMPLÈTE ====== */}
           <section className="mb-14">
             <div className="text-center mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -366,7 +389,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               </p>
             </div>
 
-            {/* Compteur */}
+            {/* Compteurs */}
             <div className="flex flex-wrap items-center justify-center gap-3 mb-8 text-sm">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                 <Building2 className="w-3.5 h-3.5" />
@@ -395,7 +418,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               </div>
             )}
 
-            {/* Grille premium des SCPI */}
+            {/* Grille premium des SCPI — TOUJOURS visible par défaut */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredScpis.map((scpi) => (
                 <ScpiCard
@@ -409,8 +432,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
           </section>
 
-          {/* ====== ACCÈS RAPIDE PAR TYPE D'ACTIF (secondaire) ====== */}
-          {!searchQuery && (
+          {/* ====== ACCÈS RAPIDE PAR TYPE D'ACTIF ====== */}
+          {!searchQuery && hasAnyAcquisition && (
             <section className="mb-14">
               <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="h-px flex-1 max-w-16 bg-gray-200 dark:bg-gray-700" />
@@ -506,7 +529,6 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 /*  Sous-composants                                                    */
 /* ================================================================== */
 
-/** Carte SCPI premium — design dark sobre avec badge de statut */
 const ScpiCard: React.FC<{
   scpi: TrackedScpi & { count: number; latest: InvestmentNewsItem | null; status: ScpiStatus };
   onClick: () => void;
@@ -518,7 +540,6 @@ const ScpiCard: React.FC<{
 
   const AssetIcon = latest ? (ASSET_TYPE_ICON_MAP[latest.assetType] || Building) : Building;
 
-  // Couleurs de carte selon statut
   const cardBorder = isAcquisition
     ? 'border-emerald-500/25 hover:border-emerald-400/60'
     : isActive
@@ -543,7 +564,6 @@ const ScpiCard: React.FC<{
     ? 'bg-blue-400/40'
     : 'bg-amber-400/20';
 
-  // Badge de statut
   const badgeBg = isAcquisition
     ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25'
     : isActive
@@ -563,10 +583,8 @@ const ScpiCard: React.FC<{
       onClick={onClick}
       className={`group relative rounded-2xl border ${cardBorder} ${cardBg} backdrop-blur-sm p-5 transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-xl ${hoverGlow}`}
     >
-      {/* Barre d'accent en haut */}
       <div className={`absolute top-0 left-4 right-4 h-0.5 rounded-full ${accentBar} opacity-60 group-hover:opacity-100 transition-opacity`} />
 
-      {/* En-tête : nom + badge statut */}
       <div className="flex items-start justify-between gap-2 mb-3 pt-1">
         <div className="min-w-0 flex-1">
           <p className="font-bold text-gray-100 text-sm leading-snug truncate">{scpi.name}</p>
@@ -574,15 +592,12 @@ const ScpiCard: React.FC<{
             <p className="text-[11px] text-gray-500 truncate mt-0.5">{scpi.managementCompany}</p>
           )}
         </div>
-        <span
-          className={`flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${badgeBg}`}
-        >
+        <span className={`flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${badgeBg}`}>
           <BadgeIcon className="w-3 h-3" />
           {badgeLabel}
         </span>
       </div>
 
-      {/* Compteur d'acquisitions */}
       <div className="flex items-center gap-4 mb-3 text-xs">
         <span className="text-gray-400">
           <span className={`font-bold ${isAcquisition ? 'text-emerald-300' : 'text-gray-300'}`}>
@@ -592,7 +607,6 @@ const ScpiCard: React.FC<{
         </span>
       </div>
 
-      {/* Dernière acquisition ou message neutre */}
       <div className="pt-3 border-t border-gray-700/50">
         {latest ? (
           <div className="flex items-center gap-2 text-xs">
@@ -600,16 +614,12 @@ const ScpiCard: React.FC<{
               <AssetIcon className="w-3.5 h-3.5 text-emerald-400" />
             </span>
             <div className="min-w-0">
-              <p className="text-gray-300 font-medium truncate text-[11px]">
-                Dernier actif
-              </p>
+              <p className="text-gray-300 font-medium truncate text-[11px]">Dernier actif</p>
               <p className="text-gray-400 truncate text-[11px] flex items-center gap-1">
                 <MapPin className="w-3 h-3 flex-shrink-0 text-gray-500" />
                 {latest.city || '—'}{latest.country ? `, ${latest.country}` : ''}
                 {latest.assetType && (
-                  <span className="text-gray-500">
-                    — {ASSET_TYPE_LABELS[latest.assetType]}
-                  </span>
+                  <span className="text-gray-500"> — {ASSET_TYPE_LABELS[latest.assetType]}</span>
                 )}
               </p>
             </div>
@@ -621,7 +631,6 @@ const ScpiCard: React.FC<{
         )}
       </div>
 
-      {/* Lien "Voir les acquisitions" */}
       {isAcquisition && (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
