@@ -543,6 +543,68 @@ const App: React.FC = () => {
         setCurrentView('article-premier-investissement');
       } else if (path === 'education/investir-scpi-jeune-actif-25-35-ans') {
         setCurrentView('article-scpi-jeune-actif');
+      } else if (path === 'articles/fonds-euros-ou-scpi') {
+        setCurrentView('article-fonds-euros-ou-scpi');
+      } else if (path === 'articles/scpi-en-direct-ou-assurance-vie') {
+        setCurrentView('article-scpi-direct-av');
+      } else if (path === 'articles/100000-euros-fonds-euros-cout-opportunite') {
+        setCurrentView('article-cout-opportunite-100k');
+      } else if (path === 'articles/investir-200000-euros-scpi-portefeuille-diversifie') {
+        setCurrentView('article-portfolio-200k');
+      } else if (path === 'articles/scpi-ou-immobilier-locatif-comparatif-20-ans') {
+        setCurrentView('article-scpi-vs-locatif');
+      } else if (path === 'articles/achat-scpi-credit-effet-levier-fiscalite') {
+        setCurrentView('article-scpi-credit');
+      } else if (path === 'articles/demembrement-scpi-nue-propriete-usufruit') {
+        setCurrentView('article-demembrement');
+      } else if (path === 'articles/investir-scpi-tmi-11-pourcent-fiscalite-optimale') {
+        setCurrentView('article-scpi-tmi-11');
+      } else if (path === 'articles/scpi-tmi-30-pourcent-arbitrage-av-direct') {
+        setCurrentView('article-scpi-tmi-30');
+      } else if (path === 'articles/forte-imposition-tmi-41-scpi-assurance-vie') {
+        setCurrentView('article-scpi-tmi-41');
+      } else if (path === 'articles/scpi-europeennes-avantages-ps-0-rendement') {
+        setCurrentView('article-scpi-europeennes');
+      } else if (path === 'articles/scpi-fiscales-malraux-deficit-foncier-2025') {
+        setCurrentView('article-scpi-fiscales');
+      } else if (path === 'articles/scpi-sante-seniors-ehpad-cliniques-investissement') {
+        setCurrentView('article-scpi-sante');
+      } else if (path === 'articles/scpi-bureaux-tertiaire-teletravail-2025') {
+        setCurrentView('article-scpi-bureaux');
+      } else if (path === 'articles/scpi-commerces-retail-e-commerce-opportunites') {
+        setCurrentView('article-scpi-commerces');
+      } else if (path === 'articles/scpi-logistique-entrepots-e-commerce-2025') {
+        setCurrentView('article-scpi-logistique');
+      } else if (path === 'articles/scpi-residentielles-logement-locatif-scpi-habitation') {
+        setCurrentView('article-scpi-residentielles');
+      } else if (path === 'articles/per-scpi-retraite-deduction-fiscale') {
+        setCurrentView('article-per-scpi');
+      } else if (path === 'articles/sci-scpi-societe-civile-immobiliere-parts') {
+        setCurrentView('article-sci-scpi');
+      } else if (path === 'articles/ifi-scpi-impot-fortune-immobiliere-strategies') {
+        setCurrentView('article-ifi-scpi');
+      } else if (path === 'articles/succession-scpi-transmission-droits-heritage') {
+        setCurrentView('article-succession-scpi');
+      } else if (path === 'articles/diversification-scpi-combien-nombre-parts') {
+        setCurrentView('article-diversification-scpi');
+      } else if (path === 'articles/rendement-scpi-2025-tdvm-taux-distribution') {
+        setCurrentView('article-rendement-scpi-2025');
+      } else if (path === 'articles/risques-scpi-vacance-locative-liquidite') {
+        setCurrentView('article-risques-scpi');
+      } else if (path === 'articles/frais-scpi-souscription-gestion-performance') {
+        setCurrentView('article-frais-scpi');
+      } else if (path === 'articles/revendre-parts-scpi-delais-marche-secondaire') {
+        setCurrentView('article-revente-scpi');
+      } else if (path === 'articles/scpi-ou-etf-immobilier-reit-comparatif') {
+        setCurrentView('article-scpi-vs-etf');
+      } else if (path === 'articles/scpi-ou-opci-differences-avantages') {
+        setCurrentView('article-scpi-vs-opci');
+      } else if (path === 'articles/premier-investissement-scpi-debutant-guide') {
+        setCurrentView('article-premier-investissement');
+      } else if (path === 'articles/investir-scpi-jeune-actif-25-35-ans') {
+        setCurrentView('article-scpi-jeune-actif');
+      } else if (path === 'articles/construire-portefeuille-scpi') {
+        setCurrentView('article-construire-portefeuille');
       } else if (path === 'simulateur-fonds-euros-scpi') {
         setCurrentView('life-to-scpi');
       } else if (path === 'simulateur-profil-investisseur') {
@@ -1454,10 +1516,10 @@ const App: React.FC = () => {
       return;
     }
 
-    // Redirige vers /education/slug pour tous les articles du template config
+    // Redirige vers /articles/slug/ pour tous les articles du template config
     const articleTemplate = getTemplateBySlug(slug);
     if (articleTemplate) {
-      window.location.href = `/education/${slug}`;
+      window.location.href = `/articles/${slug}/`;
       return;
     }
 

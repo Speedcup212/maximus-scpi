@@ -186,19 +186,17 @@ async function generateSitemap() {
   }
 
   // ── Priority 0.8: Thematic landing pages ──
+  // ✅ Canoniques : scpi-fiscalite/, scpi-retraite/, scpi-bureaux/, scpi-commerces/, scpi-sante/, scpi-france/
+  // ❌ Retirées du sitemap (301) : scpi-fiscales, preparer-retraite-scpi, *-investissement
   const thematicPages = [
-    'scpi-fiscales',
     'scpi-europeennes',
-    'preparer-retraite-scpi',
     'revenu-complementaire-scpi',
-    'scpi-bureaux-investissement',
-    'scpi-commerces-investissement',
-    'scpi-sante-investissement',
-    'scpi-france-investissement',
     'scpi-sans-frais',
     'comprendre-les-scpi',
     'faq',
     'investir-scpi',
+    'scpi-fiscalite',
+    'scpi-retraite',
   ];
   for (const p of thematicPages) {
     urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
@@ -221,16 +219,18 @@ async function generateSitemap() {
   }
 
   // ── Priority 0.8: Sector pages ──
+  // ❌ scpi-mixte retiré (pas de route confirmée)
   const sectorPages = [
     'scpi-bureaux', 'scpi-commerces', 'scpi-sante',
-    'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie', 'scpi-mixte',
+    'scpi-logistique', 'scpi-residentiel', 'scpi-hotellerie',
   ];
   for (const p of sectorPages) {
     urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
   }
 
   // ── Priority 0.8: Geo pages ──
-  const geoPages = ['scpi-france', 'scpi-europe', 'scpi-international'];
+  // ❌ scpi-europe retiré (301 → scpi-europeennes/), scpi-international retiré (pas de route confirmée)
+  const geoPages = ['scpi-france'];
   for (const p of geoPages) {
     urls.push(urlEntry(`${siteUrl}/${p}`, '0.8', 'weekly', today));
   }
