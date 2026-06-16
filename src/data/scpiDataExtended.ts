@@ -1988,7 +1988,7 @@ const baseSCPIData: SCPIExtended[] = [
     "reconstitutionValue": 270,
     "ranDays": 86,
     "ltv": 0,
-    "hasWaitingShares": true,
+    "hasWaitingShares": false,
     "strategy": "Investissement principalement dans des immeubles de bureaux de qualité",
     "valeurRetrait": 229.5,
     "assetsCount": 20,

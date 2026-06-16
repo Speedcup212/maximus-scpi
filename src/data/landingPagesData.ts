@@ -1681,35 +1681,37 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
     societe_gestion: "THEOREIM",
     annee_creation: 2022,
     label_isr: true,
-    capitalisation: "192.1 M€",
-    prix_souscription: "250 €",
-    rendement: "6%",
-    tof: "98.6%",
-    decote: "-3.18%",
-    endettement: "4.45%",
+    capitalisation: "240.8 M€",
+    prix_souscription: "255 €",
+    rendement: "6.21%",
+    tof: "100%",
+    decote: "-4.4%",
+    endettement: "0%",
     frais_souscription: "10%",
     geographie: {
-    "France": 40,
-    "Belgique": 10,
-    "Pays-Bas": 15,
-    "Allemagne": 25,
-    "Royaume-Uni": 10
+    "Italie": 28,
+    "Espagne": 26,
+    "Royaume-Uni": 22,
+    "Allemagne": 12,
+    "Irlande": 8,
+    "Pologne": 4
 },
     secteurs: {
-    ", Bureaux": 3,
-    "Logistique et locaux d'activités": 97
+    "Locaux d'activités et sites de production": 71,
+    "Logistique": 23,
+    "Life Science": 5
 },
     avantages: [
-      "Rendement attractif de 6%",
-      "Taux d'occupation élevé de 98.6%",
+      "Rendement attractif de 6.21%",
+      "Taux d'occupation de 100%",
       "Label ISR - Investissement responsable",
-      "Endettement faible de 4.45%"
+      "Zéro endettement : patrimoine détenu en propre"
 ],
-    description_courte: "SCPI Log In gérée par THEOREIM offrant 6% de rendement avec un taux d'occupation de 98.6%.",
-    description_longue: "Log In, créée en 2022 par THEOREIM, se distingue par son rendement de 6% et un taux d'occupation de 98.6%. Avec une capitalisation de 192.1 M€, elle offre une solution d'investissement immobilier labellisée ISR adaptée aux investisseurs recherchant des revenus réguliers.",
+    description_courte: "SCPI Log In gérée par THEOREIM offrant 6.21% de rendement avec un taux d'occupation de 100%.",
+    description_longue: "Log In, créée en 2022 par THEOREIM, se distingue par son rendement de 6.21% et un taux d'occupation de 100%. Avec une capitalisation de 240.8 M€, elle offre une solution d'investissement immobilier labellisée ISR à faible endettement.",
     pourquoi_investir: [
-      "Rendement attractif : 6% de taux de distribution",
-      "Taux d'occupation : 98.6% des biens loués",
+      "Rendement attractif : 6.21% de taux de distribution",
+      "Taux d'occupation financier : 100% des biens loués",
       "Label ISR - Investissement responsable",
       "Société de gestion reconnue : THEOREIM"
 ],

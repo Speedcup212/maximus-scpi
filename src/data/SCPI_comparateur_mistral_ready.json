@@ -800,12 +800,12 @@
     "societe_de_gestion": "THEOREIM",
     "annee_de_creation": 2022,
     "label_isr": true,
-    "capitalisation_m€": 192.1,
-    "prix_de_souscription_€": 250.0,
-    "valeur_de_retrait_€": 225,
-    "surcote/decote_pct": -3.18,
-    "taux_de_distribution_pct": 6.0,
-    "tof_pct": 98.6,
+    "capitalisation_m€": 240.81,
+    "prix_de_souscription_€": 255.0,
+    "valeur_de_retrait_€": 229.5,
+    "surcote/decote_pct": -4.4,
+    "taux_de_distribution_pct": 6.21,
+    "tof_pct": 100.0,
     "repartition_geographique_json": {
       "Union européenne et Royaume-Uni": null
     },
