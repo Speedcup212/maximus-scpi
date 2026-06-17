@@ -1,6 +1,6 @@
 // MaximusSCPI — InvestorQuiz — refonte homepage
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type {
   Montant,
@@ -13,6 +13,23 @@ import type {
   AnalysisCriterion,
 } from '../types/quiz'
 import { CALENDLY_URL } from '../config/calendly'
+import { buildCalendlyPrefillAnswers } from '../config/calendlyMapping'
+
+// Type global minimal pour le widget Calendly
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (config: {
+        url: string
+        parentElement: HTMLElement
+        prefill?: {
+          customAnswers?: Record<string, string>
+        }
+        utm?: Record<string, string>
+      }) => void
+    }
+  }
+}
 
 interface InvestorQuizProps {
   onComplete: (data: QuizData) => void
@@ -368,7 +385,48 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
-function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset: () => void }) {
+function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult; quizData: QuizData; onReset: () => void }) {
+  const calendlyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const container = calendlyRef.current
+    let scriptEl: HTMLScriptElement | null = null
+
+    const initWidget = () => {
+      if (!container || !window.Calendly) return
+      container.innerHTML = ''
+      window.Calendly.initInlineWidget({
+        url: CALENDLY_URL,
+        parentElement: container,
+        prefill: {
+          customAnswers: buildCalendlyPrefillAnswers(quizData),
+        },
+        utm: {
+          utmSource: 'maximusscpi',
+          utmMedium: 'quiz',
+          utmCampaign: 'rdv-scpi',
+          utmContent: `${quizData.montant}|${quizData.tmi}|${quizData.horizon}|${quizData.objectif}`,
+        },
+      })
+    }
+
+    if (!window.Calendly) {
+      scriptEl = document.createElement('script')
+      scriptEl.src = 'https://assets.calendly.com/assets/external/widget.js'
+      scriptEl.async = true
+      scriptEl.onload = initWidget
+      document.head.appendChild(scriptEl)
+    } else {
+      initWidget()
+    }
+
+    return () => {
+      if (container) container.innerHTML = ''
+      if (scriptEl && scriptEl.parentNode) {
+        scriptEl.parentNode.removeChild(scriptEl)
+      }
+    }
+  }, [quizData])
   return (
     <div className="transition-all duration-300 ease-in-out space-y-5 max-h-[70vh] overflow-y-auto pr-1 scrollbar-thin">
       {/* 1. Profil + score */}
@@ -463,22 +521,50 @@ function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset:
         </ul>
       </div>
 
-      {/* Mention légale */}
+      {/* Mention légale MIF2 */}
       <p className="text-[11px] text-slate-500 leading-relaxed">
         Ces orientations sont informatives et ne constituent pas une recommandation personnalisée au sens de la réglementation MIF2.
       </p>
 
-      {/* CTA */}
-      <a
-        href={CALENDLY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full text-center px-5 py-3.5 rounded-xl font-semibold text-[#0D1117] text-sm transition-all duration-300 ease-in-out hover:opacity-90"
-        style={{ backgroundColor: '#00C896' }}
-      >
-        Valider ma sélection avec un expert →
-      </a>
+      {/* Bloc CTA — widget Calendly inline */}
+      <div className="rounded-2xl border border-emerald-400/20 bg-slate-800/40 p-5 space-y-4">
+        <div className="text-center space-y-2">
+          <h4 className="text-base font-bold text-white sm:text-lg">
+            Votre profil est analysé. Validez-le en 30 min avec un CGP.
+          </h4>
+          <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+            Échange visio gratuit, sans engagement, sans vente. Je relis votre orientation avec vos chiffres réels.
+          </p>
+        </div>
 
+        {/* Réassurance */}
+        <div className="flex flex-wrap justify-center gap-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-300">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            CGP certifié AMF — Orias n°13001580
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-700/40 px-3 py-1 text-xs text-slate-300">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            Gratuit, sans engagement
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-700/40 px-3 py-1 text-xs text-slate-300">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            30 min en visio Zoom
+          </span>
+        </div>
+
+        {/* Widget Calendly inline */}
+        <div className="rounded-xl overflow-hidden border border-slate-700/50 bg-white">
+          <div ref={calendlyRef} style={{ minHeight: 700 }} className="w-full" />
+        </div>
+
+        {/* Conformité */}
+        <p className="text-[10px] text-slate-500 leading-relaxed text-center">
+          Les informations de votre simulation sont transmises uniquement pour préparer votre rendez-vous et ne sont cédées à aucun tiers. En réservant, vous consentez à ce traitement.
+        </p>
+      </div>
+
+      {/* CTA secondaire discret */}
       <div className="text-center">
         <a href="/comparateur-scpi" className="text-xs underline text-slate-400 hover:text-white transition-colors">
           Explorer le comparateur complet →
@@ -699,7 +785,7 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
             </div>
           </div>}
 
-        {result && <QuizResultDashboard result={result} onReset={reset} />}
+        {result && <QuizResultDashboard result={result} quizData={data as QuizData} onReset={reset} />}
       </div>
     </div>
   )
