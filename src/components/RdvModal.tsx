@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Shield, Leaf } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { submitLead } from '../utils/leadSubmitter';
+import { CALENDLY_URL } from '../config/calendly';
 
 interface RdvModalProps {
   isOpen: boolean;
@@ -130,8 +131,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
   };
 
   const openCalendly = () => {
-    const calendlyUrl = 'https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone';
-    window.open(calendlyUrl, '_blank');
+    window.open(CALENDLY_URL, '_blank');
   };
 
   return (

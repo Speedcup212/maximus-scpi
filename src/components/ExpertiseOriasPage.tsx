@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { Shield, Award, CheckCircle2, FileText, Phone, Mail, Calendar } from 'lucide-react';
+import { CALENDLY_URL } from '../config/calendly';
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg';
 import Breadcrumb from './Breadcrumb';
 
@@ -241,7 +242,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
               <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
                 <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
                 <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Prendre RDV</p>
-                <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline">
                   Calendly
                 </a>
               </div>

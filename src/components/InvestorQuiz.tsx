@@ -1,6 +1,6 @@
 // MaximusSCPI — InvestorQuiz — refonte homepage
 
-import { useState } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import type {
   Montant,
@@ -13,6 +13,23 @@ import type {
   AnalysisCriterion,
 } from '../types/quiz'
 import { CALENDLY_URL } from '../config/calendly'
+import { buildCalendlyPrefillAnswers } from '../config/calendlyMapping'
+
+// Type global minimal pour le widget Calendly
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (config: {
+        url: string
+        parentElement: HTMLElement
+        prefill?: {
+          customAnswers?: Record<string, string>
+        }
+        utm?: Record<string, string>
+      }) => void
+    }
+  }
+}
 
 interface InvestorQuizProps {
   onComplete: (data: QuizData) => void
@@ -51,9 +68,6 @@ const OBJECTIF_OPTIONS: Option<Objectif>[] = [
   { value: 'transmission', label: 'Transmettre mon patrimoine' },
 ]
 
-const GEO_COLORS = ['#00C896', '#0056b3', '#f472b6', '#8b5cf6']
-const SECTOR_COLORS = ['#00C896', '#0056b3', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16']
-
 // Fonction pure — règles de priorité, on s'arrête à la première correspondance.
 export function calculateResult(data: QuizData): QuizResult {
   // RÈGLE 1 — objectif fiscalité
@@ -67,7 +81,6 @@ export function calculateResult(data: QuizData): QuizResult {
       ],
       sectorAllocation: [
         { label: 'Santé / éducation', value: 25 },
-        { label: 'Diversifié', value: 25 },
         { label: 'Bureaux', value: 20 },
         { label: 'Résidentiel', value: 15 },
         { label: 'Logistique', value: 15 },
@@ -115,7 +128,6 @@ export function calculateResult(data: QuizData): QuizResult {
         { label: 'Bureaux', value: 20 },
         { label: 'Santé / éducation', value: 20 },
         { label: 'Logistique', value: 20 },
-        { label: 'Diversifié', value: 20 },
         { label: 'Résidentiel', value: 10 },
         { label: 'Commerces', value: 10 },
       ],
@@ -160,7 +172,6 @@ export function calculateResult(data: QuizData): QuizResult {
         { label: 'Commerces', value: 20 },
         { label: 'Bureaux', value: 20 },
         { label: 'Santé / éducation', value: 20 },
-        { label: 'Diversifié', value: 20 },
         { label: 'Logistique', value: 10 },
         { label: 'Résidentiel', value: 10 },
       ],
@@ -202,7 +213,6 @@ export function calculateResult(data: QuizData): QuizResult {
         { label: 'International', value: 15 },
       ],
       sectorAllocation: [
-        { label: 'Diversifié', value: 35 },
         { label: 'Santé / éducation', value: 20 },
         { label: 'Bureaux', value: 20 },
         { label: 'Logistique', value: 15 },
@@ -249,7 +259,6 @@ export function calculateResult(data: QuizData): QuizResult {
     sectorAllocation: [
       { label: 'Bureaux', value: 20 },
       { label: 'Santé / éducation', value: 20 },
-      { label: 'Diversifié', value: 20 },
       { label: 'Logistique', value: 15 },
       { label: 'Commerces', value: 15 },
       { label: 'Résidentiel', value: 10 },
@@ -311,39 +320,6 @@ function AlertIcon() {
   )
 }
 
-const STATUS_STYLES: Record<AnalysisCriterion['status'], { badge: string; dot: string }> = {
-  prioritaire: { badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', dot: '#00C896' },
-  important: { badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30', dot: '#3b82f6' },
-  'a-verifier': { badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30', dot: '#f59e0b' },
-}
-
-const STATUS_LABELS: Record<AnalysisCriterion['status'], string> = {
-  prioritaire: 'Prioritaire',
-  important: 'Important',
-  'a-verifier': 'À vérifier',
-}
-
-function AllocationBars({ items, colors }: { items: AllocationItem[]; colors: string[] }) {
-  return (
-    <div className="space-y-2.5">
-      {items.filter(i => i.value > 0).map((item, i) => (
-        <div key={item.label}>
-          <div className="flex items-center justify-between text-xs mb-1">
-            <span className="text-slate-300 truncate pr-2">{item.label}</span>
-            <span className="font-semibold text-slate-200 shrink-0">{item.value} %</span>
-          </div>
-          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${item.value}%`, backgroundColor: colors[i % colors.length] }}
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 function ScoreRing({ score }: { score: number }) {
   const radius = 28
   const circumference = 2 * Math.PI * radius
@@ -368,7 +344,107 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
-function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset: () => void }) {
+// Orientation géographique — pilotée par la TMI (information générale, aucune SCPI nommée)
+function buildGeoJustification(quizData: QuizData): string {
+  const isTmiElevated = quizData.tmi === '30' || quizData.tmi === '41' || quizData.tmi === '45'
+
+  if (isTmiElevated) {
+    return "À partir de 30 % de tranche marginale, les revenus des SCPI françaises supportent une fiscalité lourde (impôt sur le revenu + 17,2 % de prélèvements sociaux). L'orientation privilégie donc les SCPI européennes et internationales, dont les revenus de source étrangère échappent le plus souvent aux prélèvements sociaux selon les conventions fiscales. La répartition précise se valide avec un conseiller."
+  }
+
+  return "À votre tranche d'imposition, la fiscalité des SCPI françaises reste mesurée. Le marché français peut donc constituer un socle pertinent (offre large, simplicité de déclaration), complété par une diversification européenne et internationale. La répartition précise dépend de votre situation et se valide avec un conseiller."
+}
+
+function buildSectorJustification(quizData: QuizData): string {
+  if (quizData.objectif === 'revenus') {
+    return "Pour un objectif de revenus, les secteurs comme les commerces, les bureaux et la santé/éducation sont souvent recherchés pour la régularité de leurs loyers. La logistique et le résidentiel peuvent apporter un complément de diversification sectorielle."
+  }
+  if (quizData.objectif === 'fiscalite') {
+    return "En matière d'optimisation fiscale, la santé/éducation et les bureaux offrent souvent une bonne lisibilité. La logistique et le résidentiel complètent cette approche sans concentration excessive sur un seul secteur."
+  }
+  if (quizData.horizon === 'plus-10ans') {
+    return "Sur un horizon long, une diversification sectorielle large (bureaux, santé, logistique, résidentiel, commerces) permet de ne pas dépendre d'un seul cycle immobilier, chaque secteur ayant sa propre dynamique de marché."
+  }
+  if (quizData.montant === 'moins-10k') {
+    return "Avec un montant de départ modeste, il est souvent pertinent de privilégier des secteurs accessibles et liquides comme la santé/éducation ou les bureaux. La diversification sectorielle reste souhaitable mais peut être atteinte progressivement."
+  }
+  return "Une diversification sectorielle équilibrée (bureaux, santé/éducation, logistique, commerces, résidentiel) permet de répartir les risques entre plusieurs cycles immobiliers, chaque secteur ayant sa propre dynamique de marché."
+}
+
+const STATUS_STYLES: Record<AnalysisCriterion['status'], { badge: string; dot: string }> = {
+  prioritaire: { badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', dot: '#00C896' },
+  important: { badge: 'bg-blue-500/15 text-blue-300 border-blue-500/30', dot: '#3b82f6' },
+  'a-verifier': { badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30', dot: '#f59e0b' },
+}
+
+const STATUS_LABELS: Record<AnalysisCriterion['status'], string> = {
+  prioritaire: 'Prioritaire',
+  important: 'Important',
+  'a-verifier': 'À vérifier',
+}
+
+function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult; quizData: QuizData; onReset: () => void }) {
+  const [loadingRDV, setLoadingRDV] = useState(false)
+  const calendlyLoadedRef = useRef(false)
+
+  // Classement qualitatif : géographie (piloté par la TMI)
+  const isTmiElevated = quizData.tmi === '30' || quizData.tmi === '41' || quizData.tmi === '45'
+  const geoPrincipaux: string[] = isTmiElevated ? ['Europe hors France'] : ['France']
+  const geoComplements: string[] = isTmiElevated ? ['International'] : ['Europe hors France', 'International']
+
+  // Classement qualitatif : secteurs
+  const sectorPrioritaires = result.sectorAllocation.filter(s => s.value >= 20).map(s => s.label)
+  const sectorComplements = result.sectorAllocation.filter(s => s.value > 0 && s.value < 20).map(s => s.label)
+
+  const handleRDVClick = useCallback(() => {
+    if (loadingRDV) return
+    setLoadingRDV(true)
+
+    const openPopup = () => {
+      if (!window.Calendly) return
+      window.Calendly.initPopupWidget({
+        url: CALENDLY_URL,
+        prefill: {
+          customAnswers: buildCalendlyPrefillAnswers(quizData),
+        },
+        utm: {
+          utmSource: 'maximusscpi',
+          utmMedium: 'quiz',
+          utmCampaign: 'rdv-scpi',
+          utmContent: `${quizData.montant}|${quizData.tmi}|${quizData.horizon}|${quizData.objectif}`,
+        },
+      })
+      setLoadingRDV(false)
+    }
+
+    if (calendlyLoadedRef.current && window.Calendly) {
+      openPopup()
+      return
+    }
+
+    if (!window.Calendly) {
+      // Lazy-load CSS Calendly
+      if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
+        const cssEl = document.createElement('link')
+        cssEl.href = 'https://assets.calendly.com/assets/external/widget.css'
+        cssEl.rel = 'stylesheet'
+        document.head.appendChild(cssEl)
+      }
+
+      // Lazy-load script Calendly
+      const scriptEl = document.createElement('script')
+      scriptEl.src = 'https://assets.calendly.com/assets/external/widget.js'
+      scriptEl.async = true
+      scriptEl.onload = () => {
+        calendlyLoadedRef.current = true
+        openPopup()
+      }
+      document.head.appendChild(scriptEl)
+    } else {
+      calendlyLoadedRef.current = true
+      openPopup()
+    }
+  }, [loadingRDV, quizData])
   return (
     <div className="transition-all duration-300 ease-in-out space-y-5 max-h-[70vh] overflow-y-auto pr-1 scrollbar-thin">
       {/* 1. Profil + score */}
@@ -378,10 +454,18 @@ function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset:
           <p className="text-xs uppercase tracking-widest text-slate-400 mb-0.5">Votre profil</p>
           <p className="text-[11px] text-emerald-400/80 mb-1">Simulation pédagogique indicative</p>
           <h3 className="text-lg sm:text-xl font-bold text-white leading-tight">{result.profil}</h3>
-          <p className="mt-1.5 text-xs text-slate-400">
-            Score de cohérence pédagogique — pré-orientation à valider avec un conseiller.
-          </p>
         </div>
+      </div>
+
+      {/* Comment lire ce score */}
+      <div className="rounded-xl border border-slate-700/50 bg-slate-800/20 px-3.5 py-3">
+        <p className="text-xs font-semibold text-slate-300 mb-1">Comment lire ce score</p>
+        <p className="text-[11px] text-slate-400 leading-relaxed">
+          Ce score reflète la cohérence pédagogique de votre profil d'investisseur
+          (montant, fiscalité, horizon, objectif). Il est indicatif et ne constitue pas
+          une note de performance ni une recommandation. Il sert à structurer votre
+          réflexion avant un échange avec un conseiller.
+        </p>
       </div>
 
       {/* Alerte */}
@@ -392,18 +476,62 @@ function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset:
         </div>
       )}
 
-      {/* 2. Allocations indicatives */}
-      <div className="grid grid-cols-1 gap-3">
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-3.5">
-          <p className="text-xs font-semibold text-slate-300 mb-0.5">Répartition géographique indicative</p>
-          <p className="text-[10px] text-slate-500 mb-3">Allocation théorique à valider</p>
-          <AllocationBars items={result.geographicAllocation} colors={GEO_COLORS} />
-        </div>
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-3.5">
-          <p className="text-xs font-semibold text-slate-300 mb-0.5">Répartition sectorielle indicative</p>
-          <p className="text-[10px] text-slate-500 mb-3">Allocation théorique à valider</p>
-          <AllocationBars items={result.sectorAllocation} colors={SECTOR_COLORS} />
-        </div>
+      {/* 2. Orientation géographique indicative (qualitatif) */}
+      <div className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-3.5">
+        <p className="text-xs font-semibold text-slate-300 mb-0.5">Orientation géographique indicative</p>
+        <p className="text-[10px] text-slate-500 mb-3">À valider avec un conseiller</p>
+        <ul className="space-y-1.5">
+          {geoPrincipaux.map((label) => (
+            <li key={label} className="flex items-center gap-2 text-xs text-slate-200">
+              <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: '#00C896' }} />
+              {label} — Axe principal
+            </li>
+          ))}
+          {geoComplements.map((label) => (
+            <li key={label} className="flex items-center gap-2 text-xs text-slate-400">
+              <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: '#3b82f6' }} />
+              {label} — Complément
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-[11px] text-slate-400 leading-relaxed">
+          {buildGeoJustification(quizData)}
+        </p>
+      </div>
+
+      {/* 3. Secteurs à étudier (qualitatif) */}
+      <div className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-3.5">
+        <p className="text-xs font-semibold text-slate-300 mb-0.5">Secteurs à étudier en priorité</p>
+        <p className="text-[10px] text-slate-500 mb-3">Analyse indicative — à valider avec un conseiller</p>
+        {sectorPrioritaires.length > 0 && (
+          <>
+            <p className="text-[11px] font-medium text-emerald-300 mb-1.5">Axes prioritaires</p>
+            <ul className="space-y-1 mb-2.5">
+              {sectorPrioritaires.map((label) => (
+                <li key={label} className="flex items-center gap-2 text-xs text-slate-200">
+                  <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: '#00C896' }} />
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        {sectorComplements.length > 0 && (
+          <>
+            <p className="text-[11px] font-medium text-blue-300 mb-1.5">Compléments possibles</p>
+            <ul className="space-y-1">
+              {sectorComplements.map((label) => (
+                <li key={label} className="flex items-center gap-2 text-xs text-slate-400">
+                  <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: '#3b82f6' }} />
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+        <p className="mt-3 text-[11px] text-slate-400 leading-relaxed">
+          {buildSectorJustification(quizData)}
+        </p>
       </div>
 
       {/* Pistes à explorer */}
@@ -463,22 +591,81 @@ function QuizResultDashboard({ result, onReset }: { result: QuizResult; onReset:
         </ul>
       </div>
 
-      {/* Mention légale */}
+      {/* Mention légale MIF2 */}
       <p className="text-[11px] text-slate-500 leading-relaxed">
         Ces orientations sont informatives et ne constituent pas une recommandation personnalisée au sens de la réglementation MIF2.
       </p>
 
-      {/* CTA */}
-      <a
-        href={CALENDLY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full text-center px-5 py-3.5 rounded-xl font-semibold text-[#0D1117] text-sm transition-all duration-300 ease-in-out hover:opacity-90"
-        style={{ backgroundColor: '#00C896' }}
-      >
-        Valider ma sélection avec un expert →
-      </a>
+      {/* Bloc CTA — popup Calendly au clic (RGPD) */}
+      <div className="rounded-2xl border border-emerald-400/20 bg-slate-800/40 p-6 space-y-5">
+        <div className="text-center space-y-2">
+          <h4 className="text-base font-bold text-white sm:text-lg">
+            Votre profil est analysé. Validez-le en 30 min avec un CGP.
+          </h4>
 
+          {/* Signature Éric Bellaiche */}
+          <div className="flex items-center justify-center gap-3 pt-1">
+            <img
+              src="/images/eric-192.webp"
+              srcSet="/images/eric-96.webp 96w, /images/eric-192.webp 192w, /images/eric-384.webp 384w"
+              sizes="64px"
+              alt="Éric Bellaiche, Conseiller en Investissements Financiers"
+              width="56"
+              height="56"
+              className="w-14 h-14 rounded-full object-cover shrink-0 ring-2 ring-emerald-400/30"
+              loading="lazy"
+            />
+            <div className="text-left min-w-0">
+              <p className="text-sm font-semibold text-white leading-snug">Éric Bellaiche</p>
+              <p className="text-xs text-slate-400 leading-snug">
+                Conseiller en Investissements Financiers (CIF) · Orias n°13001580
+              </p>
+            </div>
+          </div>
+
+          <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+            Échange visio gratuit, sans engagement, sans vente. Je relis votre orientation avec vos chiffres réels.
+          </p>
+        </div>
+
+        {/* Réassurance */}
+        <div className="flex flex-wrap justify-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-700/40 px-3 py-1.5 text-xs text-slate-300">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            Gratuit, sans engagement
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-600/50 bg-slate-700/40 px-3 py-1.5 text-xs text-slate-300">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            30 min en visio Zoom
+          </span>
+        </div>
+
+        <div className="flex flex-col items-center gap-3">
+          <button
+            type="button"
+            onClick={handleRDVClick}
+            disabled={loadingRDV}
+            className="px-8 py-3.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 disabled:opacity-60"
+            style={{ backgroundColor: '#00C896' }}
+          >
+            {loadingRDV ? 'Chargement…' : 'Réserver mon rendez-vous'}
+          </button>
+        </div>
+        <p className="text-[10px] text-slate-500 leading-relaxed text-center">
+          En réservant, vous accédez à notre outil de prise de rendez-vous (Calendly),
+          susceptible de déposer des cookies.{' '}
+          <a
+            href="/politique_confidentialite_maximusscpi.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-slate-300 transition-colors"
+          >
+            Voir notre politique de confidentialité.
+          </a>
+        </p>
+      </div>
+
+      {/* CTA secondaire discret */}
       <div className="text-center">
         <a href="/comparateur-scpi" className="text-xs underline text-slate-400 hover:text-white transition-colors">
           Explorer le comparateur complet →
@@ -699,7 +886,7 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
             </div>
           </div>}
 
-        {result && <QuizResultDashboard result={result} onReset={reset} />}
+        {result && <QuizResultDashboard result={result} quizData={data as QuizData} onReset={reset} />}
       </div>
     </div>
   )

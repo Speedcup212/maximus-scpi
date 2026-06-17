@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import Logo from './Logo';
 import Header from './Header';
+import { CALENDLY_URL } from '../config/calendly';
 import { submitLead } from '../utils/leadSubmitter';
 
 interface ScpiExamplePageProps {
@@ -506,7 +507,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                     </div>
 
                     <a
-                      href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                      href={CALENDLY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full bg-white border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105"

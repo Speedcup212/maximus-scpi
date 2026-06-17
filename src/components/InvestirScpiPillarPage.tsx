@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { TrendingUp, Shield, Target, Coins, ArrowRight, BookOpen } from 'lucide-react';
+import { CALENDLY_URL } from '../config/calendly';
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg';
 import Breadcrumb from './Breadcrumb';
 
@@ -277,7 +278,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
 
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border-l-4 border-blue-600">
             <p className="text-sm text-gray-800 dark:text-gray-200">
-              <strong>💡 Besoin d'aide ?</strong> Consultez notre <a href="/comparateur-scpi" className="text-blue-600 hover:underline">comparateur de 63 SCPI</a> ou <a href="https://calendly.com/maximusscpi" className="text-blue-600 hover:underline">prenez rendez-vous</a> avec notre conseiller CIF.
+              <strong>💡 Besoin d'aide ?</strong> Consultez notre <a href="/comparateur-scpi" className="text-blue-600 hover:underline">comparateur de 63 SCPI</a> ou <a href={CALENDLY_URL} className="text-blue-600 hover:underline">prenez rendez-vous</a> avec notre conseiller CIF.
             </p>
           </div>
         </article>

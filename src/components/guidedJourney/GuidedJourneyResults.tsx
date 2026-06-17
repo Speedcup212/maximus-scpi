@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, CheckCircle, Shield, TrendingUp, Info, BarChart3, Building, PieChart as PieChartIcon, DollarSign, Calendar, MessageCircle, ArrowRight, Phone } from 'lucide-react';
+import { CALENDLY_URL } from '../../config/calendly';
 import { PortfolioRecommendation, GuidedJourneyAnswers } from '../../types/guidedJourney';
 import { Scpi } from '../../types/scpi';
 import { scpiData } from '../../data/scpiData';
@@ -728,7 +729,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       onCalendlyClick();
     } else {
       // Fallback : ouvrir Calendly directement
-      window.open('https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone', '_blank');
+      window.open(CALENDLY_URL, '_blank');
     }
   };
 

@@ -8,6 +8,7 @@ import {
 import { ScpiLandingData } from '../data/landingPagesData';
 import { resolveDisplayedDiscount } from '../utils/formatters';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
+import { CALENDLY_URL } from '../config/calendly';
 import { qualifyYield } from '../utils/yieldContext';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import SEOHead from './SEOHead';
@@ -283,7 +284,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
 
     // Construire les options Calendly avec les paramètres UTM
     const calendlyOptions: any = {
-      url: 'https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone'
+      url: CALENDLY_URL
     };
 
     // Ajouter les paramètres UTM si présents
@@ -301,7 +302,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       window.Calendly.initPopupWidget(calendlyOptions);
     } else {
       // Fallback: construire l'URL avec les paramètres
-      let calendlyUrl = 'https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone';
+      let calendlyUrl = CALENDLY_URL;
       const params = [];
       if (utmSource) params.push(`utm_source=${utmSource}`);
       if (utmMedium) params.push(`utm_medium=${utmMedium}`);
@@ -1135,7 +1136,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       Choisissez le créneau qui vous convient le mieux. Eric vous rappelle au numéro de votre choix.
                     </p>
                     <a
-                      href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                      href={CALENDLY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`bg-${colors.secondary}-600 hover:bg-${colors.secondary}-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-3 shadow-xl text-lg`}

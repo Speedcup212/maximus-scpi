@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, FileText, Shield, Info, Mail, Phone, MapPin } from 'lucide-react';
+import { CALENDLY_URL } from '../config/calendly';
 import Logo from './Logo';
 
 const LegalFooter: React.FC = () => {
@@ -106,7 +107,7 @@ const LegalFooter: React.FC = () => {
                 <div className="flex items-center gap-2 text-gray-400">
                   <Phone className="w-4 h-4" />
                   <a 
-                    href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" 
+                    href={CALENDLY_URL} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-white transition-colors"
