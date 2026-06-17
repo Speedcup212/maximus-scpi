@@ -4335,11 +4335,11 @@ const App: React.FC = () => {
                     Analyse SCPI pédagogique • Fiscalité • Rendement net
                   </span>
 
-                  <h1 className="mt-5 mb-8 md:mb-9 lg:mb-10 overflow-visible">
-                    <span className="block font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] text-slate-100" style={{ fontSize: 'clamp(1.25rem, 4.5vw, 2.5rem)' }}>
+                  <h1 className="mt-5 mb-6 md:mb-7 lg:mb-8 overflow-visible">
+                    <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold leading-none text-slate-100">
                       SCPI
                     </span>
-                    <span className="block font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1" style={{ fontSize: 'clamp(1.25rem, 4.5vw, 2.5rem)' }}>
+                    <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
                       Testez. Comparez. Décidez.
                     </span>
                   </h1>
