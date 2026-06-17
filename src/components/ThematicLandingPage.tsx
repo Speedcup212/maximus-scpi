@@ -7,6 +7,7 @@ import {
   Grid2x2 as Grid, Lock, Eye, BadgeCheck, Recycle, MapPin, Users, AlertCircle, Info
 } from 'lucide-react';
 import { thematicLandingPages } from '../data/thematicLandingPages';
+import { CALENDLY_URL } from '../config/calendly';
 import { scpiData } from '../data/scpiData';
 import { Scpi } from '../types/scpi';
 import { useScpiFilters } from '../hooks/useScpiFilters';
@@ -531,7 +532,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                   <div className="text-center">
                     <p className="text-sm text-gray-600 mb-3">ou</p>
                     <a
-                      href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                      href={CALENDLY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold transition-colors"
@@ -950,7 +951,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
               Prendre rendez-vous gratuitement
             </button>
             <a
-              href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+              href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-green-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-600 transition-all shadow-lg"

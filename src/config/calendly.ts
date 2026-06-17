@@ -1,5 +1,7 @@
 // MaximusSCPI — URL Calendly centralisée
-// Fallback explicite si VITE_CALENDLY_URL n'est pas défini en production.
+// Définir VITE_CALENDLY_URL dans .env / Netlify pour la production.
+const FALLBACK_CALENDLY_URL =
+  'https://calendly.com/eric-bellaiche/rdv-strategique-scpi';
+
 export const CALENDLY_URL =
-  import.meta.env.VITE_CALENDLY_URL ||
-  'https://calendly.com/eric-bellaiche/seance-decouverte-du-fonctionnement-des-scpi-clone'
+  import.meta.env.VITE_CALENDLY_URL || FALLBACK_CALENDLY_URL;

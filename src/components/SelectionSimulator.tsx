@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, DollarSign, Calculator, TrendingUp, PieChart as PieChartIcon, BarChart3, Download, Calendar, Phone, Building, MapPin, Target, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency } from '../utils/formatters';
+import { CALENDLY_URL } from '../config/calendly';
 import PieChart from './PieChart';
 
 interface PortfolioItem extends Scpi {
@@ -164,10 +165,7 @@ const SelectionSimulator: React.FC<SelectionSimulatorProps> = ({ selectedScpi, o
   };
 
   const openCalendly = (type: 'souscription' | 'expert' = 'expert') => {
-    const calendlyUrl = type === 'souscription' 
-      ? 'https://calendly.com/eric-bellaiche/souscription-scpi'
-      : 'https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone';
-    window.open(calendlyUrl, '_blank');
+    window.open(CALENDLY_URL, '_blank');
   };
 
   const downloadPDF = () => {

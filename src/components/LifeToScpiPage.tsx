@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CALENDLY_URL } from '../config/calendly';
 
 type WithdrawalMode = 'interest_only' | 'percent_capital';
 
@@ -1628,7 +1629,7 @@ const LifeToScpiSimulator: React.FC = () => {
               votre fiscalité exacte et une sélection de SCPI adaptée, réservez une visio de 30 minutes.
             </p>
             <a
-              href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+              href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:from-orange-600 hover:to-orange-700 transition-all transform hover:scale-105"
@@ -1689,7 +1690,7 @@ const LifeToScpiPage: React.FC = () => {
                 Lancer la simulation
               </button>
               <a
-                href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-xl hover:bg-white hover:text-orange-900 transition-all text-center"

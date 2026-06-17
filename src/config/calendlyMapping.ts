@@ -42,12 +42,12 @@ function mapHorizon(value: QuizData['horizon']): string {
 
 function mapObjectif(value: QuizData['objectif']): string {
   const map: Record<QuizData['objectif'], string> = {
-    'revenus': 'Générer des revenus complémentaires',
-    'fiscalite': 'Réduire ma fiscalité',
+    'revenus': 'G\u00e9n\u00e9rer des revenus compl\u00e9mentaires',
+    'fiscalite': 'R\u00e9duire ma fiscalit\u00e9',
     'diversification': 'Diversifier mon patrimoine',
-    'transmission': 'Préparer une transmission',
+    'transmission': 'Pr\u00e9parer une transmission',
     'croissance': 'Faire fructifier mon capital',
-    'retraite': 'Préparer ma retraite',
+    'retraite': 'Pr\u00e9parer ma retraite',
   };
   return map[value];
 }

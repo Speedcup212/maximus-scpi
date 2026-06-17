@@ -1,4 +1,5 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react';
+import { CALENDLY_URL } from '../config/calendly';
 import Header from './Header';
 import EricAvatar from './EricAvatar';
 import MaximusLogoFooter from './MaximusLogoFooter';
@@ -147,7 +148,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
                 {performanceLevel} rendement {scpi['Taux de distribution (%)']}% avec {scpi['Société de gestion']}
               </h2>
               <a
-                href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                href={CALENDLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block px-8 py-4 bg-emerald-600 text-white rounded-lg font-semibold text-lg hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-lg"
@@ -271,7 +272,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
         <h3 className="text-3xl md:text-4xl font-bold mb-4">Prêt à investir dans la SCPI {scpi['Nom SCPI']} ?</h3>
         <p className="text-xl mb-8 opacity-95">Eric Bellaiche vous rappelle gratuitement sous 24h</p>
         <a
-          href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+          href={CALENDLY_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-12 py-5 bg-white text-emerald-700 rounded-lg font-bold text-xl hover:bg-slate-50 transition-all transform hover:scale-105 shadow-xl"

@@ -5,6 +5,7 @@ import {
   Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck
 } from 'lucide-react';
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
+import { CALENDLY_URL } from '../config/calendly';
 import Logo from './Logo';
 import MaximusLogo3Bars from './MaximusLogo3Bars';
 import MaximusLogoFooter from './MaximusLogoFooter';
@@ -512,7 +513,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                     </div>
 
                     <a
-                      href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                      href={CALENDLY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full bg-white border-2 border-green-600 text-green-600 hover:bg-green-50 font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105"

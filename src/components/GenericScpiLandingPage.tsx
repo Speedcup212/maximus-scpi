@@ -8,6 +8,7 @@ import {
 import Logo from './Logo';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
+import { CALENDLY_URL } from '../config/calendly';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
@@ -498,7 +499,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
                     </div>
 
                     <a
-                      href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+                      href={CALENDLY_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-${themeColor}-600 text-${themeColor}-700 font-semibold rounded-lg hover:bg-${themeColor}-50 transition-all`}

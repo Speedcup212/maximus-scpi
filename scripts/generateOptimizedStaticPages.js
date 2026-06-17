@@ -396,7 +396,7 @@ const generateScpiPages = () => {
           <a href="/comprendre-les-scpi" class="nav-link">Comprendre les SCPI</a>
           <a href="/faq" class="nav-link">FAQ</a>
           <a href="/qui-sommes-nous" class="nav-link">Qui sommes-nous</a>
-          <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" class="nav-btn" rel="noopener">Prendre RDV</a>
+          <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="nav-btn" rel="noopener">Prendre RDV</a>
         </nav>
 
         <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -413,7 +413,7 @@ const generateScpiPages = () => {
         <a href="/comprendre-les-scpi" class="mobile-nav-link">Comprendre les SCPI</a>
         <a href="/faq" class="mobile-nav-link">FAQ</a>
         <a href="/qui-sommes-nous" class="mobile-nav-link">Qui sommes-nous</a>
-        <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" class="mobile-nav-link" rel="noopener" style="background:#10b981;text-align:center">Prendre RDV</a>
+        <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="mobile-nav-link" rel="noopener" style="background:#10b981;text-align:center">Prendre RDV</a>
       </div>
     </header>
 
@@ -539,7 +539,7 @@ const generateScpiPages = () => {
       <h3>Prêt à investir dans la SCPI ${scpi['Nom SCPI']} ?</h3>
       <p>Eric Bellaiche vous rappelle gratuitement sous 24h</p>
       <a
-        href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone"
+        href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi"
         class="btn btn-white"
         style="font-size:1.25rem;padding:1.25rem 3rem"
         rel="noopener"
@@ -578,7 +578,7 @@ const generateScpiPages = () => {
         ctaBtns.forEach(btn => {
           btn.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'https://calendly.com/maximusscpi/conseil-scpi-gratuit?hide_gdpr_banner=1&primary_color=10b981';
+            window.location.href = 'https://calendly.com/eric-bellaiche/rdv-strategique-scpi?hide_gdpr_banner=1&primary_color=10b981';
           });
         });
       });
