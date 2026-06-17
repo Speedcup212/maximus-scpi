@@ -355,20 +355,8 @@ function buildGeoJustification(quizData: QuizData): string {
   return "À votre tranche d'imposition, la fiscalité des SCPI françaises reste mesurée. Le marché français peut donc constituer un socle pertinent (offre large, simplicité de déclaration), complété par une diversification européenne et internationale. La répartition précise dépend de votre situation et se valide avec un conseiller."
 }
 
-function buildSectorJustification(quizData: QuizData): string {
-  if (quizData.objectif === 'revenus') {
-    return "Pour un objectif de revenus, les secteurs comme les commerces, les bureaux et la santé/éducation sont souvent recherchés pour la régularité de leurs loyers. La logistique et le résidentiel peuvent apporter un complément de diversification sectorielle."
-  }
-  if (quizData.objectif === 'fiscalite') {
-    return "En matière d'optimisation fiscale, la santé/éducation et les bureaux offrent souvent une bonne lisibilité. La logistique et le résidentiel complètent cette approche sans concentration excessive sur un seul secteur."
-  }
-  if (quizData.horizon === 'plus-10ans') {
-    return "Sur un horizon long, une diversification sectorielle large (bureaux, santé, logistique, résidentiel, commerces) permet de ne pas dépendre d'un seul cycle immobilier, chaque secteur ayant sa propre dynamique de marché."
-  }
-  if (quizData.montant === 'moins-10k') {
-    return "Avec un montant de départ modeste, il est souvent pertinent de privilégier des secteurs accessibles et liquides comme la santé/éducation ou les bureaux. La diversification sectorielle reste souhaitable mais peut être atteinte progressivement."
-  }
-  return "Une diversification sectorielle équilibrée (bureaux, santé/éducation, logistique, commerces, résidentiel) permet de répartir les risques entre plusieurs cycles immobiliers, chaque secteur ayant sa propre dynamique de marché."
+function buildSectorJustification(_quizData: QuizData): string {
+  return "Le commerce peut offrir des rendements attractifs. La sélection des actifs se précise avec un conseiller."
 }
 
 const STATUS_STYLES: Record<AnalysisCriterion['status'], { badge: string; dot: string }> = {
@@ -393,8 +381,14 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
   const geoComplements: string[] = isTmiElevated ? ['International'] : ['Europe hors France', 'International']
 
   // Classement qualitatif : secteurs
-  const sectorPrioritaires = result.sectorAllocation.filter(s => s.value >= 20).map(s => s.label)
-  const sectorComplements = result.sectorAllocation.filter(s => s.value > 0 && s.value < 20).map(s => s.label)
+  const sectorPrioritairesRaw = result.sectorAllocation.filter(s => s.value >= 20).map(s => s.label)
+  const sectorComplementsRaw = result.sectorAllocation.filter(s => s.value > 0 && s.value < 20).map(s => s.label)
+
+  // Commerce toujours en axe prioritaire, quel que soit le profil
+  const sectorPrioritaires = sectorPrioritairesRaw.includes('Commerces')
+    ? sectorPrioritairesRaw
+    : [...sectorPrioritairesRaw, 'Commerces']
+  const sectorComplements = sectorComplementsRaw.filter(s => s !== 'Commerces')
 
   const handleRDVClick = useCallback(() => {
     if (loadingRDV) return
@@ -624,7 +618,7 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
           </div>
 
           <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-            Échange visio gratuit, sans engagement, sans vente. Je relis votre orientation avec vos chiffres réels.
+            Visio gratuite, sans engagement. On vérifie ensemble votre orientation avec vos chiffres réels.
           </p>
         </div>
 
