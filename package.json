@@ -20,6 +20,7 @@
     "audit:scpi-seo": "node scripts/generateRedirectsSSG.js && npx tsx scripts/scpi-agents/audit-scpi-seo-canonical-consistency.ts",
     "qa:scpi": "npm run audit:scpi-indicators && npm run audit:scpi-consistency && npm run audit:scpi-pages && npm run audit:scpi-seo && npm run test:scpi-text-consistency && npm run check:scpi-usages && npx vite build",
     "news:investments": "npx tsx scripts/scpi-investment-news-watcher.ts",
+    "video:acquisitions": "npm run news:investments && npx tsx scripts/scpi-agents/build-scpi-video-acquisition-candidates.ts",
     "deploy": "npm run build && gh-pages -d dist",
     "deploy:netlify": "npm run build && netlify deploy --prod --dir=dist"
   },
