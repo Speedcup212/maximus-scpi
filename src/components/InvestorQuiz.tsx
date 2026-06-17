@@ -384,11 +384,14 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
   const sectorPrioritairesRaw = result.sectorAllocation.filter(s => s.value >= 20).map(s => s.label)
   const sectorComplementsRaw = result.sectorAllocation.filter(s => s.value > 0 && s.value < 20).map(s => s.label)
 
-  // Commerce toujours en axe prioritaire, quel que soit le profil
-  const sectorPrioritaires = sectorPrioritairesRaw.includes('Commerces')
+  // Commerce et Logistique toujours en axes prioritaires, quel que soit le profil
+  const sectorPrioritairesWithCommerce = sectorPrioritairesRaw.includes('Commerces')
     ? sectorPrioritairesRaw
     : [...sectorPrioritairesRaw, 'Commerces']
-  const sectorComplements = sectorComplementsRaw.filter(s => s !== 'Commerces')
+  const sectorPrioritaires = sectorPrioritairesWithCommerce.includes('Logistique')
+    ? sectorPrioritairesWithCommerce
+    : [...sectorPrioritairesWithCommerce, 'Logistique']
+  const sectorComplements = sectorComplementsRaw.filter(s => s !== 'Commerces' && s !== 'Logistique')
 
   const handleRDVClick = useCallback(() => {
     if (loadingRDV) return
