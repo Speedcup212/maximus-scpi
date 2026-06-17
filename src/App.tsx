@@ -4337,10 +4337,10 @@ const App: React.FC = () => {
 
                   <h1 className="mt-5 mb-8 md:mb-9 lg:mb-10 overflow-visible">
                     <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] text-slate-100">
-                      Vos SCPI :
+                      SCPI : testez, comparez, décidez
                     </span>
                     <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
-                      Testez. Comparez. Décidez.
+                      avant d’investir
                     </span>
                   </h1>
 
