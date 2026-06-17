@@ -4336,10 +4336,10 @@ const App: React.FC = () => {
                   </span>
 
                   <h1 className="mt-5 mb-8 md:mb-9 lg:mb-10 overflow-visible">
-                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] text-slate-100">
+                    <span className="block font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] text-slate-100" style={{ fontSize: 'clamp(1.25rem, 4.5vw, 2.5rem)' }}>
                       SCPI : testez, comparez, décidez
                     </span>
-                    <span className="block text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
+                    <span className="block font-bold leading-[1.18] md:leading-[1.16] lg:leading-[1.14] bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1" style={{ fontSize: 'clamp(1.25rem, 4.5vw, 2.5rem)' }}>
                       avant d’investir
                     </span>
                   </h1>
