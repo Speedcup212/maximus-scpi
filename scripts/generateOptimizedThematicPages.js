@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename);
 // Liste de TOUTES les pages thématiques pour Google Ads (37 pages)
 const priorityThematicPages = [
   'meilleures-scpi-rendement',
+  'scpi-europeennes',
   'scpi-fiscales',
   'preparer-retraite-scpi',
   'revenu-complementaire-scpi',
