@@ -243,8 +243,10 @@ const Header: React.FC<HeaderProps> = ({
           <nav className="ml-8 lg:ml-10 flex-1 min-w-0 hidden lg:flex justify-start" aria-label="Navigation principale">
             <ul className="flex items-center gap-3 xl:gap-4 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
             <li>
-            <button
-              onClick={() => {
+            <a
+              href="/comparateur-scpi/"
+              onClick={(e: React.MouseEvent) => {
+                e.preventDefault();
                 resetAllHeaderStates();
                 if (onComparateurClick) onComparateurClick();
               }}
@@ -253,11 +255,13 @@ const Header: React.FC<HeaderProps> = ({
             >
               <BarChart2 className="w-4 h-4" />
               <span>Comparateur</span>
-            </button>
+            </a>
             </li>
             <li>
-              <button
-                onClick={() => {
+              <a
+                href="/simulateurs/"
+                onClick={(e: React.MouseEvent) => {
+                  e.preventDefault();
                   resetAllHeaderStates();
                   if (onSimulateurClick) {
                     onSimulateurClick('simulateurs');
@@ -268,7 +272,7 @@ const Header: React.FC<HeaderProps> = ({
               >
                 <Calculator className="w-4 h-4" />
                 <span>Simuler mon projet</span>
-              </button>
+              </a>
             </li>
             <li>
             <div className="relative" ref={scpiDropdownRef}>
@@ -310,9 +314,11 @@ const Header: React.FC<HeaderProps> = ({
                             {filteredScpis.length} résultat{filteredScpis.length > 1 ? 's' : ''}
                           </div>
                           {filteredScpis.map((item) => (
-                            <button
+                            <a
+                              href={`/${item.slug}/`}
                               key={item.slug}
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.preventDefault();
                                 resetAllHeaderStates();
                                 setScpiSearch('');
                                 if (onScpiPageClick) {
@@ -329,7 +335,7 @@ const Header: React.FC<HeaderProps> = ({
                                 <span>•</span>
                                 <span>{item.scpi.capitalization || 'N/A'}</span>
                               </div>
-                            </button>
+                            </a>
                           ))}
                         </div>
                       ) : (
@@ -357,9 +363,11 @@ const Header: React.FC<HeaderProps> = ({
                           </div>
                           {topScpis.map((item, index) => {
                             return (
-                              <button
+                              <a
+                                href={`/${item.slug}/`}
                                 key={item.slug}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.preventDefault();
                                   resetAllHeaderStates();
                                   if (onScpiPageClick) {
                                     onScpiPageClick(item.slug);
@@ -384,7 +392,7 @@ const Header: React.FC<HeaderProps> = ({
                                     </div>
                                   </div>
                                 </div>
-                              </button>
+                              </a>
                             );
                           })}
                         </div>
@@ -441,35 +449,37 @@ const Header: React.FC<HeaderProps> = ({
                                   <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform ml-2 flex-shrink-0" />
                                 </summary>
                                 <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
-                                  {pages.map((item) => {
-                                    const dominantInfo = getDominantSector(item.scpi);
-                                    return (
-                                      <button
-                                        key={item.slug}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          resetAllHeaderStates();
-                                          if (onScpiPageClick) {
-                                            onScpiPageClick(item.slug);
-                                          }
-                                        }}
-                                        className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
-                                      >
-                                        <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
-                                          {item.scpiName}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
-                                          <span>{formatYield(item.scpi.yield)}</span>
-                                          {dominantInfo.percentage > 0 && (
-                                            <>
-                                              <span>•</span>
-                                              <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
-                                            </>
-                                          )}
-                                        </div>
-                                      </button>
-                                    );
-                                  })}
+                          {pages.map((item) => {
+                            const dominantInfo = getDominantSector(item.scpi);
+                            return (
+                              <a
+                                href={`/${item.slug}/`}
+                                key={item.slug}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  resetAllHeaderStates();
+                                  if (onScpiPageClick) {
+                                    onScpiPageClick(item.slug);
+                                  }
+                                }}
+                                className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
+                              >
+                                <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
+                                  {item.scpiName}
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
+                                  <span>{formatYield(item.scpi.yield)}</span>
+                                  {dominantInfo.percentage > 0 && (
+                                    <>
+                                      <span>•</span>
+                                      <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                    </>
+                                  )}
+                                </div>
+                              </a>
+                            );
+                          })}
                                 </div>
                               </details>
                             );
@@ -527,35 +537,37 @@ const Header: React.FC<HeaderProps> = ({
                                   <ChevronDown className="w-4 h-4 text-gray-400 group-open/sector:rotate-180 transition-transform ml-2 flex-shrink-0" />
                                 </summary>
                                 <div className="bg-gray-50 dark:bg-gray-900 max-h-64 overflow-y-auto">
-                                  {pages.map((item) => {
-                                    const dominantInfo = getDominantGeography(item.scpi);
-                                    return (
-                                      <button
-                                        key={item.slug}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          resetAllHeaderStates();
-                                          if (onScpiPageClick) {
-                                            onScpiPageClick(item.slug);
-                                          }
-                                        }}
-                                        className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
-                                      >
-                                        <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
-                                          {item.scpiName}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
-                                          <span>{formatYield(item.scpi.yield)}</span>
-                                          {dominantInfo.percentage > 0 && (
-                                            <>
-                                              <span>•</span>
-                                              <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
-                                            </>
-                                          )}
-                                        </div>
-                                      </button>
-                                    );
-                                  })}
+                          {pages.map((item) => {
+                            const dominantInfo = getDominantGeography(item.scpi);
+                            return (
+                              <a
+                                href={`/${item.slug}/`}
+                                key={item.slug}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  resetAllHeaderStates();
+                                  if (onScpiPageClick) {
+                                    onScpiPageClick(item.slug);
+                                  }
+                                }}
+                                className="block w-full px-6 py-2.5 text-left hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors border-b border-gray-100 dark:border-gray-700 last:border-0 group"
+                              >
+                                <div className="font-medium text-gray-900 dark:text-gray-100 text-xs group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate" translate="no">
+                                  {item.scpiName}
+                                </div>
+                                <div className="text-xs text-gray-500 dark:text-gray-500 mt-0.5 flex items-center gap-2">
+                                  <span>{formatYield(item.scpi.yield)}</span>
+                                  {dominantInfo.percentage > 0 && (
+                                    <>
+                                      <span>•</span>
+                                      <span className="text-gray-400 dark:text-gray-600">{dominantInfo.label}</span>
+                                    </>
+                                  )}
+                                </div>
+                              </a>
+                            );
+                          })}
                                 </div>
                               </details>
                             );
@@ -571,8 +583,10 @@ const Header: React.FC<HeaderProps> = ({
                       <div className="text-xs text-gray-600 dark:text-gray-400">
                         {scpiMenuItems.length} SCPI disponibles
                       </div>
-                      <button
-                        onClick={() => {
+                      <a
+                        href="/comparateur-scpi/"
+                        onClick={(e) => {
+                          e.preventDefault();
                           resetAllHeaderStates();
                           if (onComparateurClick) {
                             onComparateurClick();
@@ -582,7 +596,7 @@ const Header: React.FC<HeaderProps> = ({
                       >
                         <TrendingUp className="w-4 h-4" />
                         Voir toutes les SCPI
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -590,8 +604,10 @@ const Header: React.FC<HeaderProps> = ({
             </div>
             </li>
             <li>
-            <button
-              onClick={() => {
+            <a
+              href="/actualites/"
+              onClick={(e) => {
+                e.preventDefault();
                 resetAllHeaderStates();
                 if (onActualitesClick) onActualitesClick();
               }}
@@ -600,7 +616,7 @@ const Header: React.FC<HeaderProps> = ({
             >
               <FileText className="w-4 h-4" />
               <span>Actualités</span>
-            </button>
+            </a>
             </li>
             <li>
             <a
@@ -632,16 +648,12 @@ const Header: React.FC<HeaderProps> = ({
 
               {isAboutMenuOpen && (
                 <div className="absolute top-full right-0 mt-2 w-64 max-w-[min(16rem,calc(100vw-4rem))] bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-[110]">
-                  <button
-                    onClick={() => {
-                      console.log('[Header] Clic sur Qui sommes-nous');
+                  <a
+                    href="/qui-sommes-nous/"
+                    onClick={(e) => {
+                      e.preventDefault();
                       resetAllHeaderStates();
-                      if (onAboutClick) {
-                        console.log('[Header] onAboutClick défini, appel...');
-                        onAboutClick();
-                      } else {
-                        console.error('[Header] onAboutClick non défini!');
-                      }
+                      if (onAboutClick) onAboutClick();
                     }}
                     className="w-full px-4 py-3 text-left hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3"
                   >
@@ -649,9 +661,11 @@ const Header: React.FC<HeaderProps> = ({
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Qui sommes-nous
                     </span>
-                  </button>
-                  <button
-                    onClick={() => {
+                  </a>
+                  <a
+                    href="/expertise-orias-cif/"
+                    onClick={(e) => {
+                      e.preventDefault();
                       resetAllHeaderStates();
                       if (onAboutNavigation) {
                         onAboutNavigation('/expertise-orias-cif');
@@ -663,9 +677,11 @@ const Header: React.FC<HeaderProps> = ({
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Expertise ORIAS/CIF
                     </span>
-                  </button>
-                  <button
-                    onClick={() => {
+                  </a>
+                  <a
+                    href="/methodologie-donnees-scpi/"
+                    onClick={(e) => {
+                      e.preventDefault();
                       resetAllHeaderStates();
                       if (onAboutNavigation) {
                         onAboutNavigation('/methodologie-donnees-scpi');
@@ -677,9 +693,11 @@ const Header: React.FC<HeaderProps> = ({
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Méthodologie des données
                     </span>
-                  </button>
-                  <button
-                    onClick={() => {
+                  </a>
+                  <a
+                    href="/avertissements-risques-scpi/"
+                    onClick={(e) => {
+                      e.preventDefault();
                       resetAllHeaderStates();
                       if (onAboutNavigation) {
                         onAboutNavigation('/avertissements-risques-scpi');
@@ -691,7 +709,7 @@ const Header: React.FC<HeaderProps> = ({
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                       Avertissements et risques
                     </span>
-                  </button>
+                  </a>
                 </div>
               )}
             </div>
@@ -763,8 +781,10 @@ const Header: React.FC<HeaderProps> = ({
               )}
               {/* Comparateur - 1er Mobile */}
               <div className="px-4">
-                <button
-                  onClick={() => {
+                <a
+                  href="/comparateur-scpi/"
+                  onClick={(e) => {
+                    e.preventDefault();
                     resetAllHeaderStates();
                     if (onComparateurClick) onComparateurClick();
                   }}
@@ -775,12 +795,14 @@ const Header: React.FC<HeaderProps> = ({
                     <span>Comparateur</span>
                   </div>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
               {/* Simuler mon projet - 2e Mobile (lien direct vers /simulateurs) */}
               <div className="px-4">
-                <button
-                  onClick={() => {
+                <a
+                  href="/simulateurs/"
+                  onClick={(e) => {
+                    e.preventDefault();
                     resetAllHeaderStates();
                     if (onSimulateurClick) onSimulateurClick('simulateurs');
                   }}
@@ -791,7 +813,7 @@ const Header: React.FC<HeaderProps> = ({
                     <span>Simuler mon projet</span>
                   </div>
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </a>
               </div>
               {/* SCPI Section - 3e Mobile */}
               <div className="px-4" ref={scpiMobileRef}>
@@ -833,9 +855,11 @@ const Header: React.FC<HeaderProps> = ({
                           filteredScpis.length > 0 ? (
                             <div className="space-y-1">
                               {filteredScpis.map((item) => (
-                                <button
+                                <a
+                                  href={`/${item.slug}/`}
                                   key={item.slug}
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.preventDefault();
                                     resetAllHeaderStates();
                                     setScpiSearch('');
                                     if (onScpiPageClick) {
@@ -850,7 +874,7 @@ const Header: React.FC<HeaderProps> = ({
                                   <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                     {formatYield(item.scpi.yield)}
                                   </div>
-                                </button>
+                                </a>
                               ))}
                             </div>
                           ) : (
@@ -876,9 +900,11 @@ const Header: React.FC<HeaderProps> = ({
                               <div className="mt-2 space-y-1">
                                 {topScpis.map((item, index) => {
                                   return (
-                                    <button
+                                    <a
+                                      href={`/${item.slug}/`}
                                       key={item.slug}
-                                      onClick={() => {
+                                      onClick={(e) => {
+                                        e.preventDefault();
                                         resetAllHeaderStates();
                                         setScpiSearch('');
                                         if (onScpiPageClick) {
@@ -904,7 +930,7 @@ const Header: React.FC<HeaderProps> = ({
                                           </div>
                                         </div>
                                       </div>
-                                    </button>
+                                    </a>
                                   );
                                 })}
                               </div>
@@ -940,9 +966,11 @@ const Header: React.FC<HeaderProps> = ({
                                         {pages.map((item) => {
                                           const dominantInfo = getDominantSector(item.scpi);
                                           return (
-                                            <button
+                                            <a
+                                              href={`/${item.slug}/`}
                                               key={item.slug}
                                               onClick={(e) => {
+                                                e.preventDefault();
                                                 e.stopPropagation();
                                                 resetAllHeaderStates();
                                                 setScpiSearch('');
@@ -964,7 +992,7 @@ const Header: React.FC<HeaderProps> = ({
                                                   </>
                                                 )}
                                               </div>
-                                            </button>
+                                            </a>
                                           );
                                         })}
                                       </div>
@@ -1004,9 +1032,11 @@ const Header: React.FC<HeaderProps> = ({
                                         {pages.map((item) => {
                                           const dominantInfo = getDominantGeography(item.scpi);
                                           return (
-                                            <button
+                                            <a
+                                              href={`/${item.slug}/`}
                                               key={item.slug}
                                               onClick={(e) => {
+                                                e.preventDefault();
                                                 e.stopPropagation();
                                                 resetAllHeaderStates();
                                                 setScpiSearch('');
@@ -1028,7 +1058,7 @@ const Header: React.FC<HeaderProps> = ({
                                                   </>
                                                 )}
                                               </div>
-                                            </button>
+                                            </a>
                                           );
                                         })}
                                       </div>
@@ -1047,8 +1077,10 @@ const Header: React.FC<HeaderProps> = ({
                         <div className="text-xs text-gray-600 dark:text-gray-400 text-center">
                           {scpiMenuItems.length} SCPI disponibles
                         </div>
-                        <button
-                          onClick={() => {
+                        <a
+                          href="/comparateur-scpi/"
+                          onClick={(e) => {
+                            e.preventDefault();
                             resetAllHeaderStates();
                             if (onComparateurClick) {
                               onComparateurClick();
@@ -1058,7 +1090,7 @@ const Header: React.FC<HeaderProps> = ({
                         >
                           <TrendingUp className="w-4 h-4" />
                           Voir toutes les SCPI
-                        </button>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -1066,8 +1098,10 @@ const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* Actualités */}
-              <button
-                onClick={() => {
+              <a
+                href="/actualites/"
+                onClick={(e) => {
+                  e.preventDefault();
                   resetAllHeaderStates();
                   if (onActualitesClick) {
                     onActualitesClick();
@@ -1077,7 +1111,7 @@ const Header: React.FC<HeaderProps> = ({
               >
                 <FileText className="w-4 h-4" />
                 <span>Actualités</span>
-              </button>
+              </a>
 
               {/* Comprendre les SCPI */}
               <a
@@ -1108,8 +1142,10 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
                 {isAboutMobileOpen && (
                   <div className="mt-2 ml-6 space-y-2 border-l-2 border-blue-500 dark:border-blue-400 pl-4">
-                    <button
-                      onClick={() => {
+                    <a
+                      href="/qui-sommes-nous/"
+                      onClick={(e) => {
+                        e.preventDefault();
                         resetAllHeaderStates();
                         if (onAboutClick) onAboutClick();
                       }}
@@ -1117,9 +1153,11 @@ const Header: React.FC<HeaderProps> = ({
                     >
                       <Info className="w-4 h-4" />
                       <span className="text-sm font-medium">Qui sommes-nous</span>
-                    </button>
-                    <button
-                      onClick={() => {
+                    </a>
+                    <a
+                      href="/expertise-orias-cif/"
+                      onClick={(e) => {
+                        e.preventDefault();
                         resetAllHeaderStates();
                         if (onAboutNavigation) {
                           onAboutNavigation('/expertise-orias-cif');
@@ -1129,9 +1167,11 @@ const Header: React.FC<HeaderProps> = ({
                     >
                       <span className="text-lg">🏆</span>
                       <span className="text-sm font-medium">Expertise ORIAS/CIF</span>
-                    </button>
-                    <button
-                      onClick={() => {
+                    </a>
+                    <a
+                      href="/methodologie-donnees-scpi/"
+                      onClick={(e) => {
+                        e.preventDefault();
                         resetAllHeaderStates();
                         if (onAboutNavigation) {
                           onAboutNavigation('/methodologie-donnees-scpi');
@@ -1141,9 +1181,11 @@ const Header: React.FC<HeaderProps> = ({
                     >
                       <span className="text-lg">📊</span>
                       <span className="text-sm font-medium">Méthodologie des données</span>
-                    </button>
-                    <button
-                      onClick={() => {
+                    </a>
+                    <a
+                      href="/avertissements-risques-scpi/"
+                      onClick={(e) => {
+                        e.preventDefault();
                         resetAllHeaderStates();
                         if (onAboutNavigation) {
                           onAboutNavigation('/avertissements-risques-scpi');
@@ -1153,7 +1195,7 @@ const Header: React.FC<HeaderProps> = ({
                     >
                       <span className="text-lg">⚠️</span>
                       <span className="text-sm font-medium">Avertissements et risques</span>
-                    </button>
+                    </a>
                   </div>
                 )}
               </div>
