@@ -144,7 +144,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         description={article.meta_description}
         keywords={article.keywords}
         canonical={`https://maximusscpi.com/articles/${slug}/`}
-        structuredData={[breadcrumbSchema, articleSchema]}
+        schemaData={[breadcrumbSchema, articleSchema]}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
