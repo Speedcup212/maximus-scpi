@@ -65,10 +65,14 @@ const generateComprendreScpiPage = () => {
 </body>
 </html>`;
 
-  const pagePath = path.join(distDir, 'comprendre-les-scpi.html');
+  const pageDir = path.join(distDir, 'comprendre-les-scpi');
+  if (!fs.existsSync(pageDir)) {
+    fs.mkdirSync(pageDir, { recursive: true });
+  }
+  const pagePath = path.join(pageDir, 'index.html');
   fs.writeFileSync(pagePath, htmlContent, 'utf-8');
 
-  console.log('✅ Page statique comprendre-les-scpi.html générée avec succès');
+  console.log('✅ Page statique comprendre-les-scpi/index.html générée avec succès');
 };
 
 // Execute
