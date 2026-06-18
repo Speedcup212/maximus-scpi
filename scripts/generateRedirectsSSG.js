@@ -127,6 +127,9 @@ const generateRedirects = () => {
 /education/premier-investissement-scpi-debutant-guide /articles/premier-investissement-scpi-debutant-guide/ 301
 /education/investir-scpi-jeune-actif-25-35-ans /articles/investir-scpi-jeune-actif-25-35-ans/ 301
 
+# Redirection 301 générique education/ → articles/ (catch-all pour tout article non listé)
+/education/* /articles/:splat/ 301
+
 # Pages statiques générales
 /faq /index.html 200
 /comprendre-les-scpi /index.html 200
@@ -185,6 +188,9 @@ const generateRedirects = () => {
 
 # Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe
 ${buildScpiPrefixRedirects()}
+
+# .html racine → dossier canonique (anti-duplication SEO)
+/comprendre-les-scpi.html /comprendre-les-scpi/ 301
 
 # Fallback pour toutes les autres routes vers la SPA
 /* /index.html 200
