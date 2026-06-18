@@ -1,6 +1,3 @@
-# Redirection sitemap vers le fichier stable (garantit le bon sitemap en production)
-/sitemap.xml /sitemap-final.xml 200!
-
 # Netlify/Vercel redirects for SPA routing with SSG
 
 # Redirections 301 pour anciens slugs d'articles (PRIORITAIRES)

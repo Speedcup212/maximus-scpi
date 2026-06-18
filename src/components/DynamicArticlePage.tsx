@@ -51,7 +51,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
     { name: 'Articles', url: 'https://maximusscpi.com/#articles' },
-    { name: template.title, url: `https://maximusscpi.com/${slug}` }
+    { name: template.title, url: `https://maximusscpi.com/articles/${slug}` }
   ]);
   const articleSchema = generateArticleSchema({
     headline: template.title,
@@ -68,7 +68,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
         title={`${template.title} | MaximusSCPI`}
         description={template.metaDescription}
         keywords={template.keywords}
-        canonical={`https://maximusscpi.com/${slug}/`}
+        canonical={`https://maximusscpi.com/articles/${slug}/`}
         structuredData={[faqSchema, breadcrumbSchema, articleSchema]}
       />
 
@@ -191,8 +191,8 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
 
         {/* Semantic Links */}
         <SemanticLinks
-          currentPage={`/${slug}`}
-          links={getSemanticLinks(`/${slug}`)}
+          currentPage={`/articles/${slug}`}
+          links={getSemanticLinks(`/articles/${slug}`)}
           title="Poursuivez votre découverte des SCPI"
         />
       </div>

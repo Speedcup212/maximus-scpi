@@ -125,7 +125,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
     { name: 'Éducation', url: 'https://maximusscpi.com/#articles' },
-    { name: article.title, url: `https://maximusscpi.com/education/${slug}` }
+    { name: article.title, url: `https://maximusscpi.com/articles/${slug}` }
   ]);
 
   const articleSchema = generateArticleSchema({
@@ -143,7 +143,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         title={`${article.title} | MaximusSCPI`}
         description={article.meta_description}
         keywords={article.keywords}
-        canonical={`https://maximusscpi.com/education/${slug}/`}
+        canonical={`https://maximusscpi.com/articles/${slug}/`}
         structuredData={[breadcrumbSchema, articleSchema]}
       />
 
@@ -179,8 +179,8 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
         {/* Semantic Links */}
         <SemanticLinks
-          currentPage={`/education/${slug}`}
-          links={getSemanticLinks(`/education/${slug}`)}
+          currentPage={`/articles/${slug}`}
+          links={getSemanticLinks(`/articles/${slug}`)}
           title="Poursuivez votre découverte des SCPI"
         />
       </div>
