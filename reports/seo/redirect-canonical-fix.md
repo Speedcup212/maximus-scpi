@@ -1,7 +1,7 @@
 ---
 title: "Correction des redirections canonicales"
 date: "2026-06-18"
-status: "done"
+status: "done — patch double slash appliqué"
 ---
 
 # Correction : Redirections canonicales manquantes
@@ -10,26 +10,38 @@ status: "done"
 
 | URL testée | Comportement observé | Comportement attendu |
 |---|---|---|
-| `https://maximusscpi.com/education/tof-scpi/` | **200** (SPA sert la page) | **301** → `/articles/tof-scpi/` |
+| `https://maximusscpi.com/education/tof-scpi/` | **200** (SPA) → puis **301** vers `/articles/tof-scpi//` (double slash) | **301** → `/articles/tof-scpi/` |
+| `https://maximusscpi.com/education/tof-scpi` | **301** → `/articles/tof-scpi/` (OK) | **301** → `/articles/tof-scpi/` |
 | `https://maximusscpi.com/comprendre-les-scpi.html` | **200** (fichier statique servi) | **301** → `/comprendre-les-scpi/` |
 
 ### Cause racine
 
-1. **`/education/`** : Le générateur `generateRedirectsSSG.js` contenait 30 règles individuelles pour les articles connus, mais **aucun catch-all**. Tout slug non listé (ex: `tof-scpi`) tombait dans le fallback `/* /index.html 200`, produisant une réponse 200 au lieu d'un 301.
+1. **Double slash** : La règle catch-all `/education/* /articles/:splat/ 301` utilisait `:splat` qui capture le trailing slash. `/education/tof-scpi/` → `splat = tof-scpi/` → cible `/articles/tof-scpi//`. Les 30 règles individuelles ne couvraient que la variante sans slash, donc l'URL avec slash tombait dans le catch-all.
 
-2. **`/comprendre-les-scpi.html`** : Aucune règle n'était définie pour le suffixe `.html`. Netlify servait le fichier statique correspondant en 200, créant un doublon avec `/comprendre-les-scpi/`.
+2. **`.html`** : Aucune règle n'était définie pour le suffixe `.html`. Netlify servait le fichier statique correspondant en 200, créant un doublon avec `/comprendre-les-scpi/`.
 
 ## 2. Redirections ajoutées
 
-### Dans `scripts/generateRedirectsSSG.js` :
+### V1 (dépréciée — causait le problème de double slash)
+```diff
++/education/* /articles/:splat/ 301   ← :splat capture le trailing slash → double slash
+```
+
+### V2 (actuelle — corrigée)
+Les 30 règles individuelles et le catch-all `:splat` ont été remplacés dans `scripts/generateRedirectsSSG.js` par :
 
 ```diff
- /education/investir-scpi-jeune-actif-25-35-ans /articles/investir-scpi-jeune-actif-25-35-ans/ 301
-
-+# Redirection 301 générique education/ → articles/ (catch-all pour tout article non listé)
-+/education/* /articles/:splat/ 301
-+
- # Pages statiques générales
+-# Redirections 301 education/ → articles/ (standardisation SEO — 30 articles éducatifs)
+-/education/fonds-euros-ou-scpi /articles/fonds-euros-ou-scpi/ 301
+-... (28 autres règles individuelles)
+-/education/investir-scpi-jeune-actif-25-35-ans /articles/investir-scpi-jeune-actif-25-35-ans/ 301
+-
+-# Redirection 301 générique education/ → articles/ (catch-all pour tout article non listé)
+-/education/* /articles/:splat/ 301
++# Redirections 301 education/ → articles/ (avec slash → avec slash)
++/education/:slug/ /articles/:slug/ 301
++# Redirections 301 education/ → articles/ (sans slash → avec slash)
++/education/:slug /articles/:slug/ 301
 ```
 
 ```diff
@@ -40,72 +52,78 @@ status: "done"
  /* /index.html 200
 ```
 
+### Pourquoi `:slug` résout le problème
+
+- `:slug` capture uniquement le segment de chemin, **pas** le trailing slash.
+- `/education/:slug/` → match `/education/tof-scpi/` avec `:slug = tof-scpi` → `/articles/tof-scpi/` ✅
+- `/education/:slug` → match `/education/tof-scpi` avec `:slug = tof-scpi` → `/articles/tof-scpi/` ✅
+- La règle avec `/` est placée **en premier** (ligne 43) pour priorité correcte.
+
 ### Résultat dans `public/_redirects` :
 
 ```
-75: /education/* /articles/:splat/ 301
+43: /education/:slug/ /articles/:slug/ 301
+44: # Redirections 301 education/ → articles/ (sans slash → avec slash)
+45: /education/:slug /articles/:slug/ 301
 ...
-264: /comprendre-les-scpi.html /comprendre-les-scpi/ 301
+235: /comprendre-les-scpi.html /comprendre-les-scpi/ 301
 ```
-
-- **Ligne 75** : Le catch-all education est placé après les 30 règles individuelles (qui ont priorité) et avant toutes les règles 200.
-- **Ligne 264** : La règle `.html` est placée juste avant `/* /index.html 200` pour intercepter toute requête en `.html`.
 
 ## 3. Fichiers modifiés
 
 | Fichier | Action | Détail |
 |---------|--------|--------|
-| `scripts/generateRedirectsSSG.js` | **Modifié** (+6 lignes) | Ajout des 2 règles de redirection |
-| `public/_redirects` | **Régénéré** | Contient les nouvelles règles (via le générateur) |
+| `scripts/generateRedirectsSSG.js` | **Modifié** | Suppression des 30 règles individuelles + catch-all `:splat`, remplacés par 2 règles `:slug` + règle `.html` |
+| `public/_redirects` | **Régénéré** | 9 insertions, 69 deletions (net: -60 lignes, plus lisible) |
 
 ## 4. Contrôle des `.html` racines dans `dist/`
 
-Après `npm run build` complet :
-```
-=== Fichiers .html racine dans dist ===
-(AUCUN fichier .html à la racine — propre)
-```
+**Important** : 6 fichiers `.html` racines (`merci-guide-comparatif.html`, `merci-landing-page copy.html`, `merci-landing-page.calendly.html`, `merci-landing-page.html`, `qa-tracking copy.html`, `comprendre-les-scpi.html`) survivent localement dans `dist/` comme artefacts de builds antérieurs (dates février-juin 2026). Vite ne les nettoie pas car ils ne font pas partie du bundle.
 
-Le dossier `dist/comprendre-les-scpi/index.html` existe (norme `/slug/index.html`), donc aucun fichier `.html` racine résiduel. La règle `/comprendre-les-scpi.html` agit comme filet de sécurité au cas où Netlify conserverait un ancien fichier en cache.
+Ces fichiers **ne sont pas régénérés** par les scripts post-build — ce sont des résidus de cache local.
+
+**Action requise** : Faire un `Clear cache and deploy site` dans Netlify pour purger ces artefacts.
 
 ## 5. Contrôles post-build
 
 ```
-✅ dist/_redirects : contient /education/* /articles/:splat/ 301
-✅ dist/_redirects : contient /comprendre-les-scpi.html /comprendre-les-scpi/ 301
+✅ dist/_redirects : /education/:slug/ et /education/:slug avant tout rewrite 200
+✅ dist/_redirects : /comprendre-les-scpi.html → /comprendre-les-scpi/ 301
 ✅ dist/sitemap.xml : 0 occurence de /education/
 ✅ dist/sitemap.xml : 145 articles /articles/
 ✅ dist/sitemap.xml : 0 merci, 0 qa, 0 copy, 0 sitemap-final
 ✅ dist/_redirects ne contient pas sitemap-final
+✅ copyFinalSitemapToDist.js : OK
 ✅ assertFinalSitemap.js : OK
 ```
 
 ## 6. URLs à tester après déploiement
 
 ```bash
-# Test 1 : education/ catch-all → 301
+# Test 1 : education/ avec slash → 301 sans double slash
 curl -I https://maximusscpi.com/education/tof-scpi/
 # Attendu : HTTP/1.1 301, Location: /articles/tof-scpi/
 
+# Test 2 : education/ sans slash → 301
 curl -I https://maximusscpi.com/education/tof-scpi
 # Attendu : HTTP/1.1 301, Location: /articles/tof-scpi/
 
-# Test 2 : education/ articles déjà listés → 301 (inchangé)
+# Test 3 : articles existants → même comportement
 curl -I https://maximusscpi.com/education/fonds-euros-ou-scpi/
 # Attendu : HTTP/1.1 301, Location: /articles/fonds-euros-ou-scpi/
 
-# Test 3 : .html → 301
+# Test 4 : .html → 301
 curl -I https://maximusscpi.com/comprendre-les-scpi.html
 # Attendu : HTTP/1.1 301, Location: /comprendre-les-scpi/
 
-# Test 4 : comprendre-les-scpi normal → 200 (inchangé)
+# Test 5 : comprendre-les-scpi normal → 200 (inchangé)
 curl -I https://maximusscpi.com/comprendre-les-scpi/
 # Attendu : HTTP/1.1 200
 ```
 
 ## 7. Risques restants
 
-- **Nul** : Le catch-all `/education/*` ne peut pas créer de boucle car la cible `/articles/:splat/` n'est pas matchée par `/education/*`.
-- **Nul** : Les 30 règles individuelles restent prioritaires (plus spécifiques), le catch-all est un filet de sécurité.
-- **Faible** : `sitemap-live-check.xml` apparaît comme untracked dans le repo — fichier temporaire à nettoyer.
-- **Faible** : Si Netlify a un ancien `dist/comprendre-les-scpi.html` dans son cache de build, la règle `.html` → 301 le neutralisera. Faire un "Clear cache and deploy site" pour plus de sûreté.
+- **Nul** : Les règles `:slug` ne peuvent pas produire de double slash (contrairement à `:splat`).
+- **Nul** : La cible `/articles/:slug/` n'est pas matchée par `/education/:slug/` → pas de boucle.
+- **Faible** : Les 6 fichiers `.html` racines résiduels dans `dist/` (cache local) → nécessite un `Clear cache and deploy site` sur Netlify.
+- **Faible** : `sitemap-live-check.xml` apparaît comme untracked dans le repo — fichier temporaire.

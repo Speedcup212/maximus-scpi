@@ -39,40 +39,10 @@
 /scpi-france /scpi-france/ 301
 /comprendre-les-scpi /comprendre-les-scpi/ 301
 
-# Redirections 301 education/ → articles/ (standardisation SEO — 30 articles éducatifs)
-/education/fonds-euros-ou-scpi /articles/fonds-euros-ou-scpi/ 301
-/education/scpi-en-direct-ou-assurance-vie /articles/scpi-en-direct-ou-assurance-vie/ 301
-/education/100000-euros-fonds-euros-cout-opportunite /articles/100000-euros-fonds-euros-cout-opportunite/ 301
-/education/investir-200000-euros-scpi-portefeuille-diversifie /articles/investir-200000-euros-scpi-portefeuille-diversifie/ 301
-/education/scpi-ou-immobilier-locatif-comparatif-20-ans /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301
-/education/achat-scpi-credit-effet-levier-fiscalite /articles/achat-scpi-credit-effet-levier-fiscalite/ 301
-/education/demembrement-scpi-nue-propriete-usufruit /articles/demembrement-scpi-nue-propriete-usufruit/ 301
-/education/investir-scpi-tmi-11-pourcent-fiscalite-optimale /articles/investir-scpi-tmi-11-pourcent-fiscalite-optimale/ 301
-/education/scpi-tmi-30-pourcent-arbitrage-av-direct /articles/scpi-tmi-30-pourcent-arbitrage-av-direct/ 301
-/education/forte-imposition-tmi-41-scpi-assurance-vie /articles/forte-imposition-tmi-41-scpi-assurance-vie/ 301
-/education/scpi-europeennes-avantages-ps-0-rendement /articles/scpi-europeennes-avantages-ps-0-rendement/ 301
-/education/scpi-fiscales-malraux-deficit-foncier-2025 /articles/scpi-fiscales-malraux-deficit-foncier-2025/ 301
-/education/scpi-sante-seniors-ehpad-cliniques-investissement /articles/scpi-sante-seniors-ehpad-cliniques-investissement/ 301
-/education/scpi-bureaux-tertiaire-teletravail-2025 /articles/scpi-bureaux-tertiaire-teletravail-2025/ 301
-/education/scpi-commerces-retail-e-commerce-opportunites /articles/scpi-commerces-retail-e-commerce-opportunites/ 301
-/education/scpi-logistique-entrepots-e-commerce-2025 /articles/scpi-logistique-entrepots-e-commerce-2025/ 301
-/education/scpi-residentielles-logement-locatif-scpi-habitation /articles/scpi-residentielles-logement-locatif-scpi-habitation/ 301
-/education/per-scpi-retraite-deduction-fiscale /articles/per-scpi-retraite-deduction-fiscale/ 301
-/education/sci-scpi-societe-civile-immobiliere-parts /articles/sci-scpi-societe-civile-immobiliere-parts/ 301
-/education/ifi-scpi-impot-fortune-immobiliere-strategies /articles/ifi-scpi-impot-fortune-immobiliere-strategies/ 301
-/education/succession-scpi-transmission-droits-heritage /articles/succession-scpi-transmission-droits-heritage/ 301
-/education/diversification-scpi-combien-nombre-parts /articles/diversification-scpi-combien-nombre-parts/ 301
-/education/rendement-scpi-2025-tdvm-taux-distribution /articles/rendement-scpi-2025-tdvm-taux-distribution/ 301
-/education/risques-scpi-vacance-locative-liquidite /articles/risques-scpi-vacance-locative-liquidite/ 301
-/education/frais-scpi-souscription-gestion-performance /articles/frais-scpi-souscription-gestion-performance/ 301
-/education/revendre-parts-scpi-delais-marche-secondaire /articles/revendre-parts-scpi-delais-marche-secondaire/ 301
-/education/scpi-ou-etf-immobilier-reit-comparatif /articles/scpi-ou-etf-immobilier-reit-comparatif/ 301
-/education/scpi-ou-opci-differences-avantages /articles/scpi-ou-opci-differences-avantages/ 301
-/education/premier-investissement-scpi-debutant-guide /articles/premier-investissement-scpi-debutant-guide/ 301
-/education/investir-scpi-jeune-actif-25-35-ans /articles/investir-scpi-jeune-actif-25-35-ans/ 301
-
-# Redirection 301 générique education/ → articles/ (catch-all pour tout article non listé)
-/education/* /articles/:splat/ 301
+# Redirections 301 education/ → articles/ (avec slash → avec slash)
+/education/:slug/ /articles/:slug/ 301
+# Redirections 301 education/ → articles/ (sans slash → avec slash)
+/education/:slug /articles/:slug/ 301
 
 # Pages statiques générales
 /faq /index.html 200
