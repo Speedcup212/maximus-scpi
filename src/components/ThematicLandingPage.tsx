@@ -9,6 +9,7 @@ import {
 import { thematicLandingPages } from '../data/thematicLandingPages';
 import { CALENDLY_URL } from '../config/calendly';
 import { scpiData } from '../data/scpiData';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { Scpi } from '../types/scpi';
 import { useScpiFilters } from '../hooks/useScpiFilters';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -841,7 +842,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                         </td>
                         <td className="px-6 py-4 text-center">
                           <a
-                            href={`/scpi/${scpi.id}`}
+                            href={`/${createSlugFromName(scpi.name)}/`}
                             className="inline-flex items-center gap-1 text-purple-600 hover:text-purple-700 font-medium text-sm"
                           >
                             Voir détails
