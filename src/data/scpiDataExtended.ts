@@ -3419,6 +3419,44 @@ const baseSCPIData: SCPIExtended[] = [
     "nombreLocataires": 20
   },
   {
+    "id": 64,
+    "name": "Remake UK 2025",
+    "yield": 6.5,
+    "price": 1025,
+    "minInvestment": 1025,
+    "category": "Bureaux",
+    "managementCompany": "Remake Asset Management",
+    "tof": 100,
+    "capitalization": "19 M€",
+    "sectors": [
+      {
+        "name": "Bureaux",
+        "value": 88.6
+      },
+      {
+        "name": "Commerces",
+        "value": 11.4
+      }
+    ],
+    "geography": [
+      {
+        "name": "Royaume-Uni",
+        "value": 100
+      }
+    ],
+    "versementLoyers": "Mensuel",
+    "distribution": undefined,
+    "reconstitutionValue": 1037.16,
+    "valeurRetrait": undefined,
+    "strategy": "SCPI à capital fixe, 100% Royaume-Uni, 1 actif (Grosvenor Building, Glasgow)",
+    "ltv": 0,
+    "assetsCount": 1,
+    "entryFees": 8.4,
+    "dureeDetentionRecommandee": 7,
+    "sfdr": "Article 6",
+    "nombreLocataires": 5
+  },
+  {
     "id": 55,
     "name": "Epsicap Nano",
     "yield": 6.08,
