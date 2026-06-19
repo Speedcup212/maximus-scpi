@@ -709,7 +709,7 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
     <header class="site-header">
       <div class="header-container">
         <a href="/" class="logo-link">
-          <img src="/maximus-logo.svg" alt="MaximusSCPI" class="logo-img" />
+          <img src="/Maximus logo 250x50 4.svg" alt="MaximusSCPI" class="logo-img" />
         </a>
 
         <nav class="nav-links">
@@ -1057,7 +1057,7 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
     <header class="site-header">
       <div class="header-container">
         <a href="/" class="logo-link">
-          <img src="/maximus-logo.svg" alt="MaximusSCPI" class="logo-img" />
+          <img src="/Maximus logo 250x50 4.svg" alt="MaximusSCPI" class="logo-img" />
         </a>
         <nav class="nav-links">
           <a href="/" class="nav-link">Comparateur</a>
