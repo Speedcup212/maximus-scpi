@@ -6,9 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Import SCPI data
-const scpiDataPath = path.join(__dirname, '../src/data/SCPI_complet_avec_SFDR_Profil.json');
-const scpiDataJson = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
-const scpiData = scpiDataJson.Sheet1 || scpiDataJson;
+const scpiDataPath = path.join(__dirname, '../src/data/scpi_complet.json');
+const scpiData = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
 
 // Helper functions
 const parseGeoDistribution = (geoStr) => {
