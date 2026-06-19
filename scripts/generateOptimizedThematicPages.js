@@ -362,6 +362,19 @@ body.society-page{background:#111827;color:#9ca3af}
 .society-footer a{color:#9ca3af;text-decoration:underline;transition:color 0.2s}
 .society-footer a:hover{color:#fff}
 body.society-page .site-header{background:#0f172a}
+.scpi-detail-card{background:#1e2533;border:1px solid #2d3748;border-radius:0.75rem;padding:1.5rem;margin-bottom:1.5rem}
+.scpi-detail-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem}
+.scpi-detail-name{font-size:1.25rem;font-weight:700;color:#fff}
+.scpi-detail-badge{font-size:0.75rem;background:rgba(16,185,129,0.13);color:#10b981;padding:0.25rem 0.5rem;border-radius:0.25rem;white-space:nowrap}
+.scpi-detail-desc{font-size:0.9375rem;color:#94a3b8;line-height:1.7;margin-bottom:1rem}
+.scpi-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;margin-bottom:1rem}
+@media(min-width:480px){.scpi-detail-grid{grid-template-columns:repeat(3,1fr)}}
+.scpi-detail-grid .scpi-stat-label{display:block;font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.25rem}
+.scpi-detail-grid .scpi-stat-value{display:block;font-size:1rem;font-weight:600;color:#10b981}
+.scpi-detail-geo,.scpi-detail-sector{font-size:0.875rem;color:#94a3b8;margin-bottom:0.5rem;line-height:1.6}
+.scpi-detail-section-label{font-weight:600;color:#cbd5e1;margin-right:0.5rem}
+.scpi-detail-link{display:inline-block;color:#3b82f6;text-decoration:none;font-weight:600;margin-top:1rem;font-size:0.9375rem;transition:color 0.2s}
+.scpi-detail-link:hover{color:#60a5fa;text-decoration:underline}
 `;
 
 // ============================================================
@@ -488,6 +501,41 @@ const societyContent = {
     avis_cgp: "Urban Coeur de Commerce est pertinente pour les TMI faibles (11%) ou en assurance-vie. Pour TMI 30%+, préférer une SCPI européenne. Le positionnement premium est défensif.",
     faq: [["Urban Premium vs une grande SCPI de commerces ?","Urban Premium est plus sélective sur les emplacements premium. Plus défensive mais moins diversifiée."],["Commerce de centre-ville : quel avenir ?","Les commerces prime de centre-ville résistent mieux que les centres commerciaux. L'alimentaire et le luxe tiennent bien."],["Quel rendement pour Urban Coeur de Commerce ?","5.3% brut en 2024."]]
   }
+};
+
+// ============================================================
+// DESCRIPTIONS ENRICHIES PAR SCPI (pour les cards détaillées)
+// ============================================================
+const scpiDescriptions = {
+  'Edissimo': "SCPI bureaux ISR positionnée à 88% sur Paris et l'Île-de-France, avec 3Md€ de patrimoine. Rendement stable (3.63%) mais orientation très France = fiscalité IR + PS. Profil défensif, horizon 12+ ans.",
+  'Rivoli Avenir Patrimoine': "Grande SCPI patrimoniale Amundi (2.9Md€), profil très sécuritaire. Rendement de 3.46% reflète la qualité prime des actifs. Idéale en assurance-vie pour les profils défensifs TMI 30%+.",
+  'Atream Hotel': "SCPI hôtelière pan-européenne (France 33%, Allemagne 30%, Belgique 23%, Pays-Bas 14%), 100% TOF. TD de 5.05% avec frais de gestion élevés (10%). Profil de niche, horizon minimum 10 ans.",
+  'Optimale': "SCPI diversifiée ISR sur métropoles françaises (bureaux 43%, commerces 29%, logistique 23%). TD attractif de 6.5%, capitalisation en croissance (92M€). Frais d'entrée de 10%, min 1500€.",
+  'Buroboutic Métropoles': "SCPI mixte bureaux/commerces ISR (53% régions, 32% IDF). TD de 5.1%, TOF solide à 93.85%. Frais de gestion HT élevés (9.5%). Minimum d'entrée 2300€, délai jouissance 3 mois.",
+  'Ficommerce Proximité': "Spécialiste commerces de proximité ISR (84% commerces). Large présence régionale et parisienne. TD 5.1%, TOF 94.56%. Frais souscription 12%, accessible dès 700€.",
+  'Selectipierre 2': "SCPI bureaux Paris premium (71% Paris, 23% IDF). TD plus faible (4.14%) reflétant la qualité des actifs prime. Min élevé (7730€), délai jouissance 6 mois. Profil patrimonial long terme.",
+  'GMA Essentialis': "SCPI alimentaire SFDR Article 9 (90% alimentaire, France 51% + Allemagne 49%). TOF excellent (99.7%) avec locataires grande distribution. TD de 4% pour un profil très défensif. Min 2060€.",
+  'Cristal Life': "SCPI diversifiée ISR pan-européenne (7 pays). Commerces 33%, Bureaux 30%, Hôtellerie 17%, Santé 16%. TD de 6.54%, TOF 95.57%. Bonne alternative aux SCPI mono-secteur. Min 2250€.",
+  'Grand Paris Résidentiel': "SCPI résidentielle de valorisation (0% de distribution). 100% logement en IDF (87%) et régions. Capital fixe, horizon 15+ ans. À éviter si vous cherchez des revenus réguliers. Accessible dès 200€.",
+  'Cristal Rente': "SCPI de rendement SFDR Art.8 avec TOF solide à 98.99%. TD de 5%, profil équilibré. Bonne option pour un complément de revenu régulier. Gestionnaire historique depuis 1983.",
+  'Kyaneos Pierre': "Seule SCPI résidentielle ISR du marché (80% résidentiel, 100% France). Rénovation énergétique systématique. TD de 4.35%, TOF 88.9%. Min 2240€. Fiscalité 100% France = PS sur tous les revenus.",
+  'Foncière des Praticiens': "SCPI médicale ISR (cabinets, maisons de santé, cliniques). France 70% + Belgique 30%. TD 5.5%, TOF 96.7%. Baux longs avec professionnels de santé. Min 1100€, délai jouissance 5 mois.",
+  'NCap Régions': "Grande SCPI ISR sur métropoles provinciales et IDF (bureaux 54%, commerce 32%). TD de 5.72%, TOF 91.6%. Frais gestion très bas (0.65%). Min 3350€, délai jouissance 6 mois.",
+  'NCap Education Santé': "SCPI thématique ISR (santé 66%, bien-être 16%, éducation 16%). TD de 4.52%, TOF 96%. Profil très défensif sur besoins essentiels. Frais gestion bas (0.56%). Min 2020€.",
+  'NCap Continent': "SCPI diversifiée géographiquement, TOF 100%, TD attractif de 7.1%. Capitalisation encore modeste (71.5M€). Profil rendement, à suivre sur sa montée en puissance. SFDR Art.8.",
+  'Novapierre 1': "SCPI commerces prime (alimentaire 15%, santé 10%) sur Paris et métropoles régionales. TD de 5%, TOF 85.3%. SFDR Art.6, profil patrimonial. Frais souscription compétitifs (8%). Min non précisé.",
+  'Novapierre Résidentiel': "SCPI résidentielle 100% de valorisation (1.2% TD, quasi zéro distribution). 77% Paris intra-muros. Capital fixe, à éviter pour les chercheurs de revenus. Horizon 20 ans minimum.",
+  'Paref Evo': "SCPI européenne ISR 100% Pologne (bureaux 90%). TD de 4.72%, TOF 87.8%. Exposition mono-pays = risque concentré. Capitalisation modeste (49.3M€). SFDR Art.8, revenus polonais potentiellement hors PS.",
+  'Paref Hexa': "SCPI bureaux ISR sur métropoles régionales (56%) et IDF (26%). TD de 6%, TOF 84.9%. Mix bureaux (67%) et activités (25%). Capitalisation 201M€, min non précisé.",
+  'Primovie': "Leader SCPI santé avec 4.2M€ de patrimoine géré (ex-Primonial, désormais Praemia). TD de 4.04% en baisse, TOF solide 94.7%. Incontournable sur la thématique santé malgré la restructuration du groupe.",
+  'Praemia Hôtels Europe': "SCPI hôtelière européenne (252.5M€), TD de 3.9%, TOF 97.7%. Positionnement hospitalité premium. Groupe en transition (ex-Primonial). Frais souscription 9%. SFDR Art.8.",
+  'Patrimmo Commerce': "SCPI commerces en difficulté structurelle. TD de 3.38%, capitalisation 613.7M€. TOF de 91%, groupe en restructuration. À éviter pour nouveaux investissements jusqu'à stabilisation.",
+  'Patrimmo Croissance Impact': "SCPI résidentielle ISR SFDR Art.9 (100% logement, 0% TD). Valorisation pure sur immobilier résidentiel Paris/IDF. Min élevé (11.76% frais souscription). Horizon très long terme (20+ ans).",
+  'ESG Pierre Capital': "SCPI ISR Swiss Life diversifiée (bureaux 20%, logistique 24%, services 27%). TD 5.22%, TOF 96.28%, capitalisation 117M€. Présence France + Allemagne. Frais souscription 12%. Appui groupe AAA.",
+  'Log In': "SCPI logistique ISR pan-européenne (France 37%, Allemagne 25%, UK 13%, Italie). TD 6.21%, TOF 100%, frais souscription 12%. Profil rendement sur mégatendance e-commerce. Min non précisé.",
+  'Urban Coeur de Commerce': "SCPI commerces premium ISR de centre-ville (province 83%, IDF 17%). TD 5.3%, TOF 91.95%. Locataires services et alimentaire. Frais souscription 11.8%. 100% France = PS sur tous les revenus.",
+  'Remake Live': "SCPI ISR de recyclage urbain. TD 7.05% avec 882M€ de capitalisation. Transformation de friches en actifs modernes. Profil rendement + impact. Min non précisé.",
+  'Remake UK 2025': "SCPI britannique capital fixe. TD non encore établi (création 2025), capitalisation 19M€. Diversification GBP hors zone euro. Risque de change. Profil dynamique, min 5000€."
 };
 
 // ============================================================
@@ -931,27 +979,28 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
       </div>
     </div>`;
 
-  // SCPI cards
+  // SCPI cards (enriched)
   let scpiCardsHTML = '';
   if (resolvedScpis && resolvedScpis.length > 0) {
-    scpiCardsHTML = `
-    <div class="society-scpi-cards">
-      ${resolvedScpis.map(scpi => `
-      <div class="society-scpi-card">
-        <div class="society-scpi-card-name">${scpi.name}</div>
-        <div class="society-scpi-card-stats">
-          <div>
-            <span class="society-scpi-card-stat-label">Rendement 2024</span>
-            <span class="society-scpi-card-stat-value">${scpi.yield}%</span>
-          </div>
-          <div>
-            <span class="society-scpi-card-stat-label">Capitalisation</span>
-            <span class="society-scpi-card-stat-value">${scpi.capitalisation.toFixed(0)} M€</span>
-          </div>
-        </div>
-        <a href="/${scpi.slug}/" class="society-scpi-card-link">Voir la fiche complète →</a>
-      </div>`).join('\n      ')}
-    </div>`;
+    scpiCardsHTML = resolvedScpis.map(scpi => `
+    <div class="scpi-detail-card">
+      <div class="scpi-detail-header">
+        <h3 class="scpi-detail-name">${scpi.name}</h3>
+        ${scpi.badge ? `<span class="scpi-detail-badge">${scpi.badge}</span>` : ''}
+      </div>
+      ${scpi.description ? `<p class="scpi-detail-desc">${scpi.description}</p>` : ''}
+      <div class="scpi-detail-grid">
+        <div><span class="scpi-stat-label">Rendement 2024</span><span class="scpi-stat-value">${scpi.yield}%</span></div>
+        <div><span class="scpi-stat-label">Capitalisation</span><span class="scpi-stat-value">${typeof scpi.capitalisation === 'number' ? scpi.capitalisation.toFixed(0) : scpi.capitalisation} M€</span></div>
+        <div><span class="scpi-stat-label">TOF</span><span class="scpi-stat-value">${typeof scpi.tof === 'number' ? scpi.tof.toFixed(2) : scpi.tof}%</span></div>
+        <div><span class="scpi-stat-label">Frais entrée</span><span class="scpi-stat-value">${scpi.fraisSouscription}%</span></div>
+        <div><span class="scpi-stat-label">Délai jouissance</span><span class="scpi-stat-value">${scpi.delaiJouissance} mois</span></div>
+        <div><span class="scpi-stat-label">Min. souscription</span><span class="scpi-stat-value">${scpi.minSouscription}€</span></div>
+      </div>
+      ${scpi.geoText ? `<div class="scpi-detail-geo"><span class="scpi-detail-section-label">🌍 Géographie</span><span>${scpi.geoText}</span></div>` : ''}
+      ${scpi.secteurText ? `<div class="scpi-detail-sector"><span class="scpi-detail-section-label">🏢 Secteurs</span><span>${scpi.secteurText}</span></div>` : ''}
+      <a href="/${scpi.slug}/" class="scpi-detail-link">Voir la fiche complète →</a>
+    </div>`).join('\n    ');
   }
 
   // FAQ
@@ -1308,12 +1357,28 @@ const generatePages = () => {
       pageData.relatedScpi.forEach(scpiSlug => {
         const scpi = scpiBySlug[scpiSlug];
         if (scpi) {
+          const isrLabel = scpi['Label ISR'] || '';
+          const sfdrArticle = scpi['Article SFDR'] || '';
+          const sfdrArticleNum = typeof sfdrArticle === 'number' ? sfdrArticle : parseInt(sfdrArticle, 10);
+          const badgeParts = [];
+          if (isrLabel && isrLabel.toLowerCase() !== 'non') badgeParts.push('✅ ISR');
+          if (sfdrArticleNum) badgeParts.push('SFDR Art.' + sfdrArticleNum);
+          const badge = badgeParts.join(' ');
+
           resolvedScpis.push({
             slug: scpiSlug,
             name: scpi['Nom SCPI'],
             yield: scpi['Taux de distribution (%)'] != null ? scpi['Taux de distribution (%)'] : 'N/C',
             capitalisation: scpi['Capitalisation (M€)'] != null ? scpi['Capitalisation (M€)'] : 0,
-            societeGestion: scpi['Société de gestion'] || ''
+            societeGestion: scpi['Société de gestion'] || '',
+            description: scpiDescriptions[scpi['Nom SCPI']] || '',
+            badge: badge,
+            tof: scpi['TOF (%)'] != null ? scpi['TOF (%)'] : 'N/C',
+            fraisSouscription: scpi['Frais de souscription (TTC/%)'] != null ? scpi['Frais de souscription (TTC/%)'] : 'N/C',
+            delaiJouissance: scpi['Délai de jouissance (mois)'] != null ? scpi['Délai de jouissance (mois)'] : 'N/C',
+            minSouscription: scpi['Minimum de souscription €'] != null ? scpi['Minimum de souscription €'] : 'N/C',
+            geoText: scpi['Répartition Géographique'] || scpi['Pays principaux'] || '',
+            secteurText: scpi['Répartition Sectorielle'] || ''
           });
         }
         // Ignorer silencieusement les slugs sans correspondance
