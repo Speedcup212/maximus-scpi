@@ -378,7 +378,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Techniquement oui, mais c\'est fortement déconseillé. Vous devrez rembourser toutes les réductions d\'impôts perçues, majorées d\'intérêts de retard. De plus, le marché secondaire des SCPI fiscales est peu liquide. Investissez uniquement si vous êtes certain de conserver vos parts pendant toute la durée d\'engagement (6 à 15 ans selon les dispositifs).'
       }
     ],
-    relatedScpi: []
+    relatedScpi: ['ncap-regions', 'ncap-education-sante', 'ncap-continent', 'novaxia-neo', 'urban-coeur-de-commerce']
   ,
     geographie: {
       'France': 85,
@@ -2473,7 +2473,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Jean-Marc D., 58 ans', texte: 'Amundi Primo pour la sécurité du groupe. Rendement stable et dividendes réguliers.', note: 5 }
     ],
-    relatedScpi: []
+    relatedScpi: ['edissimo', 'rivoli-avenir-patrimoine']
   ,
     geographie: {
       'France': 45,
@@ -2542,7 +2542,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Philippe M., 50 ans', texte: 'Atream pour la stabilité des bureaux français. Rendement régulier.', note: 4 }
     ],
-    relatedScpi: []
+    relatedScpi: ['atream-hotel']
   ,
     geographie: {
       'France': 55,
@@ -2608,7 +2608,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Consultim est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['optimale']
   ,
     geographie: {
       'France': 70,
@@ -2682,7 +2682,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { nom: 'Philippe D., 58 ans, Chef entreprise', texte: 'Client Fiducial pour mon expertise-comptable depuis 20 ans, j\'ai naturellement investi dans leur SCPI. La solidité du groupe me rassure totalement. Gestion sérieuse et professionnelle.', note: 5 },
       { nom: 'Catherine M., 52 ans', texte: 'Fiducial Gérance, c\'est la force d\'un grand groupe appliquée à l\'immobilier. Leur connaissance du tissu économique français via leurs 200 000 clients est un vrai atout.', note: 5 }
     ],
-    relatedScpi: []
+    relatedScpi: ['buroboutic-metropoles', 'ficommerce-proximite', 'selectipierre-2']
   ,
     geographie: {
       'France': 80,
@@ -2747,7 +2747,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Greenman ARTH est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF pionnier de l\'immobilier durable en France.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['gma-essentialis']
   ,
     geographie: {
       'Allemagne': 35,
@@ -2812,7 +2812,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Inter Gestion REIM est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['cristal-life', 'grand-paris-residentiel', 'cristal-rente']
   ,
     geographie: {
       'France': 65,
@@ -2948,7 +2948,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Kyaneos est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['kyaneos-pierre']
   ,
     geographie: {
       'France': 72,
@@ -3013,7 +3013,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Magellim REIM est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['fonciere-des-praticiens']
   ,
     geographie: {
       'France': 85,
@@ -3078,7 +3078,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Norma Capital est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec approche patrimoniale de l\'immobilier.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['ncap-regions', 'ncap-education-sante', 'ncap-continent']
   ,
     geographie: {
       'France': 48,
@@ -3211,7 +3211,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Paref Gestion est-elle fiable ?', answer: 'Absolument, Paref est un gestionnaire historique avec plus de 40 ans d\'expérience et une solide réputation.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['novapierre-1', 'novapierre-residentiel', 'paref-evo', 'paref-hexa']
   ,
     geographie: {
       'France': 68,
@@ -3348,7 +3348,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Praemia REIM est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF avec plus de 500 M€ sous gestion.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['primovie', 'praemia-hotels-europe', 'patrimmo-commerce', 'patrimmo-croissance-impact']
   ,
     geographie: {
       'France': 42,
@@ -3414,7 +3414,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Remake est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF pionnier de la transformation immobilière urbaine.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['remake-live', 'remake-uk-2025']
   ,
     geographie: {
       'France': 58,
@@ -3621,7 +3621,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'François G., 60 ans', texte: 'Swiss Life pour la sécurité absolue. Groupe solide et performance régulière.', note: 5 }
     ],
-    relatedScpi: []
+    relatedScpi: ['esg-pierre-capital']
   ,
     geographie: {
       'France': 46,
@@ -3688,7 +3688,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Théoreim est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['log-in']
   ,
     geographie: {
       'France': 44,
@@ -3754,7 +3754,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Urban Premium est-elle fiable ?', answer: 'Oui, gestionnaire spécialisé dans l\'immobilier premium urbain.' }
     ],
     temoignages: [],
-    relatedScpi: []
+    relatedScpi: ['urban-coeur-de-commerce']
   ,
     geographie: {
       'France': 78,
