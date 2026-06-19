@@ -3357,6 +3357,9 @@ const baseSCPIData: SCPIExtended[] = [
     "category": "Diversifié",
     "managementCompany": "Iroko",
     "tof": 99.93,
+    "reconstitutionValue": 204.87,
+    "discount": -2.38,
+    "discountQaStatus": "publishable",
     "capitalization": "120M€",
     "sectors": [
       {
