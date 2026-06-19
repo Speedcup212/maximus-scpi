@@ -2253,7 +2253,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { nom: 'Sandrine L., 48 ans, Cadre', texte: 'Cap Hebergimmo depuis 2018. Le secteur santé est très résilient, même pendant le COVID les loyers ont continué. Rendement correct à 4.55% et surtout grande stabilité. Parfait pour diversifier mon portefeuille.', note: 5 },
       { nom: 'Thomas B., 42 ans', texte: 'J\'ai diversifié sur Pierre Rendement et Placement Pierre. 5% de rendement moyen, gestion professionnelle, reporting clair. Aestiam est un gestionnaire historique sur lequel on peut compter.', note: 5 }
     ],
-    relatedScpi: ['pierre-rendement', 'cap-hebergimmo', 'placement-pierre']
+    relatedScpi: ['aestiam-pierre-rendement', 'aestiam-cap-hebergimmo']
   ,
     geographie: {
       'France': 58,
@@ -2323,7 +2323,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Sophie L., 42 ans', texte: 'Altixia Commerces depuis 5 ans. Rendement régulier sur les commerces de proximité. Satisfaite.', note: 5 }
     ],
-    relatedScpi: ['commerces', 'cadence-12']
+    relatedScpi: ['altixia-commerces', 'altixia-cadence-12']
   ,
     geographie: {
       'France': 62,
@@ -2392,7 +2392,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Jean-Marc D., 58 ans', texte: 'Amundi Primo pour la sécurité du groupe. Rendement stable et dividendes réguliers.', note: 5 }
     ],
-    relatedScpi: ['primo']
+    relatedScpi: []
   ,
     geographie: {
       'France': 45,
@@ -2461,7 +2461,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Philippe M., 50 ans', texte: 'Atream pour la stabilité des bureaux français. Rendement régulier.', note: 4 }
     ],
-    relatedScpi: ['pierre-capitale']
+    relatedScpi: []
   ,
     geographie: {
       'France': 55,
@@ -2801,7 +2801,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Stéphane R., 45 ans', texte: 'Iroko Zen : 5.80% sans frais d\'entrée ! Excellent choix pour mon portefeuille SCPI.', note: 5 }
     ],
-    relatedScpi: ['iroko-zen', 'iroko-global']
+    relatedScpi: ['iroko-zen', 'iroko-atlas']
   ,
     geographie: {
       'France': 55,
@@ -3067,7 +3067,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Léa D., 38 ans', texte: 'Novaxia Neo pour investir dans la transformation urbaine. Approche innovante et rendement de 4.90%.', note: 5 }
     ],
-    relatedScpi: ['neo', 'immorente']
+    relatedScpi: ['novaxia-neo', 'immorente']
   ,
     geographie: {
       'France': 90,
@@ -3201,7 +3201,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'André B., 62 ans', texte: 'PF Grand Paris depuis 15 ans. Performance régulière et dividendes trimestriels stables. Leader incontestable.', note: 5 }
     ],
-    relatedScpi: ['pf-grand-paris', 'pfo2', 'pf-hospitalite-europe']
+    relatedScpi: ['perial-grand-paris', 'perial-o2', 'perial-hospitalite-europe']
   ,
     geographie: {
       'France': 50,
@@ -3267,7 +3267,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Praemia REIM est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF avec plus de 500 M€ sous gestion.' }
     ],
     temoignages: [],
-    relatedScpi: ['pierre-patrimoine', 'interpierre']
+    relatedScpi: []
   ,
     geographie: {
       'France': 42,
@@ -3403,7 +3403,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'Robert M., 68 ans', texte: 'Sofidy Edissimmo depuis 20 ans. Fiabilité totale et dividendes réguliers. Gestionnaire solide.', note: 5 }
     ],
-    relatedScpi: ['edissimmo', 'intercontinents']
+    relatedScpi: ['efimmo-1', 'immorente']
   ,
     geographie: {
       'France': 75,
@@ -3540,7 +3540,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       { nom: 'François G., 60 ans', texte: 'Swiss Life pour la sécurité absolue. Groupe solide et performance régulière.', note: 5 }
     ],
-    relatedScpi: ['renovalys']
+    relatedScpi: []
   ,
     geographie: {
       'France': 46,
