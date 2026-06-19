@@ -125,8 +125,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     return checkScpiDataCompleteness(scpiForAnalysis, scpi);
   }, [scpiForAnalysis, scpi]);
 
-  const completenessDisplay = completenessResult ? getCompletenessDisplay(completenessResult.donnees_completes_niveau) : null;
-
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
   const actualInvestment = numberOfShares * scpi.price;
   const currentYield = scpiForAnalysis?.yield ?? scpi.yield;
@@ -188,21 +186,12 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           </button>
         </div>
 
-        {/* Badge de mise à jour du bulletin trimestriel et tag de complétude */}
-        {(periodeBulletin || completenessResult) && (
+        {/* Badge de mise à jour du bulletin trimestriel */}
+        {periodeBulletin && (
           <div className="px-6 pt-4 pb-2 flex items-center gap-3 flex-wrap">
-            {periodeBulletin && (
-              <div className="text-xs text-white bg-slate-800/50 px-4 py-2 rounded-lg border border-slate-600 inline-block">
-                Mise à jour BULLETIN TRIMESTRIEL D'INFORMATION {periodeBulletin}
-              </div>
-            )}
-            {completenessResult && completenessDisplay && (
-              <div className={`text-xs ${completenessDisplay.color} ${completenessDisplay.bgColor} px-4 py-2 rounded-lg border border-current/30 inline-flex items-center gap-2`}>
-                <span>{completenessDisplay.emoji}</span>
-                <span className="font-semibold">{completenessDisplay.label}</span>
-                <span className="text-slate-400">({completenessResult.donnees_completes_score}/11 indicateurs)</span>
-              </div>
-            )}
+            <div className="text-xs text-white bg-slate-800/50 px-4 py-2 rounded-lg border border-slate-600 inline-block">
+              Mise à jour BULLETIN TRIMESTRIEL D'INFORMATION {periodeBulletin}
+            </div>
           </div>
         )}
 
