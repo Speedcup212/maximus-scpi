@@ -198,6 +198,87 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       theme: 'blue'
     }
 },
+  'scpi-europeennes': {
+    slug: 'scpi-europeennes',
+    title: 'SCPI Européennes 2026 : Top 11 SCPI Investies Hors de France | Analyse & Rendement',
+    metaDescription: 'Classement des meilleures SCPI européennes 2026. Investissement hors France, fiscalité avantageuse dès 30% TMI, rendements jusqu\'à 9%. Sélection par un conseiller certifié ORIAS.',
+    heroTitle: 'Top 11 SCPI Européennes : Investir Hors de France en 2026',
+    heroSubtitle: 'Fiscalité allégée, diversification optimale, rendements élevés — la sélection MaximusSCPI des meilleures SCPI investies en Europe',
+    labelText: 'SCPI Européennes',
+    keyMetrics: [
+      { value: '11', label: 'SCPI analysées' },
+      { value: '7.2%', label: 'Rendement moyen' },
+      { value: '0%', label: 'PS sur revenus étrangers' }
+    ],
+    benefits: [
+      'Zéro prélèvements sociaux (17,2%) sur les revenus étrangers',
+      'Fiscalité optimale dès 30% de TMI vs SCPI françaises',
+      'Diversification géographique sur 15+ pays européens',
+      'Rendements moyens supérieurs au marché français',
+      'Protection contre la concentration immobilière française'
+    ],
+    pourquoiChoisir: {
+      title: 'Pourquoi choisir des SCPI européennes ?',
+      subtitle: 'L\'avantage fiscal et la diversification au cœur de la stratégie',
+      features: [
+        {
+          icon: '🇪🇺',
+          title: 'Fiscalité allégée',
+          description: 'Les revenus de source étrangère échappent aux prélèvements sociaux de 17,2%. Un avantage décisif dès 30% de TMI.'
+        },
+        {
+          icon: '🌍',
+          title: 'Diversification géographique',
+          description: 'Exposition à l\'Allemagne, Espagne, Pays-Bas, Irlande, Pologne — marchés immobiliers dynamiques hors cycle français.'
+        },
+        {
+          icon: '📈',
+          title: 'Rendements compétitifs',
+          description: 'Les SCPI européennes affichent des rendements moyens de 6% à 9%, portés par des marchés en croissance.'
+        },
+        {
+          icon: '🛡️',
+          title: 'Résilience du portefeuille',
+          description: 'Décorrélation partielle avec l\'immobilier français, protection contre une crise localisée en France.'
+        }
+      ]
+    },
+    faq: [
+      {
+        question: 'Pourquoi les SCPI européennes sont-elles avantageuses fiscalement ?',
+        answer: 'Les revenus de source étrangère ne sont pas soumis aux prélèvements sociaux de 17,2% en France. Un investisseur à 30% de TMI paie donc environ 30% d\'impôt sur ces revenus au lieu de 47,2% pour une SCPI française.'
+      },
+      {
+        question: 'À partir de quelle TMI les SCPI européennes sont-elles recommandées ?',
+        answer: 'Dès 30% de TMI, les SCPI européennes deviennent plus efficaces fiscalement. En dessous de 30% (TMI 11%), les SCPI françaises peuvent rester compétitives.'
+      },
+      {
+        question: 'Quelle est la meilleure SCPI européenne en 2026 ?',
+        answer: 'Comète (Alderan, 9%) et Transitions Europe (Arkéa REIM, 7,6%) se distinguent par leurs rendements élevés et leurs taux d\'occupation supérieurs à 98%.'
+      },
+      {
+        question: 'Les SCPI européennes sont-elles plus risquées ?',
+        answer: 'Pas nécessairement. Le risque de change est limité car la zone euro partage la même monnaie. Le risque locatif est dilué sur plusieurs pays.'
+      },
+      {
+        question: 'Peut-on investir dans des SCPI européennes via l\'assurance-vie ?',
+        answer: 'Oui, mais dans ce cas la fiscalité de l\'assurance-vie s\'applique et l\'avantage des prélèvements sociaux à 0% disparaît. L\'investissement en direct reste généralement plus avantageux pour les TMI élevées.'
+      }
+    ],
+    temoignages: [
+      {
+        nom: 'Philippe R., 48 ans',
+        texte: 'À 41% de TMI, Eric m\'a orienté vers les SCPI européennes. Je paie 41% au lieu de 58,2% sur ces revenus. Sur 100 000€ investis, c\'est plusieurs centaines d\'euros d\'économie annuelle.',
+        note: 5
+      },
+      {
+        nom: 'Isabelle M., 52 ans',
+        texte: 'J\'avais déjà des SCPI françaises. L\'ajout de Transitions Europe et Comète a diversifié mon portefeuille et amélioré mon rendement net après impôts.',
+        note: 5
+      }
+    ],
+    relatedScpi: ['comete', 'transitions-europe', 'epargne-pierre-europe', 'remake-live', 'iroko-zen', 'coeur-d-europe', 'lf-europimmo', 'paref-evo', 'perial-hospitalite-europe', 'atream-hotel', 'log-in']
+  },
   'scpi-fiscales': {
     slug: 'scpi-fiscales',
     title: 'SCPI Fiscales 2026 | Réduire ses Impôts avec Malraux et Déficit Foncier',
