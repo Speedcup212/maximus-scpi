@@ -411,3 +411,4 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
          cleanNumericValue(scpi['Risque (1-7)']))
   };
 });
+
