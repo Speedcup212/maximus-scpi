@@ -3407,8 +3407,10 @@ const baseSCPIData: SCPIExtended[] = [
       }
     ],
     "versementLoyers": "Mensuel",
+    "discount": -2.38,
     "distribution": 19.32,
     "reconstitutionValue": 204.87,
+    "discountQaStatus": "publishable",
     "valeurRetrait": 200,
     "strategy": "SCPI diversifiée multi-secteurs (commerces, entrepôts, bureaux) à vocation européenne, distributions mensuelles",
     "ltv": 0,
@@ -3445,8 +3447,10 @@ const baseSCPIData: SCPIExtended[] = [
       }
     ],
     "versementLoyers": "Mensuel",
+    "discount": -1.17,
     "distribution": undefined,
     "reconstitutionValue": 1037.16,
+    "discountQaStatus": "publishable",
     "valeurRetrait": undefined,
     "strategy": "SCPI à capital fixe, 100% Royaume-Uni, 1 actif (Grosvenor Building, Glasgow)",
     "ltv": 0,
