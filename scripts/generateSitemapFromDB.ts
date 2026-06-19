@@ -189,9 +189,13 @@ async function generateSitemap() {
   // ✅ Canoniques : scpi-fiscalite/, scpi-retraite/, scpi-bureaux/, scpi-commerces/, scpi-sante/, scpi-france/
   // ❌ Retirées du sitemap (301) : scpi-fiscales, preparer-retraite-scpi, *-investissement
   const thematicPages = [
+    'meilleures-scpi-rendement',
     'scpi-europeennes',
+    'scpi-fiscales',
+    'preparer-retraite-scpi',
     'revenu-complementaire-scpi',
     'scpi-sans-frais',
+    'recyclage-urbain-scpi',
     'comprendre-les-scpi',
     'faq',
     'investir-scpi',
