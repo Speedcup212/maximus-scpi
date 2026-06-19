@@ -3410,10 +3410,7 @@ const baseSCPIData: SCPIExtended[] = [
       }
     ],
     "versementLoyers": "Mensuel",
-    "discount": -2.38,
     "distribution": 19.32,
-    "reconstitutionValue": 204.87,
-    "discountQaStatus": "publishable",
     "valeurRetrait": 200,
     "strategy": "SCPI diversifiée multi-secteurs (commerces, entrepôts, bureaux) à vocation européenne, distributions mensuelles",
     "ltv": 0,
