@@ -3393,7 +3393,7 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
     "maximus_warnings": ["TD 9.41% = premier exercice 2025 non representatif d un rendement stabilise", "Objectif TD 6.5% non garanti", "Label ISR en cours d obtention - ne pas afficher comme obtenu"],
-    "Décote/Surcote QA": "manual_review"
+    "Décote/Surcote QA": "publishable"
   },
   {
     "Nom SCPI": "Epsicap Nano",
@@ -3884,6 +3884,6 @@
     "Article SFDR": 6,
     "niveau_risque_dic": 4,
     "maximus_warnings": ["TOF 100% inclut indemnite vendeur - occupation reelle partielle", "Capital fixe - liquidite secondaire uniquement", "TD 6.5% est un objectif non garanti"],
-    "Décote/Surcote QA": "manual_review"
+    "Décote/Surcote QA": "publishable"
   }
 ]
