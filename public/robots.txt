@@ -1,10 +1,10 @@
 # MaximusSCPI - Production robots.txt
-# Site: https://maximusscpi.com
+# Site: VITE_PUBLIC_SITE_URL=https://maximusscpi.com
 
 User-agent: *
 Allow: /
 
-Sitemap: https://maximusscpi.com/sitemap.xml
+Sitemap: VITE_PUBLIC_SITE_URL=https://maximusscpi.com/sitemap.xml
 
 Disallow: /app/
 Disallow: /api/
