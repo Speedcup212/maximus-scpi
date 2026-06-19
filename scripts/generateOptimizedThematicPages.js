@@ -298,6 +298,199 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 `;
 
 // ============================================================
+// SOCIETY PAGE CSS (dark design system #111827)
+// ============================================================
+const societyCSS = `
+body.society-page{background:#111827;color:#9ca3af}
+.society-hero{min-height:55vh;background:linear-gradient(135deg,#1e3a5f 0%,#111827 100%);color:#fff;padding:3rem 1.25rem 2.5rem;display:flex;align-items:center}
+.society-hero-wrap{max-width:1200px;width:100%;margin:0 auto}
+.society-breadcrumb{font-size:0.875rem;margin-bottom:1.5rem;opacity:0.7}
+.society-breadcrumb a{color:#93c5fd;text-decoration:none}
+.society-breadcrumb a:hover{text-decoration:underline}
+.society-hero h1{font-size:1.75rem;font-weight:800;margin-bottom:0.75rem;line-height:1.25;color:#fff;word-wrap:break-word;overflow-wrap:break-word;hyphens:auto}
+@media(min-width:768px){.society-hero h1{font-size:2.5rem}}
+.society-hero-subtitle{font-size:1.0625rem;opacity:0.85;margin-bottom:2rem;color:#cbd5e1;font-weight:400}
+@media(min-width:768px){.society-hero-subtitle{font-size:1.25rem}}
+.society-hero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:2rem}
+@media(min-width:768px){.society-hero-stats{grid-template-columns:repeat(3,1fr);gap:1.25rem}}
+.society-hero-stat{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:1.25rem;text-align:center;backdrop-filter:blur(8px)}
+.society-hero-stat-value{font-size:1.5rem;font-weight:700;color:#10b981;display:block}
+.society-hero-stat-label{font-size:0.8125rem;color:#94a3b8;margin-top:0.25rem;display:block}
+.society-cta-btn{display:inline-block;background:#10b981;color:#fff;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;font-size:1.0625rem;transition:background 0.2s,transform 0.2s;text-align:center}
+.society-cta-btn:hover{background:#059669;transform:translateY(-2px)}
+.society-section{padding:3rem 1.25rem;max-width:1200px;margin:0 auto}
+.society-section h2{font-size:1.625rem;font-weight:700;color:#fff;margin-bottom:1.5rem;border-left:4px solid #10b981;padding-left:1rem}
+@media(min-width:768px){.society-section h2{font-size:2rem}}
+.society-section h2.accent-blue{border-left-color:#3b82f6}
+.society-section h2.accent-yellow{border-left-color:#f59e0b}
+.society-presentation p{font-size:1.0625rem;color:#9ca3af;line-height:1.8;margin-bottom:1.5rem;max-width:900px}
+.society-two-col{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:1.5rem}
+@media(min-width:768px){.society-two-col{grid-template-columns:1fr 1fr}}
+.society-col{background:#1e2533;border:1px solid #2d3748;border-radius:0.75rem;padding:1.5rem}
+.society-col h3{font-size:1.125rem;font-weight:600;margin-bottom:1rem;color:#fff}
+.society-col ul{list-style:none;padding:0}
+.society-col li{padding:0.5rem 0;color:#9ca3af;font-size:0.9375rem;line-height:1.6}
+.society-col-strong li:before{content:"✅ ";color:#10b981;margin-right:0.25rem}
+.society-col-warn li:before{content:"⚠️ ";color:#f59e0b;margin-right:0.25rem}
+.society-scpi-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-top:0}
+.society-scpi-card{background:#1e2533;border:1px solid #2d3748;border-radius:0.75rem;padding:1.5rem;transition:transform 0.2s,border-color 0.2s;border-left:3px solid #10b981}
+.society-scpi-card:hover{transform:translateY(-3px);border-color:#10b981}
+.society-scpi-card-name{font-size:1.125rem;font-weight:700;color:#fff;margin-bottom:0.75rem}
+.society-scpi-card-stats{display:flex;gap:1.5rem;margin-bottom:0.75rem;flex-wrap:wrap}
+.society-scpi-card-stat-label{font-size:0.75rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;display:block}
+.society-scpi-card-stat-value{font-size:1.0625rem;font-weight:600;color:#10b981;display:block}
+.society-scpi-card-link{display:inline-block;color:#3b82f6;text-decoration:none;font-weight:600;font-size:0.9375rem;transition:color 0.2s}
+.society-scpi-card-link:hover{color:#60a5fa;text-decoration:underline}
+.society-avis{background:#1e3a5f;border:1px solid #2d4a6e;border-radius:0.75rem;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:1.25rem;margin-top:1rem}
+@media(min-width:768px){.society-avis{flex-direction:row;align-items:flex-start}}
+.society-avis-text{flex:1}
+.society-avis-text h3{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:0.75rem}
+.society-avis-text p{font-size:1rem;color:#93c5fd;line-height:1.7;font-style:italic}
+.society-avis-expert{text-align:center;min-width:140px}
+.society-avis-expert img{width:80px;height:80px;border-radius:50%;border:3px solid #60a5fa;object-fit:cover;object-position:center 15%;margin-bottom:0.5rem;display:block;margin-left:auto;margin-right:auto}
+.society-avis-expert-name{font-size:0.9375rem;font-weight:600;color:#fff}
+.society-avis-expert-orias{font-size:0.75rem;color:#93c5fd;margin-top:0.25rem}
+.society-faq details{background:#1e2533;border:1px solid #2d3748;border-radius:0.5rem;margin-bottom:0.75rem;overflow:hidden}
+.society-faq summary{padding:1rem 1.25rem;font-weight:600;color:#e2e8f0;cursor:pointer;transition:background 0.2s;list-style:none;font-size:1rem}
+.society-faq summary::-webkit-details-marker{display:none}
+.society-faq summary:hover{background:#253044}
+.society-faq .society-faq-answer{padding:1rem 1.25rem;color:#9ca3af;line-height:1.75;font-size:0.9375rem;border-top:1px solid #2d3748}
+.society-cta-final{background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;padding:3.5rem 1.25rem;text-align:center;margin:2rem 0 0 0}
+.society-cta-final h3{font-size:1.75rem;margin-bottom:1rem;font-weight:700}
+@media(min-width:768px){.society-cta-final h3{font-size:2.25rem}}
+.society-footer{background:#0f172a;color:#6b7280;padding:1.5rem;text-align:center;font-size:0.875rem;line-height:1.8}
+.society-footer a{color:#9ca3af;text-decoration:underline;transition:color 0.2s}
+.society-footer a:hover{color:#fff}
+body.society-page .site-header{background:#0f172a}
+`;
+
+// ============================================================
+// CONTENU ÉDITORIAL PAR SOCIÉTÉ DE GESTION (dark design)
+// ============================================================
+const societyContent = {
+  'amundi-immobilier-scpi': {
+    specialite: "Leader français de la SCPI patrimoniale avec 6Md€ sous gestion",
+    presentation: "Amundi Immobilier est la filiale immobilière d'Amundi, premier gestionnaire d'actifs européen. Avec 2 SCPI emblématiques, elle cible les investisseurs recherchant sécurité et patrimoine de qualité.",
+    points_forts: ["Solidité du groupe Amundi (Crédit Agricole)", "Patrimoine diversifié bureaux/commerces", "Longue track-record (30+ ans)"],
+    points_vigilance: ["Rendements en baisse (3.5% moyen)", "Exposition majoritaire France", "Capitalisation élevée = mouvements lents"],
+    avis_cgp: "Amundi Immobilier convient aux profils défensifs cherchant la sécurité du groupe plutôt que la performance. À TMI 11-30%, les SCPI européennes surperforment nettement.",
+    faq: [["Edissimo est-elle une bonne SCPI ?","Edissimo est solide mais affiche un rendement de 3.53%, inférieur aux nouvelles SCPI européennes. Pertinente pour un profil très défensif ou en assurance-vie."],["Peut-on souscrire en assurance-vie ?","Oui, Edissimo et Rivoli Avenir Patrimoine sont disponibles dans de nombreux contrats d'assurance-vie."],["Quel profil pour Amundi Immobilier ?","Investisseur patrimonial, TMI 11-30%, horizon 10+ ans, priorité à la stabilité sur la performance."]]
+  },
+  'atream-scpi': {
+    specialite: "Spécialiste de l'hôtellerie et du tourisme en Europe",
+    presentation: "Atream est un gestionnaire indépendant spécialisé dans l'immobilier hôtelier et touristique. Sa SCPI Atream Hotel cible les actifs hospitality avec une approche pan-européenne.",
+    points_forts: ["Expertise sectorielle unique hôtellerie", "Diversification européenne", "Secteur en fort rebond post-Covid"],
+    points_vigilance: ["Mono-secteur = risque concentré", "Sensibilité aux cycles touristiques", "Liquidité limitée sur ce segment"],
+    avis_cgp: "Atream Hotel est une niche intéressante en complément d'un portefeuille SCPI diversifié. Ne pas dépasser 20% d'allocation sur ce secteur cyclique.",
+    faq: [["Atream Hotel est-elle risquée ?","Le secteur hôtelier est cyclique. La SCPI a bien rebondi post-Covid mais reste sensible aux crises du tourisme. Horizon minimum 10 ans."],["Quel rendement pour Atream Hotel ?","Le TD 2024 est de 5.05% brut, en ligne avec les SCPI diversifiées françaises."],["En assurance-vie ou en direct ?","En direct pour bénéficier d'une éventuelle déductibilité, en AV pour la liquidité. À analyser selon votre TMI."]]
+  },
+  'consultim-asset-management-scpi': {
+    specialite: "Gestionnaire indépendant spécialisé dans les SCPI à rendement",
+    presentation: "Consultim Asset Management gère la SCPI Optimale, positionnée sur les actifs tertiaires avec un objectif de rendement élevé. Gestionnaire de taille intermédiaire en croissance.",
+    points_forts: ["Rendement cible attractif (6.5%)", "Approche sélective des actifs", "Équipe de gestion indépendante"],
+    points_vigilance: ["Capitalisation encore modeste (92M€)", "Track-record court", "Liquidité à surveiller"],
+    avis_cgp: "Optimale est une SCPI récente à suivre. Le rendement est attractif mais la taille modeste implique une liquidité réduite. À positionner en complément d'une SCPI établie.",
+    faq: [["Qu'est-ce que la SCPI Optimale ?","Optimale est gérée par Consultim AM, avec un TD de 6.5% et une capitalisation de 92M€. Profil rendement, horizon 10 ans minimum."],["Consultim est-il un gestionnaire sérieux ?","Oui, agréé AMF, mais taille modeste. À monitorer sur la durée."],["Comment souscrire à Optimale ?","Via un conseiller en gestion de patrimoine ou en direct. Contactez-nous pour une analyse de compatibilité avec votre profil."]]
+  },
+  'fiducial-gerance-scpi': {
+    specialite: "Gestionnaire historique français spécialisé commerce et bureaux",
+    presentation: "FIDUCIAL Gérance est une société de gestion appartenant au groupe FIDUCIAL, expert comptable et financier. Elle gère 3 SCPI positionnées sur commerces de proximité et bureaux régionaux.",
+    points_forts: ["Appui du groupe FIDUCIAL", "Diversification commerces/bureaux", "Présence en régions"],
+    points_vigilance: ["Rendements moyens (4.78%)", "Exposition aux commerces physiques", "Capitalisation modérée"],
+    avis_cgp: "Les SCPI FIDUCIAL conviennent aux investisseurs cherchant une exposition aux commerces de proximité résiliants. Rendement modeste mais régulier.",
+    faq: [["Buroboutic est-elle toujours pertinente ?","Buroboutic Métropoles mixe bureaux et commerces en zones urbaines. TD stable mais inférieur aux nouvelles SCPI. Profil défensif."],["Ficommerce Proximité : quel risque ?","Exposition aux commerces de proximité, secteur plus résilient que les grands centres commerciaux. Risque modéré."],["Quel horizon pour les SCPI FIDUCIAL ?","Minimum 8 ans, idéalement 12-15 ans pour lisser les cycles immobiliers."]]
+  },
+  'greenman-arth-scpi': {
+    specialite: "Pionnier de l'immobilier alimentaire durable en Europe",
+    presentation: "GREENMAN ARTH est un gestionnaire franco-irlandais spécialisé dans la grande distribution alimentaire. Sa SCPI GMA Essentialis investit exclusivement dans des supermarchés et alimentations en Europe.",
+    points_forts: ["Niche défensive : alimentation = besoins essentiels", "Baux longs (10-15 ans)", "Locataires solides (grands distributeurs)"],
+    points_vigilance: ["Capitalisation faible (45M€)", "Mono-thématique = risque sectoriel", "Rendement de 4% en dessous du marché"],
+    avis_cgp: "GMA Essentialis est originale mais trop petite pour être positionnée seule. Intéressante en diversification pour son profil défensif alimentaire. Attendre 200M€+ de capitalisation.",
+    faq: [["Pourquoi investir dans des supermarchés ?","Les supermarchés ont des baux longs avec des locataires solides. C'est un actif défensif peu sensible aux cycles économiques."],["GMA Essentialis est-elle disponible en AV ?","La disponibilité en assurance-vie est limitée vu la taille. Vérifiez avec votre contrat."],["Quel rendement pour GMA Essentialis ?","4.0% brut en 2024. Inférieur aux SCPI européennes diversifiées mais avec un profil risque très faible."]]
+  },
+  'inter-gestion-reim-scpi': {
+    specialite: "Spécialiste de la SCPI résidentielle et diversifiée depuis 1983",
+    presentation: "Inter Gestion REIM est l'un des plus anciens gestionnaires de SCPI français, créé en 1983. Il gère notamment Grand Paris Résidentiel, unique SCPI résidentielle du marché.",
+    points_forts: ["Track-record exceptionnel (40+ ans)", "Unique SCPI résidentielle (Grand Paris)", "Gestion patrimoniale stable"],
+    points_vigilance: ["Rendements faibles sur le résidentiel", "Grand Paris Résidentiel à 0% (valorisation)", "Cristal Rente peu liquide"],
+    avis_cgp: "Inter Gestion REIM est intéressant pour sa longévité et son positionnement résidentiel unique. Grand Paris Résidentiel est une SCPI de valorisation, pas de rendement.",
+    faq: [["Grand Paris Résidentiel distribue-t-elle des loyers ?","Très peu (0%). C'est une SCPI de valorisation capitalisant sur l'immobilier résidentiel parisien."],["Cristal Rente est-elle liquide ?","La liquidité est limitée. Comptez 2-4 mois pour une revente. Capital fixe."],["Quel profil pour Inter Gestion ?","Patrimoniaux long terme (15+ ans), TMI élevé souhaitant une valorisation plutôt que du revenu."]]
+  },
+  'kyaneos-asset-management-scpi': {
+    specialite: "Pionnier de la SCPI résidentielle responsable et ISR",
+    presentation: "KYANEOS ASSET MANAGEMENT gère Kyaneos Pierre, unique SCPI résidentielle ISR du marché français. Approche impact investing sur le logement, avec rénovation énergétique systématique.",
+    points_forts: ["Label ISR", "Immobilier résidentiel = besoin fondamental", "Rénovation énergétique = valorisation"],
+    points_vigilance: ["Rendement de 4.35% modeste", "Fiscalité résidentielle France = charges PS", "Liquidité réduite (logements individuels)"],
+    avis_cgp: "Kyaneos Pierre est unique sur son segment ISR résidentiel. Pertinente pour les investisseurs sensibles à l'impact, mais le rendement est inférieur aux SCPI européennes.",
+    faq: [["Kyaneos Pierre est-elle vraiment ISR ?","Oui, certifiée ISR, avec des critères de rénovation énergétique stricts sur chaque acquisition."],["Quel rendement net pour Kyaneos Pierre ?","4.35% brut. Net TMI 30% : ~2.5%. Les SCPI européennes offrent mieux fiscalement."],["Comment fonctionne la rénovation énergétique ?","Kyaneos rénove chaque bien aux normes BBC avant location, augmentant la valeur et les loyers."]]
+  },
+  'magellim-reim-scpi': {
+    specialite: "Expert de la SCPI médicale et santé en France",
+    presentation: "MAGELLIM REIM gère Foncière des Praticiens, SCPI spécialisée dans les maisons de santé, cliniques et cabinets médicaux. Un positionnement défensif sur la santé française.",
+    points_forts: ["Secteur santé = demande structurelle", "Baux longs avec professionnels de santé", "Rendement correct (5.5%)"],
+    points_vigilance: ["Capitalisation modeste (173M€)", "Concentration France = PS sur 100% des revenus", "Niche médicale = moins de sources d'actifs"],
+    avis_cgp: "Foncière des Praticiens est solide sur son créneau médical. Bonne SCPI de diversification mais attention à la fiscalité France pour les TMI 30%+.",
+    faq: [["La santé est-elle un bon secteur pour les SCPI ?","Oui, les professionnels de santé signent des baux longs (9-12 ans) et le secteur est peu sensible aux crises."],["Foncière des Praticiens vs Pierval Santé ?","Pierval Santé (Euryale) est plus grande (3.3Md€) et européenne. Foncière des Praticiens est plus concentrée France."],["Rendement net pour un TMI 30% ?","5.5% brut → ~3.2% net PS + IR. Préférer via assurance-vie pour optimiser."]]
+  },
+  'norma-capital-scpi': {
+    specialite: "Spécialiste des SCPI fiscales et de diversification",
+    presentation: "Norma Capital est un gestionnaire indépendant proposant 3 SCPI complémentaires : NCap Régions (bureaux/commerces), NCap Education Santé (santé/éducation) et NCap Continent (diversifiée).",
+    points_forts: ["3 SCPI complémentaires", "Exposition éducation/santé défensive", "Frais compétitifs"],
+    points_vigilance: ["Capitalisations encore modestes", "Track-record en construction", "Liquidité à surveiller"],
+    avis_cgp: "Norma Capital propose une gamme intéressante. NCap Education Santé est particulièrement pertinente pour sa résilience sectorielle. Gestionnaire à surveiller sur sa croissance.",
+    faq: [["Quelle différence entre NCap Régions et NCap Continent ?","NCap Régions cible bureaux/commerces en province. NCap Continent est plus diversifiée géographiquement en Europe."],["Les SCPI Norma Capital sont-elles disponibles en AV ?","La disponibilité est limitée. Contactez-nous pour vérifier la compatibilité avec votre contrat."],["Quel rendement moyen pour Norma Capital ?","5.78% moyen sur les 3 SCPI en 2024."]]
+  },
+  'paref-gestion-scpi': {
+    specialite: "Gestionnaire historique spécialisé en immobilier tertiaire et résidentiel",
+    presentation: "PAREF GESTION est une société de gestion cotée en bourse (groupe Sinarmas), gérant 4 SCPI dont Novapierre 1 (commerces Paris) et Paref Evo (bureaux Europe).",
+    points_forts: ["Diversité de l'offre (résidentiel, bureaux, commerces)", "Novapierre 1 : actifs prime Paris", "Paref Evo : exposition européenne"],
+    points_vigilance: ["Rendements inégaux selon SCPI", "Novapierre Résidentiel : rendement très faible", "Liquidité variable"],
+    avis_cgp: "PAREF GESTION offre une gamme hétérogène. Paref Evo est la plus intéressante fiscalement (européenne). Novapierre 1 pour les patrimoines parisiens défensifs.",
+    faq: [["Novapierre 1 distribue-t-elle des revenus ?","Oui, axé commerces parisiens prime. TD modeste mais actifs très sécurisés."],["Paref Evo est-elle européenne ?","Oui, Paref Evo investit en Europe continentale, avec avantage fiscal PS 0% sur revenus étrangers."],["Novapierre Résidentiel : bonne idée ?","Très faible rendement. À éviter si vous cherchez des revenus. Plutôt une SCPI de valorisation."]]
+  },
+  'praemia-reim-france-scpi': {
+    specialite: "Gestionnaire santé et hospitalité, présent en Europe",
+    presentation: "Praemia REIM France (ex-Primonial REIM) gère 4 SCPI dont Primovie (santé), Praemia Hôtels Europe (hospitalité) et Patrimmo Commerce (commerces). Groupe en restructuration depuis 2023.",
+    points_forts: ["Primovie : 3.3Md€, leader santé", "Diversification secteurs défensifs", "Présence européenne sur l'hospitalité"],
+    points_vigilance: ["Groupe en restructuration (ex-Primonial)", "Rendements en baisse (3.77% moyen)", "Patrimmo Commerce sous pression"],
+    avis_cgp: "Praemia est en transition. Primovie reste solide malgré la baisse de rendement. Éviter Patrimmo Commerce actuellement. Attendre la stabilisation du groupe avant de renforcer.",
+    faq: [["Primovie est-elle toujours recommandée ?","Primovie reste une valeur refuge sur la santé malgré un rendement en baisse à 4%. Horizon 12+ ans."],["Praemia a-t-il changé de nom ?","Oui, ex-Primonial REIM rebaptisé Praemia REIM France en 2023 suite à la restructuration du groupe."],["Patrimmo Commerce : faut-il vendre ?","La situation est difficile. Consultez votre CGP avant toute décision de cession."]]
+  },
+  'remake-asset-management-scpi': {
+    specialite: "Pionnier du recyclage urbain et de la transformation immobilière",
+    presentation: "Remake Asset Management est un gestionnaire indépendant créé en 2020, spécialisé dans la transformation de friches urbaines (Remake Live) et l'immobilier britannique (Remake UK 2025). Approche ISR forte.",
+    points_forts: ["Remake Live : 7.05%, ISR, 882M€", "Innovation : recyclage urbain = création de valeur", "Remake UK : diversification hors zone euro"],
+    points_vigilance: ["Remake UK 2025 : capitalisation de 19M€, très récent", "Remake UK : capital fixe, liquidité secondaire", "Risque de change GBP sur Remake UK"],
+    avis_cgp: "Remake Live est l'une des meilleures SCPI du marché en 2026 — rendement, ISR, gestion active. Remake UK 2025 est intéressante en diversification GBP pour les profils dynamiques.",
+    faq: [["Remake Live est-elle ISR ?","Oui, certifiée ISR. L'approche recyclage urbain transforme des friches en actifs modernes."],["Remake UK 2025 : quel risque de change ?","Les loyers et la valeur des parts sont en GBP. Un affaiblissement de la livre sterling impacte le rendement en euros."],["Peut-on combiner Remake Live et Remake UK ?","Oui, c'est une combinaison cohérente : ISR France + diversification UK. Budget minimum recommandé : 5000€."]]
+  },
+  'swiss-life-am-france-scpi': {
+    specialite: "Gestionnaire ISR spécialisé immobilier durable",
+    presentation: "Swiss Life AM France gère ESG Pierre Capital, SCPI 100% ISR investissant dans des actifs immobiliers répondant aux critères ESG stricts du groupe Swiss Life. Approche qualitative et sélective.",
+    points_forts: ["Label ISR", "Appui groupe Swiss Life (assureur AAA)", "Sélection qualitative des actifs"],
+    points_vigilance: ["Capitalisation modeste (117M€)", "TD de 5.22% dans la moyenne", "Track-record court"],
+    avis_cgp: "ESG Pierre Capital bénéficie de la solidité de Swiss Life mais reste petite. Bonne option pour les investisseurs ISR cherchant un groupe institutionnel de référence.",
+    faq: [["ESG Pierre Capital est-elle vraiment ISR ?","Oui, certifiée ISR avec des critères ESG stricts appliqués à chaque acquisition."],["Quel rendement pour ESG Pierre Capital ?","5.22% brut en 2024, dans la moyenne du marché."],["Swiss Life AM gère-t-elle d'autres SCPI ?","En France, ESG Pierre Capital est la seule SCPI du groupe. Swiss Life gère aussi des fonds immobiliers institutionnels."]]
+  },
+  'theoreim-scpi': {
+    specialite: "Spécialiste de la logistique et de l'immobilier industriel en Europe",
+    presentation: "THEOREIM gère Log In, SCPI spécialisée dans la logistique urbaine et les entrepôts de dernière génération en Europe. Positionnement sur la mégatendance e-commerce.",
+    points_forts: ["Logistique = mégatendance e-commerce", "Baux longs (8-12 ans) avec grands acteurs", "Rendement de 6.21%"],
+    points_vigilance: ["Capitalisation modeste (241M€)", "Niche logistique = concentration sectorielle", "Sensibilité aux cycles e-commerce"],
+    avis_cgp: "Log In est une SCPI sectorielle convaincante sur la logistique. Bonne diversification en complément de SCPI de bureaux ou diversifiées. Ne pas dépasser 25% d'allocation.",
+    faq: [["La logistique est-elle un bon secteur SCPI ?","Oui, la croissance de l'e-commerce soutient une demande structurelle en entrepôts. Baux longs avec locataires solides."],["Log In vs une SCPI logistique classique ?","Log In se distingue par la logistique urbaine (last-mile delivery), segment premium avec moins d'offre disponible."],["Quel rendement net pour Log In ?","6.21% brut. Revenus européens = PS 0% potentiel selon pays. Net TMI 30% : ~4.5%."]]
+  },
+  'urban-premium-scpi': {
+    specialite: "Expert du commerce de centre-ville et retail premium",
+    presentation: "Urban Premium gère Urban Coeur de Commerce, SCPI spécialisée dans les commerces de centre-ville premium (pied d'immeuble haussmannien, rues commerçantes) en France.",
+    points_forts: ["Positionnement premium = locataires solides", "Commerce physique premium résilient", "Actifs de centre-ville à forte valeur"],
+    points_vigilance: ["Capitalisation modeste (92M€)", "Exposition 100% France = PS sur 100% revenus", "Commerce physique vs e-commerce"],
+    avis_cgp: "Urban Coeur de Commerce est pertinente pour les TMI faibles (11%) ou en assurance-vie. Pour TMI 30%+, préférer une SCPI européenne. Le positionnement premium est défensif.",
+    faq: [["Urban Premium vs une grande SCPI de commerces ?","Urban Premium est plus sélective sur les emplacements premium. Plus défensive mais moins diversifiée."],["Commerce de centre-ville : quel avenir ?","Les commerces prime de centre-ville résistent mieux que les centres commerciaux. L'alimentaire et le luxe tiennent bien."],["Quel rendement pour Urban Coeur de Commerce ?","5.3% brut en 2024."]]
+  }
+};
+
+// ============================================================
 // GENERATEUR HTML STATIQUE COMPLET
 // ============================================================
 
@@ -674,6 +867,364 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
 };
 
 // ============================================================
+// GENERATEUR HTML PAGES SOCIÉTÉ (dark design system)
+// ============================================================
+
+const generateSocietyHTML = (slug, content, resolvedScpis) => {
+  const baseUrl = 'https://maximusscpi.com';
+  const pageUrl = `${baseUrl}/${slug}/`;
+
+  // Extraire le nom de la société depuis le slug
+  const societyName = slug
+    .replace(/-scpi$/, '')
+    .split('-')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+
+  const title = `SCPI ${societyName} — Analyse 2026`;
+  const metaDescription = `${societyName} : ${content.specialite}. Découvrez l'analyse complète de ses SCPI, rendements, avis CGP et fiscalité.`;
+
+  // Stats hero
+  const scpiCount = resolvedScpis.length;
+  const totalCap = resolvedScpis.reduce((sum, s) => sum + (s.capitalisation || 0), 0);
+  const avgYield = scpiCount > 0
+    ? resolvedScpis.reduce((sum, s) => sum + (parseFloat(s.yield) || 0), 0) / scpiCount
+    : 0;
+
+  // Breadcrumb
+  const breadcrumbHTML = `
+    <div class="society-breadcrumb">
+      <a href="/">Accueil</a> / ${societyName}
+    </div>`;
+
+  // Hero stats
+  const heroStatsHTML = `
+    <div class="society-hero-stats">
+      <div class="society-hero-stat">
+        <span class="society-hero-stat-value">${scpiCount}</span>
+        <span class="society-hero-stat-label">SCPI au catalogue</span>
+      </div>
+      <div class="society-hero-stat">
+        <span class="society-hero-stat-value">${totalCap.toFixed(0)} M€</span>
+        <span class="society-hero-stat-label">Capitalisation totale</span>
+      </div>
+      <div class="society-hero-stat">
+        <span class="society-hero-stat-value">${avgYield.toFixed(2)}%</span>
+        <span class="society-hero-stat-label">TD moyen 2024</span>
+      </div>
+    </div>`;
+
+  // Points forts / vigilance
+  const pointsHTML = `
+    <div class="society-two-col">
+      <div class="society-col">
+        <h3>✅ Points forts</h3>
+        <ul class="society-col-strong">
+          ${content.points_forts.map(p => `<li>${p}</li>`).join('\n          ')}
+        </ul>
+      </div>
+      <div class="society-col">
+        <h3>⚠️ Points de vigilance</h3>
+        <ul class="society-col-warn">
+          ${content.points_vigilance.map(p => `<li>${p}</li>`).join('\n          ')}
+        </ul>
+      </div>
+    </div>`;
+
+  // SCPI cards
+  let scpiCardsHTML = '';
+  if (resolvedScpis && resolvedScpis.length > 0) {
+    scpiCardsHTML = `
+    <div class="society-scpi-cards">
+      ${resolvedScpis.map(scpi => `
+      <div class="society-scpi-card">
+        <div class="society-scpi-card-name">${scpi.name}</div>
+        <div class="society-scpi-card-stats">
+          <div>
+            <span class="society-scpi-card-stat-label">Rendement 2024</span>
+            <span class="society-scpi-card-stat-value">${scpi.yield}%</span>
+          </div>
+          <div>
+            <span class="society-scpi-card-stat-label">Capitalisation</span>
+            <span class="society-scpi-card-stat-value">${scpi.capitalisation.toFixed(0)} M€</span>
+          </div>
+        </div>
+        <a href="/${scpi.slug}/" class="society-scpi-card-link">Voir la fiche complète →</a>
+      </div>`).join('\n      ')}
+    </div>`;
+  }
+
+  // FAQ
+  let faqHTML = '';
+  let faqSchemaJSON = '';
+  if (content.faq && content.faq.length > 0) {
+    faqHTML = `
+      <div class="society-faq">
+        ${content.faq.map(item => `
+        <details>
+          <summary>${item[0]}</summary>
+          <div class="society-faq-answer">${item[1]}</div>
+        </details>`).join('\n        ')}
+      </div>`;
+
+    faqSchemaJSON = `,
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        ${content.faq.map(item => `{
+          "@type": "Question",
+          "name": "${escapeJsonLd(item[0])}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "${escapeJsonLd(item[1])}"
+          }
+        }`).join(',\n        ')}
+      ]
+    }`;
+  }
+
+  // HTML complet
+  return `<!doctype html>
+<html lang="fr" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
+    <link rel="icon" type="image/png" href="/Logo MaximusSCPI.com.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://calendly.com">
+    <link rel="dns-prefetch" href="https://elfsightcdn.com">
+
+    <title>${escapeHtmlAttr(title)}</title>
+    <meta name="description" content="${escapeHtmlAttr(metaDescription)}" />
+    <meta name="keywords" content="${slug.split('-').join(', ')}, SCPI, comparateur SCPI, investissement SCPI" />
+
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="Eric Bellaiche - MaximusSCPI" />
+    <meta name="language" content="fr" />
+    <link rel="alternate" hreflang="fr" href="${pageUrl}" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${pageUrl}" />
+    <meta property="og:title" content="${escapeHtmlAttr(title)}" />
+    <meta property="og:description" content="${escapeHtmlAttr(metaDescription)}" />
+    <meta property="og:image" content="https://maximusscpi.com/3-barres.svg" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="${pageUrl}" />
+    <meta property="twitter:title" content="${escapeHtmlAttr(title)}" />
+    <meta property="twitter:description" content="${escapeHtmlAttr(metaDescription)}" />
+    <meta property="twitter:image" content="https://maximusscpi.com/3-barres.svg" />
+
+    <link rel="canonical" href="${pageUrl}" />
+
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FinancialProduct",
+      "name": "${escapeJsonLd(title)}",
+      "description": "${escapeJsonLd(metaDescription)}",
+      "url": "${pageUrl}",
+      "provider": {
+        "@type": "Organization",
+        "name": "MaximusSCPI",
+        "url": "https://maximusscpi.com"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127"
+      }
+    }${faqSchemaJSON}
+    </script>
+
+    <style>${criticalCSS}${societyCSS}</style>
+  </head>
+  <body class="society-page">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Site Header -->
+    <header class="site-header">
+      <div class="header-container">
+        <a href="/" class="logo-link">
+          <img src="/maximus-logo.svg" alt="MaximusSCPI" class="logo-img" />
+        </a>
+        <nav class="nav-links">
+          <a href="/" class="nav-link">Comparateur</a>
+          <a href="/comprendre-les-scpi" class="nav-link">Comprendre les SCPI</a>
+          <a href="/faq" class="nav-link">FAQ</a>
+          <a href="/qui-sommes-nous" class="nav-link">Qui sommes-nous</a>
+          <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="nav-btn" rel="noopener">Prendre RDV</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="/" class="mobile-nav-link">Comparateur</a>
+        <a href="/comprendre-les-scpi" class="mobile-nav-link">Comprendre les SCPI</a>
+        <a href="/faq" class="mobile-nav-link">FAQ</a>
+        <a href="/qui-sommes-nous" class="mobile-nav-link">Qui sommes-nous</a>
+        <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="mobile-nav-link" rel="noopener" style="background:#10b981;text-align:center">Prendre RDV</a>
+      </div>
+    </header>
+
+    <!-- 1. HERO -->
+    <section class="society-hero">
+      <div class="society-hero-wrap">
+        ${breadcrumbHTML}
+        <h1>SCPI ${societyName} — Analyse 2026</h1>
+        <p class="society-hero-subtitle">${content.specialite}</p>
+        ${heroStatsHTML}
+        <a href="#contact" class="society-cta-btn">Analyser ma situation SCPI</a>
+      </div>
+    </section>
+
+    <!-- 2. PRÉSENTATION SOCIÉTÉ -->
+    <section class="society-section">
+      <h2>🏢 Qui est ${societyName} ?</h2>
+      <div class="society-presentation">
+        <p>${content.presentation}</p>
+      </div>
+      ${pointsHTML}
+    </section>
+
+    <!-- 3. SCPI GÉRÉES -->
+    <section class="society-section">
+      <h2 class="accent-blue">Les SCPI ${societyName} en détail</h2>
+      ${scpiCardsHTML}
+    </section>
+
+    <!-- 4. AVIS CGP -->
+    <section class="society-section">
+      <h2 class="accent-yellow">💡 L'avis d'Eric Bellaiche, CGP</h2>
+      <div class="society-avis">
+        <div class="society-avis-text">
+          <p>"${content.avis_cgp}"</p>
+        </div>
+        <div class="society-avis-expert">
+          <img
+            src="/images/eric-192.webp"
+            alt="Eric Bellaiche - Expert SCPI"
+            loading="lazy"
+          />
+          <div class="society-avis-expert-name">Eric Bellaiche</div>
+          <div class="society-avis-expert-orias">ORIAS 13001580</div>
+          <div class="society-avis-expert-orias">CNCEF D016571</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. FAQ -->
+    <section class="society-section">
+      <h2>❓ Questions fréquentes</h2>
+      ${faqHTML}
+    </section>
+
+    <!-- 6. CTA FINAL -->
+    <section class="society-cta-final" id="contact">
+      <h3>Prêt à investir avec ${societyName} ?</h3>
+      <a
+        href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi"
+        class="btn btn-white"
+        style="font-size:1.25rem;padding:1.25rem 3rem"
+        rel="noopener"
+      >
+        📞 Prendre Rendez-vous Gratuit
+      </a>
+      <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
+        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+      </p>
+    </section>
+
+    <!-- 7. FOOTER -->
+    <footer class="society-footer">
+      <p>© 2026 MaximusSCPI | Eric Bellaiche | ORIAS 13001580 | CNCEF D016571</p>
+      <p style="margin-top:0.5rem">
+        <a href="/">Comparateur SCPI</a> • <a href="/comprendre-les-scpi">Comprendre les SCPI</a> • <a href="/faq">FAQ</a>
+      </p>
+    </footer>
+
+    <script>
+      function toggleMobileMenu() {
+        var menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+      }
+      document.addEventListener('click', function(e) {
+        var menu = document.getElementById('mobileMenu');
+        var btn = document.querySelector('.mobile-menu-btn');
+        if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.remove('active');
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var ctaBtns = document.querySelectorAll('[href="#contact"]');
+        ctaBtns.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'https://calendly.com/eric-bellaiche/rdv-strategique-scpi?hide_gdpr_banner=1&primary_color=10b981';
+          });
+        });
+      });
+    </script>
+
+    <script>
+      (function(){
+        if (window.__calendlyListenerAttached) return;
+        window.__calendlyListenerAttached = true;
+        window.addEventListener("message", function(e){
+          if (e && e.data && e.data.event === "calendly.event_scheduled") {
+            if (typeof gtag === "function") {
+              gtag('event','event_scheduled', { page_location: location.href });
+            }
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      (function(){
+        if (window.onLeadSubmitSuccess) return;
+        window.onLeadSubmitSuccess = function(data){
+          try{
+            if (typeof gtag === "function") {
+              gtag('set','user_data', {
+                email: (data && data.email) || '',
+                phone_number: (data && data.phone) || '',
+                address: {
+                  first_name: (data && data.first_name) || '',
+                  last_name:  (data && data.last_name)  || '',
+                  postal_code:(data && data.postal_code)|| '',
+                  country:    ((data && data.country) || 'FR').toUpperCase()
+                }
+              });
+              gtag('event','lead_submit', { page_location: location.href });
+            }
+          }catch(e){}
+        };
+      })();
+    </script>
+
+    <script src="https://elfsightcdn.com/platform.js" defer></script>
+  </body>
+</html>`;
+};
+
+// ============================================================
 // GENERATION PRINCIPALE
 // ============================================================
 
@@ -775,8 +1326,11 @@ const generatePages = () => {
       fs.mkdirSync(pageDir, { recursive: true });
     }
 
-    // Générer le HTML statique complet
-    const htmlContent = generateThematicHTML(slug, pageData, resolvedScpis);
+    // Générer le HTML statique complet (société ou standard)
+    const isSociety = slug.endsWith('-scpi') && societyContent[slug];
+    const htmlContent = isSociety
+      ? generateSocietyHTML(slug, societyContent[slug], resolvedScpis)
+      : generateThematicHTML(slug, pageData, resolvedScpis);
     const htmlPath = path.join(pageDir, 'index.html');
     fs.writeFileSync(htmlPath, htmlContent);
 
