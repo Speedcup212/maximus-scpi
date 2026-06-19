@@ -569,7 +569,7 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
     <section style="background-color: white; padding: 3rem 1rem; text-align: center;">
       <div style="max-width: 600px; margin: 0 auto;">
         <img
-          src="/Eric%20Bellaiche%201000x1000%20copy%20copy.png"
+          src="/images/eric-192.webp"
           alt="Eric Bellaiche - Expert SCPI MaximusSCPI"
           style="width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 1.5rem auto; display: block;"
           loading="lazy"
