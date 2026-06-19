@@ -148,7 +148,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
-        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (9,00%), 30% Transitions Europe (8,25%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,03% avec une diversification France + Europe.'
+        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (9,00%), 30% Transitions Europe (7,6%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,03% avec une diversification France + Europe.'
       },
       {
         question: 'Quels sont les frais à prévoir pour investir dans ces SCPI ?',
@@ -1596,16 +1596,16 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     metaDescription: 'Découvrez les SCPI gérées par Arkéa REIM. Groupe Arkéa, solidité financière et expertise reconnue en immobilier européen.',
     heroTitle: 'SCPI Arkéa REIM',
     heroTitleHighlight: 'La puissance du Groupe Arkéa',
-    heroSubtitle: 'Arkéa REIM gère la SCPI Transitions Europe avec 8,25% de rendement, zéro endettement et une stratégie durable',
+    heroSubtitle: 'Arkéa REIM gère la SCPI Transitions Europe avec 7,6% de rendement, zéro endettement et une stratégie durable',
     labelText: 'Gestionnaire Groupe Bancaire - Solidité',
     keyMetrics: [
       { value: '1', label: 'SCPI phare' },
-      { value: '8,25%', label: 'Rendement' },
+      { value: '7,6%', label: 'Rendement' },
       { value: '0%', label: 'Endettement' }
     ],
     benefits: [
       'Filiale du Groupe Arkéa (solidité financière)',
-      'SCPI Transitions Europe : 8,25% de rendement',
+      'SCPI Transitions Europe : 7,6% de rendement',
       'Zéro endettement pour une sécurité maximale',
       'Stratégie ESG et transition énergétique',
       'Expertise immobilière européenne reconnue'
@@ -1622,7 +1622,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'trending-up',
           title: 'Performance éprouvée',
-          description: 'Transitions Europe affiche 8,25% de rendement avec zéro endettement. Cette stratégie prudente et performante combine rentabilité élevée et sécurité maximale'
+          description: 'Transitions Europe affiche 7,6% de rendement avec zéro endettement. Cette stratégie prudente et performante combine rentabilité élevée et sécurité maximale'
         },
         {
           icon: 'leaf',
@@ -1653,7 +1653,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'bar-chart',
           title: 'SCPI Transitions Europe',
           points: [
-            'Rendement 2024 : 8,25%',
+            'Rendement 2024 : 7,6%',
             'Zéro endettement (sécurité maximale)',
             'TOF : 96% (excellent taux d\'occupation)',
             'Frais de souscription : 10% HT'
@@ -1678,7 +1678,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Pourquoi Transitions Europe affiche-t-elle zéro endettement ?',
-        answer: 'Arkéa REIM a fait le choix stratégique de ne pas recourir à l\'endettement pour Transitions Europe. Cette approche prudente offre une sécurité maximale aux investisseurs : pas de risque de taux, pas d\'effet de levier négatif en cas de baisse du marché, et une stabilité accrue. Le rendement de 8,25% est entièrement généré par les loyers.'
+        answer: 'Arkéa REIM a fait le choix stratégique de ne pas recourir à l\'endettement pour Transitions Europe. Cette approche prudente offre une sécurité maximale aux investisseurs : pas de risque de taux, pas d\'effet de levier négatif en cas de baisse du marché, et une stabilité accrue. Le rendement de 7,6% est entièrement généré par les loyers.'
       },
       {
         question: 'La stratégie ESG d\'Arkéa REIM est-elle sérieuse ?',
@@ -1692,7 +1692,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     temoignages: [
       {
         nom: 'Catherine V., 55 ans',
-        texte: 'La solidité du Groupe Arkéa m\'a rassurée. Transitions Europe combine rendement attractif (8,25%) et sécurité avec zéro endettement. Un excellent équilibre.',
+        texte: 'La solidité du Groupe Arkéa m\'a rassurée. Transitions Europe combine rendement attractif (7,6%) et sécurité avec zéro endettement. Un excellent équilibre.',
         note: 5
       },
       {
@@ -2165,7 +2165,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         nom: 'Isabelle T., 52 ans',
-        texte: 'Eric m\'a orientée vers Transitions Europe pour son approche du recyclage urbain. Je reçois 8,25% de rendement tout en investissant dans des projets durables.',
+        texte: 'Eric m\'a orientée vers Transitions Europe pour son approche du recyclage urbain. Je reçois 7,6% de rendement tout en investissant dans des projets durables.',
         note: 5
       },
       {
