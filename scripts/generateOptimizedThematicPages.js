@@ -725,6 +725,7 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
+    ${faqSchemaJSON ? '[' : ''}
     {
       "@context": "https://schema.org",
       "@type": "FinancialProduct",
@@ -741,7 +742,9 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
         "ratingValue": "4.8",
         "reviewCount": "127"
       }
-    }${faqSchemaJSON}
+    }${faqSchemaJSON ? `,
+    ${faqSchemaJSON.replace(/^,\s*/, '')}
+  ]` : ''}
     </script>
 
     <!-- Inline Critical CSS for FCP < 1.5s -->
@@ -1077,6 +1080,7 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
     })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
 
     <script type="application/ld+json">
+    ${faqSchemaJSON ? '[' : ''}
     {
       "@context": "https://schema.org",
       "@type": "FinancialProduct",
@@ -1093,7 +1097,9 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
         "ratingValue": "4.8",
         "reviewCount": "127"
       }
-    }${faqSchemaJSON}
+    }${faqSchemaJSON ? `,
+    ${faqSchemaJSON.replace(/^,\s*/, '')}
+  ]` : ''}
     </script>
 
     <style>${criticalCSS}${societyCSS}</style>
