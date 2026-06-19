@@ -233,6 +233,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .description li:before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:700;font-size:1.125rem}
 `;
 
+// Garde-fou : détecte les champs numériques manquants (absent, null, vide, non numérique)
+const isMissing = (val) => {
+  if (val === undefined || val === null) return true;
+  if (typeof val === 'string' && val.trim() === '') return true;
+  if (typeof val === 'number') return false;
+  return isNaN(parseFloat(String(val).replace(',', '.')));
+};
+
 // Generate HTML for each SCPI
 const generateScpiPages = () => {
   const distDir = path.join(__dirname, '../dist');
@@ -241,6 +249,7 @@ const generateScpiPages = () => {
   }
 
   let generatedCount = 0;
+  const skippedScpis = [];
 
   // H1 variants for A/B testing
   const h1Variants = {
@@ -250,6 +259,14 @@ const generateScpiPages = () => {
   };
 
   scpiData.forEach(scpi => {
+    // Garde-fou : skip si données financières essentielles manquantes (évite .toFixed sur undefined)
+    const essentialFields = ['Capitalisation (M€)', 'Taux de distribution (%)', 'Prix de souscription (€)'];
+    const missingEssential = essentialFields.filter(f => isMissing(scpi[f]));
+    if (missingEssential.length > 0) {
+      skippedScpis.push({ name: scpi['Nom SCPI'] || '(sans nom)', fields: missingEssential });
+      return;
+    }
+
     const slug = createSlug(scpi['Nom SCPI']);
     const isISR = scpi['Label ISR']?.toLowerCase() === 'oui';
     const isEuropean = isEuropeanScpi(scpi['Répartition Géographique']);
@@ -452,10 +469,11 @@ const generateScpiPages = () => {
         <span class="stat-label">Société</span>
         <span class="stat-value" style="font-size:1.25rem">${scpi['Société de gestion']}</span>
       </div>
+      ${!isMissing(scpi['Année de création']) ? `
       <div class="stat-card">
         <span class="stat-label">Création</span>
         <span class="stat-value">${scpi['Année de création']}</span>
-      </div>
+      </div>` : ''}
     </div>
 
     <!-- Main Content -->
@@ -675,6 +693,10 @@ Focus: Authority + Comprehensive
   fs.writeFileSync(path.join(distDir, 'H1_AB_TESTING_VARIANTS.md'), variantsDoc, 'utf-8');
 
   console.log(`✅ ${generatedCount} pages SCPI optimisées générées avec succès`);
+  if (skippedScpis.length > 0) {
+    console.log(`⚠️ ${skippedScpis.length} SCPI ignorées (données essentielles manquantes) :`);
+    skippedScpis.forEach(s => console.log(`   - ${s.name} : ${s.fields.join(', ')}`));
+  }
   console.log(`📊 Document A/B testing H1 créé: H1_AB_TESTING_VARIANTS.md`);
 };
 
