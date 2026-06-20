@@ -96,6 +96,88 @@ rawObjects.forEach(block => {
 console.log(`📄 ${articles.length} articles parsés depuis articleTemplatesConfig.ts`);
 
 // ============================================================
+// 1b. PARSER managementCompanyArticlesConfig.ts → extraire société gestion
+// ============================================================
+
+const mgmtConfigPath = path.join(__dirname, '../src/data/managementCompanyArticlesConfig.ts');
+const mgmtConfigRaw = fs.readFileSync(mgmtConfigPath, 'utf-8');
+
+// Extraire le tableau managementCompanyConfigs
+const mgmtArrayMatch = mgmtConfigRaw.match(/export const managementCompanyConfigs[:\s]*ManagementCompanyConfig\[\][\s]*=[\s]*\[([\s\S]*?)\n\];/);
+const mgmtCompanyMap = new Map();
+
+if (mgmtArrayMatch) {
+  const mgmtArrayContent = mgmtArrayMatch[1];
+  const mgmtRawObjects = extractObjects(mgmtArrayContent);
+
+  // Helper: extraire un tableau d'objets imbriqués depuis un bloc
+  const extractNestedObjectArray = (block, fieldName) => {
+    const startPattern = new RegExp(`${fieldName}\\s*:\\s*\\[`);
+    const startMatch = block.match(startPattern);
+    if (!startMatch) return [];
+
+    const startIdx = startMatch.index + startMatch[0].length;
+    let depth = 1;
+    let endIdx = startIdx;
+    while (endIdx < block.length) {
+      if (block[endIdx] === '[' || block[endIdx] === '{') depth++;
+      else if (block[endIdx] === ']' || block[endIdx] === '}') {
+        depth--;
+        if (depth === 0) break;
+      }
+      endIdx++;
+    }
+
+    const arrayContent = block.substring(startIdx, endIdx);
+    const objects = [];
+    let i = 0;
+    while (i < arrayContent.length) {
+      const braceIdx = arrayContent.indexOf('{', i);
+      if (braceIdx === -1) break;
+      let d = 1;
+      let j = braceIdx + 1;
+      while (j < arrayContent.length && d > 0) {
+        if (arrayContent[j] === '{') d++;
+        else if (arrayContent[j] === '}') d--;
+        j++;
+      }
+      if (d === 0) {
+        const objStr = arrayContent.substring(braceIdx, j);
+        const obj = {};
+        const kvRegex = /(\w+)\s*:\s*'((?:[^'\\]|\\.)*)'/g;
+        let m;
+        while ((m = kvRegex.exec(objStr)) !== null) {
+          obj[m[1]] = m[2].replace(/\\'/g, "'");
+        }
+        objects.push(obj);
+      }
+      i = j;
+    }
+    return objects;
+  };
+
+  mgmtRawObjects.forEach(block => {
+    const slug = extractString(block, 'slug');
+    const name = extractString(block, 'name');
+    if (!slug || !name) return;
+
+    const summary = extractString(block, 'summary') || '';
+    const keyPoints = extractArray(block, 'keyPoints');
+    const vigilancePoints = extractNestedObjectArray(block, 'vigilancePoints');
+    const casPratiques = extractNestedObjectArray(block, 'casPratiques');
+    const faq = extractNestedObjectArray(block, 'faq');
+    const managedScpis = extractNestedObjectArray(block, 'managedScpis');
+    const title = extractString(block, 'title') || '';
+
+    mgmtCompanyMap.set(slug, {
+      slug, name, summary, keyPoints, vigilancePoints, casPratiques, faq, managedScpis, title
+    });
+  });
+}
+
+console.log(`📄 ${mgmtCompanyMap.size} sociétés de gestion parsées depuis managementCompanyArticlesConfig.ts`);
+
+// ============================================================
 // 2. HELPER : contenu textuel structuré
 // ============================================================
 
@@ -177,6 +259,75 @@ const generateContent = (article) => {
 };
 
 // ============================================================
+// 2b. HELPER : contenu société de gestion (données réelles)
+// ============================================================
+
+const generateManagementCompanyContent = (company) => {
+  let html = '';
+
+  // À propos de la société
+  html += `<h2>À propos de ${company.name}</h2>\n`;
+  html += `      <p>${company.summary}</p>\n`;
+
+  // SCPI gérées
+  if (company.managedScpis && company.managedScpis.length > 0) {
+    html += `\n      <h2>SCPI gérées par ${company.name}</h2>\n`;
+    html += `      <ul>\n`;
+    company.managedScpis.forEach(scpi => {
+      const sector = scpi.sector ? ` (${scpi.sector})` : '';
+      html += `        <li>${scpi.name}${sector}</li>\n`;
+    });
+    html += `      </ul>\n`;
+  }
+
+  // Points clés
+  if (company.keyPoints && company.keyPoints.length > 0) {
+    html += `\n      <h2>Points clés</h2>\n`;
+    html += `      <ul>\n`;
+    company.keyPoints.forEach(point => {
+      html += `        <li>${point}</li>\n`;
+    });
+    html += `      </ul>\n`;
+  }
+
+  // Points de vigilance
+  if (company.vigilancePoints && company.vigilancePoints.length > 0) {
+    html += `\n      <h2>Points de vigilance</h2>\n`;
+    html += `      <ul>\n`;
+    company.vigilancePoints.forEach(vp => {
+      const critere = vp.critere || '';
+      const vigilance = vp.vigilance || '';
+      html += `        <li><strong>${critere}</strong>${vigilance ? ` — ${vigilance}` : ''}</li>\n`;
+    });
+    html += `      </ul>\n`;
+  }
+
+  // Cas pratiques
+  if (company.casPratiques && company.casPratiques.length > 0) {
+    html += `\n      <h2>Cas pratiques</h2>\n`;
+    company.casPratiques.forEach(cp => {
+      const titre = cp.titre || cp.title || '';
+      const description = cp.description || cp.content || '';
+      html += `      <h3>${titre}</h3>\n`;
+      html += `      <p>${description}</p>\n`;
+    });
+  }
+
+  // FAQ
+  if (company.faq && company.faq.length > 0) {
+    html += `\n      <h2>Questions fréquentes</h2>\n`;
+    company.faq.forEach(item => {
+      const question = item.question || '';
+      const reponse = item.reponse || item.answer || '';
+      html += `      <h3>${question}</h3>\n`;
+      html += `      <p>${reponse}</p>\n`;
+    });
+  }
+
+  return html;
+};
+
+// ============================================================
 // 3. GÉNÉRATION HTML
 // ============================================================
 
@@ -232,12 +383,14 @@ const escapeHtml = (str) => {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 };
 
-const generateHTML = (article) => {
+const generateHTML = (article, mgmtCompany = null) => {
   const baseUrl = 'https://maximusscpi.com';
   const pageUrl = `${baseUrl}/articles/${article.slug}/`;
   const title = `${article.title} | MaximusSCPI`;
-  const content = generateContent(article);
   const keywordsStr = (article.keywords || []).join(', ');
+  const isMgmt = !!mgmtCompany;
+  const content = isMgmt ? null : generateContent(article);
+  const mgmtBody = isMgmt ? generateManagementCompanyContent(mgmtCompany) : '';
 
   return `<!doctype html>
 <html lang="fr" translate="no">
@@ -348,6 +501,7 @@ const generateHTML = (article) => {
     </section>
 
     <article class="article-body">
+${isMgmt ? mgmtBody : `
       <p class="intro">${content.intro}</p>
 ${content.sections.map(s => `
       <h2>${s.title}</h2>
@@ -357,6 +511,7 @@ ${content.sections.map(s => `
       <div class="conclusion">
         <p><strong>Conclusion</strong> — ${content.conclusion}</p>
       </div>
+`}
 
       <p class="disclaimer">
         <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un conseiller en gestion de patrimoine agréé ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
@@ -455,7 +610,46 @@ ${content.sections.map(s => `
 // 4. GÉNÉRATION MARKDOWN
 // ============================================================
 
-const generateMD = (article) => {
+const generateMD = (article, mgmtCompany = null) => {
+  if (mgmtCompany) {
+    let md = `# ${mgmtCompany.title || article.title}\n\n`;
+    md += `${article.metaDescription}\n\n`;
+    md += `${mgmtCompany.summary}\n\n`;
+
+    if (mgmtCompany.keyPoints && mgmtCompany.keyPoints.length > 0) {
+      md += `## Points clés\n\n`;
+      mgmtCompany.keyPoints.forEach(point => { md += `- ${point}\n`; });
+      md += `\n`;
+    }
+
+    if (mgmtCompany.vigilancePoints && mgmtCompany.vigilancePoints.length > 0) {
+      md += `## Points de vigilance\n\n`;
+      mgmtCompany.vigilancePoints.forEach(vp => {
+        md += `- **${vp.critere || ''}**${vp.vigilance ? ` — ${vp.vigilance}` : ''}\n`;
+      });
+      md += `\n`;
+    }
+
+    if (mgmtCompany.casPratiques && mgmtCompany.casPratiques.length > 0) {
+      md += `## Cas pratiques\n\n`;
+      mgmtCompany.casPratiques.forEach(cp => {
+        md += `### ${cp.titre || cp.title || ''}\n\n${cp.description || cp.content || ''}\n\n`;
+      });
+    }
+
+    if (mgmtCompany.faq && mgmtCompany.faq.length > 0) {
+      md += `## Questions fréquentes\n\n`;
+      mgmtCompany.faq.forEach(item => {
+        md += `### ${item.question || ''}\n\n${item.reponse || item.answer || ''}\n\n`;
+      });
+    }
+
+    md += `---\n\n`;
+    md += `*Article généré par MaximusSCPI — Conseiller en gestion de patrimoine agréé ORIAS n°13001580.*\n`;
+    md += `*URL : https://maximusscpi.com/articles/${article.slug}/*\n`;
+    return md;
+  }
+
   const content = generateContent(article);
   let md = `# ${article.title}\n\n`;
   md += `${article.metaDescription}\n\n`;
@@ -545,16 +739,23 @@ const generateArticles = () => {
         fs.mkdirSync(pageDir, { recursive: true });
       }
 
+      // Vérifier si c'est une société de gestion
+      const mgmtCompany = mgmtCompanyMap.get(article.slug) || null;
+
       // HTML
-      const htmlContent = generateHTML(article);
+      const htmlContent = generateHTML(article, mgmtCompany);
       fs.writeFileSync(path.join(pageDir, 'index.html'), htmlContent, 'utf-8');
 
       // MD
-      const mdContent = generateMD(article);
+      const mdContent = generateMD(article, mgmtCompany);
       fs.writeFileSync(path.join(pageDir, 'index.md'), mdContent, 'utf-8');
 
       generated++;
-      if (generated % 20 === 0) {
+      if (mgmtCompany) {
+        const htmlText = htmlContent.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const wordCount = htmlText.split(/\s+/).filter(w => w.length > 0).length;
+        console.log(`✓ [${article.slug}] — contenu société de gestion (${wordCount} mots)`);
+      } else if (generated % 20 === 0) {
         console.log(`   ${generated}/${articles.length}...`);
       }
     } catch (err) {
