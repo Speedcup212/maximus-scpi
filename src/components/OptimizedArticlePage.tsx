@@ -30,6 +30,8 @@ interface ArticleData {
   featured: boolean;
   status: string;
   published_at: string;
+  intro: string | null;
+  content_html: string | null;
 }
 
 const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => {
@@ -80,10 +82,10 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Chargement de l'article...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-500 mx-auto mb-4"></div>
+          <p className="text-slate-400">Chargement de l'article...</p>
         </div>
       </div>
     );
@@ -91,40 +93,25 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
   if (error || !article) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-2xl font-bold text-white mb-4">
             {error || 'Article non trouvé'}
           </h1>
-          <a href="/" className="text-blue-600 hover:underline">Retour à l'accueil</a>
+          <a href="/" className="text-emerald-400 hover:text-emerald-300 hover:underline">Retour à l'accueil</a>
         </div>
       </div>
     );
   }
 
-  // Récupérer le composant correspondant
-  const ArticleComponent = getArticleComponent(article.component_name);
-
-  if (!ArticleComponent) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Composant d'article non trouvé
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Le composant "{article.component_name}" n'existe pas.
-          </p>
-          <a href="/" className="text-blue-600 hover:underline">Retour à l'accueil</a>
-        </div>
-      </div>
-    );
-  }
+  // 1. Priorité : content_html Supabase
+  // 2. Fallback : composant React (component_name)
+  const hasContentHtml = article.content_html && article.content_html.trim().length > 0;
 
   // Schemas structurés pour SEO
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
-    { name: 'Éducation', url: 'https://maximusscpi.com/#articles' },
+    { name: 'Articles', url: 'https://maximusscpi.com/#articles' },
     { name: article.title, url: `https://maximusscpi.com/articles/${slug}` }
   ]);
 
@@ -148,10 +135,33 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Rendu du composant d'article */}
-        <article className="max-w-none">
-          <ArticleComponent />
-        </article>
+        {hasContentHtml ? (
+          // Rendu du contenu HTML Supabase
+          <article className="max-w-none">
+            <div
+              className="seo-article scpi-article"
+              dangerouslySetInnerHTML={{ __html: article.content_html! }}
+            />
+          </article>
+        ) : getArticleComponent(article.component_name) ? (
+          // Fallback : composant React existant
+          <article className="max-w-none">
+            {React.createElement(getArticleComponent(article.component_name)!)}
+          </article>
+        ) : (
+          // Aucun contenu disponible
+          <div className="min-h-[40vh] flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-white mb-4">Article indisponible</h1>
+              <p className="text-slate-400 mb-6">
+                Cet article est en cours de rédaction. Revenez bientôt.
+              </p>
+              <a href="/" className="text-emerald-400 hover:text-emerald-300 hover:underline font-semibold">
+                Retour à l'accueil
+              </a>
+            </div>
+          </div>
+        )}
 
         {/* CTA Section */}
         <div className="my-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 rounded-2xl p-8 text-center text-white shadow-2xl">
