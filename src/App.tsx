@@ -2714,16 +2714,64 @@ const App: React.FC = () => {
 
     if (optimizedArticles.includes(currentArticleSlug)) {
       return (
-        <Suspense fallback={<LoadingSpinner />}>
-          <OptimizedArticlePage slug={currentArticleSlug} />
-        </Suspense>
+        <div className={isDarkMode ? 'dark' : ''}>
+          <Header
+            isDarkMode={isDarkMode}
+            toggleTheme={toggleTheme}
+            onContactClick={() => setIsRdvModalOpen(true)}
+            onAboutClick={handleAboutUsClick}
+            onEducationClick={handleEducationClick}
+            onLogoClick={handleBackToHome}
+            onScpiPageClick={handleScpiClick}
+            onFaqClick={handleFaqClick}
+            onUnderstandingClick={handleComprendreClick}
+            onAboutSectionClick={handleAboutUsClick}
+            onAboutNavigation={handleGenericNavigation}
+            onComparateurClick={handleComparateurClick}
+            onSimulateurClick={handleSimulateurClick}
+            onArticlesClick={handleArticlesClick}
+            onActualitesClick={handleActualitesClick}
+            currentView={currentView}
+          />
+          <main className="container mx-auto px-4 py-8">
+            <Suspense fallback={<LoadingSpinner />}>
+              <OptimizedArticlePage slug={currentArticleSlug} />
+            </Suspense>
+          </main>
+          <Footer />
+          {renderGlobalModals()}
+        </div>
       );
     }
 
     return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <DynamicArticlePage slug={currentArticleSlug} />
-      </Suspense>
+      <div className={isDarkMode ? 'dark' : ''}>
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
+          currentView={currentView}
+        />
+        <main className="container mx-auto px-4 py-8">
+          <Suspense fallback={<LoadingSpinner />}>
+            <DynamicArticlePage slug={currentArticleSlug} />
+          </Suspense>
+        </main>
+        <Footer />
+        {renderGlobalModals()}
+      </div>
     );
   }
 
