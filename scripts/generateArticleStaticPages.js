@@ -368,12 +368,12 @@ const generateManagementCompanyContent = (company) => {
 const criticalCSS = `
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;color:#e2e8f0;background:#111827;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-.hero{min-height:55vh;background:linear-gradient(135deg,#1e3a5f 0%,#111827 100%);color:#fff;padding:3rem 1.25rem;display:flex;align-items:center}
+.hero{min-height:55vh;background:linear-gradient(135deg,#111827 0%,#0f172a 100%);color:#fff;padding:3rem 1.25rem;display:flex;align-items:center}
 @media(min-width:768px){.hero{padding:4rem 2rem}}
 .hero-wrap{max-width:900px;width:100%;margin:0 auto}
-.hero h1{font-size:1.75rem;font-weight:800;margin-bottom:1rem;line-height:1.2;color:#fff}
+.hero h1{font-size:1.75rem;font-weight:800;margin-bottom:1rem;line-height:1.2;color:#f43f5e}
 @media(min-width:768px){.hero h1{font-size:2.25rem}}
-.hero-meta{font-size:0.9375rem;color:#93c5fd;margin-bottom:1.5rem;line-height:1.6}
+.hero-meta{font-size:0.9375rem;color:#94a3b8;margin-bottom:1.5rem;line-height:1.6}
 .article-body{max-width:800px;margin:0 auto;padding:2.5rem 1.25rem}
 .article-body h2{font-size:1.5rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;border-left:4px solid #10b981;padding-left:0.75rem}
 .article-body p{font-size:1.0625rem;color:#94a3b8;line-height:1.85;margin-bottom:1.25rem}
