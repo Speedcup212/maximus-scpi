@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx vite",
     "prebuild": "npx tsx scripts/generateSitemapFromDB.ts && cross-env NODE_ENV=production npx tsx scripts/generateRobotsTxt.ts && node scripts/generateRedirectsSSG.js",
-    "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateArticleStaticPages.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js && node scripts/copyFinalSitemapToDist.js && node scripts/assertFinalSitemap.js",
+    "build": "npx vite build && node scripts/inject-async-css.js && node scripts/generateOptimizedStaticPages.js && node scripts/generateArticleStaticPages.js && node scripts/generateArticlesFromTSX.js && node scripts/generateOptimizedThematicPages.js && node scripts/generateComprendrePage.js && node scripts/generateIrokoZenStaticPage.js && node scripts/inject-env-vars.js && node scripts/copyFinalSitemapToDist.js && node scripts/assertFinalSitemap.js",
     "lint": "eslint .",
     "test": "vitest run",
     "preview": "npx vite preview",
@@ -58,6 +58,7 @@
     "globals": "^15.9.0",
     "pdf-parse": "^1.1.4",
     "postcss": "^8.4.35",
+    "puppeteer": "^24.43.1",
     "sharp": "^0.34.4",
     "tailwindcss": "^3.4.1",
     "tsx": "^4.20.6",

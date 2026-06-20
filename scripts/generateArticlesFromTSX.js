@@ -7,6 +7,13 @@ import http from 'http';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Détection CI : skip en environnement Netlify / CI headless
+if (process.env.CI || process.env.NETLIFY) {
+  console.log('⚠️  Environnement CI détecté — generateArticlesFromTSX skippé');
+  console.log('   Les HTML Puppeteer doivent être pré-générés localement et commités.');
+  process.exit(0);
+}
+
 // ============================================================
 // 0. VÉRIFICATION PUPPETEER
 // ============================================================

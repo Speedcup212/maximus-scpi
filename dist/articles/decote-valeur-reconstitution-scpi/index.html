@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
+    <link rel="icon" type="image/png" href="/Logo MaximusSCPI.com.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://calendly.com">
+    <link rel="dns-prefetch" href="https://elfsightcdn.com">
+
+    <title>Décote et surcote SCPI : lire la valeur de reconstitution | MaximusSCPI</title>
+    <meta name="description" content="Comprendre l'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d'entrée d'une SCPI." />
+    <meta name="keywords" content="décote SCPI, surcote SCPI, valeur de reconstitution, prix souscription SCPI" />
+
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="Eric Bellaiche - MaximusSCPI" />
+    <link rel="alternate" hreflang="fr" href="https://maximusscpi.com/articles/decote-valeur-reconstitution-scpi/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://maximusscpi.com/articles/decote-valeur-reconstitution-scpi/" />
+    <meta property="og:title" content="Décote et surcote SCPI : lire la valeur de reconstitution | MaximusSCPI" />
+    <meta property="og:description" content="Comprendre l'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d'entrée d'une SCPI." />
+    <meta property="og:image" content="https://maximusscpi.com/3-barres.svg" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://maximusscpi.com/articles/decote-valeur-reconstitution-scpi/" />
+    <meta property="twitter:title" content="Décote et surcote SCPI : lire la valeur de reconstitution | MaximusSCPI" />
+    <meta property="twitter:description" content="Comprendre l'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d'entrée d'une SCPI." />
+    <meta property="twitter:image" content="https://maximusscpi.com/3-barres.svg" />
+
+    <link rel="canonical" href="https://maximusscpi.com/articles/decote-valeur-reconstitution-scpi/" />
+
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Décote et surcote SCPI : lire la valeur de reconstitution",
+      "description": "Comprendre l'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d'entrée d'une SCPI.",
+      "url": "https://maximusscpi.com/articles/decote-valeur-reconstitution-scpi/",
+      "author": {
+        "@type": "Person",
+        "name": "Eric Bellaiche",
+        "jobTitle": "Conseiller en Gestion de Patrimoine",
+        "url": "https://maximusscpi.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "MaximusSCPI",
+        "url": "https://maximusscpi.com/"
+      },
+      "keywords": "décote SCPI, surcote SCPI, valeur de reconstitution, prix souscription SCPI"
+    }
+    </script>
+
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;color:#e2e8f0;background:#111827;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+.hero{min-height:55vh;background:linear-gradient(135deg,#1e3a5f 0%,#111827 100%);color:#fff;padding:3rem 1.25rem;display:flex;align-items:center}
+@media(min-width:768px){.hero{padding:4rem 2rem}}
+.hero-wrap{max-width:900px;width:100%;margin:0 auto}
+.hero h1{font-size:1.75rem;font-weight:800;margin-bottom:1rem;line-height:1.2;color:#fff}
+@media(min-width:768px){.hero h1{font-size:2.25rem}}
+.hero-meta{font-size:0.9375rem;color:#93c5fd;margin-bottom:1.5rem;line-height:1.6}
+.article-body{max-width:800px;margin:0 auto;padding:2.5rem 1.25rem}
+.article-body h2{font-size:1.5rem;font-weight:700;color:#fff;margin:2.5rem 0 1rem;border-left:4px solid #10b981;padding-left:0.75rem}
+.article-body h3{font-size:1.25rem;font-weight:600;color:#e2e8f0;margin:2rem 0 1rem}
+.article-body p{font-size:1.0625rem;color:#94a3b8;line-height:1.85;margin-bottom:1.25rem}
+.article-body ul{list-style:none;padding:0;margin:1rem 0 1.5rem}
+.article-body li{padding:0.5rem 0 0.5rem 1.5rem;position:relative;color:#94a3b8;line-height:1.7;font-size:1.0625rem}
+.article-body li:before{content:"✓";position:absolute;left:0;color:#10b981;font-weight:700}
+.article-body strong{color:#e2e8f0}
+.article-body .intro{font-size:1.125rem;color:#cbd5e1;line-height:1.85;margin-bottom:1.5rem;padding:1.25rem;background:#1e2533;border-radius:0.75rem;border:1px solid #2d3748}
+.article-body .conclusion{font-size:1.0625rem;color:#cbd5e1;line-height:1.85;margin-top:2rem;padding:1.25rem;background:#1e3a5f;border-radius:0.75rem;border-left:4px solid #10b981}
+.article-body .disclaimer{font-size:0.8125rem;color:#64748b;margin-top:1.5rem;line-height:1.6;border-top:1px solid #2d3748;padding-top:1rem}
+.container{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem}
+.btn{display:inline-block;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;transition:background 0.2s,transform 0.2s;font-size:1.0625rem;text-align:center}
+.btn-primary{background:#10b981;color:#fff}
+.btn-primary:hover{background:#059669;transform:translateY(-2px)}
+.btn-white{background:#fff;color:#10b981}
+.btn-white:hover{background:#e2e8f0;transform:translateY(-2px)}
+.cta-section{background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;padding:3.5rem 1.25rem;text-align:center;margin:2rem 0 0}
+.cta-section h3{font-size:1.75rem;margin-bottom:1rem;font-weight:700}
+.cta-section p{font-size:1.0625rem;margin-bottom:1.75rem;opacity:0.95}
+.site-header{background:#0f172a;padding:0.75rem 0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header-container{max-width:1200px;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo-link{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:3rem;width:auto}
+@media(min-width:640px){.logo-img{height:4rem}}
+@media(min-width:1024px){.logo-img{height:5rem}}
+.nav-links{display:none;gap:1.5rem;align-items:center}
+@media(min-width:768px){.nav-links{display:flex}}
+.nav-link{color:#fff;text-decoration:none;font-size:0.9375rem;font-weight:500;transition:color 0.2s}
+.nav-link:hover{color:#10b981}
+.nav-btn{background:#10b981;color:#fff;padding:0.625rem 1.25rem;border-radius:0.5rem;font-weight:600;text-decoration:none;font-size:0.9375rem;transition:all 0.2s}
+.nav-btn:hover{background:#059669;transform:translateY(-1px)}
+.mobile-menu-btn{display:flex;background:transparent;border:none;color:#fff;cursor:pointer;padding:0.5rem}
+@media(min-width:768px){.mobile-menu-btn{display:none}}
+.mobile-menu{display:none;position:fixed;top:4.5rem;left:0;right:0;background:#0f172a;padding:1rem;flex-direction:column;gap:0.75rem;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:999}
+.mobile-menu.active{display:flex}
+.mobile-nav-link{color:#fff;text-decoration:none;padding:0.75rem 1rem;font-size:1rem;font-weight:500;border-radius:0.5rem;transition:background 0.2s}
+.mobile-nav-link:hover{background:rgba(255,255,255,0.1)}
+.site-footer{background:#0f172a;color:#6b7280;padding:1.5rem;text-align:center;font-size:0.875rem;line-height:1.8}
+.site-footer a{color:#9ca3af;text-decoration:underline;transition:color 0.2s}
+.site-footer a:hover{color:#fff}
+</style>
+  </head>
+  <body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <header class="site-header">
+      <div class="header-container">
+        <a href="/" class="logo-link">
+          <img src="/Maximus logo 250x50 4.svg" alt="MaximusSCPI" class="logo-img" />
+        </a>
+        <nav class="nav-links">
+          <a href="/" class="nav-link">Comparateur</a>
+          <a href="/comprendre-les-scpi" class="nav-link">Comprendre les SCPI</a>
+          <a href="/articles" class="nav-link">Articles</a>
+          <a href="/faq" class="nav-link">FAQ</a>
+          <a href="/qui-sommes-nous" class="nav-link">Qui sommes-nous</a>
+          <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="nav-btn" rel="noopener">Prendre RDV</a>
+        </nav>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="/" class="mobile-nav-link">Comparateur</a>
+        <a href="/comprendre-les-scpi" class="mobile-nav-link">Comprendre les SCPI</a>
+        <a href="/articles" class="mobile-nav-link">Articles</a>
+        <a href="/faq" class="mobile-nav-link">FAQ</a>
+        <a href="/qui-sommes-nous" class="mobile-nav-link">Qui sommes-nous</a>
+        <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="mobile-nav-link" rel="noopener" style="background:#10b981;text-align:center">Prendre RDV</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-wrap">
+        <h1>Décote et surcote SCPI : lire la valeur de reconstitution</h1>
+        <p class="hero-meta">Comprendre l'écart entre prix de souscription et valeur de reconstitution pour mieux analyser le prix d'entrée d'une SCPI.</p>
+        <a href="#contact" class="btn btn-primary">Analyser ma situation SCPI</a>
+      </div>
+    </section>
+
+    <article class="article-body">
+      <div class="min-h-screen bg-slate-950 text-white transition-colors duration-300 dark"><div class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen"><div class="max-w-5xl mx-auto px-4 py-8"><div class="text-sm text-slate-400 mb-1">Dernière mise à jour : 20 juin 2026</div><p class="text-xs text-slate-500 mb-3">Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580</p><div class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8 mb-8"><div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-300 mb-5">Indicateur patrimonial</div><h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">Décote et surcote SCPI : comprendre l'écart avec la valeur de reconstitution</h1><p class="text-lg text-slate-300 leading-relaxed mb-6">L'écart entre le prix de souscription et la valeur de reconstitution est un indicateur patrimonial central. Il aide à comprendre si l'investisseur achète le patrimoine à un prix cohérent, en décote ou en surcote — sans constituer un signal suffisant à lui seul. Il doit être croisé avec le TOF, la qualité patrimoniale et l'endettement.</p><div class="flex flex-col gap-3 sm:flex-row"><button type="button" class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700">Analyser la décote ou surcote avant d'investir</button></div></div><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Pourquoi comparer le prix de souscription à la valeur de reconstitution ?</h2><p class="text-slate-300 leading-relaxed">La valeur de reconstitution estime le coût de reconstruction du patrimoine de la SCPI à un instant donné. L'écart avec le prix de souscription — décote ou surcote — indique si l'investisseur entre dans le capital à un prix inférieur ou supérieur à cette référence patrimoniale. Une décote peut sembler attractive mais coïncider avec un TOF faible ou un patrimoine en difficulté. Une surcote peut être acceptable si la qualité locative, la stratégie et la dynamique de collecte le justifient. Cet indicateur ne doit jamais être analysé seul.</p></section><div class="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 md:p-8 mb-8"><h2 class="text-lg font-bold text-emerald-300 mb-3 flex items-center gap-2">À retenir</h2><p class="text-slate-200 leading-relaxed font-medium">Une décote n'est pas une bonne affaire automatique. Une surcote n'est pas forcément un signal négatif, mais elle doit être justifiée par la qualité du patrimoine et le contexte.</p></div><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Définition pédagogique</h2><div class="space-y-4 text-slate-300 leading-relaxed"><p>Le prix de souscription est le prix auquel un investisseur acquiert une part de SCPI lors d'une souscription primaire ou, selon les cas, sur le marché secondaire. Il intègre les frais de souscription et reflète la politique tarifaire de la société de gestion à un instant donné.</p><p>La valeur de reconstitution (VR) estime le montant théorique nécessaire pour reconstituer le patrimoine immobilier de la SCPI : acquisition des actifs, frais annexes, travaux éventuels. Elle est calculée par l'expert ou la société de gestion selon une méthodologie définie dans les documents réglementaires.</p><p>La décote correspond à une situation où le prix de souscription est inférieur à la valeur de reconstitution. L'investisseur achète théoriquement le patrimoine « en dessous » de sa valeur de reconstruction. La surcote est l'inverse : le prix de souscription dépasse la valeur de reconstitution.</p><p>La valeur de réalisation, lorsqu'elle est communiquée, correspond à une estimation du prix de vente du patrimoine en cas de liquidation. Elle diffère de la valeur de reconstitution et ne doit pas être confondue avec elle. Les trois notions — prix de souscription, valeur de reconstitution, valeur de réalisation — participent à la lecture patrimoniale mais n'ont pas la même finalité.</p><p>L'écart en pourcentage se calcule de manière classique : (prix de souscription − valeur de reconstitution) / valeur de reconstitution. Un écart négatif signale une décote, un écart positif une surcote. Ces données sont publiées trimestriellement dans les bulletins des sociétés de gestion.</p><p>Une décote importante peut traduire une méfiance du marché, des difficultés locatives passées ou une stratégie de collecte agressive. Elle peut aussi refléter une opportunité si le patrimoine est solide et si la baisse de prix est temporaire. L'analyse contextuelle est indispensable.</p><p>Une surcote persistante peut refléter la confiance du marché dans la qualité du patrimoine, une collecte dynamique ou une politique de revalorisation régulière du prix de part. Elle réduit cependant la marge de sécurité à l'entrée et à la revente.</p><p>Le lien avec les expertises immobilières est important : la valeur de reconstitution dépend des évaluations des experts immobiliers. En période de baisse des marchés immobiliers, la VR peut être révisée à la baisse, ce qui réduit ou annule une décote apparente.</p></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Comment interpréter l'écart prix / valeur de reconstitution ?</h2><div class="overflow-x-auto"><table class="w-full text-sm text-left border-collapse"><thead><tr class="border-b border-slate-700"><th class="py-3 pr-4 font-semibold text-slate-200">Repère</th><th class="py-3 pr-4 font-semibold text-emerald-300">Lecture possible</th><th class="py-3 font-semibold text-amber-300">Point de vigilance</th></tr></thead><tbody class="text-slate-300"><tr class="border-b border-slate-800"><td class="py-4 pr-4 font-medium text-white whitespace-nowrap">Décote &gt; 5 %</td><td class="py-4 pr-4">Point d'attention potentiellement favorable : l'investisseur entre peut-être sous la valeur patrimoniale de référence.</td><td class="py-4">Vérifier les causes : TOF faible, patrimoine vieillissant, secteur en tension ou simple correction de marché. Une décote sans analyse peut être un piège.</td></tr><tr class="border-b border-slate-800"><td class="py-4 pr-4 font-medium text-white whitespace-nowrap">Écart entre −5 % et +5 %</td><td class="py-4 pr-4">Zone généralement cohérente : le prix de souscription est proche de la valeur de reconstitution.</td><td class="py-4">La cohérence tarifaire ne garantit ni le rendement futur ni la qualité locative. Croiser impérativement avec TOF, rendement et endettement.</td></tr><tr class="border-b border-slate-800"><td class="py-4 pr-4 font-medium text-white whitespace-nowrap">Surcote &gt; 5 %</td><td class="py-4 pr-4">Peut refléter une confiance du marché dans la qualité du patrimoine ou une collecte dynamique bien gérée.</td><td class="py-4">Vigilance sur le prix d'entrée : l'investisseur paie une prime qui réduit la marge de sécurité à la revente. Vérifier que la qualité du patrimoine justifie la surcote.</td></tr><tr class=""><td class="py-4 pr-4 font-medium text-white whitespace-nowrap">Surcote proche ou supérieure à 10 %</td><td class="py-4 pr-4">Peut être acceptable si le patrimoine est très qualitatif, le TOF élevé et la stratégie documentée.</td><td class="py-4">Analyse renforcée nécessaire. Justifier la prime par des éléments patrimoniaux vérifiables (qualité des baux, localisation, diversification), pas par le seul rendement passé.</td></tr></tbody></table></div><p class="mt-4 text-xs text-slate-500 leading-relaxed">Ces repères sont indicatifs et ne constituent pas des règles automatiques d'achat ou de vente. La décote ou surcote doit être analysée avec le TOF, le rendement, la capitalisation, l'endettement, la qualité du patrimoine et la politique de revalorisation du prix de part.</p></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Critères à croiser avec la décote ou surcote</h2><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">TOF</h3><p class="text-xs text-slate-400 leading-relaxed">Une décote accompagnée d'un TOF faible peut signaler des difficultés locatives structurelles plutôt qu'une opportunité.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Rendement</h3><p class="text-xs text-slate-400 leading-relaxed">Un rendement élevé en décote peut attirer l'attention, mais les revenus passés ne sont pas garantis et peuvent baisser.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Capitalisation</h3><p class="text-xs text-slate-400 leading-relaxed">La taille de la SCPI influence la liquidité secondaire et la capacité d'absorption des chocs patrimoniaux.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Endettement</h3><p class="text-xs text-slate-400 leading-relaxed">Une surcote combinée à un endettement élevé peut amplifier le risque en cas de baisse des loyers ou de hausse des taux.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Qualité du patrimoine</h3><p class="text-xs text-slate-400 leading-relaxed">Localisation, état des actifs, qualité des baux et diversification locative : autant d'éléments qui justifient ou non une surcote.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Collecte nette</h3><p class="text-xs text-slate-400 leading-relaxed">Une collecte nette positive soutient parfois une surcote ; une collecte négative peut expliquer une décote persistante.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Secteur immobilier</h3><p class="text-xs text-slate-400 leading-relaxed">Un secteur en tension (bureaux secondaires, commerces fragiles) peut entraîner une décote durable sur le marché.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Localisation géographique</h3><p class="text-xs text-slate-400 leading-relaxed">La qualité micro-économique des zones d'implantation influence la soutenabilité de la valeur de reconstitution.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Frais de souscription</h3><p class="text-xs text-slate-400 leading-relaxed">Des frais élevés aggravent une surcote : l'investisseur paie d'abord des frais, puis une prime sur le patrimoine.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Revalorisation du prix de part</h3><p class="text-xs text-slate-400 leading-relaxed">Une politique de hausse régulière du prix de souscription peut maintenir une surcote si la VR progresse moins vite.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4"><h3 class="text-sm font-semibold text-white mb-2">Cycle de marché</h3><p class="text-xs text-slate-400 leading-relaxed">En période de baisse des marchés immobiliers, la VR peut être révisée à la baisse, modifiant mécaniquement l'écart apparent.</p></div></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Erreurs fréquentes</h2><ul class="space-y-2"><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Acheter une SCPI uniquement parce qu'elle est en décote, sans analyser les causes de la décote.</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Écarter systématiquement toute SCPI en surcote sans analyser la qualité du patrimoine.</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Confondre valeur de reconstitution et valeur de réalisation (estimation de liquidation).</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Ignorer l'évolution de la décote ou surcote sur plusieurs trimestres (tendance plus informative qu'un point).</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Ne pas intégrer les frais de souscription dans le calcul du prix d'entrée réel.</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Comparer des décotes entre SCPI de secteurs ou de zones géographiques différents sans contexte.</li><li class="flex items-start gap-2 text-sm text-slate-300"><span class="text-amber-400 shrink-0 mt-0.5">✕</span>Croire qu'une décote garantit une marge de sécurité à la revente (la décote peut se creuser).</li></ul></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Cas pratiques pédagogiques</h2><p class="text-xs text-slate-500 mb-4">Exemples génériques à titre de simulation pédagogique — ne constituent pas une analyse de SCPI identifiées ni une recommandation personnalisée au sens de la réglementation MIF2.</p><div class="space-y-4"><div class="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4"><h3 class="text-sm font-semibold text-white mb-2">SCPI en décote marquée — TOF faible</h3><p class="text-sm text-slate-400 leading-relaxed">Une SCPI affiche une décote de 8 % mais son TOF est passé sous 88 % depuis deux exercices. La décote reflète probablement une méfiance du marché liée à des vacances locatives et une baisse de l'attractivité du patrimoine. Simulation pédagogique : l'écart tarifaire ne suffit pas à conclure à une opportunité sans analyse des causes et de la stratégie de redressement.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4"><h3 class="text-sm font-semibold text-white mb-2">SCPI en surcote — patrimoine qualitatif</h3><p class="text-sm text-slate-400 leading-relaxed">Avec une surcote de 6 %, une SCPI logistique affiche un TOF supérieur à 97 %, une diversification géographique en Europe et une collecte nette positive. La prime peut se justifier par la qualité des actifs. Simulation pédagogique : l'investisseur doit accepter un prix d'entrée élevé qui limite la marge de sécurité, même si le patrimoine est qualitatif.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4"><h3 class="text-sm font-semibold text-white mb-2">SCPI proche de la VR — rendement stable</h3><p class="text-sm text-slate-400 leading-relaxed">Le prix de souscription est à −2 % de la valeur de reconstitution, le TOF est stable autour de 94 % et les distributions sont régulières depuis cinq ans. La situation paraît cohérente. Simulation pédagogique : la cohérence tarifaire est un bon point de départ, mais le rendement historique reste une donnée passée à croiser avec la fiscalité nette.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4"><h3 class="text-sm font-semibold text-white mb-2">SCPI avec baisse de VR</h3><p class="text-sm text-slate-400 leading-relaxed">La valeur de reconstitution d'une SCPI a baissé de 5 % sur un an suite à la révision des expertises immobilières. L'écart apparent est passé d'une décote de 3 % à 0 %, masquant la baisse réelle du patrimoine. Simulation pédagogique : suivre l'évolution de la VR est essentiel car elle modifie la lecture de l'écart.</p></div><div class="rounded-xl border border-slate-700/50 bg-slate-800/30 p-4"><h3 class="text-sm font-semibold text-white mb-2">SCPI en surcote avec endettement élevé</h3><p class="text-sm text-slate-400 leading-relaxed">Une SCPI affiche 8 % de surcote et 30 % d'endettement. En cas de baisse des loyers ou de hausse des taux, le double effet surcote + dette peut amplifier le risque. Simulation pédagogique : la surcote et l'endettement doivent être analysés conjointement.</p></div></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Méthode MaximusSCPI</h2><div class="space-y-4 text-slate-300 leading-relaxed"><p>MaximusSCPI affiche la décote ou surcote sur valeur de reconstitution dans le comparateur, aux côtés du TOF, du rendement, de la capitalisation et de l'endettement. L'objectif est de donner une lecture patrimoniale rapide, sans remplacer l'analyse des documents réglementaires.</p><p>La première étape consiste à situer la SCPI dans une des fourchettes indicatives : décote significative, zone cohérente ou surcote marquée. Cette classification est un point de départ, pas une conclusion.</p><p>La deuxième étape vérifie la cohérence avec le TOF et l'évolution de l'écart sur plusieurs trimestres. Une décote qui se creuse peut signaler une dégradation locative ; une surcote stable peut refléter une confiance durable du marché.</p><p>La troisième étape croise l'écart tarifaire avec la qualité du patrimoine, le secteur, la localisation et l'endettement. MaximusSCPI facilite cette pré-orientation en centralisant les indicateurs ; l'approfondissement patrimonial relève d'un échange personnalisé avec un conseiller.</p><p>Enfin, l'investisseur doit intégrer sa fiscalité, son horizon et son besoin de revenus. Une décote n'est pas une fin en soi : elle doit être cohérente avec l'objectif patrimonial global.</p></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Questions fréquentes</h2><div class="space-y-4"><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Qu'est-ce que la valeur de reconstitution d'une SCPI ?</h3><p class="text-sm text-slate-400 leading-relaxed">La valeur de reconstitution estime le coût théorique de reconstruction du patrimoine immobilier de la SCPI à un instant donné. Elle sert de référence patrimoniale pour comparer le prix de souscription et évaluer si l'investisseur entre en décote ou en surcote.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Comment calculer une décote ou surcote SCPI ?</h3><p class="text-sm text-slate-400 leading-relaxed">La formule usuelle est : (prix de souscription − valeur de reconstitution) / valeur de reconstitution × 100. Un résultat négatif indique une décote, un résultat positif une surcote.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Une SCPI en décote est-elle toujours intéressante ?</h3><p class="text-sm text-slate-400 leading-relaxed">Non. Une décote peut refléter des difficultés locatives, un secteur en crise ou une méfiance du marché. Elle doit être analysée avec le TOF, l'évolution et la qualité du patrimoine.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Faut-il éviter une SCPI en surcote ?</h3><p class="text-sm text-slate-400 leading-relaxed">Pas systématiquement. Une surcote modérée peut être cohérente si le patrimoine est qualitatif et le TOF élevé. Une surcote importante sans justification réduit la marge de sécurité.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Pourquoi la valeur de reconstitution est-elle importante ?</h3><p class="text-sm text-slate-400 leading-relaxed">Elle offre un repère patrimonial indépendant du marketing commercial. Elle aide à comprendre si l'on paie le patrimoine à un prix cohérent ou avec une prime.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Quelle différence entre valeur de réalisation et valeur de reconstitution ?</h3><p class="text-sm text-slate-400 leading-relaxed">La valeur de reconstitution estime le coût de reconstruction. La valeur de réalisation estime le prix de vente en cas de liquidation, généralement inférieur car intégrant les conditions de marché.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Où trouver ces données ?</h3><p class="text-sm text-slate-400 leading-relaxed">Dans les bulletins trimestriels et rapports annuels des sociétés de gestion, sur le site ASPIM, et dans le comparateur MaximusSCPI.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">La VR peut-elle baisser ?</h3><p class="text-sm text-slate-400 leading-relaxed">Oui, en période de baisse des marchés immobiliers ou après révision des expertises. Une baisse de VR modifie mécaniquement l'écart apparent avec le prix de souscription.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Quel est le lien avec le cycle de marché et les taux ?</h3><p class="text-sm text-slate-400 leading-relaxed">La hausse des taux peut entraîner une baisse des valeurs immobilières, donc une baisse de la VR. Les SCPI avec une forte surcote sont plus exposées à ce risque.</p></div><div class="border-b border-slate-800 pb-4 last:border-0"><h3 class="text-sm font-semibold text-white mb-2">Comment MaximusSCPI utilise la décote ou surcote ?</h3><p class="text-sm text-slate-400 leading-relaxed">Le comparateur affiche l'écart prix / VR pour chaque SCPI, croisé avec le TOF, le rendement, la capitalisation et l'endettement, dans une logique pédagogique.</p></div></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Conclusion</h2><div class="space-y-4 text-slate-300 leading-relaxed mb-6"><p>La décote et la surcote sont des indicateurs patrimoniaux précieux pour comprendre le prix d'entrée dans une SCPI. Ils ne doivent jamais être isolés du TOF, du rendement, de la capitalisation, de l'endettement et de la qualité du patrimoine.</p><p>Sources et points à vérifier : bulletins trimestriels et rapports annuels des sociétés de gestion, rapports d'expertise immobilière, fiches ASPIM. Le comparateur MaximusSCPI permet de visualiser l'écart prix / VR pour chaque SCPI suivie.</p><p>Utilisez le comparateur MaximusSCPI pour structurer votre première lecture, puis approfondissez avec les bulletins trimestriels.</p></div><div class="flex flex-col gap-3 sm:flex-row"><button type="button" class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-700">Analyser la décote ou surcote avant d'investir</button></div></section><section class="bg-slate-900/80 border border-slate-700/70 rounded-2xl p-6 md:p-8 mb-8"><h2 class="text-xl md:text-2xl font-bold text-white mb-4 flex items-center gap-2">Poursuivre votre analyse</h2><ul class="space-y-2 text-sm"><li><a href="/comparateur-scpi" class="text-emerald-400 hover:underline">Comparateur SCPI — comparer les indicateurs clés</a></li><li><a href="/tof-scpi" class="text-emerald-400 hover:underline">TOF SCPI — taux d'occupation financier</a></li><li><a href="/capitalisation-scpi" class="text-emerald-400 hover:underline">Capitalisation SCPI — taille et diversification</a></li><li><a href="/endettement-scpi" class="text-emerald-400 hover:underline">Endettement SCPI — dette et levier</a></li><li><a href="/rendement-net-scpi" class="text-emerald-400 hover:underline">Rendement net SCPI — brut, fiscalité et frais</a></li><li><a href="/scpi-europeennes" class="text-emerald-400 hover:underline">SCPI européennes — fiscalité et diversification</a></li><li><a href="/scpi-demembrement" class="text-emerald-400 hover:underline">Démembrement SCPI — nue-propriété et stratégie</a></li><li><a href="/scpi-assurance-vie" class="text-emerald-400 hover:underline">SCPI en assurance-vie — fiscalité et frais</a></li><li><a href="/frais-scpi" class="text-emerald-400 hover:underline">Frais SCPI — coûts et rendement net</a></li><li><a href="/risques-scpi" class="text-emerald-400 hover:underline">Risques SCPI — perte en capital, liquidité et fiscalité</a></li><li><a href="/liquidite-scpi" class="text-emerald-400 hover:underline">Liquidité SCPI — revente, délais et risques</a></li><li><a href="/baisse-prix-part-scpi" class="text-emerald-400 hover:underline">Baisse du prix de part SCPI — causes et conséquences</a></li><li><a href="/delai-jouissance-scpi" class="text-emerald-400 hover:underline">Délai de jouissance SCPI — impact sur le rendement</a></li><li><a href="/report-a-nouveau-scpi" class="text-emerald-400 hover:underline">Report à nouveau SCPI — réserve et distribution</a></li><li><a href="/choisir-scpi" class="text-emerald-400 hover:underline">Comment choisir une SCPI — méthode complète</a></li><li><a href="/meilleures-scpi-attention" class="text-emerald-400 hover:underline">Meilleures SCPI — limites des classements</a></li><li><a href="/comparateur-scpi-fiable" class="text-emerald-400 hover:underline">Comparateur SCPI fiable — critères à vérifier</a></li><li><a href="/allocation-scpi" class="text-emerald-400 hover:underline">Allocation SCPI — diversification et fiscalité</a></li><li><a href="/combien-investir-scpi" class="text-emerald-400 hover:underline">Combien investir en SCPI — montant et patrimoine</a></li><li><a href="/scpi-sante" class="text-emerald-400 hover:underline">SCPI santé — stabilité et limites</a></li><li><a href="/scpi-logistique" class="text-emerald-400 hover:underline">SCPI logistique — entrepôts et e-commerce</a></li><li><a href="/scpi-bureaux" class="text-emerald-400 hover:underline">SCPI bureaux — analyse et perspectives</a></li><li><a href="/scpi-commerce" class="text-emerald-400 hover:underline">SCPI commerce — rendement et risque locatif</a></li><li><a href="/scpi-diversifiees" class="text-emerald-400 hover:underline">SCPI diversifiées — mutualisation ou lisibilité</a></li><li><a href="/societe-gestion-scpi" class="text-emerald-400 hover:underline">Société de gestion SCPI — rôle et responsabilités</a></li><li><a href="/gestionnaire-scpi" class="text-emerald-400 hover:underline">Gestionnaire SCPI — qui gère vraiment ?</a></li><li><a href="/cgp-cif-scpi" class="text-emerald-400 hover:underline">CGP-CIF SCPI — conseil et analyse</a></li><li><a href="/psi-scpi" class="text-emerald-400 hover:underline">PSI SCPI — statut et cadre réglementaire</a></li><li><a href="/retrocommissions-scpi" class="text-emerald-400 hover:underline">Rétrocessions SCPI — frais et transparence</a></li><li><a href="/scpi-fiscalite" class="text-emerald-400 hover:underline">Fiscalité SCPI — comprendre l'imposition</a></li><li><a href="/scpi-tmi-41" class="text-emerald-400 hover:underline">SCPI TMI 41 % — fiscalité et rendement net</a></li><li><a href="/scpi-tmi-45" class="text-emerald-400 hover:underline">SCPI TMI 45 % — analyse fiscale renforcée</a></li><li><a href="/scpi-revenus-etrangers" class="text-emerald-400 hover:underline">Revenus étrangers SCPI — fiscalité européenne</a></li><li><a href="/scpi-revenus-fonciers" class="text-emerald-400 hover:underline">Revenus fonciers SCPI — imposition</a></li><li><a href="/scpi-prelevements-sociaux" class="text-emerald-400 hover:underline">Prélèvements sociaux SCPI — impact sur le rendement</a></li><li><a href="/scpi-credit-impot" class="text-emerald-400 hover:underline">Crédit d'impôt SCPI — revenus étrangers</a></li><li><a href="/scpi-taux-effectif" class="text-emerald-400 hover:underline">Taux effectif SCPI — fiscalité étrangère</a></li><li><a href="/scpi-ifi" class="text-emerald-400 hover:underline">SCPI et IFI — déclaration des parts</a></li><li><a href="/scpi-sci-is-fiscalite" class="text-emerald-400 hover:underline">SCPI en SCI à l'IS — fiscalité</a></li><li><a href="/amf-scpi" class="text-emerald-400 hover:underline">AMF SCPI — contrôle et réglementation</a></li><li><a href="/orias-scpi" class="text-emerald-400 hover:underline">ORIAS SCPI — vérification des statuts</a></li><li><a href="/documents-reglementaires-scpi" class="text-emerald-400 hover:underline">Documents réglementaires SCPI — DIC, note, rapports</a></li><li><a href="/dic-scpi" class="text-emerald-400 hover:underline">DIC SCPI — document d'informations clés</a></li><li><a href="/note-information-scpi" class="text-emerald-400 hover:underline">Note d'information SCPI — avant souscription</a></li><li><a href="/scpi-credit" class="text-emerald-400 hover:underline">SCPI à crédit — effet de levier et fiscalité</a></li><li><a href="/scpi-comptant" class="text-emerald-400 hover:underline">SCPI au comptant — avantages et limites</a></li><li><a href="/scpi-retraite" class="text-emerald-400 hover:underline">SCPI pour la retraite — revenus et horizon</a></li><li><a href="/scpi-revenus-complementaires" class="text-emerald-400 hover:underline">SCPI revenus complémentaires — rendement net</a></li><li><a href="/scpi-transmission" class="text-emerald-400 hover:underline">SCPI et transmission — donation et succession</a></li><li><a href="/scpi-france" class="text-emerald-400 hover:underline">SCPI France — fiscalité et rendement</a></li><li><a href="/scpi-expatrie-fiscalite" class="text-emerald-400 hover:underline">SCPI pour expatrié — fiscalité internationale</a></li><li><a href="/declaration-revenus-scpi-erreurs" class="text-emerald-400 hover:underline">Déclaration revenus SCPI — erreurs fréquentes</a></li><li><a href="/scpi-investir-en-couple" class="text-emerald-400 hover:underline">SCPI en couple — investir seul, à deux ou société ?</a></li><li><a href="/scpi-hotellerie-tourisme" class="text-emerald-400 hover:underline">SCPI hôtellerie et tourisme — opportunité ou volatilité ?</a></li><li><a href="/investir-scpi-une-fois-ou-progressivement" class="text-emerald-400 hover:underline">Investir SCPI — une fois ou progressivement ?</a></li><li><a href="/scpi-internationales-diversification" class="text-emerald-400 hover:underline">SCPI internationales — diversification ou marketing ?</a></li></ul></section><div class="rounded-xl border border-slate-700/50 bg-slate-900/60 p-5 mb-8"><p class="text-xs text-slate-500 leading-relaxed">Cette page est pédagogique. Elle ne constitue pas une recommandation personnalisée ni un conseil en investissement. Avant toute souscription, il convient d'analyser votre situation, votre fiscalité, votre horizon d'investissement, vos objectifs et les documents réglementaires des SCPI. Investir en SCPI comporte des risques : perte en capital, revenus non garantis, liquidité limitée.</p></div></div></div></div>
+
+      <p class="disclaimer">
+        <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un conseiller en gestion de patrimoine agréé ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
+      </p>
+    </article>
+
+    <section class="cta-section" id="contact">
+      <h3>Prêt à investir ?</h3>
+      <p>Eric Bellaiche vous rappelle gratuitement sous 24h</p>
+      <a
+        href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi"
+        class="btn btn-white"
+        style="font-size:1.25rem;padding:1.25rem 3rem"
+        rel="noopener"
+      >
+        📞 Prendre Rendez-vous Gratuit
+      </a>
+      <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
+        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+      </p>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2026 MaximusSCPI | Eric Bellaiche | ORIAS 13001580 | CNCEF D016571</p>
+      <p style="margin-top:0.5rem">
+        <a href="/">Comparateur SCPI</a> • <a href="/comprendre-les-scpi">Comprendre les SCPI</a> • <a href="/articles">Articles</a> • <a href="/faq">FAQ</a>
+      </p>
+    </footer>
+
+    <script>
+      function toggleMobileMenu() {
+        var menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+      }
+      document.addEventListener('click', function(e) {
+        var menu = document.getElementById('mobileMenu');
+        var btn = document.querySelector('.mobile-menu-btn');
+        if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.remove('active');
+        }
+      });
+      document.addEventListener('DOMContentLoaded', function() {
+        var ctaBtns = document.querySelectorAll('[href="#contact"]');
+        ctaBtns.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'https://calendly.com/eric-bellaiche/rdv-strategique-scpi?hide_gdpr_banner=1&primary_color=10b981';
+          });
+        });
+      });
+    </script>
+
+    <script>
+      (function(){
+        if (window.__calendlyListenerAttached) return;
+        window.__calendlyListenerAttached = true;
+        window.addEventListener("message", function(e){
+          if (e && e.data && e.data.event === "calendly.event_scheduled") {
+            if (typeof gtag === "function") {
+              gtag('event','event_scheduled', { page_location: location.href });
+            }
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      (function(){
+        if (window.onLeadSubmitSuccess) return;
+        window.onLeadSubmitSuccess = function(data){
+          try{
+            if (typeof gtag === "function") {
+              gtag('set','user_data', {
+                email: (data && data.email) || '',
+                phone_number: (data && data.phone) || '',
+                address: {
+                  first_name: (data && data.first_name) || '',
+                  last_name:  (data && data.last_name)  || '',
+                  postal_code:(data && data.postal_code)|| '',
+                  country:    ((data && data.country) || 'FR').toUpperCase()
+                }
+              });
+              gtag('event','lead_submit', { page_location: location.href });
+            }
+          }catch(e){}
+        };
+      })();
+    </script>
+
+    <script src="https://elfsightcdn.com/platform.js" defer></script>
+  </body>
+</html>
