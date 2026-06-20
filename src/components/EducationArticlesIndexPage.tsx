@@ -261,30 +261,6 @@ const FAMILY_ORDER: ArticleFamily[] = [
   'strategies',
 ];
 
-// Slugs qui ont une page éducative dédiée (route directe) vs routage dynamique
-const DIRECT_ROUTE_SLUGS = new Set([
-  'tof-scpi', 'capitalisation-scpi', 'decote-valeur-reconstitution-scpi',
-  'endettement-scpi', 'rendement-net-scpi', 'scpi-europeennes',
-  'scpi-demembrement', 'scpi-assurance-vie', 'scpi-tmi-11', 'scpi-tmi-30',
-  'frais-scpi',
-  'risques-scpi', 'liquidite-scpi', 'baisse-prix-part-scpi',
-  'delai-jouissance-scpi', 'report-a-nouveau-scpi',
-  'choisir-scpi', 'meilleures-scpi-attention', 'comparateur-scpi-fiable',
-  'allocation-scpi', 'combien-investir-scpi',
-  'scpi-sante', 'scpi-logistique', 'scpi-bureaux', 'scpi-commerce', 'scpi-diversifiees',
-  'scpi-fiscalite', 'scpi-tmi-41', 'scpi-tmi-45',
-  'scpi-revenus-etrangers', 'scpi-revenus-fonciers', 'scpi-prelevements-sociaux',
-  'scpi-credit-impot', 'scpi-taux-effectif', 'scpi-ifi', 'scpi-sci-is-fiscalite',
-  'societe-gestion-scpi', 'gestionnaire-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi',
-  'gestionnaires-acteurs-scpi',
-  'amf-scpi', 'orias-scpi', 'documents-reglementaires-scpi', 'dic-scpi', 'note-information-scpi',
-  'scpi-credit', 'scpi-comptant', 'scpi-retraite', 'scpi-revenus-complementaires', 'scpi-transmission',
-  'scpi-france',
-  'societes-de-gestion-scpi',
-  'scpi-expatrie-fiscalite', 'declaration-revenus-scpi-erreurs', 'scpi-investir-en-couple',
-  'scpi-hotellerie-tourisme', 'investir-scpi-une-fois-ou-progressivement', 'scpi-internationales-diversification',
-]);
-
 // Slugs des articles "Contrôle & distribution" (AMF, ORIAS, CGP-CIF, PSI, rétrocessions)
 const CONTROLE_DISTRIBUTION_SLUGS = new Set([
   'amf-scpi', 'orias-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi'
@@ -542,13 +518,11 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                 const config = FAMILY_CONFIG[family];
                 const Icon = config.icon;
                 const styles = config;
-                const articleUrl = `/${article.slug}/`;
-                const isDirectRoute = DIRECT_ROUTE_SLUGS.has(article.slug);
 
-                return isDirectRoute ? (
+                return (
                   <a
                     key={article.slug}
-                    href={articleUrl}
+                    href={`/articles/${article.slug}/`}
                     className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
                   >
                     {article.featured && (
@@ -571,33 +545,6 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                       <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
                     </div>
                   </a>
-                ) : (
-                  <button
-                    type="button"
-                    key={article.slug}
-                    onClick={() => onArticleClick(article.slug)}
-                    className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
-                  >
-                    {article.featured && (
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-semibold rounded">
-                          ⭐ Article Pilier
-                        </span>
-                      </div>
-                    )}
-                    <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
-                      {article.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                      {article.metaDescription}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
-                        {article.mainKeyword}
-                      </span>
-                      <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
-                    </div>
-                  </button>
                 );
               })}
             </div>
@@ -778,7 +725,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                 {/* Carte spéciale : collection Construire son portefeuille SCPI */}
                 {family === 'strategies' && (
                   <a
-                    href="/articles/construire-portefeuille-scpi"
+                    href="/articles/construire-portefeuille-scpi/"
                     className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-orange-200 dark:border-orange-700 group row-span-1"
                   >
                     <div className="flex items-center gap-2 mb-3">
@@ -802,13 +749,10 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                 )}
 
                 {articles.map((article) => {
-                  const articleUrl = `/${article.slug}/`;
-                  const isDirectRoute = DIRECT_ROUTE_SLUGS.has(article.slug);
-
-                  return isDirectRoute ? (
+                  return (
                     <a
                       key={article.slug}
-                      href={articleUrl}
+                      href={`/articles/${article.slug}/`}
                       className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
                     >
                       {article.featured && (
@@ -831,33 +775,6 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                         <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
                       </div>
                     </a>
-                  ) : (
-                    <button
-                      type="button"
-                      key={article.slug}
-                      onClick={() => onArticleClick(article.slug)}
-                      className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-left border-2 border-transparent ${styles.borderHoverClass} group`}
-                    >
-                      {article.featured && (
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 text-xs font-semibold rounded">
-                            ⭐ Article Pilier
-                          </span>
-                        </div>
-                      )}
-                      <h3 className={`text-lg font-bold text-gray-900 dark:text-white mb-3 ${styles.titleHoverClass} transition-colors`}>
-                        {article.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                        {article.metaDescription}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
-                          {article.mainKeyword}
-                        </span>
-                        <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
-                      </div>
-                    </button>
                   );
                 })}
               </div>

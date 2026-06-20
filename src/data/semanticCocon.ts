@@ -82,6 +82,41 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       description: 'Réponses d\'expert à toutes vos questions sur l\'investissement en SCPI',
       icon: 'help-circle',
       type: 'sibling'
+    },
+    {
+      title: 'Frais de souscription et de gestion SCPI',
+      url: '/articles/frais-scpi/',
+      description: 'Comparatif des frais d\'entrée, de gestion et leur impact sur le rendement',
+      icon: 'percent',
+      type: 'child'
+    },
+    {
+      title: 'Risques et liquidité des SCPI',
+      url: '/articles/risques-scpi/',
+      description: 'Points de vigilance avant d\'investir : liquidité, vacance, baisse de valeur',
+      icon: 'shield',
+      type: 'child'
+    },
+    {
+      title: 'Délai de jouissance des parts de SCPI',
+      url: '/articles/delai-jouissance-scpi/',
+      description: 'Comprendre le fonctionnement du délai de jouissance et son impact',
+      icon: 'clock',
+      type: 'child'
+    },
+    {
+      title: 'Marché secondaire des parts de SCPI',
+      url: '/articles/liquidite-scpi/',
+      description: 'Comment fonctionne la revente de parts et les délais de retrait',
+      icon: 'arrow-right',
+      type: 'child'
+    },
+    {
+      title: 'Report à nouveau : mécanisme des réserves',
+      url: '/articles/report-a-nouveau-scpi/',
+      description: 'Comment les SCPI lissent leurs distributions avec le report à nouveau',
+      icon: 'file-text',
+      type: 'child'
     }
   ],
 
@@ -128,6 +163,41 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       description: 'Les meilleures SCPI 100% investies en France métropolitaine',
       icon: 'flag',
       type: 'child'
+    },
+    {
+      title: 'Rendement SCPI 2025 : TDVM et taux de distribution',
+      url: '/articles/rendement-scpi-2025-tdvm-taux-distribution/',
+      description: 'Analyse des taux de distribution 2025 et comparaison entre SCPI',
+      icon: 'percent',
+      type: 'child'
+    },
+    {
+      title: 'Rendement net de fiscalité des SCPI expliqué',
+      url: '/articles/rendement-net-scpi/',
+      description: 'Calculer le rendement net après impôts selon votre TMI',
+      icon: 'euro',
+      type: 'child'
+    },
+    {
+      title: 'Frais de souscription et de gestion SCPI',
+      url: '/articles/frais-scpi/',
+      description: 'Comparatif détaillé des frais et leur impact sur la performance',
+      icon: 'percent',
+      type: 'child'
+    },
+    {
+      title: 'Risques et vigilance avant d\'investir',
+      url: '/articles/risques-scpi/',
+      description: 'Identifier les principaux risques : liquidité, vacance, marché secondaire',
+      icon: 'shield',
+      type: 'child'
+    },
+    {
+      title: 'TOF SCPI : tout comprendre en 5 minutes',
+      url: '/articles/tof-scpi/',
+      description: 'Taux d\'Occupation Financier : l\'indicateur clé de performance SCPI',
+      icon: 'trending-up',
+      type: 'child'
     }
   ],
 
@@ -167,6 +237,41 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       description: 'Comparer les avantages de l\'investissement France vs Europe',
       icon: 'flag',
       type: 'sibling'
+    },
+    {
+      title: 'SCPI européennes : le guide complet',
+      url: '/articles/scpi-europeennes/',
+      description: 'Fonctionnement, fiscalité et rendement des SCPI paneuropéennes',
+      icon: 'globe',
+      type: 'child'
+    },
+    {
+      title: 'Revenus de SCPI étrangères et fiscalité',
+      url: '/articles/scpi-revenus-etrangers/',
+      description: 'Comment sont imposés les revenus de SCPI investies hors de France',
+      icon: 'file-text',
+      type: 'child'
+    },
+    {
+      title: 'SCPI pour expatriés : fiscalité spécifique',
+      url: '/articles/scpi-expatrie-fiscalite/',
+      description: 'Investir en SCPI quand on est expatrié : cadre fiscal applicable',
+      icon: 'map-pin',
+      type: 'child'
+    },
+    {
+      title: 'Diversification internationale en SCPI',
+      url: '/articles/scpi-internationales-diversification/',
+      description: 'Les avantages de diversifier ses SCPI sur plusieurs pays européens',
+      icon: 'trending-up',
+      type: 'child'
+    },
+    {
+      title: 'Crédit d\'impôt étranger pour SCPI européennes',
+      url: '/articles/scpi-credit-impot/',
+      description: 'Fonctionnement du crédit d\'impôt pour éviter la double imposition',
+      icon: 'euro',
+      type: 'child'
     }
   ],
 
@@ -270,6 +375,41 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       description: 'Comparer les SCPI investies en Europe',
       icon: 'globe',
       type: 'sibling'
+    },
+    {
+      title: 'Comparateur SCPI fiable : nos critères',
+      url: '/articles/comparateur-scpi-fiable/',
+      description: 'Comment nous évaluons les SCPI : méthodologie et transparence',
+      icon: 'bar-chart',
+      type: 'child'
+    },
+    {
+      title: 'Comment choisir sa SCPI en 2025',
+      url: '/articles/choisir-scpi/',
+      description: 'Critères essentiels pour sélectionner la SCPI adaptée à votre profil',
+      icon: 'target',
+      type: 'child'
+    },
+    {
+      title: 'Allocation SCPI : quelle part dans son patrimoine ?',
+      url: '/articles/allocation-scpi/',
+      description: 'Déterminer le bon pourcentage d\'exposition aux SCPI selon votre situation',
+      icon: 'pie-chart',
+      type: 'child'
+    },
+    {
+      title: 'Meilleures SCPI : attention aux pièges',
+      url: '/articles/meilleures-scpi-attention/',
+      description: 'Les erreurs à éviter quand on cherche les SCPI les plus performantes',
+      icon: 'alert-triangle',
+      type: 'child'
+    },
+    {
+      title: 'Rendement net de fiscalité des SCPI',
+      url: '/articles/rendement-net-scpi/',
+      description: 'Calculer le vrai rendement après impôts : l\'indicateur qui compte',
+      icon: 'euro',
+      type: 'child'
     }
   ],
 
@@ -295,6 +435,41 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       description: 'SCPI de rendement vs SCPI fiscales : combiner les deux stratégies',
       icon: 'euro',
       type: 'sibling'
+    },
+    {
+      title: 'Fiscalité des revenus SCPI : le guide complet',
+      url: '/articles/scpi-fiscalite/',
+      description: 'TMI, prélèvements sociaux, régime micro-foncier : tout comprendre',
+      icon: 'file-text',
+      type: 'child'
+    },
+    {
+      title: 'SCPI et TMI 30% : quelle optimisation ?',
+      url: '/articles/scpi-tmi-30/',
+      description: 'Stratégie fiscale pour les contribuables en tranche 30%',
+      icon: 'percent',
+      type: 'child'
+    },
+    {
+      title: 'Revenus de SCPI étrangères : fiscalité',
+      url: '/articles/scpi-revenus-etrangers/',
+      description: 'Crédit d\'impôt et conventions internationales pour SCPI européennes',
+      icon: 'globe',
+      type: 'child'
+    },
+    {
+      title: 'Prélèvements sociaux sur revenus SCPI',
+      url: '/articles/scpi-prelevements-sociaux/',
+      description: 'CSG, CRDS : le point sur les 17,2% de prélèvements sociaux',
+      icon: 'euro',
+      type: 'child'
+    },
+    {
+      title: 'SCI IS vs détention directe de SCPI',
+      url: '/articles/scpi-sci-is-fiscalite/',
+      description: 'Comparaison fiscale : détenir ses SCPI en direct ou via une SCI à l\'IS',
+      icon: 'building',
+      type: 'child'
     }
   ],
 
@@ -396,6 +571,34 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       url: '/preparer-retraite-scpi',
       description: 'Secteur santé idéal pour préparer sa retraite (demande croissante)',
       icon: 'piggy-bank',
+      type: 'child'
+    },
+    {
+      title: 'SCPI de santé : le guide complet',
+      url: '/articles/scpi-sante/',
+      description: 'EHPAD, cliniques, cabinets médicaux : tout savoir sur les SCPI santé',
+      icon: 'heart',
+      type: 'child'
+    },
+    {
+      title: 'SCPI santé : EHPAD et cliniques',
+      url: '/articles/scpi-sante-seniors-ehpad-cliniques-investissement/',
+      description: 'Analyse du secteur porteur des EHPAD et établissements de santé',
+      icon: 'users',
+      type: 'child'
+    },
+    {
+      title: 'Risques et vigilance avant d\'investir',
+      url: '/articles/risques-scpi/',
+      description: 'Identifier et comprendre les risques avant de se lancer en SCPI',
+      icon: 'shield',
+      type: 'child'
+    },
+    {
+      title: 'Sociétés de gestion SCPI : comment choisir',
+      url: '/articles/societe-gestion-scpi/',
+      description: 'Critères pour évaluer la qualité d\'une société de gestion de SCPI',
+      icon: 'award',
       type: 'child'
     }
   ],
@@ -999,6 +1202,57 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       url: '/comprendre-scpi',
       description: 'Notre guide complet pour investir en SCPI',
       icon: 'book-open',
+      type: 'child'
+    }
+  ],
+  '/investir-scpi': [
+    {
+      title: 'Accueil MaximusSCPI',
+      url: '/',
+      description: 'Retour au comparateur et à nos outils d\'aide à la décision',
+      icon: 'home',
+      type: 'parent'
+    },
+    {
+      title: 'Comprendre les SCPI',
+      url: '/comprendre-scpi',
+      description: 'Guide complet pour maîtriser les fondamentaux avant d\'investir',
+      icon: 'book-open',
+      type: 'parent'
+    },
+    {
+      title: 'Premier investissement SCPI : guide débutant',
+      url: '/articles/premier-investissement-scpi-debutant-guide/',
+      description: 'Tout ce qu\'il faut savoir pour réussir son premier achat de parts',
+      icon: 'star',
+      type: 'child'
+    },
+    {
+      title: 'Combien investir en SCPI ?',
+      url: '/articles/combien-investir-scpi/',
+      description: 'Déterminer le montant optimal selon votre patrimoine et vos objectifs',
+      icon: 'euro',
+      type: 'child'
+    },
+    {
+      title: 'Investir en une fois ou progressivement ?',
+      url: '/articles/investir-scpi-une-fois-ou-progressivement/',
+      description: 'Lump sum vs DCA : quelle stratégie d\'entrée pour les SCPI ?',
+      icon: 'trending-up',
+      type: 'child'
+    },
+    {
+      title: 'Acheter des SCPI à crédit : effet de levier',
+      url: '/articles/achat-scpi-credit-effet-levier-fiscalite/',
+      description: 'Simulation de l\'effet de levier du crédit pour doper le rendement SCPI',
+      icon: 'piggy-bank',
+      type: 'child'
+    },
+    {
+      title: 'SCPI au comptant : avantages et limites',
+      url: '/articles/scpi-comptant/',
+      description: 'Acheter ses parts cash : simplicité et rentabilité immédiate',
+      icon: 'percent',
       type: 'child'
     }
   ]

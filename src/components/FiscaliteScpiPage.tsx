@@ -24,12 +24,12 @@ const FiscaliteScpiPage: React.FC<FiscaliteScpiPageProps> = ({ onNavigate, onRdv
   const btnSecondaryClass = "inline-flex items-center gap-2 bg-slate-800 text-blue-300 border border-blue-500/50 px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-slate-700 transition-colors";
 
   const relatedArticles = [
-    { title: "SCPI en direct ou en assurance-vie : quelle enveloppe choisir ?", url: "/education/scpi-en-direct-ou-assurance-vie" },
-    { title: "Démembrement de propriété SCPI : nue-propriété et usufruit", url: "/education/demembrement-scpi-nue-propriete-usufruit" },
-    { title: "PER et SCPI : déduction fiscale et préparation à la retraite", url: "/education/per-scpi-retraite-deduction-fiscale" },
-    { title: "SCI et SCPI : détention via une société civile immobilière", url: "/education/sci-scpi-societe-civile-immobiliere-parts" },
-    { title: "Investir en SCPI : guide complet pour débutants", url: "/education/premier-investissement-scpi-debutant-guide" },
-    { title: "SCPI pour jeunes actifs : investir entre 25 et 35 ans", url: "/education/investir-scpi-jeune-actif-25-35-ans" },
+    { title: "SCPI en direct ou en assurance-vie : quelle enveloppe choisir ?", url: "/articles/scpi-en-direct-ou-assurance-vie/" },
+    { title: "Démembrement de propriété SCPI : nue-propriété et usufruit", url: "/articles/demembrement-scpi-nue-propriete-usufruit/" },
+    { title: "PER et SCPI : déduction fiscale et préparation à la retraite", url: "/articles/per-scpi-retraite-deduction-fiscale/" },
+    { title: "SCI et SCPI : détention via une société civile immobilière", url: "/articles/sci-scpi-societe-civile-immobiliere-parts/" },
+    { title: "Investir en SCPI : guide complet pour débutants", url: "/articles/premier-investissement-scpi-debutant-guide/" },
+    { title: "SCPI pour jeunes actifs : investir entre 25 et 35 ans", url: "/articles/investir-scpi-jeune-actif-25-35-ans/" },
   ];
 
   return (
@@ -352,7 +352,7 @@ const FiscaliteScpiPage: React.FC<FiscaliteScpiPageProps> = ({ onNavigate, onRdv
           </p>
           <p className="text-sm text-slate-400 mb-6">
             Toutes les SCPI ne sont pas disponibles en assurance-vie. Les frais du contrat (unités de compte, gestion) impactent le rendement net.{' '}
-            <a href="/education/scpi-en-direct-ou-assurance-vie" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
+            <a href="/articles/scpi-en-direct-ou-assurance-vie/" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
               Comparer SCPI en direct vs assurance-vie <ArrowRight className="w-3 h-3" />
             </a>
           </p>
@@ -362,7 +362,7 @@ const FiscaliteScpiPage: React.FC<FiscaliteScpiPageProps> = ({ onNavigate, onRdv
             Certaines SCPI sont accessibles au sein d'un PER individuel en unités de compte. Les versements volontaires sont <strong className="text-white">déductibles du revenu imposable</strong> dans la limite des plafonds légaux (10 % des revenus professionnels nets, plafonné selon les règles en vigueur). La fiscalité s'applique à la sortie (rente ou capital), ce qui peut être avantageux si la TMI à la retraite est inférieure à la TMI actuelle.
           </p>
           <p className="text-sm text-slate-400 mb-6">
-            <a href="/education/per-scpi-retraite-deduction-fiscale" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
+            <a href="/articles/per-scpi-retraite-deduction-fiscale/" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
               En savoir plus sur le PER et les SCPI <ArrowRight className="w-3 h-3" />
             </a>
           </p>
@@ -372,7 +372,7 @@ const FiscaliteScpiPage: React.FC<FiscaliteScpiPageProps> = ({ onNavigate, onRdv
             L'acquisition en <strong className="text-white">nue-propriété</strong> permet d'acheter des parts de SCPI avec une décote (généralement 15 % à 40 % selon la durée du démembrement, sans garantie de résultat). Pendant la période de démembrement, le nu-propriétaire ne perçoit pas de revenus fonciers et n'a donc <strong className="text-white">aucun revenu imposable à déclarer</strong> à ce titre. À l'extinction du démembrement, il récupère la pleine propriété. Cette stratégie peut convenir aux investisseurs fortement imposés qui cherchent à différer les revenus.
           </p>
           <p className="text-sm text-slate-400 mb-6">
-            <a href="/education/demembrement-scpi-nue-propriete-usufruit" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
+            <a href="/articles/demembrement-scpi-nue-propriete-usufruit/" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
               Comprendre le démembrement SCPI <ArrowRight className="w-3 h-3" />
             </a>
           </p>
@@ -382,7 +382,7 @@ const FiscaliteScpiPage: React.FC<FiscaliteScpiPageProps> = ({ onNavigate, onRdv
             Une SCI soumise à l'IS peut acquérir des parts de SCPI. Les revenus sont alors imposés au <strong className="text-white">taux de l'impôt sur les sociétés</strong> (15 % jusqu'à 42 500 € de bénéfices, puis 25 % au-delà), plutôt qu'au barème progressif de l'IR. Cette option peut réduire la pression fiscale annuelle pour les contribuables fortement imposés, mais implique une imposition supplémentaire à la sortie (distribution de dividendes ou cession de parts de SCI).
           </p>
           <p className="text-sm text-slate-400 mb-8">
-            <a href="/education/sci-scpi-societe-civile-immobiliere-parts" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
+            <a href="/articles/sci-scpi-societe-civile-immobiliere-parts/" className="text-blue-400 hover:text-blue-300 hover:underline inline-flex items-center gap-1">
               SCI et SCPI : fonctionnement détaillé <ArrowRight className="w-3 h-3" />
             </a>
           </p>

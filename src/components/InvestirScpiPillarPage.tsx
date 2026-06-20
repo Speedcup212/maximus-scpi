@@ -13,11 +13,11 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
   const currentDate = new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const relatedArticles = [
-    { title: "Premier Investissement SCPI : Guide Débutant", url: "/education/premier-investissement-scpi-debutant-guide" },
-    { title: "Investir en SCPI Jeune Actif (25-35 ans)", url: "/education/investir-scpi-jeune-actif-25-35-ans" },
-    { title: "SCPI ou Immobilier Locatif : Comparatif 20 ans", url: "/education/scpi-ou-immobilier-locatif-comparatif-20-ans" },
-    { title: "Achat SCPI à Crédit : Effet Levier", url: "/education/achat-scpi-credit-effet-levier-fiscalite" },
-    { title: "Diversification SCPI : Combien de Parts ?", url: "/education/diversification-scpi-combien-nombre-parts" }
+    { title: "Premier Investissement SCPI : Guide Débutant", url: "/articles/premier-investissement-scpi-debutant-guide/" },
+    { title: "Investir en SCPI Jeune Actif (25-35 ans)", url: "/articles/investir-scpi-jeune-actif-25-35-ans/" },
+    { title: "SCPI ou Immobilier Locatif : Comparatif 20 ans", url: "/articles/scpi-ou-immobilier-locatif-comparatif-20-ans/" },
+    { title: "Achat SCPI à Crédit : Effet Levier", url: "/articles/achat-scpi-credit-effet-levier-fiscalite/" },
+    { title: "Diversification SCPI : Combien de Parts ?", url: "/articles/diversification-scpi-combien-nombre-parts/" }
   ];
 
   return (
@@ -174,7 +174,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                   <strong>Stratégie :</strong> SCPI Assurance-Vie (PFU 30% après 8 ans) ou achat crédit (effet levier). Privilégier SCPI croissance (valorisation capital).
                 </p>
-                <a href="/education/investir-scpi-jeune-actif-25-35-ans" className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1">
+                <a href="/articles/investir-scpi-jeune-actif-25-35-ans/" className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1">
                   Lire le guide complet <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -187,7 +187,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                   <strong>Stratégie :</strong> SCPI AV (PFU 30%) ou PER (déduction IR). Éviter SCPI direct (taxation 47-58%). Privilégier SCPI rendement (6%+).
                 </p>
-                <a href="/education/scpi-tmi-30-pourcent-arbitrage-av-direct" className="text-sm text-green-600 hover:underline inline-flex items-center gap-1">
+                <a href="/articles/scpi-tmi-30-pourcent-arbitrage-av-direct/" className="text-sm text-green-600 hover:underline inline-flex items-center gap-1">
                   TMI 30% : Optimisation fiscale <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -200,7 +200,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                   <strong>Stratégie :</strong> PER SCPI (déduction fiscale immédiate). Démembrement nue-propriété (0€ IR pendant 10-20 ans, puis pleine propriété).
                 </p>
-                <a href="/education/per-scpi-retraite-deduction-fiscale" className="text-sm text-purple-600 hover:underline inline-flex items-center gap-1">
+                <a href="/articles/per-scpi-retraite-deduction-fiscale/" className="text-sm text-purple-600 hover:underline inline-flex items-center gap-1">
                   PER SCPI : Guide retraite <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -245,7 +245,7 @@ const InvestirScpiPillarPage: React.FC<InvestirScpiPillarPageProps> = ({ onNavig
                   <li>• <strong>Objectif :</strong> Revenus 10-12k€/an + Optimisation IFI</li>
                   <li>• <strong>Enveloppe :</strong> Mix AV + Direct + PER selon TMI</li>
                 </ul>
-                <a href="/education/investir-200000-euros-scpi-portefeuille-diversifie" className="text-sm text-purple-600 hover:underline inline-flex items-center gap-1 mt-3">
+                <a href="/articles/investir-200000-euros-scpi-portefeuille-diversifie/" className="text-sm text-purple-600 hover:underline inline-flex items-center gap-1 mt-3">
                   Exemple portefeuille 200k€ <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
