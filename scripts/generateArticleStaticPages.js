@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -176,6 +177,36 @@ if (mgmtArrayMatch) {
 }
 
 console.log(`📄 ${mgmtCompanyMap.size} sociétés de gestion parsées depuis managementCompanyArticlesConfig.ts`);
+
+// ============================================================
+// 1c. CHARGER LES ARTICLES DEPUIS SUPABASE (content_html réel)
+// ============================================================
+
+const supabaseArticles = {};
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+
+if (supabaseUrl && supabaseKey) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from('articles_seo')
+      .select('slug, title, meta_description, intro, content_html, keywords, featured')
+      .eq('status', 'published');
+
+    if (!error && data) {
+      data.forEach(article => {
+        supabaseArticles[article.slug] = article;
+      });
+      console.log(`📥 ${data.length} articles chargés depuis Supabase`);
+    }
+  } catch (e) {
+    console.log('⚠️  Supabase non disponible — fallback placeholder');
+  }
+} else {
+  console.log('⚠️  Variables SUPABASE_URL / SUPABASE_ANON_KEY absentes — fallback placeholder');
+}
 
 // ============================================================
 // 2. HELPER : contenu textuel structuré
@@ -383,14 +414,16 @@ const escapeHtml = (str) => {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 };
 
-const generateHTML = (article, mgmtCompany = null) => {
+const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   const baseUrl = 'https://maximusscpi.com';
   const pageUrl = `${baseUrl}/articles/${article.slug}/`;
   const title = `${article.title} | MaximusSCPI`;
   const keywordsStr = (article.keywords || []).join(', ');
   const isMgmt = !!mgmtCompany;
-  const content = isMgmt ? null : generateContent(article);
+  const isSupabase = !!supabaseArticle && !!supabaseArticle.content_html;
+  const content = (isMgmt || isSupabase) ? null : generateContent(article);
   const mgmtBody = isMgmt ? generateManagementCompanyContent(mgmtCompany) : '';
+  const sbBody = isSupabase ? supabaseArticle.content_html : '';
 
   return `<!doctype html>
 <html lang="fr" translate="no">
@@ -501,7 +534,11 @@ const generateHTML = (article, mgmtCompany = null) => {
     </section>
 
     <article class="article-body">
-${isMgmt ? mgmtBody : `
+${isMgmt
+    ? mgmtBody
+    : (isSupabase
+        ? sbBody
+        : `
       <p class="intro">${content.intro}</p>
 ${content.sections.map(s => `
       <h2>${s.title}</h2>
@@ -511,7 +548,8 @@ ${content.sections.map(s => `
       <div class="conclusion">
         <p><strong>Conclusion</strong> — ${content.conclusion}</p>
       </div>
-`}
+`)
+}
 
       <p class="disclaimer">
         <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un conseiller en gestion de patrimoine agréé ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
@@ -610,7 +648,19 @@ ${content.sections.map(s => `
 // 4. GÉNÉRATION MARKDOWN
 // ============================================================
 
-const generateMD = (article, mgmtCompany = null) => {
+const generateMD = (article, mgmtCompany = null, supabaseArticle = null) => {
+  if (supabaseArticle && supabaseArticle.content_html) {
+    let md = `# ${supabaseArticle.title || article.title}\n\n`;
+    md += `${supabaseArticle.meta_description || article.metaDescription}\n\n`;
+    if (supabaseArticle.intro) {
+      md += `${supabaseArticle.intro}\n\n`;
+    }
+    md += `---\n\n`;
+    md += `*Article généré par MaximusSCPI — Conseiller en gestion de patrimoine agréé ORIAS n°13001580.*\n`;
+    md += `*URL : https://maximusscpi.com/articles/${article.slug}/*\n`;
+    return md;
+  }
+
   if (mgmtCompany) {
     let md = `# ${mgmtCompany.title || article.title}\n\n`;
     md += `${article.metaDescription}\n\n`;
@@ -739,19 +789,24 @@ const generateArticles = () => {
         fs.mkdirSync(pageDir, { recursive: true });
       }
 
+      // Vérifier si le contenu existe dans Supabase
+      const supabaseArticle = supabaseArticles[article.slug] || null;
+
       // Vérifier si c'est une société de gestion
       const mgmtCompany = mgmtCompanyMap.get(article.slug) || null;
 
       // HTML
-      const htmlContent = generateHTML(article, mgmtCompany);
+      const htmlContent = generateHTML(article, mgmtCompany, supabaseArticle);
       fs.writeFileSync(path.join(pageDir, 'index.html'), htmlContent, 'utf-8');
 
       // MD
-      const mdContent = generateMD(article, mgmtCompany);
+      const mdContent = generateMD(article, mgmtCompany, supabaseArticle);
       fs.writeFileSync(path.join(pageDir, 'index.md'), mdContent, 'utf-8');
 
       generated++;
-      if (mgmtCompany) {
+      if (supabaseArticle && supabaseArticle.content_html) {
+        console.log(`✓ [${article.slug}] — contenu Supabase (${supabaseArticle.content_html.length} chars)`);
+      } else if (mgmtCompany) {
         const htmlText = htmlContent.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
         const wordCount = htmlText.split(/\s+/).filter(w => w.length > 0).length;
         console.log(`✓ [${article.slug}] — contenu société de gestion (${wordCount} mots)`);
