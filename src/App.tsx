@@ -544,7 +544,9 @@ const App: React.FC = () => {
       } else if (path === 'education/investir-scpi-jeune-actif-25-35-ans') {
         setCurrentView('article-scpi-jeune-actif');
       } else if (path === 'articles/fonds-euros-ou-scpi') {
-        setCurrentView('article-fonds-euros-ou-scpi');
+        setCurrentArticleSlug('fonds-euros-ou-scpi');
+        setCurrentView('dynamic-article');
+        return;
       } else if (path === 'articles/scpi-en-direct-ou-assurance-vie') {
         setCurrentView('article-scpi-direct-av');
       } else if (path === 'articles/100000-euros-fonds-euros-cout-opportunite') {
@@ -770,6 +772,11 @@ const App: React.FC = () => {
         setCurrentView('construire-portefeuille-scpi');
       } else if (path === 'parcours-guide' || path === 'guided-journey' || path.startsWith('parcours-guide/')) {
         setCurrentView('guided-journey');
+      } else if (path.startsWith('articles/')) {
+        const articleSlug = path.replace('articles/', '').replace(/\/$/, '');
+        setCurrentArticleSlug(articleSlug);
+        setCurrentView('dynamic-article');
+        return;
       } else {
         // Check if it's a dynamic article from articleTemplatesConfig
         const articleTemplate = getTemplateBySlug(path);
@@ -1291,6 +1298,11 @@ const App: React.FC = () => {
         setCurrentView('actualites');
       } else if (normalizedPath === 'articles') {
         setCurrentView('articles-list');
+      } else if (normalizedPath.startsWith('articles/')) {
+        const articleSlug = normalizedPath.replace('articles/', '').replace(/\/$/, '');
+        setCurrentArticleSlug(articleSlug);
+        setCurrentView('dynamic-article');
+        return;
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2697,8 +2709,8 @@ const App: React.FC = () => {
 
   // Render Dynamic Article (New System)
   if (currentView === 'dynamic-article' && currentArticleSlug) {
-    // Articles optimisés chargés depuis Supabase
-    const optimizedArticles = ['fonds-euros-ou-scpi', 'scpi-en-direct-ou-assurance-vie'];
+    // Articles optimisés chargés depuis Supabase (content_html prioritaire)
+    const optimizedArticles = ['fonds-euros-ou-scpi', 'scpi-en-direct-ou-assurance-vie', 'investir-scpi-tmi-30-pourcent'];
 
     if (optimizedArticles.includes(currentArticleSlug)) {
       return (
