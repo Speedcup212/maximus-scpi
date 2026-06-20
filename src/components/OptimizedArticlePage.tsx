@@ -107,6 +107,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   // 1. Priorité : content_html Supabase
   // 2. Fallback : composant React (component_name)
   const hasContentHtml = article.content_html && article.content_html.trim().length > 0;
+  const cleanedHtml = hasContentHtml ? cleanArticleHtml(article.content_html!) : '';
 
   // Schemas structurés pour SEO
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -139,8 +140,8 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           // Rendu du contenu HTML Supabase
           <article className="max-w-none">
             <div
-              className="seo-article scpi-article"
-              dangerouslySetInnerHTML={{ __html: article.content_html! }}
+              className="article-prose"
+              dangerouslySetInnerHTML={{ __html: cleanedHtml }}
             />
           </article>
         ) : getArticleComponent(article.component_name) ? (
@@ -197,5 +198,15 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
     </>
   );
 };
+
+/** Nettoie les résidus Markdown présents dans le content_html Supabase
+ *  (backticks ```, titres markdown #, etc.) */
+function cleanArticleHtml(raw: string): string {
+  return raw
+    .replace(/```html/gi, "")
+    .replace(/```/g, "")
+    .replace(/^\s*#{1,6}\s+/gm, "")
+    .trim();
+}
 
 export default OptimizedArticlePage;

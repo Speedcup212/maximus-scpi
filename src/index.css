@@ -369,3 +369,57 @@ select option {
 .article-body a:hover {
   color: #ffffff;
 }
+
+/* ============================================================
+   .article-prose — Rendu des articles Supabase
+   Variables de charte MaximusSCPI :
+   --prose-h1    : #f43f5e (rose branding)
+   --prose-accent: #10b981 (vert émeraude liens / CTA)
+   ============================================================ */
+.article-prose {
+  --prose-bg: #111827;
+  --prose-text: #e5e7eb;
+  --prose-h1: #f43f5e;
+  --prose-accent: #10b981;
+
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  color: var(--prose-text);
+  line-height: 1.75;
+  font-size: 1.0625rem;
+}
+.article-prose h1 { color: var(--prose-h1); font-size: 2rem; line-height: 1.2; margin: 0 0 1rem; }
+.article-prose h2 { color: #fff; font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+.article-prose h3 { color: #fff; font-size: 1.2rem; margin: 1.75rem 0 .75rem; }
+.article-prose p  { margin: 0 0 1.1rem; }
+.article-prose ul, .article-prose ol { margin: 0 0 1.25rem 1.25rem; }
+.article-prose li { margin: .35rem 0; }
+.article-prose a  { color: var(--prose-accent); text-decoration: underline; }
+
+/* Tableaux lisibles */
+.article-prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .95rem; }
+.article-prose th, .article-prose td { border: 1px solid #374151; padding: .6rem .8rem; text-align: left; }
+.article-prose thead th { background: #1f2937; color: #fff; }
+
+/* Bloc "À retenir" */
+.article-prose aside.callout {
+  background: #1f2937; border-left: 3px solid var(--prose-accent);
+  border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+}
+.article-prose aside.callout ul { margin-bottom: 0; }
+
+/* Sommaire */
+.article-prose nav.toc { background: #1f2937; border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+.article-prose nav.toc a { display: block; padding: .25rem 0; }
+
+/* FAQ */
+.article-prose section.faq h3 { border-top: 1px solid #374151; padding-top: 1.25rem; }
+
+/* FILEt DE SÉCURITÉ : neutralise tout fond clair parasite */
+.article-prose [class*="header"],
+.article-prose [class*="summary"],
+.article-prose [class*="box"] {
+  background: transparent !important;
+  color: inherit !important;
+}
