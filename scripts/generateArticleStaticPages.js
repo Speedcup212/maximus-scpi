@@ -380,7 +380,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .article-body .intro{font-size:1.125rem;color:#cbd5e1;line-height:1.85;margin-bottom:1.5rem;padding:1.25rem;background:#1e2533;border-radius:0.75rem;border:1px solid #2d3748}
 .article-body .conclusion{font-size:1.0625rem;color:#cbd5e1;line-height:1.85;margin-top:2rem;padding:1.25rem;background:#1e3a5f;border-radius:0.75rem;border-left:4px solid #10b981}
 .article-body .disclaimer{font-size:0.8125rem;color:#64748b;margin-top:1.5rem;line-height:1.6;border-top:1px solid #2d3748;padding-top:1rem}
-.maillage-interne a{color:#10b981!important}
+.article-body a{color:#e2e8f0!important;text-decoration:underline}
+.article-body a:hover{color:#fff!important}
 .container{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem}
 .btn{display:inline-block;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;transition:background 0.2s,transform 0.2s;font-size:1.0625rem;text-align:center}
 .btn-primary{background:#10b981;color:#fff}
