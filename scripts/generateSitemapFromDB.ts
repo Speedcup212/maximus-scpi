@@ -90,6 +90,7 @@ async function generateSitemap() {
 
   // ── 1. Récupérer les slugs locaux depuis articleTemplatesConfig ──
   const localArticleSlugs: string[] = articleTemplates
+    .filter(t => t.indexable !== false)
     .map(t => t.slug)
     .filter(slug => !excludePatterns.some(p => p.test(slug)));
 

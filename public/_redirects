@@ -44,6 +44,26 @@
 # Redirections 301 education/ → articles/ (sans slash → avec slash)
 /education/:slug /articles/:slug/ 301
 
+# Redirections 301 slugs courts Supabase → slugs canoniques TSX (TASK-003)
+/articles/investir-scpi-tmi-30-pourcent /articles/scpi-tmi-30-pourcent-arbitrage-av-direct 301
+/articles/investir-scpi-tmi-30-pourcent/ /articles/scpi-tmi-30-pourcent-arbitrage-av-direct/ 301
+/articles/investir-scpi-tmi-41-pourcent /articles/forte-imposition-tmi-41-scpi-assurance-vie 301
+/articles/investir-scpi-tmi-41-pourcent/ /articles/forte-imposition-tmi-41-scpi-assurance-vie/ 301
+/articles/scpi-europeennes-avantages /articles/scpi-europeennes-avantages-ps-0-rendement 301
+/articles/scpi-europeennes-avantages/ /articles/scpi-europeennes-avantages-ps-0-rendement/ 301
+/articles/demembrement-scpi-nue-propriete /articles/demembrement-scpi-nue-propriete-usufruit 301
+/articles/demembrement-scpi-nue-propriete/ /articles/demembrement-scpi-nue-propriete-usufruit/ 301
+/articles/frais-scpi-souscription-gestion /articles/frais-scpi-souscription-gestion-performance 301
+/articles/frais-scpi-souscription-gestion/ /articles/frais-scpi-souscription-gestion-performance/ 301
+/articles/revendreparts-scpi-delais /articles/revendre-parts-scpi-delais-marche-secondaire 301
+/articles/revendreparts-scpi-delais/ /articles/revendre-parts-scpi-delais-marche-secondaire/ 301
+/articles/diversification-scpi-combien-parts /articles/diversification-scpi-combien-nombre-parts 301
+/articles/diversification-scpi-combien-parts/ /articles/diversification-scpi-combien-nombre-parts/ 301
+/articles/rendement-scpi-2025-tdvm /articles/rendement-scpi-2025-tdvm-taux-distribution 301
+/articles/rendement-scpi-2025-tdvm/ /articles/rendement-scpi-2025-tdvm-taux-distribution/ 301
+/articles/scpi-ou-immobilier-locatif /articles/scpi-ou-immobilier-locatif-comparatif-20-ans 301
+/articles/scpi-ou-immobilier-locatif/ /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301
+
 # Pages statiques générales
 /faq /index.html 200
 /comprendre-les-scpi /index.html 200

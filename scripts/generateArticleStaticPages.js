@@ -89,6 +89,7 @@ rawObjects.forEach(block => {
     category: extractString(block, 'category') || 'guides',
     wordCountTarget: extractNumber(block, 'wordCountTarget') || 2000,
     featured: extractBool(block, 'featured') || false,
+    indexable: extractBool(block, 'indexable'),
     metaDescription: extractString(block, 'metaDescription') || '',
     keywords: extractArray(block, 'keywords')
   });
@@ -785,6 +786,13 @@ const generateArticles = () => {
     try {
       if (!article.slug || !article.title) {
         console.log(`⚠ SKIP [${article.id || '?'}] — slug ou title manquant`);
+        skipped++;
+        return;
+      }
+
+      // Filtrer les articles marqués indexable=false (placeholders / brouillons)
+      if (article.indexable === false) {
+        console.log(`  ⏭ SKIP [${article.slug}] — indexable=false (brouillon / placeholder)`);
         skipped++;
         return;
       }

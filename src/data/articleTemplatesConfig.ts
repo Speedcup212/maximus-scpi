@@ -13,6 +13,7 @@ export interface ArticleTemplate {
   category: 'comparatifs' | 'fiscalite' | 'strategies' | 'marche' | 'guides' | 'analyse' | 'analyse-criteres' | 'fiscalite-modes' | 'risques-vigilance' | 'choix-comparatifs' | 'secteurs-immo' | 'fiscalite-avancee' | 'strategies-patrimoniales' | 'gestionnaires-acteurs' | 'reglementation-transparence';
   wordCountTarget: number;
   featured?: boolean;
+  indexable?: boolean;
   metaDescription: string;
   keywords: string[];
 }
@@ -458,6 +459,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre l\'intérêt des SCPI européennes',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'analyse-criteres',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprendre l\'intérêt des SCPI européennes pour la fiscalité, la diversification géographique et l\'analyse patrimoniale.',
     keywords: ['SCPI européennes', 'fiscalité SCPI européennes', 'rendement net SCPI', 'diversification SCPI']
@@ -471,6 +473,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre le démembrement de SCPI',
     targetAudience: 'investisseurs SCPI sans besoin de revenus immédiats',
     category: 'fiscalite-modes',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez le démembrement de SCPI : nue-propriété, usufruit, décote, fiscalité, durée, absence de revenus temporaires et critères à analyser avant d\'investir.',
     keywords: ['démembrement SCPI', 'nue-propriété SCPI', 'usufruit SCPI', 'décote SCPI']
@@ -495,6 +498,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre la fiscalité SCPI avec TMI 11 %',
     targetAudience: 'investisseurs TMI 11 %',
     category: 'fiscalite-modes',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez comment analyser les SCPI avec une tranche marginale d\'imposition à 11 % : rendement net, SCPI européennes, fiscalité, frais et diversification.',
     keywords: ['SCPI TMI 11', 'fiscalité SCPI', 'rendement net SCPI', 'SCPI européennes']
@@ -507,6 +511,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les stratégies SCPI avec TMI 30 %',
     targetAudience: 'investisseurs TMI 30 %',
     category: 'fiscalite-modes',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les critères d\'analyse des SCPI avec une TMI à 30 % : fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et rendement net.',
     keywords: ['SCPI TMI 30', 'fiscalité SCPI', 'rendement net', 'SCPI européennes']
@@ -519,6 +524,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les frais SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'fiscalite-modes',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les frais des SCPI : frais de souscription, gestion, cession, assurance-vie, frais indirects et impact sur le rendement net.',
     keywords: ['frais SCPI', 'frais souscription SCPI', 'frais gestion SCPI', 'rendement net SCPI']
@@ -532,6 +538,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les principaux risques des SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'risques-vigilance',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les principaux risques des SCPI : perte en capital, liquidité limitée, revenus non garantis, baisse du prix de part, fiscalité, endettement et risque immobilier.',
     keywords: ['risques SCPI', 'perte en capital SCPI', 'liquidité SCPI', 'baisse prix de part SCPI']
@@ -654,6 +661,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les SCPI santé',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'secteurs-immo',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les SCPI santé : cliniques, laboratoires, cabinets médicaux, EHPAD, rendement, stabilité locative, risques et critères à analyser.',
     keywords: ['SCPI santé', 'immobilier santé SCPI', 'investir santé SCPI']
@@ -666,6 +674,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les SCPI logistique',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'secteurs-immo',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les SCPI logistique : entrepôts, locaux d\'activité, e-commerce, rendement, occupation, risques sectoriels, localisation et critères d\'analyse.',
     keywords: ['SCPI logistique', 'entrepôts SCPI', 'immobilier logistique SCPI']
@@ -678,6 +687,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre les SCPI bureaux',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'secteurs-immo',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les SCPI bureaux : télétravail, vacance, baisse des valeurs, rendement, TOF, localisation, qualité des actifs et critères à analyser.',
     keywords: ['SCPI bureaux', 'immobilier bureaux SCPI', 'analyse SCPI bureaux']
@@ -788,6 +798,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre l\'impact fiscal des SCPI à TMI 41 %',
     targetAudience: 'investisseurs TMI 41 %',
     category: 'fiscalite-avancee',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez les critères d\'analyse des SCPI avec une TMI à 41 % : rendement net, fiscalité des revenus fonciers, SCPI européennes, démembrement, assurance-vie et SCI à l\'IS.',
     keywords: ['SCPI TMI 41', 'fiscalité 41%', 'rendement net SCPI', 'SCPI européennes', 'démembrement']
@@ -872,6 +883,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre le traitement IFI des SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'fiscalite-avancee',
+    indexable: false,
     wordCountTarget: 3000,
     metaDescription: 'Comprenez le traitement des SCPI à l\'IFI : parts imposables, valeur à déclarer, détention en direct, assurance-vie, nue-propriété, SCI et points de vigilance.',
     keywords: ['IFI SCPI', 'impôt fortune immobilière SCPI', 'valeur IFI SCPI', 'assurance-vie IFI', 'déclaration IFI']
@@ -958,6 +970,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'comprendre le financement de SCPI à crédit',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'strategies-patrimoniales',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Comprenez l\'investissement en SCPI à crédit : effet de levier, intérêts d\'emprunt, fiscalité, cash-flow, risque de taux et revenus non garantis.',
     keywords: ['SCPI crédit', 'effet levier SCPI', 'financement SCPI', 'crédit immobilier SCPI']
@@ -1211,6 +1224,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion AEW',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de AEW, société de gestion immobilière européenne de premier plan. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['AEW', 'société de gestion SCPI', 'immobilier européen', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1259,6 +1273,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Advenis REIM',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Advenis REIM, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Advenis REIM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1296,6 +1311,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Allianz Immovalor',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Allianz Immovalor, société de gestion du groupe Allianz. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Allianz Immovalor', 'société de gestion SCPI', 'groupe Allianz', 'assureur SCPI', 'gestionnaire SCPI', 'AMF']
@@ -1320,6 +1336,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Axipit Real Estate Partners',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Axipit Real Estate Partners, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Axipit Real Estate Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1344,6 +1361,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Darwin Invest',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Darwin Invest, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Darwin Invest', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1368,6 +1386,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Foncières & Territoires',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Foncières & Territoires, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Foncières et Territoires', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF']
@@ -1380,6 +1399,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Groupama Gan REIM',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Groupama Gan REIM, société de gestion du groupe Groupama. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Groupama Gan REIM', 'société de gestion SCPI', 'groupe Groupama', 'assureur SCPI', 'gestionnaire SCPI', 'AMF']
@@ -1429,6 +1449,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Mata Capital IM',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Mata Capital IM, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Mata Capital IM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1441,6 +1462,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion MNK Partners',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de MNK Partners, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['MNK Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1453,6 +1475,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion MyShareCompany',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de MyShareCompany, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['MyShareCompany', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1489,6 +1512,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Telamon',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Telamon, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Telamon', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1513,6 +1537,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Unofi Gestion d\'Actifs',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Unofi Gestion d\'Actifs, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Unofi Gestion d\'Actifs', 'Unofi', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1526,6 +1551,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Aroxys',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Aroxys, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Aroxys', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1538,6 +1564,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Bagan Asset Management',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Bagan Asset Management, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Bagan Asset Management', 'Bagan AM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1550,6 +1577,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Balzac REIM',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Balzac REIM, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Balzac REIM', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1562,6 +1590,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion ClubFunding AM',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de ClubFunding AM, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['ClubFunding AM', 'ClubFunding', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1574,6 +1603,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Elevation Capital Partners',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Elevation Capital Partners, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Elevation Capital Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1598,6 +1628,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion HSBC REIM France',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de HSBC REIM France, société de gestion du groupe HSBC. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['HSBC REIM France', 'HSBC', 'société de gestion SCPI', 'gestionnaire SCPI', 'banque SCPI', 'AMF', 'documents réglementaires']
@@ -1610,6 +1641,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion MIDI 2i',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de MIDI 2i, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['MIDI 2i', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1622,6 +1654,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Ofi Invest Real Estate',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Ofi Invest Real Estate, société de gestion du groupe Ofi Invest. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Ofi Invest Real Estate', 'Ofi Invest', 'société de gestion SCPI', 'gestionnaire SCPI', 'assureur SCPI', 'AMF', 'documents réglementaires']
@@ -1634,6 +1667,7 @@ export const articleTemplates: ArticleTemplate[] = [
     searchIntent: 'analyser la société de gestion Otoktone 3i',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'gestionnaires-acteurs',
+    indexable: false,
     wordCountTarget: 2500,
     metaDescription: 'Analyse de Otoktone 3i, société de gestion. SCPI associées à vérifier — données à confirmer auprès des sources officielles.',
     keywords: ['Otoktone 3i', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
@@ -1689,7 +1723,7 @@ export const articleTemplates: ArticleTemplate[] = [
   },
   // === 6 NOUVEAUX ARTICLES — Collection Construire son portefeuille SCPI ===
   {
-    id: 136,
+    id: 142,
     slug: 'scpi-expatrie-fiscalite',
     title: 'SCPI pour expatrié : opportunité ou complexité fiscale ?',
     mainKeyword: 'SCPI expatrié fiscalité',
@@ -1701,7 +1735,7 @@ export const articleTemplates: ArticleTemplate[] = [
     keywords: ['SCPI expatrié', 'fiscalité internationale SCPI', 'non-résident SCPI', 'convention fiscale SCPI', 'déclaration revenus SCPI']
   },
   {
-    id: 137,
+    id: 143,
     slug: 'declaration-revenus-scpi-erreurs',
     title: 'Déclaration des revenus SCPI : les erreurs fréquentes',
     mainKeyword: 'déclaration revenus SCPI erreurs',
