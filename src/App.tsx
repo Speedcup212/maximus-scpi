@@ -2710,7 +2710,7 @@ const App: React.FC = () => {
   // Render Dynamic Article (New System)
   if (currentView === 'dynamic-article' && currentArticleSlug) {
     // Articles optimisés chargés depuis Supabase (content_html prioritaire)
-    const optimizedArticles = ['fonds-euros-ou-scpi', 'scpi-en-direct-ou-assurance-vie', 'investir-scpi-tmi-30-pourcent'];
+    const optimizedArticles = ['fonds-euros-ou-scpi', 'scpi-en-direct-ou-assurance-vie', 'investir-scpi-tmi-30-pourcent', 'investir-scpi-tmi-41-pourcent'];
 
     if (optimizedArticles.includes(currentArticleSlug)) {
       return (
