@@ -2,8 +2,6 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { PieChart, Calculator } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
-import Header from './Header';
-import Footer from './Footer';
 import LoadingSpinner from './LoadingSpinner';
 import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
@@ -131,21 +129,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   });
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
-      <Header
-        isDarkMode={true}
-        toggleTheme={() => {}}
-        onContactClick={() => window.open('https://calendly.com/eric-bellaiche/rdv-strategique-scpi', '_blank')}
-        onAboutClick={() => window.location.href = '/qui-sommes-nous'}
-        onLogoClick={() => window.location.href = '/'}
-        onComparateurClick={() => window.location.href = '/comparateur-scpi'}
-        onSimulateurClick={() => window.location.href = '/simulateurs'}
-        onArticlesClick={() => window.location.href = '/articles'}
-        onFaqClick={() => window.location.href = '/faq'}
-        onUnderstandingClick={() => window.location.href = '/comprendre-les-scpi'}
-        currentView="article"
-      />
-
+    <>
       <SEOHead
         title={`${article.title} | MaximusSCPI`}
         description={article.meta_description}
@@ -206,8 +190,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           title="Poursuivez votre découverte des SCPI"
         />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
 
