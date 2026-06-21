@@ -208,7 +208,6 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
       </div>
       <Footer />
     </div>
-    </>
   );
 };
 
