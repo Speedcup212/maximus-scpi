@@ -2708,42 +2708,9 @@ const App: React.FC = () => {
 
 
   // Render Dynamic Article (New System)
+  // OptimizedArticlePage priorise Supabase content_html ; fallback automatique
+  // vers DynamicArticlePage si absent → plus de liste hardcodée à maintenir
   if (currentView === 'dynamic-article' && currentArticleSlug) {
-    // Articles optimisés chargés depuis Supabase (content_html prioritaire)
-    const optimizedArticles = ['fonds-euros-ou-scpi', 'scpi-en-direct-ou-assurance-vie', 'investir-scpi-tmi-30-pourcent', 'investir-scpi-tmi-41-pourcent'];
-
-    if (optimizedArticles.includes(currentArticleSlug)) {
-      return (
-        <div className={isDarkMode ? 'dark' : ''}>
-          <Header
-            isDarkMode={isDarkMode}
-            toggleTheme={toggleTheme}
-            onContactClick={() => setIsRdvModalOpen(true)}
-            onAboutClick={handleAboutUsClick}
-            onEducationClick={handleEducationClick}
-            onLogoClick={handleBackToHome}
-            onScpiPageClick={handleScpiClick}
-            onFaqClick={handleFaqClick}
-            onUnderstandingClick={handleComprendreClick}
-            onAboutSectionClick={handleAboutUsClick}
-            onAboutNavigation={handleGenericNavigation}
-            onComparateurClick={handleComparateurClick}
-            onSimulateurClick={handleSimulateurClick}
-            onArticlesClick={handleArticlesClick}
-            onActualitesClick={handleActualitesClick}
-            currentView={currentView}
-          />
-          <main className="container mx-auto px-4 py-8">
-            <Suspense fallback={<LoadingSpinner />}>
-              <OptimizedArticlePage slug={currentArticleSlug} />
-            </Suspense>
-          </main>
-          <Footer />
-          {renderGlobalModals()}
-        </div>
-      );
-    }
-
     return (
       <div className={isDarkMode ? 'dark' : ''}>
         <Header
@@ -2766,7 +2733,7 @@ const App: React.FC = () => {
         />
         <main className="container mx-auto px-4 py-8">
           <Suspense fallback={<LoadingSpinner />}>
-            <DynamicArticlePage slug={currentArticleSlug} />
+            <OptimizedArticlePage slug={currentArticleSlug} />
           </Suspense>
         </main>
         <Footer />

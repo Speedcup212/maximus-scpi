@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { PieChart, Calculator } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
+import Header from './Header';
+import Footer from './Footer';
+import LoadingSpinner from './LoadingSpinner';
 import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
 import { getArticleComponent } from '../utils/articleComponentsMap';
+
+const DynamicArticlePage = lazy(() => import('./DynamicArticlePage'));
 
 interface OptimizedArticlePageProps {
   slug: string;
@@ -126,7 +131,21 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   });
 
   return (
-    <>
+    <div className="min-h-screen bg-[#0f172a]">
+      <Header
+        isDarkMode={true}
+        toggleTheme={() => {}}
+        onContactClick={() => window.open('https://calendly.com/eric-bellaiche/rdv-strategique-scpi', '_blank')}
+        onAboutClick={() => window.location.href = '/qui-sommes-nous'}
+        onLogoClick={() => window.location.href = '/'}
+        onComparateurClick={() => window.location.href = '/comparateur-scpi'}
+        onSimulateurClick={() => window.location.href = '/simulateurs'}
+        onArticlesClick={() => window.location.href = '/articles'}
+        onFaqClick={() => window.location.href = '/faq'}
+        onUnderstandingClick={() => window.location.href = '/comprendre-les-scpi'}
+        currentView="article"
+      />
+
       <SEOHead
         title={`${article.title} | MaximusSCPI`}
         description={article.meta_description}
@@ -150,18 +169,10 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
             {React.createElement(getArticleComponent(article.component_name)!)}
           </article>
         ) : (
-          // Aucun contenu disponible
-          <div className="min-h-[40vh] flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-white mb-4">Article indisponible</h1>
-              <p className="text-slate-400 mb-6">
-                Cet article est en cours de rédaction. Revenez bientôt.
-              </p>
-              <a href="/" className="text-emerald-400 hover:text-emerald-300 hover:underline font-semibold">
-                Retour à l'accueil
-              </a>
-            </div>
-          </div>
+          // Fallback : DynamicArticlePage (template config)
+          <Suspense fallback={<LoadingSpinner />}>
+            <DynamicArticlePage slug={slug} />
+          </Suspense>
         )}
 
         {/* CTA Section */}
@@ -195,6 +206,8 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           title="Poursuivez votre découverte des SCPI"
         />
       </div>
+      <Footer />
+    </div>
     </>
   );
 };
