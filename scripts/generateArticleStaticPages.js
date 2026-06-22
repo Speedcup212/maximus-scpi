@@ -2,32 +2,74 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
+import * as dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
+
 // ============================================================
-// 1. PARSER articleTemplatesConfig.ts → extraire chaque article
+// 1. CHARGER LES ARTICLES DEPUIS SUPABASE (table articles_seo)
 // ============================================================
 
-const configPath = path.join(__dirname, '../src/data/articleTemplatesConfig.ts');
-const configRaw = fs.readFileSync(configPath, 'utf-8');
+const supabaseArticles = {};
+let articles = [];
 
-// Extraire le tableau articleTemplates (entre [ et ];)
-const arrayMatch = configRaw.match(/export const articleTemplates[:\s]*ArticleTemplate\[\][\s]*=[\s]*\[([\s\S]*?)\n\];/);
-if (!arrayMatch) {
-  console.error('❌ Impossible de parser articleTemplatesConfig.ts');
-  process.exit(1);
+const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+
+console.log('DEBUG Supabase URL présente:', !!supabaseUrl);
+console.log('DEBUG Supabase KEY présente:', !!supabaseKey);
+
+if (supabaseUrl && supabaseKey) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase
+      .from('articles_seo')
+      .select('slug, title, meta_description, category, main_keyword, search_intent, target_audience, word_count, featured, read_time, intro, content_html, keywords')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+
+    if (!error && data) {
+      data.forEach(article => {
+        supabaseArticles[article.slug] = article;
+      });
+      console.log(`📥 ${data.length} articles chargés depuis Supabase`);
+    }
+
+    // Construire le tableau articles depuis Supabase
+    articles = data ? data.map(a => ({
+      id: a.slug,
+      slug: a.slug,
+      title: a.title,
+      mainKeyword: a.main_keyword || '',
+      searchIntent: a.search_intent || '',
+      targetAudience: a.target_audience || '',
+      category: a.category || 'Guides pratiques',
+      wordCountTarget: a.word_count || 2000,
+      featured: a.featured || false,
+      indexable: true,
+      metaDescription: a.meta_description || '',
+      keywords: []
+    })) : [];
+  } catch (e) {
+    console.log('⚠️  Supabase non disponible — aucun article généré');
+    articles = [];
+  }
+} else {
+  console.log('⚠️  Variables SUPABASE_URL / SUPABASE_ANON_KEY absentes');
+  articles = [];
 }
 
-const arrayContent = arrayMatch[1];
+console.log(`📄 ${articles.length} articles provenant de Supabase`);
 
-// Extraire chaque bloc d'objet { ... } (comptage d'accolades)
+// Helpers de parsing (utilisés par managementCompanyArticlesConfig)
 const extractObjects = (text) => {
   const objects = [];
   let i = 0;
   while (i < text.length) {
-    // Aller à la prochaine ouvrante
     const braceIdx = text.indexOf('{', i);
     if (braceIdx === -1) break;
     let depth = 1;
@@ -45,25 +87,10 @@ const extractObjects = (text) => {
   return objects;
 };
 
-const rawObjects = extractObjects(arrayContent);
-
-// Parser chaque objet en article exploitable
 const extractString = (block, field) => {
   const regex = new RegExp(`${field}:\\s*'((?:[^'\\\\]|\\\\.)*)'`);
   const m = block.match(regex);
   return m ? m[1].replace(/\\'/g, "'") : null;
-};
-
-const extractNumber = (block, field) => {
-  const regex = new RegExp(`${field}:\\s*(\\d+)`);
-  const m = block.match(regex);
-  return m ? parseInt(m[1], 10) : null;
-};
-
-const extractBool = (block, field) => {
-  const regex = new RegExp(`${field}:\\s*(true|false)`);
-  const m = block.match(regex);
-  return m ? m[1] === 'true' : null;
 };
 
 const extractArray = (block, field) => {
@@ -72,30 +99,6 @@ const extractArray = (block, field) => {
   if (!m) return [];
   return [...m[1].matchAll(/'((?:[^'\\\\]|\\\\.)*)'/g)].map(m2 => m2[1].replace(/\\'/g, "'"));
 };
-
-const articles = [];
-rawObjects.forEach(block => {
-  const slug = extractString(block, 'slug');
-  const title = extractString(block, 'title');
-  if (!slug || !title) return;
-
-  articles.push({
-    id: extractNumber(block, 'id'),
-    slug,
-    title,
-    mainKeyword: extractString(block, 'mainKeyword') || '',
-    searchIntent: extractString(block, 'searchIntent') || '',
-    targetAudience: extractString(block, 'targetAudience') || '',
-    category: extractString(block, 'category') || 'guides',
-    wordCountTarget: extractNumber(block, 'wordCountTarget') || 2000,
-    featured: extractBool(block, 'featured') || false,
-    indexable: extractBool(block, 'indexable'),
-    metaDescription: extractString(block, 'metaDescription') || '',
-    keywords: extractArray(block, 'keywords')
-  });
-});
-
-console.log(`📄 ${articles.length} articles parsés depuis articleTemplatesConfig.ts`);
 
 // ============================================================
 // 1b. PARSER managementCompanyArticlesConfig.ts → extraire société gestion
@@ -180,38 +183,6 @@ if (mgmtArrayMatch) {
 console.log(`📄 ${mgmtCompanyMap.size} sociétés de gestion parsées depuis managementCompanyArticlesConfig.ts`);
 
 // ============================================================
-// 1c. CHARGER LES ARTICLES DEPUIS SUPABASE (content_html réel)
-// ============================================================
-
-const supabaseArticles = {};
-
-const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
-
-console.log('DEBUG Supabase URL présente:', !!supabaseUrl);
-console.log('DEBUG Supabase KEY présente:', !!supabaseKey);
-
-if (supabaseUrl && supabaseKey) {
-  try {
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    const { data, error } = await supabase
-      .from('articles_seo')
-      .select('slug, title, meta_description, intro, content_html, keywords, featured')
-      .eq('status', 'published');
-
-    if (!error && data) {
-      data.forEach(article => {
-        supabaseArticles[article.slug] = article;
-      });
-      console.log(`📥 ${data.length} articles chargés depuis Supabase`);
-    }
-  } catch (e) {
-    console.log('⚠️  Supabase non disponible — fallback placeholder');
-  }
-} else {
-  console.log('⚠️  Variables SUPABASE_URL / SUPABASE_ANON_KEY absentes — fallback placeholder');
-}
-
 // ============================================================
 // 2. HELPER : contenu textuel structuré
 // ============================================================

@@ -1,9 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { BookOpen, TrendingUp, Shield, Target, AlertTriangle, ArrowRight, BarChart3, Building2, ShieldCheck, PiggyBank, Search, X } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
-import { articleTemplates, ArticleTemplate } from '../data/articleTemplatesConfig';
+import { supabase } from '../supabaseClient';
+
+interface ArticleTemplate {
+  slug: string;
+  title: string;
+  meta_description: string;
+  category: string;
+  main_keyword: string;
+  featured: boolean;
+  word_count: number;
+  read_time: number;
+  keywords?: string[];
+}
 
 interface EducationArticlesIndexPageProps {
   onArticleClick: (slug: string) => void;
@@ -35,48 +47,19 @@ type ArticleFamily =
   | 'reglementation-transparence'
   | 'strategies';
 
-// Mapping catégorie d'origine → famille
+// Mapping catégorie Supabase → famille
 const CATEGORY_FAMILY_MAP: Record<string, ArticleFamily> = {
-  comparatifs: 'choix-comparatifs',
-  analyse: 'choix-comparatifs',
-  'choix-comparatifs': 'choix-comparatifs',
-  fiscalite: 'fiscalite-detention',
-  'fiscalite-modes': 'fiscalite-detention',
-  'fiscalite-avancee': 'fiscalite-detention',
-  'analyse-criteres': 'analyse-criteres',
-  'risques-vigilance': 'risques-vigilance',
-  'secteurs-immo': 'secteurs-immo',
-  strategies: 'strategies',
-  'acteurs-reglementation': 'gestionnaires-acteurs',
-  'gestionnaires-acteurs': 'gestionnaires-acteurs',
-  'reglementation-transparence': 'reglementation-transparence',
-  'strategies-patrimoniales': 'strategies',
-};
-
-// Mapping spécifique par slug pour les articles "guides" répartis dans plusieurs familles
-const SLUG_FAMILY_MAP: Record<string, ArticleFamily> = {
-  'scpi-europeennes-avantages-ps-0-rendement': 'fiscalite-detention',
-  'scpi-sante-seniors-ehpad-cliniques-investissement': 'secteurs-immo',
-  'scpi-bureaux-tertiaire-teletravail-2025': 'secteurs-immo',
-  'scpi-commerces-retail-e-commerce-opportunites': 'secteurs-immo',
-  'scpi-logistique-entrepots-e-commerce-2025': 'secteurs-immo',
-  'scpi-residentielles-logement-locatif-scpi-habitation': 'secteurs-immo',
-  'risques-scpi-vacance-locative-liquidite': 'risques-vigilance',
-  'frais-scpi-souscription-gestion-performance': 'analyse-criteres',
-  'revendre-parts-scpi-delais-marche-secondaire': 'risques-vigilance',
-  'scpi-expatrie-fiscalite': 'fiscalite-detention',
-  'declaration-revenus-scpi-erreurs': 'fiscalite-detention',
-  'scpi-investir-en-couple': 'strategies',
-  'scpi-hotellerie-tourisme': 'secteurs-immo',
-  'investir-scpi-une-fois-ou-progressivement': 'strategies',
-  'scpi-internationales-diversification': 'secteurs-immo',
+  'Guides pratiques': 'comprendre',
+  'Fiscalité & Transmission': 'fiscalite-detention',
+  'Comparatifs': 'choix-comparatifs',
+  'Stratégies': 'strategies',
+  'Éducation': 'comprendre',
+  'Secteurs': 'secteurs-immo',
+  'Géographies': 'secteurs-immo',
+  'Marché': 'choix-comparatifs',
 };
 
 function getArticleFamily(article: ArticleTemplate): ArticleFamily {
-  // D'abord vérifier le mapping par slug (pour les articles "guides")
-  const slugMap = SLUG_FAMILY_MAP[article.slug];
-  if (slugMap) return slugMap;
-  // Ensuite utiliser le mapping par catégorie
   return CATEGORY_FAMILY_MAP[article.category] || 'comprendre';
 }
 
@@ -103,8 +86,8 @@ function calculateSearchScore(article: ArticleTemplate, query: string): number {
   const nSlug = normalizeText(article.slug).replace(/-/g, ' ');
   const nKeywords = (article.keywords || []).map(k => normalizeText(k));
   const nCategory = normalizeText(article.category);
-  const nDesc = normalizeText(article.metaDescription);
-  const nMainKw = normalizeText(article.mainKeyword);
+  const nDesc = normalizeText(article.meta_description);
+  const nMainKw = normalizeText(article.main_keyword);
 
   let score = 0;
 
@@ -283,8 +266,23 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   onActualitesClick,
   onEducationClick
 }) => {
+  // État : articles chargés depuis Supabase
+  const [articles, setArticles] = useState<ArticleTemplate[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase?.from('articles_seo')
+      .select('slug, title, meta_description, category, main_keyword, featured, word_count, read_time')
+      .eq('status', 'published')
+      .order('slug', { ascending: true })
+      .then(({ data }) => {
+        if (data) setArticles(data as ArticleTemplate[]);
+        setLoading(false);
+      });
+  }, []);
+
   // Grouper les articles par famille
-  const groupedByFamily = articleTemplates.reduce((acc, article) => {
+  const groupedByFamily = articles.reduce((acc, article) => {
     const family = getArticleFamily(article);
     if (!acc[family]) {
       acc[family] = [];
@@ -300,7 +298,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     }
   });
 
-  const totalArticles = articleTemplates.length;
+  const totalArticles = articles.length;
 
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -310,7 +308,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
 
   // Filtered articles based on search + active family
   const filteredArticles = useMemo(() => {
-    let filtered = articleTemplates;
+    let filtered = articles;
 
     // Apply family filter
     if (activeFamily) {
@@ -324,9 +322,9 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
       filtered = filtered.filter(a =>
         normalizeText(a.title).includes(normalizedQuery) ||
         normalizeText(a.slug).includes(normalizedQuery) ||
-        normalizeText(a.metaDescription).includes(normalizedQuery) ||
+        normalizeText(a.meta_description).includes(normalizedQuery) ||
         normalizeText(a.category).includes(normalizedQuery) ||
-        normalizeText(a.mainKeyword).includes(normalizedQuery) ||
+        normalizeText(a.main_keyword).includes(normalizedQuery) ||
         (a.keywords || []).some(k => normalizeText(k).includes(normalizedQuery))
       );
     }
@@ -346,7 +344,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
     const query = searchQuery.trim();
     if (!query) return [];
 
-    let candidates = articleTemplates;
+    let candidates = articles;
     if (activeFamily) {
       candidates = candidates.filter(a => getArticleFamily(a) === activeFamily);
     }
@@ -467,8 +465,15 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           </div>
         </div>
 
+        {/* Loading state */}
+        {loading && (
+          <div className="flex justify-center items-center py-24">
+            <div className="text-lg text-gray-500 dark:text-gray-400">Chargement...</div>
+          </div>
+        )}
+
         {/* Résultats de recherche */}
-        {hasActiveFilters && (
+        {!loading && hasActiveFilters && (
           <div className="mb-8 text-center">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
               {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''}
@@ -483,7 +488,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         )}
 
         {/* État vide : aucun résultat */}
-        {hasActiveFilters && filteredArticles.length === 0 && (
+        {!loading && hasActiveFilters && filteredArticles.length === 0 && (
           <div className="text-center py-16">
             <Search className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
@@ -503,7 +508,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           </div>
         )}
 
-        {searchQuery.trim() ? (
+        {!loading && searchQuery.trim() ? (
           <>
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -536,11 +541,11 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                       {article.title}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                      {article.metaDescription}
+                      {article.meta_description}
                     </p>
                     <div className="flex items-center justify-between">
                       <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
-                        {article.mainKeyword}
+                        {article.main_keyword}
                       </span>
                       <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
                     </div>
@@ -766,11 +771,11 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
                         {article.title}
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                        {article.metaDescription}
+                        {article.meta_description}
                       </p>
                       <div className="flex items-center justify-between">
                         <span className={`text-xs px-2 py-1 ${styles.badgeClass} rounded font-medium`}>
-                          {article.mainKeyword}
+                          {article.main_keyword}
                         </span>
                         <ArrowRight className={`w-5 h-5 ${styles.arrowClass} group-hover:translate-x-1 transition-transform`} />
                       </div>
