@@ -116,7 +116,7 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
       {/* 2. LE LECTEUR VIDÉO MONASTIQUE (CENTRE DE L'ÉCRAN) */}
       <main className="flex-grow flex items-center justify-center py-8">
         <div className="w-full max-w-4xl aspect-video bg-slate-950 rounded-lg overflow-hidden shadow-2xl border border-slate-900">
-          <video src={videoData.videoUrl} controls playsInline className="w-full h-full rounded-lg" />
+          <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls playsInline className="w-full h-full rounded-lg" />
         </div>
       </main>
 
