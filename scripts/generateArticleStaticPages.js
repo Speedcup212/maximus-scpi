@@ -718,6 +718,7 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
     </section>
 
     <article class="article-body">
+      <div class="article-prose">
 ${isMgmt
     ? mgmtBody
     : (isSupabase
@@ -734,6 +735,7 @@ ${content.sections.map(s => `
       </div>
 `)
 }
+      </div>
 
       <p class="disclaimer">
         <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un conseiller en gestion de patrimoine agréé ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
