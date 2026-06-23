@@ -108,6 +108,12 @@ const PartnerCaseDetail = lazy(() => import('./app/pages/PartnerCaseDetail'));
 const AdminDashboard = lazy(() => import('./app/pages/AdminDashboard'));
 const AdminAccessRequests = lazy(() => import('./app/pages/AdminAccessRequests'));
 
+// Espace Pro CGP
+const ProLayout = lazy(() => import('./components/pro/ProLayout'));
+const ProLogin = lazy(() => import('./components/pro/ProLogin'));
+const ProDashboard = lazy(() => import('./components/pro/ProDashboard'));
+const ProSettings = lazy(() => import('./components/pro/ProSettings'));
+
 // 30 Articles Éducation SCPI
 const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle || m.default })));
 const ScpiDirectOuAssuranceVie = lazy(() => import('./components/articles/ScpiDirectOuAssuranceVie').then(m => ({ default: m.ScpiDirectOuAssuranceVieArticle || m.default })));
@@ -270,7 +276,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-dashboard' | 'pro-settings'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
   const [selectedScpiKey, setSelectedScpiKey] = useState<string | null>(null);
@@ -382,6 +388,24 @@ const App: React.FC = () => {
           setCurrentView('app-entry');
           return;
         }
+      }
+      if (path.startsWith('pro')) {
+        const segments = path.split('/');
+        const section = segments[1];
+        if (!section || section === 'login') {
+          setCurrentView('pro-login');
+          return;
+        }
+        if (section === 'dashboard') {
+          setCurrentView('pro-dashboard');
+          return;
+        }
+        if (section === 'settings') {
+          setCurrentView('pro-settings');
+          return;
+        }
+        setCurrentView('pro-login');
+        return;
       }
       if (path.startsWith('comparateur/scpi/')) {
         const scpiSlug = path.replace('comparateur/scpi/', '');
@@ -1098,6 +1122,22 @@ const App: React.FC = () => {
           setCurrentView('app-entry');
           return;
         }
+      } else if (normalizedPath.startsWith('pro')) {
+        const segments = normalizedPath.split('/');
+        const section = segments[1];
+        if (!section || section === 'login') {
+          setCurrentView('pro-login');
+          return;
+        }
+        if (section === 'dashboard') {
+          setCurrentView('pro-dashboard');
+          return;
+        }
+        if (section === 'settings') {
+          setCurrentView('pro-settings');
+          return;
+        }
+        setCurrentView('pro-login');
       } else if (normalizedPath === 'partenaire-cabinet') {
         setCurrentView('partenaire-cabinet');
       } else if (normalizedPath === 'admin/partners') {
@@ -1462,6 +1502,29 @@ const App: React.FC = () => {
       return;
     }
     navigateToView('app-entry', '/app');
+  };
+
+  const navigateToPro = (path: string) => {
+    const cleanPath = path.replace(/^\/|\/$/, '');
+    const segments = cleanPath.split('/');
+    if (segments[0] !== 'pro') {
+      navigateToView('pro-login', '/pro/login');
+      return;
+    }
+    const section = segments[1];
+    if (!section || section === 'login') {
+      navigateToView('pro-login', '/pro/login');
+      return;
+    }
+    if (section === 'dashboard') {
+      navigateToView('pro-dashboard', '/pro/dashboard');
+      return;
+    }
+    if (section === 'settings') {
+      navigateToView('pro-settings', '/pro/settings');
+      return;
+    }
+    navigateToView('pro-dashboard', '/pro/dashboard');
   };
 
   const handleEducationClick = (categoryId: string) => {
@@ -1880,6 +1943,32 @@ const App: React.FC = () => {
               </RoleGuard>
             </AuthGuard>
           )}
+        </Suspense>
+      </div>
+    );
+  }
+
+  if (currentView.startsWith('pro-')) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white">
+        <SEOHead title="Espace Pro CGP | MaximusSCPI" description="Espace professionnel CGP - MaximusSCPI Pro" noIndex />
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
+          <ProLayout
+            onNavigate={navigateToPro}
+            onSignOut={() => {
+              navigateToPro('/pro/login');
+            }}
+            currentPath={
+              currentView === 'pro-login' ? '/pro/login' :
+              currentView === 'pro-dashboard' ? '/pro/dashboard' :
+              currentView === 'pro-settings' ? '/pro/settings' :
+              '/pro/login'
+            }
+          >
+            {currentView === 'pro-login' && <ProLogin onNavigate={navigateToPro} />}
+            {currentView === 'pro-dashboard' && <ProDashboard />}
+            {currentView === 'pro-settings' && <ProSettings />}
+          </ProLayout>
         </Suspense>
       </div>
     );

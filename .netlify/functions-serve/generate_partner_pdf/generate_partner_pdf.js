@@ -1,0 +1,1 @@
+module.exports = require('./netlify/functions/generate_partner_pdf.js')
