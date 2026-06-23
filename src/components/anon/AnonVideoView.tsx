@@ -36,6 +36,11 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
           .single();
 
         if (linkError || !linkData) {
+          console.error('AnonVideoView: lien introuvable ou expiré', {
+            videoUuid,
+            linkError: linkError ? { code: (linkError as any).code, message: linkError.message, details: (linkError as any).details } : null,
+            linkData,
+          });
           setError('Lien introuvable ou expiré.');
           setLoading(false);
           return;
