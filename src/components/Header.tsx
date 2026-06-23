@@ -27,6 +27,7 @@ interface HeaderProps {
   onSimulateurClick?: (simulateurId: string) => void;
   onAboutNavigation?: (path: string) => void;
   onPrivateSpaceClick?: () => void;
+  onProClick?: () => void;
   currentView?: string;
 }
 
@@ -47,6 +48,7 @@ const Header: React.FC<HeaderProps> = ({
   onSimulateurClick,
   onAboutNavigation,
   onPrivateSpaceClick,
+  onProClick,
   currentView
 }) => {
   const [isEducationOpen, setIsEducationOpen] = useState(false);
@@ -714,6 +716,18 @@ const Header: React.FC<HeaderProps> = ({
               )}
             </div>
             </li>
+            <li>
+              <button
+                onClick={() => {
+                  resetAllHeaderStates();
+                  if (onProClick) onProClick();
+                }}
+                className="border border-emerald-500/30 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-500/10 rounded-lg transition whitespace-nowrap"
+                aria-label="Accès Conseillers"
+              >
+                Accès Conseillers
+              </button>
+            </li>
             </ul>
           </nav>
             {/* Right: account + CTA */}
@@ -1202,6 +1216,19 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
+
+        {/* Accès Conseillers Mobile */}
+        <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800">
+          <button
+            onClick={() => {
+              resetAllHeaderStates();
+              if (onProClick) onProClick();
+            }}
+            className="w-full flex items-center justify-center py-3 border border-emerald-500/30 text-white font-medium rounded-lg hover:bg-emerald-500/10 transition touch-manipulation"
+          >
+            Accès Conseillers
+          </button>
+        </div>
       </div>
     </header>
   );

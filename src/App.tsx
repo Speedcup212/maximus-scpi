@@ -1527,6 +1527,10 @@ const App: React.FC = () => {
     navigateToView('pro-dashboard', '/pro/dashboard');
   };
 
+  const handleProClick = () => {
+    navigateToView('pro-login', '/pro/login');
+  };
+
   const handleEducationClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
     setCurrentView('category');
@@ -1855,6 +1859,7 @@ const App: React.FC = () => {
         onArticlesClick={handleArticlesClick}
         onActualitesClick={handleActualitesClick}
         currentView={currentView}
+            onProClick={handleProClick}
       />
       <Suspense fallback={<LoadingSpinner />}>
         <Page onNavigate={handleGenericNavigation} onComparateurClick={handleComparateurClick} />
@@ -1994,6 +1999,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <PartenaireCabinet />
@@ -2047,6 +2053,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <LifeToScpiPage />
@@ -2082,6 +2089,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ScpiNetIncomeSimulator
@@ -2122,6 +2130,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ScpiCreditSimulator
@@ -2163,6 +2172,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
           <ErrorBoundary>
@@ -2205,6 +2215,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
           <ErrorBoundary>
@@ -2246,6 +2257,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <SimulateurTresorerieIS />
@@ -2279,6 +2291,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <SimulateurImpactFiscal />
@@ -2312,6 +2325,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <SimulateursHub />
@@ -2346,6 +2360,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <InvestorProfileSimulator />
@@ -2381,6 +2396,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
           <ErrorBoundary>
@@ -2416,6 +2432,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <FAQPage />
@@ -2447,6 +2464,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ExpertiseOriasPage onNavigate={handleGenericNavigation} />
@@ -2477,6 +2495,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <MethodologieDonneesPage onNavigate={handleGenericNavigation} />
@@ -2507,6 +2526,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <AvertissementsRisquesPage onNavigate={handleGenericNavigation} />
@@ -2538,6 +2558,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ScpiSecteursHubPage />
@@ -2569,6 +2590,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ScpiGestionnairesHubPage />
@@ -2600,6 +2622,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ScpiObjectifsHubPage />
@@ -2646,6 +2669,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <AboutUsPage />
@@ -2678,6 +2702,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ReclamationPage />
@@ -2710,6 +2735,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ConditionsUtilisationPage />
@@ -2819,6 +2845,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <main className="container mx-auto px-4 py-8">
           <Suspense fallback={<LoadingSpinner />}>
@@ -2870,6 +2897,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <main className="container mx-auto px-4 py-8">
           <Suspense fallback={<LoadingSpinner />}>
@@ -2902,6 +2930,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <main className="container mx-auto px-4 py-8">
           <Suspense fallback={<LoadingSpinner />}>
@@ -2967,6 +2996,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <main className="container mx-auto px-4 py-8">
           <Suspense fallback={<LoadingSpinner />}>
@@ -3008,6 +3038,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <FiscaliteScpiPage
@@ -3049,6 +3080,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <TOFScpiPage
@@ -3895,6 +3927,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ConstruirePortefeuilleScpiPage />
@@ -3932,6 +3965,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <main>
           <div id="comparator" data-comparator className="pt-6 sm:pt-8 pb-16 sm:pb-20">
@@ -4159,6 +4193,7 @@ const App: React.FC = () => {
             onArticlesClick={handleArticlesClick}
             onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
           />
           <Suspense fallback={<LoadingSpinner />}>
             <ScpiDetailPage
@@ -4235,6 +4270,7 @@ const App: React.FC = () => {
           onArticlesClick={handleArticlesClick}
           onActualitesClick={handleActualitesClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ComprendreSCPIPage />
@@ -4329,6 +4365,7 @@ const App: React.FC = () => {
           onAboutSectionClick={handleAboutUsClick}
           onSimulateurClick={handleSimulateurClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         <Suspense fallback={<LoadingSpinner />}>
           <ArticlePage
@@ -4365,6 +4402,7 @@ const App: React.FC = () => {
           onAboutSectionClick={handleAboutUsClick}
           onSimulateurClick={handleSimulateurClick}
           currentView={currentView}
+            onProClick={handleProClick}
         />
         {category && (
           <CategoryPage
@@ -4417,6 +4455,7 @@ const App: React.FC = () => {
         onArticlesClick={handleArticlesClick}
         onActualitesClick={handleActualitesClick}
         currentView={currentView}
+            onProClick={handleProClick}
       />
 
       {/* Main Content — refonte homepage conversion (Hero → Quiz → Preuves → Teaser) */}
