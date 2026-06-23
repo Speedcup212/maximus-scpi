@@ -340,6 +340,60 @@ const generateManagementCompanyContent = (company) => {
 const criticalCSS = `
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.6;color:#e2e8f0;background:#111827;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+.site-header{background:#111827;border-bottom:1px solid #1e293b;position:sticky;top:0;z-index:9999;backdrop-filter:blur(8px)}
+.header-container{max-width:1280px;margin:0 auto;padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:4rem}
+@media(min-width:640px){.header-container{padding:0 1.5rem}}
+@media(min-width:1024px){.header-container{padding:0 2rem}}
+.logo-link{display:flex;align-items:center;flex-shrink:0;text-decoration:none;transition:opacity 0.2s}
+.logo-link:hover{opacity:0.9}
+.logo-img{height:3rem;width:auto;transition:all 0.3s}
+@media(min-width:640px){.logo-img{height:3rem}}
+@media(min-width:1024px){.logo-img{height:3rem}}
+.nav-desktop{display:none;margin-left:2rem;flex:1;min-width:0}
+@media(min-width:1024px){.nav-desktop{display:flex}}
+.nav-desktop-list{display:flex;align-items:center;gap:0.5rem;list-style:none;padding:0;margin:0;white-space:nowrap}
+.nav-item{position:relative}
+.nav-item-btn,.nav-item-link{display:flex;align-items:center;gap:0.375rem;padding:0.5rem 0.625rem;font-size:0.8125rem;font-weight:500;color:#e2e8f0;text-decoration:none;border-radius:0.5rem;transition:all 0.2s;border:none;background:none;cursor:pointer;white-space:nowrap;line-height:1.25rem}
+.nav-item-btn:hover,.nav-item-link:hover{background:#1e293b;color:#fff}
+.nav-item-icon{width:1rem;height:1rem;flex-shrink:0}
+.nav-chevron{width:1rem;height:1rem;transition:transform 0.2s;flex-shrink:0}
+.nav-group:hover .nav-chevron,.nav-group.nav-open .nav-chevron{transform:rotate(180deg)}
+.nav-btn-rdv{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;font-size:0.8125rem;font-weight:600;color:#fff;background:#10b981;border-radius:0.5rem;text-decoration:none;transition:all 0.2s;white-space:nowrap;border:none;cursor:pointer}
+.nav-btn-rdv:hover{background:#059669;transform:translateY(-1px)}
+.nav-right{display:none;align-items:center;gap:0.5rem;flex-shrink:0;margin-left:1rem;white-space:nowrap}
+@media(min-width:1024px){.nav-right{display:flex}}
+/* Dropdown Nos SCPI */
+.nav-dropdown-scpi{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:0.5rem;width:32rem;max-width:calc(100vw - 4rem);background:#1e293b;border-radius:0.75rem;box-shadow:0 10px 40px rgba(0,0,0,0.5);border:1px solid #334155;z-index:110;max-height:36rem;overflow:hidden}
+.nav-group:hover .nav-dropdown-scpi,.nav-dropdown-scpi.open{display:block}
+.nav-dropdown-scpi-header{padding:0.75rem 1rem;border-bottom:1px solid #334155;background:linear-gradient(135deg,#1e293b,#1e293b)}
+.nav-dropdown-scpi-header-inner{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem}
+.nav-dropdown-scpi-header-icon{width:1rem;height:1rem;color:#10b981}
+.nav-dropdown-scpi-header-title{font-size:0.75rem;font-weight:700;color:#e2e8f0;text-transform:uppercase;letter-spacing:0.05em}
+.nav-dropdown-scpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;overflow-y:auto;max-height:32rem}
+.nav-dropdown-scpi-section{padding:0.75rem}
+.nav-dropdown-scpi-section-title{font-size:0.75rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem 0.375rem;border-bottom:1px solid #334155;margin-bottom:0.25rem}
+.nav-dropdown-scpi-link{display:block;padding:0.5rem 0.75rem;font-size:0.8125rem;color:#cbd5e1;text-decoration:none;border-radius:0.375rem;transition:all 0.2s}
+.nav-dropdown-scpi-link:hover{background:#334155;color:#fff}
+.nav-dropdown-scpi-footer{padding:0.75rem;border-top:1px solid #334155;background:#111827;text-align:center}
+.nav-dropdown-scpi-footer-link{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1.25rem;background:#10b981;color:#fff;font-size:0.75rem;font-weight:700;border-radius:0.5rem;text-decoration:none;transition:all 0.2s}
+.nav-dropdown-scpi-footer-link:hover{background:#059669}
+/* Dropdown Qui sommes-nous */
+.nav-dropdown-about{display:none;position:absolute;top:100%;right:0;margin-top:0.5rem;width:16rem;max-width:calc(100vw - 4rem);background:#1e293b;border-radius:0.75rem;box-shadow:0 10px 40px rgba(0,0,0,0.5);border:1px solid #334155;z-index:110;padding:0.5rem 0}
+.nav-group:hover .nav-dropdown-about,.nav-dropdown-about.open{display:block}
+.nav-dropdown-about-link{display:flex;align-items:center;gap:0.75rem;padding:0.625rem 1rem;color:#cbd5e1;text-decoration:none;font-size:0.8125rem;font-weight:500;transition:all 0.2s}
+.nav-dropdown-about-link:hover{background:#334155;color:#fff}
+/* Mobile */
+.mobile-menu-btn{display:flex;background:transparent;border:none;color:#e2e8f0;cursor:pointer;padding:0.5rem;border-radius:0.5rem}
+.mobile-menu-btn:hover{background:#1e293b}
+@media(min-width:1024px){.mobile-menu-btn{display:none}}
+.mobile-menu{display:none;position:fixed;top:4rem;left:0;right:0;background:#111827;padding:1rem;flex-direction:column;gap:0.25rem;box-shadow:0 10px 30px rgba(0,0,0,0.5);z-index:9998;max-height:calc(100vh - 5rem);overflow-y:auto;border-top:1px solid #1e293b}
+.mobile-menu.active{display:flex}
+.mobile-nav-item{display:flex;align-items:center;gap:0.5rem;padding:0.75rem 0.75rem;color:#e2e8f0;text-decoration:none;font-size:0.9375rem;font-weight:500;border-radius:0.5rem;transition:all 0.2s}
+.mobile-nav-item:hover{background:#1e293b;color:#fff}
+.mobile-nav-rdv{display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem;margin-top:0.5rem;background:#10b981;color:#fff;text-decoration:none;font-size:0.9375rem;font-weight:700;border-radius:0.5rem;transition:all 0.2s;text-align:center}
+.mobile-nav-rdv:hover{background:#059673}
+.mobile-sub-item{padding-left:1.5rem}
+.mobile-sub-title{font-size:0.75rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem 0.25rem}
 .hero{min-height:35vh;background:linear-gradient(135deg,#111827 0%,#0f172a 100%);color:#fff;padding:2rem 1.25rem;display:flex;align-items:center}
 @media(min-width:768px){.hero{padding:2.5rem 2rem}}
 .hero-wrap{max-width:900px;width:100%;margin:0 auto}
@@ -363,28 +417,175 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .cta-section{background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;padding:3.5rem 1.25rem;text-align:center;margin:2rem 0 0}
 .cta-section h3{font-size:1.75rem;margin-bottom:1rem;font-weight:700}
 .cta-section p{font-size:1.0625rem;margin-bottom:1.75rem;opacity:0.95}
-.site-header{background:#0f172a;padding:0.75rem 0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.header-container{max-width:1200px;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.logo-link{display:flex;align-items:center;text-decoration:none}
-.logo-img{height:3rem;width:auto}
-@media(min-width:640px){.logo-img{height:4rem}}
-@media(min-width:1024px){.logo-img{height:5rem}}
-.nav-links{display:none;gap:1.5rem;align-items:center}
-@media(min-width:768px){.nav-links{display:flex}}
-.nav-link{color:#fff;text-decoration:none;font-size:0.9375rem;font-weight:500;transition:color 0.2s}
-.nav-link:hover{color:#10b981}
-.nav-btn{background:#10b981;color:#fff;padding:0.625rem 1.25rem;border-radius:0.5rem;font-weight:600;text-decoration:none;font-size:0.9375rem;transition:all 0.2s}
-.nav-btn:hover{background:#059669;transform:translateY(-1px)}
-.mobile-menu-btn{display:flex;background:transparent;border:none;color:#fff;cursor:pointer;padding:0.5rem}
-@media(min-width:768px){.mobile-menu-btn{display:none}}
-.mobile-menu{display:none;position:fixed;top:4.5rem;left:0;right:0;background:#0f172a;padding:1rem;flex-direction:column;gap:0.75rem;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:999}
-.mobile-menu.active{display:flex}
-.mobile-nav-link{color:#fff;text-decoration:none;padding:0.75rem 1rem;font-size:1rem;font-weight:500;border-radius:0.5rem;transition:background 0.2s}
-.mobile-nav-link:hover{background:rgba(255,255,255,0.1)}
 .site-footer{background:#0f172a;color:#6b7280;padding:1.5rem;text-align:center;font-size:0.875rem;line-height:1.8}
 .site-footer a{color:#9ca3af;text-decoration:underline;transition:color 0.2s}
 .site-footer a:hover{color:#fff}
 `;
+
+const getMenuHTML = () => {
+  const logo = `<a href="/" class="logo-link"><img src="/Maximus logo 250x50 4.svg" alt="MaximusSCPI" class="logo-img" /></a>`;
+
+  const navItems = `
+    <nav class="nav-desktop" aria-label="Navigation principale">
+      <ul class="nav-desktop-list">
+        <li class="nav-item">
+          <a href="/comparateur-scpi/" class="nav-item-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span>Comparateur</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/simulateurs/" class="nav-item-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+            <span>Simuler mon projet</span>
+          </a>
+        </li>
+        <li class="nav-item nav-group">
+          <button class="nav-item-btn" aria-haspopup="true">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>
+            <span>Nos SCPI</span>
+            <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-scpi">
+            <div class="nav-dropdown-scpi-header">
+              <div class="nav-dropdown-scpi-header-inner">
+                <svg class="nav-dropdown-scpi-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>
+                <span class="nav-dropdown-scpi-header-title">Explorer toutes les SCPI</span>
+              </div>
+            </div>
+            <div class="nav-dropdown-scpi-grid">
+              <div>
+                <div class="nav-dropdown-scpi-section">
+                  <div class="nav-dropdown-scpi-section-title">Par secteur</div>
+                  <a href="/scpi-bureaux/" class="nav-dropdown-scpi-link">Bureaux</a>
+                  <a href="/scpi-commerces/" class="nav-dropdown-scpi-link">Commerces</a>
+                  <a href="/scpi-sante/" class="nav-dropdown-scpi-link">Santé</a>
+                  <a href="/scpi-logistique/" class="nav-dropdown-scpi-link">Logistique</a>
+                  <a href="/scpi-residentiel/" class="nav-dropdown-scpi-link">Résidentiel</a>
+                  <a href="/scpi-diversifiees/" class="nav-dropdown-scpi-link">Diversifiées</a>
+                  <a href="/scpi-hotellerie/" class="nav-dropdown-scpi-link">Hôtellerie</a>
+                </div>
+              </div>
+              <div>
+                <div class="nav-dropdown-scpi-section">
+                  <div class="nav-dropdown-scpi-section-title">Par zone</div>
+                  <a href="/scpi-france/" class="nav-dropdown-scpi-link">France</a>
+                  <a href="/scpi-europeennes/" class="nav-dropdown-scpi-link">Europe</a>
+                </div>
+                <div class="nav-dropdown-scpi-section">
+                  <div class="nav-dropdown-scpi-section-title">Outils</div>
+                  <a href="/comparateur-scpi/" class="nav-dropdown-scpi-link">Comparateur SCPI</a>
+                  <a href="/gestionnaires-acteurs-scpi/" class="nav-dropdown-scpi-link">Gestionnaires</a>
+                </div>
+              </div>
+            </div>
+            <div class="nav-dropdown-scpi-footer">
+              <a href="/comparateur-scpi/" class="nav-dropdown-scpi-footer-link">
+                <svg style="width:1rem;height:1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/><polyline points="16,7 22,7 22,13"/></svg>
+                Voir toutes les SCPI
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="/actualites/" class="nav-item-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Actualités</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/articles/" class="nav-item-link">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>Comprendre les SCPI</span>
+          </a>
+        </li>
+        <li class="nav-item nav-group">
+          <button class="nav-item-btn" aria-haspopup="true">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Qui sommes-nous</span>
+            <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-about">
+            <a href="/qui-sommes-nous/" class="nav-dropdown-about-link">
+              <svg style="width:1rem;height:1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Qui sommes-nous
+            </a>
+            <a href="/expertise-orias-cif/" class="nav-dropdown-about-link">
+              <span style="font-size:0.875rem">🏆</span>
+              Expertise ORIAS/CIF
+            </a>
+            <a href="/methodologie-donnees-scpi/" class="nav-dropdown-about-link">
+              <span style="font-size:0.875rem">📊</span>
+              Méthodologie des données
+            </a>
+            <a href="/avertissements-risques-scpi/" class="nav-dropdown-about-link">
+              <span style="font-size:0.875rem">⚠️</span>
+              Avertissements et risques
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" class="nav-btn-rdv" rel="noopener">
+        Prendre RDV
+      </a>
+    </div>`;
+
+  const mobileBtn = `
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>`;
+
+  const mobileMenu = `
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="/comparateur-scpi/" class="mobile-nav-item" onclick="closeMobileMenu()">
+        <svg style="width:1rem;height:1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Comparateur
+      </a>
+      <a href="/simulateurs/" class="mobile-nav-item" onclick="closeMobileMenu()">
+        <svg style="width:1rem;height:1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        Simuler mon projet
+      </a>
+      <div class="mobile-sub-title">Nos SCPI</div>
+      <a href="/scpi-bureaux/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Bureaux</a>
+      <a href="/scpi-commerces/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Commerces</a>
+      <a href="/scpi-sante/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Santé</a>
+      <a href="/scpi-logistique/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Logistique</a>
+      <a href="/scpi-residentiel/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Résidentiel</a>
+      <a href="/scpi-diversifiees/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Diversifiées</a>
+      <a href="/scpi-europeennes/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Europe</a>
+      <a href="/scpi-france/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">France</a>
+      <a href="/comparateur-scpi/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Comparateur SCPI</a>
+      <a href="/actualites/" class="mobile-nav-item" onclick="closeMobileMenu()">
+        <svg style="width:1rem;height:1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Actualités
+      </a>
+      <a href="/articles/" class="mobile-nav-item" onclick="closeMobileMenu()">
+        <svg style="width:1rem;height:1rem;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Comprendre les SCPI
+      </a>
+      <div class="mobile-sub-title">Qui sommes-nous</div>
+      <a href="/qui-sommes-nous/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Qui sommes-nous</a>
+      <a href="/expertise-orias-cif/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Expertise ORIAS/CIF</a>
+      <a href="/methodologie-donnees-scpi/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Méthodologie des données</a>
+      <a href="/avertissements-risques-scpi/" class="mobile-nav-item mobile-sub-item" onclick="closeMobileMenu()">Avertissements et risques</a>
+      <a href="https://calendly.com/eric-bellaiche/gp-rendez-vous-avec-eric-bellaiche-clone" class="mobile-nav-rdv" rel="noopener">Prendre RDV</a>
+    </div>`;
+
+  return `<header class="site-header">
+      <div class="header-container">
+        ${logo}
+        ${navItems}
+        ${mobileBtn}
+      </div>
+      ${mobileMenu}
+    </header>`;
+};
 
 const escapeHtml = (str) => {
   if (!str) return '';
@@ -471,36 +672,7 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <header class="site-header">
-      <div class="header-container">
-        <a href="/" class="logo-link">
-          <img src="/Maximus logo 250x50 4.svg" alt="MaximusSCPI" class="logo-img" />
-        </a>
-        <nav class="nav-links">
-          <a href="/" class="nav-link">Comparateur</a>
-          <a href="/comprendre-les-scpi" class="nav-link">Comprendre les SCPI</a>
-          <a href="/articles" class="nav-link">Articles</a>
-          <a href="/faq" class="nav-link">FAQ</a>
-          <a href="/qui-sommes-nous" class="nav-link">Qui sommes-nous</a>
-          <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="nav-btn" rel="noopener">Prendre RDV</a>
-        </nav>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="/" class="mobile-nav-link">Comparateur</a>
-        <a href="/comprendre-les-scpi" class="mobile-nav-link">Comprendre les SCPI</a>
-        <a href="/articles" class="mobile-nav-link">Articles</a>
-        <a href="/faq" class="mobile-nav-link">FAQ</a>
-        <a href="/qui-sommes-nous" class="mobile-nav-link">Qui sommes-nous</a>
-        <a href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi" class="mobile-nav-link" rel="noopener" style="background:#10b981;text-align:center">Prendre RDV</a>
-      </div>
-    </header>
+    ${getMenuHTML()}
 
     <section class="hero">
       <div class="hero-wrap">
@@ -560,6 +732,10 @@ ${content.sections.map(s => `
       function toggleMobileMenu() {
         var menu = document.getElementById('mobileMenu');
         menu.classList.toggle('active');
+      }
+      function closeMobileMenu() {
+        var menu = document.getElementById('mobileMenu');
+        if (menu) menu.classList.remove('active');
       }
       document.addEventListener('click', function(e) {
         var menu = document.getElementById('mobileMenu');
