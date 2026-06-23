@@ -408,22 +408,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .article-body .disclaimer{font-size:0.8125rem;color:#64748b;margin-top:1.5rem;line-height:1.6;border-top:1px solid #2d3748;padding-top:1rem}
 .article-body a{color:#e2e8f0!important;text-decoration:underline}
 .article-body a:hover{color:#fff!important}
-.article-body table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.article-body thead tr{background:#111827}
-.article-body thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid #10b981}
-.article-body tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
-.article-body tbody tr:last-child td{border-bottom:none}
-.article-body tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
-.article-prose table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem}
-.article-prose thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;border-bottom:2px solid #10b981}
-.article-prose tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
+.article-body table,.article-prose table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.article-body thead tr,.article-prose thead tr{background:#111827}
+.article-body thead th,.article-prose thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid #10b981}
+.article-body tbody td,.article-prose tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
+.article-body tbody tr:last-child td,.article-prose tbody tr:last-child td{border-bottom:none}
+.article-body tbody tr:nth-child(even),.article-prose tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+/* Breadcrumb */
 .article-breadcrumb{font-size:.8125rem;color:#6b7280;margin-bottom:1rem}
-.article-breadcrumb ol{display:flex;align-items:center;flex-wrap:wrap;list-style:none;padding:0;margin:0;gap:0.35rem}
+.article-breadcrumb ol{display:flex;align-items:center;flex-wrap:wrap;list-style:none;padding:0;margin:0;gap:.35rem}
 .article-breadcrumb li{display:flex;align-items:center;color:#6b7280}
-.article-breadcrumb li+li::before{content:"/";margin-right:0.35rem;color:#4b5563}
+.article-breadcrumb li+li::before{content:"/";margin-right:.35rem;color:#4b5563}
 .article-breadcrumb a{color:#9ca3af;text-decoration:none}
 .article-breadcrumb a:hover{color:#e5e7eb}
+/* Tag article */
 .article-tag{display:inline-block;background:#065f46;color:#6ee7b7;font-size:.75rem;font-weight:600;padding:.2rem .65rem;border-radius:20px;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em}
+/* Sommaire */
+.article-toc{background:#1e2533;border:1px solid #2d3748;border-radius:.75rem;padding:1.25rem 1.5rem;margin:2rem 0}
+.article-toc-title{font-size:1rem;font-weight:700;color:#f9fafb;margin-bottom:.75rem}
+.article-toc ol,.article-toc ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.4rem}
+.article-toc li{display:flex;align-items:baseline;gap:.5rem;font-size:.9rem}
+.article-toc li::before{content:"→";color:#10b981;font-size:.75rem;flex-shrink:0}
+.article-toc a{color:#9ca3af;text-decoration:none;transition:color .2s}
+.article-toc a:hover{color:#10b981}
 .container{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem}
 .btn{display:inline-block;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;transition:background 0.2s,transform 0.2s;font-size:1.0625rem;text-align:center}
 .btn-primary{background:#10b981;color:#fff}
@@ -618,22 +625,16 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   const content = (isMgmt || isSupabase) ? null : generateContent(article);
   const mgmtBody = isMgmt ? generateManagementCompanyContent(mgmtCompany) : '';
 
-  // Extraire un bloc <style>...</style> en tête du content_html Supabase
-  let articleStyle = '';
-  let articleBodyHtml = '';
-  if (isSupabase && supabaseArticle.content_html) {
-    const styleMatch = supabaseArticle.content_html.match(/^(<style>[\s\S]*?<\/style>)\s*/);
-    if (styleMatch) {
-      articleStyle = styleMatch[1];
-      articleBodyHtml = supabaseArticle.content_html.slice(styleMatch[0].length);
-    } else {
-      articleBodyHtml = supabaseArticle.content_html;
-    }
-  }
-  const sbBody = articleBodyHtml;
+  // Récupérer le content_html brut depuis Supabase
+  const sbBody = isSupabase ? supabaseArticle.content_html : '';
+
+  // Extraire le bloc <style> du début de sbBody
+  const styleMatch = sbBody.match(/^(<style>[\s\S]*?<\/style>)\s*/);
+  const articleStyle = styleMatch ? styleMatch[1] : '';
+  const articleBodyHtml = styleMatch ? sbBody.slice(styleMatch[0].length) : sbBody;
 
   // Nettoyer le breadcrumb Supabase : classe sur <ol>/<ul> + suppression <li>/</li>
-  let cleanedBody = sbBody.replace(/(<nav\s+class="article-breadcrumb">\s*)<(ol|ul)>/g, '$1<$2 class="article-breadcrumb">');
+  let cleanedBody = articleBodyHtml.replace(/(<nav\s+class="article-breadcrumb">\s*)<(ol|ul)>/g, '$1<$2 class="article-breadcrumb">');
   cleanedBody = cleanedBody.replace(/<li>\s*\/\s*<\/li>/g, '');
 
   return `<!doctype html>
