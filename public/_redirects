@@ -44,26 +44,6 @@
 # Redirections 301 education/ → articles/ (sans slash → avec slash)
 /education/:slug /articles/:slug/ 301
 
-# Redirections 301 slugs courts Supabase → slugs canoniques TSX (TASK-003)
-/articles/investir-scpi-tmi-30-pourcent /articles/scpi-tmi-30-pourcent-arbitrage-av-direct 301
-/articles/investir-scpi-tmi-30-pourcent/ /articles/scpi-tmi-30-pourcent-arbitrage-av-direct/ 301
-/articles/investir-scpi-tmi-41-pourcent /articles/forte-imposition-tmi-41-scpi-assurance-vie 301
-/articles/investir-scpi-tmi-41-pourcent/ /articles/forte-imposition-tmi-41-scpi-assurance-vie/ 301
-/articles/scpi-europeennes-avantages /articles/scpi-europeennes-avantages-ps-0-rendement 301
-/articles/scpi-europeennes-avantages/ /articles/scpi-europeennes-avantages-ps-0-rendement/ 301
-/articles/demembrement-scpi-nue-propriete /articles/demembrement-scpi-nue-propriete-usufruit 301
-/articles/demembrement-scpi-nue-propriete/ /articles/demembrement-scpi-nue-propriete-usufruit/ 301
-/articles/frais-scpi-souscription-gestion /articles/frais-scpi-souscription-gestion-performance 301
-/articles/frais-scpi-souscription-gestion/ /articles/frais-scpi-souscription-gestion-performance/ 301
-/articles/revendreparts-scpi-delais /articles/revendre-parts-scpi-delais-marche-secondaire 301
-/articles/revendreparts-scpi-delais/ /articles/revendre-parts-scpi-delais-marche-secondaire/ 301
-/articles/diversification-scpi-combien-parts /articles/diversification-scpi-combien-nombre-parts 301
-/articles/diversification-scpi-combien-parts/ /articles/diversification-scpi-combien-nombre-parts/ 301
-/articles/rendement-scpi-2025-tdvm /articles/rendement-scpi-2025-tdvm-taux-distribution 301
-/articles/rendement-scpi-2025-tdvm/ /articles/rendement-scpi-2025-tdvm-taux-distribution/ 301
-/articles/scpi-ou-immobilier-locatif /articles/scpi-ou-immobilier-locatif-comparatif-20-ans 301
-/articles/scpi-ou-immobilier-locatif/ /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301
-
 # Pages statiques générales
 /faq /index.html 200
 /comprendre-les-scpi /index.html 200
@@ -252,6 +232,14 @@
 
 # .html racine → dossier canonique (anti-duplication SEO)
 /comprendre-les-scpi.html /comprendre-les-scpi/ 301
+
+# Redirections 301 pour slugs squelettes dépubliés → version riche
+/scpi-investir-tmi-45-pourcent/ /articles/investir-scpi-tmi-45-pourcent/ 301
+/scpi-vs-opci-differences-avantages/ /articles/scpi-ou-opci-differences-avantages/ 301
+/scpi-tmi-41-strategie-complete/ /articles/forte-imposition-tmi-41-scpi-assurance-vie/ 301
+/scpi-isr-label-durable-esg/ /articles/scpi-isr-label-durable/ 301
+/scpi-sci-familiale-transmission/ /articles/sci-familiale-scpi/ 301
+/scpi-dont-need-to-check/ /articles/investir-scpi-tmi-11-pourcent/ 301
 
 # Fallback pour toutes les autres routes vers la SPA
 /* /index.html 200
