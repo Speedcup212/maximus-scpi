@@ -417,6 +417,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .article-prose table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem}
 .article-prose thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;border-bottom:2px solid #10b981}
 .article-prose tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
+.article-breadcrumb{font-size:.8125rem;color:#6b7280;margin-bottom:1rem}
+.article-breadcrumb ol{display:flex;align-items:center;flex-wrap:wrap;list-style:none;padding:0;margin:0;gap:0.35rem}
+.article-breadcrumb li{display:flex;align-items:center;color:#6b7280}
+.article-breadcrumb li+li::before{content:"/";margin-right:0.35rem;color:#4b5563}
+.article-breadcrumb a{color:#9ca3af;text-decoration:none}
+.article-breadcrumb a:hover{color:#e5e7eb}
+.article-tag{display:inline-block;background:#065f46;color:#6ee7b7;font-size:.75rem;font-weight:600;padding:.2rem .65rem;border-radius:20px;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em}
 .container{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem}
 .btn{display:inline-block;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;transition:background 0.2s,transform 0.2s;font-size:1.0625rem;text-align:center}
 .btn-primary{background:#10b981;color:#fff}
@@ -625,6 +632,10 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   }
   const sbBody = articleBodyHtml;
 
+  // Nettoyer le breadcrumb Supabase : classe sur <ol>/<ul> + suppression <li>/</li>
+  let cleanedBody = sbBody.replace(/(<nav\s+class="article-breadcrumb">\s*)<(ol|ul)>/g, '$1<$2 class="article-breadcrumb">');
+  cleanedBody = cleanedBody.replace(/<li>\s*\/\s*<\/li>/g, '');
+
   return `<!doctype html>
 <html lang="fr" translate="no">
   <head>
@@ -709,7 +720,7 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
 ${isMgmt
     ? mgmtBody
     : (isSupabase
-        ? sbBody
+        ? cleanedBody
         : `
       <p class="intro">${content.intro}</p>
 ${content.sections.map(s => `
