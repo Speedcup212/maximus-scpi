@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../../lib/supabase';
+
+const FALLBACK_VIDEO_URL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
 interface AnonVideoViewProps {
   videoUuid: string;
@@ -15,11 +17,21 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
   const [loading, setLoading] = useState(true);
   const [videoData, setVideoData] = useState<VideoData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const viewIncremented = useRef(false);
+
+  const incrementView = () => {
+    if (viewIncremented.current) return;
+    viewIncremented.current = true;
+    supabase
+      .rpc('increment_view_count', { link_id: videoUuid })
+      .then(({ error: updateError }) => {
+        if (updateError) console.warn('view_count increment failed:', updateError);
+      });
+  };
 
   useEffect(() => {
     const fetchVideoData = async () => {
       try {
-        // 1. Requête jointe shared_links ↔ scpi_catalog
         const { data: linkData, error: linkError } = await supabase
           .from('shared_links')
           .select(`
@@ -47,18 +59,16 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
         }
 
         const catalog = (linkData as any).scpi_catalog;
+        const rawVideoUrl: string = catalog?.video_url || '';
+
         setVideoData({
-          scpiName: catalog.name,
-          videoUrl: catalog.video_url,
-          logoUrl: catalog.logo_url,
+          scpiName: catalog?.name || 'SCPI',
+          videoUrl: rawVideoUrl || FALLBACK_VIDEO_URL,
+          logoUrl: catalog?.logo_url || '',
         });
 
-        // 2. Incrémenter view_count via fonction sécurisée (fire-and-forget)
-        supabase
-          .rpc('increment_view_count', { link_id: videoUuid })
-          .then(({ error: updateError }) => {
-            if (updateError) console.warn('view_count increment failed:', updateError);
-          });
+        // Incrémenter view_count au montage (1 vue par chargement de page)
+        incrementView();
       } catch (err) {
         console.error('Erreur récupération vidéo:', err);
         setError('Erreur lors du chargement du rapport.');
@@ -86,6 +96,8 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
     );
   }
 
+  const isFallbackVideo = videoData.videoUrl === FALLBACK_VIDEO_URL;
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col justify-between p-6 w-screen overflow-x-hidden select-none">
 
@@ -108,7 +120,18 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
             controls
             controlsList="nodownload noremoteplayback"
             disablePictureInPicture
+            playsInline
+            poster={`data:image/svg+xml,${encodeURIComponent(
+              `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+                <rect width="1920" height="1080" fill="#0f172a"/>
+                <text x="960" y="520" text-anchor="middle" fill="#334155" font-size="24" font-family="system-ui,sans-serif" letter-spacing="0.15em">${videoData.scpiName}</text>
+                <text x="960" y="570" text-anchor="middle" fill="#1e293b" font-size="14" font-family="system-ui,sans-serif" letter-spacing="0.1em">RAPPORT TRIMESTRIEL</text>
+                <circle cx="960" cy="440" r="30" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
+                <polygon points="952,427 952,453 972,440" fill="#475569" opacity="0.6"/>
+              </svg>`
+            )}`}
             onContextMenu={(e) => e.preventDefault()}
+            onPlay={incrementView}
             className="w-full h-full object-cover"
             autoPlay
           />
@@ -116,7 +139,12 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
       </main>
 
       {/* 3. LE DISCLAIMER RÉGLEMENTAIRE (OBLIGATOIRE AMF / RC PRO) */}
-      <footer className="max-w-2xl mx-auto text-center pb-4">
+      <footer className="max-w-2xl mx-auto text-center pb-4 space-y-2">
+        {isFallbackVideo && (
+          <p className="text-[10px] text-amber-500/70 leading-relaxed font-light tracking-wide">
+            Vidéo de démonstration — le rapport officiel de la SCPI sera disponible prochainement.
+          </p>
+        )}
         <p className="text-[10px] text-slate-600 leading-relaxed font-light tracking-wide">
           Informations factuelles issues du bulletin trimestriel officiel de la SCPI. Ce contenu audiovisuel est mis à disposition à des fins purement pédagogiques et ne constitue en aucun cas un conseil en investissement, une sollicitation ou une recommandation d'achat ou de vente. L'investisseur est rappelé que les performances passées ne préjugent pas des performances futures et que l'investissement en SCPI comporte un risque de perte en capital et d'illiquidité.
         </p>
