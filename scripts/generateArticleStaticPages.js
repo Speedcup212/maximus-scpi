@@ -408,6 +408,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .article-body .disclaimer{font-size:0.8125rem;color:#64748b;margin-top:1.5rem;line-height:1.6;border-top:1px solid #2d3748;padding-top:1rem}
 .article-body a{color:#e2e8f0!important;text-decoration:underline}
 .article-body a:hover{color:#fff!important}
+.article-body table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.article-body thead tr{background:#111827}
+.article-body thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid #10b981}
+.article-body tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
+.article-body tbody tr:last-child td{border-bottom:none}
+.article-body tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+.article-prose table{width:100%;border-collapse:collapse;margin:1.75rem 0 2.25rem;font-size:.9rem}
+.article-prose thead th{padding:.85rem 1.1rem;text-align:left;font-weight:600;color:#f9fafb;border-bottom:2px solid #10b981}
+.article-prose tbody td{padding:.75rem 1.1rem;border-bottom:1px solid #1f2937;color:#d1d5db}
 .container{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem}
 .btn{display:inline-block;padding:0.9375rem 1.875rem;border-radius:0.5rem;font-weight:600;text-decoration:none;transition:background 0.2s,transform 0.2s;font-size:1.0625rem;text-align:center}
 .btn-primary{background:#10b981;color:#fff}
@@ -601,7 +610,20 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   const isSupabase = !!supabaseArticle && !!supabaseArticle.content_html;
   const content = (isMgmt || isSupabase) ? null : generateContent(article);
   const mgmtBody = isMgmt ? generateManagementCompanyContent(mgmtCompany) : '';
-  const sbBody = isSupabase ? supabaseArticle.content_html : '';
+
+  // Extraire un bloc <style>...</style> en tête du content_html Supabase
+  let articleStyle = '';
+  let articleBodyHtml = '';
+  if (isSupabase && supabaseArticle.content_html) {
+    const styleMatch = supabaseArticle.content_html.match(/^(<style>[\s\S]*?<\/style>)\s*/);
+    if (styleMatch) {
+      articleStyle = styleMatch[1];
+      articleBodyHtml = supabaseArticle.content_html.slice(styleMatch[0].length);
+    } else {
+      articleBodyHtml = supabaseArticle.content_html;
+    }
+  }
+  const sbBody = articleBodyHtml;
 
   return `<!doctype html>
 <html lang="fr" translate="no">
@@ -667,6 +689,7 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
     </script>
 
     <style>${criticalCSS}</style>
+    ${articleStyle || ''}
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N2JLWKH"
