@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
-const FALLBACK_VIDEO_URL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+const FALLBACK_VIDEO_URL = 'https://www.w3schools.com/html/mov_bbb.mp4';
 
 interface AnonVideoViewProps {
   videoUuid: string;
@@ -59,11 +59,12 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
         }
 
         const catalog = (linkData as any).scpi_catalog;
-        const rawVideoUrl: string = catalog?.video_url || '';
+        const rawVideoUrl: string | null = catalog?.video_url;
+        const finalVideoUrl = (rawVideoUrl && rawVideoUrl.trim() !== '') ? rawVideoUrl : FALLBACK_VIDEO_URL;
 
         setVideoData({
           scpiName: catalog?.name || 'SCPI',
-          videoUrl: rawVideoUrl || FALLBACK_VIDEO_URL,
+          videoUrl: finalVideoUrl,
           logoUrl: catalog?.logo_url || '',
         });
 
@@ -114,27 +115,8 @@ export default function AnonVideoView({ videoUuid }: AnonVideoViewProps) {
 
       {/* 2. LE LECTEUR VIDÉO MONASTIQUE (CENTRE DE L'ÉCRAN) */}
       <main className="flex-grow flex items-center justify-center py-8">
-        <div className="w-full max-w-4xl aspect-video bg-slate-950 rounded-lg overflow-hidden shadow-2xl border border-slate-900 relative group">
-          <video
-            src={videoData.videoUrl}
-            controls
-            controlsList="nodownload noremoteplayback"
-            disablePictureInPicture
-            playsInline
-            poster={`data:image/svg+xml,${encodeURIComponent(
-              `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
-                <rect width="1920" height="1080" fill="#0f172a"/>
-                <text x="960" y="520" text-anchor="middle" fill="#334155" font-size="24" font-family="system-ui,sans-serif" letter-spacing="0.15em">${videoData.scpiName}</text>
-                <text x="960" y="570" text-anchor="middle" fill="#1e293b" font-size="14" font-family="system-ui,sans-serif" letter-spacing="0.1em">RAPPORT TRIMESTRIEL</text>
-                <circle cx="960" cy="440" r="30" fill="none" stroke="#475569" stroke-width="2" opacity="0.6"/>
-                <polygon points="952,427 952,453 972,440" fill="#475569" opacity="0.6"/>
-              </svg>`
-            )}`}
-            onContextMenu={(e) => e.preventDefault()}
-            onPlay={incrementView}
-            className="w-full h-full object-cover"
-            autoPlay
-          />
+        <div className="w-full max-w-4xl aspect-video bg-slate-950 rounded-lg overflow-hidden shadow-2xl border border-slate-900">
+          <video src={videoData.videoUrl} controls playsInline className="w-full h-full rounded-lg" />
         </div>
       </main>
 
