@@ -63,12 +63,14 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
 
         {/* Lecteur Vidéo avec URL Google Cloud stable en dur */}
         <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-inner border border-slate-800/50">
-          <video
-            src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            controls
-            playsInline
-            className="w-full h-full object-contain"
-          />
+          <iframe
+            className="w-full h-full"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Rapport Trimestriel SCPI"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
         </div>
 
         {/* Clause de non-responsabilité réglementaire pour les CGP */}
