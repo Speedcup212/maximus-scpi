@@ -42,8 +42,13 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
       <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between p-6">
         <div className="space-y-8">
           {/* Logo */}
-          <div className="font-bold text-lg tracking-wide">
-            <span className="text-indigo-500">M</span>aximus<span className="text-amber-500">SCPI</span> Pro
+          <div className="flex flex-col gap-3">
+            <img
+              src="/Maximus logo 250x50 4.svg"
+              alt="MaximusSCPI Pro"
+              className="h-9 object-contain"
+            />
+            <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-medium">Espace CGP</div>
           </div>
 
           {/* Liens de navigation */}
@@ -51,7 +56,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
             <button
               onClick={() => onNavigate('/pro/dashboard')}
               className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition ${
-                currentPath === '/pro/dashboard' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                currentPath === '/pro/dashboard' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
               }`}
             >
               📊 Catalogue SCPI
@@ -59,7 +64,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
             <button
               onClick={() => onNavigate('/pro/settings')}
               className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition ${
-                currentPath === '/pro/settings' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                currentPath === '/pro/settings' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
               }`}
             >
               ⚙️ Mon Cabinet (ORIAS)

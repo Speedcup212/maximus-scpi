@@ -111,7 +111,7 @@ export default function ProDashboard() {
             key={scpi.id}
             onClick={() => { setSelectedScpi(scpi); setGeneratedLink(null); }}
             className={`bg-slate-900 border p-5 rounded-xl cursor-pointer transition-all hover:scale-[1.01] flex flex-col justify-between h-44 ${
-              selectedScpi?.id === scpi.id ? 'border-indigo-500 ring-1 ring-indigo-500' : 'border-slate-800 hover:border-slate-700'
+              selectedScpi?.id === scpi.id ? 'border-emerald-500 ring-1 ring-emerald-500' : 'border-slate-800 hover:border-slate-700'
             }`}
           >
             <div>
@@ -136,7 +136,7 @@ export default function ProDashboard() {
       {selectedScpi && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
           <div className="border-b border-slate-800 pb-4 flex justify-between items-center">
-            <h2 className="text-lg font-bold text-slate-100">Kit de relance : <span className="text-indigo-400">{selectedScpi.name}</span></h2>
+            <h2 className="text-lg font-bold text-slate-100">Kit de relance : <span className="text-emerald-400">{selectedScpi.name}</span></h2>
             <span className="text-xs text-slate-500">Données certifiées T1 2026</span>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -144,7 +144,7 @@ export default function ProDashboard() {
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">1. Message d'accompagnement</label>
               <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800">
                 {(['technique', 'vulgarisation', 'macro'] as const).map((tab) => (
-                  <button key={tab} onClick={() => { setActiveTab(tab); setGeneratedLink(null); }} className={`flex-1 text-center py-1.5 text-xs font-medium rounded-md capitalize transition ${activeTab === tab ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}>{tab}</button>
+                  <button key={tab} onClick={() => { setActiveTab(tab); setGeneratedLink(null); }} className={`flex-1 text-center py-1.5 text-xs font-medium rounded-md capitalize transition ${activeTab === tab ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}>{tab}</button>
                 ))}
               </div>
               <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 min-h-[140px] flex flex-col justify-between">
@@ -165,13 +165,13 @@ export default function ProDashboard() {
               </div>
               <div className="bg-slate-950 border border-slate-800 rounded-lg p-4 space-y-4">
                 {!generatedLink ? (
-                  <button onClick={handleGenerateLink} disabled={loadingLink} className="w-full bg-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-md hover:bg-indigo-500 transition disabled:opacity-50">{loadingLink ? 'Création de la clé unique...' : 'Générer le lien client neutre'}</button>
+                  <button onClick={handleGenerateLink} disabled={loadingLink} className="w-full bg-emerald-600 text-white text-sm font-semibold py-2.5 px-4 rounded-md hover:bg-emerald-500 transition disabled:opacity-50">{loadingLink ? 'Création de la clé unique...' : 'Générer le lien client neutre'}</button>
                 ) : (
                   <div className="space-y-3">
                     <p className="text-xs font-medium text-emerald-400">Prêt à l'envoi (Variante {activeTab}) :</p>
                     <div className="flex gap-2">
                       <input type="text" readOnly value={generatedLink} className="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs text-slate-300 flex-grow focus:outline-none" />
-                      <button onClick={() => handleCopy(generatedLink, 'link')} className="bg-indigo-600 text-white text-xs px-4 py-1.5 rounded hover:bg-indigo-500 font-semibold transition shrink-0">{copiedText === 'link' ? '✓' : 'Copier le lien'}</button>
+                      <button onClick={() => handleCopy(generatedLink, 'link')} className="bg-emerald-600 text-white text-xs px-4 py-1.5 rounded hover:bg-emerald-500 font-semibold transition shrink-0">{copiedText === 'link' ? '✓' : 'Copier le lien'}</button>
                     </div>
                   </div>
                 )}
@@ -216,7 +216,7 @@ export default function ProDashboard() {
                         </span>
                       </td>
                       <td className="py-3.5 px-4 text-right">
-                        <button onClick={() => handleCopy(fullUrl, link.id)} className="text-xs text-indigo-400 hover:text-indigo-300 transition font-medium">
+                        <button onClick={() => handleCopy(fullUrl, link.id)} className="text-xs text-emerald-400 hover:text-emerald-300 transition font-medium">
                           {copiedText === link.id ? '✓ Copié' : 'Copier l\'URL'}
                         </button>
                       </td>

@@ -32,10 +32,12 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold tracking-wide">
-            <span className="text-indigo-500">M</span>aximus<span className="text-amber-500">SCPI</span>{' '}
-            <span className="text-white">Pro</span>
-          </h1>
+          <img
+            src="/Maximus logo 250x50 4.svg"
+            alt="MaximusSCPI Pro"
+            className="h-10 mx-auto object-contain"
+          />
+          <div className="text-xl font-bold tracking-wide text-white mt-3">Espace Pro</div>
           <p className="text-slate-400 text-sm mt-2">Espace CGP & professionnels du patrimoine</p>
         </div>
 
@@ -54,7 +56,7 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
               onChange={e => setEmail(e.target.value)}
               required
               placeholder="vous@cabinet.fr"
-              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
             />
           </div>
 
@@ -66,14 +68,14 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
               onChange={e => setPassword(e.target.value)}
               required
               placeholder="••••••••"
-              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition"
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition"
           >
             {loading ? 'Connexion...' : 'Se connecter'}
           </button>
