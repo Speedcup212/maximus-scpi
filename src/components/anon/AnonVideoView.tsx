@@ -61,16 +61,16 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
           <p className="text-xs text-slate-500">Espace de visionnage privé et hautement confidentiel</p>
         </div>
 
-        {/* Lecteur Vidéo avec URL Google Cloud stable en dur */}
-        <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-inner border border-slate-800/50">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="Rapport Trimestriel SCPI"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
+        {/* Lecteur Vidéo avec échantillon MP4 Google Cloud */}
+        <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-inner border border-slate-800/50 flex items-center justify-center">
+          <video
+            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+            controls
+            autoPlay
+            muted
+            playsInline
+            className="w-full h-full object-contain"
+          />
         </div>
 
         {/* Clause de non-responsabilité réglementaire pour les CGP */}
