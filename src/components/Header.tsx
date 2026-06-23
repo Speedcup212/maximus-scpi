@@ -1214,21 +1214,21 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
             </div>
+
+            {/* Espace Pro Mobile */}
+            <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800">
+              <button
+                onClick={() => {
+                  resetAllHeaderStates();
+                  if (onProClick) onProClick();
+                }}
+                className="w-full flex items-center justify-center py-3 border border-emerald-500 text-emerald-400 font-medium rounded-lg hover:bg-emerald-500/10 transition-all touch-manipulation"
+              >
+                Espace Pro
+              </button>
+            </div>
           </div>
         )}
-
-        {/* Espace Pro Mobile */}
-        <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800">
-          <button
-            onClick={() => {
-              resetAllHeaderStates();
-              if (onProClick) onProClick();
-            }}
-            className="w-full flex items-center justify-center py-3 border border-emerald-500 text-emerald-400 font-medium rounded-lg hover:bg-emerald-500/10 transition-all touch-manipulation"
-          >
-            Espace Pro
-          </button>
-        </div>
       </div>
     </header>
   );
