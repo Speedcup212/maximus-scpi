@@ -233,13 +233,5 @@
 # .html racine → dossier canonique (anti-duplication SEO)
 /comprendre-les-scpi.html /comprendre-les-scpi/ 301
 
-# Redirections 301 pour slugs squelettes dépubliés → version riche
-/scpi-investir-tmi-45-pourcent/ /articles/investir-scpi-tmi-45-pourcent/ 301
-/scpi-vs-opci-differences-avantages/ /articles/scpi-ou-opci-differences-avantages/ 301
-/scpi-tmi-41-strategie-complete/ /articles/forte-imposition-tmi-41-scpi-assurance-vie/ 301
-/scpi-isr-label-durable-esg/ /articles/scpi-isr-label-durable/ 301
-/scpi-sci-familiale-transmission/ /articles/sci-familiale-scpi/ 301
-/scpi-dont-need-to-check/ /articles/investir-scpi-tmi-11-pourcent/ 301
-
 # Fallback pour toutes les autres routes vers la SPA
 /* /index.html 200
