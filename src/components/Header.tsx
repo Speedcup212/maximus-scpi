@@ -722,10 +722,10 @@ const Header: React.FC<HeaderProps> = ({
                   resetAllHeaderStates();
                   if (onProClick) onProClick();
                 }}
-                className="border border-emerald-500/30 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-500/10 rounded-lg transition whitespace-nowrap"
-                aria-label="Accès Conseillers"
+                className="border border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap"
+                aria-label="Espace Pro"
               >
-                Accès Conseillers
+                Espace Pro
               </button>
             </li>
             </ul>
@@ -1217,16 +1217,16 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
 
-        {/* Accès Conseillers Mobile */}
+        {/* Espace Pro Mobile */}
         <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800">
           <button
             onClick={() => {
               resetAllHeaderStates();
               if (onProClick) onProClick();
             }}
-            className="w-full flex items-center justify-center py-3 border border-emerald-500/30 text-white font-medium rounded-lg hover:bg-emerald-500/10 transition touch-manipulation"
+            className="w-full flex items-center justify-center py-3 border border-emerald-500 text-emerald-400 font-medium rounded-lg hover:bg-emerald-500/10 transition-all touch-manipulation"
           >
-            Accès Conseillers
+            Espace Pro
           </button>
         </div>
       </div>
