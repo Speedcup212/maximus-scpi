@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { parseStringPromise } from 'xml2js';
+import { parseStringPromise, processors } from 'xml2js';
 
 export interface OriasVerificationResult {
   isValid: boolean;
@@ -34,21 +34,21 @@ export async function verifyOriasNumber(oriasNumber: string): Promise<OriasVerif
       headers: { 'Content-Type': 'text/xml;charset=UTF-8' }
     });
 
-    const result = await parseStringPromise(response.data);
+    const result = await parseStringPromise(response.data, {
+      tagNameProcessors: [processors.stripPrefix]
+    });
 
-    // Navigation prudente dans le XML renvoyé par l'ORIAS
-    const body = result?.['soap:Envelope']?.['soap:Body']?.[0];
-    const responseObj =
-      body?.['ns2:rechercheIntermediaireResponse']?.[0] ||
-      body?.['rechercheIntermediaireResponse']?.[0];
-    const intermediaire = responseObj?.return?.[0];
+    // Navigation simplifiée : plus de préfixes soap:, ns2:, etc.
+    const intermediaire = result?.Envelope?.Body?.[0]?.rechercheIntermediaireResponse?.[0]?.return?.[0];
 
     if (!intermediaire) {
       return emptyResult;
     }
 
     const status = intermediaire?.status?.[0];
-    if (status !== 'INSCRIT') {
+    console.log("Statut ORIAS détecté :", status);
+
+    if (status?.toUpperCase() !== 'INSCRIT') {
       return emptyResult;
     }
 
