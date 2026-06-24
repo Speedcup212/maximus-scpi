@@ -127,6 +127,16 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
             Accès réservé aux professionnels agréés ORIAS
           </p>
         </form>
+
+        <div className="mt-6 text-center text-sm text-slate-400">
+          Pas encore inscrit ?{' '}
+          <button
+            onClick={() => onNavigate('/pro/signup')}
+            className="text-emerald-500 hover:text-emerald-400 transition-colors font-medium"
+          >
+            Créer mon compte CGP
+          </button>
+        </div>
       </div>
     </div>
   );
