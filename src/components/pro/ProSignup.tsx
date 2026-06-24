@@ -198,13 +198,13 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Email professionnel</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              placeholder="vous@cabinet.fr"
+              placeholder="votre@email.com"
               className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
             />
           </div>
