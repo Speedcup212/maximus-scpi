@@ -25,19 +25,6 @@ type SharedLink = {
 // ── Constantes ──
 const CATEGORIES = ['Bureaux', 'Commerces', 'Santé', 'Logistique', 'Hôtellerie', 'Résidentiel', 'Multi-secteurs'];
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Bureaux: 'bg-slate-800 text-blue-300 border-blue-500/30',
-  Commerces: 'bg-slate-800 text-amber-300 border-amber-500/30',
-  Santé: 'bg-slate-800 text-rose-300 border-rose-500/30',
-  Logistique: 'bg-slate-800 text-indigo-300 border-indigo-500/30',
-  Hôtellerie: 'bg-slate-800 text-cyan-300 border-cyan-500/30',
-  Résidentiel: 'bg-slate-800 text-orange-300 border-orange-500/30',
-  'Multi-secteurs': 'bg-slate-800 text-emerald-300 border-emerald-500/30',
-};
-
-const getCategoryBadge = (cat: string) =>
-  CATEGORY_COLORS[cat] || 'bg-slate-800 text-slate-300 border-slate-500/30';
-
 const getInitials = (name: string): string =>
   name
     .split(/[\s-]+/)
@@ -320,8 +307,8 @@ export default function ProDashboard() {
                   return (
                     <tr
                       key={scpi.id}
-                      className={`bg-slate-900/60 transition-colors duration-200 hover:bg-slate-800 hover:border-l-4 hover:border-emerald-400 border-l-4 border-l-transparent ${
-                        isSelected ? 'bg-emerald-950/30 border-l-4 border-l-emerald-500' : ''
+                      className={`border border-slate-700 bg-slate-800/60 transition-colors duration-200 hover:bg-slate-700/80 hover:border-emerald-500/50 ${
+                        isSelected ? 'bg-emerald-950/40 border-l-emerald-500' : ''
                       }`}
                     >
                       <td className="py-3 px-4">
@@ -336,15 +323,15 @@ export default function ProDashboard() {
                       <td className="py-3 px-4 w-full">
                         <div className="flex items-center gap-3">
                           {/* Logo placeholder */}
-                          <div className="w-8 h-8 rounded-lg bg-emerald-400 flex items-center justify-center shrink-0">
-                            <span className="text-[11px] font-bold text-slate-950">{getInitials(scpi.name)}</span>
+                          <div className="w-8 h-8 rounded-md bg-emerald-400 flex items-center justify-center shrink-0">
+                            <span className="text-[11px] font-black text-slate-950">{getInitials(scpi.name)}</span>
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="text-slate-50 font-semibold text-base truncate">{scpi.name}</span>
+                            <span className="text-white font-bold text-base truncate">{scpi.name}</span>
                             {(() => {
                               const clean = scpi.category.replace(/Diversifiée?\s?/gi, '').trim();
                               return clean ? (
-                                <span className={`inline-block w-fit mt-0.5 px-2 py-0.5 text-[11px] rounded-full font-medium border ${getCategoryBadge(scpi.category)}`}>
+                                <span className="inline-block w-fit mt-0.5 px-2 py-0.5 text-xs rounded border font-medium text-emerald-400 bg-emerald-950/50 border-emerald-500/20">
                                   {clean}
                                 </span>
                               ) : null;
