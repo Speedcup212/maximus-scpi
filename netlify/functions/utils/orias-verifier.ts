@@ -8,6 +8,16 @@ export interface OriasVerificationResult {
 }
 
 export async function verifyOriasNumber(oriasNumber: string): Promise<OriasVerificationResult> {
+  // Bypass de sécurité pour le numéro administrateur (fondateur)
+  if (oriasNumber === '13001580') {
+    console.log("Bypass de sécurité activé pour le numéro administrateur.");
+    return {
+      isValid: true,
+      association: 'CNCGP',
+      isCif: true,
+    };
+  }
+
   const credential = process.env.ORIAS_API_KEY;
   if (!credential) throw new Error("ORIAS_API_KEY manquante");
 
@@ -31,7 +41,10 @@ export async function verifyOriasNumber(oriasNumber: string): Promise<OriasVerif
 
   try {
     const response = await axios.post('https://ws.orias.fr/service', soapEnvelope, {
-      headers: { 'Content-Type': 'text/xml;charset=UTF-8' }
+      headers: {
+        'Content-Type': 'text/xml;charset=UTF-8',
+        'SOAPAction': '""' // Requis par la majorité des serveurs SOAP Java/ORIAS
+      }
     });
 
     const result = await parseStringPromise(response.data, {
@@ -90,7 +103,7 @@ export async function verifyOriasNumber(oriasNumber: string): Promise<OriasVerif
       isCif,
     };
   } catch (error) {
-    console.error("Erreur API ORIAS:", error);
+    console.error("Détail de l'erreur API ORIAS :", error instanceof Error ? error.message : error);
     return emptyResult;
   }
 }
