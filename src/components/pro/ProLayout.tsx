@@ -15,7 +15,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
 
   useEffect(() => {
     if (!authLoading) {
-      if (!user && currentPath !== '/pro/login') {
+      if (!user && currentPath !== '/pro/login' && currentPath !== '/pro/signup') {
         onNavigate('/pro/login');
       } else if (user && currentPath === '/pro/login') {
         onNavigate('/pro/dashboard');

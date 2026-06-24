@@ -1993,6 +1993,17 @@ const App: React.FC = () => {
     );
   }
 
+  if (currentView === 'pro-signup') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white">
+        <SEOHead title="Espace Pro CGP | MaximusSCPI" description="Inscription professionnelle CGP - MaximusSCPI Pro" noIndex />
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
+          <ProSignup onNavigate={navigateToPro} />
+        </Suspense>
+      </div>
+    );
+  }
+
   if (currentView.startsWith('pro-')) {
     return (
       <div className="min-h-screen bg-slate-950 text-white">
@@ -2007,12 +2018,10 @@ const App: React.FC = () => {
               currentView === 'pro-login' ? '/pro/login' :
               currentView === 'pro-dashboard' ? '/pro/dashboard' :
               currentView === 'pro-settings' ? '/pro/settings' :
-              currentView === 'pro-signup' ? '/pro/signup' :
               '/pro/login'
             }
           >
             {currentView === 'pro-login' && <ProLogin onNavigate={navigateToPro} />}
-            {currentView === 'pro-signup' && <ProSignup onNavigate={navigateToPro} />}
             {currentView === 'pro-dashboard' && <ProDashboard />}
             {currentView === 'pro-settings' && <ProSettings />}
           </ProLayout>
