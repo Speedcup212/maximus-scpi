@@ -98,7 +98,7 @@ export async function sendWelcomeEmail(params: WelcomeEmailParams): Promise<bool
       body: JSON.stringify({
         sender: {
           name: 'Eric de MaximusSCPI',
-          email: 'eric@maximusscpi.com',
+          email: 'eric.bellaiche@maximusscpi.com',
         },
         to: [
           { email: params.email },
