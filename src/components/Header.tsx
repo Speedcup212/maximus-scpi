@@ -242,7 +242,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="flex items-center gap-4 xl:gap-6 ml-auto hidden lg:flex" aria-label="Navigation principale">
+          <nav className="flex items-center gap-4 xl:gap-6 mx-auto hidden lg:flex" aria-label="Navigation principale">
             <ul className="flex items-center gap-2 lg:gap-3 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
             <li>
             <a
