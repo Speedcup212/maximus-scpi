@@ -210,7 +210,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
         <div className="flex items-center justify-between h-16 flex-nowrap">
           {/* Logo */}
-          <div className="flex items-center shrink-0 max-w-[140px] lg:max-w-[180px]">
+          <div className="flex items-center shrink-0 max-w-[140px] lg:max-w-[180px] mr-4 lg:mr-6">
             <button
               onClick={() => {
                 resetAllHeaderStates();
@@ -242,7 +242,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="ml-4 lg:ml-6 flex-1 min-w-0 hidden lg:flex justify-start" aria-label="Navigation principale">
+          <nav className="flex items-center gap-4 xl:gap-6 ml-auto hidden lg:flex" aria-label="Navigation principale">
             <ul className="flex items-center gap-2 lg:gap-3 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
             <li>
             <a
@@ -270,10 +270,10 @@ const Header: React.FC<HeaderProps> = ({
                   }
                 }}
                 className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-                aria-label="Simuler mon projet"
+                aria-label="Simulateurs"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Simuler mon projet</span>
+                <span>Simulateurs</span>
               </a>
             </li>
             <li>
@@ -625,10 +625,10 @@ const Header: React.FC<HeaderProps> = ({
               href="/articles/"
               onClick={resetAllHeaderStates}
               className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap cursor-pointer"
-              aria-label="Comprendre les SCPI"
+              aria-label="Apprendre"
             >
               <BookOpen className="w-4 h-4" />
-              <span>Comprendre les SCPI</span>
+              <span>Apprendre</span>
             </a>
             </li>
             <li>
@@ -641,10 +641,10 @@ const Header: React.FC<HeaderProps> = ({
                   setIsEducationOpen(false);
                 }}
                 className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
-                aria-label="Qui sommes-nous"
+                aria-label="Le cabinet"
               >
                 <Info className="w-4 h-4 flex-shrink-0" />
-                <span className="whitespace-nowrap">Qui sommes-nous</span>
+                <span className="whitespace-nowrap">Le cabinet</span>
                 <ChevronDown className={`w-4 h-4 transition-transform flex-shrink-0 ${isAboutMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -661,7 +661,7 @@ const Header: React.FC<HeaderProps> = ({
                   >
                     <Info className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                      Qui sommes-nous
+                      Le cabinet
                     </span>
                   </a>
                   <a
@@ -808,7 +808,7 @@ const Header: React.FC<HeaderProps> = ({
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
-              {/* Simuler mon projet - 2e Mobile (lien direct vers /simulateurs) */}
+              {/* Simulateurs - 2e Mobile (lien direct vers /simulateurs) */}
               <div className="px-4">
                 <a
                   href="/simulateurs/"
@@ -821,7 +821,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-2">
                     <Calculator className="w-4 h-4" />
-                    <span>Simuler mon projet</span>
+                    <span>Simulateurs</span>
                   </div>
                   <ArrowRight className="w-4 h-4" />
                 </a>
@@ -1124,18 +1124,18 @@ const Header: React.FC<HeaderProps> = ({
                 <span>Actualités</span>
               </a>
 
-              {/* Comprendre les SCPI */}
+              {/* Apprendre */}
               <a
                 href="/articles/"
                 onClick={resetAllHeaderStates}
                 className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
-                aria-label="Comprendre les SCPI"
+                aria-label="Apprendre"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Comprendre les SCPI</span>
+                <span>Apprendre</span>
               </a>
 
-              {/* Qui sommes-nous Section Mobile */}
+              {/* Le cabinet Section Mobile */}
               <div className="px-4" ref={aboutMobileRef}>
                 <button
                   onClick={() => {
@@ -1143,11 +1143,11 @@ const Header: React.FC<HeaderProps> = ({
                   }}
                   className="w-full flex items-center justify-between py-2 text-gray-700 dark:text-gray-200 font-medium touch-manipulation"
                   aria-expanded={isAboutMobileOpen}
-                  aria-label="Menu Qui sommes-nous"
+                  aria-label="Menu Le cabinet"
                 >
                   <div className="flex items-center gap-2">
                     <Info className="w-4 h-4" />
-                    <span>Qui sommes-nous</span>
+                    <span>Le cabinet</span>
                   </div>
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isAboutMobileOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -1163,7 +1163,7 @@ const Header: React.FC<HeaderProps> = ({
                       className="w-full flex items-center gap-3 py-2 text-left text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       <Info className="w-4 h-4" />
-                      <span className="text-sm font-medium">Qui sommes-nous</span>
+                      <span className="text-sm font-medium">Le cabinet</span>
                     </a>
                     <a
                       href="/expertise-orias-cif/"
