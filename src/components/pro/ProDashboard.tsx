@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Search, Link, Download, CheckSquare, Square, X, FileArchive, ExternalLink } from 'lucide-react';
+import { Search, Link, Download, CheckSquare, Square, X, FileArchive, ExternalLink, Play } from 'lucide-react';
 
 // ── Types ──
 type ScpiCatalog = {
@@ -31,6 +31,49 @@ const getInitials = (name: string): string =>
     .slice(0, 2)
     .map((w) => w[0]?.toUpperCase() || '')
     .join('');
+
+// ── Modal vidéo ──
+function VideoModal({
+  open,
+  title,
+  type,
+  onClose,
+}: {
+  open: boolean;
+  title: string;
+  type: 'pitch' | 'analyse';
+  onClose: () => void;
+}) {
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={onClose}>
+      <div
+        className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-3xl overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+          <div>
+            <h3 className="text-base font-bold text-slate-100">{title}</h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              {type === 'pitch' ? '🎥 Pitch client (1m30)' : '📊 Analyse complète (12m)'}
+            </p>
+          </div>
+          <button onClick={onClose} className="text-slate-500 hover:text-slate-300 transition">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="aspect-video bg-slate-950 flex items-center justify-center">
+          <div className="text-center text-slate-500 space-y-2">
+            <Play size={48} className="mx-auto text-emerald-500/50" />
+            <p className="text-sm">Prévisualisation vidéo</p>
+            <p className="text-xs text-slate-600">Intégration à venir</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ── Modal de résultat lien ──
 function LinkResultModal({
@@ -67,7 +110,7 @@ function LinkResultModal({
           </button>
         </div>
         <p className="text-sm text-slate-400 mb-4">
-          Partagez ces liens avec vos clients. Aucun marquage MaximusSCPI.
+          Partagez ces liens avec vos clients. Pitch vidéo inclus. Aucun marquage MaximusSCPI.
         </p>
         <div className="space-y-3">
           {links.map((link, i) => (
@@ -107,8 +150,9 @@ export default function ProDashboard() {
   // Multi-sélection
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
-  // Modal
+  // Modals
   const [linkResult, setLinkResult] = useState<{ scpiName: string; url: string }[] | null>(null);
+  const [videoModal, setVideoModal] = useState<{ title: string; type: 'pitch' | 'analyse' } | null>(null);
 
   // ——— Data fetching ———
   const fetchData = useCallback(async () => {
@@ -180,7 +224,7 @@ export default function ProDashboard() {
 
   const selectedCount = selected.size;
 
-  // ——— Génération des liens (multi) ———
+  // ——— Génération des liens (multi, script_type = pitch pour inclure la video) ———
   const handleGenerateLinks = async () => {
     if (selectedCount === 0) return;
     setLoadingLink(true);
@@ -196,7 +240,7 @@ export default function ProDashboard() {
       for (const scpi of selectedScpis) {
         const { data, error } = await supabase
           .from('shared_links')
-          .insert([{ scpi_id: scpi.id, cgp_id: session.user.id, script_type: 'technique' }])
+          .insert([{ scpi_id: scpi.id, cgp_id: session.user.id, script_type: 'pitch' }])
           .select('id')
           .single();
 
@@ -219,7 +263,6 @@ export default function ProDashboard() {
   const handleDownloadZip = async () => {
     setLoadingZip(true);
     try {
-      // Placeholder — sera remplacé par l'appel réel plus tard
       await new Promise((r) => setTimeout(r, 2000));
       alert('Pack ZIP en cours de préparation. Fonctionnalité à venir.');
     } finally {
@@ -291,13 +334,14 @@ export default function ProDashboard() {
                   </button>
                 </th>
                 <th className="py-3 px-4">SCPI</th>
+                <th className="py-3 px-4 text-center w-48">MÉDIAS</th>
                 <th className="py-3 px-4 text-right w-20">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="py-12 text-center text-slate-500">
+                  <td colSpan={4} className="py-12 text-center text-slate-500">
                     Aucune SCPI ne correspond aux filtres.
                   </td>
                 </tr>
@@ -307,8 +351,8 @@ export default function ProDashboard() {
                   return (
                     <tr
                       key={scpi.id}
-                      className={`border border-slate-700 bg-slate-800/60 transition-colors duration-200 hover:bg-slate-700/80 hover:border-emerald-500/50 ${
-                        isSelected ? 'bg-emerald-950/40 border-l-emerald-500' : ''
+                      className={`bg-slate-800/60 border border-slate-700/50 rounded-lg transition-all hover:bg-slate-700/80 hover:border-emerald-500/40 ${
+                        isSelected ? 'bg-emerald-950/40 border-emerald-500' : ''
                       }`}
                     >
                       <td className="py-3 px-4">
@@ -322,8 +366,8 @@ export default function ProDashboard() {
                       </td>
                       <td className="py-3 px-4 w-full">
                         <div className="flex items-center gap-3">
-                          {/* Logo placeholder */}
-                          <div className="w-8 h-8 rounded-md bg-emerald-400 flex items-center justify-center shrink-0">
+                          {/* Pastille initiales */}
+                          <div className="w-8 h-8 rounded-md bg-emerald-400 flex items-center justify-center shrink-0 mr-3">
                             <span className="text-[11px] font-black text-slate-950">{getInitials(scpi.name)}</span>
                           </div>
                           <div className="flex flex-col min-w-0">
@@ -331,12 +375,31 @@ export default function ProDashboard() {
                             {(() => {
                               const clean = scpi.category.replace(/Diversifiée?\s?/gi, '').trim();
                               return clean ? (
-                                <span className="inline-block w-fit mt-0.5 px-2 py-0.5 text-xs rounded border font-medium text-emerald-400 bg-emerald-950/50 border-emerald-500/20">
+                                <span className="text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 text-xs px-2 py-0.5 rounded-md font-medium inline-block mt-1">
                                   {clean}
                                 </span>
                               ) : null;
                             })()}
                           </div>
+                        </div>
+                      </td>
+                      {/* COLONNE MÉDIAS */}
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-1.5 justify-center">
+                          <button
+                            onClick={() => setVideoModal({ title: scpi.name, type: 'pitch' })}
+                            className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-emerald-950/40 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-950 hover:text-emerald-300 transition whitespace-nowrap"
+                            title="Prévisualiser le pitch client"
+                          >
+                            🎥 Pitch (1m30)
+                          </button>
+                          <button
+                            onClick={() => setVideoModal({ title: scpi.name, type: 'analyse' })}
+                            className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700 hover:text-slate-200 transition whitespace-nowrap"
+                            title="Prévisualiser l'analyse complète"
+                          >
+                            📊 Analyse (12m)
+                          </button>
                         </div>
                       </td>
                       <td className="py-3 px-4 text-right">
@@ -347,7 +410,7 @@ export default function ProDashboard() {
                               if (!session) return;
                               const { data } = await supabase
                                 .from('shared_links')
-                                .insert([{ scpi_id: scpi.id, cgp_id: session.user.id, script_type: 'technique' }])
+                                .insert([{ scpi_id: scpi.id, cgp_id: session.user.id, script_type: 'pitch' }])
                                 .select('id')
                                 .single();
                               if (data) {
@@ -433,6 +496,14 @@ export default function ProDashboard() {
         onClose={() => setLinkResult(null)}
       />
 
+      {/* ===================== MODAL VIDÉO ===================== */}
+      <VideoModal
+        open={videoModal !== null}
+        title={videoModal?.title || ''}
+        type={videoModal?.type || 'pitch'}
+        onClose={() => setVideoModal(null)}
+      />
+
       {/* ===================== SECTION 3 : SUIVI DES LIENS ===================== */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <div className="border-b border-slate-800 pb-4 mb-4">
@@ -462,7 +533,11 @@ export default function ProDashboard() {
                       <td className="py-3.5 px-4 font-semibold text-slate-200">
                         {Array.isArray(link.scpi_catalog) ? (link.scpi_catalog[0] as any)?.name : (link.scpi_catalog as any)?.name || 'SCPI Supprimée'}
                       </td>
-                      <td className="py-3.5 px-4"><span className="px-2 py-0.5 rounded text-xs bg-slate-800 border border-slate-700 capitalize text-slate-300">{link.script_type}</span></td>
+                      <td className="py-3.5 px-4">
+                        <span className={`px-2 py-0.5 rounded text-xs bg-slate-800 border border-slate-700 capitalize text-slate-300`}>
+                          {link.script_type === 'pitch' ? '🎥 Pitch vidéo' : link.script_type}
+                        </span>
+                      </td>
                       <td className="py-3.5 px-4 text-xs text-slate-400">{new Date(link.created_at).toLocaleDateString('fr-FR')}</td>
                       <td className="py-3.5 px-4 text-center">
                         <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-bold ${link.view_count > 0 ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-slate-950 text-slate-500'}`}>
@@ -471,10 +546,7 @@ export default function ProDashboard() {
                       </td>
                       <td className="py-3.5 px-4 text-right">
                         <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(fullUrl);
-                            // Simple feedback via data attr
-                          }}
+                          onClick={() => navigator.clipboard.writeText(fullUrl)}
                           className="text-xs text-emerald-400 hover:text-emerald-300 transition font-medium"
                         >
                           Copier l'URL
