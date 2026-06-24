@@ -104,6 +104,13 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
         // Le compte auth est créé, on ne bloque pas l'utilisateur
       }
 
+      // Étape D : Envoi de l'e-mail de bienvenue (fire-and-forget, ne bloque pas l'utilisateur)
+      fetch('/.netlify/functions/send-welcome-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: signUpData.user.id }),
+      }).catch(err => console.warn('[ProSignup] Email de bienvenue non envoyé:', err));
+
       // Succès
       setSuccess('Votre compte a été créé et validé avec succès. Vous pouvez maintenant vous connecter.');
       setLoading(false);
