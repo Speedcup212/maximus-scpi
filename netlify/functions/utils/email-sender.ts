@@ -76,48 +76,43 @@ export function buildWelcomeEmailContent({ firstName, oriasNumber }: WelcomeEmai
 }
 
 /**
- * Envoie l'e-mail de bienvenue via l'API Brevo (Sendinblue).
+ * Envoie l'e-mail de bienvenue via l'API Brevo (fetch HTTP brut).
  * Nécessite la variable d'environnement BREVO_API_KEY.
+ * Throw en cas d'échec pour que l'erreur remonte dans les logs Netlify.
  */
-export async function sendWelcomeEmail(params: WelcomeEmailParams): Promise<boolean> {
+export async function sendWelcomeEmail(params: WelcomeEmailParams): Promise<void> {
   const apiKey = process.env.BREVO_API_KEY;
   if (!apiKey) {
-    console.error('[email-sender] BREVO_API_KEY manquante');
-    return false;
+    throw new Error('[email-sender] BREVO_API_KEY manquante');
   }
 
   const { subject, htmlContent } = buildWelcomeEmailContent(params);
 
-  try {
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': apiKey,
+  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'api-key': apiKey,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      sender: {
+        name: 'Maximus SCPI',
+        email: 'eric.bellaiche@maximusscpi.com',
       },
-      body: JSON.stringify({
-        sender: {
-          name: 'Eric de MaximusSCPI',
-          email: 'eric.bellaiche@maximusscpi.com',
-        },
-        to: [
-          { email: params.email },
-        ],
-        subject,
-        htmlContent,
-      }),
-    });
+      to: [
+        { email: params.email },
+      ],
+      subject,
+      htmlContent,
+    }),
+  });
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('[email-sender] Erreur Brevo:', response.status, errorBody);
-      return false;
-    }
-
-    console.log('[email-sender] E-mail de bienvenue envoyé à', params.email);
-    return true;
-  } catch (error) {
-    console.error('[email-sender] Erreur:', error instanceof Error ? error.message : error);
-    return false;
+  if (!response.ok) {
+    const errorBody = await response.text();
+    console.error('[email-sender] Brevo a répondu avec une erreur :', response.status, errorBody);
+    throw new Error(`[email-sender] Échec Brevo HTTP ${response.status} : ${errorBody}`);
   }
+
+  console.log('[email-sender] E-mail de bienvenue envoyé à', params.email);
 }
