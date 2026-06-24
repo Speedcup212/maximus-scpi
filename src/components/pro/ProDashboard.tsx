@@ -344,7 +344,10 @@ export default function ProDashboard() {
                       <td className="py-2.5 px-4 w-full">
                         <div className="flex flex-col">
                           <span className="font-semibold text-slate-100">{scpi.name}</span>
-                          <span className="text-[11px] text-slate-500">{scpi.category}</span>
+                          {(() => {
+                            const clean = scpi.category.replace(/^Diversifiée?\s*/i, '');
+                            return clean ? <span className="text-[11px] text-slate-500">{clean}</span> : null;
+                          })()}
                         </div>
                       </td>
                       <td className="py-2.5 px-4 text-right">
