@@ -25,6 +25,26 @@ type SharedLink = {
 // ── Constantes ──
 const CATEGORIES = ['Bureaux', 'Commerces', 'Santé', 'Logistique', 'Hôtellerie', 'Résidentiel', 'Multi-secteurs'];
 
+const CATEGORY_COLORS: Record<string, string> = {
+  Bureaux: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  Commerces: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  Santé: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  Logistique: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+  Hôtellerie: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  Résidentiel: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  'Multi-secteurs': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+};
+
+const getCategoryBadge = (cat: string) =>
+  CATEGORY_COLORS[cat] || 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+
+const getInitials = (name: string): string =>
+  name
+    .split(/[\s-]+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() || '')
+    .join('');
+
 // ── Modal de résultat lien ──
 function LinkResultModal({
   open,
@@ -300,30 +320,40 @@ export default function ProDashboard() {
                   return (
                     <tr
                       key={scpi.id}
-                      className={`hover:bg-slate-800/40 transition ${
+                      className={`transition-colors duration-200 hover:bg-slate-800/50 ${
                         isSelected ? 'bg-emerald-950/20 border-l-2 border-l-emerald-500' : ''
                       }`}
                     >
-                      <td className="py-2.5 px-4">
+                      <td className="py-3 px-4">
                         <button
                           onClick={() => toggleOne(scpi.id)}
-                          className="text-slate-400 hover:text-slate-200 transition"
+                          className="text-slate-500 hover:text-slate-200 transition"
                           aria-label={isSelected ? `Désélectionner ${scpi.name}` : `Sélectionner ${scpi.name}`}
                         >
                           {isSelected ? <CheckSquare size={16} className="text-emerald-400" /> : <Square size={16} />}
                         </button>
                       </td>
-                      <td className="py-2.5 px-4 w-full">
-                        <div className="flex flex-col">
-                          <span className="font-semibold text-slate-100">{scpi.name}</span>
-                          {(() => {
-                            const clean = scpi.category.replace(/Diversifiée?\s?/gi, '').trim();
-                            return clean ? <span className="text-[11px] text-slate-500">{clean}</span> : null;
-                          })()}
+                      <td className="py-3 px-4 w-full">
+                        <div className="flex items-center gap-3">
+                          {/* Logo placeholder */}
+                          <div className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0">
+                            <span className="text-[11px] font-bold text-slate-300">{getInitials(scpi.name)}</span>
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="font-semibold text-slate-100 truncate">{scpi.name}</span>
+                            {(() => {
+                              const clean = scpi.category.replace(/Diversifiée?\s?/gi, '').trim();
+                              return clean ? (
+                                <span className={`inline-block w-fit mt-0.5 px-2 py-0.5 text-[11px] rounded-full font-medium border ${getCategoryBadge(scpi.category)}`}>
+                                  {clean}
+                                </span>
+                              ) : null;
+                            })()}
+                          </div>
                         </div>
                       </td>
-                      <td className="py-2.5 px-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
+                      <td className="py-3 px-4 text-right">
+                        <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={async () => {
                               const { data: { session } } = await supabase.auth.getSession();
@@ -338,16 +368,16 @@ export default function ProDashboard() {
                                 fetchData();
                               }
                             }}
-                            className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-950/30 rounded transition"
+                            className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/40 rounded-lg transition"
                             title="Générer un lien client"
                           >
-                            <Link size={16} />
+                            <Link size={18} />
                           </button>
                           <button
-                            className="p-1.5 text-slate-500 hover:text-blue-400 hover:bg-blue-950/30 rounded transition"
+                            className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-950/40 rounded-lg transition"
                             title="Télécharger la fiche"
                           >
-                            <Download size={16} />
+                            <Download size={18} />
                           </button>
                         </div>
                       </td>
