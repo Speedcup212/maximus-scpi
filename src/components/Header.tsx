@@ -242,8 +242,8 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="ml-8 lg:ml-10 flex-1 min-w-0 hidden lg:flex justify-start" aria-label="Navigation principale">
-            <ul className="flex items-center gap-3 xl:gap-4 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
+          <nav className="ml-4 lg:ml-6 flex-1 min-w-0 hidden lg:flex justify-start" aria-label="Navigation principale">
+            <ul className="flex items-center gap-2 lg:gap-3 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
             <li>
             <a
               href="/comparateur-scpi/"
@@ -252,7 +252,7 @@ const Header: React.FC<HeaderProps> = ({
                 resetAllHeaderStates();
                 if (onComparateurClick) onComparateurClick();
               }}
-              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+              className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
               aria-label="Comparateur"
             >
               <BarChart2 className="w-4 h-4" />
@@ -269,7 +269,7 @@ const Header: React.FC<HeaderProps> = ({
                     onSimulateurClick('simulateurs');
                   }
                 }}
-                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+                className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Simuler mon projet"
               >
                 <Calculator className="w-4 h-4" />
@@ -283,7 +283,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsScpiMenuOpen(!isScpiMenuOpen);
                   setIsEducationOpen(false);
                 }}
-                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+                className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Nos SCPI"
               >
                 <TrendingUp className="w-4 h-4" />
@@ -613,7 +613,7 @@ const Header: React.FC<HeaderProps> = ({
                 resetAllHeaderStates();
                 if (onActualitesClick) onActualitesClick();
               }}
-              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+              className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
               aria-label="Actualités"
             >
               <FileText className="w-4 h-4" />
@@ -624,7 +624,7 @@ const Header: React.FC<HeaderProps> = ({
             <a
               href="/articles/"
               onClick={resetAllHeaderStates}
-              className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap cursor-pointer"
+              className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap cursor-pointer"
               aria-label="Comprendre les SCPI"
             >
               <BookOpen className="w-4 h-4" />
@@ -640,7 +640,7 @@ const Header: React.FC<HeaderProps> = ({
                   setIsSimulateurMenuOpen(false);
                   setIsEducationOpen(false);
                 }}
-                className="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+                className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
                 aria-label="Qui sommes-nous"
               >
                 <Info className="w-4 h-4 flex-shrink-0" />
@@ -731,13 +731,13 @@ const Header: React.FC<HeaderProps> = ({
             </ul>
           </nav>
             {/* Right: account + CTA */}
-            <div className="hidden lg:flex items-center gap-2 shrink-0 whitespace-nowrap ml-4">
+            <div className="hidden lg:flex items-center gap-2 shrink-0 whitespace-nowrap ml-2">
             <div className="relative" ref={accountMenuRef}>
               {user ? (
                 <>
                   <button
                     onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                    className="flex px-2 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
+                    className="flex px-1.5 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
                     aria-label="Mon espace"
                   >
                     <User className="w-4 h-4" />
