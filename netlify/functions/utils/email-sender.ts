@@ -26,7 +26,6 @@ export function buildWelcomeEmailContent({ firstName, oriasNumber }: WelcomeEmai
           <tr>
             <td style="background:linear-gradient(135deg,#064e3b,#059669);padding:32px 40px;text-align:center;">
               <p style="margin:0;font-size:28px;color:#ffffff;font-weight:700;letter-spacing:-0.5px;">MaximusSCPI Pro</p>
-              <p style="margin:8px 0 0;font-size:14px;color:#a7f3d0;">Comparateur intelligent pour professionnels du patrimoine</p>
             </td>
           </tr>
 
@@ -38,22 +37,12 @@ export function buildWelcomeEmailContent({ firstName, oriasNumber }: WelcomeEmai
               </h1>
 
               <p style="margin:0 0 16px;font-size:15px;color:#4b5563;line-height:1.7;">
-                Bienvenue sur <strong>MaximusSCPI</strong>, le comparateur intelligent con&ccedil;u par et pour les professionnels du patrimoine.
+                Votre inscription &agrave; l'Espace Pro MaximusSCPI a &eacute;t&eacute; valid&eacute;e (ORIAS&nbsp;: ${oriasNumber}).
               </p>
 
-              <p style="margin:0 0 16px;font-size:15px;color:#4b5563;line-height:1.7;">
-                Votre num&eacute;ro ORIAS <strong style="color:#059669;">${oriasNumber}</strong> a &eacute;t&eacute; v&eacute;rifi&eacute;
-                et valid&eacute; avec succ&egrave;s. Votre acc&egrave;s complet est d&eacute;sormais actif.
+              <p style="margin:0 0 28px;font-size:15px;color:#4b5563;line-height:1.7;">
+                Vous pouvez d&egrave;s &agrave; pr&eacute;sent vous connecter &agrave; votre espace de travail.
               </p>
-
-              <h2 style="margin:0 0 12px;font-size:17px;color:#111827;font-weight:600;">
-                Ce qui vous attend dans votre Espace Pro&nbsp;:
-              </h2>
-              <ul style="margin:0 0 28px;padding-left:20px;font-size:15px;color:#4b5563;line-height:2.2;">
-                <li><strong>Simulateurs avanc&eacute;s</strong>&nbsp;: Pr&ecirc;ts &agrave; l'emploi pour concevoir vos allocations SCPI sur-mesure.</li>
-                <li><strong>Kits de relance</strong>&nbsp;: Des documents et visuels exclusifs pr&ecirc;ts &agrave; &ecirc;tre partag&eacute;s avec vos clients.</li>
-                <li><strong>Ressources priv&eacute;es</strong>&nbsp;: Vos guides et vid&eacute;os d'accompagnement.</li>
-              </ul>
 
               <!-- CTA Button -->
               <table cellpadding="0" cellspacing="0" style="margin:0 auto 32px;">
@@ -67,27 +56,11 @@ export function buildWelcomeEmailContent({ firstName, oriasNumber }: WelcomeEmai
                 </tr>
               </table>
 
-              <p style="margin:0 0 16px;font-size:15px;color:#4b5563;line-height:1.7;">
-                Vos retours sont essentiels pour faire &eacute;voluer l'outil&nbsp;: si vous avez la moindre suggestion ou question, r&eacute;pondez directement &agrave; cet e-mail.
-              </p>
-
               <p style="margin:0;font-size:15px;color:#4b5563;line-height:1.7;">
-                &Agrave; tr&egrave;s vite sur votre tableau de bord,
+                Cordialement,
               </p>
               <p style="margin:4px 0 0;font-size:15px;color:#111827;font-weight:600;">
                 L'&eacute;quipe MaximusSCPI
-              </p>
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="padding:24px 40px;background-color:#f9fafb;border-top:1px solid #e5e7eb;text-align:center;">
-              <p style="margin:0 0 4px;font-size:12px;color:#9ca3af;">
-                MaximusSCPI &mdash; Cabinet de conseil en investissement financier
-              </p>
-              <p style="margin:0;font-size:12px;color:#d1d5db;">
-                Immatricul&eacute; &agrave; l'ORIAS sous le num&eacute;ro 13001580 &bull; Membre de la CNCGP
               </p>
             </td>
           </tr>
