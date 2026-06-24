@@ -716,34 +716,21 @@ const Header: React.FC<HeaderProps> = ({
               )}
             </div>
             </li>
-            <li>
-              <button
-                onClick={() => {
-                  resetAllHeaderStates();
-                  if (onProClick) onProClick();
-                }}
-                className="border border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap"
-                aria-label="Espace Pro"
-              >
-                Espace Pro
-              </button>
-            </li>
             </ul>
           </nav>
-            {/* Right: account + CTA */}
-            <div className="hidden lg:flex items-center gap-2 shrink-0 whitespace-nowrap ml-2">
-            <div className="relative" ref={accountMenuRef}>
-              {user ? (
-                <>
-                  <button
-                    onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                    className="flex px-1.5 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
-                    aria-label="Mon espace"
-                  >
-                    <User className="w-4 h-4" />
-                    <span>Mon espace</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
-                  </button>
+            {/* Right: Espace Pro (non connecté) ou Mon espace (connecté) */}
+            <div className="hidden lg:flex items-center justify-end gap-4 shrink-0 whitespace-nowrap ml-2">
+            {user ? (
+              <div className="relative" ref={accountMenuRef}>
+                <button
+                  onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+                  className="flex px-1.5 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
+                  aria-label="Mon espace"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Mon espace</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
                   {isAccountMenuOpen && (
                     <div className="absolute right-0 mt-2 w-52 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl py-2 z-[110]">
                       <button
@@ -766,9 +753,19 @@ const Header: React.FC<HeaderProps> = ({
                       </button>
                     </div>
                   )}
-                </>
-              ) : null}
-            </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    resetAllHeaderStates();
+                    if (onProClick) onProClick();
+                  }}
+                  className="border border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap"
+                  aria-label="Espace Pro"
+                >
+                  Espace Pro
+                </button>
+              )}
             </div>
         </div>
 
