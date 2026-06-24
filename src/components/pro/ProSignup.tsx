@@ -50,6 +50,11 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
         return;
       }
 
+      // Extraire les données enrichies
+      const cgpAssociation: string | null = oriasData.association || null;
+      const isCif: boolean = oriasData.isCif === true;
+      const isApproved = oriasData.valid === true && isCif;
+
       // Étape B : Création du compte Supabase Auth
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
@@ -88,7 +93,8 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
         orias_number: oriasNumber,
         email,
         role: 'cgp',
-        is_approved: true,
+        cgp_association: cgpAssociation,
+        is_approved: isApproved,
       }, { onConflict: 'id' });
 
       if (profileError) {

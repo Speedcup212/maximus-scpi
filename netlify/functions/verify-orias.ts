@@ -34,20 +34,29 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const isValid = await verifyOriasNumber(oriasNumber);
+    const result = await verifyOriasNumber(oriasNumber);
 
-    if (!isValid) {
+    if (!result.isValid) {
       return {
         statusCode: 200,
         headers: JSON_HEADERS,
-        body: JSON.stringify({ valid: false, reason: 'Numéro ORIAS introuvable ou radié.' })
+        body: JSON.stringify({
+          valid: false,
+          reason: 'Numéro ORIAS introuvable ou radié.',
+          isCif: false,
+          association: null,
+        })
       };
     }
 
     return {
       statusCode: 200,
       headers: JSON_HEADERS,
-      body: JSON.stringify({ valid: true })
+      body: JSON.stringify({
+        valid: true,
+        isCif: result.isCif,
+        association: result.association,
+      })
     };
   } catch (error) {
     console.error('[verify-orias] Erreur:', error);
