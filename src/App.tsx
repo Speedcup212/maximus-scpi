@@ -111,6 +111,7 @@ const AdminAccessRequests = lazy(() => import('./app/pages/AdminAccessRequests')
 // Espace Pro CGP
 const ProLayout = lazy(() => import('./components/pro/ProLayout'));
 const ProLogin = lazy(() => import('./components/pro/ProLogin'));
+const ProSignup = lazy(() => import('./components/pro/ProSignup'));
 const ProDashboard = lazy(() => import('./components/pro/ProDashboard'));
 const ProSettings = lazy(() => import('./components/pro/ProSettings'));
 const AnonVideoView = lazy(() => import('./components/anon/AnonVideoView'));
@@ -277,7 +278,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-dashboard' | 'pro-settings' | 'anon-video'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-dashboard' | 'pro-settings' | 'pro-signup' | 'anon-video'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [videoUuid, setVideoUuid] = useState<string | null>(null);
   const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
@@ -404,6 +405,10 @@ const App: React.FC = () => {
         }
         if (section === 'settings') {
           setCurrentView('pro-settings');
+          return;
+        }
+        if (section === 'signup') {
+          setCurrentView('pro-signup');
           return;
         }
         setCurrentView('pro-login');
@@ -1147,6 +1152,10 @@ const App: React.FC = () => {
           setCurrentView('pro-settings');
           return;
         }
+        if (section === 'signup') {
+          setCurrentView('pro-signup');
+          return;
+        }
         setCurrentView('pro-login');
       } else if (normalizedPath.startsWith('v/')) {
         const uuid = normalizedPath.replace('v/', '');
@@ -1538,6 +1547,10 @@ const App: React.FC = () => {
     }
     if (section === 'settings') {
       navigateToView('pro-settings', '/pro/settings');
+      return;
+    }
+    if (section === 'signup') {
+      navigateToView('pro-signup', '/pro/signup');
       return;
     }
     navigateToView('pro-dashboard', '/pro/dashboard');
@@ -1994,10 +2007,12 @@ const App: React.FC = () => {
               currentView === 'pro-login' ? '/pro/login' :
               currentView === 'pro-dashboard' ? '/pro/dashboard' :
               currentView === 'pro-settings' ? '/pro/settings' :
+              currentView === 'pro-signup' ? '/pro/signup' :
               '/pro/login'
             }
           >
             {currentView === 'pro-login' && <ProLogin onNavigate={navigateToPro} />}
+            {currentView === 'pro-signup' && <ProSignup onNavigate={navigateToPro} />}
             {currentView === 'pro-dashboard' && <ProDashboard />}
             {currentView === 'pro-settings' && <ProSettings />}
           </ProLayout>
