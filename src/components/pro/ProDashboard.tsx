@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Search, Link, Download, CheckSquare, Square, X, Copy, FileArchive, ExternalLink } from 'lucide-react';
+import { Search, Link, Download, CheckSquare, Square, X, FileArchive, ExternalLink } from 'lucide-react';
 
 // ── Types ──
 type ScpiCatalog = {
@@ -312,15 +312,13 @@ export default function ProDashboard() {
                   </button>
                 </th>
                 <th className="py-3 px-4">SCPI</th>
-                <th className="py-3 px-4 text-right">Rendement</th>
-                <th className="py-3 px-4 text-right">T.O.F</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+                <th className="py-3 px-4 text-right w-20">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-12 text-center text-slate-500">
+                  <td colSpan={3} className="py-12 text-center text-slate-500">
                     Aucune SCPI ne correspond aux filtres.
                   </td>
                 </tr>
@@ -343,17 +341,11 @@ export default function ProDashboard() {
                           {isSelected ? <CheckSquare size={16} className="text-emerald-400" /> : <Square size={16} />}
                         </button>
                       </td>
-                      <td className="py-2.5 px-4">
+                      <td className="py-2.5 px-4 w-full">
                         <div className="flex flex-col">
                           <span className="font-semibold text-slate-100">{scpi.name}</span>
                           <span className="text-[11px] text-slate-500">{scpi.category}</span>
                         </div>
-                      </td>
-                      <td className="py-2.5 px-4 text-right font-semibold text-emerald-400 tabular-nums">
-                        {scpi.rendement}
-                      </td>
-                      <td className="py-2.5 px-4 text-right font-semibold text-slate-200 tabular-nums">
-                        {scpi.tof}
                       </td>
                       <td className="py-2.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-2">
