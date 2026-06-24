@@ -207,8 +207,8 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 overflow-x-clip">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
-        <div className="flex items-center justify-between h-16 flex-nowrap">
+      <div className="max-w-7xl mx-auto min-w-0">
+        <div className="flex items-center justify-between w-full px-4 md:px-8 h-16 flex-nowrap">
           {/* Logo */}
           <div className="flex items-center shrink-0 max-w-[140px] lg:max-w-[180px] mr-4 lg:mr-6">
             <button
@@ -242,7 +242,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="flex items-center gap-4 xl:gap-6 mx-auto hidden lg:flex" aria-label="Navigation principale">
+          <nav className="hidden lg:flex items-center justify-center gap-6 flex-1" aria-label="Navigation principale">
             <ul className="flex items-center gap-2 lg:gap-3 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
             <li>
             <a
@@ -719,7 +719,7 @@ const Header: React.FC<HeaderProps> = ({
             </ul>
           </nav>
             {/* Right: Espace Pro (non connecté) ou Mon espace (connecté) */}
-            <div className="hidden lg:flex items-center justify-end gap-4 shrink-0 whitespace-nowrap ml-2">
+            <div className="hidden lg:flex items-center gap-4 shrink-0 whitespace-nowrap">
             {user ? (
               <div className="relative" ref={accountMenuRef}>
                 <button
