@@ -23,19 +23,7 @@ type SharedLink = {
 };
 
 // ── Constantes ──
-const CATEGORIES = ['Bureaux', 'Commerces', 'Santé', 'Logistique', 'Hôtellerie', 'Résidentiel', 'Diversifiée'];
-const YIELD_TIERS = [
-  { label: 'Tous', value: '' },
-  { label: '> 4%', value: '4' },
-  { label: '> 5%', value: '5' },
-  { label: '> 6%', value: '6' },
-  { label: '> 7%', value: '7' },
-];
-
-const parseYield = (raw: string): number => {
-  const n = parseFloat(raw.replace(',', '.').replace('%', '').trim());
-  return Number.isFinite(n) ? n : 0;
-};
+const CATEGORIES = ['Bureaux', 'Commerces', 'Santé', 'Logistique', 'Hôtellerie', 'Résidentiel', 'Multi-secteurs'];
 
 // ── Modal de résultat lien ──
 function LinkResultModal({
@@ -108,7 +96,6 @@ export default function ProDashboard() {
   // Filtres
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
-  const [yieldMin, setYieldMin] = useState('');
 
   // Multi-sélection
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -153,12 +140,8 @@ export default function ProDashboard() {
     if (category) {
       list = list.filter((s) => s.category === category);
     }
-    if (yieldMin) {
-      const threshold = parseFloat(yieldMin);
-      list = list.filter((s) => parseYield(s.rendement) >= threshold);
-    }
     return list;
-  }, [scpiList, search, category, yieldMin]);
+  }, [scpiList, search, category]);
 
   // ——— Sélection ———
   const allFilteredIds = useMemo(() => new Set(filtered.map((s) => s.id)), [filtered]);
@@ -279,17 +262,6 @@ export default function ProDashboard() {
           ))}
         </select>
 
-        {/* Rendement */}
-        <select
-          value={yieldMin}
-          onChange={(e) => setYieldMin(e.target.value)}
-          className="px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-        >
-          {YIELD_TIERS.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
-          ))}
-        </select>
-
         {/* Badge résultat */}
         <span className="text-xs text-slate-500 ml-auto">
           {filtered.length} / {scpiList.length} SCPI
@@ -345,7 +317,7 @@ export default function ProDashboard() {
                         <div className="flex flex-col">
                           <span className="font-semibold text-slate-100">{scpi.name}</span>
                           {(() => {
-                            const clean = scpi.category.replace(/^Diversifiée?\s*/i, '');
+                            const clean = scpi.category.replace(/Diversifiée?\s?/gi, '').trim();
                             return clean ? <span className="text-[11px] text-slate-500">{clean}</span> : null;
                           })()}
                         </div>
