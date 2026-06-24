@@ -207,8 +207,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-[9999] backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95 overflow-x-clip">
-      <div className="max-w-7xl mx-auto min-w-0">
-        <div className="flex items-center justify-between w-full px-4 md:px-8 h-16 flex-nowrap">
+      <div className="max-w-7xl mx-auto w-full px-6 md:px-8 flex items-center justify-between h-16 flex-nowrap">
           {/* Logo */}
           <div className="flex items-center shrink-0 max-w-[140px] lg:max-w-[180px] mr-4 lg:mr-6">
             <button
@@ -771,7 +770,7 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden">
+          <div className="max-w-7xl mx-auto w-full px-6 md:px-8 lg:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden">
             <div className="space-y-2">
               {user && (
               <div className="px-4">
@@ -1226,7 +1225,6 @@ const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
         )}
-      </div>
     </header>
   );
 };
