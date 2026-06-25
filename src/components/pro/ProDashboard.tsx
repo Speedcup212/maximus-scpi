@@ -1,5 +1,5 @@
-import FintechComparator from '../fintech/FintechComparator';
+import ProFintechComparator from '../fintech/ProFintechComparator';
 
 export default function ProDashboard() {
-  return <FintechComparator hideTitle variant="pro" />;
+  return <ProFintechComparator hideTitle />;
 }

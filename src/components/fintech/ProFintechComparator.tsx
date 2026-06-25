@@ -4,9 +4,9 @@ import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
-import SCPICardDark from './SCPICardDark';
+import ProSCPICardDark from './ProSCPICardDark';
 import SCPITableRow from './SCPITableRow';
-import SelectionSidebar from './SelectionSidebar';
+import ProSelectionSidebar from './ProSelectionSidebar';
 import MobileSelectionBar from './MobileSelectionBar';
 import AnalysisDetailModal from './AnalysisDetailModal';
 import { SimulationModal } from '../simulation';
@@ -22,14 +22,24 @@ import Toast from '../Toast';
 
 type ViewMode = 'grid' | 'list';
 
-interface FintechComparatorContentProps {
+const QUICK_FILTERS = [
+  { id: 'high-yield', label: 'Rendement élevé' },
+  { id: 'low-debt', label: 'Faible endettement' },
+  { id: 'attractive-discount', label: 'Décote attractive' },
+  { id: 'europe', label: 'Europe' },
+  { id: 'sante', label: 'Santé' },
+  { id: 'commerce', label: 'Commerce' },
+  { id: 'defensive', label: 'SCPI défensives' },
+];
+
+interface ProFintechComparatorContentProps {
   onCloseAnalysis?: () => void;
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
 }
 
-const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
+const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
@@ -47,6 +57,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [showToast, setShowToast] = useState<boolean>(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
+  const [onboardingVisible, setOnboardingVisible] = useState(true);
+  const [quickFilters, setQuickFilters] = useState<string[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     tmi: null,
     minYield: 0,
@@ -81,6 +93,43 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     () => computeClientScores(enrichedScpiData).bySlug,
     [enrichedScpiData]
   );
+
+  const handleQuickFilter = (id: string) => {
+    setQuickFilters(prev => {
+      const next = prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id];
+      // Appliquer les filtres rapides via le state filters existant
+      const updates: Partial<FilterState> = {};
+      // Réinitialiser les filtres avant d'appliquer les quick filters
+      let geographies: string[] = [];
+      let sectors: string[] = [];
+      let minYield = 0;
+      let maxLtv = 100;
+      let discountRange: [number, number] = [-15, 10];
+
+      if (next.includes('high-yield')) minYield = 5.5;
+      if (next.includes('low-debt')) maxLtv = 50;
+      if (next.includes('attractive-discount')) discountRange = [-25, -5];
+      if (next.includes('europe')) geographies = ['Europe'];
+      if (next.includes('sante')) sectors = ['Santé'];
+      if (next.includes('commerce')) sectors = sectors.length > 0 ? [...sectors, 'Commerces'] : ['Commerces'];
+      if (next.includes('defensive')) {
+        sectors = ['Santé', 'Commerces'];
+        geographies = geographies.length > 0 ? geographies : ['France'];
+        maxLtv = Math.min(maxLtv, 60);
+      }
+
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        minYield,
+        maxLtv,
+        discountRange,
+        geographies,
+        sectors,
+        sectorThreshold: sectors.length > 0 ? '10' : '25',
+      }));
+      return next;
+    });
+  };
 
   const toggleSelect = (scpi: SCPIExtended) => {
     setSelectedScpis(prev => {
@@ -305,30 +354,104 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 )}
               </button>
             </div>
-            {/* Search Bar */}
-            <div className="mt-3 w-full max-w-3xl">
-              <div className="relative flex-1">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
-                <input
-                  type="text"
-                  placeholder="Rechercher par nom, catégorie, gestionnaire..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-14 pr-12 py-3 bg-slate-950 border border-slate-600 text-white placeholder-slate-400 rounded-full shadow-md focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/20 transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-5 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors"
-                  >
-                    <X className="w-4 h-4 text-slate-400 hover:text-white" />
-                  </button>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </header>
+
+      {/* ── Onboarding ── */}
+      {onboardingVisible && (
+        <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h2 className="text-lg sm:text-xl font-bold text-emerald-300 mb-2">
+                  Construisez une sélection SCPI exploitable en rendez-vous
+                </h2>
+                <p className="text-sm text-slate-400 mb-5">
+                  Filtrez, comparez et sélectionnez jusqu'à 6 SCPI pour préparer une analyse claire, pédagogique et conforme.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Filtrer</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Stratégie, secteur, rendement ou société de gestion.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Sélectionner</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Ajoutez jusqu'à 6 SCPI à votre panier d'analyse.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Analyser</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Visualisez rendement moyen, diversification et cohérence.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setOnboardingVisible(false)}
+                className="text-slate-600 hover:text-slate-400 transition shrink-0"
+                title="Fermer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Toolbar : recherche + filtres rapides ── */}
+      <div className="bg-slate-900 border-b border-slate-800">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          {/* Search Bar */}
+          <div className="w-full max-w-3xl mb-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
+              <input
+                type="text"
+                placeholder="Rechercher par nom, catégorie, gestionnaire..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-14 pr-12 py-3 bg-slate-950 border border-slate-600 text-white placeholder-slate-400 rounded-full shadow-md focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/20 transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-slate-400 hover:text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+          {/* Quick Filters */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide mr-1">Filtres rapides :</span>
+            {QUICK_FILTERS.map((qf) => {
+              const active = quickFilters.includes(qf.id);
+              return (
+                <button
+                  key={qf.id}
+                  onClick={() => handleQuickFilter(qf.id)}
+                  className={`px-3 py-1.5 text-xs rounded-full font-medium border transition whitespace-nowrap ${
+                    active
+                      ? 'bg-emerald-600 border-emerald-500 text-white'
+                      : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {qf.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       {/* Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 lg:gap-6 items-start max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -357,7 +480,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 {viewMode === 'grid' ? (
                   <div id="scpi-grid" className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {paginatedData.map(scpi => (
-                      <SCPICardDark
+                      <ProSCPICardDark
                         key={scpi.id}
                         scpi={scpi}
                         score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
@@ -432,7 +555,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 {viewMode === 'list' && (
                   <div className="md:hidden mt-16 grid grid-cols-1 gap-6">
                     {paginatedData.map(scpi => (
-                      <SCPICardDark
+                      <ProSCPICardDark
                         key={scpi.id}
                         scpi={scpi}
                         score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
@@ -499,7 +622,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
         {/* Desktop Sidebar */}
         <aside id="selection-sidebar" className="block lg:sticky lg:top-24 scroll-mt-20">
-          <SelectionSidebar
+          <ProSelectionSidebar
             selectedScpis={selectedScpis}
             onRemove={(scpi) => toggleSelect(scpi)}
             onClear={() => setSelectedScpis([])}
@@ -582,14 +705,14 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   );
 };
 
-interface FintechComparatorProps {
+interface ProFintechComparatorProps {
   onCloseAnalysis?: () => void;
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
 }
 
-const FintechComparator: React.FC<FintechComparatorProps> = ({
+const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
@@ -598,7 +721,7 @@ const FintechComparator: React.FC<FintechComparatorProps> = ({
   return (
     <AllocationProvider>
       <SubscriptionProvider>
-        <FintechComparatorContent
+        <ProFintechComparatorContent
           onCloseAnalysis={onCloseAnalysis}
           onGuidedJourneyClick={onGuidedJourneyClick}
           hideTitle={hideTitle}
@@ -609,4 +732,4 @@ const FintechComparator: React.FC<FintechComparatorProps> = ({
   );
 };
 
-export default FintechComparator;
+export default ProFintechComparator;

@@ -131,7 +131,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
           {isSelected && (
             <div className="flex items-center gap-1 px-2 py-1 bg-orange-500 text-white rounded-full text-xs font-bold">
               <Check className="w-3 h-3" />
-              <span>Choisie</span>
+              <span>Sélectionnée</span>
             </div>
           )}
         </div>
@@ -320,12 +320,12 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             {isSelected ? (
               <>
                 <Check className="w-4 h-4" />
-                <span>Choisie</span>
+                <span>Sélectionnée</span>
               </>
             ) : (
               <>
                 <Plus className="w-4 h-4" />
-                <span>Ajouter</span>
+                <span>Ajouter à ma sélection</span>
               </>
             )}
           </button>
@@ -335,7 +335,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             className="py-2.5 px-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 hover:border-slate-500 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 active:scale-95"
           >
             <BarChart3 className="w-4 h-4" />
-            <span>Analyser</span>
+            <span>Voir la fiche</span>
           </button>
         </div>
         

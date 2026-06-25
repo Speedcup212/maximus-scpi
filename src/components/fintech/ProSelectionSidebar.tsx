@@ -303,7 +303,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               <TrendingUp className="w-10 h-10 text-slate-500" />
             </div>
             <h3 className="text-lg font-bold text-white mb-2">
-              Votre Sélection
+              Ma Sélection
             </h3>
             <p className="text-sm text-slate-400">
               Cliquez sur <span className="text-amber-500 font-semibold">Ajouter</span> pour intégrer une SCPI à votre portefeuille.
@@ -751,15 +751,16 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-xl font-bold text-white">
-              Votre Sélection
+              Ma Sélection
             </h3>
-            <button
-              onClick={onClear}
-              className="p-2 rounded-lg hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors"
-              title="Vider la sélection"
-            >
-              <Trash2 className="w-5 h-5" />
-            </button>
+            {selectedScpis.length > 0 && (
+              <button
+                onClick={onClear}
+                className="px-2.5 py-1 rounded-lg text-xs text-slate-500 hover:text-red-400 hover:bg-red-950/30 transition-colors"
+              >
+                Réinitialiser
+              </button>
+            )}
           </div>
           <p className="text-sm text-slate-400">
             {selectedScpis.length} SCPI sélectionnée{selectedScpis.length > 1 ? 's' : ''}
@@ -838,14 +839,14 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
         <button
           onClick={() => setIsResultOpen(true)}
-          className="w-full py-4 px-6 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl font-bold text-base shadow-lg shadow-orange-500/30 hover:shadow-xl hover:from-orange-700 hover:to-orange-600 transition-all flex items-center justify-center gap-2 active:scale-95"
+          className="w-full py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 transition-all flex items-center justify-center gap-2 active:scale-95"
         >
-          <span>Valider ma sélection</span>
+          <span>Analyser ma sélection</span>
           <ArrowRight className="w-5 h-5" />
         </button>
 
-        <p className="text-xs text-center text-slate-500 mt-4">
-          Finalisez votre souscription en quelques étapes
+        <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
+          Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
         </p>
       </div>
 
@@ -2176,7 +2177,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 onClick={() => setIsResultOpen(false)}
                 className="flex-1 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
               >
-                Valider ma sélection avec un expert
+                Analyser ma sélection avec un expert
                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
             </div>
