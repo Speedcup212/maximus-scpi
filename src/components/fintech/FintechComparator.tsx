@@ -37,13 +37,15 @@ interface FintechComparatorContentProps {
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
+  variant?: 'public' | 'pro';
 }
 
 const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
-  zScoreVariant = 'full'
+  zScoreVariant = 'full',
+  variant = 'public'
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -358,8 +360,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         </div>
       </header>
 
-      {/* ── Onboarding ── */}
-      {onboardingVisible && (
+      {/* ── Onboarding (Espace Pro uniquement) ── */}
+      {variant === 'pro' && onboardingVisible && (
         <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div className="flex items-start justify-between gap-4">
@@ -430,7 +432,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               )}
             </div>
           </div>
-          {/* Quick Filters */}
+          {/* Quick Filters (Espace Pro uniquement) */}
+          {variant === 'pro' && (
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide mr-1">Filtres rapides :</span>
             {QUICK_FILTERS.map((qf) => {
@@ -450,6 +453,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               );
             })}
           </div>
+          )}
         </div>
       </div>
 
@@ -710,13 +714,15 @@ interface FintechComparatorProps {
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
+  variant?: 'public' | 'pro';
 }
 
 const FintechComparator: React.FC<FintechComparatorProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
-  zScoreVariant = 'full'
+  zScoreVariant = 'full',
+  variant = 'public'
 }) => {
   return (
     <AllocationProvider>
@@ -726,6 +732,7 @@ const FintechComparator: React.FC<FintechComparatorProps> = ({
           onGuidedJourneyClick={onGuidedJourneyClick}
           hideTitle={hideTitle}
           zScoreVariant={zScoreVariant}
+          variant={variant}
         />
       </SubscriptionProvider>
     </AllocationProvider>
