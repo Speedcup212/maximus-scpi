@@ -326,7 +326,7 @@ export default function ProComparator() {
             </div>
           }
         >
-          <FintechComparator />
+            <FintechComparator hideTitle />
         </ErrorBoundary>
       </div>
 

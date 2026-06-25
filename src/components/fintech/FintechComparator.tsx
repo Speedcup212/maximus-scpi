@@ -243,16 +243,6 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
           <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between">
               <div>
-                {!hideTitle && (
-                  <>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                      Vous souhaitez comparer vous-même ?
-                    </h1>
-                    <p className="text-base text-slate-300 mt-2 font-medium">
-                      Accédez à l'ensemble de nos SCPI et analysez-les librement.
-                    </p>
-                  </>
-                )}
                 <p className="text-sm text-slate-400 mt-1">
                   {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
                 </p>
@@ -353,7 +343,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       {/* Main Layout */}
       <div className="flex">
         {/* Main Content */}
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 pt-6 pb-24 lg:pb-6">
+        <main className="flex-1 px-4 sm:px-6 lg:pl-8 lg:pr-2 pt-6 pb-24 lg:pb-6">
           <div className="max-w-7xl mx-auto">
 
             {filteredData.length === 0 ? (
