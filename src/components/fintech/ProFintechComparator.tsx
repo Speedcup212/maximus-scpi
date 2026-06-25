@@ -483,16 +483,16 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 ) : (
                   <div className="hidden md:block bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="w-full table-fixed">
+                      <table className="w-full table-auto">
                         <colgroup>
-                          <col className="w-[20%]" />
-                          <col className="w-[12%]" />
+                          <col className="w-[18%]" />
                           <col className="w-[11%]" />
+                          <col className="w-[10%]" />
+                          <col className="w-[7%]" />
                           <col className="w-[8%]" />
                           <col className="w-[9%]" />
                           <col className="w-[10%]" />
-                          <col className="w-[12%]" />
-                          <col className="w-[18%]" />
+                          <col style={{ minWidth: '200px' }} />
                         </colgroup>
                         <thead className="bg-slate-900/50 border-b border-slate-700">
                           <tr>
