@@ -442,13 +442,11 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
           </div>
         </div>
 
-        {/* Main Layout */}
+        {viewMode === 'grid' ? (
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
-        {/* Main Content */}
-        <main className="min-w-0 pb-24 lg:pb-6">
-          <div>
-
-            {filteredData.length === 0 ? (
+          <main className="min-w-0 pb-24 lg:pb-6">
+            <div>
+              {filteredData.length === 0 ? (
               <div className="text-center py-16">
                 <div className="w-20 h-20 rounded-full bg-slate-800 mx-auto mb-4 flex items-center justify-center">
                   <Search className="w-10 h-10 text-slate-600" />
@@ -607,8 +605,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             )}
           </div>
         </main>
-
-        {/* Desktop Sidebar */}
         <aside id="selection-sidebar" className="block xl:sticky xl:top-24 scroll-mt-20">
           <ProSelectionSidebar
             selectedScpis={selectedScpis}
@@ -619,6 +615,142 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
           />
         </aside>
       </div>
+        ) : (
+      <div className="mt-8">
+        <main className="min-w-0 pb-24 lg:pb-6">
+          <div>
+            {filteredData.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 rounded-full bg-slate-800 mx-auto mb-4 flex items-center justify-center">
+                  <Search className="w-10 h-10 text-slate-600" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Aucun résultat</h3>
+                <p className="text-slate-400 mb-4">
+                  Essayez de modifier votre recherche
+                </p>
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  Réinitialiser
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="hidden md:block bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full table-auto">
+                      <colgroup>
+                        <col className="w-[18%]" />
+                        <col className="w-[11%]" />
+                        <col className="w-[10%]" />
+                        <col className="w-[7%]" />
+                        <col className="w-[8%]" />
+                        <col className="w-[9%]" />
+                        <col className="w-[10%]" />
+                        <col style={{ minWidth: '190px' }} />
+                      </colgroup>
+                      <thead className="bg-slate-900/50 border-b border-slate-700">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">SCPI</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Catégorie</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Rendement</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">TOF</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Prix</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Invest. Min.</th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">Note</th>
+                          <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {paginatedData.map(scpi => (
+                          <SCPITableRow
+                            key={scpi.id}
+                            scpi={scpi}
+                            score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                            isSelected={selectedScpis.some(s => s.id === scpi.id)}
+                            onToggleSelect={() => toggleSelect(scpi)}
+                            onAnalyze={() => handleAnalyze(scpi)}
+                            userTmi={filters.tmi}
+                          />
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                {viewMode === 'list' && (
+                  <div className="md:hidden mt-16 grid grid-cols-1 gap-6">
+                    {paginatedData.map(scpi => (
+                      <ProSCPICardDark
+                        key={scpi.id}
+                        scpi={scpi}
+                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                        isSelected={selectedScpis.some(s => s.id === scpi.id)}
+                        onToggleSelect={() => toggleSelect(scpi)}
+                        onAnalyze={() => handleAnalyze(scpi)}
+                        userTmi={filters.tmi}
+                      />
+                    ))}
+                  </div>
+                )}
+                {totalPages > 1 && (
+                  <div className="mt-8 flex items-center justify-center gap-4">
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all flex items-center gap-2 ${
+                        currentPage === 1
+                          ? 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                          : 'bg-slate-700 hover:bg-slate-600 text-white'
+                      }`}
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Précédent</span>
+                    </button>
+                    <div className="flex items-center gap-2">
+                      <span className="text-white font-semibold">
+                        Page {currentPage} sur {totalPages}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all flex items-center gap-2 ${
+                        currentPage === totalPages
+                          ? 'bg-slate-800 text-slate-600 cursor-not-allowed'
+                          : 'bg-slate-700 hover:bg-slate-600 text-white'
+                      }`}
+                    >
+                      <span>Suivant</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+                {filteredData.length > 0 && (
+                  <div className="mt-12 max-w-4xl mx-auto">
+                    <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        <span className="font-semibold text-slate-300">Avertissement : </span>
+                        Les investissements en SCPI présentent un risque de perte en capital, une liquidité non garantie et un horizon de placement long. Les performances passées ne préjugent pas des performances futures. Les simulations et projections affichées sont indicatives et ne constituent ni un engagement contractuel ni une promesse de rendement.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </main>
+        <div className="mt-8">
+          <ProSelectionSidebar
+            selectedScpis={selectedScpis}
+            onRemove={(scpi) => toggleSelect(scpi)}
+            onClear={() => setSelectedScpis([])}
+            onVisualize={() => setIsSimulationOpen(true)}
+            zScoreVariant={zScoreVariant}
+          />
+        </div>
+      </div>
+        )}
       </section>
 
       {/* Avertissement de comparaison si mélange France/Europe */}
