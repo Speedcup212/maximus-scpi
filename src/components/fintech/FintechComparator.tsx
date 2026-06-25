@@ -239,7 +239,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     <div className="min-h-screen bg-slate-900" id="comparator-container">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pr-[25rem] py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pr-[15rem] py-4">
           <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between">
               <div>
@@ -508,7 +508,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         </main>
 
         {/* Desktop Sidebar */}
-        <div id="selection-sidebar" className="scroll-mt-20">
+        <div id="selection-sidebar" className="scroll-mt-20 lg:w-52 shrink-0">
           <SelectionSidebar
             selectedScpis={selectedScpis}
             onRemove={(scpi) => toggleSelect(scpi)}
