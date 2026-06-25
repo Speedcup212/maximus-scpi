@@ -19,8 +19,10 @@
         "npm:@types/pdf-parse@^1.1.4",
         "npm:@types/react-dom@^18.3.0",
         "npm:@types/react@^18.3.5",
+        "npm:@types/xml2js@~0.4.14",
         "npm:@vitejs/plugin-react@^4.7.0",
         "npm:autoprefixer@^10.4.18",
+        "npm:axios@^1.18.1",
         "npm:cross-env@^10.1.0",
         "npm:decimal.js@^10.6.0",
         "npm:dotenv@^17.2.3",
@@ -34,8 +36,8 @@
         "npm:lucide-react@0.344",
         "npm:pdf-lib@^1.17.1",
         "npm:pdf-parse@^1.1.4",
-        "npm:playwright-core@^1.49.1",
         "npm:postcss@^8.4.35",
+        "npm:puppeteer@^24.43.1",
         "npm:react-dom@^18.3.1",
         "npm:react-markdown@^10.1.0",
         "npm:react@^18.3.1",
@@ -48,6 +50,7 @@
         "npm:typescript@^5.5.3",
         "npm:vite@^5.4.21",
         "npm:vitest@^4.0.18",
+        "npm:xml2js@~0.6.2",
         "npm:zod@^4.3.6"
       ]
     }

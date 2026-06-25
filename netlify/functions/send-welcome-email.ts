@@ -35,11 +35,12 @@ export const handler: Handler = async (event) => {
 
   const adminClient = createAdminClient();
 
-  // 1. Email reel du CGP : seule source fiable = auth.users
+  // Email + metadata (prenom, nom, cabinet, orias) : tout est dans auth.users
   const { data: authData, error: authError } =
     await adminClient.auth.admin.getUserById(userId);
 
-  const email = authData?.user?.email;
+  const user = authData?.user;
+  const email = user?.email;
   if (authError || !email) {
     console.error('[send-welcome-email] Email auth introuvable pour userId:', userId, authError);
     return {
@@ -49,40 +50,31 @@ export const handler: Handler = async (event) => {
     };
   }
 
-  // 2. Cabinet + ORIAS : table cgp_profiles, cle primaire = id
-  const { data: cgp, error: cgpError } = await adminClient
-    .from('cgp_profiles')
-    .select('company_name, orias_number')
-    .eq('id', userId)
-    .single();
+  const meta = user.user_metadata || {};
+  const firstName = (meta.first_name || '').trim();
+  const lastName = (meta.last_name || '').trim();
+  const cabinetName = (meta.cabinet_name || '').trim();
 
-  if (cgpError || !cgp) {
-    console.error('[send-welcome-email] Profil CGP introuvable pour userId:', userId, cgpError);
-    return {
-      statusCode: 404,
-      headers: JSON_HEADERS,
-      body: JSON.stringify({ error: 'Profil CGP introuvable.' }),
-    };
-  }
+  // Civilite : "Prenom Nom" si dispo, sinon cabinet, sinon generique
+  const fullName = `${firstName} ${lastName}`.trim();
+  const greetingName = fullName || cabinetName || 'cher partenaire';
 
-  // 3. Prenom : optionnel, table profiles, cle = user_id (peut etre NULL)
-  let firstName: string | undefined;
-  try {
-    const { data: prof } = await adminClient
-      .from('profiles')
-      .select('full_name')
-      .eq('user_id', userId)
+  // ORIAS : metadata en priorite, fallback cgp_profiles
+  let oriasNumber = (meta.orias_number || '').trim();
+  if (!oriasNumber) {
+    const { data: cgp } = await adminClient
+      .from('cgp_profiles')
+      .select('orias_number')
+      .eq('id', userId)
       .single();
-    firstName = prof?.full_name?.trim()?.split(' ')[0] || undefined;
-  } catch {
-    firstName = undefined;
+    oriasNumber = cgp?.orias_number || '';
   }
 
-  // 4. Envoi
+  // Envoi
   try {
     await sendWelcomeEmail({
-      firstName: firstName || cgp.company_name,
-      oriasNumber: cgp.orias_number,
+      firstName: greetingName,
+      oriasNumber,
       email,
     });
     return {

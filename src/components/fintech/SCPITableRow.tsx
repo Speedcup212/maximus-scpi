@@ -10,9 +10,10 @@ interface SCPITableRowProps {
   onToggleSelect: () => void;
   onAnalyze: () => void;
   userTmi?: TMIValue;
+  variant?: 'public' | 'pro';
 }
 
-const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null }) => {
+const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, variant = 'public' }) => {
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const getCategoryColor = (category: string) => {
@@ -100,15 +101,24 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
           onClick={onToggleSelect}
           className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
             isSelected
-              ? 'bg-amber-500 hover:bg-amber-600 text-white'
+              ? variant === 'pro' 
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-300 border border-slate-600'
+                : 'bg-amber-500 hover:bg-amber-600 text-white'
               : 'bg-amber-500 hover:bg-amber-600 text-white'
           }`}
         >
           {isSelected ? (
-            <>
-              <Check className="w-3.5 h-3.5" />
-              <span>Choisie</span>
-            </>
+            variant === 'pro' ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>Ajoutée</span>
+              </>
+            ) : (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>Choisie</span>
+              </>
+            )
           ) : (
             <>
               <Plus className="w-3.5 h-3.5" />

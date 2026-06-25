@@ -845,6 +845,18 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
           <ArrowRight className="w-5 h-5" />
         </button>
 
+        <button
+          disabled={selectedScpis.length === 0}
+          className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 active:scale-95 ${
+            selectedScpis.length === 0
+              ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+              : 'bg-gradient-to-r from-emerald-500 to-emerald-400 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-600 hover:to-emerald-500'
+          }`}
+        >
+          <span>Générer le lien client</span>
+          <ArrowRight className="w-5 h-5" />
+        </button>
+
         <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
           Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
         </p>

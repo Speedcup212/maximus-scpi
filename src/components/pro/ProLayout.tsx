@@ -50,7 +50,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
             </button>
             <button onClick={() => onNavigate('/pro/rapports')}
               className={`px-3 py-1.5 text-sm rounded-lg transition ${currentPath === '/pro/rapports' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>
-              Mes rapports
+              Mes liens clients
             </button>
             <button onClick={() => onNavigate('/pro/settings')}
               className={`px-3 py-1.5 text-sm rounded-lg transition ${currentPath === '/pro/settings' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}>

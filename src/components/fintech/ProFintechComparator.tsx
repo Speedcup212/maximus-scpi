@@ -290,46 +290,25 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         {/* ── Onboarding ── */}
         {onboardingVisible && (
         <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
-          <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div className="flex items-start justify-between gap-4">
+          <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
-                <h2 className="text-lg sm:text-xl font-bold text-emerald-300 mb-2">
-                  Construisez une sélection SCPI exploitable en rendez-vous
+                <h2 className="text-base sm:text-lg font-bold text-emerald-300">
+                  Filtrez et sélectionnez vos SCPI pour générer une proposition commerciale percutante.
                 </h2>
-                <p className="text-sm text-slate-400 mb-5">
-                  Filtrez, comparez et sélectionnez jusqu'à 6 SCPI pour préparer une analyse claire, pédagogique et conforme.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
-                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                    <div>
-                      <p className="text-xs font-semibold text-white">Filtrer</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Stratégie, secteur, rendement ou société de gestion.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
-                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
-                    <div>
-                      <p className="text-xs font-semibold text-white">Sélectionner</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Ajoutez jusqu'à 6 SCPI à votre panier d'analyse.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
-                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
-                    <div>
-                      <p className="text-xs font-semibold text-white">Analyser</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Visualisez rendement moyen, diversification et cohérence.</p>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <button
-                onClick={() => setOnboardingVisible(false)}
-                className="text-slate-600 hover:text-slate-400 transition shrink-0"
-                title="Fermer"
-              >
-                <X size={16} />
-              </button>
+              <div className="flex items-center gap-4 shrink-0">
+                <span className="text-xs text-slate-500 whitespace-nowrap">
+                  Connexion Pro Active • <span className="text-emerald-400 font-semibold">{filteredData.length} SCPI</span> disponibles
+                </span>
+                <button
+                  onClick={() => setOnboardingVisible(false)}
+                  className="text-slate-600 hover:text-slate-400 transition shrink-0"
+                  title="Fermer"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -500,6 +479,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                           onToggleSelect={() => toggleSelect(scpi)}
                           onAnalyze={() => handleAnalyze(scpi)}
                           userTmi={filters.tmi}
+                          variant="pro"
                         />
                       ))}
                     </div>
