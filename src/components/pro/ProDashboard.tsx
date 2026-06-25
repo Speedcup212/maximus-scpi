@@ -1,6 +1,9 @@
-import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import { ProReportProvider } from '../../contexts/ProReportContext';
+import ProComparator from './ProComparator';
+import ProSimulator from './ProSimulator';
 import {
   Search, Link, Download, CheckSquare, Square, X,
   FileArchive, ExternalLink, Play, LayoutDashboard, BarChart3,
@@ -36,9 +39,6 @@ type ProReportRow = {
   view_count: number;
 };
 
-// ── Lazy imports pour les onglets lourds ──
-const ProComparator = lazy(() => import('./ProComparator'));
-const ProSimulator = lazy(() => import('./ProSimulator'));
 
 // ── Constantes ──
 const CATEGORIES = ['Bureaux', 'Commerces', 'Santé', 'Logistique', 'Hôtellerie', 'Résidentiel', 'Multi-secteurs'];
@@ -745,7 +745,8 @@ export default function ProDashboard() {
 
   // ── RENDU PRINCIPAL AVEC ONGLETS ──
   return (
-    <div className="space-y-6 pb-20">
+    <ProReportProvider>
+      <div className="space-y-6 pb-20">
       {/* En-tête + Navigation par onglets */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-100 mb-4">Espace Pro</h1>
@@ -798,5 +799,6 @@ export default function ProDashboard() {
         </p>
       </div>
     </div>
+    </ProReportProvider>
   );
 }
