@@ -1,8 +1,7 @@
 import React from 'react';
-import { Check, Plus, BarChart3, Sparkles, Star } from 'lucide-react';
+import { Check, Plus, BarChart3, Sparkles } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
-import { scoreToStars } from '../../utils/scoreToStars';
 
 interface SCPITableRowProps {
   scpi: SCPIExtended;
@@ -11,10 +10,9 @@ interface SCPITableRowProps {
   onToggleSelect: () => void;
   onAnalyze: () => void;
   userTmi?: TMIValue;
-  onGuidedJourneyClick?: () => void;
 }
 
-const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
+const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null }) => {
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const getCategoryColor = (category: string) => {
@@ -62,11 +60,12 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
       <td className="px-4 py-3">
         <div className="flex flex-col gap-1">
           {mainSector ? (
-            <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border ${getSectorColor(mainSector.name)}`}>
-              {mainSector.name} {mainSector.value.toFixed(0)}%
+            <span className={`inline-flex flex-col items-start px-2.5 py-1.5 rounded-lg text-xs font-semibold border leading-tight w-[96px] max-w-[104px] ${getSectorColor(mainSector.name)}`}>
+              <span className="whitespace-nowrap">{mainSector.name}</span>
+              <span className="whitespace-nowrap">{mainSector.value.toFixed(0)}%</span>
             </span>
           ) : (
-            <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border ${getCategoryColor(scpi.category)}`}>
+            <span className={`inline-block px-2 py-1 rounded-lg text-xs font-semibold border max-w-[104px] ${getCategoryColor(scpi.category)}`}>
               {scpi.category}
             </span>
           )}
@@ -93,58 +92,40 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
       <td className="px-4 py-3">
         <div className="text-sm font-semibold text-white truncate">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
       </td>
-      <td className="px-4 py-3">
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map(star => {
-            const stars = scoreToStars(score);
-            const filled = stars != null && star <= stars;
-            return (
-              <Star key={star} className={`w-4 h-4 ${filled ? 'fill-yellow-400 text-yellow-400' : 'text-slate-600'}`} />
-            );
-          })}
-          <span className="text-sm font-bold text-white ml-1">{score != null ? `${Math.round(score)}/100` : 'N/A'}</span>
-        </div>
+      <td className="px-3 py-4">
+        <span className="inline-flex items-center justify-center rounded-md bg-slate-800 px-2 py-1 text-xs font-semibold text-white whitespace-nowrap">
+          {score != null ? `${Math.round(score)}/100` : 'N/A'}
+        </span>
       </td>
       <td className="px-4 py-3">
-        <div className="flex flex-col items-end gap-2">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onToggleSelect}
-              className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
-                isSelected
-                  ? 'bg-amber-500 hover:bg-amber-600 text-white'
-                  : 'bg-amber-500 hover:bg-amber-600 text-white'
-              }`}
-            >
-              {isSelected ? (
-                <>
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Choisie</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Ajouter</span>
-                </>
-              )}
-            </button>
-            <button
-              onClick={onAnalyze}
-              className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
-            >
-              <BarChart3 className="w-3.5 h-3.5" />
-              <span>Analyser</span>
-            </button>
-          </div>
-          {onGuidedJourneyClick && (
-            <button
-              onClick={onGuidedJourneyClick}
-              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1 whitespace-nowrap"
-            >
-              <span>👉</span>
-              <span>Je préfère être guidé</span>
-            </button>
-          )}
+        <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={onToggleSelect}
+            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
+              isSelected
+                ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                : 'bg-amber-500 hover:bg-amber-600 text-white'
+            }`}
+          >
+            {isSelected ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>Choisie</span>
+              </>
+            ) : (
+              <>
+                <Plus className="w-3.5 h-3.5" />
+                <span>Ajouter</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={onAnalyze}
+            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
+          >
+            <BarChart3 className="w-3.5 h-3.5" />
+            <span>Analyser</span>
+          </button>
         </div>
       </td>
     </tr>
