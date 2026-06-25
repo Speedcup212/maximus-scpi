@@ -1,9 +1,11 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProReport } from '../../contexts/ProReportContext';
 import { supabase } from '../../lib/supabase';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { Play, Star, Filter, Plus, Check, X, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import FintechComparator from '../fintech/FintechComparator';
+import ErrorBoundary from '../ErrorBoundary';
 
 // ── Types étendus pour le Pro ──
 interface SCPIPremiumMeta {
@@ -93,10 +95,10 @@ export default function ProComparator() {
   }, [user, allowedLoaded]);
 
   // Activer les chargements
-  useState(() => {
+  useEffect(() => {
     fetchMeta();
     loadAllowedScpi();
-  });
+  }, [fetchMeta, loadAllowedScpi]);
 
   // Toggle Mon Univers
   const toggleMonUnivers = () => {
@@ -309,12 +311,17 @@ export default function ProComparator() {
         )}
       </div>
 
-      {/* ── Comparateur public (sera intégré dans le ProDashboard avec lazy loading) ── */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-center">
-        <p className="text-slate-400 text-sm">
-          Le comparateur public est accessible ci-dessous.
-          Utilisez la barre d'outils ci-dessus pour ajouter des SCPI à votre rapport.
-        </p>
+      {/* ── Comparateur public intégré ── */}
+      <div className="rounded-xl border border-slate-700">
+        <ErrorBoundary
+          fallback={
+            <div className="flex items-center justify-center bg-red-950/30 p-6">
+              <p className="text-red-400 text-sm">Erreur de chargement du comparateur.</p>
+            </div>
+          }
+        >
+          <FintechComparator />
+        </ErrorBoundary>
       </div>
 
       {/* Disclaimer */}
