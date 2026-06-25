@@ -44,20 +44,18 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
     : null;
 
   return (
-    <tr
-      className={`border-b transition-colors ${
+    <div
+      className={`grid grid-cols-[minmax(180px,1.4fr)_130px_120px_70px_80px_100px_72px_180px] items-center border-b px-4 py-4 transition-colors ${
         isSelected
           ? 'bg-orange-500/10 border-orange-500/30'
           : 'bg-slate-800 border-slate-700 hover:bg-slate-700/50'
       }`}
     >
-      <td className="px-4 py-3">
-        <div>
-          <div className="font-bold text-white text-sm truncate">{scpi.name}</div>
-          <div className="text-xs text-slate-400 truncate">{scpi.managementCompany}</div>
-        </div>
-      </td>
-      <td className="px-4 py-3">
+      <div>
+        <div className="font-bold text-white text-sm truncate">{scpi.name}</div>
+        <div className="text-xs text-slate-400 truncate">{scpi.managementCompany}</div>
+      </div>
+      <div>
         <div className="flex flex-col gap-1">
           {mainSector ? (
             <span className={`inline-flex flex-col items-start px-2.5 py-1.5 rounded-lg text-xs font-semibold border leading-tight w-[96px] max-w-[104px] ${getSectorColor(mainSector.name)}`}>
@@ -76,59 +74,57 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
             </span>
           )}
         </div>
-      </td>
-      <td className="px-4 py-3">
+      </div>
+      <div>
         <div className="flex flex-col gap-0.5">
           <div className="text-base font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
           <div className="text-xs text-slate-500">Taux de distribution brut</div>
         </div>
-      </td>
-      <td className="px-4 py-3">
+      </div>
+      <div>
         <div className="text-sm font-semibold text-white">{scpi.tof}%</div>
-      </td>
-      <td className="px-4 py-3">
+      </div>
+      <div>
         <div className="text-sm font-semibold text-white">{scpi.price}€</div>
-      </td>
-      <td className="px-4 py-3">
+      </div>
+      <div>
         <div className="text-sm font-semibold text-white truncate">{scpi.minInvestment.toLocaleString('fr-FR')}€</div>
-      </td>
-      <td className="px-3 py-4">
+      </div>
+      <div>
         <span className="inline-flex items-center justify-center rounded-md bg-slate-800 px-2 py-1 text-xs font-semibold text-white whitespace-nowrap">
           {score != null ? `${Math.round(score)}/100` : 'N/A'}
         </span>
-      </td>
-      <td className="px-4 py-3">
-        <div className="flex items-center justify-end gap-2">
-          <button
-            onClick={onToggleSelect}
-            className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
-              isSelected
-                ? 'bg-amber-500 hover:bg-amber-600 text-white'
-                : 'bg-amber-500 hover:bg-amber-600 text-white'
-            }`}
-          >
-            {isSelected ? (
-              <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Choisie</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-3.5 h-3.5" />
-                <span>Ajouter</span>
-              </>
-            )}
-          </button>
-          <button
-            onClick={onAnalyze}
-            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
-          >
-            <BarChart3 className="w-3.5 h-3.5" />
-            <span>Analyser</span>
-          </button>
-        </div>
-      </td>
-    </tr>
+      </div>
+      <div className="flex items-center justify-end gap-2">
+        <button
+          onClick={onToggleSelect}
+          className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
+            isSelected
+              ? 'bg-amber-500 hover:bg-amber-600 text-white'
+              : 'bg-amber-500 hover:bg-amber-600 text-white'
+          }`}
+        >
+          {isSelected ? (
+            <>
+              <Check className="w-3.5 h-3.5" />
+              <span>Choisie</span>
+            </>
+          ) : (
+            <>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Ajouter</span>
+            </>
+          )}
+        </button>
+        <button
+          onClick={onAnalyze}
+          className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg font-semibold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap"
+        >
+          <BarChart3 className="w-3.5 h-3.5" />
+          <span>Analyser</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

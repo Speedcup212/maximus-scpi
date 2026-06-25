@@ -286,11 +286,11 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* ── Onboarding ── */}
         {onboardingVisible && (
         <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <h2 className="text-lg sm:text-xl font-bold text-emerald-300 mb-2">
@@ -479,61 +479,29 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     ))}
                   </div>
                 ) : (
-                  <div className="hidden md:block bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
-                    <div className="overflow-x-auto">
-                      <table className="min-w-[940px] w-full table-auto">
-                        <colgroup>
-                          <col className="w-[18%]" />
-                          <col className="w-[11%]" />
-                          <col className="w-[10%]" />
-                          <col className="w-[7%]" />
-                          <col className="w-[8%]" />
-                          <col className="w-[6%]" />
-                          <col className="w-[8%]" />
-                          <col style={{ minWidth: '200px' }} />
-                        </colgroup>
-                        <thead className="bg-slate-900/50 border-b border-slate-700">
-                          <tr>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              SCPI
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Catégorie
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Rendement
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              TOF
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Prix
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Invest. Min.
-                            </th>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Note
-                            </th>
-                            <th className="px-4 py-3 text-right text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {paginatedData.map(scpi => (
-                            <SCPITableRow
-                              key={scpi.id}
-                              scpi={scpi}
-                              score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
-                              isSelected={selectedScpis.some(s => s.id === scpi.id)}
-                              onToggleSelect={() => toggleSelect(scpi)}
-                              onAnalyze={() => handleAnalyze(scpi)}
-                              userTmi={filters.tmi}
-                            />
-                          ))}
-                        </tbody>
-                      </table>
+                  <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-700 bg-slate-800/70">
+                    <div className="min-w-[980px]">
+                      <div className="grid grid-cols-[minmax(180px,1.4fr)_130px_120px_70px_80px_100px_72px_180px] items-center border-b border-slate-700 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        <div>SCPI</div>
+                        <div>Catégorie</div>
+                        <div>Rendement</div>
+                        <div>TOF</div>
+                        <div>Prix</div>
+                        <div>Invest. Min.</div>
+                        <div>Note</div>
+                        <div className="text-right">Actions</div>
+                      </div>
+                      {paginatedData.map(scpi => (
+                        <SCPITableRow
+                          key={scpi.id}
+                          scpi={scpi}
+                          score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                          isSelected={selectedScpis.some(s => s.id === scpi.id)}
+                          onToggleSelect={() => toggleSelect(scpi)}
+                          onAnalyze={() => handleAnalyze(scpi)}
+                          userTmi={filters.tmi}
+                        />
+                      ))}
                     </div>
                   </div>
                 )}
