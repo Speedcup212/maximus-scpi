@@ -4035,7 +4035,7 @@ const App: React.FC = () => {
         />
         <main>
           <div id="comparator" data-comparator className="pt-6 sm:pt-8 pb-16 sm:pb-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8">
               {/* Intro discrète — pas de hero marketing ni de formulaire sur /comparateur-scpi */}
               <div className="mb-5">
                 <h1 className="text-xl sm:text-2xl font-bold text-white">
