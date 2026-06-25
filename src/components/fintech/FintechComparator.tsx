@@ -239,7 +239,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     <div className="min-h-screen bg-slate-900" id="comparator-container">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:pr-[12rem] py-4">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex items-center justify-between">
               <div>
@@ -341,10 +341,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       </header>
 
       {/* Main Layout */}
-      <div className="flex">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 lg:gap-6 items-start max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Main Content */}
-        <main className="flex-1 px-4 sm:px-6 lg:pl-8 lg:pr-2 pt-6 pb-24 lg:pb-6">
-          <div className="max-w-7xl mx-auto">
+        <main className="min-w-0 pb-24 lg:pb-6">
+          <div>
 
             {filteredData.length === 0 ? (
               <div className="text-center py-16">
@@ -508,7 +508,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         </main>
 
         {/* Desktop Sidebar */}
-        <div id="selection-sidebar" className="scroll-mt-20 lg:w-40 shrink-0">
+        <aside id="selection-sidebar" className="block lg:sticky lg:top-24 scroll-mt-20">
           <SelectionSidebar
             selectedScpis={selectedScpis}
             onRemove={(scpi) => toggleSelect(scpi)}
@@ -516,7 +516,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             onVisualize={() => setIsSimulationOpen(true)}
             zScoreVariant={zScoreVariant}
           />
-        </div>
+        </aside>
       </div>
 
       {/* Avertissement de comparaison si mélange France/Europe */}

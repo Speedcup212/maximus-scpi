@@ -296,7 +296,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   };
   if (selectedScpis.length === 0) {
     return (
-      <div className="hidden lg:block lg:w-96 bg-slate-800 border-l border-slate-700 p-6">
+      <div className="hidden lg:block w-full bg-slate-800 border-l border-slate-700 p-3">
         <div className="sticky top-24">
           <div className="text-center py-12">
             <div className="w-20 h-20 rounded-full bg-slate-700 mx-auto mb-4 flex items-center justify-center">
@@ -746,7 +746,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   ];
 
   return (
-    <div className="hidden lg:block lg:w-96 bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-6">
+    <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
       <div className="sticky top-24">
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
