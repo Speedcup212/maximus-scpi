@@ -289,70 +289,90 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       {/* Header minimal — sticky */}
       <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-slate-400">
-                {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              {filters.tmi !== null && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
-                  <Calculator className="w-4 h-4 text-emerald-400" />
-                  <span className="text-sm font-medium text-emerald-200">TMI</span>
-                  <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
-                    {filters.tmi}%
-                  </span>
-                </div>
-              )}
-              <button
-                onClick={() => setIsFilterOpen(true)}
-                className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
-              >
-                <SlidersHorizontal className="w-4 h-4" />
-                <span>Filtres</span>
-                {activeFiltersCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                    {activeFiltersCount}
-                  </span>
+          <div className="rounded-xl bg-slate-800/80 border border-slate-700 p-4 space-y-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="text-sm text-slate-400">
+                  {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                {filters.tmi !== null && (
+                  <div className="flex items-center gap-2 px-3 py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
+                    <Calculator className="w-4 h-4 text-emerald-400" />
+                    <span className="text-sm font-medium text-emerald-200">TMI</span>
+                    <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
+                      {filters.tmi}%
+                    </span>
+                  </div>
                 )}
-              </button>
-              <div className="flex items-center gap-1 bg-slate-700 rounded-lg p-1">
                 <button
-                  onClick={() => setViewMode('grid')}
-                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
-                    viewMode === 'grid'
-                      ? 'bg-emerald-600 text-white'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                  }`}
+                  onClick={() => setIsFilterOpen(true)}
+                  className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
                 >
-                  <Grid3x3 className="w-4 h-4" />
-                  <span className="text-sm font-medium">Grille</span>
+                  <SlidersHorizontal className="w-4 h-4" />
+                  <span>Filtres</span>
+                  {activeFiltersCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {activeFiltersCount}
+                    </span>
+                  )}
                 </button>
+                <div className="flex items-center gap-1 bg-slate-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                      viewMode === 'grid'
+                        ? 'bg-emerald-600 text-white'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                    }`}
+                  >
+                    <Grid3x3 className="w-4 h-4" />
+                    <span className="text-sm font-medium">Grille</span>
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                      viewMode === 'list'
+                        ? 'bg-emerald-600 text-white'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                    }`}
+                  >
+                    <List className="w-4 h-4" />
+                    <span className="text-sm font-medium">Liste</span>
+                  </button>
+                </div>
+                {/* Mobile filter button */}
                 <button
-                  onClick={() => setViewMode('list')}
-                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
-                    viewMode === 'list'
-                      ? 'bg-emerald-600 text-white'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                  }`}
+                  onClick={() => setIsFilterOpen(true)}
+                  className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
                 >
-                  <List className="w-4 h-4" />
-                  <span className="text-sm font-medium">Liste</span>
+                  <SlidersHorizontal className="w-5 h-5 text-white" />
+                  {activeFiltersCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {activeFiltersCount}
+                    </span>
+                  )}
                 </button>
               </div>
-              {/* Mobile filter button */}
-              <button
-                onClick={() => setIsFilterOpen(true)}
-                className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
-              >
-                <SlidersHorizontal className="w-5 h-5 text-white" />
-                {activeFiltersCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                    {activeFiltersCount}
-                  </span>
-                )}
-              </button>
+            </div>
+            <div className="relative w-full">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
+              <input
+                type="text"
+                placeholder="Rechercher par nom, catégorie, gestionnaire..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-14 pr-12 py-3 bg-slate-950 border border-slate-600 text-white placeholder-slate-400 rounded-full shadow-md focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/20 transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-slate-400 hover:text-white" />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -478,7 +498,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             ) : (
               <>
                 {viewMode === 'grid' ? (
-                  <div id="scpi-grid" className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div id="scpi-grid" className="mt-6 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                     {paginatedData.map(scpi => (
                       <ProSCPICardDark
                         key={scpi.id}
