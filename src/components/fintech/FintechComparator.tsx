@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, ArrowDown } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -21,6 +21,16 @@ import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
 
 type ViewMode = 'grid' | 'list';
+
+const QUICK_FILTERS = [
+  { id: 'high-yield', label: 'Rendement élevé' },
+  { id: 'low-debt', label: 'Faible endettement' },
+  { id: 'attractive-discount', label: 'Décote attractive' },
+  { id: 'europe', label: 'Europe' },
+  { id: 'sante', label: 'Santé' },
+  { id: 'commerce', label: 'Commerce' },
+  { id: 'defensive', label: 'SCPI défensives' },
+];
 
 interface FintechComparatorContentProps {
   onCloseAnalysis?: () => void;
@@ -47,6 +57,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [showToast, setShowToast] = useState<boolean>(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
+  const [onboardingVisible, setOnboardingVisible] = useState(true);
+  const [quickFilters, setQuickFilters] = useState<string[]>([]);
   const [filters, setFilters] = useState<FilterState>({
     tmi: null,
     minYield: 0,
@@ -81,6 +93,43 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     () => computeClientScores(enrichedScpiData).bySlug,
     [enrichedScpiData]
   );
+
+  const handleQuickFilter = (id: string) => {
+    setQuickFilters(prev => {
+      const next = prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id];
+      // Appliquer les filtres rapides via le state filters existant
+      const updates: Partial<FilterState> = {};
+      // Réinitialiser les filtres avant d'appliquer les quick filters
+      let geographies: string[] = [];
+      let sectors: string[] = [];
+      let minYield = 0;
+      let maxLtv = 100;
+      let discountRange: [number, number] = [-15, 10];
+
+      if (next.includes('high-yield')) minYield = 5.5;
+      if (next.includes('low-debt')) maxLtv = 50;
+      if (next.includes('attractive-discount')) discountRange = [-25, -5];
+      if (next.includes('europe')) geographies = ['Europe'];
+      if (next.includes('sante')) sectors = ['Santé'];
+      if (next.includes('commerce')) sectors = sectors.length > 0 ? [...sectors, 'Commerces'] : ['Commerces'];
+      if (next.includes('defensive')) {
+        sectors = ['Santé', 'Commerces'];
+        geographies = geographies.length > 0 ? geographies : ['France'];
+        maxLtv = Math.min(maxLtv, 60);
+      }
+
+      setFilters(prevFilters => ({
+        ...prevFilters,
+        minYield,
+        maxLtv,
+        discountRange,
+        geographies,
+        sectors,
+        sectorThreshold: sectors.length > 0 ? '10' : '25',
+      }));
+      return next;
+    });
+  };
 
   const toggleSelect = (scpi: SCPIExtended) => {
     setSelectedScpis(prev => {
@@ -297,7 +346,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             </div>
 
             {/* Search Bar Wrapper */}
-            <div className="w-full max-w-4xl mx-auto relative z-20">
+            <div className="w-full max-w-4xl mx-auto relative z-20" id="comparator-search-bar">
               <div className="flex items-center gap-3">
                 <div className="relative flex-1">
                   <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
@@ -340,6 +389,64 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         </div>
       </header>
 
+      {/* ── Onboarding léger ── */}
+      {onboardingVisible && (
+        <div className="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-emerald-950/60 border-b border-emerald-800/30">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h2 className="text-base sm:text-lg font-bold text-emerald-300 mb-1.5">
+                  Construisez une sélection SCPI en 3 étapes
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-400 mb-4">
+                  Filtrez les SCPI, sélectionnez jusqu'à 6 supports, puis analysez la cohérence globale de votre portefeuille.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Filtrer</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Stratégie, secteur, rendement ou société de gestion</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Sélectionner</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Ajoutez jusqu'à 6 SCPI à votre panier d'analyse</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
+                    <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <div>
+                      <p className="text-xs font-semibold text-white">Analyser</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Visualisez rendement moyen, diversification et score de cohérence</p>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setOnboardingVisible(false);
+                    document.getElementById('comparator-search-bar')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                  className="mt-4 flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition"
+                >
+                  Commencer ma sélection
+                  <ArrowDown size={14} />
+                </button>
+              </div>
+              <button
+                onClick={() => setOnboardingVisible(false)}
+                className="text-slate-600 hover:text-slate-400 transition shrink-0"
+                title="Fermer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 lg:gap-6 items-start max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Main Content */}
@@ -364,6 +471,26 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               </div>
             ) : (
               <>
+                {/* ── Filtres rapides ── */}
+                <div className="flex flex-wrap items-center gap-2 mt-4">
+                  {QUICK_FILTERS.map((qf) => {
+                    const active = quickFilters.includes(qf.id);
+                    return (
+                      <button
+                        key={qf.id}
+                        onClick={() => handleQuickFilter(qf.id)}
+                        className={`px-3 py-1.5 text-xs rounded-full font-medium border transition whitespace-nowrap ${
+                          active
+                            ? 'bg-emerald-600 border-emerald-500 text-white'
+                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                        }`}
+                      >
+                        {qf.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
                 {viewMode === 'grid' ? (
                   <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {paginatedData.map(scpi => (
