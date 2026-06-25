@@ -394,9 +394,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => {
-                    setOnboardingVisible(false);
                     document.getElementById('scpi-grid')?.scrollIntoView({ behavior: 'smooth' });
+                    setOnboardingVisible(false);
                   }}
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-emerald-600/25"
                 >
