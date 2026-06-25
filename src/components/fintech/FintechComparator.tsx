@@ -508,7 +508,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         </main>
 
         {/* Desktop Sidebar */}
-        <div id="selection-sidebar" className="scroll-mt-20 lg:w-52 shrink-0">
+        <div id="selection-sidebar" className="scroll-mt-20 lg:w-40 shrink-0">
           <SelectionSidebar
             selectedScpis={selectedScpis}
             onRemove={(scpi) => toggleSelect(scpi)}
