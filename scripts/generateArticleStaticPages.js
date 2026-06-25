@@ -1028,12 +1028,15 @@ const generateArticles = () => {
 
   // Stats
   const htmlFiles = fs.readdirSync(articlesDir, { recursive: true }).filter(f => f.endsWith('index.html'));
+  if (htmlFiles.length === 0) {
+    console.log(`\n📊 Statistiques : 0 pages générées (aucun article en base)`);
+    return;
+  }
   const firstDir = fs.readdirSync(articlesDir).filter(f => !f.includes('.'))[0];
   const lastDir = fs.readdirSync(articlesDir).filter(f => !f.includes('.')).pop();
   const samplePath = path.join(articlesDir, firstDir, 'index.html');
   const sampleStats = fs.statSync(samplePath);
   const avgSize = Math.round(sampleStats.size / 1024);
-
   console.log(`\n📊 Statistiques :`);
   console.log(`   Pages HTML : ${htmlFiles.length}`);
   console.log(`   Taille moyenne : ~${avgSize} Ko`);
