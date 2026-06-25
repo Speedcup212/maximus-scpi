@@ -364,10 +364,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 ) : (
                   <div className="hidden md:block bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="w-full table-fixed">
+                      <table className="min-w-[980px] w-full table-fixed">
                         <colgroup>
-                          <col className="w-[20%]" />
-                          <col className="w-[12%]" />
+                          <col className="w-[18%]" />
+                          <col className="w-[14%]" />
                           <col className="w-[11%]" />
                           <col className="w-[8%]" />
                           <col className="w-[9%]" />
