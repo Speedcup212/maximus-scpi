@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, ArrowDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -393,17 +393,6 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                     </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    document.getElementById('scpi-grid')?.scrollIntoView({ behavior: 'smooth' });
-                    setOnboardingVisible(false);
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-emerald-600/25"
-                >
-                  Commencer ma sélection
-                  <ArrowDown size={14} />
-                </button>
               </div>
               <button
                 onClick={() => setOnboardingVisible(false)}
