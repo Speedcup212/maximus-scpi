@@ -312,7 +312,13 @@ export default function ProComparator() {
       </div>
 
       {/* ── Comparateur public intégré ── */}
-      <div className="rounded-xl border border-slate-700">
+      <div
+        className="relative"
+        style={{
+          marginLeft: 'calc(-1 * (16rem + 2.5rem))',
+          width: '100vw',
+        }}
+      >
         <ErrorBoundary
           fallback={
             <div className="flex items-center justify-center bg-red-950/30 p-6">
