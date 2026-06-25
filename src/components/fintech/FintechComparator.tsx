@@ -372,7 +372,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                           <col className="w-[8%]" />
                           <col className="w-[9%]" />
                           <col className="w-[10%]" />
-                          <col className="w-[12%]" />
+                          <col className="w-[9%]" />
                           <col className="w-[18%]" />
                         </colgroup>
                         <thead className="bg-slate-900/50 border-b border-slate-700">

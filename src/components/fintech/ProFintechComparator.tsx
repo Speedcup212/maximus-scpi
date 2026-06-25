@@ -489,7 +489,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                           <col className="w-[7%]" />
                           <col className="w-[8%]" />
                           <col className="w-[9%]" />
-                          <col className="w-[10%]" />
+                          <col className="w-[8%]" />
                           <col style={{ minWidth: '200px' }} />
                         </colgroup>
                         <thead className="bg-slate-900/50 border-b border-slate-700">
