@@ -286,150 +286,119 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
-      {/* Header */}
+      {/* Header minimal — sticky */}
       <header className="sticky top-0 z-50 bg-slate-800/95 backdrop-blur-md border-b border-slate-700 shadow-xl">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex flex-col gap-4 sm:gap-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-slate-400 mt-1">
-                  {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
-                </p>
-              </div>
-              <div className="hidden md:flex items-center gap-3">
-                {filters.tmi !== null && (
-                  <div className="flex items-center gap-2 px-3 py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
-                    <Calculator className="w-4 h-4 text-emerald-400" />
-                    <span className="text-sm font-medium text-emerald-200">TMI</span>
-                    <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
-                      {filters.tmi}%
-                    </span>
-                  </div>
-                )}
-                <button
-                  onClick={() => setIsFilterOpen(true)}
-                  className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                  <span>Filtres</span>
-                  {activeFiltersCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                      {activeFiltersCount}
-                    </span>
-                  )}
-                </button>
-                <div className="flex items-center gap-1 bg-slate-700 rounded-lg p-1">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
-                      viewMode === 'grid'
-                        ? 'bg-emerald-600 text-white'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                    }`}
-                  >
-                    <Grid3x3 className="w-4 h-4" />
-                    <span className="text-sm font-medium">Grille</span>
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
-                      viewMode === 'list'
-                        ? 'bg-emerald-600 text-white'
-                        : 'text-slate-400 hover:text-white hover:bg-slate-600'
-                    }`}
-                  >
-                    <List className="w-4 h-4" />
-                    <span className="text-sm font-medium">Liste</span>
-                  </button>
-                </div>
-              </div>
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-slate-400">
+                {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
+              </p>
             </div>
-
-            {/* Search Bar Wrapper */}
-            <div className="w-full max-w-4xl mx-auto relative z-20" id="comparator-search-bar">
-              <div className="flex items-center gap-3">
-                <div className="relative flex-1">
-                  <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
-                  <input
-                    type="text"
-                    placeholder="Rechercher par nom, catégorie, gestionnaire..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-14 pr-12 py-4 bg-slate-950 border border-slate-600 text-white placeholder-slate-400 rounded-full shadow-md focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/20 transition-all"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery('')}
-                      className="absolute right-5 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors"
-                    >
-                      <X className="w-4 h-4 text-slate-400 hover:text-white" />
-                    </button>
-                  )}
+            <div className="flex items-center gap-3">
+              {filters.tmi !== null && (
+                <div className="flex items-center gap-2 px-3 py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
+                  <Calculator className="w-4 h-4 text-emerald-400" />
+                  <span className="text-sm font-medium text-emerald-200">TMI</span>
+                  <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
+                    {filters.tmi}%
+                  </span>
                 </div>
-                {filters.tmi !== null && (
-                  <div className="md:hidden flex items-center gap-1 px-2 py-1 bg-emerald-600/20 border border-emerald-500/50 rounded-full">
-                    <Calculator className="w-3 h-3 text-emerald-400" />
-                    <span className="text-xs font-bold text-emerald-200">{filters.tmi}%</span>
-                  </div>
+              )}
+              <button
+                onClick={() => setIsFilterOpen(true)}
+                className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                <span>Filtres</span>
+                {activeFiltersCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                    {activeFiltersCount}
+                  </span>
                 )}
+              </button>
+              <div className="flex items-center gap-1 bg-slate-700 rounded-lg p-1">
                 <button
-                  onClick={() => setIsFilterOpen(true)}
-                  className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                    viewMode === 'grid'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                  }`}
                 >
-                  <SlidersHorizontal className="w-5 h-5 text-white" />
-                  {activeFiltersCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                      {activeFiltersCount}
-                    </span>
-                  )}
+                  <Grid3x3 className="w-4 h-4" />
+                  <span className="text-sm font-medium">Grille</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                    viewMode === 'list'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-600'
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                  <span className="text-sm font-medium">Liste</span>
                 </button>
               </div>
+              {/* Mobile filter button */}
+              <button
+                onClick={() => setIsFilterOpen(true)}
+                className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
+              >
+                <SlidersHorizontal className="w-5 h-5 text-white" />
+                {activeFiltersCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                    {activeFiltersCount}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* ── Onboarding léger ── */}
+      {/* ── Onboarding ── */}
       {onboardingVisible && (
-        <div className="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-emerald-950/60 border-b border-emerald-800/30">
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h2 className="text-base sm:text-lg font-bold text-emerald-300 mb-1.5">
-                  Construisez une sélection SCPI en 3 étapes
+                <h2 className="text-lg sm:text-xl font-bold text-emerald-300 mb-2">
+                  Construisez une sélection SCPI exploitable en rendez-vous
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-400 mb-4">
-                  Filtrez les SCPI, sélectionnez jusqu'à 6 supports, puis analysez la cohérence globale de votre portefeuille.
+                <p className="text-sm text-slate-400 mb-5">
+                  Filtrez, comparez et sélectionnez jusqu'à 6 SCPI pour préparer une analyse claire, pédagogique et conforme.
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
                   <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
                     <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
                     <div>
                       <p className="text-xs font-semibold text-white">Filtrer</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Stratégie, secteur, rendement ou société de gestion</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Stratégie, secteur, rendement ou société de gestion.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
                     <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
                     <div>
                       <p className="text-xs font-semibold text-white">Sélectionner</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Ajoutez jusqu'à 6 SCPI à votre panier d'analyse</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Ajoutez jusqu'à 6 SCPI à votre panier d'analyse.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2.5 bg-slate-800/60 rounded-lg p-3 border border-slate-700/50">
                     <span className="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
                     <div>
                       <p className="text-xs font-semibold text-white">Analyser</p>
-                      <p className="text-[11px] text-slate-400 leading-relaxed">Visualisez rendement moyen, diversification et score de cohérence</p>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Visualisez rendement moyen, diversification et cohérence.</p>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => {
                     setOnboardingVisible(false);
-                    document.getElementById('comparator-search-bar')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.getElementById('scpi-grid')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="mt-4 flex items-center gap-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-emerald-600/25"
                 >
                   Commencer ma sélection
                   <ArrowDown size={14} />
@@ -446,6 +415,53 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
           </div>
         </div>
       )}
+
+      {/* ── Toolbar : recherche + filtres rapides ── */}
+      <div className="bg-slate-900 border-b border-slate-800">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          {/* Search Bar */}
+          <div className="w-full max-w-3xl mb-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500" />
+              <input
+                type="text"
+                placeholder="Rechercher par nom, catégorie, gestionnaire..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-14 pr-12 py-3 bg-slate-950 border border-slate-600 text-white placeholder-slate-400 rounded-full shadow-md focus:outline-none focus:border-emerald-500 focus:shadow-lg focus:shadow-emerald-500/20 transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-slate-400 hover:text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+          {/* Quick Filters */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide mr-1">Filtres rapides :</span>
+            {QUICK_FILTERS.map((qf) => {
+              const active = quickFilters.includes(qf.id);
+              return (
+                <button
+                  key={qf.id}
+                  onClick={() => handleQuickFilter(qf.id)}
+                  className={`px-3 py-1.5 text-xs rounded-full font-medium border transition whitespace-nowrap ${
+                    active
+                      ? 'bg-emerald-600 border-emerald-500 text-white'
+                      : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                  }`}
+                >
+                  {qf.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       {/* Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 lg:gap-6 items-start max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -471,28 +487,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               </div>
             ) : (
               <>
-                {/* ── Filtres rapides ── */}
-                <div className="flex flex-wrap items-center gap-2 mt-4">
-                  {QUICK_FILTERS.map((qf) => {
-                    const active = quickFilters.includes(qf.id);
-                    return (
-                      <button
-                        key={qf.id}
-                        onClick={() => handleQuickFilter(qf.id)}
-                        className={`px-3 py-1.5 text-xs rounded-full font-medium border transition whitespace-nowrap ${
-                          active
-                            ? 'bg-emerald-600 border-emerald-500 text-white'
-                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
-                        }`}
-                      >
-                        {qf.label}
-                      </button>
-                    );
-                  })}
-                </div>
-
                 {viewMode === 'grid' ? (
-                  <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  <div id="scpi-grid" className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {paginatedData.map(scpi => (
                       <SCPICardDark
                         key={scpi.id}
