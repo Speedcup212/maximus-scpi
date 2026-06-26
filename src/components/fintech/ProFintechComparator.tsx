@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -46,6 +46,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   zScoreVariant = 'full'
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
+  const [currentStep, setCurrentStep] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -287,8 +288,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
       <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        {/* ── Onboarding ── */}
-        {onboardingVisible && (
+        {/* ── Onboarding (Étape 1 uniquement) ── */}
+        {onboardingVisible && currentStep === 1 && (
         <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
           <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
             <div className="flex items-center justify-between gap-4">
@@ -314,7 +315,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
         )}
 
-        {/* ── Toolbar ── */}
+        {/* ── Toolbar (Étape 1 uniquement) ── */}
+        {currentStep === 1 && (
         <div className="mt-6 rounded-xl bg-slate-800/80 border border-slate-700 p-4 space-y-4">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -399,7 +401,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               </button>
             )}
           </div>
-          {/* Quick Filters */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide mr-1">Filtres rapides :</span>
             {QUICK_FILTERS.map((qf) => {
@@ -420,8 +421,37 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             })}
           </div>
         </div>
+        )}
 
-        {/* Main Layout — sidebar toujours à droite */}
+        {/* ── Stepper / Fil d'Ariane ── */}
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <span
+            onClick={() => selectedScpis.length > 0 && setCurrentStep(1)}
+            className={`text-sm font-semibold cursor-pointer transition-colors ${
+              currentStep >= 1 ? 'text-emerald-400' : 'text-slate-600'
+            }`}
+          >
+            1. Sélection
+          </span>
+          <span className="text-slate-600">→</span>
+          <span
+            onClick={() => selectedScpis.length > 0 && setCurrentStep(2)}
+            className={`text-sm font-semibold transition-colors ${
+              currentStep >= 2 ? 'text-emerald-400' : 'text-slate-600'
+            } ${selectedScpis.length === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+          >
+            2. Allocation
+          </span>
+          <span className="text-slate-600">→</span>
+          <span className={`text-sm font-semibold transition-colors ${
+            currentStep >= 3 ? 'text-emerald-400' : 'text-slate-600'
+          }`}>
+            3. Restitution
+          </span>
+        </div>
+
+        {/* ══════════ ÉTAPE 1 : SÉLECTION ══════════ */}
+        {currentStep === 1 && (
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
         <main className="min-w-0 pb-24 lg:pb-6">
           <div>
@@ -538,7 +568,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                   </div>
                 )}
 
-                {/* Disclaimer de conformité */}
                 {filteredData.length > 0 && (
                   <div className="mt-12 max-w-4xl mx-auto">
                     <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-4">
@@ -553,16 +582,303 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             )}
           </div>
         </main>
-        <aside id="selection-sidebar" className="block xl:sticky xl:top-24 scroll-mt-20">
-          <ProSelectionSidebar
-            selectedScpis={selectedScpis}
-            onRemove={(scpi) => toggleSelect(scpi)}
-            onClear={() => setSelectedScpis([])}
-            onVisualize={() => setIsSimulationOpen(true)}
-            zScoreVariant={zScoreVariant}
-          />
+
+        {/* Sidebar Étape 1 — Mini-cartes SCPI sélectionnées uniquement */}
+        <aside className="block xl:sticky xl:top-24 scroll-mt-20">
+          <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
+            <div className="sticky top-24">
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-xl font-bold text-white">Ma Sélection</h3>
+                  {selectedScpis.length > 0 && (
+                    <button onClick={() => setSelectedScpis([])} className="px-2.5 py-1 rounded-lg text-xs text-slate-500 hover:text-red-400 hover:bg-red-950/30 transition-colors">
+                      Réinitialiser
+                    </button>
+                  )}
+                </div>
+                <p className="text-sm text-slate-400">
+                  {selectedScpis.length} SCPI sélectionnée{selectedScpis.length > 1 ? 's' : ''}
+                </p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Jusqu'à <span className="font-semibold text-slate-300">6 SCPI</span> maximum dans votre portefeuille.
+                </p>
+              </div>
+
+              <div className="space-y-3 mb-6 max-h-[calc(100vh-450px)] overflow-y-auto">
+                {selectedScpis.map(scpi => (
+                  <div key={scpi.id} className="bg-slate-900 rounded-lg p-4 border-2 border-emerald-500/30 hover:border-emerald-500/50 transition-colors">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <div className="flex-1">
+                        <h4 className="font-bold text-white text-sm">{scpi.name}</h4>
+                        <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
+                      </div>
+                      <button onClick={() => toggleSelect(scpi)} className="p-1 rounded hover:bg-red-500/10 text-slate-400 hover:text-red-400 transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-slate-500">Rendement</p>
+                        <p className="text-lg font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs text-slate-500">Prix</p>
+                        <p className="text-sm font-semibold text-white">{scpi.price}€</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {selectedScpis.length === 0 && (
+                  <div className="text-center py-8">
+                    <p className="text-sm text-slate-500">Aucune SCPI sélectionnée</p>
+                    <p className="text-xs text-slate-600 mt-1">Cliquez sur "+ Ajouter" dans le tableau</p>
+                  </div>
+                )}
+              </div>
+
+              {/* CTA Étape 1 → 2 */}
+              <button
+                disabled={selectedScpis.length === 0}
+                onClick={() => setCurrentStep(2)}
+                className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 active:scale-95 ${
+                  selectedScpis.length === 0
+                    ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600'
+                }`}
+              >
+                <span>Étape suivante : Répartition & Analyse</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+
+              <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
+                Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
+              </p>
+            </div>
+          </div>
         </aside>
-      </div>
+        </div>
+        )}
+
+        {/* ══════════ ÉTAPE 2 : ALLOCATION ══════════ */}
+        {currentStep === 2 && (
+        <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+          <main className="min-w-0 pb-24 lg:pb-6">
+            <div className="bg-slate-800 rounded-xl border border-slate-700 p-6">
+              <h2 className="text-xl font-bold text-white mb-2">Interface d'Allocation</h2>
+              <p className="text-sm text-slate-400 mb-6">
+                Ajustez la pondération de chaque SCPI dans votre portefeuille.
+              </p>
+
+              {/* SCPI sélectionnées avec sliders de pondération */}
+              <div className="space-y-4">
+                {selectedScpis.map((scpi, idx) => {
+                  const weight = selectedScpis.length > 0 ? Math.round(100 / selectedScpis.length) : 0;
+                  return (
+                    <div key={scpi.id} className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                      <div className="flex items-center justify-between mb-3">
+                        <div>
+                          <h4 className="font-bold text-white text-sm">{scpi.name}</h4>
+                          <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
+                        </div>
+                        <span className="text-lg font-bold text-emerald-400">{weight}%</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs text-slate-500 w-8">0%</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={weight}
+                          readOnly
+                          className="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                        />
+                        <span className="text-xs text-slate-500 w-8">100%</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-4 mt-3 text-center">
+                        <div>
+                          <p className="text-xs text-slate-500">Rendement</p>
+                          <p className="text-sm font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">TOF</p>
+                          <p className="text-sm font-bold text-white">{scpi.tof}%</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-500">Prix</p>
+                          <p className="text-sm font-bold text-white">{scpi.price}€</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Rendement global pondéré */}
+              {selectedScpis.length > 0 && (
+                <div className="mt-6 bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/30">
+                  <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré estimé</p>
+                  <p className="text-3xl font-bold text-emerald-400">
+                    {(selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length).toFixed(2)}%
+                  </p>
+                  <p className="text-xs text-slate-500 mt-1">Moyenne équipondérée des {selectedScpis.length} SCPI sélectionnées</p>
+                </div>
+              )}
+
+              {/* Z-Score de cohérence */}
+              {selectedScpis.length >= 2 && (
+                <div className="mt-4 bg-slate-900/70 rounded-lg p-4 border border-slate-700">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-semibold text-slate-300">
+                      {zScoreVariant === 'compact' ? 'Cohérence structurelle' : 'Z-score de cohérence du portefeuille'}
+                    </span>
+                    <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style={{ width: '75%' }} />
+                    </div>
+                    <span className="text-sm font-bold text-emerald-400">0.75</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">
+                    Portefeuille diversifié — bonne répartition sectorielle et géographique.
+                  </p>
+                </div>
+              )}
+            </div>
+          </main>
+
+          {/* Sidebar Étape 2 — KPI Résumé */}
+          <aside className="block xl:sticky xl:top-24 scroll-mt-20">
+            <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
+              <div className="sticky top-24">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-white mb-2">KPIs du Portefeuille</h3>
+                  <p className="text-sm text-slate-400">
+                    {selectedScpis.length} SCPI{selectedScpis.length > 1 ? 's' : ''} sélectionnée{selectedScpis.length > 1 ? 's' : ''}
+                  </p>
+                </div>
+
+                {selectedScpis.length > 0 && (
+                  <div className="space-y-3 mb-6">
+                    <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
+                      <p className="text-xs text-emerald-400 font-medium mb-1">Rendement moyen</p>
+                      <p className="text-xl font-bold text-emerald-400">
+                        {(selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length).toFixed(2)}%
+                      </p>
+                    </div>
+                    <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                      <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
+                      <p className="text-xl font-bold text-white">
+                        {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
+                      </p>
+                    </div>
+                    <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                      <p className="text-xs text-slate-400 font-medium mb-1">Capitalisation totale</p>
+                      <p className="text-xl font-bold text-white">
+                        {(() => {
+                          const total = selectedScpis.reduce((sum, s) => sum + (s.capitalizationValue || 0), 0);
+                          if (total >= 1000) return `${(total / 1000).toFixed(1)} Md€`;
+                          return `${total.toFixed(0)} M€`;
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Boutons Retour / Suivant */}
+                <div className="space-y-3">
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Retour à la sélection</span>
+                  </button>
+                  <button
+                    disabled={selectedScpis.length === 0}
+                    onClick={() => setCurrentStep(3)}
+                    className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 active:scale-95 ${
+                      selectedScpis.length === 0
+                        ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600'
+                    }`}
+                  >
+                    <span>Étape suivante : Finaliser la proposition</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
+                  Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+        )}
+
+        {/* ══════════ ÉTAPE 3 : RESTITUTION ══════════ */}
+        {currentStep === 3 && (
+        <div className="mt-8 max-w-2xl mx-auto text-center">
+          <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 sm:p-12">
+            <div className="w-16 h-16 rounded-full bg-emerald-500/20 mx-auto mb-6 flex items-center justify-center">
+              <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+              Votre proposition est prête
+            </h2>
+            <p className="text-slate-400 mb-8">
+              Partagez ce lien avec votre client pour lui présenter votre sélection.
+            </p>
+
+            {/* Bloc lien généré */}
+            <div className="bg-slate-900 rounded-xl border border-slate-700 p-4 mb-6">
+              <div className="flex items-center gap-3">
+                <Link className="w-5 h-5 text-emerald-400 shrink-0" />
+                <span className="text-sm text-slate-300 truncate flex-1 text-left">
+                  https://maximus.scpi/link/{Date.now().toString(36).toUpperCase()}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`https://maximus.scpi/link/${Date.now().toString(36).toUpperCase()}`);
+                  setToastMessage('Lien copié dans le presse-papier !');
+                  setShowToast(true);
+                }}
+                className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
+              >
+                <Copy className="w-4 h-4" />
+                <span>Copier le lien</span>
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedScpis([]);
+                  setCurrentStep(1);
+                  setOnboardingVisible(true);
+                }}
+                className="w-full sm:w-auto px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span>Nouveau dossier</span>
+              </button>
+            </div>
+          </div>
+
+          {selectedScpis.length > 0 && (
+            <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-lg p-4 text-left">
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <span className="font-semibold text-slate-300">Rappel : </span>
+                Les investissements en SCPI présentent un risque de perte en capital, une liquidité non garantie et un horizon de placement long. Les performances passées ne préjugent pas des performances futures.
+              </p>
+            </div>
+          )}
+        </div>
+        )}
       </section>
 
       {/* Avertissement de comparaison si mélange France/Europe */}
