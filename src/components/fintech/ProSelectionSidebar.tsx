@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, User } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
@@ -469,6 +470,9 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     if (normalized.includes('international')) {
       return { key: 'international', label: 'International' };
     }
+
+    const geoNorm = normalizeGeoLabel(cleaned);
+    if (geoNorm) return geoNorm;
 
     return { key: toKey(cleaned), label: cleaned };
   };

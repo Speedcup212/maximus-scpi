@@ -25,6 +25,7 @@ import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { normalizeGeoLabel } from '../../utils/geoNormalization';
 
 type ViewMode = 'grid' | 'list';
 
@@ -294,6 +295,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     if (normalized.includes('france')) return { key:'france', label:'France' };
     if (normalized.includes('europe')) return { key:'europe', label:'Europe' };
     if (normalized.includes('international')) return { key:'international', label:'International' };
+    const geoNorm = normalizeGeoLabel(cleaned);
+    if (geoNorm) return geoNorm;
     return { key:toKey(cleaned), label:cleaned };
   };
 
