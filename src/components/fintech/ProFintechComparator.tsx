@@ -880,35 +880,38 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         {/* ── Stepper / Fil d'Ariane ── */}
         <div className="mt-6 flex items-center justify-center gap-2 sm:gap-3">
           <span
-            onClick={() => selectedScpis.length > 0 && setCurrentStep(1)}
-            className={`text-sm font-semibold cursor-pointer transition-colors ${
-              currentStep >= 1 ? 'text-emerald-400' : 'text-slate-600'
+            onClick={() => setCurrentStep(1)}
+            className={`text-sm font-semibold transition-colors cursor-pointer px-1.5 py-0.5 rounded ${
+              currentStep === 1 ? 'text-emerald-400 bg-emerald-500/10' : currentStep > 1 ? 'text-emerald-400/60 hover:text-emerald-300' : 'text-slate-500'
             }`}
           >
             1. Sélection
           </span>
           <span className="text-slate-600">→</span>
           <span
-            onClick={() => selectedScpis.length > 0 && setCurrentStep(2)}
-            className={`text-sm font-semibold transition-colors ${
-              currentStep >= 2 ? 'text-emerald-400' : 'text-slate-600'
-            } ${selectedScpis.length === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+            onClick={() => { if (selectedScpis.length > 0) setCurrentStep(2); }}
+            className={`text-sm font-semibold transition-colors px-1.5 py-0.5 rounded ${
+              currentStep === 2 ? 'text-emerald-400 bg-emerald-500/10' : currentStep > 2 ? 'text-emerald-400/60 hover:text-emerald-300' : 'text-slate-500'
+            } ${selectedScpis.length > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}`}
           >
             2. Analyse
           </span>
           <span className="text-slate-600">→</span>
           <span
-            onClick={() => selectedScpis.length > 0 && setCurrentStep(3)}
-            className={`text-sm font-semibold transition-colors ${
-              currentStep >= 3 ? 'text-emerald-400' : 'text-slate-600'
-            } ${selectedScpis.length === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+            onClick={() => { if (selectedScpis.length > 0) setCurrentStep(3); }}
+            className={`text-sm font-semibold transition-colors px-1.5 py-0.5 rounded ${
+              currentStep === 3 ? 'text-emerald-400 bg-emerald-500/10' : currentStep > 3 ? 'text-emerald-400/60 hover:text-emerald-300' : 'text-slate-500'
+            } ${selectedScpis.length > 0 ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}`}
           >
             3. Vidéos
           </span>
           <span className="text-slate-600">→</span>
-          <span className={`text-sm font-semibold transition-colors ${
-            currentStep >= 4 ? 'text-emerald-400' : 'text-slate-600'
-          }`}>
+          <span
+            onClick={() => { if (selectedScpis.length > 0) setCurrentStep(4); }}
+            className={`text-sm font-semibold transition-colors px-1.5 py-0.5 rounded ${
+              currentStep === 4 ? 'text-emerald-400 bg-emerald-500/10' : 'text-slate-500'
+            } ${selectedScpis.length > 0 ? 'cursor-pointer hover:text-emerald-300' : 'cursor-not-allowed opacity-40'}`}
+          >
             4. Livrables
           </span>
         </div>
