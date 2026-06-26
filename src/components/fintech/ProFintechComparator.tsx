@@ -236,6 +236,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [totalAmount, setTotalAmount] = useState(100000);
   const [scpiPercentages, setScpiPercentages] = useState<Record<string, number>>({});
   const [investmentMode, setInvestmentMode] = useState<'cash' | 'credit' | 'demembrement'>('cash');
+  const [demembrementDurationYears, setDemembrementDurationYears] = useState(8);
 
   // Initialiser les pourcentages à parts égales
   useEffect(() => {
@@ -1301,30 +1302,104 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       ))}
                     </div>
                   </div>
-                  {/* Performance financière */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <TrendingUp className="w-3.5 h-3.5 text-violet-400" />
-                        <p className="text-[10px] text-slate-400">Rendement pondéré</p>
+                  {/* ── Mode Comptant ── */}
+                  {investmentMode === 'cash' && (
+                    <div>
+                      <p className="text-[10px] sm:text-xs text-slate-400 mb-3">Simulation en pleine propriété avec perception immédiate des revenus potentiels.</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <TrendingUp className="w-3.5 h-3.5 text-violet-400" />
+                            <p className="text-[10px] text-slate-400">Rendement pondéré</p>
+                          </div>
+                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <DollarSign className="w-3.5 h-3.5 text-violet-400" />
+                            <p className="text-[10px] text-slate-400">Revenus / an</p>
+                          </div>
+                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <DollarSign className="w-3.5 h-3.5 text-violet-400" />
+                            <p className="text-[10px] text-slate-400">Revenus / mois</p>
+                          </div>
+                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                        </div>
                       </div>
-                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
                     </div>
-                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <DollarSign className="w-3.5 h-3.5 text-violet-400" />
-                        <p className="text-[10px] text-slate-400">Revenus / an</p>
+                  )}
+
+                  {/* ── Mode Crédit ── */}
+                  {investmentMode === 'credit' && (
+                    <div className="bg-violet-500/5 rounded-lg p-4 border border-violet-500/20">
+                      <h5 className="text-sm font-semibold text-violet-200 mb-3">Simulation à crédit</h5>
+                      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Montant financé</p>
+                          <p className="text-lg font-bold text-white">{totalAmount.toLocaleString('fr-FR')}€</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Rendement pondéré</p>
+                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus annuels potentiels</p>
+                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus mensuels potentiels</p>
+                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                        </div>
                       </div>
-                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                      <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
+                        Paramètres de crédit à compléter : taux, durée, apport et mensualité. Contactez votre conseiller pour une simulation personnalisée.
+                      </p>
                     </div>
-                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <DollarSign className="w-3.5 h-3.5 text-violet-400" />
-                        <p className="text-[10px] text-slate-400">Revenus / mois</p>
+                  )}
+
+                  {/* ── Mode Démembrement ── */}
+                  {investmentMode === 'demembrement' && (
+                    <div className="bg-violet-500/5 rounded-lg p-4 border border-violet-500/20">
+                      <h5 className="text-sm font-semibold text-violet-200 mb-3">Simulation en nue-propriété</h5>
+                      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Montant investi</p>
+                          <p className="text-lg font-bold text-white">{totalAmount.toLocaleString('fr-FR')}€</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus / période</p>
+                          <p className="text-lg font-bold text-slate-500">0 €</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Rendement distribué</p>
+                          <p className="text-sm font-semibold text-slate-500">Non perçu par le nu-propriétaire</p>
+                        </div>
+                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
+                          <p className="text-[10px] text-slate-400 mb-0.5">Durée indicative</p>
+                          <p className="text-lg font-bold text-violet-300">{demembrementDurationYears} ans</p>
+                        </div>
                       </div>
-                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                      {/* Sélecteur de durée */}
+                      <div className="mb-3">
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Durée de démembrement</label>
+                        <div className="flex flex-wrap gap-1.5">
+                          {[5, 8, 10].map(d => (
+                            <button key={d} type="button"
+                              onClick={() => setDemembrementDurationYears(d)}
+                              className={`px-3 py-1 text-[10px] rounded-lg transition-colors ${demembrementDurationYears === d ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                              {d} ans
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
+                        La simulation en démembrement suppose l'absence de revenus pendant la période de démembrement. La valorisation dépend de la clé de démembrement retenue.
+                      </p>
                     </div>
-                  </div>
+                  )}
                 </div>
                 )}
               </div>
