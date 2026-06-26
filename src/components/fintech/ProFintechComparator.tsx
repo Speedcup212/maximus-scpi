@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2 } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -20,7 +20,7 @@ import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import ZScoreBar from '../ZScoreBar';
 import Toast from '../Toast';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
@@ -429,6 +429,41 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const consWithZScore = [...portfolioProsCons.consGeneral, ...(zScoreWarning ? [zScoreWarning] : [])];
 
   // Portfolio analysis (configuration du portefeuille)
+
+  // Helpers pour la section Détail / Répartition
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      'Résidentiel': 'bg-green-500/20 text-green-400 border-green-500/30',
+      'Santé': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+      'Bureaux': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      'Européenne': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      'Logistique': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+    };
+    return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+  };
+
+  const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
+    const value = resolveDisplayedDiscount(scpi).value;
+    if (value == null) return null;
+    return { value, isDiscount: value < 0 };
+  };
+
+  const updatePercentage = (scpiId: string, newPercentage: number) => {
+    const clamped = Math.max(0, Math.min(100, newPercentage));
+    setScpiPercentages(prev => ({ ...prev, [scpiId]: clamped }));
+  };
+
+  const normalizePercentages = () => {
+    const total = Object.values(scpiPercentages).reduce((sum, p) => sum + p, 0);
+    if (total === 0) return;
+    const normalized: Record<string, number> = {};
+    Object.keys(scpiPercentages).forEach(scpiId => {
+      normalized[scpiId] = (scpiPercentages[scpiId] / total) * 100;
+    });
+    setScpiPercentages(normalized);
+  };
+
   const portfolioAnalysis = useMemo(() => {
     if (selectedScpis.length === 0) return null;
     const scpiDataArr = selectedScpis.map(scpi => {
@@ -1401,6 +1436,260 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                   )}
                 </div>
+                )}
+
+                {/* ── Revenus annuels par SCPI (bar chart) ── */}
+                {portfolioAnalysis && (
+                  <div className="mb-5">
+                    <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
+                      <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
+                      Revenus annuels par SCPI
+                    </h4>
+                    <div className="bg-slate-900 rounded-lg p-2 sm:p-4 border border-slate-700">
+                      <ResponsiveContainer width="100%" height={150}>
+                        <BarChart data={portfolioAnalysis.scpiData}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                          <XAxis
+                            dataKey="name"
+                            tick={{ fill: '#94a3b8', fontSize: 10 }}
+                            angle={-45}
+                            textAnchor="end"
+                            height={80}
+                          />
+                          <YAxis
+                            tick={{ fill: '#94a3b8', fontSize: 10 }}
+                          />
+                          <Tooltip
+                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
+                            formatter={(value: number) => [`${value.toLocaleString('fr-FR')}€`, 'Revenus annuels']}
+                          />
+                          <Bar dataKey="annualIncome" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Répartition modulable par SCPI ── */}
+                {portfolioAnalysis && (
+                  <div className="mb-5">
+                    <div className="flex items-center justify-between mb-2 sm:mb-3">
+                      <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 sm:gap-2">
+                        <PieChartIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
+                        Répartition du portefeuille (%)
+                      </h4>
+                      <button
+                        type="button"
+                        onClick={normalizePercentages}
+                        className="text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 bg-violet-600/20 text-violet-400 rounded-lg hover:bg-violet-600/30 transition-colors"
+                      >
+                        Normaliser
+                      </button>
+                    </div>
+                    <div className="space-y-2 sm:space-y-3">
+                      {portfolioAnalysis.scpiData.map((item) => {
+                        const scpi = selectedScpis.find(s => s.id === item.id);
+                        if (!scpi) return null;
+                        return (
+                          <div key={item.id} className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                            <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                              <div className="flex-1 min-w-0 pr-2">
+                                <p className="text-xs sm:text-sm font-semibold text-white truncate">{scpi.name}</p>
+                                <p className="text-[10px] sm:text-xs text-slate-400">
+                                  {item.amount.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€
+                                  {' • '}
+                                  {item.parts} part{item.parts > 1 ? 's' : ''}
+                                  {' • '}
+                                  {item.yield.toFixed(2)}%
+                                </p>
+                              </div>
+                              <div className="text-right flex-shrink-0">
+                                <p className="text-base sm:text-lg font-bold text-violet-400">{item.percentage.toFixed(1)}%</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 sm:gap-3">
+                              <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={item.percentage}
+                                onChange={(e) => {
+                                  const newValue = parseFloat(e.target.value);
+                                  updatePercentage(item.id, newValue);
+                                }}
+                                className="flex-1 h-1.5 sm:h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-violet-500"
+                              />
+                              <input
+                                type="number"
+                                value={item.percentage.toFixed(1)}
+                                onChange={(e) => {
+                                  const newValue = parseFloat(e.target.value) || 0;
+                                  updatePercentage(item.id, newValue);
+                                }}
+                                className="w-16 sm:w-20 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-slate-800 border border-slate-600 rounded text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                min="0"
+                                max="100"
+                                step="0.1"
+                              />
+                              <span className="text-slate-400 text-xs sm:text-sm w-4 sm:w-6">%</span>
+                            </div>
+                            <div className="mt-1.5 sm:mt-2 h-0.5 sm:h-1 bg-slate-700 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-gradient-to-r from-violet-500 to-violet-400 transition-all duration-300"
+                                style={{ width: `${item.percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    {portfolioAnalysis.totalPercentage !== 100 && (
+                      <div className="mt-2 sm:mt-3 p-2 sm:p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                        <p className="text-[10px] sm:text-xs text-yellow-400">
+                          Total: {portfolioAnalysis.totalPercentage.toFixed(1)}%
+                          {portfolioAnalysis.totalPercentage < 100
+                            ? ` (${(100 - portfolioAnalysis.totalPercentage).toFixed(1)}% non alloué)`
+                            : ` (${(portfolioAnalysis.totalPercentage - 100).toFixed(1)}% en trop)`
+                          }
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* ── Répartition visuelle du portefeuille (camembert) ── */}
+                {portfolioAnalysis && (
+                  <div className="mb-5">
+                    <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
+                      <PieChartIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
+                      Répartition visuelle du portefeuille
+                    </h4>
+                    <div className="bg-slate-900 rounded-lg p-2 sm:p-4 border border-slate-700">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <RechartsPie>
+                          <defs>
+                            {portfolioAnalysis.scpiData.map((_, index) => {
+                              const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+                              return (
+                                <linearGradient key={`grad-pro-${index}`} id={`gradScpiPro-${index}`} x1="0" y1="0" x2="1" y2="1">
+                                  <stop offset="0%" stopColor={colors[index % colors.length]} stopOpacity={0.9} />
+                                  <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0.7} />
+                                </linearGradient>
+                              );
+                            })}
+                          </defs>
+                          <Pie
+                            data={portfolioAnalysis.scpiData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={50}
+                            outerRadius={80}
+                            paddingAngle={3}
+                            dataKey="percentage"
+                          >
+                            {portfolioAnalysis.scpiData.map((entry, index) => (
+                              <Cell key={`cell-pro-${index}`} fill={`url(#gradScpiPro-${index})`} stroke="#1e293b" strokeWidth={2} />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
+                            formatter={(value: number, _name: string, props: any) => [`${value.toFixed(1)}%`, props.payload.name]}
+                          />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Détail de votre sélection ── */}
+                {selectedScpis.length > 0 && (
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
+                    <p className="text-xs text-slate-300 mb-3 font-semibold">Détail de votre sélection</p>
+                    <div className="space-y-3">
+                      {selectedScpis.map(scpi => (
+                        <div key={scpi.id} className="rounded-lg border border-slate-700 bg-slate-900/60 p-3">
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                              <p className="text-sm font-semibold text-white">{scpi.name}</p>
+                              <p className="text-xs text-slate-300">{scpi.managementCompany}</p>
+                            </div>
+                            <span className={`inline-block px-2 py-1 rounded-lg text-[10px] font-semibold border ${getCategoryColor(scpi.category)}`}>
+                              {scpi.category}
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-[11px] text-slate-300">
+                            <div>
+                              <p className="text-[10px] text-slate-300">Rendement</p>
+                              <p className="font-semibold text-violet-400">{scpi.yield.toFixed(2)}%</p>
+                            </div>
+                            <div>
+                              <p className="text-[10px] text-slate-300">Prix de part</p>
+                              <p className="font-semibold text-white">{scpi.price}€</p>
+                            </div>
+                            <div>
+                              <p className="text-[10px] text-slate-300">Invest. min.</p>
+                              <p className="font-semibold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</p>
+                            </div>
+                            {scpi.capitalization && (
+                              <div>
+                                <p className="text-[10px] text-slate-300">Capitalisation</p>
+                                <p className="font-semibold text-white">{scpi.capitalization}</p>
+                              </div>
+                            )}
+                            {typeof scpi.tof === 'number' && (
+                              <div>
+                                <p className="text-[10px] text-slate-300">Taux d'occupation</p>
+                                <p className="font-semibold text-white">{scpi.tof.toFixed(1)}%</p>
+                              </div>
+                            )}
+                            <div>
+                              <p className="text-[10px] text-slate-300">Horizon recommandé</p>
+                              <p className="font-semibold text-white">10 ans</p>
+                            </div>
+                            <div>
+                              <p className="text-[10px] text-slate-300">Distribution</p>
+                              <p className="font-semibold text-white">Trimestriel</p>
+                            </div>
+                            {scpi.reconstitutionValue && (
+                              <div>
+                                <p className="text-[10px] text-slate-300">Valeur reconstitution</p>
+                                <p className="font-semibold text-white">{scpi.reconstitutionValue}€</p>
+                              </div>
+                            )}
+                            {typeof scpi.ltv === 'number' && (
+                              <div>
+                                <p className="text-[10px] text-slate-300">Endettement</p>
+                                <p className="font-semibold text-white">{scpi.ltv}%</p>
+                              </div>
+                            )}
+                            <div>
+                              <p className="text-[10px] text-slate-300">Nombre d'immeubles</p>
+                              <p className="font-semibold text-white">
+                                {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
+                              </p>
+                            </div>
+                            {getDiscountPremium(scpi) && (
+                              <div>
+                                <p className="text-[10px] text-slate-300">Décote / Surcote</p>
+                                {(() => {
+                                  const info = getDiscountPremium(scpi);
+                                  if (!info) return null;
+                                  const label = info.isDiscount ? 'Décote' : 'Surcote';
+                                  return (
+                                    <p className={`font-semibold ${info.isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
+                                      {info.value > 0 ? '+' : ''}
+                                      {info.value.toFixed(1)}%
+                                      <span className="text-[10px] text-slate-300 ml-1">({label})</span>
+                                    </p>
+                                  );
+                                })()}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
 
