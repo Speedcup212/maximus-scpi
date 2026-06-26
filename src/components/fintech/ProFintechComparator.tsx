@@ -533,7 +533,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
                 <h2 className="text-base sm:text-lg font-bold text-emerald-300">
-                  Filtrez et sélectionnez vos SCPI pour générer une proposition commerciale percutante.
+                  Filtrez et sélectionnez vos SCPI pour préparer un support client professionnel et structuré.
                 </h2>
               </div>
               <div className="flex items-center gap-4 shrink-0">
@@ -907,22 +907,22 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
           <main className="min-w-0 pb-24 lg:pb-6">
             {/* === CONTENU EXACT DU POP-UP PUBLIC DE RÉSULTATS === */}
             <div className="bg-slate-800 rounded-xl border border-slate-700 p-4 sm:p-6">
-              {/* ── Avis de votre conseiller (Marque Blanche) ── */}
+              {/* ── Analyse de cohérence du portefeuille ── */}
               <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="flex-shrink-0">
                     <User className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white">Avis de votre conseiller</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-300">Évaluation de votre sélection</p>
+                    <h3 className="text-base sm:text-lg font-bold text-white">Analyse de cohérence du portefeuille</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-300">Lecture structurelle de la sélection</p>
                   </div>
                 </div>
-                {/* Note globale */}
+                {/* Score de cohérence */}
                 <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-700">
                   <p className="text-[11px] text-slate-400 mb-1">Lecture de cohérence détectée</p>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-semibold text-slate-300">Note globale</span>
+                    <span className="text-sm font-semibold text-slate-300">Score de cohérence</span>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className={`w-5 h-5 ${i < maximusAvis.overall ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
@@ -930,10 +930,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                   </div>
                   <p className="text-[11px] text-slate-400 mb-2">Indicateur de cohérence structurelle — pas une note de qualité ni de performance.</p>
-                  <p className="text-xs text-slate-300 italic mb-1">Note globale issue d'une analyse multicritères pondérée.</p>
+                  <p className="text-xs text-slate-300 italic mb-1">Score de cohérence issu d'une analyse multicritères pondérée.</p>
                   <p className="text-xs text-slate-300">
                     {maximusAvis.overall >= 4
-                      ? 'Portefeuille globalement cohérent au regard des critères analysés.'
+                      ? 'Structure globalement cohérente au regard des critères analysés.'
                       : maximusAvis.overall >= 3
                       ? 'Structure équilibrée à confirmer selon votre situation réelle.'
                       : "Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer."}
@@ -1406,7 +1406,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             {/* Icône de succès + Titres */}
             <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-              Votre proposition commerciale est prête !
+              Votre support client est prêt !
             </h2>
             <p className="text-slate-400 text-sm mb-10">
               Le dossier client a été packagé avec succès.
