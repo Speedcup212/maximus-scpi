@@ -17,7 +17,7 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
     if (loading || profileLoading) return;
     if (!user) return;
     if (profile.role === 'partner') {
-      onNavigate('/app/partner');
+      onNavigate('/pro/dashboard');
     } else if (profile.role === 'admin') {
       onNavigate('/app/admin');
     } else {

@@ -25,6 +25,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import AuthGuard from './app/components/AuthGuard';
 import RoleGuard from './app/components/RoleGuard';
+import PartnerProRedirect from './app/components/PartnerProRedirect';
 import InvestorQuiz from './components/InvestorQuiz';
 import PreuveSociale from './components/PreuveSociale';
 import TeaserComparateur from './components/TeaserComparateur';
@@ -1951,7 +1952,7 @@ const App: React.FC = () => {
           {currentView === 'app-partner' && (
             <AuthGuard onRedirect={navigateToApp}>
               <RoleGuard roles={['partner']} onRedirect={navigateToApp}>
-                <PartnerDashboard onNavigate={navigateToApp} />
+                <PartnerProRedirect onRedirect={navigateToPro} />
               </RoleGuard>
             </AuthGuard>
           )}
