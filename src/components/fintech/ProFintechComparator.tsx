@@ -2385,27 +2385,51 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         {currentStep === 3 && (
         <div className="mt-8 max-w-4xl mx-auto">
           <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 mb-6">
-            <h2 className="text-xl font-bold text-white mb-2">Synthèse de l'Allocation</h2>
-            <p className="text-sm text-slate-400 mb-4">Prévisualisez les indicateurs clés et les vidéos associées.</p>
+            <h2 className="text-xl font-bold text-white mb-2">Synthèse de la sélection</h2>
+            <p className="text-sm text-slate-400 mb-4">Vérifiez le montant total investi, les SCPI retenues et les vidéos associées.</p>
 
             {/* KPIs récapitulatifs */}
             {selectedScpis.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div className="bg-violet-500/10 rounded-lg p-4 border border-violet-500/30">
+                  <p className="text-xs text-violet-400 font-medium mb-1">Montant total investi</p>
+                  <p className="text-2xl font-bold text-violet-300">
+                    {formatCurrency(totalAmount)}
+                  </p>
+                </div>
                 <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
                   <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
                   <p className="text-2xl font-bold text-emerald-400">
-                    {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
+                    {portfolioAnalysis ? portfolioAnalysis.weightedYield.toFixed(2) : selectedScpis.reduce((sum, s) => sum + s.yield, 0).toFixed(2)}%
                   </p>
                 </div>
                 <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
                   <p className="text-xs text-slate-400 font-medium mb-1">SCPI sélectionnées</p>
                   <p className="text-2xl font-bold text-white">{selectedScpis.length}</p>
                 </div>
-                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
-                  <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
-                  <p className="text-2xl font-bold text-white">
-                    {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
-                  </p>
+              </div>
+            )}
+
+            {/* Bloc compact : SCPI sélectionnées avec allocation */}
+            {portfolioAnalysis && (
+              <div className="mb-6 bg-slate-900/50 rounded-lg border border-slate-700 p-4">
+                <h3 className="text-sm font-bold text-white mb-3">SCPI sélectionnées</h3>
+                <div className="space-y-2">
+                  {portfolioAnalysis.scpiData.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
+                      <div className="flex-1 min-w-0">
+                        <span className="text-white font-semibold truncate">{item.name}</span>
+                        {selectedScpis.find(s => s.id === item.id)?.managementCompany && (
+                          <span className="text-slate-500 ml-2 hidden sm:inline">
+                            {selectedScpis.find(s => s.id === item.id)!.managementCompany}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-slate-300 flex-shrink-0">{formatPercent(item.percentage)}</span>
+                      <span className="text-violet-300 flex-shrink-0 w-20 text-right tabular-nums">{formatCurrency(item.amount)}</span>
+                      <span className="text-emerald-400 font-semibold flex-shrink-0 w-16 text-right tabular-nums">{item.yield.toFixed(2)}%</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
