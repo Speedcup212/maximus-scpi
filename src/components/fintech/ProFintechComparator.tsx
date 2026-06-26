@@ -69,6 +69,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
+  const [hoveredSlice, setHoveredSlice] = useState<any>(null);
 
   const toggleExpandScpi = (id: number) => {
     setExpandedScpiIds(prev => {
@@ -767,6 +768,23 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       (filters.maxLtv < 100 ? 1 : 0) +
       (filters.noWaitingShares ? 1 : 0)
     ) : 0);
+
+  // Tooltip custom pour le donut de répartition
+  const CustomDonutTooltip = ({ active, payload }: any) => {
+    if (!active || !payload || !payload.length) return null;
+    const item = payload[0].payload;
+    if (!item) return null;
+    return (
+      <div className="bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 shadow-xl shadow-black/40">
+        <p className="text-xs font-semibold text-white whitespace-nowrap">{item.name}</p>
+        <p className="text-[11px] text-violet-400 font-medium whitespace-nowrap">{formatPercent(item.percentage)}</p>
+        <p className="text-[11px] text-slate-300 whitespace-nowrap">{formatCurrency(item.amount)}</p>
+        {typeof item.yield === 'number' && (
+          <p className="text-[10px] text-slate-400 whitespace-nowrap">Rendement : {item.yield.toFixed(2)}%</p>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
@@ -1828,6 +1846,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                 );
                               })}
                             </defs>
+                            <Tooltip content={<CustomDonutTooltip />} />
                             <Pie
                               data={portfolioAnalysis.scpiData}
                               cx="50%"
@@ -1837,6 +1856,12 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                               paddingAngle={3}
                               dataKey="percentage"
                               strokeWidth={0}
+                              onMouseEnter={(_, index) => {
+                                if (index >= 0 && index < portfolioAnalysis.scpiData.length) {
+                                  setHoveredSlice(portfolioAnalysis.scpiData[index]);
+                                }
+                              }}
+                              onMouseLeave={() => setHoveredSlice(null)}
                             >
                               {portfolioAnalysis.scpiData.map((entry, index) => (
                                 <Cell key={`cell-pro-${index}`} fill={`url(#gradScpiPro-${index})`} stroke="transparent" />
@@ -1844,6 +1869,21 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                               <Label
                                 content={({ viewBox }: any) => {
                                   const { cx, cy } = viewBox;
+                                  if (hoveredSlice) {
+                                    return (
+                                      <g>
+                                        <text x={cx} y={cy - 12} textAnchor="middle" fill="#e2e8f0" fontSize="13" fontWeight={700}>
+                                          {hoveredSlice.name.length > 16 ? hoveredSlice.name.slice(0, 16) + '…' : hoveredSlice.name}
+                                        </text>
+                                        <text x={cx} y={cy + 8} textAnchor="middle" fill="#a78bfa" fontSize="12" fontWeight={600}>
+                                          {formatPercent(hoveredSlice.percentage)}
+                                        </text>
+                                        <text x={cx} y={cy + 26} textAnchor="middle" fill="#94a3b8" fontSize="11" fontWeight={400}>
+                                          {formatCurrency(hoveredSlice.amount)}
+                                        </text>
+                                      </g>
+                                    );
+                                  }
                                   return (
                                     <g>
                                       <text x={cx} y={cy - 12} textAnchor="middle" fill="#94a3b8" fontSize="11" fontWeight={500}>
