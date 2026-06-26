@@ -607,7 +607,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     } else if (selectedScpis.length >= 2) {
       pros.push('Diversification correcte permettant de limiter l\'exposition au risque spécifique d\'une seule SCPI');
     } else {
-      consStructural.push('Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d\'ajouter au moins 2-3 SCPI supplémentaires');
+      consStructural.push('Concentration sur une seule SCPI : risque spécifique non diversifié, la sélection repose sur un seul support.');
     }
     
     const isHighlyDiversified = isVeryWellDiversified(
@@ -721,7 +721,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Recommandation générale
     if (selectedScpis.length < 3) {
-      consStructural.push('Portefeuille sous-diversifié : recommandation d\'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement');
+      consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
     }
 
     return { pros, consGeneral, consStructural };
@@ -877,23 +877,23 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
             </div>
 
             <div className="px-3 sm:px-6 py-3 sm:py-4 mt-10 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
-              {/* Avis de votre conseiller */}
+              {/* Analyse de cohérence du portefeuille */}
               <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="flex-shrink-0">
                     <User className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white">Avis de votre conseiller</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-300">Évaluation de votre sélection</p>
+                    <h3 className="text-base sm:text-lg font-bold text-white">Analyse de cohérence du portefeuille</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-300">Lecture structurelle de la sélection</p>
                   </div>
                 </div>
                 
-                {/* Note globale */}
+                {/* Score de cohérence */}
                 <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-700">
                   <p className="text-[11px] text-slate-400 mb-1">Lecture de cohérence détectée</p>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-semibold text-slate-300">Note globale</span>
+                    <span className="text-sm font-semibold text-slate-300">Score de cohérence</span>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
@@ -911,11 +911,11 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     Indicateur de cohérence structurelle — pas une note de qualité ni de performance.
                   </p>
                   <p className="text-xs text-slate-300 italic mb-1">
-                    Note globale issue d'une analyse multicritères pondérée.
+                    Score de cohérence issu d'une analyse multicritères pondérée.
                   </p>
                   <p className="text-xs text-slate-300">
                     {maximusAvis.overall >= 4
-                      ? 'Portefeuille globalement cohérent au regard des critères analysés.'
+                      ? 'Structure globalement cohérente au regard des critères analysés.'
                       : maximusAvis.overall >= 3
                       ? 'Structure équilibrée à confirmer selon votre situation réelle.'
                       : 'Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer.'}
@@ -1097,13 +1097,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
-                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Points d'attention</h5>
+                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Vigilances structurelles</h5>
                       </div>
-                      {!allowStructural && (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic mb-2">
-                          Aucun point de vigilance structurelle identifié.
-                        </p>
-                      )}
                       {consWithZScore.length > 0 ? (
                         <ul className="space-y-1.5 sm:space-y-2">
                           {consWithZScore.map((con, index) => (
@@ -1113,8 +1108,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             </li>
                           ))}
                         </ul>
-                      ) : !allowStructural ? null : (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point d'attention identifié</p>
+                      ) : (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point de vigilance majeur détecté selon les critères disponibles.</p>
                       )}
                     </div>
                   </div>

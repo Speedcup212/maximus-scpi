@@ -959,21 +959,24 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         {currentStep === 2 && (
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
           <main className="min-w-0 pb-24 lg:pb-6">
-            {/* === CONTENU EXACT DU POP-UP PUBLIC DE RÉSULTATS === */}
-            <div className="bg-slate-800 rounded-xl border border-slate-700 p-4 sm:p-6">
-              {/* ── Analyse de cohérence du portefeuille ── */}
-              <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
-                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                  <div className="flex-shrink-0">
-                    <User className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white">Analyse de cohérence du portefeuille</h3>
-                    <p className="text-[10px] sm:text-xs text-slate-300">Lecture structurelle de la sélection</p>
-                  </div>
-                </div>
+            {/* === CONTENU RÉORGANISÉ EN 3 SECTIONS D'ACCENT === */}
+            <section className="space-y-8">
+
+              {/* ▸▸▸ SECTION 1 : COHÉRENCE DU PORTEFEUILLE (emerald) */}
+              <div className="rounded-2xl border border-emerald-500/25 border-l-4 border-l-emerald-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
+                <header className="mb-5">
+                  <h2 className="text-lg font-semibold text-emerald-300 flex items-center gap-2">
+                    <Award className="w-5 h-5" />
+                    Cohérence du portefeuille
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Lecture structurelle de la sélection et identification des points de vigilance.
+                  </p>
+                </header>
+
+                {/* Analyse de cohérence du portefeuille (User + titre interne supprimé → fusionné dans le header) */}
                 {/* Score de cohérence */}
-                <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-700">
+                <div className="mb-4 pb-4 border-b border-slate-700">
                   <p className="text-[11px] text-slate-400 mb-1">Lecture de cohérence détectée</p>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-semibold text-slate-300">Score de cohérence</span>
@@ -993,8 +996,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       : "Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer."}
                   </p>
                 </div>
+
                 {/* Critères détaillés */}
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-300">Répartition sectorielle</span>
                     <div className="flex items-center gap-1">
@@ -1056,8 +1060,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                   </div>
                 </div>
+
                 {/* Z-Score */}
-                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                <div className="pt-4 border-t border-slate-700 mb-4">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-semibold text-slate-300">Z-score de cohérence du portefeuille</span>
@@ -1066,12 +1071,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                   </div>
                   <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full" />
                 </div>
+
                 {/* Analyse de cohérence */}
-                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
-                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
-                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
-                    Analyse de cohérence du portefeuille
-                  </h4>
+                <div className="pt-4 border-t border-slate-700 mb-4">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3">Lecture structurelle</h4>
                   {zScoreAttention && zScoreAttention.level === 'coherence-elevee' ? (
                     <div className="text-[11px] sm:text-xs text-slate-300 space-y-1">
                       <div className="font-semibold text-slate-200">{zScoreAttention.shortLabel}</div>
@@ -1081,12 +1084,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <p className="text-[11px] sm:text-xs text-slate-300">Lecture structurelle neutre. Aucun signal structurel dominant n'est identifié.</p>
                   )}
                 </div>
+
                 {/* Avantages et Inconvénients */}
-                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
-                  <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
-                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                    <span className="hidden sm:inline">Analyse professionnelle : </span>Avantages et Inconvénients
-                  </h4>
+                <div className="pt-4 border-t border-slate-700">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4">Points forts & Vigilances</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
@@ -1133,34 +1134,28 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 </div>
               </div>
 
-              {/* Récapitulatif */}
-              <p className="text-xs sm:text-sm text-slate-300 mb-4">
-                Vous avez sélectionné <span className="font-semibold text-white">{selectedScpis.length} SCPI</span>. Voici un récapitulatif avant de continuer.
-              </p>
-
-              {/* KPIs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-4">
-                <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Rendement moyen estimé</p>
-                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{avgYield.toFixed(2)}%</p>
-                </div>
-                <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Investissement minimal estimé</p>
-                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{minInvestment.toLocaleString('fr-FR')}€</p>
-                </div>
-              </div>
-
-              {/* Pie Charts (Sectoriel + Géographique) */}
+              {/* ▸▸▸ SECTION 2 : RÉPARTITION & DIVERSIFICATION (bleu) */}
               {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+              <div className="rounded-2xl border border-blue-500/25 border-l-4 border-l-blue-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
+                <header className="mb-5">
+                  <h2 className="text-lg font-semibold text-blue-300 flex items-center gap-2">
+                    <PieChartIcon className="w-5 h-5" />
+                    Répartition &amp; diversification
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Visualisation des expositions sectorielles et géographiques du portefeuille.
+                  </p>
+                </header>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {/* Sectoriel */}
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
                     <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                      <PieChartIcon className="w-4 h-4 text-blue-400" />
-                      Répartition Sectorielle du Portefeuille
+                      <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                      Répartition Sectorielle
                     </h3>
                     <div className="relative">
-                      <ResponsiveContainer width="100%" height={220}>
+                      <ResponsiveContainer width="100%" height={200}>
                         <RechartsPie>
                           <defs>
                             {GRADIENT_IDS.sectors.map((id, i) => (
@@ -1183,7 +1178,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         <div className="text-xs text-slate-300">secteurs</div>
                       </div>
                     </div>
-                    <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                    <div className="mt-3 space-y-1 max-h-24 overflow-y-auto">
                       {aggregatedSectors.map((sector, index) => (
                         <div key={sector.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
@@ -1196,13 +1191,13 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                   </div>
                   {/* Géographique */}
-                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
                     <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                      <PieChartIcon className="w-4 h-4 text-green-400" />
-                      Répartition Géographique du Portefeuille
+                      <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                      Répartition Géographique
                     </h3>
                     <div className="relative">
-                      <ResponsiveContainer width="100%" height={220}>
+                      <ResponsiveContainer width="100%" height={200}>
                         <RechartsPie>
                           <defs>
                             {GRADIENT_IDS.geography.map((id, i) => (
@@ -1225,7 +1220,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         <div className="text-xs text-slate-300">zones</div>
                       </div>
                     </div>
-                    <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                    <div className="mt-3 space-y-1 max-h-24 overflow-y-auto">
                       {aggregatedGeography.map((geo, index) => (
                         <div key={geo.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
@@ -1238,71 +1233,101 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                   </div>
                 </div>
+              </div>
               )}
 
-              {/* Configuration du portefeuille */}
-              {portfolioAnalysis && (
-                <div className="bg-slate-900 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-slate-700 mb-4">
-                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                    <Sliders className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
-                    <h3 className="text-base sm:text-lg font-bold text-white">Configuration du portefeuille</h3>
+              {/* ▸▸▸ SECTION 3 : SIMULATION & PROJECTION (violet) */}
+              <div className="rounded-2xl border border-violet-500/25 border-l-4 border-l-violet-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
+                <header className="mb-5">
+                  <h2 className="text-lg font-semibold text-violet-300 flex items-center gap-2">
+                    <Sliders className="w-5 h-5" />
+                    Simulation &amp; projection
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Paramétrage du montant, du mode d'investissement et des revenus estimés.
+                  </p>
+                </header>
+
+                {/* Récapitulatif sélection */}
+                <p className="text-xs sm:text-sm text-slate-300 mb-4">
+                  Vous avez sélectionné <span className="font-semibold text-white">{selectedScpis.length} SCPI</span>.
+                  {portfolioAnalysis && <> Montant total : <span className="font-semibold text-violet-300">{totalAmount.toLocaleString('fr-FR')}€</span></>}
+                </p>
+
+                {/* KPIs rapides */}
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="bg-slate-800/50 rounded-lg p-3 border border-violet-500/20">
+                    <p className="text-[10px] text-slate-400 mb-0.5">Rendement moyen estimé</p>
+                    <p className="text-lg font-bold text-violet-300">{avgYield.toFixed(2)}%</p>
                   </div>
+                  <div className="bg-slate-800/50 rounded-lg p-3 border border-violet-500/20">
+                    <p className="text-[10px] text-slate-400 mb-0.5">Investissement minimal estimé</p>
+                    <p className="text-lg font-bold text-violet-300">{minInvestment.toLocaleString('fr-FR')}€</p>
+                  </div>
+                </div>
+
+                {/* Configuration du portefeuille */}
+                {portfolioAnalysis && (
+                <div className="bg-slate-800/50 rounded-lg p-3 sm:p-5 border border-slate-700">
+                  <h4 className="text-sm font-bold text-white mb-4">Configuration du portefeuille</h4>
                   {/* Mode d'investissement */}
-                  <div className="mb-4 sm:mb-5">
-                    <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Mode d'investissement</label>
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  <div className="mb-4">
+                    <label className="block text-xs font-semibold text-slate-300 mb-2">Mode d'investissement</label>
+                    <div className="grid grid-cols-3 gap-2">
                       {(['cash','credit','demembrement'] as const).map(mode => (
                         <button key={mode} type="button" onClick={() => setInvestmentMode(mode)}
-                          className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${investmentMode === mode ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30' : 'bg-slate-800 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>
+                          className={`px-2 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${investmentMode === mode ? 'bg-violet-600 text-white border-violet-500 shadow-lg shadow-violet-500/30' : 'bg-slate-800 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>
                           {mode === 'cash' ? 'Comptant' : mode === 'credit' ? 'Crédit' : 'Démembrement'}
                         </button>
                       ))}
                     </div>
-                    <p className="mt-2 text-[10px] sm:text-xs text-slate-400">Sélectionnez votre mode pour voir l'impact sur les revenus, le cash-flow ou la valeur future, sans modifier votre sélection de SCPI.</p>
+                    <p className="mt-2 text-[10px] sm:text-xs text-slate-400">Sélectionnez votre mode pour voir l'impact sur les revenus, le cash-flow ou la valeur future.</p>
                   </div>
                   {/* Montant total */}
-                  <div className="mb-4 sm:mb-6">
-                    <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5 sm:mb-2">Montant total à investir</label>
-                    <div className="flex items-center gap-2 sm:gap-4">
+                  <div className="mb-5">
+                    <label className="block text-xs font-semibold text-slate-300 mb-1.5">Montant total à investir</label>
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <input type="number" value={totalAmount} onChange={(e) => setTotalAmount(Math.max(0, parseInt(e.target.value) || 0))}
-                        className="flex-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800 border border-slate-600 rounded-lg text-white text-base sm:text-lg font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500" min="0" step="1000" />
-                      <span className="text-slate-400 font-semibold text-sm sm:text-base">€</span>
+                        className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white text-base font-bold focus:outline-none focus:ring-2 focus:ring-violet-500" min="0" step="1000" />
+                      <span className="text-slate-400 font-semibold text-sm">€</span>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
+                    <div className="flex flex-wrap gap-1.5 mt-2">
                       {[50000,100000,150000,200000,300000].map(amount => (
-                        <button key={amount} onClick={() => setTotalAmount(amount)} className={`px-2 sm:px-3 py-1 text-[10px] sm:text-xs rounded-lg transition-colors ${totalAmount === amount ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                        <button key={amount} onClick={() => setTotalAmount(amount)} className={`px-2 py-1 text-[10px] rounded-lg transition-colors ${totalAmount === amount ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
                           {amount.toLocaleString('fr-FR')}€
                         </button>
                       ))}
                     </div>
                   </div>
                   {/* Performance financière */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
-                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                        <p className="text-[10px] sm:text-xs text-slate-400">Rendement moyen pondéré</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <TrendingUp className="w-3.5 h-3.5 text-violet-400" />
+                        <p className="text-[10px] text-slate-400">Rendement pondéré</p>
                       </div>
-                      <p className="text-xl sm:text-2xl font-bold text-emerald-400">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
+                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
                     </div>
-                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" />
-                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus annuels estimés</p>
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <DollarSign className="w-3.5 h-3.5 text-violet-400" />
+                        <p className="text-[10px] text-slate-400">Revenus / an</p>
                       </div>
-                      <p className="text-xl sm:text-2xl font-bold text-blue-400">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
                     </div>
-                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
-                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
-                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
-                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus mensuels estimés</p>
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <DollarSign className="w-3.5 h-3.5 text-violet-400" />
+                        <p className="text-[10px] text-slate-400">Revenus / mois</p>
                       </div>
-                      <p className="text-xl sm:text-2xl font-bold text-purple-400">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+                )}
+              </div>
+
+            </section>
 
             {/* CTAs Étape 2 */}
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
