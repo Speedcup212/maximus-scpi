@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -20,6 +20,11 @@ import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import ZScoreBar from '../ZScoreBar';
 import Toast from '../Toast';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { getInvestorProfile } from '../../utils/investorProfile';
+import { getZScoreAttention } from '../../utils/zScoreAttention';
+import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
+import { resolveDisplayedDiscount } from '../../utils/formatters';
 
 type ViewMode = 'grid' | 'list';
 
@@ -193,6 +198,183 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       return next;
     });
   };
+
+  // ── Pop-up public de résultats : helpers & calculs (injectés dans Step 2) ──
+  const LEGEND_COLORS = {
+    sectors: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c'],
+    geography: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c']
+  };
+  const GRADIENT_IDS = {
+    sectors: ['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'],
+    geography: ['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2']
+  };
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const cleanName = (name: string) => name.replace(/^[\s,\.]+/, '').trim();
+      return (
+        <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-600 shadow-xl">
+          <p className="text-white font-semibold text-sm">{cleanName(payload[0].name)}</p>
+          <p className="text-emerald-400 font-bold text-lg">{payload[0].value}%</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // State pour la configuration du portefeuille (pop-up public)
+  const [totalAmount, setTotalAmount] = useState(100000);
+  const [scpiPercentages, setScpiPercentages] = useState<Record<string, number>>({});
+  const [investmentMode, setInvestmentMode] = useState<'cash' | 'credit' | 'demembrement'>('cash');
+
+  // Initialiser les pourcentages à parts égales
+  useEffect(() => {
+    if (selectedScpis.length > 0) {
+      const equalPercentage = 100 / selectedScpis.length;
+      const initialPercentages: Record<string, number> = {};
+      selectedScpis.forEach(scpi => { initialPercentages[scpi.id] = equalPercentage; });
+      setScpiPercentages(initialPercentages);
+    }
+  }, [selectedScpis]);
+
+  const investorProfileLabel = useMemo(() => getInvestorProfile(), []);
+
+  // cleanName / normalize helpers (issus du pop-up public)
+  const cleanName = (name: string) => name.replace(/^[\s,\.]+/, '').trim();
+  const normalizeSectorName = (name: string): string => {
+    const cleaned = cleanName(name);
+    const lower = cleaned.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (lower.includes('hotel') || lower.includes('hotellerie') || lower.includes('tourisme') || lower.includes('loisir') || lower.includes('seminaire') || lower.includes('séminaire')) return 'Hôtels, tourisme, loisirs';
+    if ((lower.includes('sante') || lower.includes('santé')) && (lower.includes('education') || lower.includes('éducation') || lower.includes('enseignement'))) return 'Santé et éducation';
+    if (lower.includes('sante') || lower.includes('santé')) return 'Santé et éducation';
+    if (lower.includes('education') || lower.includes('éducation') || lower.includes('enseignement')) return 'Santé et éducation';
+    if (lower.includes('logistique') || lower.includes('entrepot') || lower.includes('entrepôt') || lower.includes('activite') || lower.includes('activité') || lower.includes('transport')) return "Logistique et locaux d'activités";
+    if (lower.includes('commerce')) return 'Commerces';
+    if (lower.includes('bureau') && !lower.includes('commerce')) return 'Bureaux';
+    if (lower.includes('residentiel') || lower.includes('résidentiel') || lower.includes('logement') || lower.includes('habitation')) return 'Résidentiel';
+    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1).toLowerCase();
+  };
+  const geoKeywords = ['france','paris','région','europe','espagne','allemagne','italie','royaume','pays','belgique','portugal','étranger','international','idf','ile-de-france','atlantique','parisienne','dorsale','métropol','irlande','pologne','uk','pays-bas','netherlands','hollande','suisse','luxembourg','autriche','grèce','danemark','suède','norvège','finlande','tchéquie','hongrie','roumanie','bulgarie','croatie','slovénie'];
+  const isGeographicName = (name: string) => geoKeywords.some(kw => name.toLowerCase().includes(kw));
+  const normalizeGeographyName = (name: string): { key: string; label: string } => {
+    const cleaned = cleanName(name);
+    const normalized = cleaned.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g,' ').trim();
+    const toKey = (v: string) => v.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'').trim();
+    if (!normalized) return { key:'', label:'' };
+    const exactMap: Record<string,string> = { 'france':'France','idf':'France','ile de france':'France','paris':'France','region':'France','regions':'France','europe':'Europe','ue':'Europe','union europeenne':'Europe','zone euro':'Europe','international':'International','autres':'Autres','royaume uni':'Royaume-Uni','uk':'Royaume-Uni','angleterre':'Royaume-Uni','etats unis':'États-Unis','usa':'États-Unis' };
+    if (exactMap[normalized]) return { key:toKey(exactMap[normalized]), label:exactMap[normalized] };
+    if (normalized.includes('france')) return { key:'france', label:'France' };
+    if (normalized.includes('europe')) return { key:'europe', label:'Europe' };
+    if (normalized.includes('international')) return { key:'international', label:'International' };
+    return { key:toKey(cleaned), label:cleaned };
+  };
+
+  // Répartitions agrégées (calcul public)
+  const calculateAggregatedSectors = () => {
+    const sectorMap: Record<string,number> = {};
+    const weightPerScpi = 100 / selectedScpis.length;
+    selectedScpis.forEach(scpi => {
+      if (scpi.sectors && scpi.sectors.length > 0) {
+        scpi.sectors.forEach(sector => {
+          if (isGeographicName(sector.name)) return;
+          const n = normalizeSectorName(sector.name);
+          if (!sectorMap[n]) sectorMap[n] = 0;
+          sectorMap[n] += (sector.value * weightPerScpi) / 100;
+        });
+      }
+    });
+    return Object.entries(sectorMap).map(([name,value]) => ({ name, value: Math.round(value * 10) / 10 })).filter(item => item.value > 0).sort((a,b) => b.value - a.value);
+  };
+  const calculateAggregatedGeography = () => {
+    const geoMap: Record<string,{name:string;value:number}> = {};
+    const weightPerScpi = 100 / selectedScpis.length;
+    selectedScpis.forEach(scpi => {
+      if (scpi.geography && scpi.geography.length > 0) {
+        scpi.geography.forEach(geo => {
+          const n = normalizeGeographyName(geo.name);
+          if (!n.key) return;
+          if (!geoMap[n.key]) geoMap[n.key] = { name:n.label, value:0 };
+          geoMap[n.key].value += (geo.value * weightPerScpi) / 100;
+        });
+      }
+    });
+    return Object.values(geoMap).map(item => ({ name:item.name, value:Math.round(item.value * 10) / 10 })).filter(item => item.value > 0).sort((a,b) => b.value - a.value);
+  };
+
+  const aggregatedSectors = calculateAggregatedSectors();
+  const aggregatedGeography = calculateAggregatedGeography();
+  const avgYield = selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length;
+  const minInvestment = selectedScpis.reduce((sum, s) => sum + s.minInvestment, 0);
+
+  const calculateMaximusAvis = () => {
+    const sectorDiv = Math.min(aggregatedSectors.length / 1, 5);
+    const geoDiv = Math.min(aggregatedGeography.length / 1, 5);
+    let perf = 0;
+    if (avgYield >= 6) perf = 5; else if (avgYield >= 5) perf = 4; else if (avgYield >= 4) perf = 3; else if (avgYield >= 3) perf = 2; else perf = 1;
+    const avgTof = selectedScpis.reduce((sum,s) => sum + (s.tof||0), 0) / selectedScpis.length;
+    let liq = 0; if (avgTof >= 95) liq = 5; else if (avgTof >= 92) liq = 4; else if (avgTof >= 90) liq = 3; else if (avgTof >= 85) liq = 2; else liq = 1;
+    const div = Math.min(selectedScpis.length, 5);
+    const maxSW = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
+    let risk = 5; if (maxSW > 60) risk = 2; else if (maxSW > 50) risk = 3; else if (maxSW > 40) risk = 4;
+    const weightedSum = sectorDiv * 1.0 + geoDiv * 1.0 + perf * 1.0 + liq * 1.2 + div * 1.2 + risk * 1.3;
+    const weightedMax = 5 * (1.0 + 1.0 + 1.0 + 1.2 + 1.2 + 1.3);
+    const overall = Math.round((weightedSum / weightedMax) * 5);
+    return { sectorDiversity: Math.round(sectorDiv), geoDiversity: Math.round(geoDiv), performance: perf, liquidity: Math.round(liq), diversification: div, risk, overall: Math.max(1, Math.min(5, overall)) };
+  };
+  const maximusAvis = calculateMaximusAvis();
+  const coherenceZScore = Number((maximusAvis.overall - 3).toFixed(2));
+
+  const analyzePortfolioProsCons = () => {
+    const pros: string[] = [];
+    const consGeneral: string[] = [];
+    const consStructural: string[] = [];
+    if (selectedScpis.length >= 4) pros.push('Diversification optimale avec plusieurs SCPI, réduisant significativement le risque de concentration');
+    else if (selectedScpis.length >= 2) pros.push("Diversification correcte permettant de limiter l'exposition au risque spécifique d'une seule SCPI");
+    else consStructural.push("Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d'ajouter au moins 2-3 SCPI supplémentaires");
+    const isHD = isVeryWellDiversified(aggregatedSectors.length, aggregatedGeography.length);
+    if (aggregatedSectors.length >= 4) pros.push("Excellente diversification sectorielle couvrant plusieurs segments de l'immobilier, résilience accrue face aux cycles économiques");
+    else if (aggregatedSectors.length >= 2) pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
+    else if (!isHD) consStructural.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
+    const hasEurope = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('europe') || g.name.toLowerCase().includes('européen'));
+    const hasFrance = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('france') || g.name.toLowerCase().includes('français'));
+    if (aggregatedGeography.length >= 3) pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
+    else if (hasEurope && hasFrance) pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
+    else if (hasEurope && !isHD) pros.push('Exposition européenne intéressante pour la diversification géographique');
+    else if (!isHD) consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
+    if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
+    else if (avgYield >= 5) pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
+    else if (avgYield >= 4) consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
+    const maxSW2 = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
+    if (maxSW2 > 50) consGeneral.push(`Concentration sectorielle élevée (${maxSW2.toFixed(0)}% en ${aggregatedSectors[0]?.name}) : risque de corrélation sectorielle, diversification recommandée`);
+    const hasRes = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('résidentiel') || s.name.toLowerCase().includes('residentiel'));
+    const hasComm = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('commerce') || s.name.toLowerCase().includes('bureau'));
+    if (hasRes && hasComm) pros.push('Présence de secteurs complémentaires (résidentiel + tertiaire), bonne résilience économique');
+    if (hasEurope && !hasFrance) consStructural.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
+    const hasLowTof = selectedScpis.some(s => (s.tof || 0) < 85);
+    if (hasLowTof) consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
+    if (selectedScpis.length < 3) consStructural.push("Portefeuille sous-diversifié : recommandation d'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
+    return { pros, consGeneral, consStructural };
+  };
+  const zScoreAttention = getZScoreAttention(coherenceZScore, aggregatedSectors.length, aggregatedGeography.length);
+  const portfolioProsCons = analyzePortfolioProsCons();
+  const allowStructural = zScoreAttention?.level === 'concentration' || zScoreAttention?.level === 'dispersion-excessive';
+  const zScoreWarning = allowStructural ? `${zScoreAttention!.shortLabel} : ${zScoreAttention!.message}` : null;
+  const consWithZScore = [...portfolioProsCons.consGeneral, ...(zScoreWarning ? [zScoreWarning] : [])];
+
+  // Portfolio analysis (configuration du portefeuille)
+  const portfolioAnalysis = useMemo(() => {
+    if (selectedScpis.length === 0) return null;
+    const scpiDataArr = selectedScpis.map(scpi => {
+      const pct = scpiPercentages[scpi.id] || 0;
+      const amount = (totalAmount * pct) / 100;
+      const annual = (amount * scpi.yield) / 100;
+      return { id: scpi.id, name: scpi.name, percentage: pct, amount, yield: scpi.yield, annualIncome: annual, monthlyIncome: annual / 12, price: scpi.price, minInvestment: scpi.minInvestment, parts: Math.floor(amount / scpi.price) };
+    });
+    const weightedYield = scpiDataArr.reduce((sum, item) => sum + (item.yield * item.percentage / 100), 0);
+    const totalAnnual = scpiDataArr.reduce((sum, item) => sum + item.annualIncome, 0);
+    return { scpiData: scpiDataArr, totalAmount, totalPercentage: Object.values(scpiPercentages).reduce((s,p) => s + p, 0), weightedYield, totalAnnualIncome: totalAnnual, totalMonthlyIncome: totalAnnual / 12 };
+  }, [selectedScpis, scpiPercentages, totalAmount]);
+  // ── Fin des helpers du pop-up public ──
 
   const applyFilters = (scpi: SCPIExtended): boolean => {
     if (scpi.yield < filters.minYield) return false;
@@ -713,143 +895,364 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         {currentStep === 2 && (
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
           <main className="min-w-0 pb-24 lg:pb-6">
-            <div className="bg-slate-800 rounded-xl border border-slate-700 p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Analyse des Résultats</h2>
-              <p className="text-sm text-slate-400 mb-6">
-                Ajustez la pondération de chaque SCPI et visualisez les indicateurs clés.
-              </p>
-
-              {/* SCPI sélectionnées avec sliders de pondération */}
-              <div className="space-y-4">
-                {selectedScpis.map((scpi) => {
-                  const weight = allocations[scpi.id] ?? 0;
-                  return (
-                    <div key={scpi.id} className="bg-slate-900 rounded-lg p-4 border border-slate-700">
-                      <div className="flex items-center justify-between mb-3">
-                        <div>
-                          <h4 className="font-bold text-white text-sm">{scpi.name}</h4>
-                          <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
-                        </div>
-                        <span className="text-lg font-bold text-emerald-400">{weight}%</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-slate-500 w-8">0%</span>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={weight}
-                          onChange={(e) => handleAllocationChange(scpi.id, parseInt(e.target.value, 10))}
-                          className="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-                        />
-                        <span className="text-xs text-slate-500 w-8">100%</span>
-                      </div>
-                      <div className="grid grid-cols-3 gap-4 mt-3 text-center">
-                        <div>
-                          <p className="text-xs text-slate-500">Rendement</p>
-                          <p className="text-sm font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-500">TOF</p>
-                          <p className="text-sm font-bold text-white">{scpi.tof}%</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-500">Prix</p>
-                          <p className="text-sm font-bold text-white">{scpi.price}€</p>
-                        </div>
+            {/* === CONTENU EXACT DU POP-UP PUBLIC DE RÉSULTATS === */}
+            <div className="bg-slate-800 rounded-xl border border-slate-700 p-4 sm:p-6">
+              {/* ── Avis de votre conseiller (Marque Blanche) ── */}
+              <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                  <div className="flex-shrink-0">
+                    <User className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-white">Avis de votre conseiller</h3>
+                    <p className="text-[10px] sm:text-xs text-slate-300">Évaluation de votre sélection</p>
+                  </div>
+                </div>
+                {/* Note globale */}
+                <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-700">
+                  <p className="text-[11px] text-slate-400 mb-1">Lecture de cohérence détectée</p>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-semibold text-slate-300">Note globale</span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-5 h-5 ${i < maximusAvis.overall ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-slate-400 mb-2">Indicateur de cohérence structurelle — pas une note de qualité ni de performance.</p>
+                  <p className="text-xs text-slate-300 italic mb-1">Note globale issue d'une analyse multicritères pondérée.</p>
+                  <p className="text-xs text-slate-300">
+                    {maximusAvis.overall >= 4
+                      ? 'Portefeuille globalement cohérent au regard des critères analysés.'
+                      : maximusAvis.overall >= 3
+                      ? 'Structure équilibrée à confirmer selon votre situation réelle.'
+                      : "Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer."}
+                  </p>
+                </div>
+                {/* Critères détaillés */}
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300">Répartition sectorielle</span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-4 h-4 ${i < maximusAvis.sectorDiversity ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300">Répartition géographique</span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-4 h-4 ${i < maximusAvis.geoDiversity ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs text-slate-300">Potentiel de rendement</span>
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className={`w-4 h-4 ${i < maximusAvis.performance ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                        ))}
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-
-              {/* Avis de votre conseiller — Marque Blanche */}
-              {selectedScpis.length > 0 && (
-              <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-xl p-6 border border-emerald-500/30 mt-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <User className="w-10 h-10 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
-                  <div>
-                    <h3 className="text-lg font-bold text-white">Avis de votre conseiller</h3>
-                    <p className="text-xs text-slate-300">Évaluation de votre sélection</p>
+                    <p className="text-[10px] text-slate-300 italic">Indicateur basé sur des données historiques, non garanti.</p>
                   </div>
-                </div>
-                <div className="mb-4 pb-4 border-b border-slate-700">
-                  <p className="text-xs text-slate-400 mb-1">Lecture de cohérence détectée</p>
+                  <div className="flex items-center justify-between group relative">
+                    <span className="text-xs text-slate-300 cursor-help">Liquidité<span className="ml-1 text-[10px] text-slate-300">ℹ️</span></span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-4 h-4 ${i < maximusAvis.liquidity ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
+                    <div className="absolute left-0 top-full mt-2 w-64 p-3 bg-slate-800 border border-slate-600 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-xs text-slate-300">
+                      <p className="font-semibold mb-2 text-white">Évaluation de la liquidité</p>
+                      <p className="mb-1">Basée sur le taux d'occupation financier (TOF) moyen.</p>
+                      <p className="text-slate-300 italic">La liquidité SCPI dépend également de :</p>
+                      <ul className="list-disc list-inside mt-1 text-slate-300 space-y-0.5">
+                        <li>Délai de jouissance</li>
+                        <li>Mutualisation locative</li>
+                      </ul>
+                    </div>
+                  </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-300">Note globale</span>
-                    <span className="text-sm font-bold text-emerald-400">{selectedScpis.length >= 3 ? '4.2/5' : '3.8/5'}</span>
+                    <span className="text-xs text-slate-300">Diversification</span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-4 h-4 ${i < maximusAvis.diversification ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-slate-300">Maîtrise du risque</span>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`w-4 h-4 ${i < maximusAvis.risk ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <p className="text-sm text-slate-300">
-                      {selectedScpis.length >= 3 
-                        ? 'Sélection diversifiée — bonne complémentarité sectorielle.'
-                        : 'Envisagez d\'ajouter une SCPI supplémentaire pour améliorer la diversification.'}
-                    </p>
+                {/* Z-Score */}
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-slate-300">Z-score de cohérence du portefeuille</span>
+                      <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI® — Indicateur propriétaire d'écart structurel — non prédictif de performance.">ⓘ</span>
+                    </div>
                   </div>
-                  {selectedScpis.length >= 2 && (
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <p className="text-sm text-slate-300">
-                      Allocation équilibrée entre rendement et résilience locative.
-                    </p>
-                  </div>
+                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full" />
+                </div>
+                {/* Analyse de cohérence */}
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
+                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
+                    Analyse de cohérence du portefeuille
+                  </h4>
+                  {zScoreAttention && zScoreAttention.level === 'coherence-elevee' ? (
+                    <div className="text-[11px] sm:text-xs text-slate-300 space-y-1">
+                      <div className="font-semibold text-slate-200">{zScoreAttention.shortLabel}</div>
+                      <div>{zScoreAttention.message}</div>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] sm:text-xs text-slate-300">Lecture structurelle neutre. Aucun signal structurel dominant n'est identifié.</p>
                   )}
                 </div>
-              </div>
-              )}
-
-              {/* Rendement global pondéré */}
-              {selectedScpis.length > 0 && (() => {
-                const weightedYield = selectedScpis.reduce((sum, s) => {
-                  const w = (allocations[s.id] ?? 0) / 100;
-                  return sum + s.yield * w;
-                }, 0);
-                const totalInvest = selectedScpis.reduce((sum, s) => sum + s.minInvestment * ((allocations[s.id] ?? 0) / 100), 0);
-                return (
-                <div className="mt-6 space-y-4">
-                  <div className="bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/30">
-                    <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré estimé</p>
-                    <p className="text-3xl font-bold text-emerald-400">{weightedYield.toFixed(2)}%</p>
-                    <p className="text-xs text-slate-500 mt-1">Moyenne pondérée — {selectedScpis.length} SCPI</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
-                      <p className="text-xs text-slate-400 font-medium mb-1">Investissement total</p>
-                      <p className="text-xl font-bold text-white">{totalInvest.toLocaleString('fr-FR')}€</p>
+                {/* Avantages et Inconvénients */}
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
+                    <span className="hidden sm:inline">Analyse professionnelle : </span>Avantages et Inconvénients
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                    <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
+                      <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400"></div>
+                        <h5 className="text-xs sm:text-sm font-bold text-emerald-400">Points forts</h5>
+                      </div>
+                      {portfolioProsCons.pros.length > 0 ? (
+                        <ul className="space-y-1.5 sm:space-y-2">
+                          {portfolioProsCons.pros.map((pro, idx) => (
+                            <li key={idx} className="text-[10px] sm:text-xs text-slate-300 flex items-start gap-1.5 sm:gap-2">
+                              <span className="text-emerald-400 mt-0.5 sm:mt-1 flex-shrink-0">✓</span>
+                              <span>{pro}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point fort identifié</p>
+                      )}
                     </div>
-                    <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
-                      <p className="text-xs text-slate-400 font-medium mb-1">Capitalisation totale</p>
-                      <p className="text-xl font-bold text-white">
-                        {(() => {
-                          const total = selectedScpis.reduce((sum, s) => sum + (s.capitalizationValue || 0), 0);
-                          if (total >= 1000) return `${(total / 1000).toFixed(1)} Md€`;
-                          return `${total.toFixed(0)} M€`;
-                        })()}
-                      </p>
+                    <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
+                      <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
+                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Points d'attention</h5>
+                      </div>
+                      {!allowStructural && (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic mb-2">Aucun point de vigilance structurelle identifié.</p>
+                      )}
+                      {consWithZScore.length > 0 ? (
+                        <ul className="space-y-1.5 sm:space-y-2">
+                          {consWithZScore.map((con, idx) => (
+                            <li key={idx} className="text-[10px] sm:text-xs text-slate-300 flex items-start gap-1.5 sm:gap-2">
+                              <span className="text-slate-400 mt-0.5 sm:mt-1 flex-shrink-0">•</span>
+                              <span>{con}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : !allowStructural ? null : (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point d'attention identifié</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-slate-800/50 rounded-lg border border-slate-700">
+                    <p className="text-[9px] sm:text-[10px] text-slate-400 italic leading-relaxed">
+                      <strong className="text-slate-300">Note :</strong> Cette analyse est basée sur les caractéristiques objectives du portefeuille sélectionné. Elle ne constitue pas un conseil personnalisé en investissement. Un conseiller certifié ORIAS analysera votre situation personnelle avant toute décision.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Récapitulatif */}
+              <p className="text-xs sm:text-sm text-slate-300 mb-4">
+                Vous avez sélectionné <span className="font-semibold text-white">{selectedScpis.length} SCPI</span>. Voici un récapitulatif avant de continuer.
+              </p>
+
+              {/* KPIs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-4">
+                <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Rendement moyen estimé</p>
+                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{avgYield.toFixed(2)}%</p>
+                </div>
+                <div className="bg-slate-900 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                  <p className="text-[10px] sm:text-xs text-slate-300 mb-1">Investissement minimal estimé</p>
+                  <p className="text-xl sm:text-2xl font-bold text-emerald-400">{minInvestment.toLocaleString('fr-FR')}€</p>
+                </div>
+              </div>
+
+              {/* Pie Charts (Sectoriel + Géographique) */}
+              {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                  {/* Sectoriel */}
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                      <PieChartIcon className="w-4 h-4 text-blue-400" />
+                      Répartition Sectorielle du Portefeuille
+                    </h3>
+                    <div className="relative">
+                      <ResponsiveContainer width="100%" height={220}>
+                        <RechartsPie>
+                          <defs>
+                            {GRADIENT_IDS.sectors.map((id, i) => (
+                              <linearGradient key={id} id={`${id}-pro`} x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stopColor={['#60a5fa','#34d399','#fbbf24','#f472b6','#a78bfa','#22d3ee','#a3e635','#fb923c'][i]} stopOpacity={1} />
+                                <stop offset="100%" stopColor={LEGEND_COLORS.sectors[i]} stopOpacity={1} />
+                              </linearGradient>
+                            ))}
+                          </defs>
+                          <Pie data={aggregatedSectors} cx="50%" cy="50%" innerRadius="50%" outerRadius="85%" paddingAngle={0} dataKey="value" animationBegin={0} animationDuration={800} animationEasing="ease-out">
+                            {aggregatedSectors.map((entry, index) => (
+                              <Cell key={`cell-sector-${index}`} fill={`url(#${GRADIENT_IDS.sectors[index % 8]}-pro)`} stroke="#1e293b" strokeWidth={2} style={{ outline: 'none' }} />
+                            ))}
+                          </Pie>
+                          <Tooltip content={<CustomTooltip />} />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                        <div className="text-xl font-bold text-white">{aggregatedSectors.length}</div>
+                        <div className="text-xs text-slate-300">secteurs</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                      {aggregatedSectors.map((sector, index) => (
+                        <div key={sector.name} className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: LEGEND_COLORS.sectors[index % LEGEND_COLORS.sectors.length] }}></div>
+                            <span className="text-slate-300 truncate">{sector.name}</span>
+                          </div>
+                          <span className="font-semibold text-white">{sector.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Géographique */}
+                  <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                    <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                      <PieChartIcon className="w-4 h-4 text-green-400" />
+                      Répartition Géographique du Portefeuille
+                    </h3>
+                    <div className="relative">
+                      <ResponsiveContainer width="100%" height={220}>
+                        <RechartsPie>
+                          <defs>
+                            {GRADIENT_IDS.geography.map((id, i) => (
+                              <linearGradient key={id} id={`${id}-pro`} x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stopColor={['#60a5fa','#34d399','#fbbf24','#f472b6','#a78bfa','#22d3ee','#a3e635','#fb923c'][i]} stopOpacity={1} />
+                                <stop offset="100%" stopColor={LEGEND_COLORS.geography[i]} stopOpacity={1} />
+                              </linearGradient>
+                            ))}
+                          </defs>
+                          <Pie data={aggregatedGeography} cx="50%" cy="50%" innerRadius="50%" outerRadius="85%" paddingAngle={0} dataKey="value" animationBegin={0} animationDuration={800} animationEasing="ease-out">
+                            {aggregatedGeography.map((entry, index) => (
+                              <Cell key={`cell-geo-${index}`} fill={`url(#${GRADIENT_IDS.geography[index % 8]}-pro)`} stroke="#1e293b" strokeWidth={2} style={{ outline: 'none' }} />
+                            ))}
+                          </Pie>
+                          <Tooltip content={<CustomTooltip />} />
+                        </RechartsPie>
+                      </ResponsiveContainer>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                        <div className="text-xl font-bold text-white">{aggregatedGeography.length}</div>
+                        <div className="text-xs text-slate-300">zones</div>
+                      </div>
+                    </div>
+                    <div className="mt-3 space-y-1 max-h-28 overflow-y-auto">
+                      {aggregatedGeography.map((geo, index) => (
+                        <div key={geo.name} className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: LEGEND_COLORS.geography[index % LEGEND_COLORS.geography.length] }}></div>
+                            <span className="text-slate-300 truncate">{geo.name}</span>
+                          </div>
+                          <span className="font-semibold text-white">{geo.value}%</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-                );
-              })()}
+              )}
+
+              {/* Configuration du portefeuille */}
+              {portfolioAnalysis && (
+                <div className="bg-slate-900 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-slate-700 mb-4">
+                  <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                    <Sliders className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+                    <h3 className="text-base sm:text-lg font-bold text-white">Configuration du portefeuille</h3>
+                  </div>
+                  {/* Mode d'investissement */}
+                  <div className="mb-4 sm:mb-5">
+                    <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-2">Mode d'investissement</label>
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                      {(['cash','credit','demembrement'] as const).map(mode => (
+                        <button key={mode} type="button" onClick={() => setInvestmentMode(mode)}
+                          className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-semibold border transition-all ${investmentMode === mode ? 'bg-emerald-600 text-white border-emerald-500 shadow-lg shadow-emerald-500/30' : 'bg-slate-800 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>
+                          {mode === 'cash' ? 'Comptant' : mode === 'credit' ? 'Crédit' : 'Démembrement'}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[10px] sm:text-xs text-slate-400">Sélectionnez votre mode pour voir l'impact sur les revenus, le cash-flow ou la valeur future, sans modifier votre sélection de SCPI.</p>
+                  </div>
+                  {/* Montant total */}
+                  <div className="mb-4 sm:mb-6">
+                    <label className="block text-xs sm:text-sm font-semibold text-slate-300 mb-1.5 sm:mb-2">Montant total à investir</label>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <input type="number" value={totalAmount} onChange={(e) => setTotalAmount(Math.max(0, parseInt(e.target.value) || 0))}
+                        className="flex-1 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800 border border-slate-600 rounded-lg text-white text-base sm:text-lg font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500" min="0" step="1000" />
+                      <span className="text-slate-400 font-semibold text-sm sm:text-base">€</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
+                      {[50000,100000,150000,200000,300000].map(amount => (
+                        <button key={amount} onClick={() => setTotalAmount(amount)} className={`px-2 sm:px-3 py-1 text-[10px] sm:text-xs rounded-lg transition-colors ${totalAmount === amount ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                          {amount.toLocaleString('fr-FR')}€
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Performance financière */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
+                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                        <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
+                        <p className="text-[10px] sm:text-xs text-slate-400">Rendement moyen pondéré</p>
+                      </div>
+                      <p className="text-xl sm:text-2xl font-bold text-emerald-400">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
+                    </div>
+                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" />
+                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus annuels estimés</p>
+                      </div>
+                      <p className="text-xl sm:text-2xl font-bold text-blue-400">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                    </div>
+                    <div className="bg-slate-800 rounded-lg p-2.5 sm:p-4 border border-slate-700">
+                      <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400" />
+                        <p className="text-[10px] sm:text-xs text-slate-400">Revenus mensuels estimés</p>
+                      </div>
+                      <p className="text-xl sm:text-2xl font-bold text-purple-400">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* CTAs Étape 2 */}
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => setCurrentStep(1)}
-                className="flex-1 py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
-              >
+              <button onClick={() => setCurrentStep(1)}
+                className="flex-1 py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
-                <span>Retour au marché</span>
+                <span>← Retour au marché</span>
               </button>
-              <button
-                onClick={() => setCurrentStep(3)}
-                className="flex-1 py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
-              >
-                <span>Continuer vers les Vidéos</span>
+              <button onClick={() => setCurrentStep(3)}
+                className="flex-1 py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 transition-all flex items-center justify-center gap-2">
+                <span>Continuer vers les Vidéos ➔</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
@@ -869,32 +1272,30 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <span className="text-sm font-semibold text-slate-300">Z-score du portefeuille</span>
                     <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
                   </div>
-                  <ZScoreBar zScore={Number((selectedScpis.length * 0.22).toFixed(2))} profileLabel="CGP" variant="full" />
+                  <ZScoreBar zScore={coherenceZScore} profileLabel="CGP" variant="full" />
                   <p className="text-xs text-slate-500 mt-3">
                     {selectedScpis.length >= 4 ? 'Excellente diversification sectorielle et géographique.' :
-                     selectedScpis.length >= 2 ? 'Diversification correcte — envisagez d\'élargir le portefeuille.' :
-                     'Ajoutez au moins 2 SCPI pour une analyse de cohérence.'}
+                     selectedScpis.length >= 2 ? "Diversification correcte — envisagez d'élargir le portefeuille." :
+                     "Ajoutez au moins 2 SCPI pour une analyse de cohérence."}
                   </p>
                 </div>
 
-                {/* KPIs résumé */}
                 {selectedScpis.length > 0 && (
                   <>
                     <div className="bg-emerald-500/10 rounded-lg p-4 mb-3 border border-emerald-500/30">
                       <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
                       <p className="text-xl font-bold text-emerald-400">
-                        {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
+                        {portfolioAnalysis ? portfolioAnalysis.weightedYield.toFixed(2) : avgYield.toFixed(2)}%
                       </p>
                     </div>
                     <div className="bg-slate-900 rounded-lg p-4 mb-3 border border-slate-700">
                       <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
                       <p className="text-xl font-bold text-white">
-                        {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
+                        {minInvestment.toLocaleString('fr-FR')}€
                       </p>
                     </div>
                   </>
                 )}
-
                 <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
                   Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
                 </p>
