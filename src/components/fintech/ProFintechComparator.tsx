@@ -338,31 +338,85 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     const pros: string[] = [];
     const consGeneral: string[] = [];
     const consStructural: string[] = [];
+    
+    // ── Règle 1 : Diversification (nombre de SCPI) ──
     if (selectedScpis.length >= 4) pros.push('Diversification optimale avec plusieurs SCPI, réduisant significativement le risque de concentration');
-    else if (selectedScpis.length >= 2) pros.push("Diversification correcte permettant de limiter l'exposition au risque spécifique d'une seule SCPI");
-    else consStructural.push("Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d'ajouter au moins 2-3 SCPI supplémentaires");
+    else if (selectedScpis.length >= 2) consGeneral.push('Diversification limitée : la sélection repose sur un nombre réduit de SCPI.');
+    else consStructural.push("Concentration sur une seule SCPI : risque spécifique non diversifié, la sélection repose sur un seul support.");
+    
     const isHD = isVeryWellDiversified(aggregatedSectors.length, aggregatedGeography.length);
+
+    // ── Règle 2 : Concentration d'une SCPI dans l'allocation (>50%) ──
+    const maxScpiWeight = Object.keys(scpiPercentages).length > 0
+      ? Math.max(...Object.values(scpiPercentages))
+      : selectedScpis.length > 0 ? (100 / selectedScpis.length) : 0;
+    if (selectedScpis.length >= 2 && maxScpiWeight > 50) {
+      consGeneral.push(`Concentration élevée : une SCPI représente ${maxScpiWeight.toFixed(0)}% de la sélection.`);
+    }
+
+    // Analyse sectorielle
+    const maxSW = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
     if (aggregatedSectors.length >= 4) pros.push("Excellente diversification sectorielle couvrant plusieurs segments de l'immobilier, résilience accrue face aux cycles économiques");
     else if (aggregatedSectors.length >= 2) pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
     else if (!isHD) consStructural.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
+
+    // ── Règle 3 : Concentration sectorielle (>60%) ──
+    if (maxSW > 60) {
+      const dominantSector = aggregatedSectors[0]?.name || 'dominant';
+      consGeneral.push(`Concentration sectorielle : exposition dominante au secteur "${dominantSector}" (${maxSW.toFixed(0)}%).`);
+    }
+
+    // Analyse géographique
     const hasEurope = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('europe') || g.name.toLowerCase().includes('européen'));
     const hasFrance = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('france') || g.name.toLowerCase().includes('français'));
     if (aggregatedGeography.length >= 3) pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
     else if (hasEurope && hasFrance) pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
     else if (hasEurope && !isHD) pros.push('Exposition européenne intéressante pour la diversification géographique');
     else if (!isHD) consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
-    if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
+
+    // ── Règle 5 : Rendement élevé >8% ──
+    if (avgYield > 8) {
+      consGeneral.push(`Rendement moyen élevé (${avgYield.toFixed(2)}%) : vérifier la soutenabilité du taux de distribution.`);
+    } else if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
     else if (avgYield >= 5) pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
     else if (avgYield >= 4) consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
-    const maxSW2 = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
-    if (maxSW2 > 50) consGeneral.push(`Concentration sectorielle élevée (${maxSW2.toFixed(0)}% en ${aggregatedSectors[0]?.name}) : risque de corrélation sectorielle, diversification recommandée`);
+
+    // ── Règle 6 : TOF individuel < 90% ──
+    const lowTofScpis = selectedScpis.filter(s => (s.tof || 0) < 90 && (s.tof || 0) > 0);
+    if (lowTofScpis.length > 0) {
+      const names = lowTofScpis.map(s => s.name).slice(0, 2).join(', ');
+      consGeneral.push(`Occupation à surveiller : ${names} présente${lowTofScpis.length > 1 ? 'nt' : ''} un TOF inférieur à 90%.`);
+    }
+
+    // ── Règle 4 : Concentration société de gestion (>50%) ──
+    if (selectedScpis.length >= 2) {
+      const mgmtCount: Record<string, number> = {};
+      selectedScpis.forEach(s => {
+        const m = s.managementCompany || 'Inconnue';
+        mgmtCount[m] = (mgmtCount[m] || 0) + 1;
+      });
+      const dominant = Object.entries(mgmtCount).find(([, c]) => c / selectedScpis.length > 0.5);
+      if (dominant) consGeneral.push(`Concentration société de gestion : plus de 50% de la sélection provient de ${dominant[0]}.`);
+    }
+
+    // Analyse de la concentration (complément)
+    if (!isHD) {
+      if (maxSW > 60) consStructural.push(`Concentration sectorielle élevée (${maxSW.toFixed(1)}% sur un seul secteur) : risque de corrélation élevée en cas de crise sectorielle`);
+      else if (maxSW > 50) consStructural.push(`Concentration sectorielle modérée (${maxSW.toFixed(1)}%) : considérer une meilleure répartition pour réduire le risque`);
+      else pros.push('Répartition sectorielle équilibrée, bonne diversification des risques');
+    } else pros.push('Répartition sectorielle et géographique étendue, lecture globale robuste.');
+
     const hasRes = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('résidentiel') || s.name.toLowerCase().includes('residentiel'));
     const hasComm = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('commerce') || s.name.toLowerCase().includes('bureau'));
-    if (hasRes && hasComm) pros.push('Présence de secteurs complémentaires (résidentiel + tertiaire), bonne résilience économique');
+    if (hasRes && hasComm) pros.push('Mix résidentiel/commercial équilibré, optimisation fiscale et diversification des revenus locatifs');
+    
     if (hasEurope && !hasFrance) consStructural.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
+    
     const hasLowTof = selectedScpis.some(s => (s.tof || 0) < 85);
     if (hasLowTof) consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
-    if (selectedScpis.length < 3) consStructural.push("Portefeuille sous-diversifié : recommandation d'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
+    
+    if (selectedScpis.length < 3) consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
+    
     return { pros, consGeneral, consStructural };
   };
   const zScoreAttention = getZScoreAttention(coherenceZScore, aggregatedSectors.length, aggregatedGeography.length);
@@ -1055,11 +1109,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
-                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Points d'attention</h5>
+                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Vigilances structurelles</h5>
                       </div>
-                      {!allowStructural && (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic mb-2">Aucun point de vigilance structurelle identifié.</p>
-                      )}
                       {consWithZScore.length > 0 ? (
                         <ul className="space-y-1.5 sm:space-y-2">
                           {consWithZScore.map((con, idx) => (
@@ -1069,8 +1120,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                             </li>
                           ))}
                         </ul>
-                      ) : !allowStructural ? null : (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point d'attention identifié</p>
+                      ) : (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point de vigilance majeur détecté selon les critères disponibles.</p>
                       )}
                     </div>
                   </div>
