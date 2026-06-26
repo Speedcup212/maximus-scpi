@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info } from 'lucide-react';
+import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, User } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import LoadingSpinner from '../LoadingSpinner';
@@ -9,7 +9,7 @@ import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import { CALENDLY_URL } from '../../config/calendly';
-import EricAvatar from '../EricAvatar';
+
 
 interface SelectionSidebarProps {
   selectedScpis: SCPIExtended[];
@@ -877,14 +877,14 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
             </div>
 
             <div className="px-3 sm:px-6 py-3 sm:py-4 mt-10 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
-              {/* Avis Maximusscpi */}
+              {/* Avis de votre conseiller */}
               <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
                   <div className="flex-shrink-0">
-                    <EricAvatar size={40} className="sm:w-12 sm:h-12 ring-2 ring-emerald-500/50" />
+                    <User className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-bold text-white">Avis Maximusscpi</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-white">Avis de votre conseiller</h3>
                     <p className="text-[10px] sm:text-xs text-slate-300">Évaluation de votre sélection</p>
                   </div>
                 </div>

@@ -77,4 +77,4 @@ Les pages sont automatiquement générées dans `dist/`.
 
 ---
 
-Généré le 25/06/2026 19:33:18
+Généré le 26/06/2026 12:13:10

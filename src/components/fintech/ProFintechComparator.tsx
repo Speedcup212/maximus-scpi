@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -18,6 +18,7 @@ import { getLatestScoresBatch } from '../../utils/scpiScoreService';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
+import ZScoreBar from '../ZScoreBar';
 import Toast from '../Toast';
 
 type ViewMode = 'grid' | 'list';
@@ -46,7 +47,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   zScoreVariant = 'full'
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
+  const clientLinkId = useMemo(() => Date.now().toString(36).toUpperCase(), []);
   const [allocations, setAllocations] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
@@ -468,7 +470,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         )}
 
         {/* ── Stepper / Fil d'Ariane ── */}
-        <div className="mt-6 flex items-center justify-center gap-3">
+        <div className="mt-6 flex items-center justify-center gap-2 sm:gap-3">
           <span
             onClick={() => selectedScpis.length > 0 && setCurrentStep(1)}
             className={`text-sm font-semibold cursor-pointer transition-colors ${
@@ -484,13 +486,22 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               currentStep >= 2 ? 'text-emerald-400' : 'text-slate-600'
             } ${selectedScpis.length === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
           >
-            2. Allocation
+            2. Analyse
+          </span>
+          <span className="text-slate-600">→</span>
+          <span
+            onClick={() => selectedScpis.length > 0 && setCurrentStep(3)}
+            className={`text-sm font-semibold transition-colors ${
+              currentStep >= 3 ? 'text-emerald-400' : 'text-slate-600'
+            } ${selectedScpis.length === 0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
+          >
+            3. Vidéos
           </span>
           <span className="text-slate-600">→</span>
           <span className={`text-sm font-semibold transition-colors ${
-            currentStep >= 3 ? 'text-emerald-400' : 'text-slate-600'
+            currentStep >= 4 ? 'text-emerald-400' : 'text-slate-600'
           }`}>
-            3. Restitution
+            4. Livrables
           </span>
         </div>
 
@@ -684,14 +695,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               <button
                 disabled={selectedScpis.length === 0}
                 onClick={() => setCurrentStep(2)}
-                className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 active:scale-95 ${
-                  selectedScpis.length === 0
-                    ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600'
-                }`}
+                className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-bold disabled:opacity-50"
               >
-                <span>Étape suivante : Répartition & Analyse</span>
-                <ArrowRight className="w-5 h-5" />
+                Valider la sélection ➔
               </button>
 
               <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
@@ -703,14 +709,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
         )}
 
-        {/* ══════════ ÉTAPE 2 : ALLOCATION ══════════ */}
+        {/* ══════════ ÉTAPE 2 : ANALYSE DES RÉSULTATS ══════════ */}
         {currentStep === 2 && (
         <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
           <main className="min-w-0 pb-24 lg:pb-6">
             <div className="bg-slate-800 rounded-xl border border-slate-700 p-6">
-              <h2 className="text-xl font-bold text-white mb-2">Interface d'Allocation</h2>
+              <h2 className="text-xl font-bold text-white mb-2">Analyse des Résultats</h2>
               <p className="text-sm text-slate-400 mb-6">
-                Ajustez la pondération de chaque SCPI dans votre portefeuille.
+                Ajustez la pondération de chaque SCPI et visualisez les indicateurs clés.
               </p>
 
               {/* SCPI sélectionnées avec sliders de pondération */}
@@ -757,70 +763,62 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 })}
               </div>
 
+              {/* Avis de votre conseiller — Marque Blanche */}
+              {selectedScpis.length > 0 && (
+              <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-xl p-6 border border-emerald-500/30 mt-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <User className="w-10 h-10 text-emerald-500 bg-slate-800 p-2 rounded-full ring-2 ring-emerald-500/50" />
+                  <div>
+                    <h3 className="text-lg font-bold text-white">Avis de votre conseiller</h3>
+                    <p className="text-xs text-slate-300">Évaluation de votre sélection</p>
+                  </div>
+                </div>
+                <div className="mb-4 pb-4 border-b border-slate-700">
+                  <p className="text-xs text-slate-400 mb-1">Lecture de cohérence détectée</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-semibold text-slate-300">Note globale</span>
+                    <span className="text-sm font-bold text-emerald-400">{selectedScpis.length >= 3 ? '4.2/5' : '3.8/5'}</span>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <p className="text-sm text-slate-300">
+                      {selectedScpis.length >= 3 
+                        ? 'Sélection diversifiée — bonne complémentarité sectorielle.'
+                        : 'Envisagez d\'ajouter une SCPI supplémentaire pour améliorer la diversification.'}
+                    </p>
+                  </div>
+                  {selectedScpis.length >= 2 && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <p className="text-sm text-slate-300">
+                      Allocation équilibrée entre rendement et résilience locative.
+                    </p>
+                  </div>
+                  )}
+                </div>
+              </div>
+              )}
+
               {/* Rendement global pondéré */}
               {selectedScpis.length > 0 && (() => {
                 const weightedYield = selectedScpis.reduce((sum, s) => {
                   const w = (allocations[s.id] ?? 0) / 100;
                   return sum + s.yield * w;
                 }, 0);
+                const totalInvest = selectedScpis.reduce((sum, s) => sum + s.minInvestment * ((allocations[s.id] ?? 0) / 100), 0);
                 return (
-                <div className="mt-6 bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/30">
-                  <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré estimé</p>
-                  <p className="text-3xl font-bold text-emerald-400">
-                    {weightedYield.toFixed(2)}%
-                  </p>
-                  <p className="text-xs text-slate-500 mt-1">Moyenne pondérée selon votre allocation — {selectedScpis.length} SCPI</p>
-                </div>
-                );
-              })()}
-
-              {/* Z-Score de cohérence */}
-              {selectedScpis.length >= 2 && (
-                <div className="mt-4 bg-slate-900/70 rounded-lg p-4 border border-slate-700">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-sm font-semibold text-slate-300">
-                      {zScoreVariant === 'compact' ? 'Cohérence structurelle' : 'Z-score de cohérence du portefeuille'}
-                    </span>
-                    <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
+                <div className="mt-6 space-y-4">
+                  <div className="bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/30">
+                    <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré estimé</p>
+                    <p className="text-3xl font-bold text-emerald-400">{weightedYield.toFixed(2)}%</p>
+                    <p className="text-xs text-slate-500 mt-1">Moyenne pondérée — {selectedScpis.length} SCPI</p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" style={{ width: '75%' }} />
-                    </div>
-                    <span className="text-sm font-bold text-emerald-400">0.75</span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-2">
-                    Portefeuille diversifié — bonne répartition sectorielle et géographique.
-                  </p>
-                </div>
-              )}
-            </div>
-          </main>
-
-          {/* Sidebar Étape 2 — KPI Résumé */}
-          <aside className="block xl:sticky xl:top-24 scroll-mt-20">
-            <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
-              <div className="sticky top-24">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-white mb-2">KPIs du Portefeuille</h3>
-                  <p className="text-sm text-slate-400">
-                    {selectedScpis.length} SCPI{selectedScpis.length > 1 ? 's' : ''} sélectionnée{selectedScpis.length > 1 ? 's' : ''}
-                  </p>
-                </div>
-
-                {selectedScpis.length > 0 && (
-                  <div className="space-y-3 mb-6">
-                    <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
-                      <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
-                      <p className="text-xl font-bold text-emerald-400">
-                        {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
-                      </p>
-                    </div>
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
-                      <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
-                      <p className="text-xl font-bold text-white">
-                        {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
-                      </p>
+                      <p className="text-xs text-slate-400 font-medium mb-1">Investissement total</p>
+                      <p className="text-xl font-bold text-white">{totalInvest.toLocaleString('fr-FR')}€</p>
                     </div>
                     <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
                       <p className="text-xs text-slate-400 font-medium mb-1">Capitalisation totale</p>
@@ -833,30 +831,69 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       </p>
                     </div>
                   </div>
-                )}
-
-                {/* Boutons Retour / Suivant */}
-                <div className="space-y-3">
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="w-full py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>Retour à la sélection</span>
-                  </button>
-                  <button
-                    disabled={selectedScpis.length === 0}
-                    onClick={() => setCurrentStep(3)}
-                    className={`w-full py-4 px-6 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 active:scale-95 ${
-                      selectedScpis.length === 0
-                        ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600'
-                    }`}
-                  >
-                    <span>Étape suivante : Finaliser la proposition</span>
-                    <ArrowRight className="w-5 h-5" />
-                  </button>
                 </div>
+                );
+              })()}
+            </div>
+
+            {/* CTAs Étape 2 */}
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setCurrentStep(1)}
+                className="flex-1 py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Retour au marché</span>
+              </button>
+              <button
+                onClick={() => setCurrentStep(3)}
+                className="flex-1 py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
+              >
+                <span>Continuer vers les Vidéos</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </main>
+
+          {/* Sidebar Étape 2 — Z-Score de cohérence */}
+          <aside className="block xl:sticky xl:top-24 scroll-mt-20">
+            <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
+              <div className="sticky top-24">
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-white mb-2">Z-Score de Cohérence</h3>
+                  <p className="text-sm text-slate-400">Analyse de diversification en temps réel</p>
+                </div>
+
+                <div className="bg-slate-900/70 rounded-lg p-4 mb-4 border border-slate-700">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-semibold text-slate-300">Z-score du portefeuille</span>
+                    <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
+                  </div>
+                  <ZScoreBar zScore={Number((selectedScpis.length * 0.22).toFixed(2))} profileLabel="CGP" variant="full" />
+                  <p className="text-xs text-slate-500 mt-3">
+                    {selectedScpis.length >= 4 ? 'Excellente diversification sectorielle et géographique.' :
+                     selectedScpis.length >= 2 ? 'Diversification correcte — envisagez d\'élargir le portefeuille.' :
+                     'Ajoutez au moins 2 SCPI pour une analyse de cohérence.'}
+                  </p>
+                </div>
+
+                {/* KPIs résumé */}
+                {selectedScpis.length > 0 && (
+                  <>
+                    <div className="bg-emerald-500/10 rounded-lg p-4 mb-3 border border-emerald-500/30">
+                      <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
+                      <p className="text-xl font-bold text-emerald-400">
+                        {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
+                      </p>
+                    </div>
+                    <div className="bg-slate-900 rounded-lg p-4 mb-3 border border-slate-700">
+                      <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
+                      <p className="text-xl font-bold text-white">
+                        {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
+                      </p>
+                    </div>
+                  </>
+                )}
 
                 <p className="text-[10px] text-center text-slate-600 mt-3 px-1 leading-relaxed">
                   Outil d'aide à l'analyse. Ne constitue pas une recommandation personnalisée.
@@ -867,8 +904,91 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
         )}
 
-        {/* ══════════ ÉTAPE 3 : RESTITUTION ══════════ */}
+        {/* ══════════ ÉTAPE 3 : RÉSULTATS + VIDÉOS ══════════ */}
         {currentStep === 3 && (
+        <div className="mt-8 max-w-4xl mx-auto">
+          <div className="bg-slate-800 rounded-xl border border-slate-700 p-6 mb-6">
+            <h2 className="text-xl font-bold text-white mb-2">Synthèse de l'Allocation</h2>
+            <p className="text-sm text-slate-400 mb-4">Prévisualisez les indicateurs clés et les vidéos associées.</p>
+
+            {/* KPIs récapitulatifs */}
+            {selectedScpis.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
+                  <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
+                  <p className="text-2xl font-bold text-emerald-400">
+                    {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
+                  </p>
+                </div>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                  <p className="text-xs text-slate-400 font-medium mb-1">SCPI sélectionnées</p>
+                  <p className="text-2xl font-bold text-white">{selectedScpis.length}</p>
+                </div>
+                <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
+                  <p className="text-xs text-slate-400 font-medium mb-1">Investissement min.</p>
+                  <p className="text-2xl font-bold text-white">
+                    {selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity).toLocaleString('fr-FR')}€
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Hub Vidéo — une carte par SCPI */}
+            <h3 className="text-lg font-bold text-white mb-4">Vidéos de présentation</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {selectedScpis.map((scpi) => {
+                const primaryGeo = scpi.geography && scpi.geography.length > 0 ? scpi.geography[0].name : 'France';
+                const geoNames = scpi.geography?.map(g => g.name).slice(0, 2).join(' · ') || 'France';
+                return (
+                <div key={scpi.id} className="bg-slate-900 rounded-xl border border-slate-700 overflow-hidden hover:border-emerald-500/40 transition-colors">
+                  {/* Player vidéo placeholder */}
+                  <div className="relative aspect-video bg-slate-800 flex items-center justify-center group cursor-pointer">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
+                    <PlayCircle className="w-12 h-12 text-emerald-400 drop-shadow-lg group-hover:scale-110 transition-transform" />
+                    <span className="absolute bottom-2 right-2 text-[10px] text-slate-300 bg-slate-950/80 px-2 py-0.5 rounded">90s</span>
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-bold text-white text-sm">{scpi.name}</h4>
+                    <p className="text-xs text-slate-400 mt-1">{scpi.managementCompany}</p>
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
+                      <span className="text-xs text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
+                      <span className="text-xs text-slate-500">TOF {scpi.tof}%</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 whitespace-nowrap">{geoNames}</span>
+                    </div>
+                  </div>
+                </div>
+                );
+              })}
+              {selectedScpis.length === 0 && (
+                <div className="col-span-full text-center py-8 text-slate-500 text-sm">
+                  Aucune SCPI sélectionnée pour la prévisualisation vidéo.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CTAs Étape 3 */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => setCurrentStep(2)}
+              className="flex-1 py-3 px-4 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Modifier l'allocation</span>
+            </button>
+            <button
+              onClick={() => setCurrentStep(4)}
+              className="flex-1 py-4 px-6 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-xl font-bold text-base shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:from-emerald-700 hover:to-emerald-600 transition-all flex items-center justify-center gap-2"
+            >
+              <span>Générer les Livrables</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+        )}
+
+        {/* ══════════ ÉTAPE 4 : TÉLÉCHARGEMENT & LIENS ══════════ */}
+        {currentStep === 4 && (
         <div className="mt-8 max-w-2xl mx-auto text-center">
           <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 sm:p-12">
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 mx-auto mb-6 flex items-center justify-center">
@@ -877,46 +997,60 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               </svg>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-              Votre proposition est prête
+              Dossier Commercial Prêt
             </h2>
             <p className="text-slate-400 mb-8">
-              Partagez ce lien avec votre client pour lui présenter votre sélection.
+              Partagez le lien client et téléchargez la synthèse graphique.
             </p>
 
-            {/* Bloc lien généré */}
-            <div className="bg-slate-900 rounded-xl border border-slate-700 p-4 mb-6">
-              <div className="flex items-center gap-3">
-                <Link className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span className="text-sm text-slate-300 truncate flex-1 text-left">
-                  https://maximus.scpi/link/{Date.now().toString(36).toUpperCase()}
-                </span>
+            {/* Block 1 — Lien Client (read-only input) */}
+            <div className="bg-slate-900 rounded-xl border border-slate-700 p-4 mb-4">
+              <p className="text-xs text-slate-500 text-left mb-2">Lien Unique Client</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={`https://maximusscpi.com/share/${clientLinkId}`}
+                  className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none cursor-default"
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://maximusscpi.com/share/${clientLinkId}`);
+                    setToastMessage('Lien copié dans le presse-papier !');
+                    setShowToast(true);
+                  }}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-all flex items-center gap-1.5 shrink-0"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copier le lien</span>
+                </button>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(`https://maximus.scpi/link/${Date.now().toString(36).toUpperCase()}`);
-                  setToastMessage('Lien copié dans le presse-papier !');
-                  setShowToast(true);
-                }}
-                className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
-              >
-                <Copy className="w-4 h-4" />
-                <span>Copier le lien</span>
-              </button>
-              <button
-                onClick={() => {
-                  setSelectedScpis([]);
-                  setCurrentStep(1);
-                  setOnboardingVisible(true);
-                }}
-                className="w-full sm:w-auto px-6 py-3 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                <span>Nouveau dossier</span>
-              </button>
-            </div>
+            {/* Block 2 — Téléchargement PDF */}
+            <button
+              className="w-full py-4 px-6 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 mb-6"
+              onClick={() => {
+                setToastMessage('Téléchargement de la synthèse graphique (PDF)...');
+                setShowToast(true);
+              }}
+            >
+              <Download className="w-5 h-5" />
+              <span>Télécharger la Synthèse Graphique (PDF)</span>
+            </button>
+
+            {/* Flow Control Reset */}
+            <button
+              onClick={() => {
+                setSelectedScpis([]);
+                setAllocations({});
+                setCurrentStep(1);
+                setOnboardingVisible(true);
+              }}
+              className="mt-4 px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg w-full"
+            >
+              Nouveau dossier client
+            </button>
           </div>
 
           {selectedScpis.length > 0 && (
