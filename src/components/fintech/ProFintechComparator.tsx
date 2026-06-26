@@ -964,8 +964,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
               {/* ▸▸▸ SECTION 1 : COHÉRENCE DU PORTEFEUILLE (emerald) */}
               <div className="rounded-2xl border border-emerald-500/25 border-l-4 border-l-emerald-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-5">
-                  <h2 className="text-lg font-semibold text-emerald-300 flex items-center gap-2">
+                <header className="mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-5 py-4">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-300">
                     <Award className="w-5 h-5" />
                     Cohérence du portefeuille
                   </h2>
@@ -1137,8 +1137,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               {/* ▸▸▸ SECTION 2 : RÉPARTITION & DIVERSIFICATION (bleu) */}
               {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
               <div className="rounded-2xl border border-blue-500/25 border-l-4 border-l-blue-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-5">
-                  <h2 className="text-lg font-semibold text-blue-300 flex items-center gap-2">
+                <header className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/5 px-5 py-4">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-blue-300">
                     <PieChartIcon className="w-5 h-5" />
                     Répartition &amp; diversification
                   </h2>
@@ -1238,8 +1238,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
               {/* ▸▸▸ SECTION 3 : SIMULATION & PROJECTION (violet) */}
               <div className="rounded-2xl border border-violet-500/25 border-l-4 border-l-violet-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-5">
-                  <h2 className="text-lg font-semibold text-violet-300 flex items-center gap-2">
+                <header className="mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 px-5 py-4">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-violet-300">
                     <Sliders className="w-5 h-5" />
                     Simulation &amp; projection
                   </h2>
