@@ -1281,7 +1281,12 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI® — Indicateur propriétaire d'écart structurel — non prédictif de performance.">ⓘ</span>
                     </div>
                   </div>
-                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full" />
+                  <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full"
+                    customZoneLabel="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection."
+                    customContextLine="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection. Cette lecture peut être contextualisée selon les paramètres du dossier client, sans constituer une recommandation personnalisée."
+                    customCtaText="Paramétrer le dossier client"
+                    customFooterNote="Le Z-score décrit la structure globale de la sélection. Il n'indique ni un niveau de risque, ni une recommandation d'investissement."
+                  />
                 </div>
 
                 {/* Analyse de cohérence */}
@@ -2338,9 +2343,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <span className="text-sm font-semibold text-slate-300">Z-score du portefeuille</span>
                     <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
                   </div>
-                  <ZScoreBar zScore={coherenceZScore} profileLabel="CGP" variant="full" />
+                  <ZScoreBar zScore={coherenceZScore} profileLabel="CGP" variant="full"
+                    customZoneLabel="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection."
+                    customContextLine="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection. Cette lecture peut être contextualisée selon les paramètres du dossier client, sans constituer une recommandation personnalisée."
+                    customCtaText="Paramétrer le dossier client"
+                    customFooterNote="Le Z-score décrit la structure globale de la sélection. Il n'indique ni un niveau de risque, ni une recommandation d'investissement."
+                  />
                   <p className="text-xs text-slate-500 mt-3">
-                    {selectedScpis.length >= 4 ? 'Excellente diversification sectorielle et géographique.' :
+                    {selectedScpis.length >= 4 ? 'Diversification sectorielle et géographique large selon les données disponibles.' :
                      selectedScpis.length >= 2 ? "Diversification correcte — envisagez d'élargir le portefeuille." :
                      "Ajoutez au moins 2 SCPI pour une analyse de cohérence."}
                   </p>
