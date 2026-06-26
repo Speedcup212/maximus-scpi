@@ -342,25 +342,71 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     const consGeneral: string[] = [];
     const consStructural: string[] = [];
     
+    const sectorCount = aggregatedSectors.length;
+    const geoCount = aggregatedGeography.length;
+    const maxSW = sectorCount > 0 ? aggregatedSectors[0].value : 0;
+    const maxScpiWeight = Object.keys(scpiPercentages).length > 0
+      ? Math.max(...Object.values(scpiPercentages))
+      : selectedScpis.length > 0 ? (100 / selectedScpis.length) : 0;
+
+    // ── Règle clé : diversification satisfaisante ? ──
+    const hasSatisfactoryDiversification =
+      selectedScpis.length >= 2 &&
+      sectorCount >= 5 &&
+      geoCount >= 5 &&
+      maxSW < 60 &&
+      maxScpiWeight <= 50;
+
+    if (hasSatisfactoryDiversification) {
+      // Ajouter le point fort et SAUTER toutes les vigilances liées à la diversification
+      pros.push('Diversification sectorielle et géographique satisfaisante.');
+
+      // ── Règle 5 : Rendement élevé >8% ──
+      if (avgYield > 8) {
+        consGeneral.push(`Rendement moyen élevé (${avgYield.toFixed(2)}%) : vérifier la soutenabilité du taux de distribution.`);
+      } else if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
+      else if (avgYield >= 5) pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
+      else if (avgYield >= 4) consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
+
+      // ── Règle 6 : TOF individuel < 90% ──
+      const lowTofScpis = selectedScpis.filter(s => (s.tof || 0) < 90 && (s.tof || 0) > 0);
+      if (lowTofScpis.length > 0) {
+        const names = lowTofScpis.map(s => s.name).slice(0, 2).join(', ');
+        consGeneral.push(`Occupation à surveiller : ${names} présente${lowTofScpis.length > 1 ? 'nt' : ''} un TOF inférieur à 90%.`);
+      }
+
+      // ── Règle 4 : Concentration société de gestion (>50%) ──
+      if (selectedScpis.length >= 2) {
+        const mgmtCount: Record<string, number> = {};
+        selectedScpis.forEach(s => {
+          const m = s.managementCompany || 'Inconnue';
+          mgmtCount[m] = (mgmtCount[m] || 0) + 1;
+        });
+        const dominant = Object.entries(mgmtCount).find(([, c]) => c / selectedScpis.length > 0.5);
+        if (dominant) consGeneral.push(`Concentration société de gestion : plus de 50% de la sélection provient de ${dominant[0]}.`);
+      }
+
+      const hasLowTof = selectedScpis.some(s => (s.tof || 0) < 85);
+      if (hasLowTof) consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
+
+      return { pros, consGeneral, consStructural };
+    }
+
     // ── Règle 1 : Diversification (nombre de SCPI) ──
     if (selectedScpis.length >= 4) pros.push('Diversification optimale avec plusieurs SCPI, réduisant significativement le risque de concentration');
     else if (selectedScpis.length >= 2) consGeneral.push('Diversification limitée : la sélection repose sur un nombre réduit de SCPI.');
     else consStructural.push("Concentration sur une seule SCPI : risque spécifique non diversifié, la sélection repose sur un seul support.");
     
-    const isHD = isVeryWellDiversified(aggregatedSectors.length, aggregatedGeography.length);
+    const isHD = isVeryWellDiversified(sectorCount, geoCount);
 
     // ── Règle 2 : Concentration d'une SCPI dans l'allocation (>50%) ──
-    const maxScpiWeight = Object.keys(scpiPercentages).length > 0
-      ? Math.max(...Object.values(scpiPercentages))
-      : selectedScpis.length > 0 ? (100 / selectedScpis.length) : 0;
     if (selectedScpis.length >= 2 && maxScpiWeight > 50) {
       consGeneral.push(`Concentration élevée : une SCPI représente ${maxScpiWeight.toFixed(0)}% de la sélection.`);
     }
 
     // Analyse sectorielle
-    const maxSW = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
-    if (aggregatedSectors.length >= 4) pros.push("Excellente diversification sectorielle couvrant plusieurs segments de l'immobilier, résilience accrue face aux cycles économiques");
-    else if (aggregatedSectors.length >= 2) pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
+    if (sectorCount >= 4) pros.push("Excellente diversification sectorielle couvrant plusieurs segments de l'immobilier, résilience accrue face aux cycles économiques");
+    else if (sectorCount >= 2) pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
     else if (!isHD) consStructural.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
 
     // ── Règle 3 : Concentration sectorielle (>60%) ──
@@ -372,7 +418,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     // Analyse géographique
     const hasEurope = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('europe') || g.name.toLowerCase().includes('européen'));
     const hasFrance = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('france') || g.name.toLowerCase().includes('français'));
-    if (aggregatedGeography.length >= 3) pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
+    if (geoCount >= 3) pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
     else if (hasEurope && hasFrance) pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
     else if (hasEurope && !isHD) pros.push('Exposition européenne intéressante pour la diversification géographique');
     else if (!isHD) consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
@@ -431,6 +477,12 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   // Portfolio analysis (configuration du portefeuille)
 
   // Helpers pour la section Détail / Répartition
+  const formatCurrency = (value: number): string =>
+    value.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + ' €';
+
+  const formatPercent = (value: number): string =>
+    value.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
@@ -1354,14 +1406,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                             <DollarSign className="w-3.5 h-3.5 text-violet-400" />
                             <p className="text-[10px] text-slate-400">Revenus / an</p>
                           </div>
-                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                          <p className="text-lg sm:text-xl font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalAnnualIncome)}</p>
                         </div>
                         <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
                           <div className="flex items-center gap-1.5 mb-1">
                             <DollarSign className="w-3.5 h-3.5 text-violet-400" />
                             <p className="text-[10px] text-slate-400">Revenus / mois</p>
                           </div>
-                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                          <p className="text-lg sm:text-xl font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalMonthlyIncome)}</p>
                         </div>
                       </div>
                     </div>
@@ -1382,11 +1434,11 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         </div>
                         <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
                           <p className="text-[10px] text-slate-400 mb-0.5">Revenus annuels potentiels</p>
-                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.totalAnnualIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                          <p className="text-lg font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalAnnualIncome)}</p>
                         </div>
                         <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
                           <p className="text-[10px] text-slate-400 mb-0.5">Revenus mensuels potentiels</p>
-                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.totalMonthlyIncome.toLocaleString('fr-FR', { maximumFractionDigits: 0 })}€</p>
+                          <p className="text-lg font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalMonthlyIncome)}</p>
                         </div>
                       </div>
                       <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
@@ -1601,7 +1653,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                         Total
                                       </text>
                                       <text x={cx} y={cy + 14} textAnchor="middle" fill="#e2e8f0" fontSize="16" fontWeight={700}>
-                                        {totalAmount.toLocaleString('fr-FR')}€
+                                        {formatCurrency(totalAmount)}
                                       </text>
                                     </g>
                                   );
@@ -1612,22 +1664,23 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         </ResponsiveContainer>
                       </div>
                       {/* Légende */}
-                      <div className="mt-4 grid grid-cols-2 gap-2">
+                      <div className="mt-4 space-y-2">
                         {portfolioAnalysis.scpiData.map((item, index) => {
                           const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+                          const color = colors[index % colors.length];
                           return (
-                            <div key={item.id} className="flex items-center gap-2">
+                            <div key={item.id} className="flex items-center gap-2.5">
                               <div
                                 className="w-3 h-3 rounded-full flex-shrink-0"
-                                style={{ backgroundColor: colors[index % colors.length] }}
+                                style={{ backgroundColor: color }}
                               />
-                              <div className="min-w-0 flex-1">
-                                <p className="text-[10px] sm:text-xs text-white truncate" title={item.name}>
+                              <div className="min-w-0 flex-1 flex items-baseline gap-1.5 flex-wrap">
+                                <span className="text-[11px] sm:text-xs text-white truncate font-medium" title={item.name}>
                                   {item.name}
-                                </p>
-                                <p className="text-[9px] text-slate-400">
-                                  {item.percentage.toFixed(1)}% — {item.amount.toLocaleString('fr-FR')}€
-                                </p>
+                                </span>
+                                <span className="text-[11px] sm:text-xs text-slate-400 flex-shrink-0">
+                                  {formatPercent(item.percentage)} · {formatCurrency(item.amount)}
+                                </span>
                               </div>
                             </div>
                           );
