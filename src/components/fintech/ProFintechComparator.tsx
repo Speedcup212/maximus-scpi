@@ -20,7 +20,7 @@ import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import ZScoreBar from '../ZScoreBar';
 import Toast from '../Toast';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, CartesianGrid, XAxis, YAxis, Bar } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, CartesianGrid, XAxis, YAxis, Bar, Label } from 'recharts';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
@@ -1440,7 +1440,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
                 {/* ── Revenus annuels par SCPI (bar chart) ── */}
                 {portfolioAnalysis && (
-                  <div className="mb-5">
+                  <div className="mt-8 pt-6 border-t border-slate-700/50 mb-5">
                     <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
                       <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" />
                       Revenus annuels par SCPI
@@ -1565,38 +1565,74 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       Répartition visuelle du portefeuille
                     </h4>
                     <div className="bg-slate-900 rounded-lg p-2 sm:p-4 border border-slate-700">
-                      <ResponsiveContainer width="100%" height={200}>
-                        <RechartsPie>
-                          <defs>
-                            {portfolioAnalysis.scpiData.map((_, index) => {
-                              const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
-                              return (
-                                <linearGradient key={`grad-pro-${index}`} id={`gradScpiPro-${index}`} x1="0" y1="0" x2="1" y2="1">
-                                  <stop offset="0%" stopColor={colors[index % colors.length]} stopOpacity={0.9} />
-                                  <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0.7} />
-                                </linearGradient>
-                              );
-                            })}
-                          </defs>
-                          <Pie
-                            data={portfolioAnalysis.scpiData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={50}
-                            outerRadius={80}
-                            paddingAngle={3}
-                            dataKey="percentage"
-                          >
-                            {portfolioAnalysis.scpiData.map((entry, index) => (
-                              <Cell key={`cell-pro-${index}`} fill={`url(#gradScpiPro-${index})`} stroke="#1e293b" strokeWidth={2} />
-                            ))}
-                          </Pie>
-                          <Tooltip
-                            contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                            formatter={(value: number, _name: string, props: any) => [`${value.toFixed(1)}%`, props.payload.name]}
-                          />
-                        </RechartsPie>
-                      </ResponsiveContainer>
+                      <div className="relative">
+                        <ResponsiveContainer width="100%" height={220}>
+                          <RechartsPie>
+                            <defs>
+                              {portfolioAnalysis.scpiData.map((_, index) => {
+                                const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+                                return (
+                                  <linearGradient key={`grad-pro-${index}`} id={`gradScpiPro-${index}`} x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stopColor={colors[index % colors.length]} stopOpacity={0.9} />
+                                    <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0.7} />
+                                  </linearGradient>
+                                );
+                              })}
+                            </defs>
+                            <Pie
+                              data={portfolioAnalysis.scpiData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={55}
+                              outerRadius={90}
+                              paddingAngle={3}
+                              dataKey="percentage"
+                              strokeWidth={0}
+                            >
+                              {portfolioAnalysis.scpiData.map((entry, index) => (
+                                <Cell key={`cell-pro-${index}`} fill={`url(#gradScpiPro-${index})`} stroke="transparent" />
+                              ))}
+                              <Label
+                                content={({ viewBox }: any) => {
+                                  const { cx, cy } = viewBox;
+                                  return (
+                                    <g>
+                                      <text x={cx} y={cy - 12} textAnchor="middle" fill="#94a3b8" fontSize="11" fontWeight={500}>
+                                        Total
+                                      </text>
+                                      <text x={cx} y={cy + 14} textAnchor="middle" fill="#e2e8f0" fontSize="16" fontWeight={700}>
+                                        {totalAmount.toLocaleString('fr-FR')}€
+                                      </text>
+                                    </g>
+                                  );
+                                }}
+                              />
+                            </Pie>
+                          </RechartsPie>
+                        </ResponsiveContainer>
+                      </div>
+                      {/* Légende */}
+                      <div className="mt-4 grid grid-cols-2 gap-2">
+                        {portfolioAnalysis.scpiData.map((item, index) => {
+                          const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+                          return (
+                            <div key={item.id} className="flex items-center gap-2">
+                              <div
+                                className="w-3 h-3 rounded-full flex-shrink-0"
+                                style={{ backgroundColor: colors[index % colors.length] }}
+                              />
+                              <div className="min-w-0 flex-1">
+                                <p className="text-[10px] sm:text-xs text-white truncate" title={item.name}>
+                                  {item.name}
+                                </p>
+                                <p className="text-[9px] text-slate-400">
+                                  {item.percentage.toFixed(1)}% — {item.amount.toLocaleString('fr-FR')}€
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 )}
