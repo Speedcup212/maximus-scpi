@@ -178,6 +178,15 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     }
   }, [initAllocations]);
 
+  // Scroll to top à chaque changement d'étape
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const mainContainer = document.querySelector('main') || document.getElementById('pro-layout');
+    if (mainContainer) {
+      mainContainer.scrollTop = 0;
+    }
+  }, [currentStep]);
+
   const handleAllocationChange = (scpiId: string, newValue: number) => {
     setAllocations(prev => {
       const next = { ...prev, [scpiId]: Math.min(100, Math.max(0, newValue)) };
