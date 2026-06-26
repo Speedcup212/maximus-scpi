@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -64,6 +64,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [analysisScpi, setAnalysisScpi] = useState<SCPIExtended | null>(null);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [showToast, setShowToast] = useState<boolean>(false);
+  const [copied, setCopied] = useState(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
   const [onboardingVisible, setOnboardingVisible] = useState(true);
@@ -1388,59 +1389,67 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
         )}
 
-        {/* ══════════ ÉTAPE 4 : TÉLÉCHARGEMENT & LIENS ══════════ */}
-        {currentStep === 4 && (
-        <div className="mt-8 max-w-2xl mx-auto text-center">
-          <div className="bg-slate-800 rounded-2xl border border-slate-700 p-8 sm:p-12">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 mx-auto mb-6 flex items-center justify-center">
-              <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-              Dossier Commercial Prêt
+        {/* ══════════ ÉTAPE 4 : LIVRABLES & LIENS ══════════ */}
+        {currentStep === 4 && (() => {
+          const shareUrl = `https://maximusscpi.com/share/${clientLinkId}`;
+          return (
+          <div className="mt-8 max-w-2xl mx-auto text-center py-12 px-4">
+            {/* Icône de succès + Titres */}
+            <CheckCircle2 className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+              Votre proposition commerciale est prête !
             </h2>
-            <p className="text-slate-400 mb-8">
-              Partagez le lien client et téléchargez la synthèse graphique.
+            <p className="text-slate-400 text-sm mb-10">
+              Le dossier client a été packagé avec succès.
             </p>
 
-            {/* Block 1 — Lien Client (read-only input) */}
-            <div className="bg-slate-900 rounded-xl border border-slate-700 p-4 mb-4">
-              <p className="text-xs text-slate-500 text-left mb-2">Lien Unique Client</p>
+            {/* ── Bloc 1 : Lien de partage sécurisé ── */}
+            <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-4 mb-6 text-left">
+              <p className="text-xs text-slate-500 mb-2 font-medium tracking-wide uppercase">
+                Lien de partage sécurisé
+              </p>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
                   readOnly
-                  value={`https://maximusscpi.com/share/${clientLinkId}`}
-                  className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none cursor-default"
+                  value={shareUrl}
+                  className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-3 py-2.5 text-sm text-slate-300 font-mono tracking-tight focus:outline-none cursor-default select-all"
                 />
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(`https://maximusscpi.com/share/${clientLinkId}`);
-                    setToastMessage('Lien copié dans le presse-papier !');
-                    setShowToast(true);
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                      setCopied(true);
+                      setToastMessage('Lien copié dans le presse-papier !');
+                      setShowToast(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    });
                   }}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition-all flex items-center gap-1.5 shrink-0"
+                  className={`px-4 py-2.5 rounded-lg font-semibold text-sm transition-all flex items-center gap-1.5 shrink-0 ${
+                    copied
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/25'
+                  }`}
                 >
                   <Copy className="w-3.5 h-3.5" />
-                  <span>Copier le lien</span>
+                  <span>{copied ? 'Copié !' : 'Copier le lien'}</span>
                 </button>
               </div>
             </div>
 
-            {/* Block 2 — Téléchargement PDF */}
+            {/* ── Bloc 2 : Téléchargement Synthèse PDF ── */}
             <button
-              className="w-full py-4 px-6 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 mb-6"
               onClick={() => {
                 setToastMessage('Téléchargement de la synthèse graphique (PDF)...');
                 setShowToast(true);
               }}
+              className="w-full py-4 px-6 bg-transparent border border-slate-600 text-white rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 hover:bg-slate-800/50 hover:border-slate-500 mb-10"
             >
-              <Download className="w-5 h-5" />
+              <FileText className="w-5 h-5 text-slate-300" />
               <span>Télécharger la Synthèse Graphique (PDF)</span>
             </button>
 
-            {/* Flow Control Reset */}
+            {/* ── Bloc 3 : Nouveau dossier client ── */}
+            <hr className="border-slate-700 mb-8" />
             <button
               onClick={() => {
                 setSelectedScpis([]);
@@ -1448,22 +1457,18 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 setCurrentStep(1);
                 setOnboardingVisible(true);
               }}
-              className="mt-4 px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg w-full"
+              className="px-8 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white rounded-xl font-semibold text-sm transition-all"
             >
               Nouveau dossier client
             </button>
-          </div>
 
-          {selectedScpis.length > 0 && (
-            <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-lg p-4 text-left">
-              <p className="text-xs text-slate-400 leading-relaxed">
-                <span className="font-semibold text-slate-300">Rappel : </span>
-                Les investissements en SCPI présentent un risque de perte en capital, une liquidité non garantie et un horizon de placement long. Les performances passées ne préjugent pas des performances futures.
-              </p>
-            </div>
-          )}
-        </div>
-        )}
+            {/* Disclaimer réglementaire */}
+            <p className="mt-10 text-[10px] text-slate-600 leading-relaxed max-w-md mx-auto">
+              Les investissements en SCPI présentent un risque de perte en capital, une liquidité non garantie et un horizon de placement long. Les performances passées ne préjugent pas des performances futures. Ce document ne constitue pas une recommandation personnalisée.
+            </p>
+          </div>
+          );
+        })()}
       </section>
 
       {/* Avertissement de comparaison si mélange France/Europe */}
