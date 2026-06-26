@@ -2351,7 +2351,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                   />
                   <p className="text-xs text-slate-500 mt-3">
                     {selectedScpis.length >= 4 ? 'Diversification sectorielle et géographique large selon les données disponibles.' :
-                     selectedScpis.length >= 2 ? "Diversification correcte — envisagez d'élargir le portefeuille." :
+                     selectedScpis.length >= 2 ? 'Lecture de diversification à contextualiser selon les paramètres du dossier client.' :
                      "Ajoutez au moins 2 SCPI pour une analyse de cohérence."}
                   </p>
                 </div>

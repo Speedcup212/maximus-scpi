@@ -5,6 +5,16 @@ interface ZScoreBarProps {
   zScore: number;
   profileLabel: InvestorProfile;
   variant?: 'full' | 'compact';
+  /** Pro override : custom zone label */
+  customZoneLabel?: string;
+  /** Pro override : custom context line */
+  customContextLine?: string;
+  /** Pro override : custom CTA text */
+  customCtaText?: string;
+  /** Pro override : custom CTA href */
+  customCtaHref?: string;
+  /** Pro override : custom footer note */
+  customFooterNote?: string;
 }
 
 const PROFILE_THRESHOLDS: Record<Exclude<InvestorProfile, null>, { green: number; orange: number }> = {
@@ -17,7 +27,7 @@ const PROFILE_THRESHOLDS: Record<Exclude<InvestorProfile, null>, { green: number
   'Profil agressif': { green: 2.00, orange: 2.80 },
 };
 
-const ZScoreBar: React.FC<ZScoreBarProps> = ({ zScore, profileLabel, variant = 'full' }) => {
+const ZScoreBar: React.FC<ZScoreBarProps> = ({ zScore, profileLabel, variant = 'full', customZoneLabel, customContextLine, customCtaText, customCtaHref, customFooterNote }) => {
   const range = 2;
   const clamped = Math.max(-range, Math.min(range, zScore));
   const markerLeft = ((clamped + range) / (2 * range)) * 100;
@@ -44,7 +54,9 @@ const ZScoreBar: React.FC<ZScoreBarProps> = ({ zScore, profileLabel, variant = '
       ? zScore >= 0
         ? 'Structure concentrée'
         : 'Dispersion élevée'
-      : 'Lecture structurelle neutre (indépendante d’un profil investisseur).';
+      : customZoneLabel
+        ? customZoneLabel
+        : 'Lecture structurelle neutre (indépendante d’un profil investisseur).';
 
   const zoneColor =
     zone === 'zone-verte'
@@ -104,7 +116,23 @@ const ZScoreBar: React.FC<ZScoreBarProps> = ({ zScore, profileLabel, variant = '
           <p className="mt-2 text-[11px] text-slate-400">
             Code couleur indicatif d’écart structurel. Ne constitue ni une notation, ni une recommandation d’investissement.
           </p>
-          {profileLabel ? (
+          {customCtaText ? (
+            <>
+              <p className="mt-2 text-[11px] text-slate-300">
+                {customContextLine || 'Lecture structurelle indicative.'}
+              </p>
+              {customCtaHref ? (
+                <a
+                  href={customCtaHref}
+                  className="mt-2 inline-flex text-[11px] text-emerald-300 hover:text-emerald-200"
+                >
+                  {customCtaText}
+                </a>
+              ) : (
+                <span className="mt-2 inline-flex text-[11px] text-slate-400">{customCtaText}</span>
+              )}
+            </>
+          ) : profileLabel ? (
             <>
               <p className="mt-2 text-[11px] text-slate-300">
                 Lecture structurelle ajustée selon votre profil : <span style={{ color: zoneColor }}>{profileLabel}</span>. <span style={{ color: zoneColor }}>{zoneLabel}</span>
@@ -130,7 +158,7 @@ const ZScoreBar: React.FC<ZScoreBarProps> = ({ zScore, profileLabel, variant = '
             </>
           )}
           <p className="mt-2 text-[11px] text-slate-400">
-            Le Z-score décrit la structure globale du portefeuille. Il n’indique ni un risque ni une recommandation d’investissement.
+            {customFooterNote || "Le Z-score décrit la structure globale du portefeuille. Il n'indique ni un risque ni une recommandation d'investissement."}
           </p>
         </>
       )}
