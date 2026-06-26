@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -68,6 +68,15 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [copied, setCopied] = useState(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
+  const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
+
+  const toggleExpandScpi = (id: number) => {
+    setExpandedScpiIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
   const [onboardingVisible, setOnboardingVisible] = useState(true);
   const [quickFilters, setQuickFilters] = useState<string[]>([]);
   const [filters, setFilters] = useState<FilterState>({
@@ -357,17 +366,41 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
   const analyzePortfolioProsCons = () => {
     const pros: string[] = [];
-    const consGeneral: string[] = [];
     const consStructural: string[] = [];
-    
+
     const sectorCount = aggregatedSectors.length;
     const geoCount = aggregatedGeography.length;
     const maxSW = sectorCount > 0 ? aggregatedSectors[0].value : 0;
+    const maxGeoW = geoCount > 0 ? aggregatedGeography[0].value : 0;
     const maxScpiWeight = Object.keys(scpiPercentages).length > 0
       ? Math.max(...Object.values(scpiPercentages))
       : selectedScpis.length > 0 ? (100 / selectedScpis.length) : 0;
+    const averageTOF = selectedScpis.length > 0
+      ? selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length
+      : 0;
 
-    // ── Règle clé : diversification satisfaisante ? ──
+    // Rendement pondéré inline (portfolioAnalysis n'est défini qu'après)
+    let wy = 0, totalPctW = 0;
+    selectedScpis.forEach(s => {
+      const pct = scpiPercentages[s.id] || (100 / selectedScpis.length || 0);
+      wy += s.yield * pct;
+      totalPctW += pct;
+    });
+    const weightedYield = totalPctW > 0 ? wy / totalPctW : avgYield;
+
+    // ── Vérifications complémentaires ──
+    const hasDiscount = selectedScpis.some(s => {
+      const v = resolveDisplayedDiscount(s).value;
+      return v != null && v < 0;
+    });
+    const hasSmallCap = selectedScpis.some(s => {
+      const cap = (s as any).capitalization;
+      if (!cap) return false;
+      const num = parseFloat(String(cap).replace(/[^0-9.]/g, ''));
+      return !isNaN(num) && num < 100;
+    });
+    const hasLowTofBelow85 = selectedScpis.some(s => (s.tof || 0) < 85 && (s.tof || 0) > 0);
+
     const hasSatisfactoryDiversification =
       selectedScpis.length >= 2 &&
       sectorCount >= 5 &&
@@ -375,116 +408,112 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       maxSW < 60 &&
       maxScpiWeight <= 50;
 
+    // ═══════════ POINTS FORTS (max 6) ═══════════
+    // Priorité 1 : diversification globale
     if (hasSatisfactoryDiversification) {
-      // Ajouter le point fort et SAUTER toutes les vigilances liées à la diversification
       pros.push('Diversification sectorielle et géographique satisfaisante.');
-
-      // ── Règle 5 : Rendement élevé >8% ──
-      if (avgYield > 8) {
-        consGeneral.push(`Rendement moyen élevé (${avgYield.toFixed(2)}%) : vérifier la soutenabilité du taux de distribution.`);
-      } else if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
-      else if (avgYield >= 5) pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
-      else if (avgYield >= 4) consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
-
-      // ── Règle 6 : TOF individuel < 90% ──
-      const lowTofScpis = selectedScpis.filter(s => (s.tof || 0) < 90 && (s.tof || 0) > 0);
-      if (lowTofScpis.length > 0) {
-        const names = lowTofScpis.map(s => s.name).slice(0, 2).join(', ');
-        consGeneral.push(`Occupation à surveiller : ${names} présente${lowTofScpis.length > 1 ? 'nt' : ''} un TOF inférieur à 90%.`);
-      }
-
-      // ── Règle 4 : Concentration société de gestion (>50%) ──
-      if (selectedScpis.length >= 2) {
-        const mgmtCount: Record<string, number> = {};
-        selectedScpis.forEach(s => {
-          const m = s.managementCompany || 'Inconnue';
-          mgmtCount[m] = (mgmtCount[m] || 0) + 1;
-        });
-        const dominant = Object.entries(mgmtCount).find(([, c]) => c / selectedScpis.length > 0.5);
-        if (dominant) consGeneral.push(`Concentration société de gestion : plus de 50% de la sélection provient de ${dominant[0]}.`);
-      }
-
-      const hasLowTof = selectedScpis.some(s => (s.tof || 0) < 85);
-      if (hasLowTof) consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
-
-      return { pros, consGeneral, consStructural };
+    } else if (selectedScpis.length >= 4) {
+      pros.push('Diversification optimale avec plusieurs SCPI, réduisant la concentration.');
     }
 
-    // ── Règle 1 : Diversification (nombre de SCPI) ──
-    if (selectedScpis.length >= 4) pros.push('Diversification optimale avec plusieurs SCPI, réduisant significativement le risque de concentration');
-    else if (selectedScpis.length >= 2) consGeneral.push('Diversification limitée : la sélection repose sur un nombre réduit de SCPI.');
-    else consStructural.push("Concentration sur une seule SCPI : risque spécifique non diversifié, la sélection repose sur un seul support.");
-    
-    const isHD = isVeryWellDiversified(sectorCount, geoCount);
+    // Priorité 2 : allocation équilibrée
+    if (maxScpiWeight <= 40) {
+      pros.push('Répartition équilibrée entre les supports sélectionnés.');
+    } else if (maxScpiWeight <= 50) {
+      pros.push('Absence de concentration excessive sur une seule SCPI.');
+    }
 
-    // ── Règle 2 : Concentration d'une SCPI dans l'allocation (>50%) ──
+    // Priorité 3a : diversification sectorielle
+    if (sectorCount >= 7) pros.push('Exposition sectorielle large, couvrant plusieurs segments immobiliers.');
+    else if (sectorCount >= 5) pros.push('Diversification sectorielle correcte.');
+
+    // Priorité 3b : diversification géographique
+    if (geoCount >= 7) pros.push('Diversification géographique étendue sur plusieurs zones.');
+    else if (geoCount >= 5) pros.push('Diversification géographique satisfaisante.');
+
+    // Priorité 4 : rendement
+    if (weightedYield >= 5 && weightedYield <= 8.5) {
+      pros.push('Rendement moyen cohérent avec une approche patrimoniale équilibrée.');
+    } else if (weightedYield > 8.5) {
+      pros.push('Rendement moyen attractif, à analyser au regard de sa soutenabilité.');
+    } else if (weightedYield >= 4) {
+      pros.push('Rendement moyen modéré, aligné avec les standards conservateurs du marché.');
+    }
+
+    // Priorité 5 : TOF
+    if (averageTOF >= 95) pros.push("Taux d'occupation financier globalement solide.");
+
+    // Priorité 6 : ticket d'entrée
+    const minInvest = selectedScpis.reduce((min, s) => Math.min(min, s.minInvestment), Infinity);
+    if (minInvest <= 5000 && selectedScpis.length > 0) {
+      pros.push("Ticket d'entrée accessible pour une construction progressive.");
+    }
+
+    // Priorité 7 : décote
+    if (hasDiscount) pros.push('Décote moyenne favorable par rapport aux valeurs de reconstitution disponibles.');
+
+    // Limiter à 6 points forts max
+    const trimmedPros = pros.slice(0, 6);
+
+    // ═══════════ VIGILANCES (max 5) ═══════════
+    // Priorité 1 : concentration SCPI
     if (selectedScpis.length >= 2 && maxScpiWeight > 50) {
-      consGeneral.push(`Concentration élevée : une SCPI représente ${maxScpiWeight.toFixed(0)}% de la sélection.`);
+      consStructural.push(`Concentration élevée : une SCPI représente ${maxScpiWeight.toFixed(0)} % de la sélection.`);
     }
 
-    // Analyse sectorielle
-    if (sectorCount >= 4) pros.push("Excellente diversification sectorielle couvrant plusieurs segments de l'immobilier, résilience accrue face aux cycles économiques");
-    else if (sectorCount >= 2) pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
-    else if (!isHD) consStructural.push('Concentration sectorielle importante : exposition accrue aux risques spécifiques du secteur, diversification recommandée');
-
-    // ── Règle 3 : Concentration sectorielle (>60%) ──
-    if (maxSW > 60) {
+    // Priorité 2 : concentration sectorielle
+    if (maxSW >= 60 && sectorCount > 0) {
       const dominantSector = aggregatedSectors[0]?.name || 'dominant';
-      consGeneral.push(`Concentration sectorielle : exposition dominante au secteur "${dominantSector}" (${maxSW.toFixed(0)}%).`);
+      consStructural.push(`Concentration sectorielle : exposition dominante au secteur « ${dominantSector} » (${maxSW.toFixed(0)} %).`);
     }
 
-    // Analyse géographique
-    const hasEurope = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('europe') || g.name.toLowerCase().includes('européen'));
-    const hasFrance = aggregatedGeography.some((g: any) => g.name.toLowerCase().includes('france') || g.name.toLowerCase().includes('français'));
-    if (geoCount >= 3) pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
-    else if (hasEurope && hasFrance) pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
-    else if (hasEurope && !isHD) pros.push('Exposition européenne intéressante pour la diversification géographique');
-    else if (!isHD) consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
-
-    // ── Règle 5 : Rendement élevé >8% ──
-    if (avgYield > 8) {
-      consGeneral.push(`Rendement moyen élevé (${avgYield.toFixed(2)}%) : vérifier la soutenabilité du taux de distribution.`);
-    } else if (avgYield >= 6) pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
-    else if (avgYield >= 5) pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
-    else if (avgYield >= 4) consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
-
-    // ── Règle 6 : TOF individuel < 90% ──
-    const lowTofScpis = selectedScpis.filter(s => (s.tof || 0) < 90 && (s.tof || 0) > 0);
-    if (lowTofScpis.length > 0) {
-      const names = lowTofScpis.map(s => s.name).slice(0, 2).join(', ');
-      consGeneral.push(`Occupation à surveiller : ${names} présente${lowTofScpis.length > 1 ? 'nt' : ''} un TOF inférieur à 90%.`);
+    // Priorité 3 : concentration géographique
+    if (maxGeoW >= 60 && geoCount > 0) {
+      const dominantGeo = aggregatedGeography[0]?.name || 'dominante';
+      consStructural.push(`Concentration géographique : exposition dominante sur la zone « ${dominantGeo} » (${maxGeoW.toFixed(0)} %).`);
     }
 
-    // ── Règle 4 : Concentration société de gestion (>50%) ──
-    if (selectedScpis.length >= 2) {
-      const mgmtCount: Record<string, number> = {};
-      selectedScpis.forEach(s => {
-        const m = s.managementCompany || 'Inconnue';
-        mgmtCount[m] = (mgmtCount[m] || 0) + 1;
-      });
-      const dominant = Object.entries(mgmtCount).find(([, c]) => c / selectedScpis.length > 0.5);
-      if (dominant) consGeneral.push(`Concentration société de gestion : plus de 50% de la sélection provient de ${dominant[0]}.`);
+    // Priorité 4 : rendement élevé
+    if (weightedYield > 10) {
+      consStructural.push(`Rendement très élevé (${weightedYield.toFixed(1)} %) : contrôler l'origine de la performance et sa récurrence.`);
+    } else if (weightedYield > 8.5) {
+      consStructural.push(`Rendement moyen élevé (${weightedYield.toFixed(1)} %) : vérifier la soutenabilité du taux de distribution.`);
     }
 
-    // Analyse de la concentration (complément)
-    if (!isHD) {
-      if (maxSW > 60) consStructural.push(`Concentration sectorielle élevée (${maxSW.toFixed(1)}% sur un seul secteur) : risque de corrélation élevée en cas de crise sectorielle`);
-      else if (maxSW > 50) consStructural.push(`Concentration sectorielle modérée (${maxSW.toFixed(1)}%) : considérer une meilleure répartition pour réduire le risque`);
-      else pros.push('Répartition sectorielle équilibrée, bonne diversification des risques');
-    } else pros.push('Répartition sectorielle et géographique étendue, lecture globale robuste.');
+    // Priorité 5 : TOF faible
+    if (averageTOF < 90 && averageTOF > 0) {
+      consStructural.push("Taux d'occupation financier à surveiller sur une ou plusieurs SCPI.");
+    } else if (averageTOF < 95 && averageTOF > 0) {
+      consStructural.push("Taux d'occupation financier correct mais à suivre.");
+    }
 
-    const hasRes = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('résidentiel') || s.name.toLowerCase().includes('residentiel'));
-    const hasComm = aggregatedSectors.some((s: any) => s.name.toLowerCase().includes('commerce') || s.name.toLowerCase().includes('bureau'));
-    if (hasRes && hasComm) pros.push('Mix résidentiel/commercial équilibré, optimisation fiscale et diversification des revenus locatifs');
-    
-    if (hasEurope && !hasFrance) consStructural.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
-    
-    const hasLowTof = selectedScpis.some(s => (s.tof || 0) < 85);
-    if (hasLowTof) consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
-    
-    if (selectedScpis.length < 3) consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
-    
-    return { pros, consGeneral, consStructural };
+    // Priorité 6 : capitalisation faible
+    if (hasSmallCap) {
+      consStructural.push('Présence de SCPI de taille réduite : surveiller la profondeur de marché et la liquidité.');
+    }
+
+    // Priorité 7 : nombre de supports (SEULEMENT si diversification insatisfaisante)
+    if (!hasSatisfactoryDiversification) {
+      if (selectedScpis.length < 2) {
+        consStructural.push('Nombre de supports très limité : la sélection repose sur un seul véhicule.');
+      } else if (!hasSatisfactoryDiversification && sectorCount < 5) {
+        consStructural.push('Diversification sectorielle à renforcer.');
+      }
+      if (!hasSatisfactoryDiversification && geoCount < 5) {
+        consStructural.push('Diversification géographique à renforcer.');
+      }
+    }
+
+    // Priorité 8 : liquidité
+    if (hasLowTofBelow85) {
+      consStructural.push('Liquidité SCPI à surveiller : les délais de retrait peuvent varier selon le marché secondaire.');
+    }
+
+    // Limiter à 5 vigilances max
+    const dedupedCons = consStructural.filter((v, i, a) => a.indexOf(v) === i);
+    const trimmedCons = dedupedCons.slice(0, 5);
+
+    return { pros: trimmedPros, consGeneral: trimmedCons, consStructural: [] };
   };
   const zScoreAttention = getZScoreAttention(coherenceZScore, aggregatedSectors.length, aggregatedGeography.length);
   const portfolioProsCons = analyzePortfolioProsCons();
@@ -1860,91 +1889,379 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
                 {/* ── Détail de votre sélection ── */}
                 {selectedScpis.length > 0 && (
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                    <p className="text-xs text-slate-300 mb-3 font-semibold">Détail de votre sélection</p>
-                    <div className="space-y-3">
-                      {selectedScpis.map(scpi => (
-                        <div key={scpi.id} className="rounded-lg border border-slate-700 bg-slate-900/60 p-3">
-                          <div className="flex items-start justify-between gap-2 mb-2">
-                            <div>
-                              <p className="text-sm font-semibold text-white">{scpi.name}</p>
-                              <p className="text-xs text-slate-300">{scpi.managementCompany}</p>
-                            </div>
-                            <span className={`inline-block px-2 py-1 rounded-lg text-[10px] font-semibold border ${getCategoryColor(scpi.category)}`}>
-                              {scpi.category}
-                            </span>
-                          </div>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-[11px] text-slate-300">
-                            <div>
-                              <p className="text-[10px] text-slate-300">Rendement</p>
-                              <p className="font-semibold text-violet-400">{scpi.yield.toFixed(2)}%</p>
-                            </div>
-                            <div>
-                              <p className="text-[10px] text-slate-300">Prix de part</p>
-                              <p className="font-semibold text-white">{scpi.price}€</p>
-                            </div>
-                            <div>
-                              <p className="text-[10px] text-slate-300">Invest. min.</p>
-                              <p className="font-semibold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</p>
-                            </div>
-                            {scpi.capitalization && (
-                              <div>
-                                <p className="text-[10px] text-slate-300">Capitalisation</p>
-                                <p className="font-semibold text-white">{scpi.capitalization}</p>
+                  <div className="bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden">
+                    <p className="text-xs text-slate-300 px-4 pt-4 pb-3 font-semibold">Détail de votre sélection</p>
+
+                    {/* ─── DESKTOP TABLE ─── */}
+                    <div className="hidden lg:block overflow-x-auto">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="border-b border-slate-700 text-[10px] uppercase tracking-wider text-slate-400">
+                            <th className="text-left py-2.5 px-4 w-[240px]">SCPI</th>
+                            <th className="text-right py-2.5 px-3 w-[80px]">Rendement</th>
+                            <th className="text-right py-2.5 px-3 w-[70px]">TOF</th>
+                            <th className="text-right py-2.5 px-3 w-[90px]">Prix part</th>
+                            <th className="text-right py-2.5 px-3 w-[90px]">Invest. min.</th>
+                            <th className="text-right py-2.5 px-3 w-[110px]">Capitalisation</th>
+                            <th className="text-right py-2.5 px-3 w-[100px]">Décote/Surcote</th>
+                            <th className="text-center py-2.5 px-3 w-[95px]">Détails</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-700/50">
+                          {selectedScpis.map(scpi => {
+                            const discountInfo = getDiscountPremium(scpi);
+                            const isExpanded = expandedScpiIds.has(scpi.id);
+                            return (
+                              <React.Fragment key={scpi.id}>
+                                <tr
+                                  className="group hover:bg-slate-700/30 transition-colors cursor-pointer"
+                                  onClick={() => toggleExpandScpi(scpi.id)}
+                                >
+                                  {/* SCPI name + category */}
+                                  <td className="py-2.5 px-4">
+                                    <div className="flex items-center gap-2">
+                                      <div className="min-w-0 flex-1">
+                                        <p className="font-semibold text-white truncate">{scpi.name}</p>
+                                        <p className="text-[10px] text-slate-400 truncate">{scpi.managementCompany}</p>
+                                      </div>
+                                      <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-semibold border flex-shrink-0 ${getCategoryColor(scpi.category)}`}>
+                                        {scpi.category}
+                                      </span>
+                                    </div>
+                                  </td>
+                                  {/* Rendement */}
+                                  <td className="py-2.5 px-3 text-right">
+                                    <span className="font-semibold text-violet-400">{scpi.yield.toFixed(2)}%</span>
+                                  </td>
+                                  {/* TOF */}
+                                  <td className="py-2.5 px-3 text-right">
+                                    <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
+                                      {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
+                                    </span>
+                                  </td>
+                                  {/* Prix part */}
+                                  <td className="py-2.5 px-3 text-right text-white font-semibold tabular-nums">{scpi.price}€</td>
+                                  {/* Invest. min. */}
+                                  <td className="py-2.5 px-3 text-right text-slate-300 tabular-nums">
+                                    {scpi.minInvestment >= 1000
+                                      ? `${(scpi.minInvestment / 1000).toFixed(0)}k€`
+                                      : `${scpi.minInvestment}€`}
+                                  </td>
+                                  {/* Capitalisation */}
+                                  <td className="py-2.5 px-3 text-right text-slate-300">
+                                    {scpi.capitalization || '—'}
+                                  </td>
+                                  {/* Décote / Surcote */}
+                                  <td className="py-2.5 px-3 text-right">
+                                    {discountInfo ? (
+                                      <span className={`font-semibold ${discountInfo.isDiscount ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                        {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
+                                      </span>
+                                    ) : (
+                                      <span className="text-slate-500">—</span>
+                                    )}
+                                  </td>
+                                  {/* Détails toggle */}
+                                  <td className="py-2.5 px-3 text-center">
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); toggleExpandScpi(scpi.id); }}
+                                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors"
+                                    >
+                                      {isExpanded ? 'Masquer' : 'Voir détails'}
+                                      <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                                    </button>
+                                  </td>
+                                </tr>
+                                {/* Ligne dépliée — détails complets */}
+                                {isExpanded && (
+                                  <tr>
+                                    <td colSpan={8} className="bg-slate-900/50 px-4 py-3 border-b border-slate-700/50">
+                                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-x-6 gap-y-2 text-[11px]">
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Société de gestion</p>
+                                          <p className="text-slate-300">{scpi.managementCompany}</p>
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Horizon recommandé</p>
+                                          <p className="text-slate-300">
+                                            {scpi.dureeDetentionRecommandee ? `${scpi.dureeDetentionRecommandee} ans` : '≥ 8 ans'}
+                                          </p>
+                                        </div>
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Distribution</p>
+                                          <p className="text-slate-300">
+                                            {scpi.versementLoyers || (scpi.distribution ? `${scpi.distribution}€/part` : 'Trimestrielle')}
+                                          </p>
+                                        </div>
+                                        {typeof scpi.ltv === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Endettement</p>
+                                            <p className="text-slate-300">{scpi.ltv}%</p>
+                                          </div>
+                                        )}
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Nombre d'immeubles</p>
+                                          <p className="text-slate-300">
+                                            {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
+                                          </p>
+                                        </div>
+                                        {scpi.reconstitutionValue && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Valeur reconstitution</p>
+                                            <p className="text-slate-300">{scpi.reconstitutionValue}€</p>
+                                          </div>
+                                        )}
+                                        {scpi.valeurRetrait != null && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Valeur de retrait</p>
+                                            <p className="text-slate-300">{scpi.valeurRetrait}€</p>
+                                          </div>
+                                        )}
+                                        {scpi.valeurRealisation != null && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Valeur réalisation</p>
+                                            <p className="text-slate-300">{scpi.valeurRealisation}€</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.delaiJouissance === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Délai de jouissance</p>
+                                            <p className="text-slate-300">{scpi.delaiJouissance} mois</p>
+                                          </div>
+                                        )}
+                                        {scpi.sfdr && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">SFDR</p>
+                                            <p className="text-slate-300">{scpi.sfdr}</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.profilRisque === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Profil de risque</p>
+                                            <p className="text-slate-300">{scpi.profilRisque}/7</p>
+                                          </div>
+                                        )}
+                                        {scpi.profilCible && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Profil cible</p>
+                                            <p className="text-slate-300">{scpi.profilCible}</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.entryFees === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Frais d'entrée</p>
+                                            <p className="text-slate-300">{scpi.entryFees}%</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.managementFees === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Frais de gestion</p>
+                                            <p className="text-slate-300">{scpi.managementFees}%</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.nombreLocataires === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Nombre de locataires</p>
+                                            <p className="text-slate-300">{scpi.nombreLocataires}</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.walt === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">WALT (durée ferme)</p>
+                                            <p className="text-slate-300">{scpi.walt} ans</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.walb === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">WALB (durée break)</p>
+                                            <p className="text-slate-300">{scpi.walb} ans</p>
+                                          </div>
+                                        )}
+                                        {scpi.withdrawalDelay && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Délai de retrait</p>
+                                            <p className="text-slate-300">{scpi.withdrawalDelay}</p>
+                                          </div>
+                                        )}
+                                        {typeof scpi.collecteNetteTrimestre === 'number' && (
+                                          <div>
+                                            <p className="text-[10px] text-slate-500">Collecte nette T</p>
+                                            <p className="text-slate-300">{(scpi.collecteNetteTrimestre / 1_000_000).toFixed(1)} M€</p>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                )}
+                              </React.Fragment>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* ─── MOBILE CARDS ─── */}
+                    <div className="lg:hidden divide-y divide-slate-700/50">
+                      {selectedScpis.map(scpi => {
+                        const discountInfo = getDiscountPremium(scpi);
+                        const isExpanded = expandedScpiIds.has(scpi.id);
+                        return (
+                          <div key={scpi.id}>
+                            <div
+                              className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-slate-700/30 transition-colors"
+                              onClick={() => toggleExpandScpi(scpi.id)}
+                            >
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-semibold text-white truncate">{scpi.name}</p>
+                                <p className="text-[10px] text-slate-400 truncate">{scpi.managementCompany}</p>
+                                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-semibold border ${getCategoryColor(scpi.category)}`}>
+                                    {scpi.category}
+                                  </span>
+                                  <span className="text-[10px] text-violet-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
+                                  <span className="text-[10px] text-slate-400">{scpi.price}€</span>
+                                  {discountInfo && (
+                                    <span className={`text-[10px] font-semibold ${discountInfo.isDiscount ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                      {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
+                                    </span>
+                                  )}
+                                </div>
                               </div>
-                            )}
-                            {typeof scpi.tof === 'number' && (
-                              <div>
-                                <p className="text-[10px] text-slate-300">Taux d'occupation</p>
-                                <p className="font-semibold text-white">{scpi.tof.toFixed(1)}%</p>
-                              </div>
-                            )}
-                            <div>
-                              <p className="text-[10px] text-slate-300">Horizon recommandé</p>
-                              <p className="font-semibold text-white">10 ans</p>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); toggleExpandScpi(scpi.id); }}
+                                className="flex items-center gap-1 px-2.5 py-1 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors flex-shrink-0"
+                              >
+                                {isExpanded ? 'Masquer' : 'Voir détails'}
+                                <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                              </button>
                             </div>
-                            <div>
-                              <p className="text-[10px] text-slate-300">Distribution</p>
-                              <p className="font-semibold text-white">Trimestriel</p>
-                            </div>
-                            {scpi.reconstitutionValue && (
-                              <div>
-                                <p className="text-[10px] text-slate-300">Valeur reconstitution</p>
-                                <p className="font-semibold text-white">{scpi.reconstitutionValue}€</p>
-                              </div>
-                            )}
-                            {typeof scpi.ltv === 'number' && (
-                              <div>
-                                <p className="text-[10px] text-slate-300">Endettement</p>
-                                <p className="font-semibold text-white">{scpi.ltv}%</p>
-                              </div>
-                            )}
-                            <div>
-                              <p className="text-[10px] text-slate-300">Nombre d'immeubles</p>
-                              <p className="font-semibold text-white">
-                                {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
-                              </p>
-                            </div>
-                            {getDiscountPremium(scpi) && (
-                              <div>
-                                <p className="text-[10px] text-slate-300">Décote / Surcote</p>
-                                {(() => {
-                                  const info = getDiscountPremium(scpi);
-                                  if (!info) return null;
-                                  const label = info.isDiscount ? 'Décote' : 'Surcote';
-                                  return (
-                                    <p className={`font-semibold ${info.isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
-                                      {info.value > 0 ? '+' : ''}
-                                      {info.value.toFixed(1)}%
-                                      <span className="text-[10px] text-slate-300 ml-1">({label})</span>
+                            {isExpanded && (
+                              <div className="bg-slate-900/50 px-4 py-3 border-t border-slate-700/50">
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px]">
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">TOF</p>
+                                    <p className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
+                                      {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
                                     </p>
-                                  );
-                                })()}
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Invest. min.</p>
+                                    <p className="text-slate-300">
+                                      {scpi.minInvestment >= 1000
+                                        ? `${(scpi.minInvestment / 1000).toFixed(0)}k€`
+                                        : `${scpi.minInvestment}€`}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Capitalisation</p>
+                                    <p className="text-slate-300">{scpi.capitalization || '—'}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Société de gestion</p>
+                                    <p className="text-slate-300">{scpi.managementCompany}</p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Horizon recommandé</p>
+                                    <p className="text-slate-300">
+                                      {scpi.dureeDetentionRecommandee ? `${scpi.dureeDetentionRecommandee} ans` : '≥ 8 ans'}
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Distribution</p>
+                                    <p className="text-slate-300">
+                                      {scpi.versementLoyers || (scpi.distribution ? `${scpi.distribution}€/part` : 'Trimestrielle')}
+                                    </p>
+                                  </div>
+                                  {typeof scpi.ltv === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Endettement</p>
+                                      <p className="text-slate-300">{scpi.ltv}%</p>
+                                    </div>
+                                  )}
+                                  <div>
+                                    <p className="text-[10px] text-slate-500">Nombre d'immeubles</p>
+                                    <p className="text-slate-300">
+                                      {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
+                                    </p>
+                                  </div>
+                                  {scpi.reconstitutionValue && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Valeur reconstitution</p>
+                                      <p className="text-slate-300">{scpi.reconstitutionValue}€</p>
+                                    </div>
+                                  )}
+                                  {scpi.valeurRetrait != null && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Valeur de retrait</p>
+                                      <p className="text-slate-300">{scpi.valeurRetrait}€</p>
+                                    </div>
+                                  )}
+                                  {scpi.valeurRealisation != null && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Valeur réalisation</p>
+                                      <p className="text-slate-300">{scpi.valeurRealisation}€</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.delaiJouissance === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Délai de jouissance</p>
+                                      <p className="text-slate-300">{scpi.delaiJouissance} mois</p>
+                                    </div>
+                                  )}
+                                  {scpi.sfdr && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">SFDR</p>
+                                      <p className="text-slate-300">{scpi.sfdr}</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.profilRisque === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Profil de risque</p>
+                                      <p className="text-slate-300">{scpi.profilRisque}/7</p>
+                                    </div>
+                                  )}
+                                  {scpi.profilCible && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Profil cible</p>
+                                      <p className="text-slate-300">{scpi.profilCible}</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.entryFees === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Frais d'entrée</p>
+                                      <p className="text-slate-300">{scpi.entryFees}%</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.managementFees === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Frais de gestion</p>
+                                      <p className="text-slate-300">{scpi.managementFees}%</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.walt === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">WALT</p>
+                                      <p className="text-slate-300">{scpi.walt} ans</p>
+                                    </div>
+                                  )}
+                                  {typeof scpi.walb === 'number' && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">WALB</p>
+                                      <p className="text-slate-300">{scpi.walb} ans</p>
+                                    </div>
+                                  )}
+                                  {scpi.withdrawalDelay && (
+                                    <div>
+                                      <p className="text-[10px] text-slate-500">Délai de retrait</p>
+                                      <p className="text-slate-300">{scpi.withdrawalDelay}</p>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             )}
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
