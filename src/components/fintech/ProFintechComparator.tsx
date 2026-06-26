@@ -1337,7 +1337,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         <div className="text-xs text-slate-300">secteurs</div>
                       </div>
                     </div>
-                    <div className="mt-3 space-y-1 max-h-24 overflow-y-auto">
+                    <div className="mt-3 space-y-1 max-h-[520px] overflow-y-auto">
                       {aggregatedSectors.map((sector, index) => (
                         <div key={sector.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
@@ -1379,7 +1379,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         <div className="text-xs text-slate-300">zones</div>
                       </div>
                     </div>
-                    <div className="mt-3 space-y-1 max-h-24 overflow-y-auto">
+                    <div className="mt-3 space-y-1 max-h-[520px] overflow-y-auto">
                       {aggregatedGeography.map((geo, index) => (
                         <div key={geo.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
