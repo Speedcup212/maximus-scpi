@@ -244,8 +244,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       const initialPercentages: Record<string, number> = {};
       selectedScpis.forEach(scpi => { initialPercentages[scpi.id] = equalPercentage; });
       setScpiPercentages(initialPercentages);
+    } else {
+      setScpiPercentages({});
     }
-  }, [selectedScpis]);
+  }, [selectedScpis.length]);
 
   const investorProfileLabel = useMemo(() => getInvestorProfile(), []);
 
@@ -1293,7 +1295,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     </div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {[50000,100000,150000,200000,300000].map(amount => (
-                        <button key={amount} onClick={() => setTotalAmount(amount)} className={`px-2 py-1 text-[10px] rounded-lg transition-colors ${totalAmount === amount ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                        <button key={amount} type="button" onClick={() => setTotalAmount(amount)} className={`px-2 py-1 text-[10px] rounded-lg transition-colors ${totalAmount === amount ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
                           {amount.toLocaleString('fr-FR')}€
                         </button>
                       ))}
