@@ -238,6 +238,21 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [investmentMode, setInvestmentMode] = useState<'cash' | 'credit' | 'demembrement'>('cash');
   const [demembrementDurationYears, setDemembrementDurationYears] = useState(8);
 
+  // Paramètres du mode Crédit
+  const [creditApport, setCreditApport] = useState(0);
+  const [creditDurationYears, setCreditDurationYears] = useState(20);
+  const [creditRate, setCreditRate] = useState(3.5);
+  const [insuranceRate, setInsuranceRate] = useState(0.3);
+  const [creditDeferred, setCreditDeferred] = useState<'none' | 'partial' | 'total'>('none');
+  const [creditDeferredMonths, setCreditDeferredMonths] = useState(0);
+  const [creditRateInput, setCreditRateInput] = useState<string>('');
+  const [insuranceRateInput, setInsuranceRateInput] = useState<string>('');
+
+  // Paramètres du mode Démembrement
+  const [demembrementType, setDemembrementType] = useState<'nue-propriete' | 'usufruit'>('nue-propriete');
+  const [demembrementCleNp, setDemembrementCleNp] = useState(65);
+  const [demembrementRevalo, setDemembrementRevalo] = useState(1.0);
+
   // Initialiser les pourcentages à parts égales
   useEffect(() => {
     if (selectedScpis.length > 0) {
@@ -528,6 +543,60 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     const totalAnnual = scpiDataArr.reduce((sum, item) => sum + item.annualIncome, 0);
     return { scpiData: scpiDataArr, totalAmount, totalPercentage: Object.values(scpiPercentages).reduce((s,p) => s + p, 0), weightedYield, totalAnnualIncome: totalAnnual, totalMonthlyIncome: totalAnnual / 12 };
   }, [selectedScpis, scpiPercentages, totalAmount]);
+
+  // Calculs spécifiques au mode Crédit
+  const creditMetrics = useMemo(() => {
+    if (!portfolioAnalysis || investmentMode !== 'credit') return null;
+    const financedAmount = Math.max(0, portfolioAnalysis.totalAmount - creditApport);
+    const years = Math.max(1, creditDurationYears);
+    const n = years * 12;
+    const monthlyRate = creditRate > 0 ? (creditRate / 100) / 12 : 0;
+    const monthlyInsuranceRate = (insuranceRate / 100) / 12;
+    let monthlyCreditPayment = 0;
+    if (monthlyRate > 0 && financedAmount > 0) {
+      const factor = Math.pow(1 + monthlyRate, -n);
+      monthlyCreditPayment = (financedAmount * monthlyRate) / (1 - factor);
+    } else if (financedAmount > 0) {
+      monthlyCreditPayment = financedAmount / n;
+    }
+    const monthlyInsurance = financedAmount * monthlyInsuranceRate;
+    const monthlyTotal = monthlyCreditPayment + monthlyInsurance;
+    const monthlyScpiIncome = portfolioAnalysis.totalMonthlyIncome;
+    const monthlyEffort = monthlyTotal - monthlyScpiIncome;
+    const monthlyCashflow = monthlyScpiIncome - monthlyTotal;
+    const monthlyInterest = financedAmount * monthlyRate;
+    const monthlyDeferredCost = creditDeferred === 'partial'
+      ? monthlyInterest + monthlyInsurance
+      : creditDeferred === 'total'
+      ? monthlyInsurance
+      : 0;
+    const annualInterestApprox = financedAmount * (creditRate / 100);
+    const annualCreditPaid = monthlyCreditPayment * 12;
+    const annualPrincipalRepaid = Math.max(0, annualCreditPaid - annualInterestApprox);
+    const annualCashflow = monthlyCashflow * 12;
+    const equity = Math.max(creditApport, 0.0001);
+    const realReturnOnEquity = ((annualCashflow + annualPrincipalRepaid) / equity) * 100;
+    return { financedAmount, monthlyCreditPayment, monthlyInsurance, monthlyTotal, monthlyScpiIncome, monthlyEffort, monthlyCashflow, monthlyDeferredCost, annualPrincipalRepaid, realReturnOnEquity };
+  }, [portfolioAnalysis, investmentMode, creditApport, creditDurationYears, creditRate, insuranceRate, creditDeferred]);
+
+  // Calculs spécifiques au mode Démembrement
+  const demembrementMetrics = useMemo(() => {
+    if (!portfolioAnalysis || investmentMode !== 'demembrement') return null;
+    const cleNp = Math.max(10, Math.min(90, demembrementCleNp));
+    const cleUs = 100 - cleNp;
+    const duree = Math.max(1, demembrementDurationYears);
+    const revalo = demembrementRevalo / 100;
+    const fullPropertyValueToday = portfolioAnalysis.totalAmount;
+    const priceNuePro = (fullPropertyValueToday * cleNp) / 100;
+    const priceUsufruit = (fullPropertyValueToday * cleUs) / 100;
+    const futureFullPropertyValue = fullPropertyValueToday * Math.pow(1 + revalo, duree);
+    const annualGrossIncome = portfolioAnalysis.totalAnnualIncome;
+    const totalIncomeUsufruit = annualGrossIncome * duree;
+    const rendementImpliciteNp = priceNuePro > 0 ? (Math.pow(futureFullPropertyValue / priceNuePro, 1 / duree) - 1) * 100 : 0;
+    const rendementGlobalUsufruit = priceUsufruit > 0 ? ((totalIncomeUsufruit / priceUsufruit) / duree) * 100 : 0;
+    return { cleNp, cleUs, duree, fullPropertyValueToday, priceNuePro, priceUsufruit, futureFullPropertyValue, totalIncomeUsufruit, rendementImpliciteNp, rendementGlobalUsufruit };
+  }, [portfolioAnalysis, investmentMode, demembrementCleNp, demembrementDurationYears, demembrementRevalo]);
+
   // ── Fin des helpers du pop-up public ──
 
   const applyFilters = (scpi: SCPIExtended): boolean => {
@@ -1389,102 +1458,195 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       ))}
                     </div>
                   </div>
-                  {/* ── Mode Comptant ── */}
-                  {investmentMode === 'cash' && (
-                    <div>
-                      <p className="text-[10px] sm:text-xs text-slate-400 mb-3">Simulation en pleine propriété avec perception immédiate des revenus potentiels.</p>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                          <div className="flex items-center gap-1.5 mb-1">
-                            <TrendingUp className="w-3.5 h-3.5 text-violet-400" />
-                            <p className="text-[10px] text-slate-400">Rendement pondéré</p>
-                          </div>
-                          <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                          <div className="flex items-center gap-1.5 mb-1">
-                            <DollarSign className="w-3.5 h-3.5 text-violet-400" />
-                            <p className="text-[10px] text-slate-400">Revenus / an</p>
-                          </div>
-                          <p className="text-lg sm:text-xl font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalAnnualIncome)}</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
-                          <div className="flex items-center gap-1.5 mb-1">
-                            <DollarSign className="w-3.5 h-3.5 text-violet-400" />
-                            <p className="text-[10px] text-slate-400">Revenus / mois</p>
-                          </div>
-                          <p className="text-lg sm:text-xl font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalMonthlyIncome)}</p>
-                        </div>
+                  {/* Performance financière du portefeuille (mode-dépendant) */}
+                  <div className={`grid grid-cols-1 ${investmentMode === 'credit' ? 'sm:grid-cols-4' : 'sm:grid-cols-3'} gap-2 sm:gap-3 mb-4 sm:mb-5`}>
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <TrendingUp className="w-3.5 h-3.5 text-violet-400" />
+                        <p className="text-[10px] text-slate-400">Rendement moyen pondéré</p>
                       </div>
+                      <p className="text-lg sm:text-xl font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
                     </div>
-                  )}
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <DollarSign className="w-3.5 h-3.5 text-blue-400" />
+                        <p className="text-[10px] text-slate-400">
+                          {investmentMode === 'credit'
+                            ? 'Mensualité totale (crédit + assurance)'
+                            : investmentMode === 'demembrement'
+                            ? demembrementType === 'nue-propriete'
+                              ? 'Capital investi réel (nue-propriété)'
+                              : 'Capital investi réel (usufruit)'
+                            : 'Revenus annuels estimés'}
+                        </p>
+                      </div>
+                      <p className="text-lg sm:text-xl font-bold text-blue-400">
+                        {investmentMode === 'credit' && creditMetrics
+                          ? `${formatCurrency(creditMetrics.monthlyTotal)} / mois`
+                          : investmentMode === 'demembrement' && demembrementMetrics
+                          ? formatCurrency(demembrementType === 'nue-propriete' ? demembrementMetrics.priceNuePro : demembrementMetrics.priceUsufruit)
+                          : formatCurrency(portfolioAnalysis.totalAnnualIncome)}
+                      </p>
+                    </div>
+                    {investmentMode === 'credit' && (
+                      <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                          <p className="text-[10px] text-slate-400">Revenus mensuels estimés</p>
+                        </div>
+                        <p className="text-lg sm:text-xl font-bold text-emerald-400">{formatCurrency(portfolioAnalysis.totalMonthlyIncome)}</p>
+                      </div>
+                    )}
+                    <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3 border border-violet-500/20">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <DollarSign className="w-3.5 h-3.5 text-purple-400" />
+                        <p className="text-[10px] text-slate-400">
+                          {investmentMode === 'credit'
+                            ? "Effort d'épargne mensuel"
+                            : investmentMode === 'demembrement'
+                            ? demembrementType === 'nue-propriete'
+                              ? 'Valeur future estimée (pleine propriété)'
+                              : 'Revenus totaux sur la durée'
+                            : 'Revenus mensuels estimés'}
+                        </p>
+                      </div>
+                      <p className="text-lg sm:text-xl font-bold text-purple-400">
+                        {investmentMode === 'credit' && creditMetrics
+                          ? formatCurrency(creditMetrics.monthlyEffort)
+                          : investmentMode === 'demembrement' && demembrementMetrics
+                          ? demembrementType === 'nue-propriete'
+                            ? formatCurrency(demembrementMetrics.futureFullPropertyValue)
+                            : formatCurrency(demembrementMetrics.totalIncomeUsufruit)
+                          : formatCurrency(portfolioAnalysis.totalMonthlyIncome)}
+                      </p>
+                    </div>
+                  </div>
 
-                  {/* ── Mode Crédit ── */}
+                  {/* Paramètres Crédit */}
                   {investmentMode === 'credit' && (
-                    <div className="bg-violet-500/5 rounded-lg p-4 border border-violet-500/20">
-                      <h5 className="text-sm font-semibold text-violet-200 mb-3">Simulation à crédit</h5>
-                      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Montant financé</p>
-                          <p className="text-lg font-bold text-white">{totalAmount.toLocaleString('fr-FR')}€</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Rendement pondéré</p>
-                          <p className="text-lg font-bold text-violet-300">{portfolioAnalysis.weightedYield.toFixed(2)}%</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus annuels potentiels</p>
-                          <p className="text-lg font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalAnnualIncome)}</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus mensuels potentiels</p>
-                          <p className="text-lg font-bold text-violet-300">{formatCurrency(portfolioAnalysis.totalMonthlyIncome)}</p>
+                    <div className="mb-4 sm:mb-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Apport (optionnel)</label>
+                        <div className="flex items-center gap-2">
+                          <input type="number" value={creditApport || ''}
+                            onChange={(e) => { const val = e.target.value; if (val === '' || val === '-') { setCreditApport(0); } else { const numVal = parseInt(val, 10); if (!isNaN(numVal) && numVal >= 0) { setCreditApport(numVal); } } }}
+                            onBlur={(e) => { const val = parseInt(e.target.value, 10); if (isNaN(val) || val < 0) { setCreditApport(0); } }}
+                            className="flex-1 px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" min={0} step={1000} />
+                          <span className="text-slate-400 text-xs sm:text-sm">€</span>
                         </div>
                       </div>
-                      <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
-                        Paramètres de crédit à compléter : taux, durée, apport et mensualité. Contactez votre conseiller pour une simulation personnalisée.
-                      </p>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Durée du crédit (années)</label>
+                        <div className="flex items-center gap-2">
+                          <input type="number" value={creditDurationYears}
+                            onChange={(e) => setCreditDurationYears(Math.min(30, Math.max(5, parseInt(e.target.value) || 0)))}
+                            className="w-20 px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" min={5} max={30} />
+                          <div className="flex flex-wrap gap-1.5">
+                            {[10, 15, 20, 25].map((d) => (
+                              <button key={d} type="button" onClick={() => setCreditDurationYears(d)}
+                                className={`px-2 py-1 rounded-lg text-[10px] sm:text-xs ${creditDurationYears === d ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
+                                {d} ans
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Taux d'intérêt (%) <span className="text-slate-500 font-normal">(défaut: 3.5%)</span></label>
+                        <input type="number" value={creditRateInput !== '' ? creditRateInput : creditRate}
+                          onChange={(e) => { const val = e.target.value; setCreditRateInput(val); const numVal = parseFloat(val); if (!isNaN(numVal) && val !== '') { if (numVal < 0.5) setCreditRate(0.5); else if (numVal > 6) setCreditRate(6); else setCreditRate(numVal); } }}
+                          onFocus={() => { setCreditRateInput(creditRate.toString()); }}
+                          onBlur={(e) => { const val = e.target.value; const numVal = parseFloat(val); setCreditRateInput(''); if (val === '' || isNaN(numVal) || numVal < 0.5) setCreditRate(3.5); else if (numVal > 6) setCreditRate(6); else setCreditRate(numVal); }}
+                          placeholder="3.5" className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder:text-slate-500" min={0.5} max={6} step={0.05} />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Taux d'assurance (% annuel) <span className="text-slate-500 font-normal">(défaut: 0.3%)</span></label>
+                        <input type="number" value={insuranceRateInput !== '' ? insuranceRateInput : insuranceRate}
+                          onChange={(e) => { const val = e.target.value; setInsuranceRateInput(val); const numVal = parseFloat(val); if (!isNaN(numVal) && val !== '') { if (numVal < 0) setInsuranceRate(0); else if (numVal > 1.5) setInsuranceRate(1.5); else setInsuranceRate(numVal); } }}
+                          onFocus={() => { setInsuranceRateInput(insuranceRate.toString()); }}
+                          onBlur={(e) => { const val = e.target.value; const numVal = parseFloat(val); setInsuranceRateInput(''); if (val === '' || isNaN(numVal) || numVal < 0) setInsuranceRate(0.3); else if (numVal > 1.5) setInsuranceRate(1.5); else setInsuranceRate(numVal); }}
+                          placeholder="0.3" className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder:text-slate-500" min={0} max={1.5} step={0.05} />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Différé</label>
+                        <div className="flex flex-wrap gap-2">
+                          <button type="button" onClick={() => setCreditDeferred('none')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${creditDeferred === 'none' ? 'bg-violet-600 text-white border-violet-500' : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>Aucun</button>
+                          <button type="button" onClick={() => setCreditDeferred('partial')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${creditDeferred === 'partial' ? 'bg-violet-600 text-white border-violet-500' : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>Différé partiel</button>
+                          <button type="button" onClick={() => setCreditDeferred('total')}
+                            className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs border ${creditDeferred === 'total' ? 'bg-violet-600 text-white border-violet-500' : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>Différé total</button>
+                        </div>
+                        {creditDeferred !== 'none' && (
+                          <div className="mt-3">
+                            <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Durée du différé (1 à 24 mois)</label>
+                            <div className="flex items-center gap-3">
+                              <input type="range" min={1} max={24} value={creditDeferredMonths || 1}
+                                onChange={(e) => setCreditDeferredMonths(parseInt(e.target.value) || 1)} className="flex-1 accent-violet-500" />
+                              <input type="number" min={1} max={24} value={creditDeferredMonths || 1}
+                                onChange={(e) => setCreditDeferredMonths(Math.min(24, Math.max(1, parseInt(e.target.value) || 1)))}
+                                className="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                              <span className="text-slate-400 text-xs sm:text-sm">mois</span>
+                            </div>
+                            {creditMetrics && creditMetrics.monthlyDeferredCost > 0 && (
+                              <div className="mt-3 p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[10px] sm:text-xs text-slate-300 font-semibold">Coût mensuel estimé pendant le différé :</span>
+                                  <span className="text-sm sm:text-base font-bold text-amber-400">{formatCurrency(creditMetrics.monthlyDeferredCost)} / mois</span>
+                                </div>
+                                <p className="mt-1.5 text-[9px] sm:text-[10px] text-slate-400">
+                                  {creditDeferred === 'partial' ? 'Intérêts + assurance (capital non remboursé)' : 'Assurance uniquement (intérêts capitalisés)'}
+                                </p>
+                              </div>
+                            )}
+                            <p className="mt-2 text-[10px] sm:text-xs text-slate-500">
+                              {creditDeferred === 'partial'
+                                ? "Pendant le différé partiel, vous ne remboursez que les intérêts et l'assurance. Le capital est remboursé après la période de différé."
+                                : creditDeferred === 'total'
+                                ? "Pendant le différé total, vous ne remboursez ni le capital ni les intérêts. Seule l'assurance est due. Les intérêts sont capitalisés et ajoutés au capital restant dû."
+                                : 'Le différé permet de décaler une partie ou la totalité de vos remboursements pendant les premiers mois.'}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 
-                  {/* ── Mode Démembrement ── */}
+                  {/* Paramètres Démembrement */}
                   {investmentMode === 'demembrement' && (
-                    <div className="bg-violet-500/5 rounded-lg p-4 border border-violet-500/20">
-                      <h5 className="text-sm font-semibold text-violet-200 mb-3">Simulation en nue-propriété</h5>
-                      <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Montant investi</p>
-                          <p className="text-lg font-bold text-white">{totalAmount.toLocaleString('fr-FR')}€</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Revenus / période</p>
-                          <p className="text-lg font-bold text-slate-500">0 €</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Rendement distribué</p>
-                          <p className="text-sm font-semibold text-slate-500">Non perçu par le nu-propriétaire</p>
-                        </div>
-                        <div className="bg-slate-900 rounded-lg p-2.5 sm:p-3">
-                          <p className="text-[10px] text-slate-400 mb-0.5">Durée indicative</p>
-                          <p className="text-lg font-bold text-violet-300">{demembrementDurationYears} ans</p>
+                    <div className="mb-4 sm:mb-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Type de démembrement</label>
+                        <div className="flex gap-2">
+                          <button type="button" onClick={() => setDemembrementType('nue-propriete')}
+                            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border ${demembrementType === 'nue-propriete' ? 'bg-violet-600 text-white border-violet-500' : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>Nue-propriété</button>
+                          <button type="button" onClick={() => setDemembrementType('usufruit')}
+                            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold border ${demembrementType === 'usufruit' ? 'bg-violet-600 text-white border-violet-500' : 'bg-slate-900 text-slate-300 border-slate-600 hover:bg-slate-700'}`}>Usufruit</button>
                         </div>
                       </div>
-                      {/* Sélecteur de durée */}
-                      <div className="mb-3">
-                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Durée de démembrement</label>
-                        <div className="flex flex-wrap gap-1.5">
-                          {[5, 8, 10].map(d => (
-                            <button key={d} type="button"
-                              onClick={() => setDemembrementDurationYears(d)}
-                              className={`px-3 py-1 text-[10px] rounded-lg transition-colors ${demembrementDurationYears === d ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'}`}>
-                              {d} ans
-                            </button>
-                          ))}
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Clé de démembrement (nue-propriété %)</label>
+                        <div className="flex items-center gap-2">
+                          <input type="range" min={40} max={90} step={1} value={demembrementCleNp}
+                            onChange={(e) => setDemembrementCleNp(parseInt(e.target.value) || 0)} className="flex-1 accent-violet-500" />
+                          <input type="number" min={40} max={90} value={demembrementCleNp}
+                            onChange={(e) => setDemembrementCleNp(Math.min(90, Math.max(40, parseInt(e.target.value) || 0)))}
+                            className="w-16 px-2 py-1 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                          <span className="text-slate-400 text-xs sm:text-sm">%</span>
                         </div>
                       </div>
-                      <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
-                        La simulation en démembrement suppose l'absence de revenus pendant la période de démembrement. La valorisation dépend de la clé de démembrement retenue.
-                      </p>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Durée du démembrement (années)</label>
+                        <input type="number" min={5} max={30} value={demembrementDurationYears}
+                          onChange={(e) => setDemembrementDurationYears(Math.min(30, Math.max(5, parseInt(e.target.value) || 0)))}
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-xs font-semibold text-slate-300 mb-1.5">Hypothèse de revalorisation annuelle (%)</label>
+                        <input type="number" min={-1} max={2} step={0.1} value={demembrementRevalo}
+                          onChange={(e) => setDemembrementRevalo(Math.min(2, Math.max(-1, parseFloat(e.target.value) || 0)))}
+                          className="w-full px-3 py-1.5 bg-slate-900 border border-slate-600 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
+                      </div>
                     </div>
                   )}
                 </div>
