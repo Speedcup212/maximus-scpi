@@ -47,6 +47,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
+  const [allocations, setAllocations] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -145,6 +146,49 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         return prev;
       }
       return [...prev, scpi];
+    });
+  };
+
+  // Initialiser les allocations à répartition égale quand les SCPI sélectionnées changent
+  const initAllocations = useMemo(() => {
+    if (selectedScpis.length === 0) return {};
+    const equal = Math.floor(100 / selectedScpis.length);
+    const remainder = 100 - equal * selectedScpis.length;
+    const allocs: Record<string, number> = {};
+    selectedScpis.forEach((s, i) => {
+      allocs[s.id] = i < remainder ? equal + 1 : equal;
+    });
+    return allocs;
+  }, [selectedScpis.map(s => s.id).join(',')]);
+
+  // Appliquer l'initialisation uniquement si aucun alloc n'existe OU si les SCPI ont changé
+  useEffect(() => {
+    const currentIds = selectedScpis.map(s => s.id).sort().join(',');
+    const storedIds = Object.keys(allocations).sort().join(',');
+    if (currentIds !== storedIds) {
+      setAllocations(initAllocations);
+    }
+  }, [initAllocations]);
+
+  const handleAllocationChange = (scpiId: string, newValue: number) => {
+    setAllocations(prev => {
+      const next = { ...prev, [scpiId]: Math.min(100, Math.max(0, newValue)) };
+      // Ajuster les autres SCPI proportionnellement pour maintenir 100%
+      const otherIds = Object.keys(next).filter(id => id !== scpiId);
+      const totalOthers = otherIds.reduce((sum, id) => sum + next[id], 0);
+      const newTotal = next[scpiId] + totalOthers;
+      if (newTotal !== 100 && otherIds.length > 0 && totalOthers > 0) {
+        const diff = 100 - next[scpiId];
+        otherIds.forEach(id => {
+          next[id] = Math.round((next[id] / totalOthers) * diff);
+        });
+        // Corriger l'arrondi
+        const adjustedTotal = Object.values(next).reduce((sum, v) => sum + v, 0);
+        if (adjustedTotal !== 100 && otherIds.length > 0) {
+          next[otherIds[0]] += 100 - adjustedTotal;
+        }
+      }
+      return next;
     });
   };
 
@@ -671,8 +715,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
               {/* SCPI sélectionnées avec sliders de pondération */}
               <div className="space-y-4">
-                {selectedScpis.map((scpi, idx) => {
-                  const weight = selectedScpis.length > 0 ? Math.round(100 / selectedScpis.length) : 0;
+                {selectedScpis.map((scpi) => {
+                  const weight = allocations[scpi.id] ?? 0;
                   return (
                     <div key={scpi.id} className="bg-slate-900 rounded-lg p-4 border border-slate-700">
                       <div className="flex items-center justify-between mb-3">
@@ -689,7 +733,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                           min="0"
                           max="100"
                           value={weight}
-                          readOnly
+                          onChange={(e) => handleAllocationChange(scpi.id, parseInt(e.target.value, 10))}
                           className="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                         />
                         <span className="text-xs text-slate-500 w-8">100%</span>
@@ -714,15 +758,21 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               </div>
 
               {/* Rendement global pondéré */}
-              {selectedScpis.length > 0 && (
+              {selectedScpis.length > 0 && (() => {
+                const weightedYield = selectedScpis.reduce((sum, s) => {
+                  const w = (allocations[s.id] ?? 0) / 100;
+                  return sum + s.yield * w;
+                }, 0);
+                return (
                 <div className="mt-6 bg-emerald-500/10 rounded-lg p-5 border border-emerald-500/30">
                   <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré estimé</p>
                   <p className="text-3xl font-bold text-emerald-400">
-                    {(selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length).toFixed(2)}%
+                    {weightedYield.toFixed(2)}%
                   </p>
-                  <p className="text-xs text-slate-500 mt-1">Moyenne équipondérée des {selectedScpis.length} SCPI sélectionnées</p>
+                  <p className="text-xs text-slate-500 mt-1">Moyenne pondérée selon votre allocation — {selectedScpis.length} SCPI</p>
                 </div>
-              )}
+                );
+              })()}
 
               {/* Z-Score de cohérence */}
               {selectedScpis.length >= 2 && (
@@ -761,9 +811,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 {selectedScpis.length > 0 && (
                   <div className="space-y-3 mb-6">
                     <div className="bg-emerald-500/10 rounded-lg p-4 border border-emerald-500/30">
-                      <p className="text-xs text-emerald-400 font-medium mb-1">Rendement moyen</p>
+                      <p className="text-xs text-emerald-400 font-medium mb-1">Rendement pondéré</p>
                       <p className="text-xl font-bold text-emerald-400">
-                        {(selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length).toFixed(2)}%
+                        {selectedScpis.reduce((sum, s) => sum + s.yield * ((allocations[s.id] ?? 0) / 100), 0).toFixed(2)}%
                       </p>
                     </div>
                     <div className="bg-slate-900 rounded-lg p-4 border border-slate-700">
