@@ -18,6 +18,7 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import ZScoreBar from '../ZScoreBar';
+import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import Toast from '../Toast';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, CartesianGrid, XAxis, YAxis, Bar, Label } from 'recharts';
 import { getInvestorProfile } from '../../utils/investorProfile';
@@ -1257,6 +1258,16 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     customContextLine="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection. Cette lecture peut être contextualisée selon les paramètres du dossier client, sans constituer une recommandation personnalisée."
                     customCtaText="Paramétrer le dossier client"
                     customFooterNote="Le Z-score décrit la structure globale de la sélection. Il n'indique ni un niveau de risque, ni une recommandation d'investissement."
+                  />
+                </div>
+
+                {/* Profil de risque moyen (SRI) */}
+                <div className="pt-4 border-t border-slate-700 mb-4">
+                  <SriRiskProfileBlock
+                    scpis={selectedScpis.map(s => ({
+                      ...s,
+                      percentage: scpiPercentages[s.id] || 0,
+                    }))}
                   />
                 </div>
 

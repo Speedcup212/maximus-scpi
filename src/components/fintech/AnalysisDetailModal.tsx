@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star, FileText, Newspaper, Plus, Check } from 'lucide-react';
+import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star, FileText, Newspaper, Plus, Check } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { scpiData } from '../../data/scpiData';
@@ -10,6 +10,7 @@ import { scoreToStars } from '../../utils/scoreToStars';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
+import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -394,6 +395,15 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 )}
               </div>
             </div>
+          )}
+
+          {/* Profil de risque (SRI) */}
+          {scpi.profilRisque !== undefined && scpi.profilRisque !== null && (
+            <SriRiskProfileBlock
+              scpis={[{ ...scpi, percentage: 100 }]}
+              title="Profil de Risque (SRRI)"
+              compact
+            />
           )}
 
           {/* 5. Répartitions sectorielle et géographique */}

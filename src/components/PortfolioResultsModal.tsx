@@ -8,6 +8,7 @@ import PieChart from './PieChart';
 import GrowthChart from './GrowthChart';
 import TimeSlider from './TimeSlider';
 import RdvModal from './RdvModal';
+import SriRiskProfileBlock from './shared/SriRiskProfileBlock';
 import Logo from './Logo';
 
 // Version Style Comète avec PieChart Canvas - v4.1 - PROD FIX - 2025-12-20
@@ -457,6 +458,11 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
               </div>
               <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">TOF</div>
             </div>
+          </div>
+
+          {/* Profil de risque moyen (SRI) */}
+          <div className="px-2 sm:px-4">
+            <SriRiskProfileBlock scpis={portfolio} compact />
           </div>
         </div>
 
