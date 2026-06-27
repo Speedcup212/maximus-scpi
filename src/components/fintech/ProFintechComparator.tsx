@@ -788,19 +788,19 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
-      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
         {/* ── Onboarding (Étape 1 uniquement) ── */}
         {onboardingVisible && currentStep === 1 && (
         <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-emerald-950/70 border-b border-emerald-800/40">
-          <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-            <div className="flex items-center justify-between gap-4">
+          <div className="max-w-[1560px] mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <div className="flex-1">
-                <h2 className="text-base sm:text-lg font-bold text-emerald-300">
+                <h2 className="text-sm sm:text-lg font-bold text-emerald-300">
                   Filtrez et sélectionnez vos SCPI pour préparer un support client professionnel et structuré.
                 </h2>
               </div>
-              <div className="flex items-center gap-4 shrink-0">
-                <span className="text-xs text-slate-500 whitespace-nowrap">
+              <div className="flex items-center gap-4 shrink-0 self-end sm:self-auto">
+                <span className="text-[10px] sm:text-xs text-slate-500 whitespace-nowrap">
                   Connexion Pro Active • <span className="text-emerald-400 font-semibold">{filteredData.length} SCPI</span> disponibles
                 </span>
                 <button
@@ -825,24 +825,24 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {filters.tmi !== null && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
-                  <Calculator className="w-4 h-4 text-emerald-400" />
-                  <span className="text-sm font-medium text-emerald-200">TMI</span>
-                  <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-bold rounded-full">
+                <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-emerald-600/20 border border-emerald-500/50 rounded-lg">
+                  <Calculator className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
+                  <span className="text-xs sm:text-sm font-medium text-emerald-200">TMI</span>
+                  <span className="px-1.5 sm:px-2 py-0.5 bg-emerald-500 text-white text-[10px] sm:text-xs font-bold rounded-full">
                     {filters.tmi}%
                   </span>
                 </div>
               )}
               <button
                 onClick={() => setIsFilterOpen(true)}
-                className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
+                className="relative px-2.5 sm:px-4 py-1.5 sm:py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2"
               >
-                <SlidersHorizontal className="w-4 h-4" />
-                <span>Filtres</span>
+                <SlidersHorizontal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Filtres</span>
                 {activeFiltersCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-emerald-500 text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center">
                     {activeFiltersCount}
                   </span>
                 )}
@@ -850,38 +850,27 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               <div className="flex items-center gap-1 bg-slate-700 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                  className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-md transition-all flex items-center gap-1.5 sm:gap-2 ${
                     viewMode === 'grid'
                       ? 'bg-emerald-600 text-white'
                       : 'text-slate-400 hover:text-white hover:bg-slate-600'
                   }`}
                 >
-                  <Grid3x3 className="w-4 h-4" />
-                  <span className="text-sm font-medium">Grille</span>
+                  <Grid3x3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm font-medium">Grille</span>
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-3 py-2 rounded-md transition-all flex items-center gap-2 ${
+                  className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-md transition-all flex items-center gap-1.5 sm:gap-2 ${
                     viewMode === 'list'
                       ? 'bg-emerald-600 text-white'
                       : 'text-slate-400 hover:text-white hover:bg-slate-600'
                   }`}
                 >
-                  <List className="w-4 h-4" />
-                  <span className="text-sm font-medium">Liste</span>
+                  <List className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm font-medium">Liste</span>
                 </button>
               </div>
-              <button
-                onClick={() => setIsFilterOpen(true)}
-                className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
-              >
-                <SlidersHorizontal className="w-5 h-5 text-white" />
-                {activeFiltersCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
-                    {activeFiltersCount}
-                  </span>
-                )}
-              </button>
             </div>
           </div>
           <div className="relative w-full">
@@ -987,7 +976,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             ) : (
               <>
                 {viewMode === 'grid' ? (
-                  <div id="scpi-grid" className="mt-6 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+                  <div id="scpi-grid" className="mt-4 sm:mt-6 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
                     {paginatedData.map(scpi => (
                       <ProSCPICardDark
                         key={scpi.id}
@@ -1030,7 +1019,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 )}
 
                 {viewMode === 'list' && (
-                  <div className="md:hidden mt-16 grid grid-cols-1 gap-6">
+                  <div className="md:hidden mt-6 grid grid-cols-1 gap-4">
                     {paginatedData.map(scpi => (
                       <ProSCPICardDark
                         key={scpi.id}
@@ -1169,14 +1158,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
         {/* ══════════ ÉTAPE 2 : ANALYSE DES RÉSULTATS ══════════ */}
         {currentStep === 2 && (
-        <div className="mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-4 sm:gap-6 items-start">
           <main className="min-w-0 pb-24 lg:pb-6">
             {/* === CONTENU RÉORGANISÉ EN 3 SECTIONS D'ACCENT === */}
-            <section className="space-y-8">
+            <section className="space-y-6 sm:space-y-8">
 
               {/* ▸▸▸ SECTION 1 : COHÉRENCE DU PORTEFEUILLE (emerald) */}
-              <div className="rounded-2xl border border-emerald-500/25 border-l-4 border-l-emerald-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-5 py-4">
+              <div className="rounded-2xl border border-emerald-500/25 border-l-4 border-l-emerald-400 bg-slate-900/60 p-3 sm:p-6 shadow-sm">
+                <header className="mb-4 sm:mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 sm:px-5 py-3 sm:py-4">
                   <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-300">
                     <Award className="w-5 h-5" />
                     Cohérence du portefeuille
@@ -1354,7 +1343,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               {/* ▸▸▸ SECTION 2 : RÉPARTITION & DIVERSIFICATION (bleu) */}
               {aggregatedSectors.length > 0 && aggregatedGeography.length > 0 && (
               <div className="rounded-2xl border border-blue-500/25 border-l-4 border-l-blue-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-6 rounded-xl border border-blue-500/20 bg-blue-500/5 px-5 py-4">
+                <header className="mb-4 sm:mb-6 rounded-xl border border-blue-500/20 bg-blue-500/5 px-3 sm:px-5 py-3 sm:py-4">
                   <h2 className="flex items-center gap-2 text-lg font-semibold text-blue-300">
                     <PieChartIcon className="w-5 h-5" />
                     Répartition &amp; diversification
@@ -1455,7 +1444,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
               {/* ▸▸▸ SECTION 3 : SIMULATION & PROJECTION (violet) */}
               <div className="rounded-2xl border border-violet-500/25 border-l-4 border-l-violet-400 bg-slate-900/60 p-4 sm:p-6 shadow-sm">
-                <header className="mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 px-5 py-4">
+                <header className="mb-4 sm:mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 px-3 sm:px-5 py-3 sm:py-4">
                   <h2 className="flex items-center gap-2 text-lg font-semibold text-violet-300">
                     <Sliders className="w-5 h-5" />
                     Simulation &amp; projection
@@ -1478,7 +1467,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <p className="text-lg font-bold text-violet-300">{avgYield.toFixed(2)}%</p>
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-3 border border-violet-500/20">
-                    <p className="text-[10px] text-slate-400 mb-0.5">Investissement minimal estimé</p>
+                    <p className="text-[10px] text-slate-400 mb-0.5">Invest. min. estimé</p>
                     <p className="text-lg font-bold text-violet-300">{minInvestment.toLocaleString('fr-FR')}€</p>
                   </div>
                 </div>
@@ -2416,18 +2405,20 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 <h3 className="text-sm font-bold text-white mb-3">SCPI sélectionnées</h3>
                 <div className="space-y-2">
                   {portfolioAnalysis.scpiData.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
+                    <div key={item.id} className="flex items-center justify-between gap-2 sm:gap-3 text-[10px] sm:text-xs">
                       <div className="flex-1 min-w-0">
-                        <span className="text-white font-semibold truncate">{item.name}</span>
+                        <span className="text-white font-semibold truncate block">{item.name}</span>
                         {selectedScpis.find(s => s.id === item.id)?.managementCompany && (
-                          <span className="text-slate-500 ml-2 hidden sm:inline">
+                          <span className="text-slate-500 hidden sm:inline">
                             {selectedScpis.find(s => s.id === item.id)!.managementCompany}
                           </span>
                         )}
                       </div>
-                      <span className="text-slate-300 flex-shrink-0">{formatPercent(item.percentage)}</span>
-                      <span className="text-violet-300 flex-shrink-0 w-20 text-right tabular-nums">{formatCurrency(item.amount)}</span>
-                      <span className="text-emerald-400 font-semibold flex-shrink-0 w-16 text-right tabular-nums">{item.yield.toFixed(2)}%</span>
+                      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                        <span className="text-slate-300">{formatPercent(item.percentage)}</span>
+                        <span className="text-violet-300 text-right tabular-nums min-w-[65px] sm:min-w-[80px]">{formatCurrency(item.amount)}</span>
+                        <span className="text-emerald-400 font-semibold text-right tabular-nums min-w-[55px] sm:min-w-[64px]">{item.yield.toFixed(2)}%</span>
+                      </div>
                     </div>
                   ))}
                 </div>
