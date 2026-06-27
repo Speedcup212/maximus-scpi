@@ -94,9 +94,6 @@ const MobileSelectionBar: React.FC<MobileSelectionBarProps> = ({ count, onOpen, 
           <span>Voir ma sélection ({count})</span>
           <ArrowRight className="w-5 h-5" />
         </button>
-        <p className="text-xs text-center text-slate-400 mt-2">
-          {count} SCPI sélectionnée{count > 1 ? 's' : ''}
-        </p>
       </div>
     </div>
   );
