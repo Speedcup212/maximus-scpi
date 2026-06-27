@@ -11,6 +11,7 @@ import GeographyAllocation from './GeographyAllocation';
 import LoadingSpinner from '../LoadingSpinner';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
 import ZScoreBar from '../ZScoreBar';
+import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import { getInvestorProfile } from '../../utils/investorProfile';
 
 interface SimulationModalProps {
@@ -20,7 +21,7 @@ interface SimulationModalProps {
 }
 
 const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, selectedScpis }) => {
-  const { totalInvestment, setTotalInvestment, distributeEqually } = useAllocation();
+  const { totalInvestment, setTotalInvestment, distributeEqually, weights } = useAllocation();
   const investorProfileLabel = useMemo(() => getInvestorProfile(), []);
 
   const coherenceZScore = useMemo(() => {
@@ -131,6 +132,14 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
               </div>
               <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="compact" />
             </div>
+
+            {/* Profil de risque moyen (SRI) */}
+            <SriRiskProfileBlock
+              scpis={selectedScpis.map(s => ({
+                ...s,
+                percentage: weights[s.id] || 0,
+              }))}
+            />
 
             {/* Portfolio Summary Header */}
             <PortfolioSummaryHeader selectedScpis={selectedScpis} />
