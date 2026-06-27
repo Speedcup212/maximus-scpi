@@ -9,7 +9,6 @@ import SCPITableRow from './SCPITableRow';
 import ProSelectionSidebar from './ProSelectionSidebar';
 import MobileSelectionBar from './MobileSelectionBar';
 import AnalysisDetailModal from './AnalysisDetailModal';
-import { SimulationModal } from '../simulation';
 import FilterPanel, { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
@@ -57,7 +56,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const clientLinkId = useMemo(() => Date.now().toString(36).toUpperCase(), []);
   const [allocations, setAllocations] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSimulationOpen, setIsSimulationOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'yield' | 'price'>('yield');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
@@ -2449,17 +2447,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
       )}
 
-      {/* Mobile Selection Bar */}
+      {/* Mobile Selection Bar — navigue vers l'Étape 2 (Analyse) */}
       <MobileSelectionBar
         count={selectedScpis.length}
-        onOpen={() => setIsSimulationOpen(true)}
-        selectedScpis={selectedScpis}
-      />
-
-      {/* Simulation Modal */}
-      <SimulationModal
-        isOpen={isSimulationOpen}
-        onClose={() => setIsSimulationOpen(false)}
+        onOpen={() => setCurrentStep(2)}
         selectedScpis={selectedScpis}
       />
 
