@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
     if (onPrivateSpaceClick) {
       onPrivateSpaceClick();
     } else {
-      window.location.href = '/app';
+      window.location.href = '/pro/dashboard';
     }
   };
   const dropdownRef = useRef<HTMLDivElement>(null);
