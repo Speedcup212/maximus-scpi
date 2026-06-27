@@ -578,23 +578,32 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
   // Profil de risque moyen (SRI) pondéré par les montants investis
   const portfolioRiskScore = useMemo(() => {
-    if (selectedScpis.length === 0) return 0;
+    if (selectedScpis.length === 0) return { score: null, hasAnySri: false, hasMissingSri: false, missingSriNames: [] as string[], scpiCount: 0 };
     let totalWeight = 0;
     let weightedSriSum = 0;
-    let scpiWithoutSri = 0;
+    const missingSriNames: string[] = [];
     selectedScpis.forEach(scpi => {
       const weight = weights[scpi.id] || 0;
+      if (weight <= 0) return;
       const sri = scpi.profilRisque;
       if (typeof sri === 'number' && sri >= 1 && sri <= 7) {
         weightedSriSum += sri * weight;
         totalWeight += weight;
       } else {
-        scpiWithoutSri++;
+        missingSriNames.push(scpi.name);
       }
     });
-    if (totalWeight === 0) return 0;
+    if (totalWeight === 0) {
+      return { score: null, hasAnySri: false, hasMissingSri: missingSriNames.length > 0, missingSriNames, scpiCount: selectedScpis.length };
+    }
     const avgSri = weightedSriSum / totalWeight;
-    return Math.round(avgSri * 10) / 10; // 1 décimale
+    return {
+      score: Math.round(avgSri * 10) / 10,
+      hasAnySri: true,
+      hasMissingSri: missingSriNames.length > 0,
+      missingSriNames,
+      scpiCount: selectedScpis.length,
+    };
   }, [selectedScpis, weights]);
 
   // Calculs spécifiques au mode Crédit
@@ -1289,44 +1298,66 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     Profil de risque moyen (SRI)
                   </h4>
                   <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-                    {/* Barres de risque 1-7 avec remplissage fractionnaire */}
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div className="flex-1 flex gap-0.5 sm:gap-1">
-                        {[1, 2, 3, 4, 5, 6, 7].map((level) => {
-                          const fullBars = Math.floor(portfolioRiskScore);
-                          const fraction = portfolioRiskScore - fullBars;
-                          const isFull = level <= fullBars;
-                          const isFractional = !isFull && level === fullBars + 1 && fraction > 0;
-                          const barColor = (isFull || isFractional) ? 'bg-teal-300' : 'bg-slate-600';
-                          const opacity = (isFull || isFractional) ? 'opacity-100' : 'opacity-30';
-                          return (
-                            <div
-                              key={level}
-                              className={`flex-1 h-3 sm:h-4 rounded-sm relative overflow-hidden transition-all duration-300`}
-                              title={`Niveau ${level}/7`}
-                            >
-                              <div className={`absolute inset-0 ${barColor} bg-slate-600`} />
-                              {(isFull || isFractional) && (
+                    {portfolioRiskScore.hasAnySri ? (
+                      <>
+                        {/* Barres de risque 1-7 avec remplissage fractionnaire */}
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <div className="flex-1 flex gap-0.5 sm:gap-1">
+                            {[1, 2, 3, 4, 5, 6, 7].map((level) => {
+                              const score = portfolioRiskScore.score ?? 0;
+                              const fullBars = Math.floor(score);
+                              const fraction = score - fullBars;
+                              const isFull = level <= fullBars;
+                              const isFractional = !isFull && level === fullBars + 1 && fraction > 0;
+                              const barColor = (isFull || isFractional) ? 'bg-teal-300' : 'bg-slate-600';
+                              const opacity = (isFull || isFractional) ? 'opacity-100' : 'opacity-30';
+                              return (
                                 <div
-                                  className={`absolute inset-y-0 left-0 ${barColor} ${opacity}`}
-                                  style={{ width: isFractional ? `${Math.round(fraction * 100)}%` : '100%' }}
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <span className="text-sm sm:text-base font-bold text-white min-w-[3rem] text-right">{portfolioRiskScore.toFixed(1).replace('.', ',')}/7</span>
-                    </div>
-                    {/* Légende */}
-                    <div className="flex justify-between mt-1.5">
-                      <span className="text-[9px] sm:text-[10px] text-slate-500">Prudent</span>
-                      <span className="text-[9px] sm:text-[10px] text-slate-500">Équilibré</span>
-                      <span className="text-[9px] sm:text-[10px] text-slate-500">Dynamique</span>
-                    </div>
-                    <p className="text-[9px] sm:text-[10px] text-slate-400 mt-2 italic leading-relaxed">
-                      Moyenne pondérée des indicateurs synthétiques de risque (SRI) figurant dans les DIC des SCPI sélectionnées.
-                    </p>
+                                  key={level}
+                                  className={`flex-1 h-3 sm:h-4 rounded-sm relative overflow-hidden transition-all duration-300`}
+                                  title={`Niveau ${level}/7`}
+                                >
+                                  <div className={`absolute inset-0 ${barColor} bg-slate-600`} />
+                                  {(isFull || isFractional) && (
+                                    <div
+                                      className={`absolute inset-y-0 left-0 ${barColor} ${opacity}`}
+                                      style={{ width: isFractional ? `${Math.round(fraction * 100)}%` : '100%' }}
+                                    />
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <span className="text-sm sm:text-base font-bold text-white min-w-[3rem] text-right">
+                            {(portfolioRiskScore.score ?? 0).toFixed(1).replace('.', ',')}/7
+                          </span>
+                        </div>
+                        {/* Légende */}
+                        <div className="flex justify-between mt-1.5">
+                          <span className="text-[9px] sm:text-[10px] text-slate-500">Prudent</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500">Équilibré</span>
+                          <span className="text-[9px] sm:text-[10px] text-slate-500">Dynamique</span>
+                        </div>
+                        {portfolioRiskScore.hasMissingSri && (
+                          <p className="text-[9px] sm:text-[10px] text-amber-400/80 mt-2 leading-relaxed">
+                            ⚠ SRI non disponible pour : {portfolioRiskScore.missingSriNames.join(', ')}.
+                            Le score est calculé uniquement sur les SCPI disposant d'un SRI DIC.
+                          </p>
+                        )}
+                        <p className="text-[9px] sm:text-[10px] text-slate-400 mt-2 italic leading-relaxed">
+                          Moyenne pondérée des indicateurs synthétiques de risque (SRI) figurant dans les DIC des SCPI sélectionnées.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-sm text-slate-400 italic">
+                          SRI non disponible
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1 leading-relaxed">
+                          Aucune SCPI sélectionnée ne dispose d'un indicateur synthétique de risque (SRI) renseigné.
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
 

@@ -402,10 +402,11 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
       : undefined,
     sfdr: scpi['SFDR'] || undefined,
     profilCible: scpi['Profil cible'] || undefined,
-    // Profil de risque : chercher dans le nouveau format structuré ou l'ancien format
+    // Profil de risque : chercher dans le nouveau format structuré (DIC) ou l'ancien format
     profilRisque: scpi['Profil_de_risque']?.SRRI !== null && scpi['Profil_de_risque']?.SRRI !== undefined
       ? scpi['Profil_de_risque'].SRRI
-      : (cleanNumericValue(scpi['Profil de risque']) || 
+      : (cleanNumericValue(scpi['niveau_risque_dic']) ||
+         cleanNumericValue(scpi['Profil de risque']) || 
          cleanNumericValue(scpi['Profil risque']) ||
          cleanNumericValue(scpi['Profil de risque (1-7)']) ||
          cleanNumericValue(scpi['Risque (1-7)']))
