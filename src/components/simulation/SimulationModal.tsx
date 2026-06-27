@@ -200,14 +200,14 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
 
         {/* Footer */}
         <div className="bg-slate-800 border-t border-slate-700 px-4 sm:px-6 lg:px-8 py-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-            <p className="text-[10px] sm:text-xs text-slate-400 flex-shrink min-w-0">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center gap-3">
+            <p className="text-[10px] sm:text-xs text-slate-400">
               Les résultats sont indicatifs et basés sur les performances passées
             </p>
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 sm:ml-auto">
               <button
                 onClick={onClose}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-semibold text-sm transition-colors"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-semibold text-sm transition-colors flex-shrink-0"
               >
                 Retour
               </button>
@@ -217,7 +217,7 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
                   window.dispatchEvent(new PopStateEvent('popstate'));
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 flex-shrink-0"
               >
                 <FileText className="w-5 h-5 flex-shrink-0" />
                 <span className="whitespace-nowrap">Commencer ma pré-souscription</span>
