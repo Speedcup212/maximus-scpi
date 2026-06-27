@@ -481,7 +481,6 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       <MobileSelectionBar
         count={selectedScpis.length}
         onOpen={() => setIsSimulationOpen(true)}
-        selectedScpis={selectedScpis}
       />
 
       {/* Simulation Modal */}

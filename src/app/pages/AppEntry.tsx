@@ -25,6 +25,14 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
     }
   }, [loading, profileLoading, user, profile, onNavigate]);
 
+  if (loading || (user && profileLoading)) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
+        <div className="text-sm text-slate-400 animate-pulse">Chargement…</div>
+      </div>
+    );
+  }
+
   if (!supabase) {
     return (
       <SupabaseNotConfigured

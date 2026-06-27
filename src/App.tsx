@@ -1462,6 +1462,11 @@ const App: React.FC = () => {
   const navigateToApp = (path: string) => {
     const cleanPath = path.replace(/^\/|\/$/, '');
     const segments = cleanPath.split('/');
+    // Délégation : les chemins /pro/* sont gérés par navigateToPro
+    if (segments[0] === 'pro') {
+      navigateToPro(path);
+      return;
+    }
     if (segments[0] !== 'app' && segments[0] !== 'espace') {
       navigateToView('app-entry', '/app');
       return;

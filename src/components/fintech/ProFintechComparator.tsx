@@ -1281,7 +1281,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                 {/* Profil de risque global du portefeuille (échelle 1→7) */}
                 <div className="pt-4 border-t border-slate-700 mb-4">
                   <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5">
-                    <Shield className="w-3.5 h-3.5 text-purple-400" />
+                    <Shield className="w-3.5 h-3.5 text-teal-400" />
                     Profil de risque de la sélection
                   </h4>
                   <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
@@ -1290,13 +1290,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       <div className="flex-1 flex gap-0.5 sm:gap-1">
                         {[1, 2, 3, 4, 5, 6, 7].map((level) => {
                           const isActive = level <= portfolioRiskScore;
-                          let barColor = 'bg-slate-600';
-                          if (isActive) {
-                            if (level <= 2) barColor = 'bg-emerald-500';
-                            else if (level <= 4) barColor = 'bg-amber-400';
-                            else if (level <= 6) barColor = 'bg-orange-500';
-                            else barColor = 'bg-red-500';
-                          }
+                          const barColor = isActive ? 'bg-teal-300' : 'bg-slate-600';
                           return (
                             <div
                               key={level}
