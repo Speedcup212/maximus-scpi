@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, Shield, CheckCircle2, BarChart3 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
 import { AllocationProvider } from '../../contexts/AllocationContext';
@@ -576,6 +576,24 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     const totalAnnual = scpiDataArr.reduce((sum, item) => sum + item.annualIncome, 0);
     return { scpiData: scpiDataArr, totalAmount, totalPercentage: Object.values(scpiPercentages).reduce((s,p) => s + p, 0), weightedYield, totalAnnualIncome: totalAnnual, totalMonthlyIncome: totalAnnual / 12 };
   }, [selectedScpis, scpiPercentages, totalAmount]);
+
+  // Profil de risque global du portefeuille (échelle 1-7)
+  const portfolioRiskScore = useMemo(() => {
+    if (selectedScpis.length === 0) return 0;
+    // Calcul basé sur le rendement pondéré, le nombre de SCPI et le TOF moyen
+    const wy = portfolioAnalysis?.weightedYield ?? (selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length);
+    const tof = selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length;
+    let score = 3; // Défaut modéré
+    if (selectedScpis.length < 2) {
+      if (wy < 5) score = 1; else if (wy < 6.5) score = 2; else if (wy < 8) score = 3; else score = 4;
+    } else {
+      if (wy < 7) score = 2; else if (wy < 8.5) score = 3; else score = 4;
+    }
+    // Ajustement TOF : -1 si TOF faible, +1 si excellent
+    if (tof < 85) score = Math.max(1, score - 1);
+    else if (tof >= 98) score = Math.min(7, score + 1);
+    return score;
+  }, [selectedScpis, portfolioAnalysis]);
 
   // Calculs spécifiques au mode Crédit
   const creditMetrics = useMemo(() => {
@@ -1276,6 +1294,49 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     customCtaText="Paramétrer le dossier client"
                     customFooterNote="Le Z-score décrit la structure globale de la sélection. Il n'indique ni un niveau de risque, ni une recommandation d'investissement."
                   />
+                </div>
+
+                {/* Profil de risque global du portefeuille (échelle 1→7) */}
+                <div className="pt-4 border-t border-slate-700 mb-4">
+                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-purple-400" />
+                    Profil de risque de la sélection
+                  </h4>
+                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                    {/* Barres de risque 1-7 */}
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="flex-1 flex gap-0.5 sm:gap-1">
+                        {[1, 2, 3, 4, 5, 6, 7].map((level) => {
+                          const isActive = level <= portfolioRiskScore;
+                          let barColor = 'bg-slate-600';
+                          if (isActive) {
+                            if (level <= 2) barColor = 'bg-emerald-500';
+                            else if (level <= 4) barColor = 'bg-amber-400';
+                            else if (level <= 6) barColor = 'bg-orange-500';
+                            else barColor = 'bg-red-500';
+                          }
+                          return (
+                            <div
+                              key={level}
+                              className={`flex-1 h-3 sm:h-4 rounded-sm transition-all duration-300 ${barColor} ${isActive ? 'opacity-100' : 'opacity-30'}`}
+                              title={`Niveau ${level}/7`}
+                            />
+                          );
+                        })}
+                      </div>
+                      <span className="text-sm sm:text-base font-bold text-white min-w-[2rem] text-right">{portfolioRiskScore}/7</span>
+                    </div>
+                    {/* Légende */}
+                    <div className="flex justify-between mt-1.5">
+                      <span className="text-[9px] sm:text-[10px] text-slate-500">Prudent</span>
+                      <span className="text-[9px] sm:text-[10px] text-slate-500">Équilibré</span>
+                      <span className="text-[9px] sm:text-[10px] text-slate-500">Dynamique</span>
+                    </div>
+                    <p className="text-[9px] sm:text-[10px] text-slate-400 mt-2 italic leading-relaxed">
+                      Indicateur basé sur le rendement pondéré, le nombre de SCPI et le taux d'occupation financier de la sélection.
+                      Ne constitue pas une recommandation personnalisée.
+                    </p>
+                  </div>
                 </div>
 
                 {/* Analyse de cohérence */}

@@ -77,7 +77,7 @@ const MobileSelectionBar: React.FC<MobileSelectionBarProps> = ({ count, onOpen, 
   }, [selectedScpis]);
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-800 border-t-2 border-orange-500 shadow-2xl shadow-orange-500/20">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-800 border-t-2 border-orange-500 shadow-2xl shadow-orange-500/20 pb-[env(safe-area-inset-bottom,16px)]">
       <div className="px-4 py-4 space-y-3">
         <div className="bg-slate-900/60 rounded-lg p-3 border border-slate-700">
           <div className="flex items-center gap-2 text-[11px] text-slate-300 mb-1">
