@@ -2447,12 +2447,13 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
         </div>
       )}
 
-      {/* Mobile Selection Bar — navigue vers l'Étape 2 (Analyse) */}
-      <MobileSelectionBar
-        count={selectedScpis.length}
-        onOpen={() => setCurrentStep(2)}
-        selectedScpis={selectedScpis}
-      />
+      {/* Mobile Selection Bar — Étape 1 uniquement */}
+      {currentStep === 1 && (
+        <MobileSelectionBar
+          count={selectedScpis.length}
+          onOpen={() => setCurrentStep(2)}
+        />
+      )}
 
       {/* Analysis Detail Modal */}
       {analysisScpi && (
