@@ -582,15 +582,16 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     let totalWeight = 0;
     let weightedSriSum = 0;
     const missingSriNames: string[] = [];
-    selectedScpis.forEach(scpi => {
-      const weight = weights[scpi.id] || 0;
+    selectedScpis.forEach(item => {
+      const scpi = (item as any).scpi ?? item;
+      const weight = (item as any).weight ?? weights[(scpi as any).id ?? scpi.id] ?? 0;
       if (weight <= 0) return;
-      const sri = scpi.profilRisque;
+      const sri = (scpi as any).profilRisque;
       if (typeof sri === 'number' && sri >= 1 && sri <= 7) {
         weightedSriSum += sri * weight;
         totalWeight += weight;
       } else {
-        missingSriNames.push(scpi.name);
+        missingSriNames.push(scpi.name ?? (scpi as any).scpiName ?? 'Inconnu');
       }
     });
     if (totalWeight === 0) {
