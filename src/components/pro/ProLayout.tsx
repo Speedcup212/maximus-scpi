@@ -78,11 +78,34 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
           Déconnexion
         </button>
       </header>
-      <main className="flex-1 overflow-y-auto" key={dashboardRemountKey}>
+      <main className="flex-1 overflow-y-auto pb-14 sm:pb-0" key={dashboardRemountKey}>
         <ProReportProvider>
           {children}
         </ProReportProvider>
       </main>
+      {/* Barre de navigation mobile — même liens que desktop */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900 border-t border-slate-700 flex justify-around items-center py-1.5 pb-[env(safe-area-inset-bottom,8px)]">
+        <button onClick={handleLogoClick}
+          className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] transition ${currentPath === '/pro/dashboard' ? 'text-emerald-400' : 'text-slate-400'}`}>
+          <span className="text-lg leading-none">📊</span>
+          <span>Comparateur</span>
+        </button>
+        <button onClick={() => onNavigate('/pro/rapports')}
+          className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] transition ${currentPath === '/pro/rapports' ? 'text-emerald-400' : 'text-slate-400'}`}>
+          <span className="text-lg leading-none">🔗</span>
+          <span>Mes liens clients</span>
+        </button>
+        <button onClick={() => onNavigate('/pro/settings')}
+          className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] transition ${currentPath === '/pro/settings' ? 'text-emerald-400' : 'text-slate-400'}`}>
+          <span className="text-lg leading-none">🏢</span>
+          <span>Mon cabinet</span>
+        </button>
+        <button onClick={async () => { await supabase.auth.signOut(); onSignOut(); }}
+          className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-[10px] text-slate-500">
+          <span className="text-lg leading-none">🚪</span>
+          <span>Déconnexion</span>
+        </button>
+      </nav>
     </div>
   );
 }

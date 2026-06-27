@@ -1008,7 +1008,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     ))}
                   </div>
                 ) : (
-                  <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-700 bg-slate-800/70">
+                  <div className="overflow-x-auto rounded-xl border border-slate-700 bg-slate-800/70">
                     <div className="min-w-[980px]">
                       <div className="grid grid-cols-[minmax(180px,1.4fr)_130px_120px_70px_80px_100px_72px_180px] items-center border-b border-slate-700 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
                         <div>SCPI</div>
@@ -1033,22 +1033,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         />
                       ))}
                     </div>
-                  </div>
-                )}
-
-                {viewMode === 'list' && (
-                  <div className="md:hidden mt-6 grid grid-cols-1 gap-4">
-                    {paginatedData.map(scpi => (
-                      <ProSCPICardDark
-                        key={scpi.id}
-                        scpi={scpi}
-                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
-                        isSelected={selectedScpis.some(s => s.id === scpi.id)}
-                        onToggleSelect={() => toggleSelect(scpi)}
-                        onAnalyze={() => handleAnalyze(scpi)}
-                        userTmi={filters.tmi}
-                      />
-                    ))}
                   </div>
                 )}
 
@@ -1105,7 +1089,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
         {/* Sidebar Étape 1 — Mini-cartes SCPI sélectionnées uniquement */}
         <aside className="block xl:sticky xl:top-24 scroll-mt-20">
-          <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
+          <div className="block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
             <div className="sticky top-24">
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
@@ -1987,9 +1971,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                   <div className="bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden">
                     <p className="text-xs text-slate-300 px-4 pt-4 pb-3 font-semibold">Détail de votre sélection</p>
 
-                    {/* ─── DESKTOP TABLE ─── */}
-                    <div className="hidden lg:block overflow-x-auto">
-                      <table className="w-full text-xs">
+                    {/* ─── TABLE ─── */}
+                    <div className="overflow-x-auto">
+                      <table className="min-w-[980px] w-full text-xs">
                         <thead>
                           <tr className="border-b border-slate-700 text-[10px] uppercase tracking-wider text-slate-400">
                             <th className="text-left py-2.5 px-4 w-[240px]">SCPI</th>
@@ -2194,170 +2178,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         </tbody>
                       </table>
                     </div>
-
-                    {/* ─── MOBILE CARDS ─── */}
-                    <div className="lg:hidden divide-y divide-slate-700/50">
-                      {selectedScpis.map(scpi => {
-                        const discountInfo = getDiscountPremium(scpi);
-                        const isExpanded = expandedScpiIds.has(scpi.id);
-                        return (
-                          <div key={scpi.id}>
-                            <div
-                              className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-slate-700/30 transition-colors"
-                              onClick={() => toggleExpandScpi(scpi.id)}
-                            >
-                              <div className="min-w-0 flex-1">
-                                <p className="text-sm font-semibold text-white truncate">{scpi.name}</p>
-                                <p className="text-[10px] text-slate-400 truncate">{scpi.managementCompany}</p>
-                                <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                  <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-semibold border ${getCategoryColor(scpi.category)}`}>
-                                    {scpi.category}
-                                  </span>
-                                  <span className="text-[10px] text-violet-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
-                                  <span className="text-[10px] text-slate-400">{scpi.price}€</span>
-                                  {discountInfo && (
-                                    <span className={`text-[10px] font-semibold ${discountInfo.isDiscount ? 'text-emerald-400' : 'text-amber-400'}`}>
-                                      {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <button
-                                onClick={(e) => { e.stopPropagation(); toggleExpandScpi(scpi.id); }}
-                                className="flex items-center gap-1 px-2.5 py-1 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors flex-shrink-0"
-                              >
-                                {isExpanded ? 'Masquer' : 'Voir détails'}
-                                <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                              </button>
-                            </div>
-                            {isExpanded && (
-                              <div className="bg-slate-900/50 px-4 py-3 border-t border-slate-700/50">
-                                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px]">
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">TOF</p>
-                                    <p className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
-                                      {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Invest. min.</p>
-                                    <p className="text-slate-300">
-                                      {scpi.minInvestment >= 1000
-                                        ? `${(scpi.minInvestment / 1000).toFixed(0)}k€`
-                                        : `${scpi.minInvestment}€`}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Capitalisation</p>
-                                    <p className="text-slate-300">{scpi.capitalization || '—'}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Société de gestion</p>
-                                    <p className="text-slate-300">{scpi.managementCompany}</p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Horizon recommandé</p>
-                                    <p className="text-slate-300">
-                                      {scpi.dureeDetentionRecommandee ? `${scpi.dureeDetentionRecommandee} ans` : '≥ 8 ans'}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Distribution</p>
-                                    <p className="text-slate-300">
-                                      {scpi.versementLoyers || (scpi.distribution ? `${scpi.distribution}€/part` : 'Trimestrielle')}
-                                    </p>
-                                  </div>
-                                  {typeof scpi.ltv === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Endettement</p>
-                                      <p className="text-slate-300">{scpi.ltv}%</p>
-                                    </div>
-                                  )}
-                                  <div>
-                                    <p className="text-[10px] text-slate-500">Nombre d'immeubles</p>
-                                    <p className="text-slate-300">
-                                      {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
-                                    </p>
-                                  </div>
-                                  {scpi.reconstitutionValue && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Valeur reconstitution</p>
-                                      <p className="text-slate-300">{scpi.reconstitutionValue}€</p>
-                                    </div>
-                                  )}
-                                  {scpi.valeurRetrait != null && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Valeur de retrait</p>
-                                      <p className="text-slate-300">{scpi.valeurRetrait}€</p>
-                                    </div>
-                                  )}
-                                  {scpi.valeurRealisation != null && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Valeur réalisation</p>
-                                      <p className="text-slate-300">{scpi.valeurRealisation}€</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.delaiJouissance === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Délai de jouissance</p>
-                                      <p className="text-slate-300">{scpi.delaiJouissance} mois</p>
-                                    </div>
-                                  )}
-                                  {scpi.sfdr && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">SFDR</p>
-                                      <p className="text-slate-300">{scpi.sfdr}</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.profilRisque === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Profil de risque</p>
-                                      <p className="text-slate-300">{scpi.profilRisque}/7</p>
-                                    </div>
-                                  )}
-                                  {scpi.profilCible && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Profil cible</p>
-                                      <p className="text-slate-300">{scpi.profilCible}</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.entryFees === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Frais d'entrée</p>
-                                      <p className="text-slate-300">{scpi.entryFees}%</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.managementFees === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Frais de gestion</p>
-                                      <p className="text-slate-300">{scpi.managementFees}%</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.walt === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">WALT</p>
-                                      <p className="text-slate-300">{scpi.walt} ans</p>
-                                    </div>
-                                  )}
-                                  {typeof scpi.walb === 'number' && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">WALB</p>
-                                      <p className="text-slate-300">{scpi.walb} ans</p>
-                                    </div>
-                                  )}
-                                  {scpi.withdrawalDelay && (
-                                    <div>
-                                      <p className="text-[10px] text-slate-500">Délai de retrait</p>
-                                      <p className="text-slate-300">{scpi.withdrawalDelay}</p>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
                   </div>
                 )}
               </div>
@@ -2381,7 +2201,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
 
           {/* Sidebar Étape 2 — Z-Score de cohérence */}
           <aside className="block xl:sticky xl:top-24 scroll-mt-20">
-            <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
+            <div className="block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
               <div className="sticky top-24">
                 <div className="mb-6">
                   <h3 className="text-xl font-bold text-white mb-2">Z-Score de Cohérence</h3>
