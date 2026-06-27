@@ -3523,7 +3523,8 @@ const baseSCPIData: SCPIExtended[] = [
     "entryFees": 5,
     "managementFees": 10,
     "dureeDetentionRecommandee": 8,
-    "sfdr": "Article 8"
+    "sfdr": "Article 8",
+    "profilRisque": 3
   },
   {
     "id": 56,

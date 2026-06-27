@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Mail, Send, TrendingUp, Target, Shield, Leaf, Clock, DollarSign } from 'lucide-react';
+import { X, Mail, Send, TrendingUp, Target, Leaf, Clock, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { submitLead } from '../utils/leadSubmitter';
@@ -135,15 +135,6 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
             </h3>
             
             <div className="grid grid-cols-2 gap-3 text-sm">
-              {profilRisque !== "Non défini" && (
-                <div className="flex items-center gap-2">
-                  <Shield className="w-3 h-3 text-green-600 dark:text-green-400" />
-                  <span className="text-green-700 dark:text-green-300">
-                    <strong>Risque:</strong> {profilRisque}
-                  </span>
-                </div>
-              )}
-              
               {profilESG !== "Standard" && (
                 <div className="flex items-center gap-2">
                   <Leaf className="w-3 h-3 text-green-600 dark:text-green-400" />

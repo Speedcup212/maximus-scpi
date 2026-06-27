@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
-import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, DollarSign, Calendar, Download, Phone, Calculator, Shield, CheckCircle, ChevronDown } from 'lucide-react';
+import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Award, Building, MapPin, DollarSign, Calendar, Download, Phone, Calculator, CheckCircle, ChevronDown } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
@@ -51,7 +51,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   });
   const [customAllocations, setCustomAllocations] = useState<Record<string, number>>({});
   const [diversificationTab, setDiversificationTab] = useState<'sector' | 'geo'>('sector');
-  const [mobileMetricTab, setMobileMetricTab] = useState<'diversity' | 'quality' | 'risk'>('diversity');
+  const [mobileMetricTab, setMobileMetricTab] = useState<'diversity' | 'quality'>('diversity');
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
 
   const toggleSection = (section: string) => {
@@ -134,9 +134,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   const averageTof = portfolio.length > 0
     ? portfolio.reduce((sum, item) => sum + (item.tof * item.percentage / 100), 0)
     : 0;
-
-  // Profil de risque fixe à 3 par défaut (sera calculé plus tard)
-  const roundedRiskProfile = 3;
 
   // Fonctions utilitaires
   const getSectorDisplayName = (sector: string): string => {
@@ -354,17 +351,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                 >
                   TOF
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setMobileMetricTab('risk')}
-                  className={`flex-1 px-2 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    mobileMetricTab === 'risk'
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400'
-                  }`}
-                >
-                  Risque
-                </button>
               </div>
 
               <div className="text-center">
@@ -408,44 +394,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                     </div>
                     <div className="text-xs font-medium text-gray-600 dark:text-gray-300">
                       Taux d'Occupation Financier
-                    </div>
-                  </>
-                )}
-
-                {mobileMetricTab === 'risk' && (
-                  <>
-                    <div className="text-xl font-black text-indigo-600 dark:text-indigo-400 mb-2">
-                      Niveau {roundedRiskProfile}
-                    </div>
-                    <div className="relative flex items-center justify-center mb-1">
-                      <div className="absolute w-full h-0.5 bg-gray-300 dark:bg-gray-600" style={{ top: '50%' }} />
-                      <div className="relative flex items-center justify-between w-full px-1">
-                        {[1, 2, 3, 4, 5, 6, 7].map((level) => {
-                          const isActive = level === roundedRiskProfile;
-                          const getColor = () => {
-                            if (level <= 2) return 'bg-green-500 border-green-600';
-                            if (level <= 4) return 'bg-yellow-500 border-yellow-600';
-                            if (level <= 5) return 'bg-orange-500 border-orange-600';
-                            return 'bg-red-500 border-red-600';
-                          };
-                          return (
-                            <div key={level}>
-                              <div
-                                className={`rounded-full transition-all border ${
-                                  isActive ? `${getColor()} shadow-lg` : 'bg-gray-300 dark:bg-gray-600 border-gray-400'
-                                }`}
-                                style={{
-                                  width: isActive ? '10px' : '6px',
-                                  height: isActive ? '10px' : '6px',
-                                }}
-                              />
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="text-xs font-medium text-gray-600 dark:text-gray-300">
-                      Profil de Risque
                     </div>
                   </>
                 )}
@@ -508,51 +456,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                 {averageTof.toFixed(0)}%
               </div>
               <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">TOF</div>
-            </div>
-
-            <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-2 sm:p-3 rounded-xl text-center hidden sm:block">
-              <div className="flex items-center justify-center gap-1 mb-2">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
-                <span className="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200">Profil Risque</span>
-              </div>
-              <div className="relative flex items-center justify-center mb-2">
-                {/* Ligne de fond */}
-                <div className="absolute w-full h-0.5 bg-gray-300 dark:bg-gray-600" style={{ top: '50%' }} />
-                {/* Points 1-7 */}
-                <div className="relative flex items-center justify-between w-full px-1">
-                  {[1, 2, 3, 4, 5, 6, 7].map((level) => {
-                    const isActive = level === roundedRiskProfile;
-                    const getColor = () => {
-                      if (level <= 2) return 'bg-green-500 dark:bg-green-400 border-green-600';
-                      if (level <= 4) return 'bg-yellow-500 dark:bg-yellow-400 border-yellow-600';
-                      if (level <= 5) return 'bg-orange-500 dark:bg-orange-400 border-orange-600';
-                      return 'bg-red-500 dark:bg-red-400 border-red-600';
-                    };
-
-                    return (
-                      <div key={level} className="flex flex-col items-center">
-                        <div
-                          className={`rounded-full transition-all border-2 ${
-                            isActive
-                              ? `${getColor()} shadow-lg`
-                              : 'bg-gray-300 dark:bg-gray-600 border-gray-400 dark:border-gray-500'
-                          }`}
-                          style={{
-                            width: isActive ? '14px' : '8px',
-                            height: isActive ? '14px' : '8px',
-                          }}
-                        />
-                        <span className={`text-xs mt-0.5 ${isActive ? 'font-bold text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
-                          {level}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="text-lg sm:text-xl font-black text-indigo-600 dark:text-indigo-400">
-                {roundedRiskProfile}
-              </div>
             </div>
           </div>
         </div>

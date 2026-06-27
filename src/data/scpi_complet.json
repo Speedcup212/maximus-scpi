@@ -3434,6 +3434,7 @@
     "Frais de souscription (TTC/%)": 5,
     "Frais de gestion (HT/%)": 10,
     "maximus_warnings": [],
+    "niveau_risque_dic": 3,
     "Surcote/décote (%)": -8.07,
     "Décote/Surcote QA": "publishable",
     "Valeur de reconstitution par part (€)": 279.57

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Shield, Leaf } from 'lucide-react';
+import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Leaf } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { submitLead } from '../utils/leadSubmitter';
 import { CALENDLY_URL } from '../config/calendly';
@@ -205,19 +205,13 @@ const RdvModal: React.FC<RdvModalProps> = ({
           )}
 
           {/* Profils - Affichage */}
-          {(profilRisque !== "Non défini" || profilESG !== "Standard") && (
+          {profilESG !== "Standard" && (
             <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
               <h4 className="font-semibold text-purple-800 dark:text-purple-200 mb-2 flex items-center gap-2 text-sm">
                 <Target className="w-4 h-4" />
                 Votre profil
               </h4>
               <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                  <span className="text-xs text-purple-700 dark:text-purple-300">
-                    <strong>Risque:</strong> {profilRisque}
-                  </span>
-                </div>
                 <div className="flex items-center gap-2">
                   <Leaf className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span className="text-xs text-purple-700 dark:text-purple-300">

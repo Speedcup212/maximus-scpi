@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, Shield, CheckCircle2, BarChart3 } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
-import { AllocationProvider, useAllocation } from '../../contexts/AllocationContext';
+import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import ProSCPICardDark from './ProSCPICardDark';
 import SCPITableRow from './SCPITableRow';
@@ -54,7 +54,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
   const clientLinkId = useMemo(() => Date.now().toString(36).toUpperCase(), []);
-  const { weights } = useAllocation();
   const [allocations, setAllocations] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -575,37 +574,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     const totalAnnual = scpiDataArr.reduce((sum, item) => sum + item.annualIncome, 0);
     return { scpiData: scpiDataArr, totalAmount, totalPercentage: Object.values(scpiPercentages).reduce((s,p) => s + p, 0), weightedYield, totalAnnualIncome: totalAnnual, totalMonthlyIncome: totalAnnual / 12 };
   }, [selectedScpis, scpiPercentages, totalAmount]);
-
-  // Profil de risque moyen (SRI) pondéré par les montants investis
-  const portfolioRiskScore = useMemo(() => {
-    if (selectedScpis.length === 0) return { score: null, hasAnySri: false, hasMissingSri: false, missingSriNames: [] as string[], scpiCount: 0 };
-    let totalWeight = 0;
-    let weightedSriSum = 0;
-    const missingSriNames: string[] = [];
-    selectedScpis.forEach(item => {
-      const scpi = (item as any).scpi ?? item;
-      const weight = (item as any).weight ?? weights[(scpi as any).id ?? scpi.id] ?? 0;
-      if (weight <= 0) return;
-      const sri = (scpi as any).profilRisque;
-      if (typeof sri === 'number' && sri >= 1 && sri <= 7) {
-        weightedSriSum += sri * weight;
-        totalWeight += weight;
-      } else {
-        missingSriNames.push(scpi.name ?? (scpi as any).scpiName ?? 'Inconnu');
-      }
-    });
-    if (totalWeight === 0) {
-      return { score: null, hasAnySri: false, hasMissingSri: missingSriNames.length > 0, missingSriNames, scpiCount: selectedScpis.length };
-    }
-    const avgSri = weightedSriSum / totalWeight;
-    return {
-      score: Math.round(avgSri * 10) / 10,
-      hasAnySri: true,
-      hasMissingSri: missingSriNames.length > 0,
-      missingSriNames,
-      scpiCount: selectedScpis.length,
-    };
-  }, [selectedScpis, weights]);
 
   // Calculs spécifiques au mode Crédit
   const creditMetrics = useMemo(() => {
@@ -1290,76 +1258,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     customCtaText="Paramétrer le dossier client"
                     customFooterNote="Le Z-score décrit la structure globale de la sélection. Il n'indique ni un niveau de risque, ni une recommandation d'investissement."
                   />
-                </div>
-
-                {/* Profil de risque moyen (SRI) pondéré par les montants investis */}
-                <div className="pt-4 border-t border-slate-700 mb-4">
-                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5">
-                    <Shield className="w-3.5 h-3.5 text-teal-400" />
-                    Profil de risque moyen (SRI)
-                  </h4>
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
-                    {portfolioRiskScore.hasAnySri ? (
-                      <>
-                        {/* Barres de risque 1-7 avec remplissage fractionnaire */}
-                        <div className="flex items-center gap-2 sm:gap-3">
-                          <div className="flex-1 flex gap-0.5 sm:gap-1">
-                            {[1, 2, 3, 4, 5, 6, 7].map((level) => {
-                              const score = portfolioRiskScore.score ?? 0;
-                              const fullBars = Math.floor(score);
-                              const fraction = score - fullBars;
-                              const isFull = level <= fullBars;
-                              const isFractional = !isFull && level === fullBars + 1 && fraction > 0;
-                              const barColor = (isFull || isFractional) ? 'bg-teal-300' : 'bg-slate-600';
-                              const opacity = (isFull || isFractional) ? 'opacity-100' : 'opacity-30';
-                              return (
-                                <div
-                                  key={level}
-                                  className={`flex-1 h-3 sm:h-4 rounded-sm relative overflow-hidden transition-all duration-300`}
-                                  title={`Niveau ${level}/7`}
-                                >
-                                  <div className={`absolute inset-0 ${barColor} bg-slate-600`} />
-                                  {(isFull || isFractional) && (
-                                    <div
-                                      className={`absolute inset-y-0 left-0 ${barColor} ${opacity}`}
-                                      style={{ width: isFractional ? `${Math.round(fraction * 100)}%` : '100%' }}
-                                    />
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
-                          <span className="text-sm sm:text-base font-bold text-white min-w-[3rem] text-right">
-                            {(portfolioRiskScore.score ?? 0).toFixed(1).replace('.', ',')}/7
-                          </span>
-                        </div>
-                        {/* Légende */}
-                        <div className="flex justify-between mt-1.5">
-                          <span className="text-[9px] sm:text-[10px] text-slate-500">Prudent</span>
-                          <span className="text-[9px] sm:text-[10px] text-slate-500">Équilibré</span>
-                          <span className="text-[9px] sm:text-[10px] text-slate-500">Dynamique</span>
-                        </div>
-                        {portfolioRiskScore.hasMissingSri && (
-                          <p className="text-[9px] sm:text-[10px] text-amber-400/80 mt-2 leading-relaxed">
-                            ⚠ SRI non disponible pour : {portfolioRiskScore.missingSriNames.join(', ')}.
-                            Le score est calculé uniquement sur les SCPI disposant d'un SRI DIC.
-                          </p>
-                        )}
-                        <p className="text-[9px] sm:text-[10px] text-slate-400 mt-2 italic leading-relaxed">
-                          Moyenne pondérée des indicateurs synthétiques de risque (SRI) figurant dans les DIC des SCPI sélectionnées.
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm text-slate-400 italic">
-                          SRI non disponible
-                        </p>
-                        <p className="text-[9px] sm:text-[10px] text-slate-500 mt-1 leading-relaxed">
-                          Aucune SCPI sélectionnée ne dispose d'un indicateur synthétique de risque (SRI) renseigné.
-                        </p>
-                      </>
-                    )}
-                  </div>
                 </div>
 
                 {/* Analyse de cohérence */}
@@ -2151,12 +2049,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                           <div>
                                             <p className="text-[10px] text-slate-500">SFDR</p>
                                             <p className="text-slate-300">{scpi.sfdr}</p>
-                                          </div>
-                                        )}
-                                        {typeof scpi.profilRisque === 'number' && (
-                                          <div>
-                                            <p className="text-[10px] text-slate-500">Profil de risque</p>
-                                            <p className="text-slate-300">{scpi.profilRisque}/7</p>
                                           </div>
                                         )}
                                         {scpi.profilCible && (
