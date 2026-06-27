@@ -120,10 +120,10 @@ const SriRiskProfileBlock: React.FC<SriRiskProfileBlockProps> = ({
                     className={`flex-1 ${barH} rounded-sm relative overflow-hidden transition-all duration-300`}
                     title={`Niveau ${level}/7`}
                   >
-                    <div className={`absolute inset-0 ${(isFull || isFractional) ? 'bg-teal-300' : 'bg-slate-600'}`} />
+                    <div className={`absolute inset-0 ${isFull ? 'bg-teal-300' : 'bg-slate-600'}`} />
                     {(isFull || isFractional) && (
                       <div
-                        className={`absolute inset-y-0 left-0 bg-teal-300 ${(isFull || isFractional) ? 'opacity-100' : 'opacity-30'}`}
+                        className="absolute inset-y-0 left-0 bg-teal-300 opacity-100"
                         style={{ width: isFractional ? `${Math.round(fraction * 100)}%` : '100%' }}
                       />
                     )}
