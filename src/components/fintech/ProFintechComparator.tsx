@@ -51,7 +51,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   hideTitle = false,
   zScoreVariant = 'full'
 }) => {
-  console.error("===== PROFINTECHCOMPARATOR EXECUTE =====");
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
   const clientLinkId = useMemo(() => Date.now().toString(36).toUpperCase(), []);
@@ -106,101 +105,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       console.log('[FintechComparator] SCPI disponibles:', enriched.map(s => s.name).filter(n => n.toLowerCase().includes('paref')));
     }
     return enriched;
-  }, []);
-
-  // 🔬 AUDIT SRI — Dump complet des 64 SCPI du comparateur Pro (1 seule exécution)
-  useEffect(() => {
-    console.group('═══════════════════════════════════════════════');
-    console.group('📋 AUDIT SRI — 64 SCPI du comparateur Pro');
-    console.log(`Total SCPI dans enrichedScpiData: ${enrichedScpiData.length}`);
-    console.log(`Total SCPI dans scpiData (source): ${scpiData.length}`);
-    console.log(`Total SCPI dans scpiDataExtended (base): ${scpiDataExtended.length}`);
-
-    const results: Array<{
-      nom: string;
-      id: number;
-      societeGestion: string;
-      sriDansEnriched: unknown;
-      sriDansScpiData: unknown;
-      sriDansExtended: unknown;
-      rawProfilDeRisqueSRRI: unknown;
-      rawNiveauRisqueDic: unknown;
-      sourceReelle: string;
-      matchOk: boolean;
-    }> = [];
-
-    enrichedScpiData.forEach((scpi, idx) => {
-      // Chercher la correspondance dans scpiData
-      const match = scpiData.find(s => s.name.toLowerCase() === scpi.name.toLowerCase());
-      // Chercher dans scpiDataExtended brut (non enrichi)
-      const base = scpiDataExtended.find(s => s.id === scpi.id);
-
-      const enrichedSRI = scpi.profilRisque;
-      const scpiDataSRI = match?.profilRisque;
-      const extendedSRI = base?.profilRisque;
-
-      // Chercher TOUTES les clés SRI/risque possibles sur l'objet enrichi
-      const allKeys = Object.keys(scpi);
-      const riskKeys = allKeys.filter(k => {
-        const kl = k.toLowerCase();
-        return kl.includes('risque') || kl.includes('risk') || kl.includes('sri') || kl.includes('srri') || kl.includes('profil');
-      });
-      const riskKeyValues = riskKeys.map(k => ({ key: k, value: (scpi as any)[k], type: typeof (scpi as any)[k] }));
-
-      results.push({
-        nom: scpi.name,
-        id: scpi.id,
-        societeGestion: scpi.managementCompany,
-        sriDansEnriched: enrichedSRI,
-        sriDansScpiData: scpiDataSRI,
-        sriDansExtended: extendedSRI,
-        rawProfilDeRisqueSRRI: null, // on ne peut pas lire le JSON ici, mais on a la chaîne
-        rawNiveauRisqueDic: null,
-        sourceReelle: enrichedSRI !== undefined ? 'enrichi (OK)' : (scpiDataSRI !== undefined ? 'scpiData (MAIS PAS ENRICHI)' : (extendedSRI !== undefined ? 'extended (hardcodé)' : 'AUCUN')),
-        matchOk: !!match,
-      });
-
-      if (idx < 3 || enrichedSRI === undefined) { // log détaillé pour les 3 premières + toutes les sans SRI
-        console.log(`\n  ┌─ #${idx + 1} ${scpi.name} (id=${scpi.id})`);
-        console.log(`  ├─ Société de gestion      : ${scpi.managementCompany}`);
-        console.log(`  ├─ enriched.profilRisque   : ${enrichedSRI} (typeof ${typeof enrichedSRI})`);
-        console.log(`  ├─ scpiData.profilRisque   : ${scpiDataSRI} (typeof ${typeof scpiDataSRI})${match ? '' : ' ⚠️ PAS DE MATCH'}`);
-        console.log(`  ├─ extended.profilRisque   : ${extendedSRI} (typeof ${typeof extendedSRI})`);
-        console.log(`  ├─ Clés risk/sri/profil    : ${riskKeys.length > 0 ? JSON.stringify(riskKeyValues) : 'AUCUNE'}`);
-        console.log(`  ├─ Match scpiData ok       : ${!!match}`);
-        console.log(`  └─ Source réelle           : ${enrichedSRI !== undefined ? '✅ ENRICHI' : '❌ AUCUNE'}`);
-      }
-    });
-
-    // Synthèse
-    const withSri = results.filter(r => r.sriDansEnriched !== undefined);
-    const withoutSri = results.filter(r => r.sriDansEnriched === undefined);
-    const withSriInScpiData = results.filter(r => r.sriDansScpiData !== undefined);
-    const matchFailures = results.filter(r => !r.matchOk);
-
-    console.log('\n  ═══════════ TABLEAU DE SYNTHÈSE ═══════════');
-    console.log(`  Total SCPI                  : ${results.length}`);
-    console.log(`  Avec SRI (enrichi)          : ${withSri.length}`);
-    console.log(`  Sans SRI (enrichi)          : ${withoutSri.length}`);
-    console.log(`  Avec SRI dans scpiData      : ${withSriInScpiData.length}`);
-    console.log(`  Échecs de matching          : ${matchFailures.length}`);
-
-    if (withoutSri.length > 0) {
-      console.log(`\n  ❌ SCPI SANS SRI (${withoutSri.length}):`);
-      withoutSri.forEach(r => {
-        console.log(`     - ${r.nom} (id=${r.id}) | gestion=${r.societeGestion} | match=${r.matchOk ? 'OK' : 'ÉCHEC'} | scpiData=${r.sriDansScpiData} | extended=${r.sriDansExtended}`);
-      });
-    }
-    if (matchFailures.length > 0) {
-      console.log(`\n  ⚠️ ÉCHECS DE MATCHING scpiData↔extended (${matchFailures.length}):`);
-      matchFailures.forEach(r => {
-        console.log(`     - ${r.nom} (id=${r.id}) — existe dans extended mais pas dans scpiData`);
-      });
-    }
-
-    console.groupEnd();
-    console.groupEnd();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Note MaximusSCPI calculée côté client sur l'ensemble de la cohorte (percentile cohérent).
@@ -678,55 +582,28 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     let totalWeight = 0;
     let weightedSriSum = 0;
     const missingSriNames: string[] = [];
-    console.group('🔬 [SRI DIAG V2] Audit complet de chaque SCPI sélectionnée');
     selectedScpis.forEach(scpi => {
       const weight = weights[scpi.id] || 0;
-      if (weight <= 0) {
-        console.log(`  ⏭️ ${scpi.name} (id=${scpi.id}) — weight=0, ignoré`);
-        return;
-      }
+      if (weight <= 0) return;
       const sri = scpi.profilRisque;
-      console.log(`  ┌─ 📋 ${scpi.name} (id=${scpi.id}, weight=${weight}%)`);
-      console.log(`  ├─ scpi.profilRisque            =`, sri, `(typeof ${typeof sri})`);
-      console.log(`  ├─ scpi.profil_risque           =`, (scpi as any).profil_risque);
-      console.log(`  ├─ Profil_de_risque.SRRI        =`, (scpi as any)['Profil_de_risque']?.SRRI ?? (scpi as any).Profil_de_risque?.SRRI);
-      console.log(`  ├─ scpi.niveau_risque_dic       =`, (scpi as any).niveau_risque_dic);
-      console.log(`  ├─ scpi.niveau_risque           =`, (scpi as any).niveau_risque);
-      console.log(`  ├─ scpi.sri                     =`, (scpi as any).sri);
-      console.log(`  ├─ scpi.srri                    =`, (scpi as any).srri);
-      console.log(`  ├─ scpi.risk                    =`, (scpi as any).risk);
-      // Dump complet des clés
-      const allKeys = Object.keys(scpi).sort();
-      console.log(`  ├─ ALL KEYS (${allKeys.length}):`, allKeys);
-      // Chercher toute clé contenant risque/sri/srri/profil (insensible à la casse)
-      const riskKeys = allKeys.filter(k => {
-        const kl = k.toLowerCase();
-        return kl.includes('risque') || kl.includes('risk') || kl.includes('sri') || kl.includes('srri') || kl.includes('profil');
-      });
-      console.log(`  └─ 🔑 CLÉS RISK/SRI/PROFIL:`, riskKeys.length > 0 ? riskKeys : 'AUCUNE');
-      if (riskKeys.length > 0) {
-        riskKeys.forEach(k => console.log(`       "${k}" =`, (scpi as any)[k], `(typeof ${typeof (scpi as any)[k]})`));
-      }
       if (typeof sri === 'number' && sri >= 1 && sri <= 7) {
         weightedSriSum += sri * weight;
         totalWeight += weight;
-        console.log(`     ✅ VALIDÉ → contribution ${sri} × ${weight}%`);
       } else {
         missingSriNames.push(scpi.name);
-        console.log(`     ❌ REJETÉ → absent ou hors [1-7]`);
       }
     });
-    console.log(`  📊 RÉSUMÉ: totalWeight=${totalWeight} | weightedSriSum=${weightedSriSum} | missing=${missingSriNames.join(', ') || 'aucun'}`);
     if (totalWeight === 0) {
-      console.log(`  ⛔ PAS DE SRI VALIDE → score = null`);
-      console.groupEnd();
       return { score: null, hasAnySri: false, hasMissingSri: missingSriNames.length > 0, missingSriNames, scpiCount: selectedScpis.length };
     }
     const avgSri = weightedSriSum / totalWeight;
-    const score = Math.round(avgSri * 10) / 10;
-    console.log(`  ✅ SCORE = ${weightedSriSum} / ${totalWeight} = ${avgSri} → ${score}`);
-    console.groupEnd();
-    return { score, hasAnySri: true, hasMissingSri: missingSriNames.length > 0, missingSriNames, scpiCount: selectedScpis.length };
+    return {
+      score: Math.round(avgSri * 10) / 10,
+      hasAnySri: true,
+      hasMissingSri: missingSriNames.length > 0,
+      missingSriNames,
+      scpiCount: selectedScpis.length,
+    };
   }, [selectedScpis, weights]);
 
   // Calculs spécifiques au mode Crédit
