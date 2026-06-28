@@ -490,7 +490,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
         </div>
 
         {/* Accordéons Content */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+        <div className="flex-1 overflow-visible p-3 sm:p-4 space-y-3">
 
           {/* Accordéon Analyse détaillée */}
           <div className="border-2 border-gray-300 dark:border-gray-600 rounded-xl overflow-hidden bg-white dark:bg-gray-800">

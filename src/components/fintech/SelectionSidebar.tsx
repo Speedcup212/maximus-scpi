@@ -882,7 +882,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               </button>
             </div>
 
-            <div className="px-3 sm:px-6 py-3 sm:py-4 mt-10 space-y-3 sm:space-y-4 overflow-y-auto flex-1">
+            <div className="px-3 sm:px-6 py-2 sm:py-3 mt-10 space-y-2 sm:space-y-3 overflow-visible flex-1">
               {/* Avis Maximusscpi */}
               <div className="bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-6 border border-emerald-500/30 mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
@@ -1229,7 +1229,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         <div className="text-xs text-slate-300">secteurs</div>
                       </div>
                     </div>
-                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
+                    <div className="mt-4 space-y-1.5">
                       {aggregatedSectors.map((sector, index) => (
                         <div key={sector.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
@@ -1320,7 +1320,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         <div className="text-xs text-slate-300">zones</div>
                       </div>
                     </div>
-                    <div className="mt-4 space-y-1.5 max-h-32 overflow-y-auto">
+                    <div className="mt-4 space-y-1.5">
                       {aggregatedGeography.map((geo, index) => (
                         <div key={geo.name} className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2">
@@ -2054,7 +2054,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                           <div className="text-[10px] sm:text-xs text-slate-300">€ investis</div>
                         </div>
                       </div>
-                      <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 max-h-32 sm:max-h-40 overflow-y-auto">
+                      <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                         {portfolioAnalysis.scpiData.map((item, index) => {
                           const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
                           return (
