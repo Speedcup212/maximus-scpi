@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
@@ -21,18 +20,6 @@ interface SelectionSidebarProps {
   zScoreVariant?: 'full' | 'compact';
 }
 
-const getCategoryColor = (category: string) => {
-  const colors: Record<string, string> = {
-    'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    'Résidentiel': 'bg-green-500/20 text-green-400 border-green-500/30',
-    'Santé': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-    'Bureaux': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    'Européenne': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-    'Logistique': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  };
-  return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
-};
-
 const GRADIENT_IDS = {
   sectors: ['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'],
   geography: ['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2']
@@ -43,18 +30,6 @@ const LEGEND_COLORS = {
   geography: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c']
 };
 
-// Décote/surcote affichée : MÊME source que le bloc KPI (recalcul live prix/VR + garde-fou QA).
-// Retourne null si la valeur n'est pas fiable/comparable → l'indicateur n'est pas affiché.
-const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
-  const value = resolveDisplayedDiscount(scpi).value;
-  if (value == null) {
-    return null;
-  }
-  return {
-    value,
-    isDiscount: value < 0
-  };
-};
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -1053,29 +1028,25 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   <ZScoreBar zScore={coherenceZScore} profileLabel={investorProfileLabel} variant="full" />
                 </div>
 
-                {/* Analyse de cohérence / Lecture structurelle */}
-                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
-                  <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
-                    <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
-                    Analyse de cohérence du portefeuille
-                  </h4>
-                  {zScoreAttention && zScoreAttention.level === 'coherence-elevee' ? (
+                {/* Lecture structurelle — affichée uniquement si un signal est détecté */}
+                {zScoreAttention && (
+                  <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
+                    <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-2">
+                      <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300" />
+                      Lecture structurelle du portefeuille
+                    </h4>
                     <div className="text-[11px] sm:text-xs text-slate-300 space-y-1">
                       <div className="font-semibold text-slate-200">{zScoreAttention.shortLabel}</div>
                       <div>{zScoreAttention.message}</div>
                     </div>
-                  ) : (
-                    <p className="text-[11px] sm:text-xs text-slate-300">
-                      Lecture structurelle neutre. Aucun signal structurel dominant n’est identifié.
-                    </p>
-                  )}
-                </div>
+                  </div>
+                )}
 
-                {/* Avantages et Inconvénients - Analyse CIF/CGP */}
+                {/* Points forts et points d'attention */}
                 <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
                   <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
                     <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                    <span className="hidden sm:inline">Analyse professionnelle : </span>Avantages et Inconvénients
+                    Points forts et points d'attention
                   </h4>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -2075,105 +2046,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   </div>
                 </div>
               )}
-
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700">
-                <p className="text-xs text-slate-300 mb-3">Détail de votre sélection</p>
-                <div className="space-y-3">
-                  {selectedScpis.map(scpi => (
-                    <div
-                      key={scpi.id}
-                      className="rounded-lg border border-slate-700 bg-slate-900/60 p-3"
-                    >
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <div>
-                          <p className="text-sm font-semibold text-white">{scpi.name}</p>
-                          <p className="text-xs text-slate-300">{scpi.managementCompany}</p>
-                        </div>
-                        <span
-                          className={`inline-block px-2 py-1 rounded-lg text-[10px] font-semibold border ${getCategoryColor(
-                            scpi.category
-                          )}`}
-                        >
-                          {scpi.category}
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 text-[11px] text-slate-300 mb-4">
-                        <div>
-                          <p className="text-[10px] text-slate-300">Rendement</p>
-                          <p className="font-semibold text-emerald-400">
-                            {scpi.yield.toFixed(2)}%
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-slate-300">Prix de part</p>
-                          <p className="font-semibold text-white">{scpi.price}€</p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-slate-300">Invest. min.</p>
-                          <p className="font-semibold text-white">
-                            {scpi.minInvestment.toLocaleString('fr-FR')}€
-                          </p>
-                        </div>
-                        {scpi.capitalization && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Capitalisation</p>
-                            <p className="font-semibold text-white">{scpi.capitalization}</p>
-                          </div>
-                        )}
-                        {typeof scpi.tof === 'number' && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Taux d'occupation</p>
-                            <p className="font-semibold text-white">{scpi.tof.toFixed(1)}%</p>
-                          </div>
-                        )}
-                        <div>
-                          <p className="text-[10px] text-slate-300">Horizon recommandé</p>
-                          <p className="font-semibold text-white">10 ans</p>
-                        </div>
-                        <div>
-                          <p className="text-[10px] text-slate-300">Distribution</p>
-                          <p className="font-semibold text-white">Trimestriel</p>
-                        </div>
-                        {scpi.reconstitutionValue && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Valeur reconstitution</p>
-                            <p className="font-semibold text-white">{scpi.reconstitutionValue}€</p>
-                          </div>
-                        )}
-                        {typeof scpi.ltv === 'number' && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Endettement</p>
-                            <p className="font-semibold text-white">{scpi.ltv}%</p>
-                          </div>
-                        )}
-                        <div>
-                          <p className="text-[10px] text-slate-300">Nombre d'immeubles</p>
-                          <p className="font-semibold text-white">
-                            {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
-                          </p>
-                        </div>
-                        {getDiscountPremium(scpi) && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Décote / Surcote</p>
-                            {(() => {
-                              const info = getDiscountPremium(scpi);
-                              if (!info) return null;
-                              const label = info.isDiscount ? 'Décote' : 'Surcote';
-                              return (
-                                <p className={`font-semibold ${info.isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
-                                  {info.value > 0 ? '+' : ''}
-                                  {info.value.toFixed(1)}%
-                                  <span className="text-[10px] text-slate-300 ml-1">({label})</span>
-                                </p>
-                              );
-                            })()}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               <p className="text-xs text-slate-300">
                 Ce récapitulatif est indicatif et ne constitue pas un conseil personnalisé. Votre projet sera
