@@ -1900,19 +1900,38 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   </div>
                   
                   {/* Répartition modulable par SCPI */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2 sm:mb-3">
-                      <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5 sm:gap-2">
-                        <PieChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                        Répartition du portefeuille (%)
-                      </h4>
-                      <button
-                        onClick={normalizePercentages}
-                        className="text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 bg-emerald-600/20 text-emerald-400 rounded-lg hover:bg-emerald-600/30 transition-colors"
-                      >
-                        Normaliser
-                      </button>
-                    </div>
+                  <details
+                    className="group"
+                    ref={(el) => {
+                      if (el && Math.abs(portfolioAnalysis.totalPercentage - 100) > 0.1) {
+                        el.open = true;
+                      }
+                    }}
+                  >
+                    <summary className="flex items-center justify-between mb-2 sm:mb-3 cursor-pointer hover:bg-slate-800/50 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 transition-colors list-none">
+                      <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                        <PieChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" />
+                        <span className="text-xs sm:text-sm font-bold text-white truncate">
+                          Répartition du portefeuille (%)
+                        </span>
+                        <span className="text-[10px] sm:text-xs text-slate-400 flex-shrink-0">
+                          &mdash; {selectedScpis.length} SCPI &mdash; Total : {portfolioAnalysis.totalPercentage.toFixed(1)} %
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            normalizePercentages();
+                          }}
+                          className="text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 bg-emerald-600/20 text-emerald-400 rounded-lg hover:bg-emerald-600/30 transition-colors"
+                        >
+                          Normaliser
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 transition-transform group-open:rotate-180" />
+                      </div>
+                    </summary>
                     <div className="space-y-2 sm:space-y-3">
                       {portfolioAnalysis.scpiData.map((item, index) => {
                         const scpi = selectedScpis.find(s => s.id === item.id);
@@ -1982,7 +2001,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         </p>
                       </div>
                     )}
-                  </div>
+                  </details>
                   
                   {/* Graphique camembert de répartition par SCPI */}
                   <div className="mt-4 sm:mt-6">
