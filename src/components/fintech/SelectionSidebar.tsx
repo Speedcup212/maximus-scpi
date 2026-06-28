@@ -626,7 +626,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     } else if (selectedScpis.length >= 2) {
       pros.push('Diversification correcte permettant de limiter l\'exposition au risque spécifique d\'une seule SCPI');
     } else {
-      consStructural.push('Concentration sur une seule SCPI : risque spécifique non diversifié, recommandation d\'ajouter au moins 2-3 SCPI supplémentaires');
+      consStructural.push('Concentration sur une seule SCPI : risque spécifique non diversifié, la sélection repose sur un seul support.');
     }
     
     const isHighlyDiversified = isVeryWellDiversified(
@@ -740,7 +740,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Recommandation générale
     if (selectedScpis.length < 3) {
-      consStructural.push('Portefeuille sous-diversifié : recommandation d\'ajouter 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement');
+      consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
     }
 
     return { pros, consGeneral, consStructural };
@@ -1103,13 +1103,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
-                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Points d'attention</h5>
+                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Vigilances structurelles</h5>
                       </div>
-                      {!allowStructural && (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic mb-2">
-                          Aucun point de vigilance structurelle identifié.
-                        </p>
-                      )}
                       {consWithZScore.length > 0 ? (
                         <ul className="space-y-1.5 sm:space-y-2">
                           {consWithZScore.map((con, index) => (
@@ -1119,8 +1114,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             </li>
                           ))}
                         </ul>
-                      ) : !allowStructural ? null : (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point d'attention identifié</p>
+                      ) : (
+                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point de vigilance majeur détecté selon les critères disponibles.</p>
                       )}
                     </div>
                   </div>
