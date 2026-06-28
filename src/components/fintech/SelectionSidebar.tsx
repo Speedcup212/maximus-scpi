@@ -1899,20 +1899,105 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     </div>
                   </div>
                   
-                  {/* Répartition modulable par SCPI */}
+                  {/* Graphique camembert de répartition par SCPI */}
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
+                      <PieChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
+                      Répartition visuelle du portefeuille
+                    </h4>
+                    <div className="bg-slate-900 rounded-lg p-2 sm:p-4 border border-slate-700">
+                      <div className="relative">
+                        <ResponsiveContainer width="100%" height={200} className="sm:h-[300px]">
+                          <RechartsPie>
+                            <defs>
+                              {portfolioAnalysis.scpiData.map((_, index) => {
+                                const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
+                                return (
+                                  <linearGradient key={`grad-${index}`} id={`gradScpi-${index}`} x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stopColor={colors[index % colors.length]} stopOpacity={1} />
+                                    <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0.7} />
+                                  </linearGradient>
+                                );
+                              })}
+                            </defs>
+                            <Pie
+                              data={portfolioAnalysis.scpiData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius="40%"
+                              outerRadius="80%"
+                              paddingAngle={2}
+                              dataKey="percentage"
+                              animationBegin={0}
+                              animationDuration={800}
+                            >
+                              {portfolioAnalysis.scpiData.map((entry, index) => (
+                                <Cell
+                                  key={`cell-${entry.id}`}
+                                  fill={`url(#gradScpi-${index})`}
+                                  stroke="#1e293b"
+                                  strokeWidth={2}
+                                />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              content={({ active, payload }) => {
+                                if (active && payload && payload.length) {
+                                  const data = payload[0].payload;
+                                  return (
+                                    <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-600 shadow-xl">
+                                      <p className="text-white font-semibold text-sm">{data.name}</p>
+                                      <p className="text-emerald-400 font-bold">{data.percentage.toFixed(1)}%</p>
+                                      <p className="text-slate-300 text-xs mt-1">
+                                        {data.amount.toLocaleString('fr-FR')}€ • {data.parts} part{data.parts > 1 ? 's' : ''}
+                                      </p>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                          </RechartsPie>
+                        </ResponsiveContainer>
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
+                          <div className="text-xl sm:text-3xl font-bold text-white">{portfolioAnalysis.totalAmount.toLocaleString('fr-FR')}</div>
+                          <div className="text-[10px] sm:text-xs text-slate-300">€ investis</div>
+                        </div>
+                      </div>
+                      <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 max-h-32 sm:max-h-40 overflow-y-auto">
+                        {portfolioAnalysis.scpiData.map((item, index) => {
+                          const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
+                          return (
+                            <div key={item.id} className="flex items-center justify-between text-[10px] sm:text-xs">
+                              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
+                                <div
+                                  className="w-2 h-2 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
+                                  style={{ backgroundColor: colors[index % colors.length] }}
+                                />
+                                <span className="text-slate-300 truncate">{item.name}</span>
+                              </div>
+                              <span className="font-semibold text-white flex-shrink-0 ml-2">{item.percentage.toFixed(1)}%</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Modifier la répartition du portefeuille */}
                   <details
-                    className="group"
+                    className="group mt-4 sm:mt-6"
                     ref={(el) => {
                       if (el && Math.abs(portfolioAnalysis.totalPercentage - 100) > 0.1) {
                         el.open = true;
                       }
                     }}
                   >
-                    <summary className="flex items-center justify-between mb-2 sm:mb-3 cursor-pointer hover:bg-slate-800/50 rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 transition-colors list-none">
+                    <summary className="flex items-center justify-between mb-2 sm:mb-3 cursor-pointer hover:bg-slate-700/50 rounded-lg border border-slate-600 bg-slate-800/40 px-3 py-2 sm:px-4 sm:py-2.5 transition-colors list-none">
                       <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                         <PieChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 flex-shrink-0" />
                         <span className="text-xs sm:text-sm font-bold text-white truncate">
-                          Répartition du portefeuille (%)
+                          Modifier la répartition du portefeuille
                         </span>
                         <span className="text-[10px] sm:text-xs text-slate-400 flex-shrink-0">
                           &mdash; {selectedScpis.length} SCPI &mdash; Total : {portfolioAnalysis.totalPercentage.toFixed(1)} %
@@ -2002,91 +2087,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </div>
                     )}
                   </details>
-                  
-                  {/* Graphique camembert de répartition par SCPI */}
-                  <div className="mt-4 sm:mt-6">
-                    <h4 className="text-xs sm:text-sm font-bold text-white mb-2 sm:mb-3 flex items-center gap-1.5 sm:gap-2">
-                      <PieChart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                      Répartition visuelle du portefeuille
-                    </h4>
-                    <div className="bg-slate-900 rounded-lg p-2 sm:p-4 border border-slate-700">
-                      <div className="relative">
-                        <ResponsiveContainer width="100%" height={200} className="sm:h-[300px]">
-                          <RechartsPie>
-                            <defs>
-                              {portfolioAnalysis.scpiData.map((_, index) => {
-                                const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
-                                return (
-                                  <linearGradient key={`grad-${index}`} id={`gradScpi-${index}`} x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stopColor={colors[index % colors.length]} stopOpacity={1} />
-                                    <stop offset="100%" stopColor={colors[index % colors.length]} stopOpacity={0.7} />
-                                  </linearGradient>
-                                );
-                              })}
-                            </defs>
-                            <Pie
-                              data={portfolioAnalysis.scpiData}
-                              cx="50%"
-                              cy="50%"
-                              innerRadius="40%"
-                              outerRadius="80%"
-                              paddingAngle={2}
-                              dataKey="percentage"
-                              animationBegin={0}
-                              animationDuration={800}
-                            >
-                              {portfolioAnalysis.scpiData.map((entry, index) => (
-                                <Cell
-                                  key={`cell-${entry.id}`}
-                                  fill={`url(#gradScpi-${index})`}
-                                  stroke="#1e293b"
-                                  strokeWidth={2}
-                                />
-                              ))}
-                            </Pie>
-                            <Tooltip
-                              content={({ active, payload }) => {
-                                if (active && payload && payload.length) {
-                                  const data = payload[0].payload;
-                                  return (
-                                    <div className="bg-slate-800 px-4 py-2 rounded-lg border border-slate-600 shadow-xl">
-                                      <p className="text-white font-semibold text-sm">{data.name}</p>
-                                      <p className="text-emerald-400 font-bold">{data.percentage.toFixed(1)}%</p>
-                                      <p className="text-slate-300 text-xs mt-1">
-                                        {data.amount.toLocaleString('fr-FR')}€ • {data.parts} part{data.parts > 1 ? 's' : ''}
-                                      </p>
-                                    </div>
-                                  );
-                                }
-                                return null;
-                              }}
-                            />
-                          </RechartsPie>
-                        </ResponsiveContainer>
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                          <div className="text-xl sm:text-3xl font-bold text-white">{portfolioAnalysis.totalAmount.toLocaleString('fr-FR')}</div>
-                          <div className="text-[10px] sm:text-xs text-slate-300">€ investis</div>
-                        </div>
-                      </div>
-                      <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 max-h-32 sm:max-h-40 overflow-y-auto">
-                        {portfolioAnalysis.scpiData.map((item, index) => {
-                          const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
-                          return (
-                            <div key={item.id} className="flex items-center justify-between text-[10px] sm:text-xs">
-                              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
-                                <div
-                                  className="w-2 h-2 sm:w-3 sm:h-3 rounded-full flex-shrink-0"
-                                  style={{ backgroundColor: colors[index % colors.length] }}
-                                />
-                                <span className="text-slate-300 truncate">{item.name}</span>
-                              </div>
-                              <span className="font-semibold text-white flex-shrink-0 ml-2">{item.percentage.toFixed(1)}%</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
 
