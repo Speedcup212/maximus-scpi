@@ -208,6 +208,12 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
 
+  // Seuil d'affichage minimal pour la légende (identique Côté Pro)
+  const MIN_VISIBLE_DISTRIBUTION_PERCENT = 20;
+
+  // Données filtrées pour l'affichage de la légende uniquement (les calculs restent complets)
+  const displayedSectorData = sectorData.filter(item => item.value >= MIN_VISIBLE_DISTRIBUTION_PERCENT);
+
   // Répartition géographique agrégée (pondérée par les vraies répartitions)
   const geoDistribution: Record<string, number> = {};
   portfolio.forEach(item => {
@@ -240,6 +246,9 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }))
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
+
+  // Données filtrées pour l'affichage de la légende uniquement (les calculs restent complets)
+  const displayedGeoData = geoData.filter(item => item.value >= MIN_VISIBLE_DISTRIBUTION_PERCENT);
 
   // Score de diversification structurelle
   const diversificationScore = useMemo(() => {
@@ -557,7 +566,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                     </div>
                     {/* Légende en dessous */}
                     <div className="w-full mt-6 space-y-2">
-                      {sectorData.map((sector, index) => (
+                      {displayedSectorData.map((sector, index) => (
                         <div key={index} className="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                           <div className="flex items-center gap-2">
                             <div
@@ -569,6 +578,11 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                           <span className="font-bold text-gray-900 dark:text-white">{sector.value.toFixed(1)}%</span>
                         </div>
                       ))}
+                      {displayedSectorData.length < sectorData.length && (
+                        <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center pt-1">
+                          + {sectorData.length - displayedSectorData.length} secteur{sectorData.length - displayedSectorData.length > 1 ? 's' : ''} sous {MIN_VISIBLE_DISTRIBUTION_PERCENT}% non affiché{sectorData.length - displayedSectorData.length > 1 ? 's' : ''}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -586,7 +600,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                     </div>
                     {/* Légende en dessous */}
                     <div className="w-full mt-6 space-y-2">
-                      {geoData.map((geo, index) => (
+                      {displayedGeoData.map((geo, index) => (
                         <div key={index} className="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                           <div className="flex items-center gap-2">
                             <div
@@ -598,6 +612,11 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                           <span className="font-bold text-gray-900 dark:text-white">{geo.value.toFixed(1)}%</span>
                         </div>
                       ))}
+                      {displayedGeoData.length < geoData.length && (
+                        <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center pt-1">
+                          + {geoData.length - displayedGeoData.length} zone{geoData.length - displayedGeoData.length > 1 ? 's' : ''} sous {MIN_VISIBLE_DISTRIBUTION_PERCENT}% non affiché{geoData.length - displayedGeoData.length > 1 ? 's' : ''}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
