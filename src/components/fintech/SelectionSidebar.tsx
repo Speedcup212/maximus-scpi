@@ -532,18 +532,16 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   const aggregatedSectors = calculateAggregatedSectors();
   const aggregatedGeography = calculateAggregatedGeography();
 
-  // Score de diversification structurelle
-  const diversificationResult = useMemo(() => {
-    const mgmtCompanies = new Set(selectedScpis.map(s => s.managementCompany).filter(Boolean));
-    return computePortfolioDiversificationScore({
-      scpiCount: selectedScpis.length,
-      sectorCount: aggregatedSectors.length,
-      maxSectorWeight: aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0,
-      geographyCount: aggregatedGeography.length,
-      maxGeoWeight: aggregatedGeography.length > 0 ? aggregatedGeography[0].value : 0,
-      managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
-    });
-  }, [selectedScpis, aggregatedSectors, aggregatedGeography]);
+  // Score de diversification structurelle (calcul direct — pas de hook après return anticipé)
+  const mgmtCompanies = new Set(selectedScpis.map(s => s.managementCompany).filter(Boolean));
+  const diversificationResult = computePortfolioDiversificationScore({
+    scpiCount: selectedScpis.length,
+    sectorCount: aggregatedSectors.length,
+    maxSectorWeight: aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0,
+    geographyCount: aggregatedGeography.length,
+    maxGeoWeight: aggregatedGeography.length > 0 ? aggregatedGeography[0].value : 0,
+    managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
+  });
 
   // Calcul de l'avis Maximusscpi sur la sélection
   const calculateMaximusAvis = () => {
