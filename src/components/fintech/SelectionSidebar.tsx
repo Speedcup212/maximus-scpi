@@ -1071,11 +1071,11 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                   </div>
                 )}
 
-                {/* Points forts et points d'attention */}
+                {/* Avantages et Inconvénients - Analyse du portefeuille */}
                 <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
                   <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
                     <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                    Points forts et points d'attention
+                    Avantages et Inconvénients
                   </h4>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
