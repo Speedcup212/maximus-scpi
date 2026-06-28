@@ -454,7 +454,7 @@ export default function ProDashboard() {
           CONTENU PRINCIPAL
           ══════════════════════════════════════════ */}
       <div className="flex-1 overflow-x-hidden min-w-0">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+        <div className={`px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6 ${activeSection === 'comparateur' ? '' : 'max-w-6xl mx-auto'}`}>
           {/* Mobile header avec bouton menu + titre section */}
           <div className="lg:hidden flex items-center gap-3 mb-2">
             <button
