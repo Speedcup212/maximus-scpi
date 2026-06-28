@@ -10,6 +10,7 @@ import TimeSlider from './TimeSlider';
 import RdvModal from './RdvModal';
 import SriRiskProfileBlock from './shared/SriRiskProfileBlock';
 import Logo from './Logo';
+import { computePortfolioDiversificationScore } from '../utils/portfolioDiversificationScore';
 
 // Version Style Comète avec PieChart Canvas - v4.1 - PROD FIX - 2025-12-20
 console.log('🎯 PortfolioResultsModal PRODUCTION avec bouton Souscrire - v4.1 - 2025-12-20');
@@ -239,6 +240,19 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }))
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
+
+  // Score de diversification structurelle
+  const diversificationScore = useMemo(() => {
+    const mgmtCompanies = new Set(portfolio.map(s => s.managementCompany).filter(Boolean));
+    return computePortfolioDiversificationScore({
+      scpiCount: portfolio.length,
+      sectorCount: sectorData.length,
+      maxSectorWeight: sectorData.length > 0 ? sectorData[0].value : 0,
+      geographyCount: geoData.length,
+      maxGeoWeight: geoData.length > 0 ? geoData[0].value : 0,
+      managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
+    });
+  }, [portfolio, sectorData, geoData]);
 
 
   const sections = [
@@ -631,7 +645,8 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                       {portfolio.length} SCPI sélectionnée{portfolio.length > 1 ? 's' : ''}
                     </div>
                     <div className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                      Portefeuille diversifié
+                      {diversificationScore.label}
+                      <span className="ml-1 text-slate-400 cursor-help" title="Indicateur pédagogique basé sur le nombre de SCPI, la répartition sectorielle, la répartition géographique et les concentrations du portefeuille.">ⓘ</span>
                     </div>
                   </div>
                 </div>

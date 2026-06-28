@@ -9,6 +9,7 @@ import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
+import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 import { CALENDLY_URL } from '../../config/calendly';
 
 
@@ -531,6 +532,19 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   const aggregatedSectors = calculateAggregatedSectors();
   const aggregatedGeography = calculateAggregatedGeography();
 
+  // Score de diversification structurelle
+  const diversificationResult = useMemo(() => {
+    const mgmtCompanies = new Set(selectedScpis.map(s => s.managementCompany).filter(Boolean));
+    return computePortfolioDiversificationScore({
+      scpiCount: selectedScpis.length,
+      sectorCount: aggregatedSectors.length,
+      maxSectorWeight: aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0,
+      geographyCount: aggregatedGeography.length,
+      maxGeoWeight: aggregatedGeography.length > 0 ? aggregatedGeography[0].value : 0,
+      managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
+    });
+  }, [selectedScpis, aggregatedSectors, aggregatedGeography]);
+
   // Calcul de l'avis Maximusscpi sur la sélection
   const calculateMaximusAvis = () => {
     // Score de répartition sectorielle (0-5 étoiles)
@@ -559,9 +573,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     else if (avgTof >= 85) liquidityScore = 2;
     else liquidityScore = 1;
     
-    // Score de diversification (0-5 étoiles basé sur le nombre de SCPI)
-    // Plus il y a de SCPI, mieux c'est (max 5 SCPI = 5 étoiles)
-    const diversificationScore = Math.min(selectedScpis.length, 5);
+    // Score de diversification (0-5 étoiles) — calcul structurel
+    const diversificationScore = diversificationResult.stars;
     
     // Score de risque (0-5 étoiles, inversé : moins de risque = plus d'étoiles)
     // Basé sur la concentration : si un secteur représente >50%, risque plus élevé
@@ -1018,6 +1031,10 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         />
                       ))}
                     </div>
+                  </div>
+                  <div className="text-[10px] text-slate-500 italic mt-1">
+                    {diversificationResult.label}
+                    <span className="ml-1" title="Indicateur pédagogique basé sur le nombre de SCPI, la répartition sectorielle, la répartition géographique et les concentrations du portefeuille.">ⓘ</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-300">Maîtrise du risque</span>

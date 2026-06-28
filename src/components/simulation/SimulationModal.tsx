@@ -13,6 +13,7 @@ import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormal
 import ZScoreBar from '../ZScoreBar';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import { getInvestorProfile } from '../../utils/investorProfile';
+import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 
 interface SimulationModalProps {
   isOpen: boolean;
@@ -41,11 +42,33 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
       });
     });
 
-    const aggregatedSectors = Object.values(sectorMap);
-    const aggregatedGeos = Object.values(geoMap);
+    const sectorEntries = Object.entries(sectorMap);
+    const sectorValues = sectorEntries.map(([, v]) => v);
+    const geoEntries = Object.entries(geoMap);
+    const geoValues = geoEntries.map(([, v]) => v);
+    const totalSectorWeight = sectorValues.reduce((a, b) => a + b, 0);
+    const totalGeoWeight = geoValues.reduce((a, b) => a + b, 0);
 
-    const sectorDiversityScore = Math.min(aggregatedSectors.length, 5);
-    const geoDiversityScore = Math.min(aggregatedGeos.length, 5);
+    const maxSectorPct = sectorValues.length > 0 && totalSectorWeight > 0
+      ? Math.round((Math.max(...sectorValues) / totalSectorWeight) * 100)
+      : 0;
+    const maxGeoPct = geoValues.length > 0 && totalGeoWeight > 0
+      ? Math.round((Math.max(...geoValues) / totalGeoWeight) * 100)
+      : 0;
+
+    // Score de diversification structurelle
+    const mgmtCompanies = new Set(selectedScpis.map(s => s.managementCompany).filter(Boolean));
+    const diversificationResult = computePortfolioDiversificationScore({
+      scpiCount: selectedScpis.length,
+      sectorCount: sectorEntries.length,
+      maxSectorWeight: maxSectorPct,
+      geographyCount: geoEntries.length,
+      maxGeoWeight: maxGeoPct,
+      managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
+    });
+
+    const sectorDiversityScore = Math.min(sectorEntries.length, 5);
+    const geoDiversityScore = Math.min(geoEntries.length, 5);
 
     const avgYield = selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length;
     const avgTof = selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length;
@@ -64,8 +87,8 @@ const SimulationModal: React.FC<SimulationModalProps> = ({ isOpen, onClose, sele
     else if (avgTof >= 85) liquidityScore = 2;
     else liquidityScore = 1;
 
-    const diversificationScore = Math.min(selectedScpis.length, 5);
-    const maxSectorWeight = aggregatedSectors.length > 0 ? Math.max(...aggregatedSectors) : 0;
+    const diversificationScore = diversificationResult.stars;
+    const maxSectorWeight = Math.max(...sectorValues, 0);
     let riskScore = 5;
     if (maxSectorWeight > 60) riskScore = 2;
     else if (maxSectorWeight > 50) riskScore = 3;

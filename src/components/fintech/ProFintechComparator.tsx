@@ -24,6 +24,7 @@ import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarCh
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
+import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 
@@ -346,6 +347,19 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const avgYield = selectedScpis.reduce((sum, s) => sum + s.yield, 0) / selectedScpis.length;
   const minInvestment = selectedScpis.reduce((sum, s) => sum + s.minInvestment, 0);
 
+  // Score de diversification structurelle
+  const diversificationResult = useMemo(() => {
+    const mgmtCompanies = new Set(selectedScpis.map(s => s.managementCompany).filter(Boolean));
+    return computePortfolioDiversificationScore({
+      scpiCount: selectedScpis.length,
+      sectorCount: aggregatedSectors.length,
+      maxSectorWeight: aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0,
+      geographyCount: aggregatedGeography.length,
+      maxGeoWeight: aggregatedGeography.length > 0 ? aggregatedGeography[0].value : 0,
+      managementCompanyCount: mgmtCompanies.size > 0 ? mgmtCompanies.size : undefined,
+    });
+  }, [selectedScpis, aggregatedSectors, aggregatedGeography]);
+
   const calculateMaximusAvis = () => {
     const sectorDiv = Math.min(aggregatedSectors.length / 1, 5);
     const geoDiv = Math.min(aggregatedGeography.length / 1, 5);
@@ -353,7 +367,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     if (avgYield >= 6) perf = 5; else if (avgYield >= 5) perf = 4; else if (avgYield >= 4) perf = 3; else if (avgYield >= 3) perf = 2; else perf = 1;
     const avgTof = selectedScpis.reduce((sum,s) => sum + (s.tof||0), 0) / selectedScpis.length;
     let liq = 0; if (avgTof >= 95) liq = 5; else if (avgTof >= 92) liq = 4; else if (avgTof >= 90) liq = 3; else if (avgTof >= 85) liq = 2; else liq = 1;
-    const div = Math.min(selectedScpis.length, 5);
+    const div = diversificationResult.stars;
     const maxSW = aggregatedSectors.length > 0 ? aggregatedSectors[0].value : 0;
     let risk = 5; if (maxSW > 60) risk = 2; else if (maxSW > 50) risk = 3; else if (maxSW > 40) risk = 4;
     const weightedSum = sectorDiv * 1.0 + geoDiv * 1.0 + perf * 1.0 + liq * 1.2 + div * 1.2 + risk * 1.3;
@@ -1234,6 +1248,10 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         <Star key={i} className={`w-4 h-4 ${i < maximusAvis.diversification ? 'text-yellow-400 fill-yellow-400' : 'text-slate-600 fill-slate-600'}`} />
                       ))}
                     </div>
+                  </div>
+                  <div className="text-[10px] text-slate-500 italic mt-1">
+                    {diversificationResult.label}
+                    <span className="ml-1" title="Indicateur pédagogique basé sur le nombre de SCPI, la répartition sectorielle, la répartition géographique et les concentrations du portefeuille.">ⓘ</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-300">Maîtrise du risque</span>
