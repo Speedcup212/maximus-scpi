@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
-import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Award, Building, MapPin, DollarSign, Calendar, Download, Phone, Calculator, CheckCircle, ChevronDown } from 'lucide-react';
+import { X, TrendingUp, PieChart as PieChartIcon, BarChart3, Award, Building, MapPin, DollarSign, Calendar, Calculator, ChevronDown } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
@@ -55,15 +55,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   const [diversificationTab, setDiversificationTab] = useState<'sector' | 'geo'>('sector');
   const [mobileMetricTab, setMobileMetricTab] = useState<'diversity' | 'quality'>('diversity');
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
-  const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
-
-  const toggleExpandScpi = (id: number) => {
-    setExpandedScpiIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      return next;
-    });
-  };
 
   const toggleSection = (section: string) => {
     setOpenSections(prev => ({
@@ -167,33 +158,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
       'international': 'International'
     };
     return geoNames[geography] || 'Autres';
-  };
-
-  const getCategoryColor = (category: string): string => {
-    // On assigne une couleur basée sur le secteur principal
-    const colors: Record<string, string> = {
-      'bureaux': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-      'commerces': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-      'residentiel': 'bg-green-500/20 text-green-400 border-green-500/30',
-      'sante': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-      'logistique': 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
-      'hotellerie': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-      'diversifie': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-    };
-    return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
-  };
-
-  const getDiscountPremium = (scpi: PortfolioItem): { value: number; isDiscount: boolean } | null => {
-    const vr = scpi.valeurReconstitution;
-    if (vr == null || scpi.price == null || scpi.price <= 0) return null;
-    const pct = ((vr - scpi.price) / scpi.price) * 100;
-    // Si discountQaStatus n'est pas publishable, on masque
-    if (scpi.discountQaStatus && scpi.discountQaStatus !== 'publishable') return null;
-    return { value: pct, isDiscount: pct < 0 };
-  };
-
-  const getSectorDisplayNameTable = (sector: string): string => {
-    return getSectorDisplayName(sector);
   };
 
   // Données pour les camemberts
@@ -879,161 +843,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                     ⚠️ La répartition doit totaliser 100%
                   </div>
                 )}
-              </div>
-
-              {/* ── Détail de votre sélection ── */}
-              <div className="bg-gray-50 dark:bg-gray-900/30 rounded-xl border border-gray-200 dark:border-gray-600 overflow-hidden">
-                <div className="px-3 sm:px-4 pt-3 pb-2 flex items-center justify-between">
-                  <span className="font-black text-sm sm:text-base text-gray-900 dark:text-white">
-                    Détail de votre sélection
-                  </span>
-                  <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full">
-                    {portfolio.length} SCPI
-                  </span>
-                </div>
-
-                {/* ─── TABLE ─── */}
-                <div className="overflow-x-auto">
-                  <table className="min-w-[780px] w-full text-xs">
-                    <thead>
-                      <tr className="border-b border-gray-200 dark:border-gray-600 text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        <th className="text-left py-2 px-3 sm:px-4">SCPI</th>
-                        <th className="text-right py-2 px-2 sm:px-3">Rendement</th>
-                        <th className="text-right py-2 px-2 sm:px-3">TOF</th>
-                        <th className="text-right py-2 px-2 sm:px-3">Prix part</th>
-                        <th className="text-right py-2 px-2 sm:px-3">Invest. min.</th>
-                        <th className="text-right py-2 px-2 sm:px-3">Capitalisation</th>
-                        <th className="text-right py-2 px-2 sm:px-3">Décote/Surcote</th>
-                        <th className="text-center py-2 px-2 sm:px-3 w-[90px]">Détails</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-                      {portfolio.map((item) => {
-                        const discountInfo = getDiscountPremium(item);
-                        const isExpanded = expandedScpiIds.has(item.id);
-                        return (
-                          <React.Fragment key={item.id}>
-                            <tr
-                              className="group hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
-                              onClick={() => toggleExpandScpi(item.id)}
-                            >
-                              <td className="py-2 px-3 sm:px-4">
-                                <div className="flex items-center gap-2 min-w-0">
-                                  <div className="min-w-0 flex-1">
-                                    <p className="font-semibold text-gray-900 dark:text-white truncate text-xs sm:text-sm">
-                                      {item.name}
-                                    </p>
-                                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
-                                      {item.company}
-                                    </p>
-                                  </div>
-                                  <span className={`inline-block px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[10px] font-semibold border flex-shrink-0 ${getCategoryColor(item.sector)}`}>
-                                    {getSectorDisplayNameTable(item.sector)}
-                                  </span>
-                                </div>
-                              </td>
-                              {/* Rendement */}
-                              <td className="py-2 px-2 sm:px-3 text-right">
-                                <span className="font-semibold text-green-600 dark:text-green-400">{item.yield.toFixed(2)}%</span>
-                              </td>
-                              {/* TOF */}
-                              <td className="py-2 px-2 sm:px-3 text-right">
-                                <span className={`font-semibold ${(item.tof ?? 0) >= 95 ? 'text-emerald-600 dark:text-emerald-400' : (item.tof ?? 0) >= 90 ? 'text-amber-600 dark:text-amber-400' : (item.tof ?? 0) > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-400'}`}>
-                                  {typeof item.tof === 'number' ? `${item.tof.toFixed(1)}%` : '—'}
-                                </span>
-                              </td>
-                              {/* Prix part */}
-                              <td className="py-2 px-2 sm:px-3 text-right text-gray-900 dark:text-white font-semibold tabular-nums">{item.price}€</td>
-                              {/* Invest. min. */}
-                              <td className="py-2 px-2 sm:px-3 text-right text-gray-700 dark:text-gray-300 tabular-nums">
-                                {item.minInvest >= 1000
-                                  ? `${(item.minInvest / 1000).toFixed(0)}k€`
-                                  : `${item.minInvest}€`}
-                              </td>
-                              {/* Capitalisation */}
-                              <td className="py-2 px-2 sm:px-3 text-right text-gray-700 dark:text-gray-300">
-                                {item.capitalization != null
-                                  ? item.capitalization >= 1000
-                                    ? `${(item.capitalization / 1000).toFixed(1)} Md€`
-                                    : formatCurrency(item.capitalization)
-                                  : '—'}
-                              </td>
-                              {/* Décote / Surcote */}
-                              <td className="py-2 px-2 sm:px-3 text-right">
-                                {discountInfo ? (
-                                  <span className={`font-semibold ${discountInfo.isDiscount ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
-                                    {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
-                                  </span>
-                                ) : (
-                                  <span className="text-gray-400 dark:text-gray-500">—</span>
-                                )}
-                              </td>
-                              {/* Détails toggle */}
-                              <td className="py-2 px-2 sm:px-3 text-center">
-                                <button
-                                  onClick={(e) => { e.stopPropagation(); toggleExpandScpi(item.id); }}
-                                  className="inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                                >
-                                  {isExpanded ? 'Masquer' : 'Voir détails'}
-                                  <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                                </button>
-                              </td>
-                            </tr>
-                            {/* Ligne dépliée — détails complets */}
-                            {isExpanded && (
-                              <tr>
-                                <td colSpan={8} className="bg-gray-100/50 dark:bg-gray-800/50 px-4 py-3 border-b border-gray-200 dark:border-gray-600">
-                                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-2 text-[11px] sm:text-xs">
-                                    <div>
-                                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Société de gestion</p>
-                                      <p className="text-gray-800 dark:text-gray-200 font-medium">{item.company}</p>
-                                    </div>
-                                    <div>
-                                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Horizon recommandé</p>
-                                      <p className="text-gray-800 dark:text-gray-200 font-medium">
-                                        {item.dureeDetentionRecommandee ? `${item.dureeDetentionRecommandee} ans` : '≥ 8 ans'}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Distribution</p>
-                                      <p className="text-gray-800 dark:text-gray-200 font-medium">
-                                        {item.versementLoyers || (item.distribution ? `${item.distribution}€/part` : 'Trimestrielle')}
-                                      </p>
-                                    </div>
-                                    {item.valeurReconstitution != null && (
-                                      <div>
-                                        <p className="text-[10px] text-gray-500 dark:text-gray-400">Valeur reconstitution</p>
-                                        <p className="text-gray-800 dark:text-gray-200 font-medium">{item.valeurReconstitution}€</p>
-                                      </div>
-                                    )}
-                                    {typeof item.debt === 'number' && (
-                                      <div>
-                                        <p className="text-[10px] text-gray-500 dark:text-gray-400">Endettement</p>
-                                        <p className="text-gray-800 dark:text-gray-200 font-medium">{item.debt}%</p>
-                                      </div>
-                                    )}
-                                    <div>
-                                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Nombre d'immeubles</p>
-                                      <p className="text-gray-800 dark:text-gray-200 font-medium">
-                                        {typeof item.nbImmeubles === 'number' ? item.nbImmeubles : 'N/A'}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <p className="text-[10px] text-gray-500 dark:text-gray-400">Secteur</p>
-                                      <p className="text-gray-800 dark:text-gray-200 font-medium">
-                                        {getSectorDisplayNameTable(item.sector)}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
-                          </React.Fragment>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </div>
             )}
