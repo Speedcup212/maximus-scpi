@@ -55,6 +55,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   const [diversificationTab, setDiversificationTab] = useState<'sector' | 'geo'>('sector');
   const [mobileMetricTab, setMobileMetricTab] = useState<'diversity' | 'quality'>('diversity');
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
+  const [isSelectionDetailsOpen, setIsSelectionDetailsOpen] = useState(false);
 
   const toggleSection = (section: string) => {
     setOpenSections(prev => ({
@@ -845,79 +846,104 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                 )}
               </div>
 
-              {/* Liste des SCPI en grille responsive */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-                {portfolio.map((item, index) => (
-                  <div key={item.id} className="group p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
-                    {/* En-tête SCPI */}
-                    <div className="mb-3">
-                      <div className="font-black text-gray-900 dark:text-white text-sm sm:text-base mb-1">
-                        {item.name}
-                      </div>
-                      <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
-                        {item.company}
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.isr && (
-                          <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-bold rounded-full">
-                            🌱 ISR
-                          </span>
-                        )}
-                        {item.fees === 0 && (
-                          <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-bold rounded-full">
-                            💰 0% frais
-                          </span>
-                        )}
-                      </div>
-                    </div>
+              {/* Détail de votre sélection — sous-accordéon repliable */}
+              <div className="border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden bg-white dark:bg-gray-800">
+                <button
+                  onClick={() => setIsSelectionDetailsOpen(prev => !prev)}
+                  className="w-full flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800 hover:from-gray-100 hover:to-slate-100 dark:hover:from-gray-700 dark:hover:to-slate-700 transition-all"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-sm sm:text-base text-gray-900 dark:text-white">
+                      Détail de votre sélection
+                    </span>
+                    <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full">
+                      {portfolio.length} SCPI
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-300 ${
+                      isSelectionDetailsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {isSelectionDetailsOpen && (
+                  <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-900/30">
+                    {/* Liste des SCPI en grille responsive */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                      {portfolio.map((item, index) => (
+                        <div key={item.id} className="group p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all duration-300">
+                          {/* En-tête SCPI */}
+                          <div className="mb-3">
+                            <div className="font-black text-gray-900 dark:text-white text-sm sm:text-base mb-1">
+                              {item.name}
+                            </div>
+                            <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
+                              {item.company}
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              {item.isr && (
+                                <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-bold rounded-full">
+                                  🌱 ISR
+                                </span>
+                              )}
+                              {item.fees === 0 && (
+                                <span className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-bold rounded-full">
+                                  💰 0% frais
+                                </span>
+                              )}
+                            </div>
+                          </div>
 
-                    {/* Slider d'allocation */}
-                    <div className="mb-3 p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <label className="text-xs font-bold text-gray-700 dark:text-gray-200">
-                          Allocation
-                        </label>
-                        <div className="flex items-center gap-1">
-                          <input
-                            type="number"
-                            min="0"
-                            max="100"
-                            step="0.5"
-                            value={item.percentage.toFixed(1)}
-                            onChange={(e) => handleAllocationChange(item.id, parseFloat(e.target.value) || 0)}
-                            className="w-14 sm:w-16 px-1 sm:px-2 py-1 text-center text-xs sm:text-sm font-bold bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-                          <span className="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200">%</span>
-                        </div>
-                      </div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="0.5"
-                        value={item.percentage}
-                        onChange={(e) => handleAllocationChange(item.id, parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                      />
-                    </div>
+                          {/* Slider d'allocation */}
+                          <div className="mb-3 p-2 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                              <label className="text-xs font-bold text-gray-700 dark:text-gray-200">
+                                Allocation
+                              </label>
+                              <div className="flex items-center gap-1">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max="100"
+                                  step="0.5"
+                                  value={item.percentage.toFixed(1)}
+                                  onChange={(e) => handleAllocationChange(item.id, parseFloat(e.target.value) || 0)}
+                                  className="w-14 sm:w-16 px-1 sm:px-2 py-1 text-center text-xs sm:text-sm font-bold bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                                <span className="text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200">%</span>
+                              </div>
+                            </div>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              step="0.5"
+                              value={item.percentage}
+                              onChange={(e) => handleAllocationChange(item.id, parseFloat(e.target.value))}
+                              className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                            />
+                          </div>
 
-                    {/* Métriques */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="text-center p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
-                        <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Montant</div>
-                        <div className="font-black text-gray-900 dark:text-white text-xs sm:text-sm">
-                          {formatCurrency(item.investedAmount)}
+                          {/* Métriques */}
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="text-center p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Montant</div>
+                              <div className="font-black text-gray-900 dark:text-white text-xs sm:text-sm">
+                                {formatCurrency(item.investedAmount)}
+                              </div>
+                            </div>
+                            <div className="text-center p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
+                              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Rendement</div>
+                              <div className="font-black text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">
+                                {item.yield.toFixed(2)}%
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-center p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
-                        <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Rendement</div>
-                        <div className="font-black text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm">
-                          {item.yield.toFixed(2)}%
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </div>
             )}
