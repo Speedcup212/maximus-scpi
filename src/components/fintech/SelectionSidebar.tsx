@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info } from 'lucide-react';
+import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, ChevronDown } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
@@ -30,6 +31,24 @@ const LEGEND_COLORS = {
   geography: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c']
 };
 
+const getCategoryColor = (category: string) => {
+  const colors: Record<string, string> = {
+    'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    'Résidentiel': 'bg-green-500/20 text-green-400 border-green-500/30',
+    'Santé': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+    'Bureaux': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+    'Européenne': 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+    'Logistique': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  };
+  return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
+};
+
+const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
+  const value = resolveDisplayedDiscount(scpi).value;
+  if (value == null) return null;
+  return { value, isDiscount: value < 0 };
+};
+
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -54,7 +73,17 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   zScoreVariant = 'full'
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
-  
+  const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
+
+  const toggleExpandScpi = (id: number) => {
+    setExpandedScpiIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   // Mode d'investissement : Comptant / Crédit / Démembrement
   const [investmentMode, setInvestmentMode] = useState<'cash' | 'credit' | 'demembrement'>('cash');
   
@@ -2043,6 +2072,142 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                         })}
                       </div>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── Détail de votre sélection ── */}
+              {selectedScpis.length > 0 && (
+                <div className="bg-slate-800/50 rounded-lg border border-slate-700 overflow-hidden">
+                  <p className="text-xs text-slate-300 px-4 pt-4 pb-3 font-semibold">Détail de votre sélection</p>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-[780px] w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-700 text-[10px] uppercase tracking-wider text-slate-400">
+                          <th className="text-left py-2.5 px-3">SCPI</th>
+                          <th className="text-right py-2.5 px-2">Rendement</th>
+                          <th className="text-right py-2.5 px-2">TOF</th>
+                          <th className="text-right py-2.5 px-2">Prix part</th>
+                          <th className="text-right py-2.5 px-2">Invest. min.</th>
+                          <th className="text-right py-2.5 px-2">Capitalisation</th>
+                          <th className="text-right py-2.5 px-2">Décote/Surcote</th>
+                          <th className="text-center py-2.5 px-2">Détails</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-700/50">
+                        {selectedScpis.map(scpi => {
+                          const discountInfo = getDiscountPremium(scpi);
+                          const isExpanded = expandedScpiIds.has(scpi.id);
+                          return (
+                            <React.Fragment key={scpi.id}>
+                              <tr
+                                className="group hover:bg-slate-700/30 transition-colors cursor-pointer"
+                                onClick={() => toggleExpandScpi(scpi.id)}
+                              >
+                                <td className="py-2.5 px-3">
+                                  <div className="flex items-center gap-2">
+                                    <div className="min-w-0 flex-1">
+                                      <p className="font-semibold text-white truncate">{scpi.name}</p>
+                                      <p className="text-[10px] text-slate-400 truncate">{scpi.managementCompany}</p>
+                                    </div>
+                                    <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-semibold border flex-shrink-0 ${getCategoryColor(scpi.category)}`}>
+                                      {scpi.category}
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="py-2.5 px-2 text-right">
+                                  <span className="font-semibold text-violet-400">{scpi.yield.toFixed(2)}%</span>
+                                </td>
+                                <td className="py-2.5 px-2 text-right">
+                                  <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
+                                    {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
+                                  </span>
+                                </td>
+                                <td className="py-2.5 px-2 text-right text-white font-semibold tabular-nums">
+                                  {scpi.price != null ? `${scpi.price}€` : '—'}
+                                </td>
+                                <td className="py-2.5 px-2 text-right text-slate-300 tabular-nums">
+                                  {scpi.minInvestment != null
+                                    ? scpi.minInvestment >= 1000
+                                      ? `${(scpi.minInvestment / 1000).toFixed(0)}k€`
+                                      : `${scpi.minInvestment}€`
+                                    : '—'}
+                                </td>
+                                <td className="py-2.5 px-2 text-right text-slate-300">
+                                  {scpi.capitalization || '—'}
+                                </td>
+                                <td className="py-2.5 px-2 text-right">
+                                  {discountInfo ? (
+                                    <span className={`font-semibold ${discountInfo.isDiscount ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                      {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
+                                    </span>
+                                  ) : (
+                                    <span className="text-slate-500">—</span>
+                                  )}
+                                </td>
+                                <td className="py-2.5 px-2 text-center">
+                                  <button
+                                    onClick={(e) => { e.stopPropagation(); toggleExpandScpi(scpi.id); }}
+                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors"
+                                  >
+                                    {isExpanded ? 'Masquer' : 'Voir détails'}
+                                    <ChevronDown className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                                  </button>
+                                </td>
+                              </tr>
+                              {isExpanded && (
+                                <tr>
+                                  <td colSpan={8} className="bg-slate-900/50 px-4 py-3 border-b border-slate-700/50">
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-2 text-[11px]">
+                                      <div>
+                                        <p className="text-[10px] text-slate-500">Société de gestion</p>
+                                        <p className="text-slate-300">{scpi.managementCompany}</p>
+                                      </div>
+                                      <div>
+                                        <p className="text-[10px] text-slate-500">Horizon recommandé</p>
+                                        <p className="text-slate-300">
+                                          {scpi.dureeDetentionRecommandee ? `${scpi.dureeDetentionRecommandee} ans` : '≥ 8 ans'}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p className="text-[10px] text-slate-500">Distribution</p>
+                                        <p className="text-slate-300">
+                                          {scpi.versementLoyers || 'Trimestrielle'}
+                                        </p>
+                                      </div>
+                                      {scpi.reconstitutionValue != null && (
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Valeur reconstitution</p>
+                                          <p className="text-slate-300">{scpi.reconstitutionValue}€</p>
+                                        </div>
+                                      )}
+                                      {typeof scpi.ltv === 'number' && (
+                                        <div>
+                                          <p className="text-[10px] text-slate-500">Endettement</p>
+                                          <p className="text-slate-300">{scpi.ltv}%</p>
+                                        </div>
+                                      )}
+                                      <div>
+                                        <p className="text-[10px] text-slate-500">Nombre d'immeubles</p>
+                                        <p className="text-slate-300">
+                                          {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <p className="text-[10px] text-slate-500">Secteur / Catégorie</p>
+                                        <p className="text-slate-300">
+                                          {scpi.category || 'N/A'}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}
