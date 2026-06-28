@@ -850,7 +850,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
               <div className="border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden bg-white dark:bg-gray-800">
                 <button
                   onClick={() => setIsSelectionDetailsOpen(prev => !prev)}
-                  className="w-full flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800 hover:from-gray-100 hover:to-slate-100 dark:hover:from-gray-700 dark:hover:to-slate-700 transition-all"
+                  className="w-full flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800 dark:to-slate-800 hover:from-gray-100 hover:to-slate-100 dark:hover:from-gray-700 dark:hover:to-slate-700 transition-all cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
                     <span className="font-black text-sm sm:text-base text-gray-900 dark:text-white">
