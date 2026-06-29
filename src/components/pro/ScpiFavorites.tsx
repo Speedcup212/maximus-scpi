@@ -6,7 +6,7 @@ import {
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
-import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import { createSlugFromName, findScpiSlug } from '../../utils/scpiSlugMapper';
 
 /* ──────────────────────────────────────────
    Types
@@ -38,10 +38,11 @@ function getSectorDisplay(scpi: SCPIExtended): string {
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
 
-function FavoriteCard({ scpi, onRemove, onNavigateToComparator }: {
+function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: {
   scpi: SCPIExtended;
   onRemove: (id: number) => void;
   onNavigateToComparator?: () => void;
+  onOpenDetail?: (scpi: SCPIExtended) => void;
 }) {
   const discountInfo = resolveDisplayedDiscount(scpi);
   const hasDiscount = discountInfo.displayValue != null && discountInfo.displayValue !== 0;
@@ -114,6 +115,14 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator }: {
 
       {/* Actions */}
       <div className="p-3 sm:p-4 border-t border-slate-800 space-y-2">
+        <button
+          onClick={() => onOpenDetail?.(scpi)}
+          className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-300 hover:text-emerald-400 text-[10px] sm:text-xs rounded-lg transition-colors"
+          title="Voir la fiche SCPI"
+        >
+          <ExternalLink className="w-3 h-3" />
+          Voir la fiche SCPI
+        </button>
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={onNavigateToComparator}
@@ -176,8 +185,8 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
   };
 
   const handleOpenScpiDetail = (scpi: SCPIExtended) => {
-    const slug = createSlugFromName(scpi.name);
-    window.location.href = `/scpi/${slug}`;
+    const slug = findScpiSlug(scpi.name) ?? createSlugFromName(scpi.name);
+    window.location.href = `/${slug}/`;
   };
 
   /* ---------- Ajout multiple ---------- */
@@ -299,6 +308,7 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                       scpi={scpi}
                       onRemove={handleRemove}
                       onNavigateToComparator={onNavigateToComparator}
+                      onOpenDetail={handleOpenScpiDetail}
                     />
                   ))}
                 </div>
