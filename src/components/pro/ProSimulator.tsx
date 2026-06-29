@@ -1102,7 +1102,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
           {icon}
-          {title} ({selections.length}/6)
+          {title}
         </h2>
         <div className="flex items-center gap-2">
           <button
@@ -1241,7 +1241,7 @@ function HypothesesComptant(props: ScpiSelectProps & { montantTotal: number }) {
   return (
     <ScpiSelectorBlock
       {...props}
-      title="Allocation SCPI"
+      title="Allocation SCPI — Comptant"
       icon={<TrendingUp size={20} className="text-emerald-400" />}
     />
   );
@@ -1336,7 +1336,7 @@ function HypothesesCredit(props: ScpiSelectProps & {
 
       <ScpiSelectorBlock
         {...props}
-        title="Allocation SCPI (crédit)"
+        title="Allocation SCPI — Crédit"
         icon={<TrendingUp size={20} className="text-emerald-400" />}
       />
     </>
@@ -1436,7 +1436,7 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
 
       <ScpiSelectorBlock
         {...props}
-        title={`Allocation SCPI (${typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit'})`}
+        title="Allocation SCPI — Démembrement"
         icon={<TrendingUp size={20} className="text-emerald-400" />}
       />
     </>
