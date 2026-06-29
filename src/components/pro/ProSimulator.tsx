@@ -250,7 +250,7 @@ export default function ProSimulator() {
     setDropdownOpen(false);
   };
   const addSelection = () => {
-    if (selections.length >= 4) return;
+    if (selections.length >= 6) return;
     const usedIds = new Set(selections.map((s) => s.scpi.id));
     const available = scpiDataExtended.find((s) => !usedIds.has(s.id));
     if (available) setSelections((prev) => [...prev, { scpi: available, allocation: 5000 }]);
@@ -283,7 +283,7 @@ export default function ProSimulator() {
       .filter(Boolean) as SCPIExtended[];
     if (newScpis.length === 0) return;
     const prevLen = selections.length;
-    const updated = [...selections, ...newScpis.map((s) => ({ scpi: s, allocation: 0 }))].slice(0, 4);
+    const updated = [...selections, ...newScpis.map((s) => ({ scpi: s, allocation: 0 }))].slice(0, 6);
     setSelections(updated);
     // Conserver les overrides existants; les nouvelles lignes n'en ont pas
     if (updated.length > prevLen) {
@@ -932,18 +932,18 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
           {icon}
-          {title} ({selections.length}/4)
+          {title} ({selections.length}/6)
         </h2>
         <div className="flex items-center gap-2">
           <button
-            disabled={selections.length >= 4}
+            disabled={selections.length >= 6}
             onClick={() => onOpenSelector?.()}
             className={`flex items-center gap-1.5 text-sm font-medium transition ${
-              selections.length >= 4
+              selections.length >= 6
                 ? 'text-slate-600 cursor-not-allowed'
                 : 'text-emerald-400 hover:text-emerald-300'
             }`}
-            title={selections.length >= 4 ? 'Maximum 4 SCPI atteint' : 'Ajouter une SCPI'}
+            title={selections.length >= 6 ? 'Maximum 6 SCPI atteint' : 'Ajouter une SCPI'}
           >
             <Plus size={16} /> Ajouter une SCPI
           </button>
