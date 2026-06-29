@@ -217,8 +217,25 @@ export default function ProSimulator() {
   const updateDuration = (v: number) => { setDuration(v); localStorage.setItem('pro_sim_duration', String(v)); };
   const updateMode = (v: 'comptant' | 'credit' | 'demembrement') => { setMode(v); localStorage.setItem('pro_sim_mode', v); };
 
+  /* ─── Priorité parts (entrée manuelle du CGP) ─── */
+  const [partsOverrides, setPartsOverrides] = useState<Record<number, number>>({});
+
   const updateAllocation = (index: number, val: number) => {
     setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, allocation: Math.max(1000, val) } : s)));
+    setPartsOverrides((prev) => { const n = { ...prev }; delete n[index]; return n; });
+  };
+
+  const updateParts = (index: number, nb: number) => {
+    const parts = Math.max(0, Math.round(nb));
+    setSelections((prev) =>
+      prev.map((s, i) => {
+        if (i !== index) return s;
+        const price = s.scpi.price;
+        const alloc = price > 0 ? parts * price : s.allocation;
+        return { ...s, allocation: alloc };
+      }),
+    );
+    setPartsOverrides((prev) => ({ ...prev, [index]: parts }));
   };
   const updateCleDemembrement = (v: number) => {
     const clamped = Math.min(99, Math.max(1, Math.round(v)));
@@ -229,6 +246,7 @@ export default function ProSimulator() {
   };
   const replaceScpi = (index: number, scpi: SCPIExtended) => {
     setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, scpi } : s)));
+    setPartsOverrides((prev) => { const n = { ...prev }; delete n[index]; return n; });
     setDropdownOpen(false);
   };
   const addSelection = () => {
@@ -240,6 +258,16 @@ export default function ProSimulator() {
   const removeSelection = (index: number) => {
     if (selections.length <= 1) return;
     setSelections((prev) => prev.filter((_, i) => i !== index));
+    setPartsOverrides((prev) => {
+      const n: Record<number, number> = {};
+      for (const [k, v] of Object.entries(prev)) {
+        const ki = Number(k);
+        if (ki < index) n[ki] = v;
+        else if (ki > index) n[ki - 1] = v;
+        // (ki === index => dropped)
+      }
+      return n;
+    });
   };
   const persistScpis = (sel: ScpiSelection[]) => {
     localStorage.setItem('pro_sim_scpis', JSON.stringify(sel.map((s) => s.scpi.id)));
@@ -254,8 +282,13 @@ export default function ProSimulator() {
       .map((id) => scpiDataExtended.find((s) => s.id === id))
       .filter(Boolean) as SCPIExtended[];
     if (newScpis.length === 0) return;
+    const prevLen = selections.length;
     const updated = [...selections, ...newScpis.map((s) => ({ scpi: s, allocation: 0 }))].slice(0, 4);
     setSelections(updated);
+    // Conserver les overrides existants; les nouvelles lignes n'en ont pas
+    if (updated.length > prevLen) {
+      setPartsOverrides((prev) => ({ ...prev }));
+    }
     persistScpis(updated);
   };
 
@@ -270,6 +303,11 @@ export default function ProSimulator() {
     setSelections((prev) =>
       prev.map((s, i) => (zeroIndices.includes(i) ? { ...s, allocation: each } : s)),
     );
+    setPartsOverrides((prev) => {
+      const n = { ...prev };
+      zeroIndices.forEach((i) => delete n[i]);
+      return n;
+    });
   };
 
   const availableScpis = useMemo(() => {
@@ -284,8 +322,10 @@ export default function ProSimulator() {
 
   /* ─── Calculs allocation / parts ─── */
   const allocationRows: ScpiAllocationRow[] = useMemo(() => {
-    return selections.map((sel) => {
-      const { parts, montantReel } = computeAllocation(sel.allocation, sel.scpi.price, sel.scpi.minInvestment);
+    return selections.map((sel, i) => {
+      const hasOverride = partsOverrides[i] !== undefined;
+      const parts = hasOverride ? partsOverrides[i] : computeAllocation(sel.allocation, sel.scpi.price, sel.scpi.minInvestment).parts;
+      const montantReel = parts * sel.scpi.price;
       return {
         scpiName: sel.scpi.name,
         yield: sel.scpi.yield,
@@ -296,7 +336,7 @@ export default function ProSimulator() {
         montantReel,
       };
     });
-  }, [selections]);
+  }, [selections, partsOverrides]);
 
   const totalMontantReel = allocationRows.reduce((s, r) => s + r.montantReel, 0);
   const totalAllocation = allocationRows.reduce((s, r) => s + r.allocation, 0);
@@ -556,6 +596,7 @@ export default function ProSimulator() {
           onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
+          onPartsChange={updateParts}
         />
       )}
 
@@ -597,6 +638,7 @@ export default function ProSimulator() {
           onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
+          onPartsChange={updateParts}
         />
       )}
 
@@ -636,6 +678,7 @@ export default function ProSimulator() {
           onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
+          onPartsChange={updateParts}
         />
       )}
 
@@ -646,6 +689,7 @@ export default function ProSimulator() {
         rows={allocationRows}
         totalMontantReel={totalMontantReel}
         cashRestant={cashRestant}
+        onPartsChange={updateParts}
       />
 
       {/* ═══════════════════════════════════════
@@ -856,6 +900,7 @@ interface ScpiSelectProps {
   allocations: ScpiAllocationRow[];
   cashRestant: number;
   onAllocationChange: (index: number, val: number) => void;
+  onPartsChange: (index: number, parts: number) => void;
   selections: ScpiSelection[];
   onReplaceScpi: (index: number, scpi: SCPIExtended) => void;
   onAdd: () => void;
@@ -873,7 +918,7 @@ interface ScpiSelectProps {
 
 function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
   const {
-    allocations, cashRestant, onAllocationChange,
+    allocations, cashRestant, onAllocationChange, onPartsChange,
     selections, onReplaceScpi, onAdd, onRemove,
     dropdownOpen, setDropdownOpen,
     dropdownSearch, setDropdownSearch,
@@ -986,7 +1031,16 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                       className="w-24 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200 text-right focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </td>
-                  <td className="py-2.5 px-3 text-right font-semibold text-white text-xs">{row.parts}</td>
+                  <td className="py-2.5 px-3 text-right">
+                    <input
+                      type="number"
+                      value={row.parts}
+                      onChange={(e) => onPartsChange(i, Number(e.target.value))}
+                      min={0}
+                      step={1}
+                      className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    />
+                  </td>
                   <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
                   <td className="py-2.5 px-1">
@@ -1207,10 +1261,11 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   );
 }
 
-function AllocationReelle({ rows, totalMontantReel, cashRestant }: {
+function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange }: {
   rows: ScpiAllocationRow[];
   totalMontantReel: number;
   cashRestant: number;
+  onPartsChange: (index: number, parts: number) => void;
 }) {
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
@@ -1240,7 +1295,16 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant }: {
                   <td className="py-2.5 px-4 font-semibold text-slate-200">{row.scpiName}</td>
                   <td className="py-2.5 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
                   <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right font-semibold text-white">{row.parts}</td>
+                  <td className="py-2.5 px-4 text-right">
+                    <input
+                      type="number"
+                      value={row.parts}
+                      onChange={(e) => onPartsChange(i, Number(e.target.value))}
+                      min={0}
+                      step={1}
+                      className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    />
+                  </td>
                   <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className={`py-2.5 px-4 text-right ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
                 </tr>
