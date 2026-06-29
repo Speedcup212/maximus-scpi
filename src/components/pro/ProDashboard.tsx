@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, type ReactNode } from 'react';
+import { useState, useCallback, useEffect, lazy, Suspense, type ReactNode } from 'react';
 import {
   LayoutDashboard,
   FolderOpen,
@@ -20,6 +20,17 @@ import {
   Play,
   Link2,
   Calculator,
+  Scale,
+  Wallet,
+  Landmark,
+  Layers,
+  RefreshCw,
+  Coins,
+  UserCheck,
+  Sparkles,
+  ArrowLeft,
+  ArrowRight,
+  Info,
   type LucideIcon,
 } from 'lucide-react';
 import KpiCard from './KpiCard';
@@ -28,9 +39,41 @@ import ScpiSignals from './ScpiSignals';
 import ProFintechComparator from '../fintech/ProFintechComparator';
 import ProRapports from './ProRapports';
 import ProSettings from './ProSettings';
-import ProSimulator from './ProSimulator';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+
+/* ── Lazy imports des simulateurs publics ── */
+const ScpiNetIncomeSimulator = lazy(() => import('../ScpiNetIncomeSimulator'));
+const ScpiCreditSimulator = lazy(() => import('../ScpiCreditSimulator'));
+const ScpiDemembrementSimulator = lazy(() => import('../ScpiDemembrementSimulator'));
+const InvestorProfileSimulator = lazy(() => import('../InvestorProfileSimulator'));
+const SimulateurTresorerieIS = lazy(() => import('../../pages/SimulateurTresorerieIS'));
+const SimulateurImpactFiscal = lazy(() => import('../../pages/SimulateurImpactFiscal'));
+const LifeToScpiPage = lazy(() => import('../LifeToScpiPage'));
+const ScpiEnvelopeComparator = lazy(() => import('../ScpiEnvelopeComparator'));
+const ComparateurDemembrementScpi = lazy(() => import('../ComparateurDemembrementScpi'));
+
+/* ── Types / Constantes pour le hub simulateurs ── */
+type ProSimulatorView =
+  | 'hub'
+  | 'revenus-nets'
+  | 'credit'
+  | 'demembrement'
+  | 'fiscalite'
+  | 'tresorerie-is'
+  | 'profil-investisseur'
+  | 'fonds-euros'
+  | 'enveloppes'
+  | 'demembrement-comparateur';
+
+interface SimulatorCard {
+  title: string;
+  description: string;
+  simulatorKey: ProSimulatorView;
+  cta: string;
+  badge?: string;
+  Icon: LucideIcon;
+}
 
 /* ──────────────────────────────────────────
    Types
@@ -290,6 +333,187 @@ function VideosContent() {
 }
 
 /* ──────────────────────────────────────────
+   ProSimulatorHub — page hub des simulateurs
+   ────────────────────────────────────────── */
+
+const QUESTIONNAIRE_CARDS: SimulatorCard[] = [
+  {
+    title: 'Questionnaire investisseur complet',
+    description: 'Évaluez le profil, l\'horizon, les connaissances financières et la tolérance au risque.',
+    simulatorKey: 'profil-investisseur',
+    cta: 'Démarrer le questionnaire',
+    badge: '32 questions',
+    Icon: UserCheck,
+  },
+  {
+    title: 'Quiz SCPI rapide',
+    description: 'Première orientation selon fiscalité, horizon et objectif patrimonial.',
+    simulatorKey: 'profil-investisseur',
+    cta: 'Faire le quiz rapide',
+    badge: 'Version rapide',
+    Icon: Sparkles,
+  },
+];
+
+const SIMULATEUR_CARDS: SimulatorCard[] = [
+  {
+    title: 'Simulateur fiscalité SCPI',
+    description: 'Estimez l\'impact fiscal des revenus SCPI selon votre TMI.',
+    simulatorKey: 'fiscalite',
+    cta: 'Lancer le simulateur',
+    Icon: Calculator,
+  },
+  {
+    title: 'Simulateur démembrement',
+    description: 'Comprenez l\'intérêt potentiel de la nue-propriété.',
+    simulatorKey: 'demembrement',
+    cta: 'Lancer le simulateur',
+    Icon: Scale,
+  },
+  {
+    title: 'Simulateur SCPI à crédit',
+    description: 'Mesurez l\'effet de levier et le cash-flow d\'un achat à crédit.',
+    simulatorKey: 'credit',
+    cta: 'Lancer le simulateur',
+    Icon: Landmark,
+  },
+  {
+    title: 'Revenus nets SCPI (IR)',
+    description: 'Estimez vos revenus réels après fiscalité.',
+    simulatorKey: 'revenus-nets',
+    cta: 'Lancer le simulateur',
+    Icon: Wallet,
+  },
+  {
+    title: 'Trésorerie IS – SCPI',
+    description: 'Projection de trésorerie nette à l\'impôt sur les sociétés.',
+    simulatorKey: 'tresorerie-is',
+    cta: 'Lancer le simulateur',
+    Icon: Coins,
+  },
+  {
+    title: 'Fonds euros vs SCPI',
+    description: 'Comparatif de réallocation entre fonds euros et SCPI.',
+    simulatorKey: 'fonds-euros',
+    cta: 'Lancer le simulateur',
+    Icon: Layers,
+  },
+];
+
+const COMPARATEUR_CARDS: SimulatorCard[] = [
+  {
+    title: 'Comparateur SCPI',
+    description: 'Analysez les SCPI référencées selon leurs principaux indicateurs.',
+    simulatorKey: 'hub', // redirige vers le comparateur existant
+    cta: 'Ouvrir le comparateur',
+    Icon: BarChart3,
+  },
+  {
+    title: 'Comparateur d\'enveloppes',
+    description: 'Direct, assurance-vie ou SCI à l\'IS : comparez les enveloppes.',
+    simulatorKey: 'enveloppes',
+    cta: 'Ouvrir le comparateur',
+    Icon: Layers,
+  },
+  {
+    title: 'Comparateur démembrement',
+    description: 'Pleine propriété vs nue-propriété vs usufruit.',
+    simulatorKey: 'demembrement-comparateur',
+    cta: 'Ouvrir le comparateur',
+    Icon: RefreshCw,
+  },
+];
+
+function ProSimulatorHub({ onLaunch, onNavigateToComparator }: {
+  onLaunch: (key: ProSimulatorView) => void;
+  onNavigateToComparator: () => void;
+}) {
+  const renderCard = (card: SimulatorCard) => (
+    <div
+      key={card.title}
+      className="flex flex-col rounded-xl border border-slate-800 bg-slate-900/60 p-5 hover:border-emerald-500/40 hover:bg-slate-900 transition"
+    >
+      <div className="flex items-center justify-between gap-2">
+        <div className="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+          <card.Icon className="w-5 h-5" />
+        </div>
+        {card.badge && (
+          <span className="inline-flex items-center rounded-full bg-blue-500/10 text-blue-400 px-2 py-0.5 text-[10px] font-semibold">
+            {card.badge}
+          </span>
+        )}
+      </div>
+      <h3 className="mt-4 text-base font-semibold text-slate-100">{card.title}</h3>
+      <p className="mt-1.5 text-xs text-slate-400 flex-1">{card.description}</p>
+      <button
+        type="button"
+        onClick={() => {
+          if (card.simulatorKey === 'hub' && card.title === 'Comparateur SCPI') {
+            onNavigateToComparator();
+          } else {
+            onLaunch(card.simulatorKey);
+          }
+        }}
+        className="mt-4 inline-flex items-center gap-1.5 self-start rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500"
+      >
+        {card.cta}
+        <ArrowRight className="w-3.5 h-3.5" />
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="max-w-6xl mx-auto space-y-10 pb-8">
+      <div>
+        <h1 className="text-xl sm:text-2xl font-bold text-white">Simulateurs</h1>
+        <p className="text-sm text-slate-400 mt-1">
+          Tous les outils de simulation disponibles pour préparer vos dossiers clients.
+        </p>
+      </div>
+
+      {/* Définir votre profil */}
+      <section>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Définir votre profil</h2>
+        <p className="text-xs text-slate-500 mb-4">Évaluez le profil du client avant d'investir.</p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {QUESTIONNAIRE_CARDS.map(renderCard)}
+        </div>
+      </section>
+
+      {/* Simuler votre stratégie */}
+      <section>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Simuler votre stratégie</h2>
+        <p className="text-xs text-slate-500 mb-4">Estimez l'impact des choix patrimoniaux.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {SIMULATEUR_CARDS.map(renderCard)}
+        </div>
+      </section>
+
+      {/* Comparer les solutions */}
+      <section>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Comparer les solutions</h2>
+        <p className="text-xs text-slate-500 mb-4">Comparez SCPI, enveloppes et stratégies de détention.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {COMPARATEUR_CARDS.map(renderCard)}
+        </div>
+      </section>
+
+      {/* Mention réglementaire */}
+      <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+        <div className="flex items-start gap-2.5">
+          <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-amber-400/80">
+            Ces outils sont informatifs et préparatoires. Ils ne constituent pas une recommandation
+            personnalisée au sens de la réglementation MIF2. Toute recommandation nécessite une analyse
+            complète validée par un conseiller.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────
    ComplianceStrip (réutilisé)
    ────────────────────────────────────────── */
 
@@ -318,6 +542,7 @@ function ComplianceStrip() {
 export default function ProDashboard({ initialSection }: { initialSection?: ProSection }) {
   const [activeSection, setActiveSection] = useState<ProSection>(initialSection || 'dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [simulatorView, setSimulatorView] = useState<ProSimulatorView>('hub');
   const [favoriteCount, setFavoriteCount] = useState(() => getFavoriteScpiIds().size);
   const [pendingAnalysisScpi, setPendingAnalysisScpi] = useState<SCPIExtended | null>(null);
   const [pendingCompareScpi, setPendingCompareScpi] = useState<SCPIExtended | null>(null);
@@ -337,7 +562,16 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
 
   const handleSectionClick = useCallback((section: ProSection) => {
     setActiveSection(section);
+    if (section !== 'simulateurs') setSimulatorView('hub');
     setMobileMenuOpen(false);
+  }, []);
+
+  const handleLaunchSimulator = useCallback((view: ProSimulatorView) => {
+    setSimulatorView(view);
+  }, []);
+
+  const handleBackToSimulatorHub = useCallback(() => {
+    setSimulatorView('hub');
   }, []);
 
   const handleAnalyzeScpiFromFavorites = useCallback((scpi: SCPIExtended) => {
@@ -380,7 +614,65 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
           onCloseAnalysis={handleCloseAnalysis}
         />;
       case 'simulateurs':
-        return <ProSimulator />;
+        if (simulatorView !== 'hub') {
+          return (
+            <>
+              <button
+                onClick={handleBackToSimulatorHub}
+                className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition mb-4"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Retour aux simulateurs
+              </button>
+              <Suspense fallback={<div className="text-slate-500 text-sm py-8">Chargement du simulateur...</div>}>
+                {simulatorView === 'revenus-nets' && (
+                  <ScpiNetIncomeSimulator
+                    defaultAmount={50000}
+                    defaultYield={5}
+                    defaultTmi={30}
+                    onCtaClick={() => {}}
+                  />
+                )}
+                {simulatorView === 'credit' && (
+                  <ScpiCreditSimulator
+                    defaultAmount={100000}
+                    defaultApport={20000}
+                    defaultRate={3.5}
+                    defaultDuration={20}
+                    onCtaClick={() => {}}
+                  />
+                )}
+                {simulatorView === 'demembrement' && (
+                  <ScpiDemembrementSimulator
+                    defaultMontant={0}
+                    defaultDuree={10}
+                    defaultRendement={5.0}
+                    onCtaClick={() => {}}
+                  />
+                )}
+                {simulatorView === 'fiscalite' && <SimulateurImpactFiscal />}
+                {simulatorView === 'tresorerie-is' && <SimulateurTresorerieIS />}
+                {simulatorView === 'profil-investisseur' && <InvestorProfileSimulator />}
+                {simulatorView === 'fonds-euros' && <LifeToScpiPage />}
+                {simulatorView === 'enveloppes' && (
+                  <ScpiEnvelopeComparator
+                    defaultAmount={100000}
+                    defaultYield={5}
+                    defaultDuration={15}
+                    onCtaClick={() => {}}
+                  />
+                )}
+                {simulatorView === 'demembrement-comparateur' && <ComparateurDemembrementScpi />}
+              </Suspense>
+            </>
+          );
+        }
+        return (
+          <ProSimulatorHub
+            onLaunch={handleLaunchSimulator}
+            onNavigateToComparator={() => handleSectionClick('comparateur')}
+          />
+        );
       case 'scpi-suivies':
         return <ScpiSuiviesContent />;
       case 'scpi-preferees':
