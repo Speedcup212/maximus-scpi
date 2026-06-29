@@ -158,7 +158,14 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
   const [search, setSearch] = useState('');
 
   /* ---------- Mode d'affichage (Mes préférées) ---------- */
-  const [viewMode, setViewMode] = useState<'cards' | 'list'>('cards');
+  const VIEW_MODE_KEY = 'maximus_pro_favorites_view_mode';
+  const [viewMode, setViewMode] = useState<'cards' | 'list'>(() => {
+    try {
+      const stored = localStorage.getItem(VIEW_MODE_KEY);
+      if (stored === 'cards' || stored === 'list') return stored;
+    } catch { /* localStorage indisponible */ }
+    return 'list';
+  });
 
   // Toutes les SCPI triées par nom
   const allScpis = useMemo(() => {
@@ -177,6 +184,11 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
     window.addEventListener('maximus-pro-favorites-updated', handler);
     return () => window.removeEventListener('maximus-pro-favorites-updated', handler);
   }, []);
+
+  // Persister le mode d'affichage dans localStorage
+  useEffect(() => {
+    try { localStorage.setItem(VIEW_MODE_KEY, viewMode); } catch { /* ignore */ }
+  }, [viewMode]);
 
   const handleRemove = (id: number) => {
     removeFavoriteScpi(id);
