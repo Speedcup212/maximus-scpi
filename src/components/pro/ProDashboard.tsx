@@ -31,6 +31,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Info,
+  PieChart,
   type LucideIcon,
 } from 'lucide-react';
 import KpiCard from './KpiCard';
@@ -41,6 +42,7 @@ import ProRapports from './ProRapports';
 import ProSettings from './ProSettings';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+import ProSimulator from './ProSimulator';
 
 /* ── Lazy imports des simulateurs publics ── */
 const ScpiNetIncomeSimulator = lazy(() => import('../ScpiNetIncomeSimulator'));
@@ -56,6 +58,7 @@ const ComparateurDemembrementScpi = lazy(() => import('../ComparateurDemembremen
 /* ── Types / Constantes pour le hub simulateurs ── */
 type ProSimulatorView =
   | 'hub'
+  | 'allocation'
   | 'revenus-nets'
   | 'credit'
   | 'demembrement'
@@ -336,7 +339,76 @@ function VideosContent() {
    ProSimulatorHub — page hub des simulateurs
    ────────────────────────────────────────── */
 
-const QUESTIONNAIRE_CARDS: SimulatorCard[] = [
+const BLOC_PRODUCTION: SimulatorCard[] = [
+  {
+    title: 'Allocation client SCPI',
+    description: 'Calculez l\'allocation, le nombre de parts, le montant réellement souscrit et le cash restant.',
+    simulatorKey: 'allocation',
+    cta: 'Lancer l\'allocation',
+    Icon: PieChart,
+  },
+  {
+    title: 'Fiscalité SCPI',
+    description: 'Estimez l\'impact fiscal des revenus SCPI selon la TMI du client.',
+    simulatorKey: 'fiscalite',
+    cta: 'Lancer le simulateur',
+    Icon: Calculator,
+  },
+  {
+    title: 'Revenus nets SCPI (IR)',
+    description: 'Estimez les revenus réels du client après fiscalité.',
+    simulatorKey: 'revenus-nets',
+    cta: 'Lancer le simulateur',
+    Icon: Wallet,
+  },
+  {
+    title: 'SCPI à crédit',
+    description: 'Mesurez l\'effet de levier et le cash-flow d\'un achat à crédit.',
+    simulatorKey: 'credit',
+    cta: 'Lancer le simulateur',
+    Icon: Landmark,
+  },
+  {
+    title: 'Démembrement',
+    description: 'Comprenez l\'intérêt potentiel de la nue-propriété selon l\'horizon du client.',
+    simulatorKey: 'demembrement',
+    cta: 'Lancer le simulateur',
+    Icon: Scale,
+  },
+  {
+    title: 'Trésorerie IS – SCPI',
+    description: 'Projection de trésorerie nette à l\'impôt sur les sociétés.',
+    simulatorKey: 'tresorerie-is',
+    cta: 'Lancer le simulateur',
+    Icon: Coins,
+  },
+];
+
+const BLOC_ARBITRAGES: SimulatorCard[] = [
+  {
+    title: 'Fonds euros vs SCPI',
+    description: 'Comparatif de réallocation entre fonds euros et SCPI.',
+    simulatorKey: 'fonds-euros',
+    cta: 'Lancer le simulateur',
+    Icon: Layers,
+  },
+  {
+    title: 'Comparateur d\'enveloppes',
+    description: 'Direct, assurance-vie ou SCI à l\'IS : comparez les enveloppes de détention.',
+    simulatorKey: 'enveloppes',
+    cta: 'Ouvrir le comparateur',
+    Icon: Layers,
+  },
+  {
+    title: 'Comparateur démembrement',
+    description: 'Pleine propriété vs nue-propriété vs usufruit.',
+    simulatorKey: 'demembrement-comparateur',
+    cta: 'Ouvrir le comparateur',
+    Icon: RefreshCw,
+  },
+];
+
+const BLOC_PROFIL: SimulatorCard[] = [
   {
     title: 'Questionnaire investisseur complet',
     description: 'Évaluez le profil, l\'horizon, les connaissances financières et la tolérance au risque.',
@@ -355,78 +427,8 @@ const QUESTIONNAIRE_CARDS: SimulatorCard[] = [
   },
 ];
 
-const SIMULATEUR_CARDS: SimulatorCard[] = [
-  {
-    title: 'Simulateur fiscalité SCPI',
-    description: 'Estimez l\'impact fiscal des revenus SCPI selon votre TMI.',
-    simulatorKey: 'fiscalite',
-    cta: 'Lancer le simulateur',
-    Icon: Calculator,
-  },
-  {
-    title: 'Simulateur démembrement',
-    description: 'Comprenez l\'intérêt potentiel de la nue-propriété.',
-    simulatorKey: 'demembrement',
-    cta: 'Lancer le simulateur',
-    Icon: Scale,
-  },
-  {
-    title: 'Simulateur SCPI à crédit',
-    description: 'Mesurez l\'effet de levier et le cash-flow d\'un achat à crédit.',
-    simulatorKey: 'credit',
-    cta: 'Lancer le simulateur',
-    Icon: Landmark,
-  },
-  {
-    title: 'Revenus nets SCPI (IR)',
-    description: 'Estimez vos revenus réels après fiscalité.',
-    simulatorKey: 'revenus-nets',
-    cta: 'Lancer le simulateur',
-    Icon: Wallet,
-  },
-  {
-    title: 'Trésorerie IS – SCPI',
-    description: 'Projection de trésorerie nette à l\'impôt sur les sociétés.',
-    simulatorKey: 'tresorerie-is',
-    cta: 'Lancer le simulateur',
-    Icon: Coins,
-  },
-  {
-    title: 'Fonds euros vs SCPI',
-    description: 'Comparatif de réallocation entre fonds euros et SCPI.',
-    simulatorKey: 'fonds-euros',
-    cta: 'Lancer le simulateur',
-    Icon: Layers,
-  },
-];
-
-const COMPARATEUR_CARDS: SimulatorCard[] = [
-  {
-    title: 'Comparateur SCPI',
-    description: 'Analysez les SCPI référencées selon leurs principaux indicateurs.',
-    simulatorKey: 'hub', // redirige vers le comparateur existant
-    cta: 'Ouvrir le comparateur',
-    Icon: BarChart3,
-  },
-  {
-    title: 'Comparateur d\'enveloppes',
-    description: 'Direct, assurance-vie ou SCI à l\'IS : comparez les enveloppes.',
-    simulatorKey: 'enveloppes',
-    cta: 'Ouvrir le comparateur',
-    Icon: Layers,
-  },
-  {
-    title: 'Comparateur démembrement',
-    description: 'Pleine propriété vs nue-propriété vs usufruit.',
-    simulatorKey: 'demembrement-comparateur',
-    cta: 'Ouvrir le comparateur',
-    Icon: RefreshCw,
-  },
-];
-
-function ProSimulatorHub({ onLaunch, onNavigateToComparator }: {
+function ProSimulatorHub({ onLaunch }: {
   onLaunch: (key: ProSimulatorView) => void;
-  onNavigateToComparator: () => void;
 }) {
   const renderCard = (card: SimulatorCard) => (
     <div
@@ -447,13 +449,7 @@ function ProSimulatorHub({ onLaunch, onNavigateToComparator }: {
       <p className="mt-1.5 text-xs text-slate-400 flex-1">{card.description}</p>
       <button
         type="button"
-        onClick={() => {
-          if (card.simulatorKey === 'hub' && card.title === 'Comparateur SCPI') {
-            onNavigateToComparator();
-          } else {
-            onLaunch(card.simulatorKey);
-          }
-        }}
+        onClick={() => onLaunch(card.simulatorKey)}
         className="mt-4 inline-flex items-center gap-1.5 self-start rounded-lg bg-emerald-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500"
       >
         {card.cta}
@@ -471,30 +467,30 @@ function ProSimulatorHub({ onLaunch, onNavigateToComparator }: {
         </p>
       </div>
 
-      {/* Définir votre profil */}
+      {/* Bloc 1 — Production dossier */}
       <section>
-        <h2 className="text-base font-semibold text-slate-200 mb-1">Définir votre profil</h2>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Production dossier</h2>
+        <p className="text-xs text-slate-500 mb-4">Outils de simulation pour construire un dossier client complet.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {BLOC_PRODUCTION.map(renderCard)}
+        </div>
+      </section>
+
+      {/* Bloc 2 — Arbitrages patrimoniaux */}
+      <section>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Arbitrages patrimoniaux</h2>
+        <p className="text-xs text-slate-500 mb-4">Outils pour comparer les stratégies de détention et d'allocation.</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {BLOC_ARBITRAGES.map(renderCard)}
+        </div>
+      </section>
+
+      {/* Bloc 3 — Profil / préqualification */}
+      <section>
+        <h2 className="text-base font-semibold text-slate-200 mb-1">Profil / préqualification</h2>
         <p className="text-xs text-slate-500 mb-4">Évaluez le profil du client avant d'investir.</p>
         <div className="grid sm:grid-cols-2 gap-4">
-          {QUESTIONNAIRE_CARDS.map(renderCard)}
-        </div>
-      </section>
-
-      {/* Simuler votre stratégie */}
-      <section>
-        <h2 className="text-base font-semibold text-slate-200 mb-1">Simuler votre stratégie</h2>
-        <p className="text-xs text-slate-500 mb-4">Estimez l'impact des choix patrimoniaux.</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {SIMULATEUR_CARDS.map(renderCard)}
-        </div>
-      </section>
-
-      {/* Comparer les solutions */}
-      <section>
-        <h2 className="text-base font-semibold text-slate-200 mb-1">Comparer les solutions</h2>
-        <p className="text-xs text-slate-500 mb-4">Comparez SCPI, enveloppes et stratégies de détention.</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {COMPARATEUR_CARDS.map(renderCard)}
+          {BLOC_PROFIL.map(renderCard)}
         </div>
       </section>
 
@@ -625,6 +621,7 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
                 Retour aux simulateurs
               </button>
               <Suspense fallback={<div className="text-slate-500 text-sm py-8">Chargement du simulateur...</div>}>
+                {simulatorView === 'allocation' && <ProSimulator />}
                 {simulatorView === 'revenus-nets' && (
                   <ScpiNetIncomeSimulator
                     defaultAmount={50000}
@@ -670,7 +667,6 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
         return (
           <ProSimulatorHub
             onLaunch={handleLaunchSimulator}
-            onNavigateToComparator={() => handleSectionClick('comparateur')}
           />
         );
       case 'scpi-suivies':
