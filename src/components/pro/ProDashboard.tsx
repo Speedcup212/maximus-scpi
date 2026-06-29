@@ -94,7 +94,7 @@ const sectionLabel: Record<ProSection, string> = {
    Sections de contenu
    ────────────────────────────────────────── */
 
-function DashboardHome({ onNavigateToComparator, onAnalyzeScpi }: { onNavigateToComparator: () => void; onAnalyzeScpi?: (scpi: SCPIExtended) => void }) {
+function DashboardHome({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }: { onNavigateToComparator: () => void; onAnalyzeScpi?: (scpi: SCPIExtended) => void; onCompareScpi?: (scpi: SCPIExtended) => void }) {
   return (
     <>
       {/* ─── HEADER ─── */}
@@ -143,7 +143,7 @@ function DashboardHome({ onNavigateToComparator, onAnalyzeScpi }: { onNavigateTo
       <DossiersTable />
 
       {/* ─── SCPI PRÉFÉRÉES (aperçu) ─── */}
-      <ScpiFavorites onNavigateToComparator={onNavigateToComparator} onAnalyzeScpi={onAnalyzeScpi} />
+      <ScpiFavorites onNavigateToComparator={onNavigateToComparator} onAnalyzeScpi={onAnalyzeScpi} onCompareScpi={onCompareScpi} />
 
       {/* ─── SIGNAUX SCPI ─── */}
       <ScpiSignals />
@@ -317,6 +317,7 @@ export default function ProDashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(() => getFavoriteScpiIds().size);
   const [pendingAnalysisScpi, setPendingAnalysisScpi] = useState<SCPIExtended | null>(null);
+  const [pendingCompareScpi, setPendingCompareScpi] = useState<SCPIExtended | null>(null);
   const [analysisReturnSection, setAnalysisReturnSection] = useState<ProSection | null>(null);
 
   useEffect(() => {
@@ -337,6 +338,12 @@ export default function ProDashboard() {
     setMobileMenuOpen(false);
   }, []);
 
+  const handleCompareScpiFromFavorites = useCallback((scpi: SCPIExtended) => {
+    setPendingCompareScpi(scpi);
+    setActiveSection('comparateur');
+    setMobileMenuOpen(false);
+  }, []);
+
   const handleCloseAnalysis = useCallback(() => {
     setPendingAnalysisScpi(null);
     if (analysisReturnSection) {
@@ -351,6 +358,7 @@ export default function ProDashboard() {
         return <DashboardHome
           onNavigateToComparator={() => handleSectionClick('comparateur')}
           onAnalyzeScpi={handleAnalyzeScpiFromFavorites}
+          onCompareScpi={handleCompareScpiFromFavorites}
         />;
       case 'dossiers':
         return <DossiersFull />;
@@ -359,6 +367,7 @@ export default function ProDashboard() {
       case 'comparateur':
         return <ProFintechComparator
           initialAnalysisScpi={pendingAnalysisScpi}
+          initialCompareScpi={pendingCompareScpi}
           onCloseAnalysis={handleCloseAnalysis}
         />;
       case 'scpi-suivies':
@@ -367,6 +376,7 @@ export default function ProDashboard() {
         return <ScpiFavorites
           onNavigateToComparator={() => handleSectionClick('comparateur')}
           onAnalyzeScpi={handleAnalyzeScpiFromFavorites}
+          onCompareScpi={handleCompareScpiFromFavorites}
         />;
       case 'videos':
         return <VideosContent />;

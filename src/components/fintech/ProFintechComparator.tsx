@@ -47,6 +47,7 @@ interface ProFintechComparatorContentProps {
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
   initialAnalysisScpi?: SCPIExtended | null;
+  initialCompareScpi?: SCPIExtended | null;
 }
 
 const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = ({
@@ -54,7 +55,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   onGuidedJourneyClick,
   hideTitle = false,
   zScoreVariant = 'full',
-  initialAnalysisScpi = null
+  initialAnalysisScpi = null,
+  initialCompareScpi = null
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
@@ -789,6 +791,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialAnalysisScpi]);
+
+  // Ajouter une SCPI à "Ma Sélection" depuis l'extérieur (ex: ScpiFavorites via ProDashboard)
+  useEffect(() => {
+    if (initialCompareScpi) {
+      toggleSelect(initialCompareScpi);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialCompareScpi]);
 
   const activeFiltersCount =
     (filters.tmi !== null ? 1 : 0) +
@@ -2503,6 +2513,7 @@ interface ProFintechComparatorProps {
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
   initialAnalysisScpi?: SCPIExtended | null;
+  initialCompareScpi?: SCPIExtended | null;
 }
 
 const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
@@ -2510,7 +2521,8 @@ const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
   onGuidedJourneyClick,
   hideTitle = false,
   zScoreVariant = 'full',
-  initialAnalysisScpi = null
+  initialAnalysisScpi = null,
+  initialCompareScpi = null
 }) => {
   return (
     <AllocationProvider>
@@ -2521,6 +2533,7 @@ const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
           hideTitle={hideTitle}
           zScoreVariant={zScoreVariant}
           initialAnalysisScpi={initialAnalysisScpi}
+          initialCompareScpi={initialCompareScpi}
         />
       </SubscriptionProvider>
     </AllocationProvider>

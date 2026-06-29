@@ -14,6 +14,7 @@ import { resolveDisplayedDiscount } from '../../utils/formatters';
 interface ScpiFavoritesProps {
   onNavigateToComparator?: () => void;
   onAnalyzeScpi?: (scpi: SCPIExtended) => void;
+  onCompareScpi?: (scpi: SCPIExtended) => void;
 }
 
 type TabMode = 'mes-favorites' | 'ajouter';
@@ -38,11 +39,12 @@ function getSectorDisplay(scpi: SCPIExtended): string {
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
 
-function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: {
+function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, onCompare }: {
   scpi: SCPIExtended;
   onRemove: (id: number) => void;
   onNavigateToComparator?: () => void;
   onOpenDetail?: (scpi: SCPIExtended) => void;
+  onCompare?: (scpi: SCPIExtended) => void;
 }) {
   const discountInfo = resolveDisplayedDiscount(scpi);
   const hasDiscount = discountInfo.displayValue != null && discountInfo.displayValue !== 0;
@@ -125,7 +127,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: 
         </button>
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={onNavigateToComparator}
+            onClick={() => onCompare?.(scpi)}
             className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-medium rounded-lg transition-colors"
           >
             <BarChart3 className="w-3 h-3" />
@@ -148,7 +150,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: 
    Composant principal
    ────────────────────────────────────────── */
 
-export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }: ScpiFavoritesProps = {}) {
+export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }: ScpiFavoritesProps = {}) {
   const [tab, setTab] = useState<TabMode>('mes-favorites');
   const [favorites, setFavorites] = useState<SCPIExtended[]>(getFavoriteScpis);
   const [favoriteIds, setFavoriteIds] = useState<Set<number>>(() => getFavoriteScpiIds());
@@ -323,6 +325,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                       onRemove={handleRemove}
                       onNavigateToComparator={onNavigateToComparator}
                       onOpenDetail={onAnalyzeScpi}
+                      onCompare={onCompareScpi}
                     />
                   ))}
                 </div>
@@ -397,7 +400,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                                   Analyser
                                 </button>
                                 <button
-                                  onClick={onNavigateToComparator}
+                                  onClick={() => onCompareScpi?.(scpi)}
                                   className="flex items-center gap-1 py-1 px-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] rounded transition-colors whitespace-nowrap"
                                 >
                                   <BarChart3 className="w-3 h-3" />
