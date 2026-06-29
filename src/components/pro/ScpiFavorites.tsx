@@ -18,6 +18,22 @@ interface ScpiFavoritesProps {
 type TabMode = 'mes-favorites' | 'ajouter';
 
 /* ──────────────────────────────────────────
+   Helper : secteur dominant
+   ────────────────────────────────────────── */
+
+function getDominantSector(scpi: SCPIExtended): { name: string; pct: number } | null {
+  if (!scpi.sectors || scpi.sectors.length === 0) return null;
+  const sorted = [...scpi.sectors].sort((a, b) => b.value - a.value);
+  return { name: sorted[0].name, pct: Math.round(sorted[0].value) };
+}
+
+function getSectorDisplay(scpi: SCPIExtended): string {
+  const dominant = getDominantSector(scpi);
+  if (dominant) return `${dominant.name} ${dominant.pct}%`;
+  return `Profil : ${scpi.category}`;
+}
+
+/* ──────────────────────────────────────────
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
 
@@ -88,15 +104,9 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator }: {
 
         <div className="flex items-center gap-2 text-[10px] sm:text-xs">
           <Building2 className="w-3 h-3 text-slate-500" />
-          <span className="text-slate-400">{scpi.category}</span>
-          <span className={`ml-auto px-1.5 py-0.5 rounded text-[9px] font-semibold ${
-            scpi.category === 'Européenne' ? 'bg-yellow-500/20 text-yellow-400' :
-            scpi.category === 'Diversifiée' ? 'bg-blue-500/20 text-blue-400' :
-            scpi.category === 'Santé' ? 'bg-pink-500/20 text-pink-400' :
-            scpi.category === 'Bureaux' ? 'bg-indigo-500/20 text-indigo-400' :
-            'bg-slate-500/20 text-slate-400'
-          }`}>
-            {scpi.category}
+          <span className="text-slate-400">Secteur dominant</span>
+          <span className="ml-auto px-1.5 py-0.5 rounded text-[9px] font-semibold bg-slate-700/50 text-slate-300 border border-slate-600/50">
+            {getSectorDisplay(scpi)}
           </span>
         </div>
       </div>
@@ -302,7 +312,7 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                           <th className="text-right py-2.5 px-3 font-medium">Prix part</th>
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
-                          <th className="text-left py-2.5 px-3 font-medium">Secteur</th>
+                          <th className="text-left py-2.5 px-3 font-medium">Secteur dominant</th>
                           <th className="py-2.5 px-3 w-10"></th>
                         </tr>
                       </thead>
@@ -339,16 +349,10 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                             <td className="py-3 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
                               {scpi.capitalization}
                             </td>
-                            {/* Secteur */}
+                            {/* Secteur dominant */}
                             <td className="py-3 px-3">
-                              <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded border ${
-                                scpi.category === 'Européenne' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                                scpi.category === 'Diversifiée' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
-                                scpi.category === 'Santé' ? 'bg-pink-500/10 text-pink-400 border-pink-500/20' :
-                                scpi.category === 'Bureaux' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
-                                'bg-slate-500/10 text-slate-400 border-slate-500/20'
-                              }`}>
-                                {scpi.category}
+                              <span className="inline-block text-[9px] px-1.5 py-0.5 rounded border bg-slate-700/50 text-slate-300 border-slate-600/50 whitespace-nowrap">
+                                {getSectorDisplay(scpi)}
                               </span>
                             </td>
                             {/* Actions */}
