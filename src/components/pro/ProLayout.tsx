@@ -39,8 +39,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex flex-col">
-      <header className="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-between shrink-0">
-        <span className="text-[10px] sm:text-xs uppercase tracking-widest text-slate-500">Espace CGP</span>
+      <header className="bg-slate-900 border-b border-slate-800 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-end shrink-0">
         <button onClick={async () => { await supabase.auth.signOut(); onSignOut(); }}
           className="text-xs sm:text-sm text-slate-500 hover:text-red-400 transition px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg hover:bg-red-950/30 flex-shrink-0">
           Déconnexion
