@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   Star, TrendingUp, Building2, X, BarChart3,
-  CheckSquare, Square, Search, Grid3x3, List, ExternalLink,
+  CheckSquare, Square, Search, Grid3x3, List,
 } from 'lucide-react';
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
-import { createSlugFromName, findScpiSlug } from '../../utils/scpiSlugMapper';
 
 /* ──────────────────────────────────────────
    Types
@@ -14,6 +13,7 @@ import { createSlugFromName, findScpiSlug } from '../../utils/scpiSlugMapper';
 
 interface ScpiFavoritesProps {
   onNavigateToComparator?: () => void;
+  onAnalyzeScpi?: (scpi: SCPIExtended) => void;
 }
 
 type TabMode = 'mes-favorites' | 'ajouter';
@@ -118,10 +118,10 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: 
         <button
           onClick={() => onOpenDetail?.(scpi)}
           className="w-full flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-300 hover:text-emerald-400 text-[10px] sm:text-xs rounded-lg transition-colors"
-          title="Voir la fiche SCPI"
+          title="Analyser cette SCPI"
         >
-          <ExternalLink className="w-3 h-3" />
-          Voir la fiche SCPI
+          <BarChart3 className="w-3 h-3" />
+          Analyser
         </button>
         <div className="grid grid-cols-2 gap-2">
           <button
@@ -148,7 +148,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail }: 
    Composant principal
    ────────────────────────────────────────── */
 
-export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesProps = {}) {
+export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }: ScpiFavoritesProps = {}) {
   const [tab, setTab] = useState<TabMode>('mes-favorites');
   const [favorites, setFavorites] = useState<SCPIExtended[]>(getFavoriteScpis);
   const [favoriteIds, setFavoriteIds] = useState<Set<number>>(() => getFavoriteScpiIds());
@@ -182,11 +182,6 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
     removeFavoriteScpi(id);
     setFavorites(getFavoriteScpis());
     setFavoriteIds(getFavoriteScpiIds());
-  };
-
-  const handleOpenScpiDetail = (scpi: SCPIExtended) => {
-    const slug = findScpiSlug(scpi.name) ?? createSlugFromName(scpi.name);
-    window.location.href = `/${slug}/`;
   };
 
   /* ---------- Ajout multiple ---------- */
@@ -308,7 +303,7 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                       scpi={scpi}
                       onRemove={handleRemove}
                       onNavigateToComparator={onNavigateToComparator}
-                      onOpenDetail={handleOpenScpiDetail}
+                      onOpenDetail={onAnalyzeScpi}
                     />
                   ))}
                 </div>
@@ -375,11 +370,11 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                             <td className="py-3 px-2">
                               <div className="flex items-center gap-1">
                                 <button
-                                  onClick={() => handleOpenScpiDetail(scpi)}
+                                  onClick={() => onAnalyzeScpi?.(scpi)}
                                   className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
-                                  title="Voir la fiche SCPI"
+                                  title="Analyser cette SCPI"
                                 >
-                                  <ExternalLink className="w-3.5 h-3.5" />
+                                  <BarChart3 className="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleRemove(scpi.id)}

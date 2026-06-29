@@ -46,13 +46,15 @@ interface ProFintechComparatorContentProps {
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
+  initialAnalysisScpi?: SCPIExtended | null;
 }
 
 const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
-  zScoreVariant = 'full'
+  zScoreVariant = 'full',
+  initialAnalysisScpi = null
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
@@ -779,6 +781,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     setSavedScrollPosition(currentScrollY);
     setAnalysisScpi(scpi);
   };
+
+  // Ouvrir l'analyse si demandée depuis l'extérieur (ex: ScpiFavorites via ProDashboard)
+  useEffect(() => {
+    if (initialAnalysisScpi) {
+      handleAnalyze(initialAnalysisScpi);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialAnalysisScpi]);
 
   const activeFiltersCount =
     (filters.tmi !== null ? 1 : 0) +
@@ -2490,13 +2500,15 @@ interface ProFintechComparatorProps {
   onGuidedJourneyClick?: () => void;
   hideTitle?: boolean;
   zScoreVariant?: 'full' | 'compact';
+  initialAnalysisScpi?: SCPIExtended | null;
 }
 
 const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
   onCloseAnalysis,
   onGuidedJourneyClick,
   hideTitle = false,
-  zScoreVariant = 'full'
+  zScoreVariant = 'full',
+  initialAnalysisScpi = null
 }) => {
   return (
     <AllocationProvider>
@@ -2506,6 +2518,7 @@ const ProFintechComparator: React.FC<ProFintechComparatorProps> = ({
           onGuidedJourneyClick={onGuidedJourneyClick}
           hideTitle={hideTitle}
           zScoreVariant={zScoreVariant}
+          initialAnalysisScpi={initialAnalysisScpi}
         />
       </SubscriptionProvider>
     </AllocationProvider>
