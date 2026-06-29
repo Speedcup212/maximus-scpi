@@ -46,6 +46,7 @@ interface ScpiAllocationRow {
   parts: number;
   montantReel: number;
   isValid: boolean;
+  invalidReason: string;
 }
 
 interface ResultRow {
@@ -420,19 +421,42 @@ export default function ProSimulator() {
     return selections.map((sel, i) => {
       const hasOverride = partsOverrides[i] !== undefined;
       const alloc = sel.allocation;
+      const price = sel.scpi.price;
       const minInv = sel.scpi.minInvestment;
-      const belowMin = !hasOverride && alloc > 0 && alloc < minInv;
-      const parts = belowMin ? 0 : (hasOverride ? partsOverrides[i] : computeAllocation(alloc, sel.scpi.price, minInv).parts);
-      const montantReel = parts * sel.scpi.price;
+      const minParts = price > 0 ? Math.ceil(minInv / price) : 0;
+      const minRealAmount = minParts * price;
+
+      // Cas 1 : allocation cible < minimum (pas d'override parts)
+      const casAllocInvalide = !hasOverride && alloc > 0 && alloc < minInv;
+      // Cas 2 : parts saisies > 0 mais < minimum
+      const partsOverride = hasOverride ? (partsOverrides[i] ?? 0) : 0;
+      const casPartsInvalide = hasOverride && partsOverride > 0 && partsOverride * price < minInv;
+
+      const invalid: boolean = casAllocInvalide || casPartsInvalide;
+      let invalidReason = '';
+      if (casAllocInvalide) {
+        invalidReason = `Minimum non atteint : ${minInv.toLocaleString('fr-FR')} €`;
+      } else if (casPartsInvalide) {
+        invalidReason = `Minimum : ${minParts} parts / ${minRealAmount.toLocaleString('fr-FR')} €`;
+      }
+
+      const parts = invalid
+        ? 0
+        : hasOverride
+          ? partsOverride
+          : computeAllocation(alloc, price, minInv).parts;
+      const montantReel = parts * price;
+
       return {
         scpiName: sel.scpi.name,
         yield: sel.scpi.yield,
-        price: sel.scpi.price,
+        price,
         minInvestment: minInv,
         allocation: alloc,
         parts,
         montantReel,
-        isValid: !belowMin,
+        isValid: !invalid,
+        invalidReason,
       };
     });
   }, [selections, partsOverrides]);
@@ -844,7 +868,13 @@ export default function ProSimulator() {
           </h2>
         </div>
 
-        <div className="overflow-x-auto">
+        {results.length === 0 ? (
+          <div className="p-10 text-center">
+            <p className="text-slate-500 text-sm">Aucune allocation valide. Vérifiez les minimums de souscription.</p>
+          </div>
+        ) : (
+          <>
+            <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-300">
             <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/60">
               <tr>
@@ -885,6 +915,8 @@ export default function ProSimulator() {
           <div><span className="text-xs text-slate-500">Cash restant</span><p className="text-lg font-bold text-amber-400">{cashRestant.toLocaleString('fr-FR')} €</p></div>
           <div><span className="text-xs text-slate-500">Rendement net indicatif</span><p className="text-lg font-bold text-emerald-400">{rendementNet} %</p></div>
         </div>
+          </>
+        )}
       </div>
 
       {/* ═══════════════════════════════════════
@@ -1185,7 +1217,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   </td>
                   {isInvalid ? (
                     <td colSpan={3} className="py-2.5 px-3 text-red-400 text-[10px]">
-                      Minimum non atteint : {row.minInvestment.toLocaleString('fr-FR')} €
+                      {row.invalidReason}
                     </td>
                   ) : (
                     <>
@@ -1465,7 +1497,7 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, rawParts, onPar
                   <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
                   {isInvalid ? (
                     <td colSpan={2} className="py-2.5 px-4 text-red-400 text-[10px]">
-                      Minimum non atteint : {row.minInvestment.toLocaleString('fr-FR')} €
+                      {row.invalidReason}
                     </td>
                   ) : (
                     <>
