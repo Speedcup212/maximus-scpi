@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   Star, TrendingUp, Building2, X, BarChart3,
-  CheckSquare, Square, Search,
+  CheckSquare, Square, Search, Grid3x3, List,
 } from 'lucide-react';
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
@@ -137,6 +137,9 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
   const [checkedIds, setCheckedIds] = useState<Set<number>>(new Set());
   const [search, setSearch] = useState('');
 
+  /* ---------- Mode d'affichage (Mes préférées) ---------- */
+  const [viewMode, setViewMode] = useState<'cards' | 'list'>('cards');
+
   // Toutes les SCPI triées par nom
   const allScpis = useMemo(() => {
     const searchLower = search.toLowerCase().trim();
@@ -242,16 +245,139 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {favorites.map(scpi => (
-                <FavoriteCard
-                  key={scpi.id}
-                  scpi={scpi}
-                  onRemove={handleRemove}
-                  onNavigateToComparator={onNavigateToComparator}
-                />
-              ))}
-            </div>
+            <>
+              {/* Toggle Carte / Liste */}
+              <div className="flex items-center justify-end mb-3">
+                <div className="flex gap-0.5 bg-slate-800/50 rounded-lg p-0.5">
+                  <button
+                    onClick={() => setViewMode('cards')}
+                    className={`px-2.5 py-1.5 rounded-md text-xs transition-colors ${
+                      viewMode === 'cards'
+                        ? 'bg-slate-700 text-white'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                    }`}
+                    title="Vue en cartes"
+                  >
+                    <Grid3x3 className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`px-2.5 py-1.5 rounded-md text-xs transition-colors ${
+                      viewMode === 'list'
+                        ? 'bg-slate-700 text-white'
+                        : 'text-slate-400 hover:text-white hover:bg-slate-700/50'
+                    }`}
+                    title="Vue en liste"
+                  >
+                    <List className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Mode Cartes */}
+              {viewMode === 'cards' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                  {favorites.map(scpi => (
+                    <FavoriteCard
+                      key={scpi.id}
+                      scpi={scpi}
+                      onRemove={handleRemove}
+                      onNavigateToComparator={onNavigateToComparator}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Mode Liste */}
+              {viewMode === 'list' && (
+                <div className="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="min-w-[800px] w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
+                          <th className="text-left py-2.5 px-3 font-medium">SCPI</th>
+                          <th className="text-left py-2.5 px-3 font-medium hidden md:table-cell">Société de gestion</th>
+                          <th className="text-right py-2.5 px-3 font-medium">Rendement</th>
+                          <th className="text-right py-2.5 px-3 font-medium">TOF</th>
+                          <th className="text-right py-2.5 px-3 font-medium">Prix part</th>
+                          <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
+                          <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
+                          <th className="text-left py-2.5 px-3 font-medium">Secteur</th>
+                          <th className="py-2.5 px-3 w-10"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/50">
+                        {favorites.map(scpi => (
+                          <tr key={scpi.id} className="hover:bg-slate-800/40 transition-colors">
+                            {/* SCPI */}
+                            <td className="py-3 px-3">
+                              <span className="text-white font-medium truncate block max-w-[130px]">{scpi.name}</span>
+                            </td>
+                            {/* Société de gestion */}
+                            <td className="py-3 px-3 text-slate-400 truncate max-w-[110px] hidden md:table-cell">
+                              {scpi.managementCompany}
+                            </td>
+                            {/* Rendement */}
+                            <td className="py-3 px-3 text-right">
+                              <span className="text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
+                            </td>
+                            {/* TOF */}
+                            <td className="py-3 px-3 text-right">
+                              <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
+                                {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
+                              </span>
+                            </td>
+                            {/* Prix part */}
+                            <td className="py-3 px-3 text-right text-white font-semibold tabular-nums whitespace-nowrap">
+                              {scpi.price != null ? `${scpi.price}€` : '—'}
+                            </td>
+                            {/* Invest. min. */}
+                            <td className="py-3 px-3 text-right text-slate-300 tabular-nums hidden md:table-cell whitespace-nowrap">
+                              {scpi.minInvestment.toLocaleString('fr-FR')}€
+                            </td>
+                            {/* Capitalisation */}
+                            <td className="py-3 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
+                              {scpi.capitalization}
+                            </td>
+                            {/* Secteur */}
+                            <td className="py-3 px-3">
+                              <span className={`inline-block text-[9px] px-1.5 py-0.5 rounded border ${
+                                scpi.category === 'Européenne' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                scpi.category === 'Diversifiée' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                                scpi.category === 'Santé' ? 'bg-pink-500/10 text-pink-400 border-pink-500/20' :
+                                scpi.category === 'Bureaux' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
+                                'bg-slate-500/10 text-slate-400 border-slate-500/20'
+                              }`}>
+                                {scpi.category}
+                              </span>
+                            </td>
+                            {/* Actions */}
+                            <td className="py-3 px-2">
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={onNavigateToComparator}
+                                  className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
+                                  title="Comparer"
+                                >
+                                  <BarChart3 className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleRemove(scpi.id)}
+                                  className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                                  title="Retirer des préférées"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </>
       )}
