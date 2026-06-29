@@ -6,6 +6,8 @@ import {
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { computeClientScores } from '../../utils/computeClientScores';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
 
 /* ──────────────────────────────────────────
    Types
@@ -14,7 +16,6 @@ import { resolveDisplayedDiscount } from '../../utils/formatters';
 interface ScpiFavoritesProps {
   onNavigateToComparator?: () => void;
   onAnalyzeScpi?: (scpi: SCPIExtended) => void;
-  onCompareScpi?: (scpi: SCPIExtended) => void;
 }
 
 type TabMode = 'mes-favorites' | 'ajouter';
@@ -39,12 +40,13 @@ function getSectorDisplay(scpi: SCPIExtended): string {
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
 
-function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, onCompare }: {
+function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, onToggleCompare, isInComparison }: {
   scpi: SCPIExtended;
   onRemove: (id: number) => void;
   onNavigateToComparator?: () => void;
   onOpenDetail?: (scpi: SCPIExtended) => void;
-  onCompare?: (scpi: SCPIExtended) => void;
+  onToggleCompare?: (scpi: SCPIExtended) => void;
+  isInComparison?: boolean;
 }) {
   const discountInfo = resolveDisplayedDiscount(scpi);
   const hasDiscount = discountInfo.displayValue != null && discountInfo.displayValue !== 0;
@@ -127,11 +129,15 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, on
         </button>
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={() => onCompare?.(scpi)}
-            className="flex items-center justify-center gap-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] sm:text-xs font-medium rounded-lg transition-colors"
+            onClick={() => onToggleCompare?.(scpi)}
+            className={`flex items-center justify-center gap-1.5 py-2 px-3 text-[10px] sm:text-xs font-medium rounded-lg transition-colors ${
+              isInComparison
+                ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+            }`}
           >
             <BarChart3 className="w-3 h-3" />
-            Comparer
+            {isInComparison ? 'Comparée' : 'Comparer'}
           </button>
           <button
             onClick={() => onRemove(scpi.id)}
@@ -150,7 +156,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, on
    Composant principal
    ────────────────────────────────────────── */
 
-export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }: ScpiFavoritesProps = {}) {
+export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }: ScpiFavoritesProps = {}) {
   const [tab, setTab] = useState<TabMode>('mes-favorites');
   const [favorites, setFavorites] = useState<SCPIExtended[]>(getFavoriteScpis);
   const [favoriteIds, setFavoriteIds] = useState<Set<number>>(() => getFavoriteScpiIds());
@@ -168,6 +174,35 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, o
     } catch { /* localStorage indisponible */ }
     return 'list';
   });
+
+  /* ---------- Comparaison SCPI (local, max 6) ---------- */
+  const [compareScpis, setCompareScpis] = useState<SCPIExtended[]>([]);
+  const comparisonIds = useMemo(() => new Set(compareScpis.map(s => s.id)), [compareScpis]);
+
+  // Scores MaximusSCPI pour le tableau comparatif
+  const comparisonScores = useMemo(() => {
+    if (compareScpis.length === 0) return {};
+    const { bySlug } = computeClientScores(scpiDataExtended);
+    return bySlug;
+  }, [compareScpis]);
+
+  const toggleCompare = (scpi: SCPIExtended) => {
+    setCompareScpis(prev => {
+      const exists = prev.find(s => s.id === scpi.id);
+      if (exists) return prev.filter(s => s.id !== scpi.id);
+      if (prev.length >= 6) {
+        if (typeof window !== 'undefined') {
+          window.alert('Maximum 6 SCPI en comparaison.');
+        }
+        return prev;
+      }
+      return [...prev, scpi];
+    });
+  };
+
+  const handleRemoveFromComparison = (id: number) => {
+    setCompareScpis(prev => prev.filter(s => s.id !== id));
+  };
 
   // Toutes les SCPI triées par nom
   const allScpis = useMemo(() => {
@@ -325,7 +360,8 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, o
                       onRemove={handleRemove}
                       onNavigateToComparator={onNavigateToComparator}
                       onOpenDetail={onAnalyzeScpi}
-                      onCompare={onCompareScpi}
+                      onToggleCompare={toggleCompare}
+                      isInComparison={comparisonIds.has(scpi.id)}
                     />
                   ))}
                 </div>
@@ -400,11 +436,15 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, o
                                   Analyser
                                 </button>
                                 <button
-                                  onClick={() => onCompareScpi?.(scpi)}
-                                  className="flex items-center gap-1 py-1 px-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] rounded transition-colors whitespace-nowrap"
+                                  onClick={() => toggleCompare(scpi)}
+                                  className={`flex items-center gap-1 py-1 px-2 text-[9px] rounded transition-colors whitespace-nowrap ${
+                                    comparisonIds.has(scpi.id)
+                                      ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                                      : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+                                  }`}
                                 >
                                   <BarChart3 className="w-3 h-3" />
-                                  Comparer
+                                  {comparisonIds.has(scpi.id) ? 'Comparée' : 'Comparer'}
                                 </button>
                                 <button
                                   onClick={() => handleRemove(scpi.id)}
@@ -426,6 +466,122 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi, o
             </>
           )}
         </>
+      )}
+
+      {/* ══════════════════════════════════════════
+          COMPARAISON SCPI (onglet Mes préférées)
+          ══════════════════════════════════════════ */}
+      {tab === 'mes-favorites' && (
+        <div className="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden">
+          <div className="p-3 sm:p-4 border-b border-slate-800">
+            <h2 className="text-base sm:text-lg font-bold text-white">Comparaison SCPI</h2>
+            <p className="text-xs text-slate-400 mt-0.5">{compareScpis.length}/6 SCPI sélectionnées</p>
+          </div>
+
+          {compareScpis.length === 0 ? (
+            <div className="p-6 sm:p-8 text-center">
+              <BarChart3 className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+              <p className="text-sm text-slate-400">Sélectionnez jusqu'à 6 SCPI avec le bouton Comparer.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-[900px] w-full text-xs">
+                <thead>
+                  <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
+                    <th className="text-left py-2.5 px-3 font-medium">SCPI</th>
+                    <th className="text-left py-2.5 px-3 font-medium hidden md:table-cell">Société de gestion</th>
+                    <th className="text-right py-2.5 px-3 font-medium">Rendement</th>
+                    <th className="text-right py-2.5 px-3 font-medium">TOF</th>
+                    <th className="text-right py-2.5 px-3 font-medium">Prix part</th>
+                    <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
+                    <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
+                    <th className="text-right py-2.5 px-3 font-medium">Décote / Surcote</th>
+                    <th className="text-left py-2.5 px-3 font-medium">Secteur dominant</th>
+                    <th className="text-right py-2.5 px-3 font-medium">Note</th>
+                    <th className="text-left py-2.5 px-3 font-medium w-[160px]">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/50">
+                  {compareScpis.map(scpi => {
+                    const discountInfo = resolveDisplayedDiscount(scpi);
+                    const slug = createSlugFromName(scpi.name);
+                    const score = comparisonScores[slug];
+                    return (
+                      <tr key={scpi.id} className="hover:bg-slate-800/40 transition-colors">
+                        <td className="py-2.5 px-3">
+                          <span className="text-white font-medium truncate block max-w-[130px]">{scpi.name}</span>
+                        </td>
+                        <td className="py-2.5 px-3 text-slate-400 truncate max-w-[110px] hidden md:table-cell">
+                          {scpi.managementCompany}
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          <span className="text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
+                            {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right text-white font-semibold tabular-nums whitespace-nowrap">
+                          {scpi.price != null ? `${scpi.price}€` : '—'}
+                        </td>
+                        <td className="py-2.5 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
+                          {scpi.minInvestment.toLocaleString('fr-FR')}€
+                        </td>
+                        <td className="py-2.5 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
+                          {scpi.capitalization}
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          {discountInfo.displayValue != null && discountInfo.displayValue !== 0 ? (
+                            <span className={`font-semibold tabular-nums ${discountInfo.displayValue > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {(discountInfo.displayValue > 0 ? '+' : '')}{discountInfo.displayValue.toFixed(1)}%
+                            </span>
+                          ) : (
+                            <span className="text-slate-600">—</span>
+                          )}
+                        </td>
+                        <td className="py-2.5 px-3">
+                          <span className="inline-block text-[9px] px-1.5 py-0.5 rounded border bg-slate-700/50 text-slate-300 border-slate-600/50 whitespace-nowrap">
+                            {getSectorDisplay(scpi)}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right">
+                          {score != null ? (
+                            <span className={`font-semibold tabular-nums ${score >= 7 ? 'text-emerald-400' : score >= 5 ? 'text-amber-400' : 'text-red-400'}`}>
+                              {score.toFixed(1)}
+                            </span>
+                          ) : (
+                            <span className="text-slate-600">—</span>
+                          )}
+                        </td>
+                        <td className="py-2 px-2">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => onAnalyzeScpi?.(scpi)}
+                              className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 text-[9px] rounded transition-colors whitespace-nowrap"
+                              title="Analyser cette SCPI"
+                            >
+                              <BarChart3 className="w-3 h-3" />
+                              Analyser
+                            </button>
+                            <button
+                              onClick={() => handleRemoveFromComparison(scpi.id)}
+                              className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-red-500/50 hover:bg-red-500/10 text-slate-400 hover:text-red-400 text-[9px] rounded transition-colors whitespace-nowrap"
+                              title="Retirer de la comparaison"
+                            >
+                              <X className="w-3 h-3" />
+                              Retirer
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       )}
 
       {/* ══════════════════════════════════════════
