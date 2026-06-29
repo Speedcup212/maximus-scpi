@@ -935,14 +935,18 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
           {title} ({selections.length}/4)
         </h2>
         <div className="flex items-center gap-2">
-          {selections.length < 4 && (
-            <button
-              onClick={() => onOpenSelector?.()}
-              className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition font-medium"
-            >
-              <Plus size={16} /> Ajouter une SCPI
-            </button>
-          )}
+          <button
+            disabled={selections.length >= 4}
+            onClick={() => onOpenSelector?.()}
+            className={`flex items-center gap-1.5 text-sm font-medium transition ${
+              selections.length >= 4
+                ? 'text-slate-600 cursor-not-allowed'
+                : 'text-emerald-400 hover:text-emerald-300'
+            }`}
+            title={selections.length >= 4 ? 'Maximum 4 SCPI atteint' : 'Ajouter une SCPI'}
+          >
+            <Plus size={16} /> Ajouter une SCPI
+          </button>
           {hasZeroAllocation && (
             <button
               onClick={() => onRepartirCashRestant?.()}
