@@ -397,30 +397,16 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
   /* ── Rendu de la sidebar (partagé desktop / mobile) ── */
   const renderSidebar = (isMobile = false) => (
     <>
-      {/* Logo */}
-      <div className={`px-4 py-4 border-b border-slate-800 ${isMobile ? '' : ''}`}>
-        {isMobile && (
+      {isMobile && (
+        <div className="px-5 pt-4 pb-2 flex justify-end">
           <button
             onClick={() => setMobileMenuOpen(false)}
-            className="float-right p-1 text-slate-500 hover:text-white transition-colors"
+            className="p-1 text-slate-500 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
-        )}
-        <div className="flex items-center gap-1.5 mb-0.5">
-          <img
-            src="/Maximus logo 250x50 4.svg"
-            alt="MaximusSCPI"
-            className="h-5 object-contain"
-          />
-          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-wider">
-            PRO
-          </span>
         </div>
-        <p className="text-[9px] text-slate-500 uppercase tracking-widest">
-          COMPARATEUR INTELLIGENT
-        </p>
-      </div>
+      )}
 
       {/* Espace de travail */}
       <div className="px-4 pt-4 pb-1">
