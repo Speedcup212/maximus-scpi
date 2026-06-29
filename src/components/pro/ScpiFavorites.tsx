@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   Star, TrendingUp, Building2, X, BarChart3,
-  CheckSquare, Square, Search, Grid3x3, List,
+  CheckSquare, Square, Search, Grid3x3, List, ExternalLink,
 } from 'lucide-react';
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
 
 /* ──────────────────────────────────────────
    Types
@@ -172,6 +173,11 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
     removeFavoriteScpi(id);
     setFavorites(getFavoriteScpis());
     setFavoriteIds(getFavoriteScpiIds());
+  };
+
+  const handleOpenScpiDetail = (scpi: SCPIExtended) => {
+    const slug = createSlugFromName(scpi.name);
+    window.location.href = `/scpi/${slug}`;
   };
 
   /* ---------- Ajout multiple ---------- */
@@ -359,11 +365,11 @@ export default function ScpiFavorites({ onNavigateToComparator }: ScpiFavoritesP
                             <td className="py-3 px-2">
                               <div className="flex items-center gap-1">
                                 <button
-                                  onClick={onNavigateToComparator}
+                                  onClick={() => handleOpenScpiDetail(scpi)}
                                   className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
-                                  title="Comparer"
+                                  title="Voir la fiche SCPI"
                                 >
-                                  <BarChart3 className="w-3.5 h-3.5" />
+                                  <ExternalLink className="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleRemove(scpi.id)}
