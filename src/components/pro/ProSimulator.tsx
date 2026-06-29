@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useProReport } from '../../contexts/ProReportContext';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
@@ -99,6 +99,28 @@ function calcTauxAssuranceMensuel(capital: number, tauxAssAnnuel: number): numbe
   return (capital * (tauxAssAnnuel / 100)) / 12;
 }
 
+/* ── Parse nombre français ── */
+function parseFrenchNumber(v: string): number {
+  if (!v || v.trim() === '') return 0;
+  let s = v.replace(/\s/g, '').replace(',', '.');
+  const n = Number(s);
+  return isNaN(n) ? 0 : n;
+}
+
+/* ── Parse live décimal (pour saisie brute) ── */
+const parseLiveDecimal = (raw: string): number => {
+  if (raw.trim() === "") return 0;
+  const normalized = raw.replace(/\s/g, "").replace(",", ".");
+  if (normalized === "." || normalized === "-" || normalized === "-.") return 0;
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+function formatDisplayNumber(n: number, decimals?: number): string {
+  if (decimals !== undefined) return n.toFixed(decimals);
+  return n % 1 === 0 ? String(n) : String(n);
+}
+
 /* ── Calcul des parts ── */
 function computeAllocation(allocation: number, price: number, minInvestment: number): { parts: number; montantReel: number } {
   if (price <= 0) return { parts: 0, montantReel: 0 };
@@ -114,9 +136,9 @@ export default function ProSimulator() {
   const { setSimulation } = useProReport();
 
   /* ─── Paramètres communs ─── */
-  const [montantTotal, setMontantTotal] = useState<number>(() => {
+  const [rawMontantTotal, setRawMontantTotal] = useState<string>(() => {
     const stored = localStorage.getItem('pro_sim_montant');
-    return stored ? Number(stored) : 50000;
+    return stored || '100000';
   });
   const [tmi, setTmi] = useState<number>(() => {
     const stored = localStorage.getItem('pro_sim_tmi');
@@ -140,9 +162,9 @@ export default function ProSimulator() {
     const stored = localStorage.getItem('pro_sim_dureeCredit');
     return stored ? Number(stored) : 20;
   });
-  const [tauxNominal, setTauxNominal] = useState<number>(() => {
+  const [rawTauxNominal, setRawTauxNominal] = useState<string>(() => {
     const stored = localStorage.getItem('pro_sim_tauxNominal');
-    return stored ? Number(stored) : 3.5;
+    return stored || '3.5';
   });
   const [tauxAssurance, setTauxAssurance] = useState<number>(() => {
     const stored = localStorage.getItem('pro_sim_tauxAssurance');
@@ -185,17 +207,18 @@ export default function ProSimulator() {
   /* ─── Sélection SCPI ─── */
   const [selections, setSelections] = useState<ScpiSelection[]>(() => {
     const stored = localStorage.getItem('pro_sim_scpis');
+    const initMontant = Number(localStorage.getItem('pro_sim_montant') || '100000');
     if (stored) {
       try {
         const ids: number[] = JSON.parse(stored);
         const found = ids.map((id) => scpiDataExtended.find((s) => s.id === id)).filter(Boolean) as SCPIExtended[];
         if (found.length >= 2) {
-          const eq = Math.floor(montantTotal / found.length / 1000) * 1000;
+          const eq = Math.floor(initMontant / found.length / 1000) * 1000;
           return found.map((s) => ({ scpi: s, allocation: eq }));
         }
       } catch {}
     }
-    const eq = Math.floor(montantTotal / 2 / 1000) * 1000;
+    const eq = Math.floor(initMontant / 2 / 1000) * 1000;
     return [
       { scpi: scpiDataExtended[0], allocation: eq },
       { scpi: scpiDataExtended[1] || scpiDataExtended[0], allocation: eq },
@@ -211,15 +234,52 @@ export default function ProSimulator() {
   const [selectorSearch, setSelectorSearch] = useState('');
   const [selectorChecked, setSelectorChecked] = useState<Set<number>>(new Set());
   const [checkedIndices, setCheckedIndices] = useState<Set<number>>(new Set());
+  const [rawAlloc, setRawAlloc] = useState<Record<number, string>>({});
+  const [rawParts, setRawParts] = useState<Record<number, string>>({});
+  const [rawApport, setRawApport] = useState('');
+  const [rawTauxAssurance, setRawTauxAssurance] = useState('');
+  const [rawFraisGarantie, setRawFraisGarantie] = useState('');
+  const [rawFraisDossier, setRawFraisDossier] = useState('');
+  const [rawCle, setRawCle] = useState('');
+  const allocFocusedRef = useRef<number | null>(null);
+  const partsFocusedRef = useRef<number | null>(null);
 
   /* ─── Persistance paramètres communs ─── */
-  const updateMontantTotal = (v: number) => { setMontantTotal(Math.max(1000, v)); localStorage.setItem('pro_sim_montant', String(v)); };
   const updateTmi = (v: number) => { setTmi(v); localStorage.setItem('pro_sim_tmi', String(v)); };
   const updateDuration = (v: number) => { setDuration(v); localStorage.setItem('pro_sim_duration', String(v)); };
   const updateMode = (v: 'comptant' | 'credit' | 'demembrement') => { setMode(v); localStorage.setItem('pro_sim_mode', v); };
 
+  const handleGlobalBlur = (fn: (v: number) => void, raw: string, setRaw: (v: string) => void, minVal = 0) => {
+    setRaw('');
+    const v = parseFrenchNumber(raw);
+    if (v >= minVal || raw === '') fn(v);
+  };
+
   /* ─── Priorité parts (entrée manuelle du CGP) ─── */
   const [partsOverrides, setPartsOverrides] = useState<Record<number, number>>({});
+
+  const handleAllocChange = (i: number, raw: string) => {
+    allocFocusedRef.current = i;
+    setRawAlloc((prev) => ({ ...prev, [i]: raw }));
+  };
+  const handleAllocBlur = (i: number, raw: string | undefined) => {
+    allocFocusedRef.current = null;
+    if (!raw) { setRawAlloc((prev) => { const n = { ...prev }; delete n[i]; return n; }); return; }
+    const v = parseFrenchNumber(raw);
+    setRawAlloc((prev) => { const n = { ...prev }; delete n[i]; return n; });
+    updateAllocation(i, v > 0 ? v : 0);
+  };
+  const handlePartsChange = (i: number, raw: string) => {
+    partsFocusedRef.current = i;
+    setRawParts((prev) => ({ ...prev, [i]: raw }));
+  };
+  const handlePartsBlur = (i: number, raw: string | undefined) => {
+    partsFocusedRef.current = null;
+    if (!raw) { setRawParts((prev) => { const n = { ...prev }; delete n[i]; return n; }); return; }
+    const v = parseFrenchNumber(raw);
+    setRawParts((prev) => { const n = { ...prev }; delete n[i]; return n; });
+    updateParts(i, v >= 0 ? v : 0);
+  };
 
   const updateAllocation = (index: number, val: number) => {
     setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, allocation: Math.max(1000, val) } : s)));
@@ -374,6 +434,10 @@ export default function ProSimulator() {
 
   const totalMontantReel = allocationRows.reduce((s, r) => s + r.montantReel, 0);
   const totalAllocation = allocationRows.reduce((s, r) => s + r.allocation, 0);
+  const montantTotal = parseLiveDecimal(rawMontantTotal);
+  const tauxNominal = parseLiveDecimal(rawTauxNominal);
+
+  /* ─── Cash restant ─── */
   const cashRestant = montantTotal - totalMontantReel;
 
   /* ─── Résultats revenus ─── */
@@ -439,7 +503,7 @@ export default function ProSimulator() {
       cashFlowMensuel,
       effortEpargneMensuel: Math.round(effortMensuel > 0 ? effortMensuel : 0),
     };
-  }, [mode, montantTotal, apport, tauxNominal, dureeCredit, tauxAssurance, fraisGarantie, fraisDossier, differe, dureeDiffere, totalGross, totalNet, typeDemembrement]);
+  }, [mode, rawMontantTotal, rawTauxNominal, apport, dureeCredit, tauxAssurance, fraisGarantie, fraisDossier, differe, dureeDiffere, totalGross, totalNet, typeDemembrement]);
 
   /* ─── Calculs démembrement ─── */
   const demembrementResult: DemembrementResult | null = useMemo(() => {
@@ -465,7 +529,7 @@ export default function ProSimulator() {
       revenusCumules,
       rendementEconomique: rendementEco,
     };
-  }, [mode, dureeDemembrement, typeDemembrement, clePersonnalisee, totalMontantReel, montantTotal, totalGross, totalNet]);
+  }, [mode, dureeDemembrement, typeDemembrement, clePersonnalisee, totalMontantReel, rawMontantTotal, totalGross, totalNet]);
 
   /* ─── Graphique ─── */
   const chartData = useMemo(() => {
@@ -528,11 +592,10 @@ export default function ProSimulator() {
             <div className="relative">
               <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
-                type="number"
-                value={montantTotal}
-                onChange={(e) => updateMontantTotal(Number(e.target.value))}
-                min={1000}
-                step={5000}
+                type="text"
+                inputMode="decimal"
+                value={rawMontantTotal}
+                onChange={(e) => setRawMontantTotal(e.target.value)}
                 className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition text-right"
               />
             </div>
@@ -634,6 +697,12 @@ export default function ProSimulator() {
           checkedIndices={checkedIndices}
           onToggleCheck={toggleCheck}
           onRemoveChecked={removeCheckedSelections}
+          rawAlloc={rawAlloc}
+          rawParts={rawParts}
+          onAllocChange={handleAllocChange}
+          onAllocBlur={handleAllocBlur}
+          onPartsRawChange={handlePartsChange}
+          onPartsBlur={handlePartsBlur}
         />
       )}
 
@@ -644,17 +713,21 @@ export default function ProSimulator() {
         <HypothesesCredit
           apport={apport}
           setApport={(v) => { setApport(v); localStorage.setItem('pro_sim_apport', String(v)); }}
+          rawApport={rawApport} setRawApport={setRawApport}
           montantTotal={montantTotal}
           dureeCredit={dureeCredit}
           setDureeCredit={(v) => { setDureeCredit(v); localStorage.setItem('pro_sim_dureeCredit', String(v)); }}
           tauxNominal={tauxNominal}
-          setTauxNominal={(v) => { setTauxNominal(v); localStorage.setItem('pro_sim_tauxNominal', String(v)); }}
+          rawTauxNominal={rawTauxNominal} setRawTauxNominal={setRawTauxNominal}
           tauxAssurance={tauxAssurance}
           setTauxAssurance={(v) => { setTauxAssurance(v); localStorage.setItem('pro_sim_tauxAssurance', String(v)); }}
+          rawTauxAssurance={rawTauxAssurance} setRawTauxAssurance={setRawTauxAssurance}
           fraisGarantie={fraisGarantie}
           setFraisGarantie={(v) => { setFraisGarantie(v); localStorage.setItem('pro_sim_fraisGarantie', String(v)); }}
+          rawFraisGarantie={rawFraisGarantie} setRawFraisGarantie={setRawFraisGarantie}
           fraisDossier={fraisDossier}
           setFraisDossier={(v) => { setFraisDossier(v); localStorage.setItem('pro_sim_fraisDossier', String(v)); }}
+          rawFraisDossier={rawFraisDossier} setRawFraisDossier={setRawFraisDossier}
           differe={differe}
           setDiffere={(v) => { setDiffere(v); localStorage.setItem('pro_sim_differe', v); }}
           dureeDiffere={dureeDiffere}
@@ -679,6 +752,12 @@ export default function ProSimulator() {
           checkedIndices={checkedIndices}
           onToggleCheck={toggleCheck}
           onRemoveChecked={removeCheckedSelections}
+          rawAlloc={rawAlloc}
+          rawParts={rawParts}
+          onAllocChange={handleAllocChange}
+          onAllocBlur={handleAllocBlur}
+          onPartsRawChange={handlePartsChange}
+          onPartsBlur={handlePartsBlur}
         />
       )}
 
@@ -701,6 +780,8 @@ export default function ProSimulator() {
           }}
           clePersonnalisee={clePersonnalisee}
           onCleChange={updateCleDemembrement}
+          rawCle={rawCle}
+          setRawCle={setRawCle}
           montantTotal={montantTotal}
           allocations={allocationRows}
           cashRestant={cashRestant}
@@ -722,6 +803,12 @@ export default function ProSimulator() {
           checkedIndices={checkedIndices}
           onToggleCheck={toggleCheck}
           onRemoveChecked={removeCheckedSelections}
+          rawAlloc={rawAlloc}
+          rawParts={rawParts}
+          onAllocChange={handleAllocChange}
+          onAllocBlur={handleAllocBlur}
+          onPartsRawChange={handlePartsChange}
+          onPartsBlur={handlePartsBlur}
         />
       )}
 
@@ -732,7 +819,9 @@ export default function ProSimulator() {
         rows={allocationRows}
         totalMontantReel={totalMontantReel}
         cashRestant={cashRestant}
-        onPartsChange={updateParts}
+        rawParts={rawParts}
+        onPartsRawChange={handlePartsChange}
+        onPartsBlur={handlePartsBlur}
         onRemove={removeSelection}
       />
 
@@ -961,14 +1050,21 @@ interface ScpiSelectProps {
   checkedIndices?: Set<number>;
   onToggleCheck?: (index: number) => void;
   onRemoveChecked?: () => void;
+  rawAlloc: Record<number, string>;
+  rawParts: Record<number, string>;
+  onAllocChange: (i: number, raw: string) => void;
+  onAllocBlur: (i: number, raw: string | undefined) => void;
+  onPartsRawChange: (i: number, raw: string) => void;
+  onPartsBlur: (i: number, raw: string | undefined) => void;
 }
 
 function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
   const {
-    allocations, cashRestant, onAllocationChange, onPartsChange,
+    allocations, cashRestant,
     selections,
     onOpenSelector, hasZeroAllocation, onRepartirCashRestant,
     checkedIndices, onToggleCheck, onRemoveChecked,
+    rawAlloc, rawParts, onAllocChange, onAllocBlur, onPartsRawChange, onPartsBlur,
     title, icon,
   } = props;
 
@@ -1069,21 +1165,23 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   <td className="py-2.5 px-3 text-right text-slate-500 text-xs">{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
                   <td className="py-2.5 px-3 text-right">
                     <input
-                      type="number"
-                      value={row.allocation}
-                      onChange={(e) => onAllocationChange(i, Number(e.target.value))}
-                      min={1000}
-                      step={1000}
+                      type="text"
+                      inputMode="decimal"
+                      value={rawAlloc[i] !== undefined ? rawAlloc[i] : row.allocation > 0 ? formatDisplayNumber(row.allocation) : ''}
+                      onChange={(e) => onAllocChange(i, e.target.value)}
+                      onBlur={() => onAllocBlur(i, rawAlloc[i])}
+                      onFocus={() => onAllocChange(i, rawAlloc[i] !== undefined ? rawAlloc[i] : row.allocation > 0 ? formatDisplayNumber(row.allocation) : '')}
                       className="w-24 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200 text-right focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </td>
                   <td className="py-2.5 px-3 text-right">
                     <input
-                      type="number"
-                      value={row.parts}
-                      onChange={(e) => onPartsChange(i, Number(e.target.value))}
-                      min={0}
-                      step={1}
+                      type="text"
+                      inputMode="numeric"
+                      value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
+                      onChange={(e) => onPartsRawChange(i, e.target.value)}
+                      onBlur={() => onPartsBlur(i, rawParts[i])}
+                      onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
                       className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </td>
@@ -1115,16 +1213,21 @@ function HypothesesComptant(props: ScpiSelectProps & { montantTotal: number }) {
 
 function HypothesesCredit(props: ScpiSelectProps & {
   apport: number; setApport: (v: number) => void;
+  rawApport: string; setRawApport: (v: string) => void;
   montantTotal: number;
   dureeCredit: number; setDureeCredit: (v: number) => void;
-  tauxNominal: number; setTauxNominal: (v: number) => void;
+  tauxNominal: number;
+  rawTauxNominal: string; setRawTauxNominal: (v: string) => void;
   tauxAssurance: number; setTauxAssurance: (v: number) => void;
+  rawTauxAssurance: string; setRawTauxAssurance: (v: string) => void;
   fraisGarantie: number; setFraisGarantie: (v: number) => void;
+  rawFraisGarantie: string; setRawFraisGarantie: (v: string) => void;
   fraisDossier: number; setFraisDossier: (v: number) => void;
+  rawFraisDossier: string; setRawFraisDossier: (v: string) => void;
   differe: string; setDiffere: (v: 'aucun' | 'partiel' | 'total') => void;
   dureeDiffere: number; setDureeDiffere: (v: number) => void;
 }) {
-  const { apport, setApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, setTauxNominal, tauxAssurance, setTauxAssurance, fraisGarantie, setFraisGarantie, fraisDossier, setFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
+  const { apport, setApport, rawApport, setRawApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, rawTauxNominal, setRawTauxNominal, tauxAssurance, setTauxAssurance, rawTauxAssurance, setRawTauxAssurance, fraisGarantie, setFraisGarantie, rawFraisGarantie, setRawFraisGarantie, fraisDossier, setFraisDossier, rawFraisDossier, setRawFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
   const finance = montantTotal - apport;
 
   return (
@@ -1139,7 +1242,7 @@ function HypothesesCredit(props: ScpiSelectProps & {
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Apport personnel</label>
             <div className="relative">
               <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input type="number" value={apport} onChange={(e) => setApport(Number(e.target.value))} min={0} step={5000} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input type="text" inputMode="decimal" value={rawApport || (apport > 0 ? formatDisplayNumber(apport) : '')} onChange={(e) => setRawApport(e.target.value)} onBlur={() => { if (rawApport) { const v = parseFrenchNumber(rawApport); setApport(v); setRawApport(''); } else setRawApport(''); }} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
           </div>
           <div>
@@ -1156,24 +1259,24 @@ function HypothesesCredit(props: ScpiSelectProps & {
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Taux nominal annuel (%)</label>
-            <input type="number" value={tauxNominal} onChange={(e) => setTauxNominal(Number(e.target.value))} min={0} max={10} step={0.1} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <input type="text" inputMode="decimal" value={rawTauxNominal} onChange={(e) => setRawTauxNominal(e.target.value)} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Assurance emprunteur (%/an)</label>
-            <input type="number" value={tauxAssurance} onChange={(e) => setTauxAssurance(Number(e.target.value))} min={0} max={2} step={0.01} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <input type="text" inputMode="decimal" value={rawTauxAssurance || (tauxAssurance > 0 ? formatDisplayNumber(tauxAssurance, 2) : '')} onChange={(e) => setRawTauxAssurance(e.target.value)} onBlur={() => { if (rawTauxAssurance) { const v = parseFrenchNumber(rawTauxAssurance); setTauxAssurance(v); setRawTauxAssurance(''); } else setRawTauxAssurance(''); }} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Frais de garantie</label>
             <div className="relative">
               <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input type="number" value={fraisGarantie} onChange={(e) => setFraisGarantie(Number(e.target.value))} min={0} step={100} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input type="text" inputMode="decimal" value={rawFraisGarantie || (fraisGarantie > 0 ? formatDisplayNumber(fraisGarantie) : '')} onChange={(e) => setRawFraisGarantie(e.target.value)} onBlur={() => { if (rawFraisGarantie) { const v = parseFrenchNumber(rawFraisGarantie); setFraisGarantie(v); setRawFraisGarantie(''); } else setRawFraisGarantie(''); }} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Frais de dossier</label>
             <div className="relative">
               <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input type="number" value={fraisDossier} onChange={(e) => setFraisDossier(Number(e.target.value))} min={0} step={100} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input type="text" inputMode="decimal" value={rawFraisDossier || (fraisDossier > 0 ? formatDisplayNumber(fraisDossier) : '')} onChange={(e) => setRawFraisDossier(e.target.value)} onBlur={() => { if (rawFraisDossier) { const v = parseFrenchNumber(rawFraisDossier); setFraisDossier(v); setRawFraisDossier(''); } else setRawFraisDossier(''); }} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
           </div>
           <div>
@@ -1211,9 +1314,11 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   setDureeDemembrement: (v: number) => void;
   clePersonnalisee: number | null;
   onCleChange: (v: number) => void;
+  rawCle: string;
+  setRawCle: (v: string) => void;
   montantTotal: number;
 }) {
-  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, clePersonnalisee, onCleChange, montantTotal } = props;
+  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, clePersonnalisee, onCleChange, rawCle, setRawCle, montantTotal } = props;
   const cleDefaut = getCleDemembrement(dureeDemembrement, typeDemembrement);
   const cleEffective = clePersonnalisee ?? cleDefaut;
   const clePct = Math.round(cleEffective * 100);
@@ -1255,9 +1360,11 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{labelCle}</label>
             <input
-              type="number"
-              value={clePct}
-              onChange={(e) => onCleChange(Number(e.target.value))}
+              type="text"
+              inputMode="decimal"
+              value={rawCle || String(clePct)}
+              onChange={(e) => setRawCle(e.target.value)}
+              onBlur={() => { if (rawCle) { const v = parseFrenchNumber(rawCle); onCleChange(v); setRawCle(''); } else setRawCle(''); }}
               min={1}
               max={99}
               step={1}
@@ -1300,11 +1407,13 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   );
 }
 
-function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange, onRemove }: {
+function AllocationReelle({ rows, totalMontantReel, cashRestant, rawParts, onPartsRawChange, onPartsBlur, onRemove }: {
   rows: ScpiAllocationRow[];
   totalMontantReel: number;
   cashRestant: number;
-  onPartsChange: (index: number, parts: number) => void;
+  rawParts: Record<number, string>;
+  onPartsRawChange: (i: number, raw: string) => void;
+  onPartsBlur: (i: number, raw: string | undefined) => void;
   onRemove: (index: number) => void;
 }) {
   return (
@@ -1338,11 +1447,12 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange, 
                   <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
                   <td className="py-2.5 px-4 text-right">
                     <input
-                      type="number"
-                      value={row.parts}
-                      onChange={(e) => onPartsChange(i, Number(e.target.value))}
-                      min={0}
-                      step={1}
+                      type="text"
+                      inputMode="numeric"
+                      value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
+                      onChange={(e) => onPartsRawChange(i, e.target.value)}
+                      onBlur={() => onPartsBlur(i, rawParts[i])}
+                      onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
                       className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </td>
