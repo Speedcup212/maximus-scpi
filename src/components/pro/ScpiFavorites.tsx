@@ -124,34 +124,54 @@ function verdictStyle(v: string): string {
   return 'bg-red-500/10 text-red-400 border-red-500/20';
 }
 
-/* ── Rendu mini-donut (utilisé dans le tableau comparatif) ── */
-function renderMiniDonut(
-  data: Array<{ name: string; value: number }>,
-  maxItems = 3,
-) {
-  if (!data || data.length === 0) return <span className="text-slate-600">—</span>;
-  const top = [...data].sort((a, b) => b.value - a.value).slice(0, maxItems);
-  const shortLabel = (name: string) => {
-    const map: Record<string, string> = {
-      'Entrepôt logistique': 'Logistique',
-      'Locaux commerciaux': 'Commerces',
-      'Commerces en retail park': 'Retail Park',
-      "Locaux d'activité": 'Activité',
-      'Pays-Bas': 'NL',
-      'Royaume-Uni': 'UK',
-      'Allemagne': 'DE',
-      'Espagne': 'ES',
-      'Zone Euro': '€-Zone',
-      'Hors Zone Euro': 'Hors €',
-    };
-    return name.length > 14 ? (map[name] || name.substring(0, 12) + '\u2026') : name;
+/* ── Normalisation d'une distribution à 100 % ── */
+function normalizeDistribution(entries: Array<{ name: string; value: number }>): Array<{ name: string; value: number }> {
+  if (!entries || entries.length === 0) return [];
+  const rawSum = entries.reduce((s, e) => s + e.value, 0);
+  if (Math.abs(rawSum) < 0.001) return entries;
+  // Ajustement proportionnel puis correction du résidu sur la plus grosse entrée
+  const scaled = entries.map(e => ({ name: e.name, value: (e.value / rawSum) * 100 }));
+  const rounded = scaled.map(e => ({ name: e.name, value: Math.round(e.value * 10) / 10 }));
+  const roundedSum = rounded.reduce((s, e) => s + e.value, 0);
+  if (rounded.length > 0 && Math.abs(roundedSum - 100) > 0.001) {
+    const diff = +(100 - roundedSum).toFixed(1);
+    // Appliquer la correction sur l'entrée ayant la plus grande valeur
+    let maxIdx = 0;
+    for (let i = 1; i < rounded.length; i++) { if (rounded[i].value > rounded[maxIdx].value) maxIdx = i; }
+    rounded[maxIdx].value = +((rounded[maxIdx].value as number) + diff).toFixed(1);
+  }
+  return rounded;
+}
+
+/* ── Labels courts pour les noms longs ── */
+function shortDistributionLabel(name: string): string {
+  const map: Record<string, string> = {
+    'Entrepôt logistique': 'Logistique',
+    'Locaux commerciaux': 'Commerces',
+    'Commerces en retail park': 'Retail Park',
+    "Locaux d'activité": 'Activité',
+    'Pays-Bas': 'NL',
+    'Royaume-Uni': 'UK',
+    'Allemagne': 'DE',
+    'Espagne': 'ES',
+    'Zone Euro': '€-Zone',
+    'Hors Zone Euro': 'Hors €',
   };
+  return name.length > 14 ? (map[name] || name.substring(0, 12) + '\u2026') : name;
+}
+
+/* ── Rendu distribution complète (donut + liste exhaustive) ── */
+function renderDistributionFull(data: Array<{ name: string; value: number }>) {
+  if (!data || data.length === 0) return <span className="text-slate-600">Donnée indisponible</span>;
+  const normalized = normalizeDistribution(data);
+  const sorted = [...normalized].sort((a, b) => b.value - a.value);
+  const total = sorted.reduce((s, e) => s + (e.value as number), 0);
   return (
     <div className="flex flex-col items-center gap-1">
       <ResponsiveContainer width={100} height={85}>
         <RechartsPie>
           <Pie
-            data={data}
+            data={sorted}
             dataKey="value"
             nameKey="name"
             cx="50%"
@@ -161,19 +181,23 @@ function renderMiniDonut(
             paddingAngle={1}
             stroke="none"
           >
-            {data.map((_e, i) => (
+            {sorted.map((_e, i) => (
               <Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />
             ))}
           </Pie>
         </RechartsPie>
       </ResponsiveContainer>
-      <div className="space-y-0.5">
-        {top.map((s, i) => (
+      <div className="space-y-0.5 w-full">
+        {sorted.map((s, i) => (
           <div key={s.name} className="flex items-center gap-1 text-[9px] text-slate-400">
             <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
-            <span className="truncate max-w-[90px]">{shortLabel(s.name)} {Math.round(s.value)}%</span>
+            <span className="truncate max-w-[85px] flex-1">{shortDistributionLabel(s.name)}</span>
+            <span className="tabular-nums shrink-0">{s.value} %</span>
           </div>
         ))}
+        <div className="flex items-center gap-1 text-[8px] text-slate-600 pt-0.5 border-t border-slate-800/50 mt-0.5">
+          <span className="flex-1 text-right">Total : {total.toFixed(1)} %</span>
+        </div>
       </div>
     </div>
   );
@@ -904,7 +928,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         {!(compareScpis.every(s => !s.sectors || s.sectors.length === 0)) && (
                           <tr className="hover:bg-slate-800/30 transition-colors">
                             <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Répartition sectorielle</td>
-                            {compareScpis.map(scpi => (<td key={scpi.id} className="py-2 px-2 align-top">{renderMiniDonut(scpi.sectors)}</td>))}
+                            {compareScpis.map(scpi => (<td key={scpi.id} className="py-2 px-2 align-top">{renderDistributionFull(scpi.sectors)}</td>))}
                           </tr>
                         )}
                       </CollapsibleFamily>
@@ -915,7 +939,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         {!(compareScpis.every(s => !s.geography || s.geography.length === 0)) && (
                           <tr className="hover:bg-slate-800/30 transition-colors">
                             <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Répartition géographique</td>
-                            {compareScpis.map(scpi => (<td key={scpi.id} className="py-2 px-2 align-top">{renderMiniDonut(scpi.geography)}</td>))}
+                            {compareScpis.map(scpi => (<td key={scpi.id} className="py-2 px-2 align-top">{renderDistributionFull(scpi.geography)}</td>))}
                           </tr>
                         )}
                       </CollapsibleFamily>
