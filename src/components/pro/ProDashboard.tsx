@@ -317,6 +317,7 @@ export default function ProDashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(() => getFavoriteScpiIds().size);
   const [pendingAnalysisScpi, setPendingAnalysisScpi] = useState<SCPIExtended | null>(null);
+  const [analysisReturnSection, setAnalysisReturnSection] = useState<ProSection | null>(null);
 
   useEffect(() => {
     const handler = () => setFavoriteCount(getFavoriteScpiIds().size);
@@ -330,10 +331,19 @@ export default function ProDashboard() {
   }, []);
 
   const handleAnalyzeScpiFromFavorites = useCallback((scpi: SCPIExtended) => {
+    setAnalysisReturnSection('scpi-preferees');
     setPendingAnalysisScpi(scpi);
     setActiveSection('comparateur');
     setMobileMenuOpen(false);
   }, []);
+
+  const handleCloseAnalysis = useCallback(() => {
+    setPendingAnalysisScpi(null);
+    if (analysisReturnSection) {
+      setActiveSection(analysisReturnSection);
+      setAnalysisReturnSection(null);
+    }
+  }, [analysisReturnSection]);
 
   const renderContent = (): ReactNode => {
     switch (activeSection) {
@@ -347,7 +357,10 @@ export default function ProDashboard() {
       case 'livrables':
         return <LivrablesContent />;
       case 'comparateur':
-        return <ProFintechComparator initialAnalysisScpi={pendingAnalysisScpi} />;
+        return <ProFintechComparator
+          initialAnalysisScpi={pendingAnalysisScpi}
+          onCloseAnalysis={handleCloseAnalysis}
+        />;
       case 'scpi-suivies':
         return <ScpiSuiviesContent />;
       case 'scpi-preferees':

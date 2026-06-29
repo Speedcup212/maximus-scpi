@@ -2451,6 +2451,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
           onClose={() => {
             // Fermer le modal
             setAnalysisScpi(null);
+            // Notifier le parent (ProDashboard) pour la navigation de retour
+            onCloseAnalysis?.();
             // Restaurer la position de scroll exacte après fermeture du modal
             setTimeout(() => {
               window.scrollTo({
