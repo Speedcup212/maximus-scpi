@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useProReport } from '../../contexts/ProReportContext';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
+import { getFavoriteScpiIds } from '../../utils/proFavorites';
 import {
   LineChart,
   Line,
@@ -204,6 +205,12 @@ export default function ProSimulator() {
   const [dropdownSearch, setDropdownSearch] = useState('');
   const [feedback, setFeedback] = useState(false);
 
+  /* ─── Sélecteur SCPI (modal d'ajout) ─── */
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const [selectorTab, setSelectorTab] = useState<'favorites' | 'all'>('favorites');
+  const [selectorSearch, setSelectorSearch] = useState('');
+  const [selectorChecked, setSelectorChecked] = useState<Set<number>>(new Set());
+
   /* ─── Persistance paramètres communs ─── */
   const updateMontantTotal = (v: number) => { setMontantTotal(Math.max(1000, v)); localStorage.setItem('pro_sim_montant', String(v)); };
   const updateTmi = (v: number) => { setTmi(v); localStorage.setItem('pro_sim_tmi', String(v)); };
@@ -236,6 +243,33 @@ export default function ProSimulator() {
   };
   const persistScpis = (sel: ScpiSelection[]) => {
     localStorage.setItem('pro_sim_scpis', JSON.stringify(sel.map((s) => s.scpi.id)));
+  };
+
+  /* ─── Sélecteur : ajout multiple ─── */
+  const addMultipleSelections = (ids: number[]) => {
+    if (ids.length === 0) return;
+    const usedIds = new Set(selections.map((s) => s.scpi.id));
+    const newScpis = ids
+      .filter((id) => !usedIds.has(id))
+      .map((id) => scpiDataExtended.find((s) => s.id === id))
+      .filter(Boolean) as SCPIExtended[];
+    if (newScpis.length === 0) return;
+    const updated = [...selections, ...newScpis.map((s) => ({ scpi: s, allocation: 0 }))].slice(0, 4);
+    setSelections(updated);
+    persistScpis(updated);
+  };
+
+  /* ─── Répartition cash restant sur les SCPI à 0 € ─── */
+  const repartirCashRestant = () => {
+    const zeroIndices = selections
+      .map((s, i) => (s.allocation === 0 ? i : -1))
+      .filter((i) => i >= 0);
+    if (zeroIndices.length === 0 || cashRestant <= 0) return;
+    const each = Math.floor(cashRestant / zeroIndices.length / 1000) * 1000;
+    if (each < 1000) return;
+    setSelections((prev) =>
+      prev.map((s, i) => (zeroIndices.includes(i) ? { ...s, allocation: each } : s)),
+    );
   };
 
   const availableScpis = useMemo(() => {
@@ -519,6 +553,9 @@ export default function ProSimulator() {
           setDropdownSearch={setDropdownSearch}
           availableScpis={availableScpis}
           persistScpis={persistScpis}
+          onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
+          hasZeroAllocation={selections.some((s) => s.allocation === 0)}
+          onRepartirCashRestant={repartirCashRestant}
         />
       )}
 
@@ -557,6 +594,9 @@ export default function ProSimulator() {
           setDropdownSearch={setDropdownSearch}
           availableScpis={availableScpis}
           persistScpis={persistScpis}
+          onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
+          hasZeroAllocation={selections.some((s) => s.allocation === 0)}
+          onRepartirCashRestant={repartirCashRestant}
         />
       )}
 
@@ -593,6 +633,9 @@ export default function ProSimulator() {
           setDropdownSearch={setDropdownSearch}
           availableScpis={availableScpis}
           persistScpis={persistScpis}
+          onOpenSelector={() => { setSelectorOpen(true); setSelectorChecked(new Set()); setSelectorSearch(''); setSelectorTab('favorites'); }}
+          hasZeroAllocation={selections.some((s) => s.allocation === 0)}
+          onRepartirCashRestant={repartirCashRestant}
         />
       )}
 
@@ -783,6 +826,23 @@ export default function ProSimulator() {
           </p>
         </div>
       </div>
+
+      {/* ═══════════════════════════════════════
+          PANEL DE SÉLECTION SCPI
+          ═══════════════════════════════════════ */}
+      {selectorOpen && (
+        <ScpiSelectorPanel
+          tab={selectorTab}
+          onChangeTab={setSelectorTab}
+          search={selectorSearch}
+          setSearch={setSelectorSearch}
+          checked={selectorChecked}
+          setChecked={setSelectorChecked}
+          usedIds={new Set(selections.map((s) => s.scpi.id))}
+          onClose={() => { setSelectorOpen(false); setSelectorChecked(new Set()); }}
+          onAddSelection={addMultipleSelections}
+        />
+      )}
     </div>
   );
 }
@@ -806,6 +866,9 @@ interface ScpiSelectProps {
   setDropdownSearch: (v: string) => void;
   availableScpis: SCPIExtended[];
   persistScpis: (sel: ScpiSelection[]) => void;
+  onOpenSelector?: () => void;
+  hasZeroAllocation?: boolean;
+  onRepartirCashRestant?: () => void;
 }
 
 function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
@@ -815,6 +878,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
     dropdownOpen, setDropdownOpen,
     dropdownSearch, setDropdownSearch,
     availableScpis, persistScpis,
+    onOpenSelector, hasZeroAllocation, onRepartirCashRestant,
     title, icon,
   } = props;
 
@@ -825,14 +889,24 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
           {icon}
           {title} ({selections.length}/4)
         </h2>
-        {selections.length < 4 && (
-          <button
-            onClick={() => { onAdd(); persistScpis(selections); }}
-            className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition font-medium"
-          >
-            <Plus size={16} /> Ajouter une SCPI
-          </button>
-        )}
+        <div className="flex items-center gap-2">
+          {selections.length < 4 && (
+            <button
+              onClick={() => onOpenSelector?.()}
+              className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition font-medium"
+            >
+              <Plus size={16} /> Ajouter une SCPI
+            </button>
+          )}
+          {hasZeroAllocation && (
+            <button
+              onClick={() => onRepartirCashRestant?.()}
+              className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition font-medium ml-2"
+            >
+              Répartir le cash restant
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -1184,6 +1258,205 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant }: {
             </tr>
           </tfoot>
         </table>
+      </div>
+    </div>
+  );
+}
+
+interface ScpiSelectorPanelProps {
+  tab: 'favorites' | 'all';
+  onChangeTab: (v: 'favorites' | 'all') => void;
+  search: string;
+  setSearch: (v: string) => void;
+  checked: Set<number>;
+  setChecked: (v: Set<number>) => void;
+  usedIds: Set<number>;
+  onClose: () => void;
+  onAddSelection: (ids: number[]) => void;
+}
+
+function ScpiSelectorPanel(props: ScpiSelectorPanelProps) {
+  const { tab, onChangeTab, search, setSearch, checked, setChecked, usedIds, onClose, onAddSelection } = props;
+
+  const favoriteIds = useMemo(() => getFavoriteScpiIds(), []);
+
+  const filtered = useMemo(() => {
+    let list = scpiDataExtended;
+    if (tab === 'favorites') {
+      list = list.filter((s) => favoriteIds.has(s.id));
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      list = list.filter(
+        (s) =>
+          s.name.toLowerCase().includes(q) ||
+          s.managementCompany.toLowerCase().includes(q) ||
+          s.sectors.some((sec) => sec.name.toLowerCase().includes(q)),
+      );
+    }
+    return list;
+  }, [tab, search, favoriteIds]);
+
+  const sorted = useMemo(() => {
+    return [...filtered].sort((a, b) => {
+      const aUsed = usedIds.has(a.id);
+      const bUsed = usedIds.has(b.id);
+      if (aUsed !== bUsed) return aUsed ? 1 : -1;
+      return b.yield - a.yield;
+    });
+  }, [filtered, usedIds]);
+
+  const getDominantSector = (scpi: SCPIExtended): string => {
+    if (!scpi.sectors || scpi.sectors.length === 0) return scpi.category || '—';
+    const top = [...scpi.sectors].sort((a, b) => b.value - a.value)[0];
+    return `${top.name} ${top.value}%`;
+  };
+
+  const selectable = sorted.filter((s) => !usedIds.has(s.id));
+  const selectedCount = [...checked].filter((id) => selectable.some((s) => s.id === id)).length;
+
+  const toggleCheck = (id: number) => {
+    const next = new Set(checked);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setChecked(next);
+  };
+
+  const handleAdd = () => {
+    const ids = [...checked].filter((id) => !usedIds.has(id));
+    if (ids.length === 0) return;
+    onAddSelection(ids);
+    setChecked(new Set());
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] bg-black/60" onClick={onClose}>
+      <div
+        className="bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[75vh] flex flex-col mx-4"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-slate-800 shrink-0">
+          <h2 className="text-base font-bold text-slate-100">Ajouter une SCPI à l&apos;allocation</h2>
+          <button
+            onClick={onClose}
+            className="p-1.5 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded-lg transition"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Tabs + Search */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-5 py-3 border-b border-slate-800 shrink-0">
+          <div className="flex rounded-lg border border-slate-700 overflow-hidden shrink-0">
+            <button
+              onClick={() => onChangeTab('favorites')}
+              className={`px-3 py-1.5 text-xs font-medium transition ${tab === 'favorites' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+            >
+              SCPI préférées
+            </button>
+            <button
+              onClick={() => onChangeTab('all')}
+              className={`px-3 py-1.5 text-xs font-medium transition ${tab === 'all' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+            >
+              Toutes les SCPI
+            </button>
+          </div>
+          <div className="relative flex-1 w-full sm:w-auto">
+            <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Rechercher nom, société de gestion, secteur..."
+              className="w-full pl-8 pr-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            />
+          </div>
+        </div>
+
+        {/* Colonnes en-tête */}
+        <div className="grid grid-cols-12 gap-2 px-5 py-2 text-[10px] uppercase tracking-wider text-slate-600 border-b border-slate-800/50 shrink-0">
+          <span className="col-span-4">SCPI</span>
+          <span className="col-span-3">Société de gestion</span>
+          <span className="col-span-2 text-right">Rendt</span>
+          <span className="col-span-2 text-right">Prix part</span>
+          <span className="col-span-1 text-right">Min.</span>
+        </div>
+
+        {/* List */}
+        <div className="overflow-y-auto flex-1">
+          {sorted.length === 0 && (
+            <p className="text-center text-xs text-slate-500 py-12">
+              {tab === 'favorites' ? 'Aucune SCPI préférée trouvée.' : 'Aucune SCPI trouvée.'}
+            </p>
+          )}
+          {sorted.map((scpi) => {
+            const alreadyUsed = usedIds.has(scpi.id);
+            return (
+              <label
+                key={scpi.id}
+                className={`flex items-center gap-3 px-5 py-2.5 border-b border-slate-800/50 transition cursor-pointer ${
+                  alreadyUsed ? 'opacity-40 bg-slate-950/50' : 'hover:bg-slate-800/30'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={checked.has(scpi.id)}
+                  onChange={() => !alreadyUsed && toggleCheck(scpi.id)}
+                  disabled={alreadyUsed}
+                  className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-emerald-500 focus:ring-emerald-500 shrink-0 accent-emerald-500"
+                />
+                <div className="grid grid-cols-12 gap-2 flex-1 min-w-0 items-center">
+                  <span className="col-span-4 text-sm font-semibold text-slate-200 truncate" title={scpi.name}>
+                    {scpi.name}
+                  </span>
+                  <span className="col-span-3 text-xs text-slate-500 truncate" title={scpi.managementCompany}>
+                    {scpi.managementCompany}
+                  </span>
+                  <span className="col-span-2 text-xs text-emerald-400 font-medium text-right">
+                    {scpi.yield}%
+                  </span>
+                  <span className="col-span-2 text-xs text-slate-400 text-right">
+                    {scpi.price.toLocaleString('fr-FR')} €
+                  </span>
+                  <span className="col-span-1 text-xs text-slate-500 text-right">
+                    {scpi.minInvestment > 0 ? `${(scpi.minInvestment).toLocaleString('fr-FR')} €` : '—'}
+                  </span>
+                </div>
+                {alreadyUsed && (
+                  <span className="text-[10px] text-slate-600 italic shrink-0">Déjà ajoutée</span>
+                )}
+              </label>
+            );
+          })}
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between px-5 py-3 border-t border-slate-800 shrink-0">
+          <span className="text-xs text-slate-500">
+            {selectedCount} SCPI sélectionnée{selectedCount !== 1 ? 's' : ''}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-xs text-slate-400 hover:text-slate-200 transition"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleAdd}
+              disabled={selectedCount === 0}
+              className={`px-5 py-2 rounded-lg text-xs font-bold transition ${
+                selectedCount > 0
+                  ? 'bg-emerald-600 text-white hover:bg-emerald-500'
+                  : 'bg-slate-800 text-slate-600 cursor-not-allowed'
+              }`}
+            >
+              Ajouter à l&apos;allocation
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
