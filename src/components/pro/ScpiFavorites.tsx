@@ -201,7 +201,10 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
     if (checkedIds.size === 0) return;
     checkedIds.forEach(id => addFavoriteScpi(id));
     setCheckedIds(new Set());
-    // setFavorites et setFavoriteIds sont mis à jour via l'event listener
+    // Mise à jour immédiate de l'état local + bascule sur l'onglet "Mes SCPI préférées"
+    setFavorites(getFavoriteScpis());
+    setFavoriteIds(getFavoriteScpiIds());
+    setTab('mes-favorites');
   };
 
   /* ---------- Rendu onglets ---------- */
