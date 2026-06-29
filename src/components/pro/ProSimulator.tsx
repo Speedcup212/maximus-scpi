@@ -210,6 +210,7 @@ export default function ProSimulator() {
   const [selectorTab, setSelectorTab] = useState<'favorites' | 'all'>('favorites');
   const [selectorSearch, setSelectorSearch] = useState('');
   const [selectorChecked, setSelectorChecked] = useState<Set<number>>(new Set());
+  const [checkedIndices, setCheckedIndices] = useState<Set<number>>(new Set());
 
   /* ─── Persistance paramètres communs ─── */
   const updateMontantTotal = (v: number) => { setMontantTotal(Math.max(1000, v)); localStorage.setItem('pro_sim_montant', String(v)); };
@@ -272,6 +273,35 @@ export default function ProSimulator() {
       }
       return n;
     });
+  };
+
+  const toggleCheck = (index: number) => {
+    setCheckedIndices((prev) => {
+      if (index === -1) {
+        // select-all / deselect-all
+        if (prev.size === selections.length) return new Set<number>();
+        return new Set(selections.map((_, i) => i));
+      }
+      const next = new Set(prev);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  };
+
+  const removeCheckedSelections = () => {
+    if (checkedIndices.size === 0) return;
+    const sorted = [...checkedIndices].sort((a, b) => b - a);
+    setSelections((prev) => {
+      let updated = [...prev];
+      for (const idx of sorted) {
+        updated = updated.filter((_, i) => i !== idx);
+      }
+      persistScpis(updated);
+      return updated;
+    });
+    setPartsOverrides({});
+    setCheckedIndices(new Set());
   };
   const persistScpis = (sel: ScpiSelection[]) => {
     localStorage.setItem('pro_sim_scpis', JSON.stringify(sel.map((s) => s.scpi.id)));
@@ -601,6 +631,9 @@ export default function ProSimulator() {
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
           onPartsChange={updateParts}
+          checkedIndices={checkedIndices}
+          onToggleCheck={toggleCheck}
+          onRemoveChecked={removeCheckedSelections}
         />
       )}
 
@@ -643,6 +676,9 @@ export default function ProSimulator() {
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
           onPartsChange={updateParts}
+          checkedIndices={checkedIndices}
+          onToggleCheck={toggleCheck}
+          onRemoveChecked={removeCheckedSelections}
         />
       )}
 
@@ -683,6 +719,9 @@ export default function ProSimulator() {
           hasZeroAllocation={selections.some((s) => s.allocation === 0)}
           onRepartirCashRestant={repartirCashRestant}
           onPartsChange={updateParts}
+          checkedIndices={checkedIndices}
+          onToggleCheck={toggleCheck}
+          onRemoveChecked={removeCheckedSelections}
         />
       )}
 
@@ -919,18 +958,21 @@ interface ScpiSelectProps {
   onOpenSelector?: () => void;
   hasZeroAllocation?: boolean;
   onRepartirCashRestant?: () => void;
+  checkedIndices?: Set<number>;
+  onToggleCheck?: (index: number) => void;
+  onRemoveChecked?: () => void;
 }
 
 function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
   const {
     allocations, cashRestant, onAllocationChange, onPartsChange,
-    selections, onReplaceScpi, onAdd, onRemove,
-    dropdownOpen, setDropdownOpen,
-    dropdownSearch, setDropdownSearch,
-    availableScpis, persistScpis,
+    selections,
     onOpenSelector, hasZeroAllocation, onRepartirCashRestant,
+    checkedIndices, onToggleCheck, onRemoveChecked,
     title, icon,
   } = props;
+
+  const hasChecked = (checkedIndices?.size ?? 0) > 0;
 
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
@@ -952,10 +994,24 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
           >
             <Plus size={16} /> Ajouter une SCPI
           </button>
+          {selections.length > 1 && (
+            <button
+              disabled={!hasChecked}
+              onClick={() => onRemoveChecked?.()}
+              className={`flex items-center gap-1.5 text-xs font-medium transition ${
+                !hasChecked
+                  ? 'text-slate-600 cursor-not-allowed'
+                  : 'text-red-400 hover:text-red-300'
+              }`}
+              title={!hasChecked ? 'Cochez au moins une SCPI à retirer' : 'Retirer les SCPI cochées'}
+            >
+              <X size={14} /> Retirer sélection
+            </button>
+          )}
           {hasZeroAllocation && (
             <button
               onClick={() => onRepartirCashRestant?.()}
-              className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition font-medium ml-2"
+              className="flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 transition font-medium"
             >
               Répartir le cash restant
             </button>
@@ -967,6 +1023,20 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
         <table className="w-full text-left text-sm text-slate-300">
           <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/40">
             <tr>
+              <th className="py-2.5 px-2 w-8">
+                <input
+                  type="checkbox"
+                  checked={hasChecked && checkedIndices!.size === selections.length}
+                  onChange={() => {
+                    if (checkedIndices!.size === selections.length) {
+                      onToggleCheck?.( -1); // special: deselect all
+                    } else {
+                      selections.forEach((_, i) => onToggleCheck?.(i));
+                    }
+                  }}
+                  className="w-3.5 h-3.5 rounded border-slate-600 bg-slate-800 text-emerald-500 accent-emerald-500"
+                />
+              </th>
               <th className="py-2.5 px-3">SCPI</th>
               <th className="py-2.5 px-3 text-right">Rendt</th>
               <th className="py-2.5 px-3 text-right">Prix part</th>
@@ -975,57 +1045,24 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
               <th className="py-2.5 px-3 text-right">Parts</th>
               <th className="py-2.5 px-3 text-right">Montant réel</th>
               <th className="py-2.5 px-3 text-right">Écart</th>
-              <th className="py-2.5 px-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60">
             {allocations.map((row, i) => {
               const ecart = row.allocation - row.montantReel;
+              const isChecked = checkedIndices?.has(i) ?? false;
               return (
-                <tr key={i} className="hover:bg-slate-800/30 transition group">
+                <tr key={i} className="hover:bg-slate-800/30 transition">
+                  <td className="py-2.5 px-2">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => onToggleCheck?.(i)}
+                      className="w-3.5 h-3.5 rounded border-slate-600 bg-slate-800 text-emerald-500 accent-emerald-500"
+                    />
+                  </td>
                   <td className="py-2.5 px-3">
-                    <div className="relative">
-                      <button
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="flex items-center gap-2 text-xs font-semibold text-slate-200 hover:text-white transition text-left"
-                      >
-                        <span className="truncate max-w-[120px]">{row.scpiName}</span>
-                      </button>
-                      {dropdownOpen && (
-                        <div className="absolute top-full left-0 mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-30 w-56 max-h-60 overflow-hidden">
-                          <div className="p-2 border-b border-slate-800">
-                            <div className="relative">
-                              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                              <input
-                                type="text"
-                                value={dropdownSearch}
-                                onChange={(e) => setDropdownSearch(e.target.value)}
-                                placeholder="Rechercher..."
-                                className="w-full pl-7 pr-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-xs text-slate-200 focus:outline-none"
-                                autoFocus
-                                onClick={(e) => e.stopPropagation()}
-                              />
-                            </div>
-                          </div>
-                          <div className="overflow-y-auto max-h-44">
-                            {availableScpis.slice(0, 20).map((scpi) => (
-                              <button
-                                key={scpi.id}
-                                onClick={() => {
-                                  onReplaceScpi(i, scpi);
-                                  setDropdownSearch('');
-                                  persistScpis(selections);
-                                }}
-                                className="w-full flex items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-800 transition"
-                              >
-                                <span className="text-slate-300 truncate">{scpi.name}</span>
-                                <span className="text-emerald-400 font-medium shrink-0 ml-2">{scpi.yield}%</span>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <span className="text-xs font-semibold text-slate-200 truncate max-w-[120px] block">{row.scpiName}</span>
                   </td>
                   <td className="py-2.5 px-3 text-right text-emerald-400 text-xs">{row.yield}%</td>
                   <td className="py-2.5 px-3 text-right text-slate-400 text-xs">{row.price.toLocaleString('fr-FR')} €</td>
@@ -1052,16 +1089,6 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   </td>
                   <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
-                  <td className="py-2.5 px-3 text-center">
-                    {allocations.length > 1 && (
-                      <button
-                        onClick={() => onRemove(i)}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] text-slate-500 hover:text-red-400 bg-slate-800/60 hover:bg-red-950/30 border border-slate-700/50 hover:border-red-800/30 rounded transition"
-                      >
-                        <X size={12} /> Retirer
-                      </button>
-                    )}
-                  </td>
                 </tr>
               );
             })}
