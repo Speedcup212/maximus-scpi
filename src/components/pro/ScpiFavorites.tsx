@@ -8,6 +8,7 @@ import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteSc
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { computeClientScores } from '../../utils/computeClientScores';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 /* ──────────────────────────────────────────
    Types
@@ -184,6 +185,37 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
     if (compareScpis.length === 0) return {};
     const { bySlug } = computeClientScores(scpiDataExtended);
     return bySlug;
+  }, [compareScpis]);
+
+  /* ── Couleurs pour les camemberts ── */
+  const PRO_PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'];
+
+  /* ── Agrégation sectorielle équipondérée ── */
+  const comparisonSectorData = useMemo(() => {
+    if (compareScpis.length === 0) return [] as Array<{ name: string; value: number }>;
+    const acc: Record<string, number> = {};
+    compareScpis.forEach(scpi => {
+      if (scpi.sectors && scpi.sectors.length > 0) {
+        scpi.sectors.forEach(s => { acc[s.name] = (acc[s.name] || 0) + s.value; });
+      }
+    });
+    const entries = Object.entries(acc).map(([name, total]) => ({ name, value: Math.round(total / compareScpis.length * 10) / 10 }));
+    entries.sort((a, b) => b.value - a.value);
+    return entries.length > 0 ? entries : [];
+  }, [compareScpis]);
+
+  /* ── Agrégation géographique équipondérée ── */
+  const comparisonGeoData = useMemo(() => {
+    if (compareScpis.length === 0) return [] as Array<{ name: string; value: number }>;
+    const acc: Record<string, number> = {};
+    compareScpis.forEach(scpi => {
+      if (scpi.geography && scpi.geography.length > 0) {
+        scpi.geography.forEach(g => { acc[g.name] = (acc[g.name] || 0) + g.value; });
+      }
+    });
+    const entries = Object.entries(acc).map(([name, total]) => ({ name, value: Math.round(total / compareScpis.length * 10) / 10 }));
+    entries.sort((a, b) => b.value - a.value);
+    return entries.length > 0 ? entries : [];
   }, [compareScpis]);
 
   const toggleCompare = (scpi: SCPIExtended) => {
@@ -484,7 +516,102 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
               <p className="text-sm text-slate-400">Sélectionnez jusqu'à 6 SCPI avec le bouton Comparer.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <>
+              {/* ── Camemberts sectoriel & géographique ── */}
+              {comparisonSectorData.length > 0 || comparisonGeoData.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 sm:p-4 border-b border-slate-800">
+                  {/* Répartition sectorielle moyenne */}
+                  <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
+                    <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition sectorielle moyenne</h3>
+                    {comparisonSectorData.length > 0 ? (
+                      <div className="flex flex-col items-center">
+                        <ResponsiveContainer width="100%" height={200}>
+                          <RechartsPie>
+                            <Pie
+                              data={comparisonSectorData}
+                              dataKey="value"
+                              nameKey="name"
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={45}
+                              outerRadius={70}
+                              paddingAngle={2}
+                              stroke="none"
+                            >
+                              {comparisonSectorData.map((_entry, index) => (
+                                <Cell key={index} fill={PRO_PIE_COLORS[index % PRO_PIE_COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }}
+                              formatter={(value: number) => `${value} %`}
+                            />
+                          </RechartsPie>
+                        </ResponsiveContainer>
+                        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2">
+                          {comparisonSectorData.slice(0, 6).map((s, i) => (
+                            <div key={s.name} className="flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
+                              <span className="text-[10px] text-slate-400">{s.name} {s.value}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-500 text-center py-8">Données insuffisantes</p>
+                    )}
+                  </div>
+
+                  {/* Répartition géographique moyenne */}
+                  <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
+                    <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition géographique moyenne</h3>
+                    {comparisonGeoData.length > 0 ? (
+                      <div className="flex flex-col items-center">
+                        <ResponsiveContainer width="100%" height={200}>
+                          <RechartsPie>
+                            <Pie
+                              data={comparisonGeoData}
+                              dataKey="value"
+                              nameKey="name"
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={45}
+                              outerRadius={70}
+                              paddingAngle={2}
+                              stroke="none"
+                            >
+                              {comparisonGeoData.map((_entry, index) => (
+                                <Cell key={index} fill={PRO_PIE_COLORS[index % PRO_PIE_COLORS.length]} />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }}
+                              formatter={(value: number) => `${value} %`}
+                            />
+                          </RechartsPie>
+                        </ResponsiveContainer>
+                        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2">
+                          {comparisonGeoData.slice(0, 6).map((g, i) => (
+                            <div key={g.name} className="flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
+                              <span className="text-[10px] text-slate-400">{g.name} {g.value}%</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-500 text-center py-8">Données insuffisantes</p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="p-4 border-b border-slate-800 text-center">
+                  <p className="text-xs text-slate-500">Données insuffisantes</p>
+                </div>
+              )}
+
+              {/* ── Tableau comparatif ── */}
+              <div className="overflow-x-auto">
               <table className="min-w-[900px] w-full text-xs">
                 <thead>
                   <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
@@ -580,6 +707,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </div>
       )}
