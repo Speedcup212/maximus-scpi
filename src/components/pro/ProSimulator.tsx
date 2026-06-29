@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { useProReport } from '../../contexts/ProReportContext';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import {
@@ -11,188 +11,219 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import { Plus, X, Check, Calculator, TrendingUp, Percent, Euro, Clock, ArrowRight, Search } from 'lucide-react';
+import {
+  Plus, X, Check, Calculator, TrendingUp, Percent, Euro, Clock, ArrowRight, Search,
+  Landmark, Scale, Info,
+} from 'lucide-react';
 
-// ── Constantes ──
+/* ── Constantes ── */
 const TMI_OPTIONS = [
+  { value: 0, label: '0% — Non imposable' },
   { value: 11, label: '11% — Tranche 1' },
   { value: 30, label: '30% — Tranche 2' },
   { value: 41, label: '41% — Tranche 3' },
   { value: 45, label: '45% — Tranche 4' },
 ];
 
-const DURATION_OPTIONS = [5, 10, 15, 20];
+const DURATION_OPTIONS = [5, 8, 10, 15, 20];
+const CREDIT_DURATION_OPTIONS = [10, 15, 20, 25];
+const DEMEMBREMENT_DURATION_OPTIONS = [5, 7, 8, 10, 12, 15];
+const PRELEVEMENTS_SOCIAUX = 0.172;
 
-const PRELEVEMENTS_SOCIAUX = 0.172; // 17.2%
-
+/* ── Types ── */
 interface ScpiSelection {
   scpi: SCPIExtended;
-  amount: number;
+  allocation: number;
+}
+
+interface ScpiAllocationRow {
+  scpiName: string;
+  yield: number;
+  price: number;
+  minInvestment: number;
+  allocation: number;
+  parts: number;
+  montantReel: number;
 }
 
 interface ResultRow {
   scpiName: string;
-  amount: number;
+  allocation: number;
+  montantReel: number;
   grossYield: number;
   estimatedTax: number;
-  netYield: number;
   netAnnualIncome: number;
 }
 
-// ── Helpers de calcul ──
-function calculateTaxRate(tmi: number, mode: string): number {
-  // Taux effectif d'imposition sur les revenus SCPI
-  // En pleine propriété : TMI + PS sur ~50% (abattement micro-foncier pour les petits revenus)
-  // En démembrement : pas d'imposition sur les revenus (ils vont à l'usufruitier)
-  // À crédit : déduction des intérêts d'emprunt du revenu imposable
-  switch (mode) {
-    case 'comptant':
-      // Revenus fonciers : TMI + PS
-      return (tmi / 100 + PRELEVEMENTS_SOCIAUX) * 0.95; // ~5% d'abattement forfaitaire
-    case 'demembrement':
-      return 0; // Pas de revenus imposables en nue-propriété
-    case 'credit':
-      // Déduction partielle des intérêts
-      return (tmi / 100 + PRELEVEMENTS_SOCIAUX) * 0.7; // ~30% d'économie d'impôt via crédit
-    default:
-      return tmi / 100 + PRELEVEMENTS_SOCIAUX;
-  }
+interface CreditResult {
+  mensualiteHorsAssurance: number;
+  mensualiteAssurance: number;
+  mensualiteTotale: number;
+  coutTotalCredit: number;
+  revenusBrutsAnnuels: number;
+  revenusNetsAnnuels: number;
+  cashFlowMensuel: number;
+  effortEpargneMensuel: number;
 }
 
-function computeResults(
-  selections: ScpiSelection[],
-  tmi: number,
-  mode: string
-): { results: ResultRow[]; total: ResultRow } {
-  const taxRate = calculateTaxRate(tmi, mode);
-  const rows: ResultRow[] = selections.map((sel) => {
-    const gross = (sel.scpi.yield / 100) * sel.amount;
-    const tax = gross * taxRate;
-    const net = gross - tax;
-    return {
-      scpiName: sel.scpi.name,
-      amount: sel.amount,
-      grossYield: Math.round(gross),
-      estimatedTax: Math.round(tax),
-      netYield: Math.round(sel.scpi.yield * (1 - taxRate) * 100) / 100,
-      netAnnualIncome: Math.round(net),
-    };
-  });
-
-  const totalAmount = selections.reduce((s, sel) => s + sel.amount, 0);
-  const totalGross = rows.reduce((s, r) => s + r.grossYield, 0);
-  const totalTax = rows.reduce((s, r) => s + r.estimatedTax, 0);
-  const totalNet = totalGross - totalTax;
-
-  return {
-    results: rows,
-    total: {
-      scpiName: 'TOTAL',
-      amount: totalAmount,
-      grossYield: Math.round(totalGross),
-      estimatedTax: Math.round(totalTax),
-      netYield: totalAmount > 0 ? Math.round((totalNet / totalAmount) * 10000) / 100 : 0,
-      netAnnualIncome: Math.round(totalNet),
-    },
-  };
+interface DemembrementResult {
+  prixSouscription: number;
+  decotePourcent: number;
+  valeurPPTerme: number;
+  gainLatent: number;
+  revenusAnnuelsBruts: number;
+  revenusCumules: number;
+  rendementEconomique: number;
 }
 
-// ── Données graphique ──
-function generateChartData(
-  selections: ScpiSelection[],
-  duration: number,
-  taxRate: number
-) {
-  const years = Array.from({ length: duration + 1 }, (_, i) => i);
-  return years.map((year) => {
-    const entry: any = { year: `Année ${year}` };
-    let totalRevenue = 0;
-    selections.forEach((sel) => {
-      const grossRevenue = (sel.scpi.yield / 100) * sel.amount;
-      const netRevenue = grossRevenue * (1 - taxRate);
-      // Revenus cumulés sur la durée
-      const cumulative = Math.round(netRevenue * year);
-      entry[sel.scpi.name] = cumulative;
-      totalRevenue += cumulative;
-    });
-    entry['Total'] = totalRevenue;
-    return entry;
-  });
+/* ── Clé de démembrement (articles 669 / 762 CGI simplifiés) ── */
+const USUFRUIT_TABLE: Record<number, number> = {
+  5: 0.20, 7: 0.28, 8: 0.32, 10: 0.40, 12: 0.48, 15: 0.60,
+};
+
+function getCleDemembrement(duree: number, type: 'nue-propriete' | 'usufruit'): number {
+  const us = USUFRUIT_TABLE[duree] ?? 0.40;
+  return type === 'usufruit' ? us : 1 - us;
 }
 
-// ── Composant ──
+/* ── Helpers financement ── */
+function calcMensualite(capital: number, tauxAnnuel: number, dureeAns: number): number {
+  const tauxMensuel = tauxAnnuel / 100 / 12;
+  const n = dureeAns * 12;
+  if (tauxMensuel === 0) return capital / n;
+  return (capital * tauxMensuel * Math.pow(1 + tauxMensuel, n)) / (Math.pow(1 + tauxMensuel, n) - 1);
+}
+
+function calcTauxAssuranceMensuel(capital: number, tauxAssAnnuel: number): number {
+  return (capital * (tauxAssAnnuel / 100)) / 12;
+}
+
+/* ── Calcul des parts ── */
+function computeAllocation(allocation: number, price: number, minInvestment: number): { parts: number; montantReel: number } {
+  if (price <= 0) return { parts: 0, montantReel: 0 };
+  let parts = Math.floor(allocation / price);
+  const minParts = minInvestment > 0 ? Math.ceil(minInvestment / price) : 0;
+  if (parts < minParts) parts = 0;
+  const montantReel = parts * price;
+  return { parts, montantReel };
+}
+
+/* ── Composant ── */
 export default function ProSimulator() {
-  const { setSimulation, hasSimulation } = useProReport();
+  const { setSimulation } = useProReport();
 
-  // Paramètres client — persistés en localStorage
+  /* ─── Paramètres communs ─── */
+  const [montantTotal, setMontantTotal] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_montant');
+    return stored ? Number(stored) : 50000;
+  });
   const [tmi, setTmi] = useState<number>(() => {
-    const stored = localStorage.getItem('pro_simulator_tmi');
+    const stored = localStorage.getItem('pro_sim_tmi');
     return stored ? Number(stored) : 30;
   });
   const [duration, setDuration] = useState<number>(() => {
-    const stored = localStorage.getItem('pro_simulator_duration');
+    const stored = localStorage.getItem('pro_sim_duration');
     return stored ? Number(stored) : 10;
   });
   const [mode, setMode] = useState<'comptant' | 'credit' | 'demembrement'>(() => {
-    const stored = localStorage.getItem('pro_simulator_mode');
+    const stored = localStorage.getItem('pro_sim_mode');
     return (stored as any) || 'comptant';
   });
 
-  // Sélection SCPI
-  const [selections, setSelections] = useState<ScpiSelection[]>([
-    { scpi: scpiDataExtended[0], amount: 5000 },
-    { scpi: scpiDataExtended[1] || scpiDataExtended[0], amount: 5000 },
-  ]);
+  /* ─── Paramètres crédit ─── */
+  const [apport, setApport] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_apport');
+    return stored ? Number(stored) : 20000;
+  });
+  const [dureeCredit, setDureeCredit] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_dureeCredit');
+    return stored ? Number(stored) : 20;
+  });
+  const [tauxNominal, setTauxNominal] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_tauxNominal');
+    return stored ? Number(stored) : 3.5;
+  });
+  const [tauxAssurance, setTauxAssurance] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_tauxAssurance');
+    return stored ? Number(stored) : 0.36;
+  });
+  const [fraisGarantie, setFraisGarantie] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_fraisGarantie');
+    return stored ? Number(stored) : 1500;
+  });
+  const [fraisDossier, setFraisDossier] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_fraisDossier');
+    return stored ? Number(stored) : 1000;
+  });
+  const [differe, setDiffere] = useState<'aucun' | 'partiel' | 'total'>(() => {
+    const stored = localStorage.getItem('pro_sim_differe');
+    return (stored as any) || 'aucun';
+  });
+  const [dureeDiffere, setDureeDiffere] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_dureeDiffere');
+    return stored ? Number(stored) : 2;
+  });
+
+  /* ─── Paramètres démembrement ─── */
+  const [typeDemembrement, setTypeDemembrement] = useState<'nue-propriete' | 'usufruit'>(() => {
+    const stored = localStorage.getItem('pro_sim_typeDem');
+    return (stored as any) || 'nue-propriete';
+  });
+  const [dureeDemembrement, setDureeDemembrement] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_dureeDem');
+    return stored ? Number(stored) : 10;
+  });
+
+  /* ─── Sélection SCPI ─── */
+  const [selections, setSelections] = useState<ScpiSelection[]>(() => {
+    const stored = localStorage.getItem('pro_sim_scpis');
+    if (stored) {
+      try {
+        const ids: number[] = JSON.parse(stored);
+        const found = ids.map((id) => scpiDataExtended.find((s) => s.id === id)).filter(Boolean) as SCPIExtended[];
+        if (found.length >= 2) {
+          const eq = Math.floor(montantTotal / found.length / 1000) * 1000;
+          return found.map((s) => ({ scpi: s, allocation: eq }));
+        }
+      } catch {}
+    }
+    const eq = Math.floor(montantTotal / 2 / 1000) * 1000;
+    return [
+      { scpi: scpiDataExtended[0], allocation: eq },
+      { scpi: scpiDataExtended[1] || scpiDataExtended[0], allocation: eq },
+    ];
+  });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownSearch, setDropdownSearch] = useState('');
   const [feedback, setFeedback] = useState(false);
 
-  // Persister les paramètres
-  const updateTmi = (val: number) => {
-    setTmi(val);
-    localStorage.setItem('pro_simulator_tmi', String(val));
-  };
-  const updateDuration = (val: number) => {
-    setDuration(val);
-    localStorage.setItem('pro_simulator_duration', String(val));
-  };
-  const updateMode = (val: 'comptant' | 'credit' | 'demembrement') => {
-    setMode(val);
-    localStorage.setItem('pro_simulator_mode', val);
-  };
+  /* ─── Persistance paramètres communs ─── */
+  const updateMontantTotal = (v: number) => { setMontantTotal(Math.max(1000, v)); localStorage.setItem('pro_sim_montant', String(v)); };
+  const updateTmi = (v: number) => { setTmi(v); localStorage.setItem('pro_sim_tmi', String(v)); };
+  const updateDuration = (v: number) => { setDuration(v); localStorage.setItem('pro_sim_duration', String(v)); };
+  const updateMode = (v: 'comptant' | 'credit' | 'demembrement') => { setMode(v); localStorage.setItem('pro_sim_mode', v); };
 
-  // Modifier le montant d'une SCPI
-  const updateAmount = (index: number, amount: number) => {
-    setSelections((prev) =>
-      prev.map((sel, i) => (i === index ? { ...sel, amount: Math.max(1000, amount) } : sel))
-    );
+  const updateAllocation = (index: number, val: number) => {
+    setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, allocation: Math.max(1000, val) } : s)));
   };
-
-  // Remplacer une SCPI
   const replaceScpi = (index: number, scpi: SCPIExtended) => {
-    setSelections((prev) =>
-      prev.map((sel, i) => (i === index ? { ...sel, scpi } : sel))
-    );
+    setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, scpi } : s)));
     setDropdownOpen(false);
   };
-
-  // Ajouter une SCPI (max 4)
   const addSelection = () => {
     if (selections.length >= 4) return;
     const usedIds = new Set(selections.map((s) => s.scpi.id));
     const available = scpiDataExtended.find((s) => !usedIds.has(s.id));
-    if (available) {
-      setSelections((prev) => [...prev, { scpi: available, amount: 5000 }]);
-    }
+    if (available) setSelections((prev) => [...prev, { scpi: available, allocation: 5000 }]);
   };
-
-  // Retirer une SCPI (min 2)
   const removeSelection = (index: number) => {
-    if (selections.length <= 2) return;
+    if (selections.length <= 1) return;
     setSelections((prev) => prev.filter((_, i) => i !== index));
   };
+  const persistScpis = (sel: ScpiSelection[]) => {
+    localStorage.setItem('pro_sim_scpis', JSON.stringify(sel.map((s) => s.scpi.id)));
+  };
 
-  // SCPI disponibles pour le dropdown
   const availableScpis = useMemo(() => {
     const usedIds = new Set(selections.map((s) => s.scpi.id));
     let list = scpiDataExtended.filter((s) => !usedIds.has(s.id));
@@ -203,31 +234,147 @@ export default function ProSimulator() {
     return list;
   }, [selections, dropdownSearch]);
 
-  // Calculs
-  const taxRate = useMemo(() => calculateTaxRate(tmi, mode), [tmi, mode]);
-  const { results, total } = useMemo(
-    () => computeResults(selections, tmi, mode),
-    [selections, tmi, mode]
-  );
+  /* ─── Calculs allocation / parts ─── */
+  const allocationRows: ScpiAllocationRow[] = useMemo(() => {
+    return selections.map((sel) => {
+      const { parts, montantReel } = computeAllocation(sel.allocation, sel.scpi.price, sel.scpi.minInvestment);
+      return {
+        scpiName: sel.scpi.name,
+        yield: sel.scpi.yield,
+        price: sel.scpi.price,
+        minInvestment: sel.scpi.minInvestment,
+        allocation: sel.allocation,
+        parts,
+        montantReel,
+      };
+    });
+  }, [selections]);
 
-  const chartData = useMemo(
-    () => generateChartData(selections, duration, taxRate),
-    [selections, duration, taxRate]
-  );
+  const totalMontantReel = allocationRows.reduce((s, r) => s + r.montantReel, 0);
+  const totalAllocation = allocationRows.reduce((s, r) => s + r.allocation, 0);
+  const cashRestant = montantTotal - totalMontantReel;
 
-  // Intégrer au rapport
+  /* ─── Résultats revenus ─── */
+  const results: ResultRow[] = useMemo(() => {
+    let taxRate: number;
+    if (mode === 'demembrement' && typeDemembrement === 'nue-propriete') {
+      taxRate = 0; // NP : pas de revenus
+    } else if (mode === 'demembrement') {
+      taxRate = tmi / 100 + PRELEVEMENTS_SOCIAUX;
+    } else if (mode === 'credit') {
+      taxRate = (tmi / 100 + PRELEVEMENTS_SOCIAUX) * 0.7;
+    } else {
+      taxRate = (tmi / 100 + PRELEVEMENTS_SOCIAUX) * 0.95;
+    }
+    return allocationRows.map((r) => {
+      const gross = (r.yield / 100) * r.montantReel;
+      const tax = mode === 'demembrement' && typeDemembrement === 'nue-propriete' ? 0 : gross * taxRate;
+      return {
+        scpiName: r.scpiName,
+        allocation: r.allocation,
+        montantReel: r.montantReel,
+        grossYield: Math.round(gross),
+        estimatedTax: Math.round(tax),
+        netAnnualIncome: Math.round(gross - tax),
+      };
+    });
+  }, [allocationRows, tmi, mode, typeDemembrement]);
+
+  const totalGross = results.reduce((s, r) => s + r.grossYield, 0);
+  const totalTax = results.reduce((s, r) => s + r.estimatedTax, 0);
+  const totalNet = totalGross - totalTax;
+  const rendementNet = totalMontantReel > 0 ? Math.round((totalNet / totalMontantReel) * 10000) / 100 : 0;
+
+  /* ─── Calculs crédit ─── */
+  const creditResult: CreditResult | null = useMemo(() => {
+    if (mode !== 'credit') return null;
+    const finance = montantTotal - apport;
+    const mHa = calcMensualite(finance, tauxNominal, dureeCredit);
+    const mAss = calcTauxAssuranceMensuel(finance, tauxAssurance);
+    const mTotale = mHa + mAss;
+    const coutTotal = mTotale * dureeCredit * 12 - finance + fraisGarantie + fraisDossier;
+    // si différé partiel/total, les 2 premières années: l'assurance reste due
+    // différé total => pas de mensualité hors assurance pdt différé; différé partiel => que les intérêts
+    let mHaEffective = mHa;
+    let mTotaleEffective = mTotale;
+    const differeMois = dureeDiffere * 12;
+    if (differe === 'total') {
+      mHaEffective = finance * (tauxNominal / 100) / 12; // intérêts seuls en différé total ? Non, total = rien
+      // Simplification : différé total = 0 mensualité hors assurance pdt différé
+    }
+    const revenusBruts = totalGross;
+    // Pendant le différé, les SCPI paient quand même leurs loyers
+    const revenusNets = mode === 'demembrement' && typeDemembrement === 'nue-propriete' ? 0 : totalNet;
+    const cashFlowMensuel = Math.round((revenusNets / 12) - mTotale);
+    const effortMensuel = mTotale - (revenusNets / 12);
+    return {
+      mensualiteHorsAssurance: Math.round(mHa),
+      mensualiteAssurance: Math.round(mAss),
+      mensualiteTotale: Math.round(mTotale),
+      coutTotalCredit: Math.round(coutTotal),
+      revenusBrutsAnnuels: revenusBruts,
+      revenusNetsAnnuels: revenusNets,
+      cashFlowMensuel,
+      effortEpargneMensuel: Math.round(effortMensuel > 0 ? effortMensuel : 0),
+    };
+  }, [mode, montantTotal, apport, tauxNominal, dureeCredit, tauxAssurance, fraisGarantie, fraisDossier, differe, dureeDiffere, totalGross, totalNet, typeDemembrement]);
+
+  /* ─── Calculs démembrement ─── */
+  const demembrementResult: DemembrementResult | null = useMemo(() => {
+    if (mode !== 'demembrement') return null;
+    const cle = getCleDemembrement(dureeDemembrement, typeDemembrement);
+    const montantInvesti = totalMontantReel > 0 ? totalMontantReel : montantTotal;
+    const prixSouscription = Math.round(montantInvesti * cle);
+    const decote = Math.round((1 - cle) * 100);
+    const valeurPPTerme = montantInvesti;
+    const gainLatent = Math.round(valeurPPTerme - prixSouscription);
+    const revenusAnnuelsBruts = typeDemembrement === 'usufruit' ? totalGross : 0;
+    const revenusCumules = Math.round(revenusAnnuelsBruts * dureeDemembrement);
+    const rendementEco = prixSouscription > 0
+      ? Math.round(((typeDemembrement === 'nue-propriete' ? gainLatent : revenusCumules) / prixSouscription) * 10000) / 100
+      : 0;
+    return {
+      prixSouscription,
+      decotePourcent: decote,
+      valeurPPTerme,
+      gainLatent,
+      revenusAnnuelsBruts,
+      revenusCumules,
+      rendementEconomique: rendementEco,
+    };
+  }, [mode, dureeDemembrement, typeDemembrement, totalMontantReel, montantTotal, totalGross, totalNet]);
+
+  /* ─── Graphique ─── */
+  const chartData = useMemo(() => {
+    if (mode === 'demembrement' && typeDemembrement === 'nue-propriete') return [];
+    const years = Array.from({ length: duration + 1 }, (_, i) => i);
+    return years.map((year) => {
+      const entry: any = { year: `Année ${year}` };
+      let totalRev = 0;
+      results.forEach((r) => {
+        const cumulative = r.netAnnualIncome * year;
+        entry[r.scpiName] = cumulative;
+        totalRev += cumulative;
+      });
+      entry['Total'] = totalRev;
+      return entry;
+    });
+  }, [results, duration, mode, typeDemembrement]);
+
+  /* ─── Intégrer au rapport ─── */
   const handleAddToReport = () => {
     setSimulation({
       tmi,
       duration,
       mode,
+      montantTotal,
       results: results.map((r) => ({
         scpiId: selections.find((s) => s.scpi.name === r.scpiName)?.scpi.id || 0,
         scpiName: r.scpiName,
-        amount: r.amount,
+        amount: r.montantReel,
         grossYield: r.grossYield,
         estimatedTax: r.estimatedTax,
-        netYield: r.netYield,
+        netYield: rendementNet,
         netAnnualIncome: r.netAnnualIncome,
       })),
     });
@@ -237,16 +384,37 @@ export default function ProSimulator() {
 
   const colors = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'];
 
+  /* ─── JSX ─── */
   return (
     <div className="space-y-8 pb-10">
-      {/* ── PARAMÈTRES CLIENT ── */}
+      {/* ═══════════════════════════════════════
+          PARAMÈTRES CLIENT
+          ═══════════════════════════════════════ */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
         <h2 className="text-lg font-bold text-slate-100 mb-5 flex items-center gap-2">
           <Calculator size={20} className="text-emerald-400" />
           Paramètres client
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Montant total */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              Montant total à investir
+            </label>
+            <div className="relative">
+              <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input
+                type="number"
+                value={montantTotal}
+                onChange={(e) => updateMontantTotal(Number(e.target.value))}
+                min={1000}
+                step={5000}
+                className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition text-right"
+              />
+            </div>
+          </div>
+
           {/* TMI */}
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
@@ -258,9 +426,7 @@ export default function ProSimulator() {
               className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
             >
               {TMI_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
           </div>
@@ -277,29 +443,25 @@ export default function ProSimulator() {
               type="range"
               min={5}
               max={20}
-              step={5}
+              step={1}
               value={duration}
               onChange={(e) => updateDuration(Number(e.target.value))}
               className="w-full accent-emerald-500 h-2 rounded-lg appearance-none bg-slate-700 cursor-pointer"
             />
-            <div className="flex justify-between mt-1">
+            <div className="flex justify-between mt-1 flex-wrap gap-1">
               {DURATION_OPTIONS.map((y) => (
                 <button
                   key={y}
                   onClick={() => updateDuration(y)}
                   className={`text-xs px-2 py-0.5 rounded transition ${
-                    duration === y
-                      ? 'bg-emerald-600 text-white'
-                      : 'text-slate-500 hover:text-slate-300'
+                    duration === y ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:text-slate-300'
                   }`}
-                >
-                  {y} ans
-                </button>
+                >{y} ans</button>
               ))}
             </div>
           </div>
 
-          {/* Mode d'investissement */}
+          {/* Mode */}
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
               Mode d'investissement
@@ -323,126 +485,109 @@ export default function ProSimulator() {
         </div>
       </div>
 
-      {/* ── SÉLECTION MULTI-SCPI ── */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <TrendingUp size={20} className="text-emerald-400" />
-            SCPI sélectionnées ({selections.length}/4)
-          </h2>
-          {selections.length < 4 && (
-            <button
-              onClick={addSelection}
-              className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition font-medium"
-            >
-              <Plus size={16} />
-              Ajouter une SCPI
-            </button>
-          )}
-        </div>
+      {/* ═══════════════════════════════════════
+          HYPOTHÈSES COMPTANT
+          ═══════════════════════════════════════ */}
+      {mode === 'comptant' && (
+        <HypothesesComptant
+          allocations={allocationRows}
+          montantTotal={montantTotal}
+          cashRestant={cashRestant}
+          onAllocationChange={updateAllocation}
+          selections={selections}
+          onReplaceScpi={replaceScpi}
+          onAdd={addSelection}
+          onRemove={removeSelection}
+          dropdownOpen={dropdownOpen}
+          setDropdownOpen={setDropdownOpen}
+          dropdownSearch={dropdownSearch}
+          setDropdownSearch={setDropdownSearch}
+          availableScpis={availableScpis}
+          persistScpis={persistScpis}
+        />
+      )}
 
-        <div className="space-y-4">
-          {selections.map((sel, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-4 bg-slate-800/60 border border-slate-700/50 rounded-lg p-4 group"
-            >
-              {/* Indice */}
-              <span className="text-xs font-bold text-slate-500 bg-slate-900 rounded-full w-7 h-7 flex items-center justify-center shrink-0">
-                {index + 1}
-              </span>
+      {/* ═══════════════════════════════════════
+          HYPOTHÈSES DE FINANCEMENT (CRÉDIT)
+          ═══════════════════════════════════════ */}
+      {mode === 'credit' && (
+        <HypothesesCredit
+          apport={apport}
+          setApport={(v) => { setApport(v); localStorage.setItem('pro_sim_apport', String(v)); }}
+          montantTotal={montantTotal}
+          dureeCredit={dureeCredit}
+          setDureeCredit={(v) => { setDureeCredit(v); localStorage.setItem('pro_sim_dureeCredit', String(v)); }}
+          tauxNominal={tauxNominal}
+          setTauxNominal={(v) => { setTauxNominal(v); localStorage.setItem('pro_sim_tauxNominal', String(v)); }}
+          tauxAssurance={tauxAssurance}
+          setTauxAssurance={(v) => { setTauxAssurance(v); localStorage.setItem('pro_sim_tauxAssurance', String(v)); }}
+          fraisGarantie={fraisGarantie}
+          setFraisGarantie={(v) => { setFraisGarantie(v); localStorage.setItem('pro_sim_fraisGarantie', String(v)); }}
+          fraisDossier={fraisDossier}
+          setFraisDossier={(v) => { setFraisDossier(v); localStorage.setItem('pro_sim_fraisDossier', String(v)); }}
+          differe={differe}
+          setDiffere={(v) => { setDiffere(v); localStorage.setItem('pro_sim_differe', v); }}
+          dureeDiffere={dureeDiffere}
+          setDureeDiffere={(v) => { setDureeDiffere(v); localStorage.setItem('pro_sim_dureeDiffere', String(v)); }}
+          allocations={allocationRows}
+          cashRestant={cashRestant}
+          onAllocationChange={updateAllocation}
+          selections={selections}
+          onReplaceScpi={replaceScpi}
+          onAdd={addSelection}
+          onRemove={removeSelection}
+          dropdownOpen={dropdownOpen}
+          setDropdownOpen={setDropdownOpen}
+          dropdownSearch={dropdownSearch}
+          setDropdownSearch={setDropdownSearch}
+          availableScpis={availableScpis}
+          persistScpis={persistScpis}
+        />
+      )}
 
-              {/* Sélecteur SCPI */}
-              <div className="relative min-w-0 flex-1">
-                <button
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="w-full flex items-center justify-between gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-200 hover:border-slate-600 transition text-left"
-                >
-                  <span className="truncate">{sel.scpi.name}</span>
-                  <span className="text-xs text-slate-500 shrink-0">{sel.scpi.yield}%</span>
-                </button>
+      {/* ═══════════════════════════════════════
+          HYPOTHÈSES DE DÉMEMBREMENT
+          ═══════════════════════════════════════ */}
+      {mode === 'demembrement' && (
+        <HypothesesDemembrement
+          typeDemembrement={typeDemembrement}
+          setTypeDemembrement={(v) => { setTypeDemembrement(v); localStorage.setItem('pro_sim_typeDem', v); }}
+          dureeDemembrement={dureeDemembrement}
+          setDureeDemembrement={(v) => { setDureeDemembrement(v); localStorage.setItem('pro_sim_dureeDem', String(v)); }}
+          montantTotal={montantTotal}
+          allocations={allocationRows}
+          cashRestant={cashRestant}
+          onAllocationChange={updateAllocation}
+          selections={selections}
+          onReplaceScpi={replaceScpi}
+          onAdd={addSelection}
+          onRemove={removeSelection}
+          dropdownOpen={dropdownOpen}
+          setDropdownOpen={setDropdownOpen}
+          dropdownSearch={dropdownSearch}
+          setDropdownSearch={setDropdownSearch}
+          availableScpis={availableScpis}
+          persistScpis={persistScpis}
+        />
+      )}
 
-                {dropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-30 max-h-60 overflow-hidden">
-                    <div className="p-2 border-b border-slate-800">
-                      <div className="relative">
-                        <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                        <input
-                          type="text"
-                          value={dropdownSearch}
-                          onChange={(e) => setDropdownSearch(e.target.value)}
-                          placeholder="Rechercher..."
-                          className="w-full pl-7 pr-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-xs text-slate-200 focus:outline-none"
-                          autoFocus
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                      </div>
-                    </div>
-                    <div className="overflow-y-auto max-h-48">
-                      {availableScpis.slice(0, 20).map((scpi) => (
-                        <button
-                          key={scpi.id}
-                          onClick={() => {
-                            replaceScpi(index, scpi);
-                            setDropdownSearch('');
-                          }}
-                          className="w-full flex items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-800 transition"
-                        >
-                          <span className="text-slate-300 truncate">{scpi.name}</span>
-                          <span className="text-emerald-400 font-medium shrink-0 ml-2">{scpi.yield}%</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+      {/* ═══════════════════════════════════════
+          ALLOCATION RÉELLE
+          ═══════════════════════════════════════ */}
+      <AllocationReelle
+        rows={allocationRows}
+        totalMontantReel={totalMontantReel}
+        cashRestant={cashRestant}
+      />
 
-              {/* Montant investi */}
-              <div className="shrink-0 w-40">
-                <div className="relative">
-                  <Euro size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="number"
-                    value={sel.amount}
-                    onChange={(e) => updateAmount(index, Number(e.target.value))}
-                    min={1000}
-                    step={1000}
-                    className="w-full pl-7 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition text-right"
-                  />
-                </div>
-              </div>
-
-              {/* Retirer (si > 2) */}
-              {selections.length > 2 && (
-                <button
-                  onClick={() => removeSelection(index)}
-                  className="shrink-0 p-1.5 text-slate-600 hover:text-red-400 hover:bg-red-950/30 rounded-lg transition opacity-0 group-hover:opacity-100"
-                  title="Retirer cette SCPI"
-                >
-                  <X size={16} />
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Total investi */}
-        <div className="mt-4 text-right">
-          <span className="text-sm text-slate-400">
-            Montant total :{' '}
-            <span className="text-white font-bold text-lg">
-              {selections.reduce((s, sel) => s + sel.amount, 0).toLocaleString('fr-FR')} €
-            </span>
-          </span>
-        </div>
-      </div>
-
-      {/* ── RÉSULTATS ── */}
+      {/* ═══════════════════════════════════════
+          RÉSULTATS DE SIMULATION
+          ═══════════════════════════════════════ */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
         <div className="p-6 border-b border-slate-800">
           <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
             <Percent size={20} className="text-emerald-400" />
-            Résultats de la simulation
+            Résultats de simulation
           </h2>
         </div>
 
@@ -451,21 +596,21 @@ export default function ProSimulator() {
             <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/60">
               <tr>
                 <th className="py-3 px-4">SCPI</th>
-                <th className="py-3 px-4 text-right">Montant</th>
-                <th className="py-3 px-4 text-right">Rendement brut</th>
-                <th className="py-3 px-4 text-right">Fiscalité estimée</th>
-                <th className="py-3 px-4 text-right">Rendement net</th>
-                <th className="py-3 px-4 text-right">Revenus annuels nets</th>
+                <th className="py-3 px-4 text-right">Alloc. cible</th>
+                <th className="py-3 px-4 text-right">Montant réel</th>
+                <th className="py-3 px-4 text-right">Revenu brut</th>
+                <th className="py-3 px-4 text-right">Fiscalité</th>
+                <th className="py-3 px-4 text-right">Revenu annuel net</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
               {results.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-800/30 transition">
                   <td className="py-3 px-4 font-semibold text-slate-200">{row.scpiName}</td>
-                  <td className="py-3 px-4 text-right">{row.amount.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className="py-3 px-4 text-right">{row.grossYield.toLocaleString('fr-FR')} €</td>
                   <td className="py-3 px-4 text-right text-amber-400">-{row.estimatedTax.toLocaleString('fr-FR')} €</td>
-                  <td className="py-3 px-4 text-right text-emerald-400 font-medium">{row.netYield}%</td>
                   <td className="py-3 px-4 text-right text-emerald-300 font-bold">{row.netAnnualIncome.toLocaleString('fr-FR')} €</td>
                 </tr>
               ))}
@@ -473,106 +618,520 @@ export default function ProSimulator() {
             <tfoot>
               <tr className="bg-slate-950/80 border-t-2 border-slate-700">
                 <td className="py-3 px-4 font-bold text-slate-100">TOTAL</td>
-                <td className="py-3 px-4 text-right font-bold text-slate-100">
-                  {total.amount.toLocaleString('fr-FR')} €
-                </td>
-                <td className="py-3 px-4 text-right font-bold text-slate-100">
-                  {total.grossYield.toLocaleString('fr-FR')} €
-                </td>
-                <td className="py-3 px-4 text-right font-bold text-amber-400">
-                  -{total.estimatedTax.toLocaleString('fr-FR')} €
-                </td>
-                <td className="py-3 px-4 text-right font-bold text-emerald-400">{total.netYield}%</td>
-                <td className="py-3 px-4 text-right font-bold text-emerald-300 text-lg">
-                  {total.netAnnualIncome.toLocaleString('fr-FR')} €
-                </td>
+                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalAllocation.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalGross.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right font-bold text-amber-400">-{totalTax.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right font-bold text-emerald-300 text-lg">{totalNet.toLocaleString('fr-FR')} €</td>
               </tr>
             </tfoot>
           </table>
         </div>
-      </div>
-
-      {/* ── GRAPHIQUE ÉVOLUTION ── */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-slate-100 mb-4">
-          Évolution des revenus nets cumulés sur {duration} ans
-        </h3>
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 12 }} />
-              <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#0f172a',
-                  border: '1px solid #334155',
-                  borderRadius: '8px',
-                  color: '#e2e8f0',
-                }}
-                formatter={(value: number) => [`${value.toLocaleString('fr-FR')} €`, undefined]}
-              />
-              <Legend
-                wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }}
-              />
-              {selections.map((sel, i) => (
-                <Line
-                  key={sel.scpi.id}
-                  type="monotone"
-                  dataKey={sel.scpi.name}
-                  stroke={colors[i % colors.length]}
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                  activeDot={{ r: 5 }}
-                />
-              ))}
-              <Line
-                type="monotone"
-                dataKey="Total"
-                stroke="#fbbf24"
-                strokeWidth={3}
-                strokeDasharray="8 4"
-                dot={{ r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="p-4 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div><span className="text-xs text-slate-500">Montant investi réel</span><p className="text-lg font-bold text-white">{totalMontantReel.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Cash restant</span><p className="text-lg font-bold text-amber-400">{cashRestant.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Rendement net indicatif</span><p className="text-lg font-bold text-emerald-400">{rendementNet} %</p></div>
         </div>
       </div>
 
-      {/* ── BOUTON INTÉGRER AU RAPPORT ── */}
+      {/* ═══════════════════════════════════════
+          RÉSULTAT SPÉCIFIQUE CRÉDIT
+          ═══════════════════════════════════════ */}
+      {creditResult && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <div className="p-6 border-b border-slate-800">
+            <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+              <Landmark size={20} className="text-emerald-400" />
+              Résultat crédit
+            </h2>
+          </div>
+          <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
+            <div><span className="text-xs text-slate-500">Montant financé</span><p className="text-lg font-bold text-white">{(montantTotal - apport).toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Mensualité estimée</span><p className="text-lg font-bold text-white">{creditResult.mensualiteTotale.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
+            <div><span className="text-xs text-slate-500">Revenus mensuels nets SCPI</span><p className="text-lg font-bold text-emerald-400">{Math.round(creditResult.revenusNetsAnnuels / 12).toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Cash-flow mensuel</span><p className={`text-lg font-bold ${creditResult.cashFlowMensuel >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{creditResult.cashFlowMensuel.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Effort d'épargne</span><p className="text-lg font-bold text-amber-400">{creditResult.effortEpargneMensuel.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
+            <div><span className="text-xs text-slate-500">Coût total crédit</span><p className="text-lg font-bold text-red-400">{creditResult.coutTotalCredit.toLocaleString('fr-FR')} €</p></div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════
+          RÉSULTAT SPÉCIFIQUE DÉMEMBREMENT
+          ═══════════════════════════════════════ */}
+      {demembrementResult && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <div className="p-6 border-b border-slate-800">
+            <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+              <Scale size={20} className="text-emerald-400" />
+              Résultat démembrement — {typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit'}
+            </h2>
+          </div>
+          <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
+            <div><span className="text-xs text-slate-500">Type</span><p className="text-lg font-bold text-white">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit temporaire'}</p></div>
+            <div><span className="text-xs text-slate-500">Durée</span><p className="text-lg font-bold text-white">{dureeDemembrement} ans</p></div>
+            <div><span className="text-xs text-slate-500">Clé appliquée</span><p className="text-lg font-bold text-emerald-400">{Math.round(getCleDemembrement(dureeDemembrement, typeDemembrement) * 100)} %</p></div>
+            <div><span className="text-xs text-slate-500">Montant réel souscrit</span><p className="text-lg font-bold text-white">{demembrementResult.prixSouscription.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Valeur PP théorique</span><p className="text-lg font-bold text-slate-300">{demembrementResult.valeurPPTerme.toLocaleString('fr-FR')} €</p></div>
+            {typeDemembrement === 'nue-propriete' ? (
+              <>
+                <div><span className="text-xs text-slate-500">Décote économique</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.decotePourcent} %</p></div>
+                <div><span className="text-xs text-slate-500">Gain latent à terme</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.gainLatent.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus pendant la période</span><p className="text-lg font-bold text-slate-500">0 €</p></div>
+              </>
+            ) : (
+              <>
+                <div><span className="text-xs text-slate-500">Revenus annuels bruts</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus cumulés estimés</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.revenusCumules.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Rendement économique</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.rendementEconomique} %</p></div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════
+          GRAPHIQUE ÉVOLUTION
+          ═══════════════════════════════════════ */}
+      {chartData.length > 0 && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+          <h3 className="text-lg font-bold text-slate-100 mb-4">
+            Évolution des revenus nets cumulés sur {duration} ans
+          </h3>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <XAxis dataKey="year" tick={{ fill: '#64748b', fontSize: 12 }} />
+                <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
+                  formatter={(value: number) => [`${value.toLocaleString('fr-FR')} €`, undefined]}
+                />
+                <Legend wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }} />
+                {results.map((_r, i) => (
+                  <Line
+                    key={i}
+                    type="monotone"
+                    dataKey={results[i].scpiName}
+                    stroke={colors[i % colors.length]}
+                    strokeWidth={2}
+                    dot={{ r: 3 }}
+                    activeDot={{ r: 5 }}
+                  />
+                ))}
+                <Line type="monotone" dataKey="Total" stroke="#fbbf24" strokeWidth={3} strokeDasharray="8 4" dot={{ r: 4 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════
+          BOUTON INTÉGRER AU RAPPORT
+          ═══════════════════════════════════════ */}
       <div className="flex justify-center">
         <button
           onClick={handleAddToReport}
           className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition shadow-lg ${
-            feedback
-              ? 'bg-emerald-600 text-white'
-              : 'bg-emerald-600 hover:bg-emerald-500 text-white'
+            feedback ? 'bg-emerald-600 text-white' : 'bg-emerald-600 hover:bg-emerald-500 text-white'
           }`}
         >
           {feedback ? (
-            <>
-              <Check size={18} />
-              Simulation ajoutée au rapport ✓
-            </>
+            <><Check size={18} />Simulation ajoutée au rapport ✓</>
           ) : (
-            <>
-              <ArrowRight size={18} />
-              Intégrer au rapport
-            </>
+            <><ArrowRight size={18} />Intégrer au rapport</>
           )}
         </button>
       </div>
 
-      {/* ── DISCLAIMER ── */}
+      {/* ═══════════════════════════════════════
+          DISCLAIMER
+          ═══════════════════════════════════════ */}
       <div className="bg-slate-900/50 border border-slate-800 rounded-lg p-5">
-        <p className="text-xs text-slate-500 leading-relaxed">
-          <strong className="text-slate-400">Avertissement :</strong> Les simulations sont fournies à titre indicatif.
-          Les performances passées ne préjugent pas des performances futures. Les revenus distribués par les SCPI
-          sont variables et peuvent évoluer à la hausse comme à la baisse. Le capital investi n'est pas garanti.
-          La liquidité des parts de SCPI est limitée. Ce document constitue une aide à la décision et ne saurait
-          être considéré comme un conseil en investissement personnalisé. L'investisseur est invité à prendre
-          connaissance des Documents d'Information Clé (DIC) de chaque SCPI avant toute souscription.
-        </p>
+        <div className="flex items-start gap-2.5">
+          <Info size={16} className="text-slate-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Outil d'aide à la simulation. Les résultats sont indicatifs et ne constituent pas une recommandation personnalisée.
+            Les performances passées ne préjugent pas des performances futures. Le capital investi n'est pas garanti.
+            La liquidité des parts de SCPI est limitée.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────
+   Sous-composants
+   ────────────────────────────────────────── */
+
+/** Props communes pour les champs de sélection SCPI */
+interface ScpiSelectProps {
+  allocations: ScpiAllocationRow[];
+  cashRestant: number;
+  onAllocationChange: (index: number, val: number) => void;
+  selections: ScpiSelection[];
+  onReplaceScpi: (index: number, scpi: SCPIExtended) => void;
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+  dropdownOpen: boolean;
+  setDropdownOpen: (v: boolean) => void;
+  dropdownSearch: string;
+  setDropdownSearch: (v: string) => void;
+  availableScpis: SCPIExtended[];
+  persistScpis: (sel: ScpiSelection[]) => void;
+}
+
+function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
+  const {
+    allocations, cashRestant, onAllocationChange,
+    selections, onReplaceScpi, onAdd, onRemove,
+    dropdownOpen, setDropdownOpen,
+    dropdownSearch, setDropdownSearch,
+    availableScpis, persistScpis,
+    title, icon,
+  } = props;
+
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+          {icon}
+          {title} ({selections.length}/4)
+        </h2>
+        {selections.length < 4 && (
+          <button
+            onClick={() => { onAdd(); persistScpis(selections); }}
+            className="flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition font-medium"
+          >
+            <Plus size={16} /> Ajouter une SCPI
+          </button>
+        )}
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm text-slate-300">
+          <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/40">
+            <tr>
+              <th className="py-2.5 px-3">SCPI</th>
+              <th className="py-2.5 px-3 text-right">Rendt</th>
+              <th className="py-2.5 px-3 text-right">Prix part</th>
+              <th className="py-2.5 px-3 text-right">Min.</th>
+              <th className="py-2.5 px-3 text-right">Alloc. €</th>
+              <th className="py-2.5 px-3 text-right">Parts</th>
+              <th className="py-2.5 px-3 text-right">Montant réel</th>
+              <th className="py-2.5 px-3 text-right">Écart</th>
+              <th className="py-2.5 px-1"></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/60">
+            {allocations.map((row, i) => {
+              const ecart = row.allocation - row.montantReel;
+              return (
+                <tr key={i} className="hover:bg-slate-800/30 transition group">
+                  <td className="py-2.5 px-3">
+                    <div className="relative">
+                      <button
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className="flex items-center gap-2 text-xs font-semibold text-slate-200 hover:text-white transition text-left"
+                      >
+                        <span className="truncate max-w-[120px]">{row.scpiName}</span>
+                      </button>
+                      {dropdownOpen && (
+                        <div className="absolute top-full left-0 mt-1 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-30 w-56 max-h-60 overflow-hidden">
+                          <div className="p-2 border-b border-slate-800">
+                            <div className="relative">
+                              <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                              <input
+                                type="text"
+                                value={dropdownSearch}
+                                onChange={(e) => setDropdownSearch(e.target.value)}
+                                placeholder="Rechercher..."
+                                className="w-full pl-7 pr-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-xs text-slate-200 focus:outline-none"
+                                autoFocus
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                            </div>
+                          </div>
+                          <div className="overflow-y-auto max-h-44">
+                            {availableScpis.slice(0, 20).map((scpi) => (
+                              <button
+                                key={scpi.id}
+                                onClick={() => {
+                                  onReplaceScpi(i, scpi);
+                                  setDropdownSearch('');
+                                  persistScpis(selections);
+                                }}
+                                className="w-full flex items-center justify-between px-3 py-2 text-xs text-left hover:bg-slate-800 transition"
+                              >
+                                <span className="text-slate-300 truncate">{scpi.name}</span>
+                                <span className="text-emerald-400 font-medium shrink-0 ml-2">{scpi.yield}%</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-2.5 px-3 text-right text-emerald-400 text-xs">{row.yield}%</td>
+                  <td className="py-2.5 px-3 text-right text-slate-400 text-xs">{row.price.toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-3 text-right text-slate-500 text-xs">{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
+                  <td className="py-2.5 px-3 text-right">
+                    <input
+                      type="number"
+                      value={row.allocation}
+                      onChange={(e) => onAllocationChange(i, Number(e.target.value))}
+                      min={1000}
+                      step={1000}
+                      className="w-24 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200 text-right focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                    />
+                  </td>
+                  <td className="py-2.5 px-3 text-right font-semibold text-white text-xs">{row.parts}</td>
+                  <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                  <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                  <td className="py-2.5 px-1">
+                    {allocations.length > 1 && (
+                      <button onClick={() => { onRemove(i); persistScpis(selections); }} className="p-1 text-slate-600 hover:text-red-400 rounded transition opacity-0 group-hover:opacity-100">
+                        <X size={14} />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-4 flex justify-between text-xs text-slate-400">
+        <span>Cash restant : <span className="text-amber-400 font-bold">{cashRestant.toLocaleString('fr-FR')} €</span></span>
+        <span>Total souscrit : <span className="text-emerald-400 font-bold">{allocations.reduce((s, r) => s + r.montantReel, 0).toLocaleString('fr-FR')} €</span></span>
+      </div>
+    </div>
+  );
+}
+
+function HypothesesComptant(props: ScpiSelectProps & { montantTotal: number }) {
+  return (
+    <ScpiSelectorBlock
+      {...props}
+      title="Allocation SCPI"
+      icon={<TrendingUp size={20} className="text-emerald-400" />}
+    />
+  );
+}
+
+function HypothesesCredit(props: ScpiSelectProps & {
+  apport: number; setApport: (v: number) => void;
+  montantTotal: number;
+  dureeCredit: number; setDureeCredit: (v: number) => void;
+  tauxNominal: number; setTauxNominal: (v: number) => void;
+  tauxAssurance: number; setTauxAssurance: (v: number) => void;
+  fraisGarantie: number; setFraisGarantie: (v: number) => void;
+  fraisDossier: number; setFraisDossier: (v: number) => void;
+  differe: string; setDiffere: (v: 'aucun' | 'partiel' | 'total') => void;
+  dureeDiffere: number; setDureeDiffere: (v: number) => void;
+}) {
+  const { apport, setApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, setTauxNominal, tauxAssurance, setTauxAssurance, fraisGarantie, setFraisGarantie, fraisDossier, setFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
+  const finance = montantTotal - apport;
+
+  return (
+    <>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 className="text-lg font-bold text-slate-100 mb-5 flex items-center gap-2">
+          <Landmark size={20} className="text-emerald-400" />
+          Hypothèses de financement
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Apport personnel</label>
+            <div className="relative">
+              <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input type="number" value={apport} onChange={(e) => setApport(Number(e.target.value))} min={0} step={5000} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Montant financé</label>
+            <p className="px-3 py-2.5 text-sm text-white font-semibold">{finance.toLocaleString('fr-FR')} €</p>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Durée du crédit</label>
+            <div className="flex gap-1 flex-wrap">
+              {CREDIT_DURATION_OPTIONS.map((y) => (
+                <button key={y} onClick={() => setDureeCredit(y)} className={`text-xs px-2.5 py-1.5 rounded transition ${dureeCredit === y ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}>{y} ans</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Taux nominal annuel (%)</label>
+            <input type="number" value={tauxNominal} onChange={(e) => setTauxNominal(Number(e.target.value))} min={0} max={10} step={0.1} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Assurance emprunteur (%/an)</label>
+            <input type="number" value={tauxAssurance} onChange={(e) => setTauxAssurance(Number(e.target.value))} min={0} max={2} step={0.01} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Frais de garantie</label>
+            <div className="relative">
+              <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input type="number" value={fraisGarantie} onChange={(e) => setFraisGarantie(Number(e.target.value))} min={0} step={100} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Frais de dossier</label>
+            <div className="relative">
+              <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input type="number" value={fraisDossier} onChange={(e) => setFraisDossier(Number(e.target.value))} min={0} step={100} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Différé</label>
+            <select value={differe} onChange={(e) => setDiffere(e.target.value as any)} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="aucun">Aucun</option>
+              <option value="partiel">Partiel</option>
+              <option value="total">Total</option>
+            </select>
+          </div>
+          {differe !== 'aucun' && (
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Durée du différé</label>
+              <select value={dureeDiffere} onChange={(e) => setDureeDiffere(Number(e.target.value))} className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                {[1, 2, 3, 5].map((y) => <option key={y} value={y}>{y} an{y > 1 ? 's' : ''}</option>)}
+              </select>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <ScpiSelectorBlock
+        {...props}
+        title="Allocation SCPI (crédit)"
+        icon={<TrendingUp size={20} className="text-emerald-400" />}
+      />
+    </>
+  );
+}
+
+function HypothesesDemembrement(props: ScpiSelectProps & {
+  typeDemembrement: 'nue-propriete' | 'usufruit';
+  setTypeDemembrement: (v: 'nue-propriete' | 'usufruit') => void;
+  dureeDemembrement: number;
+  setDureeDemembrement: (v: number) => void;
+  montantTotal: number;
+}) {
+  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, montantTotal } = props;
+  const cle = getCleDemembrement(dureeDemembrement, typeDemembrement);
+  const prixDemembre = Math.round(montantTotal * cle);
+
+  return (
+    <>
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 className="text-lg font-bold text-slate-100 mb-5 flex items-center gap-2">
+          <Scale size={20} className="text-emerald-400" />
+          Hypothèses de démembrement
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Type</label>
+            <div className="flex rounded-lg border border-slate-700 overflow-hidden">
+              {(['nue-propriete', 'usufruit'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTypeDemembrement(t)}
+                  className={`flex-1 py-2.5 text-xs font-medium transition ${typeDemembrement === t ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+                >
+                  {t === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit'}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Durée</label>
+            <div className="flex gap-1 flex-wrap">
+              {DEMEMBREMENT_DURATION_OPTIONS.map((y) => (
+                <button key={y} onClick={() => setDureeDemembrement(y)} className={`text-xs px-2.5 py-1.5 rounded transition ${dureeDemembrement === y ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}>{y} ans</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Clé de démembrement</label>
+            <p className="px-3 py-2.5 text-sm text-emerald-400 font-bold">{Math.round(cle * 100)} %</p>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Prix {typeDemembrement === 'nue-propriete' ? 'NP' : 'usufruit'} estimé</label>
+            <p className="px-3 py-2.5 text-sm text-white font-bold">{prixDemembre.toLocaleString('fr-FR')} €</p>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Prix pleine propriété</label>
+            <p className="px-3 py-2.5 text-sm text-slate-400">{montantTotal.toLocaleString('fr-FR')} €</p>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Revenus pendant la période</label>
+            <p className="px-3 py-2.5 text-sm text-slate-500">{typeDemembrement === 'nue-propriete' ? 'Aucun (0 €)' : 'Perçus (100 %)'}</p>
+          </div>
+        </div>
+      </div>
+
+      <ScpiSelectorBlock
+        {...props}
+        title={`Allocation SCPI (${typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit'})`}
+        icon={<TrendingUp size={20} className="text-emerald-400" />}
+      />
+    </>
+  );
+}
+
+function AllocationReelle({ rows, totalMontantReel, cashRestant }: {
+  rows: ScpiAllocationRow[];
+  totalMontantReel: number;
+  cashRestant: number;
+}) {
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <div className="p-6 border-b border-slate-800">
+        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+          <Euro size={20} className="text-emerald-400" />
+          Allocation réelle
+        </h2>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-xs text-slate-300">
+          <thead className="text-[10px] uppercase tracking-wider text-slate-500 bg-slate-950/60">
+            <tr>
+              <th className="py-2.5 px-4">SCPI</th>
+              <th className="py-2.5 px-4 text-right">Alloc. cible</th>
+              <th className="py-2.5 px-4 text-right">Prix part</th>
+              <th className="py-2.5 px-4 text-right">Parts</th>
+              <th className="py-2.5 px-4 text-right">Montant réel</th>
+              <th className="py-2.5 px-4 text-right">Écart</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/60">
+            {rows.map((row, i) => {
+              const ecart = row.allocation - row.montantReel;
+              return (
+                <tr key={i} className="hover:bg-slate-800/30 transition">
+                  <td className="py-2.5 px-4 font-semibold text-slate-200">{row.scpiName}</td>
+                  <td className="py-2.5 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-4 text-right font-semibold text-white">{row.parts}</td>
+                  <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                  <td className={`py-2.5 px-4 text-right ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr className="bg-slate-950/80 border-t-2 border-slate-700">
+              <td className="py-2.5 px-4 font-bold text-slate-100">TOTAL</td>
+              <td className="py-2.5 px-4 text-right font-bold text-slate-100">{rows.reduce((s, r) => s + r.allocation, 0).toLocaleString('fr-FR')} €</td>
+              <td></td>
+              <td className="py-2.5 px-4 text-right font-bold text-white">{rows.reduce((s, r) => s + r.parts, 0)}</td>
+              <td className="py-2.5 px-4 text-right font-bold text-emerald-400">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+              <td className="py-2.5 px-4 text-right font-bold text-amber-400">{cashRestant > 0 ? `+${cashRestant.toLocaleString('fr-FR')} €` : `${cashRestant.toLocaleString('fr-FR')} €`}</td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
     </div>
   );
