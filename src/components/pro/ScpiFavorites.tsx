@@ -129,13 +129,11 @@ function normalizeDistribution(entries: Array<{ name: string; value: number }>):
   if (!entries || entries.length === 0) return [];
   const rawSum = entries.reduce((s, e) => s + e.value, 0);
   if (Math.abs(rawSum) < 0.001) return entries;
-  // Ajustement proportionnel puis correction du résidu sur la plus grosse entrée
   const scaled = entries.map(e => ({ name: e.name, value: (e.value / rawSum) * 100 }));
   const rounded = scaled.map(e => ({ name: e.name, value: Math.round(e.value * 10) / 10 }));
   const roundedSum = rounded.reduce((s, e) => s + e.value, 0);
   if (rounded.length > 0 && Math.abs(roundedSum - 100) > 0.001) {
     const diff = +(100 - roundedSum).toFixed(1);
-    // Appliquer la correction sur l'entrée ayant la plus grande valeur
     let maxIdx = 0;
     for (let i = 1; i < rounded.length; i++) { if (rounded[i].value > rounded[maxIdx].value) maxIdx = i; }
     rounded[maxIdx].value = +((rounded[maxIdx].value as number) + diff).toFixed(1);
@@ -144,20 +142,50 @@ function normalizeDistribution(entries: Array<{ name: string; value: number }>):
 }
 
 /* ── Labels courts pour les noms longs ── */
-function shortDistributionLabel(name: string): string {
-  const map: Record<string, string> = {
-    'Entrepôt logistique': 'Logistique',
-    'Locaux commerciaux': 'Commerces',
-    'Commerces en retail park': 'Retail Park',
-    "Locaux d'activité": 'Activité',
-    'Pays-Bas': 'NL',
-    'Royaume-Uni': 'UK',
-    'Allemagne': 'DE',
-    'Espagne': 'ES',
-    'Zone Euro': '€-Zone',
-    'Hors Zone Euro': 'Hors €',
-  };
-  return name.length > 14 ? (map[name] || name.substring(0, 12) + '\u2026') : name;
+function normalizeLabel(raw: string): string {
+  return raw
+    .trim()
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'")  // apostrophes typographiques → '
+    .replace(/[\u0060\u00B4\u02B9\u02BB\u02BC]/g, "'")
+    .replace(/\s{2,}/g, ' ')                                   // doubles espaces
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');                          // sans accents
+}
+
+const LABEL_SHORT_MAP: Record<string, string> = {
+  "locaux d'activites et sites de production": "Locaux d'activité",
+  "locaux d'activites": "Locaux d'activité",
+  "locaux dactivites et sites de production": "Locaux d'activité",
+  "locaux dactivites": "Locaux d'activité",
+  'commerces en retail park': 'Retail park',
+  'sante et education': 'Santé / éducation',
+  'sante, hotellerie et loisirs': 'Santé / loisirs',
+  'sante hotellerie et loisirs': 'Santé / loisirs',
+  'hotellerie, tourisme, loisirs': 'Hôtellerie / loisirs',
+  'hotellerie tourisme loisirs': 'Hôtellerie / loisirs',
+  'bureaux et locaux professionnels': 'Bureaux',
+  'logistique et locaux dactivite': 'Logistique',
+  'residentiel et hebergement': 'Résidentiel',
+  'alimentation / restauration': 'Alimentation',
+  'alimentation restauration': 'Alimentation',
+  'entrepot logistique': 'Logistique',
+  'locaux commerciaux': 'Commerces',
+  'pays-bas': 'NL',
+  'royaume-uni': 'UK',
+  'allemagne': 'DE',
+  'espagne': 'ES',
+  'zone euro': '€-Zone',
+  'hors zone euro': 'Hors €',
+};
+
+/** Retourne un libellé court pour affichage, sans modifier la donnée source. */
+function getShortDistributionLabel(original: string): string {
+  const norm = normalizeLabel(original);
+  if (LABEL_SHORT_MAP[norm]) return LABEL_SHORT_MAP[norm];
+  // Si pas de mapping, tronquer seulement si > 28 caractères
+  if (original.length > 28) return original.substring(0, 27) + '\u2026';
+  return original;
 }
 
 /* ── Rendu distribution complète (donut + liste exhaustive) ── */
@@ -166,12 +194,14 @@ function renderDistributionFull(data: Array<{ name: string; value: number }>) {
   const normalized = normalizeDistribution(data);
   const sorted = [...normalized].sort((a, b) => b.value - a.value);
   const total = sorted.reduce((s, e) => s + (e.value as number), 0);
+  // Préparer les données pour Recharts avec les noms courts
+  const chartData = sorted.map(s => ({ ...s, name: getShortDistributionLabel(s.name) }));
   return (
     <div className="flex flex-col items-center gap-1">
       <ResponsiveContainer width={100} height={85}>
         <RechartsPie>
           <Pie
-            data={sorted}
+            data={chartData}
             dataKey="value"
             nameKey="name"
             cx="50%"
@@ -191,7 +221,7 @@ function renderDistributionFull(data: Array<{ name: string; value: number }>) {
         {sorted.map((s, i) => (
           <div key={s.name} className="flex items-center gap-1 text-[9px] text-slate-400">
             <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
-            <span className="truncate max-w-[85px] flex-1">{shortDistributionLabel(s.name)}</span>
+            <span className="truncate max-w-[85px] flex-1" title={s.name}>{getShortDistributionLabel(s.name)}</span>
             <span className="tabular-nums shrink-0">{s.value} %</span>
           </div>
         ))}
@@ -763,14 +793,14 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                           <td className="sticky left-0 z-10 py-2 px-2 text-[10px] text-slate-500 whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Secteur dominant</td>
                           {compareScpis.map(s => {
                             const dom = getDominantSector(s);
-                            return (<td key={s.id} className="py-2 px-2 text-center text-[10px] text-slate-300">{dom ? `${dom.name} ${dom.pct}%` : '—'}</td>);
+                            return (<td key={s.id} className="py-2 px-2 text-center text-[10px] text-slate-300">{dom ? `${getShortDistributionLabel(dom.name)} ${dom.pct}%` : '—'}</td>);
                           })}
                         </tr>
                         <tr className="hover:bg-slate-800/30 transition-colors">
                           <td className="sticky left-0 z-10 py-2 px-2 text-[10px] text-slate-500 whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Zone dominante</td>
                           {compareScpis.map(s => {
                             const dom = getDominantGeography(s);
-                            return (<td key={s.id} className="py-2 px-2 text-center text-[10px] text-slate-300">{dom ? `${dom.name} ${dom.pct}%` : '—'}</td>);
+                            return (<td key={s.id} className="py-2 px-2 text-center text-[10px] text-slate-300">{dom ? `${getShortDistributionLabel(dom.name)} ${dom.pct}%` : '—'}</td>);
                           })}
                         </tr>
                         <tr className="hover:bg-slate-800/30 transition-colors">
@@ -876,7 +906,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         <DataRow label="Société de gestion" render={s => s.managementCompany} />
                         <DataRow label="Catégorie" render={s => s.category} />
                         <DataRow label="Stratégie" render={s => s.strategy} />
-                        <DataRow label="Secteur dominant" render={s => getDominantSector(s)?.name || '—'} />
+                        <DataRow label="Secteur dominant" render={s => getShortDistributionLabel(getDominantSector(s)?.name || '—')} />
                         <DataRow label="Capitalisation" render={s => s.capitalization} />
                         <DataRow label="Collecte nette trim." render={s => formatCurrency(s.collecteNetteTrimestre, '€')} />
                       </CollapsibleFamily>
@@ -924,7 +954,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
 
                       {/* Exposition sectorielle (ouverte par défaut) */}
                       <CollapsibleFamily label="Exposition sectorielle" open={true}>
-                        <DataRow label="Secteur dominant" render={s => { const dom = getDominantSector(s); return dom ? `${dom.name} ${dom.pct}%` : '—'; }} />
+                        <DataRow label="Secteur dominant" render={s => { const dom = getDominantSector(s); return dom ? `${getShortDistributionLabel(dom.name)} ${dom.pct}%` : '—'; }} />
                         {!(compareScpis.every(s => !s.sectors || s.sectors.length === 0)) && (
                           <tr className="hover:bg-slate-800/30 transition-colors">
                             <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Répartition sectorielle</td>
@@ -935,7 +965,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
 
                       {/* Exposition géographique (ouverte par défaut) */}
                       <CollapsibleFamily label="Exposition géographique" open={true}>
-                        <DataRow label="Zone dominante" render={s => { const dom = getDominantGeography(s); return dom ? `${dom.name} ${dom.pct}%` : '—'; }} />
+                        <DataRow label="Zone dominante" render={s => { const dom = getDominantGeography(s); return dom ? `${getShortDistributionLabel(dom.name)} ${dom.pct}%` : '—'; }} />
                         {!(compareScpis.every(s => !s.geography || s.geography.length === 0)) && (
                           <tr className="hover:bg-slate-800/30 transition-colors">
                             <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">Répartition géographique</td>
