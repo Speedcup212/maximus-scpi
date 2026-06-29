@@ -19,6 +19,7 @@ import {
   Clock,
   Play,
   Link2,
+  Calculator,
   type LucideIcon,
 } from 'lucide-react';
 import KpiCard from './KpiCard';
@@ -27,6 +28,7 @@ import ScpiSignals from './ScpiSignals';
 import ProFintechComparator from '../fintech/ProFintechComparator';
 import ProRapports from './ProRapports';
 import ProSettings from './ProSettings';
+import ProSimulator from './ProSimulator';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 
@@ -34,7 +36,7 @@ import { SCPIExtended } from '../../data/scpiDataExtended';
    Types
    ────────────────────────────────────────── */
 
-type ProSection = 'dashboard' | 'dossiers' | 'livrables' | 'comparateur' | 'scpi-suivies' | 'scpi-preferees' | 'videos' | 'rapports' | 'settings';
+type ProSection = 'dashboard' | 'dossiers' | 'livrables' | 'comparateur' | 'simulateurs' | 'scpi-suivies' | 'scpi-preferees' | 'videos' | 'rapports' | 'settings';
 
 interface MenuItem {
   icon: LucideIcon;
@@ -60,6 +62,7 @@ const menuItems: MenuItem[] = [
   { icon: FolderOpen, label: 'Dossiers', section: 'dossiers', badge: 3 },
   { icon: FileText, label: 'Livrables', section: 'livrables' },
   { icon: BarChart3, label: 'Comparateur', section: 'comparateur' },
+  { icon: Calculator, label: 'Simulateurs', section: 'simulateurs' },
   { icon: Eye, label: 'SCPI suivies', section: 'scpi-suivies' },
   { icon: Star, label: 'SCPI préférées', section: 'scpi-preferees' },
   { icon: Video, label: 'Vidéos', section: 'videos' },
@@ -89,6 +92,7 @@ const sectionLabel: Record<ProSection, string> = {
   'dossiers': 'Dossiers en cours',
   'livrables': 'Livrables',
   'comparateur': 'Comparateur SCPI',
+  'simulateurs': 'Simulateurs',
   'scpi-suivies': 'SCPI suivies',
   'scpi-preferees': 'SCPI préférées',
   'videos': 'Vidéos',
@@ -375,6 +379,8 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
           initialCompareScpi={pendingCompareScpi}
           onCloseAnalysis={handleCloseAnalysis}
         />;
+      case 'simulateurs':
+        return <ProSimulator />;
       case 'scpi-suivies':
         return <ScpiSuiviesContent />;
       case 'scpi-preferees':
