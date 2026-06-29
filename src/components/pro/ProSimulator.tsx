@@ -45,6 +45,7 @@ interface ScpiAllocationRow {
   allocation: number;
   parts: number;
   montantReel: number;
+  isValid: boolean;
 }
 
 interface ResultRow {
@@ -418,22 +419,27 @@ export default function ProSimulator() {
   const allocationRows: ScpiAllocationRow[] = useMemo(() => {
     return selections.map((sel, i) => {
       const hasOverride = partsOverrides[i] !== undefined;
-      const parts = hasOverride ? partsOverrides[i] : computeAllocation(sel.allocation, sel.scpi.price, sel.scpi.minInvestment).parts;
+      const alloc = sel.allocation;
+      const minInv = sel.scpi.minInvestment;
+      const belowMin = !hasOverride && alloc > 0 && alloc < minInv;
+      const parts = belowMin ? 0 : (hasOverride ? partsOverrides[i] : computeAllocation(alloc, sel.scpi.price, minInv).parts);
       const montantReel = parts * sel.scpi.price;
       return {
         scpiName: sel.scpi.name,
         yield: sel.scpi.yield,
         price: sel.scpi.price,
-        minInvestment: sel.scpi.minInvestment,
-        allocation: sel.allocation,
+        minInvestment: minInv,
+        allocation: alloc,
         parts,
         montantReel,
+        isValid: !belowMin,
       };
     });
   }, [selections, partsOverrides]);
 
-  const totalMontantReel = allocationRows.reduce((s, r) => s + r.montantReel, 0);
-  const totalAllocation = allocationRows.reduce((s, r) => s + r.allocation, 0);
+  const validRows = allocationRows.filter((r) => r.isValid);
+  const totalMontantReel = validRows.reduce((s, r) => s + r.montantReel, 0);
+  const totalAllocation = validRows.reduce((s, r) => s + r.allocation, 0);
   const montantTotal = parseLiveDecimal(rawMontantTotal);
   const tauxNominal = parseLiveDecimal(rawTauxNominal);
 
@@ -452,7 +458,9 @@ export default function ProSimulator() {
     } else {
       taxRate = (tmi / 100 + PRELEVEMENTS_SOCIAUX) * 0.95;
     }
-    return allocationRows.map((r) => {
+    return allocationRows
+      .filter((r) => r.isValid)
+      .map((r) => {
       const gross = (r.yield / 100) * r.montantReel;
       const tax = mode === 'demembrement' && typeDemembrement === 'nue-propriete' ? 0 : gross * taxRate;
       return {
@@ -1147,8 +1155,9 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
             {allocations.map((row, i) => {
               const ecart = row.allocation - row.montantReel;
               const isChecked = checkedIndices?.has(i) ?? false;
+              const isInvalid = !row.isValid;
               return (
-                <tr key={i} className="hover:bg-slate-800/30 transition">
+                <tr key={i} className={isInvalid ? 'bg-red-950/20 hover:bg-red-950/30' : 'hover:bg-slate-800/30 transition'}>
                   <td className="py-2.5 px-2">
                     <input
                       type="checkbox"
@@ -1174,19 +1183,27 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                       className="w-24 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200 text-right focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                   </td>
-                  <td className="py-2.5 px-3 text-right">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
-                      onChange={(e) => onPartsRawChange(i, e.target.value)}
-                      onBlur={() => onPartsBlur(i, rawParts[i])}
-                      onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
-                      className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                    />
-                  </td>
-                  <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
-                  <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                  {isInvalid ? (
+                    <td colSpan={3} className="py-2.5 px-3 text-red-400 text-[10px]">
+                      Minimum non atteint : {row.minInvestment.toLocaleString('fr-FR')} €
+                    </td>
+                  ) : (
+                    <>
+                      <td className="py-2.5 px-3 text-right">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
+                          onChange={(e) => onPartsRawChange(i, e.target.value)}
+                          onBlur={() => onPartsBlur(i, rawParts[i])}
+                          onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
+                          className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                      </td>
+                      <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                      <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                    </>
+                  )}
                 </tr>
               );
             })}
@@ -1440,23 +1457,32 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, rawParts, onPar
           <tbody className="divide-y divide-slate-800/60">
             {rows.map((row, i) => {
               const ecart = row.allocation - row.montantReel;
+              const isInvalid = !row.isValid;
               return (
-                <tr key={i} className="hover:bg-slate-800/30 transition">
+                <tr key={i} className={isInvalid ? 'bg-red-950/20 hover:bg-red-950/30' : 'hover:bg-slate-800/30 transition'}>
                   <td className="py-2.5 px-4 font-semibold text-slate-200">{row.scpiName}</td>
                   <td className="py-2.5 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
                   <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
-                      onChange={(e) => onPartsRawChange(i, e.target.value)}
-                      onBlur={() => onPartsBlur(i, rawParts[i])}
-                      onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
-                      className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                    />
-                  </td>
-                  <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                  {isInvalid ? (
+                    <td colSpan={2} className="py-2.5 px-4 text-red-400 text-[10px]">
+                      Minimum non atteint : {row.minInvestment.toLocaleString('fr-FR')} €
+                    </td>
+                  ) : (
+                    <>
+                      <td className="py-2.5 px-4 text-right">
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
+                          onChange={(e) => onPartsRawChange(i, e.target.value)}
+                          onBlur={() => onPartsBlur(i, rawParts[i])}
+                          onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
+                          className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                      </td>
+                      <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                    </>
+                  )}
                   <td className={`py-2.5 px-4 text-right ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
                   <td className="py-2.5 px-4 text-center">
                     {rows.length > 1 && (
