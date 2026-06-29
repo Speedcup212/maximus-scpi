@@ -114,8 +114,6 @@ const ProLayout = lazy(() => import('./components/pro/ProLayout'));
 const ProLogin = lazy(() => import('./components/pro/ProLogin'));
 const ProSignup = lazy(() => import('./components/pro/ProSignup'));
 const ProDashboard = lazy(() => import('./components/pro/ProDashboard'));
-const ProRapports = lazy(() => import('./components/pro/ProRapports'));
-const ProSettings = lazy(() => import('./components/pro/ProSettings'));
 const AnonVideoView = lazy(() => import('./components/anon/AnonVideoView'));
 
 // 30 Articles Éducation SCPI
@@ -2043,8 +2041,8 @@ const App: React.FC = () => {
           >
             {currentView === 'pro-login' && <ProLogin onNavigate={navigateToPro} />}
             {currentView === 'pro-dashboard' && <ProDashboard />}
-            {currentView === 'pro-rapports' && <ProRapports />}
-            {currentView === 'pro-settings' && <ProSettings />}
+            {currentView === 'pro-rapports' && <ProDashboard initialSection="rapports" />}
+            {currentView === 'pro-settings' && <ProDashboard initialSection="settings" />}
           </ProLayout>
         </Suspense>
       </div>

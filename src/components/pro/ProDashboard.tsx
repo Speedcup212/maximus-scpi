@@ -18,12 +18,15 @@ import {
   X,
   Clock,
   Play,
+  Link2,
   type LucideIcon,
 } from 'lucide-react';
 import KpiCard from './KpiCard';
 import ScpiFavorites from './ScpiFavorites';
 import ScpiSignals from './ScpiSignals';
 import ProFintechComparator from '../fintech/ProFintechComparator';
+import ProRapports from './ProRapports';
+import ProSettings from './ProSettings';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 
@@ -31,7 +34,7 @@ import { SCPIExtended } from '../../data/scpiDataExtended';
    Types
    ────────────────────────────────────────── */
 
-type ProSection = 'dashboard' | 'dossiers' | 'livrables' | 'comparateur' | 'scpi-suivies' | 'scpi-preferees' | 'videos';
+type ProSection = 'dashboard' | 'dossiers' | 'livrables' | 'comparateur' | 'scpi-suivies' | 'scpi-preferees' | 'videos' | 'rapports' | 'settings';
 
 interface MenuItem {
   icon: LucideIcon;
@@ -60,6 +63,8 @@ const menuItems: MenuItem[] = [
   { icon: Eye, label: 'SCPI suivies', section: 'scpi-suivies' },
   { icon: Star, label: 'SCPI préférées', section: 'scpi-preferees' },
   { icon: Video, label: 'Vidéos', section: 'videos' },
+  { icon: Link2, label: 'Mes liens clients', section: 'rapports' },
+  { icon: Building2, label: 'Mon cabinet', section: 'settings' },
 ];
 
 const dossiers: DossierItem[] = [
@@ -87,6 +92,8 @@ const sectionLabel: Record<ProSection, string> = {
   'scpi-suivies': 'SCPI suivies',
   'scpi-preferees': 'SCPI préférées',
   'videos': 'Vidéos',
+  'rapports': 'Mes liens clients',
+  'settings': 'Mon cabinet',
 };
 
 /* ──────────────────────────────────────────
@@ -304,8 +311,8 @@ function ComplianceStrip() {
    ProDashboard
    ────────────────────────────────────────── */
 
-export default function ProDashboard() {
-  const [activeSection, setActiveSection] = useState<ProSection>('dashboard');
+export default function ProDashboard({ initialSection }: { initialSection?: ProSection }) {
+  const [activeSection, setActiveSection] = useState<ProSection>(initialSection || 'dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(() => getFavoriteScpiIds().size);
   const [pendingAnalysisScpi, setPendingAnalysisScpi] = useState<SCPIExtended | null>(null);
@@ -317,6 +324,12 @@ export default function ProDashboard() {
     window.addEventListener('maximus-pro-favorites-updated', handler);
     return () => window.removeEventListener('maximus-pro-favorites-updated', handler);
   }, []);
+
+  useEffect(() => {
+    if (initialSection && initialSection !== activeSection) {
+      setActiveSection(initialSection);
+    }
+  }, [initialSection]);
 
   const handleSectionClick = useCallback((section: ProSection) => {
     setActiveSection(section);
@@ -372,6 +385,10 @@ export default function ProDashboard() {
         />;
       case 'videos':
         return <VideosContent />;
+      case 'rapports':
+        return <ProRapports />;
+      case 'settings':
+        return <ProSettings />;
       default:
         return <DashboardHome />;
     }
