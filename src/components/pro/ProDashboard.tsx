@@ -1,4 +1,4 @@
-import { useState, useCallback, type ReactNode } from 'react';
+import { useState, useCallback, useEffect, type ReactNode } from 'react';
 import {
   LayoutDashboard,
   FolderOpen,
@@ -25,6 +25,7 @@ import KpiCard from './KpiCard';
 import ScpiFavorites from './ScpiFavorites';
 import ScpiSignals from './ScpiSignals';
 import ProFintechComparator from '../fintech/ProFintechComparator';
+import { getFavoriteScpiIds } from '../../utils/proFavorites';
 
 /* ──────────────────────────────────────────
    Types
@@ -57,7 +58,7 @@ const menuItems: MenuItem[] = [
   { icon: FileText, label: 'Livrables', section: 'livrables' },
   { icon: BarChart3, label: 'Comparateur', section: 'comparateur' },
   { icon: Eye, label: 'SCPI suivies', section: 'scpi-suivies' },
-  { icon: Star, label: 'SCPI préférées', section: 'scpi-preferees', badge: 4 },
+  { icon: Star, label: 'SCPI préférées', section: 'scpi-preferees' },
   { icon: Video, label: 'Vidéos', section: 'videos' },
 ];
 
@@ -313,6 +314,13 @@ function ComplianceStrip() {
 export default function ProDashboard() {
   const [activeSection, setActiveSection] = useState<ProSection>('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(() => getFavoriteScpiIds().size);
+
+  useEffect(() => {
+    const handler = () => setFavoriteCount(getFavoriteScpiIds().size);
+    window.addEventListener('maximus-pro-favorites-updated', handler);
+    return () => window.removeEventListener('maximus-pro-favorites-updated', handler);
+  }, []);
 
   const handleSectionClick = useCallback((section: ProSection) => {
     setActiveSection(section);
@@ -389,15 +397,18 @@ export default function ProDashboard() {
           >
             <item.icon className="w-4 h-4 shrink-0" />
             <span className="flex-1 text-left">{item.label}</span>
-            {item.badge !== undefined && (
-              <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                activeSection === item.section
-                  ? 'bg-emerald-500/20 text-emerald-300'
-                  : 'bg-slate-700 text-slate-300'
-              }`}>
-                {item.badge}
-              </span>
-            )}
+            {(() => {
+              const badgeValue = item.section === 'scpi-preferees' ? (favoriteCount > 0 ? favoriteCount : undefined) : item.badge;
+              return badgeValue !== undefined && (
+                <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
+                  activeSection === item.section
+                    ? 'bg-emerald-500/20 text-emerald-300'
+                    : 'bg-slate-700 text-slate-300'
+                }`}>
+                  {badgeValue}
+                </span>
+              );
+            })()}
           </button>
         ))}
       </nav>

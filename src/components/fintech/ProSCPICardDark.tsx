@@ -12,9 +12,11 @@ interface SCPICardDarkProps {
   onAnalyze: () => void;
   userTmi?: TMIValue;
   onGuidedJourneyClick?: () => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
 }
 
-const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick }) => {
+const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick, isFavorite = false, onToggleFavorite }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const isEuropean = isEuropeanSCPI(scpi);
@@ -128,12 +130,30 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
               <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
             </div>
           </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {onToggleFavorite && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleFavorite();
+                }}
+                className={`p-1.5 rounded-lg transition-colors ${
+                  isFavorite
+                    ? 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30'
+                    : 'text-slate-500 hover:text-amber-400 hover:bg-slate-700'
+                }`}
+                title={isFavorite ? 'Retirer des préférées' : 'Ajouter aux préférées'}
+              >
+                <Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-400' : ''}`} />
+              </button>
+            )}
           {isSelected && (
             <div className="flex items-center gap-1 px-2 py-1 bg-orange-500 text-white rounded-full text-xs font-bold">
               <Check className="w-3 h-3" />
               <span>Sélectionnée</span>
             </div>
           )}
+          </div>
         </div>
 
         {/* Main Sector Badge & Tax Optimization Badge */}
