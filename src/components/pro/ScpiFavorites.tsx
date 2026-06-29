@@ -132,7 +132,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, on
             onClick={() => onToggleCompare?.(scpi)}
             className={`flex items-center justify-center gap-1.5 py-2 px-3 text-[10px] sm:text-xs font-medium rounded-lg transition-colors ${
               isInComparison
-                ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                ? 'bg-orange-500 hover:bg-orange-600 text-white'
                 : 'bg-emerald-600 hover:bg-emerald-500 text-white'
             }`}
           >
@@ -439,7 +439,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                                   onClick={() => toggleCompare(scpi)}
                                   className={`flex items-center gap-1 py-1 px-2 text-[9px] rounded transition-colors whitespace-nowrap ${
                                     comparisonIds.has(scpi.id)
-                                      ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                                      ? 'bg-orange-500 hover:bg-orange-600 text-white'
                                       : 'bg-emerald-600 hover:bg-emerald-500 text-white'
                                   }`}
                                 >
