@@ -37,6 +37,68 @@ function getSectorDisplay(scpi: SCPIExtended): string {
   return `Profil : ${scpi.category}`;
 }
 
+/* ── Helpers formatage ── */
+function formatPercent(v: number | null | undefined): string {
+  if (v == null || !Number.isFinite(v)) return '—';
+  return `${v.toFixed(1)}%`;
+}
+
+function formatCurrency(v: number | null | undefined, suffix = '€'): string {
+  if (v == null || !Number.isFinite(v)) return '—';
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(v % 1_000_000 === 0 ? 0 : 1)} M${suffix}`;
+  if (v >= 1_000) return `${(v / 1_000).toFixed(v % 1_000 === 0 ? 0 : 0)} k${suffix}`;
+  return `${v.toLocaleString('fr-FR')} ${suffix}`;
+}
+
+function getDominantGeography(scpi: SCPIExtended): { name: string; pct: number } | null {
+  if (!scpi.geography || scpi.geography.length === 0) return null;
+  const sorted = [...scpi.geography].sort((a, b) => b.value - a.value);
+  return { name: sorted[0].name, pct: Math.round(sorted[0].value) };
+}
+
+/* ── Couleurs camemberts ── */
+const PRO_PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'];
+
+/* ── Rendu mini-donut (utilisé dans le tableau comparatif) ── */
+function renderMiniDonut(
+  data: Array<{ name: string; value: number }>,
+  maxItems = 3,
+) {
+  if (!data || data.length === 0) return <span className="text-slate-600">—</span>;
+  const top = [...data].sort((a, b) => b.value - a.value).slice(0, maxItems);
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <ResponsiveContainer width={80} height={70}>
+        <RechartsPie>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={18}
+            outerRadius={30}
+            paddingAngle={1}
+            stroke="none"
+          >
+            {data.map((_e, i) => (
+              <Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />
+            ))}
+          </Pie>
+        </RechartsPie>
+      </ResponsiveContainer>
+      <div className="space-y-0.5">
+        {top.map((s, i) => (
+          <div key={s.name} className="flex items-center gap-1 text-[9px] text-slate-400">
+            <span className="w-2 h-2 rounded-sm shrink-0" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
+            <span className="truncate max-w-[80px]">{s.name} {Math.round(s.value)}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ──────────────────────────────────────────
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
@@ -187,35 +249,19 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
     return bySlug;
   }, [compareScpis]);
 
-  /* ── Couleurs pour les camemberts ── */
-  const PRO_PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'];
-
-  /* ── Agrégation sectorielle équipondérée ── */
+  /* ── Agrégations équipondérées pour la synthèse moyenne (bloc repliable) ── */
   const comparisonSectorData = useMemo(() => {
     if (compareScpis.length === 0) return [] as Array<{ name: string; value: number }>;
     const acc: Record<string, number> = {};
-    compareScpis.forEach(scpi => {
-      if (scpi.sectors && scpi.sectors.length > 0) {
-        scpi.sectors.forEach(s => { acc[s.name] = (acc[s.name] || 0) + s.value; });
-      }
-    });
-    const entries = Object.entries(acc).map(([name, total]) => ({ name, value: Math.round(total / compareScpis.length * 10) / 10 }));
-    entries.sort((a, b) => b.value - a.value);
-    return entries.length > 0 ? entries : [];
+    compareScpis.forEach(s => { if (s.sectors) s.sectors.forEach(d => { acc[d.name] = (acc[d.name] || 0) + d.value; }); });
+    return Object.entries(acc).map(([n, v]) => ({ name: n, value: Math.round(v / compareScpis.length * 10) / 10 })).sort((a, b) => b.value - a.value);
   }, [compareScpis]);
 
-  /* ── Agrégation géographique équipondérée ── */
   const comparisonGeoData = useMemo(() => {
     if (compareScpis.length === 0) return [] as Array<{ name: string; value: number }>;
     const acc: Record<string, number> = {};
-    compareScpis.forEach(scpi => {
-      if (scpi.geography && scpi.geography.length > 0) {
-        scpi.geography.forEach(g => { acc[g.name] = (acc[g.name] || 0) + g.value; });
-      }
-    });
-    const entries = Object.entries(acc).map(([name, total]) => ({ name, value: Math.round(total / compareScpis.length * 10) / 10 }));
-    entries.sort((a, b) => b.value - a.value);
-    return entries.length > 0 ? entries : [];
+    compareScpis.forEach(s => { if (s.geography) s.geography.forEach(d => { acc[d.name] = (acc[d.name] || 0) + d.value; }); });
+    return Object.entries(acc).map(([n, v]) => ({ name: n, value: Math.round(v / compareScpis.length * 10) / 10 })).sort((a, b) => b.value - a.value);
   }, [compareScpis]);
 
   const toggleCompare = (scpi: SCPIExtended) => {
@@ -287,6 +333,28 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
     setFavoriteIds(getFavoriteScpiIds());
     setTab('mes-favorites');
   };
+
+  /* ---------- Composants helpers pour le tableau comparatif ---------- */
+  const FamilyHeader = ({ label, colSpan }: { label: string; colSpan: number }) => (
+    <tr className="bg-slate-800/60">
+      <td colSpan={colSpan} className="sticky left-0 py-1.5 px-3 text-[10px] uppercase tracking-wider text-slate-400 font-semibold border-r border-slate-800/50 bg-slate-800/60">
+        {label}
+      </td>
+    </tr>
+  );
+
+  const DataRow = ({ label, render, highlight }: { label: string; render: (s: SCPIExtended) => React.ReactNode; highlight?: boolean }) => (
+    <tr className="hover:bg-slate-800/30 transition-colors">
+      <td className={`sticky left-0 z-10 py-2 px-3 text-[10px] whitespace-nowrap border-r border-slate-800/50 ${highlight ? 'text-slate-200 font-medium bg-slate-900/90' : 'text-slate-500 bg-slate-900/80'}`}>
+        {label}
+      </td>
+      {compareScpis.map(scpi => (
+        <td key={scpi.id} className={`py-2 px-2 text-center text-[10px] tabular-nums ${highlight ? 'text-white font-semibold' : 'text-slate-300'}`}>
+          {render(scpi)}
+        </td>
+      ))}
+    </tr>
+  );
 
   /* ---------- Rendu onglets ---------- */
 
@@ -420,43 +488,34 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                       <tbody className="divide-y divide-slate-800/50">
                         {favorites.map(scpi => (
                           <tr key={scpi.id} className="hover:bg-slate-800/40 transition-colors">
-                            {/* SCPI */}
                             <td className="py-3 px-3">
                               <span className="text-white font-medium truncate block max-w-[130px]">{scpi.name}</span>
                             </td>
-                            {/* Société de gestion */}
                             <td className="py-3 px-3 text-slate-400 truncate max-w-[110px] hidden md:table-cell">
                               {scpi.managementCompany}
                             </td>
-                            {/* Rendement */}
                             <td className="py-3 px-3 text-right">
                               <span className="text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
                             </td>
-                            {/* TOF */}
                             <td className="py-3 px-3 text-right">
                               <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
                                 {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
                               </span>
                             </td>
-                            {/* Prix part */}
                             <td className="py-3 px-3 text-right text-white font-semibold tabular-nums whitespace-nowrap">
                               {scpi.price != null ? `${scpi.price}€` : '—'}
                             </td>
-                            {/* Invest. min. */}
                             <td className="py-3 px-3 text-right text-slate-300 tabular-nums hidden md:table-cell whitespace-nowrap">
                               {scpi.minInvestment.toLocaleString('fr-FR')}€
                             </td>
-                            {/* Capitalisation */}
                             <td className="py-3 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
                               {scpi.capitalization}
                             </td>
-                            {/* Secteur dominant */}
                             <td className="py-3 px-3">
                               <span className="inline-block text-[9px] px-1.5 py-0.5 rounded border bg-slate-700/50 text-slate-300 border-slate-600/50 whitespace-nowrap">
                                 {getSectorDisplay(scpi)}
                               </span>
                             </td>
-                            {/* Actions */}
                             <td className="py-2 px-2">
                               <div className="flex items-center gap-1">
                                 <button
@@ -517,196 +576,205 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
             </div>
           ) : (
             <>
-              {/* ── Camemberts sectoriel & géographique ── */}
-              {comparisonSectorData.length > 0 || comparisonGeoData.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 sm:p-4 border-b border-slate-800">
-                  {/* Répartition sectorielle moyenne */}
-                  <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
-                    <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition sectorielle moyenne</h3>
-                    {comparisonSectorData.length > 0 ? (
-                      <div className="flex flex-col items-center">
-                        <ResponsiveContainer width="100%" height={200}>
-                          <RechartsPie>
-                            <Pie
-                              data={comparisonSectorData}
-                              dataKey="value"
-                              nameKey="name"
-                              cx="50%"
-                              cy="50%"
-                              innerRadius={45}
-                              outerRadius={70}
-                              paddingAngle={2}
-                              stroke="none"
-                            >
-                              {comparisonSectorData.map((_entry, index) => (
-                                <Cell key={index} fill={PRO_PIE_COLORS[index % PRO_PIE_COLORS.length]} />
+              {/* ── Synthèse moyenne (bloc repliable) ── */}
+              <details className="border-b border-slate-800 group">
+                <summary className="p-3 sm:p-4 cursor-pointer text-xs font-medium text-slate-400 hover:text-slate-300 select-none">
+                  Synthèse moyenne des SCPI comparées
+                </summary>
+                <div className="px-3 sm:px-4 pb-3 sm:pb-4">
+                  {(comparisonSectorData.length > 0 || comparisonGeoData.length > 0) ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {comparisonSectorData.length > 0 ? (
+                        <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
+                          <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition sectorielle moyenne</h3>
+                          <div className="flex flex-col items-center">
+                            <ResponsiveContainer width="100%" height={160}>
+                              <RechartsPie>
+                                <Pie data={comparisonSectorData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={35} outerRadius={55} paddingAngle={2} stroke="none">
+                                  {comparisonSectorData.map((_e, i) => (<Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />))}
+                                </Pie>
+                                <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(v: number) => `${v} %`} />
+                              </RechartsPie>
+                            </ResponsiveContainer>
+                            <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-1">
+                              {comparisonSectorData.slice(0, 5).map((s, i) => (
+                                <div key={s.name} className="flex items-center gap-1">
+                                  <span className="w-2 h-2 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
+                                  <span className="text-[9px] text-slate-400">{s.name} {s.value}%</span>
+                                </div>
                               ))}
-                            </Pie>
-                            <Tooltip
-                              contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }}
-                              formatter={(value: number) => `${value} %`}
-                            />
-                          </RechartsPie>
-                        </ResponsiveContainer>
-                        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2">
-                          {comparisonSectorData.slice(0, 6).map((s, i) => (
-                            <div key={s.name} className="flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
-                              <span className="text-[10px] text-slate-400">{s.name} {s.value}%</span>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-xs text-slate-500 text-center py-8">Données insuffisantes</p>
-                    )}
-                  </div>
-
-                  {/* Répartition géographique moyenne */}
-                  <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
-                    <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition géographique moyenne</h3>
-                    {comparisonGeoData.length > 0 ? (
-                      <div className="flex flex-col items-center">
-                        <ResponsiveContainer width="100%" height={200}>
-                          <RechartsPie>
-                            <Pie
-                              data={comparisonGeoData}
-                              dataKey="value"
-                              nameKey="name"
-                              cx="50%"
-                              cy="50%"
-                              innerRadius={45}
-                              outerRadius={70}
-                              paddingAngle={2}
-                              stroke="none"
-                            >
-                              {comparisonGeoData.map((_entry, index) => (
-                                <Cell key={index} fill={PRO_PIE_COLORS[index % PRO_PIE_COLORS.length]} />
-                              ))}
-                            </Pie>
-                            <Tooltip
-                              contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }}
-                              formatter={(value: number) => `${value} %`}
-                            />
-                          </RechartsPie>
-                        </ResponsiveContainer>
-                        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mt-2">
-                          {comparisonGeoData.slice(0, 6).map((g, i) => (
-                            <div key={g.name} className="flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
-                              <span className="text-[10px] text-slate-400">{g.name} {g.value}%</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-xs text-slate-500 text-center py-8">Données insuffisantes</p>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="p-4 border-b border-slate-800 text-center">
-                  <p className="text-xs text-slate-500">Données insuffisantes</p>
-                </div>
-              )}
-
-              {/* ── Tableau comparatif ── */}
-              <div className="overflow-x-auto">
-              <table className="min-w-[900px] w-full text-xs">
-                <thead>
-                  <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
-                    <th className="text-left py-2.5 px-3 font-medium">SCPI</th>
-                    <th className="text-left py-2.5 px-3 font-medium hidden md:table-cell">Société de gestion</th>
-                    <th className="text-right py-2.5 px-3 font-medium">Rendement</th>
-                    <th className="text-right py-2.5 px-3 font-medium">TOF</th>
-                    <th className="text-right py-2.5 px-3 font-medium">Prix part</th>
-                    <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
-                    <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
-                    <th className="text-right py-2.5 px-3 font-medium">Décote / Surcote</th>
-                    <th className="text-left py-2.5 px-3 font-medium">Secteur dominant</th>
-                    <th className="text-right py-2.5 px-3 font-medium">Note</th>
-                    <th className="text-left py-2.5 px-3 font-medium w-[160px]">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/50">
-                  {compareScpis.map(scpi => {
-                    const discountInfo = resolveDisplayedDiscount(scpi);
-                    const slug = createSlugFromName(scpi.name);
-                    const score = comparisonScores[slug];
-                    return (
-                      <tr key={scpi.id} className="hover:bg-slate-800/40 transition-colors">
-                        <td className="py-2.5 px-3">
-                          <span className="text-white font-medium truncate block max-w-[130px]">{scpi.name}</span>
-                        </td>
-                        <td className="py-2.5 px-3 text-slate-400 truncate max-w-[110px] hidden md:table-cell">
-                          {scpi.managementCompany}
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
-                          <span className="text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
-                          <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
-                            {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 text-right text-white font-semibold tabular-nums whitespace-nowrap">
-                          {scpi.price != null ? `${scpi.price}€` : '—'}
-                        </td>
-                        <td className="py-2.5 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
-                          {scpi.minInvestment.toLocaleString('fr-FR')}€
-                        </td>
-                        <td className="py-2.5 px-3 text-right text-slate-300 hidden md:table-cell whitespace-nowrap">
-                          {scpi.capitalization}
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
-                          {discountInfo.displayValue != null && discountInfo.displayValue !== 0 ? (
-                            <span className={`font-semibold tabular-nums ${discountInfo.displayValue > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                              {(discountInfo.displayValue > 0 ? '+' : '')}{discountInfo.displayValue.toFixed(1)}%
-                            </span>
-                          ) : (
-                            <span className="text-slate-600">—</span>
-                          )}
-                        </td>
-                        <td className="py-2.5 px-3">
-                          <span className="inline-block text-[9px] px-1.5 py-0.5 rounded border bg-slate-700/50 text-slate-300 border-slate-600/50 whitespace-nowrap">
-                            {getSectorDisplay(scpi)}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 text-right">
-                          {score != null ? (
-                            <span className={`font-semibold tabular-nums ${score >= 7 ? 'text-emerald-400' : score >= 5 ? 'text-amber-400' : 'text-red-400'}`}>
-                              {score.toFixed(1)}
-                            </span>
-                          ) : (
-                            <span className="text-slate-600">—</span>
-                          )}
-                        </td>
-                        <td className="py-2 px-2">
-                          <div className="flex items-center gap-1">
-                            <button
-                              onClick={() => onAnalyzeScpi?.(scpi)}
-                              className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 text-[9px] rounded transition-colors whitespace-nowrap"
-                              title="Analyser cette SCPI"
-                            >
-                              <BarChart3 className="w-3 h-3" />
-                              Analyser
-                            </button>
-                            <button
-                              onClick={() => handleRemoveFromComparison(scpi.id)}
-                              className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-red-500/50 hover:bg-red-500/10 text-slate-400 hover:text-red-400 text-[9px] rounded transition-colors whitespace-nowrap"
-                              title="Retirer de la comparaison"
-                            >
-                              <X className="w-3 h-3" />
-                              Retirer
-                            </button>
                           </div>
+                        </div>
+                      ) : (
+                        <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3 flex items-center justify-center">
+                          <p className="text-xs text-slate-500 py-8">Données sectorielles insuffisantes</p>
+                        </div>
+                      )}
+                      {comparisonGeoData.length > 0 ? (
+                        <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3">
+                          <h3 className="text-xs font-semibold text-slate-300 mb-2 text-center">Répartition géographique moyenne</h3>
+                          <div className="flex flex-col items-center">
+                            <ResponsiveContainer width="100%" height={160}>
+                              <RechartsPie>
+                                <Pie data={comparisonGeoData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={35} outerRadius={55} paddingAngle={2} stroke="none">
+                                  {comparisonGeoData.map((_e, i) => (<Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />))}
+                                </Pie>
+                                <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(v: number) => `${v} %`} />
+                              </RechartsPie>
+                            </ResponsiveContainer>
+                            <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-1">
+                              {comparisonGeoData.slice(0, 5).map((g, i) => (
+                                <div key={g.name} className="flex items-center gap-1">
+                                  <span className="w-2 h-2 rounded-sm" style={{ background: PRO_PIE_COLORS[i % PRO_PIE_COLORS.length] }} />
+                                  <span className="text-[9px] text-slate-400">{g.name} {g.value}%</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="bg-slate-900/40 border border-slate-800 rounded-lg p-3 flex items-center justify-center">
+                          <p className="text-xs text-slate-500 py-8">Données géographiques insuffisantes</p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-500 text-center py-4">Données insuffisantes</p>
+                  )}
+                </div>
+              </details>
+
+              {/* ── Tableau comparatif renversé (indicateurs en lignes, SCPI en colonnes) ── */}
+              <div className="overflow-x-auto">
+                <table className="min-w-[900px] w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-800 bg-slate-900/90">
+                      <th className="sticky left-0 z-10 bg-slate-900/95 text-left py-2 px-3 font-medium text-slate-400 w-[180px] min-w-[140px] border-r border-slate-800/50">
+                        Indicateur
+                      </th>
+                      {compareScpis.map(scpi => (
+                        <th key={scpi.id} className="text-center py-2 px-2 font-medium min-w-[125px]">
+                          <div className="text-white text-[11px] leading-tight font-semibold">{scpi.name}</div>
+                          <div className="text-[9px] text-slate-500 leading-tight mt-0.5">{scpi.managementCompany}</div>
+                          <div className="flex items-center justify-center gap-1 mt-1.5">
+                            <button onClick={() => onAnalyzeScpi?.(scpi)} className="text-[8px] px-1.5 py-0.5 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 rounded transition-colors whitespace-nowrap">Analyser</button>
+                            <button onClick={() => handleRemoveFromComparison(scpi.id)} className="text-[8px] px-1.5 py-0.5 bg-slate-800 border border-slate-700 hover:border-red-500/50 hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded transition-colors whitespace-nowrap">Retirer</button>
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/20">
+                    {/* ── Identité / stratégie ── */}
+                    <FamilyHeader label="Identité / stratégie" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Société de gestion" render={s => s.managementCompany} />
+                    <DataRow label="Catégorie" render={s => s.category} />
+                    <DataRow label="Stratégie" render={s => s.strategy} />
+                    <DataRow label="Secteur dominant" render={s => getDominantSector(s)?.name || '—'} />
+                    <DataRow label="Capitalisation" render={s => s.capitalization} />
+                    <DataRow label="Collecte nette trim." render={s => formatCurrency(s.collecteNetteTrimestre, '€')} />
+
+                    {/* ── Performance ── */}
+                    <FamilyHeader label="Performance" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Taux distribution brut" render={s => formatPercent(s.yield)} highlight />
+                    <DataRow label="Distribution / part" render={s => s.distribution != null ? `${s.distribution.toFixed(2)} €` : '—'} />
+                    <DataRow label="RAN (jours)" render={s => s.ranDays != null ? `${s.ranDays} j` : '—'} />
+                    <DataRow label="Fréquence distribution" render={s => s.versementLoyers || '—'} />
+                    <DataRow label="Durée détention rec." render={s => s.dureeDetentionRecommandee != null ? `${s.dureeDetentionRecommandee} ans` : '—'} />
+
+                    {/* ── Prix / valorisation ── */}
+                    <FamilyHeader label="Prix / valorisation" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Prix de souscription" render={s => `${s.price} €`} />
+                    <DataRow label="Investissement minimum" render={s => `${s.minInvestment.toLocaleString('fr-FR')} €`} />
+                    <DataRow label="Valeur de reconstitution" render={s => formatCurrency(s.reconstitutionValue, '€')} />
+                    <DataRow label="Valeur de réalisation" render={s => formatCurrency(s.valeurRealisation, '€')} />
+                    <DataRow label="Valeur de retrait" render={s => formatCurrency(s.valeurRetrait, '€')} />
+                    <DataRow label="Décote / Surcote" render={s => {
+                      const di = resolveDisplayedDiscount(s);
+                      if (di.displayValue == null || di.displayValue === 0) return '—';
+                      return <span className={di.displayValue > 0 ? 'text-emerald-400' : 'text-red-400'}>{(di.displayValue > 0 ? '+' : '')}{di.displayValue.toFixed(1)}%</span>;
+                    }} />
+                    <DataRow label="Délai de jouissance" render={s => s.delaiJouissance != null ? `${s.delaiJouissance} mois` : '—'} />
+
+                    {/* ── Liquidité ── */}
+                    <FamilyHeader label="Liquidité" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Parts en attente" render={s => s.hasWaitingShares === true ? 'Oui' : s.hasWaitingShares === false ? 'Non' : '—'} />
+                    <DataRow label="Délai moyen retrait" render={s => s.withdrawalDelay || '—'} />
+                    <DataRow label="Collecte nette trim." render={s => formatCurrency(s.collecteNetteTrimestre, '€')} />
+                    <DataRow label="Nb cessions trim." render={s => s.nbCessionsTrimestre != null ? String(s.nbCessionsTrimestre) : '—'} />
+
+                    {/* ── Patrimoine immobilier ── */}
+                    <FamilyHeader label="Patrimoine immobilier" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Nombre d'immeubles" render={s => s.assetsCount != null ? String(s.assetsCount) : '—'} />
+                    <DataRow label="Nombre de locataires" render={s => s.nombreLocataires != null ? String(s.nombreLocataires) : '—'} />
+
+                    {/* ── Occupation / exploitation ── */}
+                    <FamilyHeader label="Occupation / exploitation" colSpan={compareScpis.length + 1} />
+                    <DataRow label="TOF" render={s => formatPercent(s.tof)} highlight />
+                    <DataRow label="WALT (années)" render={s => s.walt != null ? `${s.walt.toFixed(1)}` : '—'} />
+                    <DataRow label="WALB (années)" render={s => s.walb != null ? `${s.walb.toFixed(1)}` : '—'} />
+
+                    {/* ── Exposition sectorielle ── */}
+                    <FamilyHeader label="Exposition sectorielle" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Secteur dominant" render={s => {
+                      const dom = getDominantSector(s);
+                      return dom ? `${dom.name} ${dom.pct}%` : '—';
+                    }} />
+                    <tr className="hover:bg-slate-800/30 transition-colors">
+                      <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">
+                        Répartition sectorielle
+                      </td>
+                      {compareScpis.map(scpi => (
+                        <td key={scpi.id} className="py-2 px-2 align-top">
+                          {renderMiniDonut(scpi.sectors)}
                         </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                      ))}
+                    </tr>
+
+                    {/* ── Exposition géographique ── */}
+                    <FamilyHeader label="Exposition géographique" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Zone dominante" render={s => {
+                      const dom = getDominantGeography(s);
+                      return dom ? `${dom.name} ${dom.pct}%` : '—';
+                    }} />
+                    <tr className="hover:bg-slate-800/30 transition-colors">
+                      <td className="sticky left-0 z-10 py-3 px-3 text-[10px] text-slate-400 font-medium whitespace-nowrap border-r border-slate-800/50 bg-slate-900/80">
+                        Répartition géographique
+                      </td>
+                      {compareScpis.map(scpi => (
+                        <td key={scpi.id} className="py-2 px-2 align-top">
+                          {renderMiniDonut(scpi.geography)}
+                        </td>
+                      ))}
+                    </tr>
+
+                    {/* ── Dette / risque financier ── */}
+                    <FamilyHeader label="Dette / risque financier" colSpan={compareScpis.length + 1} />
+                    <DataRow label="LTV (endettement)" render={s => formatPercent(s.ltv)} highlight />
+
+                    {/* ── Frais / conditions ── */}
+                    <FamilyHeader label="Frais / conditions" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Frais de souscription" render={s => formatPercent(s.entryFees)} />
+                    <DataRow label="Frais de gestion" render={s => formatPercent(s.managementFees)} />
+
+                    {/* ── ESG / réglementation ── */}
+                    <FamilyHeader label="ESG / réglementation" colSpan={compareScpis.length + 1} />
+                    <DataRow label="SFDR" render={s => s.sfdr || '—'} />
+                    <DataRow label="Profil de risque" render={s => s.profilRisque != null ? `${s.profilRisque}/7` : '—'} />
+                    <DataRow label="Profil cible" render={s => s.profilCible || '—'} />
+
+                    {/* ── Notation MaximusSCPI ── */}
+                    <FamilyHeader label="Notation MaximusSCPI" colSpan={compareScpis.length + 1} />
+                    <DataRow label="Note MaximusSCPI" render={s => {
+                      const slug = createSlugFromName(s.name);
+                      const score = comparisonScores[slug];
+                      if (score == null) return '—';
+                      return <span className={`font-semibold ${score >= 7 ? 'text-emerald-400' : score >= 5 ? 'text-amber-400' : 'text-red-400'}`}>{score.toFixed(1)}/10</span>;
+                    }} highlight />
+                  </tbody>
+                </table>
+              </div>
             </>
           )}
         </div>
@@ -792,7 +860,6 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         key={scpi.id}
                         className={`hover:bg-slate-800/40 transition-colors ${isAlreadyFav ? 'opacity-60' : ''}`}
                       >
-                        {/* Checkbox */}
                         <td className="py-3 px-3">
                           <button
                             onClick={() => !isAlreadyFav && toggleCheck(scpi.id)}
@@ -815,7 +882,6 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                             )}
                           </button>
                         </td>
-                        {/* Étoile */}
                         <td className="py-3 px-1">
                           <Star
                             className={`w-3.5 h-3.5 ${
@@ -825,35 +891,27 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                             }`}
                           />
                         </td>
-                        {/* Nom */}
                         <td className="py-3 px-3">
                           <span className="text-white font-medium truncate block max-w-[140px]">{scpi.name}</span>
                         </td>
-                        {/* Société de gestion */}
                         <td className="py-3 px-3 text-slate-400 truncate max-w-[120px]">{scpi.managementCompany}</td>
-                        {/* Rendement */}
                         <td className="py-3 px-3 text-right">
                           <span className="text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
                         </td>
-                        {/* TOF */}
                         <td className="py-3 px-3 text-right">
                           <span className={`font-semibold ${(scpi.tof ?? 0) >= 95 ? 'text-emerald-400' : (scpi.tof ?? 0) >= 90 ? 'text-amber-400' : (scpi.tof ?? 0) > 0 ? 'text-red-400' : 'text-slate-500'}`}>
                             {typeof scpi.tof === 'number' ? `${scpi.tof.toFixed(1)}%` : '—'}
                           </span>
                         </td>
-                        {/* Prix part */}
                         <td className="py-3 px-3 text-right text-white font-semibold tabular-nums">
                           {scpi.price != null ? `${scpi.price}€` : '—'}
                         </td>
-                        {/* Invest. min. */}
                         <td className="py-3 px-3 text-right text-slate-300 tabular-nums">
                           {scpi.minInvestment.toLocaleString('fr-FR')}€
                         </td>
-                        {/* Capitalisation */}
                         <td className="py-3 px-3 text-right text-slate-300 whitespace-nowrap">
                           {scpi.capitalization}
                         </td>
-                        {/* Décote / Surcote */}
                         <td className="py-3 px-3 text-right">
                           {discountInfo.displayValue != null && discountInfo.displayValue !== 0 ? (
                             <span className={`font-semibold tabular-nums ${discountInfo.displayValue > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
