@@ -257,7 +257,11 @@ export default function ProSimulator() {
   };
   const removeSelection = (index: number) => {
     if (selections.length <= 1) return;
-    setSelections((prev) => prev.filter((_, i) => i !== index));
+    setSelections((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      persistScpis(updated);
+      return updated;
+    });
     setPartsOverrides((prev) => {
       const n: Record<number, number> = {};
       for (const [k, v] of Object.entries(prev)) {
@@ -1051,7 +1055,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   <td className="py-2.5 px-3 text-center">
                     {allocations.length > 1 && (
                       <button
-                        onClick={() => { onRemove(i); persistScpis(selections); }}
+                        onClick={() => onRemove(i)}
                         className="inline-flex items-center gap-1 px-2 py-1 text-[10px] text-slate-500 hover:text-red-400 bg-slate-800/60 hover:bg-red-950/30 border border-slate-700/50 hover:border-red-800/30 rounded transition"
                       >
                         <X size={12} /> Retirer
