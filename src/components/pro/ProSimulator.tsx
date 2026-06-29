@@ -690,6 +690,7 @@ export default function ProSimulator() {
         totalMontantReel={totalMontantReel}
         cashRestant={cashRestant}
         onPartsChange={updateParts}
+        onRemove={removeSelection}
       />
 
       {/* ═══════════════════════════════════════
@@ -970,7 +971,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
               <th className="py-2.5 px-3 text-right">Parts</th>
               <th className="py-2.5 px-3 text-right">Montant réel</th>
               <th className="py-2.5 px-3 text-right">Écart</th>
-              <th className="py-2.5 px-1"></th>
+              <th className="py-2.5 px-3 text-center">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60">
@@ -1047,10 +1048,13 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   </td>
                   <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
-                  <td className="py-2.5 px-1">
+                  <td className="py-2.5 px-3 text-center">
                     {allocations.length > 1 && (
-                      <button onClick={() => { onRemove(i); persistScpis(selections); }} className="p-1 text-slate-600 hover:text-red-400 rounded transition opacity-0 group-hover:opacity-100">
-                        <X size={14} />
+                      <button
+                        onClick={() => { onRemove(i); persistScpis(selections); }}
+                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] text-slate-500 hover:text-red-400 bg-slate-800/60 hover:bg-red-950/30 border border-slate-700/50 hover:border-red-800/30 rounded transition"
+                      >
+                        <X size={12} /> Retirer
                       </button>
                     )}
                   </td>
@@ -1265,11 +1269,12 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   );
 }
 
-function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange }: {
+function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange, onRemove }: {
   rows: ScpiAllocationRow[];
   totalMontantReel: number;
   cashRestant: number;
   onPartsChange: (index: number, parts: number) => void;
+  onRemove: (index: number) => void;
 }) {
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
@@ -1289,6 +1294,7 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange }
               <th className="py-2.5 px-4 text-right">Parts</th>
               <th className="py-2.5 px-4 text-right">Montant réel</th>
               <th className="py-2.5 px-4 text-right">Écart</th>
+              <th className="py-2.5 px-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60">
@@ -1311,6 +1317,16 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange }
                   </td>
                   <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
                   <td className={`py-2.5 px-4 text-right ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                  <td className="py-2.5 px-4 text-center">
+                    {rows.length > 1 && (
+                      <button
+                        onClick={() => onRemove(i)}
+                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] text-slate-500 hover:text-red-400 bg-slate-800/60 hover:bg-red-950/30 border border-slate-700/50 hover:border-red-800/30 rounded transition"
+                      >
+                        <X size={12} /> Retirer
+                      </button>
+                    )}
+                  </td>
                 </tr>
               );
             })}
@@ -1323,6 +1339,7 @@ function AllocationReelle({ rows, totalMontantReel, cashRestant, onPartsChange }
               <td className="py-2.5 px-4 text-right font-bold text-white">{rows.reduce((s, r) => s + r.parts, 0)}</td>
               <td className="py-2.5 px-4 text-right font-bold text-emerald-400">{totalMontantReel.toLocaleString('fr-FR')} €</td>
               <td className="py-2.5 px-4 text-right font-bold text-amber-400">{cashRestant > 0 ? `+${cashRestant.toLocaleString('fr-FR')} €` : `${cashRestant.toLocaleString('fr-FR')} €`}</td>
+              <td></td>
             </tr>
           </tfoot>
         </table>
