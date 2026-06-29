@@ -24,7 +24,7 @@ import {
 import KpiCard from './KpiCard';
 import ScpiFavorites from './ScpiFavorites';
 import ScpiSignals from './ScpiSignals';
-import ProComparator from './ProComparator';
+import ProFintechComparator from '../fintech/ProFintechComparator';
 
 /* ──────────────────────────────────────────
    Types
@@ -328,7 +328,7 @@ export default function ProDashboard() {
       case 'livrables':
         return <LivrablesContent />;
       case 'comparateur':
-        return <ProComparator />;
+        return <ProFintechComparator />;
       case 'scpi-suivies':
         return <ScpiSuiviesContent />;
       case 'scpi-preferees':
