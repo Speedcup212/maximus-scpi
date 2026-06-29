@@ -343,7 +343,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
                           <th className="text-left py-2.5 px-3 font-medium">Secteur dominant</th>
-                          <th className="py-2.5 px-3 w-10"></th>
+                          <th className="text-left py-2.5 px-3 font-medium w-[180px]">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-800/50">
@@ -386,21 +386,30 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                               </span>
                             </td>
                             {/* Actions */}
-                            <td className="py-3 px-2">
+                            <td className="py-2 px-2">
                               <div className="flex items-center gap-1">
                                 <button
                                   onClick={() => onAnalyzeScpi?.(scpi)}
-                                  className="p-1.5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded transition-colors"
+                                  className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-emerald-500/40 hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 text-[9px] rounded transition-colors whitespace-nowrap"
                                   title="Analyser cette SCPI"
                                 >
-                                  <BarChart3 className="w-3.5 h-3.5" />
+                                  <BarChart3 className="w-3 h-3" />
+                                  Analyser
+                                </button>
+                                <button
+                                  onClick={onNavigateToComparator}
+                                  className="flex items-center gap-1 py-1 px-2 bg-emerald-600 hover:bg-emerald-500 text-white text-[9px] rounded transition-colors whitespace-nowrap"
+                                >
+                                  <BarChart3 className="w-3 h-3" />
+                                  Comparer
                                 </button>
                                 <button
                                   onClick={() => handleRemove(scpi.id)}
-                                  className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                                  className="flex items-center gap-1 py-1 px-2 bg-slate-800 border border-slate-700 hover:border-red-500/50 hover:bg-red-500/10 text-slate-400 hover:text-red-400 text-[9px] rounded transition-colors whitespace-nowrap"
                                   title="Retirer des préférées"
                                 >
-                                  <X className="w-3.5 h-3.5" />
+                                  <X className="w-3 h-3" />
+                                  Retirer
                                 </button>
                               </div>
                             </td>
