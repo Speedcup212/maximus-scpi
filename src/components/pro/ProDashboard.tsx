@@ -92,7 +92,7 @@ const sectionLabel: Record<ProSection, string> = {
    Sections de contenu
    ────────────────────────────────────────── */
 
-function DashboardHome() {
+function DashboardHome({ onNavigateToComparator }: { onNavigateToComparator: () => void }) {
   return (
     <>
       {/* ─── HEADER ─── */}
@@ -141,7 +141,7 @@ function DashboardHome() {
       <DossiersTable />
 
       {/* ─── SCPI PRÉFÉRÉES (aperçu) ─── */}
-      <ScpiFavorites />
+      <ScpiFavorites onNavigateToComparator={onNavigateToComparator} />
 
       {/* ─── SIGNAUX SCPI ─── */}
       <ScpiSignals />
@@ -322,7 +322,7 @@ export default function ProDashboard() {
   const renderContent = (): ReactNode => {
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardHome />;
+        return <DashboardHome onNavigateToComparator={() => handleSectionClick('comparateur')} />;
       case 'dossiers':
         return <DossiersFull />;
       case 'livrables':
@@ -332,13 +332,7 @@ export default function ProDashboard() {
       case 'scpi-suivies':
         return <ScpiSuiviesContent />;
       case 'scpi-preferees':
-        return (
-          <>
-            <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">SCPI préférées</h1>
-            <p className="text-xs text-slate-400 mb-4 sm:mb-6">Vos SCPI favorites et votre watchlist.</p>
-            <ScpiFavorites />
-          </>
-        );
+        return <ScpiFavorites onNavigateToComparator={() => handleSectionClick('comparateur')} />;
       case 'videos':
         return <VideosContent />;
       default:

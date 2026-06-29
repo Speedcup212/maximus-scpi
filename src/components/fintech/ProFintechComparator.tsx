@@ -14,6 +14,7 @@ import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
 import { getLatestScoresBatch } from '../../utils/scpiScoreService';
+import { getFavoriteScpiIds, toggleFavoriteScpi } from '../../utils/proFavorites';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
@@ -70,6 +71,14 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
   const [hoveredSlice, setHoveredSlice] = useState<any>(null);
+  const [favoriteScpiIds, setFavoriteScpiIds] = useState<Set<number>>(() => getFavoriteScpiIds());
+
+  // Écouter les changements de favoris depuis d'autres composants (ex: ScpiFavorites)
+  useEffect(() => {
+    const handler = () => setFavoriteScpiIds(getFavoriteScpiIds());
+    window.addEventListener('maximus-pro-favorites-updated', handler);
+    return () => window.removeEventListener('maximus-pro-favorites-updated', handler);
+  }, []);
 
   const toggleExpandScpi = (id: number) => {
     setExpandedScpiIds(prev => {
@@ -166,6 +175,11 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       }
       return [...prev, scpi];
     });
+  };
+
+  const handleToggleFavorite = (id: number) => {
+    toggleFavoriteScpi(id);
+    setFavoriteScpiIds(getFavoriteScpiIds());
   };
 
   // Initialiser les allocations à répartition égale quand les SCPI sélectionnées changent
@@ -999,6 +1013,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}
                         userTmi={filters.tmi}
+                        isFavorite={favoriteScpiIds.has(scpi.id)}
+                        onToggleFavorite={() => handleToggleFavorite(scpi.id)}
                       />
                     ))}
                   </div>
