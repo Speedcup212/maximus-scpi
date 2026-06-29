@@ -180,8 +180,12 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
 
   const handleRemove = (id: number) => {
     removeFavoriteScpi(id);
-    setFavorites(getFavoriteScpis());
-    setFavoriteIds(getFavoriteScpiIds());
+    setFavorites(prev => prev.filter(favorite => favorite.id !== id));
+    setFavoriteIds(prev => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
   };
 
   /* ---------- Ajout multiple ---------- */
