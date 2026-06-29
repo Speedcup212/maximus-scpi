@@ -845,19 +845,6 @@ export default function ProSimulator() {
       )}
 
       {/* ═══════════════════════════════════════
-          ALLOCATION RÉELLE
-          ═══════════════════════════════════════ */}
-      <AllocationReelle
-        rows={allocationRows}
-        totalMontantReel={totalMontantReel}
-        cashRestant={cashRestant}
-        rawParts={rawParts}
-        onPartsRawChange={handlePartsChange}
-        onPartsBlur={handlePartsBlur}
-        onRemove={removeSelection}
-      />
-
-      {/* ═══════════════════════════════════════
           RÉSULTATS DE SIMULATION
           ═══════════════════════════════════════ */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
@@ -1453,97 +1440,6 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
         icon={<TrendingUp size={20} className="text-emerald-400" />}
       />
     </>
-  );
-}
-
-function AllocationReelle({ rows, totalMontantReel, cashRestant, rawParts, onPartsRawChange, onPartsBlur, onRemove }: {
-  rows: ScpiAllocationRow[];
-  totalMontantReel: number;
-  cashRestant: number;
-  rawParts: Record<number, string>;
-  onPartsRawChange: (i: number, raw: string) => void;
-  onPartsBlur: (i: number, raw: string | undefined) => void;
-  onRemove: (index: number) => void;
-}) {
-  return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-      <div className="p-6 border-b border-slate-800">
-        <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-          <Euro size={20} className="text-emerald-400" />
-          Allocation réelle
-        </h2>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs text-slate-300">
-          <thead className="text-[10px] uppercase tracking-wider text-slate-500 bg-slate-950/60">
-            <tr>
-              <th className="py-2.5 px-4">SCPI</th>
-              <th className="py-2.5 px-4 text-right">Alloc. cible</th>
-              <th className="py-2.5 px-4 text-right">Prix part</th>
-              <th className="py-2.5 px-4 text-right">Parts</th>
-              <th className="py-2.5 px-4 text-right">Montant réel</th>
-              <th className="py-2.5 px-4 text-right">Écart</th>
-              <th className="py-2.5 px-4 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60">
-            {rows.map((row, i) => {
-              const ecart = row.allocation - row.montantReel;
-              const isInvalid = !row.isValid;
-              return (
-                <tr key={i} className={isInvalid ? 'bg-red-950/20 hover:bg-red-950/30' : 'hover:bg-slate-800/30 transition'}>
-                  <td className="py-2.5 px-4 font-semibold text-slate-200">{row.scpiName}</td>
-                  <td className="py-2.5 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right text-slate-400">{row.price.toLocaleString('fr-FR')} €</td>
-                  {isInvalid ? (
-                    <td colSpan={2} className="py-2.5 px-4 text-red-400 text-[10px]">
-                      {row.invalidReason}
-                    </td>
-                  ) : (
-                    <>
-                      <td className="py-2.5 px-4 text-right">
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          value={rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : ''}
-                          onChange={(e) => onPartsRawChange(i, e.target.value)}
-                          onBlur={() => onPartsBlur(i, rawParts[i])}
-                          onFocus={() => onPartsRawChange(i, rawParts[i] !== undefined ? rawParts[i] : row.parts > 0 ? String(row.parts) : '')}
-                          className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
-                        />
-                      </td>
-                      <td className="py-2.5 px-4 text-right text-white">{row.montantReel.toLocaleString('fr-FR')} €</td>
-                    </>
-                  )}
-                  <td className={`py-2.5 px-4 text-right ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
-                  <td className="py-2.5 px-4 text-center">
-                    {rows.length > 1 && (
-                      <button
-                        onClick={() => onRemove(i)}
-                        className="inline-flex items-center gap-1 px-2 py-1 text-[10px] text-slate-500 hover:text-red-400 bg-slate-800/60 hover:bg-red-950/30 border border-slate-700/50 hover:border-red-800/30 rounded transition"
-                      >
-                        <X size={12} /> Retirer
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-          <tfoot>
-            <tr className="bg-slate-950/80 border-t-2 border-slate-700">
-              <td className="py-2.5 px-4 font-bold text-slate-100">TOTAL</td>
-              <td className="py-2.5 px-4 text-right font-bold text-slate-100">{rows.reduce((s, r) => s + r.allocation, 0).toLocaleString('fr-FR')} €</td>
-              <td></td>
-              <td className="py-2.5 px-4 text-right font-bold text-white">{rows.reduce((s, r) => s + r.parts, 0)}</td>
-              <td className="py-2.5 px-4 text-right font-bold text-emerald-400">{totalMontantReel.toLocaleString('fr-FR')} €</td>
-              <td className="py-2.5 px-4 text-right font-bold text-amber-400">{cashRestant > 0 ? `+${cashRestant.toLocaleString('fr-FR')} €` : `${cashRestant.toLocaleString('fr-FR')} €`}</td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
   );
 }
 
