@@ -173,6 +173,13 @@ export default function ProSimulator() {
     const stored = localStorage.getItem('pro_sim_dureeDem');
     return stored ? Number(stored) : 10;
   });
+  const [clePersonnalisee, setClePersonnalisee] = useState<number | null>(() => {
+    const stored = localStorage.getItem('pro_sim_clePerso');
+    return stored ? Number(stored) : null;
+  });
+  const [cleTouched, setCleTouched] = useState<boolean>(() => {
+    return localStorage.getItem('pro_sim_cleTouched') === '1';
+  });
 
   /* ─── Sélection SCPI ─── */
   const [selections, setSelections] = useState<ScpiSelection[]>(() => {
@@ -205,6 +212,13 @@ export default function ProSimulator() {
 
   const updateAllocation = (index: number, val: number) => {
     setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, allocation: Math.max(1000, val) } : s)));
+  };
+  const updateCleDemembrement = (v: number) => {
+    const clamped = Math.min(99, Math.max(1, Math.round(v)));
+    setClePersonnalisee(clamped / 100);
+    setCleTouched(true);
+    localStorage.setItem('pro_sim_clePerso', String(clamped / 100));
+    localStorage.setItem('pro_sim_cleTouched', '1');
   };
   const replaceScpi = (index: number, scpi: SCPIExtended) => {
     setSelections((prev) => prev.map((s, i) => (i === index ? { ...s, scpi } : s)));
@@ -322,7 +336,8 @@ export default function ProSimulator() {
   /* ─── Calculs démembrement ─── */
   const demembrementResult: DemembrementResult | null = useMemo(() => {
     if (mode !== 'demembrement') return null;
-    const cle = getCleDemembrement(dureeDemembrement, typeDemembrement);
+    const cleBrute = clePersonnalisee ?? getCleDemembrement(dureeDemembrement, typeDemembrement);
+    const cle = Math.min(0.99, Math.max(0.01, cleBrute)); // clamp 1-99%
     const montantInvesti = totalMontantReel > 0 ? totalMontantReel : montantTotal;
     const prixSouscription = Math.round(montantInvesti * cle);
     const decote = Math.round((1 - cle) * 100);
@@ -342,7 +357,7 @@ export default function ProSimulator() {
       revenusCumules,
       rendementEconomique: rendementEco,
     };
-  }, [mode, dureeDemembrement, typeDemembrement, totalMontantReel, montantTotal, totalGross, totalNet]);
+  }, [mode, dureeDemembrement, typeDemembrement, clePersonnalisee, totalMontantReel, montantTotal, totalGross, totalNet]);
 
   /* ─── Graphique ─── */
   const chartData = useMemo(() => {
@@ -553,7 +568,17 @@ export default function ProSimulator() {
           typeDemembrement={typeDemembrement}
           setTypeDemembrement={(v) => { setTypeDemembrement(v); localStorage.setItem('pro_sim_typeDem', v); }}
           dureeDemembrement={dureeDemembrement}
-          setDureeDemembrement={(v) => { setDureeDemembrement(v); localStorage.setItem('pro_sim_dureeDem', String(v)); }}
+          setDureeDemembrement={(v) => {
+            setDureeDemembrement(v);
+            localStorage.setItem('pro_sim_dureeDem', String(v));
+            if (!cleTouched) {
+              setClePersonnalisee(null);
+              localStorage.removeItem('pro_sim_clePerso');
+              localStorage.removeItem('pro_sim_cleTouched');
+            }
+          }}
+          clePersonnalisee={clePersonnalisee}
+          onCleChange={updateCleDemembrement}
           montantTotal={montantTotal}
           allocations={allocationRows}
           cashRestant={cashRestant}
@@ -1017,11 +1042,18 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   setTypeDemembrement: (v: 'nue-propriete' | 'usufruit') => void;
   dureeDemembrement: number;
   setDureeDemembrement: (v: number) => void;
+  clePersonnalisee: number | null;
+  onCleChange: (v: number) => void;
   montantTotal: number;
 }) {
-  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, montantTotal } = props;
-  const cle = getCleDemembrement(dureeDemembrement, typeDemembrement);
-  const prixDemembre = Math.round(montantTotal * cle);
+  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, clePersonnalisee, onCleChange, montantTotal } = props;
+  const cleDefaut = getCleDemembrement(dureeDemembrement, typeDemembrement);
+  const cleEffective = clePersonnalisee ?? cleDefaut;
+  const clePct = Math.round(cleEffective * 100);
+  const prixDemembre = Math.round(montantTotal * cleEffective);
+
+  const labelCle = typeDemembrement === 'nue-propriete' ? 'Clé nue-propriété (%)' : 'Clé usufruit (%)';
+  const CLE_RAPIDE = [40, 50, 60, 65, 70, 75, 80];
 
   return (
     <>
@@ -1054,8 +1086,28 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Clé de démembrement</label>
-            <p className="px-3 py-2.5 text-sm text-emerald-400 font-bold">{Math.round(cle * 100)} %</p>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{labelCle}</label>
+            <input
+              type="number"
+              value={clePct}
+              onChange={(e) => onCleChange(Number(e.target.value))}
+              min={1}
+              max={99}
+              step={1}
+              className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-emerald-400 font-bold text-center focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+            />
+            <div className="flex gap-1 mt-1.5 flex-wrap">
+              {CLE_RAPIDE.map((pct) => (
+                <button
+                  key={pct}
+                  onClick={() => onCleChange(pct)}
+                  className={`text-[10px] px-1.5 py-0.5 rounded transition ${clePct === pct ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+                >{pct}%</button>
+              ))}
+            </div>
+            <p className="text-[9px] text-slate-600 mt-1 leading-tight">
+              Clé modifiable selon les conditions de démembrement propres à chaque SCPI.
+            </p>
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Prix {typeDemembrement === 'nue-propriete' ? 'NP' : 'usufruit'} estimé</label>
