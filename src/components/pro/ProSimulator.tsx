@@ -46,6 +46,10 @@ interface ScpiAllocationRow {
   montantReel: number;
   isValid: boolean;
   invalidReason: string;
+  // Démembrement
+  prixPartDemembree?: number;
+  minCashEstime?: number;
+  valeurPPEquiv?: number;
 }
 
 interface ResultRow {
@@ -69,13 +73,15 @@ interface CreditResult {
 }
 
 interface DemembrementResult {
-  prixSouscription: number;
-  decotePourcent: number;
-  valeurPPTerme: number;
-  gainLatent: number;
+  budgetCashInvesti: number;
+  valeurPPEquivalente: number;
   revenusAnnuelsBruts: number;
-  revenusCumules: number;
-  rendementEconomique: number;
+  revenusNetsAnnuels: number;
+  revenusNetsCumules: number;
+  gainPerteNet: number;
+  // NP
+  gainPotentielBrut: number;
+  rendementPotentielBrut: number;
 }
 
 /* ── Clé de démembrement (articles 669 / 762 CGI simplifiés) ── */
@@ -433,7 +439,15 @@ export default function ProSimulator() {
   }, [selections, dropdownSearch]);
 
   /* ─── Calculs allocation / parts ─── */
+  const cleDemembree = useMemo(() => {
+    if (mode !== 'demembrement') return 1;
+    const cleBrute = clePersonnalisee ?? getCleDemembrement(dureeDemembrement, typeDemembrement);
+    return Math.min(0.99, Math.max(0.01, cleBrute));
+  }, [mode, clePersonnalisee, dureeDemembrement, typeDemembrement]);
+
   const allocationRows: ScpiAllocationRow[] = useMemo(() => {
+    const isDem = mode === 'demembrement';
+    const cle = cleDemembree;
     return selections.map((sel, i) => {
       const hasOverride = partsOverrides[i] !== undefined;
       const alloc = sel.allocation;
@@ -442,26 +456,53 @@ export default function ProSimulator() {
       const minParts = price > 0 ? Math.ceil(minInv / price) : 0;
       const minRealAmount = minParts * price;
 
+      // Démembrement : prix / minimum ajustés
+      const prixPartDemembree = isDem ? price * cle : price;
+      const minCashEstime = isDem ? Math.round(minInv * cle) : minInv;
+
       // Cas 1 : allocation cible < minimum (pas d'override parts)
-      const casAllocInvalide = !hasOverride && alloc > 0 && alloc < minInv;
+      const seuilMin = isDem ? minCashEstime : minInv;
+      const casAllocInvalide = !hasOverride && alloc > 0 && alloc < seuilMin;
       // Cas 2 : parts saisies > 0 mais < minimum
       const partsOverride = hasOverride ? (partsOverrides[i] ?? 0) : 0;
-      const casPartsInvalide = hasOverride && partsOverride > 0 && partsOverride * price < minInv;
+      const casPartsInvalide = isDem
+        ? (hasOverride && partsOverride > 0 && partsOverride * prixPartDemembree < minCashEstime)
+        : (hasOverride && partsOverride > 0 && partsOverride * price < minInv);
 
       const invalid: boolean = casAllocInvalide || casPartsInvalide;
       let invalidReason = '';
       if (casAllocInvalide) {
-        invalidReason = `Minimum non atteint : ${minInv.toLocaleString('fr-FR')} €`;
+        invalidReason = isDem
+          ? `Alloc. inférieure au min. cash estimé : ${minCashEstime.toLocaleString('fr-FR')} €`
+          : `Minimum non atteint : ${minInv.toLocaleString('fr-FR')} €`;
       } else if (casPartsInvalide) {
-        invalidReason = `Minimum : ${minParts} parts / ${minRealAmount.toLocaleString('fr-FR')} €`;
+        invalidReason = isDem
+          ? `Minimum : ${minParts} parts / ${minCashEstime.toLocaleString('fr-FR')} €`
+          : `Minimum : ${minParts} parts / ${minRealAmount.toLocaleString('fr-FR')} €`;
       }
 
-      const parts = invalid
-        ? 0
-        : hasOverride
-          ? partsOverride
-          : computeAllocation(alloc, price, minInv).parts;
-      const montantReel = parts * price;
+      let parts: number;
+      let montantReel: number;
+      let valeurPPEquiv: number | undefined;
+
+      if (invalid) {
+        parts = 0;
+        montantReel = 0;
+        valeurPPEquiv = isDem ? 0 : undefined;
+      } else if (hasOverride) {
+        parts = partsOverride;
+        montantReel = Math.round(parts * prixPartDemembree);
+        valeurPPEquiv = isDem ? Math.round(parts * price) : undefined;
+      } else {
+        if (isDem && prixPartDemembree > 0) {
+          const pp = Math.floor(alloc / prixPartDemembree);
+          parts = pp < minParts ? 0 : pp;
+        } else {
+          parts = computeAllocation(alloc, price, minInv).parts;
+        }
+        montantReel = Math.round(parts * prixPartDemembree);
+        valeurPPEquiv = isDem ? Math.round(parts * price) : undefined;
+      }
 
       return {
         scpiName: sel.scpi.name,
@@ -473,13 +514,19 @@ export default function ProSimulator() {
         montantReel,
         isValid: !invalid,
         invalidReason,
+        prixPartDemembree: isDem ? prixPartDemembree : undefined,
+        minCashEstime: isDem ? minCashEstime : undefined,
+        valeurPPEquiv,
       };
     });
-  }, [selections, partsOverrides]);
+  }, [selections, partsOverrides, mode, cleDemembree]);
 
   const validRows = allocationRows.filter((r) => r.isValid);
   const totalMontantReel = validRows.reduce((s, r) => s + r.montantReel, 0);
   const totalAllocation = validRows.reduce((s, r) => s + r.allocation, 0);
+  const totalValeurPPEquiv = mode === 'demembrement'
+    ? validRows.reduce((s, r) => s + (r.valeurPPEquiv ?? 0), 0)
+    : 0;
   const montantTotal = parseLiveDecimal(rawMontantTotal);
   const tauxNominal = parseLiveDecimal(rawTauxNominal);
   const apport = parseLiveDecimal(rawApport);
@@ -502,7 +549,8 @@ export default function ProSimulator() {
     return allocationRows
       .filter((r) => r.isValid)
       .map((r) => {
-      const gross = (r.yield / 100) * r.montantReel;
+      const base = mode === 'demembrement' ? (r.valeurPPEquiv ?? 0) : r.montantReel;
+      const gross = (r.yield / 100) * base;
       const tax = mode === 'demembrement' && typeDemembrement === 'nue-propriete' ? 0 : gross * taxRate;
       return {
         scpiName: r.scpiName,
@@ -557,28 +605,29 @@ export default function ProSimulator() {
   /* ─── Calculs démembrement ─── */
   const demembrementResult: DemembrementResult | null = useMemo(() => {
     if (mode !== 'demembrement') return null;
-    const cleBrute = clePersonnalisee ?? getCleDemembrement(dureeDemembrement, typeDemembrement);
-    const cle = Math.min(0.99, Math.max(0.01, cleBrute)); // clamp 1-99%
-    const montantInvesti = totalMontantReel > 0 ? totalMontantReel : montantTotal;
-    const prixSouscription = Math.round(montantInvesti * cle);
-    const decote = Math.round((1 - cle) * 100);
-    const valeurPPTerme = montantInvesti;
-    const gainLatent = Math.round(valeurPPTerme - prixSouscription);
+    const cle = cleDemembree;
+    const budgetCash = totalMontantReel > 0 ? totalMontantReel : montantTotal;
+    const valeurPP = totalValeurPPEquiv > 0 ? totalValeurPPEquiv : Math.round(montantTotal / cle);
     const revenusAnnuelsBruts = typeDemembrement === 'usufruit' ? totalGross : 0;
-    const revenusCumules = Math.round(revenusAnnuelsBruts * dureeDemembrement);
-    const rendementEco = prixSouscription > 0
-      ? Math.round(((typeDemembrement === 'nue-propriete' ? gainLatent : revenusCumules) / prixSouscription) * 10000) / 100
+    // Pour NP : taxRate=0 donc totalNet=0 ; pour usufruit : normal
+    const revenusNetsAnnuels = typeDemembrement === 'usufruit' ? totalNet : 0;
+    const revenusNetsCumules = Math.round(revenusNetsAnnuels * dureeDemembrement);
+    const gainPerteNet = Math.round(revenusNetsCumules - budgetCash);
+    const gainPotentielBrut = typeDemembrement === 'nue-propriete' ? Math.round(valeurPP - budgetCash) : 0;
+    const rendementPotentielBrut = typeDemembrement === 'nue-propriete' && budgetCash > 0
+      ? Math.round((gainPotentielBrut / budgetCash) * 10000) / 100
       : 0;
     return {
-      prixSouscription,
-      decotePourcent: decote,
-      valeurPPTerme,
-      gainLatent,
+      budgetCashInvesti: budgetCash,
+      valeurPPEquivalente: valeurPP,
       revenusAnnuelsBruts,
-      revenusCumules,
-      rendementEconomique: rendementEco,
+      revenusNetsAnnuels,
+      revenusNetsCumules,
+      gainPerteNet,
+      gainPotentielBrut,
+      rendementPotentielBrut,
     };
-  }, [mode, dureeDemembrement, typeDemembrement, clePersonnalisee, totalMontantReel, rawMontantTotal, totalGross, totalNet]);
+  }, [mode, dureeDemembrement, typeDemembrement, cleDemembree, totalMontantReel, totalValeurPPEquiv, montantTotal, totalGross, totalNet]);
 
   /* ─── Graphique ─── */
   const chartData = useMemo(() => {
@@ -968,22 +1017,23 @@ export default function ProSimulator() {
             </h2>
           </div>
           <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
-            <div><span className="text-xs text-slate-500">Type</span><p className="text-base font-bold text-slate-100">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit temporaire'}</p></div>
+            <div><span className="text-xs text-slate-500">Type</span><p className="text-base font-bold text-slate-100">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété temporaire' : 'Usufruit temporaire'}</p></div>
             <div><span className="text-xs text-slate-500">Durée</span><p className="text-base font-bold text-slate-100">{dureeDemembrement} ans</p></div>
-            <div><span className="text-xs text-slate-500">Clé appliquée</span><p className="text-base font-bold text-emerald-400">{Math.round(getCleDemembrement(dureeDemembrement, typeDemembrement) * 100)} %</p></div>
-            <div><span className="text-xs text-slate-500">Montant réel souscrit</span><p className="text-base font-bold text-slate-100">{demembrementResult.prixSouscription.toLocaleString('fr-FR')} €</p></div>
-            <div><span className="text-xs text-slate-500">Valeur PP théorique</span><p className="text-base font-bold text-slate-300">{demembrementResult.valeurPPTerme.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Clé {typeDemembrement === 'nue-propriete' ? 'NP' : 'usufruit'} appliquée</span><p className="text-base font-bold text-emerald-400">{Math.round(cleDemembree * 100)} %</p></div>
+            <div><span className="text-xs text-slate-500">Budget cash investi</span><p className="text-base font-bold text-slate-100">{demembrementResult.budgetCashInvesti.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Valeur PP équivalente</span><p className="text-base font-bold text-emerald-400">{demembrementResult.valeurPPEquivalente.toLocaleString('fr-FR')} €</p></div>
             {typeDemembrement === 'nue-propriete' ? (
               <>
-                <div><span className="text-xs text-slate-500">Décote économique</span><p className="text-base font-bold text-emerald-400">{demembrementResult.decotePourcent} %</p></div>
-                <div><span className="text-xs text-slate-500">Gain latent à terme</span><p className="text-base font-bold text-emerald-400">{demembrementResult.gainLatent.toLocaleString('fr-FR')} €</p></div>
                 <div><span className="text-xs text-slate-500">Revenus pendant la période</span><p className="text-base font-bold text-slate-500">0 €</p></div>
+                <div><span className="text-xs text-slate-500">Gain potentiel brut à terme</span><p className="text-base font-bold text-emerald-400">{demembrementResult.gainPotentielBrut.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Rendement potentiel brut</span><p className="text-base font-bold text-emerald-400">{demembrementResult.rendementPotentielBrut} %</p></div>
               </>
             ) : (
               <>
-                <div><span className="text-xs text-slate-500">Revenus annuels bruts</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
-                <div><span className="text-xs text-slate-500">Revenus cumulés estimés</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusCumules.toLocaleString('fr-FR')} €</p></div>
-                <div><span className="text-xs text-slate-500">Rendement économique</span><p className="text-base font-bold text-emerald-400">{demembrementResult.rendementEconomique} %</p></div>
+                <div><span className="text-xs text-slate-500">Revenus bruts annuels</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus nets annuels</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusNetsAnnuels.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus nets cumulés</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusNetsCumules.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Gain / perte net après fiscalité</span><p className={`text-base font-bold ${demembrementResult.gainPerteNet >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{demembrementResult.gainPerteNet.toLocaleString('fr-FR')} €</p></div>
               </>
             )}
           </div>
@@ -1058,6 +1108,21 @@ export default function ProSimulator() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* NP : pas de graphique de revenus */}
+      {mode === 'demembrement' && typeDemembrement === 'nue-propriete' && results.length > 0 && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+          <h3 className="text-lg font-bold text-slate-100 mb-1">
+            Projection des revenus nets cumulés du portefeuille
+          </h3>
+          <p className="text-xs text-slate-500 mb-4">
+            Estimation indicative basée sur l'allocation réelle et les rendements disponibles.
+          </p>
+          <p className="text-sm text-slate-400">
+            Aucune projection de revenus : la nue-propriété ne distribue pas de revenus pendant la période de démembrement.
+          </p>
         </div>
       )}
 
@@ -1194,16 +1259,17 @@ interface ScpiSelectProps {
   onPartsBlur: (i: number, raw: string | undefined) => void;
 }
 
-function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode }) {
+function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React.ReactNode; mode?: 'comptant' | 'credit' | 'demembrement' }) {
   const {
     allocations, cashRestant,
     selections,
     onOpenSelector, hasZeroAllocation, onRepartirCashRestant,
     checkedIndices, onToggleCheck, onRemoveChecked,
     rawAlloc, rawParts, onAllocChange, onAllocBlur, onPartsRawChange, onPartsBlur,
-    title, icon,
+    title, icon, mode,
   } = props;
 
+  const isDem = mode === 'demembrement';
   const hasChecked = (checkedIndices?.size ?? 0) > 0;
 
   return (
@@ -1271,11 +1337,23 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
               </th>
               <th className="py-2.5 px-3 text-left">SCPI</th>
               <th className="py-2.5 px-3 text-right">Rendt</th>
-              <th className="py-2.5 px-3 text-right">Prix part</th>
-              <th className="py-2.5 px-3 text-right">Min.</th>
-              <th className="py-2.5 px-3 text-right">Alloc. €</th>
+              {isDem ? (
+                <>
+                  <th className="py-2.5 px-3 text-right">Prix part PP</th>
+                  <th className="py-2.5 px-3 text-right">Clé</th>
+                  <th className="py-2.5 px-3 text-right">Prix part dém.</th>
+                  <th className="py-2.5 px-3 text-right">Min. cash estimé</th>
+                </>
+              ) : (
+                <>
+                  <th className="py-2.5 px-3 text-right">Prix part</th>
+                  <th className="py-2.5 px-3 text-right">Min.</th>
+                </>
+              )}
+              <th className="py-2.5 px-3 text-right">{isDem ? 'Alloc. cash' : 'Alloc. €'}</th>
               <th className="py-2.5 px-3 text-right">Parts</th>
-              <th className="py-2.5 px-3 text-right">Montant réel</th>
+              <th className="py-2.5 px-3 text-right">{isDem ? 'Montant réel payé' : 'Montant réel'}</th>
+              {isDem && <th className="py-2.5 px-3 text-right">Valeur PP équiv.</th>}
               <th className="py-2.5 px-3 text-right">Écart</th>
             </tr>
           </thead>
@@ -1298,8 +1376,19 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                     <span className="truncate max-w-[120px] block">{row.scpiName}</span>
                   </td>
                   <td className={tdPositiveClass}>{row.yield}%</td>
-                  <td className={tdMutedClass}>{row.price.toLocaleString('fr-FR')} €</td>
-                  <td className={tdMutedClass}>{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
+                  {isDem ? (
+                    <>
+                      <td className={tdMutedClass}>{row.price.toLocaleString('fr-FR')} €</td>
+                      <td className={tdMutedClass}>{row.prixPartDemembree != null ? `${Math.round((row.prixPartDemembree / row.price) * 100)} %` : '—'}</td>
+                      <td className={tdMutedClass}>{row.prixPartDemembree != null ? `${row.prixPartDemembree.toLocaleString('fr-FR')} €` : '—'}</td>
+                      <td className={tdMutedClass}>{row.minCashEstime != null ? `${row.minCashEstime.toLocaleString('fr-FR')} €` : '—'}</td>
+                    </>
+                  ) : (
+                    <>
+                      <td className={tdMutedClass}>{row.price.toLocaleString('fr-FR')} €</td>
+                      <td className={tdMutedClass}>{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
+                    </>
+                  )}
                   <td className="py-2.5 px-3 text-right">
                     <input
                       type="text"
@@ -1312,7 +1401,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                     />
                   </td>
                   {isInvalid ? (
-                    <td colSpan={3} className="py-2.5 px-3 text-red-400 text-[10px]">
+                    <td colSpan={isDem ? 6 : 3} className="py-2.5 px-3 text-red-400 text-[10px]">
                       {row.invalidReason}
                     </td>
                   ) : (
@@ -1329,6 +1418,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                         />
                       </td>
                       <td className={tdMoneyClass}>{row.montantReel.toLocaleString('fr-FR')} €</td>
+                      {isDem && <td className={tdMoneyClass}>{row.valeurPPEquiv != null ? `${row.valeurPPEquiv.toLocaleString('fr-FR')} €` : '—'}</td>}
                       <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-400' : 'text-red-400 font-semibold'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
                     </>
                   )}
@@ -1340,7 +1430,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
       </div>
       <div className="mt-4 flex justify-between text-xs text-slate-400">
         <span>Cash restant : <span className="text-amber-400 font-bold">{cashRestant.toLocaleString('fr-FR')} €</span></span>
-        <span>Total souscrit : <span className="text-emerald-400 font-bold">{allocations.reduce((s, r) => s + r.montantReel, 0).toLocaleString('fr-FR')} €</span></span>
+        <span>{isDem ? 'Total payé' : 'Total souscrit'} : <span className="text-emerald-400 font-bold">{allocations.reduce((s, r) => s + r.montantReel, 0).toLocaleString('fr-FR')} €</span></span>
       </div>
     </div>
   );
@@ -1467,7 +1557,7 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   const cleDefaut = getCleDemembrement(dureeDemembrement, typeDemembrement);
   const cleEffective = clePersonnalisee ?? cleDefaut;
   const clePct = Math.round(cleEffective * 100);
-  const prixDemembre = Math.round(montantTotal * cleEffective);
+  const valeurPPEquivalent = cleEffective > 0 ? Math.round(montantTotal / cleEffective) : 0;
 
   const labelCle = typeDemembrement === 'nue-propriete' ? 'Clé nue-propriété (%)' : 'Clé usufruit (%)';
   const CLE_RAPIDE = [40, 50, 60, 65, 70, 75, 80];
@@ -1529,24 +1619,28 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
             </p>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Prix {typeDemembrement === 'nue-propriete' ? 'NP' : 'usufruit'} estimé</label>
-            <p className="px-3 py-2.5 text-sm text-white font-bold">{prixDemembre.toLocaleString('fr-FR')} €</p>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Budget cash investi</label>
+            <p className="px-3 py-2.5 text-sm text-white font-bold">{montantTotal.toLocaleString('fr-FR')} €</p>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Prix pleine propriété</label>
-            <p className="px-3 py-2.5 text-sm text-slate-400">{montantTotal.toLocaleString('fr-FR')} €</p>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Valeur PP équivalente</label>
+            <p className="px-3 py-2.5 text-sm text-emerald-400 font-bold">{valeurPPEquivalent.toLocaleString('fr-FR')} €</p>
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Revenus pendant la période</label>
             <p className="px-3 py-2.5 text-sm text-slate-500">{typeDemembrement === 'nue-propriete' ? 'Aucun (0 €)' : 'Perçus (100 %)'}</p>
           </div>
         </div>
+        <p className="mt-4 text-[11px] text-slate-500 leading-relaxed border-t border-slate-800 pt-4">
+          En démembrement, le montant saisi correspond au budget cash investi. La valeur pleine propriété équivalente est recalculée selon la clé retenue.
+        </p>
       </div>
 
       <ScpiSelectorBlock
         {...props}
         title="Allocation SCPI — Démembrement"
         icon={<TrendingUp size={20} className="text-emerald-400" />}
+        mode="demembrement"
       />
     </>
   );
