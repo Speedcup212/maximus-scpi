@@ -10,7 +10,6 @@ import {
   ChevronDown,
   Plus,
   Shield,
-  MoreHorizontal,
   Building2,
   Users,
   TrendingUp,
@@ -149,10 +148,20 @@ const sectionLabel: Record<ProSection, string> = {
    Sections de contenu
    ────────────────────────────────────────── */
 
-function DashboardHome({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }: { onNavigateToComparator: () => void; onAnalyzeScpi?: (scpi: SCPIExtended) => void; onCompareScpi?: (scpi: SCPIExtended) => void }) {
+interface DashboardHomeProps {
+  onNavigate: (section: ProSection) => void;
+  onAnalyzeScpi?: (scpi: SCPIExtended) => void;
+  onCompareScpi?: (scpi: SCPIExtended) => void;
+}
+
+function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHomeProps) {
+  const [dossierModal, setDossierModal] = useState<DossierItem | null>(null);
+
   return (
     <>
-      {/* ─── HEADER ─── */}
+      {/* ═══════════════════════════════════════
+          HEADER
+          ═══════════════════════════════════════ */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
         <div>
           <p className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest mb-1">
@@ -161,7 +170,10 @@ function DashboardHome({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }:
           <h1 className="text-lg sm:text-2xl font-bold text-white">
             Bonjour, Eric.
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Votre poste de pilotage MaximusSCPI Pro.
+          </p>
+          <p className="text-[11px] sm:text-xs text-slate-500 mt-1.5">
             3 dossiers actifs{' '}
             <span className="text-slate-600">·</span>{' '}
             <span className="text-emerald-400 font-medium">1 livrable prêt à envoyer</span>{' '}
@@ -169,37 +181,152 @@ function DashboardHome({ onNavigateToComparator, onAnalyzeScpi, onCompareScpi }:
             données juin 2026
           </p>
           <p className="text-[9px] sm:text-[10px] text-slate-600 mt-1.5 italic">
-            Support d&rsquo;aide à la décision — le conseil reste sous votre responsabilité.
+            Outil d&rsquo;aide à la décision — le conseil final reste sous votre responsabilité professionnelle.
           </p>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <button className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors">
+          <button
+            onClick={() => onNavigate('dossiers')}
+            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
+          >
             <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Nouveau dossier
           </button>
         </div>
       </div>
 
-      {/* ─── KPI CARDS ─── */}
+      {/* ═══════════════════════════════════════
+          KPI CARDS
+          ═══════════════════════════════════════ */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <KpiCard icon={TrendingUp} badge="+3 ce mois" value={64} label="SCPI analysées" accent="emerald" />
         <KpiCard icon={FolderOpen} badge="1 livrable prêt" value={3} label="Dossiers actifs" accent="blue" />
         <KpiCard icon={FileText} badge="+4 vs T1" value={12} label="Supports générés · T2 2026" accent="amber" />
       </div>
 
-      {/* ─── DOSSIERS EN COURS (aperçu) ─── */}
-      <DossiersTable />
+      {/* ═══════════════════════════════════════
+          ACTIONS RAPIDES
+          ═══════════════════════════════════════ */}
+      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:p-5">
+        <h3 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-amber-400" />
+          Actions rapides
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          <button
+            onClick={() => onNavigate('dossiers')}
+            className="flex flex-col items-center gap-1.5 p-3 bg-slate-800/60 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors text-slate-300 hover:text-white group"
+          >
+            <FolderOpen className="w-5 h-5 text-blue-400 group-hover:text-blue-300" />
+            <span className="text-[10px] sm:text-xs font-medium">Créer un dossier client</span>
+          </button>
+          <button
+            onClick={() => onNavigate('comparateur')}
+            className="flex flex-col items-center gap-1.5 p-3 bg-slate-800/60 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors text-slate-300 hover:text-white group"
+          >
+            <BarChart3 className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300" />
+            <span className="text-[10px] sm:text-xs font-medium">Comparer des SCPI</span>
+          </button>
+          <button
+            onClick={() => onNavigate('simulateurs')}
+            className="flex flex-col items-center gap-1.5 p-3 bg-slate-800/60 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors text-slate-300 hover:text-white group"
+          >
+            <Calculator className="w-5 h-5 text-amber-400 group-hover:text-amber-300" />
+            <span className="text-[10px] sm:text-xs font-medium">Ouvrir les simulateurs</span>
+          </button>
+          <button
+            onClick={() => onNavigate('scpi-preferees')}
+            className="flex flex-col items-center gap-1.5 p-3 bg-slate-800/60 border border-slate-700 hover:border-slate-600 rounded-lg transition-colors text-slate-300 hover:text-white group"
+          >
+            <Star className="w-5 h-5 text-purple-400 group-hover:text-purple-300" />
+            <span className="text-[10px] sm:text-xs font-medium">Gérer mes SCPI préférées</span>
+          </button>
+        </div>
+      </div>
 
-      {/* ─── SCPI PRÉFÉRÉES (aperçu) ─── */}
-      <ScpiFavorites onNavigateToComparator={onNavigateToComparator} onAnalyzeScpi={onAnalyzeScpi} onCompareScpi={onCompareScpi} />
+      {/* ═══════════════════════════════════════
+          DOSSIERS EN COURS (aperçu)
+          ═══════════════════════════════════════ */}
+      <DossiersTable
+        onOpenDossier={(d) => setDossierModal(d)}
+        onViewAll={() => onNavigate('dossiers')}
+        onCreateDossier={() => onNavigate('dossiers')}
+      />
 
-      {/* ─── SIGNAUX SCPI ─── */}
-      <ScpiSignals />
+      {/* ═══════════════════════════════════════
+          COMPARAISON SCPI (aperçu dashboard)
+          ═══════════════════════════════════════ */}
+      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-white flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 text-slate-400" />
+            Comparaison SCPI
+          </h3>
+        </div>
+        <div className="text-center py-6 sm:py-8">
+          <BarChart3 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <h4 className="text-sm font-medium text-slate-300 mb-1">Aucune comparaison en cours</h4>
+          <p className="text-xs text-slate-500 max-w-md mx-auto mb-4">
+            Sélectionnez jusqu&rsquo;à 6 SCPI depuis le comparateur Pro pour préparer une analyse comparative.
+          </p>
+          <button
+            onClick={() => onNavigate('comparateur')}
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            <BarChart3 className="w-4 h-4" />
+            Comparer des SCPI
+          </button>
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════
+          SCPI PRÉFÉRÉES (aperçu dashboard)
+          ═══════════════════════════════════════ */}
+      <ScpiFavorites
+        onNavigateToComparator={() => onNavigate('comparateur')}
+        onAnalyzeScpi={onAnalyzeScpi}
+      />
+
+      {/* ═══════════════════════════════════════
+          SIGNAUX SCPI
+          ═══════════════════════════════════════ */}
+      <div>
+        <ScpiSignals />
+        <p className="text-[9px] text-slate-600 mt-1.5 leading-relaxed">
+          Données indicatives à vérifier avant usage client.
+        </p>
+      </div>
+
+      {/* ═══════════════════════════════════════
+          CADRE D'UTILISATION
+          ═══════════════════════════════════════ */}
+      <div className="bg-slate-900/40 border border-slate-800/60 rounded-xl p-3 sm:p-4">
+        <h4 className="text-[11px] font-semibold text-slate-400 mb-1.5">Cadre d&rsquo;utilisation</h4>
+        <p className="text-[10px] text-slate-500 leading-relaxed">
+          MaximusSCPI Pro centralise des indicateurs, comparaisons et supports pédagogiques.
+          L&rsquo;outil ne remplace pas l&rsquo;analyse réglementaire du conseiller et ne constitue pas une recommandation personnalisée.
+        </p>
+      </div>
+
+      {/* ═══════════════════════════════════════
+          MODALE DÉTAIL DOSSIER
+          ═══════════════════════════════════════ */}
+      {dossierModal && (
+        <DossierDetailModal
+          dossier={dossierModal}
+          onClose={() => setDossierModal(null)}
+          onOuvrirDossier={() => onNavigate('dossiers')}
+        />
+      )}
     </>
   );
 }
 
-function DossiersTable() {
+function DossiersTable({ onOpenDossier, onViewAll, onCreateDossier }: {
+  onOpenDossier: (dossier: DossierItem) => void;
+  onViewAll: () => void;
+  onCreateDossier: () => void;
+}) {
   return (
     <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -207,9 +334,21 @@ function DossiersTable() {
           <FolderOpen className="w-4 h-4 text-slate-400" />
           Dossiers en cours
         </h3>
-        <button className="text-[10px] sm:text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
-          Voir tout →
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onCreateDossier}
+            className="text-[10px] sm:text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors inline-flex items-center gap-1"
+          >
+            <Plus className="w-3 h-3" />
+            Nouveau
+          </button>
+          <button
+            onClick={onViewAll}
+            className="text-[10px] sm:text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            Voir tout →
+          </button>
+        </div>
       </div>
       <div className="overflow-x-auto -mx-4 sm:mx-0">
         <table className="min-w-[600px] w-full text-xs">
@@ -219,7 +358,6 @@ function DossiersTable() {
               <th className="text-right py-2.5 px-3 font-medium">Montant</th>
               <th className="text-center py-2.5 px-3 font-medium">Statut</th>
               <th className="text-right py-2.5 px-3 font-medium hidden sm:table-cell">Date</th>
-              <th className="py-2.5 px-3 w-10"></th>
               <th className="py-2.5 px-3 w-10"></th>
             </tr>
           </thead>
@@ -246,13 +384,11 @@ function DossiersTable() {
                   {dossier.date}
                 </td>
                 <td className="py-3 px-1">
-                  <button className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors whitespace-nowrap">
+                  <button
+                    onClick={() => onOpenDossier(dossier)}
+                    className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors whitespace-nowrap"
+                  >
                     Ouvrir
-                  </button>
-                </td>
-                <td className="py-3 px-2">
-                  <button className="text-slate-600 hover:text-slate-400 transition-colors">
-                    <MoreHorizontal className="w-4 h-4" />
                   </button>
                 </td>
               </tr>
@@ -265,11 +401,23 @@ function DossiersTable() {
 }
 
 function DossiersFull() {
+  const [dossierModal, setDossierModal] = useState<DossierItem | null>(null);
   return (
     <>
       <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">Dossiers en cours</h1>
       <p className="text-xs text-slate-400 mb-4 sm:mb-6">3 dossiers actifs — gérez vos analyses en cours.</p>
-      <DossiersTable />
+      <DossiersTable
+        onOpenDossier={(d) => setDossierModal(d)}
+        onViewAll={() => {}}
+        onCreateDossier={() => {}}
+      />
+      {dossierModal && (
+        <DossierDetailModal
+          dossier={dossierModal}
+          onClose={() => setDossierModal(null)}
+          onOuvrirDossier={() => {}}
+        />
+      )}
     </>
   );
 }
@@ -285,6 +433,70 @@ function LivrablesContent() {
         <p className="text-slate-600 text-xs">Les livrables apparaîtront ici après validation de vos analyses.</p>
       </div>
     </>
+  );
+}
+
+function DossierDetailModal({ dossier, onClose, onOuvrirDossier }: {
+  dossier: DossierItem;
+  onClose: () => void;
+  onOuvrirDossier: () => void;
+}) {
+  const nextAction = dossier.status === 'Livrable prêt'
+    ? 'Envoyer le livrable au client'
+    : dossier.status === 'Sélection terminée'
+      ? 'Finaliser le rapport de sélection'
+      : 'Poursuivre l\'analyse comparative';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      <div className="relative bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <span className="text-[10px] text-slate-500 uppercase tracking-widest">Détail dossier</span>
+            <h2 className="text-lg font-bold text-white mt-1">{dossier.client}</h2>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 text-slate-500 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Montant</p>
+              <p className="text-sm font-bold text-white">{dossier.montant}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Statut</p>
+              <span className={`inline-block text-[11px] px-2 py-0.5 rounded-full font-medium ${statusStyle(dossier.status)}`}>
+                {dossier.status}
+              </span>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Date</p>
+              <p className="text-sm font-bold text-white">{dossier.date}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Initiales</p>
+              <p className="text-sm font-bold text-white">{dossier.initials}</p>
+            </div>
+          </div>
+          <div className="bg-amber-500/5 border border-amber-500/15 rounded-lg p-3">
+            <p className="text-[10px] text-amber-400 uppercase tracking-wider mb-1">Prochaine action recommandée</p>
+            <p className="text-xs text-amber-300/80">{nextAction}</p>
+          </div>
+          <button
+            onClick={() => { onClose(); onOuvrirDossier(); }}
+            className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            Ouvrir le dossier complet
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -594,7 +806,7 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
     switch (activeSection) {
       case 'dashboard':
         return <DashboardHome
-          onNavigateToComparator={() => handleSectionClick('comparateur')}
+          onNavigate={handleSectionClick}
           onAnalyzeScpi={handleAnalyzeScpiFromFavorites}
           onCompareScpi={handleCompareScpiFromFavorites}
         />;
@@ -683,7 +895,7 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
       case 'settings':
         return <ProSettings />;
       default:
-        return <DashboardHome />;
+        return <DashboardHome onNavigate={handleSectionClick} />;
     }
   };
 
