@@ -123,6 +123,16 @@ function formatDisplayNumber(n: number, decimals?: number): string {
   return n % 1 === 0 ? String(n) : String(n);
 }
 
+/* ── Classes visuelles partagées (tableaux) ── */
+const thClass = "py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-400 font-semibold";
+const tdClass = "py-2.5 px-3 text-xs text-slate-200";
+const tdMutedClass = "py-2.5 px-3 text-xs text-slate-400";
+const tdMoneyClass = "py-2.5 px-3 text-xs text-slate-100 font-semibold";
+const tdPositiveClass = "py-2.5 px-3 text-xs text-emerald-400 font-semibold";
+const tdWarningClass = "py-2.5 px-3 text-xs text-amber-400 font-semibold";
+const tdNegativeClass = "py-2.5 px-3 text-xs text-red-400 font-semibold";
+const totalRowClass = "border-t-2 border-slate-700 bg-slate-950/80 font-semibold";
+
 /* ── Calcul des parts ── */
 function computeAllocation(allocation: number, price: number, minInvestment: number): { parts: number; montantReel: number } {
   if (price <= 0) return { parts: 0, montantReel: 0 };
@@ -583,7 +593,7 @@ export default function ProSimulator() {
         entry[r.scpiName] = cumulative;
         totalRev += cumulative;
       });
-      entry['Total'] = totalRev;
+      entry['Portefeuille total'] = totalRev;
       return entry;
     });
   }, [results, duration, mode, typeDemembrement]);
@@ -863,15 +873,15 @@ export default function ProSimulator() {
 
         {results.length === 0 ? (
           <div className="p-10 text-center">
-            <p className="text-slate-500 text-sm">Aucune allocation valide. Vérifiez les minimums de souscription.</p>
+            <p className="text-slate-500 text-sm">Aucune projection disponible. Ajoutez au moins une SCPI valide à l'allocation.</p>
           </div>
         ) : (
           <>
             <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-300">
-            <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/60">
+            <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
               <tr>
-                <th className="py-3 px-4">SCPI</th>
+                <th className="py-3 px-4 text-left">SCPI</th>
                 <th className="py-3 px-4 text-right">Alloc. cible</th>
                 <th className="py-3 px-4 text-right">Montant réel</th>
                 <th className="py-3 px-4 text-right">Revenu brut</th>
@@ -882,31 +892,31 @@ export default function ProSimulator() {
             <tbody className="divide-y divide-slate-800/60">
               {results.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-800/30 transition">
-                  <td className="py-3 px-4 font-semibold text-slate-200">{row.scpiName}</td>
-                  <td className="py-3 px-4 text-right">{row.allocation.toLocaleString('fr-FR')} €</td>
-                  <td className="py-3 px-4 text-right">{row.montantReel.toLocaleString('fr-FR')} €</td>
-                  <td className="py-3 px-4 text-right">{row.grossYield.toLocaleString('fr-FR')} €</td>
-                  <td className="py-3 px-4 text-right text-amber-400">-{row.estimatedTax.toLocaleString('fr-FR')} €</td>
-                  <td className="py-3 px-4 text-right text-emerald-300 font-bold">{row.netAnnualIncome.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-xs font-semibold text-slate-200">{row.scpiName}</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.allocation.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.montantReel.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.grossYield.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-amber-400 font-semibold">-{row.estimatedTax.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-emerald-400 font-semibold">{row.netAnnualIncome.toLocaleString('fr-FR')} €</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
-              <tr className="bg-slate-950/80 border-t-2 border-slate-700">
-                <td className="py-3 px-4 font-bold text-slate-100">TOTAL</td>
-                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalAllocation.toLocaleString('fr-FR')} €</td>
-                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
-                <td className="py-3 px-4 text-right font-bold text-slate-100">{totalGross.toLocaleString('fr-FR')} €</td>
-                <td className="py-3 px-4 text-right font-bold text-amber-400">-{totalTax.toLocaleString('fr-FR')} €</td>
-                <td className="py-3 px-4 text-right font-bold text-emerald-300 text-lg">{totalNet.toLocaleString('fr-FR')} €</td>
+              <tr className="border-t-2 border-slate-700 bg-slate-950/80 font-semibold">
+                <td className="py-3 px-4 text-xs text-slate-100">TOTAL</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalAllocation.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalGross.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-amber-400">-{totalTax.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-emerald-400">{totalNet.toLocaleString('fr-FR')} €</td>
               </tr>
             </tfoot>
           </table>
         </div>
         <div className="p-4 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <div><span className="text-xs text-slate-500">Montant investi réel</span><p className="text-lg font-bold text-white">{totalMontantReel.toLocaleString('fr-FR')} €</p></div>
-          <div><span className="text-xs text-slate-500">Cash restant</span><p className="text-lg font-bold text-amber-400">{cashRestant.toLocaleString('fr-FR')} €</p></div>
-          <div><span className="text-xs text-slate-500">Rendement net indicatif</span><p className="text-lg font-bold text-emerald-400">{rendementNet} %</p></div>
+          <div><span className="text-xs text-slate-500">Montant investi réel</span><p className="text-base font-bold text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Cash restant</span><p className="text-base font-bold text-amber-400">{cashRestant.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Rendement net indicatif</span><p className="text-base font-bold text-emerald-400">{rendementNet} %</p></div>
         </div>
           </>
         )}
@@ -924,12 +934,25 @@ export default function ProSimulator() {
             </h2>
           </div>
           <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
-            <div><span className="text-xs text-slate-500">Montant financé</span><p className="text-lg font-bold text-white">{(montantTotal - apport).toLocaleString('fr-FR')} €</p></div>
-            <div><span className="text-xs text-slate-500">Mensualité estimée</span><p className="text-lg font-bold text-white">{creditResult.mensualiteTotale.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
-            <div><span className="text-xs text-slate-500">Revenus mensuels nets SCPI</span><p className="text-lg font-bold text-emerald-400">{Math.round(creditResult.revenusNetsAnnuels / 12).toLocaleString('fr-FR')} €</p></div>
-            <div><span className="text-xs text-slate-500">Cash-flow mensuel</span><p className={`text-lg font-bold ${creditResult.cashFlowMensuel >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{creditResult.cashFlowMensuel.toLocaleString('fr-FR')} €</p></div>
-            <div><span className="text-xs text-slate-500">Effort d'épargne</span><p className="text-lg font-bold text-amber-400">{creditResult.effortEpargneMensuel.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
-            <div><span className="text-xs text-slate-500">Coût total crédit</span><p className="text-lg font-bold text-red-400">{creditResult.coutTotalCredit.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Montant financé</span><p className="text-base font-bold text-slate-100">{(montantTotal - apport).toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Mensualité estimée</span><p className="text-base font-bold text-slate-100">{creditResult.mensualiteTotale.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
+            <div><span className="text-xs text-slate-500">Revenus mensuels nets SCPI</span><p className="text-base font-bold text-emerald-400">{Math.round(creditResult.revenusNetsAnnuels / 12).toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Cash-flow mensuel</span><p className={`text-base font-bold ${creditResult.cashFlowMensuel >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{creditResult.cashFlowMensuel.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Effort d'épargne</span><p className="text-base font-bold text-amber-400">{creditResult.effortEpargneMensuel.toLocaleString('fr-FR')} €<span className="text-xs text-slate-500 font-normal"> /mois</span></p></div>
+            <div><span className="text-xs text-slate-500">Coût total crédit</span><p className="text-base font-bold text-red-400">{creditResult.coutTotalCredit.toLocaleString('fr-FR')} €</p></div>
+          </div>
+          <div className="mt-4 pt-4 border-t border-slate-800">
+            <p className="text-xs text-slate-400 leading-relaxed">
+              {(() => {
+                const mensualite = creditResult.mensualiteTotale;
+                const revenusNetsMensuels = Math.round(creditResult.revenusNetsAnnuels / 12);
+                const tauxCouv = mensualite > 0 ? Math.round((revenusNetsMensuels / mensualite) * 100) : 0;
+                if (creditResult.cashFlowMensuel >= 0) {
+                  return <>Les revenus mensuels nets SCPI couvrent {tauxCouv}&nbsp;% de la mensualité estimée. Cash-flow positif estimé&nbsp;: {creditResult.cashFlowMensuel.toLocaleString('fr-FR')}&nbsp;€/mois.</>;
+                }
+                return <>Les revenus mensuels nets SCPI couvrent {tauxCouv}&nbsp;% de la mensualité estimée. Effort d'épargne indicatif&nbsp;: {creditResult.effortEpargneMensuel.toLocaleString('fr-FR')}&nbsp;€/mois.</>;
+              })()}
+            </p>
           </div>
         </div>
       )}
@@ -946,22 +969,22 @@ export default function ProSimulator() {
             </h2>
           </div>
           <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
-            <div><span className="text-xs text-slate-500">Type</span><p className="text-lg font-bold text-white">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit temporaire'}</p></div>
-            <div><span className="text-xs text-slate-500">Durée</span><p className="text-lg font-bold text-white">{dureeDemembrement} ans</p></div>
-            <div><span className="text-xs text-slate-500">Clé appliquée</span><p className="text-lg font-bold text-emerald-400">{Math.round(getCleDemembrement(dureeDemembrement, typeDemembrement) * 100)} %</p></div>
-            <div><span className="text-xs text-slate-500">Montant réel souscrit</span><p className="text-lg font-bold text-white">{demembrementResult.prixSouscription.toLocaleString('fr-FR')} €</p></div>
-            <div><span className="text-xs text-slate-500">Valeur PP théorique</span><p className="text-lg font-bold text-slate-300">{demembrementResult.valeurPPTerme.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Type</span><p className="text-base font-bold text-slate-100">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété' : 'Usufruit temporaire'}</p></div>
+            <div><span className="text-xs text-slate-500">Durée</span><p className="text-base font-bold text-slate-100">{dureeDemembrement} ans</p></div>
+            <div><span className="text-xs text-slate-500">Clé appliquée</span><p className="text-base font-bold text-emerald-400">{Math.round(getCleDemembrement(dureeDemembrement, typeDemembrement) * 100)} %</p></div>
+            <div><span className="text-xs text-slate-500">Montant réel souscrit</span><p className="text-base font-bold text-slate-100">{demembrementResult.prixSouscription.toLocaleString('fr-FR')} €</p></div>
+            <div><span className="text-xs text-slate-500">Valeur PP théorique</span><p className="text-base font-bold text-slate-300">{demembrementResult.valeurPPTerme.toLocaleString('fr-FR')} €</p></div>
             {typeDemembrement === 'nue-propriete' ? (
               <>
-                <div><span className="text-xs text-slate-500">Décote économique</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.decotePourcent} %</p></div>
-                <div><span className="text-xs text-slate-500">Gain latent à terme</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.gainLatent.toLocaleString('fr-FR')} €</p></div>
-                <div><span className="text-xs text-slate-500">Revenus pendant la période</span><p className="text-lg font-bold text-slate-500">0 €</p></div>
+                <div><span className="text-xs text-slate-500">Décote économique</span><p className="text-base font-bold text-emerald-400">{demembrementResult.decotePourcent} %</p></div>
+                <div><span className="text-xs text-slate-500">Gain latent à terme</span><p className="text-base font-bold text-emerald-400">{demembrementResult.gainLatent.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus pendant la période</span><p className="text-base font-bold text-slate-500">0 €</p></div>
               </>
             ) : (
               <>
-                <div><span className="text-xs text-slate-500">Revenus annuels bruts</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
-                <div><span className="text-xs text-slate-500">Revenus cumulés estimés</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.revenusCumules.toLocaleString('fr-FR')} €</p></div>
-                <div><span className="text-xs text-slate-500">Rendement économique</span><p className="text-lg font-bold text-emerald-400">{demembrementResult.rendementEconomique} %</p></div>
+                <div><span className="text-xs text-slate-500">Revenus annuels bruts</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Revenus cumulés estimés</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusCumules.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Rendement économique</span><p className="text-base font-bold text-emerald-400">{demembrementResult.rendementEconomique} %</p></div>
               </>
             )}
           </div>
@@ -973,9 +996,12 @@ export default function ProSimulator() {
           ═══════════════════════════════════════ */}
       {chartData.length > 0 && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-          <h3 className="text-lg font-bold text-slate-100 mb-4">
-            Évolution des revenus nets cumulés sur {duration} ans
+          <h3 className="text-lg font-bold text-slate-100 mb-1">
+            Projection des revenus nets cumulés par SCPI
           </h3>
+          <p className="text-xs text-slate-500 mb-4">
+            Estimation indicative basée sur l'allocation réelle et les rendements disponibles.
+          </p>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
@@ -998,7 +1024,7 @@ export default function ProSimulator() {
                     activeDot={{ r: 5 }}
                   />
                 ))}
-                <Line type="monotone" dataKey="Total" stroke="#fbbf24" strokeWidth={3} strokeDasharray="8 4" dot={{ r: 4 }} />
+                <Line type="monotone" dataKey="Portefeuille total" stroke="#fbbf24" strokeWidth={3} dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -1018,7 +1044,7 @@ export default function ProSimulator() {
           {feedback ? (
             <><Check size={18} />Simulation ajoutée au rapport ✓</>
           ) : (
-            <><ArrowRight size={18} />Intégrer au rapport</>
+            <><ArrowRight size={18} />Enregistrer cette simulation</>
           )}
         </button>
       </div>
@@ -1150,7 +1176,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
 
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-slate-300">
-          <thead className="text-xs uppercase tracking-wider text-slate-500 bg-slate-950/40">
+          <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/40">
             <tr>
               <th className="py-2.5 px-2 w-8">
                 <input
@@ -1158,7 +1184,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   checked={hasChecked && checkedIndices!.size === selections.length}
                   onChange={() => {
                     if (checkedIndices!.size === selections.length) {
-                      onToggleCheck?.( -1); // special: deselect all
+                      onToggleCheck?.( -1);
                     } else {
                       selections.forEach((_, i) => onToggleCheck?.(i));
                     }
@@ -1166,7 +1192,7 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                   className="w-3.5 h-3.5 rounded border-slate-600 bg-slate-800 text-emerald-500 accent-emerald-500"
                 />
               </th>
-              <th className="py-2.5 px-3">SCPI</th>
+              <th className="py-2.5 px-3 text-left">SCPI</th>
               <th className="py-2.5 px-3 text-right">Rendt</th>
               <th className="py-2.5 px-3 text-right">Prix part</th>
               <th className="py-2.5 px-3 text-right">Min.</th>
@@ -1191,12 +1217,12 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                       className="w-3.5 h-3.5 rounded border-slate-600 bg-slate-800 text-emerald-500 accent-emerald-500"
                     />
                   </td>
-                  <td className="py-2.5 px-3">
-                    <span className="text-xs font-semibold text-slate-200 truncate max-w-[120px] block">{row.scpiName}</span>
+                  <td className="py-2.5 px-3 text-xs font-semibold text-slate-200">
+                    <span className="truncate max-w-[120px] block">{row.scpiName}</span>
                   </td>
-                  <td className="py-2.5 px-3 text-right text-emerald-400 text-xs">{row.yield}%</td>
-                  <td className="py-2.5 px-3 text-right text-slate-400 text-xs">{row.price.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-3 text-right text-slate-500 text-xs">{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
+                  <td className={tdPositiveClass}>{row.yield}%</td>
+                  <td className={tdMutedClass}>{row.price.toLocaleString('fr-FR')} €</td>
+                  <td className={tdMutedClass}>{row.minInvestment > 0 ? `${row.minInvestment.toLocaleString('fr-FR')} €` : '—'}</td>
                   <td className="py-2.5 px-3 text-right">
                     <input
                       type="text"
@@ -1225,8 +1251,8 @@ function ScpiSelectorBlock(props: ScpiSelectProps & { title: string; icon: React
                           className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-right text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
                         />
                       </td>
-                      <td className="py-2.5 px-3 text-right text-white text-xs">{row.montantReel.toLocaleString('fr-FR')} €</td>
-                      <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-500' : 'text-red-400'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
+                      <td className={tdMoneyClass}>{row.montantReel.toLocaleString('fr-FR')} €</td>
+                      <td className={`py-2.5 px-3 text-right text-xs ${ecart >= 0 ? 'text-slate-400' : 'text-red-400 font-semibold'}`}>{ecart > 0 ? `+${ecart.toLocaleString('fr-FR')} €` : ecart === 0 ? '0 €' : `${ecart.toLocaleString('fr-FR')} €`}</td>
                     </>
                   )}
                 </tr>
