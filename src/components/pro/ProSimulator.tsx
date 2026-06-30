@@ -10,7 +10,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
 } from 'recharts';
 import {
   Plus, X, Check, Calculator, TrendingUp, Percent, Euro, Clock, ArrowRight, Search,
@@ -1023,14 +1022,6 @@ export default function ProSimulator() {
                     ];
                   }}
                 />
-                <Legend
-                  wrapperStyle={{ fontSize: '13px', color: '#cbd5e1', paddingTop: '12px' }}
-                  formatter={(value: string) => (
-                    <span style={{ color: '#e2e8f0', fontWeight: value === 'Portefeuille total' ? 700 : 400, marginLeft: '4px' }}>
-                      {value}
-                    </span>
-                  )}
-                />
                 {results.map((_r, i) => (
                   <Line
                     key={i}
@@ -1052,6 +1043,20 @@ export default function ProSimulator() {
                 />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+
+          {/* Légende custom : Portefeuille total en premier */}
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px]">
+            <div className="flex items-center gap-1.5 font-semibold text-slate-100">
+              <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: '#fbbf24' }} />
+              Portefeuille total
+            </div>
+            {results.map((r, i) => (
+              <div key={i} className="flex items-center gap-1.5 text-slate-300">
+                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: colors[i % colors.length] }} />
+                {r.scpiName}
+              </div>
+            ))}
           </div>
         </div>
       )}
