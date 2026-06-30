@@ -997,7 +997,7 @@ export default function ProSimulator() {
       {chartData.length > 0 && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
           <h3 className="text-lg font-bold text-slate-100 mb-1">
-            Projection des revenus nets cumulés par SCPI
+            Projection des revenus nets cumulés du portefeuille
           </h3>
           <p className="text-xs text-slate-500 mb-4">
             Estimation indicative basée sur l'allocation réelle et les rendements disponibles.
@@ -1010,37 +1010,19 @@ export default function ProSimulator() {
                 <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
-                  formatter={(value: number, name: string) => {
-                    const isPortefeuille = name === 'Portefeuille total';
-                    return [
-                      <span style={isPortefeuille ? { fontWeight: 700, color: '#fbbf24' } : undefined}>
-                        {value.toLocaleString('fr-FR')} €
-                      </span>,
-                      <span style={isPortefeuille ? { fontWeight: 700, color: '#fbbf24' } : { color: '#94a3b8' }}>
-                        {name}
-                      </span>,
-                    ];
-                  }}
+                  formatter={(value: number, name: string) => [
+                    <span style={{ fontWeight: 700, color: '#fbbf24' }}>{value.toLocaleString('fr-FR')} €</span>,
+                    <span style={{ color: '#94a3b8' }}>{name}</span>,
+                  ]}
                 />
                 <Legend
                   wrapperStyle={{ fontSize: '13px', color: '#cbd5e1', paddingTop: '12px' }}
-                  formatter={(value: string) => (
-                    <span style={{ color: '#e2e8f0', fontWeight: value === 'Portefeuille total' ? 700 : 400, marginLeft: '4px' }}>
-                      {value}
+                  formatter={() => (
+                    <span style={{ color: '#e2e8f0', fontWeight: 700, marginLeft: '4px' }}>
+                      Portefeuille total
                     </span>
                   )}
                 />
-                {results.map((_r, i) => (
-                  <Line
-                    key={i}
-                    type="monotone"
-                    dataKey={results[i].scpiName}
-                    stroke={colors[i % colors.length]}
-                    strokeWidth={1.5}
-                    dot={{ r: 2 }}
-                    activeDot={{ r: 4 }}
-                  />
-                ))}
                 <Line
                   type="monotone"
                   dataKey="Portefeuille total"
@@ -1051,6 +1033,53 @@ export default function ProSimulator() {
                 />
               </LineChart>
             </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════
+          TABLEAU CONTRIBUTION PAR SCPI
+          ═══════════════════════════════════════ */}
+      {results.length > 0 && (
+        <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <div className="p-4 border-b border-slate-800">
+            <h3 className="text-sm font-bold text-slate-200">Contribution par SCPI</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs text-slate-300">
+              <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
+                <tr>
+                  <th className="py-2.5 px-4 text-left">SCPI</th>
+                  <th className="py-2.5 px-4 text-right">Montant réel</th>
+                  <th className="py-2.5 px-4 text-right">Revenu annuel net</th>
+                  <th className="py-2.5 px-4 text-right">Revenu cumulé {duration} ans</th>
+                  <th className="py-2.5 px-4 text-right">Poids</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800/60">
+                {results.map((r, i) => {
+                  const weight = totalNet > 0 ? Math.round((r.netAnnualIncome / totalNet) * 100) : 0;
+                  return (
+                    <tr key={i} className="hover:bg-slate-800/40">
+                      <td className="py-2.5 px-4 font-medium text-slate-200">{r.scpiName}</td>
+                      <td className="py-2.5 px-4 text-right text-slate-300">{r.montantReel.toLocaleString('fr-FR')} €</td>
+                      <td className="py-2.5 px-4 text-right text-emerald-400">{r.netAnnualIncome.toLocaleString('fr-FR')} €</td>
+                      <td className="py-2.5 px-4 text-right text-slate-200">{(r.netAnnualIncome * duration).toLocaleString('fr-FR')} €</td>
+                      <td className="py-2.5 px-4 text-right text-slate-400">
+                        {totalNet > 0 ? `${weight} %` : '—'}
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="bg-slate-950/40 font-bold">
+                  <td className="py-2.5 px-4 text-slate-100">Total</td>
+                  <td className="py-2.5 px-4 text-right text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-4 text-right text-emerald-300">{totalNet.toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-4 text-right text-slate-100">{(totalNet * duration).toLocaleString('fr-FR')} €</td>
+                  <td className="py-2.5 px-4 text-right text-slate-100">100 %</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       )}
