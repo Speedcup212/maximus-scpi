@@ -619,7 +619,7 @@ export default function ProSimulator() {
     setTimeout(() => setFeedback(false), 3000);
   };
 
-  const colors = ['#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#06b6d4', '#ec4899'];
+  const colors = ['#38BDF8', '#34D399', '#A78BFA', '#F472B6', '#FB7185', '#22D3EE'];
 
   /* ─── JSX ─── */
   return (
@@ -1010,19 +1010,38 @@ export default function ProSimulator() {
                 <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
-                  formatter={(value: number, name: string) => [
-                    <span style={{ fontWeight: 700, color: '#fbbf24' }}>{value.toLocaleString('fr-FR')} €</span>,
-                    <span style={{ color: '#94a3b8' }}>{name}</span>,
-                  ]}
+                  formatter={(value: number, name: string) => {
+                    if (name === 'Portefeuille total') {
+                      return [
+                        <span style={{ fontWeight: 700, color: '#fbbf24' }}>{value.toLocaleString('fr-FR')} €</span>,
+                        <span style={{ fontWeight: 700, color: '#fbbf24' }}>{name}</span>,
+                      ];
+                    }
+                    return [
+                      <span>{value.toLocaleString('fr-FR')} €</span>,
+                      <span style={{ color: '#94a3b8' }}>{name}</span>,
+                    ];
+                  }}
                 />
                 <Legend
                   wrapperStyle={{ fontSize: '13px', color: '#cbd5e1', paddingTop: '12px' }}
-                  formatter={() => (
-                    <span style={{ color: '#e2e8f0', fontWeight: 700, marginLeft: '4px' }}>
-                      Portefeuille total
+                  formatter={(value: string) => (
+                    <span style={{ color: '#e2e8f0', fontWeight: value === 'Portefeuille total' ? 700 : 400, marginLeft: '4px' }}>
+                      {value}
                     </span>
                   )}
                 />
+                {results.map((_r, i) => (
+                  <Line
+                    key={i}
+                    type="monotone"
+                    dataKey={results[i].scpiName}
+                    stroke={colors[i % colors.length]}
+                    strokeWidth={1.5}
+                    dot={{ r: 2 }}
+                    activeDot={{ r: 4 }}
+                  />
+                ))}
                 <Line
                   type="monotone"
                   dataKey="Portefeuille total"
