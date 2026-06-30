@@ -109,7 +109,6 @@ const menuItems: MenuItem[] = [
   { icon: FileText, label: 'Livrables', section: 'livrables' },
   { icon: BarChart3, label: 'Comparateur', section: 'comparateur' },
   { icon: Calculator, label: 'Simulateurs', section: 'simulateurs' },
-  { icon: Eye, label: 'SCPI suivies', section: 'scpi-suivies' },
   { icon: Star, label: 'SCPI préférées', section: 'scpi-preferees' },
   { icon: Video, label: 'Vidéos', section: 'videos' },
   { icon: Link2, label: 'Mes liens clients', section: 'rapports' },
