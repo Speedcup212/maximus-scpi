@@ -82,6 +82,14 @@ interface DemembrementResult {
   // NP
   gainPotentielBrut: number;
   rendementPotentielBrut: number;
+  // IS
+  amortissementAnnuelUsufruit?: number;
+  resultatFiscalIS?: number;
+  isEstime?: number;
+  cashFlowAnnuelNetIS?: number;
+  cashFlowCumuleNetIS?: number;
+  gainEconomiqueNetIS?: number;
+  rendementAnnuelNetSurPrixPayeIS?: number;
 }
 
 /* ── Clé de démembrement (articles 669 / 762 CGI simplifiés) ── */
@@ -216,6 +224,15 @@ export default function ProSimulator() {
   const [cleTouched, setCleTouched] = useState<boolean>(() => {
     return localStorage.getItem('pro_sim_cleTouched') === '1';
   });
+  const [regimeFiscal, setRegimeFiscal] = useState<'IR' | 'IS'>(() => {
+    const stored = localStorage.getItem('pro_sim_regimeFiscal');
+    return (stored as any) || 'IR';
+  });
+  const [tauxIS, setTauxIS] = useState<number>(() => {
+    const stored = localStorage.getItem('pro_sim_tauxIS');
+    return stored ? Number(stored) : 25;
+  });
+  const [rawTauxIS, setRawTauxIS] = useState<string>('');
 
   /* ─── Sélection SCPI ─── */
   const [selections, setSelections] = useState<ScpiSelection[]>(() => {
@@ -568,6 +585,36 @@ export default function ProSimulator() {
   const totalNet = totalGross - totalTax;
   const rendementNet = totalMontantReel > 0 ? Math.round((totalNet / totalMontantReel) * 10000) / 100 : 0;
 
+  /* ─── Résultats IS par SCPI (usufruit + société IS) ─── */
+  const isResults = useMemo(() => {
+    const isSocieteIS = mode === 'demembrement' && regimeFiscal === 'IS' && typeDemembrement === 'usufruit';
+    if (!isSocieteIS) return null;
+    const duree = dureeDemembrement;
+    return allocationRows
+      .filter((r) => r.isValid)
+      .map((r) => {
+        const montantReelPaye = r.montantReel;
+        const amortissement = duree > 0 ? Math.round(montantReelPaye / duree) : 0;
+        const valeurPP = r.valeurPPEquiv ?? 0;
+        const revenuBrut = Math.round((r.yield / 100) * valeurPP);
+        const resultatFiscal = Math.max(0, Math.round(revenuBrut - amortissement));
+        const isDu = Math.round(resultatFiscal * tauxIS / 100);
+        const cashFlowNet = Math.round(revenuBrut - isDu);
+        return {
+          scpiName: r.scpiName,
+          montantReelPaye,
+          valeurPPEquiv: valeurPP,
+          revenuBrut,
+          amortissement,
+          resultatFiscal,
+          isEstime: isDu,
+          cashFlowNetAnnuel: cashFlowNet,
+        };
+      });
+  }, [allocationRows, mode, regimeFiscal, typeDemembrement, dureeDemembrement, tauxIS]);
+
+  const isTotalCashFlow = isResults ? isResults.reduce((s, r) => s + r.cashFlowNetAnnuel, 0) : 0;
+
   /* ─── Calculs crédit ─── */
   const creditResult: CreditResult | null = useMemo(() => {
     if (mode !== 'credit') return null;
@@ -617,6 +664,31 @@ export default function ProSimulator() {
     const rendementPotentielBrut = typeDemembrement === 'nue-propriete' && budgetCash > 0
       ? Math.round((gainPotentielBrut / budgetCash) * 10000) / 100
       : 0;
+
+    // IS calculations (usufruit + société IS only)
+    const isSocieteIS = regimeFiscal === 'IS' && typeDemembrement === 'usufruit';
+    const amortissementAnnuelUsufruit = isSocieteIS && dureeDemembrement > 0
+      ? Math.round(budgetCash / dureeDemembrement)
+      : undefined;
+    const resultatFiscalIS = isSocieteIS
+      ? Math.max(0, Math.round(revenusAnnuelsBruts - (amortissementAnnuelUsufruit ?? 0)))
+      : undefined;
+    const isEstime = isSocieteIS && resultatFiscalIS != null
+      ? Math.round(resultatFiscalIS * tauxIS / 100)
+      : undefined;
+    const cashFlowAnnuelNetIS = isSocieteIS && isEstime != null
+      ? Math.round(revenusAnnuelsBruts - isEstime)
+      : undefined;
+    const cashFlowCumuleNetIS = isSocieteIS && cashFlowAnnuelNetIS != null
+      ? Math.round(cashFlowAnnuelNetIS * dureeDemembrement)
+      : undefined;
+    const gainEconomiqueNetIS = isSocieteIS && cashFlowCumuleNetIS != null
+      ? Math.round(cashFlowCumuleNetIS - budgetCash)
+      : undefined;
+    const rendementAnnuelNetSurPrixPayeIS = isSocieteIS && cashFlowAnnuelNetIS != null && budgetCash > 0
+      ? Math.round((cashFlowAnnuelNetIS / budgetCash) * 10000) / 100
+      : undefined;
+
     return {
       budgetCashInvesti: budgetCash,
       valeurPPEquivalente: valeurPP,
@@ -626,13 +698,34 @@ export default function ProSimulator() {
       gainPerteNet,
       gainPotentielBrut,
       rendementPotentielBrut,
+      amortissementAnnuelUsufruit,
+      resultatFiscalIS,
+      isEstime,
+      cashFlowAnnuelNetIS,
+      cashFlowCumuleNetIS,
+      gainEconomiqueNetIS,
+      rendementAnnuelNetSurPrixPayeIS,
     };
-  }, [mode, dureeDemembrement, typeDemembrement, cleDemembree, totalMontantReel, totalValeurPPEquiv, montantTotal, totalGross, totalNet]);
+  }, [mode, dureeDemembrement, typeDemembrement, cleDemembree, totalMontantReel, totalValeurPPEquiv, montantTotal, totalGross, totalNet, regimeFiscal, tauxIS]);
 
   /* ─── Graphique ─── */
   const chartData = useMemo(() => {
+    const isSocieteIS = mode === 'demembrement' && regimeFiscal === 'IS' && typeDemembrement === 'usufruit';
     if (mode === 'demembrement' && typeDemembrement === 'nue-propriete') return [];
     const years = Array.from({ length: duration + 1 }, (_, i) => i);
+    if (isSocieteIS && isResults) {
+      return years.map((year) => {
+        const entry: any = { year: `Année ${year}` };
+        let total = 0;
+        isResults.forEach((r) => {
+          const cumulative = r.cashFlowNetAnnuel * year;
+          entry[r.scpiName] = cumulative;
+          total += cumulative;
+        });
+        entry['Portefeuille total'] = total;
+        return entry;
+      });
+    }
     return years.map((year) => {
       const entry: any = { year: `Année ${year}` };
       let totalRev = 0;
@@ -644,7 +737,7 @@ export default function ProSimulator() {
       entry['Portefeuille total'] = totalRev;
       return entry;
     });
-  }, [results, duration, mode, typeDemembrement]);
+  }, [results, isResults, duration, mode, typeDemembrement, regimeFiscal]);
 
   /* ─── Intégrer au rapport ─── */
   const handleAddToReport = () => {
@@ -879,6 +972,12 @@ export default function ProSimulator() {
           rawCle={rawCle}
           setRawCle={setRawCle}
           montantTotal={montantTotal}
+          regimeFiscal={regimeFiscal}
+          setRegimeFiscal={(v) => { setRegimeFiscal(v); localStorage.setItem('pro_sim_regimeFiscal', v); }}
+          tauxIS={tauxIS}
+          setTauxIS={(v) => { setTauxIS(v); localStorage.setItem('pro_sim_tauxIS', String(v)); }}
+          rawTauxIS={rawTauxIS}
+          setRawTauxIS={setRawTauxIS}
           allocations={allocationRows}
           cashRestant={cashRestant}
           onAllocationChange={updateAllocation}
@@ -923,9 +1022,62 @@ export default function ProSimulator() {
           <div className="p-10 text-center">
             <p className="text-slate-500 text-sm">Aucune projection disponible. Ajoutez au moins une SCPI valide à l'allocation.</p>
           </div>
-        ) : (
+        ) : isResults ? (
           <>
             <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm text-slate-300">
+            <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
+              <tr>
+                <th className="py-3 px-4 text-left">SCPI</th>
+                <th className="py-3 px-4 text-right">Alloc. cash</th>
+                <th className="py-3 px-4 text-right">Montant réel payé</th>
+                <th className="py-3 px-4 text-right">Valeur PP équiv.</th>
+                <th className="py-3 px-4 text-right">Revenu brut annuel</th>
+                <th className="py-3 px-4 text-right">Amortissement annuel</th>
+                <th className="py-3 px-4 text-right">Résultat fiscal IS</th>
+                <th className="py-3 px-4 text-right">IS estimé</th>
+                <th className="py-3 px-4 text-right">Cash-flow net annuel</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-800/60">
+              {isResults.map((row, i) => (
+                <tr key={i} className="hover:bg-slate-800/30 transition">
+                  <td className="py-3 px-4 text-xs font-semibold text-slate-200">{row.scpiName}</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{results[i].allocation.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.montantReelPaye.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.valeurPPEquiv.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-200">{row.revenuBrut.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-slate-300">{row.amortissement.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-amber-400 font-semibold">{row.resultatFiscal.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-red-400 font-semibold">-{row.isEstime.toLocaleString('fr-FR')} €</td>
+                  <td className="py-3 px-4 text-right text-xs text-emerald-400 font-semibold">{row.cashFlowNetAnnuel.toLocaleString('fr-FR')} €</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t-2 border-slate-700 bg-slate-950/80 font-semibold">
+                <td className="py-3 px-4 text-xs text-slate-100">TOTAL</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalAllocation.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalValeurPPEquiv.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-100">{totalGross.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-slate-300">{demembrementResult?.amortissementAnnuelUsufruit?.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-amber-400">{demembrementResult?.resultatFiscalIS?.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-red-400">-{demembrementResult?.isEstime?.toLocaleString('fr-FR')} €</td>
+                <td className="py-3 px-4 text-right text-xs text-emerald-400">{isTotalCashFlow.toLocaleString('fr-FR')} €</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div className="p-4 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div><span className="text-xs text-slate-500">Montant investi réel</span><p className="text-base font-bold text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Cash restant</span><p className="text-base font-bold text-amber-400">{cashRestant.toLocaleString('fr-FR')} €</p></div>
+          <div><span className="text-xs text-slate-500">Rendement net indicatif</span><p className="text-base font-bold text-emerald-400">{rendementNet} %</p></div>
+        </div>
+          </>
+        ) : (
+          <>
+          <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-300">
             <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
               <tr>
@@ -1017,7 +1169,13 @@ export default function ProSimulator() {
             </h2>
           </div>
           <div className="p-6 grid grid-cols-2 sm:grid-cols-3 gap-5">
-            <div><span className="text-xs text-slate-500">Type</span><p className="text-base font-bold text-slate-100">{typeDemembrement === 'nue-propriete' ? 'Nue-propriété temporaire' : 'Usufruit temporaire'}</p></div>
+            <div><span className="text-xs text-slate-500">Type</span><p className="text-base font-bold text-slate-100">
+              {typeDemembrement === 'nue-propriete'
+                ? 'Nue-propriété temporaire'
+                : regimeFiscal === 'IS'
+                  ? 'Usufruit temporaire via société IS'
+                  : 'Usufruit temporaire'}
+            </p></div>
             <div><span className="text-xs text-slate-500">Durée</span><p className="text-base font-bold text-slate-100">{dureeDemembrement} ans</p></div>
             <div><span className="text-xs text-slate-500">Clé {typeDemembrement === 'nue-propriete' ? 'NP' : 'usufruit'} appliquée</span><p className="text-base font-bold text-emerald-400">{Math.round(cleDemembree * 100)} %</p></div>
             <div><span className="text-xs text-slate-500">Budget cash investi</span><p className="text-base font-bold text-slate-100">{demembrementResult.budgetCashInvesti.toLocaleString('fr-FR')} €</p></div>
@@ -1028,6 +1186,17 @@ export default function ProSimulator() {
                 <div><span className="text-xs text-slate-500">Gain potentiel brut à terme</span><p className="text-base font-bold text-emerald-400">{demembrementResult.gainPotentielBrut.toLocaleString('fr-FR')} €</p></div>
                 <div><span className="text-xs text-slate-500">Rendement potentiel brut</span><p className="text-base font-bold text-emerald-400">{demembrementResult.rendementPotentielBrut} %</p></div>
               </>
+            ) : regimeFiscal === 'IS' ? (
+              <>
+                <div><span className="text-xs text-slate-500">Revenus bruts annuels</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Amortissement annuel usufruit</span><p className="text-base font-bold text-slate-300">{demembrementResult.amortissementAnnuelUsufruit?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Résultat fiscal IS estimé</span><p className="text-base font-bold text-amber-400">{demembrementResult.resultatFiscalIS?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">IS estimé</span><p className="text-base font-bold text-red-400">{demembrementResult.isEstime?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Cash-flow annuel net d'IS</span><p className="text-base font-bold text-emerald-400">{demembrementResult.cashFlowAnnuelNetIS?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Cash-flow cumulé net d'IS</span><p className="text-base font-bold text-emerald-400">{demembrementResult.cashFlowCumuleNetIS?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Gain économique net après IS</span><p className={`text-base font-bold ${(demembrementResult.gainEconomiqueNetIS ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>{demembrementResult.gainEconomiqueNetIS?.toLocaleString('fr-FR')} €</p></div>
+                <div><span className="text-xs text-slate-500">Rendement annuel net / prix d'usufruit</span><p className="text-base font-bold text-emerald-400">{demembrementResult.rendementAnnuelNetSurPrixPayeIS} %</p></div>
+              </>
             ) : (
               <>
                 <div><span className="text-xs text-slate-500">Revenus bruts annuels</span><p className="text-base font-bold text-emerald-400">{demembrementResult.revenusAnnuelsBruts.toLocaleString('fr-FR')} €</p></div>
@@ -1037,6 +1206,16 @@ export default function ProSimulator() {
               </>
             )}
           </div>
+          {regimeFiscal === 'IS' && (
+            <div className="px-6 pb-5 pt-0">
+              <div className="flex items-start gap-2 bg-slate-950/60 border border-slate-800 rounded-lg p-3">
+                <Info size={14} className="text-slate-500 shrink-0 mt-0.5" />
+                <p className="text-[11px] text-slate-500 leading-relaxed">
+                  Simulation indicative. Le traitement comptable et fiscal de l'usufruit temporaire doit être validé avec l'expert-comptable de la société. Les revenus étrangers de certaines SCPI peuvent modifier l'impôt réellement dû.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -1046,7 +1225,9 @@ export default function ProSimulator() {
       {chartData.length > 0 && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
           <h3 className="text-lg font-bold text-slate-100 mb-1">
-            Projection des revenus nets cumulés du portefeuille
+            {mode === 'demembrement' && regimeFiscal === 'IS' && typeDemembrement === 'usufruit'
+              ? 'Projection des cash-flows nets d\'IS cumulés'
+              : 'Projection des revenus nets cumulés du portefeuille'}
           </h3>
           <p className="text-xs text-slate-500 mb-4">
             Estimation indicative basée sur l'allocation réelle et les rendements disponibles.
@@ -1135,46 +1316,86 @@ export default function ProSimulator() {
             <h3 className="text-sm font-bold text-slate-200">Contribution par SCPI</h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
-                <tr>
-                  <th className="py-2.5 px-4 text-left">SCPI</th>
-                  <th className="py-2.5 px-4 text-right">Montant réel</th>
-                  <th className="py-2.5 px-4 text-right">Revenu annuel net</th>
-                  <th className="py-2.5 px-4 text-right">Revenu cumulé {duration} ans</th>
-                  <th className="py-2.5 px-4 text-right">Poids</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60">
-                {results.map((r, i) => {
-                  const weight = totalNet > 0 ? Math.round((r.netAnnualIncome / totalNet) * 100) : 0;
-                  return (
-                    <tr key={i} className="hover:bg-slate-800/40">
-                      <td className="py-2.5 px-4 font-medium text-slate-200">{r.scpiName}</td>
-                      <td className="py-2.5 px-4 text-right text-slate-300">{r.montantReel.toLocaleString('fr-FR')} €</td>
-                      <td className="py-2.5 px-4 text-right text-emerald-400">{r.netAnnualIncome.toLocaleString('fr-FR')} €</td>
-                      <td className="py-2.5 px-4 text-right text-slate-200">{(r.netAnnualIncome * duration).toLocaleString('fr-FR')} €</td>
-                      <td className="py-2.5 px-4 text-right text-slate-400">
-                        {totalNet > 0 ? `${weight} %` : '—'}
-                      </td>
-                    </tr>
-                  );
-                })}
-                <tr className="bg-slate-950/40 font-bold">
-                  <td className="py-2.5 px-4 text-slate-100">Total</td>
-                  <td className="py-2.5 px-4 text-right text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right text-emerald-300">{totalNet.toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right text-slate-100">{(totalNet * duration).toLocaleString('fr-FR')} €</td>
-                  <td className="py-2.5 px-4 text-right text-slate-100">100 %</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+            {isResults ? (
+              <table className="w-full text-left text-xs text-slate-300">
+                <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
+                  <tr>
+                    <th className="py-2.5 px-4 text-left">SCPI</th>
+                    <th className="py-2.5 px-4 text-right">Montant réel payé</th>
+                    <th className="py-2.5 px-4 text-right">Valeur PP équiv.</th>
+                    <th className="py-2.5 px-4 text-right">Cash-flow annuel net d'IS</th>
+                    <th className="py-2.5 px-4 text-right">Cash-flow cumulé</th>
+                    <th className="py-2.5 px-4 text-right">Poids</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {isResults.map((r, i) => {
+                    const weight = isTotalCashFlow > 0 ? Math.round((r.cashFlowNetAnnuel / isTotalCashFlow) * 100) : 0;
+                    return (
+                      <tr key={i} className="hover:bg-slate-800/40">
+                        <td className="py-2.5 px-4 font-medium text-slate-200">{r.scpiName}</td>
+                        <td className="py-2.5 px-4 text-right text-slate-300">{r.montantReelPaye.toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-slate-300">{r.valeurPPEquiv.toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-emerald-400">{r.cashFlowNetAnnuel.toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-slate-200">{(r.cashFlowNetAnnuel * dureeDemembrement).toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-slate-400">
+                          {isTotalCashFlow > 0 ? `${weight} %` : '—'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="bg-slate-950/40 font-bold">
+                    <td className="py-2.5 px-4 text-slate-100">Total</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">{totalValeurPPEquiv.toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-emerald-300">{isTotalCashFlow.toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">{(isTotalCashFlow * dureeDemembrement).toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">100 %</td>
+                  </tr>
+                </tbody>
+              </table>
+            ) : (
+              <table className="w-full text-left text-xs text-slate-300">
+                <thead className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold bg-slate-950/60">
+                  <tr>
+                    <th className="py-2.5 px-4 text-left">SCPI</th>
+                    <th className="py-2.5 px-4 text-right">Montant réel</th>
+                    <th className="py-2.5 px-4 text-right">Revenu annuel net</th>
+                    <th className="py-2.5 px-4 text-right">Revenu cumulé {duration} ans</th>
+                    <th className="py-2.5 px-4 text-right">Poids</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {results.map((r, i) => {
+                    const weight = totalNet > 0 ? Math.round((r.netAnnualIncome / totalNet) * 100) : 0;
+                    return (
+                      <tr key={i} className="hover:bg-slate-800/40">
+                        <td className="py-2.5 px-4 font-medium text-slate-200">{r.scpiName}</td>
+                        <td className="py-2.5 px-4 text-right text-slate-300">{r.montantReel.toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-emerald-400">{r.netAnnualIncome.toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-slate-200">{(r.netAnnualIncome * duration).toLocaleString('fr-FR')} €</td>
+                        <td className="py-2.5 px-4 text-right text-slate-400">
+                          {totalNet > 0 ? `${weight} %` : '—'}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  <tr className="bg-slate-950/40 font-bold">
+                    <td className="py-2.5 px-4 text-slate-100">Total</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">{totalMontantReel.toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-emerald-300">{totalNet.toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">{(totalNet * duration).toLocaleString('fr-FR')} €</td>
+                    <td className="py-2.5 px-4 text-right text-slate-100">100 %</td>
+                  </tr>
+                </tbody>
+              </table>
+  )}
+  </div>
+</div>
+)}
 
-      {/* ═══════════════════════════════════════
-          BOUTON INTÉGRER AU RAPPORT
+{/* ═══════════════════════════════════════
+  BOUTON INTÉGRER AU RAPPORT
           ═══════════════════════════════════════ */}
       <div className="flex justify-center">
         <button
@@ -1552,8 +1773,14 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
   rawCle: string;
   setRawCle: (v: string) => void;
   montantTotal: number;
+  regimeFiscal: 'IR' | 'IS';
+  setRegimeFiscal: (v: 'IR' | 'IS') => void;
+  tauxIS: number;
+  setTauxIS: (v: number) => void;
+  rawTauxIS: string;
+  setRawTauxIS: (v: string) => void;
 }) {
-  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, clePersonnalisee, onCleChange, rawCle, setRawCle, montantTotal } = props;
+  const { typeDemembrement, setTypeDemembrement, dureeDemembrement, setDureeDemembrement, clePersonnalisee, onCleChange, rawCle, setRawCle, montantTotal, regimeFiscal, setRegimeFiscal, tauxIS, setTauxIS, rawTauxIS, setRawTauxIS } = props;
   const cleDefaut = getCleDemembrement(dureeDemembrement, typeDemembrement);
   const cleEffective = clePersonnalisee ?? cleDefaut;
   const clePct = Math.round(cleEffective * 100);
@@ -1626,6 +1853,42 @@ function HypothesesDemembrement(props: ScpiSelectProps & {
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Valeur PP équivalente</label>
             <p className="px-3 py-2.5 text-sm text-emerald-400 font-bold">{valeurPPEquivalent.toLocaleString('fr-FR')} €</p>
           </div>
+          <div>
+            <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Profil fiscal</label>
+            <div className="flex rounded-lg border border-slate-700 overflow-hidden">
+              {(['IR', 'IS'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setRegimeFiscal(t)}
+                  className={`flex-1 py-2.5 text-xs font-medium transition ${regimeFiscal === t ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+                >
+                  {t === 'IR' ? 'Personne physique IR' : 'Société IS'}
+                </button>
+              ))}
+            </div>
+          </div>
+          {regimeFiscal === 'IS' && (
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Taux IS applicable (%)</label>
+              <div className="flex gap-1 flex-wrap mb-1.5">
+                {[15, 25].map((pct) => (
+                  <button
+                    key={pct}
+                    onClick={() => setTauxIS(pct)}
+                    className={`text-[10px] px-1.5 py-0.5 rounded transition ${tauxIS === pct ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}
+                  >{pct}%</button>
+                ))}
+              </div>
+              <input
+                type="text"
+                inputMode="decimal"
+                value={rawTauxIS || String(tauxIS)}
+                onChange={(e) => setRawTauxIS(e.target.value)}
+                onBlur={() => { if (rawTauxIS) { const v = parseFrenchNumber(rawTauxIS); setTauxIS(Math.min(100, Math.max(0, v))); setRawTauxIS(''); } else setRawTauxIS(''); }}
+                className="w-full px-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-emerald-400 font-bold text-center focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+              />
+            </div>
+          )}
           <div>
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Revenus pendant la période</label>
             <p className="px-3 py-2.5 text-sm text-slate-500">{typeDemembrement === 'nue-propriete' ? 'Aucun (0 €)' : 'Perçus (100 %)'}</p>
