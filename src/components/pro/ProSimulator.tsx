@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { useProReport } from '../../contexts/ProReportContext';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
@@ -156,10 +156,6 @@ export default function ProSimulator() {
   });
 
   /* ─── Paramètres crédit ─── */
-  const [apport, setApport] = useState<number>(() => {
-    const stored = localStorage.getItem('pro_sim_apport');
-    return stored ? Number(stored) : 20000;
-  });
   const [dureeCredit, setDureeCredit] = useState<number>(() => {
     const stored = localStorage.getItem('pro_sim_dureeCredit');
     return stored ? Number(stored) : 20;
@@ -209,22 +205,17 @@ export default function ProSimulator() {
   /* ─── Sélection SCPI ─── */
   const [selections, setSelections] = useState<ScpiSelection[]>(() => {
     const stored = localStorage.getItem('pro_sim_scpis');
-    const initMontant = Number(localStorage.getItem('pro_sim_montant') || '100000');
-    if (stored) {
-      try {
-        const ids: number[] = JSON.parse(stored);
-        const found = ids.map((id) => scpiDataExtended.find((s) => s.id === id)).filter(Boolean) as SCPIExtended[];
-        if (found.length >= 2) {
-          const eq = Math.floor(initMontant / found.length / 1000) * 1000;
-          return found.map((s) => ({ scpi: s, allocation: eq }));
-        }
-      } catch {}
+    if (!stored) return [];
+    try {
+      const ids: number[] = JSON.parse(stored);
+      const initMontant = Number(localStorage.getItem('pro_sim_montant') || '100000');
+      const found = ids.map((id) => scpiDataExtended.find((s) => s.id === id)).filter(Boolean) as SCPIExtended[];
+      if (found.length === 0) return [];
+      const eq = Math.floor(initMontant / found.length / 1000) * 1000;
+      return found.map((s) => ({ scpi: s, allocation: eq }));
+    } catch {
+      return [];
     }
-    const eq = Math.floor(initMontant / 2 / 1000) * 1000;
-    return [
-      { scpi: scpiDataExtended[0], allocation: eq },
-      { scpi: scpiDataExtended[1] || scpiDataExtended[0], allocation: eq },
-    ];
   });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownSearch, setDropdownSearch] = useState('');
@@ -238,13 +229,29 @@ export default function ProSimulator() {
   const [checkedIndices, setCheckedIndices] = useState<Set<number>>(new Set());
   const [rawAlloc, setRawAlloc] = useState<Record<number, string>>({});
   const [rawParts, setRawParts] = useState<Record<number, string>>({});
-  const [rawApport, setRawApport] = useState('');
+  const [rawApport, setRawApport] = useState<string>(() => {
+    const stored = localStorage.getItem('pro_sim_apport');
+    return stored ?? '';
+  });
   const [rawTauxAssurance, setRawTauxAssurance] = useState('');
   const [rawFraisGarantie, setRawFraisGarantie] = useState('');
   const [rawFraisDossier, setRawFraisDossier] = useState('');
   const [rawCle, setRawCle] = useState('');
   const allocFocusedRef = useRef<number | null>(null);
   const partsFocusedRef = useRef<number | null>(null);
+
+  /* ─── Migration valeurs par défaut v2 ─── */
+  useEffect(() => {
+    const VERSION = '2';
+    if (localStorage.getItem('pro_sim_defaults_version') !== VERSION) {
+      localStorage.removeItem('pro_sim_scpis');
+      localStorage.removeItem('pro_sim_apport');
+      if (!localStorage.getItem('pro_sim_montant')) {
+        localStorage.setItem('pro_sim_montant', '100000');
+      }
+      localStorage.setItem('pro_sim_defaults_version', VERSION);
+    }
+  }, []);
 
   /* ─── Persistance paramètres communs ─── */
   const updateTmi = (v: number) => { setTmi(v); localStorage.setItem('pro_sim_tmi', String(v)); };
@@ -466,6 +473,7 @@ export default function ProSimulator() {
   const totalAllocation = validRows.reduce((s, r) => s + r.allocation, 0);
   const montantTotal = parseLiveDecimal(rawMontantTotal);
   const tauxNominal = parseLiveDecimal(rawTauxNominal);
+  const apport = parseLiveDecimal(rawApport);
 
   /* ─── Cash restant ─── */
   const cashRestant = montantTotal - totalMontantReel;
@@ -535,7 +543,7 @@ export default function ProSimulator() {
       cashFlowMensuel,
       effortEpargneMensuel: Math.round(effortMensuel > 0 ? effortMensuel : 0),
     };
-  }, [mode, rawMontantTotal, rawTauxNominal, apport, dureeCredit, tauxAssurance, fraisGarantie, fraisDossier, differe, dureeDiffere, totalGross, totalNet, typeDemembrement]);
+  }, [mode, rawMontantTotal, rawTauxNominal, rawApport, dureeCredit, tauxAssurance, fraisGarantie, fraisDossier, differe, dureeDiffere, totalGross, totalNet, typeDemembrement]);
 
   /* ─── Calculs démembrement ─── */
   const demembrementResult: DemembrementResult | null = useMemo(() => {
@@ -743,8 +751,6 @@ export default function ProSimulator() {
           ═══════════════════════════════════════ */}
       {mode === 'credit' && (
         <HypothesesCredit
-          apport={apport}
-          setApport={(v) => { setApport(v); localStorage.setItem('pro_sim_apport', String(v)); }}
           rawApport={rawApport} setRawApport={setRawApport}
           montantTotal={montantTotal}
           dureeCredit={dureeCredit}
@@ -1248,7 +1254,6 @@ function HypothesesComptant(props: ScpiSelectProps & { montantTotal: number }) {
 }
 
 function HypothesesCredit(props: ScpiSelectProps & {
-  apport: number; setApport: (v: number) => void;
   rawApport: string; setRawApport: (v: string) => void;
   montantTotal: number;
   dureeCredit: number; setDureeCredit: (v: number) => void;
@@ -1263,7 +1268,8 @@ function HypothesesCredit(props: ScpiSelectProps & {
   differe: string; setDiffere: (v: 'aucun' | 'partiel' | 'total') => void;
   dureeDiffere: number; setDureeDiffere: (v: number) => void;
 }) {
-  const { apport, setApport, rawApport, setRawApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, rawTauxNominal, setRawTauxNominal, tauxAssurance, setTauxAssurance, rawTauxAssurance, setRawTauxAssurance, fraisGarantie, setFraisGarantie, rawFraisGarantie, setRawFraisGarantie, fraisDossier, setFraisDossier, rawFraisDossier, setRawFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
+  const { rawApport, setRawApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, rawTauxNominal, setRawTauxNominal, tauxAssurance, setTauxAssurance, rawTauxAssurance, setRawTauxAssurance, fraisGarantie, setFraisGarantie, rawFraisGarantie, setRawFraisGarantie, fraisDossier, setFraisDossier, rawFraisDossier, setRawFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
+  const apport = parseLiveDecimal(rawApport);
   const finance = montantTotal - apport;
 
   return (
@@ -1278,7 +1284,7 @@ function HypothesesCredit(props: ScpiSelectProps & {
             <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Apport personnel</label>
             <div className="relative">
               <Euro size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input type="text" inputMode="decimal" value={rawApport || (apport > 0 ? formatDisplayNumber(apport) : '')} onChange={(e) => setRawApport(e.target.value)} onBlur={() => { if (rawApport) { const v = parseFrenchNumber(rawApport); setApport(v); setRawApport(''); } else setRawApport(''); }} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <input type="text" inputMode="decimal" value={rawApport} onChange={(e) => { setRawApport(e.target.value); localStorage.setItem('pro_sim_apport', e.target.value); }} className="w-full pl-8 pr-3 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-200 text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
             </div>
           </div>
           <div>
