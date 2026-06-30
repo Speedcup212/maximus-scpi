@@ -30,6 +30,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Info,
+  Trash2,
   PieChart,
   type LucideIcon,
 } from 'lucide-react';
@@ -90,12 +91,23 @@ interface MenuItem {
   badge?: number;
 }
 
-interface DossierItem {
-  initials: string;
-  client: string;
-  montant: string;
-  status: 'Livrable prêt' | 'Sélection terminée' | 'Analyse en cours';
-  date: string;
+type DossierStatus = 'Analyse en cours' | 'Sélection terminée' | 'Livrable prêt' | 'En attente client';
+type ClientType = 'Particulier' | 'Couple' | 'SCI' | 'Société' | 'Holding';
+
+interface ProDossier {
+  id: string;
+  name: string;
+  clientType: ClientType;
+  clientReference: string;
+  advisor: string;
+  amount: number;
+  objective: string;
+  horizon: string;
+  envelope: string;
+  status: DossierStatus;
+  note: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /* ──────────────────────────────────────────
@@ -114,13 +126,40 @@ const menuItems: MenuItem[] = [
   { icon: Building2, label: 'Mon cabinet', section: 'settings' },
 ];
 
-const dossiers: DossierItem[] = [
-  { initials: 'MB', client: 'Retraite Mme Bernard', montant: '80 000 €', status: 'Livrable prêt', date: '03/06/2026' },
-  { initials: 'FM', client: 'Dossier Martin', montant: '120 000 €', status: 'Sélection terminée', date: "Aujourd'hui" },
-  { initials: 'SD', client: 'SCI Dupont', montant: '300 000 €', status: 'Analyse en cours', date: 'Hier' },
-];
+/* ── Dossiers par défaut (seed localStorage) ── */
+const DOSSIERS_KEY = 'maximus_pro_dossiers';
 
-const statusStyle = (status: DossierItem['status']) => {
+function generateId(): string {
+  return 'dossier_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+}
+
+function defaultProDossiers(): ProDossier[] {
+  return [
+    { id: 'seed-1', name: 'Retraite Mme Bernard', clientType: 'Particulier', clientReference: '', advisor: 'Eric B.', amount: 80000, objective: 'Revenus complémentaires', horizon: '8 à 12 ans', envelope: 'Assurance-vie', status: 'Livrable prêt', note: '', createdAt: '2026-06-03', updatedAt: '2026-06-03' },
+    { id: 'seed-2', name: 'Dossier Martin', clientType: 'Couple', clientReference: '', advisor: 'Eric B.', amount: 120000, objective: 'Diversification patrimoniale', horizon: '5 à 8 ans', envelope: 'Direct', status: 'Sélection terminée', note: '', createdAt: new Date().toISOString().slice(0, 10), updatedAt: new Date().toISOString().slice(0, 10) },
+    { id: 'seed-3', name: 'SCI Dupont', clientType: 'SCI', clientReference: '', advisor: 'Eric B.', amount: 300000, objective: 'Capitalisation long terme', horizon: 'Plus de 12 ans', envelope: 'SCI IS', status: 'Analyse en cours', note: '', createdAt: new Date(Date.now() - 86400000).toISOString().slice(0, 10), updatedAt: new Date(Date.now() - 86400000).toISOString().slice(0, 10) },
+  ];
+}
+
+function loadDossiers(): ProDossier[] {
+  try {
+    const raw = localStorage.getItem(DOSSIERS_KEY);
+    if (!raw) return defaultProDossiers();
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) return defaultProDossiers();
+    return parsed as ProDossier[];
+  } catch {
+    return defaultProDossiers();
+  }
+}
+
+function saveDossiers(dossiers: ProDossier[]): void {
+  try {
+    localStorage.setItem(DOSSIERS_KEY, JSON.stringify(dossiers));
+  } catch { /* quota exceeded, ignore */ }
+}
+
+const statusStyle = (status: DossierStatus) => {
   switch (status) {
     case 'Livrable prêt':
       return 'text-blue-400 bg-blue-500/10';
@@ -128,8 +167,24 @@ const statusStyle = (status: DossierItem['status']) => {
       return 'text-emerald-400 bg-emerald-500/10';
     case 'Analyse en cours':
       return 'text-amber-400 bg-amber-500/10';
+    case 'En attente client':
+      return 'text-purple-400 bg-purple-500/10';
   }
 };
+
+function getInitials(name: string): string {
+  return name.split(' ').filter(w => w.length > 1).slice(0, 2).map(w => w[0].toUpperCase()).join('') || name.slice(0, 2).toUpperCase();
+}
+
+function formatDateFR(iso: string): string {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function formatAmount(v: number): string {
+  return v.toLocaleString('fr-FR') + ' €';
+}
 
 const sectionLabel: Record<ProSection, string> = {
   'dashboard': 'Dashboard',
@@ -155,7 +210,8 @@ interface DashboardHomeProps {
 }
 
 function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHomeProps) {
-  const [dossierModal, setDossierModal] = useState<DossierItem | null>(null);
+  const [dossierModal, setDossierModal] = useState<ProDossier | null>(null);
+  const [dossiers] = useState<ProDossier[]>(() => loadDossiers());
 
   return (
     <>
@@ -248,6 +304,8 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
           DOSSIERS EN COURS (aperçu)
           ═══════════════════════════════════════ */}
       <DossiersTable
+        dossiers={dossiers}
+        compact
         onOpenDossier={(d) => setDossierModal(d)}
         onViewAll={() => onNavigate('dossiers')}
         onCreateDossier={() => onNavigate('dossiers')}
@@ -315,17 +373,20 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
         <DossierDetailModal
           dossier={dossierModal}
           onClose={() => setDossierModal(null)}
-          onOuvrirDossier={() => onNavigate('dossiers')}
+          onEdit={() => onNavigate('dossiers')}
+          onDelete={() => { /* handled in DossiersFull */ setDossierModal(null); }}
         />
       )}
     </>
   );
 }
 
-function DossiersTable({ onOpenDossier, onViewAll, onCreateDossier }: {
-  onOpenDossier: (dossier: DossierItem) => void;
+function DossiersTable({ dossiers, onOpenDossier, onViewAll, onCreateDossier, compact }: {
+  dossiers: ProDossier[];
+  onOpenDossier: (dossier: ProDossier) => void;
   onViewAll: () => void;
   onCreateDossier: () => void;
+  compact?: boolean;
 }) {
   return (
     <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:p-5">
@@ -337,55 +398,61 @@ function DossiersTable({ onOpenDossier, onViewAll, onCreateDossier }: {
         <div className="flex items-center gap-2">
           <button
             onClick={onCreateDossier}
-            className="text-[10px] sm:text-xs px-2.5 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors inline-flex items-center gap-1"
+            className="text-[10px] sm:text-xs px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors inline-flex items-center gap-1"
           >
             <Plus className="w-3 h-3" />
             Nouveau
           </button>
-          <button
-            onClick={onViewAll}
-            className="text-[10px] sm:text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
-          >
-            Voir tout →
-          </button>
+          {compact && (
+            <button
+              onClick={onViewAll}
+              className="text-[10px] sm:text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              Voir tout →
+            </button>
+          )}
         </div>
       </div>
       <div className="overflow-x-auto -mx-4 sm:mx-0">
         <table className="min-w-[600px] w-full text-xs">
           <thead>
             <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
-              <th className="text-left py-2.5 px-3 font-medium">Client</th>
+              <th className="text-left py-2.5 px-3 font-medium">Client / dossier</th>
+              {!compact && <th className="text-left py-2.5 px-3 font-medium hidden sm:table-cell">Type</th>}
               <th className="text-right py-2.5 px-3 font-medium">Montant</th>
+              {!compact && <th className="text-left py-2.5 px-3 font-medium hidden md:table-cell">Objectif</th>}
               <th className="text-center py-2.5 px-3 font-medium">Statut</th>
               <th className="text-right py-2.5 px-3 font-medium hidden sm:table-cell">Date</th>
               <th className="py-2.5 px-3 w-10"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/50">
-            {dossiers.map((dossier) => (
-              <tr key={dossier.client} className="hover:bg-slate-800/40 transition-colors">
+            {dossiers.map((d) => (
+              <tr key={d.id} className="hover:bg-slate-800/40 transition-colors">
                 <td className="py-3 px-3">
                   <div className="flex items-center gap-2.5">
                     <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-300 shrink-0">
-                      {dossier.initials}
+                      {getInitials(d.name)}
                     </div>
-                    <span className="text-white font-medium truncate">{dossier.client}</span>
+                    <span className="text-white font-medium truncate">{d.name}</span>
                   </div>
                 </td>
+                {!compact && <td className="py-3 px-3 text-slate-500 hidden sm:table-cell whitespace-nowrap">{d.clientType}</td>}
                 <td className="py-3 px-3 text-right">
-                  <span className="text-white font-semibold whitespace-nowrap">{dossier.montant}</span>
+                  <span className="text-white font-semibold whitespace-nowrap">{formatAmount(d.amount)}</span>
                 </td>
+                {!compact && <td className="py-3 px-3 text-slate-400 hidden md:table-cell truncate max-w-[120px]">{d.objective}</td>}
                 <td className="py-3 px-3 text-center">
-                  <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full ${statusStyle(dossier.status)}`}>
-                    {dossier.status}
+                  <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full ${statusStyle(d.status)}`}>
+                    {d.status}
                   </span>
                 </td>
                 <td className="py-3 px-3 text-right text-slate-500 hidden sm:table-cell whitespace-nowrap">
-                  {dossier.date}
+                  {formatDateFR(d.updatedAt)}
                 </td>
                 <td className="py-3 px-1">
                   <button
-                    onClick={() => onOpenDossier(dossier)}
+                    onClick={() => onOpenDossier(d)}
                     className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors whitespace-nowrap"
                   >
                     Ouvrir
@@ -400,100 +467,335 @@ function DossiersTable({ onOpenDossier, onViewAll, onCreateDossier }: {
   );
 }
 
-function DossiersFull() {
-  const [dossierModal, setDossierModal] = useState<DossierItem | null>(null);
+/* ── Constantes pour les formulaires ── */
+const CLIENT_TYPES: ClientType[] = ['Particulier', 'Couple', 'SCI', 'Société', 'Holding'];
+const OBJECTIFS = ['Revenus complémentaires', 'Diversification patrimoniale', 'Capitalisation long terme', 'Fiscalité / optimisation', 'Transmission', 'Trésorerie société', 'Démembrement'];
+const HORIZONS = ['3 à 5 ans', '5 à 8 ans', '8 à 12 ans', 'Plus de 12 ans'];
+const ENVELOPPES = ['Direct', 'Assurance-vie', 'SCI IR', 'SCI IS', 'Société IS', 'Nue-propriété', 'À définir'];
+const STATUTS: DossierStatus[] = ['Analyse en cours', 'Sélection terminée', 'Livrable prêt', 'En attente client'];
+
+function CreateDossierModal({ onSave, onClose, initial }: {
+  onSave: (data: Omit<ProDossier, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  onClose: () => void;
+  initial?: ProDossier | null;
+}) {
+  const isEdit = !!initial;
+  const [name, setName] = useState(initial?.name ?? '');
+  const [clientType, setClientType] = useState<ClientType>(initial?.clientType ?? 'Particulier');
+  const [clientReference, setClientReference] = useState(initial?.clientReference ?? '');
+  const [advisor] = useState(initial?.advisor ?? 'Eric B.');
+  const [amount, setAmount] = useState(initial?.amount ? String(initial.amount) : '');
+  const [amountError, setAmountError] = useState('');
+  const [objective, setObjective] = useState(initial?.objective ?? '');
+  const [horizon, setHorizon] = useState(initial?.horizon ?? '');
+  const [envelope, setEnvelope] = useState(initial?.envelope ?? 'À définir');
+  const [status, setStatus] = useState<DossierStatus>(initial?.status ?? 'Analyse en cours');
+  const [note, setNote] = useState(initial?.note ?? '');
+
+  const isValid = name.trim().length > 0 && clientType && amount && Number(amount) > 0 && objective && horizon;
+
+  const handleSubmit = () => {
+    if (!isValid) return;
+    const amt = Number(amount);
+    if (amt <= 0) { setAmountError('Le montant doit être supérieur à 0.'); return; }
+    setAmountError('');
+    onSave({ name: name.trim(), clientType, clientReference: clientReference.trim(), advisor, amount: amt, objective, horizon, envelope, status, note: note.trim() });
+  };
+
   return (
-    <>
-      <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">Dossiers en cours</h1>
-      <p className="text-xs text-slate-400 mb-4 sm:mb-6">3 dossiers actifs — gérez vos analyses en cours.</p>
-      <DossiersTable
-        onOpenDossier={(d) => setDossierModal(d)}
-        onViewAll={() => {}}
-        onCreateDossier={() => {}}
-      />
-      {dossierModal && (
-        <DossierDetailModal
-          dossier={dossierModal}
-          onClose={() => setDossierModal(null)}
-          onOuvrirDossier={() => {}}
-        />
-      )}
-    </>
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-10 overflow-y-auto">
+      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      <div className="relative bg-slate-900 border border-slate-800 rounded-xl w-full max-w-2xl p-6 shadow-2xl">
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <span className="text-[10px] text-slate-500 uppercase tracking-widest">{isEdit ? 'Modifier' : 'Nouveau dossier'}</span>
+            <h2 className="text-lg font-bold text-white mt-1">{isEdit ? name || 'Dossier' : 'Nouveau dossier client'}</h2>
+            {!isEdit && <p className="text-xs text-slate-500 mt-0.5">Créez un espace de travail pour analyser, comparer et préparer vos supports client.</p>}
+          </div>
+          <button onClick={onClose} className="p-1 text-slate-500 hover:text-white transition-colors rounded-lg hover:bg-slate-800"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="space-y-6 max-h-[65vh] overflow-y-auto pr-1">
+          {/* Bloc A — Identification */}
+          <div>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">Identification du dossier</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="sm:col-span-2">
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Nom du dossier <span className="text-red-400">*</span></label>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ex : Retraite Mme Bernard" className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Type de client <span className="text-red-400">*</span></label>
+                <select value={clientType} onChange={(e) => setClientType(e.target.value as ClientType)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  {CLIENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Référence interne</label>
+                <input type="text" value={clientReference} onChange={(e) => setClientReference(e.target.value)} placeholder="Ex : CLI-2026-014" className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">CGP en charge</label>
+                <input type="text" value={advisor} disabled className="w-full px-3 py-2 bg-slate-800/40 border border-slate-700 rounded-lg text-sm text-slate-400 cursor-not-allowed" />
+              </div>
+            </div>
+          </div>
+
+          {/* Bloc B — Projet patrimonial */}
+          <div>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">Projet patrimonial</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Montant envisagé <span className="text-red-400">*</span></label>
+                <input type="text" inputMode="numeric" value={amount} onChange={(e) => { setAmount(e.target.value); setAmountError(''); }} placeholder="Ex : 80000" className={`w-full px-3 py-2 bg-slate-800 border rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition ${amountError ? 'border-red-500' : 'border-slate-700'}`} />
+                {amountError && <p className="text-[10px] text-red-400 mt-1">{amountError}</p>}
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Objectif principal <span className="text-red-400">*</span></label>
+                <select value={objective} onChange={(e) => setObjective(e.target.value)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  <option value="">— Sélectionner —</option>
+                  {OBJECTIFS.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Horizon d'investissement <span className="text-red-400">*</span></label>
+                <select value={horizon} onChange={(e) => setHorizon(e.target.value)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  <option value="">— Sélectionner —</option>
+                  {HORIZONS.map(h => <option key={h} value={h}>{h}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Enveloppe envisagée</label>
+                <select value={envelope} onChange={(e) => setEnvelope(e.target.value)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  {ENVELOPPES.map(e => <option key={e} value={e}>{e}</option>)}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Bloc C — Statut */}
+          <div>
+            <h3 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">Statut du dossier</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Statut initial <span className="text-red-400">*</span></label>
+                <select value={status} onChange={(e) => setStatus(e.target.value as DossierStatus)} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition">
+                  {STATUTS.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Note interne</label>
+                <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Points d'attention, contraintes client, prochaine action…" rows={2} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition resize-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+          <button onClick={onClose} className="px-4 py-2 text-xs font-medium text-slate-400 hover:text-white transition-colors">Annuler</button>
+          <button onClick={handleSubmit} disabled={!isValid} className={`px-5 py-2 text-xs font-medium rounded-lg transition-colors ${isValid ? 'bg-emerald-600 hover:bg-emerald-500 text-white' : 'bg-slate-700 text-slate-500 cursor-not-allowed'}`}>
+            {isEdit ? 'Enregistrer les modifications' : 'Créer le dossier'}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
-function LivrablesContent() {
+function DossiersFull() {
+  const [allDossiers, setAllDossiers] = useState<ProDossier[]>(loadDossiers);
+  const [detailDossier, setDetailDossier] = useState<ProDossier | null>(null);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showEdit, setShowEdit] = useState<ProDossier | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
+
+  const handleCreateDossier = (data: Omit<ProDossier, 'id' | 'createdAt' | 'updatedAt'>) => {
+    const now = new Date().toISOString().slice(0, 10);
+    const newDossier: ProDossier = { ...data, id: generateId(), createdAt: now, updatedAt: now };
+    const updated = [newDossier, ...allDossiers];
+    setAllDossiers(updated);
+    saveDossiers(updated);
+    setShowCreate(false);
+    showToast('Dossier créé avec succès.');
+  };
+
+  const handleSaveEdit = (data: Omit<ProDossier, 'id' | 'createdAt' | 'updatedAt'>) => {
+    if (!showEdit) return;
+    const now = new Date().toISOString().slice(0, 10);
+    const updatedDossier: ProDossier = { ...data, id: showEdit.id, createdAt: showEdit.createdAt, updatedAt: now };
+    const updated = allDossiers.map(d => d.id === showEdit.id ? updatedDossier : d);
+    setAllDossiers(updated);
+    saveDossiers(updated);
+    setShowEdit(null);
+    setDetailDossier(updatedDossier);
+    showToast('Dossier mis à jour.');
+  };
+
+  const handleDeleteDossier = (id: string) => {
+    if (!window.confirm('Supprimer ce dossier ? Cette action est locale à votre navigateur.')) return;
+    const updated = allDossiers.filter(d => d.id !== id);
+    setAllDossiers(updated);
+    saveDossiers(updated);
+    setDetailDossier(null);
+    showToast('Dossier supprimé.');
+  };
+
   return (
     <>
-      <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">Livrables</h1>
-      <p className="text-xs text-slate-400 mb-4 sm:mb-6">Documents et rapports générés pour vos clients.</p>
-      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-8 text-center">
-        <FileText className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-        <p className="text-slate-400 text-sm mb-1">Aucun livrable pour le moment</p>
-        <p className="text-slate-600 text-xs">Les livrables apparaîtront ici après validation de vos analyses.</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+        <div>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">Dossiers en cours</h1>
+          <p className="text-xs text-slate-400">{allDossiers.length} dossier{allDossiers.length > 1 ? 's' : ''} actif{allDossiers.length > 1 ? 's' : ''} — gérez vos analyses en cours.</p>
+        </div>
+        <button
+          onClick={() => setShowCreate(true)}
+          className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors shrink-0"
+        >
+          <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          Nouveau dossier
+        </button>
+      </div>
+
+      {allDossiers.length === 0 ? (
+        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-8 text-center">
+          <FolderOpen className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+          <p className="text-slate-400 text-sm mb-1">Aucun dossier</p>
+          <p className="text-slate-600 text-xs mb-4">Créez votre premier dossier client.</p>
+          <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors">
+            <Plus className="w-4 h-4" /> Nouveau dossier
+          </button>
+        </div>
+      ) : (
+        <DossiersTable
+          dossiers={allDossiers}
+          onOpenDossier={(d) => setDetailDossier(d)}
+          onViewAll={() => {}}
+          onCreateDossier={() => setShowCreate(true)}
+        />
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-emerald-600 text-white text-sm font-medium px-5 py-2.5 rounded-lg shadow-lg animate-pulse-once">
+          {toast}
+        </div>
+      )}
+
+      {detailDossier && (
+        <DossierDetailModal
+          dossier={detailDossier}
+          onClose={() => setDetailDossier(null)}
+          onEdit={() => { setShowEdit(detailDossier); setDetailDossier(null); }}
+          onDelete={() => handleDeleteDossier(detailDossier.id)}
+        />
+      )}
+
+      {showCreate && (
+        <CreateDossierModal
+          onSave={handleCreateDossier}
+          onClose={() => setShowCreate(false)}
+        />
+      )}
+
+      {showEdit && (
+        <CreateDossierModal
+          initial={showEdit}
+          onSave={handleSaveEdit}
+          onClose={() => setShowEdit(null)}
+        />
+      )}
+
+      {/* Compliance */}
+      <div className="mt-6 bg-slate-900/40 border border-slate-800/60 rounded-xl p-3 sm:p-4">
+        <h4 className="text-[11px] font-semibold text-slate-400 mb-1.5">Cadre d&rsquo;utilisation</h4>
+        <p className="text-[10px] text-slate-500 leading-relaxed">
+          Support d&rsquo;aide à la décision — le conseil final, la vérification réglementaire et la documentation client restent sous la responsabilité du CGP.
+        </p>
       </div>
     </>
   );
 }
 
-function DossierDetailModal({ dossier, onClose, onOuvrirDossier }: {
-  dossier: DossierItem;
+function DossierDetailModal({ dossier, onClose, onEdit, onDelete }: {
+  dossier: ProDossier;
   onClose: () => void;
-  onOuvrirDossier: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }) {
   const nextAction = dossier.status === 'Livrable prêt'
     ? 'Envoyer le livrable au client'
     : dossier.status === 'Sélection terminée'
       ? 'Finaliser le rapport de sélection'
-      : 'Poursuivre l\'analyse comparative';
+      : dossier.status === 'Analyse en cours'
+        ? 'Poursuivre l\'analyse comparative'
+        : 'Relancer le client';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-10 overflow-y-auto">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-slate-900 border border-slate-800 rounded-xl w-full max-w-md p-6 shadow-2xl">
+      <div className="relative bg-slate-900 border border-slate-800 rounded-xl w-full max-w-lg p-6 shadow-2xl">
         <div className="flex items-start justify-between mb-5">
           <div>
             <span className="text-[10px] text-slate-500 uppercase tracking-widest">Détail dossier</span>
-            <h2 className="text-lg font-bold text-white mt-1">{dossier.client}</h2>
+            <h2 className="text-lg font-bold text-white mt-1">{dossier.name}</h2>
+            <p className="text-xs text-slate-500 mt-0.5">Créé le {formatDateFR(dossier.createdAt)} · Mis à jour le {formatDateFR(dossier.updatedAt)}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1 text-slate-500 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <button onClick={onClose} className="p-1 text-slate-500 hover:text-white transition-colors rounded-lg hover:bg-slate-800"><X className="w-5 h-5" /></button>
         </div>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-4 max-h-[55vh] overflow-y-auto pr-1">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Type de client</p>
+              <p className="text-sm font-bold text-white">{dossier.clientType}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">CGP en charge</p>
+              <p className="text-sm font-bold text-white">{dossier.advisor}</p>
+            </div>
+            {dossier.clientReference && (
+              <div className="bg-slate-800/60 rounded-lg p-3">
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Référence</p>
+                <p className="text-sm font-bold text-white">{dossier.clientReference}</p>
+              </div>
+            )}
             <div className="bg-slate-800/60 rounded-lg p-3">
               <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Montant</p>
-              <p className="text-sm font-bold text-white">{dossier.montant}</p>
+              <p className="text-sm font-bold text-white">{formatAmount(dossier.amount)}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Objectif</p>
+              <p className="text-sm font-bold text-white">{dossier.objective}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Horizon</p>
+              <p className="text-sm font-bold text-white">{dossier.horizon}</p>
+            </div>
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Enveloppe</p>
+              <p className="text-sm font-bold text-white">{dossier.envelope}</p>
             </div>
             <div className="bg-slate-800/60 rounded-lg p-3">
               <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Statut</p>
-              <span className={`inline-block text-[11px] px-2 py-0.5 rounded-full font-medium ${statusStyle(dossier.status)}`}>
-                {dossier.status}
-              </span>
-            </div>
-            <div className="bg-slate-800/60 rounded-lg p-3">
-              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Date</p>
-              <p className="text-sm font-bold text-white">{dossier.date}</p>
-            </div>
-            <div className="bg-slate-800/60 rounded-lg p-3">
-              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Initiales</p>
-              <p className="text-sm font-bold text-white">{dossier.initials}</p>
+              <span className={`inline-block text-[11px] px-2 py-0.5 rounded-full font-medium ${statusStyle(dossier.status)}`}>{dossier.status}</span>
             </div>
           </div>
+          {dossier.note && (
+            <div className="bg-slate-800/60 rounded-lg p-3">
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Note interne</p>
+              <p className="text-xs text-slate-300 leading-relaxed">{dossier.note}</p>
+            </div>
+          )}
           <div className="bg-amber-500/5 border border-amber-500/15 rounded-lg p-3">
             <p className="text-[10px] text-amber-400 uppercase tracking-wider mb-1">Prochaine action recommandée</p>
             <p className="text-xs text-amber-300/80">{nextAction}</p>
           </div>
-          <button
-            onClick={() => { onClose(); onOuvrirDossier(); }}
-            className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors"
-          >
-            Ouvrir le dossier complet
-          </button>
+        </div>
+        <div className="mt-5 pt-4 border-t border-slate-800 flex items-center gap-3">
+          <button onClick={onEdit} className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors">Modifier</button>
+          <button onClick={onClose} className="flex-1 py-2.5 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-sm font-medium rounded-lg transition-colors">Fermer</button>
+          <button onClick={onDelete} className="p-2.5 text-slate-500 hover:text-red-400 transition-colors rounded-lg hover:bg-red-950/30" title="Supprimer"><Trash2 className="w-5 h-5" /></button>
         </div>
       </div>
     </div>
