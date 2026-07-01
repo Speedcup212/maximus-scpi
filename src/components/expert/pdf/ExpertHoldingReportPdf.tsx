@@ -252,6 +252,62 @@ const styles = StyleSheet.create({
     lineHeight: 1.6,
     marginBottom: 2,
   },
+  syntheseBox: {
+    backgroundColor: '#f0f9ff',
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 14,
+    borderRadius: 2,
+  },
+  syntheseTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 8,
+  },
+  syntheseText: {
+    fontSize: 9,
+    color: '#1e293b',
+    lineHeight: 1.7,
+  },
+  hypothesesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 4,
+  },
+  hypothesesItem: {
+    width: '31%',
+    marginRight: '2%',
+    marginBottom: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    backgroundColor: '#f8fafc',
+    borderRadius: 2,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  hypothesesLabel: {
+    fontSize: 7,
+    color: '#94a3b8',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    marginBottom: 1,
+  },
+  hypothesesValue: {
+    fontSize: 9,
+    fontWeight: 'bold',
+    color: '#334155',
+  },
+  vatBadge: {
+    fontSize: 7,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: 3,
+    alignSelf: 'flex-start',
+    marginTop: 2,
+  },
   disclaimer: {
     backgroundColor: '#fff7ed',
     borderLeftWidth: 3,
@@ -327,13 +383,29 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           </View>
         </View>
 
-        {/* Synthèse exécutive */}
-        <Text style={styles.sectionTitle}>Synthèse exécutive</Text>
+        {/* Synthèse de l'opération */}
+        <View style={styles.syntheseBox}>
+          <Text style={styles.syntheseTitle}>Synthèse de l'opération</Text>
+          <Text style={styles.syntheseText}>
+            La société mobilise {fmtEuro(result.effortEconomique)} sur une trésorerie disponible de {fmtEuro(inputs.availableCash)}.
+          </Text>
+          <Text style={styles.syntheseText}>
+            Trésorerie résiduelle théorique après opération : {fmtEuro(tresorerieResiduelle)}.
+          </Text>
+          <Text style={styles.syntheseText}>
+            L'opération dégage un cash-flow net de {fmtEuro(result.annualNetCashFlowAfterFees)} en année 1.
+          </Text>
+          <Text style={styles.syntheseText}>
+            L'impact IS année 1 ressort à {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}.
+          </Text>
+          <Text style={styles.syntheseText}>
+            Le rendement net moyen annuel ressort à {fmtPercent(result.netCompanyYieldAvgAnnual)} sur {inputs.usufruitDuration} ans.
+          </Text>
+        </View>
+
+        {/* Vue synthétique */}
+        <Text style={styles.sectionTitle}>Vue synthétique</Text>
         <View style={styles.grid2}>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Trésorerie disponible</Text>
-            <Text style={styles.kpiValue}>{fmtEuro(inputs.availableCash)}</Text>
-          </View>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Effort de trésorerie total</Text>
             <Text style={styles.kpiValue}>{fmtEuro(result.effortEconomique)}</Text>
@@ -347,38 +419,6 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
               {fmtEuro(tresorerieResiduelle)}
             </Text>
           </View>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Montant investi usufruit</Text>
-            <Text style={styles.kpiValue}>{fmtEuro(inputs.usufruitInvestment)}</Text>
-          </View>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Pleine propriété SCPI</Text>
-            <Text style={styles.kpiValue}>{fmtEuro(result.reconstitutedFullProperty)}</Text>
-          </View>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Durée de l'usufruit</Text>
-            <Text style={styles.kpiValue}>{inputs.usufruitDuration} ans</Text>
-          </View>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Clé d'usufruit</Text>
-            <Text style={styles.kpiValue}>{fmtPercent(inputs.usufruitKeyPercent)}</Text>
-          </View>
-          <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Taux distribution brut</Text>
-            <Text style={styles.kpiValue}>{fmtPercent(inputs.grossYieldRate)}</Text>
-          </View>
-          {inputs.feesEnabled && (
-            <View style={styles.kpiCard}>
-              <Text style={styles.kpiLabel}>Honoraires retenus</Text>
-              <Text style={styles.kpiValue}>{fmtEuro(result.effortEconomique - inputs.usufruitInvestment)}</Text>
-              <Text style={styles.kpiSublabel}>{FEES_TREATMENT_SHORT[inputs.feesTreatment]}</Text>
-            </View>
-          )}
-        </View>
-
-        {/* Indicateurs clés */}
-        <Text style={styles.sectionTitle}>Indicateurs clés</Text>
-        <View style={styles.grid2}>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Cash-flow net année 1</Text>
             <Text style={result.annualNetCashFlowAfterFees >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
@@ -396,6 +436,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={result.netCompanyYieldAvgAnnual >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
               {fmtPercent(result.netCompanyYieldAvgAnnual)}
             </Text>
+            <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
           </View>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Cash-flow net cumulé</Text>
@@ -404,33 +445,50 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           </View>
         </View>
 
-        {/* Lecture expert-comptable */}
-        <View style={styles.opinionBox}>
-          <Text style={styles.opinionTitle}>Lecture expert-comptable</Text>
-          <Text style={styles.opinionItem}>
-            • L'opération génère un résultat fiscal additionnel de {fmtEuro(result.annualFiscalResultOperationOnly)} la première année.
-          </Text>
-          <Text style={styles.opinionItem}>
-            • L'impact IS année 1 ressort à {result.annualISImpact >= 0 ? '+' : '−'}{fmtEuro(Math.abs(result.annualISImpact))}.
-          </Text>
-          <Text style={styles.opinionItem}>
-            • Le cash-flow net année 1 ressort à {fmtEuro(result.annualNetCashFlowAfterFees)}.
-          </Text>
-          <Text style={styles.opinionItem}>
-            • Le rendement net moyen annuel ressort à {fmtPercent(result.netCompanyYieldAvgAnnual)}.
-          </Text>
-          <Text style={styles.opinionItem}>
-            • Effort total : {fmtEuro(result.effortEconomique)} — Trésorerie résiduelle : {fmtEuro(tresorerieResiduelle)}.
-          </Text>
+        {/* Hypothèses principales retenues */}
+        <Text style={styles.sectionTitle}>Hypothèses principales retenues</Text>
+        <View style={styles.hypothesesGrid}>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Usufruit investi</Text>
+            <Text style={styles.hypothesesValue}>{fmtEuro(inputs.usufruitInvestment)}</Text>
+          </View>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Pleine propriété SCPI</Text>
+            <Text style={styles.hypothesesValue}>{fmtEuro(result.reconstitutedFullProperty)}</Text>
+          </View>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Durée de l'usufruit</Text>
+            <Text style={styles.hypothesesValue}>{inputs.usufruitDuration} ans</Text>
+          </View>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Clé d'usufruit</Text>
+            <Text style={styles.hypothesesValue}>{fmtPercent(inputs.usufruitKeyPercent)}</Text>
+          </View>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Taux distribution brut</Text>
+            <Text style={styles.hypothesesValue}>{fmtPercent(inputs.grossYieldRate)}</Text>
+          </View>
+          <View style={styles.hypothesesItem}>
+            <Text style={styles.hypothesesLabel}>Revalorisation annuelle</Text>
+            <Text style={styles.hypothesesValue}>{inputs.revalorizationRate} %</Text>
+          </View>
           {inputs.feesEnabled && (
-            <Text style={styles.opinionItem}>
-              • Honoraires : {fmtEuro(result.feesHT)} HT + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC
-              {inputs.feesVatRecoverable ? ' (TVA récupérable)' : ' (TVA non récupérable)'}.
-            </Text>
+            <View style={{ ...styles.hypothesesItem, width: '64%' }}>
+              <Text style={styles.hypothesesLabel}>Honoraires</Text>
+              <Text style={styles.hypothesesValue}>
+                {fmtEuro(result.feesHT)} HT + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC
+              </Text>
+              <Text style={{ ...styles.hypothesesLabel, marginTop: 2 }}>
+                Traitement : {FEES_TREATMENT_SHORT[inputs.feesTreatment]} — TVA {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}
+              </Text>
+            </View>
           )}
-          <Text style={{ ...styles.opinionItem, marginTop: 4 }}>
-            • Validation comptable et fiscale requise avant toute présentation client.
-          </Text>
+          <View style={{ ...styles.hypothesesItem, width: '98%' }}>
+            <Text style={styles.hypothesesLabel}>Régime IS</Text>
+            <Text style={styles.hypothesesValue}>
+              {inputs.reducedRateEligible ? 'Taux réduit PME (15 % / 25 %)' : 'Taux normal (25 %)'}
+            </Text>
+          </View>
         </View>
 
         {/* Footer */}
