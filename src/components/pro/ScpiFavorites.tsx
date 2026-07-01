@@ -77,9 +77,9 @@ function ltvSignal(ltv: number | null | undefined): Signal {
   return 'red';
 }
 
-function discountSignal(d: { displayValue?: number | null } | null): Signal {
-  if (!d || d.displayValue == null || d.displayValue === 0) return 'neutral';
-  return d.displayValue > 0 ? 'amber' : 'green';
+function discountSignal(d: { value?: number | null } | null): Signal {
+  if (!d || d.value == null || d.value === 0) return 'neutral';
+  return d.value > 0 ? 'amber' : 'green';
 }
 
 function scoreSignal(s: number | null | undefined): Signal {
@@ -101,7 +101,7 @@ function signalClass(signal: Signal): string {
 /* ── Verdict simplifié ── */
 function getVerdict(scpi: SCPIExtended): string {
   const d = resolveDisplayedDiscount(scpi);
-  const hasHighSurcote = (d.displayValue ?? 0) > 5;
+  const hasHighSurcote = (d.value ?? 0) > 5;
   const lowTof = (scpi.tof ?? 100) < 90;
   const highLtv = (scpi.ltv ?? 0) > 30;
   const highYield = scpi.yield >= 6;
@@ -246,8 +246,9 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, on
   isInComparison?: boolean;
 }) {
   const discountInfo = resolveDisplayedDiscount(scpi);
-  const hasDiscount = discountInfo.displayValue != null && discountInfo.displayValue !== 0;
-  const isPositive = (discountInfo.displayValue ?? 0) > 0;
+  const hasDiscount = discountInfo.value != null && discountInfo.value !== 0;
+  const isPositive = (discountInfo.value ?? 0) > 0;
+  const discountLabel = isPositive ? 'Surcote' : 'Décote';
 
   return (
     <div className="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition-colors">
@@ -301,7 +302,7 @@ function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, on
           <div className={`rounded-lg px-3 py-2 text-[10px] sm:text-xs font-medium ${
             isPositive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
           }`}>
-            {discountInfo.label} : {discountInfo.displayValue != null ? `${discountInfo.displayValue.toFixed(1)}%` : '—'}
+            {discountLabel} : {discountInfo.value != null ? `${discountInfo.value.toFixed(1)}%` : '—'}
           </div>
         )}
 
@@ -679,10 +680,10 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                             <td className="py-3 px-3 text-right tabular-nums whitespace-nowrap">
                               {(() => {
                                 const di = resolveDisplayedDiscount(scpi);
-                                if (di.displayValue == null || di.displayValue === 0) return <span className="text-slate-600">—</span>;
+                                if (di.value == null || di.value === 0) return <span className="text-slate-600">—</span>;
                                 return (
                                   <span className={`font-semibold ${signalClass(discountSignal(di))}`}>
-                                    {(di.displayValue > 0 ? '+' : '')}{di.displayValue.toFixed(1)}%
+                                    {(di.value > 0 ? '+' : '')}{di.value.toFixed(1)}%
                                   </span>
                                 );
                               })()}
@@ -792,7 +793,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                             const sig = discountSignal(di);
                             return (
                               <td key={s.id} className={`py-2 px-2 text-center text-[10px] font-semibold ${signalClass(sig)}`}>
-                                {di.displayValue != null && di.displayValue !== 0 ? `${(di.displayValue > 0 ? '+' : '')}${di.displayValue.toFixed(1)}%` : '—'}
+                                {di.value != null && di.value !== 0 ? `${(di.value > 0 ? '+' : '')}${di.value.toFixed(1)}%` : '—'}
                               </td>
                             );
                           })}
@@ -939,7 +940,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         <DataRow label="Valeur de reconstitution" render={s => formatCurrency(s.reconstitutionValue, '€')} />
                         <DataRow label="Valeur de réalisation" render={s => formatCurrency(s.valeurRealisation, '€')} />
                         <DataRow label="Valeur de retrait" render={s => formatCurrency(s.valeurRetrait, '€')} />
-                        <DataRow label="Décote / Surcote" render={s => { const di = resolveDisplayedDiscount(s); if (di.displayValue == null || di.displayValue === 0) return '—'; return <span className={di.displayValue > 0 ? 'text-amber-400' : 'text-emerald-400'}>{(di.displayValue > 0 ? '+' : '')}{di.displayValue.toFixed(1)}%</span>; }} signal={s => discountSignal(resolveDisplayedDiscount(s))} />
+                        <DataRow label="Décote / Surcote" render={s => { const di = resolveDisplayedDiscount(s); if (di.value == null || di.value === 0) return '—'; return <span className={di.value > 0 ? 'text-amber-400' : 'text-emerald-400'}>{(di.value > 0 ? '+' : '')}{di.value.toFixed(1)}%</span>; }} signal={s => discountSignal(resolveDisplayedDiscount(s))} />
                         <DataRow label="Délai de jouissance" render={s => s.delaiJouissance != null ? `${s.delaiJouissance} mois` : '—'} />
                       </CollapsibleFamily>
 
@@ -1068,7 +1069,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                         <td className="py-3 px-3 text-right text-white font-semibold tabular-nums">{scpi.price != null ? `${scpi.price}€` : '—'}</td>
                         <td className="py-3 px-3 text-right text-slate-300 tabular-nums">{scpi.minInvestment.toLocaleString('fr-FR')}€</td>
                         <td className="py-3 px-3 text-right text-slate-300 whitespace-nowrap">{scpi.capitalization}</td>
-                        <td className="py-3 px-3 text-right">{discountInfo.displayValue != null && discountInfo.displayValue !== 0 ? (<span className={`font-semibold tabular-nums ${discountInfo.displayValue > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{(discountInfo.displayValue > 0 ? '+' : '')}{discountInfo.displayValue.toFixed(1)}%</span>) : (<span className="text-slate-600">—</span>)}</td>
+                        <td className="py-3 px-3 text-right">{discountInfo.value != null && discountInfo.value !== 0 ? (<span className={`font-semibold tabular-nums ${discountInfo.value > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{(discountInfo.value > 0 ? '+' : '')}{discountInfo.value.toFixed(1)}%</span>) : (<span className="text-slate-600">—</span>)}</td>
                       </tr>
                     );
                   })}
