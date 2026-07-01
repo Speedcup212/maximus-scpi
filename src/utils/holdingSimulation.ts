@@ -2,76 +2,57 @@
  * UTILITAIRE PARTAGÉ — Simulation Holding IS / Usufruit temporaire SCPI
  *
  * Fonctions pures, sans dépendance React.
- * Utilisables depuis le simulateur Expert-Comptable ET depuis ProSimulator.
  */
 
 /* ── Types ── */
 
 export type FeesMode = 'fixed' | 'percentage';
 export type FeesTreatment = 'not-integrated' | 'deductible-year1' | 'amortized' | 'non-deductible';
+export type FeesVatMode = 'HT' | 'TTC';
 
 export interface HoldingISInputs {
-  /** Nom du dossier (pour affichage) */
   dossierName?: string;
-  /** Type de société */
   companyType: 'SAS' | 'SARL' | 'SCI IS' | 'Holding' | 'Autre';
-  /** Trésorerie disponible (€) */
   availableCash: number;
-  /** Résultat fiscal estimé avant opération (€) */
   preTaxProfit: number;
-  /** Éligible taux réduit IS */
   reducedRateEligible: boolean;
-  /** Montant investi en usufruit temporaire (€) */
   usufruitInvestment: number;
-  /** Durée usufruit (années) */
   usufruitDuration: number;
-  /** Clé usufruit (%, ex: 22) */
   usufruitKeyPercent: number;
-  /** Taux de distribution brut SCPI (%) */
   grossYieldRate: number;
-  /** Revalorisation annuelle des revenus (%) */
   revalorizationRate: number;
-  /** Plafond taux réduit IS (€) */
   reducedRateThreshold?: number;
-  /** Taux réduit IS (%) */
   reducedTaxRate?: number;
-  /** Taux normal IS (%) */
   standardTaxRate?: number;
 
-  // ── Honoraires ──
-  /** Activer la prise en compte des honoraires */
+  // Honoraires
   feesEnabled: boolean;
-  /** Mode de calcul des honoraires */
   feesMode: FeesMode;
-  /** Montant fixe des honoraires (€) */
   feesFixedAmount: number;
-  /** Pourcentage des honoraires sur le montant investi (%) */
   feesPercentage: number;
-  /** Traitement fiscal/comptable des honoraires */
   feesTreatment: FeesTreatment;
+
+  // TVA honoraires
+  feesVatMode: FeesVatMode;
+  feesVatRate: number;
+  feesVatRecoverable: boolean;
 }
 
 export interface HoldingISYearProjection {
   year: number;
   grossIncome: number;
-  /** Amortissement annuel (base usufruit ou usufruit + honoraires selon traitement) */
   amortization: number;
-  /** Base amortissable retenue pour l'année */
   amortizableBase: number;
-  /** Honoraires imputés fiscalement sur l'année */
+  /** Honoraires imputés fiscalement cette année (HT si TVA récup., TTC sinon) */
   feesFiscal: number;
-  /** Honoraires décaissés sur l'année (cash) */
+  /** Honoraires décaissés cette année (TTC) */
   feesCash: number;
-  /** Résultat fiscal de l'opération seule (revenus − amort − honoraires fiscaux) */
   fiscalResultOperationOnly: number;
-  /** Résultat fiscal après opération (résultat existant + opération) */
   fiscalResultAfterOperation: number;
   isBeforeOperation: number;
   isAfterOperation: number;
   isImpact: number;
-  /** Cash-flow net avant honoraires */
   netCashFlow: number;
-  /** Cash-flow net après décaissement des honoraires */
   netCashFlowAfterFees: number;
   cumulativeNetCashFlow: number;
   cumulativeNetCashFlowAfterFees: number;
@@ -82,41 +63,51 @@ export interface HoldingISResult {
   reconstitutedFullProperty: number;
   annualGrossIncome: number;
   annualAmortization: number;
-  /** Base amortissable (usufruit ou usufruit + honoraires) */
   amortizableBase: number;
-  /** Montant des honoraires calculé */
-  feesAmount: number;
-  /** Effort de trésorerie total = usufruitInvestment + feesAmount */
-  totalInvestment: number;
-  /** Résultat fiscal de l'opération seule, année 1 */
+
+  // Honoraires HT/TTC
+  feesHT: number;
+  feesVAT: number;
+  feesTTC: number;
+  /** Montant fiscalement déductible (HT si TVA récup., TTC sinon) */
+  feesDeductible: number;
+  /** Honoraires imputés fiscalement année 1 */
+  feesFiscalYear1: number;
+  /** Effort économique (usufruit + honoraires HT si TVA récup., TTC sinon) */
+  effortEconomique: number;
+  /** Effort de trésorerie réel (usufruit + honoraires TTC) */
+  effortTresorerie: number;
+
   annualFiscalResultOperationOnly: number;
-  /** Résultat fiscal après opération, année 1 */
   annualFiscalResultAfterOperation: number;
   annualISBeforeOperation: number;
   annualISAfterOperation: number;
   annualISImpact: number;
-  /** Cash-flow net annuel avant honoraires, année 1 */
   annualNetCashFlow: number;
-  /** Cash-flow net annuel après honoraires, année 1 */
   annualNetCashFlowAfterFees: number;
   cumulativeNetCashFlow: number;
   cumulativeNetCashFlowAfterFees: number;
-  /** Rendement net hors honoraires (%) */
+
+  /** Rendement net année 1 après honoraires (%) */
+  netCompanyYieldYear1: number;
+  /** Rendement net moyen annuel sur la durée (%) */
+  netCompanyYieldAvgAnnual: number;
+  /** Rendement net total sur la durée (%) */
+  netCompanyYieldTotal: number;
+  /** Rendement net avant honoraires (%) */
   netCompanyYield: number;
-  /** Rendement net après honoraires (%) */
-  netCompanyYieldAfterFees: number;
+
   projections: HoldingISYearProjection[];
 }
 
-/* ── Calculs ── */
+/* ── Constantes ── */
 
 const DEFAULT_REDUCED_THRESHOLD = 42_500;
 const DEFAULT_REDUCED_RATE = 15;
 const DEFAULT_STANDARD_RATE = 25;
 
-/**
- * Calcule l'IS dû sur un résultat fiscal.
- */
+/* ── Calculs ── */
+
 export function calculateCorporateTax(
   profit: number,
   options?: {
@@ -127,65 +118,62 @@ export function calculateCorporateTax(
   }
 ): number {
   if (profit <= 0) return 0;
-
   const eligible = options?.reducedRateEligible ?? false;
   const threshold = options?.reducedRateThreshold ?? DEFAULT_REDUCED_THRESHOLD;
   const reducedRate = (options?.reducedTaxRate ?? DEFAULT_REDUCED_RATE) / 100;
   const standardRate = (options?.standardTaxRate ?? DEFAULT_STANDARD_RATE) / 100;
-
   if (eligible) {
     const reducedPart = Math.min(profit, threshold);
     const standardPart = Math.max(0, profit - threshold);
     return reducedPart * reducedRate + standardPart * standardRate;
   }
-
   return profit * standardRate;
 }
 
-/**
- * Calcule l'amortissement annuel de l'usufruit temporaire.
- * Formule : montant / durée (linéaire comptable).
- */
-export function calculateUsufruitAmortization(
-  investment: number,
-  duration: number
-): number {
+export function calculateUsufruitAmortization(investment: number, duration: number): number {
   if (duration <= 0) return 0;
   return investment / duration;
 }
 
-/**
- * Calcule le montant des honoraires selon le mode choisi.
- */
-export function calculateFeesAmount(
-  feesEnabled: boolean,
-  mode: FeesMode,
-  fixedAmount: number,
-  percentage: number,
-  usufruitInvestment: number
+/** Calcule le montant brut saisi des honoraires (base HT ou TTC selon mode). */
+export function calculateFeesInputAmount(
+  feesEnabled: boolean, mode: FeesMode, fixedAmount: number,
+  percentage: number, usufruitInvestment: number
 ): number {
   if (!feesEnabled) return 0;
   if (mode === 'fixed') return fixedAmount;
   return Math.round(usufruitInvestment * (percentage / 100));
 }
 
-/**
- * Calcule la projection complète Holding IS sur la durée de l'usufruit.
- */
+/** Calcule les montants HT, TTC et TVA des honoraires. */
+export function calculateFeesBreakdown(
+  feesEnabled: boolean, mode: FeesMode, fixedAmount: number,
+  percentage: number, usufruitInvestment: number,
+  vatMode: FeesVatMode, vatRate: number
+): { feesHT: number; feesVAT: number; feesTTC: number } {
+  const inputAmount = calculateFeesInputAmount(feesEnabled, mode, fixedAmount, percentage, usufruitInvestment);
+  if (!feesEnabled || inputAmount <= 0) return { feesHT: 0, feesVAT: 0, feesTTC: 0 };
+
+  if (vatMode === 'HT') {
+    const ht = inputAmount;
+    const vat = Math.round(ht * (vatRate / 100));
+    const ttc = ht + vat;
+    return { feesHT: ht, feesVAT: vat, feesTTC: ttc };
+  } else {
+    const ttc = inputAmount;
+    const ht = Math.round(ttc / (1 + vatRate / 100));
+    const vat = ttc - ht;
+    return { feesHT: ht, feesVAT: vat, feesTTC: ttc };
+  }
+}
+
 export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingISResult {
   const {
-    preTaxProfit,
-    reducedRateEligible,
-    usufruitInvestment,
-    usufruitDuration,
-    usufruitKeyPercent,
-    grossYieldRate,
-    revalorizationRate,
-    feesEnabled,
-    feesMode,
-    feesFixedAmount,
-    feesPercentage,
-    feesTreatment,
+    preTaxProfit, reducedRateEligible,
+    usufruitInvestment, usufruitDuration,
+    usufruitKeyPercent, grossYieldRate, revalorizationRate,
+    feesEnabled, feesMode, feesFixedAmount, feesPercentage, feesTreatment,
+    feesVatMode, feesVatRate, feesVatRecoverable,
     reducedRateThreshold = DEFAULT_REDUCED_THRESHOLD,
     reducedTaxRate = DEFAULT_REDUCED_RATE,
     standardTaxRate = DEFAULT_STANDARD_RATE,
@@ -193,13 +181,22 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
 
   const isOpts = { reducedRateEligible, reducedRateThreshold, reducedTaxRate, standardTaxRate };
 
-  // ── Honoraires ──
-  const feesAmount = calculateFeesAmount(feesEnabled, feesMode, feesFixedAmount, feesPercentage, usufruitInvestment);
-  const totalInvestment = usufruitInvestment + feesAmount;
+  // ── Honoraires HT/TTC ──
+  const { feesHT, feesVAT, feesTTC } = calculateFeesBreakdown(
+    feesEnabled, feesMode, feesFixedAmount, feesPercentage, usufruitInvestment,
+    feesVatMode, feesVatRate
+  );
+
+  // Montant fiscalement déductible : HT si TVA récupérable, TTC sinon
+  const feesDeductible = feesVatRecoverable ? feesHT : feesTTC;
+
+  // Efforts
+  const effortEconomique = usufruitInvestment + (feesVatRecoverable ? feesHT : feesTTC);
+  const effortTresorerie = usufruitInvestment + feesTTC;
 
   // ── Base amortissable selon traitement ──
   const amortizableBase =
-    feesEnabled && feesTreatment === 'amortized' ? usufruitInvestment + feesAmount : usufruitInvestment;
+    feesEnabled && feesTreatment === 'amortized' ? usufruitInvestment + feesDeductible : usufruitInvestment;
 
   // 1. Pleine propriété reconstituée
   const reconstitutedFullProperty =
@@ -211,7 +208,7 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
   // 3. Amortissement annuel
   const annualAmortization = calculateUsufruitAmortization(amortizableBase, usufruitDuration);
 
-  // 4. IS AVANT opération (sur résultat existant seul)
+  // 4. IS AVANT opération
   const isBeforeOperationBase = calculateCorporateTax(preTaxProfit, isOpts);
 
   // 5. Projection annuelle
@@ -224,31 +221,24 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     const grossIncome = annualGrossIncomeBase * yearMultiplier;
     const amortization = year <= usufruitDuration ? annualAmortization : 0;
 
-    // Honoraires imputés fiscalement cette année
     let feesFiscal = 0;
     if (feesEnabled && year === 1 && feesTreatment === 'deductible-year1') {
-      feesFiscal = feesAmount;
+      feesFiscal = feesDeductible;
     }
-    // Pour "amortized", les honoraires sont déjà dans la base amortissable, pas de charge séparée
-    // Pour "not-integrated" et "non-deductible", pas d'imputation fiscale
+    // amortized: déjà dans la base amortissable, not-integrated / non-deductible: pas d'imputation
 
-    // Honoraires décaissés cette année (toujours en année 1 par défaut)
-    const feesCash = (feesEnabled && year === 1) ? feesAmount : 0;
+    // Cash décaissé net : HT si TVA récupérable (TVA remboursée dans l'année), TTC sinon
+    const feesCash = (feesEnabled && year === 1) ? (feesVatRecoverable ? feesHT : feesTTC) : 0;
 
-    // Résultat fiscal opération
     const fiscalResultOperationOnly = grossIncome - amortization - feesFiscal;
     const fiscalResultAfterOperation = preTaxProfit + fiscalResultOperationOnly;
 
-    // IS
     const isBeforeOperation = year === 1 ? isBeforeOperationBase : 0;
     const isAfterOperation = calculateCorporateTax(fiscalResultAfterOperation, isOpts);
     const isOnPreTaxOnly = calculateCorporateTax(preTaxProfit, isOpts);
     const isImpact = isAfterOperation - isOnPreTaxOnly;
 
-    // Cash-flow net (avant décaissement honoraires)
     const netCashFlow = grossIncome - Math.max(0, isImpact);
-
-    // Cash-flow net après décaissement honoraires
     const netCashFlowAfterFees = netCashFlow - feesCash;
 
     cumulativeNetCashFlow += netCashFlow;
@@ -273,14 +263,18 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     });
   }
 
-  // ── Synthèse année 1 ──
   const y1 = projections[0];
   const annualISImpact = y1?.isImpact ?? 0;
   const annualNetCashFlow = Math.round(annualGrossIncomeBase - Math.max(0, annualISImpact));
-  const annualNetCashFlowAfterFees = y1?.netCashFlowAfterFees ?? annualNetCashFlow - feesAmount;
+  const annualNetCashFlowAfterFees = y1?.netCashFlowAfterFees ?? annualNetCashFlow - feesTTC;
 
+  // Rendements
   const netCompanyYield = usufruitInvestment > 0 ? (annualNetCashFlow / usufruitInvestment) * 100 : 0;
-  const netCompanyYieldAfterFees = totalInvestment > 0 ? (annualNetCashFlowAfterFees / totalInvestment) * 100 : 0;
+  const netCompanyYieldYear1 = effortEconomique > 0 ? (annualNetCashFlowAfterFees / effortEconomique) * 100 : 0;
+  const cumulAfterFees = y1 ? cumulativeNetCashFlowAfterFees : 0;
+  const netCompanyYieldAvgAnnual = effortEconomique > 0 && usufruitDuration > 0
+    ? ((cumulAfterFees / usufruitDuration) / effortEconomique) * 100 : 0;
+  const netCompanyYieldTotal = effortEconomique > 0 ? (cumulAfterFees / effortEconomique) * 100 : 0;
 
   return {
     inputs,
@@ -288,8 +282,13 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     annualGrossIncome: Math.round(annualGrossIncomeBase),
     annualAmortization: Math.round(annualAmortization),
     amortizableBase: Math.round(amortizableBase),
-    feesAmount,
-    totalInvestment: Math.round(totalInvestment),
+    feesHT,
+    feesVAT,
+    feesTTC,
+    feesDeductible,
+    feesFiscalYear1: y1 ? y1.feesFiscal : 0,
+    effortEconomique: Math.round(effortEconomique),
+    effortTresorerie: Math.round(effortTresorerie),
     annualFiscalResultOperationOnly: y1 ? y1.fiscalResultOperationOnly : 0,
     annualFiscalResultAfterOperation: y1 ? y1.fiscalResultAfterOperation : 0,
     annualISBeforeOperation: y1 ? y1.isBeforeOperation : 0,
@@ -299,8 +298,10 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     annualNetCashFlowAfterFees,
     cumulativeNetCashFlow: Math.round(cumulativeNetCashFlow),
     cumulativeNetCashFlowAfterFees: Math.round(cumulativeNetCashFlowAfterFees),
+    netCompanyYieldYear1: Math.round(netCompanyYieldYear1 * 100) / 100,
+    netCompanyYieldAvgAnnual: Math.round(netCompanyYieldAvgAnnual * 100) / 100,
+    netCompanyYieldTotal: Math.round(netCompanyYieldTotal * 100) / 100,
     netCompanyYield: Math.round(netCompanyYield * 100) / 100,
-    netCompanyYieldAfterFees: Math.round(netCompanyYieldAfterFees * 100) / 100,
     projections,
   };
 }
