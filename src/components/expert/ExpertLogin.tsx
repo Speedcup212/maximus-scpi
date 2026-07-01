@@ -1,77 +1,50 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
-import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { Eye, EyeOff, Building2 } from 'lucide-react';
 
-interface ProLoginProps {
-  onNavigate: (path: string) => void;
+interface ExpertLoginProps {
+  onNavigateHome?: () => void;
 }
 
-export default function ProLogin({ onNavigate }: ProLoginProps) {
+export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        onNavigate('/pro/dashboard');
-      }
-    };
-    checkSession();
-  }, [onNavigate]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (authError) {
-      setError(authError.message === 'Invalid login credentials'
-        ? 'Identifiants incorrects'
-        : authError.message);
-      setLoading(false);
-    } else {
-      onNavigate('/pro/dashboard');
-    }
+    // Authentification Expert-Comptable (à venir)
+    console.log('Expert login attempt:', email);
   };
 
-  const handleGoogleLogin = async () => {
-    setError('');
-    setGoogleLoading(true);
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin + '/pro/dashboard',
-      },
-    });
+  const handleGoogleLogin = () => {
+    // Google auth Expert-Comptable (à venir)
+    console.log('Expert Google login attempt');
   };
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
+        {/* Logo */}
         <div className="text-center mb-8">
           <img
             src="/Maximus logo 250x50 4.svg"
-            alt="MaximusSCPI Pro"
-            className="h-10 mx-auto object-contain"
+            alt="MaximusSCPI Expert-Comptable"
+            className="h-10 mx-auto object-contain mb-2"
           />
-          <div className="text-xl font-bold tracking-wide text-white mt-3">Espace CGP / CIF</div>
-          <p className="text-slate-400 text-sm mt-2">Comparaison SCPI, simulations patrimoniales et supports clients.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/20 border border-blue-600/30 mb-3">
+            <Building2 className="w-3.5 h-3.5 text-blue-400" />
+            <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider">
+              Cabinet d'expertise comptable
+            </span>
+          </div>
+          <div className="text-xl font-bold tracking-wide text-white">Espace Expert-Comptable</div>
+          <p className="text-slate-400 text-sm mt-2">
+            Simulateurs société, trésorerie IS et usufruit temporaire SCPI.
+          </p>
         </div>
 
+        {/* Formulaire */}
         <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-5">
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm text-red-300">
-              {error}
-            </div>
-          )}
-
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
             <input
@@ -79,8 +52,8 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              placeholder="vous@cabinet.fr"
-              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+              placeholder="vous@cabinet-expertise.fr"
+              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             />
           </div>
 
@@ -93,7 +66,7 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
                 onChange={e => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full px-4 py-2.5 pr-10 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition"
+                className="w-full px-4 py-2.5 pr-10 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
               />
               <button
                 type="button"
@@ -108,10 +81,9 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition"
           >
-            {loading ? 'Connexion...' : 'Se connecter'}
+            Se connecter
           </button>
 
           <div className="flex items-center gap-3">
@@ -123,8 +95,7 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            disabled={googleLoading}
-            className="w-full py-3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-medium rounded-lg transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-medium rounded-lg transition flex items-center justify-center gap-3"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z" fill="#4285F4"/>
@@ -132,11 +103,11 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62Z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z" fill="#EA4335"/>
             </svg>
-            {googleLoading ? 'Redirection...' : 'Continuer avec Google'}
+            Continuer avec Google
           </button>
 
           <p className="text-xs text-slate-500 text-center">
-            Accès réservé aux professionnels agréés ORIAS
+            Accès réservé aux cabinets d'expertise comptable.
           </p>
         </form>
 
@@ -144,20 +115,20 @@ export default function ProLogin({ onNavigate }: ProLoginProps) {
           <div>
             Pas encore inscrit ?{' '}
             <button
-              onClick={() => onNavigate('/pro/signup')}
-              className="text-emerald-500 hover:text-emerald-400 transition-colors font-medium"
+              onClick={() => window.location.href = '/expert-comptable/signup'}
+              className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
             >
-              Créer mon compte CGP
+              Créer mon compte Expert-Comptable
             </button>
           </div>
           <div className="pt-2 border-t border-slate-800">
             <p className="text-xs text-slate-500">
-              Vous êtes expert-comptable ?{' '}
+              Vous êtes CGP / CIF ?{' '}
               <button
-                onClick={() => window.location.href = '/expert-comptable/login'}
-                className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+                onClick={() => window.location.href = '/pro/login'}
+                className="text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
               >
-                Accéder à l'espace Expert-Comptable
+                Accéder à l'espace CGP
               </button>
             </p>
           </div>
