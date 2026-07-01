@@ -1,0 +1,15 @@
+# MaximusSCPI - Production robots.txt
+# Site: VITE_PUBLIC_SITE_URL=https://maximusscpi.com
+
+User-agent: *
+Allow: /
+
+Sitemap: VITE_PUBLIC_SITE_URL=https://maximusscpi.com/sitemap.xml
+
+Disallow: /app/
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /merci-*
+Disallow: /test-*
+Disallow: /qa-*
+Disallow: /admin/

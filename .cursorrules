@@ -1,0 +1,102 @@
+# Règles Cursor pour MaximusSCPI
+
+## Contexte du projet
+- Application React/TypeScript pour comparer et analyser des SCPI (Sociétés Civiles de Placement Immobilier)
+- Framework: React + TypeScript + Vite
+- Styling: Tailwind CSS avec support du mode sombre
+- Structure: Composants modulaires, utils, data, types
+
+## Conventions de code
+
+### TypeScript
+- Toujours typer les props des composants avec des interfaces
+- Utiliser des types stricts (éviter `any`)
+- Préférer les interfaces aux types pour les props de composants
+
+### React
+- Utiliser des composants fonctionnels avec hooks
+- Préférer `useState` et `useEffect` pour la gestion d'état
+- Utiliser `lazy` et `Suspense` pour le chargement différé des composants lourds
+- Toujours gérer les états de chargement et d'erreur
+
+### Navigation
+- La navigation utilise `currentView` dans App.tsx
+- Toujours appeler `handleBackToHome()` pour revenir à la page d'accueil
+- Utiliser `window.history.pushState` pour mettre à jour l'URL
+- Toujours faire `window.scrollTo(0, 0)` après un changement de vue
+
+### Styling
+- Utiliser Tailwind CSS avec classes utilitaires
+- Toujours inclure les variantes dark mode: `dark:bg-gray-800`, `dark:text-white`, etc.
+- Utiliser des classes responsive: `sm:`, `md:`, `lg:`
+- Préférer les gradients et les effets visuels modernes
+
+### Composants
+- Les composants doivent être dans `src/components/`
+- Les composants modaux doivent gérer leur propre état d'ouverture/fermeture
+- Toujours passer les callbacks nécessaires via les props
+- Utiliser des props optionnelles avec `?` quand approprié
+
+### Données SCPI
+- Les données SCPI sont dans `src/data/scpiData.ts`
+- Utiliser les types définis dans `src/types/scpi.ts`
+- Les utilitaires de formatage sont dans `src/utils/formatters.ts`
+
+### Modals
+- Les modals doivent avoir un backdrop cliquable pour fermer
+- Toujours nettoyer les états lors de la fermeture
+- Sur mobile, retourner à l'accueil après fermeture si nécessaire
+
+### Performance
+- Lazy load les composants lourds (articles, landing pages, modals)
+- Utiliser `Suspense` avec `LoadingSpinner` pour les fallbacks
+- Optimiser les images et les assets
+
+### Accessibilité
+- Utiliser des labels ARIA appropriés
+- Gérer le focus clavier
+- Assurer un contraste suffisant en mode sombre
+
+### SEO
+- Utiliser le composant `SEOHead` pour les métadonnées
+- Les URLs doivent être propres et descriptives
+- Utiliser `SemanticLinks` pour le maillage interne
+
+## Patterns à suivre
+
+### Création d'un nouveau composant
+1. Créer le fichier dans `src/components/`
+2. Définir l'interface des props
+3. Importer les dépendances nécessaires
+4. Utiliser Tailwind pour le styling
+5. Gérer le mode sombre
+
+### Modification de la navigation
+1. Ajouter la nouvelle vue dans le type `currentView`
+2. Créer le handler correspondant (ex: `handleXxxClick`)
+3. Ajouter le cas dans le switch/render conditionnel
+4. Mettre à jour l'URL avec `window.history.pushState`
+
+### Ajout d'un modal
+1. Ajouter l'état `isXxxModalOpen` dans App.tsx
+2. Créer le composant modal dans `src/components/`
+3. Ajouter le modal dans la section modals avec Suspense
+4. Gérer la fermeture et le retour à l'accueil si nécessaire
+
+## À éviter
+- Ne pas utiliser `any` sans raison valable
+- Ne pas oublier le mode sombre
+- Ne pas créer de composants trop volumineux (>500 lignes)
+- Ne pas hardcoder les données (utiliser les fichiers data/)
+- Ne pas oublier de gérer les états de chargement
+
+## Workflow de déploiement
+- À la fin de chaque tâche de modification de code, proposer systématiquement de lancer la commande `npm run deploy` pour mettre le site en ligne
+- Ne pas exécuter automatiquement la commande, seulement la proposer à l'utilisateur
+
+## Langue
+- Interface en français
+- Commentaires en français
+- Noms de variables en anglais (camelCase)
+- Noms de composants en PascalCase
+

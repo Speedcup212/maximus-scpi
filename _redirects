@@ -1,0 +1,237 @@
+# Netlify/Vercel redirects for SPA routing with SSG
+
+# Redirections 301 pour anciens slugs d'articles (PRIORITAIRES)
+/fonds-euros-ou-scpi-2026 /fonds-euros-ou-scpi 301
+/scpi-direct-ou-assurance-vie /scpi-en-direct-ou-assurance-vie 301
+/scpi-credit-effet-levier-2026 /scpi-a-credit-effet-levier 301
+/fiscalite-scpi-2026-guide-complet /fiscalite-scpi-guide-complet 301
+/garder-fonds-euros-ou-tout-passer-scpi /garder-fonds-euros-ou-passer-scpi 301
+/scpi-45-ans-150000-euros-strategie /scpi-strategie-45-ans-150000-euros 301
+/scpi-tmi-11-ou-30-pourcent-rentabilite /scpi-tmi-11-ou-30-rentabilite 301
+/scpi-credit-ou-cash-taux-3-4-pourcent /scpi-credit-ou-cash-taux-3-4 301
+/risque-perte-scpi-scenarios-baisse /risques-scpi-scenarios-baisse 301
+/portefeuille-scpi-100-pourcent-ligne-maximus /portefeuille-scpi-en-ligne 301
+
+# Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
+/scpi-bureaux-investissement /scpi-bureaux/ 301
+/scpi-bureaux-investissement/ /scpi-bureaux/ 301
+/scpi-commerces-investissement /scpi-commerces/ 301
+/scpi-commerces-investissement/ /scpi-commerces/ 301
+/scpi-sante-investissement /scpi-sante/ 301
+/scpi-sante-investissement/ /scpi-sante/ 301
+/scpi-france-investissement /scpi-france/ 301
+/scpi-france-investissement/ /scpi-france/ 301
+/scpi-europe /scpi-europeennes/ 301
+/scpi-europe/ /scpi-europeennes/ 301
+/scpi-fiscales /scpi-fiscalite/ 301
+/scpi-fiscales/ /scpi-fiscalite/ 301
+/preparer-retraite-scpi /scpi-retraite/ 301
+/preparer-retraite-scpi/ /scpi-retraite/ 301
+
+# Redirections 301 slash final pour les pages sectorielles (sans slash → avec slash)
+/scpi-bureaux /scpi-bureaux/ 301
+/scpi-sante /scpi-sante/ 301
+/scpi-commerces /scpi-commerces/ 301
+/scpi-diversifiees /scpi-diversifiees/ 301
+/scpi-logistique /scpi-logistique/ 301
+/scpi-residentiel /scpi-residentiel/ 301
+/scpi-hotellerie /scpi-hotellerie/ 301
+/scpi-france /scpi-france/ 301
+/comprendre-les-scpi /comprendre-les-scpi/ 301
+
+# Redirections 301 education/ → articles/ (avec slash → avec slash)
+/education/:slug/ /articles/:slug/ 301
+# Redirections 301 education/ → articles/ (sans slash → avec slash)
+/education/:slug /articles/:slug/ 301
+
+# Pages statiques générales
+/faq /index.html 200
+/comprendre-les-scpi /index.html 200
+/qui-sommes-nous /index.html 200
+/reclamation /index.html 200
+/conditions-utilisation /index.html 200
+/articles /index.html 200
+
+# Articles éditoriaux — redirection 301 vers /articles/<slug>/ (page statique SSG)
+/fonds-euros-ou-scpi /articles/fonds-euros-ou-scpi/ 301
+/scpi-en-direct-ou-assurance-vie /articles/scpi-en-direct-ou-assurance-vie/ 301
+/scpi-a-credit-effet-levier /articles/scpi-a-credit-effet-levier/ 301
+/scpi-demembrement-strategie-retraite /articles/scpi-demembrement-strategie-retraite/ 301
+/fiscalite-scpi-guide-complet /articles/fiscalite-scpi-guide-complet/ 301
+/scpi-ifi-impact-patrimoine-immobilier /articles/scpi-ifi-impact-patrimoine-immobilier/ 301
+/100000-euros-fonds-euros-cout-opportunite /articles/100000-euros-fonds-euros-cout-opportunite/ 301
+/transferer-fonds-euros-vers-scpi-mode-emploi /articles/transferer-fonds-euros-vers-scpi-mode-emploi/ 301
+/investir-50000-euros-scpi-etude-cas /articles/investir-50000-euros-scpi-etude-cas/ 301
+/investir-200000-euros-scpi-portefeuille-diversifie /articles/investir-200000-euros-scpi-portefeuille-diversifie/ 301
+/garder-fonds-euros-ou-passer-scpi /articles/garder-fonds-euros-ou-passer-scpi/ 301
+/scpi-assurance-vie-alternative-fonds-euros /articles/scpi-assurance-vie-alternative-fonds-euros/ 301
+/revenus-scpi-assurance-vie-fonctionnement /articles/revenus-scpi-assurance-vie-fonctionnement/ 301
+/scpi-assurance-vie-apres-8-ans-rachats-optimises /articles/scpi-assurance-vie-apres-8-ans-rachats-optimises/ 301
+/arbitrer-assurance-vie-vers-scpi-tutoriel /articles/arbitrer-assurance-vie-vers-scpi-tutoriel/ 301
+/scpi-ou-immobilier-locatif-comparatif-20-ans /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301
+/scpi-europeennes-optimisation-fiscale /articles/scpi-europeennes-optimisation-fiscale/ 301
+/scpi-strategie-45-ans-150000-euros /articles/scpi-strategie-45-ans-150000-euros/ 301
+/scpi-proche-retraite-revenus-ou-capitalisation /articles/scpi-proche-retraite-revenus-ou-capitalisation/ 301
+/scpi-tmi-11-ou-30-rentabilite /articles/scpi-tmi-11-ou-30-rentabilite/ 301
+/investir-scpi-apres-60-ans /articles/investir-scpi-apres-60-ans/ 301
+/fonds-euros-et-immobilier-locatif-strategie /articles/fonds-euros-et-immobilier-locatif-strategie/ 301
+/scpi-credit-ou-cash-taux-3-4 /articles/scpi-credit-ou-cash-taux-3-4/ 301
+/demembrement-scpi-10-ans-retraite-complementaire /articles/demembrement-scpi-10-ans-retraite-complementaire/ 301
+/scpi-ou-etf-diversification-patrimoine /articles/scpi-ou-etf-diversification-patrimoine/ 301
+/risques-scpi-scenarios-baisse /articles/risques-scpi-scenarios-baisse/ 301
+/revendre-scpi-delais-marche-secondaire /articles/revendre-scpi-delais-marche-secondaire/ 301
+/combien-investir-scpi-100000-200000-500000 /articles/combien-investir-scpi-100000-200000-500000/ 301
+/scpi-succession-transmission-assurance-vie /articles/scpi-succession-transmission-assurance-vie/ 301
+/portefeuille-scpi-en-ligne /articles/portefeuille-scpi-en-ligne/ 301
+
+# Google Ads Landing Pages
+/investir-scpi /index.html 200
+/scpi-rentable /index.html 200
+
+# Pages secteurs SCPI : articles éducatifs servis via le SPA (pas de page statique)
+/scpi-bureaux /index.html 200
+/scpi-sante /index.html 200
+/scpi-commerces /index.html 200
+/scpi-diversifiees /index.html 200
+/scpi-logistique /index.html 200
+/scpi-residentiel /index.html 200
+/scpi-hotellerie /index.html 200
+/scpi-france /index.html 200
+
+# Pages SCPI individuelles : servies via dist/{slug}/index.html (slug canonique sans préfixe)
+
+# Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe
+/scpi-activimmo /activimmo 301
+/scpi-activimmo/ /activimmo 301
+/scpi-aestiam-cap-hebergimmo /aestiam-cap-hebergimmo 301
+/scpi-aestiam-cap-hebergimmo/ /aestiam-cap-hebergimmo 301
+/scpi-aestiam-pierre-rendement /aestiam-pierre-rendement 301
+/scpi-aestiam-pierre-rendement/ /aestiam-pierre-rendement 301
+/scpi-aestiam-horizon /aestiam-horizon 301
+/scpi-aestiam-horizon/ /aestiam-horizon 301
+/scpi-altixia-cadence-12 /altixia-cadence-12 301
+/scpi-altixia-cadence-12/ /altixia-cadence-12 301
+/scpi-altixia-commerces /altixia-commerces 301
+/scpi-altixia-commerces/ /altixia-commerces 301
+/scpi-atream-hotel /atream-hotel 301
+/scpi-atream-hotel/ /atream-hotel 301
+/scpi-buroboutic-metropoles /buroboutic-metropoles 301
+/scpi-buroboutic-metropoles/ /buroboutic-metropoles 301
+/scpi-coeur-de-region /coeur-de-region 301
+/scpi-coeur-de-region/ /coeur-de-region 301
+/scpi-coeur-de-ville /coeur-de-ville 301
+/scpi-coeur-de-ville/ /coeur-de-ville 301
+/scpi-coeur-d-europe /coeur-d-europe 301
+/scpi-coeur-d-europe/ /coeur-d-europe 301
+/scpi-comete /comete 301
+/scpi-comete/ /comete 301
+/scpi-credit-mutuel-pierre-1 /credit-mutuel-pierre-1 301
+/scpi-credit-mutuel-pierre-1/ /credit-mutuel-pierre-1 301
+/scpi-cristal-life /cristal-life 301
+/scpi-cristal-life/ /cristal-life 301
+/scpi-edissimo /edissimo 301
+/scpi-edissimo/ /edissimo 301
+/scpi-efimmo-1 /efimmo-1 301
+/scpi-efimmo-1/ /efimmo-1 301
+/scpi-patrimmo-croissance-impact /patrimmo-croissance-impact 301
+/scpi-patrimmo-croissance-impact/ /patrimmo-croissance-impact 301
+/scpi-perial-grand-paris /perial-grand-paris 301
+/scpi-perial-grand-paris/ /perial-grand-paris 301
+/scpi-ncap-regions /ncap-regions 301
+/scpi-ncap-regions/ /ncap-regions 301
+/scpi-novapierre-1 /novapierre-1 301
+/scpi-novapierre-1/ /novapierre-1 301
+/scpi-novapierre-residentiel /novapierre-residentiel 301
+/scpi-novapierre-residentiel/ /novapierre-residentiel 301
+/scpi-novaxia-neo /novaxia-neo 301
+/scpi-novaxia-neo/ /novaxia-neo 301
+/scpi-opportunite-immo /opportunite-immo 301
+/scpi-opportunite-immo/ /opportunite-immo 301
+/scpi-optimale /optimale 301
+/scpi-optimale/ /optimale 301
+/scpi-paref-evo /paref-evo 301
+/scpi-paref-evo/ /paref-evo 301
+/scpi-paref-hexa /paref-hexa 301
+/scpi-paref-hexa/ /paref-hexa 301
+/scpi-gma-essentialis /gma-essentialis 301
+/scpi-gma-essentialis/ /gma-essentialis 301
+/scpi-grand-paris-residentiel /grand-paris-residentiel 301
+/scpi-grand-paris-residentiel/ /grand-paris-residentiel 301
+/scpi-immorente /immorente 301
+/scpi-immorente/ /immorente 301
+/scpi-iroko-zen /iroko-zen 301
+/scpi-iroko-zen/ /iroko-zen 301
+/scpi-kyaneos-pierre /kyaneos-pierre 301
+/scpi-kyaneos-pierre/ /kyaneos-pierre 301
+/scpi-lf-avenir-sante /lf-avenir-sante 301
+/scpi-lf-avenir-sante/ /lf-avenir-sante 301
+/scpi-lf-europimmo /lf-europimmo 301
+/scpi-lf-europimmo/ /lf-europimmo 301
+/scpi-lf-grand-paris-patrimoine /lf-grand-paris-patrimoine 301
+/scpi-lf-grand-paris-patrimoine/ /lf-grand-paris-patrimoine 301
+/scpi-log-in /log-in 301
+/scpi-log-in/ /log-in 301
+/scpi-ncap-education-sante /ncap-education-sante 301
+/scpi-ncap-education-sante/ /ncap-education-sante 301
+/scpi-remake-live /remake-live 301
+/scpi-remake-live/ /remake-live 301
+/scpi-perial-opportunites-europe /perial-opportunites-europe 301
+/scpi-perial-opportunites-europe/ /perial-opportunites-europe 301
+/scpi-perial-o2 /perial-o2 301
+/scpi-perial-o2/ /perial-o2 301
+/scpi-perial-hospitalite-europe /perial-hospitalite-europe 301
+/scpi-perial-hospitalite-europe/ /perial-hospitalite-europe 301
+/scpi-sofiprime /sofiprime 301
+/scpi-sofiprime/ /sofiprime 301
+/scpi-selectinvest-1 /selectinvest-1 301
+/scpi-selectinvest-1/ /selectinvest-1 301
+/scpi-transitions-europe /transitions-europe 301
+/scpi-transitions-europe/ /transitions-europe 301
+/scpi-urban-coeur-de-commerce /urban-coeur-de-commerce 301
+/scpi-urban-coeur-de-commerce/ /urban-coeur-de-commerce 301
+/scpi-epargne-fonciere /epargne-fonciere 301
+/scpi-epargne-fonciere/ /epargne-fonciere 301
+/scpi-epargne-pierre /epargne-pierre 301
+/scpi-epargne-pierre/ /epargne-pierre 301
+/scpi-epargne-pierre-europe /epargne-pierre-europe 301
+/scpi-epargne-pierre-europe/ /epargne-pierre-europe 301
+/scpi-esg-pierre-capital /esg-pierre-capital 301
+/scpi-esg-pierre-capital/ /esg-pierre-capital 301
+/scpi-ficommerce-proximite /ficommerce-proximite 301
+/scpi-ficommerce-proximite/ /ficommerce-proximite 301
+/scpi-fonciere-des-praticiens /fonciere-des-praticiens 301
+/scpi-fonciere-des-praticiens/ /fonciere-des-praticiens 301
+/scpi-selectipierre-2 /selectipierre-2 301
+/scpi-selectipierre-2/ /selectipierre-2 301
+/scpi-ncap-continent /ncap-continent 301
+/scpi-ncap-continent/ /ncap-continent 301
+/scpi-wemo-one /wemo-one 301
+/scpi-wemo-one/ /wemo-one 301
+/scpi-iroko-atlas /iroko-atlas 301
+/scpi-iroko-atlas/ /iroko-atlas 301
+/scpi-epsicap-nano /epsicap-nano 301
+/scpi-epsicap-nano/ /epsicap-nano 301
+/scpi-alta-convictions /alta-convictions 301
+/scpi-alta-convictions/ /alta-convictions 301
+/scpi-cristal-rente /cristal-rente 301
+/scpi-cristal-rente/ /cristal-rente 301
+/scpi-rivoli-avenir-patrimoine /rivoli-avenir-patrimoine 301
+/scpi-rivoli-avenir-patrimoine/ /rivoli-avenir-patrimoine 301
+/scpi-primovie /primovie 301
+/scpi-primovie/ /primovie 301
+/scpi-praemia-hotels-europe /praemia-hotels-europe 301
+/scpi-praemia-hotels-europe/ /praemia-hotels-europe 301
+/scpi-pierval-sante /pierval-sante 301
+/scpi-pierval-sante/ /pierval-sante 301
+/scpi-patrimmo-commerce /patrimmo-commerce 301
+/scpi-patrimmo-commerce/ /patrimmo-commerce 301
+/scpi-aestiam-agora /aestiam-agora 301
+/scpi-aestiam-agora/ /aestiam-agora 301
+/scpi-remake-uk-2025 /remake-uk-2025 301
+/scpi-remake-uk-2025/ /remake-uk-2025 301
+
+# .html racine → dossier canonique (anti-duplication SEO)
+/comprendre-les-scpi.html /comprendre-les-scpi/ 301
+
+# Fallback pour toutes les autres routes vers la SPA
+/* /index.html 200

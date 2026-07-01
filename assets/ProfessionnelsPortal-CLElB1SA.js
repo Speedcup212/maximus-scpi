@@ -1,0 +1,1 @@
+import{j as o}from"./index-DoWiKje_.js";import{P as r}from"./ProfessionalPortal-CEb0zR_2.js";import"./App-AS35pcip.js";import"./landmark-CokZoOwQ.js";import"./building-2-Baa72ccT.js";const n=({onNavigateHome:t})=>o.jsx(r,{});export{n as default};

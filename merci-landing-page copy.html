@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merci pour votre demande - MaximusSCPI</title>
+  <meta name="description" content="Votre demande a été transmise avec succès. Un conseiller expert SCPI vous contactera sous 24h.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/Logo MaximusSCPI.com.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17640281606"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-17640281606');
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f9fafb;
+      min-height: 100vh;
+    }
+
+    /* Black Header with Logo */
+    .header-black {
+      background: #111827;
+      padding: 12px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-black-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Main Container */
+    .main-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      padding: 48px 32px;
+      text-align: center;
+      border-bottom: 3px solid #10b981;
+      position: relative;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: scaleIn 0.5s ease-out 0.3s both;
+    }
+
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .success-icon svg {
+      width: 48px;
+      height: 48px;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #111827;
+      animation: fadeIn 0.6s ease-out 0.5s both;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: #6b7280;
+      animation: fadeIn 0.6s ease-out 0.7s both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .content {
+      padding: 48px 32px;
+    }
+
+    .info-box {
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+
+    .info-box h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-box p {
+      color: #047857;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .steps {
+      margin-bottom: 32px;
+    }
+
+    .steps h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .step:hover {
+      background: #f3f4f6;
+      transform: translateX(4px);
+      border-color: #10b981;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .trust-badges {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+      border-color: #10b981;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+    }
+
+    .badge svg {
+      width: 32px;
+      height: 32px;
+      color: #10b981;
+      margin-bottom: 8px;
+    }
+
+    .badge span {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .cta-button {
+      display: inline-block;
+      width: 100%;
+      padding: 16px 24px;
+      background: #10b981;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px 32px;
+      background: #f9fafb;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .footer p {
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .header {
+        padding: 32px 24px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
+      .content {
+        padding: 32px 24px;
+      }
+
+      .trust-badges {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Black Header with Logo -->
+  <div class="header-black">
+    <div class="header-black-inner">
+      <a href="/" style="display: flex; align-items: center; gap: 4px; text-decoration: none;">
+        <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="MaximusSCPI">
+          <g fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 6c8 6 16 6 24 0v20c0 14-11 26-24 32C19 52 8 40 8 26V6c8 6 16 6 24 0z"/>
+            <path d="M20 42V22l12 10 12-10v20"/>
+            <path d="M9 26c0 9 7 18 14 22M55 26c0 9-7 18-14 22"/>
+            <path d="M12 28l4 2M12 33l4 2M13 38l4 2M52 28l-4 2M52 33l-4 2M51 38l-4 2"/>
+          </g>
+        </svg>
+        <div style="display: flex; flex-direction: column;">
+          <div style="font-size: 22px; font-weight: 700; line-height: 1.1; color: #f9fafb; letter-spacing: -0.4px;">
+            Maximus<span style="font-weight: 800; color: #10b981;">SCPI</span>
+          </div>
+          <div style="font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; color: #9ca3af;">
+            COMPARATEUR INTELLIGENT
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-wrapper">
+    <div class="container">
+      <!-- Header Success -->
+      <div class="header">
+        <div class="success-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h1>Merci pour votre demande !</h1>
+        <p>Votre demande a été transmise avec succès</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <!-- Info Box -->
+        <div class="info-box">
+          <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            Que se passe-t-il maintenant ?
+          </h2>
+          <p>
+            Un conseiller expert certifié ORIAS va étudier votre demande et vous contactera sous <strong>24 heures maximum</strong> pour vous accompagner dans votre projet d'investissement SCPI.
+          </p>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="steps">
+          <h3>Les prochaines étapes :</h3>
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Analyse de votre profil</h4>
+              <p>Nous étudions votre situation et vos objectifs d'investissement pour vous proposer les meilleures solutions SCPI adaptées.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Prise de contact personnalisée</h4>
+              <p>Un conseiller dédié vous contactera par téléphone ou email selon votre préférence pour échanger sur votre projet.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Recommandation sur-mesure</h4>
+              <p>Recevez une sélection personnalisée de SCPI avec des simulations détaillées de rendement et de performance.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Accompagnement à la souscription</h4>
+              <p>Si vous décidez d'investir, nous vous accompagnons dans toutes les démarches administratives jusqu'à la finalisation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+          <div class="badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Certifié ORIAS</span>
+          </div>
+          <div class="badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Données sécurisées</span>
+          </div>
+          <div class="badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Conseil gratuit</span>
+          </div>
+          <div class="badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>5/5 sur 38 avis</span>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <a href="/" class="cta-button">
+          Retour à l'accueil
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          <strong>MaximusSCPI</strong> - Expert en investissement SCPI<br>
+          Comparateur gratuit et indépendant | Conseiller certifié ORIAS<br>
+          <a href="/conditions-utilisation">Mentions légales</a> |
+          <a href="/politique-confidentialite.pdf">Politique de confidentialité</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Submit Helper (for tracking) -->
+  <script>
+    (function(){
+      if (window.onLeadSubmitSuccess) return;
+      window.onLeadSubmitSuccess = function(data){
+        try{
+          if (typeof gtag === "function") {
+            gtag('set','user_data', {
+              email: (data && data.email) || '',
+              phone_number: (data && data.phone) || '',
+              address: {
+                first_name: (data && data.first_name) || '',
+                last_name:  (data && data.last_name)  || '',
+                postal_code:(data && data.postal_code)|| '',
+                country:    ((data && data.country) || 'FR').toUpperCase()
+              }
+            });
+            gtag('event','lead_submit', { page_location: location.href });
+          }
+        }catch(e){}
+      };
+    })();
+  </script>
+</body>
+</html>
