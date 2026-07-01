@@ -257,7 +257,7 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
         <div className="mt-6 text-center text-sm text-slate-400">
           Déjà un compte ?{' '}
           <button
-            onClick={() => onNavigate('/pro/login')}
+            onClick={() => onNavigate('/pro/cgp-login')}
             className="text-emerald-500 hover:text-emerald-400 transition-colors font-medium"
           >
             Se connecter
