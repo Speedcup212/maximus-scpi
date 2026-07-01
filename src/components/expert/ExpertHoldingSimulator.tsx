@@ -5,11 +5,13 @@ import {
   Landmark, FileText, Info, ArrowRight, Table2, Receipt, Wallet,
   FileDown, Save, Clock,
 } from 'lucide-react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import {
   HoldingISInputs, HoldingISResult,
   FeesMode, FeesTreatment, FeesVatMode,
   calculateHoldingISProjection, calculateCorporateTax,
 } from '../../utils/holdingSimulation';
+import ExpertHoldingReportPdf from './pdf/ExpertHoldingReportPdf';
 
 /* ── Constantes ── */
 
@@ -494,13 +496,23 @@ const ExpertHoldingSimulator: React.FC = () => {
 
                   {/* Boutons d'action */}
                   <div className="flex flex-wrap gap-3">
-                    <button disabled
+                    <PDFDownloadLink
+                      document={<ExpertHoldingReportPdf inputs={inputs} result={result} isSansOperation={isSansOperation} />}
+                      fileName={(() => {
+                        const dossier = (inputs.dossierName || 'maximusscpi').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
+                        const date = new Date().toISOString().slice(0, 10);
+                        return `rapport-holding-is-${dossier}-${date}.pdf`;
+                      })()}
                       className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
-                        bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed transition-opacity opacity-60">
-                      <FileDown className="w-4 h-4" />
-                      Générer le PDF
-                      <span className="ml-1 px-1.5 py-0.5 rounded bg-slate-700 text-[10px] text-slate-500">Bientôt</span>
-                    </button>
+                        bg-blue-600 text-white hover:bg-blue-500 transition-colors"
+                    >
+                      {({ loading }) => (
+                        <>
+                          <FileDown className="w-4 h-4" />
+                          {loading ? 'Génération...' : 'Générer le PDF'}
+                        </>
+                      )}
+                    </PDFDownloadLink>
                     <button disabled
                       className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
                         bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed transition-opacity opacity-60">
