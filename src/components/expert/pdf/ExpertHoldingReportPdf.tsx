@@ -55,7 +55,8 @@ const colors = {
 const styles = StyleSheet.create({
   page: {
     backgroundColor: '#ffffff',
-    padding: 40,
+    paddingVertical: 28,
+    paddingHorizontal: 36,
     fontFamily: 'Helvetica',
     fontSize: 10,
     color: '#1e293b',
@@ -68,103 +69,104 @@ const styles = StyleSheet.create({
     color: '#1e293b',
   },
   header: {
-    marginBottom: 8,
+    marginBottom: 6,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
-    paddingBottom: 12,
+    paddingBottom: 8,
   },
   headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 2,
+    marginBottom: 1,
   },
   headerSubtitle: {
-    fontSize: 12,
+    fontSize: 10,
     color: colors.muted,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   headerMeta: {
-    fontSize: 9,
+    fontSize: 8,
     color: colors.muted,
-    lineHeight: 1.6,
+    lineHeight: 1.5,
   },
   headerBadge: {
-    fontSize: 8,
+    fontSize: 7,
     color: colors.accent,
     backgroundColor: '#d1fae5',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
     borderRadius: 4,
     alignSelf: 'flex-start',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   sectionTitle: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 10,
-    marginTop: 4,
+    marginBottom: 6,
+    marginTop: 2,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
-    paddingBottom: 6,
+    paddingBottom: 4,
   },
   grid2: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 0,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   kpiCard: {
     width: '48%',
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: 4,
-    padding: 8,
-    marginBottom: 8,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    marginBottom: 6,
     marginRight: '4%',
   },
   kpiLabel: {
-    fontSize: 8,
+    fontSize: 7,
     color: colors.muted,
     textTransform: 'uppercase',
-    marginBottom: 3,
+    marginBottom: 2,
     fontWeight: 'bold',
   },
   kpiValue: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     color: colors.dark,
   },
   kpiValueGreen: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     color: colors.accent,
   },
   kpiValueOrange: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold',
     color: colors.orange,
   },
   kpiSublabel: {
     fontSize: 7,
     color: '#94a3b8',
-    marginTop: 2,
+    marginTop: 1,
   },
   table: {
-    marginBottom: 12,
+    marginBottom: 8,
   },
   tableHeader: {
     flexDirection: 'row',
     backgroundColor: colors.primary,
     paddingVertical: 6,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     borderRadius: 2,
   },
   tableHeaderCell: {
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
     paddingVertical: 5,
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
@@ -218,71 +220,71 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f9ff',
     borderLeftWidth: 3,
     borderLeftColor: colors.primary,
-    padding: 10,
-    marginBottom: 12,
+    padding: 8,
+    marginBottom: 8,
     borderRadius: 2,
   },
   opinionTitle: {
     fontSize: 10,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 6,
+    marginBottom: 5,
   },
   opinionItem: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#334155',
-    lineHeight: 1.5,
-    marginBottom: 2,
+    lineHeight: 1.4,
+    marginBottom: 1,
   },
   infoBox: {
     backgroundColor: colors.rowAlt,
-    padding: 10,
-    marginBottom: 12,
+    padding: 8,
+    marginBottom: 8,
     borderRadius: 2,
   },
   infoTitle: {
     fontSize: 10,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 6,
+    marginBottom: 5,
   },
   infoItem: {
     fontSize: 8,
     color: '#475569',
-    lineHeight: 1.6,
-    marginBottom: 2,
+    lineHeight: 1.5,
+    marginBottom: 1,
   },
   syntheseBox: {
     backgroundColor: '#f0f9ff',
     borderLeftWidth: 3,
     borderLeftColor: colors.primary,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginBottom: 14,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    marginBottom: 10,
     borderRadius: 2,
   },
   syntheseTitle: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: 8,
+    marginBottom: 5,
   },
   syntheseText: {
-    fontSize: 9,
+    fontSize: 8,
     color: '#1e293b',
-    lineHeight: 1.7,
+    lineHeight: 1.6,
   },
   hypothesesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   hypothesesItem: {
     width: '31%',
     marginRight: '2%',
-    marginBottom: 8,
-    paddingVertical: 5,
-    paddingHorizontal: 8,
+    marginBottom: 5,
+    paddingVertical: 3,
+    paddingHorizontal: 7,
     backgroundColor: '#f8fafc',
     borderRadius: 2,
     borderWidth: 1,
@@ -296,7 +298,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
   },
   hypothesesValue: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: 'bold',
     color: '#334155',
   },
@@ -312,31 +314,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff7ed',
     borderLeftWidth: 3,
     borderLeftColor: colors.orange,
-    padding: 10,
-    marginTop: 8,
+    padding: 8,
+    marginTop: 6,
     borderRadius: 2,
   },
   disclaimerText: {
-    fontSize: 8,
+    fontSize: 7,
     color: '#78350f',
-    lineHeight: 1.5,
+    lineHeight: 1.4,
   },
   footer: {
     position: 'absolute',
-    bottom: 20,
-    left: 40,
-    right: 40,
+    bottom: 14,
+    left: 36,
+    right: 36,
     fontSize: 7,
     color: colors.muted,
     textAlign: 'center',
     borderTopWidth: 1,
     borderTopColor: colors.border,
-    paddingTop: 6,
+    paddingTop: 5,
   },
   pageNumber: {
     position: 'absolute',
-    bottom: 20,
-    right: 40,
+    bottom: 14,
+    right: 36,
     fontSize: 7,
     color: colors.muted,
   },
@@ -505,60 +507,60 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         {/* Tableau comparatif */}
         <View style={styles.table}>
           <View style={styles.tableHeader}>
-            <Text style={{ ...styles.tableHeaderCell, flex: 2.5 }}>Indicateur</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 1.8, textAlign: 'right' }}>Sans opération</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 1.8, textAlign: 'right' }}>Avec opération</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 3.9, textAlign: 'right' }}>Montant / Impact</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 2 }}>Indicateur</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 2, textAlign: 'right' }}>Sans opération</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 2, textAlign: 'right' }}>Avec opération</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 4, textAlign: 'right' }}>Montant / Impact</Text>
           </View>
 
           <View style={styles.tableRow}>
-            <Text style={{ ...styles.tableCell, flex: 2.5 }}>Résultat fiscal société</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>{fmtNumber(inputs.preTaxProfit)} €</Text>
-            <Text style={{ ...styles.tableCell, flex: 1.8 }}>{fmtNumber(result.annualFiscalResultAfterOperation)} €</Text>
-            <Text style={{ ...styles.tableCellBold, flex: 3.9 }}>+{fmtNumber(result.annualFiscalResultAfterOperation - inputs.preTaxProfit)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>Résultat fiscal société</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>{fmtNumber(inputs.preTaxProfit)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualFiscalResultAfterOperation)} €</Text>
+            <Text style={{ ...styles.tableCellBold, flex: 4 }}>+{fmtNumber(result.annualFiscalResultAfterOperation - inputs.preTaxProfit)} €</Text>
           </View>
 
           <View style={{ ...styles.tableRow, ...styles.tableRowAlt }}>
-            <Text style={{ ...styles.tableCell, flex: 2.5 }}>IS estimé</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>{fmtNumber(isSansOperation)} €</Text>
-            <Text style={{ ...styles.tableCell, flex: 1.8 }}>{fmtNumber(result.annualISAfterOperation)} €</Text>
-            <Text style={{ ...styles.tableCellOrange, flex: 3.9, fontWeight: 'bold' }}>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>IS estimé</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>{fmtNumber(isSansOperation)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualISAfterOperation)} €</Text>
+            <Text style={{ ...styles.tableCellOrange, flex: 4, fontWeight: 'bold' }}>
               {result.annualISImpact >= 0 ? '+' : ''}{fmtNumber(result.annualISImpact)} €
             </Text>
           </View>
 
           <View style={styles.tableRow}>
-            <Text style={{ ...styles.tableCell, flex: 2.5 }}>Revenus bruts SCPI</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 1.8 }}>{fmtNumber(result.annualGrossIncome)} €</Text>
-            <Text style={{ ...styles.tableCellBold, flex: 3.9 }}>+{fmtNumber(result.annualGrossIncome)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>Revenus bruts SCPI</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualGrossIncome)} €</Text>
+            <Text style={{ ...styles.tableCellBold, flex: 4 }}>+{fmtNumber(result.annualGrossIncome)} €</Text>
           </View>
 
           <View style={{ ...styles.tableRow, ...styles.tableRowAlt }}>
-            <Text style={{ ...styles.tableCell, flex: 2.5 }}>Charge déductible : amort. usufruit</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 1.8 }}>{fmtNumber(result.annualAmortization)} €</Text>
-            <Text style={{ ...styles.tableCellOrange, flex: 3.9 }}>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>Charge déductible : amort. usufruit</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualAmortization)} €</Text>
+            <Text style={{ ...styles.tableCellOrange, flex: 4 }}>
               Charge retenue : {fmtNumber(result.annualAmortization)} €
             </Text>
           </View>
 
           {inputs.feesEnabled && result.feesFiscalYear1 > 0 && (
             <View style={styles.tableRow}>
-              <Text style={{ ...styles.tableCell, flex: 2.5 }}>Charge déductible : honoraires</Text>
-              <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>0 €</Text>
-              <Text style={{ ...styles.tableCell, flex: 1.8 }}>{fmtNumber(result.feesFiscalYear1)} €</Text>
-              <Text style={{ ...styles.tableCellOrange, flex: 3.9 }}>
+              <Text style={{ ...styles.tableCell, flex: 2 }}>Charge déductible : honoraires</Text>
+              <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
+              <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.feesFiscalYear1)} €</Text>
+              <Text style={{ ...styles.tableCellOrange, flex: 4 }}>
                 Charge retenue : {fmtNumber(result.feesFiscalYear1)} €
               </Text>
             </View>
           )}
 
           <View style={{ ...styles.tableRow, backgroundColor: '#d1fae5' }}>
-            <Text style={{ ...styles.tableCell, flex: 2.5, fontWeight: 'bold' }}>Cash-flow net société</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 1.8 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 1.8, fontWeight: 'bold' }}>{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
-            <Text style={{ ...styles.tableCellGreen, flex: 3.9 }}>+{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2, fontWeight: 'bold' }}>Cash-flow net société</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 2, fontWeight: 'bold' }}>{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
+            <Text style={{ ...styles.tableCellGreen, flex: 4 }}>+{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
           </View>
         </View>
 
