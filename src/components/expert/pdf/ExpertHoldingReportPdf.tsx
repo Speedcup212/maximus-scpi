@@ -122,6 +122,10 @@ const styles = StyleSheet.create({
     gap: 0,
     marginBottom: 4,
   },
+  kpiRow: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
   kpiCard: {
     width: '48%',
     borderWidth: 1,
@@ -131,6 +135,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     marginBottom: 6,
     marginRight: '4%',
+  },
+  kpiCardLast: {
+    width: '48%',
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 4,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    marginBottom: 6,
   },
   kpiLabel: {
     fontSize: 7,
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.primary,
     paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     borderRadius: 2,
   },
   tableHeaderCell: {
@@ -178,7 +191,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
@@ -569,18 +582,20 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         {/* Vue synthétique */}
         <Text style={styles.sectionTitle}>Vue synthétique</Text>
-        <View style={styles.grid2}>
+        <View style={styles.kpiRow}>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Effort initial total</Text>
             <Text style={styles.kpiValue}>{fmtEuro(result.effortEconomique)}</Text>
             <Text style={styles.kpiSublabel}>Dont frais de mission au démarrage</Text>
           </View>
-          <View style={styles.kpiCard}>
+          <View style={styles.kpiCardLast}>
             <Text style={styles.kpiLabel}>Trésorerie résiduelle</Text>
             <Text style={tresorerieResiduelle >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
               {fmtEuro(tresorerieResiduelle)}
             </Text>
           </View>
+        </View>
+        <View style={styles.kpiRow}>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Flux net année 1</Text>
             <Text style={result.annualNetCashFlowAfterFees >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
@@ -588,12 +603,14 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             </Text>
             <Text style={styles.kpiSublabel}>Après frais de mission initiaux</Text>
           </View>
-          <View style={styles.kpiCard}>
+          <View style={styles.kpiCardLast}>
             <Text style={styles.kpiLabel}>Impact IS année 1</Text>
             <Text style={styles.kpiValueOrange}>
               {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}
             </Text>
           </View>
+        </View>
+        <View style={styles.kpiRow}>
           <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Rendement net moyen annuel</Text>
             <Text style={result.netCompanyYieldAvgAnnual >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
@@ -601,7 +618,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             </Text>
             <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
           </View>
-          <View style={styles.kpiCard}>
+          <View style={styles.kpiCardLast}>
             <Text style={styles.kpiLabel}>Cash-flow net cumulé</Text>
             <Text style={styles.kpiValueGreen}>{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</Text>
             <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
@@ -707,56 +724,56 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         <View style={styles.table}>
           <View style={styles.tableHeader}>
-            <Text style={{ ...styles.tableHeaderCell, flex: 2 }}>Indicateur</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 2, textAlign: 'right' }}>Sans opération</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 2, textAlign: 'right' }}>Avec opération</Text>
-            <Text style={{ ...styles.tableHeaderCell, flex: 4, textAlign: 'right' }}>Montant / Impact</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 7 }}>Indicateur</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 4, textAlign: 'right' }}>Sans opération</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 4, textAlign: 'right' }}>Avec opération</Text>
+            <Text style={{ ...styles.tableHeaderCell, flex: 5, textAlign: 'right' }}>Montant / Impact</Text>
           </View>
 
           <View style={styles.tableRow}>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>Résultat fiscal société</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>{fmtNumber(inputs.preTaxProfit)} €</Text>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualFiscalResultAfterOperation)} €</Text>
-            <Text style={{ ...styles.tableCellBold, flex: 4 }}>+{fmtNumber(result.annualFiscalResultAfterOperation - inputs.preTaxProfit)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 7 }}>Résultat fiscal société</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 4 }}>{fmtNumber(inputs.preTaxProfit)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 4 }}>{fmtNumber(result.annualFiscalResultAfterOperation)} €</Text>
+            <Text style={{ ...styles.tableCellBold, flex: 5 }}>+{fmtNumber(result.annualFiscalResultAfterOperation - inputs.preTaxProfit)} €</Text>
           </View>
 
           <View style={{ ...styles.tableRow, ...styles.tableRowAlt }}>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>IS estimé</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>{fmtNumber(isSansOperation)} €</Text>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualISAfterOperation)} €</Text>
-            <Text style={{ ...styles.tableCellOrange, flex: 4, fontWeight: 'bold' }}>
+            <Text style={{ ...styles.tableCell, flex: 7 }}>IS estimé</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 4 }}>{fmtNumber(isSansOperation)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 4 }}>{fmtNumber(result.annualISAfterOperation)} €</Text>
+            <Text style={{ ...styles.tableCellOrange, flex: 5, fontWeight: 'bold' }}>
               {result.annualISImpact >= 0 ? '+' : ''}{fmtNumber(result.annualISImpact)} €
             </Text>
           </View>
 
           <View style={styles.tableRow}>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>Revenus bruts SCPI</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualGrossIncome)} €</Text>
-            <Text style={{ ...styles.tableCellBold, flex: 4 }}>+{fmtNumber(result.annualGrossIncome)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 7 }}>Revenus bruts SCPI</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 4 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 4 }}>{fmtNumber(result.annualGrossIncome)} €</Text>
+            <Text style={{ ...styles.tableCellBold, flex: 5 }}>+{fmtNumber(result.annualGrossIncome)} €</Text>
           </View>
 
           <View style={{ ...styles.tableRow, ...styles.tableRowAlt }}>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>Charge déductible : amort. usufruit</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.annualAmortization)} €</Text>
-            <Text style={{ ...styles.tableCellOrange, flex: 4 }}>Charge retenue : {fmtNumber(result.annualAmortization)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 7 }}>Charge déductible : amort. usufruit</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 4 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 4 }}>{fmtNumber(result.annualAmortization)} €</Text>
+            <Text style={{ ...styles.tableCellOrange, flex: 5 }}>Charge retenue : {fmtNumber(result.annualAmortization)} €</Text>
           </View>
 
           {inputs.feesEnabled && result.feesFiscalYear1 > 0 && (
             <View style={styles.tableRow}>
-              <Text style={{ ...styles.tableCell, flex: 2 }}>Frais de mission — année 1</Text>
-              <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
-              <Text style={{ ...styles.tableCell, flex: 2 }}>{fmtNumber(result.feesFiscalYear1)} €</Text>
-              <Text style={{ ...styles.tableCellOrange, flex: 4 }}>Charge retenue : {fmtNumber(result.feesFiscalYear1)} €</Text>
+              <Text style={{ ...styles.tableCell, flex: 7 }}>Frais de mission — année 1</Text>
+              <Text style={{ ...styles.tableCellMuted, flex: 4 }}>0 €</Text>
+              <Text style={{ ...styles.tableCell, flex: 4 }}>{fmtNumber(result.feesFiscalYear1)} €</Text>
+              <Text style={{ ...styles.tableCellOrange, flex: 5 }}>Charge retenue : {fmtNumber(result.feesFiscalYear1)} €</Text>
             </View>
           )}
 
           <View style={{ ...styles.tableRow, backgroundColor: '#d1fae5' }}>
-            <Text style={{ ...styles.tableCell, flex: 2, fontWeight: 'bold' }}>Flux net société (après frais de mission)</Text>
-            <Text style={{ ...styles.tableCellMuted, flex: 2 }}>0 €</Text>
-            <Text style={{ ...styles.tableCell, flex: 2, fontWeight: 'bold' }}>{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
-            <Text style={{ ...styles.tableCellGreen, flex: 4 }}>+{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
+            <Text style={{ ...styles.tableCell, flex: 7, fontWeight: 'bold' }}>Flux net société (après frais de mission)</Text>
+            <Text style={{ ...styles.tableCellMuted, flex: 4 }}>0 €</Text>
+            <Text style={{ ...styles.tableCell, flex: 4, fontWeight: 'bold' }}>{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
+            <Text style={{ ...styles.tableCellGreen, flex: 5 }}>+{fmtNumber(result.annualNetCashFlowAfterFees)} €</Text>
           </View>
         </View>
 
