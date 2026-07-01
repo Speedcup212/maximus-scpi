@@ -78,6 +78,64 @@ const ExpertHoldingSimulator: React.FC = () => {
     reducedRateEligible: inputs.reducedRateEligible,
   }), [inputs.preTaxProfit, inputs.reducedRateEligible]);
 
+  /* ── Warnings métier ── */
+  const warnings = useMemo(() => {
+    const w: { id: string; message: string; severity: 'critical' | 'warning' | 'info' }[] = [];
+    const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
+
+    // 1. Effort > trésorerie
+    if (result.effortEconomique > inputs.availableCash) {
+      w.push({ id: 'effort-exceeds-tresorerie', message: 'L\'effort de trésorerie dépasse la trésorerie disponible.', severity: 'critical' });
+    }
+
+    // 2. Trésorerie résiduelle < 0
+    if (tresorerieResiduelle < 0) {
+      w.push({ id: 'tresorerie-negative', message: `Trésorerie résiduelle négative : ${fmtEuro(tresorerieResiduelle)}.`, severity: 'critical' });
+    }
+
+    // 3. Clé usufruit invalide
+    if (inputs.usufruitKeyPercent <= 0 || inputs.usufruitKeyPercent > 100) {
+      w.push({ id: 'key-invalid', message: 'Clé usufruit invalide (doit être entre 1 % et 100 %).', severity: 'critical' });
+    }
+
+    // 4. Durée <= 0
+    if (inputs.usufruitDuration <= 0) {
+      w.push({ id: 'duration-invalid', message: 'La durée d\'usufruit doit être supérieure à 0.', severity: 'critical' });
+    }
+
+    // 5. Taux distribution <= 0
+    if (inputs.grossYieldRate <= 0) {
+      w.push({ id: 'no-yield', message: 'Aucun revenu projeté : l\'opération repose uniquement sur l\'effet fiscal.', severity: 'warning' });
+    }
+
+    // 6. Cash-flow net année 1 < 0
+    if (result.annualNetCashFlowAfterFees < 0) {
+      w.push({ id: 'cashflow-negative', message: 'Cash-flow net négatif en année 1.', severity: 'warning' });
+    }
+
+    // 7. Rendement net moyen < 0
+    if (result.netCompanyYieldAvgAnnual < 0) {
+      w.push({ id: 'yield-negative', message: 'Rendement net moyen négatif sur la durée.', severity: 'warning' });
+    }
+
+    // 8. Honoraires > 10 % du montant investi
+    if (inputs.feesEnabled && result.effortEconomique > 0 && (result.feesHT / inputs.usufruitInvestment) > 0.10) {
+      w.push({ id: 'fees-high', message: 'Honoraires élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
+    }
+
+    // 9. TVA non récupérable
+    if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.feesVAT > 0) {
+      w.push({ id: 'vat-not-recoverable', message: 'TVA non récupérable : l\'effort de trésorerie intègre le TTC.', severity: 'info' });
+    }
+
+    // 10. Honoraires non déductibles
+    if (inputs.feesEnabled && inputs.feesTreatment === 'non-deductible') {
+      w.push({ id: 'fees-non-deductible', message: 'Les honoraires n\'impactent pas le résultat fiscal dans cette simulation (traitement non déductible).', severity: 'info' });
+    }
+
+    return w;
+  }, [inputs, result.effortEconomique, result.annualNetCashFlowAfterFees, result.netCompanyYieldAvgAnnual, result.feesHT, result.feesVAT]);
+
   const updateInput = <K extends keyof HoldingISInputs>(key: K, value: HoldingISInputs[K]) => {
     setInputs((prev) => ({ ...prev, [key]: value }));
   };
@@ -313,6 +371,30 @@ const ExpertHoldingSimulator: React.FC = () => {
               sublabel={result.annualISImpact === 0 ? 'Neutre' : undefined} />
           </div>
 
+          {/* ── Warnings métier ── */}
+          {warnings.length > 0 && (
+            <div className={`rounded-lg border p-4 space-y-2
+              ${warnings.some(w => w.severity === 'critical') ? 'bg-red-950/20 border-red-900/30' :
+                warnings.some(w => w.severity === 'warning') ? 'bg-orange-950/20 border-orange-900/30' :
+                'bg-blue-950/20 border-blue-900/30'}`}
+            >
+              {warnings.map((w) => (
+                <div key={w.id} className="flex items-start gap-2">
+                  <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
+                    w.severity === 'critical' ? 'text-red-400' :
+                    w.severity === 'warning' ? 'text-orange-400' : 'text-blue-400'
+                  }`} />
+                  <span className={`text-xs leading-relaxed ${
+                    w.severity === 'critical' ? 'text-red-200/80' :
+                    w.severity === 'warning' ? 'text-orange-200/80' : 'text-blue-200/80'
+                  }`}>
+                    {w.message}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* ── Onglets ── */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
             {/* Tab bar */}
@@ -386,7 +468,7 @@ const ExpertHoldingSimulator: React.FC = () => {
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
                       <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> sur une trésorerie disponible de {fmtEuro(inputs.availableCash)}.</li>
-                      <li>• La trésorerie résiduelle théorique ressort à <strong className="text-emerald-400">{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
+                      <li>• La trésorerie résiduelle théorique ressort à <strong className={inputs.availableCash - result.effortEconomique < 0 ? 'text-red-400' : 'text-emerald-400'}>{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
                       <li>• Investissement de {fmtEuro(result.effortEconomique)} finançant {fmtEuro(result.reconstitutedFullProperty)} de patrimoine SCPI (pleine propriété).</li>
                       <li>• L'opération dégage un cash-flow net de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1.</li>
                       <li>• Sur {inputs.usufruitDuration} ans, le cash-flow cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.</li>
