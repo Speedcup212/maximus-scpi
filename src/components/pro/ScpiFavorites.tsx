@@ -641,7 +641,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
               {viewMode === 'list' && (
                 <div className="bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="min-w-[800px] w-full text-xs">
+                    <table className="min-w-[900px] w-full text-xs">
                       <thead>
                         <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-500">
                           <th className="text-left py-2.5 px-3 font-medium">SCPI</th>
@@ -649,6 +649,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                           <th className="text-right py-2.5 px-3 font-medium">Rendement</th>
                           <th className="text-right py-2.5 px-3 font-medium">TOF</th>
                           <th className="text-right py-2.5 px-3 font-medium">Prix part</th>
+                          <th className="text-right py-2.5 px-3 font-medium" title="Écart entre le prix de souscription et la valeur de reconstitution.">Décote / Surcote</th>
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Invest. min.</th>
                           <th className="text-right py-2.5 px-3 font-medium hidden md:table-cell">Capitalisation</th>
                           <th className="text-left py-2.5 px-3 font-medium">Secteur dominant</th>
@@ -674,6 +675,17 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                             </td>
                             <td className="py-3 px-3 text-right text-white font-semibold tabular-nums whitespace-nowrap">
                               {scpi.price != null ? `${scpi.price}€` : '—'}
+                            </td>
+                            <td className="py-3 px-3 text-right tabular-nums whitespace-nowrap">
+                              {(() => {
+                                const di = resolveDisplayedDiscount(scpi);
+                                if (di.displayValue == null || di.displayValue === 0) return <span className="text-slate-600">—</span>;
+                                return (
+                                  <span className={`font-semibold ${signalClass(discountSignal(di))}`}>
+                                    {(di.displayValue > 0 ? '+' : '')}{di.displayValue.toFixed(1)}%
+                                  </span>
+                                );
+                              })()}
                             </td>
                             <td className="py-3 px-3 text-right text-slate-300 tabular-nums hidden md:table-cell whitespace-nowrap">
                               {scpi.minInvestment.toLocaleString('fr-FR')}€

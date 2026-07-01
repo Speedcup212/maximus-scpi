@@ -207,11 +207,23 @@ interface DashboardHomeProps {
   onNavigate: (section: ProSection) => void;
   onAnalyzeScpi?: (scpi: SCPIExtended) => void;
   onCompareScpi?: (scpi: SCPIExtended) => void;
+  onDossierChanged?: () => void;
 }
 
-function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHomeProps) {
+function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi, onDossierChanged }: DashboardHomeProps) {
   const [dossierModal, setDossierModal] = useState<ProDossier | null>(null);
-  const [dossiers] = useState<ProDossier[]>(() => loadDossiers());
+  const [dossiers, setDossiers] = useState<ProDossier[]>(() => loadDossiers());
+
+  const handleDeleteDossier = (id: string, name: string) => {
+    if (!window.confirm(`Supprimer le dossier "${name}" ?`)) return;
+    const updated = dossiers.filter(d => d.id !== id);
+    setDossiers(updated);
+    saveDossiers(updated);
+    setDossierModal(null);
+    onDossierChanged?.();
+  };
+
+  const livrablesCount = dossiers.filter(d => d.status === 'Livrable prêt').length;
 
   return (
     <>
@@ -230,9 +242,10 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
             Votre poste de pilotage MaximusSCPI Pro.
           </p>
           <p className="text-[11px] sm:text-xs text-slate-500 mt-1.5">
-            3 dossiers actifs{' '}
+            {dossiers.length} dossier{dossiers.length > 1 ? 's' : ''} actif{dossiers.length > 1 ? 's' : ''}{' '}
             <span className="text-slate-600">·</span>{' '}
-            <span className="text-emerald-400 font-medium">1 livrable prêt à envoyer</span>{' '}
+            {livrablesCount > 0 && <span className="text-emerald-400 font-medium">{livrablesCount} livrable{livrablesCount > 1 ? 's' : ''} prêt{livrablesCount > 1 ? 's' : ''} à envoyer</span>}
+            {livrablesCount > 0 && ' '}
             <span className="text-slate-600">·</span>{' '}
             données juin 2026
           </p>
@@ -256,7 +269,7 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
           ═══════════════════════════════════════ */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <KpiCard icon={TrendingUp} badge="+3 ce mois" value={64} label="SCPI analysées" accent="emerald" />
-        <KpiCard icon={FolderOpen} badge="1 livrable prêt" value={3} label="Dossiers actifs" accent="blue" />
+        <KpiCard icon={FolderOpen} badge={`${livrablesCount} livrable${livrablesCount > 1 ? 's' : ''} prêt${livrablesCount > 1 ? 's' : ''}`} value={dossiers.length} label="Dossiers actifs" accent="blue" />
         <KpiCard icon={FileText} badge="+4 vs T1" value={12} label="Supports générés · T2 2026" accent="amber" />
       </div>
 
@@ -309,6 +322,7 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
         onOpenDossier={(d) => setDossierModal(d)}
         onViewAll={() => onNavigate('dossiers')}
         onCreateDossier={() => onNavigate('dossiers')}
+        onDeleteDossier={handleDeleteDossier}
       />
 
       {/* ═══════════════════════════════════════
@@ -381,13 +395,27 @@ function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi }: DashboardHo
   );
 }
 
-function DossiersTable({ dossiers, onOpenDossier, onViewAll, onCreateDossier, compact }: {
+function DossiersTable({ dossiers, onOpenDossier, onViewAll, onCreateDossier, onDeleteDossier, compact }: {
   dossiers: ProDossier[];
   onOpenDossier: (dossier: ProDossier) => void;
   onViewAll: () => void;
   onCreateDossier: () => void;
+  onDeleteDossier?: (id: string, name: string) => void;
   compact?: boolean;
 }) {
+  if (dossiers.length === 0) {
+    return (
+      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-8 text-center">
+        <FolderOpen className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+        <p className="text-slate-400 text-sm mb-1">Aucun dossier en cours.</p>
+        <p className="text-slate-600 text-xs mb-4">Créez un nouveau dossier pour démarrer une analyse.</p>
+        <button onClick={onCreateDossier} className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors">
+          <Plus className="w-4 h-4" /> Nouveau dossier
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:p-5">
       <div className="flex items-center justify-between mb-3 sm:mb-4">
@@ -451,12 +479,22 @@ function DossiersTable({ dossiers, onOpenDossier, onViewAll, onCreateDossier, co
                   {formatDateFR(d.updatedAt)}
                 </td>
                 <td className="py-3 px-1">
-                  <button
-                    onClick={() => onOpenDossier(d)}
-                    className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors whitespace-nowrap"
-                  >
-                    Ouvrir
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => onOpenDossier(d)}
+                      className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 rounded-lg transition-colors whitespace-nowrap"
+                    >
+                      Ouvrir
+                    </button>
+                    {onDeleteDossier && (
+                      <button
+                        onClick={() => onDeleteDossier(d.id, d.name)}
+                        className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 bg-transparent border border-red-900/50 text-red-400 hover:text-red-300 hover:border-red-700 hover:bg-red-950/30 rounded-lg transition-colors whitespace-nowrap"
+                      >
+                        Supprimer
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
@@ -602,7 +640,7 @@ function CreateDossierModal({ onSave, onClose, initial }: {
   );
 }
 
-function DossiersFull() {
+function DossiersFull({ onDossierChanged }: { onDossierChanged?: () => void }) {
   const [allDossiers, setAllDossiers] = useState<ProDossier[]>(loadDossiers);
   const [detailDossier, setDetailDossier] = useState<ProDossier | null>(null);
   const [showCreate, setShowCreate] = useState(false);
@@ -640,6 +678,7 @@ function DossiersFull() {
     saveDossiers(updated);
     setDetailDossier(null);
     showToast('Dossier supprimé.');
+    onDossierChanged?.();
   };
 
   return (
@@ -673,6 +712,7 @@ function DossiersFull() {
           onOpenDossier={(d) => setDetailDossier(d)}
           onViewAll={() => {}}
           onCreateDossier={() => setShowCreate(true)}
+          onDeleteDossier={(id) => handleDeleteDossier(id)}
         />
       )}
 
@@ -1056,6 +1096,7 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
   const [pendingAnalysisScpi, setPendingAnalysisScpi] = useState<SCPIExtended | null>(null);
   const [pendingCompareScpi, setPendingCompareScpi] = useState<SCPIExtended | null>(null);
   const [analysisReturnSection, setAnalysisReturnSection] = useState<ProSection | null>(null);
+  const [dossierVersion, setDossierVersion] = useState(0);
 
   useEffect(() => {
     const handler = () => setFavoriteCount(getFavoriteScpiIds().size);
@@ -1111,9 +1152,10 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
           onNavigate={handleSectionClick}
           onAnalyzeScpi={handleAnalyzeScpiFromFavorites}
           onCompareScpi={handleCompareScpiFromFavorites}
+          onDossierChanged={() => setDossierVersion(v => v + 1)}
         />;
       case 'dossiers':
-        return <DossiersFull />;
+        return <DossiersFull onDossierChanged={() => setDossierVersion(v => v + 1)} />;
       case 'livrables':
         return <LivrablesContent />;
       case 'comparateur':
@@ -1236,7 +1278,17 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
             <item.icon className="w-4 h-4 shrink-0" />
             <span className="flex-1 text-left">{item.label}</span>
             {(() => {
-              const badgeValue = item.section === 'scpi-preferees' ? (favoriteCount > 0 ? favoriteCount : undefined) : item.badge;
+              let badgeValue: number | undefined;
+              if (item.section === 'scpi-preferees') {
+                badgeValue = favoriteCount > 0 ? favoriteCount : undefined;
+              } else if (item.section === 'dossiers') {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                void dossierVersion; // force re-render on dossier changes
+                const count = loadDossiers().length;
+                badgeValue = count > 0 ? count : undefined;
+              } else {
+                badgeValue = item.badge;
+              }
               return badgeValue !== undefined && (
                 <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
                   activeSection === item.section
