@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Landmark, TrendingUp, BarChart3, Shield, ChevronRight, Building2 } from 'lucide-react';
+import { Calculator, BarChart3, ChevronRight, Building2, Users, FileText, Settings } from 'lucide-react';
 
 interface ExpertLayoutProps {
   children: React.ReactNode;
@@ -9,9 +9,11 @@ interface ExpertLayoutProps {
 }
 
 const NAV_ITEMS = [
-  { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
-  { id: 'holding-simulator', icon: Calculator, label: 'Simulateur Holding IS' },
-  { id: 'coming-soon', icon: Landmark, label: 'À venir' },
+  { id: 'dashboard', icon: BarChart3, label: 'Dashboard', available: true },
+  { id: 'holding-simulator', icon: Calculator, label: 'Simulateur Holding IS', available: true },
+  { id: 'dossiers-clients', icon: Users, label: 'Dossiers clients', available: false },
+  { id: 'rapports', icon: FileText, label: 'Rapports', available: false },
+  { id: 'parametres', icon: Settings, label: 'Paramètres cabinet', available: false },
 ];
 
 const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, onNavigate, onBackToHome }) => {
@@ -23,13 +25,13 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
         <div className="p-5 border-b border-slate-800">
           <button
             onClick={onBackToHome}
-            className="flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors mb-3"
+            className="flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors mb-3"
           >
             <ChevronRight className="w-4 h-4 rotate-180" />
             <span className="text-xs">Retour au site</span>
           </button>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <Building2 className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -50,15 +52,23 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
             return (
               <button
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
+                onClick={() => item.available && onNavigate(item.id)}
+                disabled={!item.available}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   isActive
-                    ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-600/30'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                    ? 'bg-blue-600/20 text-blue-400 border border-blue-600/30'
+                    : item.available
+                      ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                      : 'text-slate-600 cursor-not-allowed'
                 }`}
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
-                <span>{item.label}</span>
+                <span className="flex-1 text-left">{item.label}</span>
+                {!item.available && (
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-500 font-medium">
+                    Bientôt
+                  </span>
+                )}
               </button>
             );
           })}
@@ -67,7 +77,7 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
         {/* Footer */}
         <div className="p-5 border-t border-slate-800">
           <div className="flex items-center gap-2 text-[10px] text-slate-500">
-            <Shield className="w-3 h-3" />
+            <Building2 className="w-3 h-3" />
             <span>Espace réservé • Cabinet</span>
           </div>
         </div>
@@ -76,13 +86,13 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-emerald-600 rounded flex items-center justify-center">
+          <div className="w-7 h-7 bg-blue-600 rounded flex items-center justify-center">
             <Building2 className="w-3.5 h-3.5 text-white" />
           </div>
           <span className="text-sm font-bold text-white">Expert-Comptable</span>
         </div>
         <div className="flex gap-2">
-          {NAV_ITEMS.map((item) => {
+          {NAV_ITEMS.filter(i => i.available).map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.id;
             return (
@@ -91,7 +101,7 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
                 onClick={() => onNavigate(item.id)}
                 className={`p-2 rounded-lg text-xs transition ${
                   isActive
-                    ? 'bg-emerald-600/20 text-emerald-400'
+                    ? 'bg-blue-600/20 text-blue-400'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
                 title={item.label}

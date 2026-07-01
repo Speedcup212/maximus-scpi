@@ -12,8 +12,8 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Authentification Expert-Comptable (à venir)
-    console.log('Expert login attempt:', email);
+    // Redirection vers le dashboard Expert-Comptable (auth à venir)
+    window.location.href = '/expert-comptable/dashboard';
   };
 
   const handleGoogleLogin = () => {
