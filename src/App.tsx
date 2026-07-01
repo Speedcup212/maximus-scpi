@@ -2166,7 +2166,6 @@ const App: React.FC = () => {
             defaultAmount={50000}
             defaultYield={5}
             defaultTmi={30}
-            onCtaClick={() => setIsRdvModalOpen(true)}
           />
         </Suspense>
         <Footer />

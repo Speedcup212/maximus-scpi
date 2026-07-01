@@ -1140,7 +1140,6 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
                     defaultAmount={50000}
                     defaultYield={5}
                     defaultTmi={30}
-                    onCtaClick={() => {}}
                   />
                 )}
                 {simulatorView === 'credit' && (

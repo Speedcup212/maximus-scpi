@@ -6,16 +6,12 @@ interface ScpiNetIncomeSimulatorProps {
   defaultAmount?: number;
   defaultYield?: number;
   defaultTmi?: number;
-  ctaUrl?: string;
-  onCtaClick?: () => void;
 }
 
 const ScpiNetIncomeSimulator: React.FC<ScpiNetIncomeSimulatorProps> = ({
   defaultAmount = 50000,
   defaultYield = 5,
   defaultTmi = 30,
-  ctaUrl = '#contact',
-  onCtaClick
 }) => {
   const [amount, setAmount] = useState(defaultAmount);
   const [yieldRate, setYieldRate] = useState(defaultYield);
@@ -793,33 +789,6 @@ const ScpiNetIncomeSimulator: React.FC<ScpiNetIncomeSimulatorProps> = ({
                     Activer pour comparer avec réinvestissement
                   </button>
                 </div>
-              )}
-            </div>
-
-            {/* CTA */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl shadow-lg p-6 text-white text-center">
-              <h3 className="text-xl font-bold mb-2">
-                Optimisez votre stratégie d'investissement
-              </h3>
-              <p className="text-green-100 mb-4">
-                Nos experts vous accompagnent pour maximiser vos revenus SCPI
-              </p>
-              {onCtaClick ? (
-                <button
-                  onClick={onCtaClick}
-                  className="inline-flex items-center gap-2 bg-white text-green-600 font-semibold px-6 py-3 rounded-lg hover:bg-green-50 transition-colors"
-                >
-                  <TrendingUp className="w-5 h-5" />
-                  Demander une étude personnalisée
-                </button>
-              ) : (
-                <a
-                  href={ctaUrl}
-                  className="inline-flex items-center gap-2 bg-white text-green-600 font-semibold px-6 py-3 rounded-lg hover:bg-green-50 transition-colors"
-                >
-                  <TrendingUp className="w-5 h-5" />
-                  Demander une étude personnalisée
-                </a>
               )}
             </div>
 
