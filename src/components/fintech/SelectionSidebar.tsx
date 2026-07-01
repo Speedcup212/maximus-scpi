@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, ChevronDown } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
@@ -41,12 +41,6 @@ const getCategoryColor = (category: string) => {
     'Logistique': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
   };
   return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
-};
-
-const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
-  const value = resolveDisplayedDiscount(scpi).value;
-  if (value == null) return null;
-  return { value, isDiscount: value < 0 };
 };
 
 
@@ -2110,7 +2104,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </thead>
                       <tbody className="divide-y divide-slate-700/50">
                         {selectedScpis.map(scpi => {
-                          const discountInfo = getDiscountPremium(scpi);
+                          const discountInfo = getScpiDiscountPremium(scpi);
                           const isExpanded = expandedScpiIds.has(scpi.id);
                           return (
                             <React.Fragment key={scpi.id}>
@@ -2151,12 +2145,12 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                                   {scpi.capitalization || '—'}
                                 </td>
                                 <td className="py-2.5 px-2 text-right">
-                                  {discountInfo ? (
-                                    <span className={`font-semibold ${discountInfo.isDiscount ? 'text-emerald-400' : 'text-amber-400'}`}>
-                                      {discountInfo.isDiscount ? '' : '+'}{discountInfo.value.toFixed(1)}%
-                                    </span>
-                                  ) : (
+                                  {discountInfo.value == null ? (
                                     <span className="text-slate-500">—</span>
+                                  ) : (
+                                    <span className={getScpiDiscountPremiumClass(discountInfo.value)}>
+                                      {discountInfo.formatted}
+                                    </span>
                                   )}
                                 </td>
                                 <td className="py-2.5 px-2 text-center">

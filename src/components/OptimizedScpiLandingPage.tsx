@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { ScpiLandingData } from '../data/landingPagesData';
 import { resolveDisplayedDiscount } from '../utils/formatters';
+import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
 import { CALENDLY_URL } from '../config/calendly';
 import { qualifyYield } from '../utils/yieldContext';
@@ -363,10 +364,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     let conclusion = '';
 
     // 1. TOUJOURS ajouter la décote en premier si elle existe (PRIORITÉ ABSOLUE)
-    const decote = parseFloat(landingData.decote);
-    if (decote < 0) {
-      const decotePositive = Math.abs(decote);
-      pros.push(`Décote de ${decotePositive.toFixed(2)}% : Opportunité d'achat ${decotePositive.toFixed(0)}% moins cher que le prix de souscription.`);
+    // Calcul depuis la source unique (prix / VR), pas depuis une chaîne préformatée.
+    const decoteValue = realScpiData
+      ? calculateScpiDiscountPremium(realScpiData.price, realScpiData.valeurReconstitution)
+      : null;
+    if (decoteValue != null && decoteValue < -0.005) {
+      const decotePositive = Math.abs(decoteValue);
+      pros.push(`Décote de ${formatScpiDiscountPremium(decotePositive).replace(/^\+/, '')} : Opportunité d'achat ${decotePositive.toFixed(0)}% moins cher que le prix de souscription.`);
     }
 
     // Utiliser les avantages réels de la landing page (déjà personnalisés)

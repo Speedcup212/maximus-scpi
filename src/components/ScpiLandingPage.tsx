@@ -5,6 +5,8 @@ import {
   Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck
 } from 'lucide-react';
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
+import { scpiData as scpiDataArray } from '../data/scpiData';
+import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
 import { CALENDLY_URL } from '../config/calendly';
 import Logo from './Logo';
 import MaximusLogo3Bars from './MaximusLogo3Bars';
@@ -778,7 +780,11 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
               <ul className="space-y-2 text-gray-700">
                 <li><strong>Taux de distribution :</strong> {scpiData.rendement}</li>
                 <li><strong>Taux d'occupation :</strong> {scpiData.tof}</li>
-                <li><strong>Décote/Surcote :</strong> <span className="text-red-600">{scpiData.decote}</span></li>
+                <li><strong>Décote/Surcote :</strong> <span className="text-red-600">{(() => {
+                  const match = scpiDataArray.find(s => s.name === scpiData.nom);
+                  const val = match ? calculateScpiDiscountPremium(match.price, match.valeurReconstitution) : null;
+                  return formatScpiDiscountPremium(val);
+                })()}</span></li>
                 <li><strong>Endettement :</strong> {scpiData.endettement}</li>
                 <li><strong>Label ISR :</strong> Oui ✓</li>
               </ul>

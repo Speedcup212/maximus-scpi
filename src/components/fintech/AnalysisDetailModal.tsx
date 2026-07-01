@@ -9,6 +9,7 @@ import { getLatestScore } from '../../utils/scpiScoreService';
 import { scoreToStars } from '../../utils/scoreToStars';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { formatScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 
@@ -238,15 +239,15 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-xs text-slate-400">Décote/Surcote</div>
                 </div>
                 {(() => {
-                  // Source unique : résolveur partagé (recalcul prix affiché vs VR affichée).
                   const discountPremium = resolveDisplayedDiscount(scpi).value;
                   if (discountPremium == null) {
                     return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
                   }
-                  const isDiscount = discountPremium < 0;
+                  const isDiscount = discountPremium < -0.005;
+                  const isPremium = discountPremium > 0.005;
                   return (
-                    <div className={`text-2xl font-bold ${isDiscount ? 'text-emerald-400' : discountPremium > 0 ? 'text-red-400' : 'text-slate-400'}`}>
-                      {discountPremium > 0 ? '+' : ''}{discountPremium.toFixed(1)}%
+                    <div className={`text-2xl font-bold ${isDiscount ? 'text-emerald-400' : isPremium ? 'text-red-400' : 'text-slate-400'}`}>
+                      {formatScpiDiscountPremium(discountPremium)}
                     </div>
                   );
                 })()}

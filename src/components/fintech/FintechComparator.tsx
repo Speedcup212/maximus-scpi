@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
+import { calculateScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import SCPICardDark from './SCPICardDark';
@@ -139,8 +140,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
     if (filters.expertMode) {
       if (scpi.reconstitutionValue) {
-        const discount = ((scpi.price - scpi.reconstitutionValue) / scpi.reconstitutionValue) * 100;
-        if (discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
+        const discount = calculateScpiDiscountPremium(scpi.price, scpi.reconstitutionValue);
+        if (discount == null || discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
           return false;
         }
       }

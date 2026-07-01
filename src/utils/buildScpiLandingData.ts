@@ -2,6 +2,7 @@ import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
 import { scpiData } from '../data/scpiData';
 import { createSlugFromName } from './scpiSlugMapper';
 import { qualifyYield } from './yieldContext';
+import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 import { Scpi } from '../types/scpi';
 
 /**
@@ -125,7 +126,7 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
     prix_souscription: formatCurrency(scpi.minInvest),
     rendement: formatPercent(scpi.yield),
     tof: formatPercent(scpi.tof),
-    decote: typeof scpi.discount === 'number' ? `${scpi.discount}%` : NA,
+    decote: formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution)),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : NA,
     frais_souscription: typeof scpi.fees === 'number' ? formatPercent(scpi.fees) : NA,
     frequence_versement: scpi.versementLoyers || undefined,

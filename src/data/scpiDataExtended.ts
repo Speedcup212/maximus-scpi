@@ -567,7 +567,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 7.2
       }
     ],
-    "reconstitutionValue": 209,
+    "reconstitutionValue": 219.47,
+    "discount": -7.05,
+    "discountQaStatus": "publishable",
     "ranDays": 86,
     "ltv": 3.9,
     "hasWaitingShares": false,
@@ -753,7 +755,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 2.7
       }
     ],
-    "reconstitutionValue": 255,
+    "reconstitutionValue": 253.83,
+    "discount": -1.51,
+    "discountQaStatus": "publishable",
     "ranDays": 86,
     "ltv": 0,
     "hasWaitingShares": false,
@@ -1691,7 +1695,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 0.9
       }
     ],
-    "reconstitutionValue": 213.65,
+    "reconstitutionValue": 213.94,
+    "discount": -4.65,
+    "discountQaStatus": "publishable",
     "ranDays": 73,
     "ltv": 25.07,
     "hasWaitingShares": false,
@@ -2922,7 +2928,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 0.84
       }
     ],
-    "reconstitutionValue": 203,
+    "reconstitutionValue": 203.52,
+    "discount": 0.24,
+    "discountQaStatus": "publishable",
     "ranDays": 84,
     "ltv": 24.42,
     "hasWaitingShares": false,
@@ -3170,7 +3178,9 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 3.0
       }
     ],
-    "reconstitutionValue": 210,
+    "reconstitutionValue": 207.49,
+    "discount": -2.65,
+    "discountQaStatus": "publishable",
     "ranDays": 26,
     "ltv": 10,
     "hasWaitingShares": false,

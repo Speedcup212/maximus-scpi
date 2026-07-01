@@ -1,5 +1,6 @@
 import { Scpi } from '../types/scpi';
 import { resolveScpiIndicator } from '../indicators/resolveScpiIndicator';
+import { formatScpiDiscountPremium } from './scpiDiscountPremium';
 
 /**
  * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI.
@@ -177,7 +178,7 @@ export const getScpiPointsAttention = (scpi: Scpi): string[] => {
   // Troisième point selon les caractéristiques spécifiques
   const displayedDiscount = getDisplayedDiscount(scpi);
   if (displayedDiscount != null && displayedDiscount > 3) {
-    concerns.push(`Surcote/décote de ${Math.abs(displayedDiscount).toFixed(1)}% par rapport à la valeur de reconstitution`);
+    concerns.push(`Surcote/décote de ${formatScpiDiscountPremium(Math.abs(displayedDiscount)).replace(/^\+/, '')} par rapport à la valeur de reconstitution`);
   } else if (scpi.tof < 90) {
     concerns.push(`Taux d'occupation de ${scpi.tof.toFixed(1)}%`);
   } else if (scpi.creation >= 2020) {
@@ -495,39 +496,39 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   // 4. 💵 EST-CE QUE LE PRIX EST RAISONNABLE ? (Prix d'achat) - Personnalisé
   if (discountValue !== undefined && discountValue !== null) {
     let prix: string = '';
-    const discountFormatted = discountValue.toFixed(1).replace('.', ',');
+    const discountFormatted = formatScpiDiscountPremium(discountValue);
     const discountAbs = Math.abs(discountValue);
-    const discountAbsFormatted = discountAbs.toFixed(1).replace('.', ',');
+    const discountAbsFormatted = formatScpiDiscountPremium(discountAbs).replace(/^\+/, '');
     
     // Combinaisons avec taille et TOF - Décote = bonne affaire
     if (discountValue <= -10 && isLargeCap) {
-      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), grande SCPI en décote significative.`;
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}), grande SCPI en décote significative.`;
     } else if (discountValue <= -10) {
-      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix d'achat intéressant.`;
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}), prix d'achat intéressant.`;
     } else if (discountValue <= -5 && isHighTof) {
-      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix en dessous de la valeur avec occupation solide.`;
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}), prix en dessous de la valeur avec occupation solide.`;
     } else if (discountValue <= -5) {
-      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}%), prix légèrement en dessous de la valeur.`;
+      prix = `💵 Bonne affaire (décote ${discountAbsFormatted}), prix légèrement en dessous de la valeur.`;
     } else if (discountValue < 0 && discountValue > -5 && isHighTof && isLargeCap) {
-      prix = `💵 Prix d'achat aligné avec la valeur (décote ${discountAbsFormatted}%), grande SCPI bien occupée.`;
+      prix = `💵 Prix d'achat aligné avec la valeur (décote ${discountAbsFormatted}), grande SCPI bien occupée.`;
     } else if (discountValue < 0 && discountValue > -5) {
-      prix = `💵 Prix d'achat proche de la valeur réelle (décote ${discountAbsFormatted}%), sans bonne affaire particulière.`;
+      prix = `💵 Prix d'achat proche de la valeur réelle (décote ${discountAbsFormatted}), sans bonne affaire particulière.`;
     } else if (discountValue === 0 || (discountValue > -1 && discountValue < 1)) {
       if (isHighTof && isLargeCap) {
-        prix = `💵 Prix d'achat aligné avec la valeur (${discountFormatted}%), grande SCPI bien occupée.`;
+        prix = `💵 Prix d'achat aligné avec la valeur (${discountFormatted}), grande SCPI bien occupée.`;
       } else {
-        prix = `💵 Prix d'achat proche de la valeur réelle (${discountFormatted}%), sans bonne affaire particulière.`;
+        prix = `💵 Prix d'achat proche de la valeur réelle (${discountFormatted}), sans bonne affaire particulière.`;
       }
     } else if (discountValue <= 5 && isHighTof) {
-      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}%), mais occupation solide.`;
+      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}), mais occupation solide.`;
     } else if (discountValue <= 5) {
-      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}%) par rapport à la valeur réelle.`;
+      prix = `💵 Prix d'achat un peu élevé (surcote ${discountAbsFormatted}) par rapport à la valeur réelle.`;
     } else if (discountValue <= 10 && isHighTof) {
-      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}%), mais occupation solide.`;
+      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}), mais occupation solide.`;
     } else if (discountValue <= 10) {
-      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}%) par rapport à la valeur réelle.`;
+      prix = `💵 Prix d'achat élevé (surcote ${discountAbsFormatted}) par rapport à la valeur réelle.`;
     } else {
-      prix = `💵 Prix d'achat nettement au-dessus de la valeur réelle (surcote ${discountAbsFormatted}%), à éviter.`;
+      prix = `💵 Prix d'achat nettement au-dessus de la valeur réelle (surcote ${discountAbsFormatted}), à éviter.`;
     }
     
     if (prix) {

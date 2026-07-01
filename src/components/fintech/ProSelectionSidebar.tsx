@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, User } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
@@ -43,19 +43,7 @@ const LEGEND_COLORS = {
   geography: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c']
 };
 
-// Décote/surcote affichée : MÊME source que le bloc KPI (recalcul live prix/VR + garde-fou QA).
-// Retourne null si la valeur n'est pas fiable/comparable → l'indicateur n'est pas affiché.
-const getDiscountPremium = (scpi: SCPIExtended): { value: number; isDiscount: boolean } | null => {
-  const value = resolveDisplayedDiscount(scpi).value;
-  if (value == null) {
-    return null;
-  }
-  return {
-    value,
-    isDiscount: value < 0
-  };
-};
-
+// Décote/surcote via la source unique.
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const cleanName = (name: string): string => {
@@ -2160,23 +2148,19 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             {typeof scpi.assetsCount === 'number' ? scpi.assetsCount : 'N/A'}
                           </p>
                         </div>
-                        {getDiscountPremium(scpi) && (
-                          <div>
-                            <p className="text-[10px] text-slate-300">Décote / Surcote</p>
-                            {(() => {
-                              const info = getDiscountPremium(scpi);
-                              if (!info) return null;
-                              const label = info.isDiscount ? 'Décote' : 'Surcote';
-                              return (
-                                <p className={`font-semibold ${info.isDiscount ? 'text-emerald-400' : 'text-red-400'}`}>
-                                  {info.value > 0 ? '+' : ''}
-                                  {info.value.toFixed(1)}%
-                                  <span className="text-[10px] text-slate-300 ml-1">({label})</span>
-                                </p>
-                              );
-                            })()}
-                          </div>
-                        )}
+                        {(() => {
+                          const result = getScpiDiscountPremium(scpi);
+                          if (result.value == null) return null;
+                          return (
+                            <div>
+                              <p className="text-[10px] text-slate-300">Décote / Surcote</p>
+                              <p className={getScpiDiscountPremiumClass(result.value)}>
+                                {result.formatted}
+                                <span className="text-[10px] text-slate-300 ml-1">({result.kind === 'decote' ? 'Décote' : result.kind === 'surcote' ? 'Surcote' : 'Neutre'})</span>
+                              </p>
+                            </div>
+                          );
+                        })()}
                       </div>
                     </div>
                   ))}

@@ -8,6 +8,8 @@ import Logo from './Logo';
 import Header from './Header';
 import { CALENDLY_URL } from '../config/calendly';
 import { submitLead } from '../utils/leadSubmitter';
+import { scpiData as scpiDataArray } from '../data/scpiData';
+import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
 
 interface ScpiExamplePageProps {
   onNavigateHome?: () => void;
@@ -48,7 +50,7 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
     prix_souscription: "250 €",
     rendement: "9,00%",
     tof: "99,1%",
-    decote: "-3,27%",
+    decote: "-3,27%", // Legacy — remplacé par calcul central à l'affichage
     endettement: "0%",
     geographie: {
       "Royaume-Uni": 46.5,
@@ -775,7 +777,11 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
               <ul className="space-y-2 text-gray-700">
                 <li><strong>Taux de distribution :</strong> {scpiData.rendement}</li>
                 <li><strong>Taux d'occupation :</strong> {scpiData.tof}</li>
-                <li><strong>Décote/Surcote :</strong> <span className="text-red-600">{scpiData.decote}</span></li>
+                <li><strong>Décote/Surcote :</strong> <span className="text-red-600">{(() => {
+                  const match = scpiDataArray.find(s => s.name === scpiData.nom);
+                  const val = match ? calculateScpiDiscountPremium(match.price, match.valeurReconstitution) : null;
+                  return formatScpiDiscountPremium(val);
+                })()}</span></li>
                 <li><strong>Endettement :</strong> {scpiData.endettement}</li>
                 <li><strong>Label ISR :</strong> Oui ✓</li>
               </ul>

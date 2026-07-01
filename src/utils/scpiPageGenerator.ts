@@ -1,5 +1,6 @@
 import { LandingPageContent } from './landingPagesContent';
 import scpiCompleteJson from '../data/SCPI_complet_avec_SFDR_Profil.json';
+import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 
 interface ScpiCompleteData {
   'Nom SCPI': string;
@@ -11,6 +12,7 @@ interface ScpiCompleteData {
   'Taux de distribution (%)': number;
   'TOF (%)': number;
   'Surcote/décote (%)': number;
+  'Valeur de reconstitution (€)': number;
   'Endettement (%)': number;
   'Répartition Sectorielle': string;
   'Répartition Géographique': string;
@@ -144,7 +146,9 @@ export const generateScpiPages = (): LandingPageContent[] => {
         { label: 'Capitalisation', value: `${scpi['Capitalisation (M€)'].toFixed(0)} M€` },
         { label: 'TOF', value: `${scpi['TOF (%)']}%` },
         { label: 'Prix', value: `${scpi['Prix de souscription (€)']}€` },
-        { label: 'Décote/Surcote', value: `${scpi['Surcote/décote (%)'] > 0 ? '+' : ''}${scpi['Surcote/décote (%)']}%` },
+        { label: 'Décote/Surcote', value: formatScpiDiscountPremium(
+          calculateScpiDiscountPremium(scpi['Prix de souscription (€)'], scpi['Valeur de reconstitution (€)'])
+        ) },
         { label: 'Endettement', value: `${scpi['Endettement (%)']}%` },
         { label: 'Année création', value: scpi['Année de création'].toString() },
         { label: 'Label ISR', value: isISR ? 'Oui' : 'Non' }

@@ -7,6 +7,7 @@ import {
 import { SCPIExtended, scpiDataExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpis, getFavoriteScpiIds, removeFavoriteScpi, addFavoriteScpi } from '../../utils/proFavorites';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
+import { getDiscountPremiumKind } from '../../utils/scpiDiscountPremium';
 import { computeClientScores } from '../../utils/computeClientScores';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
@@ -78,8 +79,11 @@ function ltvSignal(ltv: number | null | undefined): Signal {
 }
 
 function discountSignal(d: { value?: number | null } | null): Signal {
-  if (!d || d.value == null || d.value === 0) return 'neutral';
-  return d.value > 0 ? 'amber' : 'green';
+  if (!d || d.value == null) return 'neutral';
+  const kind = getDiscountPremiumKind(d.value);
+  if (kind === 'decote') return 'green';
+  if (kind === 'surcote') return 'amber';
+  return 'neutral';
 }
 
 function scoreSignal(s: number | null | undefined): Signal {

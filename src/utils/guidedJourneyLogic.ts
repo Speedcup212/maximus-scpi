@@ -1,6 +1,7 @@
 import { Scpi } from '../types/scpi';
 import { getMaxScpiCount } from './portfolioAdaptation';
 import { normalizeGeoLabel } from './labelNormalization';
+import { calculateScpiDiscountPremium } from './scpiDiscountPremium';
 import { 
   GuidedJourneyAnswers, 
   PortfolioType, 
@@ -88,12 +89,11 @@ export function filterScpiByStrictCriteria(scpis: Scpi[]): Scpi[] {
     // 3. Ratio d'endettement < 30%
     const hasLowDebt = scpi.debt === undefined || scpi.debt < 30;
     
-    // 4. Prix de part ≤ valeur de reconstitution (surcote = exclusion)
-    const hasFairPrice = scpi.valeurReconstitution !== undefined
-      ? scpi.price <= scpi.valeurReconstitution
-      : scpi.discount !== undefined
-        ? scpi.discount <= 0
-        : false;
+    // 4. Prix de part ≤ valeur de reconstitution (décote ou au pair uniquement)
+    const discountValue = calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution);
+    const hasFairPrice = discountValue !== null
+      ? discountValue <= 0
+      : false;
     
     // 5. Rendement réel ≥ moyenne de l'univers
     const hasMinYield = scpi.yield >= averageYield;
@@ -175,7 +175,7 @@ const computeQualityScore = (
   if (scpi.debt === undefined) penalty += 8;
   if (!scpi.repartitionSector || scpi.repartitionSector.length === 0) penalty += 6;
   if (!scpi.repartitionGeo || scpi.repartitionGeo.length === 0) penalty += 6;
-  if (scpi.valeurReconstitution === undefined && scpi.discount === undefined) penalty += 5;
+  if (scpi.valeurReconstitution === undefined) penalty += 5;
 
   const score = clampScore((solidite * 0.4) + (yieldScore * 0.3) + (coherence * 0.3) - penalty, 0, 100);
 
