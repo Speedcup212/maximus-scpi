@@ -447,7 +447,7 @@ const ExpertHoldingSimulator: React.FC = () => {
                             <th className="py-2.5 px-4 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Indicateur</th>
                             <th className="py-2.5 px-4 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Sans opération</th>
                             <th className="py-2.5 px-4 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Avec opération</th>
-                            <th className="py-2.5 px-4 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Impact</th>
+                            <th className="py-2.5 px-4 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Montant / Impact</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-700/30">
@@ -773,18 +773,31 @@ interface ComparatifRowProps {
 const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, delta, deltaKind, highlight, sub }) => {
   const absDelta = Math.abs(delta);
   const sign = delta >= 0 ? '+' : '−';
-  let deltaColor = 'text-slate-400';
-  if (deltaKind === 'is') {
+
+  // Colonne Montant/Impact : libellé selon le type de ligne
+  let deltaDisplay: string;
+  let deltaColor: string;
+
+  if (deltaKind === 'charge') {
+    deltaDisplay = `Charge retenue : ${fmtNumber(absDelta)} €`;
+    deltaColor = 'text-orange-400';
+  } else if (deltaKind === 'is') {
+    deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
     deltaColor = delta > 0 ? 'text-orange-400' : delta < 0 ? 'text-emerald-400' : 'text-slate-400';
-  } else if (deltaKind === 'charge') {
-    deltaColor = 'text-slate-400';
   } else if (deltaKind === 'positive') {
+    deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
     deltaColor = delta >= 0 ? 'text-slate-300' : 'text-orange-400';
   } else if (deltaKind === 'negative') {
+    deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
     deltaColor = delta <= 0 ? 'text-emerald-400' : 'text-orange-400';
   } else if (deltaKind === 'cash') {
+    deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
     deltaColor = 'text-emerald-400';
+  } else {
+    deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
+    deltaColor = 'text-slate-400';
   }
+
   return (
     <tr className={highlight ? 'bg-emerald-950/20' : ''}>
       <td className={`py-2.5 px-4 ${highlight ? 'font-semibold text-white' : 'text-slate-300'}`}>
@@ -793,7 +806,7 @@ const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, del
       </td>
       <td className="py-2.5 px-4 text-right text-slate-500">{before > 0 ? fmtNumber(before) + ' €' : '0 €'}</td>
       <td className="py-2.5 px-4 text-right text-slate-200">{after > 0 ? fmtNumber(after) + ' €' : '0 €'}</td>
-      <td className={`py-2.5 px-4 text-right font-semibold ${deltaColor}`}>{sign}{fmtNumber(absDelta)} €</td>
+      <td className={`py-2.5 px-4 text-right font-medium ${deltaColor}`}>{deltaDisplay}</td>
     </tr>
   );
 };
