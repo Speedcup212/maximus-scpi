@@ -3,9 +3,10 @@ import {
   Calculator, TrendingUp, Building2, Euro, Percent,
   BarChart3, Shield, AlertTriangle, ChevronDown,
   Landmark, FileText, Info, ArrowRight, Table2, Receipt, Wallet,
-  FileDown, Save, Clock,
+  FileDown, Save, Clock, CheckCircle2,
 } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { saveSimulationToExpertDossier } from '../../utils/expertDossierStorage';
 import {
   HoldingISInputs, HoldingISResult,
   FeesMode, FeesTreatment, FeesVatMode,
@@ -69,11 +70,17 @@ const fmtNumber = (v: number) =>
 
 /* ── Composant ── */
 
-const ExpertHoldingSimulator: React.FC = () => {
+interface ExpertHoldingSimulatorProps {
+  onNavigateToDossier: (dossierId: string) => void;
+}
+
+const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavigateToDossier }) => {
   const [inputs, setInputs] = useState<HoldingISInputs>({ ...DEFAULT_INPUTS });
   const [activeTab, setActiveTab] = useState<TabId>('synthese');
   const [showProjection, setShowProjection] = useState(false);
   const [showHypotheses, setShowHypotheses] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [saveError, setSaveError] = useState('');
 
   const result: HoldingISResult = useMemo(() => calculateHoldingISProjection(inputs), [inputs]);
   const isSansOperation = useMemo(() => calculateCorporateTax(inputs.preTaxProfit, {
@@ -140,6 +147,49 @@ const ExpertHoldingSimulator: React.FC = () => {
 
   const updateInput = <K extends keyof HoldingISInputs>(key: K, value: HoldingISInputs[K]) => {
     setInputs((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleSaveToDossier = () => {
+    setSaveError('');
+    if (!inputs.dossierName || inputs.dossierName.trim() === '') {
+      setSaveError('Veuillez renseigner le nom du dossier avant d\'enregistrer.');
+      return;
+    }
+    setSaveStatus('saving');
+
+    const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
+
+    try {
+      const dossier = saveSimulationToExpertDossier({
+        dossierName: inputs.dossierName.trim(),
+        companyType: inputs.companyType,
+        title: `Simulation Holding IS — ${inputs.companyType}`,
+        inputs: inputs as unknown as Record<string, unknown>,
+        results: result as unknown as Record<string, unknown>,
+        summary: {
+          companyType: inputs.companyType,
+          treasuryAvailable: inputs.availableCash,
+          totalCashEffort: result.effortEconomique,
+          residualTreasury: tresorerieResiduelle,
+          usufruitAmount: inputs.usufruitInvestment,
+          usufruitDuration: inputs.usufruitDuration,
+          usufruitKey: inputs.usufruitKey,
+          grossDistributionRate: inputs.grossDistributionRate,
+          yearOneNetCashFlow: result.annualNetCashFlowAfterFees,
+          yearOneTaxImpact: result.annualISImpact,
+          averageAnnualNetYield: result.netCompanyYieldAvgAnnual,
+          cumulativeNetCashFlow: result.cumulativeNetCashFlowAfterFees,
+        },
+      });
+      setSaveStatus('success');
+      setTimeout(() => {
+        onNavigateToDossier(dossier.id);
+      }, 800);
+    } catch {
+      setSaveStatus('error');
+      setSaveError('Erreur lors de l\'enregistrement. Veuillez réessayer.');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    }
   };
 
   const TABS: { id: TabId; label: string }[] = [
@@ -513,13 +563,24 @@ const ExpertHoldingSimulator: React.FC = () => {
                         </>
                       )}
                     </PDFDownloadLink>
-                    <button disabled
+                    <button onClick={handleSaveToDossier}
+                      disabled={saveStatus === 'saving'}
                       className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
-                        bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed transition-opacity opacity-60">
-                      <Save className="w-4 h-4" />
-                      Sauvegarder
-                      <span className="ml-1 px-1.5 py-0.5 rounded bg-slate-700 text-[10px] text-slate-500">Bientôt</span>
+                        bg-violet-600/20 text-violet-300 border border-violet-600/30
+                        hover:bg-violet-600/30 hover:text-violet-200 transition-colors
+                        disabled:opacity-50 disabled:cursor-not-allowed">
+                      {saveStatus === 'saving' ? (
+                        <span className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin" />
+                      ) : saveStatus === 'success' ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      ) : (
+                        <Save className="w-4 h-4" />
+                      )}
+                      {saveStatus === 'success' ? 'Enregistré !' : 'Enregistrer dans le dossier client'}
                     </button>
+                    {saveError && (
+                      <p className="text-xs text-red-400 mt-2 w-full">{saveError}</p>
+                    )}
                   </div>
                 </div>
               )}

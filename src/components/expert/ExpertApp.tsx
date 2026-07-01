@@ -1,32 +1,81 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import ExpertLayout from './ExpertLayout';
 import ExpertDashboard from './ExpertDashboard';
 import ExpertHoldingSimulator from './ExpertHoldingSimulator';
+import ExpertDossiersList from './ExpertDossiersList';
+import ExpertDossierDetail from './ExpertDossierDetail';
+import ExpertSimulationView from './ExpertSimulationView';
 import { Construction } from 'lucide-react';
 
 interface ExpertAppProps {
   initialSection?: string;
+  initialDossierId?: string;
+  initialSimulationId?: string;
   onBackToHome: () => void;
 }
 
-type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-clients' | 'rapports' | 'parametres';
+type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-list' | 'dossier-detail' | 'simulation-view' | 'rapports' | 'parametres';
 
 const URL_MAP: Record<string, string> = {
   'dashboard': '/expert-comptable/dashboard',
   'holding-simulator': '/expert-comptable/simulateur-holding',
-  'dossiers-clients': '/expert-comptable/dossiers-clients',
+  'dossiers-list': '/expert-comptable/dossiers',
+  'dossier-detail': '/expert-comptable/dossiers/:dossierId',
+  'simulation-view': '/expert-comptable/dossiers/:dossierId/simulations/:simulationId',
   'rapports': '/expert-comptable/rapports',
   'parametres': '/expert-comptable/parametres',
 };
 
-const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, onBackToHome }) => {
+const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId, initialSimulationId, onBackToHome }) => {
   const [activeSection, setActiveSection] = useState<ExpertSection>(
     (initialSection as ExpertSection) || 'dashboard'
   );
+  const [currentDossierId, setCurrentDossierId] = useState<string | null>(initialDossierId || null);
+  const [currentSimulationId, setCurrentSimulationId] = useState<string | null>(initialSimulationId || null);
+
+  useEffect(() => {
+    if (initialDossierId) {
+      setCurrentDossierId(initialDossierId);
+    }
+    if (initialSimulationId) {
+      setCurrentSimulationId(initialSimulationId);
+    }
+  }, [initialDossierId, initialSimulationId]);
 
   const handleNavigate = useCallback((section: string) => {
     setActiveSection(section as ExpertSection);
     window.history.pushState({}, '', URL_MAP[section] || '/expert-comptable/dashboard');
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleOpenDossier = useCallback((dossierId: string) => {
+    setCurrentDossierId(dossierId);
+    setActiveSection('dossier-detail');
+    window.history.pushState({}, '', `/expert-comptable/dossiers/${dossierId}`);
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleViewSimulation = useCallback((simId: string) => {
+    setCurrentSimulationId(simId);
+    setActiveSection('simulation-view');
+    window.history.pushState({}, '', `/expert-comptable/dossiers/${currentDossierId}/simulations/${simId}`);
+    window.scrollTo(0, 0);
+  }, [currentDossierId]);
+
+  const handleBackToDossier = useCallback(() => {
+    setCurrentSimulationId(null);
+    setActiveSection('dossier-detail');
+    if (currentDossierId) {
+      window.history.pushState({}, '', `/expert-comptable/dossiers/${currentDossierId}`);
+    }
+    window.scrollTo(0, 0);
+  }, [currentDossierId]);
+
+  const handleBackToDossiers = useCallback(() => {
+    setCurrentDossierId(null);
+    setCurrentSimulationId(null);
+    setActiveSection('dossiers-list');
+    window.history.pushState({}, '', '/expert-comptable/dossiers');
     window.scrollTo(0, 0);
   }, []);
 
@@ -53,9 +102,31 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, onBackToHome }) =
       case 'dashboard':
         return <ExpertDashboard onNavigate={handleNavigate} />;
       case 'holding-simulator':
-        return <ExpertHoldingSimulator />;
-      case 'dossiers-clients':
-        return <ComingSoon title="Dossiers clients" description="Suivi des simulations réalisées pour les sociétés clientes." />;
+        return <ExpertHoldingSimulator onNavigateToDossier={handleOpenDossier} />;
+      case 'dossiers-list':
+        return <ExpertDossiersList onNavigate={handleNavigate} onOpenDossier={handleOpenDossier} />;
+      case 'dossier-detail':
+        if (!currentDossierId) {
+          return <ExpertDossiersList onNavigate={handleNavigate} onOpenDossier={handleOpenDossier} />;
+        }
+        return (
+          <ExpertDossierDetail
+            dossierId={currentDossierId}
+            onBack={handleBackToDossiers}
+            onViewSimulation={handleViewSimulation}
+          />
+        );
+      case 'simulation-view':
+        if (!currentSimulationId) {
+          return (
+            <ExpertDossierDetail
+              dossierId={currentDossierId || ''}
+              onBack={handleBackToDossiers}
+              onViewSimulation={handleViewSimulation}
+            />
+          );
+        }
+        return <ExpertSimulationView simulationId={currentSimulationId} onBack={handleBackToDossier} />;
       case 'rapports':
         return <ComingSoon title="Rapports techniques" description="Génération de rapports cabinet pour documenter les hypothèses." />;
       case 'parametres':

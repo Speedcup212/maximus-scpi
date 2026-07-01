@@ -11,7 +11,7 @@ interface ExpertLayoutProps {
 const NAV_ITEMS = [
   { id: 'dashboard', icon: BarChart3, label: 'Dashboard', available: true },
   { id: 'holding-simulator', icon: Calculator, label: 'Simulateur Holding IS', available: true },
-  { id: 'dossiers-clients', icon: Users, label: 'Dossiers clients', available: false },
+  { id: 'dossiers-list', icon: Users, label: 'Dossiers clients', available: true },
   { id: 'rapports', icon: FileText, label: 'Rapports', available: false },
   { id: 'parametres', icon: Settings, label: 'Paramètres cabinet', available: false },
 ];

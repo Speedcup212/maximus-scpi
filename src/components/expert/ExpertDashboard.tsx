@@ -47,22 +47,24 @@ const ExpertDashboard: React.FC<ExpertDashboardProps> = ({ onNavigate }) => {
         </button>
 
         {/* Dossiers clients */}
-        <div className="text-left bg-slate-900/50 border border-dashed border-slate-800 rounded-xl p-6 opacity-70">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-slate-800/50 rounded-xl flex items-center justify-center">
-              <Users className="w-6 h-6 text-slate-500" />
-            </div>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-slate-500 uppercase">
-              Bientôt
-            </span>
+        <button
+          onClick={() => onNavigate('dossiers-list')}
+          className="group text-left bg-slate-900 border border-slate-800 hover:border-blue-600/50 rounded-xl p-6 transition-all hover:bg-slate-900/80"
+        >
+          <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600/30 transition-colors">
+            <Users className="w-6 h-6 text-blue-400" />
           </div>
-          <h3 className="text-lg font-bold text-slate-500 mb-2">
+          <h3 className="text-lg font-bold text-white mb-2">
             Dossiers clients
           </h3>
-          <p className="text-sm text-slate-600 leading-relaxed">
+          <p className="text-sm text-slate-400 mb-4 leading-relaxed">
             Suivi des simulations réalisées pour les sociétés clientes.
           </p>
-        </div>
+          <div className="flex items-center gap-1 text-sm font-medium text-blue-400 group-hover:text-blue-300 transition-colors">
+            Ouvrir les dossiers
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </div>
+        </button>
 
         {/* Rapports techniques */}
         <div className="text-left bg-slate-900/50 border border-dashed border-slate-800 rounded-xl p-6 opacity-70">
