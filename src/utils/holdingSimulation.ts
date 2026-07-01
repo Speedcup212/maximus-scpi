@@ -233,10 +233,10 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     const fiscalResultOperationOnly = grossIncome - amortization - feesFiscal;
     const fiscalResultAfterOperation = preTaxProfit + fiscalResultOperationOnly;
 
-    const isBeforeOperation = year === 1 ? isBeforeOperationBase : 0;
+    // IS sans opération recalculé chaque année (identique car résultat fiscal constant)
+    const isBeforeOperation = isBeforeOperationBase;
     const isAfterOperation = calculateCorporateTax(fiscalResultAfterOperation, isOpts);
-    const isOnPreTaxOnly = calculateCorporateTax(preTaxProfit, isOpts);
-    const isImpact = isAfterOperation - isOnPreTaxOnly;
+    const isImpact = isAfterOperation - isBeforeOperation;
 
     const netCashFlow = grossIncome - Math.max(0, isImpact);
     const netCashFlowAfterFees = netCashFlow - feesCash;

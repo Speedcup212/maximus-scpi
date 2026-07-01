@@ -385,7 +385,8 @@ const ExpertHoldingSimulator: React.FC = () => {
                       <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Synthèse dirigeant</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
-                      <li>• La société conserve sa trésorerie d'exploitation de {fmtEuro(inputs.availableCash)}.</li>
+                      <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> sur une trésorerie disponible de {fmtEuro(inputs.availableCash)}.</li>
+                      <li>• La trésorerie résiduelle théorique ressort à <strong className="text-emerald-400">{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
                       <li>• Investissement de {fmtEuro(result.effortEconomique)} finançant {fmtEuro(result.reconstitutedFullProperty)} de patrimoine SCPI (pleine propriété).</li>
                       <li>• L'opération dégage un cash-flow net de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1.</li>
                       <li>• Sur {inputs.usufruitDuration} ans, le cash-flow cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.</li>
