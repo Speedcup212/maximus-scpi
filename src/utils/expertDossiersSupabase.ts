@@ -436,28 +436,54 @@ export async function deleteExpertHoldingSimulation(
 
 /* ── Rapports PDF / Storage ── */
 
+/**
+ * Détermine le prochain numéro de version pour un dossier (et simulation si fournie).
+ * Compte toutes les versions non supprimées (archivées incluses).
+ */
+export async function getNextReportVersion(
+  dossierId: string,
+  simulationId?: string,
+): Promise<number> {
+  const user = await requireUser();
+
+  let query = supabase!
+    .from('expert_generated_reports')
+    .select('version_number')
+    .eq('dossier_id', dossierId)
+    .eq('user_id', user.id)
+    .is('deleted_at', null);
+
+  if (simulationId) {
+    query = query.eq('simulation_id', simulationId);
+  }
+
+  const { data, error } = await query
+    .order('version_number', { ascending: false })
+    .limit(1);
+
+  if (error) {
+    console.error('[getNextReportVersion]', error);
+    return 1;
+  }
+
+  if (data && data.length > 0) {
+    return ((data[0] as { version_number: number }).version_number || 0) + 1;
+  }
+
+  return 1;
+}
+
 export async function uploadExpertReport(
   dossierId: string,
   simulationId: string,
   pdfBlob: Blob,
   fileName: string,
-): Promise<string> {
+  sourceInputs?: Record<string, unknown>,
+  sourceResults?: Record<string, unknown>,
+): Promise<{ storagePath: string; versionNumber: number }> {
   const user = await requireUser();
 
-  // Calculer le prochain numéro de version pour cette simulation
-  const { data: existingReports, error: countErr } = await supabase!
-    .from('expert_generated_reports')
-    .select('version_number')
-    .eq('simulation_id', simulationId)
-    .eq('user_id', user.id)
-    .is('deleted_at', null)
-    .order('version_number', { ascending: false })
-    .limit(1);
-
-  let nextVersion = 1;
-  if (!countErr && existingReports && existingReports.length > 0) {
-    nextVersion = (existingReports[0].version_number || 0) + 1;
-  }
+  const nextVersion = await getNextReportVersion(dossierId, simulationId);
 
   const storagePath = `${user.id}/${dossierId}/${simulationId}/v${nextVersion}/${fileName}`;
 
@@ -465,7 +491,7 @@ export async function uploadExpertReport(
     .from('expert-reports')
     .upload(storagePath, pdfBlob, {
       contentType: 'application/pdf',
-      upsert: true,
+      upsert: false,
     });
 
   if (uploadErr) {
@@ -474,27 +500,36 @@ export async function uploadExpertReport(
   }
 
   const now = new Date().toISOString();
+  const insertPayload: Record<string, unknown> = {
+    dossier_id: dossierId,
+    simulation_id: simulationId,
+    user_id: user.id,
+    report_type: 'holding_is',
+    file_name: fileName,
+    storage_path: storagePath,
+    version_number: nextVersion,
+    report_status: 'active',
+    file_size_bytes: pdfBlob.size,
+    generated_at: now,
+  };
+
+  if (sourceInputs) {
+    insertPayload.source_simulation_inputs = sourceInputs;
+  }
+  if (sourceResults) {
+    insertPayload.source_simulation_results = sourceResults;
+  }
+
   const { error: insertErr } = await supabase!
     .from('expert_generated_reports')
-    .insert({
-      dossier_id: dossierId,
-      simulation_id: simulationId,
-      user_id: user.id,
-      report_type: 'holding_is',
-      file_name: fileName,
-      storage_path: storagePath,
-      version_number: nextVersion,
-      report_status: 'active',
-      file_size_bytes: pdfBlob.size,
-      generated_at: now,
-    });
+    .insert(insertPayload);
 
   if (insertErr) {
     console.error('[uploadExpertReport] DB insert error:', insertErr);
-    throw new Error('Rapport généré mais non enregistré.');
+    throw new Error('PDF généré mais non enregistré dans le dossier. Vérifiez Supabase.');
   }
 
-  return storagePath;
+  return { storagePath, versionNumber: nextVersion };
 }
 
 export async function getExpertReportSignedUrl(
@@ -502,10 +537,20 @@ export async function getExpertReportSignedUrl(
 ): Promise<string> {
   const { data, error } = await supabase!.storage
     .from('expert-reports')
-    .createSignedUrl(storagePath, 3600); // 1 hour
+    .createSignedUrl(storagePath, 300); // 5 minutes
 
   if (error) throw error;
   return data.signedUrl;
+}
+
+/**
+ * Télécharge un rapport PDF en créant une signed URL et l'ouvrant dans un nouvel onglet.
+ */
+export async function downloadExpertReport(
+  report: ExpertGeneratedReport,
+): Promise<void> {
+  const url = await getExpertReportSignedUrl(report.storagePath);
+  window.open(url, '_blank');
 }
 
 export async function getExpertReportsByDossier(
@@ -563,13 +608,14 @@ export async function unarchiveExpertReport(reportId: string): Promise<void> {
 }
 
 export async function exportReportsCsv(reports: ExpertGeneratedReport[]): Promise<Blob> {
-  const header = 'version;date;fichier;simulation;statut;storage_path\n';
+  const header = 'version;fichier;type;statut;date_generation;simulation_id;storage_path;date_suppression\n';
   const rows = reports.map(r => {
     const version = r.versionNumber ? `v${r.versionNumber}` : 'v1';
     const date = new Date(r.generatedAt).toLocaleDateString('fr-FR');
     const simLabel = r.simulationId || '-';
     const status = r.reportStatus || 'active';
-    return `${version};${date};${r.fileName};${simLabel};${status};${r.storagePath}`;
+    const deletedDate = r.deletedAt ? new Date(r.deletedAt).toLocaleDateString('fr-FR') : '';
+    return `${version};${r.fileName};${r.reportType};${status};${date};${simLabel};${r.storagePath};${deletedDate}`;
   }).join('\n');
   return new Blob([header + rows], { type: 'text/csv;charset=utf-8' });
 }

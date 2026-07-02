@@ -2,12 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   ArrowLeft, Building2, Calendar, Clock, TrendingUp, Play, FileText,
   ChevronRight, Save, Trash2, Copy, Loader2, AlertCircle, BarChart3,
-  FileDown, Download, RefreshCw, BadgeCheck, Hash, User,
+  FileDown, Download, RefreshCw, BadgeCheck, Hash, User, Archive, ArchiveRestore,
 } from 'lucide-react';
 import {
   getExpertDossierById, updateExpertDossier, deleteExpertDossier,
   duplicateExpertDossier, deleteExpertHoldingSimulation,
   getExpertReportsByDossier, deleteExpertReport, getExpertReportSignedUrl,
+  archiveExpertReport, unarchiveExpertReport, downloadExpertReport,
 } from '../../utils/expertDossiersSupabase';
 import type { ExpertClientDossier, ExpertGeneratedReport } from '../../types/expertDossier';
 
@@ -54,6 +55,14 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   const [deletingSimId, setDeletingSimId] = useState<string | null>(null);
   const [pdfErrors, setPdfErrors] = useState<Record<string, string>>({});
   const [downloadError, setDownloadError] = useState<string | null>(null);
+  const [archivingIds, setArchivingIds] = useState<Set<string>>(new Set());
+  const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [showDeletedReports, setShowDeletedReports] = useState(false);
+
+  const showToast = (text: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToastMessage({ text, type });
+    setTimeout(() => setToastMessage(null), 4000);
+  };
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -139,7 +148,6 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   /* ── Génération PDF ── */
   const handleGeneratePdf = async (simId: string) => {
     setRegeneratingSimId(simId);
-    // Effacer les erreurs précédentes pour cette simulation
     setPdfErrors((prev) => {
       const next = { ...prev };
       delete next[simId];
@@ -147,26 +155,29 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
     });
 
     try {
-      // 1. Trouver la simulation
       const sim = dossier?.simulations.find(s => s.id === simId);
       if (!sim) throw new Error('Simulation introuvable');
 
-      // 2. Générer le Blob PDF
       const { generatePdfBlob } = await import('./pdf/generateHoldingPdfBlob');
       const { pdfBlob, fileName } = await generatePdfBlob(sim);
 
-      // 3. Upload vers Supabase Storage + enregistrement DB
       const { uploadExpertReport } = await import('../../utils/expertDossiersSupabase');
-      await uploadExpertReport(dossierId, simId, pdfBlob, fileName);
+      const { versionNumber } = await uploadExpertReport(
+        dossierId, simId, pdfBlob, fileName,
+        sim.inputs as unknown as Record<string, unknown>,
+        sim.results as unknown as Record<string, unknown>,
+      );
 
-      // 4. Recharger les rapports
+      // Recharger les rapports
       const { getExpertReportsByDossier } = await import('../../utils/expertDossiersSupabase');
       const reps = await getExpertReportsByDossier(dossierId);
       setReports(reps);
+      showToast(`PDF v${versionNumber} enregistré dans le dossier.`, 'success');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Impossible de générer le PDF.';
       console.error('[handleGeneratePdf]', err);
       setPdfErrors((prev) => ({ ...prev, [simId]: msg }));
+      showToast(msg, 'error');
     } finally {
       setRegeneratingSimId(null);
     }
@@ -175,8 +186,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   const handleDownloadReport = async (report: ExpertGeneratedReport) => {
     setDownloadError(null);
     try {
-      const url = await getExpertReportSignedUrl(report.storagePath);
-      window.open(url, '_blank');
+      await downloadExpertReport(report);
     } catch (err: unknown) {
       console.error('[handleDownloadReport]', err);
       setDownloadError('Impossible de récupérer le lien de téléchargement.');
@@ -187,10 +197,50 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   const handleDeleteReport = async (reportId: string) => {
     try {
       await deleteExpertReport(reportId);
+      showToast('Rapport supprimé du dossier.', 'info');
       const reps = await getExpertReportsByDossier(dossierId).catch(() => [] as ExpertGeneratedReport[]);
       setReports(reps);
     } catch (err: unknown) {
       console.error('[handleDeleteReport]', err);
+      showToast('Impossible de supprimer le rapport.', 'error');
+    }
+  };
+
+  const handleArchiveReport = async (reportId: string) => {
+    setArchivingIds(prev => new Set(prev).add(reportId));
+    try {
+      await archiveExpertReport(reportId);
+      showToast('Rapport archivé.', 'info');
+      const reps = await getExpertReportsByDossier(dossierId).catch(() => [] as ExpertGeneratedReport[]);
+      setReports(reps);
+    } catch (err: unknown) {
+      console.error('[handleArchiveReport]', err);
+      showToast('Impossible d\'archiver le rapport.', 'error');
+    } finally {
+      setArchivingIds(prev => {
+        const next = new Set(prev);
+        next.delete(reportId);
+        return next;
+      });
+    }
+  };
+
+  const handleRestoreReport = async (reportId: string) => {
+    setArchivingIds(prev => new Set(prev).add(reportId));
+    try {
+      await unarchiveExpertReport(reportId);
+      showToast('Rapport restauré.', 'success');
+      const reps = await getExpertReportsByDossier(dossierId).catch(() => [] as ExpertGeneratedReport[]);
+      setReports(reps);
+    } catch (err: unknown) {
+      console.error('[handleRestoreReport]', err);
+      showToast('Impossible de restaurer le rapport.', 'error');
+    } finally {
+      setArchivingIds(prev => {
+        const next = new Set(prev);
+        next.delete(reportId);
+        return next;
+      });
     }
   };
 
@@ -203,9 +253,18 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
     setReportsLoading(false);
   };
 
-  /* ── Helper: check if a simulation has a report ── */
-  const getReportForSimulation = (simId: string) =>
-    reports.find(r => r.simulationId === simId);
+  /* ── Helper: trouver le dernier rapport actif pour une simulation ── */
+  const getLatestReportForSimulation = (simId: string): ExpertGeneratedReport | undefined => {
+    const simReports = reports
+      .filter(r => r.simulationId === simId && r.reportStatus !== 'deleted')
+      .sort((a, b) => (b.versionNumber || 0) - (a.versionNumber || 0));
+    return simReports[0];
+  };
+
+  /* ── Helper: compter les rapports actifs pour une simulation ── */
+  const getActiveReportCount = (simId: string): number => {
+    return reports.filter(r => r.simulationId === simId && r.reportStatus !== 'deleted').length;
+  };
 
   if (loading) {
     return (
@@ -248,9 +307,20 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   }
 
   const last = dossier.simulations[dossier.simulations.length - 1];
+  const reportCount = reports.length;
 
   return (
     <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+      {/* Toast notification */}
+      {toastMessage && (
+        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg text-sm font-medium shadow-lg border transition-all ${
+          toastMessage.type === 'success' ? 'bg-emerald-950/90 border-emerald-800 text-emerald-300' :
+          toastMessage.type === 'error' ? 'bg-red-950/90 border-red-800 text-red-300' :
+          'bg-blue-950/90 border-blue-800 text-blue-300'
+        }`}>
+          {toastMessage.text}
+        </div>
+      )}
       <button onClick={onBack} className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-6">
         <ArrowLeft className="w-3 h-3" /> Tous les dossiers
       </button>
@@ -407,25 +477,37 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                       <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtEuro(sim.summary.yearOneNetCashFlow)}</td>
                       <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtPercent(sim.summary.cashFlowAverageReturn ?? sim.summary.averageAnnualNetYield)}</td>
                       <td className="py-2.5 px-3 text-center">
-                        {report ? (
-                          <button onClick={() => handleDownloadReport(report)} className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1">
-                            <Download className="w-3 h-3" /> PDF disponible
-                          </button>
-                        ) : isGenerating ? (
-                          <span className="text-xs text-violet-400 inline-flex items-center gap-1">
-                            <Loader2 className="w-3 h-3 animate-spin" /> Génération...
-                          </span>
-                        ) : (
-                          <div>
-                            <button onClick={() => handleGeneratePdf(sim.id)}
-                              className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1">
-                              <FileDown className="w-3 h-3" /> Générer PDF
-                            </button>
-                            {pdfErr && (
-                              <p className="text-[10px] text-red-400 mt-0.5 max-w-[120px] leading-tight">{pdfErr}</p>
-                            )}
-                          </div>
-                        )}
+                        {(() => {
+                          const latestReport = getLatestReportForSimulation(sim.id);
+                          if (isGenerating) {
+                            return (
+                              <span className="text-xs text-violet-400 inline-flex items-center gap-1">
+                                <Loader2 className="w-3 h-3 animate-spin" /> Génération...
+                              </span>
+                            );
+                          }
+                          if (latestReport) {
+                            return (
+                              <div className="flex items-center justify-center gap-1.5">
+                                <button onClick={() => handleDownloadReport(latestReport)}
+                                  className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1">
+                                  <Download className="w-3 h-3" /> PDF v{latestReport.versionNumber || 1}
+                                </button>
+                              </div>
+                            );
+                          }
+                          return (
+                            <div>
+                              <button onClick={() => handleGeneratePdf(sim.id)}
+                                className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1">
+                                <FileDown className="w-3 h-3" /> Générer PDF
+                              </button>
+                              {pdfErr && (
+                                <p className="text-[10px] text-red-400 mt-0.5 max-w-[120px] leading-tight">{pdfErr}</p>
+                              )}
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="py-2.5 px-3 text-right">
                         <div className="flex items-center justify-end gap-1.5">
@@ -464,12 +546,38 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <FileDown className="w-4 h-4 text-violet-400" /> Documents générés
+            {reportCount > 0 && (
+              <span className="text-[10px] text-slate-500 font-normal ml-1">({reportCount})</span>
+            )}
           </h2>
-          <button onClick={reloadReports} disabled={reportsLoading}
-            className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1">
-            {reportsLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
-            Actualiser
-          </button>
+          <div className="flex items-center gap-3">
+            <button onClick={reloadReports} disabled={reportsLoading}
+              className="text-xs text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1">
+              {reportsLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+              Actualiser
+            </button>
+            {reports.length > 0 && (
+              <button
+                onClick={async () => {
+                  try {
+                    const { exportReportsCsv } = await import('../../utils/expertDossiersSupabase');
+                    const blob = await exportReportsCsv(reports);
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    const safeName = dossier.clientName.replace(/[^a-zA-Z0-9]/g, '-');
+                    const date = new Date().toISOString().slice(0, 10);
+                    a.download = `historique-pdf-${safeName}-${date}.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  } catch { /* ignore */ }
+                }}
+                className="text-xs text-slate-400 hover:text-slate-200 transition-colors inline-flex items-center gap-1"
+              >
+                <Download className="w-3 h-3" /> Exporter historique CSV
+              </button>
+            )}
+          </div>
         </div>
         {downloadError && (
           <p className="text-[10px] text-red-400 mb-3">{downloadError}</p>
@@ -485,10 +593,11 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                 <table className="w-full text-left text-xs">
                   <thead>
                     <tr className="border-b border-slate-800 bg-slate-950/50">
-                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Version</th>
-                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Fichier</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold w-16">Version</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Document</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Date</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Simulation</th>
                       <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Statut</th>
-                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Date génération</th>
                       <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Actions</th>
                     </tr>
                   </thead>
@@ -508,13 +617,44 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                             {r.reportStatus === 'archived' ? 'Archivé' : r.reportStatus === 'deleted' ? 'Supprimé' : 'Actif'}
                           </span>
                         </td>
-                        <td className="py-2.5 px-3 text-slate-400">{fmtDate(r.generatedAt)}</td>
+                        <td className="py-2.5 px-3 text-slate-400 text-[11px]">{fmtDateTime(r.generatedAt)}</td>
+                        <td className="py-2.5 px-3 text-slate-500 text-[11px]">
+                          {r.simulationId
+                            ? dossier.simulations.find(s => s.id === r.simulationId)?.label || r.simulationId.slice(0, 8) + '...'
+                            : '-'}
+                        </td>
                         <td className="py-2.5 px-3 text-right">
                           <div className="flex items-center justify-end gap-2">
                             <button onClick={() => handleDownloadReport(r)}
-                              className="text-xs text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1">
+                              className="text-xs text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1"
+                              title="Télécharger">
                               <Download className="w-3 h-3" /> Télécharger
                             </button>
+                            {r.reportStatus === 'archived' ? (
+                              <button onClick={() => handleRestoreReport(r.id)}
+                                disabled={archivingIds.has(r.id)}
+                                className="text-xs text-amber-400 hover:text-amber-300 transition-colors disabled:opacity-50 inline-flex items-center gap-1"
+                                title="Restaurer">
+                                {archivingIds.has(r.id) ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <ArchiveRestore className="w-3 h-3" />
+                                )}
+                                Restaurer
+                              </button>
+                            ) : (
+                              <button onClick={() => handleArchiveReport(r.id)}
+                                disabled={archivingIds.has(r.id)}
+                                className="text-xs text-amber-400 hover:text-amber-300 transition-colors disabled:opacity-50 inline-flex items-center gap-1"
+                                title="Archiver">
+                                {archivingIds.has(r.id) ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <Archive className="w-3 h-3" />
+                                )}
+                                Archiver
+                              </button>
+                            )}
                             {r.simulationId && (
                               <button onClick={() => handleGeneratePdf(r.simulationId!)}
                                 disabled={regeneratingSimId === r.simulationId}
@@ -538,7 +678,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                   </tbody>
                 </table>
               </div>
-              {reports.length > 1 && (
+              {reports.length > 0 && (
                 <div className="px-4 py-3 border-t border-slate-800 flex justify-end">
                   <button
                     onClick={async () => {
@@ -548,7 +688,9 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                         const url = URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = `historique-pdf-${dossier.clientName.replace(/[^a-zA-Z0-9]/g, '-')}.csv`;
+                        const safeName = dossier.clientName.replace(/[^a-zA-Z0-9]/g, '-');
+                        const date = new Date().toISOString().slice(0, 10);
+                        a.download = `historique-pdf-${safeName}-${date}.csv`;
                         a.click();
                         URL.revokeObjectURL(url);
                       } catch { /* ignore */ }
