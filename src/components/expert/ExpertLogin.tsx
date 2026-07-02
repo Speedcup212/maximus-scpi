@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 import { Eye, EyeOff, Building2 } from 'lucide-react';
 
 interface ExpertLoginProps {
@@ -8,17 +9,54 @@ interface ExpertLoginProps {
 export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        window.location.href = '/expert-comptable/simulateur-holding';
+      }
+    };
+    checkSession();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Redirection vers le dashboard Expert-Comptable (auth à venir)
-    window.location.href = '/expert-comptable/dashboard';
+    setError('');
+    setLoading(true);
+
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (authError) {
+      setError(authError.message === 'Invalid login credentials'
+        ? 'Identifiants incorrects'
+        : authError.message);
+      setLoading(false);
+    } else {
+      window.location.href = '/expert-comptable/simulateur-holding';
+    }
   };
 
-  const handleGoogleLogin = () => {
-    // Google auth Expert-Comptable (à venir)
-    console.log('Expert Google login attempt');
+  const handleGoogleLogin = async () => {
+    setError('');
+    setGoogleLoading(true);
+
+    const { error: googleError } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/expert-comptable/simulateur-holding',
+      },
+    });
+
+    if (googleError) {
+      console.error('Erreur Google OAuth Expert:', googleError);
+      setError('Connexion Google impossible. Veuillez réessayer ou utiliser votre email.');
+      setGoogleLoading(false);
+    }
   };
 
   return (
@@ -45,6 +83,12 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
 
         {/* Formulaire */}
         <form onSubmit={handleSubmit} className="bg-slate-900 border border-slate-800 rounded-xl p-8 space-y-5">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-sm text-red-300">
+              {error}
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
             <input
@@ -81,9 +125,10 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
 
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition"
+            disabled={loading}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition"
           >
-            Se connecter
+            {loading ? 'Connexion...' : 'Se connecter'}
           </button>
 
           <div className="flex items-center gap-3">
@@ -95,7 +140,8 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full py-3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-medium rounded-lg transition flex items-center justify-center gap-3"
+            disabled={googleLoading}
+            className="w-full py-3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-white font-medium rounded-lg transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z" fill="#4285F4"/>
@@ -103,7 +149,7 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62Z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z" fill="#EA4335"/>
             </svg>
-            Continuer avec Google
+            {googleLoading ? 'Redirection...' : 'Continuer avec Google'}
           </button>
 
           <p className="text-xs text-slate-500 text-center">
