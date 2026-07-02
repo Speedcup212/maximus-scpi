@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, TrendingUp, Euro, Calculator, Clock, ChevronDown, ChevronRight, Shield } from 'lucide-react';
-import { getExpertDossiers } from '../../utils/expertDossierStorage';
+import { ArrowLeft, TrendingUp, Euro, Calculator, Clock, ChevronDown, ChevronRight, Shield, Loader2, AlertCircle } from 'lucide-react';
+import { getExpertSimulationById } from '../../utils/expertDossiersSupabase';
 import type { ExpertSimulationSnapshot } from '../../types/expertDossier';
 
 const fmtEuro = (v: number) =>
@@ -11,15 +11,6 @@ const fmtNumber = (v: number) => new Intl.NumberFormat('fr-FR').format(v);
 const fmtDate = (iso: string) =>
   new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-function findSimulation(simId: string): ExpertSimulationSnapshot | null {
-  const all = getExpertDossiers();
-  for (const d of all) {
-    const sim = d.simulations.find((s) => s.id === simId);
-    if (sim) return sim;
-  }
-  return null;
-}
-
 interface ExpertSimulationViewProps {
   simulationId: string;
   onBack: () => void;
@@ -27,12 +18,58 @@ interface ExpertSimulationViewProps {
 
 const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationId, onBack }) => {
   const [sim, setSim] = useState<ExpertSimulationSnapshot | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [showProjections, setShowProjections] = useState(false);
   const [showHypotheses, setShowHypotheses] = useState(false);
 
   useEffect(() => {
-    setSim(findSimulation(simulationId));
+    let cancelled = false;
+    const load = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const s = await getExpertSimulationById(simulationId);
+        if (!cancelled) {
+          if (!s) {
+            setError('Simulation introuvable.');
+          } else {
+            setSim(s);
+          }
+        }
+      } catch (err: unknown) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : 'Impossible de charger la simulation.');
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
   }, [simulationId]);
+
+  if (loading) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-10 text-center">
+          <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-3" />
+          <p className="text-slate-500 mb-4">{error}</p>
+          <button onClick={onBack} className="px-4 py-2 text-blue-400 text-sm hover:underline">Retour</button>
+        </div>
+      </div>
+    );
+  }
 
   if (!sim) {
     return (
@@ -69,7 +106,7 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
         <Kpi label="Cash-flow cumulé" value={fmtEuro(s.cumulativeNetCashFlow)} color="emerald" />
       </div>
 
-      {/* Comparatif avant / après — from results */}
+      {/* Comparatif avant / après */}
       {r.comparatif && (
         <div className="mb-8">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -117,10 +154,9 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
         )}
       </div>
 
-      {/* Storage notice */}
       <div className="text-center">
         <p className="text-[10px] text-slate-600">
-          Enregistrement local navigateur — synchronisation cabinet à venir.
+          Stockage sécurisé Supabase — synchronisé avec votre compte cabinet.
         </p>
       </div>
     </div>

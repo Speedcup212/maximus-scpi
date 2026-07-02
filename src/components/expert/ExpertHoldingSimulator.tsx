@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Calculator, TrendingUp, Building2, Euro, Percent,
   BarChart3, Shield, AlertTriangle, ChevronDown,
@@ -6,7 +6,7 @@ import {
   FileDown, Save, Clock, CheckCircle2,
 } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import { saveSimulationToExpertDossier } from '../../utils/expertDossierStorage';
+import { findOrCreateDossier, saveExpertHoldingSimulation } from '../../utils/expertDossiersSupabase';
 import {
   HoldingISInputs, HoldingISResult,
   FeesMode, FeesTreatment, FeesVatMode,
@@ -82,6 +82,18 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
 
+  // Reprise de simulation depuis sessionStorage
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('maximus_expert_resume_simulation');
+      if (raw) {
+        const savedInputs = JSON.parse(raw) as HoldingISInputs;
+        setInputs(savedInputs);
+        sessionStorage.removeItem('maximus_expert_resume_simulation');
+      }
+    } catch { /* ignore */ }
+  }, []);
+
   const result: HoldingISResult = useMemo(() => calculateHoldingISProjection(inputs), [inputs]);
   const isSansOperation = useMemo(() => calculateCorporateTax(inputs.preTaxProfit, {
     reducedRateEligible: inputs.reducedRateEligible,
@@ -149,46 +161,37 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     setInputs((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSaveToDossier = () => {
+  const handleSaveToDossier = async () => {
     setSaveError('');
     if (!inputs.dossierName || inputs.dossierName.trim() === '') {
-      setSaveError('Veuillez renseigner le nom du dossier avant d\'enregistrer.');
+      setSaveError('Veuillez renseigner le nom de la société cliente avant d\'enregistrer.');
       return;
     }
     setSaveStatus('saving');
 
-    const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
-
     try {
-      const dossier = saveSimulationToExpertDossier({
-        dossierName: inputs.dossierName.trim(),
-        companyType: inputs.companyType,
-        title: `Simulation Holding IS — ${inputs.companyType}`,
-        inputs: inputs as unknown as Record<string, unknown>,
-        results: result as unknown as Record<string, unknown>,
-        summary: {
-          companyType: inputs.companyType,
-          treasuryAvailable: inputs.availableCash,
-          totalCashEffort: result.effortEconomique,
-          residualTreasury: tresorerieResiduelle,
-          usufruitAmount: inputs.usufruitInvestment,
-          usufruitDuration: inputs.usufruitDuration,
-          usufruitKey: inputs.usufruitKey,
-          grossDistributionRate: inputs.grossDistributionRate,
-          yearOneNetCashFlow: result.annualNetCashFlowAfterFees,
-          yearOneTaxImpact: result.annualISImpact,
-          averageAnnualNetYield: result.netCompanyYieldAvgAnnual,
-          cumulativeNetCashFlow: result.cumulativeNetCashFlowAfterFees,
-        },
+      // Trouver ou créer le dossier
+      const dossier = await findOrCreateDossier(
+        inputs.dossierName.trim(),
+        inputs.companyType
+      );
+
+      // Sauvegarder la simulation
+      await saveExpertHoldingSimulation({
+        dossierId: dossier.id,
+        label: `Simulation Holding IS — ${inputs.companyType}`,
+        inputs,
+        results: result,
       });
+
       setSaveStatus('success');
       setTimeout(() => {
         onNavigateToDossier(dossier.id);
       }, 800);
-    } catch {
+    } catch (err: unknown) {
       setSaveStatus('error');
-      setSaveError('Erreur lors de l\'enregistrement. Veuillez réessayer.');
-      setTimeout(() => setSaveStatus('idle'), 2000);
+      setSaveError(err instanceof Error ? err.message : 'Erreur lors de l\'enregistrement. Veuillez réessayer.');
+      setTimeout(() => setSaveStatus('idle'), 3000);
     }
   };
 
@@ -222,7 +225,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
             {/* Dossier */}
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Nom du dossier</label>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Nom de la société cliente</label>
               <input type="text" value={inputs.dossierName ?? ''}
                 onChange={(e) => updateInput('dossierName', e.target.value || undefined)}
                 placeholder="Ex: SCI Dupont SCPI"

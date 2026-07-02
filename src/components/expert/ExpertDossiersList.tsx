@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { FolderOpen, Search, Plus, Building2, Calendar, Trash2, Copy, Eye, Play, ChevronDown } from 'lucide-react';
-import { getExpertDossiers, deleteExpertDossier, duplicateExpertDossier } from '../../utils/expertDossierStorage';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { FolderOpen, Search, Plus, Building2, Calendar, Trash2, Copy, Eye, Play, Loader2, AlertCircle, X, Check, Save } from 'lucide-react';
+import {
+  getExpertDossiers,
+  deleteExpertDossier,
+  duplicateExpertDossier,
+  createExpertDossier,
+} from '../../utils/expertDossiersSupabase';
 import type { ExpertClientDossier } from '../../types/expertDossier';
 
 const fmtEuro = (v: number) =>
@@ -10,6 +15,8 @@ const fmtPercent = (v: number) =>
 const fmtDate = (iso: string) =>
   new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
+const COMPANY_TYPES = ['SAS', 'SARL', 'SCI IS', 'Holding', 'Autre'];
+
 interface ExpertDossiersListProps {
   onNavigate: (section: string) => void;
   onOpenDossier: (dossierId: string) => void;
@@ -17,14 +24,37 @@ interface ExpertDossiersListProps {
 
 const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onOpenDossier }) => {
   const [dossiers, setDossiers] = useState<ExpertClientDossier[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
-  const reload = () => setDossiers(getExpertDossiers());
+  // Formulaire création
+  const [newName, setNewName] = useState('');
+  const [newCompanyType, setNewCompanyType] = useState('SAS');
+  const [newSiret, setNewSiret] = useState('');
+  const [newManager, setNewManager] = useState('');
+  const [newNotes, setNewNotes] = useState('');
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const data = await getExpertDossiers();
+      setDossiers(data);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Impossible de charger les dossiers clients.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     reload();
-  }, []);
+  }, [reload]);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return dossiers;
@@ -36,21 +66,87 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
     );
   }, [dossiers, search]);
 
-  const handleDelete = (id: string) => {
-    deleteExpertDossier(id);
-    setConfirmDelete(null);
-    reload();
-  };
-
-  const handleDuplicate = (id: string) => {
-    const copy = duplicateExpertDossier(id);
-    if (copy) {
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteExpertDossier(id);
+      setConfirmDelete(null);
       reload();
+    } catch {
+      // ignore
     }
   };
 
+  const handleDuplicate = async (id: string) => {
+    try {
+      await duplicateExpertDossier(id);
+      reload();
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleCreate = async () => {
+    if (!newName.trim()) {
+      setSaveError('Le nom de la société cliente est obligatoire.');
+      return;
+    }
+    setSaving(true);
+    setSaveError('');
+    try {
+      const dossier = await createExpertDossier({
+        clientName: newName.trim(),
+        companyType: newCompanyType,
+        siret: newSiret.trim() || undefined,
+        managerName: newManager.trim() || undefined,
+        notes: newNotes.trim() || undefined,
+      });
+      setShowCreateModal(false);
+      resetCreateForm();
+      onOpenDossier(dossier.id);
+    } catch (err: unknown) {
+      setSaveError(err instanceof Error ? err.message : 'Erreur lors de la création.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const resetCreateForm = () => {
+    setNewName('');
+    setNewCompanyType('SAS');
+    setNewSiret('');
+    setNewManager('');
+    setNewNotes('');
+    setSaveError('');
+  };
+
+  /* ── Loading ── */
+  if (loading) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Error ── */
+  if (error) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-8 flex flex-col items-center text-center">
+          <AlertCircle className="w-8 h-8 text-red-400 mb-3" />
+          <p className="text-sm text-red-300 mb-4">{error}</p>
+          <button onClick={reload} className="px-4 py-2 bg-red-600/20 text-red-300 rounded-lg text-sm hover:bg-red-600/30 transition-colors">
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   /* ── Empty state ── */
-  if (dossiers.length === 0) {
+  if (dossiers.length === 0 && !search.trim()) {
     return (
       <div className="p-6 lg:p-10 max-w-6xl mx-auto">
         <div className="mb-8">
@@ -69,18 +165,29 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
           </div>
           <h2 className="text-lg font-bold text-white mb-2">Aucun dossier client enregistré</h2>
           <p className="text-sm text-slate-500 max-w-md mb-6">
-            Lancez une simulation Holding IS puis enregistrez-la dans un dossier client.
+            Lancez une simulation Holding IS puis enregistrez-la dans un dossier client, ou créez directement un dossier.
           </p>
-          <button
-            onClick={() => onNavigate('holding-simulator')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors"
-          >
-            Lancer le simulateur
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors"
+            >
+              Créer un dossier client
+            </button>
+            <button
+              onClick={() => onNavigate('holding-simulator')}
+              className="px-4 py-2 bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
+            >
+              Lancer le simulateur
+            </button>
+          </div>
           <p className="text-[10px] text-slate-600 mt-4 max-w-sm">
-            Les dossiers sont enregistrés localement sur ce navigateur. La synchronisation cabinet arrivera dans une prochaine version.
+            Les dossiers sont synchronisés avec votre compte et accessibles depuis n'importe quel appareil.
           </p>
         </div>
+
+        {/* Modal création */}
+        {showCreateModal && <CreateDossierModal />}
       </div>
     );
   }
@@ -101,11 +208,11 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
             </p>
           </div>
           <button
-            onClick={() => onNavigate('holding-simulator')}
+            onClick={() => setShowCreateModal(true)}
             className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors flex-shrink-0"
           >
             <Plus className="w-4 h-4" />
-            Nouveau dossier
+            Nouveau dossier client
           </button>
         </div>
       </div>
@@ -130,10 +237,11 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
               <tr className="border-b border-slate-800 bg-slate-950/50">
                 <Th>Société cliente</Th>
                 <Th>Type société</Th>
+                <Th className="text-center">Nb sim.</Th>
                 <Th className="text-right">Dernière sim.</Th>
-                <Th className="text-right">Trésorerie</Th>
                 <Th className="text-right">Effort initial</Th>
                 <Th className="text-right">Flux net A1</Th>
+                <Th className="text-right">Impact IS A1</Th>
                 <Th className="text-right">Rend. moyen</Th>
                 <Th>Dernière modif.</Th>
                 <Th className="text-center">Actions</Th>
@@ -156,16 +264,12 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                     <Td>
                       <span className="text-slate-400">{d.companyType}</span>
                     </Td>
-                    <Td align="right">
-                      {last ? (
-                        <span className="text-slate-300">{fmtDate(last.createdAt)}</span>
-                      ) : (
-                        <span className="text-slate-600">—</span>
-                      )}
+                    <Td align="center">
+                      <span className="text-slate-300">{d.simulations.length}</span>
                     </Td>
                     <Td align="right">
                       {last ? (
-                        <span className="text-slate-300">{fmtEuro(last.summary.treasuryAvailable)}</span>
+                        <span className="text-slate-300">{fmtDate(last.createdAt)}</span>
                       ) : (
                         <span className="text-slate-600">—</span>
                       )}
@@ -188,6 +292,13 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                     </Td>
                     <Td align="right">
                       {last ? (
+                        <span className="text-orange-400 font-medium">+{fmtEuro(last.summary.yearOneTaxImpact)}</span>
+                      ) : (
+                        <span className="text-slate-600">—</span>
+                      )}
+                    </Td>
+                    <Td align="right">
+                      {last ? (
                         <span className="text-emerald-400 font-medium">{fmtPercent(last.summary.averageAnnualNetYield)}</span>
                       ) : (
                         <span className="text-slate-600">—</span>
@@ -201,7 +312,6 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                     </Td>
                     <Td align="center">
                       <div className="flex items-center justify-center gap-0.5">
-                        {/* Ouvrir */}
                         <button
                           onClick={() => onOpenDossier(d.id)}
                           title="Ouvrir le dossier"
@@ -209,15 +319,13 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                         >
                           <Eye className="w-3.5 h-3.5" />
                         </button>
-                        {/* Reprendre simulation */}
                         <button
                           onClick={() => onNavigate('holding-simulator')}
-                          title="Reprendre la simulation"
+                          title="Nouvelle simulation"
                           className="p-1.5 rounded text-slate-500 hover:text-emerald-400 hover:bg-emerald-600/10 transition-colors"
                         >
                           <Play className="w-3.5 h-3.5" />
                         </button>
-                        {/* Dupliquer */}
                         <button
                           onClick={() => handleDuplicate(d.id)}
                           title="Dupliquer le dossier"
@@ -225,7 +333,6 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                         >
                           <Copy className="w-3.5 h-3.5" />
                         </button>
-                        {/* Supprimer */}
                         <button
                           onClick={() => setConfirmDelete(confirmDelete === d.id ? null : d.id)}
                           title="Supprimer le dossier"
@@ -234,7 +341,6 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      {/* Confirmation suppression */}
                       {confirmDelete === d.id && (
                         <div className="mt-2 flex items-center gap-2 text-[10px]">
                           <span className="text-red-400">Supprimer ?</span>
@@ -267,12 +373,138 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
         )}
       </div>
 
-      {/* Mention locale */}
-      <p className="text-[10px] text-slate-600 text-center mt-4">
-        Enregistrement local navigateur — synchronisation cabinet à venir.
-      </p>
+      {/* Modal création */}
+      {showCreateModal && <CreateDossierModal />}
     </div>
   );
+
+  /* ── Modal création inline (closure over state) ── */
+  function CreateDossierModal() {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="flex items-center justify-between p-5 border-b border-slate-800">
+            <h2 className="text-lg font-bold text-white">Nouveau dossier client</h2>
+            <button
+              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
+              className="p-1 rounded text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="p-5 space-y-4">
+            {/* Nom société */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Nom de la société cliente <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Ex: SCI Dupont Holding"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+            </div>
+
+            {/* Type société */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Type société</label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {COMPANY_TYPES.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setNewCompanyType(t)}
+                    className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${
+                      newCompanyType === t
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* SIRET */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                SIRET <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <input
+                type="text"
+                value={newSiret}
+                onChange={(e) => setNewSiret(e.target.value)}
+                placeholder="Ex: 12345678901234"
+                maxLength={14}
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+            </div>
+
+            {/* Dirigeant */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Nom du dirigeant <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <input
+                type="text"
+                value={newManager}
+                onChange={(e) => setNewManager(e.target.value)}
+                placeholder="Ex: Jean Dupont"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+            </div>
+
+            {/* Notes */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Notes cabinet <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <textarea
+                value={newNotes}
+                onChange={(e) => setNewNotes(e.target.value)}
+                placeholder="Notes internes..."
+                rows={3}
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors resize-none"
+              />
+            </div>
+
+            {saveError && (
+              <p className="text-xs text-red-400">{saveError}</p>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end gap-3 p-5 border-t border-slate-800">
+            <button
+              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
+              className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleCreate}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Création...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  Créer le dossier
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 /* ── Sub‑components ── */

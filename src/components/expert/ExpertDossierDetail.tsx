@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Building2, Calendar, Clock, TrendingUp, Play, FileText, ChevronRight, Save } from 'lucide-react';
-import { getExpertDossierById, saveExpertDossier } from '../../utils/expertDossierStorage';
-import type { ExpertClientDossier, ExpertSimulationSnapshot } from '../../types/expertDossier';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ArrowLeft, Building2, Calendar, Clock, TrendingUp, Play, FileText, ChevronRight, Save, Trash2, Copy, Loader2, AlertCircle, BarChart3 } from 'lucide-react';
+import { getExpertDossierById, updateExpertDossier, deleteExpertDossier, duplicateExpertDossier } from '../../utils/expertDossiersSupabase';
+import type { ExpertClientDossier } from '../../types/expertDossier';
+
+const RESUME_SESSION_KEY = 'maximus_expert_resume_simulation';
 
 const fmtEuro = (v: number) =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
@@ -21,25 +23,114 @@ interface ExpertDossierDetailProps {
 
 const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, onBack, onViewSimulation, onNavigate }) => {
   const [dossier, setDossier] = useState<ExpertClientDossier | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [notes, setNotes] = useState('');
   const [notesSaved, setNotesSaved] = useState(false);
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
-  useEffect(() => {
-    const d = getExpertDossierById(dossierId);
-    if (d) {
-      setDossier(d);
-      setNotes(d.notes || '');
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const d = await getExpertDossierById(dossierId);
+      if (!d) {
+        setError('Dossier introuvable.');
+      } else {
+        setDossier(d);
+        setNotes(d.notes || '');
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Impossible de charger le dossier.');
+    } finally {
+      setLoading(false);
     }
   }, [dossierId]);
 
-  const handleSaveNotes = () => {
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  const handleSaveNotes = async () => {
     if (!dossier) return;
-    const updated = { ...dossier, notes, updatedAt: new Date().toISOString() };
-    saveExpertDossier(updated);
-    setDossier(updated);
-    setNotesSaved(true);
-    setTimeout(() => setNotesSaved(false), 2000);
+    setSavingNotes(true);
+    try {
+      const updated = await updateExpertDossier(dossierId, { notes });
+      setDossier(updated);
+      setNotes(updated.notes || '');
+      setNotesSaved(true);
+      setTimeout(() => setNotesSaved(false), 2000);
+    } catch {
+      // ignore
+    } finally {
+      setSavingNotes(false);
+    }
   };
+
+  const handleResumeSimulation = () => {
+    if (!dossier) return;
+    const last = dossier.simulations[dossier.simulations.length - 1];
+    if (!last) return;
+    try {
+      sessionStorage.setItem(RESUME_SESSION_KEY, JSON.stringify(last.inputs));
+    } catch { /* ignore */ }
+    onNavigate('holding-simulator');
+  };
+
+  const handleNewSimulation = () => {
+    try {
+      sessionStorage.removeItem(RESUME_SESSION_KEY);
+    } catch { /* ignore */ }
+    onNavigate('holding-simulator');
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteExpertDossier(dossierId);
+      onBack();
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleDuplicate = async () => {
+    try {
+      await duplicateExpertDossier(dossierId);
+      onBack();
+    } catch {
+      // ignore
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 lg:p-10 max-w-6xl mx-auto">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-10 text-center">
+          <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-3" />
+          <p className="text-slate-500 mb-4">{error}</p>
+          <div className="flex items-center justify-center gap-3">
+            <button onClick={reload} className="px-4 py-2 bg-slate-800 text-slate-300 rounded-lg text-sm hover:bg-slate-700 transition-colors">
+              Réessayer
+            </button>
+            <button onClick={onBack} className="px-4 py-2 text-blue-400 text-sm hover:underline">
+              Retour aux dossiers
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!dossier) {
     return (
@@ -56,12 +147,10 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
 
   return (
     <div className="p-6 lg:p-10 max-w-6xl mx-auto">
-      {/* Navigation */}
       <button onClick={onBack} className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-6">
         <ArrowLeft className="w-3 h-3" /> Tous les dossiers
       </button>
 
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -76,27 +165,59 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" /> Modifié le {fmtDate(dossier.updatedAt)}
             </span>
+            <span className="flex items-center gap-1">
+              <BarChart3 className="w-3 h-3" /> {dossier.simulations.length} simulation{dossier.simulations.length !== 1 ? 's' : ''}
+            </span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
-            onClick={() => onNavigate('holding-simulator')}
+            onClick={handleNewSimulation}
             className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors"
           >
             <Play className="w-4 h-4" />
-            Reprendre la simulation
+            Nouvelle simulation
+          </button>
+          {last && (
+            <button
+              onClick={handleResumeSimulation}
+              className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
+            >
+              <FileText className="w-4 h-4" />
+              Reprendre simulation
+            </button>
+          )}
+          <button
+            onClick={handleDuplicate}
+            className="flex items-center gap-1 px-3 py-2.5 text-slate-500 hover:text-violet-400 hover:bg-violet-600/10 rounded-lg transition-colors text-sm"
+            title="Dupliquer"
+          >
+            <Copy className="w-4 h-4" />
           </button>
           <button
-            onClick={() => onNavigate('holding-simulator')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-700 transition-colors"
+            onClick={() => setConfirmDelete(true)}
+            className="flex items-center gap-1 px-3 py-2.5 text-slate-500 hover:text-red-400 hover:bg-red-600/10 rounded-lg transition-colors text-sm"
+            title="Supprimer"
           >
-            <FileText className="w-4 h-4" />
-            Générer le PDF
+            <Trash2 className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Dernière simulation — KPI */}
+      {confirmDelete && (
+        <div className="mb-6 bg-red-950/20 border border-red-900/30 rounded-lg p-4 flex items-center justify-between">
+          <span className="text-sm text-red-300">Supprimer définitivement ce dossier et toutes ses simulations ?</span>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setConfirmDelete(false)} className="px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200 transition-colors">
+              Annuler
+            </button>
+            <button onClick={handleDelete} className="px-3 py-1.5 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-500 transition-colors">
+              Supprimer
+            </button>
+          </div>
+        </div>
+      )}
+
       {last && (
         <div className="mb-8">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -113,7 +234,6 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
         </div>
       )}
 
-      {/* Historique des simulations */}
       <div className="mb-8">
         <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
           <Clock className="w-4 h-4 text-slate-400" /> Simulations enregistrées ({dossier.simulations.length})
@@ -152,10 +272,14 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
               </tbody>
             </table>
           </div>
+          {dossier.simulations.length === 0 && (
+            <div className="p-6 text-center">
+              <p className="text-sm text-slate-500">Aucune simulation enregistrée.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Notes cabinet */}
       <div className="mb-8">
         <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-3 flex items-center gap-2">
           <FileText className="w-4 h-4 text-slate-400" /> Notes cabinet
@@ -171,7 +295,8 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
           <p className="text-[10px] text-slate-600">Notes internes accessibles uniquement côté cabinet.</p>
           <button
             onClick={handleSaveNotes}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded text-xs font-medium hover:bg-slate-700 transition-colors"
+            disabled={savingNotes}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded text-xs font-medium hover:bg-slate-700 transition-colors disabled:opacity-50"
           >
             <Save className="w-3 h-3" />
             {notesSaved ? 'Enregistré' : 'Enregistrer les notes'}
@@ -179,15 +304,12 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
         </div>
       </div>
 
-      {/* Mention locale */}
       <p className="text-[10px] text-slate-600 text-center">
-        Enregistrement local navigateur — synchronisation cabinet à venir.
+        Stockage sécurisé Supabase — synchronisé avec votre compte cabinet.
       </p>
     </div>
   );
 };
-
-/* ── Sub‑components ── */
 
 const colorMap: Record<string, string> = {
   emerald: 'text-emerald-400',
