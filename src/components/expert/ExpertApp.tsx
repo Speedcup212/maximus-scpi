@@ -6,7 +6,10 @@ import ExpertDossiersList from './ExpertDossiersList';
 import ExpertDossierDetail from './ExpertDossierDetail';
 import ExpertSimulationView from './ExpertSimulationView';
 import ExpertVerification from './ExpertVerification';
-import { Construction } from 'lucide-react';
+import ExpertAccessRefused from './ExpertAccessRefused';
+import ExpertPostLogin from './ExpertPostLogin';
+import { Construction, Loader2 } from 'lucide-react';
+import { checkExpertAccess, getRedirectUrl } from '../../utils/expertAccess';
 
 interface ExpertAppProps {
   initialSection?: string;
@@ -15,7 +18,7 @@ interface ExpertAppProps {
   onBackToHome: () => void;
 }
 
-type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-list' | 'dossier-detail' | 'simulation-view' | 'verification' | 'rapports' | 'parametres';
+type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-list' | 'dossier-detail' | 'simulation-view' | 'verification' | 'post-login' | 'access-refused' | 'register' | 'rapports' | 'parametres';
 
 const URL_MAP: Record<string, string> = {
   'dashboard': '/expert-comptable/dashboard',
@@ -24,9 +27,15 @@ const URL_MAP: Record<string, string> = {
   'dossier-detail': '/expert-comptable/dossiers/:dossierId',
   'simulation-view': '/expert-comptable/dossiers/:dossierId/simulations/:simulationId',
   'verification': '/expert-comptable/verification',
+  'post-login': '/expert-comptable/post-login',
+  'access-refused': '/expert-comptable/access-refused',
+  'register': '/expert-comptable/register',
   'rapports': '/expert-comptable/rapports',
   'parametres': '/expert-comptable/parametres',
 };
+
+// Sections publiques (pas de check d'accès)
+const PUBLIC_SECTIONS: ExpertSection[] = ['post-login', 'access-refused', 'register'];
 
 const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId, initialSimulationId, onBackToHome }) => {
   const [activeSection, setActiveSection] = useState<ExpertSection>(
@@ -34,6 +43,39 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
   );
   const [currentDossierId, setCurrentDossierId] = useState<string | null>(initialDossierId || null);
   const [currentSimulationId, setCurrentSimulationId] = useState<string | null>(initialSimulationId || null);
+  const [guardChecked, setGuardChecked] = useState(false);
+  const [guardAllowed, setGuardAllowed] = useState(true);
+
+  // ── Route guard ──
+  useEffect(() => {
+    let cancelled = false;
+
+    const runGuard = async () => {
+      if (PUBLIC_SECTIONS.includes(activeSection)) {
+        if (!cancelled) {
+          setGuardAllowed(true);
+          setGuardChecked(true);
+        }
+        return;
+      }
+
+      const result = await checkExpertAccess(activeSection);
+
+      if (cancelled) return;
+
+      if (!result.allowed) {
+        const redirectUrl = getRedirectUrl(result.redirect);
+        window.location.href = redirectUrl;
+        setGuardAllowed(false);
+      } else {
+        setGuardAllowed(true);
+      }
+      setGuardChecked(true);
+    };
+
+    runGuard();
+    return () => { cancelled = true; };
+  }, [activeSection]);
 
   useEffect(() => {
     if (initialDossierId) {
@@ -81,6 +123,29 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
     window.scrollTo(0, 0);
   }, []);
 
+  // ── Spinner pendant le guard ──
+  if (!guardChecked) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-10 h-10 text-blue-400 animate-spin mx-auto mb-4" />
+          <p className="text-sm text-slate-400">Vérification de l'accès...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!guardAllowed) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-10 h-10 text-blue-400 animate-spin mx-auto mb-4" />
+          <p className="text-sm text-slate-400">Redirection...</p>
+        </div>
+      </div>
+    );
+  }
+
   const ComingSoon = ({ title, description }: { title: string; description: string }) => (
     <div className="p-6 lg:p-10 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -98,6 +163,21 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
       </div>
     </div>
   );
+
+  // ── Sections publiques : pas de sidebar ──
+  if (PUBLIC_SECTIONS.includes(activeSection)) {
+    if (activeSection === 'post-login') return <ExpertPostLogin />;
+    if (activeSection === 'access-refused') return <ExpertAccessRefused onNavigate={handleNavigate} />;
+    if (activeSection === 'register') {
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-200">
+          <ExpertLayout activeSection={activeSection} onNavigate={handleNavigate} onBackToHome={onBackToHome}>
+            <div />
+          </ExpertLayout>
+        </div>
+      );
+    }
+  }
 
   const renderContent = () => {
     switch (activeSection) {
