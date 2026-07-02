@@ -671,39 +671,37 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         <View style={styles.syntheseBox}>
           <Text style={styles.syntheseTitle}>Synthèse de l'opération</Text>
           <Text style={styles.syntheseText}>
-            La société mobilise {fmtEuro(result.effortEconomique)} sur une trésorerie disponible de {fmtEuro(inputs.availableCash)}.
+            La société mobilise {fmtEuro(result.effortEconomique)} au démarrage, incluant l'usufruit et les frais de mission HT.
           </Text>
           <Text style={styles.syntheseText}>
             Trésorerie résiduelle théorique après opération : {fmtEuro(tresorerieResiduelle)}.
           </Text>
           <Text style={styles.syntheseText}>
-            Flux net année 1 après frais de mission initiaux : {fmtEuro(result.annualNetCashFlowAfterFees)}.
+            Le flux net de lancement après frais de mission isolés ressort à {fmtEuro(result.annualNetCashFlowAfterFees)} en année 1.
           </Text>
           <Text style={styles.syntheseText}>
             Impact IS année 1 : {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}.
           </Text>
           <Text style={styles.syntheseText}>
-            Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)} sur {inputs.usufruitDuration} ans (flux net moyen / effort initial).
+            Les flux opérationnels cumulés sur {inputs.usufruitDuration} ans ressortent à {fmtEuro(result.economicCumulativeNetCashFlow)}.
           </Text>
           <Text style={styles.syntheseText}>
-            Flux opérationnel cumulé : {fmtEuro(result.economicCumulativeNetCashFlow)} (frais de mission en année 0).
+            Le gain économique après extinction ressort à {fmtEuro(result.gainNetAfterUsufructExtinction)}, calculé sur les flux opérationnels cumulés moins l'effort initial.
           </Text>
           <Text style={styles.syntheseText}>
-            Gain économique après extinction : {fmtEuro(result.gainNetAfterUsufructExtinction)}.
+            Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)} (flux net moyen / effort initial).
           </Text>
           {result.indicativeIrr !== null && (
             <Text style={styles.syntheseText}>
-              TRI indicatif après extinction : {fmtPercent(result.indicativeIrr)} (flux nets annuels, sans valeur résiduelle).
+              TRI indicatif après extinction : {fmtPercent(result.indicativeIrr)} (flux opérationnels annuels, sans valeur résiduelle).
             </Text>
           )}
           <Text style={{ ...styles.syntheseText, fontStyle: 'italic', color: '#64748b', marginTop: 2 }}>
             Le TRI est indicatif. Il dépend des hypothèses de flux et ne constitue pas une recommandation d'investissement.
           </Text>
-          {inputs.feesEnabled && (
-            <Text style={styles.syntheseText}>
-              Les frais de mission sont supposés payés au démarrage et intégrés dans l'effort initial. Ils sont isolés en année 1 pour mesurer le flux net complet de lancement de l'opération.
-            </Text>
-          )}
+          <Text style={{ ...styles.syntheseText, marginTop: 3, paddingTop: 3, borderTopWidth: 1, borderTopColor: '#cbd5e1' }}>
+            Le flux de lancement cumulé après frais ressort à {fmtEuro(result.cumulativeNetCashFlowAfterFees)}. Il est présenté à titre de lecture de trésorerie mais n'est pas retenu comme base du gain économique afin d'éviter un double comptage des frais déjà inclus dans l'effort initial.
+          </Text>
         </View>
 
         {/* Vue synthétique */}
@@ -745,25 +743,34 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={styles.kpiSublabel}>Flux net moyen / effort initial</Text>
           </View>
           <View style={styles.kpiCardLast}>
-            <Text style={styles.kpiLabel}>Cash-flow net cumulé</Text>
+            <Text style={styles.kpiLabel}>Flux de lancement cumulé</Text>
             <Text style={styles.kpiValueGreen}>{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</Text>
-            <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
+            <Text style={styles.kpiSublabel}>Après frais de mission isolés en année 1</Text>
           </View>
         </View>
         <View style={styles.kpiRow}>
           <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Gain net après extinction</Text>
+            <Text style={styles.kpiLabel}>Flux opérationnel cumulé</Text>
+            <Text style={styles.kpiValueGreen}>{fmtEuro(result.economicCumulativeNetCashFlow)}</Text>
+            <Text style={styles.kpiSublabel}>Base du gain économique et du TRI</Text>
+          </View>
+          <View style={styles.kpiCardLast}>
+            <Text style={styles.kpiLabel}>Gain économique après extinction</Text>
             <Text style={result.gainNetAfterUsufructExtinction >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
               {fmtEuro(result.gainNetAfterUsufructExtinction)}
             </Text>
-            <Text style={styles.kpiSublabel}>Flux cumulés – effort initial</Text>
+            <Text style={styles.kpiSublabel}>Flux opérationnel cumulé – effort initial</Text>
           </View>
-          <View style={styles.kpiCardLast}>
+        </View>
+        <View style={styles.kpiRow}>
+          <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>Rendement simple après extinction</Text>
             <Text style={result.annualizedSimpleReturnAfterExtinction >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
               {fmtPercent(result.annualizedSimpleReturnAfterExtinction)}
             </Text>
             <Text style={styles.kpiSublabel}>/ an</Text>
+          </View>
+          <View style={styles.kpiCardLast}>
           </View>
         </View>
 
@@ -1005,13 +1012,16 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         <View style={{ ...styles.opinionBox, marginTop: 8 }}>
           <Text style={styles.opinionTitle}>Lecture économique après extinction de l'usufruit</Text>
           <Text style={styles.opinionItem}>
-            Flux nets encaissés sur {inputs.usufruitDuration} ans : {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.
+            Flux opérationnels encaissés sur {inputs.usufruitDuration} ans : {fmtEuro(result.economicCumulativeNetCashFlow)}.
           </Text>
           <Text style={styles.opinionItem}>
-            Effort initial total : {fmtEuro(result.effortEconomique)}.
+            Flux de lancement cumulé après frais de mission : {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.
           </Text>
           <Text style={styles.opinionItem}>
-            Gain net économique après extinction de l'usufruit : {fmtEuro(result.gainNetAfterUsufructExtinction)}.
+            Effort initial total : {fmtEuro(result.effortEconomique)} (usufruit + frais de mission HT).
+          </Text>
+          <Text style={styles.opinionItem}>
+            Gain économique après extinction de l'usufruit : {fmtEuro(result.gainNetAfterUsufructExtinction)}.
           </Text>
           <Text style={styles.opinionItem}>
             Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)}.
@@ -1027,8 +1037,11 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.opinionItem}>
             L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.
           </Text>
+          <Text style={{ ...styles.opinionItem, color: '#64748b', fontStyle: 'italic', marginTop: 2 }}>
+            Le flux de lancement cumulé après frais de mission est distinct du flux opérationnel cumulé. Le gain économique et le TRI sont calculés sur les flux opérationnels afin d'éviter de déduire deux fois les frais déjà intégrés dans l'effort initial.
+          </Text>
           <Text style={{ ...styles.opinionItem, color: '#64748b', fontStyle: 'italic' }}>
-            Ce rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance. Le TRI est indicatif et dépend des hypothèses de flux — il ne constitue pas une recommandation d'investissement.
+            Ce rendement cash-flow moyen ne constitue pas un TRI. Le TRI est indicatif et dépend des hypothèses de flux — il ne constitue pas une recommandation d'investissement.
           </Text>
         </View>
 
@@ -1164,12 +1177,15 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         {/* Cumul */}
         <View style={{ ...styles.infoBox, marginTop: -4 }}>
-          <Text style={styles.infoTitle}>Cash-flow net cumulé</Text>
+          <Text style={styles.infoTitle}>Flux cumulés sur la durée</Text>
           <Text style={styles.infoItem}>
-            Après frais de mission : {fmtEuro(inputs.feesEnabled ? result.cumulativeNetCashFlowAfterFees : result.cumulativeNetCashFlow)}
+            Flux de lancement cumulé après frais : {fmtEuro(inputs.feesEnabled ? result.cumulativeNetCashFlowAfterFees : result.cumulativeNetCashFlow)}
           </Text>
           <Text style={styles.infoItem}>
-            Hors frais de mission : {fmtEuro(result.cumulativeNetCashFlow)}
+            Flux opérationnel cumulé : {fmtEuro(result.cumulativeNetCashFlow)}
+          </Text>
+          <Text style={{ ...styles.infoItem, fontSize: 7, color: '#64748b', marginTop: 2, fontStyle: 'italic' }}>
+            Les frais de mission étant inclus dans l'effort initial, le flux opérationnel cumulé sert de base au gain économique et au TRI.
           </Text>
         </View>
 

@@ -839,7 +839,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement cash-flow moyen" value={fmtPercent(result.cashFlowAverageReturn)} color="amber"
               sublabel="Flux net moyen / effort initial" />
             <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Gain net après extinction" value={fmtEuro(result.gainNetAfterUsufructExtinction)} color="emerald"
-              sublabel="Flux cumulés – effort initial" />
+              sublabel="Flux opérationnel cumulé – effort initial" />
             <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement simple après extinction" value={fmtPercent(result.annualizedSimpleReturnAfterExtinction)} color="emerald"
               sublabel={`Sur ${inputs.usufruitDuration} ans`} />
             <KpiCard icon={<AlertTriangle className="w-4 h-4" />} label="Impact IS année 1" value={fmtEuro(result.annualISImpact)} color="orange"
@@ -965,11 +965,12 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Synthèse dirigeant</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
-                      <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> sur une trésorerie disponible de {fmtEuro(inputs.availableCash)}.</li>
+                      <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> au démarrage, incluant l'usufruit et les frais de mission HT.</li>
                       <li>• La trésorerie résiduelle théorique ressort à <strong className={inputs.availableCash - result.effortEconomique < 0 ? 'text-red-400' : 'text-emerald-400'}>{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
                       <li>• Investissement de {fmtEuro(result.effortEconomique)} finançant {fmtEuro(result.reconstitutedFullProperty)} de patrimoine SCPI (pleine propriété).</li>
-                      <li>• L'opération dégage un cash-flow net de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1.</li>
-                      <li>• Sur {inputs.usufruitDuration} ans, le cash-flow cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.</li>
+                      <li>• L'opération dégage un flux net de lancement de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1 (frais de mission isolés).</li>
+                      <li>• Sur {inputs.usufruitDuration} ans, le flux de lancement cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)} et le flux opérationnel cumulé {fmtEuro(result.economicCumulativeNetCashFlow)}.</li>
+                      <li>• Gain économique après extinction : <strong className="text-emerald-400">{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong>.</li>
                     </ul>
                   </div>
 
@@ -1236,16 +1237,16 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </div>
                   )}
 
-                  {/* Cash-flow cumulé */}
+                  {/* Flux cumulés */}
                   <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 space-y-4">
                     <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                      <BarChart3 className="w-4 h-4" />Cash-flow cumulé sur {inputs.usufruitDuration} ans
+                      <BarChart3 className="w-4 h-4" />Flux cumulés sur {inputs.usufruitDuration} ans
                     </span>
                     <div className="space-y-3">
-                      {/* Barre après honoraires */}
+                      {/* Barre frais inclus */}
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-400">Après frais de mission</span>
+                          <span className="text-slate-400">Flux de lancement cumulé (frais en année 1)</span>
                           <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</span>
                         </div>
                         <div className="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-slate-700">
@@ -1253,17 +1254,20 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                             style={{ width: `${Math.min(100, (result.cumulativeNetCashFlowAfterFees / result.effortEconomique) * 100)}%` }} />
                         </div>
                       </div>
-                      {/* Barre hors honoraires */}
+                      {/* Barre flux opérationnel */}
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-500">Hors frais de mission</span>
-                          <span className="text-slate-400 font-medium">{fmtEuro(result.cumulativeNetCashFlow)}</span>
+                          <span className="text-slate-400">Flux opérationnel cumulé (base gain éco. & TRI)</span>
+                          <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlow)}</span>
                         </div>
                         <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-700">
-                          <div className="bg-slate-600/50 h-full rounded-full transition-all duration-500"
+                          <div className="bg-emerald-600/40 h-full rounded-full transition-all duration-500"
                             style={{ width: `${Math.min(100, (result.cumulativeNetCashFlow / result.effortEconomique) * 100)}%` }} />
                         </div>
                       </div>
+                      <p className="text-[10px] text-slate-600 leading-relaxed pt-1 border-t border-slate-700/30">
+                        Les frais de mission étant inclus dans l'effort initial, le flux opérationnel cumulé sert de base au gain économique et au TRI — évitant de déduire deux fois les frais.
+                      </p>
                     </div>
                   </div>
 

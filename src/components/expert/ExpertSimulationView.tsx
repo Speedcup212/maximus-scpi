@@ -116,7 +116,7 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
         <Kpi label="Cash-flow A1" value={fmtEuro(s.yearOneNetCashFlow)} color="emerald" />
         <Kpi label="Impact IS A1" value={'+' + fmtEuro(s.yearOneTaxImpact)} color="orange" />
         <Kpi label="Rend. cash-flow" value={fmtPercent(s.cashFlowAverageReturn ?? s.averageAnnualNetYield)} color="amber" />
-        <Kpi label="Cash-flow cumulé" value={fmtEuro(s.cumulativeNetCashFlow)} color="emerald" />
+        <Kpi label="Flux op. cumulé" value={fmtEuro(s.cumulativeNetCashFlow)} color="emerald" />
         <Kpi label="Gain net après extinction" value={fmtEuro(s.gainNetAfterUsufructExtinction)} color="emerald" />
         <Kpi label="Rend. après extinction" value={fmtPercent(s.annualizedSimpleReturnAfterExtinction)} color="emerald" />
         {(s.recoverableVatAmount ?? s.nonRecoverableVatAmount) !== undefined && (
