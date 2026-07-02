@@ -771,30 +771,19 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={styles.kpiSublabel}>/ an</Text>
           </View>
           <View style={styles.kpiCardLast}>
-          </View>
-        </View>
-
-        {/* ── TRI indicatif ── */}
-        <View style={styles.kpiRow}>
-          <View style={styles.kpiCard}>
             <Text style={styles.kpiLabel}>TRI indicatif après extinction</Text>
             <Text style={result.indicativeIrr !== null && result.indicativeIrr >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
               {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : '—'}
             </Text>
             <Text style={styles.kpiSublabel}>Flux nets annuels, sans valeur résiduelle</Text>
           </View>
-          <View style={styles.kpiCardLast}>
-            <Text style={styles.kpiLabel}>Flux opérationnel cumulé</Text>
-            <Text style={styles.kpiValueGreen}>{fmtEuro(result.economicCumulativeNetCashFlow)}</Text>
-            <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
-          </View>
         </View>
 
         {/* Conclusion courte */}
         <Text style={styles.conclusionText}>
           L'opération génère un résultat fiscal additionnel de {fmtEuro(result.annualFiscalResultOperationOnly)} la première année.{' '}
-          Le cash-flow net cumulé sur {inputs.usufruitDuration} ans atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.{' '}
-          Le gain net économique après extinction de l'usufruit ressort à {fmtEuro(result.gainNetAfterUsufructExtinction)}.{' '}
+          Le flux de lancement cumulé après frais ressort à {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.{' '}
+          Les flux opérationnels cumulés ressortent à {fmtEuro(result.economicCumulativeNetCashFlow)}, base retenue pour le gain économique après extinction de {fmtEuro(result.gainNetAfterUsufructExtinction)}.{' '}
           L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.{' '}
           Validation comptable et fiscale requise avant toute présentation client.
         </Text>
