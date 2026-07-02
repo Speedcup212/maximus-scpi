@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { FolderOpen, Search, Plus, Building2, Calendar, Trash2, Copy, Eye, Play, Loader2, AlertCircle, X, Check, Save } from 'lucide-react';
+import { FolderOpen, Search, Plus, Building2, Calendar, Trash2, Copy, Eye, Play, Loader2, AlertCircle, X, Save } from 'lucide-react';
 import {
   getExpertDossiers,
   deleteExpertDossier,
@@ -85,6 +85,15 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
     }
   };
 
+  const resetCreateForm = useCallback(() => {
+    setNewName('');
+    setNewCompanyType('SAS');
+    setNewSiret('');
+    setNewManager('');
+    setNewNotes('');
+    setSaveError('');
+  }, []);
+
   const handleCreate = async () => {
     if (!newName.trim()) {
       setSaveError('Le nom de la société cliente est obligatoire.');
@@ -110,14 +119,145 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
     }
   };
 
-  const resetCreateForm = () => {
-    setNewName('');
-    setNewCompanyType('SAS');
-    setNewSiret('');
-    setNewManager('');
-    setNewNotes('');
-    setSaveError('');
-  };
+  /* ── Modal création (useMemo pour stabiliser la référence JSX, pas de remount) ── */
+  const createModal = useMemo(() => {
+    if (!showCreateModal) return null;
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="flex items-center justify-between p-5 border-b border-slate-800">
+            <h2 className="text-lg font-bold text-white">Nouveau dossier client</h2>
+            <button
+              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
+              className="p-1 rounded text-slate-500 hover:text-slate-300 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="p-5 space-y-4" onKeyDown={(e) => e.stopPropagation()}>
+            {/* Nom société */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Nom de la société cliente <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Ex: SCI Dupont Holding"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+            </div>
+
+            {/* Type société */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Type société</label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {COMPANY_TYPES.map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setNewCompanyType(t)}
+                    className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${
+                      newCompanyType === t
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* SIRET */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                SIRET <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                autoComplete="off"
+                value={newSiret}
+                onChange={(e) => {
+                  const cleaned = e.target.value.replace(/\D/g, '').slice(0, 14);
+                  setNewSiret(cleaned);
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+                placeholder="Ex: 12345678901234"
+                maxLength={14}
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+              {newSiret.length > 0 && newSiret.length < 14 && (
+                <p className="text-[10px] text-amber-400 mt-1">
+                  SIRET incomplet — 14 chiffres attendus.
+                </p>
+              )}
+            </div>
+
+            {/* Dirigeant */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Nom du dirigeant <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <input
+                type="text"
+                value={newManager}
+                onChange={(e) => setNewManager(e.target.value)}
+                placeholder="Ex: Jean Dupont"
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+              />
+            </div>
+
+            {/* Notes */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Notes cabinet <span className="text-slate-600 font-normal">(optionnel)</span>
+              </label>
+              <textarea
+                value={newNotes}
+                onChange={(e) => setNewNotes(e.target.value)}
+                placeholder="Notes internes..."
+                rows={3}
+                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors resize-none"
+              />
+            </div>
+
+            {saveError && (
+              <p className="text-xs text-red-400">{saveError}</p>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end gap-3 p-5 border-t border-slate-800">
+            <button
+              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
+              className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={handleCreate}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Création...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  Créer le dossier
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }, [showCreateModal, newName, newCompanyType, newSiret, newManager, newNotes, saving, saveError, resetCreateForm, handleCreate]);
 
   /* ── Loading ── */
   if (loading) {
@@ -185,9 +325,7 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
             Les dossiers sont synchronisés avec votre compte et accessibles depuis n'importe quel appareil.
           </p>
         </div>
-
-        {/* Modal création */}
-        {showCreateModal && <CreateDossierModal />}
+        {createModal}
       </div>
     );
   }
@@ -373,138 +511,9 @@ const ExpertDossiersList: React.FC<ExpertDossiersListProps> = ({ onNavigate, onO
         )}
       </div>
 
-      {/* Modal création */}
-      {showCreateModal && <CreateDossierModal />}
+      {createModal}
     </div>
   );
-
-  /* ── Modal création inline (closure over state) ── */
-  function CreateDossierModal() {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div className="bg-slate-900 border border-slate-800 rounded-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-          <div className="flex items-center justify-between p-5 border-b border-slate-800">
-            <h2 className="text-lg font-bold text-white">Nouveau dossier client</h2>
-            <button
-              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
-              className="p-1 rounded text-slate-500 hover:text-slate-300 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="p-5 space-y-4">
-            {/* Nom société */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Nom de la société cliente <span className="text-red-400">*</span>
-              </label>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="Ex: SCI Dupont Holding"
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
-              />
-            </div>
-
-            {/* Type société */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Type société</label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {COMPANY_TYPES.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setNewCompanyType(t)}
-                    className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${
-                      newCompanyType === t
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-slate-800 text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* SIRET */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                SIRET <span className="text-slate-600 font-normal">(optionnel)</span>
-              </label>
-              <input
-                type="text"
-                value={newSiret}
-                onChange={(e) => setNewSiret(e.target.value)}
-                placeholder="Ex: 12345678901234"
-                maxLength={14}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
-              />
-            </div>
-
-            {/* Dirigeant */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Nom du dirigeant <span className="text-slate-600 font-normal">(optionnel)</span>
-              </label>
-              <input
-                type="text"
-                value={newManager}
-                onChange={(e) => setNewManager(e.target.value)}
-                placeholder="Ex: Jean Dupont"
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
-              />
-            </div>
-
-            {/* Notes */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Notes cabinet <span className="text-slate-600 font-normal">(optionnel)</span>
-              </label>
-              <textarea
-                value={newNotes}
-                onChange={(e) => setNewNotes(e.target.value)}
-                placeholder="Notes internes..."
-                rows={3}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors resize-none"
-              />
-            </div>
-
-            {saveError && (
-              <p className="text-xs text-red-400">{saveError}</p>
-            )}
-          </div>
-
-          <div className="flex items-center justify-end gap-3 p-5 border-t border-slate-800">
-            <button
-              onClick={() => { setShowCreateModal(false); resetCreateForm(); }}
-              className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
-            >
-              Annuler
-            </button>
-            <button
-              onClick={handleCreate}
-              disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {saving ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Création...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4" />
-                  Créer le dossier
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 };
 
 /* ── Sub‑components ── */
