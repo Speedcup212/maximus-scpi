@@ -1,6 +1,7 @@
-import React from 'react';
-import { Calculator, BarChart3, ChevronRight, Building2, Users, FileText, Settings, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calculator, BarChart3, ChevronRight, Building2, Users, FileText, Settings, ShieldCheck, Shield } from 'lucide-react';
 import { getVerificationProfile, getVerificationStatusLabel, getVerificationBadgeColor } from '../../utils/expertVerification';
+import { getCurrentRoleFromCache, resolveAccessRole } from '../../utils/expertAccess';
 
 interface ExpertLayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,16 @@ const NAV_ITEMS = [
 ];
 
 const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, onNavigate, onBackToHome }) => {
+  const [role, setRole] = useState(() => getCurrentRoleFromCache());
   const verificationProfile = getVerificationProfile();
+  const isAdmin = role === 'admin';
+
+  useEffect(() => {
+    // Résoudre le rôle depuis Supabase si pas encore dans le cache
+    if (role === 'unknown') {
+      resolveAccessRole().then((resolved) => setRole(resolved));
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 flex">
@@ -43,7 +53,19 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
               <p className="text-[10px] text-slate-500 uppercase tracking-wider">MaximusSCPI</p>
             </div>
           </div>
-          {verificationProfile && (
+
+          {/* Badge admin */}
+          {isAdmin && (
+            <div className="mt-2">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border bg-violet-600/20 text-violet-400 border-violet-600/30">
+                <Shield className="w-3 h-3" />
+                Admin MaximusSCPI
+              </span>
+            </div>
+          )}
+
+          {/* Badge vérification cabinet (non-admin seulement) */}
+          {!isAdmin && verificationProfile && (
             <div className="mt-2">
               <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border ${getVerificationBadgeColor(verificationProfile.status)}`}>
                 <ShieldCheck className="w-3 h-3" />
