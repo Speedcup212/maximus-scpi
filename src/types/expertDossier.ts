@@ -71,3 +71,48 @@ export interface ExpertClientDossier {
   simulations: ExpertSimulationSnapshot[];
   notes?: string;
 }
+
+/* ── Vérification cabinet Expert-Comptable ── */
+
+export type ExpertVerificationStatus =
+  | 'unverified'
+  | 'siret_verified_accounting_activity'
+  | 'siret_verified_non_accounting_activity'
+  | 'siret_not_found'
+  | 'declared_oec_registered';
+
+export interface ExpertVerificationProfile {
+  status: ExpertVerificationStatus;
+  siret: string;
+  siren: string;
+  firmName: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  apeCode: string;
+  apeLabel: string;
+  administrativeStatus: 'active' | 'closed' | 'unknown';
+  professionalEmail: string;
+  oecSelfDeclaration: boolean;
+  oecSelfDeclaredAt?: string;
+  verifiedAt?: string;
+}
+
+export interface SiretApiResponse {
+  siret: string;
+  siren: string;
+  nic: string;
+  siege_social: boolean;
+  etat_administratif: string;
+  personne_morale_attributs?: { raison_sociale: string };
+  enseigne?: string;
+  adresse: string;
+  code_postal: string;
+  libelle_commune: string;
+  activite_principale: string;
+  libelle_activite_principale: string;
+  unite_legale?: {
+    etat_administratif: string;
+    personne_morale_attributs?: { raison_sociale: string };
+  };
+}

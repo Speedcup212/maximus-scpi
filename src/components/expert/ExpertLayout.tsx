@@ -1,5 +1,6 @@
 import React from 'react';
-import { Calculator, BarChart3, ChevronRight, Building2, Users, FileText, Settings } from 'lucide-react';
+import { Calculator, BarChart3, ChevronRight, Building2, Users, FileText, Settings, ShieldCheck } from 'lucide-react';
+import { getVerificationProfile, getVerificationStatusLabel, getVerificationBadgeColor } from '../../utils/expertVerification';
 
 interface ExpertLayoutProps {
   children: React.ReactNode;
@@ -12,11 +13,14 @@ const NAV_ITEMS = [
   { id: 'dashboard', icon: BarChart3, label: 'Dashboard', available: true },
   { id: 'holding-simulator', icon: Calculator, label: 'Simulateur Holding IS', available: true },
   { id: 'dossiers-list', icon: Users, label: 'Dossiers clients', available: true },
+  { id: 'verification', icon: ShieldCheck, label: 'Vérification cabinet', available: true },
   { id: 'rapports', icon: FileText, label: 'Rapports', available: false },
   { id: 'parametres', icon: Settings, label: 'Paramètres cabinet', available: false },
 ];
 
 const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, onNavigate, onBackToHome }) => {
+  const verificationProfile = getVerificationProfile();
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 flex">
       {/* Sidebar */}
@@ -39,6 +43,14 @@ const ExpertLayout: React.FC<ExpertLayoutProps> = ({ children, activeSection, on
               <p className="text-[10px] text-slate-500 uppercase tracking-wider">MaximusSCPI</p>
             </div>
           </div>
+          {verificationProfile && (
+            <div className="mt-2">
+              <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium border ${getVerificationBadgeColor(verificationProfile.status)}`}>
+                <ShieldCheck className="w-3 h-3" />
+                {getVerificationStatusLabel(verificationProfile.status)}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Navigation */}

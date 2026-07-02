@@ -470,6 +470,10 @@ const App: React.FC = () => {
           setCurrentView('expert-rapports');
           return;
         }
+        if (section === 'verification') {
+          setCurrentView('expert-verification');
+          return;
+        }
         if (section === 'parametres') {
           setCurrentView('expert-parametres');
           return;
@@ -2145,6 +2149,7 @@ const App: React.FC = () => {
               currentView === 'expert-dossiers' ? 'dossiers-list' :
               currentView === 'expert-dossier-detail' ? 'dossier-detail' :
               currentView === 'expert-dossier-simulation' ? 'simulation-view' :
+              currentView === 'expert-verification' ? 'verification' :
               currentView === 'expert-rapports' ? 'rapports' :
               currentView === 'expert-parametres' ? 'parametres' :
               'dashboard'

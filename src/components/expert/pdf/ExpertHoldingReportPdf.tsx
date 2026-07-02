@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { HoldingISInputs, HoldingISResult } from '../../../utils/holdingSimulation';
+import { getVerificationProfile, getVerificationStatusLabel } from '../../../utils/expertVerification';
 
 /* ── Helpers formatage ── */
 
@@ -459,6 +460,9 @@ interface ExpertHoldingReportPdfProps {
 const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs, result, isSansOperation }) => {
   const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
   const dossierTitle = (inputs.dossierName || 'MaximusSCPI').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
+  const verificationProfile = getVerificationProfile();
+  const isDeclared = verificationProfile?.status === 'declared_oec_registered';
+
   const headerFragment = (
     <View style={styles.header}>
       <View style={styles.headerTop}>
@@ -468,6 +472,16 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         </View>
         <View>
           <Text style={styles.headerBadge}>Espace Expert-Comptable</Text>
+          {isDeclared && (
+            <Text style={{ ...styles.headerBadge, backgroundColor: '#065f46', color: '#a7f3d0', marginTop: 4 }}>
+              {getVerificationStatusLabel(verificationProfile!.status)}
+            </Text>
+          )}
+          {!isDeclared && (
+            <Text style={{ fontSize: 7, color: '#94a3b8', marginTop: 4, textAlign: 'right' }}>
+              Cabinet non déclaré
+            </Text>
+          )}
         </View>
       </View>
       <View style={styles.headerMeta}>

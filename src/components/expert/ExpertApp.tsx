@@ -5,6 +5,7 @@ import ExpertHoldingSimulator from './ExpertHoldingSimulator';
 import ExpertDossiersList from './ExpertDossiersList';
 import ExpertDossierDetail from './ExpertDossierDetail';
 import ExpertSimulationView from './ExpertSimulationView';
+import ExpertVerification from './ExpertVerification';
 import { Construction } from 'lucide-react';
 
 interface ExpertAppProps {
@@ -14,7 +15,7 @@ interface ExpertAppProps {
   onBackToHome: () => void;
 }
 
-type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-list' | 'dossier-detail' | 'simulation-view' | 'rapports' | 'parametres';
+type ExpertSection = 'dashboard' | 'holding-simulator' | 'dossiers-list' | 'dossier-detail' | 'simulation-view' | 'verification' | 'rapports' | 'parametres';
 
 const URL_MAP: Record<string, string> = {
   'dashboard': '/expert-comptable/dashboard',
@@ -22,6 +23,7 @@ const URL_MAP: Record<string, string> = {
   'dossiers-list': '/expert-comptable/dossiers',
   'dossier-detail': '/expert-comptable/dossiers/:dossierId',
   'simulation-view': '/expert-comptable/dossiers/:dossierId/simulations/:simulationId',
+  'verification': '/expert-comptable/verification',
   'rapports': '/expert-comptable/rapports',
   'parametres': '/expert-comptable/parametres',
 };
@@ -129,6 +131,8 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
           );
         }
         return <ExpertSimulationView simulationId={currentSimulationId} onBack={handleBackToDossier} />;
+      case 'verification':
+        return <ExpertVerification onNavigate={handleNavigate} />;
       case 'rapports':
         return <ComingSoon title="Rapports techniques" description="Génération de rapports cabinet pour documenter les hypothèses." />;
       case 'parametres':
