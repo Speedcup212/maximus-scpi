@@ -201,21 +201,28 @@ function npvDerivative(rate: number, cashFlows: number[]): number {
 }
 
 export function calculateIrr(cashFlows: number[]): number | null {
-  if (cashFlows.length < 2) return null;
-  const hasNegative = cashFlows.some(cf => cf < 0);
-  const hasPositive = cashFlows.some(cf => cf > 0);
-  if (!hasNegative || !hasPositive) return null;
+  try {
+    if (!cashFlows || cashFlows.length < 2) return null;
+    const hasNegative = cashFlows.some(cf => cf < 0);
+    const hasPositive = cashFlows.some(cf => cf > 0);
+    if (!hasNegative || !hasPositive) return null;
 
-  let guess = 0.1;
-  for (let i = 0; i < IRR_MAX_ITERATIONS; i++) {
-    const f = npv(guess, cashFlows);
-    const fPrime = npvDerivative(guess, cashFlows);
-    if (Math.abs(fPrime) < 1e-12) break;
-    const newGuess = guess - f / fPrime;
-    if (Math.abs(newGuess - guess) < IRR_TOLERANCE) {
-      return Math.round(newGuess * 10000) / 100; // en %
+    let guess = 0.1;
+    for (let i = 0; i < IRR_MAX_ITERATIONS; i++) {
+      const f = npv(guess, cashFlows);
+      const fPrime = npvDerivative(guess, cashFlows);
+      if (!Number.isFinite(f) || !Number.isFinite(fPrime)) return null;
+      if (Math.abs(fPrime) < 1e-12) break;
+      const newGuess = guess - f / fPrime;
+      if (!Number.isFinite(newGuess)) return null;
+      if (Math.abs(newGuess - guess) < IRR_TOLERANCE) {
+        const irr = Math.round(newGuess * 10000) / 100;
+        return Number.isFinite(irr) ? irr : null;
+      }
+      guess = newGuess;
     }
-    guess = newGuess;
+  } catch {
+    // silencieux — pas de crash
   }
   return null;
 }
@@ -284,7 +291,9 @@ export function calculateFeesBreakdown(
 /* ── Contrôles cabinet ── */
 
 export function buildCabinetChecks(inputs: HoldingISInputs, results: HoldingISResult): CabinetCheck[] {
-  const checks: CabinetCheck[] = [];
+  try {
+    if (!inputs || !results) return [];
+    const checks: CabinetCheck[] = [];
 
   // ── TVA ──
   if (inputs.feesEnabled) {
@@ -438,6 +447,10 @@ export function buildCabinetChecks(inputs: HoldingISInputs, results: HoldingISRe
   });
 
   return checks;
+  } catch (e) {
+    console.error('[buildCabinetChecks]', e);
+    return [];
+  }
 }
 
 /* ── Calcul principal ── */
@@ -637,8 +650,8 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
   }
 
   // ═══ Contrôles cabinet ═══
-  const resultForChecks: HoldingISResult = {} as HoldingISResult;
-  const cabinetChecks = buildCabinetChecks(inputs, resultForChecks);
+  // On construit d'abord le résultat sans cabinetChecks, puis on les ajoute après.
+  // (buildCabinetChecks doit recevoir le result complet, pas un objet en cours de construction.)
 
   const result: HoldingISResult = {
     inputs,
@@ -685,9 +698,12 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     alternativeEndingCapital,
     alternativeTotalValue,
     alternativeComparisonSpread,
-    cabinetChecks: buildCabinetChecks(inputs, result),
+    cabinetChecks: [], // sera rempli ci-dessous après construction de result
     projections,
   };
+
+  // ═══ Contrôles cabinet (après construction de result pour éviter la circularité) ═══
+  result.cabinetChecks = buildCabinetChecks(inputs, result);
 
   return result;
 }

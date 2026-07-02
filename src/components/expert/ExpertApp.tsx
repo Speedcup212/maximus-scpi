@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import ExpertLayout from './ExpertLayout';
 import ExpertDashboard from './ExpertDashboard';
 import ExpertHoldingSimulator from './ExpertHoldingSimulator';
+import { SimulatorErrorBoundary } from './SimulatorErrorBoundary';
 import ExpertDossiersList from './ExpertDossiersList';
 import ExpertDossierDetail from './ExpertDossierDetail';
 import ExpertSimulationView from './ExpertSimulationView';
@@ -184,7 +185,11 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
       case 'dashboard':
         return <ExpertDashboard onNavigate={handleNavigate} />;
       case 'holding-simulator':
-        return <ExpertHoldingSimulator onNavigateToDossier={handleOpenDossier} />;
+        return (
+          <SimulatorErrorBoundary onBack={() => handleNavigate('dashboard')}>
+            <ExpertHoldingSimulator onNavigateToDossier={handleOpenDossier} />
+          </SimulatorErrorBoundary>
+        );
       case 'dossiers-list':
         return <ExpertDossiersList onNavigate={handleNavigate} onOpenDossier={handleOpenDossier} />;
       case 'dossier-detail':
