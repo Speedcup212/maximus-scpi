@@ -114,6 +114,7 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
             dossierId={currentDossierId}
             onBack={handleBackToDossiers}
             onViewSimulation={handleViewSimulation}
+            onNavigate={handleNavigate}
           />
         );
       case 'simulation-view':
@@ -123,6 +124,7 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
               dossierId={currentDossierId || ''}
               onBack={handleBackToDossiers}
               onViewSimulation={handleViewSimulation}
+              onNavigate={handleNavigate}
             />
           );
         }

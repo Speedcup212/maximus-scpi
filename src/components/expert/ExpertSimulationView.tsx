@@ -55,7 +55,7 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
       </button>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">{sim.title}</h1>
+        <h1 className="text-2xl font-bold text-white">{sim.label}</h1>
         <p className="text-xs text-slate-500 mt-1">Enregistrée le {fmtDate(sim.createdAt)}</p>
       </div>
 

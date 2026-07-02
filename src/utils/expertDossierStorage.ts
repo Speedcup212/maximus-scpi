@@ -13,10 +13,23 @@ function loadAll(): ExpertClientDossier[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed;
+    return parsed.map(fixLegacyFields);
   } catch {
     return [];
   }
+}
+
+/** Migre les anciens champs `name` → `clientName`, `title` → `label` */
+function fixLegacyFields(d: ExpertClientDossier & { name?: string; simulations?: Array<Record<string, unknown>> }): ExpertClientDossier {
+  const clientName = (d as Record<string, unknown>).clientName as string || d.name || '';
+  return {
+    ...d,
+    clientName: clientName,
+    simulations: (d.simulations || []).map((s: Record<string, unknown>) => ({
+      ...s,
+      label: (s.label as string) || (s.title as string) || '',
+    })) as ExpertSimulationSnapshot[],
+  };
 }
 
 function saveAll(dossiers: ExpertClientDossier[]): void {
@@ -42,6 +55,37 @@ export function saveExpertDossier(dossier: ExpertClientDossier): void {
     all.push(dossier);
   }
   saveAll(all);
+}
+
+export function deleteExpertDossier(id: string): void {
+  const all = loadAll().filter((d) => d.id !== id);
+  saveAll(all);
+}
+
+export function duplicateExpertDossier(id: string): ExpertClientDossier | undefined {
+  const all = loadAll();
+  const src = all.find((d) => d.id === id);
+  if (!src) return undefined;
+
+  const now = new Date().toISOString();
+  const copy: ExpertClientDossier = {
+    ...src,
+    id: `${createSlugFromName(src.clientName)}_${Date.now()}_copy`,
+    clientName: `${src.clientName} (copie)`,
+    createdAt: now,
+    updatedAt: now,
+    simulations: src.simulations.map((s) => ({
+      ...s,
+      id: `sim_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
+      createdAt: now,
+      updatedAt: now,
+    })),
+    notes: src.notes ? `${src.notes}\n\n[Copié depuis le dossier "${src.clientName}"]` : undefined,
+  };
+
+  all.push(copy);
+  saveAll(all);
+  return copy;
 }
 
 export function createSlugFromName(name: string): string {
@@ -74,14 +118,14 @@ export function saveSimulationToExpertDossier(params: SaveSimulationParams): Exp
     id: `sim_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
     createdAt: now,
     updatedAt: now,
-    title: params.title,
-    inputs: params.inputs,
-    results: params.results,
+    label: params.title,
+    inputs: params.inputs as ExpertSimulationSnapshot['inputs'],
+    results: params.results as ExpertSimulationSnapshot['results'],
     summary: params.summary,
   };
 
   const all = loadAll();
-  let dossier = all.find((d) => d.name === params.dossierName);
+  let dossier = all.find((d) => d.clientName === params.dossierName);
 
   if (dossier) {
     dossier.simulations.push(snapshot);
@@ -90,7 +134,7 @@ export function saveSimulationToExpertDossier(params: SaveSimulationParams): Exp
   } else {
     dossier = {
       id,
-      name: params.dossierName,
+      clientName: params.dossierName,
       companyType: params.companyType,
       createdAt: now,
       updatedAt: now,
