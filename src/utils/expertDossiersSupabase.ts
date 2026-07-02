@@ -5,6 +5,7 @@ import type {
   ExpertSimulationSummary,
   ExpertHoldingSimulationInputs,
   ExpertHoldingSimulationResults,
+  ExpertGeneratedReport,
 } from '../types/expertDossier';
 import type { HoldingISInputs, HoldingISResult } from './holdingSimulation';
 
@@ -100,6 +101,8 @@ function mapDossierRow(row: ExpertDossierRow, simulations: ExpertSimulationSnaps
     clientName: row.client_name,
     companyType: row.company_type,
     siret: row.siret || undefined,
+    managerName: row.manager_name || undefined,
+    status: row.status,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     simulations,
@@ -419,4 +422,118 @@ export async function deleteExpertHoldingSimulation(
     .eq('user_id', user.id);
 
   if (error) throw error;
+}
+
+/* ── Rapports PDF / Storage ── */
+
+export async function uploadExpertReport(
+  dossierId: string,
+  simulationId: string,
+  pdfBlob: Blob,
+  fileName: string,
+): Promise<string> {
+  const user = await requireUser();
+  const storagePath = `expert-reports/${user.id}/${dossierId}/${simulationId}/${fileName}`;
+
+  const { error: uploadErr } = await supabase!.storage
+    .from('expert-reports')
+    .upload(storagePath, pdfBlob, {
+      contentType: 'application/pdf',
+      upsert: true,
+    });
+
+  if (uploadErr) throw uploadErr;
+
+  // Record in expert_generated_reports
+  const now = new Date().toISOString();
+  const { error: insertErr } = await supabase!
+    .from('expert_generated_reports')
+    .upsert({
+      dossier_id: dossierId,
+      simulation_id: simulationId,
+      user_id: user.id,
+      report_type: 'holding_is',
+      file_name: fileName,
+      storage_path: storagePath,
+      generated_at: now,
+    }, { onConflict: 'simulation_id' });
+
+  if (insertErr) throw insertErr;
+
+  return storagePath;
+}
+
+export async function getExpertReportSignedUrl(
+  storagePath: string,
+): Promise<string> {
+  const { data, error } = await supabase!.storage
+    .from('expert-reports')
+    .createSignedUrl(storagePath, 3600); // 1 hour
+
+  if (error) throw error;
+  return data.signedUrl;
+}
+
+export async function getExpertReportsByDossier(
+  dossierId: string,
+): Promise<ExpertGeneratedReport[]> {
+  const user = await requireUser();
+
+  const { data, error } = await supabase!
+    .from('expert_generated_reports')
+    .select('*')
+    .eq('dossier_id', dossierId)
+    .eq('user_id', user.id)
+    .order('generated_at', { ascending: false });
+
+  if (error) throw error;
+  return (data || []).map((r: ExpertReportRow) => ({
+    id: r.id,
+    dossierId: r.dossier_id,
+    simulationId: r.simulation_id,
+    userId: r.user_id,
+    reportType: r.report_type,
+    fileName: r.file_name,
+    storagePath: r.storage_path,
+    generatedAt: r.generated_at,
+  }));
+}
+
+export async function deleteExpertReport(reportId: string): Promise<void> {
+  const user = await requireUser();
+
+  const { data: report, error: fetchErr } = await supabase!
+    .from('expert_generated_reports')
+    .select('storage_path')
+    .eq('id', reportId)
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (fetchErr || !report) throw new Error('Rapport introuvable.');
+
+  const row = report as ExpertReportRow;
+
+  // Delete from storage
+  await supabase!.storage
+    .from('expert-reports')
+    .remove([row.storage_path]);
+
+  // Delete from DB
+  const { error: delErr } = await supabase!
+    .from('expert_generated_reports')
+    .delete()
+    .eq('id', reportId);
+
+  if (delErr) throw delErr;
+}
+
+interface ExpertReportRow {
+  id: string;
+  dossier_id: string;
+  simulation_id?: string;
+  user_id: string;
+  report_type: string;
+  file_name: string;
+  storage_path: string;
+  generated_at: string;
 }

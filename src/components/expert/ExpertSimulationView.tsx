@@ -3,11 +3,24 @@ import { ArrowLeft, TrendingUp, Euro, Calculator, Clock, ChevronDown, ChevronRig
 import { getExpertSimulationById } from '../../utils/expertDossiersSupabase';
 import type { ExpertSimulationSnapshot } from '../../types/expertDossier';
 
-const fmtEuro = (v: number) =>
-  new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v);
-const fmtPercent = (v: number) =>
-  new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v) + '\u202f%';
-const fmtNumber = (v: number) => new Intl.NumberFormat('fr-FR').format(v);
+const formatSafeCurrency = (value: unknown): string => {
+  if (value === null || value === undefined) return '—';
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '—';
+  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+};
+
+const fmtEuro = (v: unknown) => formatSafeCurrency(v);
+const fmtPercent = (v: unknown) => {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return '—';
+  return new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + '\u202f%';
+};
+const fmtSafeNumber = (v: unknown): string => {
+  const n = Number(v);
+  if (!Number.isFinite(n)) return '—';
+  return new Intl.NumberFormat('fr-FR').format(n);
+};
 const fmtDate = (iso: string) =>
   new Date(iso).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
@@ -214,19 +227,22 @@ const ComparatifTable: React.FC<{ data: ComparatifRow[] }> = ({ data }) => (
   </div>
 );
 
+/** ProjectionRow matches the raw jsonb structure from HoldingISYearProjection */
 interface ProjectionRow {
   year: number;
   grossIncome: number;
   amortization: number;
-  fiscalResultOp: number;
-  fiscalResultAfter: number;
-  isBefore: number;
-  isAfter: number;
+  feesFiscal?: number;
+  feesCash?: number;
+  fiscalResultOperationOnly: number;
+  fiscalResultAfterOperation: number;
+  isBeforeOperation: number;
+  isAfterOperation: number;
   isImpact: number;
   netCashFlow: number;
-  feesCash: number;
   netCashFlowAfterFees: number;
-  cumulativeAfterFees: number;
+  cumulativeNetCashFlow: number;
+  cumulativeNetCashFlowAfterFees?: number;
 }
 
 const ProjectionsTable: React.FC<{ projections: ProjectionRow[] }> = ({ projections }) => (
@@ -249,11 +265,11 @@ const ProjectionsTable: React.FC<{ projections: ProjectionRow[] }> = ({ projecti
           <td className="py-1.5 px-2 font-semibold text-slate-300">A{p.year}</td>
           <td className="py-1.5 px-2 text-right text-slate-400">{fmtEuro(p.grossIncome)}</td>
           <td className="py-1.5 px-2 text-right text-slate-400">{fmtEuro(p.amortization)}</td>
-          <td className="py-1.5 px-2 text-right text-slate-400">{fmtEuro(p.isBefore)}</td>
-          <td className="py-1.5 px-2 text-right text-slate-300">{fmtEuro(p.isAfter)}</td>
+          <td className="py-1.5 px-2 text-right text-slate-400">{fmtEuro(p.isBeforeOperation)}</td>
+          <td className="py-1.5 px-2 text-right text-slate-300">{fmtEuro(p.isAfterOperation)}</td>
           <td className="py-1.5 px-2 text-right text-orange-400 font-semibold">+{fmtEuro(p.isImpact)}</td>
           <td className="py-1.5 px-2 text-right text-emerald-400">{fmtEuro(p.netCashFlow)}</td>
-          <td className="py-1.5 px-2 text-right text-emerald-400 font-semibold">{fmtEuro(p.cumulativeAfterFees || p.netCashFlow)}</td>
+          <td className="py-1.5 px-2 text-right text-emerald-400 font-semibold">{fmtEuro(p.cumulativeNetCashFlowAfterFees ?? p.cumulativeNetCashFlow)}</td>
         </tr>
       ))}
     </tbody>
@@ -269,7 +285,7 @@ const HypothesesBlock: React.FC<{ inputs: Record<string, unknown> }> = ({ inputs
         <div key={key} className="text-xs">
           <span className="text-slate-500">{key}: </span>
           <span className="text-slate-300">
-            {typeof value === 'boolean' ? (value ? 'Oui' : 'Non') : typeof value === 'number' ? fmtNumber(value as number) : String(value)}
+            {typeof value === 'boolean' ? (value ? 'Oui' : 'Non') : typeof value === 'number' ? fmtSafeNumber(value) : String(value)}
           </span>
         </div>
       ))}

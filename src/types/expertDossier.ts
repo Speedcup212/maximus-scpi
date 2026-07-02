@@ -67,10 +67,23 @@ export interface ExpertClientDossier {
   clientName: string;
   companyType: string;
   siret?: string;
+  managerName?: string;
+  status?: string;
   createdAt: string;
   updatedAt: string;
   simulations: ExpertSimulationSnapshot[];
   notes?: string;
+}
+
+export interface ExpertGeneratedReport {
+  id: string;
+  dossierId: string;
+  simulationId?: string;
+  userId: string;
+  reportType: string;
+  fileName: string;
+  storagePath: string;
+  generatedAt: string;
 }
 
 /* ── Vérification cabinet Expert-Comptable ── */
