@@ -125,6 +125,18 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
         {s.nonRecoverableVatAmount !== undefined && s.nonRecoverableVatAmount > 0 && (
           <Kpi label="TVA non récupérable" value={fmtEuro(s.nonRecoverableVatAmount)} color="orange" />
         )}
+        {s.indicativeIrr !== undefined && s.indicativeIrr !== null && (
+          <Kpi label="TRI indicatif" value={fmtPercent(s.indicativeIrr)} color="violet" />
+        )}
+        {s.indicativeIrr !== undefined && s.indicativeIrr === null && (
+          <Kpi label="TRI indicatif" value="—" color="violet" />
+        )}
+        {s.alternativeAnnualNetYield !== undefined && s.alternativeAnnualNetYield > 0 && (
+          <Kpi label="Altern. rendement net" value={fmtPercent(s.alternativeAnnualNetYield)} color="emerald" />
+        )}
+        {s.alternativeComparisonSpread !== undefined && (
+          <Kpi label="Écart vs alternative" value={fmtEuro(s.alternativeComparisonSpread)} color={s.alternativeComparisonSpread >= 0 ? 'emerald' : 'orange'} />
+        )}
       </div>
 
       {/* Comparatif avant / après */}

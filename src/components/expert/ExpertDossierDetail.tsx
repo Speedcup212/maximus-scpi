@@ -480,53 +480,86 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
               <p className="text-sm text-slate-500">Aucun rapport PDF généré pour ce dossier.</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
-                <thead>
-                  <tr className="border-b border-slate-800 bg-slate-950/50">
-                    <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Fichier</th>
-                    <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Type</th>
-                    <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Date génération</th>
-                    <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/50">
-                  {reports.map((r, idx) => (
-                    <tr key={r.id} className={idx % 2 === 0 ? 'bg-slate-900/30' : ''}>
-                      <td className="py-2.5 px-3 text-slate-300">{r.fileName}</td>
-                      <td className="py-2.5 px-3">
-                        <span className="text-xs text-violet-400 font-medium">Rapport Holding IS</span>
-                      </td>
-                      <td className="py-2.5 px-3 text-slate-400">{fmtDate(r.generatedAt)}</td>
-                      <td className="py-2.5 px-3 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button onClick={() => handleDownloadReport(r)}
-                            className="text-xs text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1">
-                            <Download className="w-3 h-3" /> Télécharger
-                          </button>
-                          {r.simulationId && (
-                            <button onClick={() => handleGeneratePdf(r.simulationId!)}
-                              disabled={regeneratingSimId === r.simulationId}
-                              className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1 disabled:opacity-50">
-                              {regeneratingSimId === r.simulationId ? (
-                                <Loader2 className="w-3 h-3 animate-spin" />
-                              ) : (
-                                <RefreshCw className="w-3 h-3" />
-                              )}
-                              Regénérer
-                            </button>
-                          )}
-                          <button onClick={() => handleDeleteReport(r.id)}
-                            className="text-xs text-red-400 hover:text-red-300 transition-colors">
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                      </td>
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-800 bg-slate-950/50">
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Version</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Fichier</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Statut</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold">Date génération</th>
+                      <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/50">
+                    {reports.map((r, idx) => (
+                      <tr key={r.id} className={idx % 2 === 0 ? 'bg-slate-900/30' : ''}>
+                        <td className="py-2.5 px-3">
+                          <span className="text-xs font-mono text-violet-400 font-semibold">v{r.versionNumber || 1}</span>
+                        </td>
+                        <td className="py-2.5 px-3 text-slate-300">{r.fileName}</td>
+                        <td className="py-2.5 px-3">
+                          <span className={`text-[10px] px-2 py-0.5 rounded ${
+                            r.reportStatus === 'archived' ? 'bg-amber-950/30 text-amber-400' :
+                            r.reportStatus === 'deleted' ? 'bg-red-950/30 text-red-400' :
+                            'bg-emerald-950/30 text-emerald-400'
+                          }`}>
+                            {r.reportStatus === 'archived' ? 'Archivé' : r.reportStatus === 'deleted' ? 'Supprimé' : 'Actif'}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 text-slate-400">{fmtDate(r.generatedAt)}</td>
+                        <td className="py-2.5 px-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button onClick={() => handleDownloadReport(r)}
+                              className="text-xs text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1">
+                              <Download className="w-3 h-3" /> Télécharger
+                            </button>
+                            {r.simulationId && (
+                              <button onClick={() => handleGeneratePdf(r.simulationId!)}
+                                disabled={regeneratingSimId === r.simulationId}
+                                className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1 disabled:opacity-50">
+                                {regeneratingSimId === r.simulationId ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : (
+                                  <RefreshCw className="w-3 h-3" />
+                                )}
+                                Regénérer
+                              </button>
+                            )}
+                            <button onClick={() => handleDeleteReport(r.id)}
+                              className="text-xs text-red-400 hover:text-red-300 transition-colors">
+                              <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {reports.length > 1 && (
+                <div className="px-4 py-3 border-t border-slate-800 flex justify-end">
+                  <button
+                    onClick={async () => {
+                      try {
+                        const { exportReportsCsv } = await import('../../utils/expertDossiersSupabase');
+                        const blob = await exportReportsCsv(reports);
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `historique-pdf-${dossier.clientName.replace(/[^a-zA-Z0-9]/g, '-')}.csv`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                      } catch { /* ignore */ }
+                    }}
+                    className="text-xs text-slate-400 hover:text-slate-200 transition-colors inline-flex items-center gap-1"
+                  >
+                    <Download className="w-3 h-3" /> Exporter historique CSV
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

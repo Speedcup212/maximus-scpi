@@ -28,6 +28,13 @@ export interface ExpertHoldingSimulationInputs {
   vatRate: number;
   vatRecoverable: boolean;
   missionFeesAccountingTreatment: string;
+  // ── TVA holding ──
+  holdingVatProfile?: string;
+  vatRecoveryRate?: number;
+  // ── Comparaison alternative ──
+  alternativeType?: string;
+  alternativeGrossRate?: number;
+  alternativeRateMode?: string;
 }
 
 export interface ExpertHoldingSimulationResults {
@@ -44,7 +51,7 @@ export interface ExpertHoldingSimulationResults {
   averageAnnualNetReturn: number;
   residualCash: number;
   initialEffort: number;
-  // ── Nouveaux champs (rétrocompatibles via [key: string]: unknown) ──
+  // ── Champs rétrocompatibles ──
   gainNetAfterUsufructExtinction?: number;
   netEconomicReturnAfterExtinction?: number;
   annualizedSimpleReturnAfterExtinction?: number;
@@ -52,6 +59,27 @@ export interface ExpertHoldingSimulationResults {
   economicInitialEffort?: number;
   recoverableVatAmount?: number;
   nonRecoverableVatAmount?: number;
+  // ── Nouveaux champs économiques ──
+  economicGainAfterExtinction?: number;
+  economicCumulativeNetCashFlow?: number;
+  yearOneLaunchNetCashFlow?: number;
+  // ── TRI ──
+  indicativeIrr?: number | null;
+  irrCashFlows?: number[];
+  // ── Comparaison alternative ──
+  alternativeAnnualNetYield?: number;
+  alternativeCumulativeNetIncome?: number;
+  alternativeEndingCapital?: number;
+  alternativeTotalValue?: number;
+  alternativeComparisonSpread?: number;
+  // ── Contrôles cabinet ──
+  cabinetChecks?: Array<{
+    id: string;
+    level: 'info' | 'warning' | 'critical';
+    title: string;
+    message: string;
+    category: string;
+  }>;
   [key: string]: unknown;
 }
 
@@ -73,6 +101,12 @@ export interface ExpertSimulationSummary {
   cashFlowAverageReturn?: number;
   recoverableVatAmount?: number;
   nonRecoverableVatAmount?: number;
+  // ── TRI et comparaison ──
+  indicativeIrr?: number | null;
+  alternativeAnnualNetYield?: number;
+  alternativeComparisonSpread?: number;
+  economicGainAfterExtinction?: number;
+  yearOneLaunchNetCashFlow?: number;
 }
 
 export interface ExpertClientDossier {
@@ -97,6 +131,12 @@ export interface ExpertGeneratedReport {
   fileName: string;
   storagePath: string;
   generatedAt: string;
+  // ── Versioning ──
+  versionNumber?: number;
+  reportStatus?: string;
+  fileSizeBytes?: number;
+  notes?: string;
+  deletedAt?: string;
 }
 
 /* ── Vérification cabinet Expert-Comptable ── */

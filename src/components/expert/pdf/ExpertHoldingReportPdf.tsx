@@ -685,6 +685,20 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.syntheseText}>
             Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)} sur {inputs.usufruitDuration} ans (flux net moyen / effort initial).
           </Text>
+          <Text style={styles.syntheseText}>
+            Flux opérationnel cumulé : {fmtEuro(result.economicCumulativeNetCashFlow)} (frais de mission en année 0).
+          </Text>
+          <Text style={styles.syntheseText}>
+            Gain économique après extinction : {fmtEuro(result.gainNetAfterUsufructExtinction)}.
+          </Text>
+          {result.indicativeIrr !== null && (
+            <Text style={styles.syntheseText}>
+              TRI indicatif après extinction : {fmtPercent(result.indicativeIrr)} (flux nets annuels, sans valeur résiduelle).
+            </Text>
+          )}
+          <Text style={{ ...styles.syntheseText, fontStyle: 'italic', color: '#64748b', marginTop: 2 }}>
+            Le TRI est indicatif. Il dépend des hypothèses de flux et ne constitue pas une recommandation d'investissement.
+          </Text>
           {inputs.feesEnabled && (
             <Text style={styles.syntheseText}>
               Les frais de mission sont supposés payés au démarrage et intégrés dans l'effort initial. Ils sont isolés en année 1 pour mesurer le flux net complet de lancement de l'opération.
@@ -750,6 +764,22 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
               {fmtPercent(result.annualizedSimpleReturnAfterExtinction)}
             </Text>
             <Text style={styles.kpiSublabel}>/ an</Text>
+          </View>
+        </View>
+
+        {/* ── TRI indicatif ── */}
+        <View style={styles.kpiRow}>
+          <View style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>TRI indicatif après extinction</Text>
+            <Text style={result.indicativeIrr !== null && result.indicativeIrr >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
+              {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : '—'}
+            </Text>
+            <Text style={styles.kpiSublabel}>Flux nets annuels, sans valeur résiduelle</Text>
+          </View>
+          <View style={styles.kpiCardLast}>
+            <Text style={styles.kpiLabel}>Flux opérationnel cumulé</Text>
+            <Text style={styles.kpiValueGreen}>{fmtEuro(result.economicCumulativeNetCashFlow)}</Text>
+            <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
           </View>
         </View>
 
@@ -986,6 +1016,11 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.opinionItem}>
             Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)}.
           </Text>
+          {result.indicativeIrr !== null && (
+            <Text style={styles.opinionItem}>
+              TRI indicatif après extinction : {fmtPercent(result.indicativeIrr)}.
+            </Text>
+          )}
           <Text style={styles.opinionItem}>
             Rendement simple après extinction : {fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an.
           </Text>
@@ -993,9 +1028,41 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.
           </Text>
           <Text style={{ ...styles.opinionItem, color: '#64748b', fontStyle: 'italic' }}>
-            Ce rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.
+            Ce rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance. Le TRI est indicatif et dépend des hypothèses de flux — il ne constitue pas une recommandation d'investissement.
           </Text>
         </View>
+
+        {/* ── Comparaison trésorerie alternative ── */}
+        {inputs.alternativeType && (
+          <View style={{ ...styles.opinionBox, marginTop: 8, backgroundColor: '#ecfdf5', borderLeftColor: '#059669' }}>
+            <Text style={{ ...styles.opinionTitle, color: '#059669' }}>Comparaison trésorerie alternative</Text>
+            <Text style={styles.opinionItem}>
+              {inputs.alternativeType === 'compte_terme' ? 'Compte à terme'
+                : inputs.alternativeType === 'fonds_monetaire' ? 'Fonds monétaire'
+                : 'Taux personnalisé'} — taux annuel {inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'} : {inputs.alternativeGrossRate} %.
+            </Text>
+            <Text style={styles.opinionItem}>
+              Rendement net estimé : {fmtPercent(result.alternativeAnnualNetYield)} / an.
+            </Text>
+            <Text style={styles.opinionItem}>
+              Gain net cumulé sur {inputs.usufruitDuration} ans : {fmtEuro(result.alternativeCumulativeNetIncome)}.
+            </Text>
+            <Text style={styles.opinionItem}>
+              Capital final conservé : {fmtEuro(result.alternativeEndingCapital)}.
+            </Text>
+            <Text style={styles.opinionItem}>
+              Valeur totale après {inputs.usufruitDuration} ans : {fmtEuro(result.alternativeTotalValue)}.
+            </Text>
+            <Text style={{ ...styles.opinionItem, fontWeight: 'bold', marginTop: 2 }}>
+              Écart avec l'usufruit : {result.alternativeComparisonSpread >= 0
+                ? `+${fmtEuro(result.alternativeComparisonSpread)} en faveur de l'usufruit`
+                : `${fmtEuro(Math.abs(result.alternativeComparisonSpread))} en faveur de l'alternative`}.
+            </Text>
+            <Text style={{ ...styles.opinionItem, color: '#64748b', fontStyle: 'italic', marginTop: 2 }}>
+              L'alternative conserve le capital. L'usufruit s'éteint sans valeur résiduelle. La comparaison porte sur les flux nets et le capital final. Les hypothèses de taux sont saisies par le cabinet.
+            </Text>
+          </View>
+        )}
 
         {/* Points de vigilance */}
         <View style={styles.vigilanceBox}>
@@ -1021,6 +1088,24 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           )}
           <Text style={styles.vigilanceItem}>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</Text>
         </View>
+
+        {/* ── Contrôles cabinet ── */}
+        {result.cabinetChecks && result.cabinetChecks.length > 0 && (
+          <View style={{ ...styles.infoBox, marginTop: 6, backgroundColor: '#fef3c7', borderLeftColor: '#d97706' }}>
+            <Text style={{ ...styles.infoTitle, color: '#92400e' }}>Contrôles cabinet</Text>
+            {result.cabinetChecks
+              .filter(c => c.level === 'critical' || c.level === 'warning')
+              .slice(0, 6)
+              .map((c, i) => (
+                <Text key={i} style={{ ...styles.infoItem, color: c.level === 'critical' ? '#c2410c' : '#92400e', marginBottom: 1 }}>
+                  • [{c.level === 'critical' ? 'CRITIQUE' : 'ATTENTION'}] {c.message}
+                </Text>
+              ))}
+            {result.cabinetChecks.filter(c => c.level === 'critical' || c.level === 'warning').length === 0 && (
+              <Text style={styles.infoItem}>Aucun point bloquant détecté selon les hypothèses renseignées.</Text>
+            )}
+          </View>
+        )}
 
         <View style={styles.disclaimer}>
           <Text style={styles.disclaimerText}>
@@ -1093,6 +1178,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         <View style={styles.infoBox}>
           <Text style={styles.infoItem}>• Usufruit temporaire amorti linéairement sur la durée retenue.</Text>
           <Text style={styles.infoItem}>• Aucune valeur résiduelle retenue à l'échéance de l'usufruit.</Text>
+          <Text style={styles.infoItem}>• Le montant investi en usufruit est réputé correspondre au prix d'acquisition total de l'usufruit selon la clé de démembrement. Les frais de souscription SCPI sont réputés intégrés dans ce prix, sauf modalité spécifique de la société de gestion.</Text>
           <Text style={styles.infoItem}>• Revenus SCPI supposés constants sur la durée, sauf revalorisation renseignée ({inputs.revalorizationRate} %).</Text>
           <Text style={styles.infoItem}>• Simulation hors frais spécifiques, hors délais de jouissance et hors fiscalité étrangère.</Text>
           <Text style={styles.infoItem}>• Taux d'IS : taux réduit PME (15 % / 25 %) ou taux normal (25 %) selon éligibilité déclarée ({inputs.reducedRateEligible ? 'éligible' : 'non éligible'}).</Text>
@@ -1109,6 +1195,9 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
               <Text style={styles.infoItem}>• Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.</Text>
               <Text style={styles.infoItem}>• Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.</Text>
               <Text style={styles.infoItem}>• Le traitement des frais de mission dépend de leur nature, justification et comptabilisation.</Text>
+              {inputs.alternativeType && (
+                <Text style={styles.infoItem}>• Comparaison alternative : {inputs.alternativeType === 'compte_terme' ? 'compte à terme' : inputs.alternativeType === 'fonds_monetaire' ? 'fonds monétaire' : 'taux personnalisé'} à {inputs.alternativeGrossRate} % ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'}). L'alternative conserve le capital ; l'usufruit s'éteint sans valeur résiduelle.</Text>
+              )}
             </>
           )}
         </View>

@@ -85,6 +85,11 @@ function buildSummary(inputs: HoldingISInputs, results: HoldingISResult): Expert
     cashFlowAverageReturn: results.cashFlowAverageReturn,
     recoverableVatAmount: results.recoverableVatAmount,
     nonRecoverableVatAmount: results.nonRecoverableVatAmount,
+    indicativeIrr: results.indicativeIrr,
+    alternativeAnnualNetYield: results.alternativeAnnualNetYield,
+    alternativeComparisonSpread: results.alternativeComparisonSpread,
+    economicGainAfterExtinction: results.economicGainAfterExtinction,
+    yearOneLaunchNetCashFlow: results.yearOneLaunchNetCashFlow,
   };
 }
 
@@ -438,7 +443,23 @@ export async function uploadExpertReport(
   fileName: string,
 ): Promise<string> {
   const user = await requireUser();
-  const storagePath = `${user.id}/${dossierId}/${simulationId}/${fileName}`;
+
+  // Calculer le prochain numéro de version pour cette simulation
+  const { data: existingReports, error: countErr } = await supabase!
+    .from('expert_generated_reports')
+    .select('version_number')
+    .eq('simulation_id', simulationId)
+    .eq('user_id', user.id)
+    .is('deleted_at', null)
+    .order('version_number', { ascending: false })
+    .limit(1);
+
+  let nextVersion = 1;
+  if (!countErr && existingReports && existingReports.length > 0) {
+    nextVersion = (existingReports[0].version_number || 0) + 1;
+  }
+
+  const storagePath = `${user.id}/${dossierId}/${simulationId}/v${nextVersion}/${fileName}`;
 
   const { error: uploadErr } = await supabase!.storage
     .from('expert-reports')
@@ -452,7 +473,6 @@ export async function uploadExpertReport(
     throw new Error('Upload Supabase impossible.');
   }
 
-  // Insert nouvelle ligne (permet plusieurs versions datées)
   const now = new Date().toISOString();
   const { error: insertErr } = await supabase!
     .from('expert_generated_reports')
@@ -463,6 +483,9 @@ export async function uploadExpertReport(
       report_type: 'holding_is',
       file_name: fileName,
       storage_path: storagePath,
+      version_number: nextVersion,
+      report_status: 'active',
+      file_size_bytes: pdfBlob.size,
       generated_at: now,
     });
 
@@ -495,47 +518,60 @@ export async function getExpertReportsByDossier(
     .select('*')
     .eq('dossier_id', dossierId)
     .eq('user_id', user.id)
+    .is('deleted_at', null)
     .order('generated_at', { ascending: false });
 
   if (error) throw error;
-  return (data || []).map((r: ExpertReportRow) => ({
-    id: r.id,
-    dossierId: r.dossier_id,
-    simulationId: r.simulation_id,
-    userId: r.user_id,
-    reportType: r.report_type,
-    fileName: r.file_name,
-    storagePath: r.storage_path,
-    generatedAt: r.generated_at,
-  }));
+  return (data || []).map((r: ExpertReportRow) => mapReportRow(r));
 }
 
 export async function deleteExpertReport(reportId: string): Promise<void> {
   const user = await requireUser();
 
-  const { data: report, error: fetchErr } = await supabase!
+  // Soft delete: set deleted_at
+  const { error: updateErr } = await supabase!
     .from('expert_generated_reports')
-    .select('storage_path')
+    .update({ deleted_at: new Date().toISOString(), report_status: 'deleted' })
     .eq('id', reportId)
-    .eq('user_id', user.id)
-    .maybeSingle();
+    .eq('user_id', user.id);
 
-  if (fetchErr || !report) throw new Error('Rapport introuvable.');
+  if (updateErr) throw updateErr;
+}
 
-  const row = report as ExpertReportRow;
+export async function archiveExpertReport(reportId: string): Promise<void> {
+  const user = await requireUser();
 
-  // Delete from storage
-  await supabase!.storage
-    .from('expert-reports')
-    .remove([row.storage_path]);
-
-  // Delete from DB
-  const { error: delErr } = await supabase!
+  const { error } = await supabase!
     .from('expert_generated_reports')
-    .delete()
-    .eq('id', reportId);
+    .update({ report_status: 'archived' })
+    .eq('id', reportId)
+    .eq('user_id', user.id);
 
-  if (delErr) throw delErr;
+  if (error) throw error;
+}
+
+export async function unarchiveExpertReport(reportId: string): Promise<void> {
+  const user = await requireUser();
+
+  const { error } = await supabase!
+    .from('expert_generated_reports')
+    .update({ report_status: 'active' })
+    .eq('id', reportId)
+    .eq('user_id', user.id);
+
+  if (error) throw error;
+}
+
+export async function exportReportsCsv(reports: ExpertGeneratedReport[]): Promise<Blob> {
+  const header = 'version;date;fichier;simulation;statut;storage_path\n';
+  const rows = reports.map(r => {
+    const version = r.versionNumber ? `v${r.versionNumber}` : 'v1';
+    const date = new Date(r.generatedAt).toLocaleDateString('fr-FR');
+    const simLabel = r.simulationId || '-';
+    const status = r.reportStatus || 'active';
+    return `${version};${date};${r.fileName};${simLabel};${status};${r.storagePath}`;
+  }).join('\n');
+  return new Blob([header + rows], { type: 'text/csv;charset=utf-8' });
 }
 
 interface ExpertReportRow {
@@ -547,4 +583,27 @@ interface ExpertReportRow {
   file_name: string;
   storage_path: string;
   generated_at: string;
+  version_number?: number;
+  report_status?: string;
+  file_size_bytes?: number;
+  notes?: string;
+  deleted_at?: string;
+}
+
+function mapReportRow(r: ExpertReportRow): ExpertGeneratedReport {
+  return {
+    id: r.id,
+    dossierId: r.dossier_id,
+    simulationId: r.simulation_id,
+    userId: r.user_id,
+    reportType: r.report_type,
+    fileName: r.file_name,
+    storagePath: r.storage_path,
+    generatedAt: r.generated_at,
+    versionNumber: r.version_number,
+    reportStatus: r.report_status,
+    fileSizeBytes: r.file_size_bytes,
+    notes: r.notes,
+    deletedAt: r.deleted_at,
+  };
 }

@@ -65,6 +65,9 @@ const DEFAULT_INPUTS: HoldingISInputs = {
   feesVatRecoverable: true,
   holdingVatProfile: 'to-qualify',
   vatRecoveryRate: 100,
+  alternativeType: undefined,
+  alternativeGrossRate: undefined,
+  alternativeRateMode: 'brut',
 };
 
 type TabId = 'synthese' | 'analyse' | 'projections';
@@ -769,6 +772,59 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                 </>
               )}
             </div>
+
+            {/* ── Comparaison trésorerie alternative ── */}
+            <div className="border-t border-slate-800 pt-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Landmark className="w-4 h-4 text-emerald-400" />
+                <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">Comparaison alternative</span>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[10px] text-slate-500 mb-1">Type d'alternative</label>
+                  <select
+                    value={inputs.alternativeType || 'none'}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      updateInput('alternativeType', v === 'none' ? undefined : v as 'compte_terme' | 'fonds_monetaire' | 'personnalise');
+                    }}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                  >
+                    <option value="none">Aucune</option>
+                    <option value="compte_terme">Compte à terme</option>
+                    <option value="fonds_monetaire">Fonds monétaire</option>
+                    <option value="personnalise">Taux personnalisé</option>
+                  </select>
+                </div>
+                {inputs.alternativeType && (
+                  <>
+                    <div>
+                      <label className="block text-[10px] text-slate-500 mb-1">Taux annuel brut estimé (%)</label>
+                      <input type="number" step="0.1" min="0" max="20"
+                        value={inputs.alternativeGrossRate || 0}
+                        onChange={(e) => updateInput('alternativeGrossRate', parseFloat(e.target.value) || 0)}
+                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-slate-500 mb-1">Mode de taux</label>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => updateInput('alternativeRateMode', 'brut')}
+                          className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'brut' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
+                          Brut avant IS
+                        </button>
+                        <button
+                          onClick={() => updateInput('alternativeRateMode', 'net')}
+                          className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'net' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
+                          Net d'IS
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -788,29 +844,45 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               sublabel={`Sur ${inputs.usufruitDuration} ans`} />
             <KpiCard icon={<AlertTriangle className="w-4 h-4" />} label="Impact IS année 1" value={fmtEuro(result.annualISImpact)} color="orange"
               sublabel={result.annualISImpact === 0 ? 'Neutre' : undefined} />
+            <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="TRI indicatif" value={result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : '—'} color="violet"
+              sublabel="Flux nets annuels, sans valeur résiduelle" />
           </div>
 
-          {/* ── Warnings métier ── */}
-          {warnings.length > 0 && (
+          {/* ── Contrôles cabinet ── */}
+          {result.cabinetChecks && result.cabinetChecks.length > 0 && (
             <div className={`rounded-lg border p-4 space-y-2
-              ${warnings.some(w => w.severity === 'critical') ? 'bg-red-950/20 border-red-900/30' :
-                warnings.some(w => w.severity === 'warning') ? 'bg-orange-950/20 border-orange-900/30' :
+              ${result.cabinetChecks.some(c => c.level === 'critical') ? 'bg-red-950/20 border-red-900/30' :
+                result.cabinetChecks.some(c => c.level === 'warning') ? 'bg-orange-950/20 border-orange-900/30' :
                 'bg-blue-950/20 border-blue-900/30'}`}
             >
-              {warnings.map((w) => (
-                <div key={w.id} className="flex items-start gap-2">
+              <div className="flex items-center gap-2 mb-1">
+                <Shield className="w-4 h-4 text-slate-400" />
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Contrôles cabinet</span>
+              </div>
+              {result.cabinetChecks.map((c) => (
+                <div key={c.id} className="flex items-start gap-2">
                   <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
-                    w.severity === 'critical' ? 'text-red-400' :
-                    w.severity === 'warning' ? 'text-orange-400' : 'text-blue-400'
+                    c.level === 'critical' ? 'text-red-400' :
+                    c.level === 'warning' ? 'text-orange-400' : 'text-blue-400'
                   }`} />
-                  <span className={`text-xs leading-relaxed ${
-                    w.severity === 'critical' ? 'text-red-200/80' :
-                    w.severity === 'warning' ? 'text-orange-200/80' : 'text-blue-200/80'
-                  }`}>
-                    {w.message}
-                  </span>
+                  <div className="flex-1 min-w-0">
+                    <span className={`text-xs font-medium ${
+                      c.level === 'critical' ? 'text-red-300' :
+                      c.level === 'warning' ? 'text-orange-300' : 'text-blue-300'
+                    }`}>{c.title}</span>
+                    <span className={`text-xs leading-relaxed block ${
+                      c.level === 'critical' ? 'text-red-200/80' :
+                      c.level === 'warning' ? 'text-orange-200/80' : 'text-blue-200/80'
+                    }`}>{c.message}</span>
+                  </div>
                 </div>
               ))}
+            </div>
+          )}
+          {(!result.cabinetChecks || result.cabinetChecks.length === 0) && (
+            <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-lg p-3 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs text-emerald-200/80">Aucun point bloquant détecté selon les hypothèses renseignées.</span>
             </div>
           )}
 
@@ -978,6 +1050,61 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       <li>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</li>
                     </ul>
                   </div>
+
+                  {/* Comparaison trésorerie alternative */}
+                  {inputs.alternativeType && (
+                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Landmark className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Comparaison trésorerie alternative</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                          <span className="text-slate-500">Type d'alternative</span>
+                          <p className="text-white font-semibold mt-0.5">
+                            {inputs.alternativeType === 'compte_terme' ? 'Compte à terme'
+                              : inputs.alternativeType === 'fonds_monetaire' ? 'Fonds monétaire'
+                              : 'Taux personnalisé'}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Taux annuel ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'})</span>
+                          <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate} %</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Rendement net annuel estimé</span>
+                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtPercent(result.alternativeAnnualNetYield)}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Gain net cumulé</span>
+                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeCumulativeNetIncome)}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Capital final conservé</span>
+                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeEndingCapital)}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Valeur totale après {inputs.usufruitDuration} ans</span>
+                          <p className="text-white font-semibold mt-0.5">{fmtEuro(result.alternativeTotalValue)}</p>
+                        </div>
+                      </div>
+                      <div className="mt-4 p-3 bg-emerald-950/30 border border-emerald-900/20 rounded-lg">
+                        <p className="text-[11px] text-emerald-300/70 leading-relaxed">
+                          <strong>Écart avec l'opération usufruit :</strong>{' '}
+                          {result.alternativeComparisonSpread >= 0
+                            ? <span className="text-emerald-400">+{fmtEuro(result.alternativeComparisonSpread)} en faveur de l'usufruit</span>
+                            : <span className="text-orange-400">{fmtEuro(Math.abs(result.alternativeComparisonSpread))} en faveur de l'alternative</span>
+                          }.
+                        </p>
+                        <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                          L'alternative conserve le capital. L'usufruit s'éteint sans valeur résiduelle.
+                          La comparaison porte sur les flux nets et le capital final.
+                          {inputs.alternativeType === 'fonds_monetaire' && ' Fonds monétaire : valeur liquidative fluctuante, rendement non garanti.'}
+                          {inputs.alternativeType === 'compte_terme' && ' Compte à terme : capital généralement conservé hors défaut bancaire et conditions contractuelles.'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Boutons d'action */}
                   <div className="flex flex-wrap gap-3">
