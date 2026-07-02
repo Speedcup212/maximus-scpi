@@ -99,6 +99,7 @@ function mapDossierRow(row: ExpertDossierRow, simulations: ExpertSimulationSnaps
     id: row.id,
     clientName: row.client_name,
     companyType: row.company_type,
+    siret: row.siret || undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     simulations,

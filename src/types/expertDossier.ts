@@ -66,6 +66,7 @@ export interface ExpertClientDossier {
   id: string;
   clientName: string;
   companyType: string;
+  siret?: string;
   createdAt: string;
   updatedAt: string;
   simulations: ExpertSimulationSnapshot[];

@@ -1,12 +1,13 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import {
   Calculator, TrendingUp, Building2, Euro, Percent,
   BarChart3, Shield, AlertTriangle, ChevronDown,
   Landmark, FileText, Info, ArrowRight, Table2, Receipt, Wallet,
-  FileDown, Save, Clock, CheckCircle2,
+  FileDown, Save, Clock, CheckCircle2, Search, Loader2,
 } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import { findOrCreateDossier, saveExpertHoldingSimulation } from '../../utils/expertDossiersSupabase';
+import { getExpertDossiers, findOrCreateDossier, saveExpertHoldingSimulation } from '../../utils/expertDossiersSupabase';
+import type { ExpertClientDossier } from '../../types/expertDossier';
 import {
   HoldingISInputs, HoldingISResult,
   FeesMode, FeesTreatment, FeesVatMode,
@@ -68,6 +69,9 @@ const fmtPercent = (v: number) =>
 const fmtNumber = (v: number) =>
   new Intl.NumberFormat('fr-FR').format(v);
 
+/** Normalise un nom pour comparaison anti-doublon */
+const normalizeName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
+
 /* ── Composant ── */
 
 interface ExpertHoldingSimulatorProps {
@@ -82,6 +86,41 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
 
+  /* ── Dossiers Supabase ── */
+  const [dossierList, setDossierList] = useState<ExpertClientDossier[]>([]);
+  const [selectedDossierId, setSelectedDossierId] = useState<string | null>(null);
+  const [selectedDossierSiret, setSelectedDossierSiret] = useState<string | null>(null);
+  const [dossierSearch, setDossierSearch] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [dossiersLoading, setDossiersLoading] = useState(true);
+  const [dossiersError, setDossiersError] = useState('');
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const dossierContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Charger les dossiers au montage
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setDossiersLoading(true);
+      try {
+        const data = await getExpertDossiers();
+        if (!cancelled) {
+          setDossierList(data);
+          setDossiersError('');
+        }
+      } catch (err: unknown) {
+        if (!cancelled) {
+          setDossiersError(err instanceof Error ? err.message : 'Impossible de charger les dossiers clients.');
+        }
+      } finally {
+        if (!cancelled) setDossiersLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, []);
+
   // Reprise de simulation depuis sessionStorage
   useEffect(() => {
     try {
@@ -89,11 +128,55 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       if (raw) {
         const savedInputs = JSON.parse(raw) as HoldingISInputs;
         setInputs(savedInputs);
+        // Tenter de retrouver le dossier correspondant
+        if (savedInputs.dossierName) {
+          setDossierSearch(savedInputs.dossierName);
+        }
         sessionStorage.removeItem('maximus_expert_resume_simulation');
       }
     } catch { /* ignore */ }
   }, []);
 
+  // Quand dossierList est chargé, tenter de matcher si un nom est déjà saisi (reprise)
+  useEffect(() => {
+    if (dossierList.length > 0 && inputs.dossierName && !selectedDossierId) {
+      const norm = normalizeName(inputs.dossierName);
+      const match = dossierList.find((d) => normalizeName(d.clientName) === norm);
+      if (match) {
+        setSelectedDossierId(match.id);
+        setDossierSearch(match.clientName);
+      } else {
+        setDossierSearch(inputs.dossierName || '');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dossierList]);
+
+  // Clic extérieur → fermer dropdown
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dossierContainerRef.current && !dossierContainerRef.current.contains(e.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  /* ── Filtrage dossiers pour autocomplete ── */
+  const filteredDossiers = useMemo(() => {
+    if (!dossierSearch.trim()) return dossierList.slice(0, 8);
+    const q = normalizeName(dossierSearch);
+    return dossierList
+      .filter((d) =>
+        normalizeName(d.clientName).includes(q) ||
+        (d.siret && d.siret.includes(dossierSearch.trim())) ||
+        normalizeName(d.companyType).includes(q)
+      )
+      .slice(0, 8);
+  }, [dossierList, dossierSearch]);
+
+  /* ── Calculs ── */
   const result: HoldingISResult = useMemo(() => calculateHoldingISProjection(inputs), [inputs]);
   const isSansOperation = useMemo(() => calculateCorporateTax(inputs.preTaxProfit, {
     reducedRateEligible: inputs.reducedRateEligible,
@@ -104,52 +187,42 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     const w: { id: string; message: string; severity: 'critical' | 'warning' | 'info' }[] = [];
     const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
 
-    // 1. Effort > trésorerie
     if (result.effortEconomique > inputs.availableCash) {
       w.push({ id: 'effort-exceeds-tresorerie', message: 'L\'effort de trésorerie dépasse la trésorerie disponible.', severity: 'critical' });
     }
 
-    // 2. Trésorerie résiduelle < 0
     if (tresorerieResiduelle < 0) {
       w.push({ id: 'tresorerie-negative', message: `Trésorerie résiduelle négative : ${fmtEuro(tresorerieResiduelle)}.`, severity: 'critical' });
     }
 
-    // 3. Clé usufruit invalide
     if (inputs.usufruitKeyPercent <= 0 || inputs.usufruitKeyPercent > 100) {
       w.push({ id: 'key-invalid', message: 'Clé usufruit invalide (doit être entre 1 % et 100 %).', severity: 'critical' });
     }
 
-    // 4. Durée <= 0
     if (inputs.usufruitDuration <= 0) {
       w.push({ id: 'duration-invalid', message: 'La durée d\'usufruit doit être supérieure à 0.', severity: 'critical' });
     }
 
-    // 5. Taux distribution <= 0
     if (inputs.grossYieldRate <= 0) {
       w.push({ id: 'no-yield', message: 'Aucun revenu projeté : l\'opération repose uniquement sur l\'effet fiscal.', severity: 'warning' });
     }
 
-    // 6. Cash-flow net année 1 < 0
     if (result.annualNetCashFlowAfterFees < 0) {
       w.push({ id: 'cashflow-negative', message: 'Cash-flow net négatif en année 1.', severity: 'warning' });
     }
 
-    // 7. Rendement net moyen < 0
     if (result.netCompanyYieldAvgAnnual < 0) {
       w.push({ id: 'yield-negative', message: 'Rendement net moyen négatif sur la durée.', severity: 'warning' });
     }
 
-    // 8. Honoraires > 10 % du montant investi
     if (inputs.feesEnabled && result.effortEconomique > 0 && (result.feesHT / inputs.usufruitInvestment) > 0.10) {
       w.push({ id: 'fees-high', message: 'Honoraires élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
     }
 
-    // 9. TVA non récupérable
     if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.feesVAT > 0) {
       w.push({ id: 'vat-not-recoverable', message: 'TVA non récupérable : l\'effort de trésorerie intègre le TTC.', severity: 'info' });
     }
 
-    // 10. Honoraires non déductibles
     if (inputs.feesEnabled && inputs.feesTreatment === 'non-deductible') {
       w.push({ id: 'fees-non-deductible', message: 'Les honoraires n\'impactent pas le résultat fiscal dans cette simulation (traitement non déductible).', severity: 'info' });
     }
@@ -161,24 +234,106 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     setInputs((prev) => ({ ...prev, [key]: value }));
   };
 
+  /* ── Sélection dossier ── */
+  const handleSelectDossier = useCallback((dossier: ExpertClientDossier) => {
+    setSelectedDossierId(dossier.id);
+    setSelectedDossierSiret(dossier.siret || null);
+    setDossierSearch(dossier.clientName);
+    setShowDropdown(false);
+    setHighlightedIndex(-1);
+    updateInput('dossierName', dossier.clientName);
+    updateInput('companyType', dossier.companyType as HoldingISInputs['companyType']);
+  }, [updateInput]);
+
+  const handleDossierSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setDossierSearch(val);
+    setShowDropdown(true);
+    setHighlightedIndex(-1);
+
+    if (selectedDossierId) {
+      // L'utilisateur a modifié manuellement → désélectionner
+      const norm = normalizeName(val);
+      const match = dossierList.find((d) => d.id === selectedDossierId && normalizeName(d.clientName) === norm);
+      if (!match) {
+        setSelectedDossierId(null);
+        setSelectedDossierSiret(null);
+      }
+    }
+
+    updateInput('dossierName', val || undefined);
+  }, [selectedDossierId, dossierList, updateInput]);
+
+  const handleDossierKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showDropdown) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      setShowDropdown(false);
+      setHighlightedIndex(-1);
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => {
+        const max = filteredDossiers.length - 1;
+        return prev >= max ? 0 : prev + 1;
+      });
+      return;
+    }
+
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => {
+        const max = filteredDossiers.length - 1;
+        return prev <= 0 ? max : prev - 1;
+      });
+      return;
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (filteredDossiers.length > 0) {
+        const idx = highlightedIndex >= 0 ? highlightedIndex : 0;
+        handleSelectDossier(filteredDossiers[idx]);
+      }
+      return;
+    }
+  }, [showDropdown, filteredDossiers, highlightedIndex, handleSelectDossier]);
+
+  const handleDossierSearchFocus = useCallback(() => {
+    setShowDropdown(true);
+    setHighlightedIndex(-1);
+  }, []);
+
+  /* ── Enregistrement ── */
   const handleSaveToDossier = async () => {
     setSaveError('');
-    if (!inputs.dossierName || inputs.dossierName.trim() === '') {
+    const name = (inputs.dossierName || '').trim();
+    if (!name) {
       setSaveError('Veuillez renseigner le nom de la société cliente avant d\'enregistrer.');
       return;
     }
     setSaveStatus('saving');
 
     try {
-      // Trouver ou créer le dossier
-      const dossier = await findOrCreateDossier(
-        inputs.dossierName.trim(),
-        inputs.companyType
-      );
+      let dossierId = selectedDossierId;
 
-      // Sauvegarder la simulation
+      if (!dossierId) {
+        // Anti-doublon : chercher un dossier existant avec le même nom normalisé
+        const norm = normalizeName(name);
+        const existing = dossierList.find((d) => normalizeName(d.clientName) === norm);
+        if (existing) {
+          dossierId = existing.id;
+        } else {
+          const newDossier = await findOrCreateDossier(name, inputs.companyType);
+          dossierId = newDossier.id;
+        }
+      }
+
       await saveExpertHoldingSimulation({
-        dossierId: dossier.id,
+        dossierId: dossierId,
         label: `Simulation Holding IS — ${inputs.companyType}`,
         inputs,
         results: result,
@@ -186,11 +341,11 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
       setSaveStatus('success');
       setTimeout(() => {
-        onNavigateToDossier(dossier.id);
+        onNavigateToDossier(dossierId!);
       }, 800);
     } catch (err: unknown) {
       setSaveStatus('error');
-      setSaveError(err instanceof Error ? err.message : 'Erreur lors de l\'enregistrement. Veuillez réessayer.');
+      setSaveError(err instanceof Error ? err.message : 'Impossible d\'enregistrer la simulation dans le dossier client.');
       setTimeout(() => setSaveStatus('idle'), 3000);
     }
   };
@@ -223,13 +378,83 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               <FileText className="w-4 h-4 text-slate-400" />Paramètres
             </h2>
 
-            {/* Dossier */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Nom de la société cliente</label>
-              <input type="text" value={inputs.dossierName ?? ''}
-                onChange={(e) => updateInput('dossierName', e.target.value || undefined)}
-                placeholder="Ex: SCI Dupont SCPI"
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors" />
+            {/* Dossier — autocomplete */}
+            <div ref={dossierContainerRef} className="relative">
+              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                Nom de la société cliente
+              </label>
+              {dossiersLoading ? (
+                <div className="flex items-center gap-2 text-xs text-slate-500 py-2">
+                  <Loader2 className="w-3 h-3 animate-spin" /> Chargement des dossiers...
+                </div>
+              ) : dossiersError ? (
+                <p className="text-[10px] text-amber-400 py-1">{dossiersError}</p>
+              ) : null}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={dossierSearch}
+                  onChange={handleDossierSearchChange}
+                  onKeyDown={handleDossierKeyDown}
+                  onFocus={handleDossierSearchFocus}
+                  placeholder="Rechercher ou saisir un nom de société..."
+                  autoComplete="off"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+                />
+              </div>
+
+              {/* Statut dossier */}
+              {selectedDossierId && (
+                <p className="text-[10px] text-blue-400 mt-1">
+                  Dossier existant sélectionné — les simulations seront rattachées à ce dossier.
+                </p>
+              )}
+              {!selectedDossierId && inputs.dossierName && inputs.dossierName.trim().length > 0 && (
+                <p className="text-[10px] text-amber-400 mt-1">
+                  Nouveau dossier à créer lors de l'enregistrement.
+                </p>
+              )}
+
+              {/* Dropdown */}
+              {showDropdown && !dossiersLoading && (
+                <div className="absolute z-50 left-0 right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-56 overflow-y-auto">
+                  {filteredDossiers.length === 0 ? (
+                    <p className="px-3 py-3 text-[11px] text-slate-500 text-center">
+                      {dossierSearch.trim()
+                        ? 'Aucun dossier trouvé — un nouveau dossier sera créé à l\'enregistrement.'
+                        : 'Aucun dossier client — un nouveau dossier sera créé à l\'enregistrement.'}
+                    </p>
+                  ) : (
+                    filteredDossiers.map((d, idx) => (
+                      <button
+                        key={d.id}
+                        onClick={() => handleSelectDossier(d)}
+                        className={`w-full text-left px-3 py-2.5 hover:bg-blue-600/10 transition-colors flex items-center justify-between ${
+                          highlightedIndex === idx ? 'bg-blue-600/15 border-l-2 border-blue-400' : ''
+                        } ${
+                          selectedDossierId === d.id ? 'bg-blue-600/20 border-l-2 border-blue-500' : ''
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Building2 className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                            <span className="text-sm text-white font-medium">{d.clientName}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-slate-500">
+                            <span>{d.companyType}</span>
+                            {d.siret && <span>— SIRET: {d.siret}</span>}
+                          </div>
+                        </div>
+                        {selectedDossierId === d.id && (
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Type société */}
@@ -932,7 +1157,6 @@ const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, del
   const absDelta = Math.abs(delta);
   const sign = delta >= 0 ? '+' : '−';
 
-  // Colonne Montant/Impact : libellé selon le type de ligne
   let deltaDisplay: string;
   let deltaColor: string;
 
