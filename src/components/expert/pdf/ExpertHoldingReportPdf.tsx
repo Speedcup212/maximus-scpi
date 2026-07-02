@@ -20,14 +20,20 @@ import { getCurrentRoleFromCache } from '../../../utils/expertAccess';
  */
 const norm = (s: string): string => s.replace(/[\s\u202F\u00A0]/g, ' ');
 
-const fmtEuro = (v: number): string =>
-  norm(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v));
+const fmtEuro = (v: number): string => {
+  if (!Number.isFinite(v)) return '— €';
+  return norm(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v));
+};
 
-const fmtPercent = (v: number): string =>
-  norm(new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v)) + ' %';
+const fmtPercent = (v: number): string => {
+  if (!Number.isFinite(v)) return '—';
+  return norm(new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v)) + ' %';
+};
 
-const fmtNumber = (v: number): string =>
-  norm(new Intl.NumberFormat('fr-FR').format(v));
+const fmtNumber = (v: number): string => {
+  if (!Number.isFinite(v)) return '—';
+  return norm(new Intl.NumberFormat('fr-FR').format(v));
+};
 
 const fmtDate = () => {
   const now = new Date();
@@ -39,6 +45,28 @@ const FEES_TREATMENT_SHORT: Record<string, string> = {
   'deductible-year1': 'Déductible année 1',
   'amortized': 'Amorti sur la durée',
   'non-deductible': 'Non déductible',
+};
+
+/* ── Helpers TVA safe ── */
+
+/** Affiche le taux de récupération TVA de façon sûre — jamais "undefined". */
+const formatVatRecoveryRate = (vatRecoveryRate: unknown): string => {
+  const n = Number(vatRecoveryRate);
+  if (!Number.isFinite(n)) return 'à qualifier';
+  return fmtNumber(n) + ' %';
+};
+
+/** Libellé complet du profil TVA holding */
+const formatHoldingVatProfile = (profile: string, vatRecoveryRate: unknown): string => {
+  if (profile === 'pure') return 'Holding pure';
+  if (profile === 'animator') return 'Holding animatrice';
+  if (profile === 'mixed') {
+    const n = Number(vatRecoveryRate);
+    return Number.isFinite(n)
+      ? `Holding mixte — ${fmtNumber(n)} % récupérable`
+      : 'Holding mixte — taux de récupération TVA à qualifier';
+  }
+  return 'À qualifier';
 };
 
 /* ── Styles ── */
@@ -583,43 +611,51 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
                         : 'Holding mixte'}
                 </Text>
               </View>
-              {inputs.holdingVatProfile === 'mixed' && (
-                <View style={styles.hypothesesItem}>
-                  <Text style={styles.hypothesesLabel}>Tx récupération TVA</Text>
-                  <Text style={styles.hypothesesValue}>{inputs.vatRecoveryRate} %</Text>
-                </View>
-              )}
+              {/* TVA récupérable */}
               <View style={styles.hypothesesItem}>
-                <Text style={styles.hypothesesLabel}>TVA récupérable</Text>
-                <Text style={inputs.holdingVatProfile === 'pure' || (!inputs.feesVatRecoverable && inputs.holdingVatProfile !== 'animator') ? { ...styles.hypothesesValue, color: '#c2410c' } : { ...styles.hypothesesValue, color: '#059669' }}>
-                  {inputs.holdingVatProfile === 'mixed'
-                    ? `${fmtEuro(result.recoverableVatAmount)}`
-                    : inputs.holdingVatProfile === 'pure'
-                      ? 'Non (holding pure)'
-                      : inputs.holdingVatProfile === 'animator'
-                        ? `${fmtEuro(result.recoverableVatAmount)}`
-                        : inputs.feesVatRecoverable ? `${fmtEuro(result.feesVAT)}` : 'Non'}
+                <Text style={styles.hypothesesLabel}>TVA récupérable retenue</Text>
+                <Text style={result.recoverableVatAmount > 0
+                  ? { ...styles.hypothesesValue, color: '#059669' }
+                  : { ...styles.hypothesesValue, color: '#c2410c' }}>
+                  {result.recoverableVatAmount > 0 ? fmtEuro(result.recoverableVatAmount) : '0 €'}
                 </Text>
               </View>
+              {/* TVA non récupérable (si applicable) */}
               {result.nonRecoverableVatAmount > 0 && (
                 <View style={styles.hypothesesItem}>
                   <Text style={styles.hypothesesLabel}>TVA non récupérable</Text>
                   <Text style={{ ...styles.hypothesesValue, color: '#c2410c' }}>{fmtEuro(result.nonRecoverableVatAmount)}</Text>
                 </View>
               )}
-              {inputs.holdingVatProfile === 'to-qualify' && inputs.feesEnabled && (
+              {/* Taux récupération mixte */}
+              {inputs.holdingVatProfile === 'mixed' && (
+                <View style={{ ...styles.hypothesesItem, width: '64%' }}>
+                  <Text style={styles.hypothesesLabel}>Taux de récupération TVA</Text>
+                  <Text style={styles.hypothesesValue}>{formatVatRecoveryRate(inputs.vatRecoveryRate)}</Text>
+                </View>
+              )}
+              {/* Vigilance selon profil */}
+              {inputs.holdingVatProfile === 'to-qualify' && (
                 <View style={{ ...styles.hypothesesItem, width: '64%' }}>
                   <Text style={styles.hypothesesLabel}>Vigilance TVA</Text>
                   <Text style={{ ...styles.hypothesesValue, fontSize: 7, color: '#c2410c' }}>
-                    Profil TVA à qualifier — la récupération de TVA doit être validée par le cabinet.
+                    Droit à récupération TVA à valider par le cabinet.
+                  </Text>
+                </View>
+              )}
+              {inputs.holdingVatProfile === 'animator' && (
+                <View style={{ ...styles.hypothesesItem, width: '64%' }}>
+                  <Text style={styles.hypothesesLabel}>Vigilance TVA</Text>
+                  <Text style={{ ...styles.hypothesesValue, fontSize: 7 }}>
+                    Récupération sous réserve d'activité économique taxable.
                   </Text>
                 </View>
               )}
               {inputs.holdingVatProfile === 'pure' && (
                 <View style={{ ...styles.hypothesesItem, width: '64%' }}>
-                  <Text style={styles.hypothesesLabel}>Effort économique</Text>
-                  <Text style={{ ...styles.hypothesesValue, fontSize: 7 }}>
-                    Holding pure : TVA non récupérable retenue par prudence.
+                  <Text style={styles.hypothesesLabel}>Vigilance TVA</Text>
+                  <Text style={{ ...styles.hypothesesValue, fontSize: 7, color: '#c2410c' }}>
+                    Holding pure : TVA non récupérable intégrée à l'effort économique.
                   </Text>
                 </View>
               )}
@@ -927,7 +963,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={styles.opinionItem}>
               Frais de mission : {fmtEuro(result.feesHT)} HT + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC
               {inputs.holdingVatProfile === 'mixed'
-                ? ` (TVA récupérable partielle : ${inputs.vatRecoveryRate} %)`
+                ? ` (TVA récupérable partielle : ${formatVatRecoveryRate(inputs.vatRecoveryRate)})`
                 : inputs.holdingVatProfile === 'pure'
                   ? ' (TVA non récupérable — holding pure)'
                   : result.recoverableVatAmount > 0 ? ' (TVA récupérable)' : ' (TVA non récupérable)'}.
@@ -972,10 +1008,16 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <>
               <Text style={styles.vigilanceItem}>• Le traitement fiscal des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</Text>
               <Text style={styles.vigilanceItem}>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte.</Text>
+              {inputs.holdingVatProfile === 'mixed' && (
+                <Text style={styles.vigilanceItem}>• En cas de holding mixte, le taux de récupération TVA doit être documenté selon le coefficient de taxation applicable.</Text>
+              )}
+              {inputs.holdingVatProfile === 'to-qualify' && (
+                <Text style={styles.vigilanceItem}>• Le profil TVA de la holding reste à qualifier avant validation de la récupération de TVA.</Text>
+              )}
+              {inputs.holdingVatProfile === 'pure' && (
+                <Text style={styles.vigilanceItem}>• Holding pure : la TVA non récupérable doit être intégrée dans l'effort économique.</Text>
+              )}
             </>
-          )}
-          {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
-            <Text style={styles.vigilanceItem}>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</Text>
           )}
           <Text style={styles.vigilanceItem}>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</Text>
         </View>
@@ -1003,7 +1045,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={{ ...styles.tableHeaderCell, flex: 1.2, textAlign: 'right' }}>Revenus</Text>
             <Text style={{ ...styles.tableHeaderCell, flex: 1.1, textAlign: 'right' }}>Amort.</Text>
             {inputs.feesEnabled && (
-              <Text style={{ ...styles.tableHeaderCell, flex: 1, textAlign: 'right' }}>Mission</Text>
+              <Text style={{ ...styles.tableHeaderCell, flex: 1, textAlign: 'right' }}>FRAIS</Text>
             )}
             <Text style={{ ...styles.tableHeaderCell, flex: 1.3, textAlign: 'right' }}>Rés. fiscal op.</Text>
             <Text style={{ ...styles.tableHeaderCell, flex: 1.2, textAlign: 'right' }}>IS sans</Text>
@@ -1059,7 +1101,10 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
               <Text style={styles.infoItem}>• Les frais de mission sont supposés payés au démarrage et intégrés dans l'effort initial. Ils sont isolés en année 1 pour mesurer le flux net complet de lancement.</Text>
               <Text style={styles.infoItem}>• Frais de mission : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.</Text>
               {inputs.holdingVatProfile !== 'to-qualify' && (
-                <Text style={styles.infoItem}>• Profil TVA holding : {inputs.holdingVatProfile === 'pure' ? 'Holding pure' : inputs.holdingVatProfile === 'animator' ? 'Holding animatrice' : `Holding mixte (${inputs.vatRecoveryRate} % récupérable)`}.</Text>
+                <Text style={styles.infoItem}>• Profil TVA holding : {formatHoldingVatProfile(inputs.holdingVatProfile, inputs.vatRecoveryRate)}.</Text>
+              )}
+              {inputs.holdingVatProfile === 'mixed' && (
+                <Text style={styles.infoItem}>• Le droit à déduction de TVA doit être validé selon l'activité réelle de la holding.</Text>
               )}
               <Text style={styles.infoItem}>• Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.</Text>
               <Text style={styles.infoItem}>• Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.</Text>
