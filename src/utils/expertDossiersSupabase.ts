@@ -433,7 +433,7 @@ export async function uploadExpertReport(
   fileName: string,
 ): Promise<string> {
   const user = await requireUser();
-  const storagePath = `expert-reports/${user.id}/${dossierId}/${simulationId}/${fileName}`;
+  const storagePath = `${user.id}/${dossierId}/${simulationId}/${fileName}`;
 
   const { error: uploadErr } = await supabase!.storage
     .from('expert-reports')
@@ -442,13 +442,16 @@ export async function uploadExpertReport(
       upsert: true,
     });
 
-  if (uploadErr) throw uploadErr;
+  if (uploadErr) {
+    console.error('[uploadExpertReport] Storage upload error:', uploadErr);
+    throw new Error('Upload Supabase impossible.');
+  }
 
-  // Record in expert_generated_reports
+  // Insert nouvelle ligne (permet plusieurs versions datées)
   const now = new Date().toISOString();
   const { error: insertErr } = await supabase!
     .from('expert_generated_reports')
-    .upsert({
+    .insert({
       dossier_id: dossierId,
       simulation_id: simulationId,
       user_id: user.id,
@@ -456,9 +459,12 @@ export async function uploadExpertReport(
       file_name: fileName,
       storage_path: storagePath,
       generated_at: now,
-    }, { onConflict: 'simulation_id' });
+    });
 
-  if (insertErr) throw insertErr;
+  if (insertErr) {
+    console.error('[uploadExpertReport] DB insert error:', insertErr);
+    throw new Error('Rapport généré mais non enregistré.');
+  }
 
   return storagePath;
 }

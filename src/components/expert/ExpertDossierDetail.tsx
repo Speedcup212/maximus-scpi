@@ -52,6 +52,8 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   const [reportsLoading, setReportsLoading] = useState(false);
   const [regeneratingSimId, setRegeneratingSimId] = useState<string | null>(null);
   const [deletingSimId, setDeletingSimId] = useState<string | null>(null);
+  const [pdfErrors, setPdfErrors] = useState<Record<string, string>>({});
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -137,30 +139,59 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   /* ── Génération PDF ── */
   const handleGeneratePdf = async (simId: string) => {
     setRegeneratingSimId(simId);
+    // Effacer les erreurs précédentes pour cette simulation
+    setPdfErrors((prev) => {
+      const next = { ...prev };
+      delete next[simId];
+      return next;
+    });
+
     try {
-      const { generatePdfBlob } = await import('./pdf/generateHoldingPdfBlob');
+      // 1. Trouver la simulation
       const sim = dossier?.simulations.find(s => s.id === simId);
       if (!sim) throw new Error('Simulation introuvable');
+
+      // 2. Générer le Blob PDF
+      const { generatePdfBlob } = await import('./pdf/generateHoldingPdfBlob');
       const { pdfBlob, fileName } = await generatePdfBlob(sim);
+
+      // 3. Upload vers Supabase Storage + enregistrement DB
       const { uploadExpertReport } = await import('../../utils/expertDossiersSupabase');
       await uploadExpertReport(dossierId, simId, pdfBlob, fileName);
-      await reload();
-    } catch { /* ignore */ }
-    setRegeneratingSimId(null);
+
+      // 4. Recharger les rapports
+      const { getExpertReportsByDossier } = await import('../../utils/expertDossiersSupabase');
+      const reps = await getExpertReportsByDossier(dossierId);
+      setReports(reps);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Impossible de générer le PDF.';
+      console.error('[handleGeneratePdf]', err);
+      setPdfErrors((prev) => ({ ...prev, [simId]: msg }));
+    } finally {
+      setRegeneratingSimId(null);
+    }
   };
 
   const handleDownloadReport = async (report: ExpertGeneratedReport) => {
+    setDownloadError(null);
     try {
       const url = await getExpertReportSignedUrl(report.storagePath);
       window.open(url, '_blank');
-    } catch { /* ignore */ }
+    } catch (err: unknown) {
+      console.error('[handleDownloadReport]', err);
+      setDownloadError('Impossible de récupérer le lien de téléchargement.');
+      setTimeout(() => setDownloadError(null), 4000);
+    }
   };
 
   const handleDeleteReport = async (reportId: string) => {
     try {
       await deleteExpertReport(reportId);
-      await reload();
-    } catch { /* ignore */ }
+      const reps = await getExpertReportsByDossier(dossierId).catch(() => [] as ExpertGeneratedReport[]);
+      setReports(reps);
+    } catch (err: unknown) {
+      console.error('[handleDeleteReport]', err);
+    }
   };
 
   const reloadReports = async () => {
@@ -356,6 +387,8 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
               <tbody className="divide-y divide-slate-800/50">
                 {[...dossier.simulations].reverse().map((sim, i) => {
                   const report = getReportForSimulation(sim.id);
+                  const pdfErr = pdfErrors[sim.id];
+                  const isGenerating = regeneratingSimId === sim.id;
                   const usufruitKey = (sim.inputs as Record<string, unknown>)?.usufruitKeyPercent ?? (sim.inputs as Record<string, unknown>)?.usufruitKey ?? '—';
                   const duration = (sim.inputs as Record<string, unknown>)?.usufruitDuration ?? '—';
                   return (
@@ -372,16 +405,20 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                           <button onClick={() => handleDownloadReport(report)} className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1">
                             <Download className="w-3 h-3" /> PDF disponible
                           </button>
+                        ) : isGenerating ? (
+                          <span className="text-xs text-violet-400 inline-flex items-center gap-1">
+                            <Loader2 className="w-3 h-3 animate-spin" /> Génération...
+                          </span>
                         ) : (
-                          <button onClick={() => handleGeneratePdf(sim.id)} disabled={regeneratingSimId === sim.id}
-                            className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1 disabled:opacity-50">
-                            {regeneratingSimId === sim.id ? (
-                              <Loader2 className="w-3 h-3 animate-spin" />
-                            ) : (
-                              <FileDown className="w-3 h-3" />
+                          <div>
+                            <button onClick={() => handleGeneratePdf(sim.id)}
+                              className="text-xs text-violet-400 hover:text-violet-300 transition-colors inline-flex items-center gap-1">
+                              <FileDown className="w-3 h-3" /> Générer PDF
+                            </button>
+                            {pdfErr && (
+                              <p className="text-[10px] text-red-400 mt-0.5 max-w-[120px] leading-tight">{pdfErr}</p>
                             )}
-                            Générer PDF
-                          </button>
+                          </div>
                         )}
                       </td>
                       <td className="py-2.5 px-3 text-right">
@@ -392,7 +429,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                           <button onClick={() => handleResumeSpecific(sim)} className="text-xs text-amber-400 hover:text-amber-300 transition-colors" title="Reprendre">
                             <RefreshCw className="w-3 h-3" />
                           </button>
-                          <button onClick={() => handleGeneratePdf(sim.id)} disabled={regeneratingSimId === sim.id}
+                          <button onClick={() => handleGeneratePdf(sim.id)} disabled={isGenerating}
                             className="text-xs text-violet-400 hover:text-violet-300 transition-colors disabled:opacity-50" title="Générer PDF">
                             <FileDown className="w-3 h-3" />
                           </button>
@@ -428,6 +465,9 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
             Actualiser
           </button>
         </div>
+        {downloadError && (
+          <p className="text-[10px] text-red-400 mb-3">{downloadError}</p>
+        )}
         <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
           {reports.length === 0 ? (
             <div className="p-6 text-center">
