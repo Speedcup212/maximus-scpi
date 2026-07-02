@@ -10,7 +10,7 @@ import { getExpertDossiers, findOrCreateDossier, saveExpertHoldingSimulation } f
 import type { ExpertClientDossier } from '../../types/expertDossier';
 import {
   HoldingISInputs, HoldingISResult,
-  FeesMode, FeesTreatment, FeesVatMode,
+  FeesMode, FeesTreatment, FeesVatMode, HoldingVatProfile,
   calculateHoldingISProjection, calculateCorporateTax,
 } from '../../utils/holdingSimulation';
 import ExpertHoldingReportPdf from './pdf/ExpertHoldingReportPdf';
@@ -22,6 +22,13 @@ const DURATION_OPTIONS = [3, 5, 7, 10, 12, 15];
 const FEES_MODES: FeesMode[] = ['fixed', 'percentage'];
 const FEES_VAT_MODES: FeesVatMode[] = ['HT', 'TTC'];
 const FEES_TREATMENTS: FeesTreatment[] = ['not-integrated', 'deductible-year1', 'amortized', 'non-deductible'];
+
+const VAT_PROFILES: { value: HoldingVatProfile; label: string; hint: string }[] = [
+  { value: 'to-qualify', label: 'À qualifier', hint: 'Le droit à récupération de TVA dépend du statut fiscal réel de la holding.' },
+  { value: 'animator', label: 'Holding animatrice', hint: 'TVA récupérable sous réserve d\'une activité économique taxable et de prestations effectivement facturées.' },
+  { value: 'pure', label: 'Holding pure', hint: 'Récupération de TVA généralement non retenue. La TVA non récupérable augmente l\'effort économique.' },
+  { value: 'mixed', label: 'Holding mixte / récupération partielle', hint: 'Taux de récupération à préciser selon le coefficient de taxation applicable.' },
+];
 
 const FEES_TREATMENT_LABELS: Record<FeesTreatment, string> = {
   'not-integrated': 'Non intégré à la simulation',
@@ -56,6 +63,8 @@ const DEFAULT_INPUTS: HoldingISInputs = {
   feesVatMode: 'HT',
   feesVatRate: 20,
   feesVatRecoverable: true,
+  holdingVatProfile: 'to-qualify',
+  vatRecoveryRate: 100,
 };
 
 type TabId = 'synthese' | 'analyse' | 'projections';
@@ -219,8 +228,16 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       w.push({ id: 'fees-high', message: 'Honoraires élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
     }
 
-    if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.feesVAT > 0) {
+    if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.nonRecoverableVatAmount > 0 && inputs.holdingVatProfile === 'to-qualify') {
       w.push({ id: 'vat-not-recoverable', message: 'TVA non récupérable : l\'effort de trésorerie intègre le TTC.', severity: 'info' });
+    }
+
+    if (inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && result.nonRecoverableVatAmount > 0) {
+      w.push({ id: 'vat-pure-non-recoverable', message: `Holding pure : TVA non récupérable de ${fmtEuro(result.nonRecoverableVatAmount)} augmente l'effort économique.`, severity: 'warning' });
+    }
+
+    if (inputs.feesEnabled && inputs.holdingVatProfile === 'mixed') {
+      w.push({ id: 'vat-mixed', message: `Récupération partielle TVA : ${fmtEuro(result.recoverableVatAmount)} récupérable, ${fmtEuro(result.nonRecoverableVatAmount)} non récupérable.`, severity: 'info' });
     }
 
     if (inputs.feesEnabled && inputs.feesTreatment === 'non-deductible') {
@@ -620,6 +637,40 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600" />
                     <span className="text-xs text-slate-300">TVA récupérable</span>
                   </label>
+
+                  {/* ── Profil TVA holding ── */}
+                  <div className="col-span-full space-y-2 border-t border-slate-700/40 pt-3">
+                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Profil TVA de la holding</label>
+                    <div className="space-y-1.5">
+                      {VAT_PROFILES.map((p) => (
+                        <button key={p.value} type="button" onClick={() => updateInput('holdingVatProfile', p.value)}
+                          className={`w-full text-left px-3 py-2.5 rounded text-xs transition
+                            ${inputs.holdingVatProfile === p.value
+                              ? 'bg-violet-600/20 border border-violet-600/30 text-violet-200'
+                              : 'bg-slate-700/50 border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'}`}
+                        >
+                          <span className="font-medium">{p.label}</span>
+                          <br /><span className="text-[10px] opacity-70">{p.hint}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Taux récupération TVA partielle */}
+                  {inputs.holdingVatProfile === 'mixed' && (
+                    <div className="col-span-full">
+                      <label className="block text-[11px] font-semibold text-amber-400 uppercase tracking-wider mb-1.5">
+                        Taux de récupération TVA (%)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input type="range" min="0" max="100" step="5" value={inputs.vatRecoveryRate}
+                          onChange={(e) => updateInput('vatRecoveryRate', Number(e.target.value))}
+                          className="w-full accent-violet-600"
+                        />
+                        <span className="text-sm font-mono text-white min-w-[3.5rem] text-right">{inputs.vatRecoveryRate}&#8239;%</span>
+                      </div>
+                    </div>
+                  )}
                   <div>
                     <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Traitement fiscal/comptable</label>
                     <div className="space-y-1">
@@ -639,13 +690,17 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
         {/* ── Colonne résultats ── */}
         <div className="lg:col-span-2 space-y-6">
-          {/* ── 4 KPI synthèse ── */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {/* ── 6 KPI synthèse ── */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             <KpiCard icon={<Wallet className="w-4 h-4" />} label="Effort de trésorerie" value={fmtEuro(result.effortEconomique)} color="blue"
               sublabel={inputs.feesEnabled ? (inputs.feesVatRecoverable ? 'Usufruit + HT' : 'Usufruit + TTC') : undefined} />
             <KpiCard icon={<Euro className="w-4 h-4" />} label="Cash-flow net année 1" value={fmtEuro(result.annualNetCashFlowAfterFees)} color="emerald"
               sublabel="Après honoraires" />
-            <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement net moyen" value={fmtPercent(result.netCompanyYieldAvgAnnual)} color="emerald"
+            <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement cash-flow moyen" value={fmtPercent(result.cashFlowAverageReturn)} color="amber"
+              sublabel="Flux net moyen / effort initial" />
+            <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Gain net après extinction" value={fmtEuro(result.gainNetAfterUsufructExtinction)} color="emerald"
+              sublabel="Flux cumulés – effort initial" />
+            <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement simple après extinction" value={fmtPercent(result.annualizedSimpleReturnAfterExtinction)} color="emerald"
               sublabel={`Sur ${inputs.usufruitDuration} ans`} />
             <KpiCard icon={<AlertTriangle className="w-4 h-4" />} label="Impact IS année 1" value={fmtEuro(result.annualISImpact)} color="orange"
               sublabel={result.annualISImpact === 0 ? 'Neutre' : undefined} />
@@ -719,14 +774,21 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                         Le cash-flow net année 1 ressort à <strong>{fmtEuro(result.annualNetCashFlowAfterFees)}</strong>.
                       </li>
                       <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        Le rendement net moyen annuel ressort à <strong>{fmtPercent(result.netCompanyYieldAvgAnnual)}</strong>.
+                        Le rendement cash-flow moyen annuel ressort à <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
                       </li>
                       {inputs.feesEnabled && result.feesHT > 0 && (
                         <>
                           <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
                             Honoraires : <strong>{fmtEuro(result.feesHT)} HT</strong>
                             {result.feesVAT > 0 && <span> + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC</span>}
-                            {inputs.feesVatRecoverable ? ' (TVA récupérable).' : ' (TVA non récupérable).'}
+                            {result.recoverableVatAmount > 0 && result.nonRecoverableVatAmount > 0
+                              ? ` (TVA récupérable partielle : ${fmtEuro(result.recoverableVatAmount)} / non récupérable : ${fmtEuro(result.nonRecoverableVatAmount)}).`
+                              : inputs.holdingVatProfile === 'pure'
+                                ? ' (TVA non récupérable — holding pure).'
+                                : inputs.holdingVatProfile === 'animator'
+                                  ? ' (TVA récupérable — holding animatrice).'
+                                  : result.recoverableVatAmount > 0
+                                    ? ' (TVA récupérable).' : ' (TVA non récupérable).'}
                           </li>
                           <li><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
                             Effort économique total : <strong>{fmtEuro(result.effortEconomique)}</strong>.
@@ -755,6 +817,39 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </ul>
                   </div>
 
+                  {/* Lecture économique après extinction */}
+                  <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-5 space-y-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Landmark className="w-4 h-4 text-emerald-400" />
+                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Lecture économique après extinction de l'usufruit</span>
+                    </div>
+                    <ul className="space-y-2 text-xs text-emerald-100/80 leading-relaxed">
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        L'effort initial total est de <strong>{fmtEuro(result.effortEconomique)}</strong>.
+                      </li>
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        Flux nets encaissés sur {inputs.usufruitDuration} ans : <strong>{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</strong>.
+                      </li>
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        Gain net économique après extinction de l'usufruit : <strong>{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong> (flux cumulés – effort initial).
+                      </li>
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        Rendement cash-flow moyen annuel : <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
+                      </li>
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        Rendement simple après extinction : <strong>{fmtPercent(result.annualizedSimpleReturnAfterExtinction)}&nbsp;/&nbsp;an</strong>.
+                      </li>
+                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                        L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.
+                      </li>
+                    </ul>
+                    <div className="bg-emerald-950/40 border border-emerald-900/20 rounded-lg px-3 py-2">
+                      <p className="text-[11px] text-emerald-300/70 leading-relaxed">
+                        Le rendement cash-flow moyen ne constitue pas un TRI. Il mesure le rapport entre les flux nets moyens et l'effort initial. L'analyse économique doit intégrer l'extinction de l'usufruit à l'échéance.
+                      </p>
+                    </div>
+                  </div>
+
                   {/* Points de vigilance */}
                   <div className="bg-orange-950/20 border border-orange-900/30 rounded-xl p-5">
                     <div className="flex items-center gap-2 mb-1">
@@ -762,11 +857,18 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Points de vigilance</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-orange-200/80 leading-relaxed">
-                      <li>• L'usufruit temporaire n'offre pas de valeur de revente à l'échéance.</li>
+                      <li>• L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.</li>
+                      <li>• Le rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.</li>
                       <li>• Les revenus futurs des SCPI ne sont pas garantis et dépendent du marché immobilier.</li>
                       <li>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</li>
                       {inputs.feesEnabled && (
                         <li>• Le traitement fiscal des honoraires doit être validé selon la nature de la facture et le régime TVA de la société.</li>
+                      )}
+                      {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
+                        <li>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte. Le traitement des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
+                      )}
+                      {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
+                        <li>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</li>
                       )}
                       <li>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</li>
                     </ul>
@@ -875,7 +977,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                         </div>
                         <div>
                           <span className="text-slate-500">TVA ({inputs.feesVatRate} %)</span>
-                          <p className={`font-semibold mt-0.5 ${inputs.feesVatRecoverable ? 'text-slate-400' : 'text-orange-400'}`}>
+                          <p className={`font-semibold mt-0.5 ${result.nonRecoverableVatAmount > 0 ? 'text-orange-400' : 'text-slate-400'}`}>
                             {fmtEuro(result.feesVAT)}
                           </p>
                         </div>
@@ -885,8 +987,16 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                         </div>
                         <div>
                           <span className="text-slate-500">TVA</span>
-                          <p className={`font-semibold mt-0.5 ${inputs.feesVatRecoverable ? 'text-emerald-400' : 'text-orange-400'}`}>
-                            {inputs.feesVatRecoverable ? 'Récupérable' : 'Non récupérable'}
+                          <p className={`font-semibold mt-0.5 ${result.recoverableVatAmount > 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
+                            {inputs.holdingVatProfile === 'mixed'
+                              ? `Partielle (${inputs.vatRecoveryRate} %)`
+                              : inputs.holdingVatProfile === 'pure'
+                                ? 'Non récupérable'
+                                : inputs.holdingVatProfile === 'animator'
+                                  ? 'Récupérable'
+                                  : result.recoverableVatAmount > 0
+                                    ? 'Récupérable'
+                                    : 'Non récupérable'}
                           </p>
                         </div>
                       </div>

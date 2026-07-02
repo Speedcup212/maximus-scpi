@@ -80,6 +80,11 @@ function buildSummary(inputs: HoldingISInputs, results: HoldingISResult): Expert
     yearOneTaxImpact: results.annualISImpact,
     averageAnnualNetYield: results.netCompanyYieldAvgAnnual,
     cumulativeNetCashFlow: results.cumulativeNetCashFlowAfterFees,
+    gainNetAfterUsufructExtinction: results.gainNetAfterUsufructExtinction,
+    annualizedSimpleReturnAfterExtinction: results.annualizedSimpleReturnAfterExtinction,
+    cashFlowAverageReturn: results.cashFlowAverageReturn,
+    recoverableVatAmount: results.recoverableVatAmount,
+    nonRecoverableVatAmount: results.nonRecoverableVatAmount,
   };
 }
 

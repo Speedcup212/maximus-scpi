@@ -9,6 +9,7 @@
 export type FeesMode = 'fixed' | 'percentage';
 export type FeesTreatment = 'not-integrated' | 'deductible-year1' | 'amortized' | 'non-deductible';
 export type FeesVatMode = 'HT' | 'TTC';
+export type HoldingVatProfile = 'to-qualify' | 'animator' | 'pure' | 'mixed';
 
 export interface HoldingISInputs {
   dossierName?: string;
@@ -36,6 +37,10 @@ export interface HoldingISInputs {
   feesVatMode: FeesVatMode;
   feesVatRate: number;
   feesVatRecoverable: boolean;
+
+  // Profil TVA holding
+  holdingVatProfile: HoldingVatProfile;
+  vatRecoveryRate: number; // 0 à 100, utilisé si holdingVatProfile === 'mixed'
 }
 
 export interface HoldingISYearProjection {
@@ -90,12 +95,30 @@ export interface HoldingISResult {
 
   /** Rendement net année 1 après honoraires (%) */
   netCompanyYieldYear1: number;
-  /** Rendement net moyen annuel sur la durée (%) */
+  /** Rendement cash-flow moyen annuel sur la durée (%) — flux net moyen / effort initial */
   netCompanyYieldAvgAnnual: number;
   /** Rendement net total sur la durée (%) */
   netCompanyYieldTotal: number;
   /** Rendement net avant honoraires (%) */
   netCompanyYield: number;
+
+  // ── Lecture économique après extinction ──
+  /** Effort économique initial ajusté (usufruit + honoraires nets selon TVA) */
+  economicInitialEffort: number;
+  /** Gain net économique après extinction de l'usufruit : cumul flux nets - effort initial */
+  gainNetAfterUsufructExtinction: number;
+  /** Rendement simple après extinction (%) */
+  netEconomicReturnAfterExtinction: number;
+  /** Rendement simple annualisé après extinction (% / an) */
+  annualizedSimpleReturnAfterExtinction: number;
+  /** Rendement cash-flow moyen annuel : (cumul / durée) / effort */
+  cashFlowAverageReturn: number;
+
+  // ── TVA détaillée ──
+  /** TVA récupérable (€) */
+  recoverableVatAmount: number;
+  /** TVA non récupérable (€) */
+  nonRecoverableVatAmount: number;
 
   projections: HoldingISYearProjection[];
 }
@@ -105,6 +128,48 @@ export interface HoldingISResult {
 const DEFAULT_REDUCED_THRESHOLD = 42_500;
 const DEFAULT_REDUCED_RATE = 15;
 const DEFAULT_STANDARD_RATE = 25;
+
+/* ── TRI indicatif (Newton-Raphson) ── */
+
+const IRR_MAX_ITERATIONS = 100;
+const IRR_TOLERANCE = 1e-7;
+
+function npv(rate: number, cashFlows: number[]): number {
+  let result = 0;
+  for (let t = 0; t < cashFlows.length; t++) {
+    result += cashFlows[t] / Math.pow(1 + rate, t);
+  }
+  return result;
+}
+
+function npvDerivative(rate: number, cashFlows: number[]): number {
+  let result = 0;
+  for (let t = 1; t < cashFlows.length; t++) {
+    result -= (t * cashFlows[t]) / Math.pow(1 + rate, t + 1);
+  }
+  return result;
+}
+
+export function calculateIrr(cashFlows: number[]): number | null {
+  if (cashFlows.length < 2) return null;
+  // Vérifier qu'il y a au moins un flux négatif et un positif
+  const hasNegative = cashFlows.some(cf => cf < 0);
+  const hasPositive = cashFlows.some(cf => cf > 0);
+  if (!hasNegative || !hasPositive) return null;
+
+  let guess = 0.1;
+  for (let i = 0; i < IRR_MAX_ITERATIONS; i++) {
+    const f = npv(guess, cashFlows);
+    const fPrime = npvDerivative(guess, cashFlows);
+    if (Math.abs(fPrime) < 1e-12) break;
+    const newGuess = guess - f / fPrime;
+    if (Math.abs(newGuess - guess) < IRR_TOLERANCE) {
+      return Math.round(newGuess * 10000) / 100; // en %
+    }
+    guess = newGuess;
+  }
+  return null;
+}
 
 /* ── Calculs ── */
 
@@ -174,6 +239,8 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     usufruitKeyPercent, grossYieldRate, revalorizationRate,
     feesEnabled, feesMode, feesFixedAmount, feesPercentage, feesTreatment,
     feesVatMode, feesVatRate, feesVatRecoverable,
+    holdingVatProfile = 'to-qualify',
+    vatRecoveryRate = 100,
     reducedRateThreshold = DEFAULT_REDUCED_THRESHOLD,
     reducedTaxRate = DEFAULT_REDUCED_RATE,
     standardTaxRate = DEFAULT_STANDARD_RATE,
@@ -190,8 +257,37 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
   // Montant fiscalement déductible : HT si TVA récupérable, TTC sinon
   const feesDeductible = feesVatRecoverable ? feesHT : feesTTC;
 
-  // Efforts
-  const effortEconomique = usufruitInvestment + (feesVatRecoverable ? feesHT : feesTTC);
+  // ── TVA détaillée selon le profil de la holding ──
+  let effectiveVatRecoverable: boolean;
+  let recoverableVatAmount: number;
+  let nonRecoverableVatAmount: number;
+  let economicInitialEffort: number;
+
+  if (holdingVatProfile === 'pure') {
+    effectiveVatRecoverable = false;
+    recoverableVatAmount = 0;
+    nonRecoverableVatAmount = feesVAT;
+  } else if (holdingVatProfile === 'animator') {
+    effectiveVatRecoverable = true;
+    recoverableVatAmount = feesVAT;
+    nonRecoverableVatAmount = 0;
+  } else if (holdingVatProfile === 'mixed') {
+    const rate = Math.min(100, Math.max(0, vatRecoveryRate)) / 100;
+    recoverableVatAmount = Math.round(feesVAT * rate);
+    nonRecoverableVatAmount = feesVAT - recoverableVatAmount;
+    effectiveVatRecoverable = true;
+  } else {
+    // to-qualify: suit la saisie utilisateur
+    effectiveVatRecoverable = feesVatRecoverable;
+    recoverableVatAmount = feesVatRecoverable ? feesVAT : 0;
+    nonRecoverableVatAmount = feesVatRecoverable ? 0 : feesVAT;
+  }
+
+  // Effort économique ajusté : usufruit + HT + TVA non récupérable
+  economicInitialEffort = usufruitInvestment + feesHT + nonRecoverableVatAmount;
+
+  // Efforts (pour la retrocompatibilité, on garde les champs existants)
+  const effortEconomique = economicInitialEffort;
   const effortTresorerie = usufruitInvestment + feesTTC;
 
   // ── Base amortissable selon traitement ──
@@ -228,7 +324,10 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     // amortized: déjà dans la base amortissable, not-integrated / non-deductible: pas d'imputation
 
     // Cash décaissé net : HT si TVA récupérable (TVA remboursée dans l'année), TTC sinon
-    const feesCash = (feesEnabled && year === 1) ? (feesVatRecoverable ? feesHT : feesTTC) : 0;
+    // Pour le profil mixte, le cash décaissé = HT + TVA non récupérable
+    const feesCash = (feesEnabled && year === 1)
+      ? (effectiveVatRecoverable ? feesHT + nonRecoverableVatAmount : feesTTC)
+      : 0;
 
     const fiscalResultOperationOnly = grossIncome - amortization - feesFiscal;
     const fiscalResultAfterOperation = preTaxProfit + fiscalResultOperationOnly;
@@ -276,6 +375,21 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     ? ((cumulAfterFees / usufruitDuration) / effortEconomique) * 100 : 0;
   const netCompanyYieldTotal = effortEconomique > 0 ? (cumulAfterFees / effortEconomique) * 100 : 0;
 
+  // ── Lecture économique après extinction de l'usufruit ──
+  const gainNetAfterUsufructExtinction = cumulativeNetCashFlowAfterFees - effortEconomique;
+  const netEconomicReturnAfterExtinction = effortEconomique > 0
+    ? (gainNetAfterUsufructExtinction / effortEconomique) * 100 : 0;
+  const annualizedSimpleReturnAfterExtinction = effortEconomique > 0 && usufruitDuration > 0
+    ? (gainNetAfterUsufructExtinction / effortEconomique / usufruitDuration) * 100 : 0;
+  const cashFlowAverageReturn = netCompanyYieldAvgAnnual; // même formule, nouveau nom
+
+  // ── TRI indicatif ──
+  const irrCashFlows: number[] = [-effortEconomique];
+  for (const p of projections) {
+    irrCashFlows.push(p.netCashFlowAfterFees);
+  }
+  const irr = calculateIrr(irrCashFlows);
+
   return {
     inputs,
     reconstitutedFullProperty: Math.round(reconstitutedFullProperty),
@@ -302,6 +416,13 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
     netCompanyYieldAvgAnnual: Math.round(netCompanyYieldAvgAnnual * 100) / 100,
     netCompanyYieldTotal: Math.round(netCompanyYieldTotal * 100) / 100,
     netCompanyYield: Math.round(netCompanyYield * 100) / 100,
+    economicInitialEffort: Math.round(economicInitialEffort),
+    gainNetAfterUsufructExtinction: Math.round(gainNetAfterUsufructExtinction),
+    netEconomicReturnAfterExtinction: Math.round(netEconomicReturnAfterExtinction * 100) / 100,
+    annualizedSimpleReturnAfterExtinction: Math.round(annualizedSimpleReturnAfterExtinction * 100) / 100,
+    cashFlowAverageReturn: Math.round(cashFlowAverageReturn * 100) / 100,
+    recoverableVatAmount: Math.round(recoverableVatAmount),
+    nonRecoverableVatAmount: Math.round(nonRecoverableVatAmount),
     projections,
   };
 }

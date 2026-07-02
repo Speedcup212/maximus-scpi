@@ -357,8 +357,14 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
             <KpiCard label="Trésorerie résid." value={fmtEuro(last.summary.residualTreasury)} color="slate" />
             <KpiCard label="Flux net année 1" value={fmtEuro(last.summary.yearOneNetCashFlow)} color="emerald" />
             <KpiCard label="Impact IS année 1" value={'+' + fmtEuro(last.summary.yearOneTaxImpact)} color="orange" />
-            <KpiCard label="Rend. net moyen" value={fmtPercent(last.summary.averageAnnualNetYield)} color="emerald" />
+            <KpiCard label="Rend. cash-flow" value={fmtPercent(last.summary.cashFlowAverageReturn ?? last.summary.averageAnnualNetYield)} color="amber" />
             <KpiCard label="Cash-flow cumulé" value={fmtEuro(last.summary.cumulativeNetCashFlow)} color="emerald" />
+            {last.summary.gainNetAfterUsufructExtinction !== undefined && (
+              <KpiCard label="Gain net extinction" value={fmtEuro(last.summary.gainNetAfterUsufructExtinction)} color="emerald" />
+            )}
+            {last.summary.annualizedSimpleReturnAfterExtinction !== undefined && (
+              <KpiCard label="Rend. après extinction" value={fmtPercent(last.summary.annualizedSimpleReturnAfterExtinction)} color="emerald" />
+            )}
           </div>
         </div>
       )}
@@ -379,7 +385,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                   <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Durée</th>
                   <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Clé</th>
                   <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Flux net A1</th>
-                  <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Rend. net</th>
+                  <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Rend. cash-flow</th>
                   <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-center">PDF</th>
                   <th className="py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Actions</th>
                 </tr>
@@ -399,7 +405,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
                       <td className="py-2.5 px-3 text-right text-slate-300">{String(duration)} ans</td>
                       <td className="py-2.5 px-3 text-right text-slate-300">{typeof usufruitKey === 'number' ? usufruitKey + '%' : usufruitKey}</td>
                       <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtEuro(sim.summary.yearOneNetCashFlow)}</td>
-                      <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtPercent(sim.summary.averageAnnualNetYield)}</td>
+                      <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtPercent(sim.summary.cashFlowAverageReturn ?? sim.summary.averageAnnualNetYield)}</td>
                       <td className="py-2.5 px-3 text-center">
                         {report ? (
                           <button onClick={() => handleDownloadReport(report)} className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-1">

@@ -568,8 +568,16 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
                 <Text style={styles.hypothesesValue}>{fmtEuro(result.feesHT)}</Text>
               </View>
               <View style={styles.hypothesesItem}>
-                <Text style={styles.hypothesesLabel}>TVA récupérable</Text>
-                <Text style={styles.hypothesesValue}>{inputs.feesVatRecoverable ? 'Oui' : 'Non'}</Text>
+                <Text style={styles.hypothesesLabel}>TVA</Text>
+                <Text style={styles.hypothesesValue}>
+                  {inputs.holdingVatProfile === 'mixed'
+                    ? `Partielle (${inputs.vatRecoveryRate} %)`
+                    : inputs.holdingVatProfile === 'pure'
+                      ? 'Non récupérable'
+                      : inputs.holdingVatProfile === 'animator'
+                        ? 'Récupérable'
+                        : inputs.feesVatRecoverable ? 'Récupérable' : 'Non récupérable'}
+                </Text>
               </View>
               <View style={{ ...styles.hypothesesItem, width: '64%' }}>
                 <Text style={styles.hypothesesLabel}>Traitement frais de mission</Text>
@@ -595,7 +603,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             Impact IS année 1 : {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}.
           </Text>
           <Text style={styles.syntheseText}>
-            Rendement net moyen annuel : {fmtPercent(result.netCompanyYieldAvgAnnual)} sur {inputs.usufruitDuration} ans.
+            Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)} sur {inputs.usufruitDuration} ans (flux net moyen / effort initial).
           </Text>
           {inputs.feesEnabled && (
             <Text style={styles.syntheseText}>
@@ -636,11 +644,11 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         </View>
         <View style={styles.kpiRow}>
           <View style={styles.kpiCard}>
-            <Text style={styles.kpiLabel}>Rendement net moyen annuel</Text>
-            <Text style={result.netCompanyYieldAvgAnnual >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
-              {fmtPercent(result.netCompanyYieldAvgAnnual)}
+            <Text style={styles.kpiLabel}>Rendement cash-flow moyen</Text>
+            <Text style={result.cashFlowAverageReturn >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
+              {fmtPercent(result.cashFlowAverageReturn)}
             </Text>
-            <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
+            <Text style={styles.kpiSublabel}>Flux net moyen / effort initial</Text>
           </View>
           <View style={styles.kpiCardLast}>
             <Text style={styles.kpiLabel}>Cash-flow net cumulé</Text>
@@ -648,11 +656,29 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={styles.kpiSublabel}>Sur {inputs.usufruitDuration} ans</Text>
           </View>
         </View>
+        <View style={styles.kpiRow}>
+          <View style={styles.kpiCard}>
+            <Text style={styles.kpiLabel}>Gain net après extinction</Text>
+            <Text style={result.gainNetAfterUsufructExtinction >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
+              {fmtEuro(result.gainNetAfterUsufructExtinction)}
+            </Text>
+            <Text style={styles.kpiSublabel}>Flux cumulés – effort initial</Text>
+          </View>
+          <View style={styles.kpiCardLast}>
+            <Text style={styles.kpiLabel}>Rendement simple après extinction</Text>
+            <Text style={result.annualizedSimpleReturnAfterExtinction >= 0 ? styles.kpiValueGreen : styles.kpiValueOrange}>
+              {fmtPercent(result.annualizedSimpleReturnAfterExtinction)}
+            </Text>
+            <Text style={styles.kpiSublabel}>/ an</Text>
+          </View>
+        </View>
 
         {/* Conclusion courte */}
         <Text style={styles.conclusionText}>
           L'opération génère un résultat fiscal additionnel de {fmtEuro(result.annualFiscalResultOperationOnly)} la première année.{' '}
           Le cash-flow net cumulé sur {inputs.usufruitDuration} ans atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.{' '}
+          Le gain net économique après extinction de l'usufruit ressort à {fmtEuro(result.gainNetAfterUsufructExtinction)}.{' '}
+          L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.{' '}
           Validation comptable et fiscale requise avant toute présentation client.
         </Text>
 
@@ -811,24 +837,61 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             Après prise en compte des revenus générés et de l'impact IS, le flux net année 1 ressort à {fmtEuro(result.annualNetCashFlowAfterFees)}.
           </Text>
           <Text style={styles.opinionItem}>
-            Le rendement net moyen annuel de {fmtPercent(result.netCompanyYieldAvgAnnual)} sur {inputs.usufruitDuration} ans s'entend après impact fiscal et frais de mission.
+            Le rendement cash-flow moyen annuel de {fmtPercent(result.cashFlowAverageReturn)} sur {inputs.usufruitDuration} ans mesure le rapport entre les flux nets moyens et l'effort initial.
           </Text>
           {inputs.feesEnabled && (
             <Text style={styles.opinionItem}>
               Frais de mission : {fmtEuro(result.feesHT)} HT + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC
-              {inputs.feesVatRecoverable ? ' (TVA récupérable)' : ' (TVA non récupérable)'}.
+              {inputs.holdingVatProfile === 'mixed'
+                ? ` (TVA récupérable partielle : ${inputs.vatRecoveryRate} %)`
+                : inputs.holdingVatProfile === 'pure'
+                  ? ' (TVA non récupérable — holding pure)'
+                  : result.recoverableVatAmount > 0 ? ' (TVA récupérable)' : ' (TVA non récupérable)'}.
             </Text>
           )}
+        </View>
+
+        {/* Lecture économique après extinction */}
+        <View style={{ ...styles.opinionBox, marginTop: 8 }}>
+          <Text style={styles.opinionTitle}>Lecture économique après extinction de l'usufruit</Text>
+          <Text style={styles.opinionItem}>
+            Flux nets encaissés sur {inputs.usufruitDuration} ans : {fmtEuro(result.cumulativeNetCashFlowAfterFees)}.
+          </Text>
+          <Text style={styles.opinionItem}>
+            Effort initial total : {fmtEuro(result.effortEconomique)}.
+          </Text>
+          <Text style={styles.opinionItem}>
+            Gain net économique après extinction de l'usufruit : {fmtEuro(result.gainNetAfterUsufructExtinction)}.
+          </Text>
+          <Text style={styles.opinionItem}>
+            Rendement cash-flow moyen annuel : {fmtPercent(result.cashFlowAverageReturn)}.
+          </Text>
+          <Text style={styles.opinionItem}>
+            Rendement simple après extinction : {fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an.
+          </Text>
+          <Text style={styles.opinionItem}>
+            L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.
+          </Text>
+          <Text style={{ ...styles.opinionItem, color: '#64748b', fontStyle: 'italic' }}>
+            Ce rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.
+          </Text>
         </View>
 
         {/* Points de vigilance */}
         <View style={styles.vigilanceBox}>
           <Text style={styles.vigilanceTitle}>Points de vigilance</Text>
-          <Text style={styles.vigilanceItem}>• L'usufruit temporaire n'offre pas de valeur de revente à l'échéance.</Text>
+          <Text style={styles.vigilanceItem}>• L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.</Text>
+          <Text style={styles.vigilanceItem}>• Le rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.</Text>
           <Text style={styles.vigilanceItem}>• Les revenus futurs des SCPI ne sont pas garantis et dépendent du marché immobilier.</Text>
           <Text style={styles.vigilanceItem}>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</Text>
           {inputs.feesEnabled && (
             <Text style={styles.vigilanceItem}>• Le traitement fiscal des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</Text>
+          )}
+          {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
+            <Text style={styles.vigilanceItem}>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte. Le traitement des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</Text>
+          )}
+          {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
+            <Text style={styles.vigilanceItem}>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</Text>
           )}
           <Text style={styles.vigilanceItem}>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</Text>
         </View>
@@ -911,6 +974,9 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <>
               <Text style={styles.infoItem}>• Les frais de mission sont supposés payés au démarrage et intégrés dans l'effort initial. Ils sont isolés en année 1 pour mesurer le flux net complet de lancement.</Text>
               <Text style={styles.infoItem}>• Frais de mission : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.</Text>
+              {inputs.holdingVatProfile !== 'to-qualify' && (
+                <Text style={styles.infoItem}>• Profil TVA holding : {inputs.holdingVatProfile === 'pure' ? 'Holding pure' : inputs.holdingVatProfile === 'animator' ? 'Holding animatrice' : `Holding mixte (${inputs.vatRecoveryRate} % récupérable)`}.</Text>
+              )}
               <Text style={styles.infoItem}>• Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.</Text>
               <Text style={styles.infoItem}>• Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.</Text>
               <Text style={styles.infoItem}>• Le traitement des frais de mission dépend de leur nature, justification et comptabilisation.</Text>

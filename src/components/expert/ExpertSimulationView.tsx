@@ -115,8 +115,16 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
         <Kpi label="Trésorerie résid." value={fmtEuro(s.residualTreasury)} color="slate" />
         <Kpi label="Cash-flow A1" value={fmtEuro(s.yearOneNetCashFlow)} color="emerald" />
         <Kpi label="Impact IS A1" value={'+' + fmtEuro(s.yearOneTaxImpact)} color="orange" />
-        <Kpi label="Rend. moyen" value={fmtPercent(s.averageAnnualNetYield)} color="emerald" />
+        <Kpi label="Rend. cash-flow" value={fmtPercent(s.cashFlowAverageReturn ?? s.averageAnnualNetYield)} color="amber" />
         <Kpi label="Cash-flow cumulé" value={fmtEuro(s.cumulativeNetCashFlow)} color="emerald" />
+        <Kpi label="Gain net après extinction" value={fmtEuro(s.gainNetAfterUsufructExtinction)} color="emerald" />
+        <Kpi label="Rend. après extinction" value={fmtPercent(s.annualizedSimpleReturnAfterExtinction)} color="emerald" />
+        {(s.recoverableVatAmount ?? s.nonRecoverableVatAmount) !== undefined && (
+          <Kpi label="TVA récupérable" value={fmtEuro(s.recoverableVatAmount)} color="emerald" />
+        )}
+        {s.nonRecoverableVatAmount !== undefined && s.nonRecoverableVatAmount > 0 && (
+          <Kpi label="TVA non récupérable" value={fmtEuro(s.nonRecoverableVatAmount)} color="orange" />
+        )}
       </div>
 
       {/* Comparatif avant / après */}

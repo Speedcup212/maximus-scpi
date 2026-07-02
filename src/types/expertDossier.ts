@@ -44,7 +44,15 @@ export interface ExpertHoldingSimulationResults {
   averageAnnualNetReturn: number;
   residualCash: number;
   initialEffort: number;
-  [key: string]: unknown; // compatibilité avec comparatif, projections, etc.
+  // ── Nouveaux champs (rétrocompatibles via [key: string]: unknown) ──
+  gainNetAfterUsufructExtinction?: number;
+  netEconomicReturnAfterExtinction?: number;
+  annualizedSimpleReturnAfterExtinction?: number;
+  cashFlowAverageReturn?: number;
+  economicInitialEffort?: number;
+  recoverableVatAmount?: number;
+  nonRecoverableVatAmount?: number;
+  [key: string]: unknown;
 }
 
 export interface ExpertSimulationSummary {
@@ -60,6 +68,11 @@ export interface ExpertSimulationSummary {
   yearOneTaxImpact: number;
   averageAnnualNetYield: number;
   cumulativeNetCashFlow: number;
+  gainNetAfterUsufructExtinction?: number;
+  annualizedSimpleReturnAfterExtinction?: number;
+  cashFlowAverageReturn?: number;
+  recoverableVatAmount?: number;
+  nonRecoverableVatAmount?: number;
 }
 
 export interface ExpertClientDossier {
