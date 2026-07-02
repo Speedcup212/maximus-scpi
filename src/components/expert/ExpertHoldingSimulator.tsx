@@ -185,6 +185,14 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       .slice(0, 8);
   }, [dossierList, dossierSearch]);
 
+  // ── Synchronisation profil TVA → TVA récupérable ──
+  useEffect(() => {
+    if (inputs.holdingVatProfile === 'pure') {
+      setInputs((prev) => prev.feesVatRecoverable ? { ...prev, feesVatRecoverable: false } : prev);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputs.holdingVatProfile]);
+
   /* ── Calculs ── */
   const result: HoldingISResult = useMemo(() => calculateHoldingISProjection(inputs), [inputs]);
   const isSansOperation = useMemo(() => calculateCorporateTax(inputs.preTaxProfit, {
@@ -225,7 +233,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     }
 
     if (inputs.feesEnabled && result.effortEconomique > 0 && (result.feesHT / inputs.usufruitInvestment) > 0.10) {
-      w.push({ id: 'fees-high', message: 'Honoraires élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
+      w.push({ id: 'fees-high', message: 'Frais de mission élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
     }
 
     if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.nonRecoverableVatAmount > 0 && inputs.holdingVatProfile === 'to-qualify') {
@@ -241,11 +249,65 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     }
 
     if (inputs.feesEnabled && inputs.feesTreatment === 'non-deductible') {
-      w.push({ id: 'fees-non-deductible', message: 'Les honoraires n\'impactent pas le résultat fiscal dans cette simulation (traitement non déductible).', severity: 'info' });
+      w.push({ id: 'fees-non-deductible', message: 'Les frais de mission n\'impactent pas le résultat fiscal dans cette simulation (traitement non déductible).', severity: 'info' });
+    }
+
+    // ── Contrôles de cohérence cabinet ──
+
+    // A. Holding pure + TVA récupérable (ne devrait pas arriver avec la synchro, mais ceinture + bretelles)
+    if (inputs.holdingVatProfile === 'pure' && inputs.feesVatRecoverable) {
+      w.push({ id: 'vat-pure-inconsistency', message: 'Incohérence probable : une holding pure ne permet généralement pas la récupération de TVA. À valider.', severity: 'critical' });
+    }
+
+    // B. Profil TVA à qualifier + TVA récupérable cochée
+    if (inputs.holdingVatProfile === 'to-qualify' && inputs.feesVatRecoverable && inputs.feesEnabled && result.feesVAT > 0) {
+      w.push({ id: 'vat-to-qualify-recoverable', message: 'TVA récupérable retenue alors que le profil TVA de la holding est à qualifier.', severity: 'warning' });
+    }
+
+    // C. Frais de mission > 10 % de l'usufruit investi (already covered above by fees-high)
+
+    // D. Cash-flow net année 1 négatif
+    if (result.annualNetCashFlowAfterFees < 0) {
+      w.push({ id: 'cashflow-negative-year1', message: 'Flux net année 1 négatif — opération à revoir.', severity: 'warning' });
+    }
+
+    // E. Gain net après extinction négatif
+    if (result.gainNetAfterUsufructExtinction < 0) {
+      w.push({ id: 'gain-negative', message: 'Gain économique négatif après extinction de l\'usufruit — opération défavorable.', severity: 'critical' });
+    }
+
+    // F. Résultat fiscal avant opération < 42 500 €
+    if (inputs.reducedRateEligible && inputs.preTaxProfit < 42500 && inputs.preTaxProfit > 0) {
+      w.push({ id: 'reduced-rate-available', message: 'La tranche à taux réduit peut absorber une partie du résultat additionnel selon les conditions d\'éligibilité.', severity: 'info' });
+    }
+
+    // G. Résultat fiscal avant opération ≥ 42 500 €
+    if (inputs.reducedRateEligible && inputs.preTaxProfit >= 42500) {
+      w.push({ id: 'reduced-rate-exhausted', message: 'La tranche d\'IS à taux réduit étant déjà consommée, le résultat additionnel est principalement imposé au taux marginal applicable.', severity: 'info' });
     }
 
     return w;
-  }, [inputs, result.effortEconomique, result.annualNetCashFlowAfterFees, result.netCompanyYieldAvgAnnual, result.feesHT, result.feesVAT]);
+  }, [inputs, result.effortEconomique, result.annualNetCashFlowAfterFees, result.netCompanyYieldAvgAnnual, result.feesHT, result.feesVAT, result.gainNetAfterUsufructExtinction]);
+
+  /* ── Avis d'expert ── */
+  const expertOpinion = useMemo(() => {
+    const perfLabel = result.gainNetAfterUsufructExtinction > 0 ? 'favorable' : 'défavorable';
+    const vatLabel = inputs.holdingVatProfile === 'to-qualify'
+      ? 'à qualifier'
+      : inputs.holdingVatProfile === 'pure'
+        ? 'vigilance forte'
+        : 'cohérente';
+    const conclusionLabel = result.gainNetAfterUsufructExtinction > 0
+      ? 'favorable sous réserves'
+      : 'à approfondir';
+
+    return {
+      fiscalSection: 'Mécanique fiscale cohérente : l\'amortissement de l\'usufruit réduit la base taxable des revenus SCPI.',
+      performanceSection: `Performance économique ${perfLabel} : le gain net après extinction ressort à ${fmtEuro(result.gainNetAfterUsufructExtinction)} sur ${inputs.usufruitDuration} ans.`,
+      vatSection: `TVA ${vatLabel} : ${inputs.holdingVatProfile === 'to-qualify' ? 'la récupération dépend du statut réel de la holding.' : inputs.holdingVatProfile === 'pure' ? 'la TVA non récupérable est intégrée à l\'effort économique.' : inputs.holdingVatProfile === 'mixed' ? `récupération partielle à ${inputs.vatRecoveryRate} %.` : 'la récupération est retenue sous réserve du statut d\'animatrice.'}`,
+      conclusionSection: `Opération ${conclusionLabel} de validation du statut TVA, du traitement des frais de mission et de l'adéquation avec la trésorerie stable de la société.`,
+    };
+  }, [result.gainNetAfterUsufructExtinction, inputs.holdingVatProfile, inputs.usufruitDuration, inputs.vatRecoveryRate]);
 
   const updateInput = <K extends keyof HoldingISInputs>(key: K, value: HoldingISInputs[K]) => {
     setInputs((prev) => ({ ...prev, [key]: value }));
@@ -577,17 +639,17 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               </div>
             </div>
 
-            {/* ── Honoraires et frais ── */}
+            {/* ── Frais de mission ── */}
             <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-violet-700/30">
               <div className="flex items-center gap-2 mb-1">
                 <Receipt className="w-4 h-4 text-violet-400" />
-                <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Honoraires et frais de structuration</span>
+                <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Frais de mission et de structuration</span>
               </div>
               <label className="flex items-start gap-2 cursor-pointer select-none">
                 <input type="checkbox" checked={inputs.feesEnabled}
                   onChange={(e) => updateInput('feesEnabled', e.target.checked)}
                   className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600" />
-                <span className="text-xs text-slate-300">Activer les honoraires</span>
+                <span className="text-xs text-slate-300">Activer les frais de mission</span>
               </label>
               {inputs.feesEnabled && (
                 <>
@@ -603,7 +665,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Honoraires saisis en</label>
+                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Frais de mission saisis en</label>
                     <div className="grid grid-cols-2 gap-1.5">
                       {FEES_VAT_MODES.map((m) => (
                         <button key={m} onClick={() => updateInput('feesVatMode', m)}
@@ -631,11 +693,16 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       onChange={(e) => updateInput('feesVatRate', Math.min(100, Math.max(0, Number(e.target.value))))}
                       className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
                   </div>
-                  <label className="flex items-start gap-2 cursor-pointer select-none">
+                  <label className="flex items-start gap-2 select-none"
+                    style={{ cursor: inputs.holdingVatProfile === 'pure' ? 'not-allowed' : 'pointer' }}>
                     <input type="checkbox" checked={inputs.feesVatRecoverable}
                       onChange={(e) => updateInput('feesVatRecoverable', e.target.checked)}
-                      className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600" />
-                    <span className="text-xs text-slate-300">TVA récupérable</span>
+                      disabled={inputs.holdingVatProfile === 'pure'}
+                      className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600 disabled:opacity-40 disabled:cursor-not-allowed" />
+                    <span className={`text-xs ${inputs.holdingVatProfile === 'pure' ? 'text-slate-600' : 'text-slate-300'}`}>
+                      TVA récupérable
+                      {inputs.holdingVatProfile === 'pure' && <span className="text-[10px] text-slate-600 ml-1">(verrouillée — holding pure)</span>}
+                    </span>
                   </label>
 
                   {/* ── Profil TVA holding ── */}
@@ -655,6 +722,23 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       ))}
                     </div>
                   </div>
+
+                  {/* Alerte profil TVA conditionnelle */}
+                  {inputs.holdingVatProfile === 'to-qualify' && (
+                    <div className="bg-amber-950/30 border border-amber-800/40 rounded-lg px-3 py-2 text-[10px] text-amber-300/80">
+                      Profil TVA à qualifier — le droit à récupération doit être validé par le cabinet.
+                    </div>
+                  )}
+                  {inputs.holdingVatProfile === 'animator' && (
+                    <div className="bg-blue-950/30 border border-blue-800/40 rounded-lg px-3 py-2 text-[10px] text-blue-300/80">
+                      TVA récupérable sous réserve d'une activité économique taxable et de prestations effectivement facturées.
+                    </div>
+                  )}
+                  {inputs.holdingVatProfile === 'pure' && (
+                    <div className="bg-orange-950/30 border border-orange-800/40 rounded-lg px-3 py-2 text-[10px] text-orange-300/80">
+                      Holding pure : récupération de TVA généralement non retenue. La TVA non récupérable augmente l'effort économique.
+                    </div>
+                  )}
 
                   {/* Taux récupération TVA partielle */}
                   {inputs.holdingVatProfile === 'mixed' && (
@@ -692,10 +776,10 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
         <div className="lg:col-span-2 space-y-6">
           {/* ── 6 KPI synthèse ── */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            <KpiCard icon={<Wallet className="w-4 h-4" />} label="Effort de trésorerie" value={fmtEuro(result.effortEconomique)} color="blue"
-              sublabel={inputs.feesEnabled ? (inputs.feesVatRecoverable ? 'Usufruit + HT' : 'Usufruit + TTC') : undefined} />
+            <KpiCard icon={<Wallet className="w-4 h-4" />} label="Effort initial économique" value={fmtEuro(result.effortEconomique)} color="blue"
+              sublabel="Usufruit + frais + TVA non récup. éventuelle" />
             <KpiCard icon={<Euro className="w-4 h-4" />} label="Cash-flow net année 1" value={fmtEuro(result.annualNetCashFlowAfterFees)} color="emerald"
-              sublabel="Après honoraires" />
+              sublabel="Après frais de mission" />
             <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement cash-flow moyen" value={fmtPercent(result.cashFlowAverageReturn)} color="amber"
               sublabel="Flux net moyen / effort initial" />
             <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Gain net après extinction" value={fmtEuro(result.gainNetAfterUsufructExtinction)} color="emerald"
@@ -779,7 +863,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       {inputs.feesEnabled && result.feesHT > 0 && (
                         <>
                           <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
-                            Honoraires : <strong>{fmtEuro(result.feesHT)} HT</strong>
+                            Frais de mission : <strong>{fmtEuro(result.feesHT)} HT</strong>
                             {result.feesVAT > 0 && <span> + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC</span>}
                             {result.recoverableVatAmount > 0 && result.nonRecoverableVatAmount > 0
                               ? ` (TVA récupérable partielle : ${fmtEuro(result.recoverableVatAmount)} / non récupérable : ${fmtEuro(result.nonRecoverableVatAmount)}).`
@@ -850,6 +934,27 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </div>
                   </div>
 
+                  {/* Avis d'expert */}
+                  <div className="bg-violet-950/20 border border-violet-900/30 rounded-xl p-5 space-y-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Shield className="w-4 h-4 text-violet-400" />
+                      <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Avis d'expert</span>
+                    </div>
+                    <ul className="space-y-2 text-xs text-violet-100/80 leading-relaxed">
+                      <li><span className="text-violet-400 font-semibold mr-1">Mécanique fiscale :</span>{expertOpinion.fiscalSection}</li>
+                      <li><span className="text-violet-400 font-semibold mr-1">Performance économique :</span>{expertOpinion.performanceSection}</li>
+                      <li><span className="text-violet-400 font-semibold mr-1">TVA :</span>{expertOpinion.vatSection}</li>
+                    </ul>
+                    <div className="bg-violet-950/40 border border-violet-900/20 rounded-lg px-3 py-2">
+                      <p className="text-[11px] text-violet-300/70 leading-relaxed">
+                        <span className="font-semibold">Conclusion cabinet :</span> {expertOpinion.conclusionSection}
+                      </p>
+                    </div>
+                    <p className="text-[10px] text-violet-400/50 italic">
+                      Note de travail — ne constitue ni un conseil fiscal ni une recommandation d'investissement.
+                    </p>
+                  </div>
+
                   {/* Points de vigilance */}
                   <div className="bg-orange-950/20 border border-orange-900/30 rounded-xl p-5">
                     <div className="flex items-center gap-2 mb-1">
@@ -862,7 +967,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       <li>• Les revenus futurs des SCPI ne sont pas garantis et dépendent du marché immobilier.</li>
                       <li>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</li>
                       {inputs.feesEnabled && (
-                        <li>• Le traitement fiscal des honoraires doit être validé selon la nature de la facture et le régime TVA de la société.</li>
+                        <li>• Le traitement fiscal des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
                       )}
                       {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
                         <li>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte. Le traitement des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
@@ -951,8 +1056,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                           <ComparatifRow label="Charge déductible : amort. usufruit" before={0} after={result.annualAmortization}
                             delta={result.annualAmortization} deltaKind="charge" />
                           {inputs.feesEnabled && result.feesFiscalYear1 > 0 && (
-                            <ComparatifRow label="Charge déductible : honoraires" before={0} after={result.feesFiscalYear1}
+                            <ComparatifRow label="Charge déductible : frais de mission" before={0} after={result.feesFiscalYear1}
                               delta={result.feesFiscalYear1} deltaKind="charge"
+                              deltaLabel="Frais"
                               sub={FEES_TREATMENT_SHORT[inputs.feesTreatment]} />
                           )}
                           <ComparatifRow label="Cash-flow net société" before={0}
@@ -968,11 +1074,11 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   {inputs.feesEnabled && result.feesHT > 0 && (
                     <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
                       <span className="text-xs font-bold text-violet-400 uppercase tracking-wider flex items-center gap-2 mb-3">
-                        <Receipt className="w-4 h-4" />Détail honoraires et TVA
+                        <Receipt className="w-4 h-4" />Détail frais de mission et TVA
                       </span>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                         <div>
-                          <span className="text-slate-500">Honoraires HT</span>
+                          <span className="text-slate-500">Frais de mission HT</span>
                           <p className="text-white font-semibold mt-0.5">{fmtEuro(result.feesHT)}</p>
                         </div>
                         <div>
@@ -982,7 +1088,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                           </p>
                         </div>
                         <div>
-                          <span className="text-slate-500">Honoraires TTC</span>
+                          <span className="text-slate-500">Frais de mission TTC</span>
                           <p className="text-violet-400 font-semibold mt-0.5">{fmtEuro(result.feesTTC)}</p>
                         </div>
                         <div>
@@ -1012,7 +1118,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       {/* Barre après honoraires */}
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-400">Après honoraires</span>
+                          <span className="text-slate-400">Après frais de mission</span>
                           <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</span>
                         </div>
                         <div className="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-slate-700">
@@ -1023,7 +1129,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       {/* Barre hors honoraires */}
                       <div>
                         <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-500">Hors honoraires</span>
+                          <span className="text-slate-500">Hors frais de mission</span>
                           <span className="text-slate-400 font-medium">{fmtEuro(result.cumulativeNetCashFlow)}</span>
                         </div>
                         <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-700">
@@ -1105,7 +1211,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                               <li>
                                 <span className="text-violet-400 mr-2">•</span>
                                 <span className="text-violet-300/70">
-                                  Honoraires : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.
+                                  Frais de mission : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.
                                   Traitement : {FEES_TREATMENT_LABELS[inputs.feesTreatment].toLowerCase()}.
                                   Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.
                                 </span>
@@ -1143,7 +1249,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                               <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Revenus</th>
                               <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Amort.</th>
                               {inputs.feesEnabled && (
-                                <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-violet-500 font-semibold text-right">Honor.</th>
+                                <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-violet-500 font-semibold text-right">Mission</th>
                               )}
                               <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">Rés. fiscal op.</th>
                               <th className="py-2.5 px-2 text-[10px] uppercase tracking-wider text-slate-500 font-semibold text-right">IS sans</th>
@@ -1203,7 +1309,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       <div className="flex items-start gap-3 border-t border-amber-900/20 pt-3">
                         <Receipt className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
                         <div className="text-xs text-amber-200/70 leading-relaxed space-y-1">
-                          <p><strong>Honoraires.</strong> Le traitement dépend de leur nature, de leur justification
+                          <p><strong>Frais de mission.</strong> Le traitement dépend de leur nature, de leur justification
                             et de leur comptabilisation. Sous la responsabilité de l'expert-comptable.</p>
                           <p><strong>HT/TTC.</strong> Le traitement HT/TTC et la récupération de TVA doivent être validés
                             par le cabinet selon le régime TVA de la société.</p>
@@ -1260,10 +1366,10 @@ type DeltaKind = 'positive' | 'negative' | 'is' | 'charge' | 'cash';
 
 interface ComparatifRowProps {
   label: string; before: number; after: number; delta: number;
-  deltaKind: DeltaKind; highlight?: boolean; sub?: string;
+  deltaKind: DeltaKind; highlight?: boolean; sub?: string; deltaLabel?: string;
 }
 
-const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, delta, deltaKind, highlight, sub }) => {
+const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, delta, deltaKind, highlight, sub, deltaLabel }) => {
   const absDelta = Math.abs(delta);
   const sign = delta >= 0 ? '+' : '−';
 
@@ -1271,7 +1377,7 @@ const ComparatifRow: React.FC<ComparatifRowProps> = ({ label, before, after, del
   let deltaColor: string;
 
   if (deltaKind === 'charge') {
-    deltaDisplay = `Charge retenue : ${fmtNumber(absDelta)} €`;
+    deltaDisplay = `${deltaLabel || 'Charge'} : ${fmtNumber(absDelta)} €`;
     deltaColor = 'text-orange-400';
   } else if (deltaKind === 'is') {
     deltaDisplay = `${sign}${fmtNumber(absDelta)} €`;
