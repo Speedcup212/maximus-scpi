@@ -71,7 +71,7 @@ const DEFAULT_INPUTS: HoldingISInputs = {
   alternativeRateMode: 'brut',
 };
 
-type TabId = 'synthese' | 'analyse' | 'projections';
+type TabId = 'synthese' | 'fiscalite' | 'tresorerie' | 'controles' | 'projection';
 
 /* ── Helpers formatage ── */
 
@@ -94,8 +94,22 @@ interface ExpertHoldingSimulatorProps {
 const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavigateToDossier }) => {
   const [inputs, setInputs] = useState<HoldingISInputs>({ ...DEFAULT_INPUTS });
   const [activeTab, setActiveTab] = useState<TabId>('synthese');
-  const [showProjection, setShowProjection] = useState(false);
+  const [showProjection, setShowProjection] = useState(true); // Onglet 5 : projection ouverte par défaut
   const [showHypotheses, setShowHypotheses] = useState(false);
+  // Onglet 1 : collapsibles Synthèse
+  const [showSyntheseDirigeant, setShowSyntheseDirigeant] = useState(false);
+  const [showAvisExpert, setShowAvisExpert] = useState(false);
+  const [showVigilanceSynthese, setShowVigilanceSynthese] = useState(false);
+  // Onglet 4 : collapsibles Contrôles
+  const [showControlsBloquants, setShowControlsBloquants] = useState(false);
+  const [showPointsValider, setShowPointsValider] = useState(false);
+  const [showPointsVigilance, setShowPointsVigilance] = useState(false);
+  // Onglet 2 : collapsibles Fiscalité IS
+  const [showFraisDetail, setShowFraisDetail] = useState(false);
+  const [showISDetail, setShowISDetail] = useState(false);
+  // Onglet 3 : collapsibles Trésorerie
+  const [showFluxCumules, setShowFluxCumules] = useState(false);
+  const [showComparaisonAlt, setShowComparaisonAlt] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
   const [alternativeGrossRateInput, setAlternativeGrossRateInput] = useState<string>('');
@@ -461,10 +475,22 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   const hasCriticalErrors = validationWarnings.some(w => w.severity === 'critical');
   const isPdfReady = areInputsValidForPdf(inputs);
 
+  // Résumé contrôles cabinet
+  const allCabinetChecks = useMemo(() => {
+    const vChecks = validationWarnings.map(w => ({ level: w.severity === 'critical' ? 'critical' : w.severity === 'warning' ? 'warning' : 'info' }));
+    const cChecks = (result.cabinetChecks || []).map(c => ({ level: c.level }));
+    return [...vChecks, ...cChecks];
+  }, [validationWarnings, result.cabinetChecks]);
+  const cabinetCriticalCount = allCabinetChecks.filter(c => c.level === 'critical').length;
+  const cabinetWarningCount = allCabinetChecks.filter(c => c.level === 'warning').length;
+  const cabinetTotalCount = allCabinetChecks.length;
+
   const TABS: { id: TabId; label: string }[] = [
-    { id: 'synthese', label: 'Synthèse & Argumentaire' },
-    { id: 'analyse', label: 'Analyse Comptable' },
-    { id: 'projections', label: 'Projections & Hypothèses' },
+    { id: 'synthese', label: 'Synthèse' },
+    { id: 'fiscalite', label: 'Fiscalité IS' },
+    { id: 'tresorerie', label: 'Trésorerie & TRI' },
+    { id: 'controles', label: 'Contrôles cabinet' },
+    { id: 'projection', label: 'Projection' },
   ];
 
   return (
@@ -912,78 +938,43 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               sublabel="Flux nets annuels, sans valeur résiduelle" />
           </div>
 
-          {/* ── Contrôles cabinet ── */}
-          {result.cabinetChecks && result.cabinetChecks.length > 0 && (
-            <div className={`rounded-xl border p-5 space-y-3
-              ${result.cabinetChecks.some(c => c.level === 'critical') ? 'bg-red-950/30 border-red-900/50' :
-                result.cabinetChecks.some(c => c.level === 'warning') ? 'bg-orange-950/30 border-orange-900/50' :
-                'bg-blue-950/20 border-blue-900/50'}`}
+          {/* ── Mini résumé contrôles cabinet ── */}
+          <div className="flex items-center justify-between bg-slate-800/30 border border-slate-700/40 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-3">
+              <div className={`w-2 h-2 rounded-full ${
+                cabinetCriticalCount > 0 ? 'bg-red-400' : cabinetWarningCount > 0 ? 'bg-orange-400' : 'bg-emerald-400'
+              }`} />
+              <span className="text-xs text-slate-300">
+                Contrôles cabinet : <strong>{cabinetTotalCount}</strong> point{cabinetTotalCount !== 1 ? 's' : ''} à vérifier
+                {cabinetCriticalCount > 0 && (
+                  <span className="text-red-400"> — <strong>{cabinetCriticalCount}</strong> bloquant{cabinetCriticalCount !== 1 ? 's' : ''}</span>
+                )}
+                {cabinetWarningCount > 0 && cabinetCriticalCount === 0 && (
+                  <span className="text-orange-400"> — <strong>{cabinetWarningCount}</strong> attention{cabinetWarningCount !== 1 ? 's' : ''}</span>
+                )}
+              </span>
+            </div>
+            <button
+              onClick={() => setActiveTab('controles')}
+              className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors font-medium"
             >
-              <div className="flex items-center gap-2 mb-1">
-                <Shield className={`w-4 h-4 ${
-                  result.cabinetChecks.some(c => c.level === 'critical') ? 'text-red-400' :
-                  result.cabinetChecks.some(c => c.level === 'warning') ? 'text-orange-400' :
-                  'text-blue-400'
-                }`} />
-                <span className={`text-xs font-bold uppercase tracking-wider ${
-                  result.cabinetChecks.some(c => c.level === 'critical') ? 'text-red-300' :
-                  result.cabinetChecks.some(c => c.level === 'warning') ? 'text-orange-300' :
-                  'text-blue-300'
-                }`}>Contrôles cabinet</span>
-              </div>
-              {result.cabinetChecks.map((c) => (
-                <div key={c.id} className="flex items-start gap-3 py-1">
-                  <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
-                    c.level === 'critical' ? 'text-red-400' :
-                    c.level === 'warning' ? 'text-orange-400' : 'text-blue-400'
-                  }`} />
-                  <div className="flex-1 min-w-0">
-                    <span className={`text-xs font-semibold block ${
-                      c.level === 'critical' ? 'text-red-300' :
-                      c.level === 'warning' ? 'text-orange-300' : 'text-blue-300'
-                    }`}>{c.title}</span>
-                    <span className={`text-xs leading-relaxed block ${
-                      c.level === 'critical' ? 'text-red-200/80' :
-                      c.level === 'warning' ? 'text-orange-200/80' : 'text-blue-200/80'
-                    }`}>{c.message}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {(!result.cabinetChecks || result.cabinetChecks.length === 0) && (
-            <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-lg p-3 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span className="text-xs text-emerald-200/80">Aucun point bloquant détecté selon les hypothèses renseignées.</span>
-            </div>
-          )}
-
-          {/* ── Validation métier ── */}
-          {validationWarnings.length > 0 && (
-            <div className="bg-amber-950/20 border border-amber-900/30 rounded-xl p-4 space-y-2">
-              <div className="flex items-center gap-2 mb-1">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
-                <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">Validation des hypothèses</span>
-              </div>
-              {validationWarnings.map((w) => (
-                <div key={w.id} className="flex items-start gap-2">
-                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
-                    w.severity === 'critical' ? 'bg-red-900/40 text-red-300' :
-                    w.severity === 'warning' ? 'bg-orange-900/40 text-orange-300' : 'bg-blue-900/40 text-blue-300'
-                  }`}>
-                    {w.severity === 'critical' ? 'Bloquant' : w.severity === 'warning' ? 'Attention' : 'Info'}
-                  </span>
-                  <span className="text-xs text-amber-200/80">{w.message}</span>
-                </div>
-              ))}
-            </div>
-          )}
+              Voir les contrôles →
+            </button>
+          </div>
 
           {/* ── Onglets ── */}
           <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl overflow-hidden">
             {/* Tab bar */}
             <div className="flex border-b border-slate-700/50 overflow-x-auto bg-slate-900/50">
-              {TABS.map((tab) => (
+              {TABS.map((tab) => {
+                const tabColors: Record<TabId, string> = {
+                  synthese: 'bg-blue-500',
+                  fiscalite: 'bg-cyan-500',
+                  tresorerie: 'bg-emerald-500',
+                  controles: 'bg-orange-500',
+                  projection: 'bg-slate-400',
+                };
+                return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
@@ -995,154 +986,156 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                 >
                   {tab.label}
                   {activeTab === tab.id && (
-                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-blue-500 rounded-full" />
+                    <span className={`absolute bottom-0 left-2 right-2 h-0.5 ${tabColors[tab.id]} rounded-full`} />
                   )}
                 </button>
-              ))}
+                );
+              })}
             </div>
 
             {/* Tab content */}
             <div className="p-5">
-              {/* ── Onglet 1 : Synthèse & Argumentaire ── */}
+
+              {/* ═══════════════════════════════════════════
+                  Onglet 1 : Synthèse
+                  ═══════════════════════════════════════════ */}
               {activeTab === 'synthese' && (
-                <div className="space-y-5">
-                  {/* Lecture expert-comptable */}
-                  <div className="bg-blue-950/30 border border-blue-900/50 rounded-xl p-5 space-y-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Info className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Lecture expert-comptable</span>
-                    </div>
-                    <ul className="space-y-2 text-xs text-blue-100/80 leading-relaxed">
-                      <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        L'opération génère un résultat fiscal additionnel de <strong>{fmtEuro(result.annualFiscalResultOperationOnly)}</strong> la première année.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        L'impact IS année 1 ressort à <strong>{result.annualISImpact >= 0 ? '+' : '−'}{fmtEuro(Math.abs(result.annualISImpact))}</strong>.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        Le cash-flow net année 1 ressort à <strong>{fmtEuro(result.annualNetCashFlowAfterFees)}</strong>.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        Le rendement cash-flow moyen annuel ressort à <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
-                      </li>
-                      {inputs.feesEnabled && result.feesHT > 0 && (
-                        <>
-                          <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
-                            Frais de mission : <strong>{fmtEuro(result.feesHT)} HT</strong>
-                            {result.feesVAT > 0 && <span> + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC</span>}
-                            {result.recoverableVatAmount > 0 && result.nonRecoverableVatAmount > 0
-                              ? ` (TVA récupérable partielle : ${fmtEuro(result.recoverableVatAmount)} / non récupérable : ${fmtEuro(result.nonRecoverableVatAmount)}).`
-                              : inputs.holdingVatProfile === 'pure'
-                                ? ' (TVA non récupérable — holding pure).'
-                                : inputs.holdingVatProfile === 'animator'
-                                  ? ' (TVA récupérable — holding animatrice).'
-                                  : result.recoverableVatAmount > 0
-                                    ? ' (TVA récupérable).' : ' (TVA non récupérable).'}
-                          </li>
-                          <li><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
-                            Effort économique total : <strong>{fmtEuro(result.effortEconomique)}</strong>.
-                            Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.
-                          </li>
-                        </>
-                      )}
-                      <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
-                        Validation comptable et fiscale requise avant toute présentation client.
-                      </li>
-                    </ul>
-                  </div>
+                <div className="space-y-4">
 
-                  {/* Synthèse dirigeant */}
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
-                    <div className="flex items-center gap-2 mb-1">
-                      <TrendingUp className="w-4 h-4 text-emerald-400" />
-                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Synthèse dirigeant</span>
-                    </div>
-                    <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
-                      <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> au démarrage, incluant l'usufruit et les frais de mission HT.</li>
-                      <li>• La trésorerie résiduelle théorique ressort à <strong className={inputs.availableCash - result.effortEconomique < 0 ? 'text-red-400' : 'text-emerald-400'}>{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
-                      <li>• Investissement de {fmtEuro(result.effortEconomique)} finançant {fmtEuro(result.reconstitutedFullProperty)} de patrimoine SCPI (pleine propriété).</li>
-                      <li>• L'opération dégage un flux net de lancement de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1 (frais de mission isolés).</li>
-                      <li>• Sur {inputs.usufruitDuration} ans, le flux de lancement cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)} et le flux opérationnel cumulé {fmtEuro(result.economicCumulativeNetCashFlow)}.</li>
-                      <li>• Gain économique après extinction : <strong className="text-emerald-400">{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong>.</li>
-                    </ul>
-                  </div>
-
-                  {/* Lecture économique après extinction */}
-                  <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-5 space-y-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Landmark className="w-4 h-4 text-emerald-400" />
-                      <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Lecture économique après extinction de l'usufruit</span>
-                    </div>
-                    <ul className="space-y-2 text-xs text-emerald-100/80 leading-relaxed">
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        L'effort initial total est de <strong>{fmtEuro(result.effortEconomique)}</strong>.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        Flux nets encaissés sur {inputs.usufruitDuration} ans : <strong>{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</strong>.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        Gain net économique après extinction de l'usufruit : <strong>{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong> (flux cumulés – effort initial).
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        Rendement cash-flow moyen annuel : <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        Rendement simple après extinction : <strong>{fmtPercent(result.annualizedSimpleReturnAfterExtinction)}&nbsp;/&nbsp;an</strong>.
-                      </li>
-                      <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
-                        L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.
-                      </li>
-                    </ul>
-                    <div className="bg-emerald-950/40 border border-emerald-900/20 rounded-lg px-3 py-2">
-                      <p className="text-[11px] text-emerald-300/70 leading-relaxed">
-                        Le rendement cash-flow moyen ne constitue pas un TRI. Il mesure le rapport entre les flux nets moyens et l'effort initial. L'analyse économique doit intégrer l'extinction de l'usufruit à l'échéance.
-                      </p>
+                  {/* Lecture expert-comptable — ouvert par défaut */}
+                  <div className="bg-blue-950/30 border border-blue-900/50 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowSyntheseDirigeant(false)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-blue-950/50 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <Info className="w-4 h-4 text-blue-400" />
+                        <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Lecture expert-comptable</span>
+                      </div>
+                      <span className="text-[10px] text-blue-500 font-medium">Ouvert</span>
+                    </button>
+                    <div className="px-5 pb-4 space-y-2">
+                      <ul className="space-y-2 text-xs text-blue-100/80 leading-relaxed">
+                        <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
+                          L'opération génère un résultat fiscal additionnel de <strong>{fmtEuro(result.annualFiscalResultOperationOnly)}</strong> la première année.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
+                          L'impact IS année 1 ressort à <strong>{result.annualISImpact >= 0 ? '+' : '−'}{fmtEuro(Math.abs(result.annualISImpact))}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
+                          Le cash-flow net année 1 ressort à <strong>{fmtEuro(result.annualNetCashFlowAfterFees)}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
+                          Le rendement cash-flow moyen annuel ressort à <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
+                        </li>
+                        {inputs.feesEnabled && result.feesHT > 0 && (
+                          <>
+                            <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
+                              Frais de mission : <strong>{fmtEuro(result.feesHT)} HT</strong>
+                              {result.feesVAT > 0 && <span> + {fmtEuro(result.feesVAT)} TVA = {fmtEuro(result.feesTTC)} TTC</span>}
+                              {result.recoverableVatAmount > 0 && result.nonRecoverableVatAmount > 0
+                                ? ` (TVA récupérable partielle : ${fmtEuro(result.recoverableVatAmount)} / non récupérable : ${fmtEuro(result.nonRecoverableVatAmount)}).`
+                                : inputs.holdingVatProfile === 'pure'
+                                  ? ' (TVA non récupérable — holding pure).'
+                                  : inputs.holdingVatProfile === 'animator'
+                                    ? ' (TVA récupérable — holding animatrice).'
+                                    : result.recoverableVatAmount > 0
+                                      ? ' (TVA récupérable).' : ' (TVA non récupérable).'}
+                            </li>
+                            <li><ArrowRight className="w-3 h-3 text-violet-400 inline mr-1.5" />
+                              Effort économique total : <strong>{fmtEuro(result.effortEconomique)}</strong>.
+                              Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.
+                            </li>
+                          </>
+                        )}
+                        <li className="pt-1 border-t border-blue-900/40 mt-1"><ArrowRight className="w-3 h-3 text-blue-400 inline mr-1.5" />
+                          Validation comptable et fiscale requise avant toute présentation client.
+                        </li>
+                      </ul>
                     </div>
                   </div>
 
-                  {/* Avis d'expert */}
-                  <div className="bg-violet-950/20 border border-violet-900/30 rounded-xl p-5 space-y-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Shield className="w-4 h-4 text-violet-400" />
-                      <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Avis d'expert</span>
-                    </div>
-                    <ul className="space-y-2 text-xs text-violet-100/80 leading-relaxed">
-                      <li><span className="text-violet-400 font-semibold mr-1">Mécanique fiscale :</span>{expertOpinion.fiscalSection}</li>
-                      <li><span className="text-violet-400 font-semibold mr-1">Performance économique :</span>{expertOpinion.performanceSection}</li>
-                      <li><span className="text-violet-400 font-semibold mr-1">TVA :</span>{expertOpinion.vatSection}</li>
-                    </ul>
-                    <div className="bg-violet-950/40 border border-violet-900/20 rounded-lg px-3 py-2">
-                      <p className="text-[11px] text-violet-300/70 leading-relaxed">
-                        <span className="font-semibold">Conclusion cabinet :</span> {expertOpinion.conclusionSection}
-                      </p>
-                    </div>
-                    <p className="text-[10px] text-violet-400/50 italic">
-                      Note de travail — ne constitue ni un conseil fiscal ni une recommandation d'investissement.
-                    </p>
+                  {/* Synthèse dirigeant — repliable */}
+                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowSyntheseDirigeant(!showSyntheseDirigeant)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Synthèse dirigeant</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showSyntheseDirigeant ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showSyntheseDirigeant && (
+                      <div className="px-5 pb-4 border-t border-slate-700/50">
+                        <ul className="pt-3 space-y-1.5 text-xs text-slate-300 leading-relaxed">
+                          <li>• La société mobilise <strong className="text-white">{fmtEuro(result.effortEconomique)}</strong> au démarrage, incluant l'usufruit et les frais de mission HT.</li>
+                          <li>• La trésorerie résiduelle théorique ressort à <strong className={inputs.availableCash - result.effortEconomique < 0 ? 'text-red-400' : 'text-emerald-400'}>{fmtEuro(inputs.availableCash - result.effortEconomique)}</strong> après opération.</li>
+                          <li>• Investissement de {fmtEuro(result.effortEconomique)} finançant {fmtEuro(result.reconstitutedFullProperty)} de patrimoine SCPI (pleine propriété).</li>
+                          <li>• L'opération dégage un flux net de lancement de {fmtEuro(result.annualNetCashFlowAfterFees)} dès l'année 1 (frais de mission isolés).</li>
+                          <li>• Sur {inputs.usufruitDuration} ans, le flux de lancement cumulé atteint {fmtEuro(result.cumulativeNetCashFlowAfterFees)} et le flux opérationnel cumulé {fmtEuro(result.economicCumulativeNetCashFlow)}.</li>
+                          <li>• Gain économique après extinction : <strong className="text-emerald-400">{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong>.</li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Points de vigilance */}
-                  <div className="bg-orange-950/20 border border-orange-900/30 rounded-xl p-5">
-                    <div className="flex items-center gap-2 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-orange-400" />
-                      <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Points de vigilance</span>
-                    </div>
-                    <ul className="space-y-1.5 text-xs text-orange-200/80 leading-relaxed">
-                      <li>• L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.</li>
-                      <li>• Le rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.</li>
-                      <li>• Les revenus futurs des SCPI ne sont pas garantis et dépendent du marché immobilier.</li>
-                      <li>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</li>
-                      {inputs.feesEnabled && (
-                        <li>• Le traitement fiscal des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
-                      )}
-                      {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
-                        <li>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte. Le traitement des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
-                      )}
-                      {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
-                        <li>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</li>
-                      )}
-                      <li>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</li>
-                    </ul>
+                  {/* Avis d'expert — repliable */}
+                  <div className="bg-violet-950/20 border border-violet-900/30 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowAvisExpert(!showAvisExpert)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-violet-950/40 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-violet-400" />
+                        <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Avis d'expert</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showAvisExpert ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showAvisExpert && (
+                      <div className="px-5 pb-4 border-t border-violet-900/30 space-y-3">
+                        <ul className="pt-3 space-y-2 text-xs text-violet-100/80 leading-relaxed">
+                          <li><span className="text-violet-400 font-semibold mr-1">Mécanique fiscale :</span>{expertOpinion.fiscalSection}</li>
+                          <li><span className="text-violet-400 font-semibold mr-1">Performance économique :</span>{expertOpinion.performanceSection}</li>
+                          <li><span className="text-violet-400 font-semibold mr-1">TVA :</span>{expertOpinion.vatSection}</li>
+                        </ul>
+                        <div className="bg-violet-950/40 border border-violet-900/20 rounded-lg px-3 py-2">
+                          <p className="text-[11px] text-violet-300/70 leading-relaxed">
+                            <span className="font-semibold">Conclusion cabinet :</span> {expertOpinion.conclusionSection}
+                          </p>
+                        </div>
+                        <p className="text-[10px] text-violet-400/50 italic">
+                          Note de travail — ne constitue ni un conseil fiscal ni une recommandation d'investissement.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Points de vigilance — repliable */}
+                  <div className="bg-orange-950/20 border border-orange-900/30 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowVigilanceSynthese(!showVigilanceSynthese)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-orange-950/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-orange-400" />
+                        <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Points de vigilance</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showVigilanceSynthese ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showVigilanceSynthese && (
+                      <div className="px-5 pb-4 border-t border-orange-900/30">
+                        <ul className="pt-3 space-y-1.5 text-xs text-orange-200/80 leading-relaxed">
+                          <li>• L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.</li>
+                          <li>• Le rendement cash-flow moyen ne constitue pas un TRI. Il doit être lu avec l'extinction de l'usufruit à l'échéance.</li>
+                          <li>• Les revenus futurs des SCPI ne sont pas garantis et dépendent du marché immobilier.</li>
+                          <li>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</li>
+                          {inputs.feesEnabled && (
+                            <li>• Le traitement fiscal des frais de mission doit être validé selon la nature de la facture et le régime TVA de la société.</li>
+                          )}
+                          {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
+                            <li>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte.</li>
+                          )}
+                          {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
+                            <li>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</li>
+                          )}
+                          <li>• Ce document constitue une note de travail, pas un conseil fiscal engageant.</li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   {/* Comparaison trésorerie alternative */}
@@ -1209,7 +1202,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   )}
 
                   {/* Boutons d'action */}
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-3 pt-2">
                     {!isPdfReady ? (
                       <button
                         disabled
@@ -1266,15 +1259,21 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                 </div>
               )}
 
-              {/* ── Onglet 2 : Analyse Comptable ── */}
-              {activeTab === 'analyse' && (
-                <div className="space-y-5">
-                  {/* Comparatif */}
+              {/* ═══════════════════════════════════════════
+                  Onglet 2 : Fiscalité IS
+                  ═══════════════════════════════════════════ */}
+              {activeTab === 'fiscalite' && (
+                <div className="space-y-4">
+
+                  {/* Tableau comparatif — ouvert par défaut */}
                   <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
-                    <div className="px-5 py-4 border-b border-slate-700/50 flex items-center gap-2">
-                      <Table2 className="w-4 h-4 text-blue-400" />
-                      <span className="text-sm font-bold text-white">Comparatif avant / après opération</span>
-                      <span className="text-[10px] text-slate-500 ml-1">(année 1)</span>
+                    <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Table2 className="w-4 h-4 text-cyan-400" />
+                        <span className="text-sm font-bold text-white">Comparatif avant / après opération</span>
+                        <span className="text-[10px] text-slate-500 ml-1">(année 1)</span>
+                      </div>
+                      <span className="text-[10px] text-cyan-500 font-medium">Ouvert</span>
                     </div>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-xs">
@@ -1316,179 +1315,455 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </div>
                   </div>
 
-                  {/* Détail honoraires (si activés) */}
+                  {/* Détail frais de mission et TVA — repliable */}
                   {inputs.feesEnabled && result.feesHT > 0 && (
-                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
-                      <span className="text-xs font-bold text-violet-400 uppercase tracking-wider flex items-center gap-2 mb-3">
-                        <Receipt className="w-4 h-4" />Détail frais de mission et TVA
-                      </span>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                        <div>
-                          <span className="text-slate-500">Frais de mission HT</span>
-                          <p className="text-white font-semibold mt-0.5">{fmtEuro(result.feesHT)}</p>
+                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                      <button onClick={() => setShowFraisDetail(!showFraisDetail)}
+                        className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                        <div className="flex items-center gap-2">
+                          <Receipt className="w-4 h-4 text-violet-400" />
+                          <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Détail frais de mission et TVA</span>
                         </div>
-                        <div>
-                          <span className="text-slate-500">TVA ({inputs.feesVatRate} %)</span>
-                          <p className={`font-semibold mt-0.5 ${result.nonRecoverableVatAmount > 0 ? 'text-orange-400' : 'text-slate-400'}`}>
-                            {fmtEuro(result.feesVAT)}
-                          </p>
+                        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showFraisDetail ? 'rotate-180' : ''}`} />
+                      </button>
+                      {showFraisDetail && (
+                        <div className="px-5 pb-4 border-t border-slate-700/50">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 text-xs">
+                            <div>
+                              <span className="text-slate-500">Frais de mission HT</span>
+                              <p className="text-white font-semibold mt-0.5">{fmtEuro(result.feesHT)}</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">TVA ({inputs.feesVatRate} %)</span>
+                              <p className={`font-semibold mt-0.5 ${result.nonRecoverableVatAmount > 0 ? 'text-orange-400' : 'text-slate-400'}`}>
+                                {fmtEuro(result.feesVAT)}
+                              </p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Frais de mission TTC</span>
+                              <p className="text-violet-400 font-semibold mt-0.5">{fmtEuro(result.feesTTC)}</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">TVA</span>
+                              <p className={`font-semibold mt-0.5 ${result.recoverableVatAmount > 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
+                                {inputs.holdingVatProfile === 'mixed'
+                                  ? `Partielle (${inputs.vatRecoveryRate} %)`
+                                  : inputs.holdingVatProfile === 'pure'
+                                    ? 'Non récupérable'
+                                    : inputs.holdingVatProfile === 'animator'
+                                      ? 'Récupérable'
+                                      : result.recoverableVatAmount > 0
+                                        ? 'Récupérable'
+                                        : 'Non récupérable'}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-slate-500">Frais de mission TTC</span>
-                          <p className="text-violet-400 font-semibold mt-0.5">{fmtEuro(result.feesTTC)}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">TVA</span>
-                          <p className={`font-semibold mt-0.5 ${result.recoverableVatAmount > 0 ? 'text-emerald-400' : 'text-orange-400'}`}>
-                            {inputs.holdingVatProfile === 'mixed'
-                              ? `Partielle (${inputs.vatRecoveryRate} %)`
-                              : inputs.holdingVatProfile === 'pure'
-                                ? 'Non récupérable'
-                                : inputs.holdingVatProfile === 'animator'
-                                  ? 'Récupérable'
-                                  : result.recoverableVatAmount > 0
-                                    ? 'Récupérable'
-                                    : 'Non récupérable'}
-                          </p>
-                        </div>
-                      </div>
+                      )}
                     </div>
                   )}
 
-                  {/* Flux cumulés */}
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 space-y-4">
-                    <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                      <BarChart3 className="w-4 h-4" />Flux cumulés sur {inputs.usufruitDuration} ans
-                    </span>
-                    <div className="space-y-3">
-                      {/* Barre frais inclus */}
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-400">Flux de lancement cumulé (frais en année 1)</span>
-                          <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</span>
+                  {/* Détail résultat fiscal et IS — repliable */}
+                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowISDetail(!showISDetail)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-cyan-400" />
+                        <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Détail résultat fiscal et IS (année 1)</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showISDetail ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showISDetail && (
+                      <div className="px-5 pb-4 border-t border-slate-700/50">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 text-xs">
+                          <div>
+                            <span className="text-slate-500">Résultat fiscal opération</span>
+                            <p className="text-orange-400 font-semibold mt-0.5">{fmtEuro(result.annualFiscalResultOperationOnly)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Résultat fiscal après opération</span>
+                            <p className="text-white font-semibold mt-0.5">{fmtEuro(result.annualFiscalResultAfterOperation)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">IS sans opération</span>
+                            <p className="text-slate-400 font-semibold mt-0.5">{fmtEuro(isSansOperation)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">IS avec opération</span>
+                            <p className="text-orange-400 font-semibold mt-0.5">{fmtEuro(result.annualISAfterOperation)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Pleine propriété SCPI</span>
+                            <p className="text-blue-400 font-semibold mt-0.5">{fmtEuro(result.reconstitutedFullProperty)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Revenus bruts annuels</span>
+                            <p className="text-violet-400 font-semibold mt-0.5">{fmtEuro(result.annualGrossIncome)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Amortissement annuel</span>
+                            <p className="text-slate-300 font-semibold mt-0.5">{fmtEuro(result.annualAmortization)}</p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Impact IS net</span>
+                            <p className={`font-semibold mt-0.5 ${result.annualISImpact > 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                              {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}
+                            </p>
+                          </div>
                         </div>
-                        <div className="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-slate-700">
-                          <div className="bg-emerald-500/60 h-full rounded-full transition-all duration-500"
-                            style={{ width: `${Math.min(100, (result.cumulativeNetCashFlowAfterFees / result.effortEconomique) * 100)}%` }} />
-                        </div>
                       </div>
-                      {/* Barre flux opérationnel */}
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="text-slate-400">Flux opérationnel cumulé (base gain éco. & TRI)</span>
-                          <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlow)}</span>
-                        </div>
-                        <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-700">
-                          <div className="bg-emerald-600/40 h-full rounded-full transition-all duration-500"
-                            style={{ width: `${Math.min(100, (result.cumulativeNetCashFlow / result.effortEconomique) * 100)}%` }} />
-                        </div>
-                      </div>
-                      <p className="text-[10px] text-slate-600 leading-relaxed pt-1 border-t border-slate-700/30">
-                        Les frais de mission étant inclus dans l'effort initial, le flux opérationnel cumulé sert de base au gain économique et au TRI — évitant de déduire deux fois les frais.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Détail résultat fiscal & IS */}
-                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
-                    <span className="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-2 mb-3">
-                      <Shield className="w-4 h-4" />Détail résultat fiscal et IS (année 1)
-                    </span>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                      <div>
-                        <span className="text-slate-500">Résultat fiscal opération</span>
-                        <p className="text-orange-400 font-semibold mt-0.5">{fmtEuro(result.annualFiscalResultOperationOnly)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">Résultat fiscal après opération</span>
-                        <p className="text-white font-semibold mt-0.5">{fmtEuro(result.annualFiscalResultAfterOperation)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">IS sans opération</span>
-                        <p className="text-slate-400 font-semibold mt-0.5">{fmtEuro(isSansOperation)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">IS avec opération</span>
-                        <p className="text-orange-400 font-semibold mt-0.5">{fmtEuro(result.annualISAfterOperation)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">Pleine propriété SCPI</span>
-                        <p className="text-blue-400 font-semibold mt-0.5">{fmtEuro(result.reconstitutedFullProperty)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">Revenus bruts annuels</span>
-                        <p className="text-violet-400 font-semibold mt-0.5">{fmtEuro(result.annualGrossIncome)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">Amortissement annuel</span>
-                        <p className="text-slate-300 font-semibold mt-0.5">{fmtEuro(result.annualAmortization)}</p>
-                      </div>
-                      <div>
-                        <span className="text-slate-500">Impact IS net</span>
-                        <p className={`font-semibold mt-0.5 ${result.annualISImpact > 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
-                          {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               )}
 
-              {/* ── Onglet 3 : Projections & Hypothèses ── */}
-              {activeTab === 'projections' && (
-                <div className="space-y-5">
-                  {/* Hypothèses comptables */}
+              {/* ═══════════════════════════════════════════
+                  Onglet 3 : Trésorerie & TRI
+                  ═══════════════════════════════════════════ */}
+              {activeTab === 'tresorerie' && (
+                <div className="space-y-4">
+
+                  {/* Lecture économique — ouvert par défaut */}
+                  <div className="bg-emerald-950/20 border border-emerald-900/30 rounded-xl overflow-hidden">
+                    <div className="px-5 py-4 border-b border-emerald-900/30 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Landmark className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Lecture économique après extinction de l'usufruit</span>
+                      </div>
+                      <span className="text-[10px] text-emerald-500 font-medium">Ouvert</span>
+                    </div>
+                    <div className="px-5 pb-4 space-y-2">
+                      <ul className="pt-3 space-y-2 text-xs text-emerald-100/80 leading-relaxed">
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Effort initial total : <strong>{fmtEuro(result.effortEconomique)}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Cash-flow net année 1 : <strong>{fmtEuro(result.annualNetCashFlowAfterFees)}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Flux de lancement cumulé sur {inputs.usufruitDuration} ans : <strong>{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Flux opérationnel cumulé : <strong>{fmtEuro(result.economicCumulativeNetCashFlow)}</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Gain net après extinction de l'usufruit : <strong>{fmtEuro(result.gainNetAfterUsufructExtinction)}</strong> (flux cumulés – effort initial).
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Rendement cash-flow moyen : <strong>{fmtPercent(result.cashFlowAverageReturn)}</strong> (flux net moyen / effort initial).
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          Rendement simple après extinction : <strong>{fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an</strong>.
+                        </li>
+                        <li><ArrowRight className="w-3 h-3 text-emerald-400 inline mr-1.5" />
+                          TRI indicatif : <strong>{result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : '—'}</strong>.
+                        </li>
+                      </ul>
+                      <div className="bg-emerald-950/40 border border-emerald-900/20 rounded-lg px-3 py-2">
+                        <p className="text-[11px] text-emerald-300/70 leading-relaxed">
+                          Le rendement cash-flow moyen ne constitue pas un TRI. Il mesure le rapport entre les flux nets moyens et l'effort initial. L'usufruit s'éteint sans valeur résiduelle à l'échéance. Le gain économique intègre l'extinction de l'usufruit.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Flux cumulés — repliable */}
                   <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
-                    <button onClick={() => setShowHypotheses(!showHypotheses)}
+                    <button onClick={() => setShowFluxCumules(!showFluxCumules)}
                       className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
                       <div className="flex items-center gap-2">
-                        <Info className="w-4 h-4 text-slate-400" />
-                        <span className="text-sm font-semibold text-white">Hypothèses comptables et fiscales</span>
+                        <BarChart3 className="w-4 h-4 text-emerald-400" />
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Flux cumulés sur {inputs.usufruitDuration} ans</span>
                       </div>
-                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showHypotheses ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showFluxCumules ? 'rotate-180' : ''}`} />
                     </button>
-                    {showHypotheses && (
-                      <div className="px-5 py-4 border-t border-slate-700/50">
-                        <ul className="space-y-2 text-xs text-slate-400 leading-relaxed">
-                          <li><span className="text-blue-400 mr-2">•</span>Usufruit temporaire amorti linéairement sur la durée retenue.</li>
-                          <li><span className="text-blue-400 mr-2">•</span>Aucune valeur résiduelle retenue à l'échéance de l'usufruit.</li>
-                          <li><span className="text-blue-400 mr-2">•</span>Revenus SCPI supposés constants sur la durée, sauf revalorisation renseignée.</li>
-                          <li><span className="text-blue-400 mr-2">•</span>Simulation hors frais spécifiques, hors délais de jouissance et hors fiscalité étrangère.</li>
-                          <li><span className="text-blue-400 mr-2">•</span>Taux d'IS : taux réduit PME (15 % / 25 %) ou taux normal (25 %) selon éligibilité.</li>
-                          {inputs.feesEnabled && (
+                    {showFluxCumules && (
+                      <div className="px-5 pb-4 border-t border-slate-700/50 space-y-3 pt-4">
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-slate-400">Flux de lancement cumulé (frais en année 1)</span>
+                            <span className="text-emerald-400 font-semibold">{fmtEuro(result.cumulativeNetCashFlowAfterFees)}</span>
+                          </div>
+                          <div className="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                            <div className="bg-emerald-500/60 h-full rounded-full transition-all duration-500"
+                              style={{ width: `${Math.min(100, (result.cumulativeNetCashFlowAfterFees / result.effortEconomique) * 100)}%` }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-slate-400">Flux opérationnel cumulé (base gain éco. & TRI)</span>
+                            <span className="text-emerald-400 font-semibold">{fmtEuro(result.economicCumulativeNetCashFlow)}</span>
+                          </div>
+                          <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-700">
+                            <div className="bg-emerald-600/40 h-full rounded-full transition-all duration-500"
+                              style={{ width: `${Math.min(100, (result.economicCumulativeNetCashFlow / result.effortEconomique) * 100)}%` }} />
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-slate-600 leading-relaxed pt-1 border-t border-slate-700/30">
+                          Les frais de mission étant inclus dans l'effort initial, le flux opérationnel cumulé sert de base au gain économique et au TRI — évitant de déduire deux fois les frais.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Comparaison alternative */}
+                  {inputs.alternativeType ? (
+                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                      <button onClick={() => setShowComparaisonAlt(!showComparaisonAlt)}
+                        className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                        <div className="flex items-center gap-2">
+                          <Landmark className="w-4 h-4 text-emerald-400" />
+                          <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Comparaison trésorerie alternative</span>
+                        </div>
+                        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showComparaisonAlt ? 'rotate-180' : ''}`} />
+                      </button>
+                      {showComparaisonAlt && (
+                        <div className="px-5 pb-4 border-t border-slate-700/50 pt-4">
+                          {!inputs.alternativeGrossRate ? (
+                            <p className="text-[11px] text-slate-500 italic">
+                              Renseignez un taux pour comparer avec une solution de trésorerie alternative.
+                            </p>
+                          ) : (
                             <>
-                              <li>
-                                <span className="text-violet-400 mr-2">•</span>
-                                <span className="text-violet-300/70">
-                                  Frais de mission : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.
-                                  Traitement : {FEES_TREATMENT_LABELS[inputs.feesTreatment].toLowerCase()}.
-                                  Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.
-                                </span>
-                              </li>
-                              <li>
-                                <span className="text-violet-400 mr-2">•</span>
-                                <span className="text-violet-300/70">
-                                  Le traitement HT/TTC et la récupération de TVA doivent être validés par le cabinet.
-                                </span>
-                              </li>
+                              <div className="grid grid-cols-2 gap-3 text-xs">
+                                <div>
+                                  <span className="text-slate-500">Type d'alternative</span>
+                                  <p className="text-white font-semibold mt-0.5">
+                                    {inputs.alternativeType === 'compte_terme' ? 'Compte à terme'
+                                      : inputs.alternativeType === 'fonds_monetaire' ? 'Fonds monétaire'
+                                      : 'Taux personnalisé'}
+                                  </p>
+                                </div>
+                                <div>
+                                  <span className="text-slate-500">Taux annuel ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'})</span>
+                                  <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : '—'} %</p>
+                                </div>
+                                <div>
+                                  <span className="text-slate-500">Rendement net annuel estimé</span>
+                                  <p className="text-emerald-400 font-semibold mt-0.5">{fmtPercent(result.alternativeAnnualNetYield)}</p>
+                                </div>
+                                <div>
+                                  <span className="text-slate-500">Gain net cumulé</span>
+                                  <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeCumulativeNetIncome)}</p>
+                                </div>
+                                <div>
+                                  <span className="text-slate-500">Capital final conservé</span>
+                                  <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeEndingCapital)}</p>
+                                </div>
+                                <div>
+                                  <span className="text-slate-500">Valeur totale après {inputs.usufruitDuration} ans</span>
+                                  <p className="text-white font-semibold mt-0.5">{fmtEuro(result.alternativeTotalValue)}</p>
+                                </div>
+                              </div>
+                              <div className="mt-4 p-3 bg-emerald-950/30 border border-emerald-900/20 rounded-lg">
+                                <p className="text-[11px] text-emerald-300/70 leading-relaxed">
+                                  <strong>Écart avec l'opération usufruit :</strong>{' '}
+                                  {result.alternativeComparisonSpread >= 0
+                                    ? <span className="text-emerald-400">+{fmtEuro(result.alternativeComparisonSpread)} en faveur de l'usufruit</span>
+                                    : <span className="text-orange-400">{fmtEuro(Math.abs(result.alternativeComparisonSpread))} en faveur de l'alternative</span>
+                                  }.
+                                </p>
+                                <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                                  L'alternative conserve le capital. L'usufruit s'éteint sans valeur résiduelle.
+                                  La comparaison porte sur les flux nets et le capital final.
+                                  {inputs.alternativeType === 'fonds_monetaire' && ' Fonds monétaire : valeur liquidative fluctuante, rendement non garanti.'}
+                                  {inputs.alternativeType === 'compte_terme' && ' Compte à terme : capital généralement conservé hors défaut bancaire et conditions contractuelles.'}
+                                </p>
+                              </div>
                             </>
                           )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="bg-slate-800/30 border border-slate-700/40 rounded-xl p-4">
+                      <p className="text-[11px] text-slate-500 italic">Comparaison alternative non renseignée.</p>
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+              {/* ═══════════════════════════════════════════
+                  Onglet 4 : Contrôles cabinet
+                  ═══════════════════════════════════════════ */}
+              {activeTab === 'controles' && (
+                <div className="space-y-4">
+
+                  {/* A. Résumé — ouvert par défaut */}
+                  <div className={`rounded-xl border p-5 space-y-3
+                    ${cabinetCriticalCount > 0 ? 'bg-red-950/20 border-red-900/40' :
+                      cabinetWarningCount > 0 ? 'bg-orange-950/20 border-orange-900/40' :
+                      'bg-emerald-950/20 border-emerald-900/30'}`}>
+                    <div className="flex items-center gap-2">
+                      <Shield className={`w-4 h-4 ${
+                        cabinetCriticalCount > 0 ? 'text-red-400' : cabinetWarningCount > 0 ? 'text-orange-400' : 'text-emerald-400'
+                      }`} />
+                      <span className={`text-xs font-bold uppercase tracking-wider ${
+                        cabinetCriticalCount > 0 ? 'text-red-300' : cabinetWarningCount > 0 ? 'text-orange-300' : 'text-emerald-300'
+                      }`}>Résumé des contrôles</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-3 text-xs">
+                      <div className={`rounded-lg p-3 text-center ${cabinetCriticalCount > 0 ? 'bg-red-950/40' : 'bg-slate-800/50'}`}>
+                        <p className={`text-lg font-bold ${cabinetCriticalCount > 0 ? 'text-red-400' : 'text-slate-400'}`}>{cabinetCriticalCount}</p>
+                        <p className="text-slate-500">Bloquant{cabinetCriticalCount !== 1 ? 's' : ''}</p>
+                      </div>
+                      <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                        <p className="text-lg font-bold text-orange-400">{cabinetWarningCount}</p>
+                        <p className="text-slate-500">Attention{cabinetWarningCount !== 1 ? 's' : ''}</p>
+                      </div>
+                      <div className="bg-slate-800/50 rounded-lg p-3 text-center">
+                        <p className="text-lg font-bold text-blue-400">{allCabinetChecks.filter(c => c.level === 'info').length}</p>
+                        <p className="text-slate-500">Info{cabinetWarningCount !== 1 ? 's' : ''}</p>
+                      </div>
+                    </div>
+                    {cabinetTotalCount === 0 && (
+                      <p className="text-xs text-emerald-200/80">Aucun point à vérifier selon les hypothèses renseignées.</p>
+                    )}
+                  </div>
+
+                  {/* B. Contrôles bloquants */}
+                  {cabinetCriticalCount > 0 && (
+                    <div className="bg-red-950/20 border border-red-900/40 rounded-xl overflow-hidden">
+                      <button onClick={() => setShowControlsBloquants(!showControlsBloquants)}
+                        className="w-full flex items-center justify-between px-5 py-4 hover:bg-red-950/30 transition-colors">
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="w-4 h-4 text-red-400" />
+                          <span className="text-xs font-bold text-red-400 uppercase tracking-wider">Contrôles bloquants ({cabinetCriticalCount})</span>
+                        </div>
+                        <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showControlsBloquants ? 'rotate-180' : ''}`} />
+                      </button>
+                      {showControlsBloquants && (
+                        <div className="px-5 pb-4 border-t border-red-900/30 space-y-2 pt-4">
+                          {result.cabinetChecks && result.cabinetChecks.filter(c => c.level === 'critical').map(c => (
+                            <div key={c.id} className="flex items-start gap-2 py-1">
+                              <AlertTriangle className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                              <div>
+                                <span className="text-xs font-semibold text-red-300 block">{c.title}</span>
+                                <span className="text-xs text-red-200/80">{c.message}</span>
+                              </div>
+                            </div>
+                          ))}
+                          {validationWarnings.filter(w => w.severity === 'critical').map(w => (
+                            <div key={w.id} className="flex items-start gap-2 py-1">
+                              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-red-900/40 text-red-300 flex-shrink-0">Bloquant</span>
+                              <span className="text-xs text-red-200/80">{w.message}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* C. Points à valider */}
+                  <div className="bg-blue-950/20 border border-blue-900/30 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowPointsValider(!showPointsValider)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-blue-950/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <Info className="w-4 h-4 text-blue-400" />
+                        <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Points à valider</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showPointsValider ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showPointsValider && (
+                      <div className="px-5 pb-4 border-t border-blue-900/30">
+                        <ul className="pt-3 space-y-1.5 text-xs text-blue-200/80 leading-relaxed">
+                          <li>• TVA : profil à qualifier selon le statut réel de la holding.</li>
+                          <li>• Conditions taux réduit IS : éligibilité à vérifier.</li>
+                          <li>• Traitement des frais de mission : HT/TTC selon récupération TVA.</li>
+                          {inputs.feesEnabled && <li>• Frais SCPI réputés intégrés dans le taux de distribution.</li>}
                         </ul>
                       </div>
                     )}
                   </div>
 
-                  {/* Projection annuelle */}
+                  {/* D. Points de vigilance */}
+                  <div className="bg-orange-950/20 border border-orange-900/30 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowPointsVigilance(!showPointsVigilance)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-orange-950/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-orange-400" />
+                        <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">Points de vigilance</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showPointsVigilance ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showPointsVigilance && (
+                      <div className="px-5 pb-4 border-t border-orange-900/30">
+                        <ul className="pt-3 space-y-1.5 text-xs text-orange-200/80 leading-relaxed">
+                          <li>• L'usufruit temporaire s'éteint sans valeur résiduelle à l'échéance.</li>
+                          <li>• Les revenus futurs des SCPI ne sont pas garantis.</li>
+                          <li>• La fiscalité IS dépend de la structure juridique et de l'éligibilité au taux réduit.</li>
+                          {inputs.feesEnabled && inputs.holdingVatProfile !== 'to-qualify' && (
+                            <li>• Le droit à récupération de TVA dépend du statut de la holding : pure, animatrice ou mixte.</li>
+                          )}
+                          {inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && (
+                            <li>• En cas de holding pure, la TVA non récupérable doit être intégrée dans l'effort économique.</li>
+                          )}
+                          <li>• Ce document ne constitue pas un conseil fiscal engageant.</li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Contrôles cabinet (calculs) */}
+                  {result.cabinetChecks && result.cabinetChecks.length > 0 && result.cabinetChecks.filter(c => c.level !== 'critical').length > 0 && (
+                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 space-y-2">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Détail des contrôles</span>
+                      {result.cabinetChecks.filter(c => c.level !== 'critical').map(c => (
+                        <div key={c.id} className="flex items-start gap-3 py-1">
+                          <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
+                            c.level === 'warning' ? 'text-orange-400' : 'text-blue-400'
+                          }`} />
+                          <div className="flex-1 min-w-0">
+                            <span className={`text-xs font-semibold block ${
+                              c.level === 'warning' ? 'text-orange-300' : 'text-blue-300'
+                            }`}>{c.title}</span>
+                            <span className="text-xs leading-relaxed text-slate-400">{c.message}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Warnings de validation non critiques */}
+                  {validationWarnings.filter(w => w.severity !== 'critical').length > 0 && (
+                    <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 space-y-2">
+                      <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Validation des hypothèses</span>
+                      {validationWarnings.filter(w => w.severity !== 'critical').map(w => (
+                        <div key={w.id} className="flex items-start gap-2">
+                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                            w.severity === 'warning' ? 'bg-orange-900/40 text-orange-300' : 'bg-blue-900/40 text-blue-300'
+                          }`}>
+                            {w.severity === 'warning' ? 'Attention' : 'Info'}
+                          </span>
+                          <span className="text-xs text-slate-300">{w.message}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                </div>
+              )}
+
+              {/* ═══════════════════════════════════════════
+                  Onglet 5 : Projection
+                  ═══════════════════════════════════════════ */}
+              {activeTab === 'projection' && (
+                <div className="space-y-4">
+
+                  {/* Projection annuelle — ouvert par défaut */}
                   <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
-                    <button onClick={() => setShowProjection(!showProjection)}
-                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                    <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <BarChart3 className="w-4 h-4 text-slate-400" />
                         <span className="text-sm font-semibold text-white">Projection annuelle</span>
                         <span className="text-[10px] text-slate-500 ml-1">({result.projections.length} ans)</span>
                       </div>
-                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showProjection ? 'rotate-180' : ''}`} />
-                    </button>
+                      <button onClick={() => setShowProjection(!showProjection)}
+                        className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+                        {showProjection ? 'Masquer' : 'Afficher'}
+                      </button>
+                    </div>
                     {showProjection && (
                       <div className="overflow-x-auto">
                         <table className="w-full text-left text-xs">
@@ -1540,6 +1815,47 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                             </tr>
                           </tfoot>
                         </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Hypothèses comptables — repliable */}
+                  <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+                    <button onClick={() => setShowHypotheses(!showHypotheses)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-700/30 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <Info className="w-4 h-4 text-slate-400" />
+                        <span className="text-sm font-semibold text-white">Hypothèses comptables et fiscales</span>
+                      </div>
+                      <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showHypotheses ? 'rotate-180' : ''}`} />
+                    </button>
+                    {showHypotheses && (
+                      <div className="px-5 py-4 border-t border-slate-700/50">
+                        <ul className="space-y-2 text-xs text-slate-400 leading-relaxed">
+                          <li><span className="text-blue-400 mr-2">•</span>Usufruit temporaire amorti linéairement sur la durée retenue.</li>
+                          <li><span className="text-blue-400 mr-2">•</span>Aucune valeur résiduelle retenue à l'échéance de l'usufruit.</li>
+                          <li><span className="text-blue-400 mr-2">•</span>Revenus SCPI supposés constants sur la durée, sauf revalorisation renseignée.</li>
+                          <li><span className="text-blue-400 mr-2">•</span>Simulation hors frais spécifiques, hors délais de jouissance et hors fiscalité étrangère.</li>
+                          <li><span className="text-blue-400 mr-2">•</span>Taux d'IS : taux réduit PME (15 % / 25 %) ou taux normal (25 %) selon éligibilité.</li>
+                          {inputs.feesEnabled && (
+                            <>
+                              <li>
+                                <span className="text-violet-400 mr-2">•</span>
+                                <span className="text-violet-300/70">
+                                  Frais de mission : {inputs.feesVatMode}, TVA {inputs.feesVatRate} %, {inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'}.
+                                  Traitement : {FEES_TREATMENT_LABELS[inputs.feesTreatment].toLowerCase()}.
+                                  Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.
+                                </span>
+                              </li>
+                              <li>
+                                <span className="text-violet-400 mr-2">•</span>
+                                <span className="text-violet-300/70">
+                                  Le traitement HT/TTC et la récupération de TVA doivent être validés par le cabinet.
+                                </span>
+                              </li>
+                            </>
+                          )}
+                        </ul>
                       </div>
                     )}
                   </div>
