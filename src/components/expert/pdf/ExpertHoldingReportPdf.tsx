@@ -1049,7 +1049,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
         </View>
 
         {/* ── Comparaison trésorerie alternative ── */}
-        {inputs.alternativeType && (
+        {inputs.alternativeType && inputs.alternativeGrossRate && inputs.alternativeGrossRate > 0 && (
           <View style={{ ...styles.opinionBox, marginTop: 8, backgroundColor: '#ecfdf5', borderLeftColor: '#059669' }}>
             <Text style={{ ...styles.opinionTitle, color: '#059669' }}>Comparaison trésorerie alternative</Text>
             <Text style={styles.opinionItem}>
@@ -1214,7 +1214,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
               <Text style={styles.infoItem}>• Traitement fiscal : {FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}.</Text>
               <Text style={styles.infoItem}>• Déductibilité sur base {inputs.feesVatRecoverable ? 'HT' : 'TTC'}.</Text>
               <Text style={styles.infoItem}>• Le traitement des frais de mission dépend de leur nature, justification et comptabilisation.</Text>
-              {inputs.alternativeType && (
+              {inputs.alternativeType && inputs.alternativeGrossRate && inputs.alternativeGrossRate > 0 && (
                 <Text style={styles.infoItem}>• Comparaison alternative : {inputs.alternativeType === 'compte_terme' ? 'compte à terme' : inputs.alternativeType === 'fonds_monetaire' ? 'fonds monétaire' : 'taux personnalisé'} à {inputs.alternativeGrossRate} % ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'}). L'alternative conserve le capital ; l'usufruit s'éteint sans valeur résiduelle.</Text>
               )}
             </>

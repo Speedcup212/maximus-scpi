@@ -800,11 +800,23 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   <>
                     <div>
                       <label className="block text-[10px] text-slate-500 mb-1">Taux annuel brut estimé (%)</label>
-                      <input type="number" step="0.1" min="0" max="20"
-                        value={inputs.alternativeGrossRate || 0}
-                        onChange={(e) => updateInput('alternativeGrossRate', parseFloat(e.target.value) || 0)}
+                      <input type="text" inputMode="decimal"
+                        placeholder="Ex : 3,50"
+                        value={inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : ''}
+                        onChange={(e) => {
+                          const raw = e.target.value.replace(',', '.');
+                          if (raw === '') {
+                            updateInput('alternativeGrossRate', undefined);
+                            return;
+                          }
+                          const parsed = parseFloat(raw);
+                          if (Number.isFinite(parsed)) {
+                            updateInput('alternativeGrossRate', parsed);
+                          }
+                        }}
                         className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
                       />
+                      <p className="text-[9px] text-slate-600 mt-1">Laissez vide si aucune comparaison alternative n'est souhaitée.</p>
                     </div>
                     <div>
                       <label className="block text-[10px] text-slate-500 mb-1">Mode de taux</label>
@@ -1059,51 +1071,59 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                         <Landmark className="w-4 h-4 text-emerald-400" />
                         <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Comparaison trésorerie alternative</span>
                       </div>
-                      <div className="grid grid-cols-2 gap-3 text-xs">
-                        <div>
-                          <span className="text-slate-500">Type d'alternative</span>
-                          <p className="text-white font-semibold mt-0.5">
-                            {inputs.alternativeType === 'compte_terme' ? 'Compte à terme'
-                              : inputs.alternativeType === 'fonds_monetaire' ? 'Fonds monétaire'
-                              : 'Taux personnalisé'}
-                          </p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Taux annuel ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'})</span>
-                          <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate} %</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Rendement net annuel estimé</span>
-                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtPercent(result.alternativeAnnualNetYield)}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Gain net cumulé</span>
-                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeCumulativeNetIncome)}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Capital final conservé</span>
-                          <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeEndingCapital)}</p>
-                        </div>
-                        <div>
-                          <span className="text-slate-500">Valeur totale après {inputs.usufruitDuration} ans</span>
-                          <p className="text-white font-semibold mt-0.5">{fmtEuro(result.alternativeTotalValue)}</p>
-                        </div>
-                      </div>
-                      <div className="mt-4 p-3 bg-emerald-950/30 border border-emerald-900/20 rounded-lg">
-                        <p className="text-[11px] text-emerald-300/70 leading-relaxed">
-                          <strong>Écart avec l'opération usufruit :</strong>{' '}
-                          {result.alternativeComparisonSpread >= 0
-                            ? <span className="text-emerald-400">+{fmtEuro(result.alternativeComparisonSpread)} en faveur de l'usufruit</span>
-                            : <span className="text-orange-400">{fmtEuro(Math.abs(result.alternativeComparisonSpread))} en faveur de l'alternative</span>
-                          }.
+                      {!inputs.alternativeGrossRate ? (
+                        <p className="text-[11px] text-slate-500 italic">
+                          Renseignez un taux pour comparer avec une solution de trésorerie alternative.
                         </p>
-                        <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">
-                          L'alternative conserve le capital. L'usufruit s'éteint sans valeur résiduelle.
-                          La comparaison porte sur les flux nets et le capital final.
-                          {inputs.alternativeType === 'fonds_monetaire' && ' Fonds monétaire : valeur liquidative fluctuante, rendement non garanti.'}
-                          {inputs.alternativeType === 'compte_terme' && ' Compte à terme : capital généralement conservé hors défaut bancaire et conditions contractuelles.'}
-                        </p>
-                      </div>
+                      ) : (
+                        <>
+                          <div className="grid grid-cols-2 gap-3 text-xs">
+                            <div>
+                              <span className="text-slate-500">Type d'alternative</span>
+                              <p className="text-white font-semibold mt-0.5">
+                                {inputs.alternativeType === 'compte_terme' ? 'Compte à terme'
+                                  : inputs.alternativeType === 'fonds_monetaire' ? 'Fonds monétaire'
+                                  : 'Taux personnalisé'}
+                              </p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Taux annuel ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'})</span>
+                              <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate} %</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Rendement net annuel estimé</span>
+                              <p className="text-emerald-400 font-semibold mt-0.5">{fmtPercent(result.alternativeAnnualNetYield)}</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Gain net cumulé</span>
+                              <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeCumulativeNetIncome)}</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Capital final conservé</span>
+                              <p className="text-emerald-400 font-semibold mt-0.5">{fmtEuro(result.alternativeEndingCapital)}</p>
+                            </div>
+                            <div>
+                              <span className="text-slate-500">Valeur totale après {inputs.usufruitDuration} ans</span>
+                              <p className="text-white font-semibold mt-0.5">{fmtEuro(result.alternativeTotalValue)}</p>
+                            </div>
+                          </div>
+                          <div className="mt-4 p-3 bg-emerald-950/30 border border-emerald-900/20 rounded-lg">
+                            <p className="text-[11px] text-emerald-300/70 leading-relaxed">
+                              <strong>Écart avec l'opération usufruit :</strong>{' '}
+                              {result.alternativeComparisonSpread >= 0
+                                ? <span className="text-emerald-400">+{fmtEuro(result.alternativeComparisonSpread)} en faveur de l'usufruit</span>
+                                : <span className="text-orange-400">{fmtEuro(Math.abs(result.alternativeComparisonSpread))} en faveur de l'alternative</span>
+                              }.
+                            </p>
+                            <p className="text-[10px] text-slate-500 mt-2 leading-relaxed">
+                              L'alternative conserve le capital. L'usufruit s'éteint sans valeur résiduelle.
+                              La comparaison porte sur les flux nets et le capital final.
+                              {inputs.alternativeType === 'fonds_monetaire' && ' Fonds monétaire : valeur liquidative fluctuante, rendement non garanti.'}
+                              {inputs.alternativeType === 'compte_terme' && ' Compte à terme : capital généralement conservé hors défaut bancaire et conditions contractuelles.'}
+                            </p>
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
 
