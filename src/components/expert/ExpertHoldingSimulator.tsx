@@ -665,6 +665,10 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   onChange={(e) => {
                     const v = e.target.value;
                     updateInput('alternativeType', v === 'none' ? undefined : v as 'compte_terme' | 'fonds_monetaire' | 'personnalise');
+                    if (v === 'none') {
+                      setAlternativeGrossRateInput('');
+                      updateInput('alternativeGrossRate', undefined);
+                    }
                   }}
                   className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
                 >
@@ -679,15 +683,19 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   <div>
                     <label className="block text-[10px] text-slate-500 mb-1">Taux annuel brut estimé (%)</label>
                     <input type="text" inputMode="decimal"
-                      placeholder="Ex : 3,50"
-                      value={inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : ''}
+                      placeholder="Ex : 3,05"
+                      value={alternativeGrossRateInput}
                       onChange={(e) => {
-                        const raw = e.target.value.replace(',', '.');
-                        if (raw === '') {
+                        const raw = e.target.value;
+                        // Allow digits, comma, dot, or empty
+                        if (!/^\d*([,.]\d*)?$/.test(raw)) return;
+                        setAlternativeGrossRateInput(raw);
+                        const cleaned = raw.replace(',', '.');
+                        if (cleaned === '' || cleaned === '.') {
                           updateInput('alternativeGrossRate', undefined);
                           return;
                         }
-                        const parsed = parseFloat(raw);
+                        const parsed = parseFloat(cleaned);
                         if (Number.isFinite(parsed)) {
                           updateInput('alternativeGrossRate', parsed);
                         }
@@ -1096,7 +1104,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                             </div>
                             <div>
                               <span className="text-slate-500">Taux annuel ({inputs.alternativeRateMode === 'brut' ? 'brut avant IS' : 'net d\'IS'})</span>
-                              <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate} %</p>
+                              <p className="text-emerald-400 font-semibold mt-0.5">{inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : '—'} %</p>
                             </div>
                             <div>
                               <span className="text-slate-500">Rendement net annuel estimé</span>
