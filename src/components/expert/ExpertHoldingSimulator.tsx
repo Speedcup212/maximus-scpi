@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { getExpertDossiers, findOrCreateDossier, saveExpertHoldingSimulation } from '../../utils/expertDossiersSupabase';
+import { areInputsValidForPdf, getValidationWarnings } from '../../utils/expertValidation';
 import type { ExpertClientDossier } from '../../types/expertDossier';
 import {
   HoldingISInputs, HoldingISResult,
@@ -114,6 +115,8 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   // Charger les dossiers au montage
   useEffect(() => {
     let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const load = async () => {
       setDossiersLoading(true);
       try {
@@ -124,14 +127,28 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
         }
       } catch (err: unknown) {
         if (!cancelled) {
-          setDossiersError(err instanceof Error ? err.message : 'Impossible de charger les dossiers clients.');
+          console.error('[ExpertHoldingSimulator] Erreur chargement dossiers :', err);
+          setDossiersError('Dossiers clients non chargés — saisie libre disponible.');
         }
       } finally {
         if (!cancelled) setDossiersLoading(false);
       }
     };
+
+    // Timeout de sécurité : si le chargement dépasse 8 secondes, on débloque
+    timeoutId = setTimeout(() => {
+      if (!cancelled) {
+        console.warn('[ExpertHoldingSimulator] Timeout chargement dossiers — déblocage de sécurité.');
+        setDossiersLoading(false);
+        setDossiersError('Dossiers clients non chargés — saisie libre disponible.');
+      }
+    }, 8000);
+
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Reprise de simulation depuis sessionStorage
@@ -438,6 +455,11 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       setTimeout(() => setSaveStatus('idle'), 3000);
     }
   };
+
+  /* ── Validation ── */
+  const validationWarnings = useMemo(() => getValidationWarnings(inputs, result), [inputs, result]);
+  const hasCriticalErrors = validationWarnings.some(w => w.severity === 'critical');
+  const isPdfReady = areInputsValidForPdf(inputs);
 
   const TABS: { id: TabId; label: string }[] = [
     { id: 'synthese', label: 'Synthèse & Argumentaire' },
@@ -936,6 +958,27 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             </div>
           )}
 
+          {/* ── Validation métier ── */}
+          {validationWarnings.length > 0 && (
+            <div className="bg-amber-950/20 border border-amber-900/30 rounded-xl p-4 space-y-2">
+              <div className="flex items-center gap-2 mb-1">
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">Validation des hypothèses</span>
+              </div>
+              {validationWarnings.map((w) => (
+                <div key={w.id} className="flex items-start gap-2">
+                  <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
+                    w.severity === 'critical' ? 'bg-red-900/40 text-red-300' :
+                    w.severity === 'warning' ? 'bg-orange-900/40 text-orange-300' : 'bg-blue-900/40 text-blue-300'
+                  }`}>
+                    {w.severity === 'critical' ? 'Bloquant' : w.severity === 'warning' ? 'Attention' : 'Info'}
+                  </span>
+                  <span className="text-xs text-amber-200/80">{w.message}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* ── Onglets ── */}
           <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl overflow-hidden">
             {/* Tab bar */}
@@ -1167,6 +1210,16 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
                   {/* Boutons d'action */}
                   <div className="flex flex-wrap gap-3">
+                    {!isPdfReady ? (
+                      <button
+                        disabled
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
+                          bg-slate-800 text-slate-500 cursor-not-allowed"
+                        title="Corrigez les hypothèses critiques avant de générer le PDF."
+                      >
+                        <FileDown className="w-4 h-4" /> Générer le PDF
+                      </button>
+                    ) : (
                     <PDFDownloadLink
                       document={<ExpertHoldingReportPdf inputs={inputs} result={result} isSansOperation={isSansOperation} />}
                       fileName={(() => {
@@ -1184,8 +1237,15 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                         </>
                       )}
                     </PDFDownloadLink>
+                    )}
+                    {!isPdfReady && (
+                      <p className="text-[10px] text-amber-400 mt-1 w-full">
+                        Corrigez les hypothèses critiques avant de générer le PDF.
+                      </p>
+                    )}
                     <button onClick={handleSaveToDossier}
-                      disabled={saveStatus === 'saving'}
+                      disabled={saveStatus === 'saving' || !inputs.dossierName || inputs.dossierName.trim().length === 0}
+                      title={!inputs.dossierName ? 'Saisissez un nom de société pour enregistrer.' : ''}
                       className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
                         bg-violet-600/20 text-violet-300 border border-violet-600/30
                         hover:bg-violet-600/30 hover:text-violet-200 transition-colors

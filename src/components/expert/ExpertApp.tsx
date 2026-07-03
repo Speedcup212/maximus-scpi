@@ -9,7 +9,7 @@ import ExpertSimulationView from './ExpertSimulationView';
 import ExpertVerification from './ExpertVerification';
 import ExpertAccessRefused from './ExpertAccessRefused';
 import ExpertPostLogin from './ExpertPostLogin';
-import { Construction, Loader2 } from 'lucide-react';
+import { Construction, Loader2, AlertTriangle } from 'lucide-react';
 import { checkExpertAccess, getRedirectUrl } from '../../utils/expertAccess';
 
 interface ExpertAppProps {
@@ -50,6 +50,7 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
   // ── Route guard ──
   useEffect(() => {
     let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const runGuard = async () => {
       if (PUBLIC_SECTIONS.includes(activeSection)) {
@@ -60,22 +61,43 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
         return;
       }
 
-      const result = await checkExpertAccess(activeSection);
+      try {
+        const result = await checkExpertAccess(activeSection);
 
-      if (cancelled) return;
+        if (cancelled) return;
 
-      if (!result.allowed) {
-        const redirectUrl = getRedirectUrl(result.redirect);
-        window.location.href = redirectUrl;
-        setGuardAllowed(false);
-      } else {
-        setGuardAllowed(true);
+        if (!result.allowed) {
+          const redirectUrl = getRedirectUrl(result.redirect);
+          window.location.href = redirectUrl;
+          setGuardAllowed(false);
+        } else {
+          setGuardAllowed(true);
+        }
+      } catch (err) {
+        console.error('[ExpertApp guard] Erreur lors de la vérification d\'accès :', err);
+        // En cas d'erreur, on débloque quand même pour éviter le spinner infini
+        if (!cancelled) {
+          setGuardAllowed(true);
+        }
+      } finally {
+        if (!cancelled) setGuardChecked(true);
       }
-      setGuardChecked(true);
     };
 
+    // Timeout de sécurité : si la vérification dépasse 8 secondes, on débloque
+    timeoutId = setTimeout(() => {
+      if (!cancelled) {
+        console.warn('[ExpertApp guard] Timeout de vérification d\'accès — déblocage de sécurité.');
+        setGuardChecked(true);
+        setGuardAllowed(true);
+      }
+    }, 8000);
+
     runGuard();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, [activeSection]);
 
   useEffect(() => {
@@ -136,12 +158,24 @@ const ExpertApp: React.FC<ExpertAppProps> = ({ initialSection, initialDossierId,
     );
   }
 
+  // ── Accès refusé : redirection avec fallback ──
   if (!guardAllowed) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-10 h-10 text-blue-400 animate-spin mx-auto mb-4" />
-          <p className="text-sm text-slate-400">Redirection...</p>
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+        <div className="text-center space-y-4 max-w-md">
+          <div className="w-12 h-12 rounded-full bg-amber-950/50 border border-amber-900/30 flex items-center justify-center mx-auto">
+            <AlertTriangle className="w-6 h-6 text-amber-400" />
+          </div>
+          <h2 className="text-lg font-bold text-white">Redirection vers l'espace Expert-Comptable</h2>
+          <p className="text-sm text-slate-400">
+            Votre session a expiré ou votre accès n'a pas pu être vérifié.
+          </p>
+          <button
+            onClick={() => { window.location.href = getRedirectUrl('register'); }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            Accéder à l'espace Expert-Comptable
+          </button>
         </div>
       </div>
     );

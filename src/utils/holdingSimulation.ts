@@ -171,6 +171,11 @@ export interface HoldingISResult {
   cabinetChecks: CabinetCheck[];
 
   projections: HoldingISYearProjection[];
+
+  // ── Validation ──
+  isValid: boolean;
+  errors: string[];
+  warnings: string[];
 }
 
 /* ── Constantes ── */
@@ -704,6 +709,81 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
 
   // ═══ Contrôles cabinet (après construction de result pour éviter la circularité) ═══
   result.cabinetChecks = buildCabinetChecks(inputs, result);
+
+  // ═══ Validation ═══
+  const validationErrors: string[] = [];
+  const validationWarnings: string[] = [];
+
+  // Contrôles critiques
+  if (!Number.isFinite(inputs.availableCash) || inputs.availableCash < 0) {
+    validationErrors.push('Trésorerie disponible invalide.');
+  }
+  if (!Number.isFinite(inputs.preTaxProfit)) {
+    validationErrors.push('Résultat fiscal non numérique.');
+  }
+  if (!Number.isFinite(inputs.usufruitInvestment) || inputs.usufruitInvestment <= 0) {
+    validationErrors.push('Montant investi en usufruit invalide ou nul.');
+  }
+  if (inputs.usufruitKeyPercent <= 0 || inputs.usufruitKeyPercent > 100 || !Number.isFinite(inputs.usufruitKeyPercent)) {
+    validationErrors.push('Clé usufruit invalide (doit être entre 1 % et 100 %).');
+  }
+  if (!Number.isFinite(inputs.usufruitDuration) || inputs.usufruitDuration <= 0) {
+    validationErrors.push('Durée d\'usufruit invalide.');
+  }
+  if (!Number.isFinite(inputs.grossYieldRate) || inputs.grossYieldRate < 0) {
+    validationErrors.push('Taux de distribution invalide.');
+  }
+
+  // Warnings
+  if (inputs.usufruitInvestment > inputs.availableCash && inputs.availableCash > 0) {
+    validationWarnings.push('Montant investi supérieur à la trésorerie disponible.');
+  }
+  if (inputs.grossYieldRate === 0) {
+    validationWarnings.push('Taux de distribution nul — aucun revenu généré.');
+  }
+  if (result.indicativeIrr === null) {
+    validationWarnings.push('TRI non calculable avec ces hypothèses.');
+  }
+  if (result.annualNetCashFlowAfterFees < 0) {
+    validationWarnings.push('Cash-flow net année 1 négatif.');
+  }
+  if (result.annualizedSimpleReturnAfterExtinction < 0) {
+    validationWarnings.push('Rendement simple après extinction négatif.');
+  }
+  if (inputs.feesEnabled && result.feesHT > 0 && result.feesHT / Math.max(inputs.usufruitInvestment, 1) > 0.10) {
+    validationWarnings.push('Frais de mission élevés (> 10 % du montant investi).');
+  }
+  if (result.preTaxProfit > DEFAULT_REDUCED_THRESHOLD && inputs.reducedRateEligible) {
+    validationWarnings.push('Tranche IS à taux réduit déjà consommée.');
+  }
+
+  result.isValid = validationErrors.length === 0;
+  result.errors = validationErrors;
+  result.warnings = validationWarnings;
+
+  // Nettoyage NaN/Infinity : toute valeur non-finie devient 0 ou null
+  const cleanNumber = (n: number): number => (Number.isFinite(n) ? n : 0);
+  result.reconstitutedFullProperty = cleanNumber(result.reconstitutedFullProperty);
+  result.annualGrossIncome = cleanNumber(result.annualGrossIncome);
+  result.annualAmortization = cleanNumber(result.annualAmortization);
+  result.annualFiscalResultOperationOnly = cleanNumber(result.annualFiscalResultOperationOnly);
+  result.annualFiscalResultAfterOperation = cleanNumber(result.annualFiscalResultAfterOperation);
+  result.annualISImpact = cleanNumber(result.annualISImpact);
+  result.annualNetCashFlow = cleanNumber(result.annualNetCashFlow);
+  result.annualNetCashFlowAfterFees = cleanNumber(result.annualNetCashFlowAfterFees);
+  result.effortEconomique = cleanNumber(result.effortEconomique);
+  result.effortTresorerie = cleanNumber(result.effortTresorerie);
+  result.economicInitialEffort = cleanNumber(result.economicInitialEffort);
+  result.economicGainAfterExtinction = cleanNumber(result.economicGainAfterExtinction);
+  result.gainNetAfterUsufructExtinction = cleanNumber(result.gainNetAfterUsufructExtinction);
+  result.netEconomicReturnAfterExtinction = cleanNumber(result.netEconomicReturnAfterExtinction);
+  result.annualizedSimpleReturnAfterExtinction = cleanNumber(result.annualizedSimpleReturnAfterExtinction);
+  result.cashFlowAverageReturn = cleanNumber(result.cashFlowAverageReturn);
+  result.alternativeAnnualNetYield = cleanNumber(result.alternativeAnnualNetYield);
+  result.alternativeCumulativeNetIncome = cleanNumber(result.alternativeCumulativeNetIncome);
+  result.alternativeEndingCapital = cleanNumber(result.alternativeEndingCapital);
+  result.alternativeTotalValue = cleanNumber(result.alternativeTotalValue);
+  result.alternativeComparisonSpread = cleanNumber(result.alternativeComparisonSpread);
 
   return result;
 }

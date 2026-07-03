@@ -2155,6 +2155,7 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-slate-950 text-white">
         <SEOHead title="Espace Expert-Comptable | MaximusSCPI" description="Espace cabinet expert-comptable — simulateurs Holding IS et usufruit temporaire SCPI" noIndex />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
+          <ErrorBoundary>
           <ExpertApp
             initialSection={
               currentView === 'expert-post-login' ? 'post-login' :
@@ -2173,6 +2174,7 @@ const App: React.FC = () => {
             initialSimulationId={currentSimulationId || undefined}
             onBackToHome={handleBackToHome}
           />
+          </ErrorBoundary>
         </Suspense>
       </div>
     );

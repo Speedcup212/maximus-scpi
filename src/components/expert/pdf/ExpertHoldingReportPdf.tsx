@@ -21,18 +21,18 @@ import { formatDisplayName } from '../../../utils/formatters';
  */
 const norm = (s: string): string => s.replace(/[\s\u202F\u00A0]/g, ' ');
 
-const fmtEuro = (v: number): string => {
-  if (!Number.isFinite(v)) return '— €';
+const fmtEuro = (v: number | null | undefined): string => {
+  if (v === null || v === undefined || !Number.isFinite(v)) return '\u2014 \u20AC';
   return norm(new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(v));
 };
 
-const fmtPercent = (v: number): string => {
-  if (!Number.isFinite(v)) return '—';
+const fmtPercent = (v: number | null | undefined): string => {
+  if (v === null || v === undefined || !Number.isFinite(v)) return '\u2014';
   return norm(new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v)) + ' %';
 };
 
-const fmtNumber = (v: number): string => {
-  if (!Number.isFinite(v)) return '—';
+const fmtNumber = (v: number | null | undefined): string => {
+  if (v === null || v === undefined || !Number.isFinite(v)) return '\u2014';
   return norm(new Intl.NumberFormat('fr-FR').format(v));
 };
 
