@@ -1243,14 +1243,14 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Pleine propriété reconstituée</Text>
-          <Text style={styles.infoItem}>Pleine propriété = Usufruit investi ÷ Clé d'usufruit ({(inputs.usufruitKeyPercent).toFixed(1) + ' %'})</Text>
-          <Text style={styles.infoItem}>Pleine propriété = {fmtEuro(inputs.usufruitInvestment)} ÷ {inputs.usufruitKeyPercent.toFixed(1) + ' %'} = {fmtEuro(result.reconstitutedFullProperty)}</Text>
+          <Text style={styles.infoItem}>Pleine propriété = Usufruit investi / Clé d'usufruit ({fmtPercent(inputs.usufruitKeyPercent)})</Text>
+          <Text style={styles.infoItem}>Pleine propriété = {fmtEuro(inputs.usufruitInvestment)} / {fmtPercent(inputs.usufruitKeyPercent)} = {fmtEuro(result.reconstitutedFullProperty)}</Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Revenus bruts annuels SCPI</Text>
-          <Text style={styles.infoItem}>Revenus bruts annuels = Pleine propriété × Taux de distribution ({inputs.grossYieldRate} %)</Text>
-          <Text style={styles.infoItem}>Revenus bruts annuels = {fmtEuro(result.reconstitutedFullProperty)} × {inputs.grossYieldRate} % = {fmtEuro(result.annualGrossIncome)}</Text>
+          <Text style={styles.infoItem}>Revenus bruts annuels = Pleine propriété × Taux de distribution ({fmtPercent(inputs.grossYieldRate)})</Text>
+          <Text style={styles.infoItem}>Revenus bruts annuels = {fmtEuro(result.reconstitutedFullProperty)} × {fmtPercent(inputs.grossYieldRate)} = {fmtEuro(result.annualGrossIncome)}</Text>
           {inputs.incomeRevaluationRate > 0 && (
             <Text style={styles.infoItem}>Revalorisés à {inputs.incomeRevaluationRate} % / an les années suivantes.</Text>
           )}
@@ -1258,21 +1258,21 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Amortissement annuel de l'usufruit</Text>
-          <Text style={styles.infoItem}>Amortissement annuel = Usufruit investi ÷ Durée</Text>
-          <Text style={styles.infoItem}>Amortissement annuel = {fmtEuro(inputs.usufruitInvestment)} ÷ {inputs.usufruitDuration} = {fmtEuro(result.annualAmortization)}</Text>
+          <Text style={styles.infoItem}>Amortissement annuel = Usufruit investi / Durée</Text>
+          <Text style={styles.infoItem}>Amortissement annuel = {fmtEuro(inputs.usufruitInvestment)} / {inputs.usufruitDuration} = {fmtEuro(result.annualAmortization)}</Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Résultat fiscal de l'opération — année 1</Text>
           {inputs.feesEnabled ? (
             <>
-              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts − Amortissement − Frais de mission déductibles</Text>
-              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} − {fmtEuro(result.annualAmortization)} − {fmtEuro(result.feesFiscalDeductible ?? 0)} = {fmtEuro(result.yearOneTaxableOperationResult)}</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts - Amortissement - Frais de mission déductibles</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} - {fmtEuro(result.annualAmortization)} - {fmtEuro(result.feesFiscalYear1)} = {fmtEuro(result.annualFiscalResultOperationOnly)}</Text>
             </>
           ) : (
             <>
-              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts − Amortissement</Text>
-              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} − {fmtEuro(result.annualAmortization)} = {fmtEuro(result.yearOneTaxableOperationResult)}</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts - Amortissement</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} - {fmtEuro(result.annualAmortization)} = {fmtEuro(result.annualFiscalResultOperationOnly)}</Text>
             </>
           )}
         </View>
@@ -1280,25 +1280,30 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Résultat fiscal après opération</Text>
           <Text style={styles.infoItem}>Résultat fiscal après opération = Résultat avant opération + Résultat fiscal opération</Text>
-          <Text style={styles.infoItem}>Résultat fiscal après opération = {fmtEuro(inputs.taxableResultBefore)} + {fmtEuro(result.yearOneTaxableOperationResult)} = {fmtEuro(result.taxableResultAfterOperation)}</Text>
+          <Text style={styles.infoItem}>Résultat fiscal après opération = {fmtEuro(inputs.taxableResultBefore)} + {fmtEuro(result.annualFiscalResultOperationOnly)} = {fmtEuro(result.annualFiscalResultAfterOperation)}</Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Impôt sur les sociétés — avant / après opération</Text>
           <Text style={styles.infoItem}>IS sans opération = Résultat avant opération × Taux IS applicable</Text>
           <Text style={styles.infoItem}>IS avec opération = Résultat après opération × Taux IS applicable</Text>
-          <Text style={styles.infoItem}>Impact IS = IS avec opération − IS sans opération</Text>
-          <Text style={styles.infoItem}>Impact IS = {fmtEuro(result.corporateTaxWithOperation)} − {fmtEuro(result.corporateTaxWithoutOperation)} = {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}</Text>
+          <Text style={styles.infoItem}>Impact IS = IS avec opération - IS sans opération</Text>
+          <Text style={styles.infoItem}>IS sans opération = {fmtEuro(result.corporateTaxWithoutOperation)}</Text>
+          <Text style={styles.infoItem}>IS avec opération = {fmtEuro(result.corporateTaxWithOperation)}</Text>
+          <Text style={styles.infoItem}>Impact IS = {fmtEuro(result.corporateTaxWithOperation)} - {fmtEuro(result.corporateTaxWithoutOperation)} = {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}</Text>
+          <Text style={{ ...styles.infoItem, marginTop: 4, color: '#64748b', fontStyle: 'italic', fontSize: 8 }}>
+            Le calcul tient compte de la tranche à taux réduit PME lorsque l'option est activée et selon les hypothèses d'éligibilité renseignées.
+          </Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Flux net année 1</Text>
           {inputs.feesEnabled ? (
-            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts − Impact IS − Frais de mission (isolés en année 1)</Text>
+            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts - Impact IS - Frais de mission isolés en année 1</Text>
           ) : (
-            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts − Impact IS</Text>
+            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts - Impact IS</Text>
           )}
-          <Text style={styles.infoItem}>Flux net année 1 = {fmtEuro(result.annualGrossIncome)} − ({result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}){inputs.feesEnabled ? ` − ${fmtEuro(result.feesEconomicOutflow ?? 0)}` : ''} = {fmtEuro(result.annualNetCashFlowAfterFees)}</Text>
+          <Text style={styles.infoItem}>Flux net année 1 = {fmtEuro(result.annualGrossIncome)} - {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}{inputs.feesEnabled ? ` - ${fmtEuro(result.feesEconomicOutflow ?? result.feesFiscalYear1)}` : ''} = {fmtEuro(result.annualNetCashFlowAfterFees)}</Text>
         </View>
 
         {inputs.feesEnabled && (
@@ -1306,28 +1311,31 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
             <Text style={styles.infoTitle}>Convention économique retenue</Text>
             <Text style={styles.infoItem}>Effort initial économique = Usufruit investi + Frais de mission HT + TVA non récupérable</Text>
             <Text style={styles.infoItem}>Effort initial économique = {fmtEuro(inputs.usufruitInvestment)} + {fmtEuro(result.feesHT ?? 0)} + {fmtEuro(result.nonRecoverableVatAmount ?? 0)} = {fmtEuro(result.effortEconomique)}</Text>
-            <Text style={styles.infoItem}>Flux opérationnel annuel = Revenus bruts − Impact IS (les frais ne sont pas déduits une seconde fois)</Text>
-            <Text style={styles.infoItem}>Flux de lancement cumulé = Flux opérationnels − Frais de mission isolés en année 1 (lecture trésorerie)</Text>
+            <Text style={styles.infoItem}>Flux opérationnel annuel = Revenus bruts - Impact IS (les frais ne sont pas déduits une seconde fois)</Text>
+            <Text style={styles.infoItem}>Flux de lancement cumulé = Flux opérationnels - Frais de mission isolés en année 1 (lecture trésorerie)</Text>
             <Text style={styles.infoItem}>Gain économique et TRI calculés sur les flux opérationnels, pour éviter le double comptage des frais déjà intégrés dans l'effort initial.</Text>
           </View>
         )}
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Rendement cash-flow moyen annuel</Text>
-          <Text style={styles.infoItem}>Rendement cash-flow moyen = (Flux net moyen annuel ÷ Effort initial) × 100</Text>
+          <Text style={styles.infoItem}>Rendement cash-flow moyen = (Flux net moyen annuel / Effort initial) × 100</Text>
           <Text style={styles.infoItem}>Rendement cash-flow moyen = {fmtPercent(result.cashFlowAverageReturn)}</Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Rendement simple après extinction</Text>
-          <Text style={styles.infoItem}>Rendement simple = Gain économique ÷ Effort initial ÷ Durée × 100</Text>
-          <Text style={styles.infoItem}>Rendement simple = {fmtEuro(result.economicGainAfterExtinction)} ÷ {fmtEuro(result.effortEconomique)} ÷ {inputs.usufruitDuration} × 100 = {fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an</Text>
+          <Text style={styles.infoItem}>Rendement simple = Gain économique / Effort initial / Durée × 100</Text>
+          <Text style={styles.infoItem}>Rendement simple = {fmtEuro(result.economicGainAfterExtinction ?? result.gainNetAfterUsufructExtinction)} / {fmtEuro(result.effortEconomique)} / {inputs.usufruitDuration} × 100 = {fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an</Text>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>TRI indicatif après extinction</Text>
           <Text style={styles.infoItem}>TRI = taux d'actualisation tel que la VAN des flux opérationnels = 0</Text>
-          <Text style={styles.infoItem}>Flux : [−{fmtEuro(result.effortEconomique)} ; {result.irrCashFlows && result.irrCashFlows.length > 0 ? result.irrCashFlows.slice(0, 3).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 3 ? ' ; ...' : '') : fmtEuro(result.economicCumulativeNetCashFlow)}]</Text>
+          <Text style={styles.infoItem}>Année 0 : -{fmtEuro(result.effortEconomique)}</Text>
+          <Text style={styles.infoItem}>Années 1 à {inputs.usufruitDuration} : flux opérationnels annuels</Text>
+          <Text style={styles.infoItem}>Valeur finale de l'usufruit : 0 €</Text>
+          <Text style={styles.infoItem}>Flux : [-{fmtEuro(result.effortEconomique)} ; {(result.irrCashFlows && result.irrCashFlows.length > 0 ? result.irrCashFlows.slice(0, 4).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 4 ? ' ; ...' : '') : result.projections && result.projections.length > 0 ? result.projections.slice(0, 3).map((p: Record<string, unknown>) => fmtEuro((p.netCashFlow as number) ?? 0)).join(' ; ') + (result.projections.length > 3 ? ' ; ...' : '') : '—')}]</Text>
           <Text style={styles.infoItem}>TRI indicatif = {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : 'Non calculable'}</Text>
         </View>
 
