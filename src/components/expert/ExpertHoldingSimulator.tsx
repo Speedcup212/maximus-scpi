@@ -920,6 +920,65 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
         {/* Colonne résultats */}
         <div className="lg:col-span-2">
           <div className="bg-slate-900/90 border border-slate-700/50 rounded-2xl p-6 space-y-7 shadow-lg shadow-black/10">
+
+          {/* ── Barre d'actions (PDF / Sauvegarde) ── */}
+          <div className="flex items-center justify-between flex-wrap gap-3 pb-5 border-b border-slate-700/50">
+            <div className="flex items-center gap-3 flex-wrap">
+              {!isPdfReady ? (
+                <button
+                  disabled
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
+                    bg-slate-800 text-slate-500 cursor-not-allowed"
+                  title="Corrigez les hypothèses critiques avant de générer le PDF."
+                >
+                  <FileDown className="w-4 h-4" /> Générer le PDF
+                </button>
+              ) : (
+              <PDFDownloadLink
+                document={<ExpertHoldingReportPdf inputs={inputs} result={result} isSansOperation={isSansOperation} />}
+                fileName={(() => {
+                  const dossier = (inputs.dossierName || 'simulation-holding-is').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
+                  const date = new Date().toISOString().slice(0, 10);
+                  return `rapport-holding-is-${dossier}-${date}.pdf`;
+                })()}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
+                  bg-blue-600 text-white hover:bg-blue-500 transition-colors"
+              >
+                {({ loading }) => (
+                  <>
+                    <FileDown className="w-4 h-4" />
+                    {loading ? 'Génération...' : 'Générer le PDF'}
+                  </>
+                )}
+              </PDFDownloadLink>
+              )}
+              <button onClick={handleSaveToDossier}
+                disabled={saveStatus === 'saving' || !inputs.dossierName || inputs.dossierName.trim().length === 0}
+                title={!inputs.dossierName ? 'Saisissez un nom de société pour enregistrer.' : ''}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
+                  bg-violet-600/20 text-violet-300 border border-violet-600/30
+                  hover:bg-violet-600/30 hover:text-violet-200 transition-colors
+                  disabled:opacity-50 disabled:cursor-not-allowed">
+                {saveStatus === 'saving' ? (
+                  <span className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin" />
+                ) : saveStatus === 'success' ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                {saveStatus === 'success' ? 'Enregistré !' : 'Enregistrer dans le dossier client'}
+              </button>
+            </div>
+            {!isPdfReady && (
+              <p className="text-[10px] text-amber-400 w-full sm:w-auto">
+                Corrigez les hypothèses critiques avant de générer le PDF.
+              </p>
+            )}
+            {saveError && (
+              <p className="text-xs text-red-400 w-full sm:w-auto">{saveError}</p>
+            )}
+          </div>
+
           {/* KPI synthèse */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <KpiCard icon={<Wallet className="w-4 h-4" />} label="Effort initial économique" value={fmtEuro(result.effortEconomique)} color="blue"
@@ -1201,61 +1260,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     </div>
                   )}
 
-                  {/* Boutons d'action */}
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    {!isPdfReady ? (
-                      <button
-                        disabled
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
-                          bg-slate-800 text-slate-500 cursor-not-allowed"
-                        title="Corrigez les hypothèses critiques avant de générer le PDF."
-                      >
-                        <FileDown className="w-4 h-4" /> Générer le PDF
-                      </button>
-                    ) : (
-                    <PDFDownloadLink
-                      document={<ExpertHoldingReportPdf inputs={inputs} result={result} isSansOperation={isSansOperation} />}
-                      fileName={(() => {
-                        const dossier = (inputs.dossierName || 'simulation-holding-is').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
-                        const date = new Date().toISOString().slice(0, 10);
-                        return `rapport-holding-is-${dossier}-${date}.pdf`;
-                      })()}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
-                        bg-blue-600 text-white hover:bg-blue-500 transition-colors"
-                    >
-                      {({ loading }) => (
-                        <>
-                          <FileDown className="w-4 h-4" />
-                          {loading ? 'Génération...' : 'Générer le PDF'}
-                        </>
-                      )}
-                    </PDFDownloadLink>
-                    )}
-                    {!isPdfReady && (
-                      <p className="text-[10px] text-amber-400 mt-1 w-full">
-                        Corrigez les hypothèses critiques avant de générer le PDF.
-                      </p>
-                    )}
-                    <button onClick={handleSaveToDossier}
-                      disabled={saveStatus === 'saving' || !inputs.dossierName || inputs.dossierName.trim().length === 0}
-                      title={!inputs.dossierName ? 'Saisissez un nom de société pour enregistrer.' : ''}
-                      className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium
-                        bg-violet-600/20 text-violet-300 border border-violet-600/30
-                        hover:bg-violet-600/30 hover:text-violet-200 transition-colors
-                        disabled:opacity-50 disabled:cursor-not-allowed">
-                      {saveStatus === 'saving' ? (
-                        <span className="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin" />
-                      ) : saveStatus === 'success' ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      ) : (
-                        <Save className="w-4 h-4" />
-                      )}
-                      {saveStatus === 'success' ? 'Enregistré !' : 'Enregistrer dans le dossier client'}
-                    </button>
-                    {saveError && (
-                      <p className="text-xs text-red-400 mt-2 w-full">{saveError}</p>
-                    )}
-                  </div>
                 </div>
               )}
 
