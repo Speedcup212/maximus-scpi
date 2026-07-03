@@ -1112,7 +1112,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     <PDFDownloadLink
                       document={<ExpertHoldingReportPdf inputs={inputs} result={result} isSansOperation={isSansOperation} />}
                       fileName={(() => {
-                        const dossier = (inputs.dossierName || 'maximusscpi').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
+                        const dossier = (inputs.dossierName || 'simulation-holding-is').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
                         const date = new Date().toISOString().slice(0, 10);
                         return `rapport-holding-is-${dossier}-${date}.pdf`;
                       })()}

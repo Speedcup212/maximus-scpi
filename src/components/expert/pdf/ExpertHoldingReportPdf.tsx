@@ -482,13 +482,29 @@ interface ExpertHoldingReportPdfProps {
   inputs: HoldingISInputs;
   result: HoldingISResult;
   isSansOperation: number;
+  /** Nom réel du dossier client (depuis Supabase). Prioritaire sur inputs.dossierName. */
+  dossierName?: string;
+  /** Affiche le badge "Mode admin — document de test" uniquement si explicitement demandé. */
+  includeAdminTestBadge?: boolean;
 }
 
 /* ── Composant Document ── */
 
-const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs, result, isSansOperation }) => {
+const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
+  inputs, result, isSansOperation, dossierName: dossierNameProp, includeAdminTestBadge = false,
+}) => {
   const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
-  const dossierTitle = (inputs.dossierName || 'MaximusSCPI').replace(/[^a-zA-Z0-9\-_]/g, '-').substring(0, 50);
+
+  /* Résolution du nom de dossier :
+     1. dossierName prop (depuis Supabase)
+     2. inputs.dossierName (saisi dans le simulateur)
+     3. Fallback "Simulation Holding IS"
+  */
+  const resolvedDossierName = dossierNameProp || inputs.dossierName || 'Simulation Holding IS';
+  const dossierTitle = resolvedDossierName
+    .replace(/[^a-zA-Z0-9\-_\s]/g, '')
+    .replace(/\s+/g, '-')
+    .substring(0, 50);
   const verificationProfile = getVerificationProfile();
   const isDeclared = verificationProfile?.status === 'declared_oec_registered';
   const isAdmin = getCurrentRoleFromCache() === 'admin';
@@ -501,7 +517,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.headerSubtitle}>Société IS — Usufruit temporaire SCPI</Text>
         </View>
         <View>
-          {isAdmin ? (
+          {isAdmin && includeAdminTestBadge ? (
             <>
               <Text style={{ ...styles.headerBadge, backgroundColor: '#7c3aed20', color: '#a78bfa' }}>Mode admin — document de test</Text>
             </>
@@ -524,7 +540,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
       </View>
       <View style={styles.headerMeta}>
         <Text>Date : {fmtDate()}</Text>
-        <Text>Dossier : {inputs.dossierName || 'Simulation Holding IS'}</Text>
+        <Text>Dossier : {resolvedDossierName}</Text>
         <Text>Type de société : {inputs.companyType}</Text>
         <Text>Simulation indicative — validation cabinet requise</Text>
       </View>

@@ -159,7 +159,10 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
       if (!sim) throw new Error('Simulation introuvable');
 
       const { generatePdfBlob } = await import('./pdf/generateHoldingPdfBlob');
-      const { pdfBlob, fileName } = await generatePdfBlob(sim);
+      const { pdfBlob, fileName } = await generatePdfBlob(sim, {
+        dossierName: dossier?.clientName,
+        includeAdminTestBadge: false,
+      });
 
       const { uploadExpertReport } = await import('../../utils/expertDossiersSupabase');
       const { versionNumber } = await uploadExpertReport(
