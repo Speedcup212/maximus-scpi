@@ -1280,7 +1280,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>Résultat fiscal après opération</Text>
           <Text style={styles.infoItem}>Résultat fiscal après opération = Résultat avant opération + Résultat fiscal opération</Text>
-          <Text style={styles.infoItem}>Résultat fiscal après opération = {fmtEuro(inputs.taxableResultBefore)} + {fmtEuro(result.annualFiscalResultOperationOnly)} = {fmtEuro(result.annualFiscalResultAfterOperation)}</Text>
+          <Text style={styles.infoItem}>Résultat fiscal après opération = {fmtEuro(inputs.preTaxProfit)} + {fmtEuro(result.annualFiscalResultOperationOnly)} = {fmtEuro(result.annualFiscalResultAfterOperation)}</Text>
         </View>
 
         <View style={styles.infoBox}>
@@ -1288,9 +1288,9 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.infoItem}>IS sans opération = Résultat avant opération × Taux IS applicable</Text>
           <Text style={styles.infoItem}>IS avec opération = Résultat après opération × Taux IS applicable</Text>
           <Text style={styles.infoItem}>Impact IS = IS avec opération - IS sans opération</Text>
-          <Text style={styles.infoItem}>IS sans opération = {fmtEuro(result.corporateTaxWithoutOperation)}</Text>
-          <Text style={styles.infoItem}>IS avec opération = {fmtEuro(result.corporateTaxWithOperation)}</Text>
-          <Text style={styles.infoItem}>Impact IS = {fmtEuro(result.corporateTaxWithOperation)} - {fmtEuro(result.corporateTaxWithoutOperation)} = {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}</Text>
+          <Text style={styles.infoItem}>IS sans opération = {fmtEuro(isSansOperation)}</Text>
+          <Text style={styles.infoItem}>IS avec opération = {fmtEuro(result.annualISAfterOperation)}</Text>
+          <Text style={styles.infoItem}>Impact IS = {fmtEuro(result.annualISAfterOperation)} - {fmtEuro(isSansOperation)} = {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}</Text>
           <Text style={{ ...styles.infoItem, marginTop: 4, color: '#64748b', fontStyle: 'italic', fontSize: 8 }}>
             Le calcul tient compte de la tranche à taux réduit PME lorsque l'option est activée et selon les hypothèses d'éligibilité renseignées.
           </Text>
@@ -1303,7 +1303,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           ) : (
             <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts - Impact IS</Text>
           )}
-          <Text style={styles.infoItem}>Flux net année 1 = {fmtEuro(result.annualGrossIncome)} - {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}{inputs.feesEnabled ? ` - ${fmtEuro(result.feesEconomicOutflow ?? result.feesFiscalYear1)}` : ''} = {fmtEuro(result.annualNetCashFlowAfterFees)}</Text>
+          <Text style={styles.infoItem}>Flux net année 1 = {fmtEuro(result.annualGrossIncome)} - {fmtEuro(Math.abs(result.annualISImpact))}{inputs.feesEnabled ? ` - ${fmtEuro(result.feesEconomicOutflow ?? result.feesFiscalYear1)}` : ''} = {fmtEuro(result.annualNetCashFlowAfterFees)}</Text>
         </View>
 
         {inputs.feesEnabled && (
@@ -1335,7 +1335,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
           <Text style={styles.infoItem}>Année 0 : -{fmtEuro(result.effortEconomique)}</Text>
           <Text style={styles.infoItem}>Années 1 à {inputs.usufruitDuration} : flux opérationnels annuels</Text>
           <Text style={styles.infoItem}>Valeur finale de l'usufruit : 0 €</Text>
-          <Text style={styles.infoItem}>Flux : [-{fmtEuro(result.effortEconomique)} ; {(result.irrCashFlows && result.irrCashFlows.length > 0 ? result.irrCashFlows.slice(0, 4).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 4 ? ' ; ...' : '') : result.projections && result.projections.length > 0 ? result.projections.slice(0, 3).map((p: Record<string, unknown>) => fmtEuro((p.netCashFlow as number) ?? 0)).join(' ; ') + (result.projections.length > 3 ? ' ; ...' : '') : '—')}]</Text>
+          <Text style={styles.infoItem}>Flux : [-{fmtEuro(result.effortEconomique)} ; {(result.irrCashFlows && result.irrCashFlows.length > 1 ? result.irrCashFlows.slice(1, 5).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 5 ? ' ; ...' : '') : result.projections && result.projections.length > 0 ? result.projections.slice(0, 3).map((p: Record<string, unknown>) => fmtEuro((p.netCashFlow as number) ?? 0)).join(' ; ') + (result.projections.length > 3 ? ' ; ...' : '') : '—')}]</Text>
           <Text style={styles.infoItem}>TRI indicatif = {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : 'Non calculable'}</Text>
         </View>
 
