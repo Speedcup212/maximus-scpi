@@ -148,3 +148,47 @@ export const normalizeString = (str: string): string => {
     .toLowerCase()
     .trim();
 };
+
+/** Sigles à conserver en majuscules */
+const PRESERVED_ACRONYMS = new Set([
+  'SCI', 'SAS', 'SARL', 'SASU', 'EURL', 'SPFPL',
+  'SELARL', 'SC', 'SNC', 'IS', 'SA', 'SCA', 'SELAS',
+  'SEL', 'SELU', 'SCM', 'SCP', 'GIE', 'GEIE',
+]);
+
+/**
+ * Formate un nom propre pour affichage.
+ * - "eric bellaiche" → "Eric Bellaiche"
+ * - "sci dupont holding" → "SCI Dupont Holding"
+ * - "jean-pierre martin" → "Jean-Pierre Martin"
+ *
+ * Les sigles connus (SCI, SAS, SARL, etc.) sont conservés en majuscules.
+ */
+export const formatDisplayName = (value: string): string => {
+  if (!value) return value;
+
+  const normalized = value.trim().replace(/\s+/g, ' ');
+
+  return normalized
+    .split(' ')
+    .map((word) => {
+      const upperWord = word.toUpperCase();
+
+      // Conserver les sigles connus
+      if (PRESERVED_ACRONYMS.has(upperWord)) {
+        return upperWord;
+      }
+
+      // Gérer les mots avec traits d'union : "jean-pierre"
+      if (word.includes('-')) {
+        return word
+          .split('-')
+          .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+          .join('-');
+      }
+
+      // Capitalisation simple
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+};

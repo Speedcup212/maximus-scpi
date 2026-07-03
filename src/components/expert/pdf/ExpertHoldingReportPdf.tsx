@@ -7,8 +7,9 @@ import {
   StyleSheet,
 } from '@react-pdf/renderer';
 import type { HoldingISInputs, HoldingISResult } from '../../../utils/holdingSimulation';
-import { getVerificationProfile, getVerificationStatusLabel } from '../../../utils/expertVerification';
+import { getVerificationProfile } from '../../../utils/expertVerification';
 import { getCurrentRoleFromCache } from '../../../utils/expertAccess';
+import { formatDisplayName } from '../../../utils/formatters';
 
 /* ── Helpers formatage ── */
 
@@ -501,12 +502,14 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
      3. Fallback "Simulation Holding IS"
   */
   const resolvedDossierName = dossierNameProp || inputs.dossierName || 'Simulation Holding IS';
+  const resolvedDossierDisplayName = formatDisplayName(resolvedDossierName);
   const dossierTitle = resolvedDossierName
     .replace(/[^a-zA-Z0-9\-_\s]/g, '')
     .replace(/\s+/g, '-')
     .substring(0, 50);
+  const dossierFooterName = resolvedDossierDisplayName; // nom lisible dans le footer
   const verificationProfile = getVerificationProfile();
-  const isDeclared = verificationProfile?.status === 'declared_oec_registered';
+  const cabinetName = verificationProfile?.firmName || null;
   const isAdmin = getCurrentRoleFromCache() === 'admin';
 
   const headerFragment = (
@@ -524,14 +527,9 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
           ) : (
             <>
               <Text style={styles.headerBadge}>Espace Expert-Comptable</Text>
-              {isDeclared && (
-                <Text style={{ ...styles.headerBadge, backgroundColor: '#065f46', color: '#a7f3d0', marginTop: 4 }}>
-                  {getVerificationStatusLabel(verificationProfile!.status)}
-                </Text>
-              )}
-              {!isDeclared && (
-                <Text style={{ fontSize: 7, color: '#94a3b8', marginTop: 4, textAlign: 'right' }}>
-                  Cabinet non déclaré
+              {cabinetName && (
+                <Text style={{ fontSize: 7, color: '#64748b', marginTop: 4, textAlign: 'right' }}>
+                  Cabinet : {cabinetName}
                 </Text>
               )}
             </>
@@ -540,7 +538,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
       </View>
       <View style={styles.headerMeta}>
         <Text>Date : {fmtDate()}</Text>
-        <Text>Dossier : {resolvedDossierName}</Text>
+        <Text>Dossier : {resolvedDossierDisplayName}</Text>
         <Text>Type de société : {inputs.companyType}</Text>
         <Text>Simulation indicative — validation cabinet requise</Text>
       </View>
@@ -550,7 +548,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
   const footerFragment = (page: number) => (
     <>
       <Text style={styles.footer}>
-        MaximusSCPI — Espace Expert-Comptable — {fmtDate()} — {dossierTitle}
+        MaximusSCPI — Espace Expert-Comptable — {fmtDate()} — {dossierFooterName}
       </Text>
       <Text style={styles.pageNumber}>Page {page}</Text>
     </>
