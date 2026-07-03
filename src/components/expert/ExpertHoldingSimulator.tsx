@@ -460,12 +460,15 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ── Panneau de saisie ── */}
+        {/* Panneau de saisie */}
         <div className="lg:col-span-1">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5 sticky top-6">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <FileText className="w-4 h-4 text-slate-400" />Paramètres
-            </h2>
+          <div className="bg-slate-900 border border-slate-700/50 rounded-2xl p-6 space-y-5 sticky top-6 shadow-lg shadow-black/10">
+            <div className="border-b border-slate-700/50 pb-4 mb-1">
+              <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                <FileText className="w-4 h-4 text-blue-400" />Paramètres de simulation
+              </h2>
+              <p className="text-[10px] text-slate-500 mt-1">Hypothèses d'entrée cabinet</p>
+            </div>
 
             {/* Dossier — autocomplete */}
             <div ref={dossierContainerRef} className="relative">
@@ -576,8 +579,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             </div>
 
             {/* Taux réduit IS */}
-            <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-slate-700/50">
+            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-blue-700/30">
               <div className="flex items-center gap-2">
+                <span className="w-1.5 h-4 rounded-full bg-blue-500/70 inline-block"></span>
                 <Shield className="w-4 h-4 text-blue-400" />
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Taux réduit IS PME</span>
               </div>
@@ -601,8 +605,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             </div>
 
             {/* Usufruit */}
-            <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-slate-700/50">
+            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-amber-700/30">
               <div className="flex items-center gap-2 mb-1">
+                <span className="w-1.5 h-4 rounded-full bg-amber-500/70 inline-block"></span>
                 <Landmark className="w-4 h-4 text-amber-400" />
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Usufruit temporaire</span>
               </div>
@@ -650,8 +655,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             </div>
 
             {/* ── Comparaison trésorerie alternative ── */}
-            <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-emerald-700/30">
+            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-emerald-700/30">
               <div className="flex items-center gap-2 mb-1">
+                <span className="w-1.5 h-4 rounded-full bg-emerald-500/70 inline-block"></span>
                 <Landmark className="w-4 h-4 text-emerald-400" />
                 <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Comparaison alternative</span>
               </div>
@@ -724,8 +730,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             </div>
 
             {/* ── Frais de mission ── */}
-            <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-violet-700/30">
+            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-violet-700/30">
               <div className="flex items-center gap-2 mb-1">
+                <span className="w-1.5 h-4 rounded-full bg-violet-500/70 inline-block"></span>
                 <Receipt className="w-4 h-4 text-violet-400" />
                 <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Frais de mission et de structuration</span>
               </div>
@@ -839,6 +846,11 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       </div>
                     </div>
                   )}
+                  <div className="border-t border-slate-700/40 pt-3 mt-1">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <span className="w-1.5 h-3.5 rounded-full bg-violet-500/70 inline-block"></span>
+                      <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em]">Traitement</span>
+                    </div>
                   <div>
                     <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Traitement fiscal/comptable</label>
                     <div className="space-y-1">
@@ -850,16 +862,18 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       ))}
                     </div>
                   </div>
+                  </div>
                 </>
               )}
             </div>
           </div>
         </div>
 
-        {/* ── Colonne résultats ── */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* ── 6 KPI synthèse ── */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {/* Colonne résultats */}
+        <div className="lg:col-span-2">
+          <div className="bg-slate-900/90 border border-slate-700/50 rounded-2xl p-6 space-y-7 shadow-lg shadow-black/10">
+          {/* KPI synthèse */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <KpiCard icon={<Wallet className="w-4 h-4" />} label="Effort initial économique" value={fmtEuro(result.effortEconomique)} color="blue"
               sublabel="Usufruit + frais + TVA non récup. éventuelle" />
             <KpiCard icon={<Euro className="w-4 h-4" />} label="Cash-flow net année 1" value={fmtEuro(result.annualNetCashFlowAfterFees)} color="emerald"
@@ -878,23 +892,31 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
           {/* ── Contrôles cabinet ── */}
           {result.cabinetChecks && result.cabinetChecks.length > 0 && (
-            <div className={`rounded-lg border p-4 space-y-2
-              ${result.cabinetChecks.some(c => c.level === 'critical') ? 'bg-red-950/20 border-red-900/30' :
-                result.cabinetChecks.some(c => c.level === 'warning') ? 'bg-orange-950/20 border-orange-900/30' :
-                'bg-blue-950/20 border-blue-900/30'}`}
+            <div className={`rounded-xl border p-5 space-y-3
+              ${result.cabinetChecks.some(c => c.level === 'critical') ? 'bg-red-950/30 border-red-900/50' :
+                result.cabinetChecks.some(c => c.level === 'warning') ? 'bg-orange-950/30 border-orange-900/50' :
+                'bg-blue-950/20 border-blue-900/50'}`}
             >
               <div className="flex items-center gap-2 mb-1">
-                <Shield className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Contrôles cabinet</span>
+                <Shield className={`w-4 h-4 ${
+                  result.cabinetChecks.some(c => c.level === 'critical') ? 'text-red-400' :
+                  result.cabinetChecks.some(c => c.level === 'warning') ? 'text-orange-400' :
+                  'text-blue-400'
+                }`} />
+                <span className={`text-xs font-bold uppercase tracking-wider ${
+                  result.cabinetChecks.some(c => c.level === 'critical') ? 'text-red-300' :
+                  result.cabinetChecks.some(c => c.level === 'warning') ? 'text-orange-300' :
+                  'text-blue-300'
+                }`}>Contrôles cabinet</span>
               </div>
               {result.cabinetChecks.map((c) => (
-                <div key={c.id} className="flex items-start gap-2">
+                <div key={c.id} className="flex items-start gap-3 py-1">
                   <AlertTriangle className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
                     c.level === 'critical' ? 'text-red-400' :
                     c.level === 'warning' ? 'text-orange-400' : 'text-blue-400'
                   }`} />
                   <div className="flex-1 min-w-0">
-                    <span className={`text-xs font-medium ${
+                    <span className={`text-xs font-semibold block ${
                       c.level === 'critical' ? 'text-red-300' :
                       c.level === 'warning' ? 'text-orange-300' : 'text-blue-300'
                     }`}>{c.title}</span>
@@ -915,22 +937,22 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
           )}
 
           {/* ── Onglets ── */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl overflow-hidden">
             {/* Tab bar */}
-            <div className="flex border-b border-slate-800 overflow-x-auto">
+            <div className="flex border-b border-slate-700/50 overflow-x-auto bg-slate-900/50">
               {TABS.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-shrink-0 px-4 py-3 text-sm font-medium transition-colors relative whitespace-nowrap
+                  className={`flex-shrink-0 px-5 py-3 text-xs font-semibold transition-colors relative whitespace-nowrap
                     ${activeTab === tab.id
-                      ? 'text-white'
+                      ? 'text-white bg-slate-800/80'
                       : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/30'
                     }`}
                 >
                   {tab.label}
                   {activeTab === tab.id && (
-                    <span className="absolute bottom-0 left-4 right-4 h-0.5 bg-blue-500 rounded-full" />
+                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-blue-500 rounded-full" />
                   )}
                 </button>
               ))}
@@ -1494,6 +1516,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
             Simulation indicative — validation cabinet requise avant présentation client.
           </p>
         </div>
+        </div>
       </div>
     </div>
   );
@@ -1512,6 +1535,7 @@ const colorMap: Record<string, { bg: string; text: string; border: string }> = {
   violet: { bg: 'bg-violet-600/10', text: 'text-violet-400', border: 'border-violet-600/20' },
   blue: { bg: 'bg-blue-600/10', text: 'text-blue-400', border: 'border-blue-600/20' },
   orange: { bg: 'bg-orange-600/10', text: 'text-orange-400', border: 'border-orange-600/20' },
+  amber: { bg: 'bg-amber-600/10', text: 'text-amber-400', border: 'border-amber-600/20' },
   slate: { bg: 'bg-slate-800/50', text: 'text-slate-400', border: 'border-slate-700/50' },
 };
 
