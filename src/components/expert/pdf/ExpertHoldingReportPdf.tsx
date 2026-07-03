@@ -1231,6 +1231,136 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({ inputs,
 
         {footerFragment(4)}
       </Page>
+
+      {/* ────────────────────────────────────────────
+          PAGE 5 — Annexe Méthodologie de calcul
+          ──────────────────────────────────────────── */}
+      <Page size="A4" style={styles.page} wrap={false}>
+        <Text style={styles.sectionTitle}>Annexe — Méthodologie de calcul</Text>
+        <Text style={{ fontSize: 10, color: '#64748b', marginBottom: 12 }}>
+          Détail des formules utilisées dans la simulation
+        </Text>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Pleine propriété reconstituée</Text>
+          <Text style={styles.infoItem}>Pleine propriété = Usufruit investi ÷ Clé d'usufruit ({(inputs.usufruitKeyPercent).toFixed(1) + ' %'})</Text>
+          <Text style={styles.infoItem}>Pleine propriété = {fmtEuro(inputs.usufruitInvestment)} ÷ {inputs.usufruitKeyPercent.toFixed(1) + ' %'} = {fmtEuro(result.reconstitutedFullProperty)}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Revenus bruts annuels SCPI</Text>
+          <Text style={styles.infoItem}>Revenus bruts annuels = Pleine propriété × Taux de distribution ({inputs.grossYieldRate} %)</Text>
+          <Text style={styles.infoItem}>Revenus bruts annuels = {fmtEuro(result.reconstitutedFullProperty)} × {inputs.grossYieldRate} % = {fmtEuro(result.annualGrossIncome)}</Text>
+          {inputs.incomeRevaluationRate > 0 && (
+            <Text style={styles.infoItem}>Revalorisés à {inputs.incomeRevaluationRate} % / an les années suivantes.</Text>
+          )}
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Amortissement annuel de l'usufruit</Text>
+          <Text style={styles.infoItem}>Amortissement annuel = Usufruit investi ÷ Durée</Text>
+          <Text style={styles.infoItem}>Amortissement annuel = {fmtEuro(inputs.usufruitInvestment)} ÷ {inputs.usufruitDuration} = {fmtEuro(result.annualAmortization)}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Résultat fiscal de l'opération — année 1</Text>
+          {inputs.feesEnabled ? (
+            <>
+              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts − Amortissement − Frais de mission déductibles</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} − {fmtEuro(result.annualAmortization)} − {fmtEuro(result.feesFiscalDeductible ?? 0)} = {fmtEuro(result.yearOneTaxableOperationResult)}</Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.infoItem}>Résultat fiscal opération = Revenus bruts − Amortissement</Text>
+              <Text style={styles.infoItem}>Résultat fiscal opération = {fmtEuro(result.annualGrossIncome)} − {fmtEuro(result.annualAmortization)} = {fmtEuro(result.yearOneTaxableOperationResult)}</Text>
+            </>
+          )}
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Résultat fiscal après opération</Text>
+          <Text style={styles.infoItem}>Résultat fiscal après opération = Résultat avant opération + Résultat fiscal opération</Text>
+          <Text style={styles.infoItem}>Résultat fiscal après opération = {fmtEuro(inputs.taxableResultBefore)} + {fmtEuro(result.yearOneTaxableOperationResult)} = {fmtEuro(result.taxableResultAfterOperation)}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Impôt sur les sociétés — avant / après opération</Text>
+          <Text style={styles.infoItem}>IS sans opération = Résultat avant opération × Taux IS applicable</Text>
+          <Text style={styles.infoItem}>IS avec opération = Résultat après opération × Taux IS applicable</Text>
+          <Text style={styles.infoItem}>Impact IS = IS avec opération − IS sans opération</Text>
+          <Text style={styles.infoItem}>Impact IS = {fmtEuro(result.corporateTaxWithOperation)} − {fmtEuro(result.corporateTaxWithoutOperation)} = {result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Flux net année 1</Text>
+          {inputs.feesEnabled ? (
+            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts − Impact IS − Frais de mission (isolés en année 1)</Text>
+          ) : (
+            <Text style={styles.infoItem}>Flux net année 1 = Revenus bruts − Impact IS</Text>
+          )}
+          <Text style={styles.infoItem}>Flux net année 1 = {fmtEuro(result.annualGrossIncome)} − ({result.annualISImpact >= 0 ? '+' : ''}{fmtEuro(result.annualISImpact)}){inputs.feesEnabled ? ` − ${fmtEuro(result.feesEconomicOutflow ?? 0)}` : ''} = {fmtEuro(result.annualNetCashFlowAfterFees)}</Text>
+        </View>
+
+        {inputs.feesEnabled && (
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>Convention économique retenue</Text>
+            <Text style={styles.infoItem}>Effort initial économique = Usufruit investi + Frais de mission HT + TVA non récupérable</Text>
+            <Text style={styles.infoItem}>Effort initial économique = {fmtEuro(inputs.usufruitInvestment)} + {fmtEuro(result.feesHT ?? 0)} + {fmtEuro(result.nonRecoverableVatAmount ?? 0)} = {fmtEuro(result.effortEconomique)}</Text>
+            <Text style={styles.infoItem}>Flux opérationnel annuel = Revenus bruts − Impact IS (les frais ne sont pas déduits une seconde fois)</Text>
+            <Text style={styles.infoItem}>Flux de lancement cumulé = Flux opérationnels − Frais de mission isolés en année 1 (lecture trésorerie)</Text>
+            <Text style={styles.infoItem}>Gain économique et TRI calculés sur les flux opérationnels, pour éviter le double comptage des frais déjà intégrés dans l'effort initial.</Text>
+          </View>
+        )}
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Rendement cash-flow moyen annuel</Text>
+          <Text style={styles.infoItem}>Rendement cash-flow moyen = (Flux net moyen annuel ÷ Effort initial) × 100</Text>
+          <Text style={styles.infoItem}>Rendement cash-flow moyen = {fmtPercent(result.cashFlowAverageReturn)}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Rendement simple après extinction</Text>
+          <Text style={styles.infoItem}>Rendement simple = Gain économique ÷ Effort initial ÷ Durée × 100</Text>
+          <Text style={styles.infoItem}>Rendement simple = {fmtEuro(result.economicGainAfterExtinction)} ÷ {fmtEuro(result.effortEconomique)} ÷ {inputs.usufruitDuration} × 100 = {fmtPercent(result.annualizedSimpleReturnAfterExtinction)} / an</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>TRI indicatif après extinction</Text>
+          <Text style={styles.infoItem}>TRI = taux d'actualisation tel que la VAN des flux opérationnels = 0</Text>
+          <Text style={styles.infoItem}>Flux : [−{fmtEuro(result.effortEconomique)} ; {result.irrCashFlows && result.irrCashFlows.length > 0 ? result.irrCashFlows.slice(0, 3).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 3 ? ' ; ...' : '') : fmtEuro(result.economicCumulativeNetCashFlow)}]</Text>
+          <Text style={styles.infoItem}>TRI indicatif = {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : 'Non calculable'}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>TVA et frais de mission</Text>
+          {inputs.feesEnabled ? (
+            <>
+              <Text style={styles.infoItem}>Frais de mission HT : {fmtEuro(result.feesHT ?? inputs.missionFeesAmount)}</Text>
+              <Text style={styles.infoItem}>TVA ({inputs.feesVatRate ?? 20} %) : {fmtEuro(result.feesVAT ?? 0)}</Text>
+              <Text style={styles.infoItem}>Total TTC : {fmtEuro(result.feesTTC ?? 0)}</Text>
+              <Text style={styles.infoItem}>TVA récupérable : {fmtEuro(result.recoverableVatAmount ?? 0)}</Text>
+              <Text style={styles.infoItem}>TVA non récupérable (incluse dans l'effort initial) : {fmtEuro(result.nonRecoverableVatAmount ?? 0)}</Text>
+            </>
+          ) : (
+            <Text style={styles.infoItem}>Aucun frais de mission renseigné dans la simulation.</Text>
+          )}
+        </View>
+
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>Frais de souscription SCPI</Text>
+          <Text style={styles.infoItem}>Les frais de souscription SCPI sont réputés intégrés dans le prix d'acquisition de l'usufruit selon la clé de démembrement, sauf modalité spécifique de la société de gestion.</Text>
+        </View>
+
+        {/* Disclaimer */}
+        <View style={styles.disclaimer}>
+          <Text style={styles.disclaimerText}>
+            Cette annexe méthodologique est fournie à titre informatif. Les formules et hypothèses
+            doivent être validées par l'expert-comptable selon la situation réelle de la société.
+          </Text>
+        </View>
+
+        {footerFragment(5)}
+      </Page>
     </Document>
   );
 };
