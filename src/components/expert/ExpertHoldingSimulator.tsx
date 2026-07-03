@@ -97,6 +97,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   const [showHypotheses, setShowHypotheses] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
+  const [alternativeGrossRateInput, setAlternativeGrossRateInput] = useState<string>('');
 
   /* ── Dossiers Supabase ── */
   const [dossierList, setDossierList] = useState<ExpertClientDossier[]>([]);
@@ -140,6 +141,12 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       if (raw) {
         const savedInputs = JSON.parse(raw) as HoldingISInputs;
         setInputs(savedInputs);
+        // Sync display buffer for alternative rate
+        if (savedInputs.alternativeGrossRate != null) {
+          setAlternativeGrossRateInput(String(savedInputs.alternativeGrossRate).replace('.', ','));
+        } else {
+          setAlternativeGrossRateInput('');
+        }
         // Tenter de retrouver le dossier correspondant
         if (savedInputs.dossierName) {
           setDossierSearch(savedInputs.dossierName);
@@ -642,6 +649,72 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               </div>
             </div>
 
+            {/* ── Comparaison trésorerie alternative ── */}
+            <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-emerald-700/30">
+              <div className="flex items-center gap-2 mb-1">
+                <Landmark className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Comparaison alternative</span>
+              </div>
+              <p className="text-[10px] text-slate-500 italic mb-2">
+                Renseignez un taux pour comparer l'opération avec une solution de trésorerie alternative.
+              </p>
+              <div>
+                <label className="block text-[10px] text-slate-500 mb-1">Type d'alternative</label>
+                <select
+                  value={inputs.alternativeType || 'none'}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    updateInput('alternativeType', v === 'none' ? undefined : v as 'compte_terme' | 'fonds_monetaire' | 'personnalise');
+                  }}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                >
+                  <option value="none">Aucune</option>
+                  <option value="compte_terme">Compte à terme</option>
+                  <option value="fonds_monetaire">Fonds monétaire</option>
+                  <option value="personnalise">Taux personnalisé</option>
+                </select>
+              </div>
+              {inputs.alternativeType && (
+                <>
+                  <div>
+                    <label className="block text-[10px] text-slate-500 mb-1">Taux annuel brut estimé (%)</label>
+                    <input type="text" inputMode="decimal"
+                      placeholder="Ex : 3,50"
+                      value={inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : ''}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(',', '.');
+                        if (raw === '') {
+                          updateInput('alternativeGrossRate', undefined);
+                          return;
+                        }
+                        const parsed = parseFloat(raw);
+                        if (Number.isFinite(parsed)) {
+                          updateInput('alternativeGrossRate', parsed);
+                        }
+                      }}
+                      className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
+                    />
+                    <p className="text-[9px] text-slate-600 mt-1">Laissez vide si aucune comparaison alternative n'est souhaitée.</p>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] text-slate-500 mb-1">Mode de taux</label>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => updateInput('alternativeRateMode', 'brut')}
+                        className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'brut' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
+                        Brut avant IS
+                      </button>
+                      <button
+                        onClick={() => updateInput('alternativeRateMode', 'net')}
+                        className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'net' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
+                        Net d'IS
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
             {/* ── Frais de mission ── */}
             <div className="bg-slate-800/50 rounded-lg p-4 space-y-3 border border-violet-700/30">
               <div className="flex items-center gap-2 mb-1">
@@ -771,71 +844,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                   </div>
                 </>
               )}
-            </div>
-
-            {/* ── Comparaison trésorerie alternative ── */}
-            <div className="border-t border-slate-800 pt-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Landmark className="w-4 h-4 text-emerald-400" />
-                <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider">Comparaison alternative</span>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-[10px] text-slate-500 mb-1">Type d'alternative</label>
-                  <select
-                    value={inputs.alternativeType || 'none'}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      updateInput('alternativeType', v === 'none' ? undefined : v as 'compte_terme' | 'fonds_monetaire' | 'personnalise');
-                    }}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
-                  >
-                    <option value="none">Aucune</option>
-                    <option value="compte_terme">Compte à terme</option>
-                    <option value="fonds_monetaire">Fonds monétaire</option>
-                    <option value="personnalise">Taux personnalisé</option>
-                  </select>
-                </div>
-                {inputs.alternativeType && (
-                  <>
-                    <div>
-                      <label className="block text-[10px] text-slate-500 mb-1">Taux annuel brut estimé (%)</label>
-                      <input type="text" inputMode="decimal"
-                        placeholder="Ex : 3,50"
-                        value={inputs.alternativeGrossRate != null ? String(inputs.alternativeGrossRate).replace('.', ',') : ''}
-                        onChange={(e) => {
-                          const raw = e.target.value.replace(',', '.');
-                          if (raw === '') {
-                            updateInput('alternativeGrossRate', undefined);
-                            return;
-                          }
-                          const parsed = parseFloat(raw);
-                          if (Number.isFinite(parsed)) {
-                            updateInput('alternativeGrossRate', parsed);
-                          }
-                        }}
-                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white"
-                      />
-                      <p className="text-[9px] text-slate-600 mt-1">Laissez vide si aucune comparaison alternative n'est souhaitée.</p>
-                    </div>
-                    <div>
-                      <label className="block text-[10px] text-slate-500 mb-1">Mode de taux</label>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => updateInput('alternativeRateMode', 'brut')}
-                          className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'brut' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
-                          Brut avant IS
-                        </button>
-                        <button
-                          onClick={() => updateInput('alternativeRateMode', 'net')}
-                          className={`flex-1 px-2 py-1.5 rounded text-[10px] transition ${inputs.alternativeRateMode === 'net' ? 'bg-emerald-600/20 border border-emerald-600/30 text-emerald-400' : 'bg-slate-700/50 text-slate-500'}`}>
-                          Net d'IS
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
             </div>
           </div>
         </div>
