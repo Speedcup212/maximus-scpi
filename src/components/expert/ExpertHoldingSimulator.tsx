@@ -110,6 +110,9 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   // Onglet 3 : collapsibles Trésorerie
   const [showFluxCumules, setShowFluxCumules] = useState(false);
   const [showComparaisonAlt, setShowComparaisonAlt] = useState(false);
+
+  // Colonne gauche — accordéon avancé (replié par défaut)
+  const [showAdvancedParams, setShowAdvancedParams] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [saveError, setSaveError] = useState('');
   const [alternativeGrossRateInput, setAlternativeGrossRateInput] = useState<string>('');
@@ -518,120 +521,122 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               <p className="text-[10px] text-slate-500 mt-1">Hypothèses d'entrée cabinet</p>
             </div>
 
-            {/* Dossier — autocomplete */}
-            <div ref={dossierContainerRef} className="relative">
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-                Nom de la société cliente
-              </label>
-              {dossiersLoading ? (
-                <div className="flex items-center gap-2 text-xs text-slate-500 py-2">
-                  <Loader2 className="w-3 h-3 animate-spin" /> Chargement des dossiers...
+            {/* ──────── Bloc 1 : Société ──────── */}
+            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-blue-700/30">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="w-1.5 h-4 rounded-full bg-blue-500/70 inline-block"></span>
+                <Building2 className="w-4 h-4 text-blue-400" />
+                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Société</span>
+              </div>
+              {/* Dossier — autocomplete */}
+              <div ref={dossierContainerRef} className="relative">
+                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+                  Nom de la société cliente
+                </label>
+                {dossiersLoading ? (
+                  <div className="flex items-center gap-2 text-xs text-slate-500 py-2">
+                    <Loader2 className="w-3 h-3 animate-spin" /> Chargement des dossiers...
+                  </div>
+                ) : dossiersError ? (
+                  <p className="text-[10px] text-amber-400 py-1">{dossiersError}</p>
+                ) : null}
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={dossierSearch}
+                    onChange={handleDossierSearchChange}
+                    onKeyDown={handleDossierKeyDown}
+                    onFocus={handleDossierSearchFocus}
+                    placeholder="Rechercher ou saisir un nom de société..."
+                    autoComplete="off"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
+                  />
                 </div>
-              ) : dossiersError ? (
-                <p className="text-[10px] text-amber-400 py-1">{dossiersError}</p>
-              ) : null}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={dossierSearch}
-                  onChange={handleDossierSearchChange}
-                  onKeyDown={handleDossierKeyDown}
-                  onFocus={handleDossierSearchFocus}
-                  placeholder="Rechercher ou saisir un nom de société..."
-                  autoComplete="off"
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-600/50 transition-colors"
-                />
+                {selectedDossierId && (
+                  <p className="text-[10px] text-blue-400 mt-1">
+                    Dossier existant sélectionné — les simulations seront rattachées à ce dossier.
+                  </p>
+                )}
+                {!selectedDossierId && inputs.dossierName && inputs.dossierName.trim().length > 0 && (
+                  <p className="text-[10px] text-amber-400 mt-1">
+                    Nouveau dossier à créer lors de l'enregistrement.
+                  </p>
+                )}
+                {showDropdown && !dossiersLoading && (
+                  <div className="absolute z-50 left-0 right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-56 overflow-y-auto">
+                    {filteredDossiers.length === 0 ? (
+                      <p className="px-3 py-3 text-[11px] text-slate-500 text-center">
+                        {dossierSearch.trim()
+                          ? 'Aucun dossier trouvé — un nouveau dossier sera créé à l\'enregistrement.'
+                          : 'Aucun dossier client — un nouveau dossier sera créé à l\'enregistrement.'}
+                      </p>
+                    ) : (
+                      filteredDossiers.map((d, idx) => (
+                        <button
+                          key={d.id}
+                          onClick={() => handleSelectDossier(d)}
+                          className={`w-full text-left px-3 py-2.5 hover:bg-blue-600/10 transition-colors flex items-center justify-between ${
+                            highlightedIndex === idx ? 'bg-blue-600/15 border-l-2 border-blue-400' : ''
+                          } ${
+                            selectedDossierId === d.id ? 'bg-blue-600/20 border-l-2 border-blue-500' : ''
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <Building2 className="w-3 h-3 text-blue-400 flex-shrink-0" />
+                              <span className="text-sm text-white font-medium">{d.clientName}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-slate-500">
+                              <span>{d.companyType}</span>
+                              {d.siret && <span>— SIRET: {d.siret}</span>}
+                            </div>
+                          </div>
+                          {selectedDossierId === d.id && (
+                            <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          )}
+                        </button>
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
-
-              {/* Statut dossier */}
-              {selectedDossierId && (
-                <p className="text-[10px] text-blue-400 mt-1">
-                  Dossier existant sélectionné — les simulations seront rattachées à ce dossier.
-                </p>
-              )}
-              {!selectedDossierId && inputs.dossierName && inputs.dossierName.trim().length > 0 && (
-                <p className="text-[10px] text-amber-400 mt-1">
-                  Nouveau dossier à créer lors de l'enregistrement.
-                </p>
-              )}
-
-              {/* Dropdown */}
-              {showDropdown && !dossiersLoading && (
-                <div className="absolute z-50 left-0 right-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl max-h-56 overflow-y-auto">
-                  {filteredDossiers.length === 0 ? (
-                    <p className="px-3 py-3 text-[11px] text-slate-500 text-center">
-                      {dossierSearch.trim()
-                        ? 'Aucun dossier trouvé — un nouveau dossier sera créé à l\'enregistrement.'
-                        : 'Aucun dossier client — un nouveau dossier sera créé à l\'enregistrement.'}
-                    </p>
-                  ) : (
-                    filteredDossiers.map((d, idx) => (
-                      <button
-                        key={d.id}
-                        onClick={() => handleSelectDossier(d)}
-                        className={`w-full text-left px-3 py-2.5 hover:bg-blue-600/10 transition-colors flex items-center justify-between ${
-                          highlightedIndex === idx ? 'bg-blue-600/15 border-l-2 border-blue-400' : ''
-                        } ${
-                          selectedDossierId === d.id ? 'bg-blue-600/20 border-l-2 border-blue-500' : ''
-                        }`}
-                      >
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <Building2 className="w-3 h-3 text-blue-400 flex-shrink-0" />
-                            <span className="text-sm text-white font-medium">{d.clientName}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 mt-0.5 text-[10px] text-slate-500">
-                            <span>{d.companyType}</span>
-                            {d.siret && <span>— SIRET: {d.siret}</span>}
-                          </div>
-                        </div>
-                        {selectedDossierId === d.id && (
-                          <CheckCircle2 className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                        )}
-                      </button>
-                    ))
-                  )}
+              {/* Type société */}
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Type de société</label>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {COMPANY_TYPES.map((t) => (
+                    <button key={t} onClick={() => updateInput('companyType', t)}
+                      className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${inputs.companyType === t ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}>
+                      {t}
+                    </button>
+                  ))}
                 </div>
-              )}
-            </div>
-
-            {/* Type société */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Type de société</label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {COMPANY_TYPES.map((t) => (
-                  <button key={t} onClick={() => updateInput('companyType', t)}
-                    className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${inputs.companyType === t ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-slate-200'}`}>
-                    {t}
-                  </button>
-                ))}
+              </div>
+              {/* Trésorerie + Résultat */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Trésorerie dispo.</label>
+                  <input type="number" value={inputs.availableCash}
+                    onChange={(e) => updateInput('availableCash', Math.max(0, Number(e.target.value)))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Rés. fiscal avant opér.</label>
+                  <input type="number" value={inputs.preTaxProfit}
+                    onChange={(e) => updateInput('preTaxProfit', Number(e.target.value))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
+                </div>
               </div>
             </div>
 
-            {/* Trésorerie + Résultat */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Trésorerie dispo.</label>
-                <input type="number" value={inputs.availableCash}
-                  onChange={(e) => updateInput('availableCash', Math.max(0, Number(e.target.value)))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Rés. fiscal avant opér.</label>
-                <input type="number" value={inputs.preTaxProfit}
-                  onChange={(e) => updateInput('preTaxProfit', Number(e.target.value))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
-              </div>
-            </div>
-
-            {/* Taux réduit IS */}
+            {/* ──────── Bloc 2 : Fiscalité IS ──────── */}
             <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-blue-700/30">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-4 rounded-full bg-blue-500/70 inline-block"></span>
                 <Shield className="w-4 h-4 text-blue-400" />
-                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Taux réduit IS PME</span>
+                <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">Fiscalité IS</span>
               </div>
               <label className="flex items-start gap-2 cursor-pointer select-none">
                 <input type="checkbox" checked={inputs.reducedRateEligible}
@@ -652,7 +657,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               </div>
             </div>
 
-            {/* Usufruit */}
+            {/* ──────── Bloc 3 : Usufruit temporaire ──────── */}
             <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-amber-700/30">
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-1.5 h-4 rounded-full bg-amber-500/70 inline-block"></span>
@@ -684,25 +689,24 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                     className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
                 </div>
               </div>
+              {/* Taux distribution + Revalorisation */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Taux distrib. brut (%)</label>
+                  <input type="number" step="0.01" value={inputs.grossYieldRate}
+                    onChange={(e) => updateInput('grossYieldRate', Math.min(20, Math.max(0, Number(e.target.value))))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Revalo. revenus (%)</label>
+                  <input type="number" value={inputs.revalorizationRate}
+                    onChange={(e) => updateInput('revalorizationRate', Math.min(10, Math.max(0, Number(e.target.value))))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
+                </div>
+              </div>
             </div>
 
-            {/* Taux distribution + Revalorisation */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Taux distrib. brut (%)</label>
-                <input type="number" step="0.01" value={inputs.grossYieldRate}
-                  onChange={(e) => updateInput('grossYieldRate', Math.min(20, Math.max(0, Number(e.target.value))))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
-              </div>
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Revalo. revenus (%)</label>
-                <input type="number" value={inputs.revalorizationRate}
-                  onChange={(e) => updateInput('revalorizationRate', Math.min(10, Math.max(0, Number(e.target.value))))}
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-600/50 transition-colors" />
-              </div>
-            </div>
-
-            {/* ── Comparaison trésorerie alternative ── */}
+            {/* ──────── Bloc 4 : Comparaison alternative ──────── */}
             <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-emerald-700/30">
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-1.5 h-4 rounded-full bg-emerald-500/70 inline-block"></span>
@@ -741,7 +745,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
                       value={alternativeGrossRateInput}
                       onChange={(e) => {
                         const raw = e.target.value;
-                        // Allow digits, comma, dot, or empty
                         if (!/^\d*([,.]\d*)?$/.test(raw)) return;
                         setAlternativeGrossRateInput(raw);
                         const cleaned = raw.replace(',', '.');
@@ -777,141 +780,166 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               )}
             </div>
 
-            {/* ── Frais de mission ── */}
-            <div className="bg-slate-800/40 rounded-xl p-4 space-y-3 border border-violet-700/30">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="w-1.5 h-4 rounded-full bg-violet-500/70 inline-block"></span>
-                <Receipt className="w-4 h-4 text-violet-400" />
-                <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Frais de mission et de structuration</span>
-              </div>
-              <label className="flex items-start gap-2 cursor-pointer select-none">
-                <input type="checkbox" checked={inputs.feesEnabled}
-                  onChange={(e) => updateInput('feesEnabled', e.target.checked)}
-                  className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600" />
-                <span className="text-xs text-slate-300">Activer les frais de mission</span>
-              </label>
-              {inputs.feesEnabled && (
-                <>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Mode de calcul</label>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {FEES_MODES.map((m) => (
-                        <button key={m} onClick={() => updateInput('feesMode', m)}
-                          className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${inputs.feesMode === m ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-slate-200'}`}>
-                          {m === 'fixed' ? 'Montant fixe' : 'Pourcentage'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Frais de mission saisis en</label>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {FEES_VAT_MODES.map((m) => (
-                        <button key={m} onClick={() => updateInput('feesVatMode', m)}
-                          className={`px-2 py-1.5 rounded text-[11px] font-medium transition ${inputs.feesVatMode === m ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-slate-200'}`}>
-                          {m}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className={inputs.feesMode === 'fixed' ? '' : 'hidden'}>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Montant fixe {inputs.feesVatMode} (€)</label>
-                    <input type="number" value={inputs.feesFixedAmount}
-                      onChange={(e) => updateInput('feesFixedAmount', Math.max(0, Number(e.target.value)))}
-                      className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
-                  </div>
-                  <div className={inputs.feesMode === 'percentage' ? '' : 'hidden'}>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Pourcentage {inputs.feesVatMode} (%)</label>
-                    <input type="number" step="0.1" value={inputs.feesPercentage}
-                      onChange={(e) => updateInput('feesPercentage', Math.min(100, Math.max(0, Number(e.target.value))))}
-                      className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Taux TVA (%)</label>
-                    <input type="number" step="0.1" value={inputs.feesVatRate}
-                      onChange={(e) => updateInput('feesVatRate', Math.min(100, Math.max(0, Number(e.target.value))))}
-                      className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
-                  </div>
-                  <label className="flex items-start gap-2 select-none"
-                    style={{ cursor: inputs.holdingVatProfile === 'pure' ? 'not-allowed' : 'pointer' }}>
-                    <input type="checkbox" checked={inputs.feesVatRecoverable}
-                      onChange={(e) => updateInput('feesVatRecoverable', e.target.checked)}
-                      disabled={inputs.holdingVatProfile === 'pure'}
-                      className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600 disabled:opacity-40 disabled:cursor-not-allowed" />
-                    <span className={`text-xs ${inputs.holdingVatProfile === 'pure' ? 'text-slate-600' : 'text-slate-300'}`}>
-                      TVA récupérable
-                      {inputs.holdingVatProfile === 'pure' && <span className="text-[10px] text-slate-600 ml-1">(verrouillée — holding pure)</span>}
-                    </span>
+            {/* ──────── Bloc 5 : Accordéon Frais, TVA et traitement comptable ──────── */}
+            <div className="bg-slate-800/40 rounded-xl overflow-hidden border border-violet-700/30">
+              <button
+                onClick={() => setShowAdvancedParams(!showAdvancedParams)}
+                className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-slate-800/60 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-4 rounded-full bg-violet-500/70 inline-block"></span>
+                  <Receipt className="w-4 h-4 text-violet-400" />
+                  <span className="text-xs font-bold text-violet-400 uppercase tracking-wider">Frais, TVA et traitement comptable</span>
+                  {validationWarnings.some(w => w.id.includes('fee') || w.id.includes('vat') || w.id.includes('tva')) && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-900/40 text-amber-400 ml-1">À vérifier</span>
+                  )}
+                </div>
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showAdvancedParams ? 'rotate-180' : ''}`} />
+              </button>
+              {/* Résumé dynamique — visible quand replié */}
+              {!showAdvancedParams && (
+                <div className="px-4 pb-3">
+                  <p className="text-[10px] text-slate-500 leading-relaxed">
+                    {inputs.feesEnabled
+                      ? `Frais : ${fmtEuro(result.feesHT)} ${inputs.feesVatMode} — TVA ${inputs.feesVatRecoverable ? 'récupérable' : 'non récupérable'} — ${FEES_TREATMENT_SHORT[inputs.feesTreatment].toLowerCase()}`
+                      : 'Aucun frais de mission intégré'}
+                  </p>
+                </div>
+              )}
+              {/* Contenu déplié */}
+              {showAdvancedParams && (
+                <div className="px-4 pb-4 space-y-3 border-t border-slate-700/40">
+                  {/* Activer frais */}
+                  <label className="flex items-start gap-2 cursor-pointer select-none pt-3">
+                    <input type="checkbox" checked={inputs.feesEnabled}
+                      onChange={(e) => updateInput('feesEnabled', e.target.checked)}
+                      className="w-4 h-4 mt-0.5 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600" />
+                    <span className="text-xs text-slate-300">Activer les frais de mission</span>
                   </label>
 
-                  {/* ── Profil TVA holding ── */}
-                  <div className="col-span-full space-y-2 border-t border-slate-700/40 pt-3">
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Profil TVA de la holding</label>
-                    <div className="space-y-1.5">
-                      {VAT_PROFILES.map((p) => (
-                        <button key={p.value} type="button" onClick={() => updateInput('holdingVatProfile', p.value)}
-                          className={`w-full text-left px-3 py-2.5 rounded text-xs transition
-                            ${inputs.holdingVatProfile === p.value
-                              ? 'bg-violet-600/20 border border-violet-600/30 text-violet-200'
-                              : 'bg-slate-700/50 border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'}`}
-                        >
-                          <span className="font-medium">{p.label}</span>
-                          <br /><span className="text-[10px] opacity-70">{p.hint}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Alerte profil TVA conditionnelle */}
-                  {inputs.holdingVatProfile === 'to-qualify' && (
-                    <div className="bg-amber-950/30 border border-amber-800/40 rounded-lg px-3 py-2 text-[10px] text-amber-300/80">
-                      Profil TVA à qualifier — le droit à récupération doit être validé par le cabinet.
-                    </div>
-                  )}
-                  {inputs.holdingVatProfile === 'animator' && (
-                    <div className="bg-blue-950/30 border border-blue-800/40 rounded-lg px-3 py-2 text-[10px] text-blue-300/80">
-                      TVA récupérable sous réserve d'une activité économique taxable et de prestations effectivement facturées.
-                    </div>
-                  )}
-                  {inputs.holdingVatProfile === 'pure' && (
-                    <div className="bg-orange-950/30 border border-orange-800/40 rounded-lg px-3 py-2 text-[10px] text-orange-300/80">
-                      Holding pure : récupération de TVA généralement non retenue. La TVA non récupérable augmente l'effort économique.
-                    </div>
-                  )}
-
-                  {/* Taux récupération TVA partielle */}
-                  {inputs.holdingVatProfile === 'mixed' && (
-                    <div className="col-span-full">
-                      <label className="block text-[11px] font-semibold text-amber-400 uppercase tracking-wider mb-1.5">
-                        Taux de récupération TVA (%)
-                      </label>
-                      <div className="flex items-center gap-2">
-                        <input type="range" min="0" max="100" step="5" value={inputs.vatRecoveryRate}
-                          onChange={(e) => updateInput('vatRecoveryRate', Number(e.target.value))}
-                          className="w-full accent-violet-600"
-                        />
-                        <span className="text-sm font-mono text-white min-w-[3.5rem] text-right">{inputs.vatRecoveryRate}&#8239;%</span>
+                  {inputs.feesEnabled && (
+                    <>
+                      {/* Mode de calcul + HT/TTC */}
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[10px] text-slate-500 mb-1">Mode de calcul</label>
+                          <div className="grid grid-cols-2 gap-1">
+                            {FEES_MODES.map((m) => (
+                              <button key={m} onClick={() => updateInput('feesMode', m)}
+                                className={`px-2 py-1.5 rounded text-[10px] font-medium transition ${inputs.feesMode === m ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-slate-200'}`}>
+                                {m === 'fixed' ? 'Fixe' : '%'}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-[10px] text-slate-500 mb-1">Saisis en</label>
+                          <div className="grid grid-cols-2 gap-1">
+                            {FEES_VAT_MODES.map((m) => (
+                              <button key={m} onClick={() => updateInput('feesVatMode', m)}
+                                className={`px-2 py-1.5 rounded text-[10px] font-medium transition ${inputs.feesVatMode === m ? 'bg-violet-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-slate-200'}`}>
+                                {m}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+
+                      {/* Montant */}
+                      <div className={inputs.feesMode === 'fixed' ? '' : 'hidden'}>
+                        <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Montant fixe {inputs.feesVatMode} (€)</label>
+                        <input type="number" value={inputs.feesFixedAmount}
+                          onChange={(e) => updateInput('feesFixedAmount', Math.max(0, Number(e.target.value)))}
+                          className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
+                      </div>
+                      <div className={inputs.feesMode === 'percentage' ? '' : 'hidden'}>
+                        <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Pourcentage {inputs.feesVatMode} (%)</label>
+                        <input type="number" step="0.1" value={inputs.feesPercentage}
+                          onChange={(e) => updateInput('feesPercentage', Math.min(100, Math.max(0, Number(e.target.value))))}
+                          className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
+                      </div>
+
+                      {/* TVA */}
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[10px] text-slate-500 mb-1">Taux TVA (%)</label>
+                          <input type="number" step="0.1" value={inputs.feesVatRate}
+                            onChange={(e) => updateInput('feesVatRate', Math.min(100, Math.max(0, Number(e.target.value))))}
+                            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-600/50 transition-colors" />
+                        </div>
+                        <div className="flex items-end pb-1">
+                          <label className={`flex items-center gap-2 select-none text-xs ${inputs.holdingVatProfile === 'pure' ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
+                            <input type="checkbox" checked={inputs.feesVatRecoverable}
+                              onChange={(e) => updateInput('feesVatRecoverable', e.target.checked)}
+                              disabled={inputs.holdingVatProfile === 'pure'}
+                              className="w-4 h-4 rounded bg-slate-800 border-slate-600 text-violet-600 focus:ring-violet-600 disabled:opacity-40 disabled:cursor-not-allowed" />
+                            <span className={inputs.holdingVatProfile === 'pure' ? 'text-slate-600' : 'text-slate-300'}>
+                              TVA récupérable
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* ── Profil TVA holding → select ── */}
+                      <div className="border-t border-slate-700/40 pt-3">
+                        <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Profil TVA de la holding</label>
+                        <select
+                          value={inputs.holdingVatProfile}
+                          onChange={(e) => updateInput('holdingVatProfile', e.target.value as HoldingVatProfile)}
+                          className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white"
+                        >
+                          {VAT_PROFILES.map((p) => (
+                            <option key={p.value} value={p.value}>{p.label}</option>
+                          ))}
+                        </select>
+                        {/* Aide conditionnelle selon profil */}
+                        <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
+                          {inputs.holdingVatProfile === 'to-qualify' && 'Le droit à récupération dépend du statut fiscal réel de la holding.'}
+                          {inputs.holdingVatProfile === 'animator' && 'TVA récupérable sous réserve d\'une activité économique taxable et de prestations effectivement facturées.'}
+                          {inputs.holdingVatProfile === 'pure' && 'TVA généralement non récupérable. La TVA non récupérable augmente l\'effort économique.'}
+                          {inputs.holdingVatProfile === 'mixed' && 'Taux de récupération à préciser selon le coefficient de taxation applicable.'}
+                        </p>
+                      </div>
+
+                      {/* Taux récupération TVA partielle */}
+                      {inputs.holdingVatProfile === 'mixed' && (
+                        <div>
+                          <label className="block text-[11px] font-semibold text-amber-400 uppercase tracking-wider mb-1.5">
+                            Taux de récupération TVA (%)
+                          </label>
+                          <div className="flex items-center gap-2">
+                            <input type="range" min="0" max="100" step="5" value={inputs.vatRecoveryRate}
+                              onChange={(e) => updateInput('vatRecoveryRate', Number(e.target.value))}
+                              className="w-full accent-violet-600"
+                            />
+                            <span className="text-sm font-mono text-white min-w-[3.5rem] text-right">{inputs.vatRecoveryRate}&#8239;%</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ── Traitement fiscal → select ── */}
+                      <div className="border-t border-slate-700/40 pt-3">
+                        <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Traitement fiscal/comptable</label>
+                        <select
+                          value={inputs.feesTreatment}
+                          onChange={(e) => updateInput('feesTreatment', e.target.value as FeesTreatment)}
+                          className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-xs text-white"
+                        >
+                          {FEES_TREATMENTS.map((t) => (
+                            <option key={t} value={t}>{FEES_TREATMENT_LABELS[t]}</option>
+                          ))}
+                        </select>
+                        {/* Aide conditionnelle selon traitement */}
+                        <p className="text-[10px] text-slate-500 mt-1.5 leading-relaxed">
+                          {inputs.feesTreatment === 'not-integrated' && 'Les frais sont exclus du résultat fiscal simulé.'}
+                          {inputs.feesTreatment === 'deductible-year1' && 'Les frais réduisent le résultat fiscal de l\'année 1.'}
+                          {inputs.feesTreatment === 'amortized' && 'Les frais sont lissés via l\'amortissement sur la durée de l\'usufruit.'}
+                          {inputs.feesTreatment === 'non-deductible' && 'Les frais impactent la trésorerie mais ne réduisent pas l\'IS.'}
+                        </p>
+                      </div>
+                    </>
                   )}
-                  <div className="border-t border-slate-700/40 pt-3 mt-1">
-                    <div className="flex items-center gap-1.5 mb-2">
-                      <span className="w-1.5 h-3.5 rounded-full bg-violet-500/70 inline-block"></span>
-                      <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.15em]">Traitement</span>
-                    </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Traitement fiscal/comptable</label>
-                    <div className="space-y-1">
-                      {FEES_TREATMENTS.map((t) => (
-                        <button key={t} onClick={() => updateInput('feesTreatment', t)}
-                          className={`w-full text-left px-3 py-2 rounded text-[11px] transition ${inputs.feesTreatment === t ? 'bg-violet-600/20 border border-violet-600/30 text-violet-300' : 'bg-slate-700/50 text-slate-500 hover:text-slate-300'}`}>
-                          {FEES_TREATMENT_LABELS[t]}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  </div>
-                </>
+                </div>
               )}
             </div>
           </div>
