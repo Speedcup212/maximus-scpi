@@ -84,26 +84,14 @@ function extractTitle(html:string){
   const t=html.match(/<title[^>]*>([\s\S]*?)<\/title>/i); return t?cleanTitle(t[1]).split("|")[0].trim():"";
 }
 function extractImage(html:string,base:string){
-  const patterns=[
+  const pats=[
     /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
     /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["'][^>]*>/i,
-    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
-    /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["'][^>]*>/i
+    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["'][^>]*>/i
   ];
-  for(const p of patterns){
-    const m=html.match(p);
-    if(m){
-      try{return new URL(decodeEntities(m[1]),base).href;}catch{}
-    }
-  }
-  const h1=html.search(/<h1\b/i);
-  const zone=h1>=0?html.slice(Math.max(0,h1-12000),Math.min(html.length,h1+18000)):html.slice(0,30000);
-  const imgs=[...zone.matchAll(/<img[^>]+(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)];
-  for(const m of imgs){
-    const raw=m[1];
-    if(/logo|avatar|icon|favicon|placeholder/i.test(raw)) continue;
-    try{return new URL(decodeEntities(raw),base).href;}catch{}
-  }
+  for(const p of pats){const m=html.match(p);if(m){try{return new URL(decodeEntities(m[1]),base).href;}catch{}}}
+  const imgs=[...html.slice(0,40000).matchAll(/<img[^>]+(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)];
+  for(const m of imgs){if(/logo|avatar|icon|favicon|placeholder/i.test(m[1]))continue;try{return new URL(decodeEntities(m[1]),base).href;}catch{}}
   return "";
 }
 function titleFromUrl(url:string){
@@ -235,11 +223,11 @@ function assetType(text:string){const n=norm(text);
 function amount(t:string){const m=t.match(/\b(\d+(?:[.,]\d+)?)\s*(?:M€|millions?\s+d['’]euros|millions?\s+€)\b/i);return m?m[0]:"";}
 function surface(t:string){const m=t.match(/\b([\d\s.,]{2,12})\s*m(?:²|2)\b/i);return m?m[0].replace(/\s+/g," ").trim():"";}
 function yieldAem(t:string){
-  const m=t.match(/rendement\s+(?:acte\s+en\s+main\s*\(AEM\)|AEM)[^0-9]{0,80}(\d{1,2}(?:[.,]\d+)?)\s*%/i);
+  const m=t.match(/rendement\s+(?:acte\s+en\s+main\s*\(AEM\)|AEM)[^0-9]{0,100}(\d{1,2}(?:[.,]\d+)?)\s*%/i);
   return m?m[1].replace(".",",")+" % (non garanti)":"";
 }
 function annualRent(t:string){
-  const m=t.match(/loyer\s+annuel[^0-9]{0,80}(?:d['’]environ\s+|environ\s+)?(\d+(?:[.,]\d+)?)\s*(M€|millions?\s+d['’]euros|k€|€)/i);
+  const m=t.match(/loyer\s+annuel[^0-9]{0,100}(?:d['’]environ\s+|environ\s+)?(\d+(?:[.,]\d+)?)\s*(M€|millions?\s+d['’]euros|k€|€)/i);
   if(!m)return "";
   return (m[1]+" "+m[2]).replace(/millions?\s+d['’]euros/i,"M€");
 }
@@ -322,7 +310,9 @@ async function processGroup(url:string,sources:Source[]){
     const at=titleAsset!=="autre_immobilier"?titleAsset:(doc.genericPage?"autre_immobilier":assetType(fieldEvidence));
     const amt=amount(fieldEvidence),surf=surface(fieldEvidence),aem=yieldAem(fieldEvidence),rent=annualRent(fieldEvidence),roomCount=rooms(fieldEvidence);
     for(const s of matched){
-      const dedupeKey=d&&loc.city
+      const dedupeKey=doc.sourceType==="web_page"
+        ? s.slug+"|"+doc.url
+        : d&&loc.city
         ? s.slug+"|"+d+"|"+loc.city+"|"+loc.country+"|"+at
         : d&&(amt||surf)
         ? s.slug+"|"+d+"|"+loc.country+"|"+at+"|"+amt+"|"+surf
@@ -331,9 +321,7 @@ async function processGroup(url:string,sources:Source[]){
       items.push({
         fingerprint:fp,scpi_slug:s.slug,scpi_name:s.name,management_company:s.management_company,
         operation_type:"acquisition",asset_type:at,country:loc.country,city:loc.city,amount:amt,
-        surface:surf,title:cleanTitle(doc.title).slice(0,220),summary:doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win),source_url:doc.url,
-        ...(doc.imageUrl?{image_url:doc.imageUrl,image_alt:cleanTitle(doc.title),image_credit:s.management_company||s.name}:{}),
-        ...(aem?{yield_aem:aem}:{}), ...(rent?{annual_rent:rent}:{}), ...(roomCount?{rooms:roomCount}:{}),
+        surface:surf,title:cleanTitle(doc.title).slice(0,220),summary:doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win),source_url:doc.url,...(doc.imageUrl?{image_url:doc.imageUrl,image_alt:cleanTitle(doc.title),image_credit:s.management_company||s.name}:{}),...(aem?{yield_aem:aem}:{}),...(rent?{annual_rent:rent}:{}),...(roomCount?{rooms:roomCount}:{}),...(doc.sourceType==="web_page"?{source_document_label:(s.management_company||s.name)+" — publication officielle"}:{}),
         source_type:doc.sourceType,source_official:true,published_date:d,detected_at:new Date().toISOString(),
         data_quality:(loc.city||loc.country)?"standard":"partial",editorial_priority:(loc.city||loc.country)?2:3,
         confidence:(loc.city||loc.country)?0.94:0.86,status:"published"
