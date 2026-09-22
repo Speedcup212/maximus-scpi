@@ -1,83 +1,88 @@
 # Agent 06 — Veille investissements immobiliers SCPI
 
-## Rôle
-Détecter, classifier et archiver les acquisitions immobilières réalisées par les SCPI.
+## Architecture de production
+
+La veille n'est plus alimentée par un JSON généré manuellement.
+
+Flux de production :
+
+```
+Sources officielles
+  → Supabase Edge Function scpi-news-watch
+  → validation / dédoublonnage
+  → public.scpi_news_items
+  → public.scpi_news_sources
+  → /actualites/ (lecture Supabase côté site)
+```
+
+Un snapshot validé reste conservé dans `data/news/scpi-investment-news-latest.json` uniquement comme fallback si Supabase est temporairement indisponible.
+
+## Fréquence
+
+Le job Supabase `scpi-news-watch-daily` s'exécute chaque jour à **05:15 UTC**.
+
+Chaque source conserve :
+- `last_checked_at`
+- `last_success_at`
+- `last_error`
+- `last_items_found`
+- `status` : `active`, `incomplete` ou `error`
+
+Le frontend ne doit jamais afficher « Veille active » sur la seule présence d'une URL : il affiche l'état réel enregistré dans Supabase.
 
 ## Périmètre STRICT
 
-### INCLUS — ce que l'agent doit traiter
-- Acquisitions d'immeubles par une SCPI
-- Achats de portefeuilles immobiliers
-- Acquisitions en VEFA
-- Extensions de patrimoine
-- Toute opération avec un actif immobilier identifiable, une SCPI nommée, une localisation
+### Inclus
+- acquisitions d'immeubles par une SCPI ;
+- portefeuilles immobiliers ;
+- VEFA ;
+- entrées / extensions de patrimoine ;
+- opérations rattachables à une SCPI nommée et à une source officielle.
 
-### EXCLUS — à ignorer systématiquement
-- Rendement / TDVM / taux de distribution
-- Prix de part
-- TOF / collecte / capitalisation
-- Bulletins trimestriels généraux (sauf mention d'acquisition)
-- Rapports annuels généraux (sauf mention d'acquisition)
-- Nominations / gouvernance
-- Interviews / salons / récompenses
-- Communication corporate
-- Fiscalité (sauf liée à une acquisition précise)
-- ISR / SFDR seul
-- Comparatifs commerciaux
-- Recommandations
+### Exclus
+- rendement / TD / prix de part ;
+- TOF / collecte / capitalisation ;
+- nominations / gouvernance ;
+- interviews / salons / récompenses ;
+- fiscalité / ISR / SFDR seuls ;
+- opérations d'autres fonds d'une même société de gestion ;
+- pages corporate génériques ;
+- acquisitions historiques non récentes.
+
+## Règles d'attribution
+
+Une actualité n'est attribuée à une SCPI que si son nom (ou un alias contrôlé) est identifiable dans le titre, l'URL ou le contexte local de l'acquisition. Le simple fait qu'une société de gestion ne possède qu'une SCPI dans le registre ne suffit jamais.
+
+Les pages HTML et les PDF sont distingués d'après le contenu réellement retourné. Une page HTML ne doit plus être rejetée comme « PDF reçu en HTML ».
 
 ## Sources
 
-Fichier de configuration : `data/scpi-investment-news-sources.json`
+Registre versionné :
+`data/scpi-investment-news-sources.json`
 
-Structure :
-```json
-{
-  "slug": "iroko-zen",
-  "name": "Iroko Zen",
-  "managementCompany": "Iroko",
-  "officialUrl": "https://www.iroko.eu/",
-  "newsUrl": "",
-  "rssUrl": "",
-  "enabled": true,
-  "notes": ""
-}
-```
+Registre de production :
+`public.scpi_news_sources`
 
-Ajouter une SCPI au fichier = elle sera surveillée.
-
-## Classification
-
-### dataQuality
-| Niveau | Critères |
-|--------|----------|
-| `complete` | Actif + localisation + type + source officielle + ≥2 détails (montant, surface, locataire, bail) |
-| `standard` | Actif + localisation + type + source officielle |
-| `partial` | Acquisition claire mais peu détaillée |
-| `weak` | Trop vague → ignorée |
-
-### editorialPriority
-| Priorité | Critère |
-|----------|---------|
-| 1 | Acquisition détaillée avec localisation et données concrètes |
-| 2 | Acquisition claire mais informations limitées |
-| 3 | Acquisition mentionnée indirectement |
-| 0 | Ignorée |
-
-## Exécution
-
-```bash
-npm run news:investments
-```
+Toute nouvelle SCPI doit être ajoutée aux deux référentiels.
 
 ## Sorties
 
-- `data/news/scpi-investment-news-latest.json` — investissements affichables
-- `data/news/scpi-investment-news-history.json` — historique complet
-- `reports/SCPI_INVESTMENT_NEWS_REPORT_YYYY-MM-DD.md` — rapport humain
+- Supabase : `public.scpi_news_items` — source de vérité du site ;
+- Supabase : `public.scpi_news_runs` — diagnostics d'exécution privés ;
+- JSON : `data/news/scpi-investment-news-latest.json` — fallback ;
+- JSON : `data/news/scpi-investment-news-history.json` — snapshot local.
 
-## Contrainte conformité
+## Contrôle qualité
 
-Ne jamais écrire : meilleure SCPI, sans risque, garanti, rendement assuré, opportunité unique, placement sécurisé, excellent investissement, SCPI à privilégier.
+Avant publication, l'item doit au minimum disposer de :
+1. une SCPI identifiable ;
+2. un signal explicite d'acquisition / entrée au patrimoine ;
+3. un actif immobilier ;
+4. une source officielle ;
+5. une attribution non ambiguë.
 
-Rester factuel, neutre, sourcé.
+Le moteur privilégie les faux négatifs aux faux positifs : une actualité douteuse ne doit pas être affectée automatiquement à une SCPI.
+
+## Conformité
+
+Rester factuel et sourcé. Ne jamais écrire : « meilleure SCPI », « sans risque », « garanti », « rendement assuré », « opportunité unique », « placement sécurisé », « SCPI à privilégier ».
