@@ -601,7 +601,7 @@ const App: React.FC = () => {
         setCurrentView('article-generator');
       } else if (path === 'articles') {
         setCurrentView('articles-list');
-      } else if (path === 'actualites') {
+      } else if ((path === 'actualites' || path.startsWith('actualites/'))) {
         setCurrentView('actualites');
       } else if (path === 'fonds-euros-ou-scpi') {
         setCurrentView('fonds-euros-ou-scpi');
@@ -1262,7 +1262,7 @@ const App: React.FC = () => {
         setCurrentView('articles-list');
         setSelectedCategory(null);
         setSelectedArticle(null);
-      } else if (normalizedPath === 'actualites') {
+      } else if ((normalizedPath === 'actualites' || normalizedPath.startsWith('actualites/'))) {
         setCurrentView('actualites');
       } else if (normalizedPath === 'faq') {
         setCurrentView('faq');
@@ -1450,7 +1450,7 @@ const App: React.FC = () => {
         setCurrentView('simulateur-profil-investisseur');
       } else if (normalizedPath === 'comparateur-demembrement-scpi') {
         setCurrentView('comparateur-demembrement');
-      } else if (normalizedPath === 'actualites') {
+      } else if ((normalizedPath === 'actualites' || normalizedPath.startsWith('actualites/'))) {
         setCurrentView('actualites');
       } else if (normalizedPath === 'articles') {
         setCurrentView('articles-list');
