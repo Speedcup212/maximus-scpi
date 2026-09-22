@@ -207,6 +207,10 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | AssetType>('all');
   const [newsItems, setNewsItems] = useState<InvestmentNewsItem[]>(ALL_NEWS);
+  const [selectedWatchSlug, setSelectedWatchSlug] = useState<string | null>(() => {
+    const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
+    return match ? decodeURIComponent(match[1]) : null;
+  });
   const [liveSources, setLiveSources] = useState<Record<string, {
     slug: string;
     name: string;
@@ -214,6 +218,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     last_checked_at: string | null;
     last_success_at: string | null;
     last_error: string | null;
+    news_url?: string | null;
+    official_url?: string | null;
   }>>({});
 
   // La page lit désormais la veille directement dans Supabase.
@@ -237,7 +243,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             .limit(500),
           supabase
             .from('scpi_news_sources')
-            .select('slug,name,status,last_checked_at,last_success_at,last_error')
+            .select('slug,name,status,last_checked_at,last_success_at,last_error,news_url,official_url')
         ]);
 
         if (cancelled) return;
@@ -284,6 +290,16 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 
     loadLiveWatch();
     return () => { cancelled = true; };
+  }, []);
+
+  // Synchronise le détail interne avec l'URL /actualites/<slug> et les boutons précédent/suivant.
+  useEffect(() => {
+    const syncWatchFromUrl = () => {
+      const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
+      setSelectedWatchSlug(match ? decodeURIComponent(match[1]) : null);
+    };
+    window.addEventListener('popstate', syncWatchFromUrl);
+    return () => window.removeEventListener('popstate', syncWatchFromUrl);
   }, []);
 
   // ── Investissements par type d'actif ──
@@ -347,6 +363,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
         lastCheckedAt: live?.last_checked_at || null,
         lastSuccessAt: live?.last_success_at || null,
         lastError: live?.last_error || null,
+        sourceUrl: live?.news_url || live?.official_url || scpi.sourceUrl || '',
       };
     });
   }, [scpiInvestments, liveSources]);
@@ -403,16 +420,54 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   }, [newsItems]);
   const hasAnyAcquisition = totalAcquisitions > 0;
 
+  const selectedWatchScpi = useMemo(
+    () => enrichedScpis.find((scpi) => scpi.slug === selectedWatchSlug) || null,
+    [enrichedScpis, selectedWatchSlug],
+  );
+
+  const openWatchDetail = (scpi: TrackedScpi & { count: number; latest: InvestmentNewsItem | null; status: ScpiStatus }) => {
+    setSelectedWatchSlug(scpi.slug);
+    setSearchQuery(scpi.count > 0 ? scpi.name : '');
+    window.history.pushState({ scpiWatch: scpi.slug }, '', `/actualites/${scpi.slug}`);
+    window.setTimeout(() => {
+      document.getElementById('scpi-watch-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
+
+  const closeWatchDetail = () => {
+    setSelectedWatchSlug(null);
+    setSearchQuery('');
+    window.history.pushState({}, '', '/actualites');
+  };
+
   const featured = useMemo(() => searchedDisplayable.slice(0, 3), [searchedDisplayable]);
-  const clearSearch = () => setSearchQuery('');
+  const clearSearch = () => {
+    setSearchQuery('');
+    if (selectedWatchSlug) {
+      setSelectedWatchSlug(null);
+      window.history.pushState({}, '', '/actualites');
+    }
+  };
 
   return (
     <>
       <SEOHead
-        title="Derniers investissements immobiliers des SCPI | MaximusSCPI"
-        description="Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI. Lecture claire par société, secteur et localisation."
+        title={
+          selectedWatchScpi
+            ? `Actualités et acquisitions ${selectedWatchScpi.name} | MaximusSCPI`
+            : 'Derniers investissements immobiliers des SCPI | MaximusSCPI'
+        }
+        description={
+          selectedWatchScpi
+            ? `Suivez la veille des acquisitions et investissements immobiliers de la SCPI ${selectedWatchScpi.name}, avec les sources officielles contrôlées par MaximusSCPI.`
+            : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI. Lecture claire par société, secteur et localisation.'
+        }
         keywords={['investissements SCPI', 'acquisitions SCPI', 'immeubles SCPI', 'actualité immobilière SCPI']}
-        canonical="https://maximusscpi.com/actualites/"
+        canonical={
+          selectedWatchScpi
+            ? `https://maximusscpi.com/actualites/${selectedWatchScpi.slug}/`
+            : 'https://maximusscpi.com/actualites/'
+        }
       />
 
       <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900' : 'bg-white'}`}>
@@ -547,18 +602,113 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 <ScpiCard
                   key={scpi.slug}
                   scpi={scpi}
-                  onClick={() => {
-                    if (scpi.count > 0) {
-                      setSearchQuery(scpi.name);
-                      return;
-                    }
-                    if (scpi.sourceUrl) {
-                      window.open(scpi.sourceUrl, '_blank', 'noopener,noreferrer');
-                    }
-                  }}
+                  onClick={() => openWatchDetail(scpi)}
                 />
               ))}
             </div>
+
+            {selectedWatchScpi && (
+              <div
+                id="scpi-watch-detail"
+                className="mt-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/80 shadow-lg overflow-hidden scroll-mt-24"
+              >
+                <div className="p-5 sm:p-7">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Eye className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                          Veille MaximusSCPI
+                        </span>
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                        {selectedWatchScpi.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        {selectedWatchScpi.managementCompany}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={closeWatchDetail}
+                      className="self-start inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                      Fermer
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Statut de la veille</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {selectedWatchScpi.status === 'error'
+                          ? 'Erreur de veille'
+                          : selectedWatchScpi.status === 'incomplete'
+                          ? 'Source à compléter'
+                          : 'Veille opérationnelle'}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Dernier contrôle</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {formatWatchDate(selectedWatchScpi.lastCheckedAt)}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Acquisitions détectées</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {selectedWatchScpi.count}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 rounded-xl border border-emerald-500/15 bg-emerald-50/60 dark:bg-emerald-950/20 p-4">
+                    {selectedWatchScpi.count > 0 ? (
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        {selectedWatchScpi.count} acquisition{selectedWatchScpi.count > 1 ? 's' : ''} officiellement identifiée{selectedWatchScpi.count > 1 ? 's' : ''}.
+                        Les opérations correspondantes sont affichées plus bas sur cette page.
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        Aucune acquisition récente n'a été détectée pour {selectedWatchScpi.name}.
+                        La veille automatique continue de contrôler les sources officielles et cette page sera mise à jour dès qu'une opération sera identifiée.
+                      </p>
+                    )}
+                  </div>
+
+                  {selectedWatchScpi.lastError && (
+                    <p className="mt-4 text-sm text-red-600 dark:text-red-300">
+                      {selectedWatchScpi.lastError}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap gap-3 mt-6">
+                    {onScpiPageClick && (
+                      <button
+                        type="button"
+                        onClick={() => onScpiPageClick(selectedWatchScpi.slug)}
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
+                      >
+                        <Building2 className="w-4 h-4" />
+                        Voir la fiche {selectedWatchScpi.name}
+                      </button>
+                    )}
+                    {selectedWatchScpi.sourceUrl && (
+                      <a
+                        href={selectedWatchScpi.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium transition-colors"
+                      >
+                        Source officielle
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* ====== ACCÈS RAPIDE PAR TYPE D'ACTIF ====== */}
@@ -787,7 +937,7 @@ const ScpiCard: React.FC<{
       ) : (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-gray-500 font-medium flex items-center gap-1 group-hover:text-gray-400 transition-colors">
-            Ouvrir la source officielle
+            Voir le suivi
             <ArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-60 transition-opacity" />
           </span>
         </div>
