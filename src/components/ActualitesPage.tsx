@@ -14,7 +14,6 @@ import {
   Layers,
   Briefcase,
   Building,
-  ExternalLink,
   MapPin,
   Calendar,
   TrendingUp,
@@ -765,17 +764,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                         Voir la fiche {selectedWatchScpi.name}
                       </button>
                     )}
-                    {selectedWatchScpi.sourceUrl && (
-                      <a
-                        href={selectedWatchScpi.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium transition-colors"
-                      >
-                        Voir la source officielle
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
+
                   </div>
                 </div>
               </div>
