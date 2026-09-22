@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Newspaper,
   Search,
@@ -32,16 +32,20 @@ import newsJson from '../../data/news/scpi-investment-news-latest.json';
 import sourcesJson from '../../data/scpi-investment-news-sources.json';
 // Liste complète de toutes les SCPI du projet (63+ entrées)
 import scpiCompletRaw from '../data/scpi_complet.json';
+import { supabase } from '../supabaseClient';
 
 const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson) ? (newsJson as InvestmentNewsItem[]) : [];
 
-type ScpiStatus = 'acquisition' | 'active' | 'incomplete';
+type ScpiStatus = 'acquisition' | 'active' | 'incomplete' | 'error';
 
 interface TrackedScpi {
   slug: string;
   name: string;
   managementCompany: string;
   status: ScpiStatus;
+  lastCheckedAt?: string | null;
+  lastSuccessAt?: string | null;
+  lastError?: string | null;
 }
 
 /** Construit l'index des sources par nom de SCPI */
@@ -149,6 +153,21 @@ function formatDate(dateStr: string): string {
   }
 }
 
+function formatWatchDate(dateStr?: string | null): string {
+  if (!dateStr) return 'jamais';
+  try {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const sameDay = d.toDateString() === now.toDateString();
+    if (sameDay) {
+      return `aujourd'hui à ${d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`;
+    }
+    return `le ${d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })}`;
+  } catch {
+    return dateStr;
+  }
+}
+
 interface ActualitesPageProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
@@ -184,12 +203,91 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | AssetType>('all');
+  const [newsItems, setNewsItems] = useState<InvestmentNewsItem[]>(ALL_NEWS);
+  const [liveSources, setLiveSources] = useState<Record<string, {
+    slug: string;
+    name: string;
+    status: 'active' | 'incomplete' | 'error';
+    last_checked_at: string | null;
+    last_success_at: string | null;
+    last_error: string | null;
+  }>>({});
+
+  // La page lit désormais la veille directement dans Supabase.
+  // Le JSON du dépôt reste uniquement un fallback si Supabase est temporairement indisponible.
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadLiveWatch = async () => {
+      if (!supabase) return;
+
+      try {
+        const [newsResult, sourcesResult] = await Promise.all([
+          supabase
+            .from('scpi_news_items')
+            .select('*')
+            .eq('status', 'published')
+            .gt('editorial_priority', 0)
+            .neq('data_quality', 'weak')
+            .order('published_date', { ascending: false })
+            .order('detected_at', { ascending: false })
+            .limit(500),
+          supabase
+            .from('scpi_news_sources')
+            .select('slug,name,status,last_checked_at,last_success_at,last_error')
+        ]);
+
+        if (cancelled) return;
+
+        if (!newsResult.error && newsResult.data) {
+          const mapped = newsResult.data.map((row: any): InvestmentNewsItem => ({
+            id: row.id,
+            scpi: row.scpi_name,
+            managementCompany: row.management_company || '',
+            operationType: row.operation_type || 'acquisition',
+            assetType: row.asset_type || 'autre_immobilier',
+            country: row.country || '',
+            city: row.city || '',
+            area: row.area || '',
+            address: row.address || '',
+            tenant: row.tenant || '',
+            amount: row.amount || '',
+            surface: row.surface || '',
+            leaseDuration: row.lease_duration || '',
+            title: row.title,
+            summary: row.summary || '',
+            sourceUrl: row.source_url || '',
+            sourceOfficial: row.source_official !== false,
+            date: row.published_date || (row.detected_at ? row.detected_at.slice(0, 10) : ''),
+            detectedAt: row.detected_at || '',
+            investmentRelated: true,
+            dataQuality: row.data_quality || 'standard',
+            editorialPriority: row.editorial_priority || 2,
+            confidence: Number(row.confidence || 0.85),
+            disclaimer: "Information factuelle issue d'une source officielle. Ne constitue pas une recommandation d'investissement.",
+          }));
+          setNewsItems(mapped);
+        }
+
+        if (!sourcesResult.error && sourcesResult.data) {
+          const bySlug: Record<string, any> = {};
+          for (const row of sourcesResult.data) bySlug[row.slug] = row;
+          setLiveSources(bySlug);
+        }
+      } catch (error) {
+        console.warn('[ActualitesPage] Veille Supabase indisponible, fallback local conservé.', error);
+      }
+    };
+
+    loadLiveWatch();
+    return () => { cancelled = true; };
+  }, []);
 
   // ── Investissements par type d'actif ──
   const filteredByAsset = useMemo(() => {
-    if (activeFilter === 'all') return ALL_NEWS;
-    return ALL_NEWS.filter((item) => item.assetType === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === 'all') return newsItems;
+    return newsItems.filter((item) => item.assetType === activeFilter);
+  }, [activeFilter, newsItems]);
 
   const searched = useMemo(() => {
     if (!searchQuery.trim()) return filteredByAsset;
@@ -207,14 +305,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   // ── Index des investissements par SCPI ──
   const scpiInvestments = useMemo(() => {
     const map: Record<string, InvestmentNewsItem[]> = {};
-    for (const item of ALL_NEWS) {
+    for (const item of newsItems) {
       if (item.dataQuality === 'weak' || item.editorialPriority === 0) continue;
       const key = item.scpi.toLowerCase();
       if (!map[key]) map[key] = [];
       map[key].push(item);
     }
     return map;
-  }, []);
+  }, [newsItems]);
 
   // ── Enrichit la liste complète avec les acquisitions détectées ──
   const enrichedScpis = useMemo(() => {
@@ -230,10 +328,25 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
       const all = investments.length ? investments : altMatches;
       const latest = all.length > 0 ? all.sort((a, b) => b.date.localeCompare(a.date))[0] : null;
       const count = all.length;
-      const status: ScpiStatus = count > 0 ? 'acquisition' : scpi.status;
-      return { ...scpi, count, latest, status };
+      const live = liveSources[scpi.slug];
+      const watchStatus: ScpiStatus = live?.status || scpi.status;
+      const status: ScpiStatus =
+        watchStatus === 'error'
+          ? 'error'
+          : count > 0
+          ? 'acquisition'
+          : watchStatus;
+      return {
+        ...scpi,
+        count,
+        latest,
+        status,
+        lastCheckedAt: live?.last_checked_at || null,
+        lastSuccessAt: live?.last_success_at || null,
+        lastError: live?.last_error || null,
+      };
     });
-  }, [scpiInvestments]);
+  }, [scpiInvestments, liveSources]);
 
   // ── Filtrage des cartes SCPI par la recherche globale ──
   const filteredScpis = useMemo(() => {
@@ -278,13 +391,13 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   // ── Compteurs par type d'actif ──
   const assetCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const item of ALL_NEWS) {
+    for (const item of newsItems) {
       if (item.dataQuality !== 'weak' && item.editorialPriority > 0) {
         counts[item.assetType] = (counts[item.assetType] || 0) + 1;
       }
     }
     return counts;
-  }, []);
+  }, [newsItems]);
   const hasAnyAcquisition = totalAcquisitions > 0;
 
   const featured = useMemo(() => searchedDisplayable.slice(0, 3), [searchedDisplayable]);
@@ -385,7 +498,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 Investissements par SCPI
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-                Accédez directement aux SCPI suivies et consultez les acquisitions détectées à partir des sources officielles.
+                Veille automatisée quotidienne des sources officielles. Le statut de chaque SCPI indique le dernier contrôle réellement effectué.
               </p>
             </div>
 
@@ -543,47 +656,60 @@ const ScpiCard: React.FC<{
   const isAcquisition = scpi.status === 'acquisition';
   const isActive = scpi.status === 'active';
   const isIncomplete = scpi.status === 'incomplete';
+  const isError = scpi.status === 'error';
   const latest = scpi.latest;
 
   const AssetIcon = latest ? (ASSET_TYPE_ICON_MAP[latest.assetType] || Building) : Building;
 
-  const cardBorder = isAcquisition
+  const cardBorder = isError
+    ? 'border-red-500/30 hover:border-red-400/60'
+    : isAcquisition
     ? 'border-emerald-500/25 hover:border-emerald-400/60'
     : isActive
     ? 'border-gray-600/30 hover:border-blue-400/50'
     : 'border-gray-600/20 hover:border-amber-400/40';
 
-  const cardBg = isAcquisition
+  const cardBg = isError
+    ? 'bg-gradient-to-br from-red-950/25 via-gray-800/45 to-gray-800/25'
+    : isAcquisition
     ? 'bg-gradient-to-br from-emerald-950/40 via-gray-800/50 to-gray-800/30'
     : isActive
     ? 'bg-gray-800/40'
     : 'bg-gray-800/20';
 
-  const hoverGlow = isAcquisition
+  const hoverGlow = isError
+    ? 'hover:shadow-red-500/10'
+    : isAcquisition
     ? 'hover:shadow-emerald-500/10'
     : isActive
     ? 'hover:shadow-blue-500/10'
     : 'hover:shadow-amber-500/05';
 
-  const accentBar = isAcquisition
+  const accentBar = isError
+    ? 'bg-red-400/60'
+    : isAcquisition
     ? 'bg-emerald-400/60'
     : isActive
     ? 'bg-blue-400/40'
     : 'bg-amber-400/20';
 
-  const badgeBg = isAcquisition
+  const badgeBg = isError
+    ? 'bg-red-500/15 text-red-300 border-red-500/25'
+    : isAcquisition
     ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25'
     : isActive
     ? 'bg-blue-500/10 text-blue-300 border-blue-500/20'
     : 'bg-amber-500/10 text-amber-300 border-amber-500/15';
 
-  const badgeLabel = isAcquisition
+  const badgeLabel = isError
+    ? 'Erreur de veille'
+    : isAcquisition
     ? 'Acquisition détectée'
     : isActive
-    ? 'Veille active'
-    : 'Veille à compléter';
+    ? 'Veille opérationnelle'
+    : 'Source à compléter';
 
-  const BadgeIcon = isAcquisition ? TrendingUp : isActive ? Eye : AlertCircle;
+  const BadgeIcon = isError ? AlertCircle : isAcquisition ? TrendingUp : isActive ? Eye : AlertCircle;
 
   return (
     <div
@@ -632,8 +758,12 @@ const ScpiCard: React.FC<{
             </div>
           </div>
         ) : (
-          <p className="text-[11px] text-gray-500 italic leading-relaxed">
-            Veille en cours sur les sources officielles.
+          <p className={`text-[11px] italic leading-relaxed ${isError ? 'text-red-300/80' : 'text-gray-500'}`}>
+            {isError
+              ? `Erreur au dernier contrôle · dernier succès ${formatWatchDate(scpi.lastSuccessAt)}`
+              : isIncomplete
+              ? 'Source officielle à compléter.'
+              : `Dernier contrôle ${formatWatchDate(scpi.lastCheckedAt)}`}
           </p>
         )}
       </div>
