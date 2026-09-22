@@ -41,6 +41,17 @@ export interface InvestmentNewsItem {
   summary: string;
   sourceUrl: string;
   sourceOfficial: boolean;
+  imageUrl?: string;
+  imageAlt?: string;
+  imageCredit?: string;
+  yieldAem?: string;
+  annualRent?: string;
+  rooms?: string;
+  locationContext?: string;
+  tenantContext?: string;
+  portfolioContext?: string;
+  maximusAnalysis?: string;
+  sourceDocumentLabel?: string;
   date: string;
   detectedAt: string;
   investmentRelated: boolean;
