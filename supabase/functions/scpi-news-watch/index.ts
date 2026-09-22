@@ -6,7 +6,7 @@ type Source = {
   slug:string; name:string; management_company:string; official_url:string; news_url:string;
   documents_url:string; rss_url:string; enabled:boolean;
 };
-type Doc = { url:string; title:string; text:string; sourceType:string; listingContext:string; html?:string; genericPage?:boolean };
+type Doc = { url:string; title:string; text:string; sourceType:string; listingContext:string; html?:string; genericPage?:boolean; imageUrl?:string };
 
 const ACQ = [
   "acquisition","acquiert","acquièrent","a acquis","ont acquis","fait l'acquisition",
@@ -82,6 +82,29 @@ function extractTitle(html:string){
   if(og)return cleanTitle(og[1]);
   const h=html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i); if(h)return cleanTitle(h[1]);
   const t=html.match(/<title[^>]*>([\s\S]*?)<\/title>/i); return t?cleanTitle(t[1]).split("|")[0].trim():"";
+}
+function extractImage(html:string,base:string){
+  const patterns=[
+    /<meta[^>]+property=["']og:image(?::secure_url)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image(?::secure_url)?["'][^>]*>/i,
+    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]+content=["']([^"']+)["'][^>]*>/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image(?::src)?["'][^>]*>/i
+  ];
+  for(const p of patterns){
+    const m=html.match(p);
+    if(m){
+      try{return new URL(decodeEntities(m[1]),base).href;}catch{}
+    }
+  }
+  const h1=html.search(/<h1\b/i);
+  const zone=h1>=0?html.slice(Math.max(0,h1-12000),Math.min(html.length,h1+18000)):html.slice(0,30000);
+  const imgs=[...zone.matchAll(/<img[^>]+(?:src|data-src)=["']([^"']+)["'][^>]*>/gi)];
+  for(const m of imgs){
+    const raw=m[1];
+    if(/logo|avatar|icon|favicon|placeholder/i.test(raw)) continue;
+    try{return new URL(decodeEntities(raw),base).href;}catch{}
+  }
+  return "";
 }
 function titleFromUrl(url:string){
   try{
@@ -211,6 +234,19 @@ function assetType(text:string){const n=norm(text);
 }
 function amount(t:string){const m=t.match(/\b(\d+(?:[.,]\d+)?)\s*(?:M€|millions?\s+d['’]euros|millions?\s+€)\b/i);return m?m[0]:"";}
 function surface(t:string){const m=t.match(/\b([\d\s.,]{2,12})\s*m(?:²|2)\b/i);return m?m[0].replace(/\s+/g," ").trim():"";}
+function yieldAem(t:string){
+  const m=t.match(/rendement\s+(?:acte\s+en\s+main\s*\(AEM\)|AEM)[^0-9]{0,80}(\d{1,2}(?:[.,]\d+)?)\s*%/i);
+  return m?m[1].replace(".",",")+" % (non garanti)":"";
+}
+function annualRent(t:string){
+  const m=t.match(/loyer\s+annuel[^0-9]{0,80}(?:d['’]environ\s+|environ\s+)?(\d+(?:[.,]\d+)?)\s*(M€|millions?\s+d['’]euros|k€|€)/i);
+  if(!m)return "";
+  return (m[1]+" "+m[2]).replace(/millions?\s+d['’]euros/i,"M€");
+}
+function rooms(t:string){
+  const m=t.match(/\b(\d{2,4})\s+chambres?\b/i);
+  return m?m[1]+" chambres":"";
+}
 function summary(title:string,window:string){
   let t=(window||"").replace(/\s+/g," ").trim();
   if(title && t.toLowerCase().startsWith(title.toLowerCase())){
@@ -259,7 +295,7 @@ async function processGroup(url:string,sources:Source[]){
         const generic=isGenericTitle(extracted);
         const linkUseful=l.text && !isGenericTitle(l.text);
         const title=generic?(linkUseful?l.text:titleFromUrl(r.url)):extracted;
-        return {url:r.url,title:title||l.text||titleFromUrl(r.url),text:articleText(r.html),sourceType:"web_page",listingContext:l.context,html:r.html,genericPage:generic} as Doc;
+        return {url:r.url,title:title||l.text||titleFromUrl(r.url),text:articleText(r.html),sourceType:"web_page",listingContext:l.context,html:r.html,genericPage:generic,imageUrl:extractImage(r.html,r.url)} as Doc;
       }));
       for(const x of results){if(x.status==="fulfilled"&&x.value)docs.push(x.value);else if(x.status==="rejected")errors.push(String(x.reason));}
     } else {
@@ -284,7 +320,7 @@ async function processGroup(url:string,sources:Source[]){
     const loc=(titleLoc.city||titleLoc.country)?titleLoc:location(fieldEvidence);
     const titleAsset=assetType(doc.title+" "+doc.url);
     const at=titleAsset!=="autre_immobilier"?titleAsset:(doc.genericPage?"autre_immobilier":assetType(fieldEvidence));
-    const amt=amount(fieldEvidence),surf=surface(fieldEvidence);
+    const amt=amount(fieldEvidence),surf=surface(fieldEvidence),aem=yieldAem(fieldEvidence),rent=annualRent(fieldEvidence),roomCount=rooms(fieldEvidence);
     for(const s of matched){
       const dedupeKey=d&&loc.city
         ? s.slug+"|"+d+"|"+loc.city+"|"+loc.country+"|"+at
@@ -296,6 +332,8 @@ async function processGroup(url:string,sources:Source[]){
         fingerprint:fp,scpi_slug:s.slug,scpi_name:s.name,management_company:s.management_company,
         operation_type:"acquisition",asset_type:at,country:loc.country,city:loc.city,amount:amt,
         surface:surf,title:cleanTitle(doc.title).slice(0,220),summary:doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win),source_url:doc.url,
+        ...(doc.imageUrl?{image_url:doc.imageUrl,image_alt:cleanTitle(doc.title),image_credit:s.management_company||s.name}:{}),
+        ...(aem?{yield_aem:aem}:{}), ...(rent?{annual_rent:rent}:{}), ...(roomCount?{rooms:roomCount}:{}),
         source_type:doc.sourceType,source_official:true,published_date:d,detected_at:new Date().toISOString(),
         data_quality:(loc.city||loc.country)?"standard":"partial",editorial_priority:(loc.city||loc.country)?2:3,
         confidence:(loc.city||loc.country)?0.94:0.86,status:"published"
@@ -327,7 +365,7 @@ Deno.serve(async(req:Request)=>{
     for(let j=0;j<results.length;j++){
       const [u,ss]=batch[j],r=results[j];detected+=r.items.length;
       if(r.items.length){
-        const up=await db.from("scpi_news_items").upsert(r.items,{onConflict:"fingerprint",ignoreDuplicates:true}).select("id");
+        const up=await db.from("scpi_news_items").upsert(r.items,{onConflict:"fingerprint",ignoreDuplicates:false}).select("id");
         if(up.error)r.errors.push(up.error.message);else inserted+=(up.data||[]).length;
       }
       for(const s of ss){
