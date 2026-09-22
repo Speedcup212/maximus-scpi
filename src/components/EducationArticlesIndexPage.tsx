@@ -4,6 +4,7 @@ import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
 import { supabase } from '../supabaseClient';
+import { articleTemplates as staticArticleTemplates } from '../data/articleTemplatesConfig';
 
 interface ArticleTemplate {
   slug: string;
@@ -49,6 +50,7 @@ type ArticleFamily =
 
 // Mapping catégorie Supabase → famille
 const CATEGORY_FAMILY_MAP: Record<string, ArticleFamily> = {
+  // Catégories Supabase (libellés historiques)
   'Guides pratiques': 'comprendre',
   'Fiscalité & Transmission': 'fiscalite-detention',
   'Comparatifs': 'choix-comparatifs',
@@ -57,6 +59,22 @@ const CATEGORY_FAMILY_MAP: Record<string, ArticleFamily> = {
   'Secteurs': 'secteurs-immo',
   'Géographies': 'secteurs-immo',
   'Marché': 'choix-comparatifs',
+
+  // Catégories du catalogue local (fallback robuste si Supabase est indisponible)
+  'guides': 'comprendre',
+  'comparatifs': 'choix-comparatifs',
+  'choix-comparatifs': 'choix-comparatifs',
+  'analyse': 'analyse-criteres',
+  'analyse-criteres': 'analyse-criteres',
+  'fiscalite': 'fiscalite-detention',
+  'fiscalite-modes': 'fiscalite-detention',
+  'fiscalite-avancee': 'fiscalite-detention',
+  'strategies': 'strategies',
+  'strategies-patrimoniales': 'strategies',
+  'risques-vigilance': 'risques-vigilance',
+  'secteurs-immo': 'secteurs-immo',
+  'gestionnaires-acteurs': 'gestionnaires-acteurs',
+  'reglementation-transparence': 'reglementation-transparence',
 };
 
 function getArticleFamily(article: ArticleTemplate): ArticleFamily {
@@ -244,6 +262,18 @@ const FAMILY_ORDER: ArticleFamily[] = [
   'strategies',
 ];
 
+const STATIC_ARTICLES: ArticleTemplate[] = staticArticleTemplates.map((article) => ({
+  slug: article.slug,
+  title: article.title,
+  meta_description: article.metaDescription,
+  category: article.category,
+  main_keyword: article.mainKeyword,
+  featured: Boolean(article.featured),
+  word_count: article.wordCountTarget,
+  read_time: Math.max(1, Math.ceil(article.wordCountTarget / 220)),
+  keywords: article.keywords,
+}));
+
 // Slugs des articles "Contrôle & distribution" (AMF, ORIAS, CGP-CIF, PSI, rétrocessions)
 const CONTROLE_DISTRIBUTION_SLUGS = new Set([
   'amf-scpi', 'orias-scpi', 'cgp-cif-scpi', 'psi-scpi', 'retrocommissions-scpi'
@@ -271,14 +301,43 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase?.from('articles_seo')
-      .select('slug, title, meta_description, category, main_keyword, featured, word_count, read_time')
-      .eq('status', 'published')
-      .order('slug', { ascending: true })
-      .then(({ data }) => {
-        if (data) setArticles(data as ArticleTemplate[]);
-        setLoading(false);
-      });
+    let cancelled = false;
+
+    const loadArticles = async () => {
+      if (!supabase) {
+        if (!cancelled) {
+          setArticles(STATIC_ARTICLES);
+          setLoading(false);
+        }
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('articles_seo')
+        .select('slug, title, meta_description, category, main_keyword, featured, word_count, read_time')
+        .eq('status', 'published')
+        .order('slug', { ascending: true });
+
+      if (cancelled) return;
+
+      if (!error && data && data.length > 0) {
+        setArticles(data as ArticleTemplate[]);
+      } else {
+        console.warn(
+          '[EducationArticlesIndexPage] Supabase indisponible ou catalogue vide : utilisation du catalogue local.',
+          error
+        );
+        setArticles(STATIC_ARTICLES);
+      }
+
+      setLoading(false);
+    };
+
+    loadArticles();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Grouper les articles par famille
