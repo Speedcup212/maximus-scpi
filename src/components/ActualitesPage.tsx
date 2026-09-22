@@ -276,6 +276,17 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             summary: row.summary || '',
             sourceUrl: row.source_url || '',
             sourceOfficial: row.source_official !== false,
+            imageUrl: row.image_url || '',
+            imageAlt: row.image_alt || '',
+            imageCredit: row.image_credit || '',
+            yieldAem: row.yield_aem || '',
+            annualRent: row.annual_rent || '',
+            rooms: row.rooms || '',
+            locationContext: row.location_context || '',
+            tenantContext: row.tenant_context || '',
+            portfolioContext: row.portfolio_context || '',
+            maximusAnalysis: row.maximus_analysis || '',
+            sourceDocumentLabel: row.source_document_label || '',
             date: row.published_date || (row.detected_at ? row.detected_at.slice(0, 10) : ''),
             detectedAt: row.detected_at || '',
             investmentRelated: true,
@@ -820,6 +831,20 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           {selectedArticle && (
             <section id="news-article-detail" className="mb-12 scroll-mt-24">
               <article className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-lg">
+                {selectedArticle.imageUrl && (
+                  <figure className="relative">
+                    <img
+                      src={selectedArticle.imageUrl}
+                      alt={selectedArticle.imageAlt || selectedArticle.title}
+                      loading="eager"
+                      className="w-full h-[260px] sm:h-[380px] lg:h-[480px] object-cover"
+                    />
+                    <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent px-5 pt-12 pb-4 text-xs text-white/80">
+                      Photo officielle{selectedArticle.imageCredit ? ` — ${selectedArticle.imageCredit}` : ''}
+                    </figcaption>
+                  </figure>
+                )}
+
                 <div className="p-6 sm:p-8 lg:p-10">
                   <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-5">
                     <button
@@ -832,7 +857,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                     <span>›</span>
                     <span>{formatDate(selectedArticle.date)}</span>
                     <span>›</span>
-                    <span className="text-emerald-600 dark:text-emerald-400">Article MaximusSCPI</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">Analyse MaximusSCPI</span>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3 mb-5">
@@ -852,7 +877,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                     </span>
                   </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
                     {selectedArticle.title}
                   </h2>
 
@@ -861,40 +886,105 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                   </p>
 
                   <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <DetailBadge label="SCPI" value={selectedArticle.scpi} />
-                    <DetailBadge label="Société de gestion" value={selectedArticle.managementCompany} />
-                    {!!selectedArticle.amount && <DetailBadge label="Montant" value={selectedArticle.amount} />}
+                    {!!selectedArticle.amount && <DetailBadge label="Prix d'acquisition" value={selectedArticle.amount} />}
+                    {!!selectedArticle.yieldAem && <DetailBadge label="Rendement AEM" value={selectedArticle.yieldAem} />}
                     {!!selectedArticle.surface && <DetailBadge label="Surface" value={selectedArticle.surface} />}
-                    {!!selectedArticle.tenant && <DetailBadge label="Locataire" value={selectedArticle.tenant} />}
-                    {!!selectedArticle.leaseDuration && <DetailBadge label="Durée de bail" value={selectedArticle.leaseDuration} />}
-                    {!!selectedArticle.city && <DetailBadge label="Ville" value={selectedArticle.city} icon={MapPin} />}
-                    {!!selectedArticle.country && <DetailBadge label="Pays" value={selectedArticle.country} />}
+                    {!!selectedArticle.leaseDuration && <DetailBadge label="WALB / bail ferme" value={selectedArticle.leaseDuration} />}
+                    {!!selectedArticle.annualRent && <DetailBadge label="Loyer annuel" value={selectedArticle.annualRent} />}
+                    {!!selectedArticle.rooms && <DetailBadge label="Capacité" value={selectedArticle.rooms} />}
+                    {!!selectedArticle.tenant && <DetailBadge label="Locataire / exploitant" value={selectedArticle.tenant} />}
+                    {!!selectedArticle.city && <DetailBadge label="Localisation" value={selectedArticle.city} icon={MapPin} />}
                   </div>
 
-                  <div className="mt-9 border-t border-gray-100 dark:border-gray-700 pt-8">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                      L'opération en bref
-                    </h3>
-                    <p className="text-gray-700 dark:text-gray-300 leading-7">
-                      Cette opération concerne un actif de type {ASSET_TYPE_LABELS[selectedArticle.assetType]?.toLowerCase() || 'immobilier'}
-                      {selectedArticle.city ? ` situé à ${selectedArticle.city}` : ''}
-                      {selectedArticle.country ? `, en ${selectedArticle.country}` : ''}.
-                      {selectedArticle.amount ? ` Le montant communiqué est de ${selectedArticle.amount}.` : ''}
-                      {selectedArticle.surface ? ` La surface annoncée est de ${selectedArticle.surface}.` : ''}
-                      {selectedArticle.tenant ? ` Le locataire identifié est ${selectedArticle.tenant}.` : ''}
-                      {selectedArticle.leaseDuration ? ` La durée de bail communiquée est de ${selectedArticle.leaseDuration}.` : ''}
-                    </p>
+                  <div className="mt-10 border-t border-gray-100 dark:border-gray-700 pt-9 space-y-9">
+                    <section>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">L'opération en détail</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-7">
+                        {selectedArticle.scpi} a intégré un actif de type {ASSET_TYPE_LABELS[selectedArticle.assetType]?.toLowerCase() || 'immobilier'}
+                        {selectedArticle.city ? ` situé à ${selectedArticle.city}` : ''}
+                        {selectedArticle.country ? `, en ${selectedArticle.country}` : ''}.
+                        {selectedArticle.amount ? ` L'investissement annoncé s'élève à ${selectedArticle.amount}.` : ''}
+                        {selectedArticle.surface ? ` L'actif développe ${selectedArticle.surface}.` : ''}
+                        {selectedArticle.tenant ? ` Il est exploité ou occupé par ${selectedArticle.tenant}.` : ''}
+                        {selectedArticle.leaseDuration ? ` La durée ferme résiduelle communiquée est de ${selectedArticle.leaseDuration}.` : ''}
+                      </p>
+                    </section>
+
+                    {!!selectedArticle.locationContext && (
+                      <section>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Emplacement et dynamique locale</h3>
+                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.locationContext}</p>
+                      </section>
+                    )}
+
+                    {!!selectedArticle.tenantContext && (
+                      <section>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Locataire et visibilité locative</h3>
+                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.tenantContext}</p>
+                        {!!selectedArticle.leaseDuration && (
+                          <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+                            La durée ferme du bail doit être lue avec les autres indicateurs locatifs. 
+                            <a
+                              href="/articles/walt-walb-scpi-duree-baux-risque-locatif/"
+                              className="ml-1 text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
+                            >
+                              Comprendre le WALT et le WALB d'une SCPI
+                            </a>.
+                          </p>
+                        )}
+                      </section>
+                    )}
+
+                    {!!selectedArticle.portfolioContext && (
+                      <section>
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Ce que l'acquisition change dans le portefeuille</h3>
+                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.portfolioContext}</p>
+                      </section>
+                    )}
+
+                    {!!selectedArticle.maximusAnalysis && (
+                      <section className="rounded-xl border border-emerald-500/20 bg-emerald-50/60 dark:bg-emerald-950/20 p-5 sm:p-6">
+                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Lecture MaximusSCPI</h3>
+                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.maximusAnalysis}</p>
+                      </section>
+                    )}
+
+                    <section>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Les chiffres à retenir</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 p-4">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">SCPI</p>
+                          <p className="font-semibold text-gray-900 dark:text-white mt-1">{selectedArticle.scpi}</p>
+                        </div>
+                        <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 p-4">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Société de gestion</p>
+                          <p className="font-semibold text-gray-900 dark:text-white mt-1">{selectedArticle.managementCompany}</p>
+                        </div>
+                        {!!selectedArticle.yieldAem && (
+                          <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 p-4">
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Rendement AEM à l'acquisition</p>
+                            <p className="font-semibold text-gray-900 dark:text-white mt-1">{selectedArticle.yieldAem}</p>
+                          </div>
+                        )}
+                        {!!selectedArticle.leaseDuration && (
+                          <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 p-4">
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Durée ferme résiduelle</p>
+                            <p className="font-semibold text-gray-900 dark:text-white mt-1">{selectedArticle.leaseDuration}</p>
+                          </div>
+                        )}
+                      </div>
+                    </section>
+
+                    {!!selectedArticle.sourceDocumentLabel && (
+                      <section className="pt-1">
+                        <p className="text-xs text-gray-400 dark:text-gray-500">
+                          Source documentaire vérifiée : {selectedArticle.sourceDocumentLabel}. La source externe est conservée en base pour contrôle, sans redirection du lecteur hors de MaximusSCPI.
+                        </p>
+                      </section>
+                    )}
                   </div>
 
-                  <div className="mt-8 rounded-xl border border-emerald-500/15 bg-emerald-50/60 dark:bg-emerald-950/20 p-5">
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-2">À retenir</h3>
-                    <p className="text-sm leading-6 text-gray-700 dark:text-gray-300">
-                      MaximusSCPI publie ici une synthèse factuelle de l'opération afin de centraliser la veille immobilière de la SCPI.
-                      La source officielle a été vérifiée et reste enregistrée dans notre base de veille.
-                    </p>
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap gap-3">
+                  <div className="mt-9 flex flex-wrap gap-3">
                     {onScpiPageClick && (
                       <button
                         type="button"
@@ -915,7 +1005,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                   </div>
 
                   <p className="mt-7 text-xs italic text-gray-400 dark:text-gray-500">
-                    Information factuelle issue d'une source officielle vérifiée par MaximusSCPI. Ne constitue pas une recommandation d'investissement.
+                    Information factuelle issue de sources officielles vérifiées par MaximusSCPI. Le rendement AEM est un indicateur immobilier à l'acquisition et ne constitue pas le rendement futur de la SCPI. Investir en SCPI comporte notamment un risque de perte en capital et de liquidité.
                   </p>
                 </div>
               </article>
@@ -1127,8 +1217,13 @@ const InvestmentCard: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }>
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-      <div className="h-40 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center relative">
-        <Building2 className="w-16 h-16 text-slate-400 dark:text-slate-500" />
+      <div className="h-40 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center relative overflow-hidden">
+        {item.imageUrl ? (
+          <img src={item.imageUrl} alt={item.imageAlt || item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <Building2 className="w-16 h-16 text-slate-400 dark:text-slate-500" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
         <span className={`absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${colorClass}`}>
           <AssetIcon className="w-3.5 h-3.5" />
           {ASSET_TYPE_LABELS[item.assetType]}
@@ -1167,6 +1262,21 @@ const InvestmentRow: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }> 
 
   return (
     <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 sm:p-6 hover:shadow-md transition-shadow">
+      {item.imageUrl && (
+        <button
+          type="button"
+          onClick={onOpen}
+          className="block w-full mb-5 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900"
+          aria-label={`Lire l'article : ${item.title}`}
+        >
+          <img
+            src={item.imageUrl}
+            alt={item.imageAlt || item.title}
+            loading="lazy"
+            className="w-full h-48 sm:h-56 object-cover hover:scale-[1.01] transition-transform duration-300"
+          />
+        </button>
+      )}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
         <div className="flex items-center gap-3 flex-wrap">
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${colorClass}`}>
