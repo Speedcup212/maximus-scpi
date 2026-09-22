@@ -65,7 +65,9 @@ function stripHtml(html:string){
 }
 function cleanTitle(s:string){
   return stripHtml(decodeEntities(s))
-    .replace(/\s+/g," ").replace(/\s*-\s*[^-]{0,50}(?:Groupe|Asset Management|REIM)\s*$/i,"")
+    .replace(/\s+/g," ")
+    .replace(/\s*-\s*wemo\s*$/i,"")
+    .replace(/\s*-\s*[^-]{0,50}(?:Groupe|Asset Management|REIM)\s*$/i,"")
     .trim().slice(0,220);
 }
 function hasAny(text:string, terms:string[]){const n=norm(text);return terms.some(x=>n.includes(norm(x)));}
@@ -209,7 +211,15 @@ function assetType(text:string){const n=norm(text);
 }
 function amount(t:string){const m=t.match(/\b(\d+(?:[.,]\d+)?)\s*(?:M€|millions?\s+d['’]euros|millions?\s+€)\b/i);return m?m[0]:"";}
 function surface(t:string){const m=t.match(/\b([\d\s.,]{2,12})\s*m(?:²|2)\b/i);return m?m[0].replace(/\s+/g," ").trim():"";}
-function summary(title:string,window:string){const t=(title+". "+window).replace(/\s+/g," ").trim();return t.slice(0,520);}
+function summary(title:string,window:string){
+  let t=(window||"").replace(/\s+/g," ").trim();
+  if(title && t.toLowerCase().startsWith(title.toLowerCase())){
+    t=t.slice(title.length).replace(/^[.\s-]+/,"");
+  }
+  t=t.replace(/^Publi[eé]\s+par\s+[^|]{1,60}\|\s*\d{1,2}\s+[^ ]+\s+20\d{2}\s*/i,"");
+  const sentences=t.match(/[^.!?]+[.!?]+/g) || [t];
+  return sentences.slice(0,2).join(" ").replace(/\s+/g," ").trim().slice(0,420);
+}
 async function sha(s:string){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
 async function fetchResource(url:string,timeout=12000){
   const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),timeout);
@@ -269,7 +279,7 @@ async function processGroup(url:string,sources:Source[]){
     const matched=matchSources(doc,sources);
     if(!matched.length)continue;
     const d=getDate(doc); if(!fresh(d,doc.url))continue;
-    const fieldEvidence=doc.genericPage?(doc.title+" "+doc.url):(doc.title+" "+win);
+    const fieldEvidence=doc.genericPage?(doc.title+" "+doc.url):doc.text.slice(0,12000);
     const titleLoc=location(doc.title+" "+doc.url);
     const loc=(titleLoc.city||titleLoc.country)?titleLoc:location(fieldEvidence);
     const titleAsset=assetType(doc.title+" "+doc.url);
@@ -285,7 +295,7 @@ async function processGroup(url:string,sources:Source[]){
       items.push({
         fingerprint:fp,scpi_slug:s.slug,scpi_name:s.name,management_company:s.management_company,
         operation_type:"acquisition",asset_type:at,country:loc.country,city:loc.city,amount:amt,
-        surface:surf,title:doc.title.slice(0,220),summary:doc.genericPage?doc.title.slice(0,220):summary(doc.title,win),source_url:doc.url,
+        surface:surf,title:cleanTitle(doc.title).slice(0,220),summary:doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win),source_url:doc.url,
         source_type:doc.sourceType,source_official:true,published_date:d,detected_at:new Date().toISOString(),
         data_quality:(loc.city||loc.country)?"standard":"partial",editorial_priority:(loc.city||loc.country)?2:3,
         confidence:(loc.city||loc.country)?0.94:0.86,status:"published"
