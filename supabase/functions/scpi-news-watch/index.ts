@@ -353,7 +353,7 @@ Deno.serve(async(req:Request)=>{
     for(let j=0;j<results.length;j++){
       const [u,ss]=batch[j],r=results[j];detected+=r.items.length;
       if(r.items.length){
-        const up=await db.from("scpi_news_items").upsert(r.items,{onConflict:"fingerprint",ignoreDuplicates:false}).select("id");
+        const up=await db.from("scpi_news_items").upsert(r.items,{onConflict:"fingerprint",ignoreDuplicates:true}).select("id");
         if(up.error)r.errors.push(up.error.message);else inserted+=(up.data||[]).length;
       }
       for(const s of ss){
