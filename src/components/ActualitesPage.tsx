@@ -46,16 +46,18 @@ interface TrackedScpi {
   lastCheckedAt?: string | null;
   lastSuccessAt?: string | null;
   lastError?: string | null;
+  sourceUrl?: string;
 }
 
 /** Construit l'index des sources par nom de SCPI */
-const sourceByName = new Map<string, { slug: string; hasUrl: boolean; enabled: boolean }>();
+const sourceByName = new Map<string, { slug: string; hasUrl: boolean; enabled: boolean; sourceUrl: string }>();
 for (const s of sourcesJson as Array<{ slug: string; name: string; enabled: boolean; officialUrl: string; newsUrl: string; rssUrl: string }>) {
   if (!s.name) continue;
   sourceByName.set(s.name.toLowerCase(), {
     slug: s.slug,
     hasUrl: !!(s.officialUrl || s.newsUrl || s.rssUrl),
     enabled: s.enabled !== false,
+    sourceUrl: s.newsUrl || s.officialUrl || s.rssUrl || '',
   });
 }
 
@@ -74,7 +76,8 @@ const TRACKED_SCPIS: TrackedScpi[] = (() => {
     const hasSourceUrl = src?.hasUrl;
     const sourceActive = src ? src.enabled : false;
     const status: ScpiStatus = sourceActive && hasSourceUrl ? 'active' : 'incomplete';
-    list.push({ slug, name, managementCompany: company, status });
+    const sourceUrl = src?.sourceUrl || '';
+    list.push({ slug, name, managementCompany: company, status, sourceUrl });
   }
   return list;
 })();
@@ -545,7 +548,13 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                   key={scpi.slug}
                   scpi={scpi}
                   onClick={() => {
-                    if (scpi.count > 0) setSearchQuery(scpi.name);
+                    if (scpi.count > 0) {
+                      setSearchQuery(scpi.name);
+                      return;
+                    }
+                    if (scpi.sourceUrl) {
+                      window.open(scpi.sourceUrl, '_blank', 'noopener,noreferrer');
+                    }
                   }}
                 />
               ))}
@@ -778,7 +787,7 @@ const ScpiCard: React.FC<{
       ) : (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-gray-500 font-medium flex items-center gap-1 group-hover:text-gray-400 transition-colors">
-            Voir la veille
+            Ouvrir la source officielle
             <ArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-60 transition-opacity" />
           </span>
         </div>
