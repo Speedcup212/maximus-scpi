@@ -176,6 +176,47 @@ function createNewsArticleSlug(item: InvestmentNewsItem): string {
 }
 
 
+function buildDefaultPortfolioContext(item: InvestmentNewsItem): string {
+  const asset = ASSET_TYPE_LABELS[item.assetType]?.toLowerCase() || 'immobilier';
+  const place = item.country ? ` en ${item.country}` : item.city ? ` à ${item.city}` : '';
+  return `Cette acquisition ajoute au patrimoine de ${item.scpi} une exposition ${asset}${place}. Son impact réel sur la diversification dépend toutefois du poids de l'actif par rapport à la capitalisation et aux autres immeubles du portefeuille : le nombre d'actifs ne suffit pas, à lui seul, à mesurer la diversification économique de la SCPI.`;
+}
+
+function buildDefaultAnalysis(item: InvestmentNewsItem): string {
+  const parts: string[] = [];
+  if (item.yieldAem) {
+    parts.push(`Le rendement AEM communiqué (${item.yieldAem}) mesure le rapport entre les loyers contractuels et le coût d'acquisition de l'actif ; il ne doit pas être confondu avec le taux de distribution futur de la SCPI.`);
+  }
+  if (item.leaseDuration) {
+    parts.push(`La durée ferme résiduelle de ${item.leaseDuration} apporte une indication sur la visibilité contractuelle, sans supprimer le risque de défaut du locataire, de vacance future ou de renégociation du loyer.`);
+  }
+  if (item.tenant) {
+    parts.push(`La qualité financière de ${item.tenant} et sa capacité à honorer le bail restent donc des éléments centraux de l'analyse.`);
+  }
+  if (!parts.length) {
+    parts.push(`L'opération doit être appréciée au-delà du seul prix d'acquisition : emplacement, qualité du locataire, durée du bail, niveau de loyer et capacité de relocation sont les principaux déterminants de la résilience locative de l'actif.`);
+  }
+  return parts.join(' ');
+}
+
+function buildWatchPoints(item: InvestmentNewsItem): string[] {
+  const common = [
+    'la qualité financière du locataire et la régularité du paiement des loyers',
+    'la durée ferme du bail et les prochaines échéances de sortie',
+    'la liquidité et la profondeur du marché immobilier local',
+  ];
+  const byType: Partial<Record<AssetType, string[]>> = {
+    hotellerie: ['le niveau d’activité de l’établissement et la structure fixe ou variable du loyer', 'la dépendance aux flux touristiques et professionnels'],
+    logistique: ['l’adéquation technique de l’actif aux usages logistiques futurs', 'la qualité des accès routiers et du bassin de consommation'],
+    commerce: ['la fréquentation de la zone de chalandise', 'la solidité de l’enseigne et le niveau du loyer par rapport au marché'],
+    bureaux: ['le risque de vacance et l’adéquation du bâtiment aux nouveaux usages', 'la performance énergétique et le coût potentiel de remise à niveau'],
+    sante: ['la solidité de l’exploitant', 'les contraintes réglementaires propres à l’activité de santé'],
+    residentiel_gere: ['le taux d’occupation de l’exploitant', 'le niveau de loyer et les contraintes réglementaires locales'],
+  };
+  return [...common, ...(byType[item.assetType] || [])].slice(0, 5);
+}
+
+
 interface ActualitesPageProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
@@ -935,19 +976,31 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                       </section>
                     )}
 
-                    {!!selectedArticle.portfolioContext && (
-                      <section>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Ce que l'acquisition change dans le portefeuille</h3>
-                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.portfolioContext}</p>
-                      </section>
-                    )}
+                    <section>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Ce que l'acquisition change dans le portefeuille</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-7">
+                        {selectedArticle.portfolioContext || buildDefaultPortfolioContext(selectedArticle)}
+                      </p>
+                    </section>
 
-                    {!!selectedArticle.maximusAnalysis && (
-                      <section className="rounded-xl border border-emerald-500/20 bg-emerald-50/60 dark:bg-emerald-950/20 p-5 sm:p-6">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Lecture MaximusSCPI</h3>
-                        <p className="text-gray-700 dark:text-gray-300 leading-7">{selectedArticle.maximusAnalysis}</p>
-                      </section>
-                    )}
+                    <section className="rounded-xl border border-emerald-500/20 bg-emerald-50/60 dark:bg-emerald-950/20 p-5 sm:p-6">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Lecture MaximusSCPI</h3>
+                      <p className="text-gray-700 dark:text-gray-300 leading-7">
+                        {selectedArticle.maximusAnalysis || buildDefaultAnalysis(selectedArticle)}
+                      </p>
+                    </section>
+
+                    <section>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Points à surveiller</h3>
+                      <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+                        {buildWatchPoints(selectedArticle).map((point) => (
+                          <li key={point} className="flex items-start gap-2 leading-7">
+                            <span className="mt-3 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
 
                     <section>
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Les chiffres à retenir</h3>
