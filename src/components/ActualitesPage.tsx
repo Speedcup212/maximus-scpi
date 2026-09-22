@@ -425,6 +425,12 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     [enrichedScpis, selectedWatchSlug],
   );
 
+  useEffect(() => {
+    if (selectedWatchScpi) {
+      setSearchQuery(selectedWatchScpi.name);
+    }
+  }, [selectedWatchScpi?.slug]);
+
   const openWatchDetail = (scpi: TrackedScpi & { count: number; latest: InvestmentNewsItem | null; status: ScpiStatus }) => {
     setSelectedWatchSlug(scpi.slug);
     setSearchQuery(scpi.count > 0 ? scpi.name : '');
@@ -498,11 +504,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               </div>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
-              Derniers investissements immobiliers des SCPI
+              {selectedWatchScpi
+                ? `Actualités et acquisitions de ${selectedWatchScpi.name}`
+                : 'Derniers investissements immobiliers des SCPI'}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
-              Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI,
-              avec une lecture claire par société, secteur et localisation.
+              {selectedWatchScpi
+                ? `Veille immobilière mise à jour automatiquement à partir des sources officielles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}.`
+                : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI, avec une lecture claire par société, secteur et localisation.'}
             </p>
           </div>
         </section>
@@ -701,7 +710,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium transition-colors"
                       >
-                        Source officielle
+                        Voir la source officielle
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
@@ -761,7 +770,9 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           <section>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                {searchQuery
+                {selectedWatchScpi
+                  ? `Acquisitions de ${selectedWatchScpi.name}`
+                  : searchQuery
                   ? `Résultats pour "${searchQuery}"`
                   : activeFilter !== 'all'
                   ? ASSET_TYPE_LABELS[activeFilter]
@@ -778,10 +789,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               <div className="text-center py-16">
                 <Newspaper className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-500 dark:text-gray-400">
-                  Aucun investissement récent n'a encore été détecté dans les sources suivies.
+                  {selectedWatchScpi
+                    ? `Aucune acquisition récente n'a été détectée pour ${selectedWatchScpi.name}.`
+                    : "Aucun investissement récent n'a encore été détecté dans les sources suivies."}
                 </p>
                 <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
-                  Les acquisitions officiellement identifiées apparaîtront ici avec la SCPI concernée, le type d'actif, la localisation et la source.
+                  {selectedWatchScpi
+                    ? 'La veille automatique continue de contrôler les sources officielles.'
+                    : 'Les acquisitions officiellement identifiées apparaîtront ici avec la SCPI concernée, le type d’actif, la localisation et la source.'}
                 </p>
               </div>
             ) : (
@@ -1010,7 +1025,7 @@ const InvestmentRow: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
           {item.sourceUrl && (
             <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-medium">
               <ExternalLink className="w-3.5 h-3.5" />
-              Source officielle
+              Voir la source officielle
             </a>
           )}
         </div>
@@ -1019,12 +1034,12 @@ const InvestmentRow: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-3">
         <DetailBadge label="SCPI" value={item.scpi} />
         <DetailBadge label="Société de gestion" value={item.managementCompany} />
-        <DetailBadge label="Ville" value={item.city} icon={MapPin} />
-        <DetailBadge label="Pays" value={item.country} />
-        {item.amount !== 'Non communiqué' && <DetailBadge label="Montant" value={item.amount} />}
-        {item.surface !== 'Non communiqué' && <DetailBadge label="Surface" value={item.surface} />}
-        {item.tenant !== 'Non communiqué' && <DetailBadge label="Locataire" value={item.tenant} />}
-        {item.leaseDuration !== 'Non communiqué' && <DetailBadge label="Durée de bail" value={item.leaseDuration} />}
+        {!!item.city && <DetailBadge label="Ville" value={item.city} icon={MapPin} />}
+        {!!item.country && <DetailBadge label="Pays" value={item.country} />}
+        {!!item.amount && item.amount !== 'Non communiqué' && <DetailBadge label="Montant" value={item.amount} />}
+        {!!item.surface && item.surface !== 'Non communiqué' && <DetailBadge label="Surface" value={item.surface} />}
+        {!!item.tenant && item.tenant !== 'Non communiqué' && <DetailBadge label="Locataire" value={item.tenant} />}
+        {!!item.leaseDuration && item.leaseDuration !== 'Non communiqué' && <DetailBadge label="Durée de bail" value={item.leaseDuration} />}
       </div>
 
       {item.summary && (
