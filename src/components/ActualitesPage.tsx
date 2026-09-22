@@ -171,6 +171,12 @@ function formatWatchDate(dateStr?: string | null): string {
   }
 }
 
+function createNewsArticleSlug(item: InvestmentNewsItem): string {
+  const base = createSlugFromName(item.title || 'actualite-scpi');
+  return `${item.date || 'actualite'}-${base.slice(0, 90)}`;
+}
+
+
 interface ActualitesPageProps {
   isDarkMode: boolean;
   toggleTheme: () => void;
@@ -209,6 +215,10 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   const [newsItems, setNewsItems] = useState<InvestmentNewsItem[]>(ALL_NEWS);
   const [selectedWatchSlug, setSelectedWatchSlug] = useState<string | null>(() => {
     const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
+    return match ? decodeURIComponent(match[1]) : null;
+  });
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState<string | null>(() => {
+    const match = window.location.pathname.match(/^\/actualites\/[^/?#]+\/([^/?#]+)/i);
     return match ? decodeURIComponent(match[1]) : null;
   });
   const [liveSources, setLiveSources] = useState<Record<string, {
@@ -295,8 +305,10 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   // Synchronise le détail interne avec l'URL /actualites/<slug> et les boutons précédent/suivant.
   useEffect(() => {
     const syncWatchFromUrl = () => {
-      const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
-      setSelectedWatchSlug(match ? decodeURIComponent(match[1]) : null);
+      const watchMatch = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
+      const articleMatch = window.location.pathname.match(/^\/actualites\/[^/?#]+\/([^/?#]+)/i);
+      setSelectedWatchSlug(watchMatch ? decodeURIComponent(watchMatch[1]) : null);
+      setSelectedArticleSlug(articleMatch ? decodeURIComponent(articleMatch[1]) : null);
     };
     window.addEventListener('popstate', syncWatchFromUrl);
     return () => window.removeEventListener('popstate', syncWatchFromUrl);
@@ -425,11 +437,50 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     [enrichedScpis, selectedWatchSlug],
   );
 
+  const selectedArticle = useMemo(
+    () =>
+      newsItems.find(
+        (item) =>
+          createSlugFromName(item.scpi) === selectedWatchSlug &&
+          createNewsArticleSlug(item) === selectedArticleSlug,
+      ) || null,
+    [newsItems, selectedWatchSlug, selectedArticleSlug],
+  );
+
   useEffect(() => {
     if (selectedWatchScpi) {
       setSearchQuery(selectedWatchScpi.name);
     }
   }, [selectedWatchScpi?.slug]);
+
+  const openNewsArticle = (item: InvestmentNewsItem) => {
+    const scpiSlug = createSlugFromName(item.scpi);
+    const articleSlug = createNewsArticleSlug(item);
+    setSelectedWatchSlug(scpiSlug);
+    setSelectedArticleSlug(articleSlug);
+    setSearchQuery(item.scpi);
+    window.history.pushState(
+      { scpiWatch: scpiSlug, newsArticle: articleSlug },
+      '',
+      `/actualites/${scpiSlug}/${articleSlug}`,
+    );
+    window.setTimeout(() => {
+      document.getElementById('news-article-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  };
+
+  const closeNewsArticle = () => {
+    if (selectedWatchScpi) {
+      setSelectedArticleSlug(null);
+      window.history.pushState({ scpiWatch: selectedWatchScpi.slug }, '', `/actualites/${selectedWatchScpi.slug}`);
+      window.setTimeout(() => {
+        document.getElementById('scpi-watch-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 25);
+      return;
+    }
+    setSelectedArticleSlug(null);
+    window.history.pushState({}, '', '/actualites');
+  };
 
   const openWatchDetail = (scpi: TrackedScpi & { count: number; latest: InvestmentNewsItem | null; status: ScpiStatus }) => {
     setSelectedWatchSlug(scpi.slug);
@@ -442,6 +493,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 
   const closeWatchDetail = () => {
     setSelectedWatchSlug(null);
+    setSelectedArticleSlug(null);
     setSearchQuery('');
     window.history.pushState({}, '', '/actualites');
   };
@@ -459,18 +511,24 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     <>
       <SEOHead
         title={
-          selectedWatchScpi
+          selectedArticle
+            ? `${selectedArticle.title} | MaximusSCPI`
+            : selectedWatchScpi
             ? `Actualités et acquisitions ${selectedWatchScpi.name} | MaximusSCPI`
             : 'Derniers investissements immobiliers des SCPI | MaximusSCPI'
         }
         description={
-          selectedWatchScpi
+          selectedArticle
+            ? selectedArticle.summary
+            : selectedWatchScpi
             ? `Suivez la veille des acquisitions et investissements immobiliers de la SCPI ${selectedWatchScpi.name}, avec les sources officielles contrôlées par MaximusSCPI.`
             : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI. Lecture claire par société, secteur et localisation.'
         }
         keywords={['investissements SCPI', 'acquisitions SCPI', 'immeubles SCPI', 'actualité immobilière SCPI']}
         canonical={
-          selectedWatchScpi
+          selectedArticle && selectedWatchScpi
+            ? `https://maximusscpi.com/actualites/${selectedWatchScpi.slug}/${createNewsArticleSlug(selectedArticle)}/`
+            : selectedWatchScpi
             ? `https://maximusscpi.com/actualites/${selectedWatchScpi.slug}/`
             : 'https://maximusscpi.com/actualites/'
         }
@@ -504,12 +562,16 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               </div>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
-              {selectedWatchScpi
+              {selectedArticle
+                ? selectedArticle.title
+                : selectedWatchScpi
                 ? `Actualités et acquisitions de ${selectedWatchScpi.name}`
                 : 'Derniers investissements immobiliers des SCPI'}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
-              {selectedWatchScpi
+              {selectedArticle
+                ? `${selectedArticle.scpi} · ${formatDate(selectedArticle.date)} · article MaximusSCPI`
+                : selectedWatchScpi
                 ? `Veille immobilière mise à jour automatiquement à partir des sources officielles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}.`
                 : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI, avec une lecture claire par société, secteur et localisation.'}
             </p>
@@ -760,9 +822,114 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {featured.map((item, idx) => (
-                  <InvestmentCard key={item.id || idx} item={item} />
+                  <InvestmentCard key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
                 ))}
               </div>
+            </section>
+          )}
+
+          {selectedArticle && (
+            <section id="news-article-detail" className="mb-12 scroll-mt-24">
+              <article className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-lg">
+                <div className="p-6 sm:p-8 lg:p-10">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-5">
+                    <button
+                      type="button"
+                      onClick={closeNewsArticle}
+                      className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                    >
+                      Actualités {selectedArticle.scpi}
+                    </button>
+                    <span>›</span>
+                    <span>{formatDate(selectedArticle.date)}</span>
+                    <span>›</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">Article MaximusSCPI</span>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3 mb-5">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${ASSET_COLORS[selectedArticle.assetType] || ASSET_COLORS.autre_immobilier}`}>
+                      {React.createElement(ASSET_TYPE_ICON_MAP[selectedArticle.assetType] || Building, { className: 'w-3.5 h-3.5' })}
+                      {ASSET_TYPE_LABELS[selectedArticle.assetType]}
+                    </span>
+                    {!!selectedArticle.city && (
+                      <span className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+                        <MapPin className="w-4 h-4" />
+                        {selectedArticle.city}{selectedArticle.country ? `, ${selectedArticle.country}` : ''}
+                      </span>
+                    )}
+                    <span className="inline-flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+                      <Calendar className="w-4 h-4" />
+                      {formatDate(selectedArticle.date)}
+                    </span>
+                  </div>
+
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+                    {selectedArticle.title}
+                  </h2>
+
+                  <p className="mt-5 text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-300">
+                    {selectedArticle.summary}
+                  </p>
+
+                  <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <DetailBadge label="SCPI" value={selectedArticle.scpi} />
+                    <DetailBadge label="Société de gestion" value={selectedArticle.managementCompany} />
+                    {!!selectedArticle.amount && <DetailBadge label="Montant" value={selectedArticle.amount} />}
+                    {!!selectedArticle.surface && <DetailBadge label="Surface" value={selectedArticle.surface} />}
+                    {!!selectedArticle.tenant && <DetailBadge label="Locataire" value={selectedArticle.tenant} />}
+                    {!!selectedArticle.leaseDuration && <DetailBadge label="Durée de bail" value={selectedArticle.leaseDuration} />}
+                    {!!selectedArticle.city && <DetailBadge label="Ville" value={selectedArticle.city} icon={MapPin} />}
+                    {!!selectedArticle.country && <DetailBadge label="Pays" value={selectedArticle.country} />}
+                  </div>
+
+                  <div className="mt-9 border-t border-gray-100 dark:border-gray-700 pt-8">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                      L'opération en bref
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300 leading-7">
+                      Cette opération concerne un actif de type {ASSET_TYPE_LABELS[selectedArticle.assetType]?.toLowerCase() || 'immobilier'}
+                      {selectedArticle.city ? ` situé à ${selectedArticle.city}` : ''}
+                      {selectedArticle.country ? `, en ${selectedArticle.country}` : ''}.
+                      {selectedArticle.amount ? ` Le montant communiqué est de ${selectedArticle.amount}.` : ''}
+                      {selectedArticle.surface ? ` La surface annoncée est de ${selectedArticle.surface}.` : ''}
+                      {selectedArticle.tenant ? ` Le locataire identifié est ${selectedArticle.tenant}.` : ''}
+                      {selectedArticle.leaseDuration ? ` La durée de bail communiquée est de ${selectedArticle.leaseDuration}.` : ''}
+                    </p>
+                  </div>
+
+                  <div className="mt-8 rounded-xl border border-emerald-500/15 bg-emerald-50/60 dark:bg-emerald-950/20 p-5">
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-2">À retenir</h3>
+                    <p className="text-sm leading-6 text-gray-700 dark:text-gray-300">
+                      MaximusSCPI publie ici une synthèse factuelle de l'opération afin de centraliser la veille immobilière de la SCPI.
+                      La source officielle a été vérifiée et reste enregistrée dans notre base de veille.
+                    </p>
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {onScpiPageClick && (
+                      <button
+                        type="button"
+                        onClick={() => onScpiPageClick(createSlugFromName(selectedArticle.scpi))}
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
+                      >
+                        <Building2 className="w-4 h-4" />
+                        Voir la fiche {selectedArticle.scpi}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={closeNewsArticle}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium transition-colors"
+                    >
+                      Retour aux acquisitions
+                    </button>
+                  </div>
+
+                  <p className="mt-7 text-xs italic text-gray-400 dark:text-gray-500">
+                    Information factuelle issue d'une source officielle vérifiée par MaximusSCPI. Ne constitue pas une recommandation d'investissement.
+                  </p>
+                </div>
+              </article>
             </section>
           )}
 
@@ -802,7 +969,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             ) : (
               <div className="grid grid-cols-1 gap-6">
                 {searchedDisplayable.map((item, idx) => (
-                  <InvestmentRow key={item.id || idx} item={item} />
+                  <InvestmentRow key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
                 ))}
               </div>
             )}
@@ -965,7 +1132,7 @@ const ScpiCard: React.FC<{
 /*  Cartes d'investissement (conservées)                               */
 /* ------------------------------------------------------------------ */
 
-const InvestmentCard: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
+const InvestmentCard: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }> = ({ item, onOpen }) => {
   const AssetIcon = ASSET_TYPE_ICON_MAP[item.assetType] || Building;
   const colorClass = ASSET_COLORS[item.assetType] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
 
@@ -991,19 +1158,21 @@ const InvestmentCard: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
             <Calendar className="w-3 h-3" />
             {formatDate(item.date)}
           </span>
-          {item.sourceUrl && (
-            <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1">
-              <ExternalLink className="w-3 h-3" />
-              Source
-            </a>
-          )}
+          <button
+            type="button"
+            onClick={onOpen}
+            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+          >
+            Lire l'article
+            <ArrowUpRight className="w-3 h-3" />
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-const InvestmentRow: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
+const InvestmentRow: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }> = ({ item, onOpen }) => {
   const AssetIcon = ASSET_TYPE_ICON_MAP[item.assetType] || Building;
   const colorClass = ASSET_COLORS[item.assetType] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
 
@@ -1015,19 +1184,27 @@ const InvestmentRow: React.FC<{ item: InvestmentNewsItem }> = ({ item }) => {
             <AssetIcon className="w-3.5 h-3.5" />
             {ASSET_TYPE_LABELS[item.assetType]}
           </span>
-          <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{item.title}</h3>
+          <button
+            type="button"
+            onClick={onOpen}
+            className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base text-left hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+          >
+            {item.title}
+          </button>
         </div>
         <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">
           <span className="flex items-center gap-1">
             <Calendar className="w-3.5 h-3.5" />
             {formatDate(item.date)}
           </span>
-          {item.sourceUrl && (
-            <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-medium">
-              <ExternalLink className="w-3.5 h-3.5" />
-              Voir la source officielle
-            </a>
-          )}
+          <button
+            type="button"
+            onClick={onOpen}
+            className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
+          >
+            Lire l'article
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
 
