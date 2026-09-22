@@ -97,10 +97,10 @@ create policy "public_read_scpi_news_items"
   using (status='published' and editorial_priority > 0 and data_quality <> 'weak');
 
 drop policy if exists "public_read_scpi_news_runs" on public.scpi_news_runs;
-create policy "public_read_scpi_news_runs"
-  on public.scpi_news_runs for select to anon, authenticated using (true);
+revoke all on table public.scpi_news_runs from anon, authenticated;
+revoke all on table public.scpi_news_runtime_config from anon, authenticated;
 
-do $$
+do $
 declare
   v_token text;
   v_hash text;
