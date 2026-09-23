@@ -382,6 +382,10 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
   const watchPoints = useMemo(() => {
     const items: string[] = [];
 
+    for (const warning of scpi.maximusWarnings || []) {
+      if (warning && !items.includes(warning)) items.push(warning);
+    }
+
     if (age != null && age < 3) {
       items.push(`Historique court : SCPI créée en ${scpi.creation}.`);
     }
@@ -521,6 +525,16 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
                 ))}
               </div>
             </div>
+
+            {scpi.liquidite && (
+              <div className="rounded-2xl border border-sky-400/20 bg-sky-400/[0.07] p-5">
+                <div className="flex items-center gap-2 text-sky-200 font-semibold">
+                  <Landmark className="h-5 w-5" />
+                  Liquidité / marché des parts
+                </div>
+                <p className="mt-2 text-sm text-slate-300 leading-relaxed">{scpi.liquidite}</p>
+              </div>
+            )}
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="rounded-3xl border border-emerald-400/20 bg-emerald-400/[0.07] p-6">
