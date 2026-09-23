@@ -47,6 +47,52 @@ function repartitionToRecord(
   return out;
 }
 
+function formatFees(value: number | null | undefined): string {
+  if (value === 0) return '0%';
+  return formatPercent(value);
+}
+
+function buildLiveShortDescription(scpi: Scpi): string {
+  const parts = [
+    `SCPI gérée par ${scpi.company || 'sa société de gestion'}`,
+    Number.isFinite(scpi.yield) ? `taux de distribution ${formatPercent(scpi.yield)}` : null,
+    Number.isFinite(scpi.tof) ? `TOF ${formatPercent(scpi.tof)}` : null,
+    Number.isFinite(scpi.capitalization) ? `capitalisation ${formatCurrency(scpi.capitalization)}` : null,
+  ].filter(Boolean);
+
+  return parts.join(' · ') + '.';
+}
+
+function enrichEditorialWithLive(editorial: ScpiLandingData, scpi?: Scpi): ScpiLandingData {
+  if (!scpi) return editorial;
+
+  const liveGeo = repartitionToRecord(scpi.repartitionGeo);
+  const liveSectors = repartitionToRecord(scpi.repartitionSector);
+
+  return {
+    ...editorial,
+    nom: scpi.name,
+    slug: createSlugFromName(scpi.name),
+    h1_question: `SCPI ${scpi.name} : analyse, rendement et points de vigilance`,
+    societe_gestion: scpi.company || editorial.societe_gestion,
+    annee_creation: scpi.creation || editorial.annee_creation,
+    label_isr: !!scpi.isr,
+    capitalisation: formatCurrency(scpi.capitalization),
+    prix_souscription: formatCurrency(scpi.price),
+    rendement: formatPercent(scpi.yield),
+    tof: formatPercent(scpi.tof),
+    decote: formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution)),
+    endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : editorial.endettement,
+    frais_souscription: formatFees(scpi.fees),
+    frequence_versement: scpi.versementLoyers || editorial.frequence_versement,
+    geographie: Object.keys(liveGeo).length ? liveGeo : editorial.geographie,
+    secteurs: Object.keys(liveSectors).length ? liveSectors : editorial.secteurs,
+    avantages: buildFactualAdvantages(scpi),
+    points_attention: buildFactualWarnings(scpi),
+    description_courte: buildLiveShortDescription(scpi),
+  };
+}
+
 /** Avantages strictement factuels (aucun argument marketing non sourcé). */
 function buildFactualAdvantages(scpi: Scpi): string[] {
   const out: string[] = [];
@@ -103,12 +149,18 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   // 1. Fiche éditoriale par clé directe (avec/sans préfixe scpi-).
   for (const v of variants) {
     const direct = scpiLandingPages[v];
-    if (direct) return { data: direct, isEditorial: true };
+    if (direct) {
+      const live = findScpiBySlug(direct.slug);
+      return { data: enrichEditorialWithLive(direct, live), isEditorial: true };
+    }
   }
 
   // 2. Fiche éditoriale par slug.
   const bySlug = Object.values(scpiLandingPages).find((d) => variants.includes(d.slug));
-  if (bySlug) return { data: bySlug, isEditorial: true };
+  if (bySlug) {
+    const live = findScpiBySlug(bySlug.slug);
+    return { data: enrichEditorialWithLive(bySlug, live), isEditorial: true };
+  }
 
   // 3. Génération depuis les données live (slug normalisé sans préfixe scpi-).
   const scpi = findScpiBySlug(scpiKey);
@@ -118,22 +170,22 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   const generated: ScpiLandingData = {
     nom: scpi.name,
     slug: createSlugFromName(scpi.name),
-    h1_question: `SCPI ${scpi.name}`,
+    h1_question: `SCPI ${scpi.name} : analyse, rendement et points de vigilance`,
     societe_gestion: scpi.company || NA,
     annee_creation: scpi.creation || 0,
     label_isr: !!scpi.isr,
     capitalisation: formatCurrency(scpi.capitalization),
-    prix_souscription: formatCurrency(scpi.minInvest),
+    prix_souscription: formatCurrency(scpi.price),
     rendement: formatPercent(scpi.yield),
     tof: formatPercent(scpi.tof),
     decote: formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution)),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : NA,
-    frais_souscription: typeof scpi.fees === 'number' ? formatPercent(scpi.fees) : NA,
+    frais_souscription: typeof scpi.fees === 'number' ? formatFees(scpi.fees) : NA,
     frequence_versement: scpi.versementLoyers || undefined,
     geographie: repartitionToRecord(scpi.repartitionGeo),
     secteurs: repartitionToRecord(scpi.repartitionSector),
     avantages: buildFactualAdvantages(scpi),
-    description_courte: `${scpi.name} est gérée par ${scpi.company || 'sa société de gestion'}. ${yq.label}.`,
+    description_courte: buildLiveShortDescription(scpi),
     description_longue: '',
     pourquoi_investir: [],
     points_attention: buildFactualWarnings(scpi),
