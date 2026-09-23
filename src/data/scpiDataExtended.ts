@@ -693,8 +693,8 @@ const baseSCPIData: SCPIExtended[] = [
     "minInvestment": 5000,
     "category": "Diversifiée",
     "managementCompany": "Alderan",
-    "tof": 99.5,
-    "capitalization": "652.0M€",
+    "tof": 99.6,
+    "capitalization": "787.0M€",
     "sectors": [
       {
         "name": "Commerce",
@@ -755,8 +755,8 @@ const baseSCPIData: SCPIExtended[] = [
         "value": 2.7
       }
     ],
-    "reconstitutionValue": 253.83,
-    "discount": -1.51,
+    "reconstitutionValue": 254.73,
+    "discount": -1.86,
     "discountQaStatus": "publishable",
     "ranDays": 86,
     "ltv": 0,
