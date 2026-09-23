@@ -1661,7 +1661,7 @@ const App: React.FC = () => {
   };
 
   const handleProClick = () => {
-    navigateToView('pro-login', '/pro/login');
+    navigateToView('professionnels', '/professionnels');
   };
 
   const handleEducationClick = (categoryId: string) => {
