@@ -36,8 +36,10 @@ const createNoPrefixSlug = (name) => {
 };
 
 // Une seule URL canonique par SCPI : /{slug}/.
-// Les variantes sans slash et les anciens slugs préfixés redirigent directement
-// vers la canonique afin d'éviter toute duplication /slug ↔ /slug/.
+// Netlify normalise le trailing slash AVANT les redirects : il ne faut jamais
+// créer une règle /slug -> /slug/, sous peine de boucle infinie.
+// Pretty URLs gère automatiquement /slug -> /slug/.
+// On ne redirige ici que les anciens slugs préfixés /scpi-{slug}.
 const buildScpiCanonicalRedirects = () => {
   const seen = new Set();
   const lines = [];
@@ -47,9 +49,7 @@ const buildScpiCanonicalRedirects = () => {
     const noPrefix = createNoPrefixSlug(name);
     if (!noPrefix || seen.has(noPrefix)) continue;
     seen.add(noPrefix);
-    lines.push(`/${noPrefix} /${noPrefix}/ 301!`);
     lines.push(`/scpi-${noPrefix} /${noPrefix}/ 301!`);
-    lines.push(`/scpi-${noPrefix}/ /${noPrefix}/ 301!`);
   }
   return lines.join('\n');
 };
@@ -86,16 +86,9 @@ const generateRedirects = () => {
 /preparer-retraite-scpi /scpi-retraite/ 301
 /preparer-retraite-scpi/ /scpi-retraite/ 301
 
-# Redirections 301 slash final pour les pages sectorielles (sans slash → avec slash)
-/scpi-bureaux /scpi-bureaux/ 301
-/scpi-sante /scpi-sante/ 301
-/scpi-commerces /scpi-commerces/ 301
-/scpi-diversifiees /scpi-diversifiees/ 301
-/scpi-logistique /scpi-logistique/ 301
-/scpi-residentiel /scpi-residentiel/ 301
-/scpi-hotellerie /scpi-hotellerie/ 301
-/scpi-france /scpi-france/ 301
-/comprendre-les-scpi /comprendre-les-scpi/ 301
+# Trailing slash : géré nativement par Netlify Pretty URLs.
+# Ne pas ajouter ici de redirection /page -> /page/ : Netlify normalise les deux
+# formes avant l'évaluation des règles et créerait une boucle.
 
 # Redirections 301 education/ → articles/ (avec slash → avec slash)
 /education/:slug/ /articles/:slug/ 301
@@ -156,14 +149,12 @@ const generateRedirects = () => {
 /scpi-hotellerie /index.html 200
 /scpi-france /index.html 200
 
-# Pages SCPI individuelles : une seule URL canonique /{slug}/
-# - /{slug} → /{slug}/
-# - /scpi-{slug} et /scpi-{slug}/ → /{slug}/
+# Pages SCPI individuelles : URL canonique /{slug}/
+# Pretty URLs gère le slash final ; seules les anciennes routes /scpi-* redirigent.
 ${buildScpiCanonicalRedirects()}
 
 # Ancienne page spéciale Iroko Zen supprimée du build
 /scpi-iroko-zen-iroko /iroko-zen/ 301!
-/scpi-iroko-zen-iroko/ /iroko-zen/ 301!
 
 # .html racine → dossier canonique (anti-duplication SEO)
 /comprendre-les-scpi.html /comprendre-les-scpi/ 301
