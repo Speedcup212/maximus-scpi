@@ -755,16 +755,22 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
             ) : (
-              <button
-                onClick={() => {
+              <a
+                href="/professionnels"
+                onClick={(e) => {
                   resetAllHeaderStates();
-                  if (onProClick) onProClick();
+                  if (onProClick) {
+                    e.preventDefault();
+                    onProClick();
+                  }
                 }}
-                className="border border-emerald-500 text-emerald-400 hover:bg-emerald-500/10 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap"
-                aria-label="Espace Pro"
+                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 cursor-pointer whitespace-nowrap"
+                aria-label="Accéder aux espaces professionnels"
               >
-                Espace Pro
-              </button>
+                <User className="w-4 h-4" aria-hidden="true" />
+                <span>Espace Pro</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </a>
             )}
         </div>
       </div>
@@ -1214,15 +1220,22 @@ const Header: React.FC<HeaderProps> = ({
 
             {/* Espace Pro Mobile */}
             <div className="px-4 pt-2 border-t border-gray-200 dark:border-gray-800">
-              <button
-                onClick={() => {
+              <a
+                href="/professionnels"
+                onClick={(e) => {
                   resetAllHeaderStates();
-                  if (onProClick) onProClick();
+                  if (onProClick) {
+                    e.preventDefault();
+                    onProClick();
+                  }
                 }}
-                className="w-full flex items-center justify-center py-3 border border-emerald-500 text-emerald-400 font-medium rounded-lg hover:bg-emerald-500/10 transition-all touch-manipulation"
+                className="w-full min-h-12 flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-white font-semibold shadow-sm transition-all hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 touch-manipulation cursor-pointer"
+                aria-label="Accéder aux espaces professionnels"
               >
-                Espace Pro
-              </button>
+                <User className="w-4 h-4" aria-hidden="true" />
+                <span>Espace Pro</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </a>
             </div>
           </div>
         )}
