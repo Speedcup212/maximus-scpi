@@ -24,6 +24,7 @@ import scpiCompleteJson from '../data/SCPI_complet_avec_SFDR_Profil.json';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import LoadingSpinner from './LoadingSpinner';
+import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import { submitLead } from '../utils/leadSubmitter';
 
 const FintechComparator = lazy(() => import('./fintech/FintechComparator'));
@@ -461,7 +462,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
 
   // Verdict éditorial uniquement : pour les fiches générées (SCPI sans contenu
   // rédigé), on masque le bloc afin de ne jamais publier d'argument non sourcé.
-  const verdict = isEditorial ? getExpertVerdict() : null;
+  // Le verdict historique est remplacé par ScpiPremiumAnalysis, commun aux 64 fiches.
+  const verdict = null;
 
   // Canonical SANS préfixe (URL officielle de la fiche), quelle que soit l'URL
   // d'arrivée (ex. /scpi-wemo-one redirigé 301 → /wemo-one).
@@ -518,7 +520,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                     <>
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution 2024</div>
+                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
                       </div>
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
@@ -838,7 +840,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Chiffres clés de performance</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Taux de distribution 2024</div>
+                    <div className="text-sm text-gray-600 mb-1">Taux de distribution</div>
                     <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{formatPercentage(realScpiData.yield)}</div>
                   </div>
                   <div className="bg-white rounded-lg p-6 shadow">
@@ -906,7 +908,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       <div className="text-sm text-gray-600">Ticket d'entrée minimum</div>
                     </div>
                     <div className={`text-2xl font-bold text-${colors.secondary}-600`}>
-                      {landingData.prix_souscription}
+                      {formatCurrency(realScpiData.minInvest)}
                     </div>
                   </div>
                   <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
@@ -930,6 +932,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
       </div>
+
+      {realScpiData && (
+        <ScpiPremiumAnalysis
+          scpi={realScpiData}
+          landingData={landingData}
+        />
+      )}
 
       {/* Simulateur de Revenus */}
       {landingData.simulator && (
