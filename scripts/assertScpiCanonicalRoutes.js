@@ -41,14 +41,21 @@ if (unique.size !== names.length) {
 
 for (const slug of unique) {
   const canonical = 'https://maximusscpi.com/' + slug + '/';
-  const rules = [
-    '/' + slug + ' /' + slug + '/ 301!',
-    '/scpi-' + slug + ' /' + slug + '/ 301!',
-    '/scpi-' + slug + '/ /' + slug + '/ 301!'
-  ];
+  const legacyRule = '/scpi-' + slug + ' /' + slug + '/ 301!';
 
-  for (const rule of rules) {
-    if (!redirects.includes(rule)) errors.push('Redirection manquante: ' + rule);
+  if (!redirects.includes(legacyRule)) {
+    errors.push('Redirection legacy manquante: ' + legacyRule);
+  }
+
+  // Netlify normalise le trailing slash avant les redirects.
+  // Toute règle /slug -> /slug/ (ou l'inverse) peut créer une boucle.
+  for (const line of redirects) {
+    const match = line.match(/^(\\S+)\\s+(\\S+)\\s+(301!?|302!?)$/);
+    if (!match) continue;
+    const normalize = (value) => value.length > 1 ? value.replace(/\/+$/, '') : value;
+    if (match[1] !== match[2] && normalize(match[1]) === normalize(match[2])) {
+      errors.push('Boucle trailing-slash potentielle: ' + line);
+    }
   }
 
   if (!sitemap.includes('<loc>' + canonical + '</loc>')) {
@@ -64,8 +71,7 @@ for (const slug of unique) {
 }
 
 for (const legacy of [
-  '/scpi-iroko-zen-iroko /iroko-zen/ 301!',
-  '/scpi-iroko-zen-iroko/ /iroko-zen/ 301!'
+  '/scpi-iroko-zen-iroko /iroko-zen/ 301!'
 ]) {
   if (!redirects.includes(legacy)) errors.push('Redirection legacy manquante: ' + legacy);
 }
