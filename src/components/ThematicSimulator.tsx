@@ -21,6 +21,18 @@ const ThematicSimulator: React.FC<ThematicSimulatorProps> = ({
   const [expectedYield, setExpectedYield] = useState<number>(defaultYield);
   const [investmentPeriod, setInvestmentPeriod] = useState<number>(10);
 
+  // Les fiches SCPI sont naviguées en SPA : resynchroniser le simulateur
+  // quand les valeurs par défaut de la SCPI changent.
+  useEffect(() => {
+    setInvestment(defaultInvestment);
+  }, [defaultInvestment]);
+
+  useEffect(() => {
+    setExpectedYield(defaultYield);
+  }, [defaultYield]);
+
+  const yieldMax = Math.max(12, Math.ceil(defaultYield) + 1);
+
   const annualIncome = (investment * expectedYield) / 100;
   const monthlyIncome = annualIncome / 12;
   const totalIncome10Years = annualIncome * 10;
@@ -101,7 +113,7 @@ const ThematicSimulator: React.FC<ThematicSimulatorProps> = ({
           <input
             type="range"
             min="3"
-            max="12"
+            max={yieldMax}
             step="0.1"
             value={expectedYield}
             onChange={(e) => setExpectedYield(Number(e.target.value))}
@@ -109,7 +121,7 @@ const ThematicSimulator: React.FC<ThematicSimulatorProps> = ({
           />
           <div className="flex justify-between text-xs text-gray-500 mt-1">
             <span>3%</span>
-            <span>12%</span>
+            <span>{yieldMax}%</span>
           </div>
         </div>
 

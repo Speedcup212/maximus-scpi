@@ -254,6 +254,11 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
   useEffect(() => {
     let cancelled = false;
 
+    // Important lors d'une navigation SPA d'une fiche SCPI à une autre :
+    // ne jamais conserver les actualités / le statut de veille de la fiche précédente.
+    setNews(localFallbackNews);
+    setWatchStatus({ status: null, lastSuccessAt: null });
+
     const loadNews = async () => {
       if (!supabase) return;
 
@@ -277,7 +282,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
 
         if (cancelled) return;
 
-        if (!newsResult.error && newsResult.data?.length) {
+        if (!newsResult.error && Array.isArray(newsResult.data)) {
           setNews(
             newsResult.data
               .map(mapNewsRow)
@@ -300,7 +305,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     return () => {
       cancelled = true;
     };
-  }, [slug]);
+  }, [slug, localFallbackNews]);
 
   const gap = valuationGap(scpi);
   const age = scpi.creation ? Math.max(0, new Date().getFullYear() - scpi.creation) : null;
