@@ -42,9 +42,9 @@ if (unique.size !== names.length) {
 for (const slug of unique) {
   const canonical = 'https://maximusscpi.com/' + slug + '/';
   const rules = [
-    '/' + slug + ' /' + slug + '/ 301',
-    '/scpi-' + slug + ' /' + slug + '/ 301',
-    '/scpi-' + slug + '/ /' + slug + '/ 301'
+    '/' + slug + ' /' + slug + '/ 301!',
+    '/scpi-' + slug + ' /' + slug + '/ 301!',
+    '/scpi-' + slug + '/ /' + slug + '/ 301!'
   ];
 
   for (const rule of rules) {
@@ -64,8 +64,8 @@ for (const slug of unique) {
 }
 
 for (const legacy of [
-  '/scpi-iroko-zen-iroko /iroko-zen/ 301',
-  '/scpi-iroko-zen-iroko/ /iroko-zen/ 301'
+  '/scpi-iroko-zen-iroko /iroko-zen/ 301!',
+  '/scpi-iroko-zen-iroko/ /iroko-zen/ 301!'
 ]) {
   if (!redirects.includes(legacy)) errors.push('Redirection legacy manquante: ' + legacy);
 }

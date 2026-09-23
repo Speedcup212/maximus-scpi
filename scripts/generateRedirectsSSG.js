@@ -47,9 +47,9 @@ const buildScpiCanonicalRedirects = () => {
     const noPrefix = createNoPrefixSlug(name);
     if (!noPrefix || seen.has(noPrefix)) continue;
     seen.add(noPrefix);
-    lines.push(`/${noPrefix} /${noPrefix}/ 301`);
-    lines.push(`/scpi-${noPrefix} /${noPrefix}/ 301`);
-    lines.push(`/scpi-${noPrefix}/ /${noPrefix}/ 301`);
+    lines.push(`/${noPrefix} /${noPrefix}/ 301!`);
+    lines.push(`/scpi-${noPrefix} /${noPrefix}/ 301!`);
+    lines.push(`/scpi-${noPrefix}/ /${noPrefix}/ 301!`);
   }
   return lines.join('\n');
 };
@@ -162,8 +162,8 @@ const generateRedirects = () => {
 ${buildScpiCanonicalRedirects()}
 
 # Ancienne page spéciale Iroko Zen supprimée du build
-/scpi-iroko-zen-iroko /iroko-zen/ 301
-/scpi-iroko-zen-iroko/ /iroko-zen/ 301
+/scpi-iroko-zen-iroko /iroko-zen/ 301!
+/scpi-iroko-zen-iroko/ /iroko-zen/ 301!
 
 # .html racine → dossier canonique (anti-duplication SEO)
 /comprendre-les-scpi.html /comprendre-les-scpi/ 301
