@@ -142,13 +142,13 @@ const mapNewsRow = (row: any): InvestmentNewsItem => ({
 });
 
 const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
-  const center = 150;
-  const radius = 96;
+  const center = 210;
+  const radius = 124;
   const angleStep = (Math.PI * 2) / axes.length;
 
-  const point = (index: number, value: number) => {
+  const point = (index: number, value: number, customRadius = radius) => {
     const angle = -Math.PI / 2 + angleStep * index;
-    const r = radius * (clamp(value) / 100);
+    const r = customRadius * (clamp(value) / 100);
     return {
       x: center + Math.cos(angle) * r,
       y: center + Math.sin(angle) * r,
@@ -170,18 +170,36 @@ const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
     })
     .join(' ');
 
+  const shortLabel = (label: string) => {
+    if (label === 'Diversif. géo') return ['Diversification', 'géographique'];
+    if (label === 'Diversif. secteurs') return ['Diversification', 'sectorielle'];
+    if (label === 'Structure fin.') return ['Structure', 'financière'];
+    return [label];
+  };
+
   return (
-    <div className="w-full max-w-[390px] mx-auto">
-      <svg viewBox="0 0 300 320" role="img" aria-label="Radar Maximus">
+    <div className="w-full max-w-[520px] mx-auto">
+      <svg viewBox="0 0 420 390" role="img" aria-label="Radar Maximus">
+        <defs>
+          <filter id="radarGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {[20, 40, 60, 80, 100].map((level) => (
           <polygon
             key={level}
             points={polygonFor(level)}
-            fill="none"
-            stroke="#cbd5e1"
-            strokeWidth={level === 100 ? 1.4 : 0.8}
+            fill={level === 100 ? 'rgba(15,23,42,0.28)' : 'none'}
+            stroke={level === 100 ? '#64748b' : '#475569'}
+            strokeWidth={level === 100 ? 1.8 : 1.1}
           />
         ))}
+
         {axes.map((_, index) => {
           const p = point(index, 100);
           return (
@@ -191,41 +209,58 @@ const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
               y1={center}
               x2={p.x}
               y2={p.y}
-              stroke="#cbd5e1"
-              strokeWidth="0.8"
+              stroke="#64748b"
+              strokeWidth="1.1"
             />
           );
         })}
+
         <polygon
           points={dataPolygon}
-          fill="rgba(15, 118, 110, 0.18)"
-          stroke="#0f766e"
-          strokeWidth="2.5"
+          fill="rgba(16, 185, 129, 0.24)"
+          stroke="#34d399"
+          strokeWidth="3.5"
+          filter="url(#radarGlow)"
         />
+
         {axes.map((axis, index) => {
           const p = point(index, axis.value ?? 0);
-          const labelPoint = point(index, 118);
+          const labelPoint = point(index, 100, 160);
+          const lines = shortLabel(axis.label);
+          const scoreY = labelPoint.y + (lines.length > 1 ? 16 : 13);
+
           return (
             <g key={axis.label}>
-              <circle cx={p.x} cy={p.y} r="4.5" fill="#0f766e" />
+              <circle cx={p.x} cy={p.y} r="6" fill="#5eead4" stroke="#ecfeff" strokeWidth="1.6" />
+
               <text
                 x={labelPoint.x}
-                y={labelPoint.y}
+                y={labelPoint.y - (lines.length > 1 ? 6 : 0)}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize="9.5"
+                fontSize="12.5"
                 fontWeight="700"
-                fill="#334155"
+                fill="#f8fafc"
               >
-                {axis.label}
+                {lines.map((line, lineIndex) => (
+                  <tspan
+                    key={line}
+                    x={labelPoint.x}
+                    dy={lineIndex === 0 ? 0 : 13}
+                  >
+                    {line}
+                  </tspan>
+                ))}
               </text>
+
               <text
                 x={labelPoint.x}
-                y={labelPoint.y + 12}
+                y={scoreY}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize="9"
-                fill="#64748b"
+                fontSize="11.5"
+                fontWeight="700"
+                fill="#a7f3d0"
               >
                 {axis.value == null ? 'ND' : `${Math.round(axis.value)}/100`}
               </text>
@@ -498,8 +533,8 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
+        <div className="grid lg:grid-cols-2 gap-8">
+          <div className="rounded-2xl border border-slate-700/80 bg-slate-900/75 p-5 sm:p-6 shadow-[0_18px_50px_rgba(2,6,23,0.28)]">
             <div className="flex items-center justify-between gap-4 mb-4">
               <div>
                 <h3 className="text-2xl font-bold">Radar Maximus</h3>
@@ -508,11 +543,21 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
               <Activity className="h-8 w-8 text-emerald-300" />
             </div>
             <RadarChart axes={radarAxes} />
-            <div className="mt-3 grid sm:grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-slate-400">
+            <div className="mt-2 grid sm:grid-cols-2 gap-2.5">
               {radarAxes.map((axis) => (
-                <div key={axis.label} className="flex items-start justify-between gap-3">
-                  <span>{axis.label}</span>
-                  <span className="text-right text-slate-300">{axis.fact}</span>
+                <div
+                  key={axis.label}
+                  className="rounded-lg border border-white/10 bg-slate-950/70 px-3.5 py-3"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      {axis.label}
+                    </span>
+                    <span className="rounded-md bg-emerald-400/10 px-2 py-0.5 text-xs font-bold text-emerald-200">
+                      {axis.value == null ? 'ND' : `${Math.round(axis.value)}/100`}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 text-sm leading-snug text-slate-200">{axis.fact}</div>
                 </div>
               ))}
             </div>
