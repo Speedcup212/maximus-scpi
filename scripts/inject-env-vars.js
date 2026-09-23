@@ -9,6 +9,10 @@ const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  if (process.env.CI === 'true') {
+    console.warn('⚠️ Variables Supabase absentes en CI : injection statique ignorée. Le build applicatif reste vérifié.');
+    process.exit(0);
+  }
   console.error('❌ Missing SUPABASE_URL or SUPABASE_ANON_KEY in .env');
   process.exit(1);
 }
