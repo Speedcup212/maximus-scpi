@@ -23,7 +23,11 @@ const ProfessionalPortal: React.FC = () => {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* CGP / CIF */}
-          <div className="bg-slate-900 border border-slate-800 hover:border-emerald-600/50 rounded-xl p-6 transition-all group">
+          <a
+            href="/pro/cgp-login"
+            className="block bg-slate-900 border border-slate-800 hover:border-emerald-500/70 hover:bg-slate-900/80 rounded-xl p-6 transition-all group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+            aria-label="Accéder à l'espace CGP / CIF"
+          >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-emerald-600/20 rounded-lg flex items-center justify-center shrink-0">
                 <TrendingUp className="w-5 h-5 text-emerald-400" />
@@ -49,20 +53,23 @@ const ProfessionalPortal: React.FC = () => {
                 <TrendingUp className="w-3 h-3" /> Simulateurs
               </span>
             </div>
-            <a
-              href="/pro/cgp-login"
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg text-sm transition w-full justify-center"
+            <span
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 group-hover:bg-emerald-500 text-white font-medium rounded-lg text-sm transition w-full justify-center"
             >
               Accéder à l'espace CGP
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </span>
             <p className="text-[11px] text-slate-600 text-center mt-3">
               Pour les professionnels du patrimoine.
             </p>
-          </div>
+          </a>
 
           {/* Expert-Comptable */}
-          <div className="bg-slate-900 border border-slate-800 hover:border-blue-600/50 rounded-xl p-6 transition-all group">
+          <a
+            href="/expert-comptable/login"
+            className="block bg-slate-900 border border-slate-800 hover:border-blue-500/70 hover:bg-slate-900/80 rounded-xl p-6 transition-all group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+            aria-label="Accéder à l'espace Expert-Comptable"
+          >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center shrink-0">
                 <Calculator className="w-5 h-5 text-blue-400" />
@@ -88,17 +95,16 @@ const ProfessionalPortal: React.FC = () => {
                 <Landmark className="w-3 h-3" /> Usufruit SCPI
               </span>
             </div>
-            <a
-              href="/expert-comptable/login"
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg text-sm transition w-full justify-center"
+            <span
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 group-hover:bg-blue-500 text-white font-medium rounded-lg text-sm transition w-full justify-center"
             >
               Accéder à l'espace Expert-Comptable
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </span>
             <p className="text-[11px] text-slate-600 text-center mt-3">
               Pour les cabinets d'expertise comptable.
             </p>
-          </div>
+          </a>
         </div>
 
         {/* Disclaimer */}
