@@ -12,6 +12,7 @@ import { qualifyYield } from '../utils/yieldContext';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import SEOHead from './SEOHead';
 import MaximusLogoFooter from './MaximusLogoFooter';
+import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
 import Logo from './Logo';
@@ -72,12 +73,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     scpi => createSlugFromName(scpi.name) === landingSlug
   );
 
-  // Récupérer l'endettement depuis le JSON complet
-  const completeData = scpiCompleteJson.Sheet1.find(
-    (scpi: any) => createSlugFromName(scpi['Nom SCPI']) === landingSlug
-  );
-  const endettement = completeData ? completeData['Endettement (%)'] : null;
-
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -87,11 +82,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const handleTabChange = (tabKey: 'performance' | 'frais') => {
-    setActiveTab(tabKey);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   // Capturer et stocker les paramètres UTM/gclid dès l'arrivée sur la page
   useEffect(() => {
