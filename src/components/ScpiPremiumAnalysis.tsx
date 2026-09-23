@@ -436,7 +436,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     ].filter(Boolean).join(' ');
 
     const riskParts = [
-      typeof scpi.debt === 'number' ? `L'endettement est de ${formatPercent(scpi.debt)}.` : 'L'endettement n'est pas renseigné.',
+      typeof scpi.debt === 'number' ? `L'endettement est de ${formatPercent(scpi.debt)}.` : "L'endettement n'est pas renseigné.",
       gap != null
         ? `Le prix de part de ${formatCurrency(scpi.price)} se situe ${gap <= 0 ? 'sous' : 'au-dessus de'} la valeur de reconstitution de ${formatCurrency(scpi.valeurReconstitution)}, soit un écart de ${formatPercent(Math.abs(gap))}.`
         : `Le prix de part est de ${formatCurrency(scpi.price)} ; la valeur de reconstitution n'est pas suffisamment documentée pour calculer un écart fiable.`,
