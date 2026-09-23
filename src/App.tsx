@@ -1862,7 +1862,7 @@ const App: React.FC = () => {
     setSelectedArticle(null);
     setSelectedLandingPage(null);
     setSelectedThematicPage(null);
-    window.history.pushState({}, '', `/${slug}`);
+    window.history.pushState({}, '', `/${slug}/`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

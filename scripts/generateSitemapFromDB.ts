@@ -25,21 +25,14 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 const siteUrl = 'https://maximusscpi.com';
 
-if (!supabaseUrl || !supabaseKey) {
-  console.error('❌ Variables d\'environnement Supabase manquantes');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
 
 interface Article {
   slug: string;
   updated_at?: string;
   category?: string;
-}
-
-interface SCPI {
-  nom: string;
 }
 
 function ensureTrailingSlash(url: string): string {
@@ -86,7 +79,33 @@ async function generateSitemap() {
   const isExcluded = (slug: string) => excludePatterns.some(p => p.test(slug));
 
   let articles: Article[] = [];
-  let scpiData: SCPI[] = [];
+
+  // Catalogue local = source de vérité des fiches SCPI.
+  // Le sitemap ne dépend plus d'une table Supabase "scpi" inexistante.
+  const scpiCatalogPath = join(__dirname, '..', 'src', 'data', 'scpi_complet.json');
+  const scpiCatalogJson = JSON.parse(fs.readFileSync(scpiCatalogPath, 'utf-8'));
+  const scpiCatalog = Array.isArray(scpiCatalogJson)
+    ? scpiCatalogJson
+    : (scpiCatalogJson.Sheet1 || []);
+
+  const toScpiSlug = (name: string): string =>
+    name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+  const scpiNames = scpiCatalog
+    .map((row: Record<string, unknown>) => String(row['Nom SCPI'] || '').trim())
+    .filter(Boolean);
+
+  const scpiSlugs = [...new Set(scpiNames.map(toScpiSlug))]
+    .filter(s => !isExcluded(s));
+
+  if (scpiSlugs.length !== scpiNames.length) {
+    throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
+  }
 
   // ── 1. Récupérer les slugs locaux depuis articleTemplatesConfig ──
   const localArticleSlugs: string[] = articleTemplates
@@ -101,42 +120,23 @@ async function generateSitemap() {
     { path: 'articles/construire-portefeuille-scpi', priority: '0.8', changefreq: 'weekly' },
   ];
 
-  // ── 3. Tentative Supabase pour les articles (peut échouer → fallback local) ──
-  try {
-    const { data, error } = await supabase
-      .from('articles_seo')
-      .select('slug, updated_at, category')
-      .eq('status', 'published')
-      .order('slug');
-    if (!error && data) articles = data;
-    else console.warn('⚠️ Articles:', error?.message);
-  } catch (e: any) {
-    console.warn('⚠️ Articles fetch error:', e.message);
+  // ── 3. Supabase complète uniquement les articles.
+  // Les fiches SCPI restent déterministes à partir du catalogue local.
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('articles_seo')
+        .select('slug, updated_at, category')
+        .eq('status', 'published')
+        .order('slug');
+      if (!error && data) articles = data;
+      else console.warn('⚠️ Articles:', error?.message);
+    } catch (e: any) {
+      console.warn('⚠️ Articles fetch error:', e.message);
+    }
+  } else {
+    console.warn('⚠️ Supabase indisponible: sitemap articles généré depuis les sources locales.');
   }
-
-  try {
-    const { data, error } = await supabase
-      .from('scpi')
-      .select('nom')
-      .order('nom');
-    if (!error && data) scpiData = data;
-    else console.warn('⚠️ SCPI:', error?.message);
-  } catch (e: any) {
-    console.warn('⚠️ SCPI fetch error:', e.message);
-  }
-
-
-  const scpiSlugs = scpiData
-    .map(scpi => scpi.nom.toLowerCase()
-      .replace(/['\s]+/g, '-')
-      .replace(/[éèê]/g, 'e')
-      .replace(/[àâ]/g, 'a')
-      .replace(/[ç]/g, 'c')
-      .replace(/[îï]/g, 'i')
-      .replace(/[ôö]/g, 'o')
-      .replace(/[ùûü]/g, 'u')
-      .replace(/[^a-z0-9-]/g, ''))
-    .filter(s => !isExcluded(s));
 
   // ── Construire la liste finale d'articles : fusion locale + Supabase ──
   const supabaseArticleMap = new Map<string, Article>();
@@ -187,13 +187,9 @@ async function generateSitemap() {
   }
 
   // ── Priority 0.8: Thematic landing pages ──
-  // ✅ Canoniques : scpi-fiscalite/, scpi-retraite/, scpi-bureaux/, scpi-commerces/, scpi-sante/, scpi-france/
-  // ❌ Retirées du sitemap (301) : scpi-fiscales, preparer-retraite-scpi, *-investissement
+  // Uniquement des URLs canoniques: aucune URL qui répond par 301.
   const thematicPages = [
-    'meilleures-scpi-rendement',
     'scpi-europeennes',
-    'scpi-fiscales',
-    'preparer-retraite-scpi',
     'revenu-complementaire-scpi',
     'scpi-sans-frais',
     'recyclage-urbain-scpi',
@@ -267,7 +263,7 @@ async function generateSitemap() {
     urls.push(urlEntry(`${siteUrl}/${p}`, '0.7', 'monthly', today));
   }
 
-  // ── Priority 0.7: Individual SCPI pages (from DB) ──
+  // ── Priority 0.7: Individual SCPI pages (catalogue local, canonical /{slug}/) ──
   for (const slug of scpiSlugs) {
     urls.push(urlEntry(`${siteUrl}/${slug}`, '0.7', 'weekly', today));
   }

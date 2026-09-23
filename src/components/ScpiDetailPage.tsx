@@ -149,6 +149,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
         ]}
         canonical={`https://maximusscpi.com/${createSlugFromName(scpi.name)}/`}
         schemaData={combinedSchema}
+        noIndex={window.location.pathname.startsWith('/comparateur/scpi/')}
       />
 
       {isParcoursMode && (

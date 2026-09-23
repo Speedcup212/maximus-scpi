@@ -35,9 +35,10 @@ const createNoPrefixSlug = (name) => {
     .replace(/(^-|-$)/g, '');
 };
 
-// Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe.
-// Empêche toute duplication SEO /scpi-wemo-one ↔ /wemo-one.
-const buildScpiPrefixRedirects = () => {
+// Une seule URL canonique par SCPI : /{slug}/.
+// Les variantes sans slash et les anciens slugs préfixés redirigent directement
+// vers la canonique afin d'éviter toute duplication /slug ↔ /slug/.
+const buildScpiCanonicalRedirects = () => {
   const seen = new Set();
   const lines = [];
   for (const scpi of scpiComplete) {
@@ -46,8 +47,9 @@ const buildScpiPrefixRedirects = () => {
     const noPrefix = createNoPrefixSlug(name);
     if (!noPrefix || seen.has(noPrefix)) continue;
     seen.add(noPrefix);
-    lines.push(`/scpi-${noPrefix} /${noPrefix} 301`);
-    lines.push(`/scpi-${noPrefix}/ /${noPrefix} 301`);
+    lines.push(`/${noPrefix} /${noPrefix}/ 301`);
+    lines.push(`/scpi-${noPrefix} /${noPrefix}/ 301`);
+    lines.push(`/scpi-${noPrefix}/ /${noPrefix}/ 301`);
   }
   return lines.join('\n');
 };
@@ -154,10 +156,14 @@ const generateRedirects = () => {
 /scpi-hotellerie /index.html 200
 /scpi-france /index.html 200
 
-# Pages SCPI individuelles : servies via dist/{slug}/index.html (slug canonique sans préfixe)
+# Pages SCPI individuelles : une seule URL canonique /{slug}/
+# - /{slug} → /{slug}/
+# - /scpi-{slug} et /scpi-{slug}/ → /{slug}/
+${buildScpiCanonicalRedirects()}
 
-# Redirections 301 des anciens slugs préfixés "scpi-" vers l'URL canonique sans préfixe
-${buildScpiPrefixRedirects()}
+# Ancienne page spéciale Iroko Zen supprimée du build
+/scpi-iroko-zen-iroko /iroko-zen/ 301
+/scpi-iroko-zen-iroko/ /iroko-zen/ 301
 
 # .html racine → dossier canonique (anti-duplication SEO)
 /comprendre-les-scpi.html /comprendre-les-scpi/ 301
@@ -171,7 +177,7 @@ ${buildScpiPrefixRedirects()}
 
   fs.writeFileSync(redirectsPath, redirectsContent, 'utf-8');
 
-  console.log(`✅ Redirects generated with ${scpiData.length} static SCPI pages`);
+  console.log(`✅ Redirects generated for ${scpiComplete.length} canonical SCPI routes`);
 };
 
 // Run the generator
