@@ -381,7 +381,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     if (scpi.fees === 0) items.push('Aucun frais de souscription affiché.');
     if (scpi.isr) items.push('Label ISR indiqué dans les données de la SCPI.');
 
-    return items.slice(0, 4);
+    return items.slice(0, 3);
   }, [scpi, gap, topGeo, topSector]);
 
   const watchPoints = useMemo(() => {
@@ -422,7 +422,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
       items.push('Répartition sectorielle détaillée non disponible dans la base structurée.');
     }
 
-    return items.slice(0, 5);
+    return items.slice(0, 3);
   }, [age, gap, scpi, topGeo, topSector]);
 
   const narrative = useMemo(() => {
@@ -453,7 +453,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
       scpi.walb ? `WALB : ${scpi.walb.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} ans.` : null,
     ].filter(Boolean).join(' ');
 
-    return [positionParts, allocationParts, riskParts];
+    return [`${positionParts} ${allocationParts}`, riskParts];
   }, [age, gap, landingData.societe_gestion, scpi, topGeo, topSector]);
 
   const advancedMetrics = [
@@ -471,33 +471,35 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     { label: 'Locataires', value: formatNumber(scpi.nombreLocataires), icon: Globe2 },
   ];
 
+  const primaryMetrics = [advancedMetrics[0], advancedMetrics[1], advancedMetrics[2], advancedMetrics[8], advancedMetrics[10], advancedMetrics[11]];
+  const secondaryMetrics = advancedMetrics.filter((_, index) => ![0, 1, 2, 8, 10, 11].includes(index));
+
   const quarterlyFallback = useMemo(() => {
     const parts = (scpi.actualitesTrimestrielles || '')
       .split('|')
       .map((item) => item.trim())
       .filter(Boolean);
-    return parts.slice(0, 3);
+    return parts.slice(0, 2);
   }, [scpi.actualitesTrimestrielles]);
 
   return (
-    <section className="bg-slate-950 py-16 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section className="bg-slate-950 py-12 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="max-w-4xl">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-200">
             <Gauge className="h-4 w-4" />
             Analyse MaximusSCPI
           </div>
           <h2 className="mt-5 text-3xl sm:text-4xl font-bold">
-            Radar, lecture patrimoniale et veille de {landingData.nom}
+            Analyse Maximus de {landingData.nom}
           </h2>
           <p className="mt-4 text-slate-300 leading-relaxed">
-            Lecture structurée à partir des indicateurs disponibles. Le radar est un outil de comparaison interne :
-            il ne constitue ni une notation de crédit ni une recommandation d'investissement.
+            Les indicateurs essentiels, les points de vigilance et la veille utile, sans répéter les chiffres déjà affichés plus haut.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 sm:p-6">
             <div className="flex items-center justify-between gap-4 mb-4">
               <div>
                 <h3 className="text-2xl font-bold">Radar Maximus</h3>
@@ -506,25 +508,27 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
               <Activity className="h-8 w-8 text-emerald-300" />
             </div>
             <RadarChart axes={radarAxes} />
-            <div className="grid sm:grid-cols-2 gap-3 mt-4">
+            <div className="mt-3 grid sm:grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-slate-400">
               {radarAxes.map((axis) => (
-                <div key={axis.label} className="rounded-xl bg-slate-900/80 border border-white/10 p-3">
-                  <div className="text-xs uppercase tracking-wide text-slate-400">{axis.label}</div>
-                  <div className="text-sm text-slate-200 mt-1">{axis.fact}</div>
+                <div key={axis.label} className="flex items-start justify-between gap-3">
+                  <span>{axis.label}</span>
+                  <span className="text-right text-slate-300">{axis.fact}</span>
                 </div>
               ))}
             </div>
-            <p className="text-xs text-slate-500 mt-4">
-              Méthode : occupation = TOF ; diversification = concentration et nombre de poches ;
-              structure financière = niveau d'endettement ; valorisation = écart prix/reconstitution ;
-              ancienneté = historique depuis la création. Une donnée absente est affichée « ND ».
-            </p>
+            <details className="mt-4 text-xs text-slate-500">
+              <summary className="cursor-pointer text-slate-400">Méthode du Radar Maximus</summary>
+              <p className="mt-2">
+                Occupation = TOF ; diversification = concentration et nombre de poches ; structure financière = endettement ;
+                valorisation = écart prix/reconstitution ; ancienneté = historique depuis la création. Donnée absente = « ND ».
+              </p>
+            </details>
           </div>
 
           <div className="space-y-6">
             <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-              <h3 className="text-2xl font-bold mb-5">Lecture Maximus</h3>
-              <div className="space-y-4">
+              <h3 className="text-xl font-bold mb-4">Lecture Maximus</h3>
+              <div className="space-y-3">
                 {narrative.map((paragraph, index) => (
                   <p key={index} className="text-slate-300 leading-relaxed">{paragraph}</p>
                 ))}
@@ -578,29 +582,45 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
         </div>
 
         <div>
-          <div className="flex items-end justify-between gap-4 mb-6">
+          <div className="flex items-end justify-between gap-4 mb-4">
             <div>
-              <h3 className="text-2xl sm:text-3xl font-bold">Indicateurs avancés</h3>
-              <p className="text-slate-400 mt-1">
-                Lecture complémentaire au rendement : valorisation, frais, durée des baux et profondeur du patrimoine.
-              </p>
+              <h3 className="text-xl sm:text-2xl font-bold">Indicateurs utiles</h3>
+              <p className="text-sm text-slate-400 mt-1">Valorisation, baux et profondeur du patrimoine.</p>
             </div>
             {scpi.periodeBulletinTrimestriel && (
-              <div className="hidden sm:flex items-center gap-2 text-sm text-slate-400">
+              <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
                 <CalendarDays className="h-4 w-4" />
-                Dernier bulletin structuré : {scpi.periodeBulletinTrimestriel}
+                {scpi.periodeBulletinTrimestriel}
               </div>
             )}
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {advancedMetrics.map(({ label, value, icon: Icon }) => (
-              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                <Icon className="h-5 w-5 text-emerald-300" />
-                <div className="text-xs uppercase tracking-wide text-slate-500 mt-4">{label}</div>
-                <div className="text-lg font-bold text-white mt-1">{value}</div>
+
+          <div className="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {primaryMetrics.map(({ label, value, icon: Icon }) => (
+              <div key={label} className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <Icon className="h-4 w-4 text-emerald-300" />
+                <div className="text-[11px] uppercase tracking-wide text-slate-500 mt-3">{label}</div>
+                <div className="text-base font-bold text-white mt-1">{value}</div>
               </div>
             ))}
           </div>
+
+          <details className="mt-3 rounded-xl border border-white/10 bg-white/[0.03]">
+            <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-300">
+              Voir les frais et indicateurs complémentaires
+            </summary>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-4 pt-1">
+              {secondaryMetrics.map(({ label, value, icon: Icon }) => (
+                <div key={label} className="rounded-lg bg-slate-900/70 p-3">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-4 w-4 text-emerald-300" />
+                    <span className="text-xs text-slate-500">{label}</span>
+                  </div>
+                  <div className="text-sm font-semibold text-white mt-2">{value}</div>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
 
         <div className="rounded-3xl border border-white/10 bg-white/[0.04] overflow-hidden">
@@ -625,14 +645,14 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
 
           {news.length > 0 ? (
             <div className="grid lg:grid-cols-2 gap-px bg-white/10">
-              {news.slice(0, 4).map((item) => (
+              {news.slice(0, 2).map((item) => (
                 <a
                   key={item.id || item.title}
                   href={`/actualites/${slug}/${articleSlug(item)}/`}
-                  className="group bg-slate-950 p-6 sm:p-7 hover:bg-slate-900 transition-colors"
+                  className="group bg-slate-950 p-5 sm:p-6 hover:bg-slate-900 transition-colors"
                 >
                   {item.imageUrl && (
-                    <div className="mb-5 overflow-hidden rounded-xl bg-slate-900 aspect-[16/9]">
+                    <div className="mb-4 overflow-hidden rounded-xl bg-slate-900 aspect-[16/8]">
                       <img
                         src={item.imageUrl}
                         alt={item.imageAlt || item.title}
@@ -664,7 +684,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
                     {item.surface && <span>Surface : {item.surface}</span>}
                     {item.tenant && <span>Locataire : {item.tenant}</span>}
                   </div>
-                  <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300">
+                  <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300">
                     Lire l'analyse Maximus
                     <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </div>

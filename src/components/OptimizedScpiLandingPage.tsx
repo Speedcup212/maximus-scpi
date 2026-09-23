@@ -1,33 +1,26 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   TrendingUp, Shield, Phone, Mail, User, Euro,
-  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck,
-  ChevronRight, ChevronLeft, Zap, Calendar, ThumbsUp, AlertTriangle, CheckCircle
+  ArrowRight, Award, Building2, Globe, BarChart3, Leaf,
+  Target, Calculator, MessageCircle, Clock, FileText, Lock,
+  ChevronRight, ChevronLeft, Zap, CheckCircle
 } from 'lucide-react';
 import { ScpiLandingData } from '../data/landingPagesData';
-import { resolveDisplayedDiscount } from '../utils/formatters';
-import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
 import { CALENDLY_URL } from '../config/calendly';
 import { qualifyYield } from '../utils/yieldContext';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import SEOHead from './SEOHead';
 import MaximusLogoFooter from './MaximusLogoFooter';
-import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
 import Logo from './Logo';
 import Header from './Header';
 import { scpiData } from '../data/scpiData';
-import scpiCompleteJson from '../data/SCPI_complet_avec_SFDR_Profil.json';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
-import LoadingSpinner from './LoadingSpinner';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import { submitLead } from '../utils/leadSubmitter';
-
-const FintechComparator = lazy(() => import('./fintech/FintechComparator'));
 
 interface OptimizedScpiLandingPageProps {
   scpiKey: string;
@@ -85,7 +78,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   );
   const endettement = completeData ? completeData['Endettement (%)'] : null;
 
-  const [activeTab, setActiveTab] = useState<'performance' | 'frais'>('performance');
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -359,112 +351,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   };
 
   // Générer le verdict de l'expert basé sur les données réelles de la SCPI
-  const getExpertVerdict = () => {
-    const pros: string[] = [];
-    const cons: string[] = [];
-    let conclusion = '';
-
-    // 1. TOUJOURS ajouter la décote en premier si elle existe (PRIORITÉ ABSOLUE)
-    // Calcul depuis la source unique (prix / VR), pas depuis une chaîne préformatée.
-    const decoteValue = realScpiData
-      ? calculateScpiDiscountPremium(realScpiData.price, realScpiData.valeurReconstitution)
-      : null;
-    if (decoteValue != null && decoteValue < -0.005) {
-      const decotePositive = Math.abs(decoteValue);
-      pros.push(`Décote de ${formatScpiDiscountPremium(decotePositive).replace(/^\+/, '')} : Opportunité d'achat ${decotePositive.toFixed(0)}% moins cher que le prix de souscription.`);
-    }
-
-    // Utiliser les avantages réels de la landing page (déjà personnalisés)
-    if (landingData.avantages && landingData.avantages.length > 0) {
-      landingData.avantages.forEach(avantage => {
-        pros.push(avantage);
-      });
-    }
-
-    // Si pas assez d'avantages, ajouter des points basés sur les données réelles
-    // Ordre de priorité strict : capitalisation > TOF > endettement > pays > secteurs > versement
-    if (pros.length < 4) {
-
-      // Capitalisation >100M
-      const capValue = parseFloat(landingData.capitalisation.replace(/[^0-9.]/g, ''));
-      if (capValue >= 100 && pros.length < 4) {
-        pros.push(`Capitalisation solide de ${landingData.capitalisation} : Taille critique atteinte, gage de liquidité et de diversification.`);
-      }
-
-      // TOF ≥90%
-      const tof = parseFloat(landingData.tof);
-      if (tof >= 90 && pros.length < 4) {
-        pros.push(`Taux d'occupation financier de ${landingData.tof} : Patrimoine pleinement valorisé et productif.`);
-      }
-
-      // Endettement ≤30%
-      const endettement = parseFloat(landingData.endettement);
-      if (endettement <= 30 && pros.length < 4) {
-        if (endettement === 0) {
-          pros.push("Zéro endettement : Patrimoine détenu en propre, aucun risque lié à l'effet de levier.");
-        } else {
-          pros.push(`Endettement maîtrisé à ${landingData.endettement} : Levier financier modéré pour optimiser le rendement.`);
-        }
-      }
-
-      // Diversification ≥2 pays
-      const paysCount = Object.keys(landingData.geographie).length;
-      if (paysCount >= 2 && pros.length < 4) {
-        const principalPays = Object.keys(landingData.geographie)[0];
-        pros.push(`Diversification sur ${paysCount} pays : Exposition internationale avec ${principalPays} comme ancre.`);
-      }
-
-      // ≥2 secteurs
-      const secteursCount = Object.keys(landingData.secteurs).length;
-      if (secteursCount >= 2 && pros.length < 4) {
-        const principalSecteur = Object.keys(landingData.secteurs)[0];
-        pros.push(`${secteursCount} secteurs d'activité : Mix équilibré dominé par ${principalSecteur}.`);
-      }
-
-      // Versement mensuel
-      if (landingData.frequence_versement === "Mensuel" && pros.length < 4) {
-        pros.push("Versements mensuels : Flux de revenus réguliers et prévisibles pour un complément de revenu optimal.");
-      }
-    }
-
-    // Utiliser les points d'attention réels (déjà personnalisés) mais FILTRER les frais de souscription
-    if (landingData.points_attention && landingData.points_attention.length > 0) {
-      landingData.points_attention.forEach(point => {
-        // Exclure les points mentionnant les frais de souscription
-        if (!point.toLowerCase().includes('frais de souscription')) {
-          cons.push(point);
-        }
-      });
-    }
-
-    // Conclusion personnalisée basée sur les données réelles
-    const anneeCreation = landingData.annee_creation;
-    const age = new Date().getFullYear() - anneeCreation;
-    const rendement = parseFloat(landingData.rendement);
-    const frais = parseFloat(landingData.frais_souscription);
-
-    if (rendement >= 8 && landingData.label_isr) {
-      conclusion = `En conclusion, notre verdict est très positif. ${landingData.nom} combine un rendement exceptionnel de ${landingData.rendement} avec un engagement ISR fort. ${age < 3 ? 'Malgré son lancement récent, elle affiche déjà des performances remarquables.' : 'Son track record démontre une gestion solide.'} Idéale pour les investisseurs cherchant performance et impact.`;
-    } else if (rendement >= 6) {
-      conclusion = `En conclusion, ${landingData.nom} présente un profil attractif avec un rendement de ${landingData.rendement}, supérieur à la moyenne du marché. Gérée par ${landingData.societe_gestion}, elle offre une diversification ${Object.keys(landingData.geographie).length > 1 ? 'internationale' : 'solide'}. Recommandée pour un portefeuille équilibré.`;
-    } else if (rendement >= 4) {
-      conclusion = `En conclusion, ${landingData.nom} s'inscrit dans une stratégie de rendement régulier avec ${landingData.rendement}. Sa capitalisation de ${landingData.capitalisation} et sa gestion par ${landingData.societe_gestion} en font un choix sécurisé pour une diversification patrimoniale long terme.`;
-    } else {
-      conclusion = `En conclusion, ${landingData.nom} privilégie la stabilité et la préservation du capital. Adaptée aux investisseurs prudents recherchant un complément de revenu stable dans la durée.`;
-    }
-
-    return {
-      pros: pros.slice(0, 4),
-      cons: cons.slice(0, 3),
-      conclusion
-    };
-  };
-
-  // Verdict éditorial uniquement : pour les fiches générées (SCPI sans contenu
-  // rédigé), on masque le bloc afin de ne jamais publier d'argument non sourcé.
-  // Le verdict historique est remplacé par ScpiPremiumAnalysis, commun aux 64 fiches.
-  const verdict = null;
-
   // Canonical SANS préfixe (URL officielle de la fiche), quelle que soit l'URL
   // d'arrivée (ex. /scpi-wemo-one redirigé 301 → /wemo-one).
   const canonicalUrl = `https://maximusscpi.com/${landingData.slug}/`;
@@ -706,229 +592,110 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
 
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-4">
-            {landingData.nom} : Notre Analyse sous le Microscope
-          </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-            Données complètes et transparentes pour vous aider à prendre une décision éclairée
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            <div className={`bg-gradient-to-br from-${colors.secondary}-50 to-${colors.accent}-50 rounded-xl p-8 border-2 border-${colors.secondary}-200`}>
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`w-12 h-12 bg-${colors.secondary}-600 rounded-lg flex items-center justify-center`}>
-                  <Globe className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Répartition géographique</h3>
-              </div>
-              {Object.keys(landingData.geographie).length === 0 ? (
-                <div className="flex items-center justify-center h-[300px] text-gray-500 text-center px-4">
-                  Donnée à vérifier — répartition géographique non disponible pour cette SCPI.
-                </div>
-              ) : (
-              <>
-              <div className="flex justify-center">
-                <PieChart
-                  data={Object.entries(landingData.geographie).map(([pays, pct], index) => ({
-                    name: pays,
-                    value: pct,
-                    color: [
-                      '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
-                      '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
-                    ][index % 10]
-                  }))}
-                  width={300}
-                  height={300}
-                  showLabels={true}
-                />
-              </div>
-              <div className="mt-6 space-y-2">
-                {Object.entries(landingData.geographie).map(([pays, pct], index) => (
-                  <div key={pays} className="flex items-center gap-2">
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: [
-                        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
-                        '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
-                      ][index % 10] }}
-                    />
-                    <span className="font-medium text-gray-700">{pays}</span>
-                    <span className="ml-auto font-bold text-gray-900">{pct}%</span>
-                  </div>
-                ))}
-              </div>
-              </>
-              )}
+      <div className="bg-white py-10 sm:py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Patrimoine</p>
+              <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-gray-900">
+                Où investit {landingData.nom} ?
+              </h2>
             </div>
-
-            <div className={`bg-gradient-to-br from-${colors.accent}-50 to-${colors.secondary}-50 rounded-xl p-8 border-2 border-${colors.accent}-200`}>
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`w-12 h-12 bg-${colors.accent}-600 rounded-lg flex items-center justify-center`}>
-                  <Building2 className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900">Répartition sectorielle</h3>
-              </div>
-              {Object.keys(landingData.secteurs).length === 0 ? (
-                <div className="flex items-center justify-center h-[300px] text-gray-500 text-center px-4">
-                  Donnée à vérifier — répartition sectorielle non disponible pour cette SCPI.
-                </div>
-              ) : (
-              <>
-              <div className="flex justify-center">
-                <PieChart
-                  data={Object.entries(landingData.secteurs).map(([secteur, pct], index) => ({
-                    name: secteur,
-                    value: pct,
-                    color: [
-                      '#1e40af', '#059669', '#d97706', '#dc2626', '#7c3aed',
-                      '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
-                    ][index % 10]
-                  }))}
-                  width={300}
-                  height={300}
-                  showLabels={true}
-                />
-              </div>
-              <div className="mt-6 space-y-2">
-                {Object.entries(landingData.secteurs).map(([secteur, pct], index) => (
-                  <div key={secteur} className="flex items-center gap-2">
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: [
-                        '#1e40af', '#059669', '#d97706', '#dc2626', '#7c3aed',
-                        '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
-                      ][index % 10] }}
-                    />
-                    <span className="font-medium text-gray-700">{secteur}</span>
-                    <span className="ml-auto font-bold text-gray-900">{pct}%</span>
-                  </div>
-                ))}
-              </div>
-              </>
-              )}
-            </div>
+            <p className="text-sm text-gray-500 max-w-xl">
+              Répartition géographique et sectorielle du patrimoine à partir des dernières données structurées disponibles.
+            </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
-            <div className="flex gap-2 mb-6 border-b-2 border-gray-200">
-              <button
-                onClick={() => handleTabChange('performance')}
-                className={`px-6 py-3 font-semibold transition-all ${
-                  activeTab === 'performance'
-                    ? `text-${colors.secondary}-600 border-b-2 border-${colors.secondary}-600`
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Performance & Historique
-              </button>
-              <button
-                onClick={() => handleTabChange('frais')}
-                className={`px-6 py-3 font-semibold transition-all ${
-                  activeTab === 'frais'
-                    ? `text-${colors.secondary}-600 border-b-2 border-${colors.secondary}-600`
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Frais & Conditions
-              </button>
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Globe className="w-5 h-5 text-slate-700" />
+                <h3 className="text-lg font-bold text-gray-900">Géographie</h3>
+              </div>
+              {Object.keys(landingData.geographie).length === 0 ? (
+                <div className="flex items-center justify-center h-[220px] text-gray-500 text-center px-4">
+                  Répartition géographique non disponible.
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-[220px_1fr] gap-4 items-center">
+                  <div className="flex justify-center">
+                    <PieChart
+                      data={Object.entries(landingData.geographie).map(([pays, pct], index) => ({
+                        name: pays,
+                        value: pct,
+                        color: [
+                          '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+                          '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
+                        ][index % 10]
+                      }))}
+                      width={220}
+                      height={220}
+                      showLabels={true}
+                    />
+                  </div>
+                  <div className="space-y-1.5 text-sm">
+                    {Object.entries(landingData.geographie).map(([pays, pct], index) => (
+                      <div key={pays} className="flex items-center gap-2">
+                        <div
+                          className="w-2.5 h-2.5 rounded-full"
+                          style={{ backgroundColor: [
+                            '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+                            '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
+                          ][index % 10] }}
+                        />
+                        <span className="text-gray-700 truncate">{pays}</span>
+                        <span className="ml-auto font-semibold text-gray-900">{pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {activeTab === 'performance' && realScpiData && (
-              <div className="bg-gray-50 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Chiffres clés de performance</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Taux de distribution</div>
-                    <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{formatPercentage(realScpiData.yield)}</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">TOF (Taux d'Occupation Financier)</div>
-                    <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{formatPercentage(realScpiData.tof)}</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Capitalisation</div>
-                    <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{formatCurrency(realScpiData.capitalization)}</div>
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Endettement</div>
-                    <div className={`text-3xl font-bold text-${colors.secondary}-600`}>
-                      {endettement !== null ? formatPercentage(endettement) : 'N/A'}
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Décote/Surcote</div>
-                    {(() => {
-                      // Source unique : résolveur partagé (recalcul prix affiché vs VR affichée).
-                      const displayedDiscount = resolveDisplayedDiscount(realScpiData).value;
-                      if (displayedDiscount == null) {
-                        return <div className="text-3xl font-bold text-gray-500">À vérifier</div>;
-                      }
-                      return (
-                        <div className={`text-3xl font-bold ${displayedDiscount <= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {displayedDiscount > 0 ? '+' : ''}{formatPercentage(displayedDiscount)}
-                        </div>
-                      );
-                    })()}
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow">
-                    <div className="text-sm text-gray-600 mb-1">Année de création</div>
-                    <div className={`text-3xl font-bold text-${colors.secondary}-600`}>{realScpiData.creation || landingData.annee_creation}</div>
-                  </div>
-                </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Building2 className="w-5 h-5 text-slate-700" />
+                <h3 className="text-lg font-bold text-gray-900">Secteurs</h3>
               </div>
-            )}
-
-            {activeTab === 'frais' && realScpiData && (
-              <div className="bg-gray-50 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Structure des frais et conditions</h3>
-                <div className="space-y-4">
-                  <div className="bg-white rounded-lg p-6 shadow flex justify-between items-center">
-                    <div>
-                      <div className="font-semibold text-gray-900">Frais de souscription</div>
-                      <div className="text-sm text-gray-600">Frais d'entrée TTC</div>
-                    </div>
-                    <div className={`text-2xl font-bold text-${colors.secondary}-600`}>
-                      {landingData.frais_souscription}
-                    </div>
+              {Object.keys(landingData.secteurs).length === 0 ? (
+                <div className="flex items-center justify-center h-[220px] text-gray-500 text-center px-4">
+                  Répartition sectorielle non disponible.
+                </div>
+              ) : (
+                <div className="grid sm:grid-cols-[220px_1fr] gap-4 items-center">
+                  <div className="flex justify-center">
+                    <PieChart
+                      data={Object.entries(landingData.secteurs).map(([secteur, pct], index) => ({
+                        name: secteur,
+                        value: pct,
+                        color: [
+                          '#1e40af', '#059669', '#d97706', '#dc2626', '#7c3aed',
+                          '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
+                        ][index % 10]
+                      }))}
+                      width={220}
+                      height={220}
+                      showLabels={true}
+                    />
                   </div>
-                  <div className="bg-white rounded-lg p-6 shadow flex justify-between items-center">
-                    <div>
-                      <div className="font-semibold text-gray-900">Prix de la part</div>
-                      <div className="text-sm text-gray-600">Prix de souscription actuel</div>
-                    </div>
-                    <div className={`text-2xl font-bold text-${colors.secondary}-600`}>
-                      {formatCurrency(realScpiData.price)}
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-lg p-6 shadow flex justify-between items-center">
-                    <div>
-                      <div className="font-semibold text-gray-900">Minimum de souscription</div>
-                      <div className="text-sm text-gray-600">Ticket d'entrée minimum</div>
-                    </div>
-                    <div className={`text-2xl font-bold text-${colors.secondary}-600`}>
-                      {formatCurrency(realScpiData.minInvest)}
-                    </div>
-                  </div>
-                  <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
-                    <div className="flex items-start gap-3">
-                      <Eye className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                      <div>
-                        <div className="font-semibold text-gray-900 mb-2">Label ISR</div>
-                        <div className="text-gray-700">
-                          {realScpiData.isr ? (
-                            <span className="text-green-600 font-semibold">✓ Labellisé ISR - Investissement Socialement Responsable</span>
-                          ) : (
-                            <span className="text-gray-600">Non labellisé ISR</span>
-                          )}
-                        </div>
+                  <div className="space-y-1.5 text-sm">
+                    {Object.entries(landingData.secteurs).map(([secteur, pct], index) => (
+                      <div key={secteur} className="flex items-center gap-2">
+                        <div
+                          className="w-2.5 h-2.5 rounded-full"
+                          style={{ backgroundColor: [
+                            '#1e40af', '#059669', '#d97706', '#dc2626', '#7c3aed',
+                            '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
+                          ][index % 10] }}
+                        />
+                        <span className="text-gray-700 truncate">{secteur}</span>
+                        <span className="ml-auto font-semibold text-gray-900">{pct}%</span>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -940,292 +707,67 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         />
       )}
 
-      {/* Simulateur de Revenus */}
       {landingData.simulator && (
-        <div className="bg-gradient-to-br from-gray-50 to-blue-50 py-16">
+        <div className="bg-slate-50 py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <ThematicSimulator
-              defaultInvestment={landingData.simulator.defaultInvestment}
-              defaultYield={landingData.simulator.defaultYield}
-              title={landingData.simulator.title}
-              subtitle={landingData.simulator.subtitle}
-              theme={landingData.simulator.theme}
-            />
+            <details className="group rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <summary className="cursor-pointer list-none p-5 sm:p-6 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+                    <Calculator className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Simuler mes revenus avec {landingData.nom}</div>
+                    <div className="text-sm text-gray-500">Ouvrir le simulateur uniquement si vous en avez besoin</div>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-400 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className="border-t border-slate-200 p-4 sm:p-6">
+                <ThematicSimulator
+                  defaultInvestment={landingData.simulator.defaultInvestment}
+                  defaultYield={landingData.simulator.defaultYield}
+                  title={landingData.simulator.title}
+                  subtitle={landingData.simulator.subtitle}
+                  theme={landingData.simulator.theme}
+                />
+              </div>
+            </details>
           </div>
         </div>
       )}
 
-      {/* Bloc Verdict de l'Expert — éditorial uniquement */}
-      {verdict && (
-      <div className="bg-white py-12">
+      <div className="bg-white py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Le Verdict MaximusSCPI sur {landingData.nom}
-            </h2>
-            <p className="text-gray-600 text-sm">
-              Notre analyse transparente et objective
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
-            {/* Points forts */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <ThumbsUp className="w-5 h-5 text-green-600" />
-                <h3 className="text-lg font-bold text-gray-900">On aime</h3>
-              </div>
-              <ul className="space-y-2">
-                {verdict.pros.map((pro, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{pro}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Points de vigilance */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="w-5 h-5 text-orange-600" />
-                <h3 className="text-lg font-bold text-gray-900">Points de vigilance</h3>
-              </div>
-              <ul className="space-y-2">
-                {verdict.cons.map((con, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <AlertTriangle className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{con}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Conclusion de l'expert */}
-          <div className="bg-gray-50 rounded-xl border border-gray-200 p-6">
-            <div className="flex items-start gap-3 mb-3">
-              <BadgeCheck className={`w-6 h-6 text-${colors.secondary}-600 flex-shrink-0`} />
-              <div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Notre Conclusion</h3>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {verdict.conclusion}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      )}
-
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-12">
-            Ce que nos investisseurs disent de notre accompagnement
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                  MD
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900 text-lg">Marc D.</div>
-                  <div className="text-gray-600 text-sm">Directeur Commercial</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                "L'équipe Maximus m'a guidé avec une grande clarté. Leur analyse m'a permis de choisir la bonne SCPI pour mon projet, sans stress et en toute confiance."
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Besoin d'un avis avant d'investir ?
+              </h2>
+              <p className="mt-2 text-gray-600">
+                Le formulaire en haut de page reste le point d'entrée principal. Vous pouvez aussi réserver directement 15 minutes ou comparer cette SCPI au reste du marché.
               </p>
             </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-                  SL
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900 text-lg">Sophie L.</div>
-                  <div className="text-gray-600 text-sm">Ingénieure</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                "Un accompagnement vraiment personnalisé. Eric a pris le temps de comprendre mes objectifs et m'a proposé une solution parfaitement adaptée. Je recommande vivement !"
-              </p>
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <a
+                href={CALENDLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                Réserver 15 min
+              </a>
+              <button
+                type="button"
+                onClick={() => onComparateurClick?.()}
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 font-semibold text-gray-900 hover:bg-slate-100 transition-colors"
+              >
+                <BarChart3 className="w-4 h-4" />
+                Comparer cette SCPI
+              </button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg max-w-4xl mx-auto">
-          <div className="flex items-start gap-4">
-            <Shield className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-gray-700 leading-relaxed">
-              <p className="font-semibold text-gray-900 mb-2">⚠️ Avertissement important</p>
-              <p>
-                Les performances passées ne préjugent pas des performances futures.
-                L'investissement en SCPI présente un risque de perte en capital et une
-                liquidité limitée. Durée de placement recommandée : 8 à 10 ans minimum.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-4">
-            Une Question ? Réservez un RDV Téléphonique avec votre conseiller dédié
-          </h2>
-          <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-            Un accompagnement humain et personnalisé pour répondre à toutes vos questions
-          </p>
-
-          <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-            <div className="grid lg:grid-cols-5 gap-8 items-start">
-              {/* Section Eric - 2 colonnes */}
-              <div className="lg:col-span-2 text-center lg:text-left">
-                <div className="mb-6 flex justify-center lg:justify-start">
-                  <div className={`border-4 border-${colors.secondary}-600 rounded-full shadow-xl`}>
-                    <EricAvatar size={70} />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Eric Bellaiche</h3>
-                <p className={`text-${colors.secondary}-600 font-semibold mb-4`}>Votre Expert MaximusSCPI</p>
-                <p className="text-gray-700 leading-relaxed mb-6 text-sm">
-                  "Mon rôle est de vous aider à créer un portefeuille de SCPI performant et adapté à vos objectifs. Je vous rappelle au créneau de votre choix."
-                </p>
-                <div className="flex flex-col gap-2 mb-6">
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span>CIF enregistré ORIAS n°13001580</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span>15 ans d'expérience</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-600 text-sm">
-                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                    <span>1800+ clients accompagnés</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    <span>15 minutes</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4" />
-                    <span>100% Gratuit</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    <span>Sans engagement</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Section Calendly - 3 colonnes */}
-              <div className="lg:col-span-3">
-                <h4 className="text-xl font-bold text-gray-900 mb-4 text-center">
-                  Réserver mon RDV Téléphonique Gratuit
-                </h4>
-                <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-8">
-                  <div className="text-center space-y-6">
-                    <Calendar className={`w-24 h-24 text-${colors.secondary}-600 mx-auto`} />
-                    <p className="text-gray-700 text-lg leading-relaxed">
-                      Choisissez le créneau qui vous convient le mieux. Eric vous rappelle au numéro de votre choix.
-                    </p>
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`bg-${colors.secondary}-600 hover:bg-${colors.secondary}-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-3 shadow-xl text-lg`}
-                    >
-                      <Calendar className="w-6 h-6" />
-                      Réserver mon appel téléphonique
-                    </a>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
-                      <div className="bg-white rounded-lg p-4 shadow-md">
-                        <Clock className={`w-8 h-8 text-${colors.secondary}-600 mx-auto mb-2`} />
-                        <p className="text-sm font-semibold text-gray-900">Durée</p>
-                        <p className="text-xs text-gray-600">15 minutes</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 shadow-md">
-                        <Shield className={`w-8 h-8 text-${colors.secondary}-600 mx-auto mb-2`} />
-                        <p className="text-sm font-semibold text-gray-900">Coût</p>
-                        <p className="text-xs text-gray-600">100% Gratuit</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-4 shadow-md">
-                        <CheckCircle className={`w-8 h-8 text-${colors.secondary}-600 mx-auto mb-2`} />
-                        <p className="text-sm font-semibold text-gray-900">Engagement</p>
-                        <p className="text-xs text-gray-600">Aucun</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={`bg-gradient-to-r ${colors.primary} py-16`}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Prêt à faire le bon choix pour votre épargne ?
-          </h2>
-          <p className={`text-xl text-${colors.secondary}-100 mb-8`}>
-            Profitez d'un rendement de {landingData.rendement} avec un accompagnement expert personnalisé
-          </p>
-          <button
-            onClick={() => {
-              const form = document.querySelector('form');
-              if (form) {
-                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }
-            }}
-            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 inline-flex items-center gap-2 shadow-xl"
-          >
-            Obtenir mon analyse personnalisée
-            <ArrowRight className="w-5 h-5" />
-          </button>
-
-          <div className={`mt-8 flex items-center justify-center gap-8 text-${colors.secondary}-100`}>
-            <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5" />
-              <span>Réponse sous 24h</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5" />
-              <span>100% Gratuit</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5" />
-              <span>Sans engagement</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Section Comparateur Fintech */}
-      <div className="bg-slate-900 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={<LoadingSpinner />}>
-            <FintechComparator onCloseAnalysis={onNavigateHome} />
-          </Suspense>
         </div>
       </div>
 
