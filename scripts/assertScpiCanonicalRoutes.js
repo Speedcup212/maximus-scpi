@@ -52,7 +52,7 @@ for (const slug of unique) {
   for (const line of redirects) {
     const match = line.match(/^(\\S+)\\s+(\\S+)\\s+(301!?|302!?)$/);
     if (!match) continue;
-    const normalize = (value) => value.length > 1 ? value.replace(/\\/+$/, '') : value;
+    const normalize = (value) => value.length > 1 ? value.replace(/\/+$/, '') : value;
     if (match[1] !== match[2] && normalize(match[1]) === normalize(match[2])) {
       errors.push('Boucle trailing-slash potentielle: ' + line);
     }
