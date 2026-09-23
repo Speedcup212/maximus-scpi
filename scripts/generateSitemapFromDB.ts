@@ -100,8 +100,9 @@ async function generateSitemap() {
     .map((row: Record<string, unknown>) => String(row['Nom SCPI'] || '').trim())
     .filter(Boolean);
 
-  const scpiSlugs = [...new Set(scpiNames.map(toScpiSlug))]
-    .filter(s => !isExcluded(s));
+  // Les slugs SCPI ne passent pas par les exclusions génériques d'articles/pages.
+  // "Log In" est une SCPI réelle et son slug canonique est /log-in/.
+  const scpiSlugs = [...new Set(scpiNames.map(toScpiSlug))];
 
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
