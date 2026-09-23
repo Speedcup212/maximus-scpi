@@ -16,7 +16,6 @@ import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
-import ScpiRadar, { COMETE_RADAR_T2_2026 } from './ScpiRadar';
 
 interface ScpiDetailPageProps {
   scpi: Scpi;
@@ -297,10 +296,6 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                 </div>
               )}
             </div>
-
-            {createSlugFromName(scpi.name) === 'comete' && (
-              <ScpiRadar data={COMETE_RADAR_T2_2026} />
-            )}
 
             {/* Informations détaillées */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
