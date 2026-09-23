@@ -396,6 +396,10 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     actualitesTrimestrielles: scpi['Actualités trimestrielles'] || undefined,
     periodeBulletinTrimestriel: scpi['Période bulletin trimestriel'] || undefined,
     dateBulletin: scpi['Date bulletin'] || undefined,
+    liquidite: typeof scpi['liquidite'] === 'string' ? scpi['liquidite'] : undefined,
+    maximusWarnings: Array.isArray(scpi['maximus_warnings']) ? scpi['maximus_warnings'] : undefined,
+    maximusDataStatus: typeof scpi['maximus_data_status'] === 'string' ? scpi['maximus_data_status'] : undefined,
+    maximusSourcePeriode: typeof scpi['maximus_source_periode'] === 'string' ? scpi['maximus_source_periode'] : undefined,
     // Nouvelle structure optionnelle pour les actualités détaillées
     actualiteTrimestrielle: Array.isArray(scpi['Actualite_trimestrielle'])
       ? scpi['Actualite_trimestrielle']
