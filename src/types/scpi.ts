@@ -51,6 +51,10 @@ export interface Scpi {
   actualitesTrimestrielles?: string; // Actualités trimestrielles (séparées par " | ")
   periodeBulletinTrimestriel?: string; // Période du dernier bulletin (ex: "T3 2025")
   dateBulletin?: string; // Date du bulletin (ex: "30/09/2025")
+  liquidite?: string; // Situation de liquidité / marché des parts issue des documents sources
+  maximusWarnings?: string[]; // Points de vigilance factuels issus de la base MaximusSCPI
+  maximusDataStatus?: string; // Statut de fraîcheur / extraction des données
+  maximusSourcePeriode?: string; // Période de la source MaximusSCPI
   actualiteTrimestrielle?: {
     Trimestre?: string;
     Faits_marquants?: string[];
