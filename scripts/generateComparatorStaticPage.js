@@ -109,13 +109,36 @@ const staticRoot = `<div id="root">
 </div>`;
 
 const rootStart = html.indexOf('<div id="root">');
-const scriptStart = html.indexOf('<script type="module"', rootStart);
-if (rootStart === -1 || scriptStart === -1) {
-  console.error('❌ Impossible de repérer #root ou le script Vite dans dist/index.html.');
+if (rootStart === -1) {
+  console.error('❌ Impossible de repérer #root dans dist/index.html.');
   process.exit(1);
 }
 
-html = html.slice(0, rootStart) + staticRoot + '\n    ' + html.slice(scriptStart);
+// Trouver la fermeture réelle de #root en tenant compte des <div> imbriqués.
+// Le script Vite peut être injecté dans <head>, donc on ne dépend pas de sa position.
+const rootOpenEnd = html.indexOf('>', rootStart);
+const divRegex = /<\\/?div\\b[^>]*>/g;
+divRegex.lastIndex = rootOpenEnd + 1;
+let depth = 1;
+let rootEnd = -1;
+let match;
+
+while ((match = divRegex.exec(html)) !== null) {
+  if (match[0].startsWith('</')) depth -= 1;
+  else depth += 1;
+
+  if (depth === 0) {
+    rootEnd = divRegex.lastIndex;
+    break;
+  }
+}
+
+if (rootEnd === -1) {
+  console.error('❌ Impossible de repérer la fermeture de #root dans dist/index.html.');
+  process.exit(1);
+}
+
+html = html.slice(0, rootStart) + staticRoot + html.slice(rootEnd);
 
 fs.mkdirSync(targetDir, { recursive: true });
 fs.writeFileSync(targetPath, html, 'utf-8');
