@@ -11,7 +11,7 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     'Analyse complète de la liquidité des SCPI : revente des parts, délais de retrait, différence capital variable / capital fixe, marché secondaire, collecte nette, prix de retrait, suspension possible. Exemple chiffré et cas pratiques.',
   shortAnswerTitle: 'Pourquoi la liquidité est-elle un risque en SCPI ?',
   shortAnswer:
-    'Une SCPI n\'est pas un placement coté en Bourse. Les parts se revendent selon le mécanisme prévu par la SCPI : demande de retrait pour une SCPI à capital variable, marché secondaire pour une SCPI à capital fixe ou dont la variabilité est suspendue. Le délai n'est pas garanti et peut être long. En période de crise immobilière ou de demande massive de retraits, les délais peuvent s\'allonger, voire les retraits peuvent être suspendus temporairement. La liquidité dépend du type de SCPI (capital variable ou fixe), de la collecte nette, du carnet d\'ordres et de la qualité du patrimoine. Elle doit être anticipée avant la souscription.',
+    'Une SCPI n\'est pas un placement coté en Bourse. Les parts se revendent selon le mécanisme prévu par la SCPI : demande de retrait pour une SCPI à capital variable, marché secondaire pour une SCPI à capital fixe ou dont la variabilité est suspendue. Le délai n\'est pas garanti et peut être long. En période de crise immobilière ou de demande massive de retraits, les délais peuvent s\'allonger, voire les retraits peuvent être suspendus temporairement. La liquidité dépend du type de SCPI (capital variable ou fixe), de la collecte nette, du carnet d\'ordres et de la qualité du patrimoine. Elle doit être anticipée avant la souscription.',
   keyMessage:
     'La liquidité d\'une SCPI n\'est pas garantie. Elle doit être analysée avant l\'investissement, surtout si l\'épargne peut devoir être récupérée rapidement.',
   definitionParagraphs: [
@@ -21,7 +21,7 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     'Le marché secondaire est organisé par la société de gestion ou par des intermédiaires spécialisés. Les ordres de vente et d\'achat sont centralisés dans un carnet d\'ordres. Le prix de cotation peut être inférieur (décote) ou supérieur (surcote) au prix de souscription selon le marché.',
     'En période de crise immobilière ou de tensions sur le marché, les délais de retrait peuvent s\'allonger significativement. Certaines SCPI ont historiquement suspendu temporairement les retraits pour préserver l\'égalité entre associés et éviter des cessions forcées à perte.',
     'La liquidité perçue en assurance-vie est différente : l\'arbitrage vers le fonds euros ou le rachat est généralement rapide (quelques jours), mais la valeur de rachat dépend du prix de souscription de la SCPI au moment de la sortie. La liquidité du contrat n\'équivaut pas à une garantie de valeur.',
-    'Le prix de retrait est le montant de référence applicable à une demande de retrait exécutée dans une SCPI à capital variable. Il ne doit pas être confondu avec un prix d'exécution sur marché secondaire.',
+    'Le prix de retrait est le montant de référence applicable à une demande de retrait exécutée dans une SCPI à capital variable. Il ne doit pas être confondu avec un prix d\'exécution sur marché secondaire.',
     'Les parts en attente de retrait sont des parts dont le propriétaire a demandé la revente mais qui n\'ont pas encore trouvé d\'acquéreur. Elles sont enregistrées dans un carnet d\'ordres ou une file d\'attente. Le nombre de parts en attente et le délai moyen de retrait sont des indicateurs de la liquidité réelle de la SCPI.',
     'Une part en attente de retrait n\'est pas nécessairement un signal catastrophique. Dans une SCPI à capital variable avec collecte positive, les nouvelles souscriptions permettent de racheter régulièrement les parts des associés qui souhaitent sortir. Le délai peut être court si la collecte est dynamique.',
     'En revanche, un volume croissant de parts en attente de retrait, combiné à une collecte nette négative ou en baisse, est un signal d\'alerte. Il peut indiquer que les investisseurs cherchent à sortir alors que les nouveaux entrants sont moins nombreux, ce qui allonge les délais et peut entraîner une décote sur le prix de retrait.',
@@ -32,7 +32,7 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
   tableRows: [
     {
       level: 'SCPI à capital variable — Collecte positive',
-      advantage: 'Les nouvelles souscriptions peuvent permettre de compenser les demandes de retrait lorsqu'elles sont suffisantes.',
+      advantage: 'Les nouvelles souscriptions peuvent permettre de compenser les demandes de retrait lorsqu\'elles sont suffisantes.',
       vigilance: 'Le délai peut s\'allonger si la collecte ralentit ou devient négative. Surveiller la collecte nette trimestrielle.',
     },
     {
@@ -52,7 +52,7 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       level: 'Assurance-vie (UC SCPI)',
-      advantage: 'Le rachat ou l'arbitrage dépend des conditions et délais du contrat d'assurance-vie.',
+      advantage: 'Le rachat ou l\'arbitrage dépend des conditions et délais du contrat d\'assurance-vie.',
       vigilance: 'La valeur de rachat dépend du prix de la SCPI au moment de la sortie. Pas de garantie de valeur malgré la rapidité.',
     },
   ],
@@ -121,11 +121,11 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       question: 'Combien de temps faut-il pour revendre des parts de SCPI ?',
-      answer: 'Il n'existe pas de délai garanti. Une demande peut être exécutée rapidement si les flux sont favorables, mais elle peut aussi rester en attente pendant une durée indéterminée.',
+      answer: 'Il n\'existe pas de délai garanti. Une demande peut être exécutée rapidement si les flux sont favorables, mais elle peut aussi rester en attente pendant une durée indéterminée.',
     },
     {
       question: 'Quelle différence entre capital fixe et capital variable ?',
-      answer: 'En capital variable, l'associé dépose une demande de retrait dont l'exécution dépend notamment des souscriptions disponibles. En capital fixe, la sortie passe par la cession sur le marché secondaire ou, selon les statuts, une cession de gré à gré.',
+      answer: 'En capital variable, l\'associé dépose une demande de retrait dont l\'exécution dépend notamment des souscriptions disponibles. En capital fixe, la sortie passe par la cession sur le marché secondaire ou, selon les statuts, une cession de gré à gré.',
     },
     {
       question: 'Peut-on être bloqué en SCPI ?',
@@ -149,7 +149,7 @@ export const liquiditeScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       question: 'Comment la collecte influence-t-elle la liquidité ?',
-      answer: 'Les souscriptions peuvent compenser les retraits. Si elles deviennent insuffisantes face aux demandes de sortie, le registre peut s'allonger et la liquidité se tendre.',
+      answer: 'Les souscriptions peuvent compenser les retraits. Si elles deviennent insuffisantes face aux demandes de sortie, le registre peut s\'allonger et la liquidité se tendre.',
     },
     {
       question: 'Comment MaximusSCPI analyse la liquidité ?',
