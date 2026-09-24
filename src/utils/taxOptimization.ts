@@ -43,18 +43,36 @@ export const getTaxOptimizationScore = (scpi: SCPIExtended, tmi: TMIValue): numb
 
 export const sortSCPIByTaxOptimization = (
   scpis: SCPIExtended[],
-  _tmi: TMIValue,
+  tmi: TMIValue,
   sortBy: 'yield' | 'price'
 ): SCPIExtended[] => {
   const sorted = [...scpis];
 
-  // La TMI ne reclasse pas automatiquement les SCPI : la fiscalité étrangère
-  // dépend des pays, conventions et de la situation de l'investisseur.
-  // Le tri reste donc strictement fondé sur le critère choisi par l'utilisateur.
-  sorted.sort((a, b) => {
-    if (sortBy === 'yield') return b.yield - a.yield;
-    return a.price - b.price;
-  });
+  // Choix produit MaximusSCPI :
+  // à partir d'une TMI de 30 %, les SCPI européennes sont remontées en tête
+  // comme repère fiscal, puis triées selon le critère choisi.
+  // Ce classement reste indicatif : la fiscalité dépend des pays, conventions
+  // et de la situation personnelle de l'investisseur.
+  if (shouldOptimizeForTax(tmi)) {
+    sorted.sort((a, b) => {
+      const scoreA = getTaxOptimizationScore(a, tmi);
+      const scoreB = getTaxOptimizationScore(b, tmi);
+
+      if (scoreA !== scoreB) {
+        return scoreB - scoreA;
+      }
+
+      if (sortBy === 'yield') {
+        return b.yield - a.yield;
+      }
+      return a.price - b.price;
+    });
+  } else {
+    sorted.sort((a, b) => {
+      if (sortBy === 'yield') return b.yield - a.yield;
+      return a.price - b.price;
+    });
+  }
 
   return sorted;
 };
