@@ -1,316 +1,665 @@
-import React, { useMemo, useState } from 'react';
-import { AlertTriangle, ArrowRight, Euro, HelpCircle, Info, RotateCcw, TrendingDown, TrendingUp } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  AlertTriangle,
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  Clock3,
+  ExternalLink,
+  FileText,
+  Info,
+  Search,
+  ShieldCheck,
+  TrendingDown,
+  WalletCards,
+} from 'lucide-react';
+import { scpiData } from '../data/scpiData';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
+import { supabase } from '../lib/supabase';
+import type { Scpi } from '../types/scpi';
 
-const formatEuro = (value: number) =>
-  new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })
-    .format(Number.isFinite(value) ? value : 0);
-
-const formatPct = (value: number) =>
-  new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
-    .format(Number.isFinite(value) ? value : 0) + ' %';
-
-const clamp = (value: number, min = 0, max = 100000000) =>
-  Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : min;
-
-type NumericInputProps = {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-  helper?: string;
-  optional?: boolean;
+type SourceRegistry = {
+  official_url: string;
+  news_url: string;
+  documents_url: string;
+  status: string;
+  last_checked_at: string | null;
+  last_success_at: string | null;
 };
 
-const NumericInput: React.FC<NumericInputProps> = ({
-  label,
-  value,
-  onChange,
-  helper,
-  optional = false,
-}) => (
-  <label className="block">
-    <div className="mb-2 flex items-center gap-2">
-      <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">{label}</span>
-      {optional && (
-        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
-          Facultatif
-        </span>
-      )}
-    </div>
-    <div className="relative">
-      <input
-        type="number"
-        value={value || ''}
-        min={0}
-        step={100}
-        placeholder="0"
-        onChange={(e) => {
-          const next = e.currentTarget.valueAsNumber;
-          onChange(Number.isFinite(next) ? clamp(next) : 0);
-        }}
-        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pr-12 text-base font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
-      />
-      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">€</span>
-    </div>
-    {helper && <span className="mt-1.5 block text-xs text-gray-500 dark:text-gray-400">{helper}</span>}
-  </label>
-);
+type ExitMode = 'withdrawal' | 'secondary_market' | 'unknown';
+
+const fmtEuro = (value?: number | null, digits = 2) => {
+  if (value == null || !Number.isFinite(value)) return 'Non disponible';
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value);
+};
+
+const fmtNumber = (value?: number | null) => {
+  if (value == null || !Number.isFinite(value)) return 'Non disponible';
+  return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(value);
+};
+
+const fmtPct = (value?: number | null, digits = 1) => {
+  if (value == null || !Number.isFinite(value)) return 'Non disponible';
+  return new Intl.NumberFormat('fr-FR', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value) + ' %';
+};
+
+const fmtDate = (value?: string | null) => {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(date);
+};
+
+const cleanNumber = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string') {
+    const parsed = Number(value.replace(/\s/g, '').replace(',', '.').replace(/[^0-9.-]/g, ''));
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+};
+
+const classifyExitMode = (scpi: Scpi): ExitMode => {
+  const note = `${scpi.liquidite || ''} ${(scpi as any).strategy || ''}`.toLowerCase();
+
+  if (/pas de marché secondaire/.test(note)) {
+    return scpi.valeurRetrait != null ? 'withdrawal' : 'unknown';
+  }
+
+  if (
+    /variabilit[eé].*suspendue/.test(note) ||
+    /capital fixe/.test(note) ||
+    /[eé]changes d[eé]sormais.*march[eé] secondaire/.test(note) ||
+    /ouverture d['’]un march[eé] secondaire/.test(note) ||
+    /march[eé] secondaire mensuel/.test(note) ||
+    /march[eé] des parts suspendu/.test(note)
+  ) {
+    return 'secondary_market';
+  }
+
+  if (scpi.valeurRetrait != null) return 'withdrawal';
+  return 'unknown';
+};
+
+const parseWaitingShares = (scpi: Scpi): number | null => {
+  if (scpi.partsAttenteRetrait != null && Number.isFinite(scpi.partsAttenteRetrait)) {
+    return scpi.partsAttenteRetrait;
+  }
+  const note = scpi.liquidite || '';
+  const match = note.match(/([0-9][0-9\s\u00a0.]{1,})\s+parts?\s+en attente/i);
+  if (!match) return null;
+  const parsed = Number(match[1].replace(/[\s\u00a0.]/g, ''));
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const isDebtUsable = (value?: number) =>
+  value != null && Number.isFinite(value) && value >= 0 && value <= 100;
+
+const valuationStatus = (value: number | undefined, price: number, kind: 'reconstitution' | 'realisation') => {
+  if (value == null || !Number.isFinite(value) || value <= 0 || price <= 0) {
+    return { usable: false, warning: false };
+  }
+  const ratio = value / price;
+  const min = kind === 'reconstitution' ? 0.6 : 0.45;
+  const max = kind === 'reconstitution' ? 1.6 : 1.8;
+  return {
+    usable: ratio >= min && ratio <= max,
+    warning: ratio < min || ratio > max,
+  };
+};
 
 const ScpiSecondaryMarketSimulator: React.FC = () => {
-  const [invested, setInvested] = useState(0);
-  const [recoverable, setRecoverable] = useState(0);
-  const [annualIncome, setAnnualIncome] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
+  const sortedScpis = useMemo(
+    () => [...scpiData].sort((a, b) => a.name.localeCompare(b.name, 'fr')),
+    []
+  );
 
-  const result = useMemo(() => {
-    const capitalInvested = clamp(invested);
-    const capitalRecoverable = clamp(recoverable);
-    const income = clamp(annualIncome);
+  const [selectedName, setSelectedName] = useState('');
+  const [parts, setParts] = useState(0);
+  const [sourceRegistry, setSourceRegistry] = useState<SourceRegistry | null>(null);
+  const [sourceLoading, setSourceLoading] = useState(false);
 
-    const delta = capitalRecoverable - capitalInvested;
-    const deltaPct = capitalInvested > 0 ? (delta / capitalInvested) * 100 : 0;
-    const gap = Math.max(0, capitalInvested - capitalRecoverable);
-    const incomeYears = income > 0 && gap > 0 ? gap / income : null;
+  const selected = useMemo(
+    () => sortedScpis.find((item) => item.name === selectedName) || null,
+    [sortedScpis, selectedName]
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSource = async () => {
+      setSourceRegistry(null);
+      if (!selected || !supabase) return;
+
+      setSourceLoading(true);
+      const slug = createSlugFromName(selected.name);
+
+      let { data } = await supabase
+        .from('scpi_news_sources')
+        .select('official_url,news_url,documents_url,status,last_checked_at,last_success_at')
+        .eq('slug', slug)
+        .maybeSingle();
+
+      if (!data) {
+        const fallback = await supabase
+          .from('scpi_news_sources')
+          .select('official_url,news_url,documents_url,status,last_checked_at,last_success_at')
+          .ilike('name', selected.name)
+          .maybeSingle();
+        data = fallback.data;
+      }
+
+      if (!cancelled) {
+        setSourceRegistry((data as SourceRegistry | null) || null);
+        setSourceLoading(false);
+      }
+    };
+
+    loadSource();
+    return () => {
+      cancelled = true;
+    };
+  }, [selected?.name]);
+
+  const diagnostic = useMemo(() => {
+    if (!selected) return null;
+
+    const mode = classifyExitMode(selected);
+    const waitingShares = parseWaitingShares(selected);
+    const withdrawalPrice = cleanNumber(selected.valeurRetrait);
+    const currentExitPrice = mode === 'withdrawal' ? withdrawalPrice : null;
+
+    const reconstitution = cleanNumber(selected.valeurReconstitution);
+    const realisation = cleanNumber(selected.valeurRealisation);
+    const reconstitutionCheck = valuationStatus(reconstitution ?? undefined, selected.price, 'reconstitution');
+    const realisationCheck = valuationStatus(realisation ?? undefined, selected.price, 'realisation');
+
+    const debt = isDebtUsable(selected.debt) ? selected.debt! : null;
+    const sourceDocument = selected.maximusSourceDocument || null;
+    const sourcePeriod = selected.maximusSourcePeriode || selected.periodeBulletinTrimestriel || null;
+    const sourceDate = selected.dateBulletin || selected.maximusUpdateDate || null;
+    const liquidityEvidence =
+      waitingShares != null ||
+      selected.hasWaitingShares != null ||
+      Boolean(selected.liquidite);
+
+    const checks = [
+      { key: 'source', ok: Boolean(sourceDocument), weight: 20 },
+      { key: 'period', ok: Boolean(sourcePeriod || sourceDate), weight: 10 },
+      { key: 'mode', ok: mode !== 'unknown', weight: 20 },
+      { key: 'exitPrice', ok: currentExitPrice != null && currentExitPrice > 0, weight: 25 },
+      { key: 'liquidity', ok: liquidityEvidence, weight: 10 },
+      { key: 'valuation', ok: reconstitutionCheck.usable && realisationCheck.usable, weight: 10 },
+      { key: 'fundamentals', ok: selected.tof > 0 && debt != null && selected.yield > 0, weight: 5 },
+    ];
+
+    const reliabilityScore = checks.reduce((sum, item) => sum + (item.ok ? item.weight : 0), 0);
+    const criticalAvailable = checks.filter((item) => item.ok).length;
+    const reliability =
+      reliabilityScore >= 85
+        ? { label: 'Élevée', tone: 'emerald' as const }
+        : reliabilityScore >= 65
+          ? { label: 'Correcte', tone: 'blue' as const }
+          : reliabilityScore >= 45
+            ? { label: 'Partielle', tone: 'amber' as const }
+            : { label: 'Insuffisante', tone: 'red' as const };
+
+    const estimatedGross =
+      parts > 0 && currentExitPrice != null ? parts * currentExitPrice : null;
+
+    const missing: string[] = [];
+    if (!sourceDocument) missing.push('document source identifié');
+    if (!sourcePeriod && !sourceDate) missing.push('période/date de la source');
+    if (mode === 'unknown') missing.push('mode de sortie actuel');
+    if (mode === 'secondary_market' && currentExitPrice == null) {
+      missing.push('dernier prix d’exécution ou prix net vendeur du marché secondaire');
+    } else if (currentExitPrice == null) {
+      missing.push('prix de sortie actuel');
+    }
+    if (!liquidityEvidence) missing.push('information récente sur la liquidité');
+    if (!reconstitutionCheck.usable) missing.push('valeur de reconstitution cohérente et vérifiée');
+    if (!realisationCheck.usable) missing.push('valeur de réalisation cohérente et vérifiée');
 
     return {
-      delta,
-      deltaPct,
-      gap,
-      incomeYears,
+      mode,
+      waitingShares,
+      currentExitPrice,
+      reconstitution,
+      realisation,
+      reconstitutionCheck,
+      realisationCheck,
+      debt,
+      sourceDocument,
+      sourcePeriod,
+      sourceDate,
+      reliabilityScore,
+      reliability,
+      criticalAvailable,
+      criticalTotal: checks.length,
+      estimatedGross,
+      missing,
     };
-  }, [invested, recoverable, annualIncome]);
+  }, [selected, parts]);
 
-  const ready = invested > 0 && recoverable > 0;
+  const sourceUrl =
+    sourceRegistry?.documents_url ||
+    sourceRegistry?.news_url ||
+    sourceRegistry?.official_url ||
+    null;
 
-  const reset = () => {
-    setInvested(0);
-    setRecoverable(0);
-    setAnnualIncome(0);
-    setSubmitted(false);
-    setShowHelp(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (ready) setSubmitted(true);
-  };
+  const reliabilityClass = diagnostic?.reliability.tone === 'emerald'
+    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
+    : diagnostic?.reliability.tone === 'blue'
+      ? 'border-blue-500/40 bg-blue-500/10 text-blue-300'
+      : diagnostic?.reliability.tone === 'amber'
+        ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
+        : 'border-red-500/40 bg-red-500/10 text-red-300';
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <p className="text-sm font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
             Outil MaximusSCPI
           </p>
-          <h1 className="mt-2 text-3xl font-bold md:text-4xl">Simulateur de revente de parts SCPI</h1>
-          <p className="mt-3 text-lg text-gray-600 dark:text-gray-300">
-            Trois chiffres suffisent pour visualiser ce que vous récupéreriez aujourd’hui et mesurer l’écart avec votre investissement.
+          <h1 className="mt-2 text-3xl font-bold md:text-4xl">Diagnostic de revente SCPI</h1>
+          <p className="mt-3 text-lg leading-relaxed text-gray-600 dark:text-gray-300">
+            Sélectionnez votre SCPI. Maximus analyse son mode de sortie, sa liquidité, les valeurs patrimoniales et les données officielles réellement disponibles.
           </p>
         </div>
 
-        <div className="mt-8 grid items-start gap-7 lg:grid-cols-[0.88fr_1.12fr]">
+        <div className="mt-8 grid items-start gap-7 lg:grid-cols-[0.72fr_1.28fr]">
           <section className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
-            <div className="mb-6 flex items-center justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <Search className="mt-1 h-5 w-5 text-emerald-500" />
               <div>
-                <h2 className="text-xl font-bold">Votre situation</h2>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Pas besoin du nombre de parts ni des frais détaillés.</p>
-              </div>
-              <button
-                type="button"
-                onClick={reset}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-emerald-600"
-              >
-                <RotateCcw className="h-4 w-4" /> Réinitialiser
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <NumericInput
-                label="1. Combien avez-vous investi ?"
-                value={invested}
-                onChange={(value) => {
-                  setInvested(value);
-                  setSubmitted(false);
-                }}
-                helper="Le montant total que vous avez consacré à cette SCPI."
-              />
-
-              <div>
-                <NumericInput
-                  label="2. Combien pourriez-vous récupérer aujourd’hui ?"
-                  value={recoverable}
-                  onChange={(value) => {
-                    setRecoverable(value);
-                    setSubmitted(false);
-                  }}
-                  helper="Utilisez le montant net estimé que vous pourriez réellement récupérer aujourd’hui."
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowHelp((current) => !current)}
-                  className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
-                >
-                  <HelpCircle className="h-3.5 w-3.5" />
-                  Je ne connais pas ce montant
-                </button>
-
-                {showHelp && (
-                  <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-gray-700 dark:border-emerald-900/60 dark:bg-emerald-950/20 dark:text-gray-300">
-                    <p className="font-semibold text-gray-900 dark:text-white">Comment le trouver ?</p>
-                    <ul className="mt-2 space-y-1.5">
-                      <li><strong>SCPI à capital variable :</strong> nombre de parts × prix de retrait actuel.</li>
-                      <li><strong>SCPI à capital fixe ou variabilité suspendue :</strong> utilisez un prix net vendeur réaliste à partir du carnet d’ordres ou du dernier prix d’exécution.</li>
-                    </ul>
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                      Si vous n’avez pas cette information, consultez le dernier bulletin ou contactez la société de gestion avant de simuler.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <NumericInput
-                label="3. Combien la SCPI vous rapporte-t-elle actuellement par an ?"
-                value={annualIncome}
-                onChange={(value) => {
-                  setAnnualIncome(value);
-                  setSubmitted(false);
-                }}
-                helper="Montant annuel approximatif reçu. Sert uniquement à exprimer l’écart en années de revenus."
-                optional
-              />
-
-              <button
-                type="submit"
-                disabled={!ready}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 font-bold text-white transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Analyser ma revente <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-
-            <div className="mt-5 flex gap-3 rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
-              <Info className="mt-0.5 h-5 w-5 shrink-0 text-gray-500" />
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Le simulateur ne cherche pas à reconstituer toute l’histoire de votre investissement. Il répond d’abord à une question simple : que se passe-t-il si vous vendez aujourd’hui ?
-              </p>
-            </div>
-          </section>
-
-          <section className="space-y-5" aria-live="polite">
-            {!submitted ? (
-              <div className="rounded-2xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-950">
-                <h2 className="text-xl font-bold">Résultat</h2>
-                <p className="mt-3 text-gray-600 dark:text-gray-300">
-                  Renseignez le montant investi et ce que vous pourriez récupérer aujourd’hui, puis lancez l’analyse.
+                <h2 className="text-xl font-bold">Votre SCPI</h2>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Le diagnostic utilise uniquement les données présentes dans MaximusSCPI.
                 </p>
               </div>
-            ) : (
-              <>
-                <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Si vous vendez aujourd’hui</p>
-                  <p className="mt-2 text-4xl font-bold tracking-tight md:text-5xl">{formatEuro(recoverable)}</p>
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Montant récupérable renseigné</p>
-                </div>
+            </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-950">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      {result.delta >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                      Écart actuel
-                    </div>
-                    <p className={'mt-3 text-3xl font-bold ' + (result.delta >= 0 ? 'text-emerald-600' : 'text-red-600')}>
-                      {formatEuro(result.delta)}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">{formatPct(result.deltaPct)} du montant investi</p>
-                  </div>
+            <label className="mt-6 block">
+              <span className="mb-2 block text-sm font-semibold">Quelle SCPI détenez-vous ?</span>
+              <select
+                value={selectedName}
+                onChange={(e) => {
+                  setSelectedName(e.target.value);
+                  setParts(0);
+                }}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+              >
+                <option value="">Sélectionner une SCPI…</option>
+                {sortedScpis.map((item) => (
+                  <option key={item.id} value={item.name}>{item.name}</option>
+                ))}
+              </select>
+            </label>
 
-                  <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-gray-950">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                      <Euro className="h-4 w-4" />
-                      Écart en années de revenus
-                    </div>
-                    {result.gap <= 0 ? (
-                      <>
-                        <p className="mt-3 text-3xl font-bold text-emerald-600">0 an</p>
-                        <p className="mt-1 text-sm text-gray-500">Aucun écart négatif à compenser.</p>
-                      </>
-                    ) : result.incomeYears !== null ? (
-                      <>
-                        <p className="mt-3 text-3xl font-bold">{result.incomeYears.toFixed(1)} ans</p>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {formatEuro(result.gap)} d’écart au niveau de revenu annuel renseigné.
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="mt-3 text-2xl font-bold text-gray-400">Non calculé</p>
-                        <p className="mt-1 text-sm text-gray-500">Ajoutez votre revenu annuel si vous voulez cette lecture.</p>
-                      </>
-                    )}
-                  </div>
-                </div>
+            <label className="mt-5 block">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="text-sm font-semibold">Nombre de parts détenues</span>
+                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                  Facultatif
+                </span>
+              </div>
+              <input
+                type="number"
+                min={0}
+                step={1}
+                value={parts || ''}
+                placeholder="Ex. 200"
+                onChange={(e) => {
+                  const value = e.currentTarget.valueAsNumber;
+                  setParts(Number.isFinite(value) && value > 0 ? Math.floor(value) : 0);
+                }}
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+              />
+              <span className="mt-1.5 block text-xs text-gray-500 dark:text-gray-400">
+                Sert uniquement à calculer un montant total lorsqu’un prix de sortie fiable est disponible.
+              </span>
+            </label>
 
-                {result.incomeYears !== null && result.gap > 0 && (
-                  <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 dark:border-amber-900/50 dark:bg-amber-950/20">
-                    <p className="font-semibold text-gray-900 dark:text-white">Comment lire ce chiffre ?</p>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                      L’écart actuel de {formatEuro(result.gap)} représente environ <strong>{result.incomeYears.toFixed(1)} années de revenus</strong> au niveau que vous avez renseigné. Ce n’est pas un “point mort” : le prix de part, la distribution et la fiscalité peuvent évoluer.
-                    </p>
-                  </div>
-                )}
-
-                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
-                  <h2 className="text-xl font-bold">Avant de vendre, vérifiez 4 éléments</h2>
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
-                      <p className="font-semibold">Liquidité</p>
-                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">Pouvez-vous réellement vendre à ce prix, et dans quel délai ?</p>
-                    </div>
-                    <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
-                      <p className="font-semibold">Valeur du patrimoine</p>
-                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">Le prix actuel est-il cohérent avec les valeurs de réalisation et de reconstitution ?</p>
-                    </div>
-                    <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
-                      <p className="font-semibold">Endettement</p>
-                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">La dette peut-elle amplifier une nouvelle baisse ou peser sur les refinancements ?</p>
-                    </div>
-                    <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
-                      <p className="font-semibold">Distribution</p>
-                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">Le revenu actuel paraît-il soutenable au regard du TOF, des baux et des locataires ?</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-red-200 bg-red-50 p-5 dark:border-red-900/50 dark:bg-red-950/20">
-                  <div className="flex gap-3">
-                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
-                    <p className="text-sm text-red-900 dark:text-red-200">
-                      Une moins-value ne signifie pas automatiquement qu’il faut vendre ou conserver. Le prix et le délai de cession ne sont pas garantis.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="/articles/revendre-parts-scpi-delais-marche-secondaire/"
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-300 px-5 py-3 font-semibold text-gray-800 transition hover:border-emerald-500 hover:text-emerald-600 dark:border-gray-700 dark:text-gray-100"
-                  >
-                    Comprendre la revente
-                  </a>
-                  <a
-                    href="/comparateur-scpi/"
-                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white transition hover:bg-emerald-400"
-                  >
-                    Analyser la SCPI concernée <ArrowRight className="h-4 w-4" />
-                  </a>
-                </div>
-              </>
-            )}
+            <div className="mt-6 rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
+              <div className="flex gap-3">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+                <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                  Maximus ne transforme jamais une ancienne valeur de retrait en prix de marché. Si une donnée critique manque, le diagnostic le signale.
+                </p>
+              </div>
+            </div>
           </section>
+
+          {!selected || !diagnostic ? (
+            <section className="rounded-2xl border border-gray-200 bg-white p-7 dark:border-gray-800 dark:bg-gray-950">
+              <h2 className="text-xl font-bold">Résultat du diagnostic</h2>
+              <p className="mt-3 text-gray-600 dark:text-gray-300">
+                Sélectionnez une SCPI pour afficher les données officielles disponibles, leur source et le niveau de fiabilité du diagnostic.
+              </p>
+            </section>
+          ) : (
+            <section className="space-y-5">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Diagnostic de revente</p>
+                    <h2 className="mt-1 text-2xl font-bold">{selected.name}</h2>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{selected.company}</p>
+                  </div>
+                  <div className={`rounded-xl border px-4 py-3 ${reliabilityClass}`}>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider opacity-80">Fiabilité</div>
+                    <div className="mt-0.5 text-lg font-bold">{diagnostic.reliability.label} · {diagnostic.reliabilityScore}/100</div>
+                    <div className="mt-0.5 text-[11px] opacity-80">
+                      {diagnostic.criticalAvailable}/{diagnostic.criticalTotal} contrôles disponibles
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <DataCard
+                  title="Mode de sortie actuel"
+                  value={
+                    diagnostic.mode === 'secondary_market'
+                      ? 'Marché secondaire'
+                      : diagnostic.mode === 'withdrawal'
+                        ? 'Demande de retrait'
+                        : 'À vérifier'
+                  }
+                  note={
+                    diagnostic.mode === 'secondary_market'
+                      ? 'La vente dépend du carnet d’ordres et d’un prix d’exécution.'
+                      : diagnostic.mode === 'withdrawal'
+                        ? 'L’exécution dépend notamment des souscriptions disponibles.'
+                        : 'Le mode de sortie n’est pas suffisamment documenté.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                />
+
+                <DataCard
+                  title={diagnostic.mode === 'secondary_market' ? 'Dernier prix d’exécution' : 'Prix de retrait'}
+                  value={diagnostic.currentExitPrice != null ? fmtEuro(diagnostic.currentExitPrice) : 'Non disponible'}
+                  note={
+                    diagnostic.mode === 'secondary_market' && diagnostic.currentExitPrice == null
+                      ? 'Maximus ne dispose pas encore d’un dernier prix d’exécution structuré : aucun prix de sortie n’est estimé.'
+                      : 'Montant par part issu des données disponibles.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                  warning={diagnostic.currentExitPrice == null}
+                />
+
+                <DataCard
+                  title="Parts en attente"
+                  value={
+                    diagnostic.waitingShares != null
+                      ? fmtNumber(diagnostic.waitingShares)
+                      : selected.hasWaitingShares === false
+                        ? 'Aucune signalée'
+                        : selected.hasWaitingShares === true
+                          ? 'Présentes'
+                          : 'Non documenté'
+                  }
+                  note={
+                    selected.hasWaitingShares === false
+                      ? 'Situation observée à la date de la source, sans garantie pour une future demande.'
+                      : 'Le stock en attente est un indicateur de tension sur la liquidité.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                />
+
+                <DataCard
+                  title="Valeur de réalisation"
+                  value={fmtEuro(diagnostic.realisation)}
+                  note={
+                    diagnostic.realisationCheck.warning
+                      ? 'Valeur disponible mais contrôle de cohérence nécessaire avant de l’utiliser dans une conclusion.'
+                      : 'Repère patrimonial, distinct d’un prix de marché.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                  warning={diagnostic.realisationCheck.warning}
+                />
+
+                <DataCard
+                  title="Valeur de reconstitution"
+                  value={fmtEuro(diagnostic.reconstitution)}
+                  note={
+                    diagnostic.reconstitutionCheck.warning
+                      ? 'Valeur disponible mais contrôle de cohérence nécessaire avant de l’utiliser dans une conclusion.'
+                      : 'Repère patrimonial, distinct du prix réellement exécutable.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                  warning={diagnostic.reconstitutionCheck.warning}
+                />
+
+                <DataCard
+                  title="TOF / Endettement"
+                  value={`${fmtPct(selected.tof)} · ${diagnostic.debt != null ? fmtPct(diagnostic.debt) : 'Dette à vérifier'}`}
+                  note={
+                    diagnostic.debt == null
+                      ? 'La donnée d’endettement présente dans la base est absente ou incohérente.'
+                      : 'Ces indicateurs renseignent sur l’exploitation et la structure financière, pas sur la liquidité des parts.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                  warning={diagnostic.debt == null}
+                />
+
+                <DataCard
+                  title="Distribution"
+                  value={`${fmtPct(selected.yield, 2)}${selected.distribution != null ? ` · ${fmtEuro(selected.distribution)}/part` : ''}`}
+                  note="Distribution historique : elle peut évoluer et n’est pas garantie."
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                />
+              </div>
+
+              {parts > 0 && (
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <WalletCards className="h-4 w-4" />
+                    Montant récupérable estimable
+                  </div>
+                  {diagnostic.estimatedGross != null ? (
+                    <>
+                      <p className="mt-2 text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                        {fmtEuro(diagnostic.estimatedGross, 0)}
+                      </p>
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        {fmtNumber(parts)} parts × {fmtEuro(diagnostic.currentExitPrice)}. Estimation brute, hors fiscalité et sous réserve d’exécution.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-2 text-xl font-bold text-amber-600 dark:text-amber-300">Impossible à estimer sérieusement</p>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        Le dernier prix d’exécution / prix net vendeur n’est pas disponible dans les données structurées MaximusSCPI.
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+
+              <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
+                <h3 className="text-xl font-bold">Analyse Maximus</h3>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <Insight
+                    title="Liquidité"
+                    text={
+                      diagnostic.mode === 'secondary_market'
+                        ? 'La sortie dépend du marché secondaire. Sans dernier prix d’exécution et volumes récents, Maximus ne peut pas quantifier la liquidité réelle.'
+                        : diagnostic.waitingShares != null && diagnostic.waitingShares > 0
+                          ? `${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente : la liquidité mérite une vigilance renforcée.`
+                          : selected.hasWaitingShares === false
+                            ? 'Aucune part en attente n’est signalée dans la source disponible, sans garantie pour une future demande.'
+                            : 'Les données disponibles ne suffisent pas à mesurer précisément la tension sur les retraits.'
+                    }
+                  />
+                  <Insight
+                    title="Prix & valorisation"
+                    text={
+                      diagnostic.currentExitPrice != null && diagnostic.reconstitutionCheck.usable && diagnostic.reconstitution != null
+                        ? `Le prix de sortie documenté représente ${fmtPct(((diagnostic.currentExitPrice / diagnostic.reconstitution) - 1) * 100)} par rapport à la valeur de reconstitution.`
+                        : 'Sans prix de sortie actuel fiable et valeurs patrimoniales cohérentes, Maximus n’affiche pas de décote de marché calculée.'
+                    }
+                  />
+                  <Insight
+                    title="Patrimoine & dette"
+                    text={
+                      diagnostic.debt != null
+                        ? `TOF ${fmtPct(selected.tof)} et endettement ${fmtPct(diagnostic.debt)}. Ces données doivent être lues avec les expertises immobilières et les échéances de financement.`
+                        : `TOF ${fmtPct(selected.tof)}. L’endettement doit être vérifié avant toute conclusion sur la solidité financière.`
+                    }
+                  />
+                  <Insight
+                    title="Revenus"
+                    text={
+                      `Taux de distribution historique ${fmtPct(selected.yield, 2)}. Il ne permet pas, à lui seul, de décider de vendre ou conserver.`
+                    }
+                  />
+                </div>
+              </div>
+
+              {(diagnostic.sourceDocument || sourceRegistry) && (
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-emerald-500" />
+                    <h3 className="text-lg font-bold">Source & veille</h3>
+                  </div>
+                  <div className="mt-4 space-y-3 text-sm">
+                    {diagnostic.sourceDocument && (
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400">Document utilisé : </span>
+                        <span className="font-semibold">{diagnostic.sourceDocument}</span>
+                      </div>
+                    )}
+                    {(diagnostic.sourcePeriod || diagnostic.sourceDate) && (
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400">Période / date : </span>
+                        <span className="font-semibold">
+                          {[diagnostic.sourcePeriod, fmtDate(diagnostic.sourceDate)].filter(Boolean).join(' · ')}
+                        </span>
+                      </div>
+                    )}
+                    {sourceRegistry && (
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400">Veille du site officiel : </span>
+                        <span className="font-semibold">
+                          {sourceRegistry.status === 'active' ? 'active' : sourceRegistry.status}
+                          {sourceRegistry.last_checked_at ? ` · contrôlé le ${fmtDate(sourceRegistry.last_checked_at)}` : ''}
+                        </span>
+                      </div>
+                    )}
+                    {sourceLoading && <div className="text-gray-500">Vérification de la source officielle…</div>}
+                  </div>
+
+                  {selected.liquidite && (
+                    <div className="mt-4 rounded-xl border border-amber-500/25 bg-amber-500/5 p-4">
+                      <div className="text-xs font-bold text-amber-700 dark:text-amber-300">Information de liquidité issue de la source</div>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">{selected.liquidite}</p>
+                    </div>
+                  )}
+
+                  {sourceUrl && (
+                    <a
+                      href={sourceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
+                    >
+                      Consulter la source officielle surveillée <ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {diagnostic.missing.length > 0 && (
+                <div className="rounded-2xl border border-amber-300 bg-amber-50 p-6 dark:border-amber-900/50 dark:bg-amber-950/20">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+                    <div>
+                      <h3 className="font-bold text-gray-900 dark:text-white">Ce qu’il manque pour fiabiliser davantage le diagnostic</h3>
+                      <ul className="mt-3 space-y-1.5 text-sm text-gray-700 dark:text-gray-300">
+                        {diagnostic.missing.map((item) => (
+                          <li key={item}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="/articles/revendre-parts-scpi-delais-marche-secondaire/"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-300 px-5 py-3 font-semibold text-gray-800 transition hover:border-emerald-500 hover:text-emerald-600 dark:border-gray-700 dark:text-gray-100"
+                >
+                  Comprendre la revente
+                </a>
+                <a
+                  href="/comparateur-scpi/"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white transition hover:bg-emerald-400"
+                >
+                  Comparer cette SCPI <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            </section>
+          )}
         </div>
       </section>
     </main>
   );
 };
+
+const DataCard: React.FC<{
+  title: string;
+  value: string;
+  note: string;
+  source?: string | null;
+  period?: string | null;
+  warning?: boolean;
+}> = ({ title, value, note, source, period, warning = false }) => (
+  <div className={`rounded-2xl border bg-white p-5 dark:bg-gray-950 ${warning ? 'border-amber-300 dark:border-amber-900/60' : 'border-gray-200 dark:border-gray-800'}`}>
+    <div className="flex items-start justify-between gap-3">
+      <div className="text-sm text-gray-500 dark:text-gray-400">{title}</div>
+      {warning ? <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" /> : <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
+    </div>
+    <div className="mt-2 text-xl font-bold">{value}</div>
+    <p className="mt-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{note}</p>
+    {(source || period) && (
+      <div className="mt-3 border-t border-gray-100 pt-2 text-[10px] leading-relaxed text-gray-400 dark:border-gray-800 dark:text-gray-500">
+        Source : {[source, period].filter(Boolean).join(' · ')}
+      </div>
+    )}
+  </div>
+);
+
+const Insight: React.FC<{ title: string; text: string }> = ({ title, text }) => (
+  <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
+    <div className="flex items-center gap-2">
+      <Building2 className="h-4 w-4 text-emerald-500" />
+      <p className="font-semibold">{title}</p>
+    </div>
+    <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">{text}</p>
+  </div>
+);
 
 export default ScpiSecondaryMarketSimulator;
