@@ -92,20 +92,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       return {
         icon: Lightbulb,
         color: 'slate',
-        text: 'Sélectionnez votre TMI pour recevoir des recommandations fiscales personnalisées.'
+        text: 'Sélectionnez votre TMI pour afficher des repères fiscaux généraux. La TMI seule ne suffit pas à déterminer une allocation.'
       };
     }
     if (tmi <= 11) {
       return {
         icon: Lightbulb,
         color: 'emerald',
-        text: 'La fiscalité impacte peu votre rendement. Les SCPI françaises à haut rendement sont excellentes pour vous.'
+        text: 'À TMI faible, la fiscalité des revenus fonciers français pèse généralement moins fortement. Rendement, frais, liquidité et diversification restent à analyser.'
       };
     }
     return {
       icon: Sparkles,
       color: 'amber',
-      text: 'Conseil Expert : Avec votre imposition, privilégiez les SCPI Européennes (Allemagne, Espagne...) pour éviter la lourde fiscalité française.'
+      text: 'À TMI élevée, les SCPI investies hors de France peuvent présenter un traitement fiscal différent selon les pays et les conventions fiscales. Comparez le résultat net au cas par cas.'
     };
   };
 
