@@ -75,6 +75,7 @@ const LifeToScpiPage = lazy(() => import('./components/LifeToScpiPage'));
 const ScpiNetIncomeSimulator = lazy(() => import('./components/ScpiNetIncomeSimulator'));
 const ScpiCreditSimulator = lazy(() => import('./components/ScpiCreditSimulator'));
 const ScpiDemembrementSimulator = lazy(() => import('./components/ScpiDemembrementSimulator'));
+const ScpiSecondaryMarketSimulator = lazy(() => import('./components/ScpiSecondaryMarketSimulator'));
 const ScpiEnvelopeComparator = lazy(() => import('./components/ScpiEnvelopeComparator'));
 const InvestorProfileSimulator = lazy(() => import('./components/InvestorProfileSimulator'));
 const ComparateurDemembrementScpi = lazy(() => import('./components/ComparateurDemembrementScpi'));
@@ -282,7 +283,7 @@ const App: React.FC = () => {
   const itemsPerPage = 10;
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-cgp-login' | 'pro-dashboard' | 'pro-rapports' | 'pro-settings' | 'pro-signup' | 'anon-video' | 'expert-dashboard' | 'expert-holding-simulator' | 'expert-dossiers' | 'expert-dossier-detail' | 'expert-dossier-simulation' | 'expert-rapports' | 'expert-parametres' | 'expert-login' | 'expert-post-login' | 'expert-access-refused' | 'expert-register' | 'professionnels'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-revenus-nets' | 'simulateur-marche-secondaire' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-cgp-login' | 'pro-dashboard' | 'pro-rapports' | 'pro-settings' | 'pro-signup' | 'anon-video' | 'expert-dashboard' | 'expert-holding-simulator' | 'expert-dossiers' | 'expert-dossier-detail' | 'expert-dossier-simulation' | 'expert-rapports' | 'expert-parametres' | 'expert-login' | 'expert-post-login' | 'expert-access-refused' | 'expert-register' | 'professionnels'>('home');
   const [currentArticleSlug, setCurrentArticleSlug] = useState<string | null>(null);
   const [videoUuid, setVideoUuid] = useState<string | null>(null);
   const [managementCompanySlug, setManagementCompanySlug] = useState<string | null>(null);
@@ -517,10 +518,8 @@ const App: React.FC = () => {
         setCurrentView('simulateurs');
         return;
       }
-      // Ancienne URL du simulateur de revente retiré : retour vers le hub Simulateurs.
       if (path === 'simulateur-marche-secondaire-scpi') {
-        window.history.replaceState({}, '', '/simulateurs');
-        setCurrentView('simulateurs');
+        setCurrentView('simulateur-marche-secondaire');
         return;
       }
       if (path === 'simulateur-revenus-nets-scpi') {
@@ -662,7 +661,9 @@ const App: React.FC = () => {
       } else if (path === 'education/frais-scpi-souscription-gestion-performance') {
         setCurrentView('article-frais-scpi');
       } else if (path === 'education/revendre-parts-scpi-delais-marche-secondaire') {
-        setCurrentView('article-revente-scpi');
+        window.history.replaceState({}, '', '/articles/revendre-parts-scpi-delais-marche-secondaire/');
+        setCurrentArticleSlug('revendre-parts-scpi-delais-marche-secondaire');
+        setCurrentView('dynamic-article');
       } else if (path === 'education/scpi-ou-etf-immobilier-reit-comparatif') {
         setCurrentView('article-scpi-vs-etf');
       } else if (path === 'education/scpi-ou-opci-differences-avantages') {
@@ -724,7 +725,8 @@ const App: React.FC = () => {
       } else if (path === 'articles/frais-scpi-souscription-gestion-performance') {
         setCurrentView('article-frais-scpi');
       } else if (path === 'articles/revendre-parts-scpi-delais-marche-secondaire') {
-        setCurrentView('article-revente-scpi');
+        setCurrentArticleSlug('revendre-parts-scpi-delais-marche-secondaire');
+        setCurrentView('dynamic-article');
       } else if (path === 'articles/scpi-ou-etf-immobilier-reit-comparatif') {
         setCurrentView('article-scpi-vs-etf');
       } else if (path === 'articles/scpi-ou-opci-differences-avantages') {
@@ -1439,8 +1441,7 @@ const App: React.FC = () => {
       } else if (normalizedPath === 'simulateur-fonds-euros-scpi') {
         setCurrentView('life-to-scpi');
       } else if (normalizedPath === 'simulateur-marche-secondaire-scpi') {
-        window.history.replaceState({}, '', '/simulateurs');
-        setCurrentView('simulateurs');
+        setCurrentView('simulateur-marche-secondaire');
       } else if (normalizedPath === 'simulateur-revenus-nets-scpi') {
         setCurrentView('simulateur-revenus-nets');
       } else if (normalizedPath === 'simulateur-credit-scpi') {
@@ -1811,6 +1812,7 @@ const App: React.FC = () => {
       'simulateurs': { view: 'simulateurs', route: '/simulateurs' },
       'fonds-euros-scpi': { view: 'life-to-scpi', route: '/simulateur-fonds-euros-scpi' },
       'revenus-nets': { view: 'simulateur-revenus-nets', route: '/simulateur-revenus-nets-scpi' },
+      'revente': { view: 'simulateur-marche-secondaire', route: '/simulateur-marche-secondaire-scpi' },
       'credit': { view: 'simulateur-credit', route: '/simulateur-credit-scpi' },
       'demembrement': { view: 'simulateur-demembrement', route: '/simulateur-demembrement-scpi' },
       'enveloppes': { view: 'simulateur-enveloppes', route: '/simulateur-enveloppes-scpi' },
@@ -2516,6 +2518,40 @@ const App: React.FC = () => {
         />
         <Suspense fallback={<LoadingSpinner />}>
           <SimulateurImpactFiscal />
+        </Suspense>
+        <Footer />
+        <CookieConsent />
+        {renderGlobalModals()}
+      </div>
+    );
+  }
+
+  if (currentView === 'simulateur-marche-secondaire') {
+    const seo = simulatorSeoConfig['simulateur-marche-secondaire'];
+    return (
+      <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+        <SEOHead title={seo.title} description={seo.description} canonical={seo.canonical} schemaData={getSimulatorSchemaData('simulateur-marche-secondaire')} />
+        <Header
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+          onContactClick={() => setIsRdvModalOpen(true)}
+          onAboutClick={handleAboutUsClick}
+          onEducationClick={handleEducationClick}
+          onLogoClick={handleBackToHome}
+          onScpiPageClick={handleScpiClick}
+          onFaqClick={handleFaqClick}
+          onUnderstandingClick={handleComprendreClick}
+          onAboutSectionClick={handleAboutUsClick}
+          onAboutNavigation={handleGenericNavigation}
+          onComparateurClick={handleComparateurClick}
+          onSimulateurClick={handleSimulateurClick}
+          onArticlesClick={handleArticlesClick}
+          onActualitesClick={handleActualitesClick}
+          currentView={currentView}
+          onProClick={handleProClick}
+        />
+        <Suspense fallback={<LoadingSpinner />}>
+          <ScpiSecondaryMarketSimulator />
         </Suspense>
         <Footer />
         <CookieConsent />
