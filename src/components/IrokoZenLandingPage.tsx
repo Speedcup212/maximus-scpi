@@ -8,7 +8,6 @@ import {
 import Logo from './Logo';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
-import { CALENDLY_URL } from '../config/calendly';
 import Header from './Header';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import PieChart from './PieChart';
@@ -527,14 +526,13 @@ const IrokoZenLandingPage: React.FC<IrokoZenLandingPageProps> = ({
                       </div>
                     </div>
 
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={onContactClick || (() => (window as any).openRdvModal?.())}
                       className="block w-full bg-white border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105"
                     >
-                      Réserver un créneau directement
-                    </a>
+                      Réserver un créneau
+                    </button>
                   </div>
 
                   <p className="text-xs text-gray-500 text-center">
