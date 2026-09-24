@@ -84,6 +84,26 @@ const generateRedirects = () => {
 /articles/scpi-hotellerie-tourisme-2026 /articles/scpi-hotellerie-tourisme/ 301!
 /articles/scpi-hotellerie-tourisme-2026/ /articles/scpi-hotellerie-tourisme/ 301!
 
+# Redirections 301 anti-cannibalisation contenus éditoriaux
+/articles/meilleure-scpi-rendement-2026 /meilleures-scpi-rendement/ 301!
+/articles/meilleure-scpi-rendement-2026/ /meilleures-scpi-rendement/ 301!
+/articles/scpi-sans-frais-avis-2026 /scpi-sans-frais/ 301!
+/articles/scpi-sans-frais-avis-2026/ /scpi-sans-frais/ 301!
+/articles/scpi-sans-frais-entree-avis /scpi-sans-frais/ 301!
+/articles/scpi-sans-frais-entree-avis/ /scpi-sans-frais/ 301!
+/articles/scpi-ou-lmnp-comparatif /articles/lmnp-ou-scpi/ 301!
+/articles/scpi-ou-lmnp-comparatif/ /articles/lmnp-ou-scpi/ 301!
+/articles/scpi-vs-opci-comparatif-detaille /articles/scpi-ou-opci-differences-avantages/ 301!
+/articles/scpi-vs-opci-comparatif-detaille/ /articles/scpi-ou-opci-differences-avantages/ 301!
+/articles/scpi-investir-tmi-30-strategie /articles/scpi-tmi-30-pourcent-arbitrage-av-direct/ 301!
+/articles/scpi-investir-tmi-30-strategie/ /articles/scpi-tmi-30-pourcent-arbitrage-av-direct/ 301!
+/articles/scpi-questions-avant-souscrire /articles/checklist-investissement-scpi/ 301!
+/articles/scpi-questions-avant-souscrire/ /articles/checklist-investissement-scpi/ 301!
+/articles/scpi-don-parts-enfants-avance-hoirie /articles/scpi-don-parts-enfants-donation/ 301!
+/articles/scpi-don-parts-enfants-avance-hoirie/ /articles/scpi-don-parts-enfants-donation/ 301!
+/articles/scpi-ou-immo-direct-patrimoine /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301!
+/articles/scpi-ou-immo-direct-patrimoine/ /articles/scpi-ou-immobilier-locatif-comparatif-20-ans/ 301!
+
 # Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
 /scpi-bureaux-investissement /scpi-bureaux/ 301
 /scpi-bureaux-investissement/ /scpi-bureaux/ 301
