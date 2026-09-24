@@ -39,6 +39,8 @@ export interface SCPIExtended {
   // Données trimestrielles extraites des bulletins
   collecteNetteTrimestre?: number; // Collecte nette du trimestre (en €)
   nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
+  dataPeriod?: string; // Période de référence de la donnée affichée
+  dataDate?: string; // Date du bulletin source lorsqu'elle est disponible
 }
 
 const baseSCPIData: SCPIExtended[] = [
