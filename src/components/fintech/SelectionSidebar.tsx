@@ -560,14 +560,19 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     else if (avgYield >= 3) performanceScore = 2;
     else performanceScore = 1;
     
-    // Score de liquidité (0-5 étoiles basé sur le TOF moyen)
-    const avgTof = selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length;
-    let liquidityScore = 0;
-    if (avgTof >= 95) liquidityScore = 5;
-    else if (avgTof >= 92) liquidityScore = 4;
-    else if (avgTof >= 90) liquidityScore = 3;
-    else if (avgTof >= 85) liquidityScore = 2;
-    else liquidityScore = 1;
+    // Score de liquidité (0-5 étoiles) fondé sur des données de marché des parts,
+    // jamais sur le TOF qui mesure l'occupation locative et non la liquidité.
+    const liquidityScores = selectedScpis.map((s) => {
+      if (s.hasWaitingShares === true) return 1;
+      if (s.hasWaitingShares === false) {
+        if (typeof s.collecteNetteTrimestre === 'number' && s.collecteNetteTrimestre < 0) return 3;
+        return 4;
+      }
+      return 3; // information de marché non disponible : score neutre
+    });
+    const liquidityScore = liquidityScores.length > 0
+      ? liquidityScores.reduce((sum, value) => sum + value, 0) / liquidityScores.length
+      : 3;
     
     // Score de diversification (0-5 étoiles) — calcul structurel
     const diversificationScore = diversificationResult.stars;
@@ -616,7 +621,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Analyse de la diversification
     if (selectedScpis.length >= 4) {
-      pros.push('Diversification optimale avec plusieurs SCPI, réduisant significativement le risque de concentration');
+      pros.push('Diversification plus large avec plusieurs SCPI, ce qui peut réduire le risque de concentration sans le supprimer');
     } else if (selectedScpis.length >= 2) {
       pros.push('Diversification correcte permettant de limiter l\'exposition au risque spécifique d\'une seule SCPI');
     } else {
@@ -992,11 +997,11 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     {/* Tooltip */}
                     <div className="absolute left-0 top-full mt-2 w-64 p-3 bg-slate-800 border border-slate-600 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-xs text-slate-300">
                       <p className="font-semibold mb-2 text-white">Évaluation de la liquidité</p>
-                      <p className="mb-1">Basée sur le taux d'occupation financier (TOF) moyen.</p>
-                      <p className="text-slate-300 italic">La liquidité SCPI dépend également de :</p>
+                      <p className="mb-1">Basée en priorité sur la présence de parts en attente de retrait et, lorsqu'elle est disponible, la dynamique récente de collecte.</p>
+                      <p className="text-slate-300 italic">C'est un indicateur ponctuel, non une garantie de délai de revente.</p>
                       <ul className="list-disc list-inside mt-1 text-slate-300 space-y-0.5">
-                        <li>Délai de jouissance</li>
-                        <li>Mutualisation locative</li>
+                        <li>Le marché des parts peut évoluer rapidement</li>
+                        <li>Une absence de parts en attente ne garantit pas une cession immédiate</li>
                       </ul>
                     </div>
                   </div>
@@ -1118,7 +1123,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <p className="text-[9px] sm:text-[10px] text-slate-400 italic leading-relaxed">
                       <strong className="text-slate-300">Note :</strong> Cette analyse est basée sur les caractéristiques objectives du portefeuille sélectionné. 
                       Elle ne constitue pas un conseil personnalisé en investissement. 
-                      Un conseiller certifié ORIAS analysera votre situation personnelle avant toute décision.
+                      Un CGP-CIF peut analyser votre situation personnelle avant toute décision.
                     </p>
                   </div>
                 </div>
