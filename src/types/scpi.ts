@@ -54,12 +54,16 @@ export interface Scpi {
   liquidite?: string; // Situation de liquidité / marché des parts issue des documents sources
   partsAttenteRetrait?: number; // Nombre de parts en attente lorsque publié
   montantPartsAttenteRetraitM?: number; // Montant des parts en attente en M€ lorsque publié
+  nbPartsTotal?: number; // Nombre total de parts lorsque publié
   hasWaitingShares?: boolean; // Indicateur structuré dérivé des données officielles
   maximusWarnings?: string[]; // Points de vigilance factuels issus de la base MaximusSCPI
   maximusDataStatus?: string; // Statut de fraîcheur / extraction des données
   maximusSourcePeriode?: string; // Période de la source MaximusSCPI
   maximusSourceDocument?: string; // Bulletin, note d'information ou source officielle utilisée
   maximusUpdateDate?: string; // Date de mise à jour / vérification de la donnée
+  maximusLifecycleStatus?: 'normal' | 'dissolution_proposed' | 'liquidation'; // Situation exceptionnelle de la SCPI
+  maximusLifecycleNote?: string; // Explication factuelle du statut exceptionnel
+  maximusLifecycleSource?: string; // Source officielle ou réglementaire du statut
   actualiteTrimestrielle?: {
     Trimestre?: string;
     Faits_marquants?: string[];
