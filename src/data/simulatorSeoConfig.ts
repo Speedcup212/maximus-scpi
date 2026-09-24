@@ -6,7 +6,7 @@ export const simulatorSeoConfig = {
 
   'simulateur-revenus-nets': {
     title: 'Simulateur Revenus Nets SCPI 2026 Gratuit | MaximusSCPI',
-    description: 'Calculez vos revenus nets après impôts et prélèvements sociaux. Simulateur SCPI gratuit par conseiller ORIAS.',
+    description: 'Calculez vos revenus nets après impôts et prélèvements sociaux. Simulateur SCPI gratuit par CGP-CIF.',
     canonical: `${SITE}/simulateur-revenus-nets-scpi/`,
     app: { name: 'Simulateur Revenus Nets SCPI', description: 'Calculez les revenus nets de votre investissement SCPI après fiscalité (IR + PS)', url: `${SITE}/simulateur-revenus-nets-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Revenus nets'],
@@ -17,7 +17,7 @@ export const simulatorSeoConfig = {
   },
   'simulateur-credit': {
     title: 'Simulateur Crédit SCPI 2026 | Effet de Levier | MaximusSCPI',
-    description: 'Simulez votre investissement SCPI à crédit. Calcul mensualité, cash-flow, effet de levier. Outil gratuit conseiller ORIAS.',
+    description: 'Simulez votre investissement SCPI à crédit. Calcul mensualité, cash-flow, effet de levier. Outil gratuit CGP-CIF.',
     canonical: `${SITE}/simulateur-credit-scpi/`,
     app: { name: 'Simulateur Crédit SCPI', description: 'Simulez l\'achat de SCPI à crédit avec calcul de l\'effet de levier et déductibilité des intérêts', url: `${SITE}/simulateur-credit-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Crédit SCPI'],
@@ -60,7 +60,7 @@ export const simulatorSeoConfig = {
   },
   'simulateur-impact-fiscal': {
     title: 'Simulateur Impact Fiscal SCPI 2026 | MaximusSCPI',
-    description: 'Estimez l\'impact fiscal de votre investissement SCPI. IR, PS, abattements. Simulateur gratuit conseiller ORIAS.',
+    description: 'Estimez l\'impact fiscal de votre investissement SCPI. IR, PS, abattements. Simulateur gratuit CGP-CIF.',
     canonical: `${SITE}/simulateur-impact-fiscal-scpi/`,
     app: { name: 'Simulateur Impact Fiscal SCPI', description: 'Calculez l\'impact de vos revenus SCPI sur votre impôt sur le revenu et prélèvements sociaux', url: `${SITE}/simulateur-impact-fiscal-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Impact fiscal'],
@@ -89,14 +89,29 @@ export const simulatorSeoConfig = {
       { question: 'Quelle SCPI en nue-propriété ?', answer: 'Les SCPI européennes à fort rendement offrent souvent les meilleurs rendements en démembrement.' },
     ],
   },
+  'simulateur-marche-secondaire': {
+    title: 'Simulateur Revente SCPI 2026 | Prix de sortie & point mort | MaximusSCPI',
+    description: 'Simulez une revente de parts SCPI avec vos propres chiffres : prix payé, prix de sortie, frais, revenus encaissés, moins-value et point mort.',
+    canonical: `${SITE}/simulateur-marche-secondaire-scpi/`,
+    app: {
+      name: 'Simulateur de revente de parts SCPI',
+      description: 'Estimez le montant net récupérable, l’écart en capital et le point mort économique à partir de vos propres données.',
+      url: `${SITE}/simulateur-marche-secondaire-scpi/`
+    },
+    breadcrumb: ['Accueil', 'Simulateurs', 'Revente SCPI'],
+    faq: [
+      { question: 'Comment calculer la perte à la revente d’une SCPI ?', answer: 'Comparez le montant net récupérable au capital réellement investi, puis ajoutez les distributions déjà encaissées pour obtenir un bilan économique cumulé.' },
+      { question: 'Le prix de sortie d’une SCPI est-il garanti ?', answer: 'Non. Il dépend du mécanisme de sortie : prix de retrait pour une SCPI à capital variable, ou prix d’exécution issu de l’offre et de la demande sur un marché secondaire.' },
+    ],
+  },
   'simulateurs': {
     title: 'Simulateurs SCPI 2026 : Revenus, Crédit, Démembrement | MaximusSCPI',
-    description: '9 simulateurs SCPI gratuits : revenus nets, crédit, démembrement, enveloppes, impact fiscal, profil investisseur.',
+    description: 'Outils SCPI gratuits : revenus nets, crédit, démembrement, enveloppes, impact fiscal, profil investisseur.',
     canonical: `${SITE}/simulateurs/`,
     breadcrumb: ['Accueil', 'Simulateurs'],
     faq: [
-      { question: 'Quels simulateurs SCPI proposer ?', answer: 'MaximusSCPI propose 9 outils : simulateur revenus nets, crédit, démembrement, enveloppes fiscales, trésorerie IS, impact fiscal, profil investisseur, comparateur démembrement.' },
-      { question: 'Les simulateurs SCPI sont-ils gratuits ?', answer: 'Oui, tous les simulateurs MaximusSCPI sont gratuits et sans inscription. Conçus par un conseiller certifié ORIAS.' },
+      { question: 'Quels simulateurs SCPI proposer ?', answer: 'MaximusSCPI propose plusieurs outils : simulateur revenus nets, crédit, démembrement, enveloppes fiscales, trésorerie IS, impact fiscal, profil investisseur, comparateur démembrement.' },
+      { question: 'Les simulateurs SCPI sont-ils gratuits ?', answer: 'Oui, tous les simulateurs MaximusSCPI sont gratuits et sans inscription. Conçus par un CGP-CIF immatriculé à l’ORIAS.' },
     ],
   },
 } as const;
