@@ -92,6 +92,8 @@ export function enrichScpiExtended(
     // Données trimestrielles extraites des bulletins
     collecteNetteTrimestre: matchingScpi.collecteNetteTrimestre ?? scpiExtended.collecteNetteTrimestre,
     nbCessionsTrimestre: matchingScpi.nbCessionsTrimestre ?? scpiExtended.nbCessionsTrimestre,
+    dataPeriod: matchingScpi.maximusSourcePeriode ?? matchingScpi.periodeBulletinTrimestriel ?? scpiExtended.dataPeriod,
+    dataDate: matchingScpi.dateBulletin ?? scpiExtended.dataDate,
   };
 }
 
