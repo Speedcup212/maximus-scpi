@@ -10,8 +10,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = 'MaximusSCPI — Investir en SCPI avec un Expert Certifié ORIAS',
-  description = 'Comparez 63 SCPI en temps réel ✓ Rendements jusqu\'à 11,18% ✓ Simulateurs gratuits ✓ Conseiller certifié ORIAS ✓ Investissez dès 200€',
+  title = 'MaximusSCPI — Comparateur et analyse de SCPI | CGP-CIF',
+  description = 'Comparez les SCPI selon rendement, TOF, frais, capitalisation, endettement et risques. Analyses et outils par un CGP-CIF immatriculé à l’ORIAS.',
   keywords = ['comparateur SCPI', 'meilleure SCPI 2026', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI', 'conseil SCPI gratuit'],
   canonical,
   schemaData,
@@ -103,7 +103,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
         "@type": "ImageObject",
         "url": "https://maximusscpi.com/images/logo-96.webp"
       },
-      "description": "Comparateur SCPI indépendant — Conseil en Investissements Financiers certifié ORIAS",
+      "description": "Comparateur et analyses de SCPI — contenu élaboré par un CGP-CIF immatriculé à l’ORIAS",
       "founder": {
         "@type": "Person",
         "name": "Eric Bellaiche",
