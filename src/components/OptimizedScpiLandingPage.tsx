@@ -350,7 +350,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                       {[
                         {
                           label: 'Rendement',
@@ -387,14 +387,22 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           help: 'Niveau de dette'
                         },
                         {
-                          label: 'WALB',
-                          value: realScpiData.walb !== undefined ? `${realScpiData.walb.toFixed(1).replace('.', ',')} ans` : 'ND',
-                          help: 'Avant sorties possibles'
+                          label: 'WALB / WALT',
+                          value:
+                            realScpiData.walb !== undefined && realScpiData.walt !== undefined
+                              ? `${realScpiData.walb.toFixed(1).replace('.', ',')} / ${realScpiData.walt.toFixed(1).replace('.', ',')} ans`
+                              : 'ND',
+                          help: 'Sorties possibles / baux restants'
                         },
                         {
-                          label: 'WALT',
-                          value: realScpiData.walt !== undefined ? `${realScpiData.walt.toFixed(1).replace('.', ',')} ans` : 'ND',
-                          help: 'Durée restante des baux'
+                          label: 'Revalorisation',
+                          value: '+5,3 %',
+                          help: '237,50 € → 250 €'
+                        },
+                        {
+                          label: 'Délai de jouissance',
+                          value: '1er jour du 6e mois',
+                          help: 'Après souscription et règlement'
                         }
                       ].map((metric) => (
                         <div
@@ -404,9 +412,15 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">
                             {metric.label}
                           </div>
-                          <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-yellow-300 leading-none tabular-nums whitespace-nowrap">
+
+                          <div
+                            className={`mt-2 font-extrabold text-yellow-300 leading-none tabular-nums ${(
+                              metric.label === 'Délai de jouissance' || metric.label === 'WALB / WALT'
+                            ) ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}
+                          >
                             {metric.value}
                           </div>
+
                           <div className="mt-2 text-[11px] sm:text-xs leading-snug text-white/65">
                             {metric.help}
                           </div>
