@@ -86,7 +86,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
     const nativeEvent = e.nativeEvent as SubmitEvent;
     const submitter = nativeEvent.submitter as HTMLButtonElement | null;
     const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
-    const contextSlug = window.location.pathname.replace(/^\\/+|\\/+$/g, '') || 'home';
+    const contextSlug = window.location.pathname.replace(/^\/+|\/+$/g, '') || 'home';
 
     try {
       const result = await submitLead({
