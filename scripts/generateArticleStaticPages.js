@@ -237,7 +237,7 @@ const generateContent = (article) => {
     ],
     [
       `La diversification est un principe fondamental ${themeStr}. En répartissant votre investissement sur plusieurs SCPI aux stratégies complémentaires (bureaux, commerces, santé, logistique), vous réduisez votre exposition au risque tout en maintenant un rendement global attractif.`,
-      `Les données historiques montrent que les portefeuilles diversifiés de SCPI surperforment les stratégies mono-produit sur un horizon de 10 ans et plus. L'accompagnement par un professionnel certifié permet d'optimiser cette allocation selon votre situation fiscale et vos objectifs patrimoniaux.`
+      `La diversification peut réduire le risque de concentration, sans garantir une meilleure performance. Son intérêt dépend des secteurs, zones géographiques, sociétés de gestion, frais et risques propres aux SCPI sélectionnées.`
     ],
     [
       `La fiscalité des revenus ${themeStr} dépend de plusieurs facteurs : votre TMI (Tranche Marginale d'Imposition), le mode de détention (direct ou assurance-vie), et la localisation des actifs sous-jacents. Les SCPI européennes bénéficient d'une fiscalité avantageuse avec des revenus de source étrangère exonérés de prélèvements sociaux.`,
@@ -738,7 +738,7 @@ ${content.sections.map(s => `
       </div>
 
       <p class="disclaimer">
-        <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un conseiller en gestion de patrimoine agréé ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
+        <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un CGP-CIF immatriculé à l’ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
       </p>
     </article>
 
@@ -754,7 +754,7 @@ ${content.sections.map(s => `
         📞 Prendre Rendez-vous Gratuit
       </a>
       <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
-        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+        Sans engagement • CIF immatriculé ORIAS • Réponse sous 24h
       </p>
     </section>
 
@@ -846,7 +846,7 @@ const generateMD = (article, mgmtCompany = null, supabaseArticle = null) => {
       md += `${supabaseArticle.intro}\n\n`;
     }
     md += `---\n\n`;
-    md += `*Article généré par MaximusSCPI — Conseiller en gestion de patrimoine agréé ORIAS n°13001580.*\n`;
+    md += `*Article généré par MaximusSCPI — CGP-CIF immatriculé à l’ORIAS n°13001580.*\n`;
     md += `*URL : https://maximusscpi.com/articles/${article.slug}/*\n`;
     return md;
   }
@@ -885,7 +885,7 @@ const generateMD = (article, mgmtCompany = null, supabaseArticle = null) => {
     }
 
     md += `---\n\n`;
-    md += `*Article généré par MaximusSCPI — Conseiller en gestion de patrimoine agréé ORIAS n°13001580.*\n`;
+    md += `*Article généré par MaximusSCPI — CGP-CIF immatriculé à l’ORIAS n°13001580.*\n`;
     md += `*URL : https://maximusscpi.com/articles/${article.slug}/*\n`;
     return md;
   }
@@ -899,7 +899,7 @@ const generateMD = (article, mgmtCompany = null, supabaseArticle = null) => {
     s.paragraphs.forEach(p => { md += `${p}\n\n`; });
   });
   md += `---\n\n`;
-  md += `*Article généré par MaximusSCPI — Conseiller en gestion de patrimoine agréé ORIAS n°13001580.*\n`;
+  md += `*Article généré par MaximusSCPI — CGP-CIF immatriculé à l’ORIAS n°13001580.*\n`;
   md += `*URL : https://maximusscpi.com/articles/${article.slug}/*\n`;
   return md;
 };
