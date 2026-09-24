@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
             <div className="text-xs text-gray-400 space-y-1">
               <p>ORIAS N° <strong>13001580</strong></p>
               <p>CNCEF Patrimoine N° <strong>D016571</strong></p>
-              <p>Sous le contrôle de l'ACPR</p>
+              <p>CIF suivi par l'AMF</p>
             </div>
           </div>
 
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
         {/* Bandeau confiance E-E-A-T */}
         <div className="max-w-5xl mx-auto mb-8 flex flex-wrap justify-center gap-4 text-xs text-gray-400">
           <a href="/expertise-orias-cif/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
-            <Shield className="w-3.5 h-3.5" /> CIF certifié ORIAS
+            <Shield className="w-3.5 h-3.5" /> CIF immatriculé ORIAS
           </a>
           <a href="/methodologie-donnees-scpi/" className="flex items-center gap-1 hover:text-blue-400 transition-colors">
             <FileText className="w-3.5 h-3.5" /> Méthodologie transparente
