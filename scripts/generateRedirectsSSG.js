@@ -74,6 +74,12 @@ const generateRedirects = () => {
 /articles/scpi-isr-label-durable-esg /articles/scpi-isr-label-durable/ 301!
 /articles/scpi-isr-label-durable-esg/ /articles/scpi-isr-label-durable/ 301!
 
+# Redirections 301 anti-cannibalisation PER + SCPI
+/articles/per-scpi-retraite-complement /articles/per-scpi-retraite/ 301!
+/articles/per-scpi-retraite-complement/ /articles/per-scpi-retraite/ 301!
+/articles/scpi-per-retraite-strategie /articles/per-scpi-retraite/ 301!
+/articles/scpi-per-retraite-strategie/ /articles/per-scpi-retraite/ 301!
+
 # Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
 /scpi-bureaux-investissement /scpi-bureaux/ 301
 /scpi-bureaux-investissement/ /scpi-bureaux/ 301
