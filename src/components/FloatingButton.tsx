@@ -1,6 +1,5 @@
 import React from 'react';
 import { Calendar } from 'lucide-react';
-import { buildCalendlyUrl } from '../config/calendly';
 
 interface FloatingButtonProps {
   isVisible: boolean;
@@ -14,7 +13,9 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ isVisible, onClick }) =
       return;
     }
 
-    window.location.href = buildCalendlyUrl();
+    if (typeof (window as any).openRdvModal === 'function') {
+      (window as any).openRdvModal();
+    }
   };
 
   return (
