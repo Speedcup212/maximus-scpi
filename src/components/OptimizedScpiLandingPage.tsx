@@ -359,11 +359,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           help: 'Taille de la SCPI'
                         },
                         {
-                          label: 'Prix de part',
-                          value: formatCurrency(realScpiData.price),
-                          help: 'Prix de souscription'
-                        },
-                        {
                           label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
                           value: realScpiData.discountQaStatus === 'publishable'
                             ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
@@ -399,6 +394,24 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">{metric.help}</div>
                         </div>
                       ))}
+                    </div>
+
+                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
+                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Prix de la part</div>
+                        <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">{formatCurrency(realScpiData.price)}</div>
+                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">Prix actuel de souscription</div>
+                      </div>
+                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
+                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Revalorisation</div>
+                        <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">+5,3 %</div>
+                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">237,50 € → 250 € au 1er mars 2024</div>
+                      </div>
+                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
+                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Délai de jouissance</div>
+                        <div className="mt-1 text-lg sm:text-xl font-extrabold text-yellow-300 leading-tight">1er jour du 6e mois</div>
+                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">Après souscription et règlement</div>
+                      </div>
                     </div>
 
                     <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
