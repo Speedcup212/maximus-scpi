@@ -28,6 +28,7 @@ type SourceRegistry = {
 };
 
 type ExitMode = 'withdrawal' | 'secondary_market' | 'unknown';
+type DataStatus = 'verified' | 'partial' | 'unavailable';
 
 const fmtEuro = (value?: number | null, digits = 2) => {
   if (value == null || !Number.isFinite(value)) return 'Non disponible';
@@ -206,8 +207,17 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       { key: 'fundamentals', ok: selected.tof > 0 && debt != null && selected.yield > 0, weight: 5 },
     ];
 
-    const reliabilityScore = checks.reduce((sum, item) => sum + (item.ok ? item.weight : 0), 0);
+    const rawReliabilityScore = checks.reduce((sum, item) => sum + (item.ok ? item.weight : 0), 0);
     const criticalAvailable = checks.filter((item) => item.ok).length;
+
+    // Une donnée critique absente doit empêcher une note de confiance artificiellement élevée.
+    let reliabilityCap = 100;
+    if (!realisationCheck.usable || !reconstitutionCheck.usable) reliabilityCap = Math.min(reliabilityCap, 82);
+    if (!liquidityEvidence) reliabilityCap = Math.min(reliabilityCap, 74);
+    if (!sourceDocument || (!sourcePeriod && !sourceDate)) reliabilityCap = Math.min(reliabilityCap, 74);
+    if (mode === 'unknown' || currentExitPrice == null) reliabilityCap = Math.min(reliabilityCap, 64);
+
+    const reliabilityScore = Math.min(rawReliabilityScore, reliabilityCap);
     const reliability =
       reliabilityScore >= 85
         ? { label: 'Élevée', tone: 'emerald' as const }
@@ -246,6 +256,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       sourcePeriod,
       sourceDate,
       reliabilityScore,
+      rawReliabilityScore,
       reliability,
       criticalAvailable,
       criticalTotal: checks.length,
@@ -366,6 +377,11 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                     <div className="mt-0.5 text-[11px] opacity-80">
                       {diagnostic.criticalAvailable}/{diagnostic.criticalTotal} contrôles disponibles
                     </div>
+                    {diagnostic.missing.length > 0 && (
+                      <div className="mt-1 text-[10px] font-medium opacity-90">
+                        {diagnostic.missing.length} donnée{diagnostic.missing.length > 1 ? 's' : ''} importante{diagnostic.missing.length > 1 ? 's' : ''} à compléter
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -389,6 +405,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
+                  sourceUrl={sourceUrl}
+                  status={diagnostic.mode !== 'unknown' && diagnostic.sourceDocument ? 'verified' : diagnostic.mode !== 'unknown' ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -401,7 +419,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
-                  warning={diagnostic.currentExitPrice == null}
+                  sourceUrl={sourceUrl}
+                  status={diagnostic.currentExitPrice != null && diagnostic.sourceDocument ? 'verified' : diagnostic.currentExitPrice != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -410,18 +429,20 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                     diagnostic.waitingShares != null
                       ? fmtNumber(diagnostic.waitingShares)
                       : selected.hasWaitingShares === false
-                        ? 'Aucune signalée'
+                        ? 'Aucune mentionnée'
                         : selected.hasWaitingShares === true
                           ? 'Présentes'
                           : 'Non documenté'
                   }
                   note={
                     selected.hasWaitingShares === false
-                      ? 'Situation observée à la date de la source, sans garantie pour une future demande.'
+                      ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne prouve pas qu’il n’existe aucune demande aujourd’hui.'
                       : 'Le stock en attente est un indicateur de tension sur la liquidité.'
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
+                  sourceUrl={sourceUrl}
+                  status={diagnostic.waitingShares != null ? 'verified' : selected.hasWaitingShares != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -434,7 +455,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
-                  warning={diagnostic.realisationCheck.warning}
+                  sourceUrl={sourceUrl}
+                  status={diagnostic.realisationCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.realisation != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -447,7 +469,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
-                  warning={diagnostic.reconstitutionCheck.warning}
+                  sourceUrl={sourceUrl}
+                  status={diagnostic.reconstitutionCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.reconstitution != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -460,7 +483,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
-                  warning={diagnostic.debt == null}
+                  sourceUrl={sourceUrl}
+                  status={selected.tof > 0 && diagnostic.debt != null && diagnostic.sourceDocument ? 'verified' : selected.tof > 0 || diagnostic.debt != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
@@ -469,6 +493,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   note="Distribution historique : elle peut évoluer et n’est pas garantie."
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
+                  sourceUrl={sourceUrl}
+                  status={selected.yield > 0 && diagnostic.sourceDocument ? 'verified' : selected.yield > 0 ? 'partial' : 'unavailable'}
                 />
               </div>
 
@@ -476,7 +502,9 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <WalletCards className="h-4 w-4" />
-                    Montant récupérable estimable
+                    {diagnostic.mode === 'withdrawal'
+                      ? 'Montant théorique au prix de retrait actuel'
+                      : 'Montant théorique au dernier prix d’exécution'}
                   </div>
                   {diagnostic.estimatedGross != null ? (
                     <>
@@ -484,7 +512,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                         {fmtEuro(diagnostic.estimatedGross, 0)}
                       </p>
                       <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        {fmtNumber(parts)} parts × {fmtEuro(diagnostic.currentExitPrice)}. Estimation brute, hors fiscalité et sous réserve d’exécution.
+                        {fmtNumber(parts)} parts × {fmtEuro(diagnostic.currentExitPrice)}. Montant théorique brut, hors fiscalité et éventuels frais, sous réserve d’exécution effective.
                       </p>
                     </>
                   ) : (
@@ -509,7 +537,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                         : diagnostic.waitingShares != null && diagnostic.waitingShares > 0
                           ? `${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente : la liquidité mérite une vigilance renforcée.`
                           : selected.hasWaitingShares === false
-                            ? 'Aucune part en attente n’est signalée dans la source disponible, sans garantie pour une future demande.'
+                            ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne permet pas de conclure qu’aucune demande n’existe aujourd’hui.'
                             : 'Les données disponibles ne suffisent pas à mesurer précisément la tension sur les retraits.'
                     }
                   />
@@ -635,22 +663,63 @@ const DataCard: React.FC<{
   note: string;
   source?: string | null;
   period?: string | null;
-  warning?: boolean;
-}> = ({ title, value, note, source, period, warning = false }) => (
-  <div className={`rounded-2xl border bg-white p-5 dark:bg-gray-950 ${warning ? 'border-amber-300 dark:border-amber-900/60' : 'border-gray-200 dark:border-gray-800'}`}>
-    <div className="flex items-start justify-between gap-3">
-      <div className="text-sm text-gray-500 dark:text-gray-400">{title}</div>
-      {warning ? <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" /> : <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
-    </div>
-    <div className="mt-2 text-xl font-bold">{value}</div>
-    <p className="mt-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{note}</p>
-    {(source || period) && (
-      <div className="mt-3 border-t border-gray-100 pt-2 text-[10px] leading-relaxed text-gray-400 dark:border-gray-800 dark:text-gray-500">
-        Source : {[source, period].filter(Boolean).join(' · ')}
+  sourceUrl?: string | null;
+  status?: DataStatus;
+}> = ({ title, value, note, source, period, sourceUrl, status = 'partial' }) => {
+  const statusConfig = status === 'verified'
+    ? {
+        label: 'Vérifiée',
+        icon: <CheckCircle2 className="h-3.5 w-3.5" />,
+        badge: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-300',
+        border: 'border-gray-200 dark:border-gray-800',
+      }
+    : status === 'unavailable'
+      ? {
+          label: 'Non disponible',
+          icon: <Info className="h-3.5 w-3.5" />,
+          badge: 'border-slate-400/30 bg-slate-500/10 text-slate-500 dark:text-slate-300',
+          border: 'border-slate-300 dark:border-slate-700',
+        }
+      : {
+          label: 'Partielle',
+          icon: <AlertTriangle className="h-3.5 w-3.5" />,
+          badge: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-300',
+          border: 'border-amber-300 dark:border-amber-900/60',
+        };
+
+  const sourceLabel = period || (source ? 'document officiel' : null);
+
+  return (
+    <div className={`rounded-2xl border bg-white p-5 dark:bg-gray-950 ${statusConfig.border}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="text-sm text-gray-500 dark:text-gray-400">{title}</div>
+        <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${statusConfig.badge}`}>
+          {statusConfig.icon}
+          {statusConfig.label}
+        </span>
       </div>
-    )}
-  </div>
-);
+      <div className="mt-2 text-xl font-bold">{value}</div>
+      <p className="mt-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">{note}</p>
+      {sourceLabel && (
+        <div className="mt-3 border-t border-gray-100 pt-2 text-[10px] leading-relaxed text-gray-400 dark:border-gray-800 dark:text-gray-500">
+          {sourceUrl ? (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
+              title={source || undefined}
+            >
+              Source : {sourceLabel} <ExternalLink className="h-3 w-3" />
+            </a>
+          ) : (
+            <span title={source || undefined}>Source : {sourceLabel}</span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Insight: React.FC<{ title: string; text: string }> = ({ title, text }) => (
   <div className="rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
