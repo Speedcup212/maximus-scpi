@@ -55,6 +55,8 @@ export interface Scpi {
   maximusWarnings?: string[]; // Points de vigilance factuels issus de la base MaximusSCPI
   maximusDataStatus?: string; // Statut de fraîcheur / extraction des données
   maximusSourcePeriode?: string; // Période de la source MaximusSCPI
+  maximusSourceDocument?: string; // Bulletin, note d'information ou source officielle utilisée
+  maximusUpdateDate?: string; // Date de mise à jour / vérification de la donnée
   actualiteTrimestrielle?: {
     Trimestre?: string;
     Faits_marquants?: string[];
