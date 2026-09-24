@@ -2,7 +2,7 @@ export const COMPLIANCE_TEXT =
   "Cette page est pédagogique. Elle ne constitue pas une recommandation personnalisée ni un conseil en investissement. Avant toute souscription, il convient d'analyser votre situation, votre fiscalité, votre horizon d'investissement, vos objectifs et les documents réglementaires des SCPI."
 
 export const AUTHOR_CREDIT =
-  'Cabinet Eric Bellaiche, CGP-CIF inscrit ORIAS n°13001580'
+  'Cabinet Eric Bellaiche, CGP-CIF immatriculé à l’ORIAS n°13001580'
 
 export const RISK_REMINDER =
   'Investir en SCPI comporte des risques : perte en capital, revenus non garantis, liquidité limitée.'
@@ -20,6 +20,8 @@ export const INTERNAL_LINKS = [
   { href: '/frais-scpi', label: 'Frais SCPI — coûts et rendement net' },
   { href: '/risques-scpi', label: 'Risques SCPI — perte en capital, liquidité et fiscalité' },
   { href: '/liquidite-scpi', label: 'Liquidité SCPI — revente, délais et risques' },
+  { href: '/articles/revendre-parts-scpi-delais-marche-secondaire/', label: 'Guide revente SCPI — retrait, marché secondaire et délais' },
+  { href: '/simulateur-marche-secondaire-scpi/', label: 'Simulateur revente SCPI — prix de sortie et point mort' },
   { href: '/baisse-prix-part-scpi', label: 'Baisse du prix de part SCPI — causes et conséquences' },
   { href: '/delai-jouissance-scpi', label: 'Délai de jouissance SCPI — impact sur le rendement' },
   { href: '/report-a-nouveau-scpi', label: 'Report à nouveau SCPI — réserve et distribution' },
