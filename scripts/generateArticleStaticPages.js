@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const BUILD_CONTENT_SOURCE = 'Supabase articles_seo + GitHub static sources';
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
@@ -688,7 +689,7 @@ const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
       "author": {
         "@type": "Person",
         "name": "Eric Bellaiche",
-        "jobTitle": "Conseiller en Gestion de Patrimoine",
+        "jobTitle": "Conseiller en investissements financiers (CIF)",
         "url": "https://maximusscpi.com/"
       },
       "publisher": {
@@ -928,7 +929,7 @@ const generateLLMsTxt = (articles) => {
   });
 
   let txt = '# MaximusSCPI — Index des articles éditoriaux\n';
-  txt += '# Conseiller en Gestion de Patrimoine : Eric Bellaiche, ORIAS n°13001580\n';
+  txt += '# CGP-CIF : Eric Bellaiche, immatriculé à l’ORIAS n°13001580\n';
   txt += '# Source : https://maximusscpi.com/articles/\n\n';
 
   categoryOrder.forEach(cat => {
