@@ -84,6 +84,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     { subject: 'Taille', score: Math.round((scoreDetail.score_taille / 10) * 100), fullMark: 100 },
   ].map(item => ({ ...item, label: `${item.subject} ${item.score}` })) : [];
 
+  const sourceStatusLabel = (() => {
+    const status = scpi.dataStatus || '';
+    if (!status) return null;
+    if (status === 'manual_review') {
+      return { label: 'À vérifier manuellement', className: 'text-amber-300 bg-amber-500/10 border-amber-500/30' };
+    }
+    if (status.startsWith('extracted_')) {
+      return { label: 'Source officielle intégrée', className: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' };
+    }
+    return { label: status, className: 'text-slate-300 bg-slate-700/40 border-slate-600' };
+  })();
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -316,6 +328,67 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </div>
           </div>
         </div>
+
+        {(scpi.dataSourceDocument || scpi.dataPeriod || scpi.dataDate || scpi.dataUpdateDate || scpi.liquidityNote) && (
+          <div className="px-6 pb-6">
+            <div className="rounded-xl border border-slate-700 bg-slate-900/45 p-5 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-emerald-400" />
+                    Source & fraîcheur des données
+                  </h3>
+                  <p className="mt-1 text-xs text-slate-400">
+                    Provenance des informations utilisées dans l’analyse MaximusSCPI.
+                  </p>
+                </div>
+                {sourceStatusLabel && (
+                  <span className={`inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-[10px] font-semibold ${sourceStatusLabel.className}`}>
+                    {sourceStatusLabel.label}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {scpi.dataSourceDocument && (
+                  <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3">
+                    <div className="text-[10px] uppercase tracking-wide text-slate-500">Document source</div>
+                    <div className="mt-1 text-xs sm:text-sm font-semibold text-slate-200">{scpi.dataSourceDocument}</div>
+                  </div>
+                )}
+                {(scpi.dataPeriod || scpi.dataDate) && (
+                  <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3">
+                    <div className="text-[10px] uppercase tracking-wide text-slate-500">Période / date</div>
+                    <div className="mt-1 text-xs sm:text-sm font-semibold text-slate-200">
+                      {[scpi.dataPeriod, scpi.dataDate].filter(Boolean).join(' · ')}
+                    </div>
+                  </div>
+                )}
+                {scpi.dataUpdateDate && (
+                  <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-3">
+                    <div className="text-[10px] uppercase tracking-wide text-slate-500">Vérification Maximus</div>
+                    <div className="mt-1 flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-200">
+                      <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                      {scpi.dataUpdateDate}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {scpi.liquidityNote && (
+                <div className="mt-4 rounded-lg border border-amber-500/25 bg-amber-500/5 p-4">
+                  <div className="flex items-center gap-2 text-xs font-bold text-amber-300">
+                    <AlertCircle className="w-4 h-4" />
+                    Information de liquidité issue de la source
+                  </div>
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-slate-300">
+                    {scpi.liquidityNote}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Radar MaximusSCPI — décomposition de la note */}
         {radarData.length > 0 && (
