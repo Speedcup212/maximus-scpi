@@ -39,6 +39,11 @@ const NumericInput: React.FC<NumericInputProps> = ({
         min={0}
         max={max}
         step={step}
+        onFocus={(e) => {
+          if (value === 0) {
+            e.currentTarget.select();
+          }
+        }}
         onChange={(e) => {
           const next = e.currentTarget.valueAsNumber;
           onChange(Number.isFinite(next) ? clamp(next, 0, max) : 0);
