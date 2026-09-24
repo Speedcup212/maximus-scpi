@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import { ScpiLandingData } from '../data/landingPagesData';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
-import { CALENDLY_URL } from '../config/calendly';
 import { qualifyYield } from '../utils/yieldContext';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import SEOHead from './SEOHead';
@@ -241,62 +240,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       ...formData,
       [e.target.name]: e.target.value
     });
-  };
-
-  // Charger le script Calendly
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup: retirer le script quand le composant est démonté
-      const existingScript = document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]');
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-    };
-  }, []);
-
-  const openCalendly = () => {
-    // Récupérer les paramètres UTM/gclid depuis sessionStorage
-    const utmSource = sessionStorage.getItem('utm_source');
-    const utmMedium = sessionStorage.getItem('utm_medium');
-    const utmCampaign = sessionStorage.getItem('utm_campaign');
-    const gclid = sessionStorage.getItem('gclid');
-
-    // Construire les options Calendly avec les paramètres UTM
-    const calendlyOptions: any = {
-      url: CALENDLY_URL
-    };
-
-    // Ajouter les paramètres UTM si présents
-    if (utmSource || utmMedium || utmCampaign) {
-      calendlyOptions.utm = {
-        utmSource: utmSource || undefined,
-        utmMedium: utmMedium || undefined,
-        utmCampaign: utmCampaign || undefined,
-        utmContent: gclid || undefined
-      };
-      console.log('📅 Ouverture Calendly avec paramètres UTM:', calendlyOptions.utm);
-    }
-
-    if (window.Calendly) {
-      window.Calendly.initPopupWidget(calendlyOptions);
-    } else {
-      // Fallback: construire l'URL avec les paramètres
-      let calendlyUrl = CALENDLY_URL;
-      const params = [];
-      if (utmSource) params.push(`utm_source=${utmSource}`);
-      if (utmMedium) params.push(`utm_medium=${utmMedium}`);
-      if (utmCampaign) params.push(`utm_campaign=${utmCampaign}`);
-      if (gclid) params.push(`utm_content=${gclid}`);
-      if (params.length > 0) {
-        calendlyUrl += '?' + params.join('&');
-      }
-      window.open(calendlyUrl, '_blank');
-    }
   };
 
   const handleBackToHome = () => {
@@ -739,15 +682,14 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={handleContactClick}
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800 transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 Réserver 15 min
-              </a>
+              </button>
               <button
                 type="button"
                 onClick={() => onComparateurClick?.()}
