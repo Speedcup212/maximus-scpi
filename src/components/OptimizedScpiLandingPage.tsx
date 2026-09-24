@@ -328,7 +328,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   {landingData.description_courte}
                 </p>
 
-                {realScpiData && scpiKey === 'comete' ? (
+                {realScpiData ? (
                   <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
                     <div className="flex items-end justify-between gap-3 mb-4">
                       <div>
@@ -388,15 +388,25 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                               : 'ND',
                           help: 'Sorties possibles / baux restants'
                         },
-                        {
-                          label: 'Revalorisation',
-                          value: '+5,3 %',
-                          help: '237,50 € → 250 €'
-                        },
+                        scpiKey === 'comete'
+                          ? {
+                              label: 'Revalorisation',
+                              value: '+5,3 %',
+                              help: '237,50 € → 250 €'
+                            }
+                          : {
+                              label: "Frais d'entrée",
+                              value: realScpiData.fees !== undefined ? formatPercentage(realScpiData.fees) : 'ND',
+                              help: realScpiData.fees === 0 ? 'Sans frais de souscription' : 'Frais de souscription TTC'
+                            },
                         {
                           label: 'Délai de jouissance',
-                          value: '1er jour du 6e mois',
-                          help: 'Après souscription et règlement'
+                          value: realScpiData.delaiJouissance !== undefined
+                            ? realScpiData.delaiJouissance === 0
+                              ? 'Immédiat'
+                              : `${realScpiData.delaiJouissance} mois`
+                            : 'ND',
+                          help: 'Avant perception des premiers revenus'
                         }
                       ].map((metric) => (
                         <div
