@@ -338,10 +338,10 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
                     <div className="flex items-end justify-between gap-3 mb-4">
                       <div>
-                        <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/70">
+                        <div className="text-sm sm:text-base font-semibold uppercase tracking-wide text-white/70">
                           Les chiffres essentiels
                         </div>
-                        <div className="text-sm sm:text-base text-white/90 mt-1">
+                        <div className="text-base sm:text-lg text-white/90 mt-1">
                           Une lecture simple avant d'aller dans le détail
                         </div>
                       </div>
@@ -409,19 +409,19 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           key={metric.label}
                           className="rounded-xl border border-white/15 bg-slate-950/20 p-4 min-h-[132px] flex flex-col justify-between"
                         >
-                          <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">
+                          <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/65">
                             {metric.label}
                           </div>
 
                           <div
                             className={`mt-2 font-extrabold text-yellow-300 leading-none tabular-nums ${(
                               metric.label === 'Délai de jouissance' || metric.label === 'WALB / WALT'
-                            ) ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'}`}
+                            ) ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-[32px]'}`}
                           >
                             {metric.value}
                           </div>
 
-                          <div className="mt-2 text-[11px] sm:text-xs leading-snug text-white/65">
+                          <div className="mt-2 text-xs sm:text-[13px] leading-snug text-white/65">
                             {metric.help}
                           </div>
                         </div>
