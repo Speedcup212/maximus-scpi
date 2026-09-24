@@ -80,6 +80,10 @@ const generateRedirects = () => {
 /articles/scpi-per-retraite-strategie /articles/per-scpi-retraite/ 301!
 /articles/scpi-per-retraite-strategie/ /articles/per-scpi-retraite/ 301!
 
+# Redirection 301 anti-cannibalisation SCPI hôtellerie
+/articles/scpi-hotellerie-tourisme-2026 /articles/scpi-hotellerie-tourisme/ 301!
+/articles/scpi-hotellerie-tourisme-2026/ /articles/scpi-hotellerie-tourisme/ 301!
+
 # Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
 /scpi-bureaux-investissement /scpi-bureaux/ 301
 /scpi-bureaux-investissement/ /scpi-bureaux/ 301
