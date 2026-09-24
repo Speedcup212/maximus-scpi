@@ -78,6 +78,16 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
   const [mode, setMode] = useState<'assisted' | 'manual'>('assisted');
   const [selectedScpiName, setSelectedScpiName] = useState('');
   const [acquisitionMonth, setAcquisitionMonth] = useState('');
+  const acquisitionMonthPart = acquisitionMonth ? acquisitionMonth.slice(5, 7) : '';
+  const acquisitionYearPart = acquisitionMonth ? acquisitionMonth.slice(0, 4) : '';
+
+  const setAcquisitionDatePart = (month: string, year: string) => {
+    if (month && year) {
+      setAcquisitionMonth(`${year}-${month}`);
+    } else {
+      setAcquisitionMonth('');
+    }
+  };
   const [parts, setParts] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
   const [salePrice, setSalePrice] = useState(0);
@@ -236,18 +246,43 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
 
                 {selectedScpi && (
                   <>
-                    <label className="block">
-                      <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">Mois d'achat</span>
-                      <input
-                        type="month"
-                        value={acquisitionMonth}
-                        onChange={(e) => setAcquisitionMonth(e.target.value)}
-                        className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                      />
+                    <div className="block">
+                      <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">Date d'achat</span>
+                      <div className="grid grid-cols-2 gap-3">
+                        <select
+                          value={acquisitionMonthPart}
+                          onChange={(e) => setAcquisitionDatePart(e.target.value, acquisitionYearPart)}
+                          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        >
+                          <option value="">Mois</option>
+                          <option value="01">Janvier</option>
+                          <option value="02">Février</option>
+                          <option value="03">Mars</option>
+                          <option value="04">Avril</option>
+                          <option value="05">Mai</option>
+                          <option value="06">Juin</option>
+                          <option value="07">Juillet</option>
+                          <option value="08">Août</option>
+                          <option value="09">Septembre</option>
+                          <option value="10">Octobre</option>
+                          <option value="11">Novembre</option>
+                          <option value="12">Décembre</option>
+                        </select>
+                        <select
+                          value={acquisitionYearPart}
+                          onChange={(e) => setAcquisitionDatePart(acquisitionMonthPart, e.target.value)}
+                          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        >
+                          <option value="">Année</option>
+                          {Array.from({ length: 36 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                            <option key={year} value={year}>{year}</option>
+                          ))}
+                        </select>
+                      </div>
                       <span className="block mt-1.5 text-xs text-gray-500 dark:text-gray-400">
                         Si Maximus connaît le prix historique de cette période, il sera prérempli automatiquement.
                       </span>
-                    </label>
+                    </div>
 
                     {isPrimovieSecondaryMarket && (
                       <div className="rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20 p-4">
