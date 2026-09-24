@@ -147,7 +147,6 @@ const DiversificationScpi = lazy(() => import('./components/articles/Diversifica
 const RendementScpi2025 = lazy(() => import('./components/articles/RendementScpi2025TdvmTauxDistributionArticle').then(m => ({ default: m.RendementScpi2025TdvmTauxDistributionArticle || m.default })));
 const RisquesScpi = lazy(() => import('./components/articles/RisquesScpiVacanceLocativeLiquiditeArticle').then(m => ({ default: m.RisquesScpiVacanceLocativeLiquiditeArticle || m.default })));
 const FraisScpi = lazy(() => import('./components/articles/FraisScpiSouscriptionGestionPerformanceArticle').then(m => ({ default: m.FraisScpiSouscriptionGestionPerformanceArticle || m.default })));
-const ReventeScpi = lazy(() => import('./components/articles/RevendrePartsScpiDelaisMarcheSecondaireArticle').then(m => ({ default: m.RevendrePartsScpiDelaisMarcheSecondaireArticle || m.default })));
 const ScpiOuEtf = lazy(() => import('./components/articles/ScpiOuEtfImmobilierReitComparatifArticle').then(m => ({ default: m.ScpiOuEtfImmobilierReitComparatifArticle || m.default })));
 const ScpiOuOpci = lazy(() => import('./components/articles/ScpiOuOpciDifferencesAvantagesArticle').then(m => ({ default: m.ScpiOuOpciDifferencesAvantagesArticle || m.default })));
 const PremierInvestissementScpi = lazy(() => import('./components/articles/PremierInvestissementScpiDebutantGuideArticle').then(m => ({ default: m.PremierInvestissementScpiDebutantGuideArticle || m.default })));
@@ -3225,7 +3224,6 @@ const App: React.FC = () => {
     'article-rendement-scpi-2025': RendementScpi2025,
     'article-risques-scpi': RisquesScpi,
     'article-frais-scpi': FraisScpi,
-    'article-revente-scpi': ReventeScpi,
     'article-scpi-vs-etf': ScpiOuEtf,
     'article-scpi-vs-opci': ScpiOuOpci,
     'article-premier-investissement': PremierInvestissementScpi,
