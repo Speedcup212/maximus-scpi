@@ -616,6 +616,55 @@ const escapeHtml = (str) => {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 };
 
+
+const getRelatedLinksHTML = (article) => {
+  const cat = String(article.category || '').toLowerCase();
+  let links;
+
+  if (cat.includes('fiscal') || cat.includes('transmission') || cat.includes('reglement')) {
+    links = [
+      { href: '/articles/scpi-direct-ou-assurance-vie/', label: 'SCPI en direct ou en assurance-vie' },
+      { href: '/articles/forte-imposition-tmi-41-scpi-assurance-vie/', label: 'SCPI et TMI 41 % : comparer les modes de détention' },
+      { href: '/articles/ifi-scpi-impot-fortune-immobiliere-strategies/', label: 'IFI et SCPI : calcul et points de vigilance' }
+    ];
+  } else if (cat.includes('analyse') || cat.includes('risque')) {
+    links = [
+      { href: '/articles/scpi-valeur-reconstitution-surcote-decote/', label: 'Valeur de reconstitution : décote et surcote' },
+      { href: '/articles/walt-walb-scpi-duree-baux-risque-locatif/', label: 'WALT et WALB : lire la durée des baux' },
+      { href: '/articles/revendre-parts-scpi-delais-marche-secondaire/', label: 'Revendre des parts de SCPI : délais et marché secondaire' }
+    ];
+  } else if (cat.includes('comparatif')) {
+    links = [
+      { href: '/meilleures-scpi-rendement/', label: 'Comparer les SCPI de rendement' },
+      { href: '/articles/lmnp-ou-scpi/', label: 'LMNP ou SCPI : comparatif immobilier' },
+      { href: '/articles/scpi-ou-immobilier-locatif-comparatif-20-ans/', label: 'SCPI ou immobilier locatif direct' }
+    ];
+  } else if (cat.includes('strategie') || cat.includes('retraite')) {
+    links = [
+      { href: '/articles/per-scpi-retraite/', label: 'PER et SCPI pour préparer la retraite' },
+      { href: '/articles/scpi-revenu-complementaire-retraite/', label: 'SCPI et revenus complémentaires à la retraite' },
+      { href: '/articles/scpi-credit-effet-levier/', label: 'SCPI à crédit : levier et risques' }
+    ];
+  } else {
+    links = [
+      { href: '/articles/comment-acheter-scpi/', label: 'Comment acheter des parts de SCPI' },
+      { href: '/articles/premier-investissement-scpi-debutant/', label: 'Premier investissement SCPI : guide débutant' },
+      { href: '/articles/checklist-investissement-scpi/', label: 'Checklist avant d’investir en SCPI' }
+    ];
+  }
+
+  const filtered = links.filter(link => !link.href.includes('/' + article.slug + '/')).slice(0, 3);
+  if (!filtered.length) return '';
+
+  return `
+    <aside class="related-reading" aria-label="À lire aussi">
+      <h2>À lire aussi</h2>
+      <ul>
+        ${filtered.map(link => `<li><a href="${link.href}">${link.label}</a></li>`).join('')}
+      </ul>
+    </aside>`;
+};
+
 const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   const baseUrl = 'https://maximusscpi.com';
   const pageUrl = `${baseUrl}/articles/${article.slug}/`;
@@ -737,6 +786,8 @@ ${content.sections.map(s => `
 `)
 }
       </div>
+
+      ${getRelatedLinksHTML(article)}
 
       <p class="disclaimer">
         <strong>Avertissement :</strong> Cet article a une vocation pédagogique et informative. Les performances passées ne préjugent pas des performances futures. Investir en SCPI comporte un risque de perte en capital. Les revenus ne sont pas garantis et dépendent de l'évolution du marché immobilier. Avant toute décision d'investissement, consultez un CGP-CIF immatriculé à l’ORIAS. Eric Bellaiche — ORIAS n°13001580 — CNCEF D016571.
