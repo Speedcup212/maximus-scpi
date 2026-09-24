@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, ArrowRight, Euro, Gauge, Info, RotateCcw, Search, TrendingDown, TrendingUp } from 'lucide-react';
-import scpiDataExtended from '../data/scpiDataExtended';
+import React, { useMemo, useState } from 'react';
+import { AlertTriangle, ArrowRight, Euro, Gauge, Info, RotateCcw, TrendingDown, TrendingUp } from 'lucide-react';
 
 const formatEuro = (value: number) =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(Number.isFinite(value) ? value : 0);
@@ -40,9 +39,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
         max={max}
         step={step}
         onFocus={(e) => {
-          if (value === 0) {
-            e.currentTarget.select();
-          }
+          if (value === 0) e.currentTarget.select();
         }}
         onChange={(e) => {
           const next = e.currentTarget.valueAsNumber;
@@ -56,91 +53,13 @@ const NumericInput: React.FC<NumericInputProps> = ({
   </label>
 );
 
-type HistoricalPricePeriod = {
-  from: string;
-  to: string;
-  price: number;
-};
-
-// Historique validé progressivement. Le moteur n'auto-remplit que lorsqu'une période est connue.
-// Les mois où un changement de prix intervient en cours de mois sont volontairement exclus.
-const HISTORICAL_PRICES: Record<string, HistoricalPricePeriod[]> = {
-  Primovie: [
-    { from: '2018-01', to: '2024-01', price: 203 },
-    { from: '2024-03', to: '2024-12', price: 185 },
-    { from: '2025-02', to: '2026-05', price: 164 },
-  ],
-};
-
-const findHistoricalPrice = (name: string, month: string): number | null => {
-  if (!name || !month) return null;
-  const periods = HISTORICAL_PRICES[name] || [];
-  const match = periods.find((period) => month >= period.from && month <= period.to);
-  return match?.price ?? null;
-};
-
 const ScpiSecondaryMarketSimulator: React.FC = () => {
-  const [mode, setMode] = useState<'assisted' | 'manual'>('assisted');
-  const [selectedScpiName, setSelectedScpiName] = useState('');
-  const [acquisitionMonth, setAcquisitionMonth] = useState('');
-  const acquisitionMonthPart = acquisitionMonth ? acquisitionMonth.slice(5, 7) : '';
-  const acquisitionYearPart = acquisitionMonth ? acquisitionMonth.slice(0, 4) : '';
-
-  const setAcquisitionDatePart = (month: string, year: string) => {
-    if (month && year) {
-      setAcquisitionMonth(`${year}-${month}`);
-    } else {
-      setAcquisitionMonth('');
-    }
-  };
   const [parts, setParts] = useState(0);
   const [purchasePrice, setPurchasePrice] = useState(0);
   const [salePrice, setSalePrice] = useState(0);
   const [saleFeesPct, setSaleFeesPct] = useState(0);
   const [annualDistributionPerPart, setAnnualDistributionPerPart] = useState(0);
   const [distributionsReceived, setDistributionsReceived] = useState(0);
-  const [purchasePriceAuto, setPurchasePriceAuto] = useState(false);
-
-  const scpiOptions = useMemo(
-    () => [...scpiDataExtended].sort((a, b) => a.name.localeCompare(b.name, 'fr')),
-    []
-  );
-
-  const selectedScpi = useMemo(
-    () => scpiOptions.find((scpi) => scpi.name === selectedScpiName) || null,
-    [scpiOptions, selectedScpiName]
-  );
-
-  const isPrimovieSecondaryMarket = selectedScpiName === 'Primovie';
-
-  useEffect(() => {
-    if (mode !== 'assisted' || !selectedScpi) return;
-
-    if (isPrimovieSecondaryMarket) {
-      setSalePrice(0);
-    } else {
-      setSalePrice(selectedScpi.valeurRetrait ?? selectedScpi.price ?? 0);
-    }
-
-    if (selectedScpi.distribution && selectedScpi.distribution > 0) {
-      setAnnualDistributionPerPart(selectedScpi.distribution);
-    } else if (selectedScpi.price > 0 && selectedScpi.yield > 0) {
-      setAnnualDistributionPerPart(Number(((selectedScpi.price * selectedScpi.yield) / 100).toFixed(2)));
-    } else {
-      setAnnualDistributionPerPart(0);
-    }
-  }, [mode, selectedScpi, isPrimovieSecondaryMarket]);
-
-  useEffect(() => {
-    if (mode !== 'assisted' || !selectedScpiName || !acquisitionMonth) return;
-    const historical = findHistoricalPrice(selectedScpiName, acquisitionMonth);
-    if (historical !== null) {
-      setPurchasePrice(historical);
-      setPurchasePriceAuto(true);
-    } else {
-      setPurchasePriceAuto(false);
-    }
-  }, [mode, selectedScpiName, acquisitionMonth]);
 
   const r = useMemo(() => {
     const n = clamp(parts, 0, 1000000);
@@ -164,26 +83,30 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     const breakEvenYears = annualIncome > 0 ? lossToRecover / annualIncome : null;
     const exitDiscountPct = pp > 0 ? ((sp - pp) / pp) * 100 : 0;
 
-    return { invested, grossExit, saleFees, netExit, capitalDelta, capitalDeltaPct, totalEconomic, totalDelta, totalDeltaPct, annualIncome, lossToRecover, breakEvenYears, exitDiscountPct };
+    return {
+      invested,
+      saleFees,
+      netExit,
+      capitalDelta,
+      capitalDeltaPct,
+      totalDelta,
+      totalDeltaPct,
+      annualIncome,
+      lossToRecover,
+      breakEvenYears,
+      exitDiscountPct,
+    };
   }, [parts, purchasePrice, salePrice, saleFeesPct, annualDistributionPerPart, distributionsReceived]);
 
   const ready = parts > 0 && purchasePrice > 0 && salePrice > 0;
 
   const reset = () => {
-    setSelectedScpiName('');
-    setAcquisitionMonth('');
     setParts(0);
     setPurchasePrice(0);
     setSalePrice(0);
     setSaleFeesPct(0);
     setAnnualDistributionPerPart(0);
     setDistributionsReceived(0);
-    setPurchasePriceAuto(false);
-  };
-
-  const switchMode = (nextMode: 'assisted' | 'manual') => {
-    setMode(nextMode);
-    reset();
   };
 
   const positive = r.totalDelta >= 0;
@@ -195,151 +118,29 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
           <p className="text-sm uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-semibold">Outil MaximusSCPI</p>
           <h1 className="mt-2 text-3xl md:text-4xl font-bold">Simulateur de revente de parts SCPI</h1>
           <p className="mt-3 text-gray-600 dark:text-gray-300 text-lg">
-            Choisissez votre SCPI pour laisser Maximus préremplir les données connues, ou saisissez directement vos propres chiffres.
+            Saisissez vos propres chiffres pour estimer ce que vous récupéreriez en revendant vos parts aujourd’hui.
           </p>
-        </div>
-
-        <div className="mt-7 inline-flex rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 p-1">
-          <button
-            type="button"
-            onClick={() => switchMode('assisted')}
-            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${mode === 'assisted' ? 'bg-emerald-500 text-white' : 'text-gray-600 dark:text-gray-300'}`}
-          >
-            Ma SCPI est référencée
-          </button>
-          <button
-            type="button"
-            onClick={() => switchMode('manual')}
-            className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${mode === 'manual' ? 'bg-emerald-500 text-white' : 'text-gray-600 dark:text-gray-300'}`}
-          >
-            Saisie manuelle
-          </button>
         </div>
 
         <div className="mt-8 grid lg:grid-cols-[0.9fr_1.1fr] gap-7 items-start">
           <section className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-6">
             <div className="flex items-center justify-between gap-3 mb-6">
-              <h2 className="text-xl font-bold">{mode === 'assisted' ? 'Votre SCPI' : 'Vos données'}</h2>
+              <h2 className="text-xl font-bold">Vos informations</h2>
               <button type="button" onClick={reset} className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-emerald-600">
                 <RotateCcw className="w-4 h-4" /> Réinitialiser
               </button>
             </div>
 
-            {mode === 'assisted' && (
-              <div className="mb-6 space-y-5">
-                <label className="block">
-                  <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">Quelle SCPI détenez-vous ?</span>
-                  <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <select
-                      value={selectedScpiName}
-                      onChange={(e) => {
-                        setSelectedScpiName(e.target.value);
-                        setAcquisitionMonth('');
-                        setPurchasePrice(0);
-                        setPurchasePriceAuto(false);
-                      }}
-                      className="w-full appearance-none rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 pl-11 pr-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    >
-                      <option value="">Rechercher / choisir une SCPI</option>
-                      {scpiOptions.map((scpi) => (
-                        <option key={scpi.id} value={scpi.name}>{scpi.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </label>
-
-                {selectedScpi && (
-                  <>
-                    <div className="block">
-                      <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">Date d'achat</span>
-                      <div className="grid grid-cols-2 gap-3">
-                        <select
-                          value={acquisitionMonthPart}
-                          onChange={(e) => setAcquisitionDatePart(e.target.value, acquisitionYearPart)}
-                          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        >
-                          <option value="">Mois</option>
-                          <option value="01">Janvier</option>
-                          <option value="02">Février</option>
-                          <option value="03">Mars</option>
-                          <option value="04">Avril</option>
-                          <option value="05">Mai</option>
-                          <option value="06">Juin</option>
-                          <option value="07">Juillet</option>
-                          <option value="08">Août</option>
-                          <option value="09">Septembre</option>
-                          <option value="10">Octobre</option>
-                          <option value="11">Novembre</option>
-                          <option value="12">Décembre</option>
-                        </select>
-                        <select
-                          value={acquisitionYearPart}
-                          onChange={(e) => setAcquisitionDatePart(acquisitionMonthPart, e.target.value)}
-                          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        >
-                          <option value="">Année</option>
-                          {Array.from({ length: 36 }, (_, i) => new Date().getFullYear() - i).map((year) => (
-                            <option key={year} value={year}>{year}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <span className="block mt-1.5 text-xs text-gray-500 dark:text-gray-400">
-                        Si Maximus connaît le prix historique de cette période, il sera prérempli automatiquement.
-                      </span>
-                    </div>
-
-                    {isPrimovieSecondaryMarket && (
-                      <div className="rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20 p-4">
-                        <p className="text-sm font-semibold text-amber-900 dark:text-amber-200">Primovie : marché secondaire</p>
-                        <p className="mt-1 text-xs text-amber-800 dark:text-amber-300">
-                          Maximus ne préremplit pas un faux « prix de retrait ». Saisissez ci-dessous le prix de sortie que vous souhaitez tester.
-                        </p>
-                      </div>
-                    )}
-                  </>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => switchMode('manual')}
-                  className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
-                >
-                  Je ne trouve pas ma SCPI → saisir mes chiffres
-                </button>
-              </div>
-            )}
-
             <div className="grid sm:grid-cols-2 gap-5">
               <NumericInput label="Nombre de parts" value={parts} onChange={setParts} suffix="parts" />
+              <NumericInput label="Prix payé par part" value={purchasePrice} onChange={setPurchasePrice} suffix="€" step={0.01} />
               <NumericInput
-                label="Prix payé par part"
-                value={purchasePrice}
-                onChange={(value) => {
-                  setPurchasePrice(value);
-                  setPurchasePriceAuto(false);
-                }}
-                suffix="€"
-                step={0.01}
-                helper={
-                  mode === 'assisted' && purchasePriceAuto
-                    ? 'Prix historique prérempli par Maximus — modifiable.'
-                    : mode === 'assisted' && selectedScpiName && acquisitionMonth
-                      ? 'Historique non disponible pour cette période : saisissez votre prix réel.'
-                      : undefined
-                }
-              />
-              <NumericInput
-                label={isPrimovieSecondaryMarket && mode === 'assisted' ? 'Prix de sortie à tester' : 'Prix de sortie estimé par part'}
+                label="Prix de sortie actuel par part"
                 value={salePrice}
                 onChange={setSalePrice}
                 suffix="€"
                 step={0.01}
-                helper={
-                  mode === 'assisted' && selectedScpi && !isPrimovieSecondaryMarket
-                    ? 'Valeur de retrait connue préremplie par Maximus — modifiable.'
-                    : undefined
-                }
+                helper="Prix de retrait ou dernier prix d’exécution connu."
               />
               <NumericInput label="Frais de cession estimés" value={saleFeesPct} onChange={setSaleFeesPct} suffix="%" step={0.1} max={30} />
               <NumericInput
@@ -348,15 +149,22 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 onChange={setAnnualDistributionPerPart}
                 suffix="€"
                 step={0.01}
-                helper={mode === 'assisted' && selectedScpi ? 'Donnée Maximus préremplie lorsqu’elle est disponible — modifiable.' : undefined}
+                helper="Facultatif — utile pour calculer le point mort."
               />
-              <NumericInput label="Revenus déjà encaissés" value={distributionsReceived} onChange={setDistributionsReceived} suffix="€" step={100} />
+              <NumericInput
+                label="Revenus déjà encaissés"
+                value={distributionsReceived}
+                onChange={setDistributionsReceived}
+                suffix="€"
+                step={100}
+                helper="Facultatif."
+              />
             </div>
 
             <div className="mt-6 rounded-xl bg-gray-50 dark:bg-gray-900 p-4 flex gap-3">
               <Info className="w-5 h-5 text-gray-500 shrink-0 mt-0.5" />
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Les données préremplies restent modifiables. Si Maximus ne connaît pas une donnée ou si votre situation est particulière, vous gardez toujours la main.
+                Vous gardez la main sur toutes les données. Aucun prix historique ni aucune donnée SCPI n’est imposé par le simulateur.
               </p>
             </div>
           </section>
@@ -366,7 +174,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
               <div className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-7">
                 <h2 className="text-xl font-bold">Résultat</h2>
                 <p className="mt-3 text-gray-600 dark:text-gray-300">
-                  Renseignez au minimum le nombre de parts, le prix d'achat et le prix de sortie pour lancer le calcul.
+                  Renseignez le nombre de parts, le prix payé et le prix de sortie actuel pour lancer le calcul.
                 </p>
               </div>
             ) : (
@@ -401,7 +209,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                       <h2 className="text-lg font-bold">Bilan économique depuis l’achat</h2>
                       <p className="mt-2 text-3xl font-bold">{formatEuro(r.totalDelta)} <span className="text-base font-semibold">({formatPct(r.totalDeltaPct)})</span></p>
                       <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-                        Ce bilan additionne le montant net de sortie estimé et les revenus déjà perçus, puis le compare au capital investi. Il n’intègre pas la fiscalité personnelle ni la valeur temps de l’argent.
+                        Le calcul additionne le montant net de sortie estimé et les revenus déjà perçus, puis le compare au capital investi. Il n’intègre pas votre fiscalité personnelle.
                       </p>
                     </div>
                   </div>
@@ -419,14 +227,14 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                       </p>
                     </>
                   ) : (
-                    <p className="mt-3 text-gray-700 dark:text-gray-300">Impossible de calculer un point mort avec une distribution annuelle nulle.</p>
+                    <p className="mt-3 text-gray-700 dark:text-gray-300">Ajoutez la distribution annuelle par part si vous souhaitez calculer le point mort.</p>
                   )}
                 </div>
 
                 <div className="rounded-2xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/20 p-5 flex gap-3">
                   <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                   <p className="text-sm text-red-900 dark:text-red-200">
-                    Un point mort court ne signifie pas automatiquement qu’il faut conserver, et une moins-value ne signifie pas automatiquement qu’il faut vendre. La liquidité réelle, la qualité du patrimoine, le niveau de distribution futur et le coût d’opportunité doivent aussi être analysés.
+                    Une moins-value ne signifie pas automatiquement qu’il faut vendre ou conserver. Le prix et le délai de cession ne sont pas garantis.
                   </p>
                 </div>
 
