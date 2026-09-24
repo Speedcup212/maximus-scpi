@@ -94,6 +94,10 @@ export function enrichScpiExtended(
     nbCessionsTrimestre: matchingScpi.nbCessionsTrimestre ?? scpiExtended.nbCessionsTrimestre,
     dataPeriod: matchingScpi.maximusSourcePeriode ?? matchingScpi.periodeBulletinTrimestriel ?? scpiExtended.dataPeriod,
     dataDate: matchingScpi.dateBulletin ?? scpiExtended.dataDate,
+    dataSourceDocument: matchingScpi.maximusSourceDocument ?? scpiExtended.dataSourceDocument,
+    dataStatus: matchingScpi.maximusDataStatus ?? scpiExtended.dataStatus,
+    dataUpdateDate: matchingScpi.maximusUpdateDate ?? scpiExtended.dataUpdateDate,
+    liquidityNote: matchingScpi.liquidite ?? scpiExtended.liquidityNote,
   };
 }
 
