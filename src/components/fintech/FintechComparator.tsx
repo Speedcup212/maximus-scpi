@@ -78,10 +78,12 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
   // Note MaximusSCPI calculée côté client sur l'ensemble de la cohorte (percentile cohérent).
   // Source de vérité de la note affichée ; Supabase reste une surcouche optionnelle.
-  const clientScoresBySlug = useMemo(
-    () => computeClientScores(enrichedScpiData).bySlug,
+  const clientScoreResults = useMemo(
+    () => computeClientScores(enrichedScpiData),
     [enrichedScpiData]
   );
+  const clientScoresBySlug = clientScoreResults.bySlug;
+  const clientScoresById = clientScoreResults.byId;
 
   const toggleSelect = (scpi: SCPIExtended) => {
     setSelectedScpis(prev => {
@@ -527,6 +529,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
           }}
           scpi={analysisScpi}
           score={scoresBySlug[createSlugFromName(analysisScpi.name)] ?? clientScoresBySlug[createSlugFromName(analysisScpi.name)] ?? null}
+          scoreDetail={clientScoresById[String(analysisScpi.id)]?.detail ?? null}
           onAdd={() => {
             // Ajouter la SCPI à la sélection
             toggleSelect(analysisScpi);
