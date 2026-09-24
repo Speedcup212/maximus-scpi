@@ -6,7 +6,6 @@ import {
 } from 'lucide-react';
 import Logo from './Logo';
 import Header from './Header';
-import { CALENDLY_URL } from '../config/calendly';
 import { submitLead } from '../utils/leadSubmitter';
 import { scpiData as scpiDataArray } from '../data/scpiData';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
@@ -508,14 +507,13 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
                       </div>
                     </div>
 
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={onContactClick || (() => (window as any).openRdvModal?.())}
                       className="block w-full bg-white border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105"
                     >
-                      Réserver un créneau directement
-                    </a>
+                      Réserver un créneau
+                    </button>
                   </div>
 
                   <p className="text-xs text-gray-500 text-center">
