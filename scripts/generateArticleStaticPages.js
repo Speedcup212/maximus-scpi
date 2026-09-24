@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const BUILD_CONTENT_SOURCE = 'Supabase articles_seo + GitHub static sources — SEO refresh 2026-09-24';
+const BUILD_CONTENT_SOURCE = 'Supabase articles_seo + GitHub static sources — SEO refresh 2026-09-24 final-2';
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
