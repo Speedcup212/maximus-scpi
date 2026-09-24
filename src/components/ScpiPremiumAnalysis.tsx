@@ -3,20 +3,12 @@ import {
   Activity,
   AlertTriangle,
   ArrowRight,
-  BarChart3,
-  Building2,
-  CalendarDays,
   CheckCircle2,
-  CircleDollarSign,
-  Clock3,
-  FileSearch,
   Gauge,
-  Globe2,
   Landmark,
   MapPin,
   Newspaper,
   ShieldCheck,
-  TrendingUp,
 } from 'lucide-react';
 import type { Scpi } from '../types/scpi';
 import type { ScpiLandingData } from '../data/landingPagesData';
@@ -491,24 +483,6 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     return [`${positionParts} ${allocationParts}`, riskParts];
   }, [age, gap, landingData.societe_gestion, scpi, topGeo, topSector]);
 
-  const advancedMetrics = [
-    { label: 'Prix de la part', value: formatCurrency(scpi.price), icon: CircleDollarSign },
-    { label: 'Valeur de reconstitution', value: formatCurrency(scpi.valeurReconstitution), icon: Landmark },
-    { label: 'Valeur de retrait', value: formatCurrency(scpi.valeurRetrait), icon: TrendingUp },
-    { label: 'Investissement minimum', value: formatCurrency(scpi.minInvest), icon: Gauge },
-    { label: 'Frais de souscription', value: formatPercent(scpi.fees), icon: FileSearch },
-    { label: 'Frais de gestion', value: formatPercent(scpi.fraisGestion), icon: BarChart3 },
-    { label: 'Délai de jouissance', value: typeof scpi.delaiJouissance === 'number' ? `${scpi.delaiJouissance} mois` : 'Non disponible', icon: Clock3 },
-    { label: 'Distribution', value: typeof scpi.distribution === 'number' ? `${scpi.distribution.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} €/part` : 'Non disponible', icon: Activity },
-    { label: 'WALT', value: typeof scpi.walt === 'number' ? `${scpi.walt.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} ans` : 'Non disponible', icon: ShieldCheck },
-    { label: 'WALB', value: typeof scpi.walb === 'number' ? `${scpi.walb.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} ans` : 'Non disponible', icon: ShieldCheck },
-    { label: 'Immeubles', value: formatNumber(scpi.nbImmeubles), icon: Building2 },
-    { label: 'Locataires', value: formatNumber(scpi.nombreLocataires), icon: Globe2 },
-  ];
-
-  const primaryMetrics = [advancedMetrics[0], advancedMetrics[1], advancedMetrics[2], advancedMetrics[8], advancedMetrics[10], advancedMetrics[11]];
-  const secondaryMetrics = advancedMetrics.filter((_, index) => ![0, 1, 2, 8, 10, 11].includes(index));
-
   const quarterlyFallback = useMemo(() => {
     const parts = (scpi.actualitesTrimestrielles || '')
       .split('|')
@@ -624,48 +598,6 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
               </div>
             </div>
           </div>
-        </div>
-
-        <div>
-          <div className="flex items-end justify-between gap-4 mb-4">
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold">Indicateurs utiles</h3>
-              <p className="text-sm text-slate-400 mt-1">Valorisation, baux et profondeur du patrimoine.</p>
-            </div>
-            {scpi.periodeBulletinTrimestriel && (
-              <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
-                <CalendarDays className="h-4 w-4" />
-                {scpi.periodeBulletinTrimestriel}
-              </div>
-            )}
-          </div>
-
-          <div className="grid sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {primaryMetrics.map(({ label, value, icon: Icon }) => (
-              <div key={label} className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
-                <Icon className="h-4 w-4 text-emerald-300" />
-                <div className="text-[11px] uppercase tracking-wide text-slate-500 mt-3">{label}</div>
-                <div className="text-base font-bold text-white mt-1">{value}</div>
-              </div>
-            ))}
-          </div>
-
-          <details className="mt-3 rounded-xl border border-white/10 bg-white/[0.03]">
-            <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-300">
-              Voir les frais et indicateurs complémentaires
-            </summary>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 p-4 pt-1">
-              {secondaryMetrics.map(({ label, value, icon: Icon }) => (
-                <div key={label} className="rounded-lg bg-slate-900/70 p-3">
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-emerald-300" />
-                    <span className="text-xs text-slate-500">{label}</span>
-                  </div>
-                  <div className="text-sm font-semibold text-white mt-2">{value}</div>
-                </div>
-              ))}
-            </div>
-          </details>
         </div>
 
         <div className="rounded-3xl border border-white/10 bg-white/[0.04] overflow-hidden">
