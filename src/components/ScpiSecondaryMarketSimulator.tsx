@@ -29,6 +29,7 @@ type SourceRegistry = {
 
 type ExitMode = 'withdrawal' | 'secondary_market' | 'unknown';
 type CapitalType = 'fixed' | 'variable' | 'variable_suspended' | 'unknown';
+type LifecycleStatus = 'normal' | 'dissolution_proposed' | 'liquidation';
 type DataStatus = 'verified' | 'partial' | 'unavailable';
 
 const fmtEuro = (value?: number | null, digits = 2) => {
@@ -129,6 +130,68 @@ const parseWaitingShares = (scpi: Scpi): number | null => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+
+const classifyLifecycleStatus = (scpi: Scpi): LifecycleStatus => {
+  if (scpi.maximusLifecycleStatus) return scpi.maximusLifecycleStatus;
+
+  const note = [
+    scpi.maximusLifecycleNote,
+    ...(scpi.maximusWarnings || []),
+    scpi.actualitesTrimestrielles,
+    scpi.liquidite,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  if (
+    /soci[eé]t[eé] en liquidation/.test(note) ||
+    /liquidation en cours/.test(note) ||
+    /dissolution.{0,40}(adopt[eé]e|d[eé]cid[eé]e|approuv[eé]e)/.test(note) ||
+    /liquidateur.{0,30}(nomm[eé]|d[eé]sign[eé])/.test(note)
+  ) {
+    return 'liquidation';
+  }
+
+  if (
+    /dissolution anticip[eé]e.{0,60}(propos[eé]e|soumise|assembl[eé]e|age)/.test(note) ||
+    /projet de dissolution/.test(note)
+  ) {
+    return 'dissolution_proposed';
+  }
+
+  return 'normal';
+};
+
+const parseWaitingShareRatio = (scpi: Scpi, waitingShares: number | null): number | null => {
+  if (
+    waitingShares != null &&
+    scpi.nbPartsTotal != null &&
+    Number.isFinite(scpi.nbPartsTotal) &&
+    scpi.nbPartsTotal > 0
+  ) {
+    return (waitingShares / scpi.nbPartsTotal) * 100;
+  }
+
+  const note = scpi.liquidite || '';
+  const explicit = note.match(/(?:soit|environ|≈)?\s*(\d{1,2}(?:[.,]\d+)?)\s*%/i);
+  if (!explicit) return null;
+  const parsed = Number(explicit[1].replace(',', '.'));
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
+const liquidityAssessment = (
+  ratio: number | null,
+  waitingShares: number | null,
+  hasWaitingShares?: boolean
+) => {
+  if (ratio != null && ratio >= 10) return { label: 'Tension élevée', tone: 'red' as const };
+  if (ratio != null && ratio >= 5) return { label: 'Tension significative', tone: 'amber' as const };
+  if (waitingShares != null && waitingShares > 0) return { label: 'Retraits en attente', tone: 'amber' as const };
+  if (hasWaitingShares === false) return { label: 'Aucune file signalée', tone: 'emerald' as const };
+  return { label: 'À documenter', tone: 'slate' as const };
+};
+
 const isDebtUsable = (value?: number) =>
   value != null && Number.isFinite(value) && value >= 0 && value <= 100;
 
@@ -203,7 +266,10 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
 
     const mode = classifyExitMode(selected);
     const capital = classifyCapitalType(selected);
+    const lifecycle = classifyLifecycleStatus(selected);
     const waitingShares = parseWaitingShares(selected);
+    const waitingShareRatio = parseWaitingShareRatio(selected, waitingShares);
+    const liquidity = liquidityAssessment(waitingShareRatio, waitingShares, selected.hasWaitingShares);
     const withdrawalPrice = cleanNumber(selected.valeurRetrait);
     const currentExitPrice = mode === 'withdrawal' ? withdrawalPrice : null;
 
@@ -239,7 +305,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     if (!realisationCheck.usable || !reconstitutionCheck.usable) reliabilityCap = Math.min(reliabilityCap, 82);
     if (!liquidityEvidence) reliabilityCap = Math.min(reliabilityCap, 74);
     if (!sourceDocument || (!sourcePeriod && !sourceDate)) reliabilityCap = Math.min(reliabilityCap, 74);
-    if (mode === 'unknown' || currentExitPrice == null) reliabilityCap = Math.min(reliabilityCap, 64);
+    if (mode === 'unknown' || (currentExitPrice == null && lifecycle === 'normal')) reliabilityCap = Math.min(reliabilityCap, 64);
+    if (lifecycle === 'dissolution_proposed') reliabilityCap = Math.min(reliabilityCap, 84);
 
     const reliabilityScore = Math.min(rawReliabilityScore, reliabilityCap);
     const reliability =
@@ -252,16 +319,18 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
             : { label: 'Insuffisante', tone: 'red' as const };
 
     const estimatedGross =
-      parts > 0 && currentExitPrice != null ? parts * currentExitPrice : null;
+      lifecycle === 'normal' && parts > 0 && currentExitPrice != null ? parts * currentExitPrice : null;
 
     const missing: string[] = [];
     if (!sourceDocument) missing.push('document source identifié');
     if (!sourcePeriod && !sourceDate) missing.push('période/date de la source');
     if (mode === 'unknown') missing.push('mode de sortie actuel');
-    if (mode === 'secondary_market' && currentExitPrice == null) {
-      missing.push('dernier prix d’exécution ou prix net vendeur du marché secondaire');
-    } else if (currentExitPrice == null) {
-      missing.push('prix de sortie actuel');
+    if (lifecycle === 'normal') {
+      if (mode === 'secondary_market' && currentExitPrice == null) {
+        missing.push('dernier prix d’exécution ou prix net vendeur du marché secondaire');
+      } else if (currentExitPrice == null) {
+        missing.push('prix de sortie actuel');
+      }
     }
     if (!liquidityEvidence) missing.push('information récente sur la liquidité');
     if (!reconstitutionCheck.usable) missing.push('valeur de reconstitution cohérente et vérifiée');
@@ -271,7 +340,12 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       mode,
       capitalType: capital.type,
       capitalTypeExplicit: capital.explicit,
+      lifecycle,
+      lifecycleNote: selected.maximusLifecycleNote || null,
+      lifecycleSource: selected.maximusLifecycleSource || null,
       waitingShares,
+      waitingShareRatio,
+      liquidity,
       currentExitPrice,
       reconstitution,
       realisation,
@@ -412,13 +486,74 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 </div>
               </div>
 
-              {parts > 0 && (
+              {diagnostic.lifecycle !== 'normal' && (
+                <div className={`rounded-2xl border p-6 ${
+                  diagnostic.lifecycle === 'liquidation'
+                    ? 'border-red-500/40 bg-red-500/10'
+                    : 'border-amber-500/40 bg-amber-500/10'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className={`mt-0.5 h-6 w-6 shrink-0 ${
+                      diagnostic.lifecycle === 'liquidation' ? 'text-red-500' : 'text-amber-500'
+                    }`} />
+                    <div>
+                      <h3 className="text-lg font-bold">
+                        {diagnostic.lifecycle === 'liquidation'
+                          ? 'SCPI en liquidation — la revente classique n’est plus le bon référentiel'
+                          : 'Dissolution proposée — résultat officiel à confirmer'}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                        {diagnostic.lifecycleNote ||
+                          (diagnostic.lifecycle === 'liquidation'
+                            ? 'Le montant récupéré dépendra de la réalisation des actifs, du remboursement des dettes et charges, puis du solde distribué aux associés.'
+                            : 'Une dissolution anticipée est soumise aux associés. Tant que le résultat officiel n’est pas publié, Maximus n’anticipe pas l’issue du vote.')}
+                      </p>
+                      <p className="mt-2 text-xs font-semibold text-gray-700 dark:text-gray-300">
+                        Le prix de retrait et les scénarios de revente ne constituent pas une estimation du boni de liquidation.
+                      </p>
+                      {diagnostic.lifecycleSource && (
+                        <p className="mt-3 text-[11px] text-gray-500 dark:text-gray-400">
+                          Source du statut : {diagnostic.lifecycleSource}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {parts > 0 && diagnostic.lifecycle !== 'normal' && (
+                <div className="rounded-2xl border border-slate-500/30 bg-slate-500/5 p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <WalletCards className="h-4 w-4" />
+                    Repère patrimonial — pas un montant récupérable
+                  </div>
+                  {diagnostic.realisation != null ? (
+                    <>
+                      <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
+                        {fmtEuro(parts * diagnostic.realisation, 0)}
+                      </p>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        {fmtNumber(parts)} parts × valeur de réalisation {fmtEuro(diagnostic.realisation)} / part
+                      </p>
+                      <p className="mt-2 text-xs leading-relaxed text-amber-700 dark:text-amber-300">
+                        Cette valeur est un repère patrimonial. Elle ne préjuge ni du prix de cession effectif des actifs, ni des dettes, frais, fiscalité ou délais de liquidation.
+                      </p>
+                    </>
+                  ) : (
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                      Aucune valeur patrimoniale suffisamment exploitable n’est disponible pour fournir un repère.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {parts > 0 && diagnostic.lifecycle === 'normal' && (
                 <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <WalletCards className="h-4 w-4" />
                     {diagnostic.mode === 'withdrawal'
-                      ? 'Valeur théorique de sortie aujourd’hui'
-                      : 'Valeur théorique au dernier prix d’exécution'}
+                      ? 'Montant théorique au prix de retrait actuel'
+                      : 'Montant théorique au dernier prix d’exécution'}
                   </div>
 
                   {diagnostic.estimatedGross != null && diagnostic.currentExitPrice != null ? (
@@ -432,6 +567,13 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                       <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                         Montant théorique brut, hors fiscalité et éventuels frais, sous réserve d’exécution effective.
                       </p>
+                      {(diagnostic.liquidity.tone === 'red' || diagnostic.liquidity.tone === 'amber') && diagnostic.mode === 'withdrawal' && (
+                        <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-semibold text-amber-700 dark:text-amber-300">
+                          {diagnostic.liquidity.label}
+                          {diagnostic.waitingShareRatio != null ? ` · ${fmtPct(diagnostic.waitingShareRatio)} des parts en attente` : ''}
+                          {' — le montant affiché n’est pas nécessairement récupérable immédiatement.'}
+                        </div>
+                      )}
 
                       <div className="mt-5 border-t border-emerald-500/20 pt-5">
                         <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
@@ -477,35 +619,45 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                             </div>
                           </>
                         ) : (
-                          <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                            <ScenarioCard
-                              label="Défavorable"
-                              variation="-20 %"
-                              price={diagnostic.currentExitPrice * 0.80}
-                              amount={parts * diagnostic.currentExitPrice * 0.80}
-                              tone="red"
-                            />
-                            <ScenarioCard
-                              label="Référence"
-                              variation="Prix actuel"
-                              price={diagnostic.currentExitPrice}
-                              amount={parts * diagnostic.currentExitPrice}
-                              tone="slate"
-                            />
-                            <ScenarioCard
-                              label="Favorable"
-                              variation="+10 %"
-                              price={diagnostic.currentExitPrice * 1.10}
-                              amount={parts * diagnostic.currentExitPrice * 1.10}
-                              tone="emerald"
-                            />
-                          </div>
+                          <>
+                            <div className="mt-3 rounded-xl border border-slate-500/30 bg-slate-500/5 p-4">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300">Référence actuelle</span>
+                                <span className="text-[10px] text-gray-500 dark:text-gray-400">Prix de retrait</span>
+                              </div>
+                              <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">{fmtEuro(parts * diagnostic.currentExitPrice, 0)}</div>
+                              <div className="mt-1 text-[10px] text-gray-500 dark:text-gray-400">{fmtEuro(diagnostic.currentExitPrice)} / part</div>
+                            </div>
+                            <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                              <ScenarioCard
+                                label="Baisse modérée"
+                                variation="-10 %"
+                                price={diagnostic.currentExitPrice * 0.90}
+                                amount={parts * diagnostic.currentExitPrice * 0.90}
+                                tone="amber"
+                              />
+                              <ScenarioCard
+                                label="Baisse marquée"
+                                variation="-20 %"
+                                price={diagnostic.currentExitPrice * 0.80}
+                                amount={parts * diagnostic.currentExitPrice * 0.80}
+                                tone="red"
+                              />
+                              <ScenarioCard
+                                label="Stress"
+                                variation="-30 %"
+                                price={diagnostic.currentExitPrice * 0.70}
+                                amount={parts * diagnostic.currentExitPrice * 0.70}
+                                tone="red"
+                              />
+                            </div>
+                          </>
                         )}
 
                         <p className="mt-3 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
                           {diagnostic.mode === 'secondary_market'
                             ? 'Le prix observé reste la seule référence documentée. Les hypothèses -20 %, -40 % et -60 % servent uniquement à mesurer le risque de décote supplémentaire sur un marché secondaire dégradé ; elles ne constituent ni une estimation ni une prévision.'
-                            : 'Pour une SCPI à capital variable, ces scénarios testent simplement la sensibilité à une évolution du prix de retrait. Ils ne constituent pas une prévision.'}
+                            : 'Pour une SCPI à capital variable, le prix de retrait actuel reste la référence réglementaire publiée. Les hypothèses -10 %, -20 % et -30 % mesurent uniquement une sensibilité à la baisse ; elles ne constituent pas une prévision.'}
                         </p>
                       </div>
                     </>
@@ -524,18 +676,26 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 <DataCard
                   title="Mode de sortie actuel"
                   value={
-                    diagnostic.mode === 'secondary_market'
-                      ? 'Marché secondaire'
-                      : diagnostic.mode === 'withdrawal'
-                        ? 'Demande de retrait'
-                        : 'À vérifier'
+                    diagnostic.lifecycle === 'liquidation'
+                      ? 'Liquidation de la SCPI'
+                      : diagnostic.lifecycle === 'dissolution_proposed'
+                        ? 'Dissolution proposée'
+                        : diagnostic.mode === 'secondary_market'
+                          ? 'Marché secondaire'
+                          : diagnostic.mode === 'withdrawal'
+                            ? 'Demande de retrait'
+                            : 'À vérifier'
                   }
                   note={
-                    diagnostic.mode === 'secondary_market'
-                      ? 'La vente dépend du carnet d’ordres et d’un prix d’exécution.'
-                      : diagnostic.mode === 'withdrawal'
-                        ? 'L’exécution dépend notamment des souscriptions disponibles.'
-                        : 'Le mode de sortie n’est pas suffisamment documenté.'
+                    diagnostic.lifecycle === 'liquidation'
+                      ? 'La récupération du capital dépend désormais des opérations de liquidation, et non d’un prix de retrait.'
+                      : diagnostic.lifecycle === 'dissolution_proposed'
+                        ? 'Une AGE a été appelée à statuer sur la dissolution. Le résultat officiel doit être confirmé.'
+                        : diagnostic.mode === 'secondary_market'
+                          ? 'La vente dépend du carnet d’ordres et d’un prix d’exécution.'
+                          : diagnostic.mode === 'withdrawal'
+                            ? 'L’exécution dépend notamment des souscriptions disponibles.'
+                            : 'Le mode de sortie n’est pas suffisamment documenté.'
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
@@ -576,12 +736,20 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 />
 
                 <DataCard
-                  title={diagnostic.mode === 'secondary_market' ? 'Dernier prix d’exécution' : 'Prix de retrait'}
+                  title={
+                    diagnostic.lifecycle !== 'normal'
+                      ? 'Prix de retrait — repère uniquement'
+                      : diagnostic.mode === 'secondary_market'
+                        ? 'Dernier prix d’exécution'
+                        : 'Prix de retrait'
+                  }
                   value={diagnostic.currentExitPrice != null ? fmtEuro(diagnostic.currentExitPrice) : 'Non disponible'}
                   note={
-                    diagnostic.mode === 'secondary_market' && diagnostic.currentExitPrice == null
-                      ? 'Maximus ne dispose pas encore d’un dernier prix d’exécution structuré : aucun prix de sortie n’est estimé.'
-                      : 'Montant par part issu des données disponibles.'
+                    diagnostic.lifecycle !== 'normal'
+                      ? 'Ce prix ne permet pas d’estimer le montant qui serait distribué dans le cadre d’une liquidation.'
+                      : diagnostic.mode === 'secondary_market' && diagnostic.currentExitPrice == null
+                        ? 'Maximus ne dispose pas encore d’un dernier prix d’exécution structuré : aucun prix de sortie n’est estimé.'
+                        : 'Montant par part issu des données disponibles.'
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
@@ -590,20 +758,14 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 />
 
                 <DataCard
-                  title="Parts en attente"
-                  value={
-                    diagnostic.waitingShares != null
-                      ? fmtNumber(diagnostic.waitingShares)
-                      : selected.hasWaitingShares === false
-                        ? 'Aucune mentionnée'
-                        : selected.hasWaitingShares === true
-                          ? 'Présentes'
-                          : 'Non documenté'
-                  }
+                  title="Tension de liquidité"
+                  value={diagnostic.liquidity.label}
                   note={
-                    selected.hasWaitingShares === false
-                      ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne prouve pas qu’il n’existe aucune demande aujourd’hui.'
-                      : 'Le stock en attente est un indicateur de tension sur la liquidité.'
+                    diagnostic.waitingShares != null
+                      ? `${fmtNumber(diagnostic.waitingShares)} parts en attente${diagnostic.waitingShareRatio != null ? ` · ${fmtPct(diagnostic.waitingShareRatio)} des parts` : ''}. Plus la file est importante, plus le délai et l’incertitude de sortie augmentent.`
+                      : selected.hasWaitingShares === false
+                        ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne prouve pas qu’aucune demande n’existe aujourd’hui.'
+                        : 'Le niveau de tension sur les retraits n’est pas suffisamment documenté.'
                   }
                   source={diagnostic.sourceDocument}
                   period={diagnostic.sourcePeriod}
@@ -670,21 +832,27 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   <Insight
                     title="Liquidité"
                     text={
-                      diagnostic.mode === 'secondary_market'
-                        ? 'La sortie dépend du marché secondaire. Sans dernier prix d’exécution et volumes récents, Maximus ne peut pas quantifier la liquidité réelle.'
-                        : diagnostic.waitingShares != null && diagnostic.waitingShares > 0
-                          ? `${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente : la liquidité mérite une vigilance renforcée.`
-                          : selected.hasWaitingShares === false
-                            ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne permet pas de conclure qu’aucune demande n’existe aujourd’hui.'
-                            : 'Les données disponibles ne suffisent pas à mesurer précisément la tension sur les retraits.'
+                      diagnostic.lifecycle === 'liquidation'
+                        ? 'La liquidité des parts n’est plus le sujet principal : le calendrier dépend désormais de la cession des actifs et des opérations de liquidation.'
+                        : diagnostic.lifecycle === 'dissolution_proposed'
+                          ? 'La dissolution proposée peut rendre le mécanisme de retrait secondaire par rapport au calendrier de liquidation si elle est adoptée.'
+                          : diagnostic.mode === 'secondary_market'
+                            ? 'La sortie dépend du marché secondaire. Sans dernier prix d’exécution et volumes récents, Maximus ne peut pas quantifier la liquidité réelle.'
+                            : diagnostic.waitingShares != null && diagnostic.waitingShares > 0
+                              ? `${diagnostic.liquidity.label} : ${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente${diagnostic.waitingShareRatio != null ? `, soit ${fmtPct(diagnostic.waitingShareRatio)} des parts` : ''}.`
+                              : selected.hasWaitingShares === false
+                                ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne permet pas de conclure qu’aucune demande n’existe aujourd’hui.'
+                                : 'Les données disponibles ne suffisent pas à mesurer précisément la tension sur les retraits.'
                     }
                   />
                   <Insight
                     title="Prix & valorisation"
                     text={
-                      diagnostic.currentExitPrice != null && diagnostic.reconstitutionCheck.usable && diagnostic.reconstitution != null
-                        ? `Le prix de sortie documenté représente ${fmtPct(((diagnostic.currentExitPrice / diagnostic.reconstitution) - 1) * 100)} par rapport à la valeur de reconstitution.`
-                        : 'Sans prix de sortie actuel fiable et valeurs patrimoniales cohérentes, Maximus n’affiche pas de décote de marché calculée.'
+                      diagnostic.lifecycle !== 'normal'
+                        ? 'En cas de liquidation, la valeur de réalisation est un repère patrimonial plus pertinent que le prix de retrait, mais elle ne garantit pas le montant final distribué.'
+                        : diagnostic.currentExitPrice != null && diagnostic.reconstitutionCheck.usable && diagnostic.reconstitution != null
+                          ? `Le prix de sortie documenté représente ${fmtPct(((diagnostic.currentExitPrice / diagnostic.reconstitution) - 1) * 100)} par rapport à la valeur de reconstitution.`
+                          : 'Sans prix de sortie actuel fiable et valeurs patrimoniales cohérentes, Maximus n’affiche pas de décote de marché calculée.'
                     }
                   />
                   <Insight
@@ -723,6 +891,12 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                         <span className="font-semibold">
                           {[diagnostic.sourcePeriod, fmtDate(diagnostic.sourceDate)].filter(Boolean).join(' · ')}
                         </span>
+                      </div>
+                    )}
+                    {diagnostic.lifecycleSource && (
+                      <div>
+                        <span className="text-gray-500 dark:text-gray-400">Source du statut exceptionnel : </span>
+                        <span className="font-semibold">{diagnostic.lifecycleSource}</span>
                       </div>
                     )}
                     {sourceRegistry && (
