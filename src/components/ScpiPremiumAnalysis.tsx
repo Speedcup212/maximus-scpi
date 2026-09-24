@@ -135,7 +135,7 @@ const mapNewsRow = (row: any): InvestmentNewsItem => ({
 
 const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
   const center = 210;
-  const radius = 124;
+  const radius = 138;
   const angleStep = (Math.PI * 2) / axes.length;
 
   const point = (index: number, value: number, customRadius = radius) => {
@@ -170,8 +170,8 @@ const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
   };
 
   return (
-    <div className="w-full max-w-[520px] mx-auto">
-      <svg viewBox="0 0 420 390" role="img" aria-label="Radar Maximus">
+    <div className="w-full max-w-[560px] mx-auto">
+      <svg viewBox="0 0 420 420" role="img" aria-label="Radar Maximus">
         <defs>
           <filter id="radarGlow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -182,15 +182,31 @@ const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
           </filter>
         </defs>
 
-        {[20, 40, 60, 80, 100].map((level) => (
+        {[25, 50, 75, 100].map((level) => (
           <polygon
             key={level}
             points={polygonFor(level)}
             fill={level === 100 ? 'rgba(15,23,42,0.28)' : 'none'}
-            stroke={level === 100 ? '#64748b' : '#475569'}
-            strokeWidth={level === 100 ? 1.8 : 1.1}
+            stroke="#64748b"
+            strokeOpacity={0.7}
+            strokeWidth={level === 100 ? 1.5 : 1}
           />
         ))}
+
+        {[25, 50, 75, 100].map((level) => {
+          const y = center - radius * (level / 100);
+          return (
+            <text
+              key={`tick-${level}`}
+              x={center + 6}
+              y={y + 3}
+              fontSize="9"
+              fill="#94a3b8"
+            >
+              {level}
+            </text>
+          );
+        })}
 
         {axes.map((_, index) => {
           const p = point(index, 100);
@@ -209,21 +225,20 @@ const RadarChart: React.FC<{ axes: RadarAxis[] }> = ({ axes }) => {
 
         <polygon
           points={dataPolygon}
-          fill="rgba(16, 185, 129, 0.24)"
-          stroke="#34d399"
-          strokeWidth="3.5"
-          filter="url(#radarGlow)"
+          fill="rgba(16, 185, 129, 0.32)"
+          stroke="#10b981"
+          strokeWidth="2.5"
         />
 
         {axes.map((axis, index) => {
           const p = point(index, axis.value ?? 0);
-          const labelPoint = point(index, 100, 160);
+          const labelPoint = point(index, 100, 174);
           const lines = shortLabel(axis.label);
           const scoreY = labelPoint.y + (lines.length > 1 ? 16 : 13);
 
           return (
             <g key={axis.label}>
-              <circle cx={p.x} cy={p.y} r="6" fill="#5eead4" stroke="#ecfeff" strokeWidth="1.6" />
+              <circle cx={p.x} cy={p.y} r="3.5" fill="#10b981" stroke="#a7f3d0" strokeWidth="1" />
 
               <text
                 x={labelPoint.x}
@@ -538,6 +553,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
             <details className="mt-4 text-xs text-slate-500">
               <summary className="cursor-pointer text-slate-400">Méthode du Radar Maximus</summary>
               <p className="mt-2">
+                Chaque sommet correspond exactement au score affiché dans les cases. Les anneaux représentent 0, 25, 50, 75 et 100.
                 Occupation = TOF ; diversification = concentration et nombre de poches ; structure financière = endettement ;
                 valorisation = écart prix/reconstitution ; ancienneté = historique depuis la création. Donnée absente = « ND ».
               </p>
