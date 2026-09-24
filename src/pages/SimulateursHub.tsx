@@ -42,10 +42,10 @@ const QUESTIONNAIRES: ToolCard[] = [
 // Section 2 — Simulateurs.
 const SIMULATEURS: ToolCard[] = [
   {
-    title: 'Simulateur revente SCPI',
-    description: 'Estimez le montant récupérable, la moins-value en capital, les revenus déjà encaissés et le point mort de conservation.',
+    title: 'Diagnostic revente SCPI',
+    description: 'Sélectionnez une SCPI et analysez son mode de sortie, sa liquidité, ses valeurs patrimoniales et la fiabilité des données disponibles.',
     path: '/simulateur-marche-secondaire-scpi',
-    cta: 'Simuler une revente',
+    cta: 'Analyser une revente',
     badge: 'Revente',
     Icon: RefreshCw,
   },
