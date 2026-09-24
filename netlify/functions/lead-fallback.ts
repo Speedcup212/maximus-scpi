@@ -56,7 +56,7 @@ export const handler: Handler = async (event) => {
   if (supabaseUrl) {
     try {
       const notificationResponse = await fetch(
-        `${supabaseUrl.replace(/\\\/$/, '')}/functions/v1/send-lead-notification`,
+        `${supabaseUrl.replace(/\/$/, '')}/functions/v1/send-lead-notification`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
