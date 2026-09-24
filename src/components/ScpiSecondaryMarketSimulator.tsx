@@ -28,6 +28,7 @@ type SourceRegistry = {
 };
 
 type ExitMode = 'withdrawal' | 'secondary_market' | 'unknown';
+type CapitalType = 'fixed' | 'variable' | 'variable_suspended' | 'unknown';
 type DataStatus = 'verified' | 'partial' | 'unavailable';
 
 const fmtEuro = (value?: number | null, digits = 2) => {
@@ -93,6 +94,28 @@ const classifyExitMode = (scpi: Scpi): ExitMode => {
 
   if (scpi.valeurRetrait != null) return 'withdrawal';
   return 'unknown';
+};
+
+const classifyCapitalType = (scpi: Scpi): { type: CapitalType; explicit: boolean } => {
+  const note = `${scpi.liquidite || ''} ${(scpi as any).strategy || ''}`.toLowerCase();
+
+  // Ne jamais assimiler automatiquement marché secondaire et capital fixe :
+  // une SCPI à capital variable peut suspendre sa variabilité.
+  if (/variabilit[eé].*suspendue|suspension de la variabilit[eé]/.test(note)) {
+    return { type: 'variable_suspended', explicit: true };
+  }
+
+  if (/capital fixe/.test(note)) {
+    return { type: 'fixed', explicit: true };
+  }
+
+  // Un prix de retrait documenté correspond au mécanisme usuel d'une SCPI à capital variable.
+  // En l'absence de mention explicite, on l'affiche avec un statut de donnée partielle.
+  if (cleanNumber(scpi.valeurRetrait) != null) {
+    return { type: 'variable', explicit: false };
+  }
+
+  return { type: 'unknown', explicit: false };
 };
 
 const parseWaitingShares = (scpi: Scpi): number | null => {
@@ -179,6 +202,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     if (!selected) return null;
 
     const mode = classifyExitMode(selected);
+    const capital = classifyCapitalType(selected);
     const waitingShares = parseWaitingShares(selected);
     const withdrawalPrice = cleanNumber(selected.valeurRetrait);
     const currentExitPrice = mode === 'withdrawal' ? withdrawalPrice : null;
@@ -245,6 +269,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
 
     return {
       mode,
+      capitalType: capital.type,
+      capitalTypeExplicit: capital.explicit,
       waitingShares,
       currentExitPrice,
       reconstitution,
@@ -515,6 +541,38 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   period={diagnostic.sourcePeriod}
                   sourceUrl={sourceUrl}
                   status={diagnostic.mode !== 'unknown' && diagnostic.sourceDocument ? 'verified' : diagnostic.mode !== 'unknown' ? 'partial' : 'unavailable'}
+                />
+
+                <DataCard
+                  title="Structure du capital"
+                  value={
+                    diagnostic.capitalType === 'fixed'
+                      ? 'Capital fixe'
+                      : diagnostic.capitalType === 'variable_suspended'
+                        ? 'Capital variable — variabilité suspendue'
+                        : diagnostic.capitalType === 'variable'
+                          ? 'Capital variable'
+                          : 'À vérifier'
+                  }
+                  note={
+                    diagnostic.capitalType === 'fixed'
+                      ? 'La sortie s’effectue normalement par cession sur le marché secondaire.'
+                      : diagnostic.capitalType === 'variable_suspended'
+                        ? 'La SCPI reste juridiquement à capital variable, mais la variabilité est suspendue : la sortie passe alors par confrontation des ordres.'
+                        : diagnostic.capitalType === 'variable'
+                          ? 'Le retrait s’effectue normalement via le registre des demandes de retrait, sous réserve de liquidité.'
+                          : 'La structure du capital n’est pas suffisamment documentée dans les données Maximus.'
+                  }
+                  source={diagnostic.sourceDocument}
+                  period={diagnostic.sourcePeriod}
+                  sourceUrl={sourceUrl}
+                  status={
+                    diagnostic.capitalType === 'unknown'
+                      ? 'unavailable'
+                      : diagnostic.capitalTypeExplicit && diagnostic.sourceDocument
+                        ? 'verified'
+                        : 'partial'
+                  }
                 />
 
                 <DataCard
