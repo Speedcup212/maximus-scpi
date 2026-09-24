@@ -494,7 +494,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     </div>
                     <div className="flex items-center gap-1 px-3 py-1 bg-emerald-600/20 rounded-lg border border-emerald-500/30">
                       <Shield className="w-3 h-3 text-emerald-400" />
-                      <span className="text-emerald-400 font-medium text-[10px]">Zone Opportunité: -15% à -5%</span>
+                      <span className="text-emerald-400 font-medium text-[10px]">Zone de décote : -15% à -5%</span>
                     </div>
                     <div className="flex flex-col items-end">
                       <span className="text-slate-400">Max</span>
@@ -510,7 +510,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                 <div className="flex items-center gap-2 mb-3">
                   <Shield className="w-5 h-5 text-amber-400" />
                   <label className="text-sm font-semibold text-slate-300">
-                    Sécurité du Rendement (RAN)
+                    Réserves de distribution (RAN)
                   </label>
                 </div>
                 <div className="space-y-3">
@@ -576,7 +576,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     <AlertCircle className="w-5 h-5 text-amber-400" />
                     <div>
                       <span className="text-sm font-medium text-white block">Aucune part en attente de retrait</span>
-                      <span className="text-xs text-slate-400">Critère de sécurité liquidité</span>
+                      <span className="text-xs text-slate-400">Indicateur de marché des parts</span>
                     </div>
                   </div>
                   <input
