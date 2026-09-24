@@ -208,6 +208,7 @@ async function generateSitemap() {
   const simulators = [
     'simulateurs',
     'simulateur-revenus-nets-scpi',
+    'simulateur-marche-secondaire-scpi',
     'simulateur-credit-scpi',
     'simulateur-demembrement-scpi',
     'simulateur-enveloppes-scpi',
