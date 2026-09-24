@@ -150,7 +150,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
           {showTaxOptimization && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
               <Sparkles className="w-3 h-3" />
-              Optimisé TMI {userTmi}%+
+              Fiscalité Europe • TMI {userTmi}%+
             </span>
           )}
         </div>
