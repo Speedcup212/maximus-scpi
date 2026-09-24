@@ -334,24 +334,97 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   {landingData.description_courte}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {realScpiData && (
-                    <>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
+                {realScpiData && scpiKey === 'comete' ? (
+                  <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
+                    <div className="flex items-end justify-between gap-3 mb-4">
+                      <div>
+                        <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/70">Les chiffres essentiels</div>
+                        <div className="text-sm sm:text-base text-white/90 mt-1">Une lecture simple avant d'aller dans le détail</div>
                       </div>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
+                      <div className="hidden sm:block text-xs text-white/60">
+                        Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
                       </div>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
-                      </div>
-                    </>
-                  )}
-                </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                      {[
+                        {
+                          label: 'Rendement',
+                          value: formatPercentage(realScpiData.yield),
+                          help: 'Distribué sur l’année'
+                        },
+                        {
+                          label: 'Capitalisation',
+                          value: formatCurrency(realScpiData.capitalization),
+                          help: 'Taille de la SCPI'
+                        },
+                        {
+                          label: 'Prix de part',
+                          value: formatCurrency(realScpiData.price),
+                          help: 'Prix de souscription'
+                        },
+                        {
+                          label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
+                          value: realScpiData.discountQaStatus === 'publishable'
+                            ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
+                            : 'À vérifier',
+                          help: realScpiData.valeurReconstitution
+                            ? `${formatCurrency(realScpiData.price)} vs ${formatCurrency(realScpiData.valeurReconstitution)}`
+                            : 'Vs valeur du patrimoine'
+                        },
+                        {
+                          label: 'TOF',
+                          value: formatPercentage(realScpiData.tof),
+                          help: 'Occupation financière'
+                        },
+                        {
+                          label: 'Endettement',
+                          value: realScpiData.debt !== undefined ? formatPercentage(realScpiData.debt) : 'ND',
+                          help: 'Niveau de dette'
+                        },
+                        {
+                          label: 'WALB',
+                          value: realScpiData.walb !== undefined ? `${realScpiData.walb.toFixed(1).replace('.', ',')} ans` : 'ND',
+                          help: 'Avant sorties possibles'
+                        },
+                        {
+                          label: 'WALT',
+                          value: realScpiData.walt !== undefined ? `${realScpiData.walt.toFixed(1).replace('.', ',')} ans` : 'ND',
+                          help: 'Durée restante des baux'
+                        }
+                      ].map((metric) => (
+                        <div key={metric.label} className="rounded-xl border border-white/15 bg-slate-950/20 px-3 py-3.5 sm:px-4 sm:py-4">
+                          <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">{metric.label}</div>
+                          <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">{metric.value}</div>
+                          <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">{metric.help}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
+                      Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {realScpiData && (
+                      <>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
 
                 <div className="space-y-4">
                   {landingData.avantages.map((avantage, index) => (
