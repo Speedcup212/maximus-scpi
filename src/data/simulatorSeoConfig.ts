@@ -3,17 +3,7 @@ import { generateFAQSchema, generateBreadcrumbSchema, generateSoftwareApplicatio
 const SITE = 'https://maximusscpi.com';
 
 export const simulatorSeoConfig = {
-  'simulateur-marche-secondaire': {
-    title: 'Simulateur Revente SCPI & Marché Secondaire 2026 | MaximusSCPI',
-    description: 'Estimez le montant récupéré lors de la revente de parts SCPI, la décote, les frais, le bilan économique et le point mort de conservation.',
-    canonical: `${SITE}/simulateur-marche-secondaire-scpi/`,
-    app: { name: 'Simulateur de revente SCPI', description: 'Estimez une sortie de SCPI sur le marché secondaire ou au prix de retrait et mesurez l’écart économique depuis l’achat.', url: `${SITE}/simulateur-marche-secondaire-scpi/` },
-    breadcrumb: ['Accueil', 'Simulateurs', 'Revente SCPI'],
-    faq: [
-      { question: 'Comment calculer ce que je récupère en revendant mes parts de SCPI ?', answer: 'Le montant dépend du nombre de parts, du prix de sortie effectivement applicable, des éventuels frais de cession et de la liquidité du marché. Le prix et le délai de revente ne sont pas garantis.' },
-      { question: 'Faut-il vendre une SCPI en moins-value ?', answer: 'La moins-value seule ne suffit pas pour décider. Il faut aussi examiner les revenus déjà perçus, les distributions futures, la qualité du patrimoine, la liquidité et le coût d’opportunité.' },
-    ],
-  },
+
   'simulateur-revenus-nets': {
     title: 'Simulateur Revenus Nets SCPI 2026 Gratuit | MaximusSCPI',
     description: 'Calculez vos revenus nets après impôts et prélèvements sociaux. Simulateur SCPI gratuit par conseiller ORIAS.',
