@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star, FileText, Newspaper, Plus, Check } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { scpiData } from '../../data/scpiData';
 import { getScpiAdvantages, getScpiPointsAttention, getScpiNews, getScpiKeyTakeaways, getCapitalizationCategory, formatCapitalizationWithLiquidity } from '../../utils/scpiAnalysis';
 import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/scpiDataCompleteness';
@@ -12,6 +12,7 @@ import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { formatScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
+import type { ScpiScores } from '../../utils/scpiScoring';
 
 interface AnalysisDetailModalProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ interface AnalysisDetailModalProps {
   onShowToast?: (message: string) => void;
   /** Note MaximusSCPI (0-100) déjà résolue par le parent — MÊME source que les cartes. */
   score?: number | null;
+  /** Détail des sous-scores ayant servi à calculer la note MaximusSCPI. */
+  scoreDetail?: ScpiScores | null;
 }
 
 const GRADIENT_IDS = {
@@ -46,7 +49,7 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast, score = null }) => {
+const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast, score = null, scoreDetail = null }) => {
   const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
   const [investmentYears, setInvestmentYears] = useState<number>(15);
   const [fetchedScore, setFetchedScore] = useState<number | null>(null);
@@ -72,6 +75,14 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   // Note effective : priorité à la valeur du parent (cartes), sinon valeur récupérée en base.
   const effectiveScore = score != null ? score : fetchedScore;
   const starRating = scoreToStars(effectiveScore);
+
+  const radarData = scoreDetail ? [
+    { subject: 'Rendement', score: Math.round((scoreDetail.score_rendement / 40) * 100), fullMark: 100 },
+    { subject: 'Secteurs', score: Math.round((scoreDetail.score_secteur / 20) * 100), fullMark: 100 },
+    { subject: 'Géographie', score: Math.round((scoreDetail.score_geo / 15) * 100), fullMark: 100 },
+    { subject: 'Qualité', score: Math.round((scoreDetail.score_qualite / 15) * 100), fullMark: 100 },
+    { subject: 'Taille', score: Math.round((scoreDetail.score_taille / 10) * 100), fullMark: 100 },
+  ] : [];
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -305,6 +316,80 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
             </div>
           </div>
         </div>
+
+        {/* Radar MaximusSCPI — décomposition de la note */}
+        {radarData.length > 0 && (
+          <div className="px-6 pb-6">
+            <div className="bg-slate-700/30 rounded-xl border border-slate-700 p-5 sm:p-6 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+                    Radar MaximusSCPI
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Décomposition visuelle des cinq composantes de la note MaximusSCPI.
+                  </p>
+                </div>
+                {effectiveScore != null && (
+                  <div className="text-left sm:text-right">
+                    <div className="text-xs text-slate-500">Note globale</div>
+                    <div className="text-xl font-bold text-white">{Math.round(effectiveScore)}/100</div>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
+                <div className="h-64 sm:h-72 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={radarData} outerRadius="72%">
+                      <PolarGrid stroke="#475569" />
+                      <PolarAngleAxis
+                        dataKey="subject"
+                        tick={{ fill: '#cbd5e1', fontSize: 11 }}
+                      />
+                      <PolarRadiusAxis
+                        angle={90}
+                        domain={[0, 100]}
+                        tickCount={6}
+                        tick={{ fill: '#64748b', fontSize: 9 }}
+                        axisLine={false}
+                      />
+                      <Radar
+                        name={scpi.name}
+                        dataKey="score"
+                        stroke="#10b981"
+                        fill="#10b981"
+                        fillOpacity={0.24}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#1e293b',
+                          border: '1px solid #475569',
+                          borderRadius: '8px',
+                          color: '#fff'
+                        }}
+                        formatter={(value: number) => [`${value}/100`, 'Score']}
+                      />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div className="space-y-2">
+                  {radarData.map((item) => (
+                    <div key={item.subject} className="flex items-center justify-between gap-3 rounded-lg border border-slate-700 bg-slate-800/50 px-3 py-2">
+                      <span className="text-xs sm:text-sm text-slate-300">{item.subject}</span>
+                      <span className="text-sm font-bold text-emerald-400">{item.score}/100</span>
+                    </div>
+                  ))}
+                  <p className="pt-2 text-[10px] leading-relaxed text-slate-500">
+                    Scores normalisés à partir du moteur de notation MaximusSCPI. Le radar décrit les données disponibles et ne constitue ni une prévision de performance, ni une garantie de liquidité ou de capital.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Bloc Lecture rapide - Ce qu'il faut retenir */}
         {keyTakeaways.length > 0 && (
