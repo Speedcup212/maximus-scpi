@@ -90,17 +90,17 @@ export const simulatorSeoConfig = {
     ],
   },
   'simulateur-marche-secondaire': {
-    title: 'Simulateur Revente SCPI 2026 | Prix de sortie & point mort | MaximusSCPI',
-    description: 'Simulez une revente de parts SCPI avec vos propres chiffres : prix payé, prix de sortie, frais, revenus encaissés, moins-value et point mort.',
+    title: 'Diagnostic revente SCPI 2026 | Liquidité, prix & sources | MaximusSCPI',
+    description: 'Sélectionnez votre SCPI : Maximus analyse son mode de sortie, sa liquidité, ses valeurs patrimoniales, les données officielles disponibles et leur niveau de fiabilité.',
     canonical: `${SITE}/simulateur-marche-secondaire-scpi/`,
     app: {
-      name: 'Simulateur de revente de parts SCPI',
-      description: 'Estimez le montant net récupérable, l’écart en capital et le point mort économique à partir de vos propres données.',
+      name: 'Diagnostic de revente SCPI',
+      description: 'Analysez la liquidité, le mode de sortie, les valeurs patrimoniales et la fraîcheur des sources disponibles pour une SCPI.',
       url: `${SITE}/simulateur-marche-secondaire-scpi/`
     },
-    breadcrumb: ['Accueil', 'Simulateurs', 'Revente SCPI'],
+    breadcrumb: ['Accueil', 'Simulateurs', 'Diagnostic revente SCPI'],
     faq: [
-      { question: 'Comment calculer la perte à la revente d’une SCPI ?', answer: 'Comparez le montant net récupérable au capital réellement investi, puis ajoutez les distributions déjà encaissées pour obtenir un bilan économique cumulé.' },
+      { question: 'Comment savoir si une SCPI est revendable aujourd’hui ?', answer: 'Il faut identifier son mode de sortie actuel, le prix réellement applicable, les parts en attente ou le carnet d’ordres, puis vérifier la fraîcheur des sources officielles.' },
       { question: 'Le prix de sortie d’une SCPI est-il garanti ?', answer: 'Non. Il dépend du mécanisme de sortie : prix de retrait pour une SCPI à capital variable, ou prix d’exécution issu de l’offre et de la demande sur un marché secondaire.' },
     ],
   },
