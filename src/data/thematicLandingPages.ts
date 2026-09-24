@@ -155,23 +155,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les frais varient selon les SCPI : Comète et Transitions Europe ont 10% de frais de souscription, Remake Live 0% (compensés par des frais de gestion plus élevés). Ajoutez environ 10-12% de frais de gestion annuels (déjà déduits du rendement affiché). Sur 10 ans, les frais d\'entrée sont amortis par les rendements élevés.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Sophie M., 42 ans',
-        texte: 'J\'ai investi 50 000€ répartis sur Comète et Transitions Europe suite aux conseils d\'Eric. Je perçois maintenant près de 375€ par mois de revenus passifs. Excellent complément !',
-        note: 5
-      },
-      {
-        nom: 'Marc L., 56 ans',
-        texte: 'Après avoir comparé les 63 SCPI avec MaximusSCPI, j\'ai choisi le Top 3 pour préparer ma retraite. Le rendement de 9% en moyenne dépasse toutes mes attentes.',
-        note: 5
-      },
-      {
-        nom: 'Claire D., 35 ans',
-        texte: 'Je cherchais à diversifier mon épargne. Le Top 5 de MaximusSCPI m\'a permis d\'investir sereinement avec des rendements bien supérieurs à mon assurance-vie.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['comete', 'transitions-europe', 'remake-live', 'epargne-pierre-europe', 'optimale'],
     geographie: {
       'France': 45,
@@ -402,43 +386,43 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 },
   'preparer-retraite-scpi': {
     slug: 'preparer-retraite-scpi',
-    title: 'Préparer sa Retraite avec les SCPI | Complément de Revenu Garanti',
-    metaDescription: 'Préparez sereinement votre retraite avec les SCPI. Percevez un complément de revenu régulier grâce aux revenus locatifs immobiliers.',
+    title: 'Préparer sa retraite avec les SCPI | Revenus, fiscalité et risques',
+    metaDescription: 'SCPI et retraite : analyse des revenus potentiels, de la fiscalité, du démembrement, de la liquidité et des principaux risques avant d’investir.',
     heroTitle: 'Préparez Votre Retraite avec les SCPI',
-    heroTitleHighlight: 'Dès 150€/mois, construisez votre complément de revenu',
-    heroSubtitle: 'Constituez progressivement un capital immobilier qui vous versera des loyers réguliers pendant votre retraite',
-    labelText: 'Solution Retraite - Accessible dès 150€/mois',
+    heroTitleHighlight: 'Construisez progressivement une stratégie de revenus complémentaires',
+    heroSubtitle: 'Les SCPI peuvent contribuer à diversifier un patrimoine et à rechercher des revenus complémentaires à la retraite, sans garantie de rendement ni de liquidité.',
+    labelText: 'Stratégie retraite - À adapter à votre situation',
     senderGroupId: 'LM_SCPI_PreparerRetraite',
     keyMetrics: [
-      { value: '150€', label: 'Épargne/mois' },
-      { value: 'Dès 200€', label: 'Montant minimum' },
-      { value: '5%', label: 'Rendement moyen' }
+      { value: 'Long terme', label: 'Horizon à privilégier' },
+      { value: 'Variable', label: 'Distribution non garantie' },
+      { value: 'Limitée', label: 'Liquidité des parts' }
     ],
     benefits: [
-      'Complément de revenu régulier à vie',
+      'Recherche de revenus complémentaires, non garantis',
       'Capital transmissible à vos héritiers',
       'Pas de gestion locative',
-      'Diversification immobilière automatique',
-      'Solution adaptée selon l\'âge'
+      'Diversification immobilière selon la SCPI choisie',
+      'Stratégie à calibrer selon l\'âge, la fiscalité et l\'horizon'
     ],
     pourquoiChoisir: {
       title: 'Pourquoi les SCPI pour préparer sa retraite ?',
-      subtitle: 'La solution patrimoniale idéale pour un revenu complémentaire pérenne',
+      subtitle: 'Une brique patrimoniale possible pour rechercher des revenus complémentaires à long terme',
       features: [
         {
           icon: 'trending-up',
           title: 'Objectif de revenus réguliers',
-          description: 'Percevez des loyers trimestriels ou mensuels à vie, stables et prévisibles. Rendement moyen de 4 à 6%, largement supérieur aux placements traditionnels.'
+          description: 'Les SCPI peuvent distribuer des revenus trimestriels ou mensuels selon les véhicules. Leur montant et leur régularité ne sont pas garantis et dépendent notamment des loyers encaissés, du taux d’occupation et de la gestion du patrimoine.'
         },
         {
           icon: 'shield',
-          title: 'Zéro gestion',
-          description: 'Aucune contrainte de gestion locative, pas de travaux, pas de locataires difficiles. La société de gestion s\'occupe de tout, vous profitez simplement.'
+          title: 'Gestion immobilière déléguée',
+          description: 'La société de gestion prend en charge la gestion locative et immobilière. L’investisseur reste exposé aux frais, aux travaux supportés par la SCPI, au risque de vacance et à la variation de la valeur des parts.'
         },
         {
           icon: 'calculator',
           title: 'Constitution progressive',
-          description: 'Commencez avec 150€/mois ou un versement initial dès 200€. Sur 20-30 ans, constituez un capital généreux grâce à l\'effet boule de neige des revenus réinvestis.'
+          description: 'L’investissement peut être progressif selon les conditions propres à chaque SCPI ou contrat. Les projections à long terme dépendent des distributions, du prix des parts, des frais, de la fiscalité et d’un éventuel réinvestissement des revenus.'
         },
         {
           icon: 'globe',
@@ -454,10 +438,10 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'file-text',
           title: 'Stratégies selon l\'âge',
           points: [
-            '30-40 ans : Constitution progressive, réinvestissement',
-            '40-50 ans : Accélération, diversification 2-3 SCPI',
-            '50-60 ans : Optimisation, nue-propriété possible',
-            'Retraités : Pleine propriété, revenus immédiats'
+            '30-40 ans : horizon long et capacité d’épargne à analyser',
+            '40-50 ans : diversification et fiscalité à recalibrer',
+            '50-60 ans : liquidité, démembrement et date de retraite à croiser',
+            'Retraités : besoin de revenus, liquidité et transmission à arbitrer'
           ]
         },
         {
@@ -474,10 +458,10 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'calculator',
           title: 'Exemples accessibles',
           points: [
-            'Démarrer avec 200€ : première pierre posée',
-            'Épargne 150€/mois sur 30 ans = capital conséquent',
-            'Versements libres selon votre budget',
-            'Revenus complémentaires à vie + transmission'
+            'Montant minimum variable selon la SCPI ou le contrat',
+            'Versements programmés possibles sur certains supports',
+            'Projection à simuler selon rendement, frais et fiscalité',
+            'Revenus et valeur des parts non garantis'
           ]
         }
       ]
@@ -485,19 +469,19 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'À quel âge commencer à investir en SCPI pour la retraite ?',
-        answer: 'Le plus tôt possible, même avec de petits montants ! Vous pouvez débuter dès 200€ et augmenter progressivement. À 30 ans avec 150€/mois, vous profitez de 30 ans d\'effet boule de neige. Commencer à 50 ans nécessitera des versements plus importants. L\'idéal : débuter dès que vous avez une stabilité professionnelle, quel que soit le montant disponible.'
+        answer: 'Il n’existe pas d’âge universel. L’intérêt dépend surtout de l’horizon de placement, de l’épargne de précaution, de la fiscalité, de l’endettement et du besoin futur de liquidité. Un horizon long peut être cohérent avec la nature immobilière des SCPI, mais le montant investi doit rester compatible avec l’ensemble du patrimoine.'
       },
       {
         question: 'Les SCPI sont-elles meilleures qu\'un PER pour la retraite ?',
-        answer: 'Les deux sont complémentaires, pas concurrents. Le PER offre une réduction d\'impôt immédiate mais bloque votre épargne jusqu\'à la retraite. Les SCPI génèrent des revenus dès maintenant (ou après démembrement) sans blocage total. L\'idéal : PER pour la défiscalisation + SCPI pour les revenus réguliers. Vous diversifiez ainsi vos sources de revenus futurs.'
+        answer: 'PER et SCPI répondent à des logiques différentes. Le PER peut procurer une déduction fiscale à l’entrée sous conditions et comporte des règles de disponibilité spécifiques. Les SCPI exposent à l’immobilier, avec revenus et valeur non garantis et une liquidité limitée. L’arbitrage dépend de la TMI, de l’horizon, du besoin de disponibilité et du reste du patrimoine.'
       },
       {
         question: 'Quel complément de revenu puis-je espérer avec les SCPI ?',
-        answer: 'Tout dépend de votre capacité d\'épargne et de votre horizon de temps. Avec 150€/mois sur 30 ans, vous pouvez viser un complément confortable. Avec 300€/mois, vous doublez vos perspectives. L\'important est de commencer tôt et de profiter de l\'effet boule de neige en réinvestissant vos premiers loyers. Chaque situation est unique, d\'où l\'importance d\'un conseil personnalisé.'
+        answer: 'Il faut partir du capital réellement investi, du taux de distribution retenu comme hypothèse, des frais, de la fiscalité et d’une éventuelle évolution du prix de part. Une simulation doit présenter plusieurs scénarios et rappeler que les distributions futures ne sont pas garanties.'
       },
       {
         question: 'Que deviennent mes parts de SCPI après mon décès ?',
-        answer: 'Vos parts de SCPI se transmettent à vos héritiers comme tout actif successoral, selon les règles classiques de succession. Vos héritiers continuent de percevoir les loyers, contrairement à une assurance-vie qui est versée en capital. Pour optimiser la transmission, vous pouvez démembrer (donner la nue-propriété) ou investir via une assurance-vie (abattement de 152 500€ par bénéficiaire).'
+        answer: 'Les parts détenues en direct entrent en principe dans la succession et leur traitement dépend de la situation civile et fiscale du détenteur. Donation, démembrement et assurance-vie peuvent modifier les modalités de transmission ; leur intérêt doit être vérifié au cas par cas, notamment selon l’âge des versements et la clause bénéficiaire.'
       }
     ],
     temoignages: [
@@ -1698,7 +1682,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'shield',
           title: 'Solidité du Groupe Arkéa',
-          description: 'Arkéa REIM est la filiale immobilière du Groupe Arkéa, groupe bancaire coopératif français. Cette appartenance garantit solidité financière, gouvernance stricte et vision long terme'
+          description: 'Arkéa REIM est la filiale immobilière du Groupe Arkéa, groupe bancaire coopératif français. Cette appartenance constitue un élément de contexte sur l’actionnariat et la gouvernance, sans garantir la performance ni la solidité future de la SCPI'
         },
         {
           icon: 'trending-up',
@@ -2135,7 +2119,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'map-pin',
           title: 'Emplacements stratégiques',
-          description: 'Le recyclage urbain se concentre sur des zones déjà urbanisées, souvent en centre-ville ou proche des transports. Ces localisations premium garantissent une demande locative forte.'
+          description: 'Le recyclage urbain se concentre sur des zones déjà urbanisées, souvent en centre-ville ou proche des transports. Ces localisations peuvent soutenir la demande locative, sans la garantir.'
         },
         {
           icon: 'shield-check',
