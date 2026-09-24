@@ -166,6 +166,11 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             <div className="flex items-baseline gap-2 flex-wrap">
               <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
             </div>
+            {(scpi.dataPeriod || scpi.dataDate) && (
+              <p className="mt-1 text-[10px] text-emerald-100/80">
+                Période de référence : {scpi.dataPeriod || scpi.dataDate}
+              </p>
+            )}
             {isExpanded && (
               <div className="mt-2 pt-2 border-t border-emerald-400/20">
                 <p className="text-[10px] text-emerald-100/80 leading-tight">
@@ -189,7 +194,18 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
           <p className="text-lg font-bold text-white">{scpi.minInvestment.toLocaleString('fr-FR')}€</p>
         </div>
         <div className="col-span-2">
-          <p className="text-xs text-slate-400 mb-0.5">Note MaximusSCPI</p>
+          <p className="text-xs text-slate-400 mb-0.5 flex items-center gap-1">
+            <span>Note MaximusSCPI</span>
+            <a
+              href="/methodologie-donnees"
+              className="text-slate-500 hover:text-emerald-400"
+              title="Méthodologie de la note MaximusSCPI"
+              aria-label="Voir la méthodologie de la note MaximusSCPI"
+              onClick={(e) => e.stopPropagation()}
+            >
+              ⓘ
+            </a>
+          </p>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map(star => {
               const stars = scoreToStars(score);
