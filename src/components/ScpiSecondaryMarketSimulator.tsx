@@ -415,32 +415,69 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                           </span>
                         </div>
 
-                        <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                          <ScenarioCard
-                            label="Défavorable"
-                            variation="-10 %"
-                            price={diagnostic.currentExitPrice * 0.90}
-                            amount={parts * diagnostic.currentExitPrice * 0.90}
-                            tone="red"
-                          />
-                          <ScenarioCard
-                            label="Référence"
-                            variation="Prix actuel"
-                            price={diagnostic.currentExitPrice}
-                            amount={parts * diagnostic.currentExitPrice}
-                            tone="slate"
-                          />
-                          <ScenarioCard
-                            label="Favorable"
-                            variation="+10 %"
-                            price={diagnostic.currentExitPrice * 1.10}
-                            amount={parts * diagnostic.currentExitPrice * 1.10}
-                            tone="emerald"
-                          />
+                        <div className={`mt-3 grid gap-3 ${diagnostic.mode === 'secondary_market' ? 'sm:grid-cols-2 xl:grid-cols-4' : 'sm:grid-cols-3'}`}>
+                          {diagnostic.mode === 'secondary_market' ? (
+                            <>
+                              <ScenarioCard
+                                label="Stress fort"
+                                variation="-40 %"
+                                price={diagnostic.currentExitPrice * 0.60}
+                                amount={parts * diagnostic.currentExitPrice * 0.60}
+                                tone="red"
+                              />
+                              <ScenarioCard
+                                label="Marché tendu"
+                                variation="-20 %"
+                                price={diagnostic.currentExitPrice * 0.80}
+                                amount={parts * diagnostic.currentExitPrice * 0.80}
+                                tone="amber"
+                              />
+                              <ScenarioCard
+                                label="Référence"
+                                variation="Prix actuel"
+                                price={diagnostic.currentExitPrice}
+                                amount={parts * diagnostic.currentExitPrice}
+                                tone="slate"
+                              />
+                              <ScenarioCard
+                                label="Amélioration"
+                                variation="+10 %"
+                                price={diagnostic.currentExitPrice * 1.10}
+                                amount={parts * diagnostic.currentExitPrice * 1.10}
+                                tone="emerald"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <ScenarioCard
+                                label="Défavorable"
+                                variation="-20 %"
+                                price={diagnostic.currentExitPrice * 0.80}
+                                amount={parts * diagnostic.currentExitPrice * 0.80}
+                                tone="red"
+                              />
+                              <ScenarioCard
+                                label="Référence"
+                                variation="Prix actuel"
+                                price={diagnostic.currentExitPrice}
+                                amount={parts * diagnostic.currentExitPrice}
+                                tone="slate"
+                              />
+                              <ScenarioCard
+                                label="Favorable"
+                                variation="+10 %"
+                                price={diagnostic.currentExitPrice * 1.10}
+                                amount={parts * diagnostic.currentExitPrice * 1.10}
+                                tone="emerald"
+                              />
+                            </>
+                          )}
                         </div>
 
                         <p className="mt-3 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
-                          Les scénarios appliquent simplement ±10 % au prix de sortie documenté. Ils servent à mesurer la sensibilité du capital et ne préjugent ni de l’évolution du prix de part, ni du délai de revente.
+                          {diagnostic.mode === 'secondary_market'
+                            ? 'Sur un marché secondaire, les écarts peuvent être importants lorsque les vendeurs sont nombreux et les acheteurs rares. Les scénarios -20 % et -40 % sont des tests de stress, pas des prévisions.'
+                            : 'Pour une SCPI à capital variable, ces scénarios testent simplement la sensibilité à une évolution du prix de retrait. Ils ne constituent pas une prévision.'}
                         </p>
                       </div>
                     </>
@@ -768,19 +805,23 @@ const ScenarioCard: React.FC<{
   variation: string;
   price: number;
   amount: number;
-  tone: 'red' | 'slate' | 'emerald';
+  tone: 'red' | 'amber' | 'slate' | 'emerald';
 }> = ({ label, variation, price, amount, tone }) => {
   const toneClass = tone === 'red'
     ? 'border-red-500/30 bg-red-500/5'
-    : tone === 'emerald'
-      ? 'border-emerald-500/30 bg-emerald-500/5'
-      : 'border-slate-500/30 bg-slate-500/5';
+    : tone === 'amber'
+      ? 'border-amber-500/30 bg-amber-500/5'
+      : tone === 'emerald'
+        ? 'border-emerald-500/30 bg-emerald-500/5'
+        : 'border-slate-500/30 bg-slate-500/5';
 
   const labelClass = tone === 'red'
     ? 'text-red-600 dark:text-red-300'
-    : tone === 'emerald'
-      ? 'text-emerald-600 dark:text-emerald-300'
-      : 'text-slate-600 dark:text-slate-300';
+    : tone === 'amber'
+      ? 'text-amber-600 dark:text-amber-300'
+      : tone === 'emerald'
+        ? 'text-emerald-600 dark:text-emerald-300'
+        : 'text-slate-600 dark:text-slate-300';
 
   return (
     <div className={`rounded-xl border p-4 ${toneClass}`}>
