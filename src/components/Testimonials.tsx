@@ -1,6 +1,5 @@
 import React from 'react';
 import { Star, User } from 'lucide-react';
-import { CALENDLY_URL } from '../config/calendly';
 
 const Testimonials: React.FC = () => {
   const testimonials = [
@@ -79,15 +78,14 @@ const Testimonials: React.FC = () => {
 
         {/* Call to action */}
         <div className="text-center mt-12">
-          <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => (window as any).openRdvModal?.()}
             className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 text-white rounded-xl font-bold text-lg hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform"
           >
             <User className="w-5 h-5" />
             Prendre rendez-vous gratuitement
-          </a>
+          </button>
         </div>
       </div>
     </section>
