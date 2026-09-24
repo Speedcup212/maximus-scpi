@@ -7,7 +7,6 @@ import {
   Grid2x2 as Grid, Lock, Eye, BadgeCheck, Recycle, MapPin, Users, AlertCircle, Info
 } from 'lucide-react';
 import { thematicLandingPages } from '../data/thematicLandingPages';
-import { CALENDLY_URL } from '../config/calendly';
 import { scpiData } from '../data/scpiData';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { Scpi } from '../types/scpi';
@@ -532,15 +531,14 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
 
                   <div className="text-center">
                     <p className="text-sm text-gray-600 mb-3">ou</p>
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handleContactClick}
                       className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold transition-colors"
                     >
                       <Calendar className="w-5 h-5" />
-                      Choisir un créneau sur Calendly
-                    </a>
+                      Choisir un créneau
+                    </button>
                   </div>
 
                   {submitStatus === 'error' && (
@@ -951,15 +949,14 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
               <MessageCircle className="w-6 h-6" />
               Prendre rendez-vous gratuitement
             </button>
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={handleContactClick}
               className="inline-flex items-center gap-2 bg-green-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-600 transition-all shadow-lg"
             >
               <Calendar className="w-6 h-6" />
-              Réserver sur Calendly
-            </a>
+              Choisir un créneau
+            </button>
           </div>
         </div>
       </div>
