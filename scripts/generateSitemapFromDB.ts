@@ -115,8 +115,16 @@ async function generateSitemap() {
     .filter(slug => !excludePatterns.some(p => p.test(slug)));
 
   // ── 2. Ajouter les slugs de collection supplémentaires ──
+  const resaleArticleSlugs = [
+    'scpi-parts-en-attente-retrait-que-faire',
+    'scpi-capital-fixe-marche-secondaire-prix-execution',
+    'primovie-revente-parts-marche-secondaire-2026',
+    'scpi-baisse-vendre-ou-attendre',
+  ];
+
   const staticArticleRoutes: { path: string; priority: string; changefreq: string }[] = [
     ...localArticleSlugs.map(s => ({ path: s, priority: '0.7' as const, changefreq: 'monthly' as const })),
+    ...resaleArticleSlugs.map(s => ({ path: s, priority: '0.7' as const, changefreq: 'weekly' as const })),
     { path: 'articles', priority: '0.8', changefreq: 'weekly' },
     { path: 'articles/construire-portefeuille-scpi', priority: '0.8', changefreq: 'weekly' },
   ];
