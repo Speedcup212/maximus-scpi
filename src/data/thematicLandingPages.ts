@@ -53,15 +53,15 @@
 export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   'meilleures-scpi-rendement': {
     slug: 'meilleures-scpi-rendement',
-    title: 'Meilleures SCPI 2026 : Top SCPI Rendement (jusqu\u2019à 11,18%)',
-    metaDescription: 'Classement des meilleures SCPI de rendement 2026. Taux de distribution, frais, capitalisation. Sélection par un conseiller certifié ORIAS.',
-    heroTitle: 'Top 5 des Meilleures SCPI de Rendement',
+    title: 'SCPI rendement 2026 : comparer les taux de distribution et les risques',
+    metaDescription: 'Comparez les SCPI en 2026 : taux de distribution, frais, capitalisation, TOF, endettement, valeur de reconstitution et risques. Analyse MaximusSCPI.',
+    heroTitle: 'Comparer les SCPI de rendement en 2026',
     heroTitleHighlight: 'Rendements moyens de 4% à 6%',
-    heroSubtitle: 'Sélection exclusive des SCPI offrant les meilleurs taux de distribution du marché français en 2026',
+    heroSubtitle: 'Le taux de distribution ne suffit pas : comparez rendement, prix de part, TOF, endettement, liquidité et qualité du patrimoine.',
     labelText: 'Top 5 MaximusSCPI - Classement Officiel 2026',
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
-      { value: '5,5%', label: 'Rendement moyen' },
+      { value: 'Variable', label: 'Distribution passée, non garantie' },
       { value: '63', label: 'SCPI analysées' },
       { value: '95%+', label: 'TOF moyen' }
     ],
@@ -79,7 +79,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'trending-up',
           title: 'Rendements attractifs',
-          description: 'Les meilleures SCPI affichent des rendements moyens de 4% à 6%, largement supérieurs aux placements traditionnels'
+          description: 'Les taux de distribution varient fortement selon les SCPI et les années. Ils doivent être analysés avec les risques, les frais et l’évolution du prix de part.'
         },
         {
           icon: 'shield',
@@ -88,7 +88,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'globe',
-          title: 'Diversification optimale',
+          title: 'Diversification à analyser',
           description: 'Investissements répartis sur plusieurs pays européens (France, Espagne, Allemagne, Pays-Bas) et multiples secteurs d\'activité'
         },
         {
@@ -115,7 +115,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'bar-chart',
           title: 'Performance et risques',
           points: [
-            'Rendement moyen des meilleures SCPI : 5% à 6%',
+            'Taux de distribution : variable selon les SCPI et les années',
             'Taux d\'occupation moyen : 95%+',
             'Diversification : 4 à 5 pays européens',
             'Horizon recommandé : 8 à 10 ans minimum'
@@ -135,7 +135,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     },
     faq: [
       {
-        question: 'Quelle est la meilleure SCPI de rendement en 2026 ?',
+        question: 'Comment comparer les SCPI de rendement en 2026 ?',
         answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2026 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2026.'
       },
       {
@@ -148,7 +148,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
-        answer: 'Oui, c\'est même recommandé ! Diversifier sur 2 à 3 SCPI du Top 5 réduit votre risque tout en maintenant un bon rendement global. Par exemple : 40% Comète (9,00%), 30% Transitions Europe (7,6%), 30% Optimale (6,51%) = rendement moyen d\'environ 8,03% avec une diversification France + Europe.'
+        answer: 'Diversifier plusieurs SCPI peut réduire la concentration sur un seul gestionnaire, secteur ou pays, sans supprimer le risque de perte en capital. La pondération doit dépendre de votre horizon, de votre fiscalité, de la liquidité recherchée et des caractéristiques de chaque SCPI.'
       },
       {
         question: 'Quels sont les frais à prévoir pour investir dans ces SCPI ?',
@@ -156,111 +156,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       }
     ],
     temoignages: [],
-    relatedScpi: ['comete', 'transitions-europe', 'remake-live', 'epargne-pierre-europe', 'optimale'],
-    geographie: {
-      'France': 45,
-      'Allemagne': 20,
-      'Espagne': 15,
-      'Pays-Bas': 10,
-      'Italie': 5,
-      'Autres': 5
-    },
-    secteurs: {
-      'Bureaux': 40,
-      'Commerce': 25,
-      'Logistique': 15,
-      'Santé': 10,
-      'Hôtellerie': 5,
-      'Résidentiel': 5
-    }
-  ,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.5,
-      title: `Simulez vos revenus avec les meilleures SCPI`,
-      subtitle: `Calculez vos revenus potentiels`,
-      theme: 'blue'
-    }
-},
-  'scpi-europeennes': {
-    slug: 'scpi-europeennes',
-    title: 'SCPI Européennes 2026 : Top 11 SCPI Investies Hors de France | Analyse & Rendement',
-    metaDescription: 'Classement des meilleures SCPI européennes 2026. Investissement hors France, fiscalité avantageuse dès 30% TMI, rendements jusqu\'à 9%. Sélection par un conseiller certifié ORIAS.',
-    heroTitle: 'Top 11 SCPI Européennes : Investir Hors de France en 2026',
-    heroSubtitle: 'Fiscalité allégée, diversification optimale, rendements élevés — la sélection MaximusSCPI des meilleures SCPI investies en Europe',
-    labelText: 'SCPI Européennes',
-    keyMetrics: [
-      { value: '11', label: 'SCPI analysées' },
-      { value: '7.2%', label: 'Rendement moyen' },
-      { value: '0%', label: 'PS sur revenus étrangers' }
-    ],
-    benefits: [
-      'Zéro prélèvements sociaux (17,2%) sur les revenus étrangers',
-      'Fiscalité optimale dès 30% de TMI vs SCPI françaises',
-      'Diversification géographique sur 15+ pays européens',
-      'Rendements moyens supérieurs au marché français',
-      'Protection contre la concentration immobilière française'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi choisir des SCPI européennes ?',
-      subtitle: 'L\'avantage fiscal et la diversification au cœur de la stratégie',
-      features: [
-        {
-          icon: '🇪🇺',
-          title: 'Fiscalité allégée',
-          description: 'Les revenus de source étrangère échappent aux prélèvements sociaux de 17,2%. Un avantage décisif dès 30% de TMI.'
-        },
-        {
-          icon: '🌍',
-          title: 'Diversification géographique',
-          description: 'Exposition à l\'Allemagne, Espagne, Pays-Bas, Irlande, Pologne — marchés immobiliers dynamiques hors cycle français.'
-        },
-        {
-          icon: '📈',
-          title: 'Rendements compétitifs',
-          description: 'Les SCPI européennes affichent des rendements moyens de 6% à 9%, portés par des marchés en croissance.'
-        },
-        {
-          icon: '🛡️',
-          title: 'Résilience du portefeuille',
-          description: 'Décorrélation partielle avec l\'immobilier français, protection contre une crise localisée en France.'
-        }
-      ]
-    },
-    faq: [
-      {
-        question: 'Pourquoi les SCPI européennes sont-elles avantageuses fiscalement ?',
-        answer: 'Les revenus de source étrangère ne sont pas soumis aux prélèvements sociaux de 17,2% en France. Un investisseur à 30% de TMI paie donc environ 30% d\'impôt sur ces revenus au lieu de 47,2% pour une SCPI française.'
-      },
-      {
-        question: 'À partir de quelle TMI les SCPI européennes sont-elles recommandées ?',
-        answer: 'Dès 30% de TMI, les SCPI européennes deviennent plus efficaces fiscalement. En dessous de 30% (TMI 11%), les SCPI françaises peuvent rester compétitives.'
-      },
-      {
-        question: 'Quelle est la meilleure SCPI européenne en 2026 ?',
-        answer: 'Comète (Alderan, 9%) et Transitions Europe (Arkéa REIM, 7,6%) se distinguent par leurs rendements élevés et leurs taux d\'occupation supérieurs à 98%.'
-      },
-      {
-        question: 'Les SCPI européennes sont-elles plus risquées ?',
-        answer: 'Pas nécessairement. Le risque de change est limité car la zone euro partage la même monnaie. Le risque locatif est dilué sur plusieurs pays.'
-      },
-      {
-        question: 'Peut-on investir dans des SCPI européennes via l\'assurance-vie ?',
-        answer: 'Oui, mais dans ce cas la fiscalité de l\'assurance-vie s\'applique et l\'avantage des prélèvements sociaux à 0% disparaît. L\'investissement en direct reste généralement plus avantageux pour les TMI élevées.'
-      }
-    ],
-    temoignages: [
-      {
-        nom: 'Philippe R., 48 ans',
-        texte: 'À 41% de TMI, Eric m\'a orienté vers les SCPI européennes. Je paie 41% au lieu de 58,2% sur ces revenus. Sur 100 000€ investis, c\'est plusieurs centaines d\'euros d\'économie annuelle.',
-        note: 5
-      },
-      {
-        nom: 'Isabelle M., 52 ans',
-        texte: 'J\'avais déjà des SCPI françaises. L\'ajout de Transitions Europe et Comète a diversifié mon portefeuille et amélioré mon rendement net après impôts.',
-        note: 5
-      }
-    ],
     relatedScpi: ['comete', 'transitions-europe', 'epargne-pierre-europe', 'remake-live', 'iroko-zen', 'coeur-d-europe', 'lf-europimmo', 'paref-evo', 'perial-hospitalite-europe', 'atream-hotel', 'log-in']
   },
   'scpi-fiscales': {
@@ -326,7 +221,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'bar-chart',
           title: 'Profils investisseurs',
           points: [
-            'TMI minimum 30% (idéal 41% ou 45%)',
+            'Intérêt fiscal à analyser selon la TMI et l’origine géographique des revenus',
             'Revenus fonciers importants (Déficit Foncier)',
             'Vision long terme (8-15 ans)',
             'Épargne disponible pour frais d\'entrée'
@@ -484,23 +379,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les parts détenues en direct entrent en principe dans la succession et leur traitement dépend de la situation civile et fiscale du détenteur. Donation, démembrement et assurance-vie peuvent modifier les modalités de transmission ; leur intérêt doit être vérifié au cas par cas, notamment selon l’âge des versements et la clause bénéficiaire.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Jean-Pierre D., 62 ans',
-        texte: 'J\'ai commencé à investir en SCPI il y a 15 ans. Aujourd\'hui à la retraite, je perçois 850€/mois de revenus passifs qui complètent ma pension. Un vrai confort !',
-        note: 5
-      },
-      {
-        nom: 'Martine L., 58 ans',
-        texte: 'Sur les conseils d\'Éric, j\'ai investi progressivement en SCPI depuis 10 ans. Dans 2 ans, ces revenus complémentaires feront toute la différence pour ma retraite.',
-        note: 5
-      },
-      {
-        nom: 'Patrick M., 45 ans',
-        texte: 'Il n\'est jamais trop tôt ! J\'investis 500€/mois en SCPI depuis 5 ans. À 65 ans, j\'aurai constitué un capital qui me versera 1 200€/mois. Anticiper est essentiel.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['transitions-europe', 'optimale', 'epargne-pierre-europe', 'iroko-zen', 'remake-live'],
     geographie: {
       'France': 55,
@@ -554,17 +433,17 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'dollar-sign',
           title: 'Revenus passifs réguliers',
-          description: 'Percevez des loyers tous les mois ou trimestres, proportionnels à votre investissement. Stables, prévisibles, indexés sur l\'inflation.'
+          description: 'Les distributions peuvent être mensuelles ou trimestrielles selon la SCPI. Leur montant varie avec les loyers encaissés, les charges, l’occupation et les décisions de distribution.'
         },
         {
           icon: 'trending-up',
           title: 'Rendements attractifs',
-          description: '10 000€ à 5% = 500€/an. 30 000€ = 1 500€/an. 50 000€ = 2 500€/an. Les meilleures SCPI offrent 4% à 6% de rendement moyen annuel.'
+          description: 'Les revenus doivent être simulés à partir d’hypothèses de distribution explicites, puis corrigés des frais et de la fiscalité. Les performances passées ne garantissent pas les distributions futures.'
         },
         {
           icon: 'calendar',
           title: 'Versements réguliers',
-          description: 'Les SCPI distribuent des revenus mensuels ou trimestriels selon la société de gestion, pour un flux de trésorerie optimal et prévisible.'
+          description: 'Les SCPI peuvent distribuer mensuellement ou trimestriellement selon la société de gestion. La fréquence ne rend pas le niveau de revenu prévisible ou garanti.'
         },
         {
           icon: 'shield',
@@ -600,7 +479,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'calculator',
           title: 'Exemples de SCPI performantes',
           points: [
-            'Consultez notre comparateur pour trouver les meilleures SCPI',
+            'Consultez notre comparateur pour analyser les SCPI selon plusieurs critères',
             'Privilégiez la diversification sur plusieurs SCPI',
             'Vérifiez la qualité du patrimoine et la solidité financière',
             'Analysez l\'historique de distribution sur 5-10 ans'
@@ -615,7 +494,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Les revenus de SCPI sont-ils vraiment passifs ?',
-        answer: 'Oui, totalement. Une fois vos parts achetées, vous n\'avez rien à faire. La société de gestion s\'occupe de tout : acquisition des immeubles, location, gestion des travaux, recherche de locataires, relocation. Vous recevez automatiquement vos loyers sur votre compte bancaire chaque mois ou trimestre. C\'est le placement passif par excellence, idéal si vous voulez des revenus sans contrainte.'
+        answer: 'La gestion immobilière est déléguée à la société de gestion, mais l’investissement n’est pas sans contraintes : frais, fiscalité, risque locatif, variation du prix de part et liquidité restent à la charge économique de l’associé.'
       },
       {
         question: 'Peut-on réinvestir ses revenus de SCPI ?',
@@ -626,23 +505,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les SCPI offrent une gestion 100% déléguée (zéro contrainte), une diversification immédiate (des dizaines d\'immeubles), une accessibilité (dès quelques milliers d\'euros), et une liquidité relative (revente possible). L\'immobilier locatif direct demande du temps (gestion, travaux), de l\'énergie (locataires, litiges), et un capital important (apport + frais). Les SCPI sont l\'immobilier locatif sans les inconvénients.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Stéphanie R., 38 ans',
-        texte: 'J\'ai investi 40 000€ en SCPI il y a 3 ans. Je reçois maintenant environ 150€ de revenus passifs chaque mois. Un complément appréciable pour mon budget !',
-        note: 5
-      },
-      {
-        nom: 'Thomas B., 44 ans',
-        texte: 'Grâce aux conseils d\'Éric, j\'ai diversifié sur 3 SCPI. Je perçois environ 280€/mois automatiquement. Aucune gestion, très satisfait de cet investissement passif !',
-        note: 5
-      },
-      {
-        nom: 'Valérie P., 51 ans',
-        texte: 'Je réinvestis mes loyers depuis 5 ans. Mon capital a bien progressé et mes revenus passifs atteignent maintenant 350€/mois. L\'effet boule de neige fonctionne vraiment.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['optimale', 'iroko-zen', 'remake-live', 'novaxia-neo', 'transitions-europe'],
     geographie: {
       'France': 50,
@@ -765,18 +628,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Il n\'y a pas de "meilleure SCPI" universelle. Le choix dépend de votre profil, vos objectifs et votre horizon d\'investissement. Notre expert peut vous conseiller gratuitement.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Pierre L.',
-        texte: 'Très pratique pour avoir une vue d\'ensemble du marché. J\'ai pu comparer facilement les rendements et les secteurs.',
-        note: 5
-      },
-      {
-        nom: 'Marie T.',
-        texte: 'Enfin un comparateur clair et transparent ! Les données sont complètes et faciles à comprendre.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: []
   ,
     geographie: {
@@ -900,23 +752,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les taux de distribution des SCPI bureaux varient selon les SCPI et les années. Ils proviennent des loyers versés par les entreprises locataires et sont généralement distribués trimestriellement. Ces données passées ne préjugent pas des performances futures et ne sont pas garanties.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Philippe D., 52 ans',
-        texte: 'J\'ai investi dans 2 SCPI bureaux pour diversifier mon patrimoine. Les rendements sont réguliers et je suis rassuré par la qualité des immeubles et des locataires.',
-        note: 5
-      },
-      {
-        nom: 'Anne-Sophie L., 45 ans',
-        texte: 'Les SCPI bureaux offrent une stabilité rassurante. J\'apprécie particulièrement la diversification géographique en Europe et les locataires de qualité.',
-        note: 5
-      },
-      {
-        nom: 'Christophe M., 58 ans',
-        texte: 'Éric m\'a orienté vers des SCPI bureaux bien positionnées dans les grandes métropoles. J\'apprécie la qualité des actifs et la diversification géographique proposée.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: [],
     geographie: {
       'France': 55,
@@ -1037,23 +873,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les SCPI commerces peuvent convenir à des investisseurs cherchant une diversification sectorielle sur le commerce physique. Elles présentent un risque de vacance locative et de perte en capital. Une analyse de votre situation patrimoniale est nécessaire avant toute décision.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Marie C., 44 ans',
-        texte: 'Les SCPI commerces m\'offrent un rendement supérieur pour diversifier mon portefeuille. J\'apprécie la sélection rigoureuse des emplacements par les sociétés de gestion.',
-        note: 5
-      },
-      {
-        nom: 'Laurent B., 51 ans',
-        texte: 'J\'ai investi dans une SCPI commerces spécialisée sur les centres-villes. J\'apprécie la qualité des emplacements et la diversification des formats proposés.',
-        note: 5
-      },
-      {
-        nom: 'Isabelle T., 39 ans',
-        texte: 'Après conseil d\'Éric, j\'ai choisi une SCPI commerces diversifiée sur plusieurs formats. Les loyers sont réguliers malgré l\'évolution du secteur retail.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: []
   ,
     geographie: {
@@ -1175,23 +995,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les SCPI santé sélectionnent rigoureusement leurs actifs et privilégient les exploitants de qualité conformes aux normes. La réglementation renforce la qualité du secteur et assure la pérennité des investissements.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Bernard T., 63 ans',
-        texte: 'J\'ai choisi les SCPI santé pour la stabilité et la dimension socialement responsable. Les revenus sont réguliers et je suis rassuré par la solidité du secteur.',
-        note: 5
-      },
-      {
-        nom: 'Catherine V., 56 ans',
-        texte: 'Les SCPI santé correspondent à mon profil d\'investisseur prudent. J\'apprécie les baux longue durée et la qualité des actifs sélectionnés.',
-        note: 5
-      },
-      {
-        nom: 'Alain P., 48 ans',
-        texte: 'Investir dans la santé via les SCPI me permet de concilier rendement et utilité sociale. Les EHPAD et cliniques sont des actifs défensifs intéressants.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: []
   ,
     geographie: {
@@ -1284,7 +1088,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'SCPI Avec Frais (8-12%)',
           points: [
             '✅ Frais de gestion plus bas (10-12% annuels)',
-            '✅ Meilleure rentabilité sur 8-10 ans',
+            '✅ Rentabilité à comparer sur un horizon long, après frais',
             '❌ Décote initiale de 8 à 12%',
             '❌ Rentabilité différée sur les premières années'
           ]
@@ -1323,23 +1127,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Posez-vous 3 questions : 1) Quel est mon horizon d\'investissement ? (Court terme = sans frais, long terme = avec frais). 2) Quelle est ma priorité ? (Maximiser le capital investi immédiatement = sans frais, optimiser la rentabilité long terme = avec frais). 3) Quel est mon profil ? (Débutant = sans frais pour simplicité, investisseur confirmé = avec frais pour optimisation). Nous vous aidons à faire ce choix gratuitement.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Sophie M., 38 ans',
-        texte: 'J\'hésitais entre SCPI avec et sans frais. Eric m\'a expliqué clairement l\'impact sur 10 ans. J\'ai choisi une SCPI avec frais pour mon horizon long terme, et je ne regrette pas !',
-        note: 5
-      },
-      {
-        nom: 'Thomas D., 45 ans',
-        texte: 'Je voulais investir 20 000€ sans perdre de capital à l\'entrée. Eric m\'a orienté vers une excellente SCPI sans frais. Résultat : 100% de mon capital investi immédiatement.',
-        note: 5
-      },
-      {
-        nom: 'Claire L., 52 ans',
-        texte: 'Grâce au comparatif détaillé de MaximusSCPI, j\'ai compris que les frais de gestion comptent autant que les frais d\'entrée. J\'ai opté pour un mix des deux types de SCPI.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['remake-live', 'iroko-zen', 'novaxia-neo', 'comete', 'transitions-europe']
   ,
     geographie: {
@@ -1460,23 +1248,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Les revenus sont imposés comme des revenus fonciers au barème progressif de l\'impôt sur le revenu, avec possibilité de déduire les charges. Les plus-values à la revente sont soumises à la fiscalité des plus-values immobilières.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Nathalie R., 48 ans',
-        texte: 'J\'ai préféré investir dans des SCPI françaises pour éviter les complications fiscales. Je connais le marché et les rendements sont très corrects.',
-        note: 5
-      },
-      {
-        nom: 'François D., 54 ans',
-        texte: 'Les SCPI France me permettent d\'investir dans des actifs que je peux comprendre et suivre. Paris, Lyon, Bordeaux : des marchés que je connais bien.',
-        note: 5
-      },
-      {
-        nom: 'Véronique M., 42 ans',
-        texte: 'Sur les conseils d\'Éric, j\'ai composé un portefeuille 100% France. La proximité des actifs et la fiscalité simplifiée sont des atouts non négligeables.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: []
   ,
     geographie: {
@@ -1608,23 +1380,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Alderan continue de développer la SCPI Comète avec des acquisitions ciblées à l\'international. La stratégie reste focalisée sur l\'immobilier tertiaire de qualité avec un objectif de maintenir une distribution régulière tout en préservant un TOF élevé. Alderan pourrait également lancer d\'autres SCPI à l\'avenir pour diversifier son offre.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Laurent B., 48 ans',
-        texte: 'J\'ai investi dans Comète d\'Alderan il y a 1 an. La distribution 2026 à 9,00% répond à mes attentes. La gestion est transparente et les distributions régulières.',
-        note: 5
-      },
-      {
-        nom: 'Marie D., 52 ans',
-        texte: 'Eric m\'a recommandé Alderan pour diversifier mon portefeuille à l\'international. La SCPI Comète combine performance et diversification internationale. Excellent choix !',
-        note: 5
-      },
-      {
-        nom: 'Thomas L., 41 ans',
-        texte: 'Alderan est un gestionnaire dynamique et innovant. Leur approche internationale sur Comète me séduit. La communication est claire.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['comete']
   ,
     geographie: {
@@ -1671,7 +1427,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     benefits: [
       'Filiale du Groupe Arkéa (solidité financière)',
       'SCPI Transitions Europe : 7,6% de rendement',
-      'Zéro endettement pour une sécurité maximale',
+      'Absence d’endettement : réduction du risque de taux, sans supprimer les autres risques',
       'Stratégie ESG et transition énergétique',
       'Expertise immobilière européenne reconnue'
     ],
@@ -1687,7 +1443,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'trending-up',
           title: 'Performance éprouvée',
-          description: 'Transitions Europe affiche 7,6% de rendement avec zéro endettement. Cette stratégie prudente et performante combine rentabilité élevée et sécurité maximale'
+          description: 'L’absence d’endettement réduit l’exposition au risque de taux et à l’effet de levier. Elle ne garantit ni la valeur des parts ni le niveau futur des distributions.'
         },
         {
           icon: 'leaf',
@@ -1697,7 +1453,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'globe',
           title: 'Diversification européenne',
-          description: 'Investissements répartis sur 5 pays européens (France, Allemagne, Espagne, Pays-Bas, Belgique) pour une diversification géographique optimale'
+          description: 'La répartition sur plusieurs pays vise à diversifier l’exposition géographique ; son efficacité dépend du poids réel de chaque marché et de la qualité des actifs.'
         }
       ]
     },
@@ -1719,7 +1475,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'SCPI Transitions Europe',
           points: [
             'Rendement 2024 : 7,6%',
-            'Zéro endettement (sécurité maximale)',
+            'Zéro endettement (risque de taux direct limité)',
             'TOF : 96% (excellent taux d\'occupation)',
             'Frais de souscription : 10% HT'
           ]
@@ -1743,7 +1499,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Pourquoi Transitions Europe affiche-t-elle zéro endettement ?',
-        answer: 'Arkéa REIM a fait le choix stratégique de ne pas recourir à l\'endettement pour Transitions Europe. Cette approche prudente offre une sécurité maximale aux investisseurs : pas de risque de taux, pas d\'effet de levier négatif en cas de baisse du marché, et une stabilité accrue. Le rendement de 7,6% est entièrement généré par les loyers.'
+        answer: 'L’absence d’endettement limite le risque de taux et l’effet de levier financier. Elle ne supprime toutefois ni le risque immobilier, ni la vacance, ni le risque de baisse des distributions ou du prix des parts.'
       },
       {
         question: 'La stratégie ESG d\'Arkéa REIM est-elle sérieuse ?',
@@ -1754,23 +1510,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Un gestionnaire comme Arkéa REIM adossé au Groupe Arkéa bénéficie de plusieurs avantages : solidité financière (pas de risque de faillite), accès privilégié aux financements si besoin, gouvernance stricte et contrôlée, vision long terme (pas de pression court-termiste), et expertise financière reconnue.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Catherine V., 55 ans',
-        texte: 'La solidité du Groupe Arkéa m\'a rassurée. Transitions Europe combine rendement attractif (7,6%) et sécurité avec zéro endettement. Un excellent équilibre.',
-        note: 5
-      },
-      {
-        nom: 'Philippe M., 49 ans',
-        texte: 'Eric m\'a orienté vers Arkéa REIM pour la diversification européenne et l\'approche ESG. La stratégie de Transitions Europe correspond parfaitement à mes valeurs.',
-        note: 5
-      },
-      {
-        nom: 'Isabelle D., 43 ans',
-        texte: 'Arkéa REIM inspire confiance avec le soutien du Groupe Arkéa. Les rendements sont au rendez-vous et la gestion est transparente. Je recommande !',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['transitions-europe']
   ,
     geographie: {
@@ -1872,7 +1612,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           points: [
             'Rendements stables et réguliers',
             'Taux d\'occupation élevés (>95%)',
-            'Diversification optimale',
+            'Diversification à analyser',
             'Gestion prudente et professionnelle'
           ]
         }
@@ -1885,7 +1625,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Quelle SCPI La Française REM choisir ?',
-        answer: 'Le choix dépend de votre profil : Optimale est idéale pour débuter avec une diversification équilibrée (6,51%). PFO convient si vous cherchez une exposition européenne. Épimmo pour un focus France avec rendement attractif. Vendôme Régions pour les métropoles régionales françaises. Nous vous aidons à choisir selon votre situation.'
+        answer: 'Le choix dépend du profil recherché : diversification, exposition géographique, secteurs, endettement, frais, liquidité et historique des distributions doivent être comparés avant toute allocation.'
       },
       {
         question: 'Les SCPI La Française REM sont-elles sûres ?',
@@ -1896,23 +1636,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'La Française REM applique une diversification stricte sur plusieurs dimensions : géographique (France, Europe), sectorielle (bureaux, commerces, santé, logistique), par SCPI (6 SCPI aux stratégies complémentaires), et par actifs (centaines d\'immeubles). Cette diversification réduit considérablement le risque global.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Jean-Marc L., 58 ans',
-        texte: 'La Française REM inspire confiance avec 30 ans d\'expérience. J\'ai investi dans Optimale et les distributions sont régulières comme prévu. Un gestionnaire sérieux.',
-        note: 5
-      },
-      {
-        nom: 'Nathalie P., 46 ans',
-        texte: 'Eric m\'a recommandé La Française REM pour la solidité et le track record. J\'ai choisi un mix Optimale et PFO pour diversifier France/Europe. Excellent !',
-        note: 5
-      },
-      {
-        nom: 'François D., 52 ans',
-        texte: 'Leader du marché pour une bonne raison. La Française REM combine expertise, performances et transparence. Mes revenus passifs sont au rendez-vous.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['optimale']
   ,
     geographie: {
@@ -2004,7 +1728,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           points: [
             'Rendement 2024 : 6,75%',
             'TOF : 98% (excellent taux d\'occupation)',
-            'Zéro endettement (sécurité maximale)',
+            'Zéro endettement (réduction de certains risques)',
             'Frais de souscription : 10% HT'
           ]
         },
@@ -2027,7 +1751,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Pourquoi Épargne Pierre Europe affiche-t-elle zéro endettement ?',
-        answer: 'Atland Voisin a fait le choix stratégique de ne pas recourir à l\'endettement pour Épargne Pierre Europe. Cette approche prudente offre une sécurité maximale : pas de risque de taux, pas d\'effet de levier négatif, et une stabilité accrue. Le rendement de 6,75% est entièrement généré par les loyers, ce qui garantit sa pérennité.'
+        answer: 'L’absence d’endettement limite le risque de taux et l’effet de levier financier. Elle ne garantit ni la pérennité de la distribution, ni la valeur des parts, ni la liquidité.'
       },
       {
         question: 'Atland Voisin organise-t-elle des événements pour ses associés ?',
@@ -2038,23 +1762,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Absolument. Épargne Pierre Europe investit uniquement dans 3 pays européens stables (France, Espagne, Allemagne), dans des actifs de qualité avec des locataires solvables. Le zéro endettement, le TOF de 98% et la sélection rigoureuse des actifs démontrent l\'approche défensive et pérenne d\'Atland Voisin.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Sophie R., 50 ans',
-        texte: 'J\'apprécie l\'approche patrimoniale d\'Atland Voisin. Épargne Pierre Europe combine rendement correct (6,75%) et sécurité avec zéro endettement. Communication excellente.',
-        note: 5
-      },
-      {
-        nom: 'Michel D., 54 ans',
-        texte: 'Eric m\'a orienté vers Atland Voisin pour la prudence et la transparence. J\'ai assisté à une visite de patrimoine, c\'était très enrichissant. Un gestionnaire proche.',
-        note: 5
-      },
-      {
-        nom: 'Claire M., 47 ans',
-        texte: 'Atland Voisin se démarque par son approche conseil. La proximité avec les équipes et la communication régulière inspirent confiance. Très satisfaite !',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['epargne-pierre-europe']
   ,
     geographie: {
@@ -2215,30 +1923,14 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Combien investir dans une SCPI de recyclage urbain ?',
-        answer: 'Le ticket d\'entrée varie selon les SCPI : Remake Live démarre à 1 000€, Transitions Europe à 5 000€, Comète à 5 000€. Pour une diversification optimale, investissez au minimum 10 000€ à 15 000€ répartis sur 2 SCPI spécialisées. Horizon recommandé : 8 à 10 ans minimum pour bénéficier pleinement de la revalorisation des actifs réhabilités.'
+        answer: 'Le ticket d\'entrée varie selon les SCPI : Remake Live démarre à 1 000€, Transitions Europe à 5 000€, Comète à 5 000€. Pour une diversification à analyser, investissez au minimum 10 000€ à 15 000€ répartis sur 2 SCPI spécialisées. Horizon recommandé : 8 à 10 ans minimum pour bénéficier pleinement de la revalorisation des actifs réhabilités.'
       },
       {
         question: 'Le recyclage urbain concerne-t-il tous les types d\'immobilier ?',
         answer: 'Principalement les bureaux obsolètes (transformation en logements), les friches industrielles (conversion en commerces/loisirs/logements), les parkings sous-utilisés (logements ou espaces verts), et les bâtiments publics désaffectés (écoles, hôpitaux). Le secteur tertiaire (bureaux) est le plus concerné avec 30% des surfaces à réhabiliter d\'ici 2030 selon les estimations.'
       }
     ],
-    temoignages: [
-      {
-        nom: 'Laurent P., 45 ans',
-        texte: 'J\'ai investi dans Remake Live pour participer concrètement à la transformation écologique des villes. Rendement de 7,7% et satisfaction de contribuer à un projet utile !',
-        note: 5
-      },
-      {
-        nom: 'Isabelle T., 52 ans',
-        texte: 'Eric m\'a orientée vers Transitions Europe pour son approche du recyclage urbain. Je reçois 7,6% de rendement tout en investissant dans des projets durables.',
-        note: 5
-      },
-      {
-        nom: 'François M., 38 ans',
-        texte: 'Le recyclage urbain, c\'est l\'avenir ! J\'ai diversifié sur Comète et Remake Live. Rendement global de 9,4% et fierté d\'investir dans la transition écologique.',
-        note: 5
-      }
-    ],
+    temoignages: [],
     relatedScpi: ['remake-live', 'transitions-europe', 'comete']
   ,
     geographie: {
@@ -2295,7 +1987,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         { icon: 'Award', title: 'Expertise Reconnue', description: '30 ans d\'expérience en gestion immobilière. Équipe de 25+ professionnels spécialisés. Plus de 3.5 Mds€ d\'actifs sous gestion avec une connaissance approfondie du marché français.' },
         { icon: 'Shield', title: 'Solidité Financière', description: 'Gestion prudente avec faible endettement (< 30%). Taux d\'occupation supérieur à 95%. Locataires de qualité (grandes enseignes, entreprises du CAC 40). Réserves financières importantes.' },
         { icon: 'TrendingUp', title: 'Performance Régulière', description: 'Rendements stables entre 4.5% et 5% sur les 10 dernières années. Distribution trimestrielle régulière. Performance supérieure à la moyenne du marché. Historique de valorisation positive.' },
-        { icon: 'Building2', title: 'Diversification Optimale', description: 'Portefeuille diversifié sur 3 secteurs : bureaux (40%), commerces (35%), santé (25%). Répartition géographique équilibrée en France. Plus de 150 actifs immobiliers différents.' }
+        { icon: 'Building2', title: 'Diversification à analyser', description: 'Portefeuille diversifié sur 3 secteurs : bureaux (40%), commerces (35%), santé (25%). Répartition géographique équilibrée en France. Plus de 150 actifs immobiliers différents.' }
       ]
     },
     informationsPratiques: {
@@ -2313,11 +2005,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Comment sont distribués les revenus des SCPI Aestiam ?', answer: 'Les dividendes sont distribués trimestriellement (janvier, avril, juillet, octobre) directement sur votre compte bancaire. Pierre Rendement distribue environ 12.60€/part/an, Cap Hebergimmo 8.50€/part/an, Placement Pierre 10.20€/part/an. Les revenus proviennent des loyers perçus sur les actifs immobiliers, après déduction des charges et frais de gestion (environ 12% HT).' },
       { question: 'Peut-on revendre ses parts Aestiam facilement ?', answer: 'Les SCPI Aestiam bénéficient d\'un marché secondaire actif. Pierre Rendement et Placement Pierre affichent généralement des délais de cession de 2 à 6 mois. Cap Hebergimmo peut nécessiter 4 à 8 mois. Le prix de cession peut être légèrement inférieur au prix de souscription (-5% à -10%). Pour une liquidité optimale, privilégiez Pierre Rendement qui est la plus liquide. Le démembrement temporaire peut améliorer la liquidité.' }
     ],
-    temoignages: [
-      { nom: 'Michel P., 55 ans, Chef d\'entreprise', texte: 'Investisseur chez Aestiam depuis 10 ans sur Pierre Rendement. Performance stable année après année, dividendes trimestriels réguliers comme du papier à musique. Gestionnaire sérieux et transparent. Je recommande pour un investissement de long terme.', note: 5 },
-      { nom: 'Sandrine L., 48 ans, Cadre', texte: 'Cap Hebergimmo depuis 2018. Le secteur santé est très résilient, même pendant le COVID les loyers ont continué. Rendement correct à 4.55% et surtout grande stabilité. Parfait pour diversifier mon portefeuille.', note: 5 },
-      { nom: 'Thomas B., 42 ans', texte: 'J\'ai diversifié sur Pierre Rendement et Placement Pierre. 5% de rendement moyen, gestion professionnelle, reporting clair. Aestiam est un gestionnaire historique sur lequel on peut compter.', note: 5 }
-    ],
+    temoignages: [],
     relatedScpi: ['aestiam-pierre-rendement', 'aestiam-cap-hebergimmo']
   ,
     geographie: {
@@ -2385,9 +2073,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Altixia REIM est-elle fiable ?', answer: 'Oui, Altixia REIM est agréée AMF et gère plus de 600 M€. Gestionnaire indépendant reconnu depuis 2010.' },
       { question: 'Quelle SCPI Altixia choisir ?', answer: 'Commerces pour l\'exposition retail (4.61%), Cadence 12 pour un mix bureaux/commerces plus dynamique (5.10%).' }
     ],
-    temoignages: [
-      { nom: 'Sophie L., 42 ans', texte: 'Altixia Commerces depuis 5 ans. Rendement régulier sur les commerces de proximité. Satisfaite.', note: 5 }
-    ],
+    temoignages: [],
     relatedScpi: ['altixia-commerces', 'altixia-cadence-12']
   ,
     geographie: {
@@ -2439,7 +2125,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       subtitle: 'La solidité d\'un géant de la gestion d\'actifs',
       features: [
         { icon: 'Building2', title: 'Groupe Leader', description: 'Amundi est le N°1 européen de la gestion d\'actifs avec 2000 Mds€' },
-        { icon: 'Shield', title: 'Sécurité Maximale', description: 'Solidité financière et réputation internationale' },
+        { icon: 'Shield', title: 'Gouvernance et adossement', description: 'Éléments à analyser avec la qualité de gestion, les actifs et les risques propres à chaque SCPI' },
         { icon: 'Award', title: 'Expertise Reconnue', description: 'Équipes expertes en immobilier d\'entreprise' },
         { icon: 'Globe', title: 'Vision Long Terme', description: 'Gestion patrimoniale sur le long terme' }
       ]
@@ -2452,11 +2138,9 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     },
     faq: [
       { question: 'Amundi Immobilier est-elle fiable ?', answer: 'Absolument. Amundi est le N°1 européen de la gestion d\'actifs. Solidité financière maximale et expertise reconnue.' },
-      { question: 'Pourquoi choisir Amundi vs autres gestionnaires ?', answer: 'Pour la sécurité et la réputation internationale. Idéal pour investisseurs prudents cherchant la solidité avant tout.' }
+      { question: 'Pourquoi choisir Amundi vs autres gestionnaires ?', answer: 'L’adossement et la réputation du gestionnaire sont des critères parmi d’autres ; ils ne garantissent ni la performance, ni la liquidité, ni la valeur du capital.' }
     ],
-    temoignages: [
-      { nom: 'Jean-Marc D., 58 ans', texte: 'Amundi Primo pour la sécurité du groupe. Rendement stable et dividendes réguliers.', note: 5 }
-    ],
+    temoignages: [],
     relatedScpi: ['edissimo', 'rivoli-avenir-patrimoine']
   ,
     geographie: {
@@ -2523,9 +2207,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       { question: 'Atream est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF avec plusieurs années d\'expérience et 400 M€ sous gestion.' }
     ],
-    temoignages: [
-      { nom: 'Philippe M., 50 ans', texte: 'Atream pour la stabilité des bureaux français. Rendement régulier.', note: 4 }
-    ],
+    temoignages: [],
     relatedScpi: ['atream-hotel']
   ,
     geographie: {
@@ -2592,80 +2274,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Consultim est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: ['optimale']
-  ,
-    geographie: {
-      'France': 70,
-      'Allemagne': 12,
-      'Espagne': 10,
-      'Belgique': 5,
-      'Autres': 3
-    },
-    secteurs: {
-      'Bureaux': 55,
-      'Commerces': 25,
-      'Santé': 10,
-      'Logistique': 7,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.5,
-      title: `Simulez vos revenus Consultim`,
-      subtitle: `Gestion active et performante`,
-      theme: 'blue'
-    }
-},
-
-  'fiducial-gerance-scpi': {
-    slug: 'fiducial-gerance-scpi',
-    title: 'SCPI Fiducial Gérance 2026 | Force du Groupe Fiducial N°1 France',
-    metaDescription: 'Fiducial Gérance : filiale immobilière du groupe Fiducial, N°1 français services entreprises (18 000 collaborateurs, 6000 agences). Solidité financière exceptionnelle. Expertise immobilier tertiaire. Gestion rigoureuse. Guide complet 2026.',
-    heroTitle: 'SCPI Fiducial Gérance',
-    heroTitleHighlight: 'Force du Groupe Fiducial - 18 000 collaborateurs',
-    heroSubtitle: 'Filiale immobilière du groupe Fiducial, leader N°1 français des services aux entreprises avec 18 000 collaborateurs et 6000 agences. Solidité financière exceptionnelle au service de l\'immobilier tertiaire.',
-    labelText: 'Groupe Leader N°1',
-    keyMetrics: [
-      { value: '2 SCPI', label: 'Au catalogue' },
-      { value: '18 000', label: 'Collaborateurs' },
-      { value: '6 000', label: 'Agences' },
-      { value: 'N°1', label: 'Services entreprises' }
-    ],
-    benefits: [
-      'Adossé au groupe Fiducial, N°1 français services entreprises (18 000 collaborateurs)',
-      'Solidité financière exceptionnelle : groupe coté, 50 ans d\'existence, 6000 agences',
-      'Expertise unique immobilier tertiaire via 200 000+ clients Fiducial',
-      'Connaissance approfondie besoins entreprises locataires',
-      'Gestion rigoureuse avec contrôles internes groupe',
-      'Réseau national : sélection fine actifs immobiliers',
-      'Transparence totale et reporting professionnel',
-      'Agréé AMF avec contrôles et régulation stricts'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi choisir Fiducial Gérance ?',
-      subtitle: 'La puissance d\'un grand groupe au service de l\'immobilier',
-      features: [
-        { icon: 'Building2', title: 'Groupe Leader N°1', description: 'Fiducial Gérance est la filiale immobilière du groupe Fiducial, leader N°1 français des services aux entreprises avec 18 000 collaborateurs et 6000 agences. Cette puissance unique offre une stabilité et solidité financière exceptionnelles.' },
-        { icon: 'Shield', title: 'Solidité Maximale', description: 'Adossement à un groupe coté ultra-solide. 50 ans d\'existence. Gestion prudente, faible endettement. Réserves importantes. Contrôles internes rigoureux. Notation financière excellente. Protection maximale capital investi.' },
-        { icon: 'Award', title: 'Expertise Tertiaire Unique', description: 'Connaissance approfondie immobilier d\'entreprise via 200 000+ clients Fiducial. Compréhension fine besoins locataires. Sélection d\'actifs stratégiques en phase avec tendances marché. Réseau national 6000 agences.' },
-        { icon: 'TrendingUp', title: 'Gestion Professionnelle', description: 'Gestion rigoureuse, reporting détaillé. Distribution régulière dividendes. Performance stable durée. Transparence totale investissements. Équipe dédiée professionnels expérimentés. Standards groupe Fiducial.' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Fiducial Gérance',
-      items: [
-        { icon: 'Building', title: 'Fiducial Gérance Pierre', points: ['Immobilier tertiaire France (bureaux, commerces)', 'Capitalisation : 150-200 M€', 'Actifs grandes villes françaises', 'Locataires : PME, ETI, grands groupes', 'Taux occupation élevé (>92%)', 'Gestion locative professionnelle', 'Distribution trimestrielle', 'Adossement groupe Fiducial - Sécurité maximale'] }
-      ]
-    },
-    faq: [
-      { question: 'Fiducial Gérance est-elle fiable et sécurisée ?', answer: 'Absolument. Fiducial Gérance est la filiale immobilière du groupe Fiducial, leader N°1 français des services aux entreprises avec 18 000 collaborateurs, 6000 agences et 200 000+ clients. Cette solidité financière exceptionnelle garantit une stabilité maximale. Fiducial Gérance est agréée AMF avec contrôles stricts. Le groupe Fiducial, créé en 1970, affiche 50+ ans d\'expérience et une santé financière excellente. C\'est l\'un des adossements les plus solides du marché SCPI.' },
-      { question: 'Quel est l\'avantage d\'investir chez Fiducial Gérance ?', answer: 'L\'avantage majeur est l\'adossement au groupe Fiducial, N°1 services entreprises. Cela offre : 1) Solidité financière exceptionnelle, 2) Expertise unique immobilier tertiaire via 200 000+ clients, 3) Compréhension fine besoins locataires, 4) Réseau 6000 agences pour identifier meilleures opportunités, 5) Contrôles internes rigoureux. Vous bénéficiez de la puissance d\'un grand groupe appliquée à l\'immobilier. Sécurité maximale.' }
-    ],
-    temoignages: [
-      { nom: 'Philippe D., 58 ans, Chef entreprise', texte: 'Client Fiducial pour mon expertise-comptable depuis 20 ans, j\'ai naturellement investi dans leur SCPI. La solidité du groupe me rassure totalement. Gestion sérieuse et professionnelle.', note: 5 },
-      { nom: 'Catherine M., 52 ans', texte: 'Fiducial Gérance, c\'est la force d\'un grand groupe appliquée à l\'immobilier. Leur connaissance du tissu économique français via leurs 200 000 clients est un vrai atout.', note: 5 }
-    ],
     relatedScpi: ['buroboutic-metropoles', 'ficommerce-proximite', 'selectipierre-2']
   ,
     geographie: {
@@ -2731,141 +2339,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Greenman ARTH est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF pionnier de l\'immobilier durable en France.' }
     ],
     temoignages: [],
-    relatedScpi: ['gma-essentialis']
-  ,
-    geographie: {
-      'Allemagne': 35,
-      'France': 30,
-      'Pays-Bas': 18,
-      'Belgique': 10,
-      'Autres': 7
-    },
-    secteurs: {
-      'Retail Parks': 60,
-      'Centres Commerciaux': 25,
-      'Commerce Proximité': 10,
-      'Autres': 5
-    }
-,
-    simulator: {
-      defaultInvestment: 52000,
-      defaultYield: 5.6,
-      title: `Simulez vos revenus Greenman`,
-      subtitle: `Immobilier commercial européen`,
-      theme: 'green'
-    }
-},
-
-  'inter-gestion-reim-scpi': {
-    slug: 'inter-gestion-reim-scpi',
-    title: 'SCPI Inter Gestion REIM 2026',
-    metaDescription: 'Découvrez les SCPI Inter Gestion REIM. Gestionnaire indépendant spécialisé en immobilier tertiaire.',
-    heroTitle: 'SCPI Inter Gestion REIM',
-    heroTitleHighlight: 'Gestionnaire indépendant',
-    heroSubtitle: 'Expertise indépendante en immobilier tertiaire français',
-    labelText: 'Indépendant',
-    keyMetrics: [
-      { value: '1-2 SCPI', label: 'Au catalogue' },
-      { value: '4% à 5%', label: 'Rendements' },
-      { value: 'AMF', label: 'Agréé' },
-      { value: 'France', label: 'Focus' }
-    ],
-    benefits: [
-      'Gestionnaire indépendant',
-      'Expertise tertiaire',
-      'Gestion prudente',
-      'Performance régulière'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Inter Gestion REIM ?',
-      subtitle: 'Indépendance et expertise',
-      features: [
-        { icon: 'Shield', title: 'Indépendance', description: 'Gestionnaire indépendant sans conflit d\'intérêt' },
-        { icon: 'Building2', title: 'Expertise Tertiaire', description: 'Spécialisation immobilier d\'entreprise' },
-        { icon: 'Award', title: 'Agréé AMF', description: 'Contrôle et régulation' },
-        { icon: 'TrendingUp', title: 'Stabilité', description: 'Performance régulière' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Inter Gestion',
-      items: [
-        { icon: 'Building', title: 'SCPI', points: ['Immobilier tertiaire', 'France', 'Gestion indépendante', 'Rendements stables'] }
-      ]
-    },
-    faq: [
-      { question: 'Inter Gestion REIM est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF.' }
-    ],
-    temoignages: [],
-    relatedScpi: ['cristal-life', 'grand-paris-residentiel', 'cristal-rente']
-  ,
-    geographie: {
-      'France': 65,
-      'Allemagne': 15,
-      'Espagne': 10,
-      'Pays-Bas': 7,
-      'Autres': 3
-    },
-    secteurs: {
-      'Bureaux': 48,
-      'Commerces': 27,
-      'Santé': 13,
-      'Logistique': 9,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.3,
-      title: `Simulez vos revenus Inter Gestion`,
-      subtitle: `Expertise patrimoniale`,
-      theme: 'blue'
-    }
-},
-
-  'iroko-scpi': {
-    slug: 'iroko-scpi',
-    title: 'SCPI Iroko 2026 | Zen (5.80%), Global (4.70%)',
-    metaDescription: 'Découvrez les SCPI Iroko : Zen (5.80%) et Global (4.70%). Gestionnaire innovant spécialisé dans l\'immobilier européen diversifié.',
-    heroTitle: 'SCPI Iroko',
-    heroTitleHighlight: 'Innovation et diversification',
-    heroSubtitle: 'Gestionnaire innovant avec des SCPI européennes diversifiées et performantes',
-    labelText: 'Gestionnaire Innovant',
-    keyMetrics: [
-      { value: '2 SCPI', label: 'Principales' },
-      { value: '4.70% à 5.80%', label: 'Rendements 2024' },
-      { value: '500 M€', label: 'Actifs gérés' },
-      { value: 'Europe', label: 'Diversification' }
-    ],
-    benefits: [
-      'SCPI Zen : 5.80% sans frais d\'entrée',
-      'Diversification européenne forte',
-      'Approche innovante de la gestion',
-      'Performance attractive'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Iroko ?',
-      subtitle: 'Innovation et performance',
-      features: [
-        { icon: 'TrendingUp', title: 'Performance', description: 'Zen affiche 5.80% avec 0% de frais de souscription' },
-        { icon: 'Globe', title: 'Europe', description: 'Diversification sur les grandes métropoles européennes' },
-        { icon: 'Zap', title: 'Innovation', description: 'Approche moderne et innovante de la gestion' },
-        { icon: 'Shield', title: 'Sans Frais', description: 'Iroko Zen : 0% de frais d\'entrée' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Iroko',
-      items: [
-        { icon: 'Zap', title: 'Iroko Zen', points: ['Rendement 2024 : 5.80%', '0% frais de souscription', 'Bureaux Europe', 'Capitalisation : 320 M€'] },
-        { icon: 'Globe', title: 'Iroko Global', points: ['Rendement 2024 : 4.70%', 'Diversifié international', 'Capitalisation : 180 M€', 'Frais standards'] }
-      ]
-    },
-    faq: [
-      { question: 'Iroko est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec plus de 500 M€ sous gestion. Performance régulière depuis plusieurs années.' },
-      { question: 'Pourquoi choisir Iroko Zen ?', answer: 'Pour le rendement attractif (5.80%) et l\'absence de frais d\'entrée. Idéal pour maximiser le capital investi dès le premier jour.' }
-    ],
-    temoignages: [
-      { nom: 'Stéphane R., 45 ans', texte: 'Iroko Zen : 5.80% sans frais d\'entrée ! Excellent choix pour mon portefeuille SCPI.', note: 5 }
-    ],
     relatedScpi: ['iroko-zen', 'iroko-atlas']
   ,
     geographie: {
@@ -2932,206 +2405,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Kyaneos est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
     ],
     temoignages: [],
-    relatedScpi: ['kyaneos-pierre']
-  ,
-    geographie: {
-      'France': 72,
-      'Allemagne': 12,
-      'Espagne': 9,
-      'Autres': 7
-    },
-    secteurs: {
-      'Bureaux': 50,
-      'Commerces': 28,
-      'Santé': 12,
-      'Résidentiel': 7,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.4,
-      title: `Simulez vos revenus Kyaneos`,
-      subtitle: `Gestion innovante`,
-      theme: 'blue'
-    }
-},
-
-  'magellim-reim-scpi': {
-    slug: 'magellim-reim-scpi',
-    title: 'SCPI Magellim REIM 2026',
-    metaDescription: 'Découvrez les SCPI Magellim REIM. Gestionnaire spécialisé en immobilier d\'entreprise et commerces.',
-    heroTitle: 'SCPI Magellim REIM',
-    heroTitleHighlight: 'Immobilier d\'entreprise',
-    heroSubtitle: 'Expertise en immobilier tertiaire et commerces avec gestion prudente',
-    labelText: 'Gestionnaire',
-    keyMetrics: [
-      { value: '1-2 SCPI', label: 'Au catalogue' },
-      { value: '4% à 5%', label: 'Rendements' },
-      { value: 'AMF', label: 'Agréé' },
-      { value: 'France', label: 'Focus' }
-    ],
-    benefits: [
-      'Expertise tertiaire et commerces',
-      'Gestion prudente',
-      'AMF agréé',
-      'Performance stable'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Magellim REIM ?',
-      subtitle: 'Expertise immobilier entreprise',
-      features: [
-        { icon: 'Building2', title: 'Tertiaire', description: 'Spécialisation bureaux et commerces' },
-        { icon: 'Shield', title: 'Prudence', description: 'Gestion rigoureuse et prudente' },
-        { icon: 'Award', title: 'AMF', description: 'Agréé et contrôlé' },
-        { icon: 'TrendingUp', title: 'Stabilité', description: 'Performance régulière' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Magellim',
-      items: [
-        { icon: 'Building', title: 'SCPI', points: ['Bureaux et commerces', 'France', 'Gestion prudente', 'Rendements stables'] }
-      ]
-    },
-    faq: [
-      { question: 'Magellim REIM est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec expertise en immobilier d\'entreprise.' }
-    ],
-    temoignages: [],
-    relatedScpi: ['fonciere-des-praticiens']
-  ,
-    geographie: {
-      'France': 85,
-      'Allemagne': 7,
-      'Espagne': 5,
-      'Autres': 3
-    },
-    secteurs: {
-      'Bureaux Régionaux': 45,
-      'Commerces': 30,
-      'Santé': 15,
-      'Résidentiel': 7,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 53000,
-      defaultYield: 5.5,
-      title: `Simulez vos revenus Magellim`,
-      subtitle: `Expertise régionale`,
-      theme: 'green'
-    }
-},
-
-  'norma-capital-scpi': {
-    slug: 'norma-capital-scpi',
-    title: 'SCPI Norma Capital 2026',
-    metaDescription: 'Découvrez les SCPI Norma Capital. Gestionnaire spécialisé en immobilier d\'entreprise et bureaux.',
-    heroTitle: 'SCPI Norma Capital',
-    heroTitleHighlight: 'Immobilier d\'entreprise',
-    heroSubtitle: 'Expertise en immobilier tertiaire avec approche patrimoniale',
-    labelText: 'Gestionnaire',
-    keyMetrics: [
-      { value: '1-2 SCPI', label: 'Au catalogue' },
-      { value: '4% à 5%', label: 'Rendements' },
-      { value: 'AMF', label: 'Agréé' },
-      { value: 'Tertiaire', label: 'Focus' }
-    ],
-    benefits: [
-      'Expertise tertiaire',
-      'Approche patrimoniale',
-      'Gestion professionnelle',
-      'AMF agréé'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Norma Capital ?',
-      subtitle: 'Approche patrimoniale',
-      features: [
-        { icon: 'Building2', title: 'Tertiaire', description: 'Spécialisation immobilier d\'entreprise' },
-        { icon: 'Target', title: 'Patrimonial', description: 'Vision long terme' },
-        { icon: 'Shield', title: 'AMF', description: 'Agréé et contrôlé' },
-        { icon: 'TrendingUp', title: 'Performance', description: 'Rendements réguliers' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Norma Capital',
-      items: [
-        { icon: 'Building', title: 'SCPI', points: ['Immobilier d\'entreprise', 'Approche patrimoniale', 'Gestion prudente', 'AMF agréé'] }
-      ]
-    },
-    faq: [
-      { question: 'Norma Capital est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF avec approche patrimoniale de l\'immobilier.' }
-    ],
-    temoignages: [],
-    relatedScpi: ['ncap-regions', 'ncap-education-sante', 'ncap-continent']
-  ,
-    geographie: {
-      'France': 48,
-      'Allemagne': 22,
-      'Pays-Bas': 14,
-      'Espagne': 10,
-      'Autres': 6
-    },
-    secteurs: {
-      'Bureaux': 55,
-      'Logistique': 22,
-      'Commerces': 15,
-      'Santé': 6,
-      'Autres': 2
-    }
-,
-    simulator: {
-      defaultInvestment: 60000,
-      defaultYield: 5.2,
-      title: `Simulez vos revenus Norma`,
-      subtitle: `Immobilier institutionnel`,
-      theme: 'blue'
-    }
-},
-
-  'novaxia-investissement-scpi': {
-    slug: 'novaxia-investissement-scpi',
-    title: 'SCPI Novaxia Investissement 2026 | Neo (4.90%), Immorente',
-    metaDescription: 'Découvrez les SCPI Novaxia : Neo (4.90%) et Immorente. Spécialiste de la transformation immobilière et du logement intermédiaire.',
-    heroTitle: 'SCPI Novaxia Investissement',
-    heroTitleHighlight: 'Transformation immobilière',
-    heroSubtitle: 'Leader de la transformation immobilière et du logement intermédiaire en France',
-    labelText: 'Transformation Urbaine',
-    keyMetrics: [
-      { value: '2+ SCPI', label: 'Au catalogue' },
-      { value: '4.90%', label: 'Rendement Neo' },
-      { value: 'Leader', label: 'Transformation' },
-      { value: 'France', label: 'Focus' }
-    ],
-    benefits: [
-      'Pionnier de la transformation immobilière',
-      'Spécialiste logement intermédiaire',
-      'Approche innovante et durable',
-      'Performance attractive'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Novaxia ?',
-      subtitle: 'Innovation et transformation',
-      features: [
-        { icon: 'Zap', title: 'Innovation', description: 'Leader de la transformation immobilière urbaine' },
-        { icon: 'Home', title: 'Logement', description: 'Spécialiste du logement intermédiaire' },
-        { icon: 'Leaf', title: 'Durable', description: 'Approche environnementale forte' },
-        { icon: 'TrendingUp', title: 'Performance', description: 'Rendements attractifs (4.90%)' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Novaxia',
-      items: [
-        { icon: 'Zap', title: 'Neo', points: ['Rendement 2024 : 4.90%', 'Logement intermédiaire', 'Transformation urbaine', 'Capitalisation : 200 M€'] },
-        { icon: 'Home', title: 'Immorente', points: ['Logement résidentiel', 'France', 'Rendement régulier', 'Approche durable'] }
-      ]
-    },
-    faq: [
-      { question: 'Novaxia est-elle fiable ?', answer: 'Oui, Novaxia est un acteur reconnu de la transformation immobilière en France, agréé AMF.' },
-      { question: 'Qu\'est-ce que le logement intermédiaire ?', answer: 'Le logement intermédiaire cible les ménages entre logement social et marché libre. Loyers modérés dans les zones tendues.' }
-    ],
-    temoignages: [
-      { nom: 'Léa D., 38 ans', texte: 'Novaxia Neo pour investir dans la transformation urbaine. Approche innovante et rendement de 4.90%.', note: 5 }
-    ],
     relatedScpi: ['novaxia-neo', 'immorente']
   ,
     geographie: {
@@ -3195,77 +2468,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Paref Gestion est-elle fiable ?', answer: 'Absolument, Paref est un gestionnaire historique avec plus de 40 ans d\'expérience et une solide réputation.' }
     ],
     temoignages: [],
-    relatedScpi: ['novapierre-1', 'novapierre-residentiel', 'paref-evo', 'paref-hexa']
-  ,
-    geographie: {
-      'France': 68,
-      'Allemagne': 14,
-      'Espagne': 10,
-      'Pays-Bas': 5,
-      'Autres': 3
-    },
-    secteurs: {
-      'Bureaux': 52,
-      'Commerces': 26,
-      'Santé': 12,
-      'Logistique': 7,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 55000,
-      defaultYield: 5.3,
-      title: `Simulez vos revenus Paref`,
-      subtitle: `Gestion patrimoniale experte`,
-      theme: 'blue'
-    }
-},
-
-  'perial-asset-management-scpi': {
-    slug: 'perial-asset-management-scpi',
-    title: 'SCPI Perial Asset Management 2026 | PF Grand Paris, PFO2, PF Hospitalité Europe',
-    metaDescription: 'Découvrez les SCPI Perial : PF Grand Paris (4.51%), PFO2 (4.40%), PF Hospitalité Europe (5.95%). Leader avec 15 Mds€ d\'actifs.',
-    heroTitle: 'SCPI Perial Asset Management',
-    heroTitleHighlight: 'Leader français avec 15 Mds€',
-    heroSubtitle: 'N°1 français de la gestion de SCPI avec un portefeuille diversifié et performant',
-    labelText: 'Leader France',
-    keyMetrics: [
-      { value: '5+ SCPI', label: 'Au catalogue' },
-      { value: '4.40% à 5.95%', label: 'Rendements 2024' },
-      { value: '15 Mds€', label: 'Actifs sous gestion' },
-      { value: 'N°1', label: 'France' }
-    ],
-    benefits: [
-      'Leader français avec 15 Mds€ d\'actifs',
-      'Portefeuille diversifié (bureaux, commerces, santé)',
-      'Performance régulière et stable',
-      'Expertise reconnue depuis 30 ans'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Perial ?',
-      subtitle: 'Le leader français de la SCPI',
-      features: [
-        { icon: 'Award', title: 'Leader N°1', description: 'N°1 français avec 15 Mds€ sous gestion' },
-        { icon: 'Shield', title: 'Solidité', description: '30 ans d\'expérience et solidité financière' },
-        { icon: 'Building2', title: 'Diversification', description: 'Portefeuille diversifié sur tous secteurs' },
-        { icon: 'TrendingUp', title: 'Performance', description: 'Rendements stables entre 4.4% et 5.95%' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Perial',
-      items: [
-        { icon: 'Building', title: 'PF Grand Paris', points: ['Rendement 2024 : 4.51%', 'Bureaux Île-de-France', 'Capitalisation : 2.5 Mds€', 'SCPI flagship'] },
-        { icon: 'Globe', title: 'PFO2', points: ['Rendement 2024 : 4.40%', 'Bureaux Europe', 'Capitalisation : 3.8 Mds€', 'Diversification européenne'] },
-        { icon: 'Hotel', title: 'PF Hospitalité Europe', points: ['Rendement 2024 : 5.95%', 'Hôtellerie et tourisme', 'Capitalisation : 320 M€', '0% frais entrée'] }
-      ]
-    },
-    faq: [
-      { question: 'Perial est-elle fiable ?', answer: 'Absolument, Perial est le leader français N°1 avec 15 Mds€ sous gestion et 30 ans d\'expérience. Solidité maximale.' },
-      { question: 'Quelle SCPI Perial choisir ?', answer: 'PF Grand Paris pour l\'Île-de-France (4.51%), PFO2 pour l\'Europe (4.40%), PF Hospitalité pour le secteur touristique (5.95%).' }
-    ],
-    temoignages: [
-      { nom: 'André B., 62 ans', texte: 'PF Grand Paris depuis 15 ans. Performance régulière et dividendes trimestriels stables. Leader incontestable.', note: 5 }
-    ],
     relatedScpi: ['perial-grand-paris', 'perial-o2', 'perial-hospitalite-europe']
   ,
     geographie: {
@@ -3332,142 +2534,6 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Praemia REIM est-elle fiable ?', answer: 'Oui, gestionnaire indépendant agréé AMF avec plus de 500 M€ sous gestion.' }
     ],
     temoignages: [],
-    relatedScpi: ['primovie', 'praemia-hotels-europe', 'patrimmo-commerce', 'patrimmo-croissance-impact']
-  ,
-    geographie: {
-      'France': 42,
-      'Allemagne': 25,
-      'Pays-Bas': 16,
-      'Espagne': 10,
-      'Autres': 7
-    },
-    secteurs: {
-      'Bureaux Premium': 60,
-      'Commerces': 20,
-      'Logistique': 12,
-      'Santé': 6,
-      'Autres': 2
-    }
-,
-    simulator: {
-      defaultInvestment: 52000,
-      defaultYield: 5.5,
-      title: `Simulez vos revenus Praemia`,
-      subtitle: `Immobilier européen premium`,
-      theme: 'indigo'
-    }
-},
-
-  'remake-asset-management-scpi': {
-    slug: 'remake-asset-management-scpi',
-    title: 'SCPI Remake Asset Management 2026',
-    metaDescription: 'Découvrez les SCPI Remake Asset Management. Gestionnaire spécialisé en transformation immobilière et recyclage urbain.',
-    heroTitle: 'SCPI Remake Asset Management',
-    heroTitleHighlight: 'Transformation immobilière',
-    heroSubtitle: 'Pionnier de la transformation immobilière et du recyclage urbain en France',
-    labelText: 'Transformation',
-    keyMetrics: [
-      { value: '1-2 SCPI', label: 'Au catalogue' },
-      { value: '7% à 8%', label: 'Rendements estimés' },
-      { value: 'Recyclage', label: 'Urbain' },
-      { value: 'ISR', label: 'Labels' }
-    ],
-    benefits: [
-      'Pionnier du recyclage urbain',
-      'Transformation de friches',
-      'Approche durable et ISR',
-      'Performance attractive'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Remake ?',
-      subtitle: 'Innovation urbaine',
-      features: [
-        { icon: 'Zap', title: 'Transformation', description: 'Spécialiste de la transformation de friches urbaines' },
-        { icon: 'Leaf', title: 'Durable', description: 'Approche environnementale et ISR forte' },
-        { icon: 'Target', title: 'Innovation', description: 'Pionnier du recyclage urbain' },
-        { icon: 'TrendingUp', title: 'Performance', description: 'Rendements attractifs' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Remake',
-      items: [
-        { icon: 'Zap', title: 'SCPI Transformation', points: ['Recyclage urbain', 'Transformation de friches', 'Labels ISR', 'Performance attractive'] }
-      ]
-    },
-    faq: [
-      { question: 'Remake est-elle fiable ?', answer: 'Oui, gestionnaire agréé AMF pionnier de la transformation immobilière urbaine.' }
-    ],
-    temoignages: [],
-    relatedScpi: ['remake-live', 'remake-uk-2025']
-  ,
-    geographie: {
-      'France': 58,
-      'Allemagne': 18,
-      'Pays-Bas': 12,
-      'Espagne': 8,
-      'Autres': 4
-    },
-    secteurs: {
-      'Bureaux Verts': 45,
-      'Commerces Durables': 25,
-      'Santé': 15,
-      'Logistique': 10,
-      'Résidentiel': 5
-    }
-,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.6,
-      title: `Simulez vos revenus Remake`,
-      subtitle: `Immobilier durable et performant`,
-      theme: 'green'
-    }
-},
-
-  'sofidy-scpi': {
-    slug: 'sofidy-scpi',
-    title: 'SCPI Sofidy 2026 | Edissimmo, InterContinents, Immorente 2',
-    metaDescription: 'Découvrez les SCPI Sofidy : Edissimmo (4.40%), InterContinents (4.70%). Gestionnaire historique avec 50 ans d\'expérience et 7 Mds€ d\'actifs.',
-    heroTitle: 'SCPI Sofidy',
-    heroTitleHighlight: 'Historique - 50 ans d\'expertise',
-    heroSubtitle: 'Gestionnaire historique avec 7 milliards d\'actifs sous gestion et une expertise reconnue',
-    labelText: 'Gestionnaire Historique',
-    keyMetrics: [
-      { value: '5+ SCPI', label: 'Au catalogue' },
-      { value: '4.40% à 4.70%', label: 'Rendements 2024' },
-      { value: '7 Mds€', label: 'Actifs sous gestion' },
-      { value: '50 ans', label: 'Expérience' }
-    ],
-    benefits: [
-      'Gestionnaire historique (50 ans)',
-      '7 milliards d\'actifs sous gestion',
-      'Portefeuille diversifié et stable',
-      'Performance régulière'
-    ],
-    pourquoiChoisir: {
-      title: 'Pourquoi Sofidy ?',
-      subtitle: 'L\'expérience d\'un leader historique',
-      features: [
-        { icon: 'Award', title: '50 Ans', description: '50 ans d\'expérience en gestion immobilière' },
-        { icon: 'Shield', title: '7 Mds€', description: '7 milliards d\'actifs sous gestion' },
-        { icon: 'Building2', title: 'Diversification', description: 'Portefeuille diversifié sur tous secteurs' },
-        { icon: 'TrendingUp', title: 'Stabilité', description: 'Performance régulière et dividendes stables' }
-      ]
-    },
-    informationsPratiques: {
-      title: 'Les SCPI Sofidy',
-      items: [
-        { icon: 'Building', title: 'Edissimmo', points: ['Rendement 2024 : 4.40%', 'Bureaux et commerces', 'Capitalisation : 2.1 Mds€', 'SCPI historique'] },
-        { icon: 'Globe', title: 'InterContinents', points: ['Rendement 2024 : 4.70%', 'Bureaux Europe', 'Capitalisation : 1.4 Mds€', 'Diversification internationale'] }
-      ]
-    },
-    faq: [
-      { question: 'Sofidy est-elle fiable ?', answer: 'Absolument, Sofidy est un gestionnaire historique avec 50 ans d\'expérience et 7 Mds€ sous gestion. Solidité maximale.' },
-      { question: 'Quelle SCPI Sofidy choisir ?', answer: 'Edissimmo pour bureaux/commerces France (4.40%), InterContinents pour l\'Europe (4.70%).' }
-    ],
-    temoignages: [
-      { nom: 'Robert M., 68 ans', texte: 'Sofidy Edissimmo depuis 20 ans. Fiabilité totale et dividendes réguliers. Gestionnaire solide.', note: 5 }
-    ],
     relatedScpi: ['efimmo-1', 'immorente']
   ,
     geographie: {
@@ -3534,9 +2600,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       { question: 'Sogenial est-elle fiable ?', answer: 'Absolument, Sogenial est la filiale immobilière du groupe Crédit du Nord. Solidité financière maximale.' },
       { question: 'Pourquoi Remake Live affiche 7.70% ?', answer: 'Spécialisation sur la transformation urbaine (recyclage de friches), 0% frais de souscription, et stratégie opportuniste sur des actifs décotés.' }
     ],
-    temoignages: [
-      { nom: 'Claire T., 46 ans', texte: 'Remake Live : 7.70% sans frais d\'entrée ! Performance exceptionnelle et approche durable. Très satisfaite.', note: 5 }
-    ],
+    temoignages: [],
     relatedScpi: ['remake-live', 'immorente']
   ,
     geographie: {
@@ -3602,9 +2666,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       { question: 'Swiss Life AM est-elle fiable ?', answer: 'Absolument, Swiss Life est un géant européen de l\'assurance. Solidité financière maximale.' }
     ],
-    temoignages: [
-      { nom: 'François G., 60 ans', texte: 'Swiss Life pour la sécurité absolue. Groupe solide et performance régulière.', note: 5 }
-    ],
+    temoignages: [],
     relatedScpi: ['esg-pierre-capital']
   ,
     geographie: {
