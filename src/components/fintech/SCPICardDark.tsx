@@ -168,7 +168,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             </div>
             {(scpi.dataPeriod || scpi.dataDate) && (
               <p className="mt-1 text-[10px] text-emerald-100/80">
-                Période de référence : {scpi.dataPeriod || scpi.dataDate}
+                Données actualisées : {scpi.dataPeriod || scpi.dataDate}
               </p>
             )}
             {isExpanded && (
