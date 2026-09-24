@@ -1074,12 +1074,12 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-700">
                   <h4 className="text-xs sm:text-sm font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
                     <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-                    Avantages et Inconvénients
+                    Points forts et vigilances
                   </h4>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     {/* Avantages */}
-                    <div className="bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30">
+                    <div className={`bg-emerald-500/10 rounded-lg p-3 sm:p-4 border border-emerald-500/30 ${consWithZScore.length === 0 ? 'md:col-span-2' : ''}`}>
                       <div className="flex items-center gap-2 mb-2 sm:mb-3">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400"></div>
                         <h5 className="text-xs sm:text-sm font-bold text-emerald-400">Points forts</h5>
@@ -1098,13 +1098,13 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       )}
               </div>
 
-                    {/* Inconvénients */}
-                    <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
-                      <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
-                        <h5 className="text-xs sm:text-sm font-bold text-amber-400">Vigilances structurelles</h5>
-                      </div>
-                      {consWithZScore.length > 0 ? (
+                    {/* Vigilances — affichées uniquement lorsqu'elles existent */}
+                    {consWithZScore.length > 0 && (
+                      <div className="bg-amber-500/10 rounded-lg p-3 sm:p-4 border border-amber-500/30">
+                        <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400"></div>
+                          <h5 className="text-xs sm:text-sm font-bold text-amber-400">Vigilances structurelles</h5>
+                        </div>
                         <ul className="space-y-1.5 sm:space-y-2">
                           {consWithZScore.map((con, index) => (
                             <li key={index} className="text-[10px] sm:text-xs text-slate-300 flex items-start gap-1.5 sm:gap-2">
@@ -1113,11 +1113,18 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             </li>
                           ))}
                         </ul>
-                      ) : (
-                        <p className="text-[10px] sm:text-xs text-slate-400 italic">Aucun point de vigilance majeur détecté selon les critères disponibles.</p>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
+
+                  {consWithZScore.length === 0 && (
+                    <div className="mt-3 flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2">
+                      <span className="text-emerald-400 text-xs">✓</span>
+                      <p className="text-[10px] sm:text-xs text-slate-400">
+                        Aucune vigilance structurelle majeure détectée selon les critères disponibles.
+                      </p>
+                    </div>
+                  )}
                   
                   <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-slate-800/50 rounded-lg border border-slate-700">
                     <p className="text-[9px] sm:text-[10px] text-slate-400 italic leading-relaxed">
