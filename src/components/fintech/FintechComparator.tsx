@@ -12,7 +12,7 @@ import MobileSelectionBar from './MobileSelectionBar';
 import AnalysisDetailModal from './AnalysisDetailModal';
 import { SimulationModal } from '../simulation';
 import FilterPanel, { FilterState } from './FilterPanel';
-import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
+import { sortSCPIByTaxOptimization, shouldOptimizeForTax, getTaxOptimizationScore } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
 import { getLatestScoresBatch } from '../../utils/scpiScoreService';
@@ -171,22 +171,26 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     applyFilters(scpi)
   );
 
-  // Si un filtre sectoriel est actif, trier par score de pertinence sectorielle
+  // Tri : priorité fiscale Europe à TMI >= 30 %, puis pertinence sectorielle si active,
+  // puis critère choisi par l'utilisateur.
   if (filters.sectors.length > 0) {
-    filteredData = filteredData.map(scpi => ({
-      scpi,
-      sectorScore: calculateSectorRelevanceScore(scpi, filters.sectors, filters.sectorThreshold)
-    })).sort((a, b) => {
-      // Trier d'abord par score sectoriel (décroissant), puis par optimisation fiscale
-      if (b.sectorScore !== a.sectorScore) {
-        return b.sectorScore - a.sectorScore;
-      }
-      return 0; // On garde l'ordre original pour les scores égaux
-    }).map(item => item.scpi);
+    const optimizeTax = shouldOptimizeForTax(filters.tmi);
+    filteredData = filteredData
+      .map(scpi => ({
+        scpi,
+        sectorScore: calculateSectorRelevanceScore(scpi, filters.sectors, filters.sectorThreshold),
+        taxScore: optimizeTax ? getTaxOptimizationScore(scpi, filters.tmi) : 0
+      }))
+      .sort((a, b) => {
+        if (a.taxScore !== b.taxScore) return b.taxScore - a.taxScore;
+        if (a.sectorScore !== b.sectorScore) return b.sectorScore - a.sectorScore;
+        if (sortBy === 'yield') return b.scpi.yield - a.scpi.yield;
+        return a.scpi.price - b.scpi.price;
+      })
+      .map(item => item.scpi);
+  } else {
+    filteredData = sortSCPIByTaxOptimization(filteredData, filters.tmi, sortBy);
   }
-
-  // Appliquer le tri par optimisation fiscale
-  filteredData = sortSCPIByTaxOptimization(filteredData, filters.tmi, sortBy);
 
   const itemsPerPage = viewMode === 'grid' ? 9 : 15;
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -236,6 +240,17 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       (filters.noWaitingShares ? 1 : 0)
     ) : 0);
 
+  const sortCriterionLabel = sortBy === 'yield'
+    ? 'taux de distribution décroissant'
+    : 'prix croissant';
+  const sortDescription = filters.sectors.length > 0
+    ? (shouldOptimizeForTax(filters.tmi)
+        ? `Priorité fiscale Europe, puis pertinence sectorielle, puis ${sortCriterionLabel}`
+        : `Pertinence sectorielle, puis ${sortCriterionLabel}`)
+    : (shouldOptimizeForTax(filters.tmi)
+        ? `Priorité fiscale Europe, puis ${sortCriterionLabel}`
+        : `Tri : ${sortCriterionLabel}`);
+
   return (
     <div className="min-h-screen bg-slate-900" id="comparator-container">
       <section className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -246,7 +261,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
               </p>
               <p className="mt-1 text-[11px] text-slate-500">
-                Tri initial : taux de distribution décroissant — ce tri ne constitue pas un classement de qualité.
+                {sortDescription} — ce tri ne constitue pas un classement de qualité.
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -261,7 +276,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               )}
               <button
                 onClick={() => setIsFilterOpen(true)}
-                className="relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all flex items-center gap-2"
+                className="hidden md:flex relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all items-center gap-2"
               >
                 <SlidersHorizontal className="w-4 h-4" />
                 <span>Filtres</span>
