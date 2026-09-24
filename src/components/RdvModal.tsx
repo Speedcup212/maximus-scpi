@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, User, Mail, Phone, MessageCircle, ExternalLink, DollarSign, Clock, Target, TrendingUp, Leaf } from 'lucide-react';
+import { X, Calendar, User, Mail, Phone, MessageCircle, DollarSign, Clock, Target, TrendingUp, Leaf } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { submitLead } from '../utils/leadSubmitter';
-import { CALENDLY_URL } from '../config/calendly';
+import { buildCalendlyUrl } from '../config/calendly';
 
 interface RdvModalProps {
   isOpen: boolean;
@@ -78,16 +78,22 @@ const RdvModal: React.FC<RdvModalProps> = ({
     setFormValues(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus(null);
+
+    const nativeEvent = e.nativeEvent as SubmitEvent;
+    const submitter = nativeEvent.submitter as HTMLButtonElement | null;
+    const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
+    const contextSlug = window.location.pathname.replace(/^\\/+|\\/+$/g, '') || 'home';
 
     try {
       const result = await submitLead({
         channel: 'contact',
         form_type: 'lead_rdv',
-        context_slug: window.location.pathname,
+        context_type: contextSlug === 'home' ? 'site' : 'page',
+        context_slug: contextSlug,
         identity: {
           nom: formValues.name,
           email: formValues.email,
@@ -100,11 +106,21 @@ const RdvModal: React.FC<RdvModalProps> = ({
           profil_risque: profilRisque,
           profil_esg: profilESG,
           scpi: uniqueScpi.length > 0 ? uniqueScpi : scpi,
+          action,
         },
       });
 
       if (!result.ok) {
         throw new Error(result.error || 'Erreur insertion');
+      }
+
+      if (action === 'calendly') {
+        setStatus("✅ Coordonnées enregistrées. Ouverture de Calendly…");
+        window.location.href = buildCalendlyUrl(contextSlug, {
+          name: formValues.name,
+          email: formValues.email,
+        });
+        return;
       }
 
       setStatus("✅ Votre demande a bien été envoyée ! Vous recevrez une réponse rapidement.");
@@ -117,10 +133,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
         creneau: ''
       });
 
-      // Redirect to thank you page after short delay
       setTimeout(() => {
         window.location.href = '/merci-landing-page.html';
-      }, 1500);
+      }, 1200);
 
     } catch (err) {
       console.error("❌ Erreur :", err);
@@ -128,10 +143,6 @@ const RdvModal: React.FC<RdvModalProps> = ({
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const openCalendly = () => {
-    window.open(CALENDLY_URL, '_blank');
   };
 
   return (
@@ -156,37 +167,6 @@ const RdvModal: React.FC<RdvModalProps> = ({
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 min-h-0">
-          {/* Calendly Option */}
-          <div className="mb-6 p-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-black text-lg mb-1">
-                  🚀 Réservation directe
-                </h3>
-                <p className="text-base font-medium text-green-100">
-                  Choisissez votre créneau en temps réel
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={openCalendly}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white text-green-600 rounded-xl font-black text-base hover:bg-green-50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 transform"
-            >
-              <ExternalLink className="w-5 h-5" />
-              Réserver sur Calendly
-            </button>
-          </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-600"></div>
-            <span className="text-gray-500 dark:text-gray-400 font-medium">ou</span>
-            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-600"></div>
-          </div>
-
           {/* SCPI sélectionnées - Affichage */}
           {uniqueScpi.length > 0 && (
             <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
@@ -302,16 +282,15 @@ const RdvModal: React.FC<RdvModalProps> = ({
               <div>
                 <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
                   <Calendar className="w-4 h-4 inline mr-1" />
-                  Créneau préféré *
+                  Créneau préféré
                 </label>
                 <select
                   name="creneau"
                   value={formValues.creneau}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
                 >
-                  <option value="">Sélectionner...</option>
+                  <option value="">Peu importe / à convenir</option>
                   <option value="Matin (9h-12h)">Matin (9h-12h)</option>
                   <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
                   <option value="Soir (18h-20h)">Soir (18h-20h)</option>
@@ -323,13 +302,12 @@ const RdvModal: React.FC<RdvModalProps> = ({
               <div>
                 <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
                   <MessageCircle className="w-4 h-4 inline mr-1" />
-                  Commentaire *
+                  Commentaire
                 </label>
                 <textarea
                   name="commentaire"
                   value={formValues.commentaire}
                   onChange={handleInputChange}
-                  required
                   rows={3}
                   className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent resize-none"
                   placeholder="Décrivez votre projet d'investissement..."
@@ -347,20 +325,31 @@ const RdvModal: React.FC<RdvModalProps> = ({
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg font-black text-base hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  className="px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg font-black text-base hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
+                  name="lead_action"
+                  value="callback"
                   disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg font-black text-base hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform duration-200"
+                  className="px-5 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg font-black text-base hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
                 >
-                  {isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'}
+                  {isSubmitting ? 'Envoi…' : 'Être rappelé'}
+                </button>
+                <button
+                  type="submit"
+                  name="lead_action"
+                  value="calendly"
+                  disabled={isSubmitting}
+                  className="px-5 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-black text-base hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
+                >
+                  {isSubmitting ? 'Envoi…' : 'Choisir un créneau'}
                 </button>
               </div>
             </form>
