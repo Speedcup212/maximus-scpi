@@ -70,6 +70,10 @@ const generateRedirects = () => {
 /risque-perte-scpi-scenarios-baisse /risques-scpi-scenarios-baisse 301
 /portefeuille-scpi-100-pourcent-ligne-maximus /portefeuille-scpi-en-ligne 301
 
+# Redirection 301 anti-cannibalisation article ISR
+/articles/scpi-isr-label-durable-esg /articles/scpi-isr-label-durable/ 301!
+/articles/scpi-isr-label-durable-esg/ /articles/scpi-isr-label-durable/ 301!
+
 # Redirections 301 anti-cannibalisation SEO sectorielle (TASK-002C)
 /scpi-bureaux-investissement /scpi-bureaux/ 301
 /scpi-bureaux-investissement/ /scpi-bureaux/ 301
