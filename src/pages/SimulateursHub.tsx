@@ -42,6 +42,14 @@ const QUESTIONNAIRES: ToolCard[] = [
 // Section 2 — Simulateurs.
 const SIMULATEURS: ToolCard[] = [
   {
+    title: 'Simulateur revente SCPI',
+    description: 'Estimez le montant récupérable, la moins-value en capital, les revenus déjà encaissés et le point mort de conservation.',
+    path: '/simulateur-marche-secondaire-scpi',
+    cta: 'Simuler une revente',
+    badge: 'Revente',
+    Icon: RefreshCw,
+  },
+  {
     title: 'Simulateur fiscalité SCPI',
     description: "Estimez l'impact fiscal des revenus de SCPI selon votre tranche marginale d'imposition.",
     path: '/simulateur-impact-fiscal-scpi',
