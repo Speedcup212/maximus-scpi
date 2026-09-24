@@ -245,6 +245,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               <p className="text-sm text-slate-400">
                 {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
               </p>
+              <p className="mt-1 text-[11px] text-slate-500">
+                Tri initial : taux de distribution décroissant — ce tri ne constitue pas un classement de qualité.
+              </p>
             </div>
             <div className="flex items-center gap-2">
               {filters.tmi !== null && (
