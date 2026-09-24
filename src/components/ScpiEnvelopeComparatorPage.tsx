@@ -1,6 +1,5 @@
 import React from 'react';
 import ScpiEnvelopeComparator from './ScpiEnvelopeComparator';
-import { CALENDLY_URL } from '../config/calendly';
 
 const ScpiEnvelopeComparatorPage: React.FC = () => {
   return (
@@ -9,7 +8,7 @@ const ScpiEnvelopeComparatorPage: React.FC = () => {
         defaultAmount={100000}
         defaultYield={5}
         defaultDuration={15}
-        ctaUrl={CALENDLY_URL}
+        onCtaClick={() => (window as any).openRdvModal?.()}
       />
     </div>
   );
