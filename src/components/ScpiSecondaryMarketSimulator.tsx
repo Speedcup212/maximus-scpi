@@ -415,16 +415,18 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                           </span>
                         </div>
 
-                        <div className={`mt-3 grid gap-3 ${diagnostic.mode === 'secondary_market' ? 'sm:grid-cols-2 xl:grid-cols-4' : 'sm:grid-cols-3'}`}>
-                          {diagnostic.mode === 'secondary_market' ? (
-                            <>
-                              <ScenarioCard
-                                label="Stress fort"
-                                variation="-40 %"
-                                price={diagnostic.currentExitPrice * 0.60}
-                                amount={parts * diagnostic.currentExitPrice * 0.60}
-                                tone="red"
-                              />
+                        {diagnostic.mode === 'secondary_market' ? (
+                          <>
+                            <div className="mt-3 rounded-xl border border-slate-500/30 bg-slate-500/5 p-4">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs font-bold text-slate-600 dark:text-slate-300">Référence observée</span>
+                                <span className="text-[10px] text-gray-500 dark:text-gray-400">Prix documenté</span>
+                              </div>
+                              <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">{fmtEuro(parts * diagnostic.currentExitPrice, 0)}</div>
+                              <div className="mt-1 text-[10px] text-gray-500 dark:text-gray-400">{fmtEuro(diagnostic.currentExitPrice)} / part</div>
+                            </div>
+
+                            <div className="mt-3 grid gap-3 sm:grid-cols-3">
                               <ScenarioCard
                                 label="Marché tendu"
                                 variation="-20 %"
@@ -433,50 +435,50 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                                 tone="amber"
                               />
                               <ScenarioCard
-                                label="Référence"
-                                variation="Prix actuel"
-                                price={diagnostic.currentExitPrice}
-                                amount={parts * diagnostic.currentExitPrice}
-                                tone="slate"
-                              />
-                              <ScenarioCard
-                                label="Amélioration"
-                                variation="+10 %"
-                                price={diagnostic.currentExitPrice * 1.10}
-                                amount={parts * diagnostic.currentExitPrice * 1.10}
-                                tone="emerald"
-                              />
-                            </>
-                          ) : (
-                            <>
-                              <ScenarioCard
-                                label="Défavorable"
-                                variation="-20 %"
-                                price={diagnostic.currentExitPrice * 0.80}
-                                amount={parts * diagnostic.currentExitPrice * 0.80}
+                                label="Stress fort"
+                                variation="-40 %"
+                                price={diagnostic.currentExitPrice * 0.60}
+                                amount={parts * diagnostic.currentExitPrice * 0.60}
                                 tone="red"
                               />
                               <ScenarioCard
-                                label="Référence"
-                                variation="Prix actuel"
-                                price={diagnostic.currentExitPrice}
-                                amount={parts * diagnostic.currentExitPrice}
-                                tone="slate"
+                                label="Stress extrême"
+                                variation="-60 %"
+                                price={diagnostic.currentExitPrice * 0.40}
+                                amount={parts * diagnostic.currentExitPrice * 0.40}
+                                tone="red"
                               />
-                              <ScenarioCard
-                                label="Favorable"
-                                variation="+10 %"
-                                price={diagnostic.currentExitPrice * 1.10}
-                                amount={parts * diagnostic.currentExitPrice * 1.10}
-                                tone="emerald"
-                              />
-                            </>
-                          )}
-                        </div>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                            <ScenarioCard
+                              label="Défavorable"
+                              variation="-20 %"
+                              price={diagnostic.currentExitPrice * 0.80}
+                              amount={parts * diagnostic.currentExitPrice * 0.80}
+                              tone="red"
+                            />
+                            <ScenarioCard
+                              label="Référence"
+                              variation="Prix actuel"
+                              price={diagnostic.currentExitPrice}
+                              amount={parts * diagnostic.currentExitPrice}
+                              tone="slate"
+                            />
+                            <ScenarioCard
+                              label="Favorable"
+                              variation="+10 %"
+                              price={diagnostic.currentExitPrice * 1.10}
+                              amount={parts * diagnostic.currentExitPrice * 1.10}
+                              tone="emerald"
+                            />
+                          </div>
+                        )}
 
                         <p className="mt-3 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
                           {diagnostic.mode === 'secondary_market'
-                            ? 'Sur un marché secondaire, les écarts peuvent être importants lorsque les vendeurs sont nombreux et les acheteurs rares. Les scénarios -20 % et -40 % sont des tests de stress, pas des prévisions.'
+                            ? 'Le prix observé reste la seule référence documentée. Les hypothèses -20 %, -40 % et -60 % servent uniquement à mesurer le risque de décote supplémentaire sur un marché secondaire dégradé ; elles ne constituent ni une estimation ni une prévision.'
                             : 'Pour une SCPI à capital variable, ces scénarios testent simplement la sensibilité à une évolution du prix de retrait. Ils ne constituent pas une prévision.'}
                         </p>
                       </div>
