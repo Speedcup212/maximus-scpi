@@ -617,7 +617,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     { subject: 'Diversif.', score: maximusAvis.diversification * 20, fullMark: 100 },
     { subject: 'Secteurs', score: maximusAvis.sectorDiversity * 20, fullMark: 100 },
     { subject: 'Géographie', score: maximusAvis.geoDiversity * 20, fullMark: 100 },
-    { subject: 'Risque', score: maximusAvis.risk * 20, fullMark: 100 },
+    { subject: 'Concentration', score: maximusAvis.risk * 20, fullMark: 100 },
   ];
   const coherenceZScore = Number((maximusAvis.overall - 3).toFixed(2));
 
@@ -643,7 +643,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
     // Analyse sectorielle
     if (aggregatedSectors.length >= 4) {
-      pros.push('Excellente diversification sectorielle couvrant plusieurs segments de l\'immobilier, résilience accrue face aux cycles économiques');
+      pros.push('Diversification sectorielle large couvrant plusieurs segments immobiliers, ce qui réduit la concentration sans garantir la résilience future');
     } else if (aggregatedSectors.length >= 2) {
       pros.push('Diversification sectorielle correcte, mais pourrait être améliorée pour une meilleure résilience');
     } else {
@@ -676,13 +676,13 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     const hasNonEuroCurrencyExposure = aggregatedGeography.some(g => isNonEuroCurrencyGeo(g.name));
     
     if (aggregatedGeography.length >= 3) {
-      pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
+      pros.push('Exposition géographique diversifiée, réduisant la concentration sur un seul marché');
     } else if (hasEurope && hasFrance) {
-      pros.push('Répartition France/Europe équilibrée, bonne exposition aux marchés européens');
+      pros.push('Répartition combinant la France et d’autres marchés européens');
     } else if (hasEurope) {
-      pros.push('Exposition européenne intéressante pour la diversification géographique');
+      pros.push('Exposition à des marchés européens hors France, contribuant à la diversification géographique');
     } else if (!isHighlyDiversified) {
-      consStructural.push('Concentration géographique sur la France : considérer une exposition européenne pour réduire le risque pays');
+      consStructural.push('Concentration géographique sur la France : exposition plus forte à un seul marché national');
     }
     
     // Analyse du rendement
@@ -772,7 +772,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Recommandation générale
     if (selectedScpis.length < 3) {
-      consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
+      consStructural.push("Portefeuille composé de moins de 3 SCPI : concentration plus forte sur un nombre limité de supports");
     }
 
     return { pros: Array.from(new Set(pros)), consGeneral: Array.from(new Set(consGeneral)), consStructural: Array.from(new Set(consStructural)) };
@@ -1103,7 +1103,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                     <span className="ml-1" title="Indicateur pédagogique basé sur le nombre de SCPI, la répartition sectorielle, la répartition géographique et les concentrations du portefeuille.">ⓘ</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-300">Maîtrise du risque</span>
+                    <span className="text-xs text-slate-300">Maîtrise des concentrations</span>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
