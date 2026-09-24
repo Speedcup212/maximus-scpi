@@ -962,50 +962,68 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                 </div>
 
                 {/* Radar de lecture multicritères */}
-                <div className="mb-4 sm:mb-6 rounded-lg border border-slate-700 bg-slate-900/40 p-3 sm:p-4">
-                  <div className="flex items-center justify-between gap-3 mb-2">
+                <div className="mb-4 sm:mb-6 rounded-xl border border-slate-700 bg-slate-700/30 p-4 sm:p-5 shadow-lg">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
                     <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-white">Radar de la sélection</h4>
-                      <p className="text-[10px] sm:text-xs text-slate-400">Lecture normalisée sur 100 des six dimensions analysées.</p>
+                      <h4 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                        <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+                        Radar MaximusSCPI
+                      </h4>
+                      <p className="text-[10px] sm:text-xs text-slate-400 mt-1">
+                        Décomposition visuelle des six dimensions de la sélection.
+                      </p>
                     </div>
-                    <span
-                      className="text-[11px] text-slate-400 cursor-help"
-                      title="Indicateur structurel pédagogique, non prédictif de performance."
-                    >
-                      ⓘ
-                    </span>
+                    <div className="text-left sm:text-right">
+                      <div className="text-[10px] sm:text-xs text-slate-500">Cohérence globale</div>
+                      <div className="text-lg sm:text-xl font-bold text-white">{Math.round(maximusAvis.overall * 20)}/100</div>
+                    </div>
                   </div>
-                  <div className="h-72 sm:h-80 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={radarData} outerRadius="82%">
-                        <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
-                        <PolarAngleAxis
-                          dataKey="label"
-                          tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
-                        />
-                        <PolarRadiusAxis
-                          angle={90}
-                          domain={[0, 100]}
-                          ticks={[0, 25, 50, 75, 100]}
-                          tick={{ fill: '#94a3b8', fontSize: 9 }}
-                          axisLine={false}
-                          tickLine={false}
-                        />
-                        <Radar
-                          name="Sélection"
-                          dataKey="score"
-                          stroke="#10b981"
-                          strokeWidth={2.5}
-                          fill="#10b981"
-                          fillOpacity={0.32}
-                          dot={{ r: 3, fill: '#10b981' }}
-                        />
-                      </RadarChart>
-                    </ResponsiveContainer>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
+                    <div className="h-72 sm:h-80 w-full">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart data={radarData} outerRadius="82%">
+                          <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
+                          <PolarAngleAxis
+                            dataKey="label"
+                            tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
+                          />
+                          <PolarRadiusAxis
+                            angle={90}
+                            domain={[0, 100]}
+                            ticks={[0, 25, 50, 75, 100]}
+                            tick={{ fill: '#94a3b8', fontSize: 9 }}
+                            axisLine={false}
+                            tickLine={false}
+                          />
+                          <Radar
+                            name="Sélection"
+                            dataKey="score"
+                            stroke="#10b981"
+                            strokeWidth={2.5}
+                            fill="#10b981"
+                            fillOpacity={0.32}
+                            dot={{ r: 3, fill: '#10b981' }}
+                          />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    <div className="space-y-2">
+                      {radarData.map((item) => (
+                        <div
+                          key={item.subject}
+                          className="flex items-center justify-between gap-3 rounded-lg border border-slate-700 bg-slate-800/50 px-3 py-2"
+                        >
+                          <span className="text-xs sm:text-sm text-slate-300">{item.subject}</span>
+                          <span className="text-sm font-bold text-emerald-400">{Math.round(item.score)}/100</span>
+                        </div>
+                      ))}
+                      <p className="pt-2 text-[9px] sm:text-[10px] leading-relaxed text-slate-500 italic">
+                        Chaque sommet reprend exactement le score affiché à droite. Les anneaux correspondent à 0, 25, 50, 75 et 100. Le radar est un indicateur structurel pédagogique, non prédictif de performance.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-[9px] sm:text-[10px] text-slate-500 italic">
-                    Chaque sommet reprend le score de la dimension correspondante. Les anneaux représentent 0, 25, 50, 75 et 100. Le radar ne constitue ni une prévision de rendement ni une garantie de liquidité.
-                  </p>
                 </div>
 
                 {/* Critères détaillés */}
