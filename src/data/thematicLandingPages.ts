@@ -1025,23 +1025,23 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   // PAGES PAR GÉOGRAPHIE - LANDING PAGES GOOGLE ADS
   'scpi-sans-frais': {
     slug: 'scpi-sans-frais',
-    title: 'SCPI Sans Frais VS Avec Frais 2026 | Comparatif et Conseils',
-    metaDescription: 'Découvrez les différences entre SCPI sans frais de souscription et SCPI avec frais. Analyse complète des avantages et inconvénients pour choisir.',
-    heroTitle: 'SCPI Sans Frais VS SCPI Avec Frais',
-    heroTitleHighlight: 'Faites le bon choix pour votre investissement',
-    heroSubtitle: 'Comprenez les différences, avantages et inconvénients des SCPI avec et sans frais de souscription',
-    labelText: 'Guide Complet - Comparatif Détaillé',
+    title: 'SCPI sans frais d’entrée : comparer les coûts en 2026',
+    metaDescription: 'SCPI sans frais d’entrée : comparez commission de souscription, frais de gestion, frais de sortie, durée de détention, liquidité et rendement net avant de choisir.',
+    heroTitle: 'SCPI sans frais d’entrée : que faut-il vraiment comparer ?',
+    heroTitleHighlight: 'Le coût total compte plus que le seul 0 % à l’entrée',
+    heroSubtitle: 'L’absence de commission de souscription ne signifie pas absence de frais : analysez l’ensemble des coûts et les conditions de sortie.',
+    labelText: 'Comparatif des frais - Données à vérifier par SCPI',
     senderGroupId: 'LM_SCPI_SansFrais',
     keyMetrics: [
       { value: '0%', label: 'Frais minimum' },
-      { value: '12%', label: 'Frais maximum' },
-      { value: '8-10 ans', label: 'Pour amortir' }
+      { value: 'Variables', label: 'Autres frais selon la SCPI' },
+      { value: 'Long terme', label: 'Horizon généralement adapté' }
     ],
     benefits: [
       'Comprendre l\'impact des frais sur votre rendement',
-      'SCPI sans frais : avantages et limites',
+      'SCPI sans commission de souscription : avantages et limites',
       'SCPI avec frais : ce qu\'ils financent réellement',
-      'Simulation comparative sur 10 ans',
+      'Comparaison du coût total sur plusieurs horizons',
       'Conseil personnalisé selon votre situation'
     ],
     pourquoiChoisir: {
@@ -1050,23 +1050,23 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       features: [
         {
           icon: 'calculator',
-          title: 'Impact sur le rendement',
-          description: 'Sur 10 000€ investis, 10% de frais = 1 000€ déduits immédiatement. Comprenez comment ces frais sont amortis par les rendements futurs.'
+          title: 'Impact du coût total',
+          description: 'La commission de souscription, les frais de gestion, les éventuels frais de sortie et la durée de détention doivent être comparés ensemble. Aucun point d’équilibre universel ne s’applique à toutes les SCPI.'
         },
         {
           icon: 'trending-up',
           title: 'SCPI sans frais (0%)',
-          description: 'Pas de frais d\'entrée, 100% de votre capital investi. En contrepartie : frais de gestion souvent plus élevés (12-15% vs 10-12%).'
+          description: 'Une commission de souscription à 0 % réduit le coût d’entrée, mais d’autres frais peuvent s’appliquer. Leur niveau doit être vérifié dans la documentation de chaque SCPI.'
         },
         {
           icon: 'shield',
           title: 'SCPI avec frais (8-12%)',
-          description: 'Frais d\'entrée compensés par des frais de gestion plus bas. Rentable sur le long terme (8-10 ans minimum).'
+          description: 'Les SCPI avec commission de souscription peuvent présenter une structure de frais différente. Leur intérêt dépend du rendement, des autres frais, de la durée de détention et du prix de sortie.'
         },
         {
           icon: 'file-text',
           title: 'Transparence totale',
-          description: 'Nous analysons tous les frais : souscription, gestion, cessions. Aucun frais caché dans nos recommandations.'
+          description: 'L’analyse doit intégrer souscription, gestion, cession, acquisition, arbitrage éventuel et conditions de retrait à partir des documents de la SCPI.'
         }
       ]
     },
@@ -1077,30 +1077,30 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'file-text',
           title: 'SCPI Sans Frais (0%)',
           points: [
-            '✅ 100% de votre capital investi dès le départ',
-            '✅ Rentabilité immédiate maximale',
-            '❌ Frais de gestion plus élevés (12-15% annuels)',
-            '❌ Impact cumulé sur le long terme'
+            '✅ Pas de commission de souscription lorsqu’elle est réellement fixée à 0 %',
+            '✅ Coût d’entrée réduit',
+            '⚠️ Frais de gestion et autres frais à comparer',
+            '⚠️ Conditions de sortie et durée de détention à vérifier'
           ]
         },
         {
           icon: 'bar-chart',
           title: 'SCPI Avec Frais (8-12%)',
           points: [
-            '✅ Frais de gestion plus bas (10-12% annuels)',
+            '✅ Structure de frais parfois différente selon les véhicules',
             '✅ Rentabilité à comparer sur un horizon long, après frais',
-            '❌ Décote initiale de 8 à 12%',
-            '❌ Rentabilité différée sur les premières années'
+            '⚠️ Commission de souscription pouvant être significative',
+            '⚠️ Horizon long nécessaire pour apprécier le coût total'
           ]
         },
         {
           icon: 'calculator',
-          title: 'Exemple sur 10 000€',
+          title: 'Méthode de comparaison',
           points: [
-            'Sans frais : 10 000€ investis, 600€/an net (6% - 15% gestion)',
-            'Avec frais 10% : 9 000€ investis, 540€/an net (6% - 10% gestion)',
-            'Point d\'équilibre : 5-7 ans selon rendement',
-            'Sur 10 ans : différence de +500€ à +1 500€ pour les SCPI avec frais'
+            'Comparer le montant réellement investi et la valeur de retrait',
+            'Comparer les frais de gestion sur la même base de rendement',
+            'Tester plusieurs durées de détention et scénarios de distribution',
+            'Intégrer l’évolution possible du prix des parts et les frais de sortie'
           ]
         }
       ]
@@ -1108,23 +1108,23 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Quelle est la différence entre une SCPI sans frais et avec frais ?',
-        answer: 'Les SCPI sans frais de souscription (0%) vous permettent d\'investir 100% de votre capital dès le départ. Par exemple, pour 10 000€, vous achetez exactement 10 000€ de parts. Les SCPI avec frais (8-12%) prélèvent ces frais à l\'entrée : pour 10 000€, vous n\'achetez que 9 000€ à 9 200€ de parts. En contrepartie, les SCPI sans frais ont généralement des frais de gestion annuels plus élevés (12-15% vs 10-12%).'
+        answer: 'Une SCPI dite « sans frais d’entrée » affiche généralement une commission de souscription nulle. Cela ne signifie pas qu’elle est sans frais : frais de gestion, d’acquisition, de cession ou de retrait peuvent exister. Il faut comparer le coût total à partir de la note d’information.'
       },
       {
         question: 'Les SCPI sans frais sont-elles vraiment plus avantageuses ?',
-        answer: 'Pas nécessairement. Les SCPI sans frais compensent l\'absence de frais d\'entrée par des frais de gestion plus élevés (12-15% vs 10-12%). Sur le long terme (8-10 ans), les SCPI avec frais peuvent être plus rentables car les frais de gestion s\'appliquent chaque année sur vos loyers. Le choix dépend de votre horizon d\'investissement : court terme = sans frais, long terme = avec frais souvent plus intéressant.'
+        answer: 'Pas nécessairement. L’absence de commission de souscription est un avantage de coût à l’entrée, mais le résultat dépend du taux de distribution, des autres frais, de l’évolution du prix de part, de la fiscalité et des conditions de sortie.'
       },
       {
         question: 'Combien de temps faut-il pour amortir les frais d\'entrée ?',
-        answer: 'En moyenne, il faut 5 à 7 ans pour amortir les frais d\'entrée d\'une SCPI. Par exemple, avec 10% de frais d\'entrée et une différence de 2% sur les frais de gestion annuels, vous récupérez votre décote initiale en 5 ans (10% ÷ 2% = 5 ans). Au-delà, la SCPI avec frais devient plus rentable. C\'est pourquoi l\'horizon minimum recommandé est de 8 à 10 ans.'
+        answer: 'Il n’existe pas de durée universelle d’amortissement. Elle dépend notamment de la commission de souscription, du taux de distribution, des frais récurrents, du prix de retrait et de l’évolution de la valeur de la part. Une simulation par scénarios est préférable.'
       },
       {
-        question: 'Quelles SCPI sans frais recommandez-vous ?',
-        answer: 'Parmi les meilleures SCPI sans frais : Remake Live (7,5% de rendement, 0% de frais d\'entrée, diversifiée Europe), Iroko Zen (6,5%, 0% frais, spécialisée tertiaire), et Novaxia Neo (6,1%, 0% frais, immobilier transformé). Ces SCPI offrent d\'excellents rendements malgré des frais de gestion légèrement supérieurs. Le choix dépend de votre profil et objectifs.'
+        question: 'Comment comparer les SCPI sans frais ?',
+        answer: 'Comparez au minimum la commission de souscription, les frais de gestion, les frais liés aux acquisitions ou cessions, le taux de distribution, le TOF, l’endettement, la valeur de reconstitution, la liquidité et l’horizon recommandé.'
       },
       {
         question: 'Comment choisir entre SCPI avec et sans frais ?',
-        answer: 'Posez-vous 3 questions : 1) Quel est mon horizon d\'investissement ? (Court terme = sans frais, long terme = avec frais). 2) Quelle est ma priorité ? (Maximiser le capital investi immédiatement = sans frais, optimiser la rentabilité long terme = avec frais). 3) Quel est mon profil ? (Débutant = sans frais pour simplicité, investisseur confirmé = avec frais pour optimisation). Nous vous aidons à faire ce choix gratuitement.'
+        answer: 'Le choix doit reposer sur le coût total, l’horizon, la liquidité, le niveau de risque, la qualité du patrimoine et la fiscalité. Le seul niveau des frais d’entrée ne permet pas de conclure.'
       }
     ],
     temoignages: [],
