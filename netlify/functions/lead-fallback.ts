@@ -48,8 +48,38 @@ export const handler: Handler = async (event) => {
   console.log('[lead-fallback] email:', data.email);
   console.log('[lead-fallback] payload:', JSON.stringify(data.payload));
 
+  let notificationSent = false;
+
+  // Premier secours : l'Edge Function de notification n'écrit pas en base.
+  // Elle peut donc encore prévenir l'admin si l'INSERT PostgREST/RLS échoue.
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+  if (supabaseUrl) {
+    try {
+      const notificationResponse = await fetch(
+        `${supabaseUrl.replace(/\\\/$/, '')}/functions/v1/send-lead-notification`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data.payload),
+        },
+      );
+
+      if (notificationResponse.ok) {
+        notificationSent = true;
+        console.log('[lead-fallback] Supabase notification sent successfully');
+      } else {
+        console.error(
+          '[lead-fallback] Supabase notification failed:',
+          await notificationResponse.text(),
+        );
+      }
+    } catch (notificationError) {
+      console.error('[lead-fallback] Supabase notification error:', notificationError);
+    }
+  }
+
   const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey) {
+  if (!notificationSent && resendApiKey) {
     try {
       const alertHtml = `
         <h2>ALERTE: Lead non enregistré dans Supabase</h2>
@@ -85,8 +115,8 @@ export const handler: Handler = async (event) => {
     } catch (emailErr) {
       console.error('[lead-fallback] Alert email error:', emailErr);
     }
-  } else {
-    console.warn('[lead-fallback] RESEND_API_KEY not set — email alert skipped, data is in logs only');
+  } else if (!notificationSent) {
+    console.warn('[lead-fallback] No notification channel succeeded — data is in Netlify logs');
   }
 
   return {
