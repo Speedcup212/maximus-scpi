@@ -343,14 +343,14 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 26,
     slug: 'revendre-parts-scpi-delais-marche-secondaire',
-    title: 'Revendre ses parts de SCPI : délais, procédure et marché secondaire',
-    mainKeyword: 'revendre SCPI',
-    searchIntent: 'liquidité et sortie SCPI',
-    targetAudience: 'investisseurs déjà équipés',
+    title: 'Revendre ses parts de SCPI en 2026 : retrait, marché secondaire, prix et délais',
+    mainKeyword: 'revendre parts SCPI',
+    searchIntent: 'comprendre le mécanisme de sortie, le prix réellement récupérable et les délais de revente',
+    targetAudience: 'investisseurs SCPI souhaitant vendre ou évaluer leur sortie',
     category: 'guides',
     wordCountTarget: 2400,
-    metaDescription: 'Revente SCPI : délais 2-6 mois marché secondaire, décote possible. SCPI en AV : arbitrage instantané. Guide liquidité.',
-    keywords: ['revendre SCPI', 'marché secondaire', 'liquidité', 'délais', 'décote']
+    metaDescription: 'Comment revendre des parts de SCPI en 2026 ? Retrait, marché secondaire, parts en attente, prix d’exécution, délais et méthode pour décider.',
+    keywords: ['revendre parts SCPI', 'marché secondaire SCPI', 'liquidité SCPI', 'parts en attente', 'prix exécution SCPI']
   },
 
   // Analyses
