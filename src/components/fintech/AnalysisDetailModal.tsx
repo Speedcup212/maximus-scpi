@@ -82,7 +82,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     { subject: 'Géographie', score: Math.round((scoreDetail.score_geo / 15) * 100), fullMark: 100 },
     { subject: 'Qualité', score: Math.round((scoreDetail.score_qualite / 15) * 100), fullMark: 100 },
     { subject: 'Taille', score: Math.round((scoreDetail.score_taille / 10) * 100), fullMark: 100 },
-  ] : [];
+  ].map(item => ({ ...item, label: `${item.subject} ${item.score}` })) : [];
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -340,27 +340,30 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
-                <div className="h-64 sm:h-72 w-full">
+                <div className="h-72 sm:h-80 w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={radarData} outerRadius="72%">
-                      <PolarGrid stroke="#475569" />
+                    <RadarChart data={radarData} outerRadius="82%">
+                      <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                       <PolarAngleAxis
-                        dataKey="subject"
-                        tick={{ fill: '#cbd5e1', fontSize: 11 }}
+                        dataKey="label"
+                        tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
                       />
                       <PolarRadiusAxis
                         angle={90}
                         domain={[0, 100]}
-                        tickCount={6}
-                        tick={{ fill: '#64748b', fontSize: 9 }}
+                        ticks={[0, 25, 50, 75, 100]}
+                        tick={{ fill: '#94a3b8', fontSize: 9 }}
                         axisLine={false}
+                        tickLine={false}
                       />
                       <Radar
                         name={scpi.name}
                         dataKey="score"
                         stroke="#10b981"
+                        strokeWidth={2.5}
                         fill="#10b981"
-                        fillOpacity={0.24}
+                        fillOpacity={0.32}
+                        dot={{ r: 3, fill: '#10b981' }}
                       />
                       <Tooltip
                         contentStyle={{
@@ -383,7 +386,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     </div>
                   ))}
                   <p className="pt-2 text-[10px] leading-relaxed text-slate-500">
-                    Scores normalisés à partir du moteur de notation MaximusSCPI. Le radar décrit les données disponibles et ne constitue ni une prévision de performance, ni une garantie de liquidité ou de capital.
+                    Chaque sommet reprend exactement le score affiché à droite. Les anneaux correspondent à 0, 25, 50, 75 et 100. Le radar ne constitue ni une prévision de performance, ni une garantie de liquidité ou de capital.
                   </p>
                 </div>
               </div>
