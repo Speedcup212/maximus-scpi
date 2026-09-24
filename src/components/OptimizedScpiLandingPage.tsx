@@ -338,15 +338,19 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
                     <div className="flex items-end justify-between gap-3 mb-4">
                       <div>
-                        <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/70">Les chiffres essentiels</div>
-                        <div className="text-sm sm:text-base text-white/90 mt-1">Une lecture simple avant d'aller dans le détail</div>
+                        <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/70">
+                          Les chiffres essentiels
+                        </div>
+                        <div className="text-sm sm:text-base text-white/90 mt-1">
+                          Une lecture simple avant d'aller dans le détail
+                        </div>
                       </div>
                       <div className="hidden sm:block text-xs text-white/60">
                         Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {[
                         {
                           label: 'Rendement',
@@ -357,6 +361,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           label: 'Capitalisation',
                           value: formatCurrency(realScpiData.capitalization),
                           help: 'Taille de la SCPI'
+                        },
+                        {
+                          label: 'Prix de la part',
+                          value: formatCurrency(realScpiData.price),
+                          help: 'Prix de souscription'
                         },
                         {
                           label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
@@ -388,30 +397,21 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           help: 'Durée restante des baux'
                         }
                       ].map((metric) => (
-                        <div key={metric.label} className="rounded-xl border border-white/15 bg-slate-950/20 px-3 py-3.5 sm:px-4 sm:py-4">
-                          <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">{metric.label}</div>
-                          <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">{metric.value}</div>
-                          <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">{metric.help}</div>
+                        <div
+                          key={metric.label}
+                          className="rounded-xl border border-white/15 bg-slate-950/20 p-4 min-h-[132px] flex flex-col justify-between"
+                        >
+                          <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">
+                            {metric.label}
+                          </div>
+                          <div className="mt-2 text-2xl sm:text-3xl font-extrabold text-yellow-300 leading-none tabular-nums whitespace-nowrap">
+                            {metric.value}
+                          </div>
+                          <div className="mt-2 text-[11px] sm:text-xs leading-snug text-white/65">
+                            {metric.help}
+                          </div>
                         </div>
                       ))}
-                    </div>
-
-                    <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
-                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Prix de la part</div>
-                        <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">{formatCurrency(realScpiData.price)}</div>
-                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">Prix actuel de souscription</div>
-                      </div>
-                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
-                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Revalorisation</div>
-                        <div className="mt-1 text-xl sm:text-2xl font-extrabold text-yellow-300 leading-tight">+5,3 %</div>
-                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">237,50 € → 250 € au 1er mars 2024</div>
-                      </div>
-                      <div className="rounded-xl border border-yellow-300/25 bg-yellow-300/10 px-3 py-3.5 sm:px-4 sm:py-4">
-                        <div className="text-[11px] sm:text-xs font-semibold uppercase tracking-wide text-white/65">Délai de jouissance</div>
-                        <div className="mt-1 text-lg sm:text-xl font-extrabold text-yellow-300 leading-tight">1er jour du 6e mois</div>
-                        <div className="mt-1.5 text-[11px] sm:text-xs leading-snug text-white/65">Après souscription et règlement</div>
-                      </div>
                     </div>
 
                     <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
