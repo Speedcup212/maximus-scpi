@@ -328,7 +328,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   {landingData.description_courte}
                 </p>
 
-                {realScpiData && (
+                {realScpiData && scpiKey === 'comete' ? (
                   <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
                     <div className="flex items-end justify-between gap-3 mb-4">
                       <div>
@@ -385,26 +385,18 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           value:
                             realScpiData.walb !== undefined && realScpiData.walt !== undefined
                               ? `${realScpiData.walb.toFixed(1).replace('.', ',')} / ${realScpiData.walt.toFixed(1).replace('.', ',')} ans`
-                              : realScpiData.walb !== undefined
-                                ? `${realScpiData.walb.toFixed(1).replace('.', ',')} ans / ND`
-                                : realScpiData.walt !== undefined
-                                  ? `ND / ${realScpiData.walt.toFixed(1).replace('.', ',')} ans`
-                                  : 'ND',
+                              : 'ND',
                           help: 'Sorties possibles / baux restants'
                         },
                         {
                           label: 'Revalorisation',
-                          value: scpiKey === 'comete' ? '+5,3 %' : 'ND',
-                          help: scpiKey === 'comete' ? '237,50 € → 250 €' : 'Historique de prix à compléter'
+                          value: '+5,3 %',
+                          help: '237,50 € → 250 €'
                         },
                         {
                           label: 'Délai de jouissance',
-                          value: realScpiData.delaiJouissance !== undefined
-                            ? `1er jour du ${Math.round(realScpiData.delaiJouissance)}e mois`
-                            : 'ND',
-                          help: realScpiData.delaiJouissance !== undefined
-                            ? 'Après souscription et règlement'
-                            : 'Donnée non disponible'
+                          value: '1er jour du 6e mois',
+                          help: 'Après souscription et règlement'
                         }
                       ].map((metric) => (
                         <div
@@ -433,6 +425,25 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                     <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
                       Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
                     </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {realScpiData && (
+                      <>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
+                        </div>
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
+                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
 
