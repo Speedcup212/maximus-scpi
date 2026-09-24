@@ -41,6 +41,10 @@ export interface SCPIExtended {
   nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
   dataPeriod?: string; // Période de référence de la donnée affichée
   dataDate?: string; // Date du bulletin source lorsqu'elle est disponible
+  dataSourceDocument?: string; // Bulletin / note / actualité officielle utilisée
+  dataStatus?: string; // Statut Maximus de vérification / extraction
+  dataUpdateDate?: string; // Date de mise à jour / vérification Maximus
+  liquidityNote?: string; // Information de liquidité issue du bulletin ou de la veille officielle
 }
 
 const baseSCPIData: SCPIExtended[] = [
