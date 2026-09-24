@@ -4758,7 +4758,10 @@ const App: React.FC = () => {
 
                 {/* Colonne droite — module quiz */}
                 <div className="lg:pl-2">
-                  <InvestorQuiz onComplete={handleLeadCapture} />
+                  <InvestorQuiz
+                    onComplete={handleLeadCapture}
+                    onRdvClick={() => setIsRdvModalOpen(true)}
+                  />
                 </div>
               </div>
             </div>
