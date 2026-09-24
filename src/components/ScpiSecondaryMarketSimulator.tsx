@@ -66,6 +66,25 @@ const fmtDate = (value?: string | null) => {
   }).format(date);
 };
 
+const fmtHoldingPeriod = (value?: string | null) => {
+  if (!value) return null;
+  const start = new Date(value);
+  const end = new Date();
+  if (Number.isNaN(start.getTime()) || start > end) return null;
+
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  if (end.getDate() < start.getDate()) months -= 1;
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  if (years <= 0) return `${Math.max(months, 0)} mois`;
+  if (months === 0) return `${years} an${years > 1 ? 's' : ''}`;
+  return `${years} an${years > 1 ? 's' : ''} et ${months} mois`;
+};
+
 const cleanNumber = (value: unknown): number | null => {
   if (typeof value === 'number' && Number.isFinite(value)) return value;
   if (typeof value === 'string') {
@@ -216,6 +235,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
 
   const [selectedName, setSelectedName] = useState('');
   const [parts, setParts] = useState(0);
+  const [acquisitionDate, setAcquisitionDate] = useState('');
+  const [acquisitionPrice, setAcquisitionPrice] = useState(0);
   const [sourceRegistry, setSourceRegistry] = useState<SourceRegistry | null>(null);
   const [sourceLoading, setSourceLoading] = useState(false);
 
@@ -321,6 +342,16 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     const estimatedGross =
       lifecycle === 'normal' && parts > 0 && currentExitPrice != null ? parts * currentExitPrice : null;
 
+    const acquisitionAmount =
+      parts > 0 && acquisitionPrice > 0 ? parts * acquisitionPrice : null;
+    const capitalDifference =
+      estimatedGross != null && acquisitionAmount != null ? estimatedGross - acquisitionAmount : null;
+    const capitalDifferencePct =
+      currentExitPrice != null && acquisitionPrice > 0
+        ? ((currentExitPrice / acquisitionPrice) - 1) * 100
+        : null;
+    const holdingPeriod = fmtHoldingPeriod(acquisitionDate);
+
     const missing: string[] = [];
     if (!sourceDocument) missing.push('document source identifié');
     if (!sourcePeriod && !sourceDate) missing.push('période/date de la source');
@@ -361,9 +392,13 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       criticalAvailable,
       criticalTotal: checks.length,
       estimatedGross,
+      acquisitionAmount,
+      capitalDifference,
+      capitalDifferencePct,
+      holdingPeriod,
       missing,
     };
-  }, [selected, parts]);
+  }, [selected, parts, acquisitionDate, acquisitionPrice]);
 
   const sourceUrl =
     sourceRegistry?.documents_url ||
@@ -411,6 +446,8 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 onChange={(e) => {
                   setSelectedName(e.target.value);
                   setParts(0);
+                  setAcquisitionDate('');
+                  setAcquisitionPrice(0);
                 }}
                 className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
               >
@@ -444,6 +481,51 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 Sert uniquement à calculer un montant total lorsqu’un prix de sortie fiable est disponible.
               </span>
             </label>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <label className="block">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-sm font-semibold">Date d’acquisition</span>
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                    Facultatif
+                  </span>
+                </div>
+                <input
+                  type="date"
+                  value={acquisitionDate}
+                  onChange={(e) => setAcquisitionDate(e.target.value)}
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                />
+              </label>
+
+              <label className="block">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-sm font-semibold">Prix réellement payé par part</span>
+                  <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                    Facultatif
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    value={acquisitionPrice || ''}
+                    placeholder="Ex. 203,00"
+                    onChange={(e) => {
+                      const value = e.currentTarget.valueAsNumber;
+                      setAcquisitionPrice(Number.isFinite(value) && value > 0 ? value : 0);
+                    }}
+                    className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pr-10 text-sm font-semibold text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                  />
+                  <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sm text-gray-400">€</span>
+                </div>
+              </label>
+            </div>
+
+            <p className="mt-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+              Le prix payé dépend de la date d’acquisition. Maximus ne reconstitue pas un prix historique sans source fiable : utilisez le prix figurant sur votre bulletin de souscription ou relevé.
+            </p>
 
             <div className="mt-6 rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
               <div className="flex gap-3">
@@ -572,6 +654,44 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                           {diagnostic.liquidity.label}
                           {diagnostic.waitingShareRatio != null ? ` · ${fmtPct(diagnostic.waitingShareRatio)} des parts en attente` : ''}
                           {' — le montant affiché n’est pas nécessairement récupérable immédiatement.'}
+                        </div>
+                      )}
+
+                      {(diagnostic.acquisitionAmount != null || diagnostic.holdingPeriod) && (
+                        <div className="mt-4 rounded-xl border border-gray-200 bg-white/70 p-4 dark:border-gray-800 dark:bg-gray-950/50">
+                          <div className="flex items-center gap-2">
+                            <Clock3 className="h-4 w-4 text-emerald-500" />
+                            <h3 className="text-sm font-bold">Depuis votre acquisition</h3>
+                          </div>
+                          <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                            <div>
+                              <div className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Montant investi</div>
+                              <div className="mt-1 text-lg font-bold">
+                                {diagnostic.acquisitionAmount != null ? fmtEuro(diagnostic.acquisitionAmount, 0) : 'Prix à renseigner'}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Écart en capital</div>
+                              <div className={`mt-1 text-lg font-bold ${
+                                diagnostic.capitalDifference == null
+                                  ? ''
+                                  : diagnostic.capitalDifference >= 0
+                                    ? 'text-emerald-600 dark:text-emerald-400'
+                                    : 'text-red-600 dark:text-red-400'
+                              }`}>
+                                {diagnostic.capitalDifference != null && diagnostic.capitalDifferencePct != null
+                                  ? `${diagnostic.capitalDifference >= 0 ? '+' : ''}${fmtEuro(diagnostic.capitalDifference, 0)} · ${diagnostic.capitalDifferencePct >= 0 ? '+' : ''}${fmtPct(diagnostic.capitalDifferencePct)}`
+                                  : 'Prix à renseigner'}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">Durée de détention</div>
+                              <div className="mt-1 text-lg font-bold">{diagnostic.holdingPeriod || 'Date à renseigner'}</div>
+                            </div>
+                          </div>
+                          <p className="mt-3 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
+                            Écart sur le capital uniquement : les distributions reçues, la fiscalité et les éventuels frais ne sont pas intégrés. Ce chiffre n’est donc pas une performance totale.
+                          </p>
                         </div>
                       )}
 
