@@ -653,6 +653,11 @@ const getRelatedLinksHTML = (article) => {
     ];
   }
 
+  links = [
+    { href: '/comparateur-scpi/', label: 'Comparer les SCPI dans le comparateur MaximusSCPI' },
+    ...links
+  ];
+
   const filtered = links.filter(link => !link.href.includes('/' + article.slug + '/')).slice(0, 3);
   if (!filtered.length) return '';
 
