@@ -100,21 +100,14 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     }
   }, []);
 
-  const getColorScheme = (key: string) => {
-    const schemes: Record<string, { primary: string; secondary: string; accent: string }> = {
-      'comete': { primary: 'from-[#0D1117] via-[#12372F] to-[#0D1117]', secondary: 'emerald', accent: 'teal' },
-      'transitions-europe': { primary: 'from-blue-600 via-indigo-700 to-blue-800', secondary: 'blue', accent: 'indigo' },
-      'remake-live': { primary: 'from-purple-600 via-fuchsia-700 to-purple-800', secondary: 'purple', accent: 'fuchsia' },
-      'epargne-pierre-europe': { primary: 'from-teal-600 via-cyan-700 to-teal-800', secondary: 'teal', accent: 'cyan' },
-      'optimale': { primary: 'from-green-600 via-lime-700 to-green-800', secondary: 'green', accent: 'lime' },
-      'iroko-zen': { primary: 'from-emerald-600 via-teal-700 to-emerald-800', secondary: 'emerald', accent: 'teal' },
-      'novaxia-neo': { primary: 'from-slate-600 via-gray-700 to-slate-800', secondary: 'slate', accent: 'gray' }
-    };
-    return schemes[key] || schemes['iroko-zen'];
-  };
+  const getColorScheme = (_key: string) => ({
+    primary: 'from-[#0D1117] via-[#12372F] to-[#0D1117]',
+    secondary: 'emerald',
+    accent: 'teal',
+  });
 
   const colors = getColorScheme(scpiKey);
-  const isCometeBrandTest = scpiKey === 'comete';
+  const useMaximusBrand = true;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -316,7 +309,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
               <div className="space-y-8">
-                <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${isCometeBrandTest ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
+                <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${useMaximusBrand ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
                   <Zap className="w-5 h-5" />
                   {getBadgeText()}
                 </div>
@@ -475,11 +468,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <div className="bg-white rounded-3xl shadow-2xl p-8 lg:sticky lg:top-4">
                     <div className="text-center mb-6">
                       <div className="mb-4 flex justify-center">
-                        <div className={`border-4 rounded-full shadow-xl ${isCometeBrandTest ? 'border-[#00C896]' : 'border-blue-600'}`}>
+                        <div className={`border-4 rounded-full shadow-xl ${useMaximusBrand ? 'border-[#00C896]' : 'border-blue-600'}`}>
                           <EricAvatar size={70} />
                         </div>
                       </div>
-                      <p className={`text-sm font-bold mb-2 ${isCometeBrandTest ? 'text-emerald-700' : 'text-blue-700'}`}>
+                      <p className={`text-sm font-bold mb-2 ${useMaximusBrand ? 'text-emerald-700' : 'text-blue-700'}`}>
                         Eric Bellaiche - Expert MaximusSCPI
                       </p>
                       <h2 className="text-3xl font-bold text-gray-900 mb-2">
@@ -513,7 +506,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                               required
                               value={formData.prenom}
                               onChange={handleChange}
-                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${isCometeBrandTest ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
+                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
                               placeholder="Jean"
                             />
                           </div>
@@ -527,7 +520,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                               required
                               value={formData.nom}
                               onChange={handleChange}
-                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${isCometeBrandTest ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
+                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
                               placeholder="Dupont"
                             />
                           </div>
@@ -543,7 +536,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                             required
                             value={formData.email}
                             onChange={handleChange}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${isCometeBrandTest ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
+                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
                             placeholder="vous@exemple.com"
                           />
                         </div>
@@ -558,7 +551,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                             required
                             value={formData.telephone}
                             onChange={handleChange}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${isCometeBrandTest ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
+                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
                             placeholder="06 12 34 56 78"
                           />
                         </div>
@@ -572,7 +565,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                             value={formData.commentaire}
                             onChange={handleChange}
                             rows={3}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent resize-none text-gray-900 ${isCometeBrandTest ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
+                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent resize-none text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
                             placeholder="Vos questions ou précisions..."
                           />
                         </div>
@@ -588,7 +581,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className={`w-full text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${isCometeBrandTest ? 'bg-[#00C896] hover:bg-[#00B789] text-[#0D1117] shadow-lg shadow-emerald-900/20' : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'}`}
+                          className={`w-full text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${useMaximusBrand ? 'bg-[#00C896] hover:bg-[#00B789] text-[#0D1117] shadow-lg shadow-emerald-900/20' : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'}`}
                         >
                           {isSubmitting ? (
                             <>
@@ -626,15 +619,15 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
 
-      {isCometeBrandTest && (
+      {useMaximusBrand && (
         <div
           aria-hidden="true"
           className="h-20 sm:h-24 bg-gradient-to-b from-[#0D1117] via-[#DFF3EC] to-[#F8FAFC]"
         />
       )}
 
-      <div className={isCometeBrandTest ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
-        <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${isCometeBrandTest ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
+      <div className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
+        <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${useMaximusBrand ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Patrimoine</p>
@@ -648,7 +641,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
-            <div className={isCometeBrandTest
+            <div className={useMaximusBrand
               ? 'rounded-2xl border border-emerald-900/10 bg-white p-5 sm:p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-white'
               : 'rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6'
             }>
@@ -696,7 +689,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
               )}
             </div>
 
-            <div className={isCometeBrandTest
+            <div className={useMaximusBrand
               ? 'rounded-2xl border border-emerald-900/10 bg-white p-5 sm:p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-white'
               : 'rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6'
             }>
@@ -747,7 +740,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       </div>
 
-      {isCometeBrandTest && (
+      {useMaximusBrand && (
         <div
           aria-hidden="true"
           className="h-16 sm:h-20 bg-gradient-to-b from-[#F8FAFC] via-[#E2F1EC] to-slate-950"
