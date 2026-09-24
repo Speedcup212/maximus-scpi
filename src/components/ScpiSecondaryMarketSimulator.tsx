@@ -111,6 +111,50 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
 
   const positive = r.totalDelta >= 0;
 
+  const analysis = useMemo(() => {
+    if (!ready) return null;
+
+    const capitalLossPct = r.capitalDeltaPct < 0 ? Math.abs(r.capitalDeltaPct) : 0;
+    const recoveredByIncome = r.invested > 0
+      ? Math.max(0, Math.min(100, (distributionsReceived / r.invested) * 100))
+      : 0;
+
+    let capitalMessage = '';
+    if (r.capitalDeltaPct >= 0) {
+      capitalMessage = `Le prix de sortie saisi ne fait apparaître aucune moins-value en capital par rapport au prix d'achat.`;
+    } else if (capitalLossPct < 10) {
+      capitalMessage = `La décote de sortie reste limitée : environ ${formatPct(capitalLossPct)} du capital investi.`;
+    } else if (capitalLossPct < 25) {
+      capitalMessage = `La baisse de valeur est significative : environ ${formatPct(capitalLossPct)} du capital investi serait perdue sur le capital en cas de vente à ce prix.`;
+    } else {
+      capitalMessage = `La perte en capital est importante : environ ${formatPct(capitalLossPct)} du capital investi serait perdue en cas de vente à ce prix.`;
+    }
+
+    let incomeMessage = '';
+    if (distributionsReceived <= 0) {
+      incomeMessage = `Aucun revenu déjà encaissé n'a été renseigné : le bilan économique présenté repose donc principalement sur le prix de sortie.`;
+    } else if (r.totalDelta >= 0) {
+      incomeMessage = `Les revenus déjà encaissés compensent la baisse éventuelle du prix de part : le bilan économique cumulé ressort positif selon les données saisies.`;
+    } else {
+      incomeMessage = `Les revenus déjà perçus compensent une partie de la baisse du prix de part, mais pas encore la totalité. Ils représentent environ ${formatPct(recoveredByIncome)} du capital investi.`;
+    }
+
+    let breakEvenMessage = '';
+    if (r.lossToRecover <= 0) {
+      breakEvenMessage = `Le point mort économique est déjà atteint selon les données renseignées.`;
+    } else if (r.breakEvenYears === null) {
+      breakEvenMessage = `Le point mort ne peut pas être estimé sans distribution annuelle par part.`;
+    } else if (r.breakEvenYears <= 2) {
+      breakEvenMessage = `À distribution constante, l'écart économique restant serait compensé en environ ${r.breakEvenYears.toFixed(1)} an(s).`;
+    } else if (r.breakEvenYears <= 5) {
+      breakEvenMessage = `À distribution constante, il faudrait environ ${r.breakEvenYears.toFixed(1)} ans pour compenser l'écart économique restant.`;
+    } else {
+      breakEvenMessage = `Le délai théorique de retour au point mort est long : environ ${r.breakEvenYears.toFixed(1)} ans à distribution constante.`;
+    }
+
+    return { capitalMessage, incomeMessage, breakEvenMessage };
+  }, [ready, r, distributionsReceived]);
+
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -230,6 +274,38 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                     <p className="mt-3 text-gray-700 dark:text-gray-300">Ajoutez la distribution annuelle par part si vous souhaitez calculer le point mort.</p>
                   )}
                 </div>
+
+                {analysis && (
+                  <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
+                    <div className="flex items-center justify-between gap-3">
+                      <h2 className="text-xl font-bold">Analyse Maximus</h2>
+                      <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        Lecture automatique
+                      </span>
+                    </div>
+                    <div className="mt-4 space-y-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white">1. Impact sur le capital</p>
+                        <p className="mt-1">{analysis.capitalMessage}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white">2. Revenus déjà encaissés</p>
+                        <p className="mt-1">{analysis.incomeMessage}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white">3. Point mort</p>
+                        <p className="mt-1">{analysis.breakEvenMessage}</p>
+                      </div>
+                      <div className="rounded-xl bg-white/70 dark:bg-gray-950/50 p-4">
+                        <p className="font-semibold text-gray-900 dark:text-white">À vérifier avant une décision</p>
+                        <p className="mt-1">
+                          Liquidité réelle du marché, délai de cession, évolution récente du prix de part, qualité du patrimoine,
+                          niveau d'endettement et soutenabilité de la distribution.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="rounded-2xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/20 p-5 flex gap-3">
                   <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
