@@ -88,6 +88,14 @@ const RdvModal: React.FC<RdvModalProps> = ({
     const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
     const contextSlug = window.location.pathname.replace(/^\/+|\/+$/g, '') || 'home';
 
+    let quizContext: Record<string, unknown> | null = null;
+    try {
+      const rawQuizContext = sessionStorage.getItem('maximus_quiz_context');
+      quizContext = rawQuizContext ? JSON.parse(rawQuizContext) : null;
+    } catch {
+      quizContext = null;
+    }
+
     try {
       const result = await submitLead({
         channel: 'contact',
@@ -107,12 +115,15 @@ const RdvModal: React.FC<RdvModalProps> = ({
           profil_esg: profilESG,
           scpi: uniqueScpi.length > 0 ? uniqueScpi : scpi,
           action,
+          quiz_context: quizContext,
         },
       });
 
       if (!result.ok) {
         throw new Error(result.error || 'Erreur insertion');
       }
+
+      sessionStorage.removeItem('maximus_quiz_context');
 
       if (action === 'calendly') {
         setStatus("✅ Coordonnées enregistrées. Ouverture de Calendly…");
