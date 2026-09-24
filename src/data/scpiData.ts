@@ -396,7 +396,22 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     actualitesTrimestrielles: scpi['Actualités trimestrielles'] || undefined,
     periodeBulletinTrimestriel: scpi['Période bulletin trimestriel'] || undefined,
     dateBulletin: scpi['Date bulletin'] || undefined,
-    liquidite: typeof scpi['liquidite'] === 'string' ? scpi['liquidite'] : undefined,
+    liquidite: typeof scpi['liquidite'] === 'string'
+      ? scpi['liquidite']
+      : (typeof scpi['liquidite'] === 'number' ? `${scpi['liquidite']} parts en attente de retrait` : undefined),
+    partsAttenteRetrait:
+      cleanNumericValue(scpi['Parts en attente de retrait']) ??
+      (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
+    montantPartsAttenteRetraitM: cleanNumericValue(scpi['Montant parts en attente de retrait (M€)']),
+    hasWaitingShares: (() => {
+      const explicit = cleanNumericValue(scpi['Parts en attente de retrait']) ??
+        (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined);
+      if (explicit !== undefined) return explicit > 0;
+      const note = typeof scpi['liquidite'] === 'string' ? scpi['liquidite'].toLowerCase() : '';
+      if (/aucune part en attente|aucune demande.*retrait|0 part.*attente/.test(note)) return false;
+      if (/\bparts? en attente\b|\bdemandes? de retrait\b/.test(note) && !/en cas de/.test(note)) return true;
+      return undefined;
+    })(),
     maximusWarnings: Array.isArray(scpi['maximus_warnings']) ? scpi['maximus_warnings'] : undefined,
     maximusDataStatus: typeof scpi['maximus_data_status'] === 'string' ? scpi['maximus_data_status'] : undefined,
     maximusSourcePeriode: typeof scpi['maximus_source_periode'] === 'string' ? scpi['maximus_source_periode'] : undefined,
