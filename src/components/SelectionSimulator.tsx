@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { X, DollarSign, Calculator, TrendingUp, PieChart as PieChartIcon, BarChart3, Download, Calendar, Phone, Building, MapPin, Target, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency } from '../utils/formatters';
-import { CALENDLY_URL } from '../config/calendly';
 import PieChart from './PieChart';
 
 interface PortfolioItem extends Scpi {
@@ -164,8 +163,10 @@ const SelectionSimulator: React.FC<SelectionSimulatorProps> = ({ selectedScpi, o
     return geoNames[geography] || 'Autres';
   };
 
-  const openCalendly = (type: 'souscription' | 'expert' = 'expert') => {
-    window.open(CALENDLY_URL, '_blank');
+  const openLeadModal = () => {
+    if (typeof (window as any).openRdvModal === 'function') {
+      (window as any).openRdvModal();
+    }
   };
 
   const downloadPDF = () => {
@@ -574,7 +575,7 @@ const SelectionSimulator: React.FC<SelectionSimulatorProps> = ({ selectedScpi, o
       {/* Étape 4: Call-to-Actions */}
       <div className="flex gap-4 justify-center mt-6">
         <button
-          onClick={() => openCalendly('expert')}
+          onClick={openLeadModal}
           className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
         >
           <Phone className="w-5 h-5" />
