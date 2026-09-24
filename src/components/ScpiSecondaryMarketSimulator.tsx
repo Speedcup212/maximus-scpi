@@ -905,4 +905,5 @@ const Insight: React.FC<{ title: string; text: string }> = ({ title, text }) => 
   </div>
 );
 
+// Netlify redeploy marker
 export default ScpiSecondaryMarketSimulator;
