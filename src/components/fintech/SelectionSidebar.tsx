@@ -4,7 +4,7 @@ import { SCPIExtended } from '../../data/scpiDataExtended';
 import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
@@ -611,6 +611,14 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   };
 
   const maximusAvis = calculateMaximusAvis();
+  const radarData = [
+    { subject: 'Rendement', score: maximusAvis.performance * 20, fullMark: 100 },
+    { subject: 'Liquidité', score: maximusAvis.liquidity * 20, fullMark: 100 },
+    { subject: 'Diversif.', score: maximusAvis.diversification * 20, fullMark: 100 },
+    { subject: 'Secteurs', score: maximusAvis.sectorDiversity * 20, fullMark: 100 },
+    { subject: 'Géographie', score: maximusAvis.geoDiversity * 20, fullMark: 100 },
+    { subject: 'Risque', score: maximusAvis.risk * 20, fullMark: 100 },
+  ];
   const coherenceZScore = Number((maximusAvis.overall - 3).toFixed(2));
 
   // Analyse professionnelle CIF/CGP : Avantages et Inconvénients
@@ -645,8 +653,27 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     }
     
     // Analyse géographique
-    const hasEurope = aggregatedGeography.some(g => g.name.toLowerCase().includes('europe') || g.name.toLowerCase().includes('européen'));
-    const hasFrance = aggregatedGeography.some(g => g.name.toLowerCase().includes('france') || g.name.toLowerCase().includes('français'));
+    const normalizeGeo = (value: string) =>
+      value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const isFranceGeo = (value: string) => {
+      const geo = normalizeGeo(value);
+      return /france|paris|ile-de-france|region|province|francais/.test(geo);
+    };
+
+    const isEuropeanGeo = (value: string) => {
+      const geo = normalizeGeo(value);
+      return /europe|allemagne|germany|espagne|spain|italie|italy|belgique|belgium|pays-bas|netherlands|irlande|ireland|portugal|pologne|poland|autriche|austria|finlande|finland|suede|sweden|danemark|denmark|norvege|norway|tchequie|czech|hongrie|hungary|royaume-uni|united kingdom|uk|suisse|switzerland/.test(geo);
+    };
+
+    const isNonEuroCurrencyGeo = (value: string) => {
+      const geo = normalizeGeo(value);
+      return /royaume-uni|united kingdom|\buk\b|suisse|switzerland|suede|sweden|danemark|denmark|norvege|norway|pologne|poland|tchequie|czech|hongrie|hungary/.test(geo);
+    };
+
+    const hasFrance = aggregatedGeography.some(g => isFranceGeo(g.name));
+    const hasEurope = aggregatedGeography.some(g => !isFranceGeo(g.name) && isEuropeanGeo(g.name));
+    const hasNonEuroCurrencyExposure = aggregatedGeography.some(g => isNonEuroCurrencyGeo(g.name));
     
     if (aggregatedGeography.length >= 3) {
       pros.push('Exposition géographique diversifiée, réduction du risque géopolitique et économique local');
@@ -660,25 +687,25 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     
     // Analyse du rendement
     if (avgYield >= 6) {
-      pros.push(`Rendement moyen attractif (${avgYield.toFixed(2)}%), supérieur à la moyenne du marché SCPI`);
+      pros.push(`Taux de distribution moyen historique élevé dans le barème interne MaximusSCPI (${avgYield.toFixed(2)}%), à confronter aux risques et à la pérennité des distributions`);
     } else if (avgYield >= 5) {
-      pros.push(`Rendement moyen correct (${avgYield.toFixed(2)}%), aligné avec les standards du marché`);
+      pros.push(`Taux de distribution moyen historique intermédiaire à élevé (${avgYield.toFixed(2)}%)`);
     } else if (avgYield >= 4) {
-      consGeneral.push(`Rendement moyen modéré (${avgYield.toFixed(2)}%) : envisager l'ajout de SCPI à rendement plus élevé pour optimiser la performance`);
+      consGeneral.push(`Taux de distribution moyen historique modéré (${avgYield.toFixed(2)}%) : vérifier sa cohérence avec le niveau de risque et les objectifs de la sélection`);
     } else {
-      consGeneral.push(`Rendement moyen faible (${avgYield.toFixed(2)}%) : portefeuille sous-performant, révision de la sélection recommandée`);
+      consGeneral.push(`Taux de distribution moyen historique faible (${avgYield.toFixed(2)}%) : analyser les causes et la cohérence avec les objectifs de la sélection`);
     }
     
     // Analyse de la liquidité
     const avgTof = selectedScpis.reduce((sum, s) => sum + (s.tof || 0), 0) / selectedScpis.length;
     if (avgTof >= 95) {
-      pros.push('Excellent taux d\'occupation financier moyen, signe de qualité de gestion et de résilience locative');
+      pros.push('Taux d\'occupation financier moyen élevé, indiquant une occupation locative solide à la date des données');
     } else if (avgTof >= 90) {
-      pros.push('Taux d\'occupation financier correct, portefeuille bien géré');
+      pros.push('Taux d\'occupation financier moyen satisfaisant à la date des données');
     } else if (avgTof >= 85) {
       consGeneral.push('Taux d\'occupation financier moyen : vigilance sur la qualité locative, certains actifs pourraient nécessiter un suivi renforcé');
     } else {
-      consGeneral.push('Taux d\'occupation financier faible : risque de vacance locative élevé, révision de la sélection recommandée');
+      consGeneral.push('Taux d\'occupation financier faible : vigilance sur la vacance locative et son impact potentiel sur les distributions');
     }
     
     // Analyse de la concentration
@@ -700,7 +727,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     const hasCommercial = aggregatedSectors.some(s => s.name.toLowerCase().includes('commerce') || s.name.toLowerCase().includes('bureau'));
     
     if (hasResidential && hasCommercial) {
-      pros.push('Mix résidentiel/commercial équilibré, optimisation fiscale et diversification des revenus locatifs');
+      pros.push('Mix résidentiel/commercial contribuant à la diversification des moteurs locatifs');
     }
     
     // Analyse du nombre de parts et investissement minimum
@@ -717,24 +744,30 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
       }, 0) / selectedScpis.filter(s => s.capitalization).length;
     
     if (avgCapitalization > 500) {
-      pros.push('SCPI de grande taille en moyenne, signe de stabilité et de capacité de diversification interne');
+      pros.push('Capitalisation moyenne élevée, pouvant favoriser la mutualisation des actifs et des locataires sans garantir la stabilité future');
     }
     
     // Analyse des frais et performance
     const hasHighYield = selectedScpis.some(s => s.yield >= 6);
     if (hasHighYield) {
-      pros.push('Présence de SCPI à rendement élevé, potentiel de performance intéressant');
+      pros.push('Présence d’au moins une SCPI à taux de distribution historique élevé, à confronter à la qualité des actifs, aux frais et aux risques');
     }
     
-    // Analyse du risque de change (si européennes)
-    if (hasEurope && !hasFrance) {
-      consStructural.push('Exposition uniquement européenne : risque de change EUR présent, considérer une part française pour équilibrer');
+    // Analyse du risque de change : uniquement si exposition hors zone euro identifiée
+    if (hasNonEuroCurrencyExposure) {
+      consStructural.push('Exposition à des marchés hors zone euro : risque de change potentiel selon les devises, les modalités de détention et les éventuelles couvertures');
     }
-    
-    // Analyse de la liquidité secondaire
-    const hasLowLiquidity = selectedScpis.some(s => (s.tof || 0) < 85);
-    if (hasLowLiquidity) {
-      consGeneral.push('Certaines SCPI présentent un TOF faible : risque de liquidité sur le marché secondaire, délais de revente potentiellement allongés');
+
+    // Analyse de la liquidité du marché des parts — distincte du TOF
+    const waitingSharesCount = selectedScpis.filter(s => s.hasWaitingShares === true).length;
+    const knownLiquidityCount = selectedScpis.filter(s => typeof s.hasWaitingShares === 'boolean').length;
+
+    if (waitingSharesCount > 0) {
+      consGeneral.push(`${waitingSharesCount} SCPI de la sélection présente${waitingSharesCount > 1 ? 'nt' : ''} des parts en attente de retrait dans les données disponibles : vigilance sur le délai de revente`);
+    } else if (knownLiquidityCount < selectedScpis.length) {
+      consGeneral.push(`Liquidité : données de marché des parts incomplètes pour ${selectedScpis.length - knownLiquidityCount} SCPI ; impossible de conclure sur le délai de revente de l'ensemble de la sélection`);
+    } else if (knownLiquidityCount > 0) {
+      pros.push('Aucune part en attente de retrait détectée dans les données disponibles à la date de mise à jour, sans garantie de liquidité future');
     }
     
     // Recommandation générale
@@ -742,7 +775,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
       consStructural.push("Portefeuille sous-diversifié : envisager l'ajout de 2 à 4 SCPI supplémentaires pour optimiser le ratio risque/rendement");
     }
 
-    return { pros, consGeneral, consStructural };
+    return { pros: Array.from(new Set(pros)), consGeneral: Array.from(new Set(consGeneral)), consStructural: Array.from(new Set(consStructural)) };
   };
 
   const zScoreAttention = getZScoreAttention(
@@ -758,10 +791,11 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   const zScoreWarning = allowStructural
     ? `${zScoreAttention!.shortLabel} : ${zScoreAttention!.message}`
     : null;
-  const consWithZScore = [
+  const consWithZScore = Array.from(new Set([
     ...portfolioProsCons.consGeneral,
+    ...portfolioProsCons.consStructural,
     ...(zScoreWarning ? [zScoreWarning] : []),
-  ];
+  ]));
 
   return (
     <div className="hidden lg:block w-full bg-gradient-to-b from-slate-800 to-slate-900 border-l border-slate-700 p-3">
@@ -924,6 +958,50 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       : maximusAvis.overall >= 3
                       ? 'Structure équilibrée à confirmer selon votre situation réelle.'
                       : 'Aucune incohérence majeure détectée à ce stade, mais la diversification reste à renforcer.'}
+                  </p>
+                </div>
+
+                {/* Radar de lecture multicritères */}
+                <div className="mb-4 sm:mb-6 rounded-lg border border-slate-700 bg-slate-900/40 p-3 sm:p-4">
+                  <div className="flex items-center justify-between gap-3 mb-2">
+                    <div>
+                      <h4 className="text-xs sm:text-sm font-bold text-white">Radar de la sélection</h4>
+                      <p className="text-[10px] sm:text-xs text-slate-400">Lecture normalisée sur 100 des six dimensions analysées.</p>
+                    </div>
+                    <span
+                      className="text-[11px] text-slate-400 cursor-help"
+                      title="Indicateur structurel pédagogique, non prédictif de performance."
+                    >
+                      ⓘ
+                    </span>
+                  </div>
+                  <div className="h-56 sm:h-64 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={radarData} outerRadius="72%">
+                        <PolarGrid stroke="#334155" />
+                        <PolarAngleAxis
+                          dataKey="subject"
+                          tick={{ fill: '#cbd5e1', fontSize: 10 }}
+                        />
+                        <PolarRadiusAxis
+                          angle={90}
+                          domain={[0, 100]}
+                          tickCount={6}
+                          tick={{ fill: '#64748b', fontSize: 9 }}
+                          axisLine={false}
+                        />
+                        <Radar
+                          name="Sélection"
+                          dataKey="score"
+                          stroke="#10b981"
+                          fill="#10b981"
+                          fillOpacity={0.22}
+                        />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <p className="text-[9px] sm:text-[10px] text-slate-500 italic">
+                    Le radar compare la structure de la sélection selon les données disponibles ; il ne constitue ni une prévision de rendement ni une garantie de liquidité.
                   </p>
                 </div>
 
