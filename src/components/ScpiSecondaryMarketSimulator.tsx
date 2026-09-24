@@ -603,6 +603,83 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 </div>
               )}
 
+              <div className="rounded-2xl border border-emerald-500/30 bg-white p-6 dark:bg-gray-950">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Les 3 valeurs clés</p>
+                    <h3 className="mt-1 text-xl font-bold">Prix de sortie & valeurs patrimoniales</h3>
+                  </div>
+                  <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                    Valeurs par part
+                  </span>
+                </div>
+
+                <div className="mt-5 grid gap-4 md:grid-cols-3">
+                  <DataCard
+                    title={
+                      diagnostic.lifecycle !== 'normal'
+                        ? 'Prix de retrait — repère'
+                        : diagnostic.mode === 'secondary_market'
+                          ? 'Dernier prix d’exécution'
+                          : 'Prix de retrait actuel'
+                    }
+                    value={diagnostic.currentExitPrice != null ? fmtEuro(diagnostic.currentExitPrice) : 'Non disponible'}
+                    note={
+                      diagnostic.lifecycle !== 'normal'
+                        ? 'Repère publié uniquement : il ne permet pas d’estimer le montant final d’une liquidation.'
+                        : diagnostic.mode === 'secondary_market'
+                          ? 'Prix réellement observé sur le marché secondaire lorsqu’il est disponible.'
+                          : 'Prix théorique de sortie par part, sous réserve de liquidité et d’exécution.'
+                    }
+                    source={diagnostic.sourceDocument}
+                    period={diagnostic.sourcePeriod}
+                    sourceUrl={sourceUrl}
+                    status={diagnostic.currentExitPrice != null && diagnostic.sourceDocument ? 'verified' : diagnostic.currentExitPrice != null ? 'partial' : 'unavailable'}
+                  />
+
+                  <DataCard
+                    title="Valeur de réalisation"
+                    value={fmtEuro(diagnostic.realisation)}
+                    note={
+                      diagnostic.currentExitPrice != null && diagnostic.realisationCheck.usable && diagnostic.realisation != null
+                        ? `${fmtPct(((diagnostic.realisation / diagnostic.currentExitPrice) - 1) * 100)} par rapport au prix de sortie. Valeur nette du patrimoine, distincte d’un prix de marché.`
+                        : diagnostic.realisationCheck.warning
+                          ? 'Valeur disponible mais contrôle de cohérence nécessaire avant utilisation.'
+                          : 'Valeur nette du patrimoine, distincte d’un prix de marché.'
+                    }
+                    source={diagnostic.sourceDocument}
+                    period={diagnostic.sourcePeriod}
+                    sourceUrl={sourceUrl}
+                    status={diagnostic.realisationCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.realisation != null ? 'partial' : 'unavailable'}
+                  />
+
+                  <DataCard
+                    title="Valeur de reconstitution"
+                    value={fmtEuro(diagnostic.reconstitution)}
+                    note={
+                      diagnostic.currentExitPrice != null && diagnostic.reconstitutionCheck.usable && diagnostic.reconstitution != null
+                        ? `${fmtPct(((diagnostic.reconstitution / diagnostic.currentExitPrice) - 1) * 100)} par rapport au prix de sortie. Repère du coût théorique de reconstitution du patrimoine.`
+                        : diagnostic.reconstitutionCheck.warning
+                          ? 'Valeur disponible mais contrôle de cohérence nécessaire avant utilisation.'
+                          : 'Repère du coût théorique de reconstitution du patrimoine.'
+                    }
+                    source={diagnostic.sourceDocument}
+                    period={diagnostic.sourcePeriod}
+                    sourceUrl={sourceUrl}
+                    status={diagnostic.reconstitutionCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.reconstitution != null ? 'partial' : 'unavailable'}
+                  />
+                </div>
+
+                {diagnostic.currentExitPrice != null && diagnostic.reconstitutionCheck.usable && diagnostic.reconstitution != null && (
+                  <div className="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                    <span className="font-bold text-gray-900 dark:text-white">Lecture Maximus : </span>
+                    le prix de sortie est
+                    <span className="font-bold"> {fmtPct(Math.abs(((diagnostic.currentExitPrice / diagnostic.reconstitution) - 1) * 100))} </span>
+                    {diagnostic.currentExitPrice < diagnostic.reconstitution ? 'sous' : 'au-dessus de'} la valeur de reconstitution.
+                  </div>
+                )}
+              </div>
+
               {parts > 0 && diagnostic.lifecycle !== 'normal' && (
                 <div className="rounded-2xl border border-slate-500/30 bg-slate-500/5 p-6">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -856,28 +933,6 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 />
 
                 <DataCard
-                  title={
-                    diagnostic.lifecycle !== 'normal'
-                      ? 'Prix de retrait — repère uniquement'
-                      : diagnostic.mode === 'secondary_market'
-                        ? 'Dernier prix d’exécution'
-                        : 'Prix de retrait'
-                  }
-                  value={diagnostic.currentExitPrice != null ? fmtEuro(diagnostic.currentExitPrice) : 'Non disponible'}
-                  note={
-                    diagnostic.lifecycle !== 'normal'
-                      ? 'Ce prix ne permet pas d’estimer le montant qui serait distribué dans le cadre d’une liquidation.'
-                      : diagnostic.mode === 'secondary_market' && diagnostic.currentExitPrice == null
-                        ? 'Maximus ne dispose pas encore d’un dernier prix d’exécution structuré : aucun prix de sortie n’est estimé.'
-                        : 'Montant par part issu des données disponibles.'
-                  }
-                  source={diagnostic.sourceDocument}
-                  period={diagnostic.sourcePeriod}
-                  sourceUrl={sourceUrl}
-                  status={diagnostic.currentExitPrice != null && diagnostic.sourceDocument ? 'verified' : diagnostic.currentExitPrice != null ? 'partial' : 'unavailable'}
-                />
-
-                <DataCard
                   title="Tension de liquidité"
                   value={diagnostic.liquidity.label}
                   note={
@@ -891,34 +946,6 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   period={diagnostic.sourcePeriod}
                   sourceUrl={sourceUrl}
                   status={diagnostic.waitingShares != null ? 'verified' : selected.hasWaitingShares != null ? 'partial' : 'unavailable'}
-                />
-
-                <DataCard
-                  title="Valeur de réalisation"
-                  value={fmtEuro(diagnostic.realisation)}
-                  note={
-                    diagnostic.realisationCheck.warning
-                      ? 'Valeur disponible mais contrôle de cohérence nécessaire avant de l’utiliser dans une conclusion.'
-                      : 'Repère patrimonial, distinct d’un prix de marché.'
-                  }
-                  source={diagnostic.sourceDocument}
-                  period={diagnostic.sourcePeriod}
-                  sourceUrl={sourceUrl}
-                  status={diagnostic.realisationCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.realisation != null ? 'partial' : 'unavailable'}
-                />
-
-                <DataCard
-                  title="Valeur de reconstitution"
-                  value={fmtEuro(diagnostic.reconstitution)}
-                  note={
-                    diagnostic.reconstitutionCheck.warning
-                      ? 'Valeur disponible mais contrôle de cohérence nécessaire avant de l’utiliser dans une conclusion.'
-                      : 'Repère patrimonial, distinct du prix réellement exécutable.'
-                  }
-                  source={diagnostic.sourceDocument}
-                  period={diagnostic.sourcePeriod}
-                  sourceUrl={sourceUrl}
-                  status={diagnostic.reconstitutionCheck.usable && diagnostic.sourceDocument ? 'verified' : diagnostic.reconstitution != null ? 'partial' : 'unavailable'}
                 />
 
                 <DataCard
