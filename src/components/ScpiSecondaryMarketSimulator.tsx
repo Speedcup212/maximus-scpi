@@ -150,6 +150,40 @@ const parseWaitingShares = (scpi: Scpi): number | null => {
 };
 
 
+const parseSaleShares = (scpi: Scpi): number | null => {
+  if (scpi.partsProposeesVente != null && Number.isFinite(scpi.partsProposeesVente)) {
+    return scpi.partsProposeesVente;
+  }
+
+  const note = scpi.liquidite || '';
+  const patterns = [
+    /([0-9][0-9\s\u00a0.]*)\s+parts?\s+(?:propos[eé]es?|offertes?)\s+[àa]\s+la\s+vente/i,
+    /([0-9][0-9\s\u00a0.]*)\s+parts?\s+en\s+vente/i,
+    /ordres?\s+de\s+vente[^0-9]{0,30}([0-9][0-9\s\u00a0.]*)\s+parts?/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = note.match(pattern);
+    if (!match) continue;
+    const parsed = Number(match[1].replace(/[\s\u00a0.]/g, ''));
+    if (Number.isFinite(parsed)) return parsed;
+  }
+
+  return null;
+};
+
+const shareRatioFromTotal = (scpi: Scpi, shareCount: number | null): number | null => {
+  if (
+    shareCount == null ||
+    scpi.nbPartsTotal == null ||
+    !Number.isFinite(scpi.nbPartsTotal) ||
+    scpi.nbPartsTotal <= 0
+  ) {
+    return null;
+  }
+  return (shareCount / scpi.nbPartsTotal) * 100;
+};
+
 const classifyLifecycleStatus = (scpi: Scpi): LifecycleStatus => {
   if (scpi.maximusLifecycleStatus) return scpi.maximusLifecycleStatus;
 
@@ -289,8 +323,19 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     const capital = classifyCapitalType(selected);
     const lifecycle = classifyLifecycleStatus(selected);
     const waitingShares = parseWaitingShares(selected);
+    const saleShares = parseSaleShares(selected);
     const waitingShareRatio = parseWaitingShareRatio(selected, waitingShares);
-    const liquidity = liquidityAssessment(waitingShareRatio, waitingShares, selected.hasWaitingShares);
+    const liquidityShares = mode === 'secondary_market' ? saleShares : waitingShares;
+    const liquidityShareRatio =
+      shareRatioFromTotal(selected, liquidityShares) ??
+      (mode === 'withdrawal' ? waitingShareRatio : null);
+    const liquidity = liquidityAssessment(
+      liquidityShareRatio,
+      liquidityShares,
+      mode === 'secondary_market'
+        ? (saleShares != null ? saleShares > 0 : undefined)
+        : selected.hasWaitingShares
+    );
     const withdrawalPrice = cleanNumber(selected.valeurRetrait);
     const currentExitPrice = mode === 'withdrawal' ? withdrawalPrice : null;
 
@@ -304,9 +349,9 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     const sourcePeriod = selected.maximusSourcePeriode || selected.periodeBulletinTrimestriel || null;
     const sourceDate = selected.dateBulletin || selected.maximusUpdateDate || null;
     const liquidityEvidence =
-      waitingShares != null ||
-      selected.hasWaitingShares != null ||
-      Boolean(selected.liquidite);
+      mode === 'secondary_market'
+        ? saleShares != null || Boolean(selected.liquidite)
+        : waitingShares != null || selected.hasWaitingShares != null || Boolean(selected.liquidite);
 
     const checks = [
       { key: 'source', ok: Boolean(sourceDocument), weight: 20 },
@@ -364,6 +409,9 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       }
     }
     if (!liquidityEvidence) missing.push('information récente sur la liquidité');
+    if (mode === 'secondary_market' && saleShares == null) {
+      missing.push('nombre de parts proposées à la vente / carnet d’ordres récent');
+    }
     if (!reconstitutionCheck.usable) missing.push('valeur de reconstitution cohérente et vérifiée');
     if (!realisationCheck.usable) missing.push('valeur de réalisation cohérente et vérifiée');
 
@@ -375,7 +423,10 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
       lifecycleNote: selected.maximusLifecycleNote || null,
       lifecycleSource: selected.maximusLifecycleSource || null,
       waitingShares,
+      saleShares,
       waitingShareRatio,
+      liquidityShares,
+      liquidityShareRatio,
       liquidity,
       currentExitPrice,
       reconstitution,
@@ -680,6 +731,100 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 )}
               </div>
 
+              <div className={`rounded-2xl border p-6 ${
+                diagnostic.lifecycle !== 'normal'
+                  ? 'border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/30'
+                  : diagnostic.liquidity.tone === 'red'
+                    ? 'border-red-500/40 bg-red-500/10'
+                    : diagnostic.liquidity.tone === 'amber'
+                      ? 'border-amber-500/40 bg-amber-500/10'
+                      : diagnostic.liquidity.tone === 'emerald'
+                        ? 'border-emerald-500/30 bg-emerald-500/5'
+                        : 'border-slate-300 bg-white dark:border-slate-700 dark:bg-gray-950'
+              }`}>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                      Liquidité de sortie
+                    </p>
+                    <h3 className="mt-1 text-xl font-bold">
+                      {diagnostic.lifecycle === 'liquidation'
+                        ? 'Liquidation en cours'
+                        : diagnostic.lifecycle === 'dissolution_proposed'
+                          ? 'Dissolution proposée'
+                          : diagnostic.mode === 'secondary_market'
+                            ? 'Parts proposées à la vente'
+                            : 'Parts en attente de retrait'}
+                    </h3>
+                  </div>
+                  {diagnostic.lifecycle === 'normal' && (
+                    <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${
+                      diagnostic.liquidity.tone === 'red'
+                        ? 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-300'
+                        : diagnostic.liquidity.tone === 'amber'
+                          ? 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300'
+                          : diagnostic.liquidity.tone === 'emerald'
+                            ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                            : 'border-slate-400/30 bg-slate-500/10 text-slate-600 dark:text-slate-300'
+                    }`}>
+                      {diagnostic.liquidity.label}
+                    </span>
+                  )}
+                </div>
+
+                {diagnostic.lifecycle !== 'normal' ? (
+                  <p className="mt-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                    Le nombre de parts proposées à la vente n’est plus l’indicateur principal : le calendrier dépend du processus de dissolution ou de liquidation.
+                  </p>
+                ) : diagnostic.liquidityShares != null ? (
+                  <>
+                    <div className="mt-4 flex flex-wrap items-end gap-x-8 gap-y-3">
+                      <div>
+                        <div className="text-4xl font-bold text-gray-900 dark:text-white">
+                          {fmtNumber(diagnostic.liquidityShares)}
+                        </div>
+                        <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                          {diagnostic.mode === 'secondary_market'
+                            ? 'parts proposées à la vente'
+                            : 'parts en attente de retrait'}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                          {diagnostic.liquidityShareRatio != null ? fmtPct(diagnostic.liquidityShareRatio) : '—'}
+                        </div>
+                        <div className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                          du nombre total de parts
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+                      {diagnostic.mode === 'secondary_market'
+                        ? 'Cette donnée doit provenir d’un carnet d’ordres ou d’une publication récente. Une ancienne file de retraits n’est pas assimilée à des parts actuellement proposées à la vente.'
+                        : 'Plus la file de retrait représente une part importante du capital, plus le délai et l’incertitude de sortie peuvent augmenter.'}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="mt-4 text-2xl font-bold text-gray-900 dark:text-white">Non documenté</div>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                      {diagnostic.mode === 'secondary_market'
+                        ? 'Maximus ne dispose pas encore d’un nombre récent et fiable de parts proposées à la vente. Une ancienne file de retraits n’est pas utilisée à la place.'
+                        : selected.hasWaitingShares === false
+                          ? 'Aucune part en attente n’est mentionnée dans la source consultée, sans garantie qu’aucune demande n’existe aujourd’hui.'
+                          : 'La source disponible ne permet pas de quantifier actuellement la file de retrait.'}
+                    </p>
+                  </>
+                )}
+
+                {(diagnostic.sourcePeriod || diagnostic.sourceDocument) && (
+                  <div className="mt-4 border-t border-current/10 pt-3 text-[11px] text-gray-500 dark:text-gray-400">
+                    Source : {diagnostic.sourcePeriod || 'document officiel'}
+                    {diagnostic.sourceDocument ? ` · ${diagnostic.sourceDocument}` : ''}
+                  </div>
+                )}
+              </div>
+
               {parts > 0 && diagnostic.lifecycle !== 'normal' && (
                 <div className="rounded-2xl border border-slate-500/30 bg-slate-500/5 p-6">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -729,7 +874,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                       {(diagnostic.liquidity.tone === 'red' || diagnostic.liquidity.tone === 'amber') && diagnostic.mode === 'withdrawal' && (
                         <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-semibold text-amber-700 dark:text-amber-300">
                           {diagnostic.liquidity.label}
-                          {diagnostic.waitingShareRatio != null ? ` · ${fmtPct(diagnostic.waitingShareRatio)} des parts en attente` : ''}
+                          {diagnostic.liquidityShareRatio != null ? ` · ${fmtPct(diagnostic.liquidityShareRatio)} des parts concernées` : ''}
                           {' — le montant affiché n’est pas nécessairement récupérable immédiatement.'}
                         </div>
                       )}
@@ -933,22 +1078,6 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 />
 
                 <DataCard
-                  title="Tension de liquidité"
-                  value={diagnostic.liquidity.label}
-                  note={
-                    diagnostic.waitingShares != null
-                      ? `${fmtNumber(diagnostic.waitingShares)} parts en attente${diagnostic.waitingShareRatio != null ? ` · ${fmtPct(diagnostic.waitingShareRatio)} des parts` : ''}. Plus la file est importante, plus le délai et l’incertitude de sortie augmentent.`
-                      : selected.hasWaitingShares === false
-                        ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne prouve pas qu’aucune demande n’existe aujourd’hui.'
-                        : 'Le niveau de tension sur les retraits n’est pas suffisamment documenté.'
-                  }
-                  source={diagnostic.sourceDocument}
-                  period={diagnostic.sourcePeriod}
-                  sourceUrl={sourceUrl}
-                  status={diagnostic.waitingShares != null ? 'verified' : selected.hasWaitingShares != null ? 'partial' : 'unavailable'}
-                />
-
-                <DataCard
                   title="TOF / Endettement"
                   value={`${fmtPct(selected.tof)} · ${diagnostic.debt != null ? fmtPct(diagnostic.debt) : 'Dette à vérifier'}`}
                   note={
@@ -984,9 +1113,11 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                         : diagnostic.lifecycle === 'dissolution_proposed'
                           ? 'La dissolution proposée peut rendre le mécanisme de retrait secondaire par rapport au calendrier de liquidation si elle est adoptée.'
                           : diagnostic.mode === 'secondary_market'
-                            ? 'La sortie dépend du marché secondaire. Sans dernier prix d’exécution et volumes récents, Maximus ne peut pas quantifier la liquidité réelle.'
+                            ? diagnostic.saleShares != null
+                              ? `${fmtNumber(diagnostic.saleShares)} parts sont proposées à la vente${diagnostic.liquidityShareRatio != null ? `, soit ${fmtPct(diagnostic.liquidityShareRatio)} du nombre total de parts` : ''}. Le prix et les volumes réellement exécutés restent indispensables pour apprécier la liquidité.`
+                              : 'La sortie dépend du marché secondaire. Le nombre récent de parts proposées à la vente n’est pas documenté dans Maximus : une ancienne file de retraits n’est pas assimilée au carnet d’ordres actuel.'
                             : diagnostic.waitingShares != null && diagnostic.waitingShares > 0
-                              ? `${diagnostic.liquidity.label} : ${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente${diagnostic.waitingShareRatio != null ? `, soit ${fmtPct(diagnostic.waitingShareRatio)} des parts` : ''}.`
+                              ? `${diagnostic.liquidity.label} : ${fmtNumber(diagnostic.waitingShares)} parts sont signalées en attente${diagnostic.liquidityShareRatio != null ? `, soit ${fmtPct(diagnostic.liquidityShareRatio)} des parts` : ''}.`
                               : selected.hasWaitingShares === false
                                 ? 'Aucune part en attente n’est mentionnée dans la source consultée. Cela ne permet pas de conclure qu’aucune demande n’existe aujourd’hui.'
                                 : 'Les données disponibles ne suffisent pas à mesurer précisément la tension sur les retraits.'
