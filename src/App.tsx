@@ -517,6 +517,7 @@ const App: React.FC = () => {
         setCurrentView('simulateurs');
         return;
       }
+      // Ancienne URL du simulateur de revente retiré : retour vers le hub Simulateurs.
       if (path === 'simulateur-marche-secondaire-scpi') {
         window.history.replaceState({}, '', '/simulateurs');
         setCurrentView('simulateurs');
