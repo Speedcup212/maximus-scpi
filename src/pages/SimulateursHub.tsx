@@ -120,9 +120,9 @@ const COMPARATEURS: ToolCard[] = [
 
 const SimulateursHub: React.FC = () => {
   const navigateTo = (path: string) => {
-    window.history.pushState({}, '', path);
-    window.dispatchEvent(new PopStateEvent('popstate'));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Navigation complète : garantit que App.tsx résout la bonne vue au chargement.
+    // Le pushState seul modifiait l'URL sans changer currentView depuis le hub.
+    window.location.assign(path);
   };
 
   const renderCard = (tool: ToolCard) => (
