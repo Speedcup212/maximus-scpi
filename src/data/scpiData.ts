@@ -400,6 +400,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     maximusWarnings: Array.isArray(scpi['maximus_warnings']) ? scpi['maximus_warnings'] : undefined,
     maximusDataStatus: typeof scpi['maximus_data_status'] === 'string' ? scpi['maximus_data_status'] : undefined,
     maximusSourcePeriode: typeof scpi['maximus_source_periode'] === 'string' ? scpi['maximus_source_periode'] : undefined,
+    maximusSourceDocument: typeof scpi['maximus_source_document'] === 'string' ? scpi['maximus_source_document'] : undefined,
+    maximusUpdateDate: typeof scpi['Date de mise à jour'] === 'string' ? scpi['Date de mise à jour'] : undefined,
     // Nouvelle structure optionnelle pour les actualités détaillées
     actualiteTrimestrielle: Array.isArray(scpi['Actualite_trimestrielle'])
       ? scpi['Actualite_trimestrielle']
