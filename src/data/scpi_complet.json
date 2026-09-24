@@ -1752,9 +1752,14 @@
     "nb_locataires": 19,
     "Article SFDR": 9,
     "niveau_risque_dic": 3,
-    "maximus_warnings": [],
+    "maximus_warnings": [
+      "Dissolution anticipée proposée à l’AGE du 24/09/2026 — résultat officiel à confirmer"
+    ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 208.04
+    "Valeur de reconstitution par part (€)": 208.04,
+    "maximus_lifecycle_status": "dissolution_proposed",
+    "maximus_lifecycle_note": "Dissolution anticipée soumise à l’Assemblée Générale Extraordinaire du 24/09/2026. Le résultat officiel du vote doit être confirmé par le procès-verbal ou une communication officielle de Greenman Arth.",
+    "maximus_lifecycle_source": "BALO n°108 du 09/09/2026 — avis de convocation à l’AGE du 24/09/2026"
   },
   {
     "Nom SCPI": "Grand Paris Résidentiel",
