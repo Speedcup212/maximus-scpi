@@ -1,26 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Star, Shield, Award, MessageCircle } from 'lucide-react';
-import ResponsiveImage from './ResponsiveImage';
-import { CALENDLY_URL } from '../config/calendly';
 
 interface ExpertBannerProps {
   isDarkMode: boolean;
-  // Conservé pour compat : la prise de RDV passe désormais par une popup Calendly.
   onContactClick?: () => void;
   compact?: boolean;
-}
-
-// Type global minimal pour le widget Calendly (popup)
-declare global {
-  interface Window {
-    Calendly?: {
-      initPopupWidget: (config: {
-        url: string
-        prefill?: { customAnswers?: Record<string, string> }
-        utm?: Record<string, string>
-      }) => void
-    }
-  }
 }
 
 const ExpertBanner: React.FC<ExpertBannerProps> = ({
@@ -28,44 +12,16 @@ const ExpertBanner: React.FC<ExpertBannerProps> = ({
   onContactClick,
   compact = false
 }) => {
-  const [loadingRDV, setLoadingRDV] = useState(false)
-
-  const handleRDVClick = useCallback(() => {
-    if (loadingRDV) return
-    setLoadingRDV(true)
-
-    const openPopup = () => {
-      if (!window.Calendly) return
-      window.Calendly.initPopupWidget({
-        url: CALENDLY_URL,
-        utm: {
-          utmSource: 'maximusscpi',
-          utmMedium: 'expert_banner',
-          utmCampaign: 'rdv-scpi',
-        },
-      })
-      setLoadingRDV(false)
+  const handleRDVClick = () => {
+    if (onContactClick) {
+      onContactClick();
+      return;
     }
 
-    if (window.Calendly) {
-      openPopup()
-      return
+    if (typeof window !== 'undefined' && typeof (window as any).openRdvModal === 'function') {
+      (window as any).openRdvModal();
     }
-
-    // Lazy-load CSS + script Calendly (une seule fois)
-    if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
-      const cssEl = document.createElement('link')
-      cssEl.href = 'https://assets.calendly.com/assets/external/widget.css'
-      cssEl.rel = 'stylesheet'
-      document.head.appendChild(cssEl)
-    }
-
-    const scriptEl = document.createElement('script')
-    scriptEl.src = 'https://assets.calendly.com/assets/external/widget.js'
-    scriptEl.async = true
-    scriptEl.onload = () => openPopup()
-    document.head.appendChild(scriptEl)
-  }, [loadingRDV])
+  };
 
   return (
     <div className={`${isDarkMode ? 'bg-gray-800/50' : 'bg-gradient-to-r from-green-50 to-emerald-50'} border ${isDarkMode ? 'border-gray-700' : 'border-green-100'} rounded-xl ${compact ? 'p-4' : 'p-6 md:p-8'} shadow-lg`}>
@@ -142,11 +98,10 @@ const ExpertBanner: React.FC<ExpertBannerProps> = ({
             <button
               type="button"
               onClick={handleRDVClick}
-              disabled={loadingRDV}
-              className="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group disabled:opacity-60"
+              className="w-full md:w-auto px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group"
             >
               <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span>{loadingRDV ? 'Chargement…' : 'Prendre RDV'}</span>
+              <span>Prendre RDV</span>
             </button>
           </div>
         </div>
