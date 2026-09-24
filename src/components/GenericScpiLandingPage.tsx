@@ -8,7 +8,6 @@ import {
 import Logo from './Logo';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
-import { CALENDLY_URL } from '../config/calendly';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
@@ -498,15 +497,14 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
                       </div>
                     </div>
 
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={onContactClick || (() => (window as any).openRdvModal?.())}
                       className={`w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-${themeColor}-600 text-${themeColor}-700 font-semibold rounded-lg hover:bg-${themeColor}-50 transition-all`}
                     >
                       <Calendar className="w-5 h-5" />
-                      Prendre rendez-vous directement
-                    </a>
+                      Prendre rendez-vous
+                    </button>
 
                     <p className="text-xs text-gray-500 mt-4">
                       <Lock className="w-3 h-3 inline mr-1" />
