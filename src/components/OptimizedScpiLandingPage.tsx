@@ -626,8 +626,15 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
 
-      <div className="bg-white py-10 sm:py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {isCometeBrandTest && (
+        <div
+          aria-hidden="true"
+          className="h-20 sm:h-24 bg-gradient-to-b from-[#0D1117] via-[#DFF3EC] to-[#F8FAFC]"
+        />
+      )}
+
+      <div className={isCometeBrandTest ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
+        <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${isCometeBrandTest ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">Patrimoine</p>
@@ -641,7 +648,10 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
 
           <div className="grid md:grid-cols-2 gap-5">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+            <div className={isCometeBrandTest
+              ? 'rounded-2xl border border-emerald-900/10 bg-white p-5 sm:p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-white'
+              : 'rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6'
+            }>
               <div className="flex items-center gap-2 mb-4">
                 <Globe className="w-5 h-5 text-slate-700" />
                 <h3 className="text-lg font-bold text-gray-900">Géographie</h3>
@@ -686,7 +696,10 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
               )}
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+            <div className={isCometeBrandTest
+              ? 'rounded-2xl border border-emerald-900/10 bg-white p-5 sm:p-6 shadow-[0_18px_45px_rgba(15,23,42,0.08)] ring-1 ring-white'
+              : 'rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6'
+            }>
               <div className="flex items-center gap-2 mb-4">
                 <Building2 className="w-5 h-5 text-slate-700" />
                 <h3 className="text-lg font-bold text-gray-900">Secteurs</h3>
@@ -733,6 +746,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           </div>
         </div>
       </div>
+
+      {isCometeBrandTest && (
+        <div
+          aria-hidden="true"
+          className="h-16 sm:h-20 bg-gradient-to-b from-[#F8FAFC] via-[#E2F1EC] to-slate-950"
+        />
+      )}
 
       {realScpiData && (
         <ScpiPremiumAnalysis
