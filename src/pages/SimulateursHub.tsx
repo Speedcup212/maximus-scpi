@@ -42,14 +42,6 @@ const QUESTIONNAIRES: ToolCard[] = [
 // Section 2 — Simulateurs.
 const SIMULATEURS: ToolCard[] = [
   {
-    title: 'Revente & marché secondaire',
-    description: 'Estimez ce que vous récupéreriez réellement en vendant vos parts aujourd’hui et calculez votre point mort.',
-    path: '/simulateur-marche-secondaire-scpi',
-    cta: 'Simuler une revente',
-    badge: 'Nouveau',
-    Icon: RefreshCw,
-  },
-  {
     title: 'Simulateur fiscalité SCPI',
     description: "Estimez l'impact fiscal des revenus de SCPI selon votre tranche marginale d'imposition.",
     path: '/simulateur-impact-fiscal-scpi',
