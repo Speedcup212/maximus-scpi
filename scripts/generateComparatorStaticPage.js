@@ -117,7 +117,7 @@ if (rootStart === -1) {
 // Trouver la fermeture réelle de #root en tenant compte des <div> imbriqués.
 // Le script Vite peut être injecté dans <head>, donc on ne dépend pas de sa position.
 const rootOpenEnd = html.indexOf('>', rootStart);
-const divRegex = /<\\/?div\\b[^>]*>/g;
+const divRegex = /<\/?div\b[^>]*>/g;
 divRegex.lastIndex = rootOpenEnd + 1;
 let depth = 1;
 let rootEnd = -1;
