@@ -10,6 +10,43 @@ const formatPct = (value: number) =>
 const clamp = (value: number, min = 0, max = 100000000) =>
   Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : min;
 
+type NumericInputProps = {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  suffix: string;
+  step?: number;
+  max?: number;
+};
+
+const NumericInput: React.FC<NumericInputProps> = ({
+  label,
+  value,
+  onChange,
+  suffix,
+  step = 1,
+  max = 100000000,
+}) => (
+  <label className="block">
+    <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">{label}</span>
+    <div className="relative">
+      <input
+        type="number"
+        value={value}
+        min={0}
+        max={max}
+        step={step}
+        onChange={(e) => {
+          const next = e.currentTarget.valueAsNumber;
+          onChange(Number.isFinite(next) ? clamp(next, 0, max) : 0);
+        }}
+        className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pr-14 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+      />
+      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">{suffix}</span>
+    </div>
+  </label>
+);
+
 const ScpiSecondaryMarketSimulator: React.FC = () => {
   const [parts, setParts] = useState(100);
   const [purchasePrice, setPurchasePrice] = useState(200);
@@ -52,22 +89,7 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
     setDistributionsReceived(3500);
   };
 
-  const Input = ({ label, value, onChange, suffix, step = 1 }: { label: string; value: number; onChange: (v:number)=>void; suffix: string; step?: number }) => (
-    <label className="block">
-      <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">{label}</span>
-      <div className="relative">
-        <input
-          type="number"
-          value={value}
-          min={0}
-          step={step}
-          onChange={(e) => onChange(clamp(Number(e.target.value)))}
-          className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 pr-14 text-base font-semibold text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">{suffix}</span>
-      </div>
-    </label>
-  );
+
 
   const positive = r.totalDelta >= 0;
 
@@ -91,12 +113,12 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
               </button>
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
-              <Input label="Nombre de parts" value={parts} onChange={setParts} suffix="parts" />
-              <Input label="Prix payé par part" value={purchasePrice} onChange={setPurchasePrice} suffix="€" step={0.01} />
-              <Input label="Prix de sortie estimé par part" value={salePrice} onChange={setSalePrice} suffix="€" step={0.01} />
-              <Input label="Frais de cession estimés" value={saleFeesPct} onChange={setSaleFeesPct} suffix="%" step={0.1} />
-              <Input label="Distribution annuelle par part" value={annualDistributionPerPart} onChange={setAnnualDistributionPerPart} suffix="€" step={0.01} />
-              <Input label="Revenus déjà encaissés" value={distributionsReceived} onChange={setDistributionsReceived} suffix="€" step={100} />
+              <NumericInput label="Nombre de parts" value={parts} onChange={setParts} suffix="parts" />
+              <NumericInput label="Prix payé par part" value={purchasePrice} onChange={setPurchasePrice} suffix="€" step={0.01} />
+              <NumericInput label="Prix de sortie estimé par part" value={salePrice} onChange={setSalePrice} suffix="€" step={0.01} />
+              <NumericInput label="Frais de cession estimés" value={saleFeesPct} onChange={setSaleFeesPct} suffix="%" step={0.1} />
+              <NumericInput label="Distribution annuelle par part" value={annualDistributionPerPart} onChange={setAnnualDistributionPerPart} suffix="€" step={0.01} />
+              <NumericInput label="Revenus déjà encaissés" value={distributionsReceived} onChange={setDistributionsReceived} suffix="€" step={100} />
             </div>
 
             <div className="mt-6 rounded-xl bg-gray-50 dark:bg-gray-900 p-4 flex gap-3">
