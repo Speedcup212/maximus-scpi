@@ -119,7 +119,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
   const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2025 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <Header
         isDarkMode={isDarkMode}
         toggleTheme={toggleTheme}
@@ -136,7 +136,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
         currentView="scpi-detail"
       />
 
-      <section className="min-h-[60vh] bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 text-white py-16 px-6">
+      <section className="min-h-[60vh] bg-gradient-to-br from-[#0D1117] via-[#12372F] to-[#0D1117] text-white py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -149,7 +149,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
               <button
                 type="button"
                 onClick={onContactClick || (() => {})}
-                className="inline-block px-8 py-4 bg-emerald-600 text-white rounded-lg font-semibold text-lg hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-lg"
+                className="inline-block px-8 py-4 bg-[#00C896] text-[#0D1117] rounded-lg font-semibold text-lg hover:bg-[#00B789] transition-all transform hover:scale-105 shadow-lg shadow-emerald-950/30"
               >
                 ✓ Obtenir un Conseil Gratuit
               </button>
@@ -158,31 +158,33 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto py-12 px-6">
+      <div aria-hidden="true" className="h-20 sm:h-24 bg-gradient-to-b from-[#0D1117] via-[#DFF3EC] to-[#F8FAFC]" />
+
+      <div className="max-w-5xl mx-auto -mt-7 sm:-mt-9 pt-2 pb-12 px-6 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Taux de distribution 2024</span>
-            <span className="block text-3xl font-bold text-indigo-600">{scpi['Taux de distribution (%)']}%</span>
+            <span className="block text-3xl font-bold text-emerald-700">{scpi['Taux de distribution (%)']}%</span>
           </div>
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Capitalisation</span>
-            <span className="block text-3xl font-bold text-indigo-600">{scpi['Capitalisation (M€)'].toFixed(0)}M€</span>
+            <span className="block text-3xl font-bold text-emerald-700">{scpi['Capitalisation (M€)'].toFixed(0)}M€</span>
           </div>
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">TOF</span>
-            <span className="block text-3xl font-bold text-indigo-600">{scpi['TOF (%)']}%</span>
+            <span className="block text-3xl font-bold text-emerald-700">{scpi['TOF (%)']}%</span>
           </div>
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Prix</span>
-            <span className="block text-3xl font-bold text-indigo-600">{scpi['Prix de souscription (€)']}€</span>
+            <span className="block text-3xl font-bold text-emerald-700">{scpi['Prix de souscription (€)']}€</span>
           </div>
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Société</span>
-            <span className="block text-xl font-bold text-indigo-600">{scpi['Société de gestion']}</span>
+            <span className="block text-xl font-bold text-emerald-700">{scpi['Société de gestion']}</span>
           </div>
-          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-indigo-600">
+          <div className="bg-slate-50 p-6 rounded-xl border-l-4 border-emerald-500">
             <span className="block text-sm text-slate-600 font-semibold mb-2 uppercase tracking-wide">Création</span>
-            <span className="block text-3xl font-bold text-indigo-600">{scpi['Année de création']}</span>
+            <span className="block text-3xl font-bold text-emerald-700">{scpi['Année de création']}</span>
           </div>
         </div>
 
@@ -266,13 +268,13 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-emerald-600 to-emerald-800 text-white py-16 px-6 text-center">
+      <section className="bg-gradient-to-br from-[#0D1117] via-[#12372F] to-slate-950 text-white py-16 px-6 text-center">
         <h3 className="text-3xl md:text-4xl font-bold mb-4">Prêt à investir dans la SCPI {scpi['Nom SCPI']} ?</h3>
         <p className="text-xl mb-8 opacity-95">Eric Bellaiche vous rappelle gratuitement sous 24h</p>
         <button
           type="button"
           onClick={onContactClick || (() => {})}
-          className="inline-block px-12 py-5 bg-white text-emerald-700 rounded-lg font-bold text-xl hover:bg-slate-50 transition-all transform hover:scale-105 shadow-xl"
+          className="inline-block px-12 py-5 bg-[#00C896] text-[#0D1117] rounded-lg font-bold text-xl hover:bg-[#00B789] transition-all transform hover:scale-105 shadow-xl shadow-emerald-950/30"
         >
           📞 Prendre Rendez-vous Gratuit
         </button>
