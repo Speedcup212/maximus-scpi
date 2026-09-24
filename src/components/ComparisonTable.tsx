@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { X, TrendingUp, Building, Award, Target, Calendar, Phone, ChevronDown, DollarSign } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
-import { CALENDLY_URL } from '../config/calendly';
 import ComparisonWarning from './ComparisonWarning';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy ComparisonTable accordion to production NOW
@@ -55,7 +54,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => window.open(CALENDLY_URL, '_blank')}
+            onClick={onOpenRdvModal}
             className="hidden md:flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             <Calendar className="w-5 h-5" />
@@ -89,7 +88,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
           <button
-            onClick={() => window.open(CALENDLY_URL, '_blank')}
+            onClick={onOpenRdvModal}
             className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-300 font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             <Calendar className="w-6 h-6" />
