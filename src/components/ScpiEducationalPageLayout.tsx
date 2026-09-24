@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg'
 import Breadcrumb from './Breadcrumb'
-import { CALENDLY_URL } from '../config/calendly'
 import {
   AUTHOR_CREDIT,
   COMPLIANCE_TEXT,
@@ -95,15 +94,14 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
               {comparateurLabel}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </button>
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => (window as any).openRdvModal?.()}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-5 py-2.5 text-sm font-semibold text-emerald-300 transition-colors hover:bg-slate-700"
             >
               Prendre rendez-vous avec le Cabinet Eric Bellaiche
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </a>
+            </button>
           </div>
         </div>
 
@@ -274,15 +272,14 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
               {comparateurLabel}
               <ArrowRight className="h-4 w-4" />
             </button>
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => (window as any).openRdvModal?.()}
               className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-500/40 bg-slate-800 px-5 py-2.5 text-sm font-semibold text-emerald-300 transition-colors hover:bg-slate-700"
             >
               Valider mon analyse avec un expert
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </button>
           </div>
         </section>
 
