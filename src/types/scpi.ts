@@ -52,6 +52,9 @@ export interface Scpi {
   periodeBulletinTrimestriel?: string; // Période du dernier bulletin (ex: "T3 2025")
   dateBulletin?: string; // Date du bulletin (ex: "30/09/2025")
   liquidite?: string; // Situation de liquidité / marché des parts issue des documents sources
+  partsAttenteRetrait?: number; // Nombre de parts en attente lorsque publié
+  montantPartsAttenteRetraitM?: number; // Montant des parts en attente en M€ lorsque publié
+  hasWaitingShares?: boolean; // Indicateur structuré dérivé des données officielles
   maximusWarnings?: string[]; // Points de vigilance factuels issus de la base MaximusSCPI
   maximusDataStatus?: string; // Statut de fraîcheur / extraction des données
   maximusSourcePeriode?: string; // Période de la source MaximusSCPI
