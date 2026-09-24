@@ -7,7 +7,6 @@ import {
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
 import { scpiData as scpiDataArray } from '../data/scpiData';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
-import { CALENDLY_URL } from '../config/calendly';
 import Logo from './Logo';
 import MaximusLogo3Bars from './MaximusLogo3Bars';
 import MaximusLogoFooter from './MaximusLogoFooter';
@@ -514,14 +513,13 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                       </div>
                     </div>
 
-                    <a
-                      href={CALENDLY_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handleContactClick}
                       className="block w-full bg-white border-2 border-green-600 text-green-600 hover:bg-green-50 font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105"
                     >
-                      Réserver un créneau directement
-                    </a>
+                      Réserver un créneau
+                    </button>
                   </div>
 
                   <p className="text-xs text-gray-500 text-center">
