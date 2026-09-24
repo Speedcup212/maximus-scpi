@@ -386,6 +386,75 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                 </div>
               </div>
 
+              {parts > 0 && (
+                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <WalletCards className="h-4 w-4" />
+                    {diagnostic.mode === 'withdrawal'
+                      ? 'Valeur théorique de sortie aujourd’hui'
+                      : 'Valeur théorique au dernier prix d’exécution'}
+                  </div>
+
+                  {diagnostic.estimatedGross != null && diagnostic.currentExitPrice != null ? (
+                    <>
+                      <p className="mt-2 text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                        {fmtEuro(diagnostic.estimatedGross, 0)}
+                      </p>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        {fmtNumber(parts)} parts × {fmtEuro(diagnostic.currentExitPrice)} / part
+                      </p>
+                      <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        Montant théorique brut, hors fiscalité et éventuels frais, sous réserve d’exécution effective.
+                      </p>
+
+                      <div className="mt-5 border-t border-emerald-500/20 pt-5">
+                        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                          <h3 className="text-sm font-bold text-gray-900 dark:text-white">Scénarios de sensibilité</h3>
+                          <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                            Hypothèses pédagogiques — pas des prévisions
+                          </span>
+                        </div>
+
+                        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                          <ScenarioCard
+                            label="Défavorable"
+                            variation="-10 %"
+                            price={diagnostic.currentExitPrice * 0.90}
+                            amount={parts * diagnostic.currentExitPrice * 0.90}
+                            tone="red"
+                          />
+                          <ScenarioCard
+                            label="Référence"
+                            variation="Prix actuel"
+                            price={diagnostic.currentExitPrice}
+                            amount={parts * diagnostic.currentExitPrice}
+                            tone="slate"
+                          />
+                          <ScenarioCard
+                            label="Favorable"
+                            variation="+10 %"
+                            price={diagnostic.currentExitPrice * 1.10}
+                            amount={parts * diagnostic.currentExitPrice * 1.10}
+                            tone="emerald"
+                          />
+                        </div>
+
+                        <p className="mt-3 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
+                          Les scénarios appliquent simplement ±10 % au prix de sortie documenté. Ils servent à mesurer la sensibilité du capital et ne préjugent ni de l’évolution du prix de part, ni du délai de revente.
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="mt-2 text-xl font-bold text-amber-600 dark:text-amber-300">Impossible à estimer sérieusement</p>
+                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+                        Le dernier prix d’exécution / prix net vendeur n’est pas disponible dans les données structurées MaximusSCPI.
+                      </p>
+                    </>
+                  )}
+                </div>
+              )}
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <DataCard
                   title="Mode de sortie actuel"
@@ -497,34 +566,6 @@ const ScpiSecondaryMarketSimulator: React.FC = () => {
                   status={selected.yield > 0 && diagnostic.sourceDocument ? 'verified' : selected.yield > 0 ? 'partial' : 'unavailable'}
                 />
               </div>
-
-              {parts > 0 && (
-                <div className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-950">
-                  <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <WalletCards className="h-4 w-4" />
-                    {diagnostic.mode === 'withdrawal'
-                      ? 'Montant théorique au prix de retrait actuel'
-                      : 'Montant théorique au dernier prix d’exécution'}
-                  </div>
-                  {diagnostic.estimatedGross != null ? (
-                    <>
-                      <p className="mt-2 text-4xl font-bold text-emerald-600 dark:text-emerald-400">
-                        {fmtEuro(diagnostic.estimatedGross, 0)}
-                      </p>
-                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        {fmtNumber(parts)} parts × {fmtEuro(diagnostic.currentExitPrice)}. Montant théorique brut, hors fiscalité et éventuels frais, sous réserve d’exécution effective.
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <p className="mt-2 text-xl font-bold text-amber-600 dark:text-amber-300">Impossible à estimer sérieusement</p>
-                      <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                        Le dernier prix d’exécution / prix net vendeur n’est pas disponible dans les données structurées MaximusSCPI.
-                      </p>
-                    </>
-                  )}
-                </div>
-              )}
 
               <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
                 <h3 className="text-xl font-bold">Analyse Maximus</h3>
@@ -717,6 +758,38 @@ const DataCard: React.FC<{
           )}
         </div>
       )}
+    </div>
+  );
+};
+
+
+const ScenarioCard: React.FC<{
+  label: string;
+  variation: string;
+  price: number;
+  amount: number;
+  tone: 'red' | 'slate' | 'emerald';
+}> = ({ label, variation, price, amount, tone }) => {
+  const toneClass = tone === 'red'
+    ? 'border-red-500/30 bg-red-500/5'
+    : tone === 'emerald'
+      ? 'border-emerald-500/30 bg-emerald-500/5'
+      : 'border-slate-500/30 bg-slate-500/5';
+
+  const labelClass = tone === 'red'
+    ? 'text-red-600 dark:text-red-300'
+    : tone === 'emerald'
+      ? 'text-emerald-600 dark:text-emerald-300'
+      : 'text-slate-600 dark:text-slate-300';
+
+  return (
+    <div className={`rounded-xl border p-4 ${toneClass}`}>
+      <div className="flex items-center justify-between gap-2">
+        <span className={`text-xs font-bold ${labelClass}`}>{label}</span>
+        <span className="text-[10px] text-gray-500 dark:text-gray-400">{variation}</span>
+      </div>
+      <div className="mt-2 text-lg font-bold text-gray-900 dark:text-white">{fmtEuro(amount, 0)}</div>
+      <div className="mt-1 text-[10px] text-gray-500 dark:text-gray-400">{fmtEuro(price)} / part</div>
     </div>
   );
 };
