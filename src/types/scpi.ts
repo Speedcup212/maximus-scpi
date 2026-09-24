@@ -53,6 +53,7 @@ export interface Scpi {
   dateBulletin?: string; // Date du bulletin (ex: "30/09/2025")
   liquidite?: string; // Situation de liquidité / marché des parts issue des documents sources
   partsAttenteRetrait?: number; // Nombre de parts en attente lorsque publié
+  partsProposeesVente?: number; // Nombre de parts proposées à la vente sur le marché secondaire lorsque publié
   montantPartsAttenteRetraitM?: number; // Montant des parts en attente en M€ lorsque publié
   nbPartsTotal?: number; // Nombre total de parts lorsque publié
   hasWaitingShares?: boolean; // Indicateur structuré dérivé des données officielles
