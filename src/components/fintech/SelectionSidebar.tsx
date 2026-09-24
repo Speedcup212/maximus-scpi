@@ -618,7 +618,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
     { subject: 'Secteurs', score: maximusAvis.sectorDiversity * 20, fullMark: 100 },
     { subject: 'Géographie', score: maximusAvis.geoDiversity * 20, fullMark: 100 },
     { subject: 'Concentration', score: maximusAvis.risk * 20, fullMark: 100 },
-  ];
+  ].map(item => ({ ...item, label: `${item.subject} ${Math.round(item.score)}` }));
   const coherenceZScore = Number((maximusAvis.overall - 3).toFixed(2));
 
   // Analyse professionnelle CIF/CGP : Avantages et Inconvénients
@@ -975,33 +975,36 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       ⓘ
                     </span>
                   </div>
-                  <div className="h-56 sm:h-64 w-full">
+                  <div className="h-72 sm:h-80 w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={radarData} outerRadius="72%">
-                        <PolarGrid stroke="#334155" />
+                      <RadarChart data={radarData} outerRadius="82%">
+                        <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                         <PolarAngleAxis
-                          dataKey="subject"
-                          tick={{ fill: '#cbd5e1', fontSize: 10 }}
+                          dataKey="label"
+                          tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
                         />
                         <PolarRadiusAxis
                           angle={90}
                           domain={[0, 100]}
-                          tickCount={6}
-                          tick={{ fill: '#64748b', fontSize: 9 }}
+                          ticks={[0, 25, 50, 75, 100]}
+                          tick={{ fill: '#94a3b8', fontSize: 9 }}
                           axisLine={false}
+                          tickLine={false}
                         />
                         <Radar
                           name="Sélection"
                           dataKey="score"
                           stroke="#10b981"
+                          strokeWidth={2.5}
                           fill="#10b981"
-                          fillOpacity={0.22}
+                          fillOpacity={0.32}
+                          dot={{ r: 3, fill: '#10b981' }}
                         />
                       </RadarChart>
                     </ResponsiveContainer>
                   </div>
                   <p className="text-[9px] sm:text-[10px] text-slate-500 italic">
-                    Le radar compare la structure de la sélection selon les données disponibles ; il ne constitue ni une prévision de rendement ni une garantie de liquidité.
+                    Chaque sommet reprend le score de la dimension correspondante. Les anneaux représentent 0, 25, 50, 75 et 100. Le radar ne constitue ni une prévision de rendement ni une garantie de liquidité.
                   </p>
                 </div>
 
