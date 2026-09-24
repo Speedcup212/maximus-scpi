@@ -402,6 +402,10 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     partsAttenteRetrait:
       cleanNumericValue(scpi['Parts en attente de retrait']) ??
       (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
+    partsProposeesVente:
+      cleanNumericValue(scpi['Parts proposées à la vente']) ??
+      cleanNumericValue(scpi['Parts en vente']) ??
+      cleanNumericValue(scpi['Ordres de vente (parts)']),
     montantPartsAttenteRetraitM: cleanNumericValue(scpi['Montant parts en attente de retrait (M€)']),
     nbPartsTotal: cleanNumericValue(scpi['Nombre de parts']),
     hasWaitingShares: (() => {
