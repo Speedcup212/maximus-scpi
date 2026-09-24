@@ -167,10 +167,10 @@ const LegalFooter: React.FC = () => {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-center md:text-left">
                 <div className="text-sm text-gray-400 mb-2">
-                  <strong>Eric Bellaiche</strong> - Conseiller en Gestion de Patrimoine Certifié
+                  <strong>Eric Bellaiche</strong> - Conseiller en Gestion de Patrimoine – CIF
                 </div>
                 <div className="text-xs text-gray-500">
-                  CIF n°D016571 • Sous contrôle ACPR • ORIAS 13001580 • CNCEF
+                  CIF • ORIAS 13001580 • CNCEF Patrimoine D016571 • Suivi par l’AMF
                 </div>
               </div>
               <div className="text-xs text-gray-500 text-center md:text-right">
@@ -222,7 +222,7 @@ const LegalFooter: React.FC = () => {
                   <p>
                     <strong>MaximusSCPI</strong><br />
                     Représenté par Eric Bellaiche<br />
-                    Conseiller en Gestion de Patrimoine Certifié<br />
+                    Conseiller en Gestion de Patrimoine – CIF<br />
                     CIF n°D016571
                   </p>
 
