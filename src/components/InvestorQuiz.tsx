@@ -1,6 +1,6 @@
 // MaximusSCPI — InvestorQuiz — refonte homepage
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type {
   Montant,
@@ -12,27 +12,10 @@ import type {
   AllocationItem,
   AnalysisCriterion,
 } from '../types/quiz'
-import { CALENDLY_URL } from '../config/calendly'
-import { buildCalendlyPrefillAnswers } from '../config/calendlyMapping'
-
-// Type global minimal pour le widget Calendly
-declare global {
-  interface Window {
-    Calendly?: {
-      initInlineWidget: (config: {
-        url: string
-        parentElement: HTMLElement
-        prefill?: {
-          customAnswers?: Record<string, string>
-        }
-        utm?: Record<string, string>
-      }) => void
-    }
-  }
-}
 
 interface InvestorQuizProps {
   onComplete: (data: QuizData) => void
+  onRdvClick: () => void
 }
 
 type PartialQuizData = Partial<QuizData>
@@ -371,9 +354,17 @@ const STATUS_LABELS: Record<AnalysisCriterion['status'], string> = {
   'a-verifier': 'À vérifier',
 }
 
-function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult; quizData: QuizData; onReset: () => void }) {
-  const [loadingRDV, setLoadingRDV] = useState(false)
-  const calendlyLoadedRef = useRef(false)
+function QuizResultDashboard({
+  result,
+  quizData,
+  onReset,
+  onRdvClick,
+}: {
+  result: QuizResult
+  quizData: QuizData
+  onReset: () => void
+  onRdvClick: () => void
+}) {
 
   // Classement qualitatif : géographie (piloté par la TMI)
   const isTmiElevated = quizData.tmi === '30' || quizData.tmi === '41' || quizData.tmi === '45'
@@ -393,55 +384,10 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
     : [...sectorPrioritairesWithCommerce, 'Logistique']
   const sectorComplements = sectorComplementsRaw.filter(s => s !== 'Commerces' && s !== 'Logistique')
 
-  const handleRDVClick = useCallback(() => {
-    if (loadingRDV) return
-    setLoadingRDV(true)
-
-    const openPopup = () => {
-      if (!window.Calendly) return
-      window.Calendly.initPopupWidget({
-        url: CALENDLY_URL,
-        prefill: {
-          customAnswers: buildCalendlyPrefillAnswers(quizData),
-        },
-        utm: {
-          utmSource: 'maximusscpi',
-          utmMedium: 'quiz',
-          utmCampaign: 'rdv-scpi',
-          utmContent: `${quizData.montant}|${quizData.tmi}|${quizData.horizon}|${quizData.objectif}`,
-        },
-      })
-      setLoadingRDV(false)
-    }
-
-    if (calendlyLoadedRef.current && window.Calendly) {
-      openPopup()
-      return
-    }
-
-    if (!window.Calendly) {
-      // Lazy-load CSS Calendly
-      if (!document.querySelector('link[href*="calendly.com/assets/external/widget.css"]')) {
-        const cssEl = document.createElement('link')
-        cssEl.href = 'https://assets.calendly.com/assets/external/widget.css'
-        cssEl.rel = 'stylesheet'
-        document.head.appendChild(cssEl)
-      }
-
-      // Lazy-load script Calendly
-      const scriptEl = document.createElement('script')
-      scriptEl.src = 'https://assets.calendly.com/assets/external/widget.js'
-      scriptEl.async = true
-      scriptEl.onload = () => {
-        calendlyLoadedRef.current = true
-        openPopup()
-      }
-      document.head.appendChild(scriptEl)
-    } else {
-      calendlyLoadedRef.current = true
-      openPopup()
-    }
-  }, [loadingRDV, quizData])
+  const handleRDVClick = () => {
+    sessionStorage.setItem('maximus_quiz_context', JSON.stringify(quizData))
+    onRdvClick()
+  }
   return (
     <div className="transition-all duration-300 ease-in-out space-y-5 max-h-[70vh] overflow-y-auto pr-1 scrollbar-thin">
       {/* 1. Profil + score */}
@@ -641,11 +587,10 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
           <button
             type="button"
             onClick={handleRDVClick}
-            disabled={loadingRDV}
             className="px-8 py-3.5 rounded-xl font-semibold text-sm text-white transition-all duration-200 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 disabled:opacity-60"
             style={{ backgroundColor: '#00C896' }}
           >
-            {loadingRDV ? 'Chargement…' : 'Réserver mon rendez-vous'}
+            Réserver mon rendez-vous
           </button>
         </div>
         <p className="text-[10px] text-slate-500 leading-relaxed text-center">
@@ -678,7 +623,7 @@ function QuizResultDashboard({ result, quizData, onReset }: { result: QuizResult
   )
 }
 
-export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
+export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizProps) {
   const [step, setStep] = useState(0)
   const [data, setData] = useState<PartialQuizData>({})
   const [showTmiTooltip, setShowTmiTooltip] = useState(false)
@@ -883,7 +828,14 @@ export default function InvestorQuiz({ onComplete }: InvestorQuizProps) {
             </div>
           </div>}
 
-        {result && <QuizResultDashboard result={result} quizData={data as QuizData} onReset={reset} />}
+        {result && (
+          <QuizResultDashboard
+            result={result}
+            quizData={data as QuizData}
+            onReset={reset}
+            onRdvClick={onRdvClick}
+          />
+        )}
       </div>
     </div>
   )
