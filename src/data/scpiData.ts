@@ -403,6 +403,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
       cleanNumericValue(scpi['Parts en attente de retrait']) ??
       (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
     montantPartsAttenteRetraitM: cleanNumericValue(scpi['Montant parts en attente de retrait (M€)']),
+    nbPartsTotal: cleanNumericValue(scpi['Nombre de parts']),
     hasWaitingShares: (() => {
       const explicit = cleanNumericValue(scpi['Parts en attente de retrait']) ??
         (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined);
@@ -417,6 +418,11 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     maximusSourcePeriode: typeof scpi['maximus_source_periode'] === 'string' ? scpi['maximus_source_periode'] : undefined,
     maximusSourceDocument: typeof scpi['maximus_source_document'] === 'string' ? scpi['maximus_source_document'] : undefined,
     maximusUpdateDate: typeof scpi['Date de mise à jour'] === 'string' ? scpi['Date de mise à jour'] : undefined,
+    maximusLifecycleStatus: ['normal', 'dissolution_proposed', 'liquidation'].includes(scpi['maximus_lifecycle_status'])
+      ? scpi['maximus_lifecycle_status']
+      : undefined,
+    maximusLifecycleNote: typeof scpi['maximus_lifecycle_note'] === 'string' ? scpi['maximus_lifecycle_note'] : undefined,
+    maximusLifecycleSource: typeof scpi['maximus_lifecycle_source'] === 'string' ? scpi['maximus_lifecycle_source'] : undefined,
     // Nouvelle structure optionnelle pour les actualités détaillées
     actualiteTrimestrielle: Array.isArray(scpi['Actualite_trimestrielle'])
       ? scpi['Actualite_trimestrielle']
