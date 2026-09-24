@@ -58,7 +58,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     heroTitle: 'Comparer les SCPI de rendement en 2026',
     heroTitleHighlight: 'Rendements moyens de 4% à 6%',
     heroSubtitle: 'Le taux de distribution ne suffit pas : comparez rendement, prix de part, TOF, endettement, liquidité et qualité du patrimoine.',
-    labelText: 'Top 5 MaximusSCPI - Classement Officiel 2026',
+    labelText: 'Comparatif MaximusSCPI - Données 2026',
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
       { value: 'Variable', label: 'Distribution passée, non garantie' },
@@ -73,8 +73,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       'Labels ISR et investissement responsable'
     ],
     pourquoiChoisir: {
-      title: 'Pourquoi investir dans ces 5 SCPI ?',
-      subtitle: 'Les SCPI les plus performantes du marché sélectionnées par nos experts',
+      title: 'Comment analyser les SCPI affichant les taux de distribution les plus élevés ?',
+      subtitle: 'Une comparaison fondée sur plusieurs indicateurs, pas sur le seul taux de distribution',
       features: [
         {
           icon: 'trending-up',
@@ -83,8 +83,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'shield',
-          title: 'Sécurité et stabilité',
-          description: 'Taux d\'occupation entre 93% et 100%, capitalisations solides, gestion par des sociétés reconnues (Alderan, Arkéa REIM, Atland Voisin)'
+          title: 'Occupation et solidité à vérifier',
+          description: 'Le TOF, la capitalisation, l’endettement, la qualité des actifs et la société de gestion doivent être lus ensemble ; aucun de ces indicateurs ne garantit la stabilité future.'
         },
         {
           icon: 'globe',
@@ -99,7 +99,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       ]
     },
     informationsPratiques: {
-      title: 'Informations pratiques sur les meilleures SCPI de rendement',
+      title: 'Informations pratiques pour comparer les SCPI de rendement',
       items: [
         {
           icon: 'file-text',
@@ -407,32 +407,32 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 },
   'revenu-complementaire-scpi': {
     slug: 'revenu-complementaire-scpi',
-    title: 'Générer un Revenu Complémentaire avec les SCPI | Revenus Passifs',
-    metaDescription: 'Générez un revenu complémentaire régulier avec les SCPI. Percevez des loyers mensuels ou trimestriels sans gestion locative.',
+    title: 'SCPI et revenu complémentaire : rendement, fiscalité et risques',
+    metaDescription: 'SCPI et revenu complémentaire : estimez les distributions potentielles selon capital, rendement, frais et fiscalité, avec les risques de liquidité et de perte en capital.',
     heroTitle: 'Générez un Revenu Complémentaire',
-    heroTitleHighlight: 'Revenus passifs mensuels de 4% à 6%',
-    heroSubtitle: 'Augmentez votre pouvoir d\'achat avec des revenus locatifs réguliers et automatiques',
-    labelText: 'Revenus Passifs - Versements Mensuels',
+    heroTitleHighlight: 'Simulez des revenus potentiels, non garantis',
+    heroSubtitle: 'Les SCPI peuvent verser des distributions mensuelles ou trimestrielles selon les véhicules, sans garantie de montant ni de régularité.',
+    labelText: 'Revenus complémentaires - Hypothèses à analyser',
     senderGroupId: 'LM_SCPI_RevenuComplementaire',
     keyMetrics: [
-      { value: '500€', label: 'Revenu mensuel (exemple)' },
+      { value: 'Variable', label: 'Revenu selon hypothèses' },
       { value: '100 000€', label: 'Capital investi' },
-      { value: '6%', label: 'Rendement net' }
+      { value: 'Non garanti', label: 'Distribution future' }
     ],
     benefits: [
-      'Revenus mensuels ou trimestriels automatiques',
-      'Rendements de 4% à 6% par an en moyenne',
+      'Distributions mensuelles ou trimestrielles selon la SCPI',
+      'Taux de distribution variables selon les SCPI et les années',
       'Aucune gestion locative',
-      'Capital accessible (liquidité relative)',
-      'Diversification immobilière instantanée'
+      'Liquidité limitée et dépendante du marché des parts',
+      'Diversification immobilière selon la composition de la SCPI'
     ],
     pourquoiChoisir: {
       title: 'Pourquoi générer un revenu complémentaire avec les SCPI ?',
-      subtitle: 'La solution la plus simple pour augmenter vos revenus mensuels',
+      subtitle: 'Une solution à comparer avec les autres sources de revenus et de liquidité',
       features: [
         {
           icon: 'dollar-sign',
-          title: 'Revenus passifs réguliers',
+          title: 'Distributions potentielles',
           description: 'Les distributions peuvent être mensuelles ou trimestrielles selon la SCPI. Leur montant varie avec les loyers encaissés, les charges, l’occupation et les décisions de distribution.'
         },
         {
@@ -447,8 +447,8 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'shield',
-          title: '100% passif',
-          description: 'Zéro gestion : pas de travaux, pas de locataires, pas de vacance. La société de gestion s\'occupe de tout. Vous recevez simplement vos loyers.'
+          title: 'Gestion immobilière déléguée',
+          description: 'La société de gestion prend en charge la gestion locative et immobilière. L’associé reste exposé aux frais, à la vacance, aux travaux supportés par la SCPI, à la baisse des distributions et à la liquidité.'
         }
       ]
     },
@@ -498,11 +498,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Peut-on réinvestir ses revenus de SCPI ?',
-        answer: 'Oui, c\'est même fortement recommandé pour créer un effet boule de neige ! En réinvestissant vos loyers dans de nouvelles parts, vous augmentez progressivement votre capital et vos revenus futurs. Par exemple, en réinvestissant 500€/an pendant 10 ans à 5%, vous transformez 10 000€ initiaux en 16 000€ environ, augmentant ainsi significativement vos revenus annuels. C\'est la puissance des intérêts composés appliquée à l\'immobilier.'
+        answer: 'Le réinvestissement des distributions est possible selon le mode de détention et peut accroître progressivement le nombre de parts. Son intérêt dépend toutefois des frais, de la fiscalité, de l’évolution du prix des parts et des distributions futures, qui ne sont pas garanties.'
       },
       {
         question: 'Quelle différence entre SCPI et immobilier locatif direct ?',
-        answer: 'Les SCPI offrent une gestion 100% déléguée (zéro contrainte), une diversification immédiate (des dizaines d\'immeubles), une accessibilité (dès quelques milliers d\'euros), et une liquidité relative (revente possible). L\'immobilier locatif direct demande du temps (gestion, travaux), de l\'énergie (locataires, litiges), et un capital important (apport + frais). Les SCPI sont l\'immobilier locatif sans les inconvénients.'
+        answer: 'Les SCPI délèguent la gestion immobilière et peuvent offrir une diversification plus large qu’un bien locatif unique. En contrepartie, l’investisseur supporte des frais, une liquidité limitée, un risque de perte en capital et n’a pas la maîtrise directe des actifs.'
       }
     ],
     temoignages: [],
