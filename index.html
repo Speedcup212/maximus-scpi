@@ -5,6 +5,19 @@
     <meta name="google" content="notranslate" />
     <link rel="icon" type="image/png" href="/Logo MaximusSCPI.com.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem('theme');
+          var dark = savedTheme ? savedTheme === 'dark' : true;
+          document.documentElement.classList.toggle('dark', dark);
+          document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      })();
+    </script>
 
     <!-- Performance optimizations -->
     <link rel="dns-prefetch" href="https://elfsightcdn.com">
@@ -18,6 +31,7 @@
       *,::before,::after{box-sizing:border-box;border:0 solid #e5e7eb}
       html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:system-ui,-apple-system,sans-serif}
       body{margin:0;line-height:inherit;background:#fff;color:#111827}
+      html.dark body{background:#111827;color:#f3f4f6}
       #root{min-height:100vh;display:flex;flex-direction:column}
 
       /* Typography */
@@ -25,7 +39,8 @@
       p{margin:0}
 
       /* Header */
-      header{position:sticky;top:0;z-index:50;height:80px;background:#fff;border-bottom:1px solid #e5e7eb;width:100%}
+      header{position:sticky;top:0;z-index:50;height:64px;background:#fff;border-bottom:1px solid #e5e7eb;width:100%}
+      html.dark header{background:#111827;border-bottom-color:#1f2937}
 
       /* Hero Section - Above the fold */
       .bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}
@@ -157,11 +172,14 @@
       <style>
         .initial-shell{min-height:100vh;background:#0D1117;color:#fff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
         .initial-header{position:relative;display:flex;align-items:center;justify-content:space-between;max-width:1280px;height:64px;margin:0 auto;padding:0 24px;background:#fff}
+        html.dark .initial-header{background:#111827;border-bottom:1px solid #1f2937}
         .initial-brand{display:flex;align-items:center}
         .initial-brand img{width:205px;height:auto}
         .initial-nav{display:flex;gap:22px;align-items:center}
         .initial-nav a{color:#334155;text-decoration:none;font-size:14px;font-weight:650}
+        html.dark .initial-nav a{color:#e5e7eb}
         .initial-nav a:last-child{padding:9px 14px;border-radius:8px;background:#059669;color:#fff}
+        html.dark .initial-nav a:last-child{color:#fff}
         .initial-hero{position:relative;overflow:hidden;background:
           radial-gradient(55% 50% at 12% 8%,rgba(0,200,150,.14) 0%,transparent 60%),
           radial-gradient(50% 50% at 92% 18%,rgba(0,86,179,.20) 0%,transparent 60%),
