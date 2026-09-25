@@ -164,6 +164,15 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
         deltaFormat: formatDeltaPoints,
       },
       {
+        key: 'parts_attente_retrait',
+        label: 'Parts en attente',
+        previous: toNumber(data.previous_parts_attente_retrait),
+        current: toNumber(data.current_parts_attente_retrait),
+        delta: toNumber(data.parts_attente_retrait_delta),
+        format: formatParts,
+        deltaFormat: (v: number) => formatDeltaValue(v, ' parts'),
+      },
+      {
         key: 'capitalisation',
         label: 'Capitalisation',
         previous: toNumber(data.previous_capitalisation),
@@ -198,15 +207,6 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
         delta: toNumber(data.prix_retrait_delta),
         format: formatEuros,
         deltaFormat: (v: number) => formatDeltaValue(v, ' €'),
-      },
-      {
-        key: 'parts_attente_retrait',
-        label: 'Parts en attente',
-        previous: toNumber(data.previous_parts_attente_retrait),
-        current: toNumber(data.current_parts_attente_retrait),
-        delta: toNumber(data.parts_attente_retrait_delta),
-        format: formatParts,
-        deltaFormat: (v: number) => formatDeltaValue(v, ' parts'),
       },
       {
         key: 'walt',
