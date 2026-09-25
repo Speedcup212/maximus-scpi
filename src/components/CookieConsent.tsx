@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { Shield, X } from 'lucide-react';
 import { useCookieConsent } from '../hooks/useCookieConsent';
-import { CookieSettings } from './CookieSettings';
+const CookieSettings = lazy(() => import('./CookieSettings').then(module => ({ default: module.CookieSettings })));
 
 export const CookieConsent: React.FC = () => {
   const { showBanner, acceptAll, rejectAll, closeBanner } = useCookieConsent();
@@ -10,7 +10,7 @@ export const CookieConsent: React.FC = () => {
   if (!showBanner) return null;
 
   if (showSettings) {
-    return <CookieSettings onClose={() => setShowSettings(false)} />;
+    return <Suspense fallback={null}><CookieSettings onClose={() => setShowSettings(false)} /></Suspense>;
   }
 
   return (
@@ -49,7 +49,7 @@ export const CookieConsent: React.FC = () => {
         <div className="space-y-3">
           <button
             onClick={acceptAll}
-            className="w-full px-6 py-4 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full px-6 py-4 text-base font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
           >
             Accepter tout
           </button>
