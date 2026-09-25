@@ -27,6 +27,7 @@ const sourceMap = new Map(
 
 const exactPages: Record<string, string> = {
   comete: 'https://alderan.fr/scpi-comete-documentation/',
+  activimmo: 'https://alderan.fr/scpi-activimmo/',
   'novaxia-neo': 'https://www.novaxia-investissement.fr/produits/novaxia-neo/',
   'perial-opportunites-europe': 'https://www.perial.com/scpi/perial-opportunites-europe',
   'iroko-zen': 'https://www.iroko.eu/scpi-iroko-zen/',
