@@ -17,7 +17,7 @@ const ScpiApp: React.FC = () => {
   const scpiKey = window.__SCPI_STATIC_SLUG__ || window.location.pathname.replace(/^\/|\/$/g, '');
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : false;
+    return savedTheme ? savedTheme === 'dark' : true;
   });
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
 
