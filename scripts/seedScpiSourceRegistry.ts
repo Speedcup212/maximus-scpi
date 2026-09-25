@@ -31,6 +31,9 @@ const exactPages: Record<string, string> = {
   'perial-opportunites-europe': 'https://www.perial.com/scpi/perial-opportunites-europe',
   'iroko-zen': 'https://www.iroko.eu/scpi-iroko-zen/',
   'remake-live': 'https://www.remake.fr/remake-live/',
+  'altixia-cadence-12': 'https://www.altixia.fr/scpi-cadence.php',
+  'ficommerce-proximite': 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/ficommerce-proximite',
+  'esg-pierre-capital': 'https://fr.swisslife-am.com/fr/particuliers/documentation/scpi-pierre-capitale.html',
 };
 
 const rows = (scpiCatalog as any[]).map((scpi) => {
