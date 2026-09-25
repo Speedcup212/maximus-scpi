@@ -136,15 +136,15 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     faq: [
       {
         question: 'Comment comparer les SCPI de rendement en 2026 ?',
-        answer: 'La SCPI Comète d\'Alderan figure parmi les rendements élevés avec un taux de distribution 2026 de 9,00%. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié sur 7 secteurs. Le taux d\'occupation financier atteint 99,1% au T4 2026.'
+        answer: 'La SCPI Comète d\'Alderan a affiché un taux de distribution de 9,00% en 2025. Créée en 2023, elle investit à l\'international (Royaume-Uni, Espagne, Italie, Pays-Bas, Irlande, Pologne, Canada) avec un portefeuille diversifié. Son taux d\'occupation financier atteint 99,6% au 30 juin 2026, selon le bulletin périodique T2 2026 d\'Alderan.'
       },
       {
         question: 'Combien peut-on gagner avec 10 000€ investis dans ces SCPI ?',
-        answer: 'Avec 10 000€ investis dans Comète (9,00%), vous percevrez 900€ bruts par an, soit environ 75€ par mois. Après impôts (TMI 30% + PS 17,2%), cela représente environ 475€ nets par an. Les revenus des autres SCPI du Top 5 varient selon leur taux de distribution.'
+        answer: 'À titre d\'illustration, un taux de distribution de 9,00% appliqué à 10 000€ correspondrait à 900€ bruts sur un an. Ce calcul ne constitue pas une prévision : le taux de 9,00% correspond à la performance 2025 de Comète et les distributions futures ne sont pas garanties. La fiscalité dépend notamment de l\'origine géographique des revenus et de la situation de l\'investisseur.'
       },
       {
         question: 'Les SCPI à haut rendement sont-elles plus risquées ?',
-        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte (Comète), stratégie internationale (Transitions Europe), ou modèle économique innovant. Le risque est limité par la diversification géographique et sectorielle. Vérifiez toujours le TOF (99,1% pour Comète au T4 2026) et la qualité de gestion.'
+        answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte, stratégie internationale, niveau de risque immobilier ou politique de distribution. La diversification géographique et sectorielle peut réduire certains risques de concentration sans supprimer le risque de perte en capital. Pour Comète, le TOF publié au 30 juin 2026 est de 99,6%.'
       },
       {
         question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
