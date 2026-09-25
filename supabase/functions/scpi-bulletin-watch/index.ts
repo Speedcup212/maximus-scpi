@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v84";
+const PARSER_VERSION="2026-09-25-v85";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -132,7 +132,7 @@ async function pages(s:Source){
   const start=s.discovered_page_url||s.official_scpi_page_url||s.source_domain;if(!start)return [];
   let origin:string;try{origin=new URL(s.source_domain||start).origin;}catch{return [start];}
   const map=new Map<string,number>();
-  const add=(u:string,b=0)=>{try{const host=new URL(u).hostname.replace(/^www\./,""),root=new URL(origin!).hostname.replace(/^www\./,"");if(host!==root&&!host.endsWith("."+root)&&!root.endsWith("."+host))return;const q=rel(u,s.scpi_name)+b;if(q>(map.get(u)??-1))map.set(u,q);}catch{}};
+  const add=(u:string,b=0)=>{try{const host=new URL(u).hostname.replace(/^www\./,""),root=new URL(origin!).hostname.replace(/^www\./,"");if(host!==root&&!host.endsWith("."+root)&&!root.endsWith("."+host))return;if((PDF_URL.test(u)||/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(u))&&BAD.test(u))return;const q=rel(u,s.scpi_name)+b;if(q>(map.get(u)??-1))map.set(u,q);}catch{}};
   const sr=rel(start,s.scpi_name);add(start,20);
   if(s.official_scpi_page_url&&s.official_scpi_page_url!==start)add(s.official_scpi_page_url,60000000);
   if(s.source_domain&&s.source_domain!==start)add(s.source_domain,1000);
@@ -165,6 +165,7 @@ async function remoteLooksPdf(url:string){
 async function findBulletin(s:Source){
   const pg=await pages(s),cs:Cand[]=[];
   for(const page of pg){
+    if(BAD.test(page)&&(PDF_URL.test(page)||/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(page)))continue;
     const seeded=page===s.discovered_page_url||page===s.official_scpi_page_url;
     const looksPdf=PDF_URL.test(page)||(seeded&&await remoteLooksPdf(page));
     if(!looksPdf)continue;
