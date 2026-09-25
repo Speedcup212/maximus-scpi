@@ -25,6 +25,11 @@ const sourceMap = new Map(
   (sourceCatalog as any[]).map((source) => [source.slug, source]),
 );
 
+const disabledMergedScpis = new Set([
+  'aestiam-cap-hebergimmo',
+  'aestiam-pierre-rendement',
+]);
+
 const exactPages: Record<string, string> = {
   comete: 'https://alderan.fr/scpi-comete-documentation/',
   activimmo: 'https://alderan.fr/scpi-activimmo/',
@@ -35,6 +40,11 @@ const exactPages: Record<string, string> = {
   'altixia-cadence-12': 'https://www.altixia.fr/scpi-cadence.php',
   'ficommerce-proximite': 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/ficommerce-proximite',
   'esg-pierre-capital': 'https://fr.swisslife-am.com/fr/particuliers/documentation/scpi-pierre-capitale.html',
+  'coeur-de-ville': 'https://www.sogenial.fr/societe/scpi-coeur-de-ville/',
+  'coeur-d-europe': 'https://www.sogenial.fr/societe/scpi-coeur-deurope/',
+  'altixia-commerces': 'https://www.altixia.fr/scpi-altixia-commerces.php',
+  'atream-hotel': 'https://atream.com/solutions/fonds-ouverts/scpi-atream-hotels/',
+  'aestiam-horizon': 'https://www.aestiam.com/nos-scpi/aestiam-horizon/',
 };
 
 const rows = (scpiCatalog as any[]).map((scpi) => {
@@ -61,7 +71,7 @@ const rows = (scpiCatalog as any[]).map((scpi) => {
     management_company: scpi['Société de gestion'] || source?.managementCompany || 'À vérifier',
     official_scpi_page_url: pageUrl,
     source_domain: sourceDomain,
-    automation_enabled: source?.enabled !== false,
+    automation_enabled: !disabledMergedScpis.has(slug) && source?.enabled !== false,
     updated_at: new Date().toISOString(),
   };
 });
