@@ -17,6 +17,7 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
+import { getLiveScpiDataBatch } from '../../utils/scpiLiveData';
 
 const SelectionSidebar = lazy(() => import('./SelectionSidebar'));
 const AnalysisDetailModal = lazy(() => import('./AnalysisDetailModal'));
@@ -52,6 +53,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [showToast, setShowToast] = useState<boolean>(false);
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
+  const [liveScpiData, setLiveScpiData] = useState(scpiData);
   const [filters, setFilters] = useState<FilterState>({
     tmi: null,
     minYield: 0,
@@ -68,17 +70,28 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     noWaitingShares: false
   });
 
-  // Enrichir les données SCPI avec les informations du fichier Excel
+  // Les données statiques assurent le rendu instantané ; Supabase les remplace
+  // par les derniers indicateurs validés dès qu'ils sont disponibles.
+  useEffect(() => {
+    let active = true;
+
+    void getLiveScpiDataBatch(scpiData).then((live) => {
+      if (active) setLiveScpiData(live);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const enrichedScpiData = useMemo(() => {
-    const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
-    // Debug: vérifier si Paref Evo est présent
+    const enriched = enrichScpiExtendedArray(scpiDataExtended, liveScpiData);
     const parefEvo = enriched.find(s => s.name === 'Paref Evo');
     if (!parefEvo) {
       console.warn('[FintechComparator] Paref Evo non trouvé dans enrichedScpiData');
-      console.log('[FintechComparator] SCPI disponibles:', enriched.map(s => s.name).filter(n => n.toLowerCase().includes('paref')));
     }
     return enriched;
-  }, []);
+  }, [liveScpiData]);
 
   // Note MaximusSCPI calculée côté client sur l'ensemble de la cohorte (percentile cohérent).
   // Source de vérité de la note affichée ; Supabase reste une surcouche optionnelle.
