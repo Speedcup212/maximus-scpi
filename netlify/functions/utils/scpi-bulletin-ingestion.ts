@@ -696,7 +696,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
         confidence_level: 'high',
         last_error: null,
         error_count: 0,
-        next_check_at: futureIso(72),
+        next_check_at: futureIso(24),
       });
       await finishEvent(client, eventId, {
         status: 'unchanged',
@@ -850,7 +850,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       confidence_level: confidenceLevel,
       last_error: rejected.length ? rejected.join(' | ').slice(0, 2_000) : null,
       error_count: 0,
-      next_check_at: futureIso(sourceStatus === 'verified' ? 72 : 24),
+      next_check_at: futureIso(24),
     });
 
     await finishEvent(client, eventId, {
