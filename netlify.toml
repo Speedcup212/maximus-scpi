@@ -8,8 +8,6 @@
 [functions]
   directory = "netlify/functions"
 
-[functions."scpi-ingest-scheduled"]
-  schedule = "@hourly"
 
 # ── SEO: www -> non-www (301 permanent) ──
 [[redirects]]
