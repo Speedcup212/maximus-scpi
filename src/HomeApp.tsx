@@ -1,18 +1,11 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Header from './components/Header';
 import SEOHead from './components/SEOHead';
-import Footer from './components/Footer';
 import InvestorQuiz from './components/InvestorQuiz';
-import ExpertBanner from './components/ExpertBanner';
-import PreuveSociale from './components/PreuveSociale';
-import TeaserComparateur from './components/TeaserComparateur';
-import SemanticLinks from './components/SemanticLinks';
-import { getSemanticLinks } from './data/semanticCocon';
 import { CookieConsent } from './components/CookieConsent';
 import type { QuizData } from './types/quiz';
 
-const Testimonials = lazy(() => import('./components/Testimonials'));
-const LandingPagesMenu = lazy(() => import('./components/LandingPagesMenu'));
+const HomeBelowFold = lazy(() => import('./HomeBelowFold'));
 const FloatingButton = lazy(() => import('./components/FloatingButton'));
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
@@ -27,6 +20,8 @@ const HomeApp: React.FC = () => {
   });
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
+  const [showBelowFold, setShowBelowFold] = useState(false);
+  const belowFoldTriggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -39,6 +34,31 @@ const HomeApp: React.FC = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    const target = belowFoldTriggerRef.current;
+    if (!target || showBelowFold) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          setShowBelowFold(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '120px 0px' }
+    );
+
+    observer.observe(target);
+
+    // Safety fallback for non-scrolling users/crawlers, outside the critical startup window.
+    const fallback = window.setTimeout(() => setShowBelowFold(true), 6000);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, [showBelowFold]);
 
   const handleLeadCapture = (data: QuizData) => {
     console.log('[MaximusSCPI] Lead quiz capturé :', data);
@@ -144,36 +164,18 @@ const HomeApp: React.FC = () => {
           </div>
         </section>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <ExpertBanner
-            isDarkMode={isDarkMode}
-            onContactClick={() => setIsRdvModalOpen(true)}
-          />
-        </div>
-
-        <Suspense fallback={<div className="py-12" aria-hidden="true" />}>
-          <Testimonials />
-        </Suspense>
-
-        <PreuveSociale />
-        <TeaserComparateur />
       </main>
 
-      <Suspense fallback={<div className="py-12" aria-hidden="true" />}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <LandingPagesMenu onPageClick={(slug) => go(`/${slug}/`)} />
-        </div>
-      </Suspense>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <SemanticLinks
-          currentPage="/"
-          links={getSemanticLinks('/')}
-          title="Poursuivez votre découverte des SCPI"
-        />
-      </div>
-
-      <Footer />
+      <div ref={belowFoldTriggerRef} className="h-px w-full" aria-hidden="true" />
+      {showBelowFold && (
+        <Suspense fallback={<div className="min-h-[240px]" aria-hidden="true" />}>
+          <HomeBelowFold
+            isDarkMode={isDarkMode}
+            onContactClick={() => setIsRdvModalOpen(true)}
+            onNavigate={go}
+          />
+        </Suspense>
+      )}
 
       <Suspense fallback={null}>
         <FloatingButton
