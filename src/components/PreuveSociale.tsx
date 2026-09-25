@@ -40,14 +40,14 @@ export default function PreuveSociale() {
                 <Icon className="h-5 w-5" style={{ color: '#00C896' }} />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-white">{titre}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+              <p className="mt-2 text-sm leading-relaxed text-slate-300">
                 {texte}
               </p>
             </div>
           ))}
         </div>
 
-        <p className="mt-6 text-center text-xs text-slate-500">
+        <p className="mt-6 text-center text-xs text-slate-300">
           Outil pédagogique — ne constitue pas une recommandation personnalisée
           au sens de la réglementation MIF2.
         </p>
