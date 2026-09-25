@@ -16,13 +16,23 @@ export default async (req: Request) => {
   }
 
   const startedAt = Date.now();
+  const configuredBatch = Number(getEnv('SCPI_INGEST_BATCH_SIZE') || 3);
+  const batchSize = Math.max(1, Math.min(5, Number.isFinite(configuredBatch) ? configuredBatch : 3));
+  const results: unknown[] = [];
 
   try {
     const client = createAdminClient();
-    const result = await processNextScpiBulletin(client);
+
+    for (let index = 0; index < batchSize; index += 1) {
+      const result = await processNextScpiBulletin(client);
+      results.push(result);
+
+      if (result.status === 'idle') break;
+    }
 
     console.log('[scpi-ingest-background]', JSON.stringify({
-      ...result,
+      processed: results.length,
+      results,
       duration_ms: Date.now() - startedAt,
     }));
   } catch (error) {
