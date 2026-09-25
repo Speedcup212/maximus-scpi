@@ -1059,24 +1059,17 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     if (v !== null && v >= 0) result.distribution_par_part = v;
   }
 
-  if (result.parts_attente_retrait === undefined || result.retraits_executes_trimestre === undefined) {
+  // Tableaux de capital : ne déduire zéro part en attente que si le tableau
+  // identifie explicitement la colonne et que la ligne la plus récente contient
+  // un tiret. Les valeurs non nulles restent volontairement non déduites car
+  // les séparateurs de milliers rendent les colonnes ambiguës après extraction PDF.
+  if (result.parts_attente_retrait === undefined) {
     const capitalSection = /[ÉE]VOLUTIONS?\s+DU\s+CAPITAL[\s\S]{0,2200}/i.exec(text)?.[0] || "";
-    const rowRe = /T([1-4])\s+(20\d{2})\s+([\d\s]+?)\s+([\d\s]+?)\s+([\d\s]+?)\s+(-|[\d\s]+?)\s+([\d\s]+?)\s+([\d\s]+?)(?=\n|T[1-4]\s+20\d{2}|$)/gi;
-    const rows: RegExpExecArray[] = [];
-    let rowMatch: RegExpExecArray | null;
-    while ((rowMatch = rowRe.exec(capitalSection)) !== null) rows.push(rowMatch);
-    const latest = rows.length > 0 ? rows[rows.length - 1] : undefined;
-    if (latest) {
-      const waitingRaw = latest[6]?.trim();
-      const withdrawalsRaw = latest[8]?.trim();
-      if (result.parts_attente_retrait === undefined && waitingRaw) {
-        result.parts_attente_retrait = waitingRaw === "-"
-          ? 0
-          : parseInt(waitingRaw.replace(/\s/g, ""), 10);
-      }
-      if (result.retraits_executes_trimestre === undefined && withdrawalsRaw) {
-        const n = parseInt(withdrawalsRaw.replace(/\s/g, ""), 10);
-        if (!isNaN(n)) result.retraits_executes_trimestre = n;
+    if (/Parts\s+en\s+attente\s+de\s+retrait/i.test(capitalSection)) {
+      const periodRows = capitalSection.match(/T[1-4]\s+20\d{2}[^\n]*/gi) || [];
+      const latestRow = periodRows.length > 0 ? periodRows[periodRows.length - 1] : "";
+      if (/\s-\s/.test(latestRow)) {
+        result.parts_attente_retrait = 0;
       }
     }
   }
