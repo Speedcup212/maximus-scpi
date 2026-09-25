@@ -29,6 +29,17 @@ if (!isStorageAvailable) {
   };
 }
 
+// Apply the saved theme BEFORE React mounts to avoid a white header flash.
+try {
+  const savedTheme = localStorage.getItem('theme');
+  const useDarkTheme = savedTheme ? savedTheme === 'dark' : true;
+  document.documentElement.classList.toggle('dark', useDarkTheme);
+  document.documentElement.style.colorScheme = useDarkTheme ? 'dark' : 'light';
+} catch {
+  document.documentElement.classList.add('dark');
+  document.documentElement.style.colorScheme = 'dark';
+}
+
 window.addEventListener('error', (e) => {
   console.error('[FATAL ERROR]', e.error || e.message);
 });
