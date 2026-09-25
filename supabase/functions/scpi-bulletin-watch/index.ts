@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v79";
+const PARSER_VERSION="2026-09-25-v80";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -817,6 +817,39 @@ Deno.serve(async(req:Request)=>{
     const hasPerformance=typeof r.td==="number"||typeof r.distribution_par_part==="number";
     const strong=metricCount>=(c.html?7:10)&&!bad.length&&confidence>=0.6&&coreCount>=4&&hasPerformance;
     const qas=bad.length?"auto_partial_review":strong?"auto_verified":"auto_partial";
+    // Garde anti-régression : une relecture moins complète du même bulletin ne doit
+    // jamais remplacer un snapshot canonique déjà auto-vérifié.
+    const {data:existingPeriod}=await db.from("scpi_bulletins")
+      .select("id,qa_status,extraction_confidence,extraction_json")
+      .eq("scpi_slug",s.scpi_slug).eq("period",pp.p).maybeSingle();
+    const previousMetricsCount=Object.keys(existingPeriod?.extraction_json?.metrics||{}).length;
+    const previousVerified=existingPeriod?.qa_status==="auto_verified";
+    const regression=canPromote&&previousVerified&&(!strong||metricCount<previousMetricsCount);
+    if(regression){
+      const prevConf=Number(existingPeriod?.extraction_confidence||0);
+      await reg(db,s.scpi_slug,{
+        discovered_page_url:c.page,
+        bulletin_url:c.pdf,
+        last_document_period:pp.p,
+        last_success_at:new Date().toISOString(),
+        verification_status:"verified",
+        confidence_level:prevConf>=.7?"high":prevConf>=.4?"medium":"low",
+        last_error:null,
+        error_count:0,
+        next_check_at:later(24)
+      });
+      await finish(db,eid,{
+        status:"needs_review",
+        step:"edge_regression_guard",
+        source_page_url:c.page,
+        bulletin_url:c.pdf,
+        source_period:pp.p,
+        extraction_confidence:confidence,
+        metrics_count:metricCount,
+        message:"Relecture moins fiable ignorée; snapshot auto-vérifié conservé ("+previousMetricsCount+" indicateurs précédents, "+metricCount+" maintenant; rejets: "+bad.join(", ")+")"
+      });
+      return Response.json({ok:true,slug:s.scpi_slug,status:"regression_ignored",period:pp.p,metrics:metricCount,previous_metrics:previousMetricsCount,rejected:bad});
+    }
     const {data:b,error:be}=await db.from("scpi_bulletins").upsert({scpi_slug:s.scpi_slug,period:pp.p,pdf_path:path,pdf_sha256:hashPdf,source_url:c.pdf,run_id:"edge-"+new Date().toISOString(),found_at:new Date().toISOString(),extraction_json:{metrics:raw,parser_version:PARSER_VERSION},qa_status:qas,extraction_confidence:confidence,processed_at:new Date().toISOString()},{onConflict:"scpi_slug,period"}).select("id").single();if(be)throw be;
     if(canPromote&&strong){
       const meta={nom:s.scpi_name,societe_gestion:s.management_company,source_period:pp.p,source_confidence:confidence,source_type:"bulletin_edge_automated",bulletin_id:b.id,source_document:c.html?("bulletin-web-"+pp.p):decodeURIComponent(new URL(c.pdf).pathname.split("/").pop()||"bulletin.pdf"),source_url:c.pdf,qa_status:qas,updated_at:new Date().toISOString()};
