@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v85";
+const PARSER_VERSION="2026-09-25-v86";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -432,7 +432,7 @@ function parseMetrics(t:string,sourcePeriod?:string){
     const parefAssoc=/Nombre\s+d['’]?associ[eé]s\s*:\s*(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)/i.exec(t);
     if(parefAssoc)o.nombre_associes=parseInt(parefAssoc[1].replace(/[ \u00a0\u202f]/g,""),10);
 
-    const parefParts=/[Ll]e\s+capital\s+s?[ʼ'’]?\s*[eé]l[eè]ve\s+[àa]\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+fin\s+de\s+trimestre(?:,\s*dont\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+attente\s+de\s+retrait)?/i.exec(t);
+    const parefParts=/[Ll](?:e|a)\s+capital\s+s?[ʼ'’]?\s*[eé]l[eè]ve\s+[àa]\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+fin\s+de\s+trimestre(?:,\s*dont\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+attente\s+de\s+retrait)?/i.exec(t);
     if(parefParts){
       o.nombre_parts=parseInt(parefParts[1].replace(/[ \u00a0\u202f]/g,""),10);
       if(parefParts[2])o.parts_attente_retrait=parseInt(parefParts[2].replace(/[ \u00a0\u202f]/g,""),10);
@@ -759,6 +759,17 @@ function parseMetrics(t:string,sourcePeriod?:string){
     delete o.parts_attente_retrait;
     delete o.distribution_par_part;
     o.capital_type="variable";
+  }
+  // Dernier garde-fou PAREF : les blocs spécifiques doivent avoir priorité sur
+  // les parseurs génériques exécutés plus bas dans la fonction.
+  if(/PAREF\s+Gestion/i.test(t)){
+    const parefTdFinal=/Taux\s+de\s+distribution\s+(20\d{2})\s*:\s*(-?\d{1,3}(?:[.,]\d+)?)\s*%/i.exec(t);
+    if(parefTdFinal){const v=fr(parefTdFinal[2]);if(v!==null){o.td=v;o.td_annee=Number(parefTdFinal[1]);}}
+    const parefPartsFinal=/[Ll](?:e|a)\s+capital\s+s?[ʼ'’]?\s*[eé]l[eè]ve\s+[àa]\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+fin\s+de\s+trimestre(?:,\s*dont\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+attente\s+de\s+retrait)?/i.exec(t);
+    if(parefPartsFinal){
+      o.nombre_parts=parseInt(parefPartsFinal[1].replace(/[ \u00a0\u202f]/g,""),10);
+      if(parefPartsFinal[2])o.parts_attente_retrait=parseInt(parefPartsFinal[2].replace(/[ \u00a0\u202f]/g,""),10);
+    }
   }
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
