@@ -802,7 +802,6 @@ function extractValorisationRisque(text: string): ValorisationRisque {
   const prStr = firstMatch(text, [
     /prix\s+de\s+reconstitution\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
     /valeur\s+de\s+reconstitution\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
-    /valeur\s+de\s+r[eé]alisation\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
   ]);
   if (prStr !== null) {
     const v = parseFrNum(prStr);
