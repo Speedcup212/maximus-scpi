@@ -225,7 +225,10 @@ function extractPdfLinks(html: string, baseUrl: string): Array<{ url: string; te
     const url = safeUrl(raw, baseUrl);
     if (!url || seen.has(url)) return;
     const combined = `${url} ${text}`;
-    if (!/\.pdf(?:$|[?#])/i.test(url) && !/\/download(?:\/|\?)/i.test(url)) return;
+    if (
+      !/\.pdf(?:$|[?#])/i.test(url) &&
+      !/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(url)
+    ) return;
     if (EXCLUDED_DOCUMENTS.test(combined)) return;
     seen.add(url);
     links.push({ url, text, index });
