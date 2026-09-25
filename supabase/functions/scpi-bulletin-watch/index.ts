@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v82";
+const PARSER_VERSION="2026-09-25-v83";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -337,6 +337,10 @@ function parseMetrics(t:string,sourcePeriod?:string){
 
   const annualPrice=/prix\s+de\s+souscription\s+par\s+part\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
   if(annualPrice){const v=fr(annualPrice[2]);if(v!==null)o.prix_souscription=v;}
+  // La Française : le tableau PGA publie explicitement le prix au 1er janvier de l'année.
+  // Ce motif doit primer sur un montant voisin ("distribution brute") que nearestMoney peut confondre.
+  const annualRefPrice=/prix\s+de\s+souscription\s+au\s+1(?:er|er\.)?\s+janvier\s+2026(?:\s*\([A-Z]\))?\s*(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+  if(annualRefPrice){const v=fr(annualRefPrice[1]);if(v!==null)o.prix_souscription=v;}
   const annualWithdrawal=/prix\s+de\s+retrait\s+par\s+part\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
   if(annualWithdrawal){const v=fr(annualWithdrawal[2]);if(v!==null)o.prix_retrait=v;}
   const debt=one(t,[/dettes?\s+et\s+autres\s+engagements[^0-9%\n]{0,50}([\d,.]+)\s*%/i,/([\d,.]+)\s*%\s*%?\s*dette\s*\/\s*valeur\s+du\s+patrimoine/i,/([\d,.]+)\s*%\s*taux\s+d['’]?endettement(?:\s*\d+|\s*\*|\s*\(\d+\))?/i,/ratio\s+des\s+dettes\s+et\s+autres\s+engagements[^%]{0,180}?([\d,.]+)\s*%/i,/taux\s+d['’]?endettement[^%\n]{0,50}([\d,.]+)\s*%/i,/ratio\s+d['’]?endettement[^%\n]{0,50}([\d,.]+)\s*%/i,/endettement\s+bancaire\s*\(([\d,.]+)\s*%\)/i]);if(debt)o.endettement=fr(debt);
@@ -390,6 +394,13 @@ function parseMetrics(t:string,sourcePeriod?:string){
   if(endParts){
     const vals=[...endParts[1].matchAll(/\b(\d{1,3}(?:[ \u00a0]\d{3}){2,3})\b/g)].map(m=>parseInt(m[1].replace(/[ \u00a0]/g,""),10));
     if(vals.length)o.nombre_parts=vals[vals.length-1];
+  }
+  // La Française et formats proches : bloc "X associés / Y parts" = encours total,
+  // à distinguer de "nombre de parts souscrites" qui ne décrit que les flux du trimestre.
+  const assocParts=/\b(\d{1,3}(?:[ \u00a0]\d{3}){1,2})\s+associ[eé]s\b[\s\S]{0,220}?\b(\d{1,3}(?:[ \u00a0]\d{3}){1,3})\s+parts\b/i.exec(t);
+  if(assocParts){
+    o.nombre_associes=parseInt(assocParts[1].replace(/[ \u00a0]/g,""),10);
+    o.nombre_parts=parseInt(assocParts[2].replace(/[ \u00a0]/g,""),10);
   }
   const wait=one(t,[/\b(\d{1,3}(?:[ \u00a0]\d{3})*|0)\s+parts?\s+en\s+attente\s+au\b/i,/\b(\d{1,3}(?:[ \u00a0]\d{3})*|0)\s+parts?\s+en\s+attente\s+de\s+retrait\b/i,/parts?\s+en\s+attente\s+de\s+retrait[^\d\n]{0,40}(\d{1,3}(?:[ \u00a0]\d{3})*|0)\b/i]);if(wait)o.parts_attente_retrait=parseInt(wait.replace(/[ \u00a0]/g,""));else if(/aucune\s+part\s+en\s+attente|0\s+parts?\s+en\s+attente/i.test(t))o.parts_attente_retrait=0;
   if(/nombre\s+de\s+parts\s+en\s+attente\s+de\s+retrait[\s\S]{0,220}?\s-\s+nombre\s+de\s+parts\s+en\s+attente\s+de\s+cession/i.test(t))o.parts_attente_retrait=0;
