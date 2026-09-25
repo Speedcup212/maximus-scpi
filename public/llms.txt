@@ -1,0 +1,38 @@
+# MaximusSCPI
+
+MaximusSCPI est un site français d'information, de comparaison et d'analyse des SCPI. Les contenus sont pédagogiques et ne constituent pas, à eux seuls, un conseil en investissement personnalisé.
+
+## Outils principaux
+
+- [Comparateur SCPI](https://maximusscpi.com/comparateur-scpi/) : comparer rendement, TOF, frais, capitalisation, valorisation, endettement, secteurs, géographie et indicateurs de liquidité.
+- [Simulateurs SCPI](https://maximusscpi.com/simulateurs/) : accéder aux simulateurs pédagogiques du site.
+- [Méthodologie des données](https://maximusscpi.com/methodologie-donnees/) : comprendre les sources, périodes de référence et limites des données.
+- [Risques des SCPI](https://maximusscpi.com/risques-scpi/) : perte en capital, liquidité, valorisation, occupation, endettement et autres risques.
+- [Comprendre les SCPI](https://maximusscpi.com/comprendre-les-scpi/) : guide pédagogique sur le fonctionnement des SCPI.
+- [Actualités SCPI](https://maximusscpi.com/actualites/) : suivre les évolutions et informations récentes publiées sur le site.
+
+## Fiches SCPI
+
+- [Comète](https://maximusscpi.com/comete/) : fiche détaillée de la SCPI Comète.
+- [Transitions Europe](https://maximusscpi.com/transitions-europe/) : fiche détaillée de la SCPI Transitions Europe.
+- [Remake Live](https://maximusscpi.com/remake-live/) : fiche détaillée de la SCPI Remake Live.
+- [Iroko Zen](https://maximusscpi.com/iroko-zen/) : fiche détaillée de la SCPI Iroko Zen.
+- [GMA Essentialis](https://maximusscpi.com/gma-essentialis/) : fiche détaillée avec données et points de vigilance disponibles.
+
+## Analyse et liquidité
+
+- [Revente de parts de SCPI et marché secondaire](https://maximusscpi.com/articles/revendre-parts-scpi-delais-marche-secondaire/) : comprendre les délais, la liquidité et le marché secondaire.
+- [Décote et valeur de reconstitution](https://maximusscpi.com/decote-valeur-reconstitution-scpi/) : comprendre le rapport entre prix de part et valeur de reconstitution.
+- [TOF des SCPI](https://maximusscpi.com/tof-scpi/) : comprendre le taux d'occupation financier.
+- [Endettement des SCPI](https://maximusscpi.com/endettement-scpi/) : comprendre le levier et ses risques.
+
+## Informations sur l'éditeur
+
+- [À propos de MaximusSCPI](https://maximusscpi.com/qui-sommes-nous/) : présentation du site et de son approche.
+- [Avertissements et risques](https://maximusscpi.com/avertissements-risques-scpi/) : limites, risques et précautions de lecture.
+
+## Ressources agentiques
+
+- [Manifeste ARD](https://maximusscpi.com/.well-known/ard.json) : catalogue de ressources agentiques conforme au format ARD.
+- [Manifeste ai-catalog compatible](https://maximusscpi.com/.well-known/ai-catalog.json) : chemin de compatibilité pour les consommateurs utilisant l'ancien nom.
+- [Skill de recherche SCPI](https://maximusscpi.com/.well-known/skills/scpi-research.md) : instructions de navigation et d'analyse des ressources publiques MaximusSCPI.
