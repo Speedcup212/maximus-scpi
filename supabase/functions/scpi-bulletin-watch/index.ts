@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v83";
+const PARSER_VERSION="2026-09-25-v84";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -418,6 +418,49 @@ function parseMetrics(t:string,sourcePeriod?:string){
     }
   }
   if(/suspension\s+temporaire\s+de\s+la\s+variabilit[eé]\s+du\s+capital|ouverture\s+d['’]un\s+march[eé]\s+secondaire\s+des\s+parts/i.test(t))o.capital_type="fixe";else if(/\bcapital\s+variable\s+dur[eé]e\s+de\s+la\s+scpi\b/i.test(t)||/caract[eé]ristiques[\s\S]{0,700}?\bcapital\s+variable\b/i.test(t)||/\bSCPI[^\n]{0,140}\bcapital\s+variable\b/i.test(t))o.capital_type="variable";else if(/\bcapital\s+fixe\s+dur[eé]e\s+de\s+la\s+scpi\b/i.test(t)||/caract[eé]ristiques[\s\S]{0,700}?\bcapital\s+fixe\b/i.test(t)||/\bSCPI[^\n]{0,140}\bcapital\s+fixe\b/i.test(t))o.capital_type="fixe";
+
+  // PAREF Gestion — layout T2 2026 commun aux BTI PAREF/Novapierre.
+  // Priorité aux libellés explicites du bulletin afin d'éviter de confondre associés,
+  // dividende annuel, flux de souscriptions et métriques de stock.
+  if(/PAREF\s+Gestion/i.test(t)){
+    const parefAssocCap=/Nombre\s+d['’]?associ[eé]s\s+Capitalisation\s+sur\s+prix\s+de\s+souscription[\s\S]{0,80}?(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+(\d{1,4}(?:[.,]\d+)?)\s*M\s*€/i.exec(t);
+    if(parefAssocCap){
+      o.nombre_associes=parseInt(parefAssocCap[1].replace(/[ \u00a0\u202f]/g,""),10);
+      const v=fr(parefAssocCap[2]);if(v!==null)o.capitalisation=v;
+    }
+    const parefAssoc=/Nombre\s+d['’]?associ[eé]s\s*:\s*(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)/i.exec(t);
+    if(parefAssoc)o.nombre_associes=parseInt(parefAssoc[1].replace(/[ \u00a0\u202f]/g,""),10);
+
+    const parefParts=/[Ll]e\s+capital\s+s?[ʼ'’]?\s*[eé]l[eè]ve\s+[àa]\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+fin\s+de\s+trimestre(?:,\s*dont\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+parts\s+en\s+attente\s+de\s+retrait)?/i.exec(t);
+    if(parefParts){
+      o.nombre_parts=parseInt(parefParts[1].replace(/[ \u00a0\u202f]/g,""),10);
+      if(parefParts[2])o.parts_attente_retrait=parseInt(parefParts[2].replace(/[ \u00a0\u202f]/g,""),10);
+    }
+
+    const parefPrice=/Valeur\s+de\s+la\s+part\s*:\s*(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(parefPrice){const v=fr(parefPrice[1]);if(v!==null)o.prix_souscription=v;}
+    const parefWithdraw=/Valeur\s+de\s+retrait\s*:\s*(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(parefWithdraw){const v=fr(parefWithdraw[1]);if(v!==null)o.prix_retrait=v;}
+    const parefReal=/Valeur\s+de\s+r[eé]alisation\s+au\s*30\/06\/2026\s*:\s*(\d{1,5}(?:[ \u00a0\u202f]\d{3})*(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(parefReal){const v=fr(parefReal[1]);if(v!==null)o.valeur_realisation=v;}
+    const parefReco=/Valeur\s+de\s+reconstitution\s+au\s*30\/06\/2026\s*:\s*(\d{1,5}(?:[ \u00a0\u202f]\d{3})*(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(parefReco){const v=fr(parefReco[1]);if(v!==null)o.prix_reconstitution=v;}
+
+    const parefTof=/\bTOF\s*T2\s*2026\s*(\d{1,3}(?:[.,]\d+)?)\s*%/i.exec(t);
+    if(parefTof){const v=fr(parefTof[1]);if(v!==null)o.tof=v;}
+    const parefDebt=/DETTE\s+BANCAIRE\s+VALEUR\s+D['’]?EXPERTISE\s+%\s*DETTE\/VALEUR\s+AU\s+BILAN[\s\S]{0,100}?\d{1,4}(?:[.,]\d+)?\s*M\s*€\s+\d{1,4}(?:[.,]\d+)?\s*M\s*€\s+(\d{1,3}(?:[.,]\d+)?)\s*%/i.exec(t);
+    if(parefDebt){const v=fr(parefDebt[1]);if(v!==null)o.endettement=v;}
+    const parefPat=/Valeur\s+du\s+patrimoine\s+Immeubles\s+Surface\s+g[eé]r[eé]e[\s\S]{0,80}?\d{1,4}(?:[.,]\d+)?\s*M\s*€\s+(\d{1,4})\b/i.exec(t);
+    if(parefPat)o.nombre_immeubles=parseInt(parefPat[1],10);
+
+    const parefDist=/DIVIDENDE\s+BRUT\s+DU\s+2e\s+TRIMESTRE[\s\S]{0,100}?(\d{1,3}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(parefDist){const v=fr(parefDist[1]);if(v!==null)o.distribution_par_part=v;}
+    const parefTd=/Taux\s+de\s+distribution\s+2025\s*:\s*(-?\d{1,3}(?:[.,]\d+)?)\s*%/i.exec(t);
+    if(parefTd){const v=fr(parefTd[1]);if(v!==null){o.td=v;o.td_annee=2025;}}
+
+    if(/suspendu\s+temporairement\s+la\s+variabilit[eé]\s+du\s+capital|march[eé]\s+des\s+parts/i.test(t))o.capital_type="fixe";
+    else if(/Type\s*:\s*SCPI[^\n]{0,120}\s+[àa]\s+capital\s+variable/i.test(t)||/Soci[eé]t[eé]\s+Civile\s+de\s+Placement\s+Immobilier\s+[àa]\s+capital\s+variable/i.test(t))o.capital_type="variable";
+  }
 
   // FIDUCIAL / Novaxia / Altixia targeted layouts
   const ficPrice=/prix\s+de\s+souscription[\s\S]{0,90}?(?:0?[1-9]|[12]\d|3[01])[./-](?:0?[1-9]|1[0-2])[./-]20\d{2}[\s\S]{0,40}?(\d{1,5}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
