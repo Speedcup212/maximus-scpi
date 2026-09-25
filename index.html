@@ -8,9 +8,6 @@
 
     <!-- Performance optimizations -->
     <link rel="dns-prefetch" href="https://elfsightcdn.com">
-    <link rel="dns-prefetch" href="https://bolt.new">
-    <link rel="dns-prefetch" href="https://assets.calendly.com">
-    <link rel="preconnect" href="https://assets.calendly.com" crossorigin>
 
     <!-- Preload critical resources -->
     <link rel="preload" href="/Maximus logo 250x50 4.svg" as="image" type="image/svg+xml" fetchpriority="high">
@@ -95,12 +92,24 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://maximusscpi.com/" />
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-N2JLWKH');</script>
+    <!-- Google Tag Manager - deferred off the critical rendering path -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      window.addEventListener('load', function () {
+        var loadGtm = function () {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-N2JLWKH';
+          document.head.appendChild(script);
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(loadGtm, { timeout: 1800 });
+        } else {
+          setTimeout(loadGtm, 800);
+        }
+      }, { once: true });
+    </script>
     <!-- End Google Tag Manager -->
   </head>
   <body>
@@ -109,16 +118,57 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="root">
-      <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
-        <div style="text-align: center; color: white;">
-          <div style="width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-          <h2 style="font-size: 24px; font-weight: bold; margin: 0 0 10px 0;">MaximusSCPI</h2>
-          <p style="font-size: 14px; opacity: 0.9;">Chargement en cours...</p>
-        </div>
+      <div class="initial-shell" aria-label="MaximusSCPI">
+        <header class="initial-header">
+          <a href="/" class="initial-brand" aria-label="Accueil MaximusSCPI">
+            <img src="/Maximus logo 250x50 4.svg" width="250" height="50" alt="MaximusSCPI" fetchpriority="high" />
+          </a>
+          <nav class="initial-nav" aria-label="Navigation principale">
+            <a href="/comparateur-scpi/">Comparer les SCPI</a>
+            <a href="/simulateurs/">Simulateurs</a>
+            <a href="/actualites">Actualités</a>
+          </nav>
+        </header>
+        <main class="initial-hero">
+          <div class="initial-hero-inner">
+            <p class="initial-kicker">Comparateur et analyse de SCPI</p>
+            <h1>Comparez les SCPI au-delà du rendement</h1>
+            <p class="initial-lead">Rendement, TOF, frais, capitalisation, décote, endettement, patrimoine et liquidité : analysez les indicateurs qui comptent avant d’investir.</p>
+            <div class="initial-actions">
+              <a class="initial-btn initial-btn-primary" href="/comparateur-scpi/">Comparer les SCPI</a>
+              <a class="initial-btn initial-btn-secondary" href="/simulateurs/">Voir les simulateurs</a>
+            </div>
+            <p class="initial-proof">Analyses et outils MaximusSCPI — approche CGP-CIF.</p>
+          </div>
+        </main>
       </div>
       <style>
-        @keyframes spin {
-          to { transform: rotate(360deg); }
+        .initial-shell{min-height:100vh;background:#fff;color:#111827;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .initial-header{position:relative;display:flex;align-items:center;justify-content:space-between;max-width:1180px;height:76px;margin:0 auto;padding:0 24px;border-bottom:0}
+        .initial-brand{display:flex;align-items:center}
+        .initial-brand img{width:210px;height:auto}
+        .initial-nav{display:flex;gap:24px;align-items:center}
+        .initial-nav a{color:#334155;text-decoration:none;font-size:14px;font-weight:600}
+        .initial-hero{background:linear-gradient(135deg,#064e3b 0%,#059669 58%,#10b981 100%);color:#fff;min-height:520px;display:flex;align-items:center}
+        .initial-hero-inner{width:100%;max-width:1180px;margin:0 auto;padding:72px 24px 84px}
+        .initial-kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.9;margin:0 0 16px}
+        .initial-hero h1{max-width:820px;font-size:clamp(40px,5vw,68px);line-height:1.03;letter-spacing:-.035em;font-weight:800;margin:0 0 24px}
+        .initial-lead{max-width:760px;font-size:clamp(18px,2vw,22px);line-height:1.55;color:rgba(255,255,255,.92);margin:0 0 32px}
+        .initial-actions{display:flex;gap:14px;flex-wrap:wrap}
+        .initial-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:10px;text-decoration:none;font-weight:750;font-size:15px}
+        .initial-btn-primary{background:#fff;color:#065f46;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+        .initial-btn-secondary{border:1px solid rgba(255,255,255,.55);color:#fff;background:rgba(255,255,255,.08)}
+        .initial-proof{font-size:13px;margin:22px 0 0;color:rgba(255,255,255,.75)}
+        @media(max-width:760px){
+          .initial-header{height:68px;padding:0 18px}
+          .initial-brand img{width:180px}
+          .initial-nav{display:none}
+          .initial-hero{min-height:calc(100vh - 68px);align-items:flex-start}
+          .initial-hero-inner{padding:56px 20px 64px}
+          .initial-hero h1{font-size:42px;line-height:1.05}
+          .initial-lead{font-size:18px}
+          .initial-actions{display:grid;grid-template-columns:1fr}
+          .initial-btn{width:100%;min-height:52px}
         }
       </style>
     </div>
