@@ -1065,7 +1065,7 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     const rows: RegExpExecArray[] = [];
     let rowMatch: RegExpExecArray | null;
     while ((rowMatch = rowRe.exec(capitalSection)) !== null) rows.push(rowMatch);
-    const latest = rows.at(-1);
+    const latest = rows.length > 0 ? rows[rows.length - 1] : undefined;
     if (latest) {
       const waitingRaw = latest[6]?.trim();
       const withdrawalsRaw = latest[8]?.trim();
