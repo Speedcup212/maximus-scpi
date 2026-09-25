@@ -1,6 +1,8 @@
 # MaximusSCPI
 
-MaximusSCPI est un site français d'information, de comparaison et d'analyse des SCPI. Les contenus sont pédagogiques et ne constituent pas, à eux seuls, un conseil en investissement personnalisé.
+> Site français d'information, de comparaison et d'analyse des SCPI. Les contenus sont pédagogiques et ne constituent pas, à eux seuls, un conseil en investissement personnalisé.
+
+[Accueil MaximusSCPI](https://maximusscpi.com/)
 
 ## Outils principaux
 
