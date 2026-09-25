@@ -4,6 +4,19 @@ const getEnv = (key: string): string | undefined => {
 };
 
 export default async (req: Request) => {
+  let scheduledPayload: { next_run?: string } = {};
+  try {
+    scheduledPayload = await req.json();
+  } catch {
+    console.warn('[scpi-ingest-scheduled] invocation non planifiée ignorée');
+    return;
+  }
+
+  if (!scheduledPayload.next_run) {
+    console.warn('[scpi-ingest-scheduled] next_run absent : invocation ignorée');
+    return;
+  }
+
   const token = getEnv('SCPI_INGEST_TOKEN');
   if (!token) {
     console.error('[scpi-ingest-scheduled] SCPI_INGEST_TOKEN manquant');
