@@ -1,45 +1,37 @@
-import type { Handler } from '@netlify/functions';
-import { createAdminClient } from './_invite-utils';
-import { processNextScpiBulletin } from './utils/scpi-bulletin-ingestion';
+const getEnv = (key: string): string | undefined => {
+  const netlifyEnv = (globalThis as any).Netlify?.env;
+  return netlifyEnv?.get?.(key) || process.env[key];
+};
 
-const JSON_HEADERS = { 'Content-Type': 'application/json; charset=utf-8' };
+export default async (req: Request) => {
+  const token = getEnv('SCPI_INGEST_TOKEN');
+  if (!token) {
+    console.error('[scpi-ingest-scheduled] SCPI_INGEST_TOKEN manquant');
+    return;
+  }
 
-export const handler: Handler = async () => {
-  const startedAt = Date.now();
+  const origin = new URL(req.url).origin;
+  const target = `${origin}/.netlify/functions/scpi-ingest-background`;
 
   try {
-    const client = createAdminClient();
-    const result = await processNextScpiBulletin(client);
+    const response = await fetch(target, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ trigger: 'scheduled' }),
+    });
 
-    console.log('[scpi-ingest-scheduled]', JSON.stringify({
-      ...result,
-      duration_ms: Date.now() - startedAt,
-    }));
-
-    return {
-      statusCode: 200,
-      headers: JSON_HEADERS,
-      body: JSON.stringify({
-        ok: result.status !== 'failed',
-        ...result,
-        duration_ms: Date.now() - startedAt,
-      }),
-    };
+    console.log('[scpi-ingest-scheduled] background dispatch', response.status);
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error('[scpi-ingest-scheduled] fatal', message);
-
-    // Le prochain passage horaire reprendra la rotation. On renvoie 200 pour
-    // éviter une rafale de retries Netlify non contrôlée.
-    return {
-      statusCode: 200,
-      headers: JSON_HEADERS,
-      body: JSON.stringify({
-        ok: false,
-        status: 'failed',
-        message,
-        duration_ms: Date.now() - startedAt,
-      }),
-    };
+    console.error(
+      '[scpi-ingest-scheduled] dispatch failed',
+      error instanceof Error ? error.message : String(error),
+    );
   }
+};
+
+export const config = {
+  schedule: '@hourly',
 };
