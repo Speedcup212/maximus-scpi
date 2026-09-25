@@ -2095,6 +2095,8 @@ const App: React.FC = () => {
             </AuthGuard>
           )}
         </Suspense>
+          </AppAuthBoundary>
+        </Suspense>
       </div>
     );
   }
@@ -2241,8 +2243,6 @@ const App: React.FC = () => {
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <Suspense fallback={<LoadingSpinner />}>
           <AdminPartners />
-        </Suspense>
-          </AppAuthBoundary>
         </Suspense>
       </div>
     );
