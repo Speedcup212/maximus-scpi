@@ -39,7 +39,7 @@ export default function TeaserComparateur() {
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Trois grandes familles de SCPI à comparer
           </h2>
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-slate-300">
             Rendements, frais, zones géographiques, labels ISR, taux
             d'occupation — une analyse multicritère pour comparer plus vite.
           </p>
@@ -96,7 +96,7 @@ export default function TeaserComparateur() {
           >
             Accéder au comparateur complet →
           </a>
-          <p className="mt-4 text-xs text-slate-500">
+          <p className="mt-4 text-xs text-slate-300">
             Outil pédagogique — ne constitue pas une recommandation
             personnalisée au sens de la réglementation MIF2.
           </p>
