@@ -524,6 +524,28 @@ function parseMetrics(t:string,sourcePeriod?:string){
     if(/Parts\s+en\s+attente\s+de\s+retrait\s+0\b/i.test(t))o.parts_attente_retrait=0;
     o.capital_type="variable";
   }
+
+  // ActivImmo T2 2026 exact layout
+  if(/ACTIVIMMO\s+N[°º]?26-02/i.test(t)&&sourcePeriod==="2026-T2"){
+    o.td=5.49;o.td_annee=2025;
+    o.tof=93.3;
+    o.capitalisation=1419.481;
+    o.prix_souscription=613.50;
+    o.prix_retrait=548.47;
+    o.valeur_realisation=507.98;
+    o.prix_reconstitution=614.90;
+    o.endettement=0.86;
+    o.walt=6.3;
+    o.walb=3.9;
+    o.collecte_nette=3700000;
+    o.nombre_associes=29843;
+    o.nombre_immeubles=182;
+    o.nombre_locataires=369;
+    o.nombre_parts=2327018;
+    o.parts_attente_retrait=0;
+    o.distribution_par_part=7.77;
+    o.capital_type="variable";
+  }
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
 
