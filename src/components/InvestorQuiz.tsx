@@ -708,7 +708,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     selectedValue?: string
   ) => (
     <div className="transition-all duration-300 ease-in-out">
-      <h3 className="text-lg sm:text-xl font-semibold text-white mb-5">{title}</h3>
+      <h2 className="text-lg sm:text-xl font-semibold text-white mb-5">{title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {options.map((opt) => (
           <button
@@ -771,9 +771,9 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
 
         {step === 1 && (
           <div className="transition-all duration-300 ease-in-out">
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
               Quelle est votre tranche marginale d'imposition ?
-            </h3>
+            </h2>
             <button
               type="button"
               onClick={() => setShowTmiTooltip((v) => !v)}
@@ -802,9 +802,9 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
 
         {step === 3 &&
           <div className="transition-all duration-300 ease-in-out">
-            <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-1">
               Quel est votre objectif principal ?
-            </h3>
+            </h2>
             <p className="text-sm text-slate-400 mb-5">
               Choisissez l'objectif qui compte le plus pour vous aujourd'hui.
             </p>
