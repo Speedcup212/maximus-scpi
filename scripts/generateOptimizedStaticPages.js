@@ -76,8 +76,10 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
       '</div>' +
       '<style>' +
         '.scpi-initial-shell{min-height:100vh;background:#0D1117;color:#fff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}' +
-        '.scpi-shell-header{height:72px;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#fff}' +
+        '.scpi-shell-header{height:64px;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#fff}' +
+        'html.dark .scpi-shell-header{background:#111827;border-bottom:1px solid #1f2937}' +
         '.scpi-shell-header img{width:205px;height:auto}.scpi-shell-header>a:last-child{color:#047857;text-decoration:none;font-size:14px;font-weight:700}' +
+        'html.dark .scpi-shell-header>a:last-child{color:#6ee7b7}' +
         '.scpi-shell-hero{background:radial-gradient(55% 60% at 15% 5%,rgba(16,185,129,.18),transparent 65%),#0D1117;min-height:430px}' +
         '.scpi-shell-inner{max-width:1180px;margin:0 auto;padding:68px 24px 76px}' +
         '.scpi-shell-kicker{margin:0 0 14px;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:800}' +
