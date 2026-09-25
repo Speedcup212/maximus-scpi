@@ -23,9 +23,6 @@ import { getSemanticLinks } from './data/semanticCocon';
 import { simulatorSeoConfig, getSimulatorSchemaData } from './data/simulatorSeoConfig';
 import ErrorBoundary from './components/ErrorBoundary';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
-import AuthGuard from './app/components/AuthGuard';
-import RoleGuard from './app/components/RoleGuard';
-import PartnerProRedirect from './app/components/PartnerProRedirect';
 import InvestorQuiz from './components/InvestorQuiz';
 import PreuveSociale from './components/PreuveSociale';
 import TeaserComparateur from './components/TeaserComparateur';
@@ -35,6 +32,10 @@ import QuickFilters from './components/QuickFilters';
 import SearchBar from './components/SearchBar';
 
 // Lazy loaded components (loaded on demand)
+const AppAuthBoundary = lazy(() => import('./app/components/AppAuthBoundary'));
+const AuthGuard = lazy(() => import('./app/components/AuthGuard'));
+const RoleGuard = lazy(() => import('./app/components/RoleGuard'));
+const PartnerProRedirect = lazy(() => import('./app/components/PartnerProRedirect'));
 const DynamicHero = lazy(() => import('./components/DynamicHero'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
 const AdvancedFilters = lazy(() => import('./components/AdvancedFilters'));
@@ -2015,6 +2016,8 @@ const App: React.FC = () => {
   if (currentView.startsWith('app-')) {
     return (
       <div className="min-h-screen bg-slate-950 text-white">
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
+          <AppAuthBoundary>
         <SEOHead title="Espace privé | MaximusSCPI" description="Espace privé MaximusSCPI" noIndex />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LoadingSpinner size="large" /></div>}>
           {currentView === 'app-entry' && <AppEntry onNavigate={navigateToApp} />}
@@ -2238,6 +2241,8 @@ const App: React.FC = () => {
       <div className={`min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
         <Suspense fallback={<LoadingSpinner />}>
           <AdminPartners />
+        </Suspense>
+          </AppAuthBoundary>
         </Suspense>
       </div>
     );
