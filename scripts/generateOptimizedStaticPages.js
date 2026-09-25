@@ -38,6 +38,69 @@ const replaceOrInsertHeadTag = (html, pattern, replacement) => {
   return html.replace('</head>', '    ' + replacement + '\n  </head>');
 };
 
+const setScpiInitialShell = (baseHtml, scpi, slug) => {
+  const name = String(scpi['Nom SCPI'] || '').trim();
+  const company = String(scpi['Société de gestion'] || '').trim();
+  const yieldValue = Number(scpi['Taux de distribution (%)']);
+  const cap = Number(scpi['Capitalisation (M€)']);
+  const price = Number(scpi['Prix de souscription (€)']);
+
+  const metrics = [
+    Number.isFinite(yieldValue)
+      ? '<div class="scpi-shell-card"><span>Taux de distribution</span><strong>' + escapeHtml(yieldValue.toFixed(2).replace('.00', '') + '%') + '</strong></div>'
+      : '',
+    Number.isFinite(price)
+      ? '<div class="scpi-shell-card"><span>Prix de la part</span><strong>' + escapeHtml(String(price) + ' €') + '</strong></div>'
+      : '',
+    Number.isFinite(cap)
+      ? '<div class="scpi-shell-card"><span>Capitalisation</span><strong>' + escapeHtml(String(Math.round(cap)) + ' M€') + '</strong></div>'
+      : ''
+  ].filter(Boolean).join('');
+
+  const shell =
+    '<div id="root">' +
+      '<div class="scpi-initial-shell">' +
+        '<header class="scpi-shell-header">' +
+          '<a href="/" aria-label="Accueil MaximusSCPI"><img src="/Maximus logo 250x50 4.svg" width="250" height="50" alt="MaximusSCPI" fetchpriority="high" /></a>' +
+          '<a href="/comparateur-scpi/">Comparer les SCPI</a>' +
+        '</header>' +
+        '<main class="scpi-shell-hero">' +
+          '<div class="scpi-shell-inner">' +
+            '<p class="scpi-shell-kicker">Fiche SCPI · Analyse MaximusSCPI</p>' +
+            '<h1>SCPI ' + escapeHtml(name) + '</h1>' +
+            (company ? '<p class="scpi-shell-company">Gérée par ' + escapeHtml(company) + '</p>' : '') +
+            '<div class="scpi-shell-metrics">' + metrics + '</div>' +
+            '<p class="scpi-shell-note">Analyse détaillée, patrimoine, valorisation et points de vigilance.</p>' +
+          '</div>' +
+        '</main>' +
+      '</div>' +
+      '<style>' +
+        '.scpi-initial-shell{min-height:100vh;background:#0D1117;color:#fff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}' +
+        '.scpi-shell-header{height:72px;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#fff}' +
+        '.scpi-shell-header img{width:205px;height:auto}.scpi-shell-header>a:last-child{color:#047857;text-decoration:none;font-size:14px;font-weight:700}' +
+        '.scpi-shell-hero{background:radial-gradient(55% 60% at 15% 5%,rgba(16,185,129,.18),transparent 65%),#0D1117;min-height:430px}' +
+        '.scpi-shell-inner{max-width:1180px;margin:0 auto;padding:68px 24px 76px}' +
+        '.scpi-shell-kicker{margin:0 0 14px;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em;font-size:13px;font-weight:800}' +
+        '.scpi-shell-inner h1{margin:0 0 10px;font-size:clamp(40px,5vw,64px);line-height:1.04;letter-spacing:-.035em;font-weight:800}' +
+        '.scpi-shell-company{margin:0 0 32px;color:#cbd5e1;font-size:18px}' +
+        '.scpi-shell-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:780px}' +
+        '.scpi-shell-card{padding:18px;border:1px solid rgba(148,163,184,.22);border-radius:12px;background:rgba(30,41,59,.62)}' +
+        '.scpi-shell-card span{display:block;color:#94a3b8;font-size:12px;margin-bottom:6px}.scpi-shell-card strong{font-size:23px}' +
+        '.scpi-shell-note{margin:24px 0 0;color:#94a3b8;font-size:14px}' +
+        '@media(max-width:700px){.scpi-shell-header{height:66px;padding:0 18px}.scpi-shell-header img{width:175px}.scpi-shell-header>a:last-child{display:none}.scpi-shell-inner{padding:48px 20px 58px}.scpi-shell-inner h1{font-size:40px}.scpi-shell-metrics{grid-template-columns:1fr}.scpi-shell-card{padding:15px}}' +
+      '</style>' +
+    '</div>';
+
+  const rootStart = baseHtml.indexOf('<div id="root">');
+  const moduleScriptStart = baseHtml.indexOf('<script type="module"', rootStart);
+  if (rootStart === -1 || moduleScriptStart === -1) return baseHtml;
+
+  const rootEnd = baseHtml.lastIndexOf('</div>', moduleScriptStart);
+  if (rootEnd === -1 || rootEnd < rootStart) return baseHtml;
+
+  return baseHtml.slice(0, rootStart) + shell + baseHtml.slice(rootEnd + 6);
+};
+
 const setSeo = (baseHtml, scpi, slug) => {
   const name = String(scpi['Nom SCPI'] || '').trim();
   const company = String(scpi['Société de gestion'] || '').trim();
@@ -105,7 +168,7 @@ for (const scpi of scpiData) {
   }
   seen.add(slug);
 
-  const html = setSeo(appShell, scpi, slug);
+  const html = setScpiInitialShell(setSeo(appShell, scpi, slug), scpi, slug);
   const pageDir = path.join(distDir, slug);
   fs.mkdirSync(pageDir, { recursive: true });
   fs.writeFileSync(path.join(pageDir, 'index.html'), html, 'utf-8');
