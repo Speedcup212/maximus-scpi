@@ -1483,8 +1483,9 @@ const App: React.FC = () => {
 
   // Lazy load SCPI data (275 Ko) only when needed
   useEffect(() => {
-    // Load data if user is on home page or comparator view
-    if (currentView === 'home' || currentView === 'landing' || currentView === 'scpi-detail' || currentView === 'thematic' || currentView === 'thematic-optimized' || currentView === 'scpi-static') {
+    // The homepage no longer needs the full SCPI dataset at first paint.
+    // Load it only on views that actually consume it; interaction handlers load it on demand otherwise.
+    if (currentView === 'landing' || currentView === 'scpi-detail' || currentView === 'thematic' || currentView === 'thematic-optimized' || currentView === 'scpi-static') {
       import('./data/scpiData').then(module => {
         setScpiData(module.scpiData);
       });
