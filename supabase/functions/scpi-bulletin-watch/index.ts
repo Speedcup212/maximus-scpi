@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v81";
+const PARSER_VERSION="2026-09-25-v82";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -86,8 +86,12 @@ function periodFromUrlDate(s:string){
     if(m){d=Number(m[1]);mo=Number(m[2]);y=Number(m[3]);}
     else{
       const compact=/(?:^|[^0-9])(20\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?:[^0-9]|$)/.exec(s);
-      if(!compact)return null;
-      y=Number(compact[1]);mo=Number(compact[2]);d=Number(compact[3]);
+      if(compact){y=Number(compact[1]);mo=Number(compact[2]);d=Number(compact[3]);}
+      else{
+        const compactFr=/(?:^|[^0-9])(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])(20\d{2})(?:[^0-9]|$)/.exec(s);
+        if(!compactFr)return null;
+        d=Number(compactFr[1]);mo=Number(compactFr[2]);y=Number(compactFr[3]);
+      }
     }
   }
   if([3,6,9,12].includes(mo)&&d>=28){const q=mo/3;return {p:y+"-T"+q,k:y*10+q};}
@@ -161,10 +165,11 @@ async function remoteLooksPdf(url:string){
 async function findBulletin(s:Source){
   const pg=await pages(s),cs:Cand[]=[];
   for(const page of pg){
-    if(!PDF_URL.test(page))continue;
+    const seeded=page===s.discovered_page_url||page===s.official_scpi_page_url;
+    const looksPdf=PDF_URL.test(page)||(seeded&&await remoteLooksPdf(page));
+    if(!looksPdf)continue;
     const pp=period(page)||periodFromUrlDate(page)||periodFromDates(page);
     const r=rel(page,s.scpi_name);
-    const seeded=page===s.discovered_page_url||page===s.official_scpi_page_url;
     if(seeded||r>=18||BW.test(page))cs.push({page,pdf:page,html:false,label:"",p:pp?.p||null,k:pp?.k||0,score:(pp?.k||0)*10000+(seeded?2500:1500)+r*2});
   }
   const docs=await Promise.allSettled(pg.filter(page=>!PDF_URL.test(page)).map(async page=>({page,html:await getText(page)})));
