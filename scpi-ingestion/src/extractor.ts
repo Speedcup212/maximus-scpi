@@ -453,12 +453,12 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Capitalisation ────────────────────────────────────────────────────────
   const capStr = firstMatch(text, [
+    /([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))\s*\n?\s*capitalisa(?:tion)?\b/i,
     /capitalisa(?:tion)?\s*(?:totale)?\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
     /patrimoine\s+(?:net|total)\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
     /actif\s+net\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
     /capitaux\s+propres\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
     /valeur\s+(?:totale\s+)?du\s+patrimoine\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
-    /([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))\s*\n?\s*capitalisa(?:tion)?\b/i,
   ]);
   if (capStr !== null) {
     const v = parseAmount(capStr);
