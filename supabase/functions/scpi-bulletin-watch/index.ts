@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v80";
+const PARSER_VERSION="2026-09-25-v81";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -175,7 +175,13 @@ async function findBulletin(s:Source){
     }
     if(pagePeriod&&BW.test(pageSignal)&&pr>=18)cs.push({page:d.value.page,pdf:d.value.page,html:true,label:title,p:pagePeriod.p,k:pagePeriod.k,score:pagePeriod.k*10000+950+pr*2});
     for(const a of pdfs(d.value.html,d.value.page)){const z=a.url+" "+a.text,r=rel(z,s.scpi_name),pp=period(z)||periodFromUrlDate(a.url)||periodFromDates(z);if(pr<45&&r<18)continue;if(!BW.test(z)&&!pp&&r<50)continue;cs.push({page:d.value.page,pdf:a.url,html:false,label:a.text,p:pp?.p||null,k:pp?.k||0,score:(pp?.k||0)*10000+(BW.test(z)?600:0)+r*2-a.i});}
-    for(const a of anchors(d.value.html,d.value.page).filter(x=>BW.test(x.url+" "+x.text)&&!PDF_URL.test(x.url)).slice(0,1)){try{const h=await getText(a.url,3500);const ap=period(a.url+" "+a.text+" "+((/<title[^>]*>([\s\S]*?)<\/title>/i.exec(h)?.[1])||""))||periodFromUrlDate(a.url)||periodFromDates(a.url+" "+a.text);if(ap)cs.push({page:a.url,pdf:a.url,html:true,label:a.text,p:ap.p,k:ap.k,score:ap.k*10000+900+rel(a.url+" "+a.text,s.scpi_name)*2});for(const p of pdfs(h,a.url)){const z=p.url+" "+p.text+" "+a.text,pp=period(z)||periodFromUrlDate(p.url)||periodFromDates(z),r=rel(z,s.scpi_name);if(pr<45&&r<18)continue;cs.push({page:a.url,pdf:p.url,html:false,label:p.text+" "+a.text,p:pp?.p||null,k:pp?.k||0,score:(pp?.k||0)*10000+700+r*2-p.i});}}catch{}}
+    const nested=anchors(d.value.html,d.value.page)
+      .filter(x=>BW.test(x.url+" "+x.text)&&!PDF_URL.test(x.url))
+      .map(a=>({a,r:rel(a.url+" "+a.text,s.scpi_name)}))
+      .filter(x=>pr>=45||x.r>=18)
+      .sort((x,y)=>y.r-x.r)
+      .slice(0,4);
+    for(const {a} of nested){try{const h=await getText(a.url,4500);const ap=period(a.url+" "+a.text+" "+((/<title[^>]*>([\s\S]*?)<\/title>/i.exec(h)?.[1])||""))||periodFromUrlDate(a.url)||periodFromDates(a.url+" "+a.text);if(ap)cs.push({page:a.url,pdf:a.url,html:true,label:a.text,p:ap.p,k:ap.k,score:ap.k*10000+900+rel(a.url+" "+a.text,s.scpi_name)*2});for(const p of pdfs(h,a.url)){const z=p.url+" "+p.text+" "+a.text,pp=period(z)||periodFromUrlDate(p.url)||periodFromDates(z),r=rel(z,s.scpi_name);if(pr<45&&r<18)continue;cs.push({page:a.url,pdf:p.url,html:false,label:p.text+" "+a.text,p:pp?.p||null,k:pp?.k||0,score:(pp?.k||0)*10000+700+r*2-p.i});}}catch{}}
   }
   cs.sort((a,b)=>b.score-a.score);
   const top=cs.slice(0,8);
