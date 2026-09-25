@@ -146,7 +146,11 @@ const setSeo = (baseHtml, scpi, slug) => {
       : undefined
   };
   const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
-  html = html.replace('</head>', '    <script id="scpi-static-schema" type="application/ld+json">' + schemaJson + '</script>\n  </head>');
+  html = html.replace(
+    '</head>',
+    '    <script id="scpi-static-schema" type="application/ld+json">' + schemaJson + '</script>\\n' +
+    '    <script>window.__SCPI_STATIC_SLUG__=' + JSON.stringify(slug) + ';</script>\\n  </head>'
+  );
   return html;
 };
 
