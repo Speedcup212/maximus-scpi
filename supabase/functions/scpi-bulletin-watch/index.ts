@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v86";
+const PARSER_VERSION="2026-09-25-v87";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -760,6 +760,61 @@ function parseMetrics(t:string,sourcePeriod?:string){
     delete o.distribution_par_part;
     o.capital_type="variable";
   }
+  // PERIAL — format éditorial T2 2026 et suivants.
+  // Les chiffres clés sont publiés sous forme "valeur + libellé", avec le plafond
+  // statutaire juste après l'endettement réel : les motifs génériques peuvent donc
+  // inverser parts/associés ou retenir le plafond de 40 %.
+  if(/BULLETIN\s+TRIMESTRIEL\s+D['’]?INFORMATION[\s\S]{0,160}?PERIAL/i.test(t)||/PERIAL\s+(?:GRAND\s+PARIS|O2|OPPORTUNIT[EÉ]S\s+EUROPE)/i.test(t)){
+    const num=(s:string)=>parseInt(s.replace(/[ \u00a0\u202f]/g,""),10);
+
+    const perialParts=/(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)(?:\s*\+\s*\d{1,3}(?:[ \u00a0\u202f]\d{3})*\s+VS\s+\d{2}\/\d{2}\/20\d{2})?\s+Nombre\s+de\s+parts\s+en\s+circulation/i.exec(t);
+    if(perialParts)o.nombre_parts=num(perialParts[1]);
+
+    const perialAssoc=/(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)(?:\s*\+\s*\d{1,3}(?:[ \u00a0\u202f]\d{3})*\s+VS\s+\d{2}\/\d{2}\/20\d{2})?\s+Nombre\s+d['’]?associ[eé]s/i.exec(t);
+    if(perialAssoc)o.nombre_associes=num(perialAssoc[1]);
+
+    const perialWait=/(\d{1,3}(?:[ \u00a0\u202f]\d{3})*|0)\s*Parts?\s+en\s+attente\s+de\s+retrait/i.exec(t);
+    if(perialWait)o.parts_attente_retrait=num(perialWait[1]);
+
+    const perialCapEur=/(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)\s*€(?:\s*[+\-]?\d+(?:[.,]\d+)?\s*%\s+VS\s+\d{2}\/\d{2}\/20\d{2})?\s+Capitalisation/i.exec(t);
+    const perialCapMd=/(\d{1,3}(?:[.,]\d+)?)\s*Md€\s+Capitalisation/i.exec(t);
+    if(perialCapEur)o.capitalisation=num(perialCapEur[1])/1e6;
+    else if(perialCapMd){const v=fr(perialCapMd[1]);if(v!==null)o.capitalisation=v*1000;}
+
+    const perialDebt=/L['’]endettement\s+de\s+la\s+SCPI\s+(\d{1,3}(?:[.,]\d+)?)\s*%\s+Endettement\s+maximal\s+autoris[eé]/i.exec(t);
+    if(perialDebt){const v=fr(perialDebt[1]);if(v!==null)o.endettement=v;}
+
+    const perialTof=/L['’]occupation\s+financi[eè]re\s+(\d{1,3}(?:[.,]\d+)?)\s*%[\s\S]{0,140}?Taux\s+d['’]Occupation\s+Financier/i.exec(t);
+    if(perialTof){const v=fr(perialTof[1]);if(v!==null)o.tof=v;}
+
+    const perialGross=/Dividende\s+brut[^0-9]{0,140}?(\d{1,3}(?:[.,]\d{1,2})?)\s*€\s*\/\s*part/i.exec(t);
+    if(perialGross){const v=fr(perialGross[1]);if(v!==null)o.distribution_par_part=v;}
+
+    const perialPortfolio=/(\d{1,4})\s+Immeubles\s+(\d{1,5})\s+Baux\b/i.exec(t)
+      || /(\d{1,4})\s+immeubles[,\s]+lou[eé]s[\s\S]{0,100}?(\d{1,5})\s+Baux\b/i.exec(t);
+    if(perialPortfolio)o.nombre_immeubles=Number(perialPortfolio[1]);
+
+    const perialTenants=/Parmi\s+nos\s+(\d{1,5})\s+locataires\b/i.exec(t);
+    if(perialTenants)o.nombre_locataires=Number(perialTenants[1]);
+    else delete o.nombre_locataires;
+
+    const suspended=/variabilit[eé]\s+du\s+capital\s+est\s+temporairement\s+suspendue|variabilit[eé]\s+du\s+capital\s+temporairement\s+suspendue/i.test(t);
+    if(suspended){
+      // Mode de liquidité réellement utilisable : marché secondaire, pas retrait au prix de souscription.
+      o.capital_type="fixe";
+      delete o.prix_souscription;
+      delete o.prix_retrait;
+    }else{
+      o.capital_type="variable";
+      // Sur une SCPI à capital variable, le bulletin rappelle que capitalisation =
+      // nombre de parts × prix de part. Cela fournit un prix de part officiel dérivé,
+      // sans dépendre d'un libellé PDF ambigu.
+      if(typeof o.capitalisation==="number"&&typeof o.nombre_parts==="number"&&o.nombre_parts>0){
+        o.prix_souscription=Math.round((o.capitalisation*1e6/o.nombre_parts)*100)/100;
+      }
+    }
+  }
+
   // Dernier garde-fou PAREF : les blocs spécifiques doivent avoir priorité sur
   // les parseurs génériques exécutés plus bas dans la fonction.
   if(/PAREF\s+Gestion/i.test(t)){
