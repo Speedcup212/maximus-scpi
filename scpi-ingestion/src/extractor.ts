@@ -111,6 +111,25 @@ export interface ActualiteTrimestrielle {
   commentaire?: string;
 }
 
+/**
+ * Indicateurs complémentaires utilisés par MaximusSCPI pour la liquidité,
+ * la valorisation et l'historisation. Les pourcentages restent normalisés
+ * en décimal [0,1], les montants en euros absolus.
+ */
+export interface MaximusIndicators {
+  endettement?: number;
+  prix_retrait?: number;
+  valeur_realisation?: number;
+  collecte_nette?: number;
+  nb_cessions_trimestre?: number;
+  nombre_locataires?: number;
+  nombre_immeubles?: number;
+  parts_attente_retrait?: number;
+  retraits_executes_trimestre?: number;
+  distribution_par_part?: number;
+  capital_type?: "fixe" | "variable";
+}
+
 export interface ExtractionMeta {
   readonly critical_fields_total: number;
   readonly critical_fields_found: number;
@@ -126,6 +145,7 @@ export interface ExtractionResult {
   readonly valorisation_risque:      ValorisationRisque;
   readonly strategie_investissement: StrategieInvestissement;
   readonly actualite_trimestrielle:  ActualiteTrimestrielle;
+  readonly maximus_indicators:       MaximusIndicators;
   /** Confidence in [0, 1] = critical_fields_found / critical_fields_total. */
   readonly confidence:               number;
   readonly _meta:                    ExtractionMeta;
@@ -919,6 +939,118 @@ function extractActualiteTrimestrielle(text: string): ActualiteTrimestrielle {
   return result;
 }
 
+
+function extractMaximusIndicators(text: string): MaximusIndicators {
+  const result: MaximusIndicators = {};
+
+  const debtStr = firstMatch(text, [
+    /(?:taux|ratio)\s+(?:d['’]?endettement|des?\s+dettes?(?:\s+et\s+autres?\s+engagements?)?)[^%]{0,80}?([\d,.]+)\s*%/i,
+    /endettement\s*(?:\([^)]*\))?\s*[:=\-]?\s*([\d,.]+)\s*%/i,
+    /([\d,.]+)\s*%\s*(?:d['’]?endettement|endettement)/i,
+  ]);
+  if (debtStr !== null) {
+    const v = parsePct(debtStr);
+    if (v !== null) result.endettement = v;
+  }
+
+  const retraitStr = firstMatch(text, [
+    /(?:prix|valeur)\s+de\s+retrait\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /retrait\s+(?:par\s+part|d['’]?une\s+part)\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+  ]);
+  if (retraitStr !== null) {
+    const v = parseFrNum(retraitStr);
+    if (v !== null && v > 0) result.prix_retrait = v;
+  }
+
+  const realisationStr = firstMatch(text, [
+    /valeur\s+de\s+r[eé]alisation(?:\s+par\s+part)?\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /prix\s+de\s+r[eé]alisation\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+  ]);
+  if (realisationStr !== null) {
+    const v = parseFrNum(realisationStr);
+    if (v !== null && v > 0) result.valeur_realisation = v;
+  }
+
+  const collecteMatch = /collecte\s+nette(?:\s+(?:du|au)\s+(?:trimestre|T[1-4]))?\s*[:=\-]?\s*([+\-]?[\d\s\u00a0.,]+)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/i.exec(text);
+  if (collecteMatch?.[1]) {
+    const base = parseFrNum(collecteMatch[1]);
+    if (base !== null) {
+      const unit = (collecteMatch[2] ?? "€").toLowerCase();
+      const mult =
+        unit.startsWith("md") || unit.startsWith("milliard") ? 1_000_000_000 :
+        unit === "m€" || unit.startsWith("million") ? 1_000_000 :
+        unit === "k€" || unit.startsWith("millier") ? 1_000 : 1;
+      result.collecte_nette = base * mult;
+    }
+  }
+
+  const cessionsStr = firstMatch(text, [
+    /(?:nombre\s+de\s+)?cessions?\s*(?:du|sur\s+le|au)?\s*(?:trimestre|T[1-4])?\s*[:=\-]?\s*(\d+)/i,
+    /(\d+)\s+cessions?\s+(?:r[eé]alis[eé]es?|effectu[eé]es?|au\s+cours\s+du\s+trimestre)/i,
+  ]);
+  if (cessionsStr !== null) {
+    const v = parseInt(cessionsStr.replace(/\s/g, ""), 10);
+    if (!isNaN(v) && v >= 0) result.nb_cessions_trimestre = v;
+  }
+
+  const locatairesStr = firstMatch(text, [
+    /(?:nombre\s+de\s+)?locataires\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+    /([\d\s\u00a0]+)\s+locataires\b/i,
+  ]);
+  if (locatairesStr !== null) {
+    const v = parseInt(locatairesStr.replace(/[\s\u00a0]/g, ""), 10);
+    if (!isNaN(v) && v > 0) result.nombre_locataires = v;
+  }
+
+  const immeublesStr = firstMatch(text, [
+    /(?:nombre\s+d['’]?)?(?:immeubles|actifs\s+immobiliers)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+    /([\d\s\u00a0]+)\s+(?:immeubles|actifs\s+immobiliers)\b/i,
+    /actifs\s+au\s+\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+  ]);
+  if (immeublesStr !== null) {
+    const v = parseInt(immeublesStr.replace(/[\s\u00a0]/g, ""), 10);
+    if (!isNaN(v) && v > 0) result.nombre_immeubles = v;
+  }
+
+  const waitingStr = firstMatch(text, [
+    /parts?\s+(?:confirm[eé]es?\s+et\s+non\s+confirm[eé]es?\s+)?en\s+attente\s+de\s+retrait[^\d]{0,80}([\d\s\u00a0]+)/i,
+    /([\d\s\u00a0]+)\s+parts?[^.\n]{0,60}en\s+attente\s+de\s+retrait/i,
+    /demandes?\s+de\s+retrait[^\d]{0,80}([\d\s\u00a0]+)\s+parts?/i,
+  ]);
+  if (waitingStr !== null) {
+    const v = parseInt(waitingStr.replace(/[\s\u00a0]/g, ""), 10);
+    if (!isNaN(v) && v >= 0) result.parts_attente_retrait = v;
+  } else if (/aucune\s+part\s+en\s+attente|aucune\s+demande\s+de\s+retrait|0\s+part(?:s)?\s+en\s+attente/i.test(text)) {
+    result.parts_attente_retrait = 0;
+  }
+
+  const executedStr = firstMatch(text, [
+    /([\d\s\u00a0]+)\s+retraits?\s+(?:ont\s+[eé]t[eé]\s+)?(?:ex[eé]cut[eé]s?|r[eé]alis[eé]s?)/i,
+    /retraits?\s+(?:ex[eé]cut[eé]s?|r[eé]alis[eé]s?)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+  ]);
+  if (executedStr !== null) {
+    const v = parseInt(executedStr.replace(/[\s\u00a0]/g, ""), 10);
+    if (!isNaN(v) && v >= 0) result.retraits_executes_trimestre = v;
+  }
+
+  const distributionStr = firstMatch(text, [
+    /(?:acompte\s+sur\s+dividende|dividende|distribution)\s+(?:vers[eé]e?\s+)?(?:au\s+(?:premier|deuxi[eè]me|troisi[eè]me|quatri[eè]me)\s+trimestre\s+)?(?:est\s+de\s+)?([\d,.]+)\s*€\s*(?:par\s+part|\/\s*part)/i,
+    /([\d,.]+)\s*€\s*(?:par\s+part|\/\s*part)[^.\n]{0,40}(?:dividende|distribution|acompte)/i,
+  ]);
+  if (distributionStr !== null) {
+    const v = parseFrNum(distributionStr);
+    if (v !== null && v >= 0) result.distribution_par_part = v;
+  }
+
+  if (/\bSCPI\s+(?:[\wÀ-ÿ'’ -]+\s+)?(?:est\s+)?(?:une\s+)?SCPI\s+[àa]\s+capital\s+fixe\b|\bcapital\s+fixe\b/i.test(text)) {
+    result.capital_type = "fixe";
+  } else if (/\bSCPI\s+(?:[\wÀ-ÿ'’ -]+\s+)?(?:est\s+)?(?:une\s+)?SCPI\s+[àa]\s+capital\s+variable\b|\bcapital\s+variable\b/i.test(text)) {
+    result.capital_type = "variable";
+  }
+
+  return result;
+}
+
 // ─── Confidence calculation ───────────────────────────────────────────────────
 
 /**
@@ -981,6 +1113,7 @@ export function extractFromText(text: string): ExtractionResult {
   const valorisation_risque      = extractValorisationRisque(t);
   const strategie_investissement = extractStrategieInvestissement(t);
   const actualite_trimestrielle  = extractActualiteTrimestrielle(t);
+  const maximus_indicators       = extractMaximusIndicators(t);
 
   const partial: Omit<ExtractionResult, "confidence" | "_meta"> = {
     chiffres_cles,
@@ -992,6 +1125,7 @@ export function extractFromText(text: string): ExtractionResult {
     valorisation_risque,
     strategie_investissement,
     actualite_trimestrielle,
+    maximus_indicators,
   };
 
   const { confidence, _meta } = computeConfidence(partial);
