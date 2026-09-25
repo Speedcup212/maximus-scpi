@@ -837,6 +837,21 @@ async function next(db:any){
   return (data||[]).filter((x:any)=>!x.next_check_at||new Date(x.next_check_at).getTime()<=now).sort((a:any,b:any)=>(a.last_checked_at?new Date(a.last_checked_at).getTime():0)-(b.last_checked_at?new Date(b.last_checked_at).getTime():0))[0] as Source|undefined;
 }
 
+function debugSnippets(t:string){
+  const terms=[/associ[eé]s?/ig,/parts?/ig,/capitalisation/ig,/taux\s+d['’]?occupation|\bTOF\b/ig,/endettement|dette\s+bancaire/ig,/prix\s+de\s+(?:souscription|part)/ig,/valeur\s+de\s+(?:reconstitution|r[eé]alisation|retrait)/ig,/dividende|distribution/ig,/immeubles?/ig];
+  const out:string[]=[];const seen=new Set<string>();
+  for(const re of terms){
+    let m:RegExpExecArray|null,n=0;
+    while((m=re.exec(t))!==null&&n<4){
+      const a=Math.max(0,m.index-220),b=Math.min(t.length,m.index+m[0].length+420);
+      const s=t.slice(a,b).replace(/\s+/g," ").trim();
+      if(!seen.has(s)){seen.add(s);out.push(s);n++;}
+      if(re.lastIndex===m.index)re.lastIndex++;
+    }
+  }
+  return out.slice(0,24);
+}
+
 Deno.serve(async(req:Request)=>{
   if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});
   const base=Deno.env.get("SUPABASE_URL")||"";let key=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";if(!key){try{key=JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS")||"{}").default||"";}catch{}}
@@ -855,6 +870,19 @@ Deno.serve(async(req:Request)=>{
     s=data as Source;
   }else s=await next(db);
   if(!s)return Response.json({ok:true,status:"idle"});
+  if(body?.debug_extract===true){
+    const cand=await findBulletin(s);
+    if(!cand)return Response.json({ok:false,slug:s.scpi_slug,status:"bulletin_not_found"});
+    let txt="";
+    if(cand.html){txt=stripHtml(await getText(cand.pdf,10000));}
+    else{txt=await extractPdfText(await getPdf(cand.pdf));}
+    const pp=cand.p?{p:cand.p,k:cand.k}:period(cand.label+" "+cand.pdf+" "+txt.slice(0,9000))||periodFromUrlDate(cand.pdf)||periodFromDates(txt);
+    return Response.json({
+      ok:true,slug:s.scpi_slug,bulletin_url:cand.pdf,period:pp?.p||null,
+      raw:cand.html?parseHtmlMetrics(txt):parseMetrics(txt,pp?.p),
+      snippets:debugSnippets(txt)
+    });
+  }
   const eid=await startEvent(db,s);await reg(db,s.scpi_slug,{last_checked_at:new Date().toISOString(),next_check_at:later(1)});
   try{
     const c=await findBulletin(s);if(!c){const ec=(s.error_count||0)+1;await reg(db,s.scpi_slug,{verification_status:"manual_review_required",confidence_level:"low",last_error:"Aucun bulletin trimestriel pertinent détecté automatiquement.",error_count:ec,next_check_at:later(Math.min(168,12+ec*12))});await finish(db,eid,{status:"needs_review",step:"edge_discovery",message:"Bulletin introuvable"});return Response.json({ok:false,slug:s.scpi_slug,status:"needs_review"});}
