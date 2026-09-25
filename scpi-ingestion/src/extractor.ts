@@ -242,7 +242,9 @@ function parsePct(raw: string): number | null {
   const s   = raw.trim().replace("%", "");
   const n   = parseFrNum(s);
   if (n === null) return null;
-  return n > 1 ? n / 100 : n;
+  // Tous les appels de cet extracteur proviennent de motifs explicitement
+  // associés au signe %. Une valeur "0,5" signifie donc 0,5 %, pas 50 %.
+  return n / 100;
 }
 
 /**
