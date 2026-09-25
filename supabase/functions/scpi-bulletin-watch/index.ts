@@ -3,9 +3,10 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
+const PARSER_VERSION="2026-09-25-v79";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
-const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport\s+annuel|annual\s+report|sfdr|notice\s+d['’]?information|r[eè]glement|politique\s+esg|code\s+de\s+transparence|rapport\s+isr|rapport\s+extra[-\s]?financier|annexe\s+[24]\s+sfdr)/i;
+const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
 const PDF_URL=/\.pdf(?:$|[\/?#])/i;
 const STOP=new Set(["scpi","de","du","des","la","le","les","et","en","au","aux","europe","pierre","paris","grand","patrimoine","capital","immo","immobilier"]);
 
@@ -741,6 +742,14 @@ function validate(p:any,c:any,allowCorrection=false){
       if(ratio<0.4||ratio>2.5){bad.push("nombre_parts: incohérent avec la capitalisation");delete r.nombre_parts;}
     }else if(r.nombre_parts<10000){bad.push("nombre_parts: incohérent avec la capitalisation");delete r.nombre_parts;}
   }
+  if(typeof r.prix_souscription==="number"&&typeof r.prix_retrait==="number"&&r.prix_retrait>r.prix_souscription*1.001){
+    bad.push("prix_retrait: supérieur au prix de souscription");
+    delete r.prix_retrait;
+  }
+  if(typeof r.valeur_realisation==="number"&&typeof r.prix_reconstitution==="number"&&r.prix_reconstitution<=r.valeur_realisation*1.001){
+    bad.push("prix_reconstitution: incohérente avec la valeur de réalisation");
+    delete r.prix_reconstitution;
+  }
   return {r,bad};
 }
 async function startEvent(db:any,s:Source){const {data}=await db.from("scpi_ingestion_events").insert({scpi_slug:s.scpi_slug,status:"started",step:"edge_source_selected",source_page_url:s.discovered_page_url||s.official_scpi_page_url}).select("id").single();return data?.id||null;}
@@ -776,7 +785,7 @@ Deno.serve(async(req:Request)=>{
     if(c.html){const html=await getText(c.pdf,10000);text=stripHtml(html);hashPdf=await shaText(html);}else{const bytes=await getPdf(c.pdf);hashPdf=await shaBytes(bytes);text=await extractPdfText(bytes);}
     if(text.trim().length<200)throw new Error("Texte source insuffisant");
     const {data:old}=await db.from("scpi_bulletins").select("id,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
-    if(old?.id&&old.extraction_json){
+    if(old?.id&&old.extraction_json?.parser_version===PARSER_VERSION){
       const {data:cur}=await db.from("scpi_indicators").select("source_period").eq("scpi_slug",s.scpi_slug).maybeSingle();
       const oldKey=period(String(old.period||""))?.k||0,currentKey=period(String(cur?.source_period||""))?.k||0;
       const metricCount=Object.keys(old.extraction_json?.metrics||{}).length;
@@ -805,9 +814,10 @@ Deno.serve(async(req:Request)=>{
       typeof r.td==="number"||typeof r.distribution_par_part==="number",
       typeof r.nombre_parts==="number"||typeof r.nombre_immeubles==="number"||typeof r.nombre_associes==="number"
     ].filter(Boolean).length;
-    const strong=metricCount>=(c.html?7:10)&&!bad.length&&confidence>=0.6&&coreCount>=3;
+    const hasPerformance=typeof r.td==="number"||typeof r.distribution_par_part==="number";
+    const strong=metricCount>=(c.html?7:10)&&!bad.length&&confidence>=0.6&&coreCount>=4&&hasPerformance;
     const qas=bad.length?"auto_partial_review":strong?"auto_verified":"auto_partial";
-    const {data:b,error:be}=await db.from("scpi_bulletins").upsert({scpi_slug:s.scpi_slug,period:pp.p,pdf_path:path,pdf_sha256:hashPdf,source_url:c.pdf,run_id:"edge-"+new Date().toISOString(),found_at:new Date().toISOString(),extraction_json:{metrics:raw},qa_status:qas,extraction_confidence:confidence,processed_at:new Date().toISOString()},{onConflict:"scpi_slug,period"}).select("id").single();if(be)throw be;
+    const {data:b,error:be}=await db.from("scpi_bulletins").upsert({scpi_slug:s.scpi_slug,period:pp.p,pdf_path:path,pdf_sha256:hashPdf,source_url:c.pdf,run_id:"edge-"+new Date().toISOString(),found_at:new Date().toISOString(),extraction_json:{metrics:raw,parser_version:PARSER_VERSION},qa_status:qas,extraction_confidence:confidence,processed_at:new Date().toISOString()},{onConflict:"scpi_slug,period"}).select("id").single();if(be)throw be;
     if(canPromote&&strong){
       const meta={nom:s.scpi_name,societe_gestion:s.management_company,source_period:pp.p,source_confidence:confidence,source_type:"bulletin_edge_automated",bulletin_id:b.id,source_document:c.html?("bulletin-web-"+pp.p):decodeURIComponent(new URL(c.pdf).pathname.split("/").pop()||"bulletin.pdf"),source_url:c.pdf,qa_status:qas,updated_at:new Date().toISOString()};
       const metricKeys=["td","td_annee","tof","capitalisation","prix_souscription","prix_reconstitution","prix_retrait","valeur_realisation","endettement","walt","walb","collecte_nette","nombre_locataires","nombre_immeubles","nombre_associes","nombre_parts","parts_attente_retrait","distribution_par_part","capital_type"];
