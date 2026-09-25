@@ -1,10 +1,12 @@
 # MaximusSCPI - Production robots.txt
-# Site: VITE_PUBLIC_SITE_URL=https://maximusscpi.com
+# Site: https://maximusscpi.com
 
 User-agent: *
 Allow: /
-
-Sitemap: VITE_PUBLIC_SITE_URL=https://maximusscpi.com/sitemap.xml
+Allow: /llms.txt
+Allow: /.well-known/ard.json
+Allow: /.well-known/ai-catalog.json
+Allow: /.well-known/skills/
 
 Disallow: /app/
 Disallow: /api/
@@ -13,3 +15,6 @@ Disallow: /merci-*
 Disallow: /test-*
 Disallow: /qa-*
 Disallow: /admin/
+
+Sitemap: https://maximusscpi.com/sitemap.xml
+Agentmap: https://maximusscpi.com/.well-known/ard.json
