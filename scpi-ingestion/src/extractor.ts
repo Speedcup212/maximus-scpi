@@ -1029,9 +1029,9 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   }
 
   const waitingStr = firstMatch(text, [
-    /parts?\s+(?:confirm[eé]es?\s+et\s+non\s+confirm[eé]es?\s+)?en\s+attente\s+de\s+retrait[^\d]{0,80}([\d\s\u00a0]+)/i,
-    /([\d\s\u00a0]+)\s+parts?[^.\n]{0,60}en\s+attente\s+de\s+retrait/i,
-    /demandes?\s+de\s+retrait[^\d]{0,80}([\d\s\u00a0]+)\s+parts?/i,
+    /parts?\s+(?:confirm[eé]es?\s+et\s+non\s+confirm[eé]es?\s+)?en\s+attente\s+de\s+retrait[^\d\n]{0,80}([\d][\d \t\u00a0]*)/i,
+    /([\d][\d \t\u00a0]*)[ \t]+parts?[^.\n]{0,60}en\s+attente\s+de\s+retrait/i,
+    /demandes?\s+de\s+retrait[^\d\n]{0,80}([\d][\d \t\u00a0]*)[ \t]+parts?/i,
   ]);
   if (waitingStr !== null) {
     const v = parseInt(waitingStr.replace(/[\s\u00a0]/g, ""), 10);
