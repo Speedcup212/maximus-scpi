@@ -453,11 +453,12 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Capitalisation ────────────────────────────────────────────────────────
   const capStr = firstMatch(text, [
-    /capitalisa(?:tion)?\s*(?:totale)?\s*[:\-=]\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
-    /patrimoine\s+(?:net|total)\s*[:\-=]\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
-    /actif\s+net\s*[:\-=]\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
-    /capitaux\s+propres\s*[:\-=]\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
-    /valeur\s+(?:totale\s+)?du\s+patrimoine\s*[:\-=]\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /capitalisa(?:tion)?\s*(?:totale)?\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /patrimoine\s+(?:net|total)\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /actif\s+net\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /capitaux\s+propres\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /valeur\s+(?:totale\s+)?du\s+patrimoine\s*[:\-=]?\s*([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))/i,
+    /([\d\s\u00a0.,]+\s*(?:Md€|M€|milliards?|millions?|k€|€))\s*\n?\s*capitalisa(?:tion)?\b/i,
   ]);
   if (capStr !== null) {
     const v = parseAmount(capStr);
@@ -480,7 +481,8 @@ function extractChiffresCles(text: string): ChiffresCles {
   const tofStr = firstMatch(text, [
     /taux\s+d[''']occupation\s+financier\s*[:\-=]?\s*([\d,\.]+)\s*%/i,
     /\bT\.?O\.?F\.?\b\s*[:\-=]\s*([\d,\.]+)\s*%/i,
-    /occupation\s+financi[eè]re\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    /occupation\s+financi[eè]re\s*[:\-=]?\s*([\d,\.]+)\s*%/i,
+    /([\d,\.]+)\s*%\s*T\.?O\.?F\.?\b/i,
   ]);
   if (tofStr !== null) {
     const v = parsePct(tofStr);
@@ -491,7 +493,8 @@ function extractChiffresCles(text: string): ChiffresCles {
   const topStr = firstMatch(text, [
     /taux\s+d[''']occupation\s+physique\s*[:\-=]?\s*([\d,\.]+)\s*%/i,
     /\bT\.?O\.?P\.?\b\s*[:\-=]\s*([\d,\.]+)\s*%/i,
-    /occupation\s+physique\s*[:\-=]\s*([\d,\.]+)\s*%/i,
+    /occupation\s+physique\s*[:\-=]?\s*([\d,\.]+)\s*%/i,
+    /([\d,\.]+)\s*%\s*T\.?O\.?P\.?\b/i,
   ]);
   if (topStr !== null) {
     const v = parsePct(topStr);
@@ -500,10 +503,11 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Prix de part ──────────────────────────────────────────────────────────
   const prixStr = firstMatch(text, [
-    /prix\s+de\s+(?:la\s+)?part\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
-    /valeur\s+de\s+(?:la\s+)?part\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
-    /prix\s+de\s+souscription\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
-    /valeur\s+nominale\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
+    /prix\s+de\s+(?:la\s+)?part\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /valeur\s+de\s+(?:la\s+)?part\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /prix\s+de\s+souscription\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /valeur\s+nominale\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /([\d\s\u00a0.,]+)\s*€\s*(?:\/\s*part)?\s*\n?\s*prix\s+de\s+souscription\b/i,
   ]);
   if (prixStr !== null) {
     const v = parseFrNum(prixStr);
@@ -512,8 +516,9 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Nombre de parts ───────────────────────────────────────────────────────
   const nbPartsStr = firstMatch(text, [
-    /nombre\s+(?:total\s+)?de\s+parts?\s*(?:en\s+circulation)?\s*[:\-=]\s*([\d\s\u00a0]+)/i,
-    /parts?\s+en\s+circulation\s*[:\-=]\s*([\d\s\u00a0]+)/i,
+    /nombre\s+(?:total\s+)?de\s+parts?\s*(?:en\s+circulation)?\s*[:\-=]?\s*([\d\s\u00a0]+)/i,
+    /parts?\s+en\s+circulation\s*[:\-=]?\s*([\d\s\u00a0]+)/i,
+    /([\d\s\u00a0]{3,})\s*\n?\s*nombre\s+de\s+parts\b/i,
   ]);
   if (nbPartsStr !== null) {
     const v = parseFrNum(nbPartsStr.replace(/\s/g, ""));
@@ -734,9 +739,11 @@ function extractIndicateursLocatifs(text: string): IndicateursLocatifs {
 
   // WALB
   const walbStr = firstMatch(src, [
-    /W\.?A\.?L\.?B\.?\s*[:\-=]\s*([\d,\.]+\s*ans?)/i,
-    /dur[eé]e\s+r[eé]siduelle\s+(?:des?\s+baux?)?\s*(?:au\s+(?:premier\s+)?break)?\s*[:\-=]\s*([\d,\.]+\s*ans?)/i,
-    /dur[eé]e\s+(?:moyenne\s+)?ferme\s*[:\-=]\s*([\d,\.]+\s*ans?)/i,
+    /W\.?A\.?L\.?B\.?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
+    /dur[eé]e\s+r[eé]siduelle\s+(?:des?\s+baux?)?\s*(?:au\s+(?:premier\s+)?break)?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
+    /dur[eé]e\s+(?:moyenne\s+)?ferme\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
+    /[\d,\.]+\s*ans\s+([\d,\.]+\s*ans)\s*\n?\s*W\.?A\.?L\.?T\.?[^\n]{0,30}W\.?A\.?L\.?B\.?/i,
+    /([\d,\.]+\s*ans)\s*\n?\s*W\.?A\.?L\.?B\.?\b/i,
   ]);
   if (walbStr !== null) {
     const v = parseDuration(walbStr);
@@ -745,8 +752,9 @@ function extractIndicateursLocatifs(text: string): IndicateursLocatifs {
 
   // WALT
   const waltStr = firstMatch(src, [
-    /W\.?A\.?L\.?T\.?\s*[:\-=]\s*([\d,\.]+\s*ans?)/i,
-    /dur[eé]e\s+r[eé]siduelle\s+(?:des?\s+baux?)?\s*(?:au\s+terme)?\s*[:\-=]\s*([\d,\.]+\s*ans?)/i,
+    /W\.?A\.?L\.?T\.?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
+    /dur[eé]e\s+r[eé]siduelle\s+(?:des?\s+baux?)?\s*(?:au\s+terme)?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
+    /([\d,\.]+\s*ans)(?:\s+[\d,\.]+\s*ans)?\s*\n?\s*W\.?A\.?L\.?T\.?\b/i,
   ]);
   if (waltStr !== null) {
     const v = parseDuration(waltStr);
@@ -800,8 +808,9 @@ function extractValorisationRisque(text: string): ValorisationRisque {
 
   // Prix de reconstitution (per share)
   const prStr = firstMatch(text, [
-    /prix\s+de\s+reconstitution\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
-    /valeur\s+de\s+reconstitution\s*[:\-=]\s*([\d\s\u00a0.,]+)\s*€/i,
+    /prix\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /valeur\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+reconstitution\b/i,
   ]);
   if (prStr !== null) {
     const v = parseFrNum(prStr);
@@ -948,6 +957,7 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     /(?:taux|ratio)\s+(?:d['’]?endettement|des?\s+dettes?(?:\s+et\s+autres?\s+engagements?)?)[^%]{0,80}?([\d,.]+)\s*%/i,
     /endettement\s*(?:\([^)]*\))?\s*[:=\-]?\s*([\d,.]+)\s*%/i,
     /([\d,.]+)\s*%\s*(?:d['’]?endettement|endettement)/i,
+    /([\d,.]+)\s*%\s*\n?\s*dettes?\s+et\s+autres?\s+engagements?/i,
   ]);
   if (debtStr !== null) {
     const v = parsePct(debtStr);
@@ -957,6 +967,7 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   const retraitStr = firstMatch(text, [
     /(?:prix|valeur)\s+de\s+retrait\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /retrait\s+(?:par\s+part|d['’]?une\s+part)\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*(?:prix|valeur)\s+de\s+retrait\b/i,
   ]);
   if (retraitStr !== null) {
     const v = parseFrNum(retraitStr);
@@ -966,13 +977,16 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   const realisationStr = firstMatch(text, [
     /valeur\s+de\s+r[eé]alisation(?:\s+par\s+part)?\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /prix\s+de\s+r[eé]alisation\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+r[eé]alisation\b/i,
   ]);
   if (realisationStr !== null) {
     const v = parseFrNum(realisationStr);
     if (v !== null && v > 0) result.valeur_realisation = v;
   }
 
-  const collecteMatch = /collecte\s+nette(?:\s+(?:du|au)\s+(?:trimestre|T[1-4]))?\s*[:=\-]?\s*([+\-]?[\d\s\u00a0.,]+)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/i.exec(text);
+  const collecteMatch =
+    /collecte\s+nette(?:\s+(?:du|au)\s+(?:trimestre|T[1-4]))?\s*[:=\-]?\s*([+\-]?[\d\s\u00a0.,]+)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/i.exec(text) ||
+    /([+\-]?[\d\s\u00a0.,]+)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)\s*\n?\s*collecte\s+nette\b/i.exec(text);
   if (collecteMatch?.[1]) {
     const base = parseFrNum(collecteMatch[1]);
     if (base !== null) {
@@ -1007,6 +1021,7 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     /(?:nombre\s+d['’]?)?(?:immeubles|actifs\s+immobiliers)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
     /([\d\s\u00a0]+)\s+(?:immeubles|actifs\s+immobiliers)\b/i,
     /actifs\s+au\s+\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+    /\bActifs\s+\d+\s+\d+(?:\([^)]*\))?\s*[-–]\s*(\d+)\b/i,
   ]);
   if (immeublesStr !== null) {
     const v = parseInt(immeublesStr.replace(/[\s\u00a0]/g, ""), 10);
@@ -1037,10 +1052,33 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   const distributionStr = firstMatch(text, [
     /(?:acompte\s+sur\s+dividende|dividende|distribution)\s+(?:vers[eé]e?\s+)?(?:au\s+(?:premier|deuxi[eè]me|troisi[eè]me|quatri[eè]me)\s+trimestre\s+)?(?:est\s+de\s+)?([\d,.]+)\s*€\s*(?:par\s+part|\/\s*part)/i,
     /([\d,.]+)\s*€\s*(?:par\s+part|\/\s*part)[^.\n]{0,40}(?:dividende|distribution|acompte)/i,
+    /([\d,.]+)\s*€\s*\n?\s*montant\s+(?:brut\s+)?distribu[eé][^\n]{0,100}(?:T[1-4]|trimestre)/i,
   ]);
   if (distributionStr !== null) {
     const v = parseFrNum(distributionStr);
     if (v !== null && v >= 0) result.distribution_par_part = v;
+  }
+
+  if (result.parts_attente_retrait === undefined || result.retraits_executes_trimestre === undefined) {
+    const capitalSection = /[ÉE]VOLUTIONS?\s+DU\s+CAPITAL[\s\S]{0,2200}/i.exec(text)?.[0] || "";
+    const rowRe = /T([1-4])\s+(20\d{2})\s+([\d\s]+?)\s+([\d\s]+?)\s+([\d\s]+?)\s+(-|[\d\s]+?)\s+([\d\s]+?)\s+([\d\s]+?)(?=\n|T[1-4]\s+20\d{2}|$)/gi;
+    const rows: RegExpExecArray[] = [];
+    let rowMatch: RegExpExecArray | null;
+    while ((rowMatch = rowRe.exec(capitalSection)) !== null) rows.push(rowMatch);
+    const latest = rows.at(-1);
+    if (latest) {
+      const waitingRaw = latest[6]?.trim();
+      const withdrawalsRaw = latest[8]?.trim();
+      if (result.parts_attente_retrait === undefined && waitingRaw) {
+        result.parts_attente_retrait = waitingRaw === "-"
+          ? 0
+          : parseInt(waitingRaw.replace(/\s/g, ""), 10);
+      }
+      if (result.retraits_executes_trimestre === undefined && withdrawalsRaw) {
+        const n = parseInt(withdrawalsRaw.replace(/\s/g, ""), 10);
+        if (!isNaN(n)) result.retraits_executes_trimestre = n;
+      }
+    }
   }
 
   if (/\bSCPI\s+(?:[\wÀ-ÿ'’ -]+\s+)?(?:est\s+)?(?:une\s+)?SCPI\s+[àa]\s+capital\s+fixe\b|\bcapital\s+fixe\b/i.test(text)) {
