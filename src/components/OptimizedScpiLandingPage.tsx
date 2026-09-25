@@ -22,6 +22,7 @@ import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
+import { getLiveScpiData } from '../utils/scpiLiveData';
 
 interface OptimizedScpiLandingPageProps {
   scpiKey: string;
@@ -69,9 +70,23 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   // Comparaison par slug (insensible aux accents/espaces) pour éviter les
   // décalages de nommage (ex. "Périal O2" éditorial vs "Perial O2" data).
   const landingSlug = createSlugFromName(landingData.nom);
-  const realScpiData = scpiData.find(
+  const staticScpiData = scpiData.find(
     scpi => createSlugFromName(scpi.name) === landingSlug
   );
+  const [realScpiData, setRealScpiData] = useState(staticScpiData);
+
+  useEffect(() => {
+    let active = true;
+    if (!staticScpiData) return () => { active = false; };
+
+    void getLiveScpiData(staticScpiData).then((live) => {
+      if (active) setRealScpiData(live);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [landingSlug, staticScpiData]);
 
   const [formData, setFormData] = useState({
     nom: '',
