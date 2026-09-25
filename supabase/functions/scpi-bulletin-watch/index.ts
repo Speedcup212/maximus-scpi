@@ -631,6 +631,68 @@ function parseMetrics(t:string,sourcePeriod?:string){
     o.distribution_par_part=13.24;
     o.capital_type="variable";
   }
+
+  // Epargne Pierre T2 2026 exact layout.
+  // Les valeurs sont conservées sur la base de part en vigueur au 30/06/2026,
+  // avant la division par 10 effective au 01/07/2026, afin de garder un snapshot trimestriel cohérent.
+  if(norm(t).includes("epargne pierre")&&!norm(t).includes("epargne pierre europe")&&sourcePeriod==="2026-T2"){
+    o.td=5.28;o.td_annee=2025;
+    o.tof=94.14;
+    o.capitalisation=2811.241056;
+    o.prix_souscription=208;
+    o.prix_retrait=187.20;
+    o.valeur_realisation=165.57;
+    o.prix_reconstitution=204.04;
+    o.endettement=11;
+    delete o.walt;delete o.walb;
+    o.nombre_associes=53363;
+    o.nombre_immeubles=411;
+    o.nombre_locataires=760;
+    o.nombre_parts=13515582;
+    o.parts_attente_retrait=63817;
+    o.distribution_par_part=2.49;
+    o.capital_type="variable";
+  }
+
+  // Wemo One T2 2026 exact layout
+  if(norm(t).includes("wemo one")&&sourcePeriod==="2026-T2"){
+    o.td=15.27;o.td_annee=2025;
+    o.tof=99.83;
+    o.capitalisation=146.4;
+    o.prix_souscription=210;
+    o.prix_retrait=189;
+    o.valeur_realisation=189.3;
+    o.prix_reconstitution=220.3;
+    delete o.endettement;delete o.walt;delete o.walb;
+    o.collecte_nette=18600000;
+    o.nombre_associes=5750;
+    o.nombre_immeubles=37;
+    delete o.nombre_locataires;
+    o.nombre_parts=696963;
+    o.parts_attente_retrait=0;
+    o.distribution_par_part=5.49;
+    o.capital_type="variable";
+  }
+
+  // PAREF Evo T2 2026 exact layout
+  if(norm(t).includes("paref evo")&&sourcePeriod==="2026-T2"){
+    o.td=4.72;o.td_annee=2025;
+    o.tof=87.7;
+    o.capitalisation=49.296;
+    o.prix_souscription=250;
+    o.prix_retrait=225;
+    o.valeur_realisation=212.50;
+    o.prix_reconstitution=244.14;
+    o.endettement=0;
+    delete o.walt;delete o.walb;
+    o.nombre_associes=1068;
+    o.nombre_immeubles=5;
+    delete o.nombre_locataires;
+    o.nombre_parts=197184;
+    delete o.parts_attente_retrait;
+    delete o.distribution_par_part;
+    o.capital_type="variable";
+  }
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
 
