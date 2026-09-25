@@ -30,7 +30,7 @@ const exactPages: Record<string, string> = {
   'novaxia-neo': 'https://www.novaxia-investissement.fr/produits/novaxia-neo/',
   'perial-opportunites-europe': 'https://www.perial.com/scpi/perial-opportunites-europe',
   'iroko-zen': 'https://www.iroko.eu/scpi-iroko-zen/',
-  'remake-live': 'https://www.remake.immo/remake-live/',
+  'remake-live': 'https://www.remake.fr/remake-live/',
 };
 
 const rows = (scpiCatalog as any[]).map((scpi) => {
