@@ -50,7 +50,7 @@ const EXCLUDED_DOCUMENTS =
   /(dic|kiid|priips?|prospectus|statuts?|rapport\s+annuel|annual\s+report|sfdr|notice\s+d['’]?information|r[eè]glement|politique\s+esg|document\s+pr[eé]contractuel)/i;
 
 const PAGE_HINTS =
-  /(scpi|documentation|documents?|nos-scpi|produits?|fonds?|supports?|investissement|immobilier)/i;
+  /(scpi|documentation|documents?|bulletins?|trimestriel|nos-scpi|produits?|fonds?|supports?|investissement|immobilier)/i;
 
 const STOP_TOKENS = new Set([
   'scpi', 'de', 'du', 'des', 'd', 'la', 'le', 'les', 'et', 'en', 'au', 'aux',
@@ -300,12 +300,6 @@ async function discoverCandidatePages(source: SourceRow): Promise<string[]> {
     return [start];
   }
 
-  // Une URL déjà spécifique à la SCPI est prioritaire et évite un crawl
-  // sitemap inutile. C'est le chemin rapide pour les sources déjà qualifiées.
-  if (relevanceScore(start, source.scpi_name) >= 55) {
-    return [start];
-  }
-
   const scored = new Map<string, number>();
   const add = (url: string, bonus = 0) => {
     try {
@@ -323,17 +317,25 @@ async function discoverCandidatePages(source: SourceRow): Promise<string[]> {
     }
   };
 
+  const startRelevance = relevanceScore(start, source.scpi_name);
   add(start, source.discovered_page_url ? 90 : 20);
 
   const [homeResult, sitemapResult] = await Promise.allSettled([
     fetchText(start, 5_000),
-    origin ? collectSitemapUrls(origin) : Promise.resolve([]),
+    origin && startRelevance < 55 ? collectSitemapUrls(origin) : Promise.resolve([]),
   ]);
 
   if (homeResult.status === 'fulfilled') {
     for (const link of extractAnchors(homeResult.value, start)) {
-      const score = relevanceScore(`${link.url} ${link.text}`, source.scpi_name);
-      if (score >= 18 || (PAGE_HINTS.test(link.url) && score > 0)) add(link.url, Math.min(40, score));
+      const combined = `${link.url} ${link.text}`;
+      const score = relevanceScore(combined, source.scpi_name);
+      const bulletinChild = startRelevance >= 45 && BULLETIN_WORDS.test(combined);
+
+      if (bulletinChild) {
+        add(link.url, 90);
+      } else if (score >= 18 || (PAGE_HINTS.test(link.url) && score > 0)) {
+        add(link.url, Math.min(40, score));
+      }
     }
   }
 
