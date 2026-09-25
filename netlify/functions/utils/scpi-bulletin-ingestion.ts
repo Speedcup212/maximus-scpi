@@ -35,7 +35,7 @@ type ProcessResult = {
   message: string;
 };
 
-const HTML_TIMEOUT_MS = 8_000;
+const HTML_TIMEOUT_MS = 5_000;
 const PDF_TIMEOUT_MS = 18_000;
 const MAX_PDF_BYTES = 35 * 1024 * 1024;
 const MAX_SITEMAP_URLS = 4_000;
@@ -259,23 +259,24 @@ async function collectSitemapUrls(origin: string): Promise<string[]> {
 
   for (const root of roots) {
     try {
-      const xml = await fetchText(root, 6_000);
+      const xml = await fetchText(root, 4_000);
       const locs = extractLocs(xml);
-      const childMaps = locs.filter((url) => /\.xml(?:$|\?)/i.test(url)).slice(0, 8);
+      const childMaps = locs.filter((url) => /\.xml(?:$|\?)/i.test(url)).slice(0, 5);
       for (const url of locs) {
         if (!/\.xml(?:$|\?)/i.test(url)) pageUrls.add(url);
       }
-      for (const child of childMaps) {
-        try {
-          const childXml = await fetchText(child, 6_000);
-          for (const url of extractLocs(childXml)) {
-            if (!/\.xml(?:$|\?)/i.test(url)) pageUrls.add(url);
-            if (pageUrls.size >= MAX_SITEMAP_URLS) break;
-          }
-        } catch {
-          // Un sitemap enfant indisponible ne doit pas bloquer les autres.
+
+      const children = await Promise.allSettled(
+        childMaps.map((child) => fetchText(child, 4_000))
+      );
+      for (const child of children) {
+        if (child.status !== 'fulfilled') continue;
+        for (const url of extractLocs(child.value)) {
+          if (!/\.xml(?:$|\?)/i.test(url)) pageUrls.add(url);
+          if (pageUrls.size >= MAX_SITEMAP_URLS) break;
         }
       }
+
       if (pageUrls.size > 0) break;
     } catch {
       // Essayer le prochain nom de sitemap.
@@ -293,6 +294,12 @@ async function discoverCandidatePages(source: SourceRow): Promise<string[]> {
   try {
     origin = origin || new URL(start).origin;
   } catch {
+    return [start];
+  }
+
+  // Une URL déjà spécifique à la SCPI est prioritaire et évite un crawl
+  // sitemap inutile. C'est le chemin rapide pour les sources déjà qualifiées.
+  if (relevanceScore(start, source.scpi_name) >= 55) {
     return [start];
   }
 
@@ -315,31 +322,28 @@ async function discoverCandidatePages(source: SourceRow): Promise<string[]> {
 
   add(start, source.discovered_page_url ? 90 : 20);
 
-  try {
-    const html = await fetchText(start);
-    for (const link of extractAnchors(html, start)) {
+  const [homeResult, sitemapResult] = await Promise.allSettled([
+    fetchText(start, 5_000),
+    origin ? collectSitemapUrls(origin) : Promise.resolve([]),
+  ]);
+
+  if (homeResult.status === 'fulfilled') {
+    for (const link of extractAnchors(homeResult.value, start)) {
       const score = relevanceScore(`${link.url} ${link.text}`, source.scpi_name);
       if (score >= 18 || (PAGE_HINTS.test(link.url) && score > 0)) add(link.url, Math.min(40, score));
     }
-  } catch {
-    // Le sitemap peut encore fonctionner si la page d'entrée est bloquée.
   }
 
-  if (origin) {
-    try {
-      const sitemapUrls = await collectSitemapUrls(origin);
-      for (const url of sitemapUrls) {
-        const score = relevanceScore(url, source.scpi_name);
-        if (score >= 18) add(url, 35);
-      }
-    } catch {
-      // fallback sur la page d'entrée
+  if (sitemapResult.status === 'fulfilled') {
+    for (const url of sitemapResult.value) {
+      const score = relevanceScore(url, source.scpi_name);
+      if (score >= 18) add(url, 35);
     }
   }
 
   return [...scored.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
+    .slice(0, 5)
     .map(([url]) => url);
 }
 
@@ -347,15 +351,20 @@ async function findLatestBulletin(source: SourceRow): Promise<BulletinCandidate 
   const pages = await discoverCandidatePages(source);
   const candidates: BulletinCandidate[] = [];
 
-  for (const pageUrl of pages) {
-    let html: string;
-    try {
-      html = await fetchText(pageUrl);
-    } catch {
-      continue;
-    }
+  const pageResults = await Promise.allSettled(
+    pages.map(async (pageUrl) => ({ pageUrl, html: await fetchText(pageUrl, 5_000) }))
+  );
 
-    const pageRelevance = relevanceScore(`${pageUrl} ${html.slice(0, 8_000)}`, source.scpi_name);
+  for (const pageResult of pageResults) {
+    if (pageResult.status !== 'fulfilled') continue;
+    const { pageUrl, html } = pageResult.value;
+
+    const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1] || '';
+    const h1 = /<h1[^>]*>([\s\S]*?)<\/h1>/i.exec(html)?.[1] || '';
+    const pageRelevance = relevanceScore(
+      `${pageUrl} ${title.replace(/<[^>]+>/g, ' ')} ${h1.replace(/<[^>]+>/g, ' ')}`,
+      source.scpi_name
+    );
     const pdfLinks = extractPdfLinks(html, pageUrl);
 
     for (const link of pdfLinks) {
@@ -386,9 +395,6 @@ async function findLatestBulletin(source: SourceRow): Promise<BulletinCandidate 
         score,
       });
     }
-
-    // Les sociétés de gestion peuvent limiter le nombre de requêtes.
-    if (pages.length > 2) await sleep(80);
   }
 
   if (candidates.length === 0) return null;
