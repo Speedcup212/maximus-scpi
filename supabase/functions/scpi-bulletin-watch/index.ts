@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v88";
+const PARSER_VERSION="2026-09-25-v89";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -829,6 +829,91 @@ function parseMetrics(t:string,sourcePeriod?:string){
         o.prix_souscription=Math.round((o.capitalisation*1e6/o.nombre_parts)*100)/100;
       }
     }
+  }
+
+  // NORMA CAPITAL — bulletins NCap.
+  // Leur PDF présente plusieurs tableaux en colonnes : l'ordre de lecture brut peut
+  // associer le dividende au prix de part ou un TRI au ratio d'endettement.
+  if(/Norma\s+Capital/i.test(t)&&/Bulletin\s+(?:trimestriel|d['’]Information\s+Trimestriel)/i.test(t)){
+    const nint=(s:string)=>parseInt(s.replace(/[ \u00a0\u202f]/g,""),10);
+
+    const normaPrice=/(\d{2,4}(?:[.,]\d{1,2})?)\s*€(?:\d+)?\s+Prix\s+de\s+la\s+part/i.exec(t)
+      || /Prix\s+de\s+souscription\s+(\d{2,4}(?:[.,]\d{1,2})?)\s*€/i.exec(t);
+    if(normaPrice){const v=fr(normaPrice[1]);if(v!==null)o.prix_souscription=v;}
+
+    const normaReco=/([\d \u00a0\u202f]{2,8}(?:[.,]\d{1,2})?)\s*€\s+Valeur\s+de\s+reconstitution/i.exec(t);
+    if(normaReco){const v=fr(normaReco[1]);if(v!==null)o.prix_reconstitution=v;}
+
+    const normaCap=/([\d \u00a0\u202f]{1,10}(?:[.,]\d+)?)\s*M\s*€\s+Capitalisation(?:\s+brute)?\s+au\s+30\/06\/2026/i.exec(t)
+      || /([\d \u00a0\u202f]{1,10}(?:[.,]\d+)?)\s*M€\s+Capitalisation(?:\s+brute)?\s+au\s+30\/06\/2026/i.exec(t);
+    if(normaCap){const v=fr(normaCap[1]);if(v!==null)o.capitalisation=v;}
+
+    const normaDebt=/([0-9]{1,3}(?:[.,][0-9]+)?)\s*%\s+Ratio\s+des\s+dettes\s+et\s+autres\s+engagements\s+au\s+30\/06\/2026/i.exec(t);
+    if(normaDebt){const v=fr(normaDebt[1]);if(v!==null)o.endettement=v;}
+
+    const normaTof=/([0-9]{1,3}(?:[.,][0-9]+)?)\s*%\s+(?:de\s+)?Taux\s+d['’]Occupation\s+Financier\s*\(?(?:TOF)?\)?/i.exec(t);
+    if(normaTof){const v=fr(normaTof[1]);if(v!==null)o.tof=v;}
+
+    const normaTd=/([0-9]{1,3}(?:[.,][0-9]+)?)\s*%\s+Taux\s+de\s+distribution(?:\s+brut(?:\s+de\s+fiscalit[eé]\s+[eé]trang[eè]re)?)?\s+2025/i.exec(t);
+    if(normaTd){const v=fr(normaTd[1]);if(v!==null){o.td=v;o.td_annee=2025;}}
+
+    const normaDiv=/([0-9]{1,4}(?:[.,][0-9]{1,2})?)\s*€\s+Dividende(?:\s+brut)?\s+trimestriel/i.exec(t);
+    if(normaDiv){const v=fr(normaDiv[1]);if(v!==null)o.distribution_par_part=v;}
+
+    const normaIm=/\b(\d{1,4})\s+Nombre\s+d['’]immeubles\b/i.exec(t);
+    if(normaIm)o.nombre_immeubles=Number(normaIm[1]);
+    const normaLoc=/\b(\d{1,5})\s+Nombre\s+de\s+locataires\b/i.exec(t);
+    if(normaLoc)o.nombre_locataires=Number(normaLoc[1]);
+
+    // Table "Valeur de référence". Pour certains PDF l'extracteur place les neuf
+    // montants après les libellés : nominal, prime, commission, réalisation,
+    // reconstitution, retrait, IFI résident, IFI non-résident, souscription.
+    const refStart=t.search(/Prix\s+de\s+souscription/i);
+    if(refStart>=0){
+      const assocAfter=t.slice(refStart).search(/Nombre\s+d['’]associ[eé]s/i);
+      if(assocAfter>0&&assocAfter<1800){
+        const ref=t.slice(refStart,refStart+assocAfter);
+        const vals=[...ref.matchAll(/(\d{1,4}(?:[.,]\d{1,2})?)\s*€/g)]
+          .map(m=>fr(m[1])).filter((v):v is number=>v!==null);
+        if(vals.length>=9){
+          const a=vals.slice(-9);
+          o.valeur_realisation=a[3];
+          o.prix_reconstitution=a[4];
+          o.prix_retrait=a[5];
+          o.prix_souscription=a[8];
+        }
+      }
+    }
+
+    // Table "Évolution du capital" : les 5 derniers nombres de parts avant les
+    // libellés correspondent à stock, cessions, compensations, augmentation, attente.
+    const evo=/Nombre\s+d['’]associ[eé]s\s+Capital\s+nominal\s+Capitalisation\s*\(en\s+prix\s+de\s+souscription\)/i.exec(t);
+    if(evo){
+      const pre=t.slice(Math.max(0,evo.index-900),evo.index);
+      const pm=[...pre.matchAll(/\b(\d{1,3}(?:[ \u00a0\u202f]\d{3})*|0)\s+parts?\b/gi)];
+      if(pm.length>=5){
+        const last=pm.slice(-5);
+        o.nombre_parts=nint(last[0][1]);
+        o.parts_attente_retrait=nint(last[4][1]);
+      }
+      const seq=[...pre.matchAll(/\b(\d{1,3}(?:[ \u00a0\u202f]\d{3})*)\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)\s*€\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)\s*€\s+(\d{1,3}(?:[ \u00a0\u202f]\d{3})+)\s*€/g)];
+      if(seq.length)o.nombre_associes=nint(seq[seq.length-1][1]);
+    }
+
+    // Fallback retrait pour les PDF où la colonne de valeurs est extraite avant
+    // ses libellés (NCap Continent). On choisit uniquement un montant cohérent
+    // proche de 90 % du prix de part dans la zone "Valeur de retrait".
+    if(typeof o.prix_souscription==="number"&&(!o.prix_retrait||o.prix_retrait>o.prix_souscription)){
+      const li=t.search(/Valeur\s+de\s+retrait/i);
+      if(li>=0){
+        const zone=t.slice(Math.max(0,li-700),Math.min(t.length,li+700));
+        const cand=[...zone.matchAll(/(\d{2,4}(?:[.,]\d{1,2})?)\s*€/g)]
+          .map(m=>fr(m[1])).filter((v):v is number=>v!==null&&v>=o.prix_souscription*.7&&v<=o.prix_souscription);
+        if(cand.length)o.prix_retrait=cand.sort((a,b)=>Math.abs(a-o.prix_souscription*.9)-Math.abs(b-o.prix_souscription*.9))[0];
+      }
+    }
+
+    if(/CLASSIFICATION\s*:\s*SCPI\s+[àa]\s+capital\s+variable/i.test(t)||/SCPI\s+[àa]\s+capital\s+variable/i.test(t))o.capital_type="variable";
   }
 
   // Dernier garde-fou PAREF : les blocs spécifiques doivent avoir priorité sur
