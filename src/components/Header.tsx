@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2 } from 'lucide-react';
-import { scpiDataExtended } from '../data/scpiDataExtended';
-import { scpiData } from '../data/scpiData';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
 import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
 import { normalizeString } from '../utils/formatters';
 import { enrichScpiExtendedArray } from '../utils/enrichScpiExtended';
 import Logo from './Logo';
-import { useAuth } from '../contexts/AuthContext';
 
 interface HeaderProps {
   isDarkMode: boolean;
@@ -58,17 +55,7 @@ const Header: React.FC<HeaderProps> = ({
   const [isAboutMenuOpen, setIsAboutMenuOpen] = useState(false);
   const [isAboutMobileOpen, setIsAboutMobileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [scpiSearch, setScpiSearch] = useState('');
-  const { user, signOut } = useAuth();
-
-  const handlePrivateSpaceNavigation = () => {
-    if (onPrivateSpaceClick) {
-      onPrivateSpaceClick();
-    } else {
-      window.location.href = '/pro/dashboard';
-    }
-  };
   const dropdownRef = useRef<HTMLDivElement>(null);
   const scpiDropdownRef = useRef<HTMLDivElement>(null);
   const scpiMobileRef = useRef<HTMLDivElement>(null);
@@ -76,7 +63,6 @@ const Header: React.FC<HeaderProps> = ({
   const educationMobileRef = useRef<HTMLDivElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const aboutMobileRef = useRef<HTMLDivElement>(null);
-  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   // Fonction pour réinitialiser tous les états du header lors d'une navigation
   const resetAllHeaderStates = () => {
@@ -87,7 +73,6 @@ const Header: React.FC<HeaderProps> = ({
     setIsEducationMobileOpen(false);
     setIsAboutMenuOpen(false);
     setIsAboutMobileOpen(false);
-    setIsAccountMenuOpen(false);
   };
 
   // Réinitialiser les états du header à chaque changement de vue
@@ -130,10 +115,6 @@ const Header: React.FC<HeaderProps> = ({
       if (aboutMobileRef.current && !aboutMobileRef.current.contains(event.target as Node)) {
         setIsAboutMobileOpen(false);
       }
-
-      if (accountMenuRef.current && !accountMenuRef.current.contains(event.target as Node)) {
-        setIsAccountMenuOpen(false);
-      }
     };
 
     if (isEducationOpen || isScpiMenuOpen || isSimulateurMenuOpen || isEducationMobileOpen || isAboutMenuOpen || isAboutMobileOpen) {
@@ -145,22 +126,42 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, [isEducationOpen, isScpiMenuOpen, isSimulateurMenuOpen, isEducationMobileOpen]);
 
-  const scpiMenuItems = useMemo(() => {
-    const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
-    return enriched.map(scpi => {
-      const landingSlug = findScpiSlug(scpi.name);
-      // URL canonique sans préfixe (alignée sur les pages statiques + sitemap + canonical).
-      // Évite la duplication /wemo-one ↔ /scpi-wemo-one.
-      const slug = landingSlug ?? createSlugFromName(scpi.name);
-      return {
-        scpi,
-        slug,
-        scpiName: scpi.name,
-        dominantSector: getDominantSector(scpi),
-        dominantGeography: getDominantGeography(scpi)
-      };
-    });
-  }, []);
+  const [scpiMenuItems, setScpiMenuItems] = useState<Array<{
+    scpi: any;
+    slug: string;
+    scpiName: string;
+    dominantSector: ReturnType<typeof getDominantSector>;
+    dominantGeography: ReturnType<typeof getDominantGeography>;
+  }>>([]);
+  const [isScpiMenuLoading, setIsScpiMenuLoading] = useState(false);
+  const scpiMenuLoadedRef = useRef(false);
+
+  const loadScpiMenuData = async () => {
+    if (scpiMenuLoadedRef.current || isScpiMenuLoading) return;
+    setIsScpiMenuLoading(true);
+    try {
+      const [{ scpiDataExtended }, { scpiData }] = await Promise.all([
+        import('../data/scpiDataExtended'),
+        import('../data/scpiData')
+      ]);
+      const enriched = enrichScpiExtendedArray(scpiDataExtended, scpiData);
+      const items = enriched.map(scpi => {
+        const landingSlug = findScpiSlug(scpi.name);
+        const slug = landingSlug ?? createSlugFromName(scpi.name);
+        return {
+          scpi,
+          slug,
+          scpiName: scpi.name,
+          dominantSector: getDominantSector(scpi),
+          dominantGeography: getDominantGeography(scpi)
+        };
+      });
+      setScpiMenuItems(items);
+      scpiMenuLoadedRef.current = true;
+    } finally {
+      setIsScpiMenuLoading(false);
+    }
+  };
 
   // Top 5 SCPI par rendement (indicateur isolé)
   const topScpis = useMemo(() => {
@@ -278,7 +279,10 @@ const Header: React.FC<HeaderProps> = ({
           <li>
           <div className="relative" ref={scpiDropdownRef}>
             <button
+              onMouseEnter={loadScpiMenuData}
+              onFocus={loadScpiMenuData}
               onClick={() => {
+                if (!isScpiMenuOpen) void loadScpiMenuData();
                 setIsScpiMenuOpen(!isScpiMenuOpen);
                 setIsEducationOpen(false);
               }}
@@ -720,82 +724,28 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* 3. BLOC DROITE : Espace Pro / Mon Espace */}
         <div className="hidden lg:flex flex-shrink-0 items-center gap-4">
-          {user ? (
-            <div className="relative" ref={accountMenuRef}>
-              <button
-                onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                className="flex px-1.5 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium items-center gap-2 text-sm h-9 whitespace-nowrap"
-                aria-label="Mon espace"
-              >
-                <User className="w-4 h-4" />
-                <span>Mon espace</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-                {isAccountMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-52 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl py-2 z-[110]">
-                    <button
-                      onClick={() => {
-                        resetAllHeaderStates();
-                        handlePrivateSpaceNavigation();
-                      }}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Accéder à l’espace
-                    </button>
-                    <button
-                      onClick={async () => {
-                        await signOut();
-                        resetAllHeaderStates();
-                      }}
-                      className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-900/20"
-                    >
-                      Déconnexion
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <a
-                href="/professionnels"
-                onClick={(e) => {
-                  resetAllHeaderStates();
-                  if (onProClick) {
-                    e.preventDefault();
-                    onProClick();
-                  }
-                }}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 cursor-pointer whitespace-nowrap"
-                aria-label="Accéder aux espaces professionnels"
-              >
-                <User className="w-4 h-4" aria-hidden="true" />
-                <span>Espace Pro</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </a>
-            )}
-        </div>
+          <a
+            href="/professionnels"
+            onClick={(e) => {
+              resetAllHeaderStates();
+              if (onProClick) {
+                e.preventDefault();
+                onProClick();
+              }
+            }}
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 cursor-pointer whitespace-nowrap"
+            aria-label="Accéder aux espaces professionnels"
+          >
+            <User className="w-4 h-4" aria-hidden="true" />
+            <span>Espace Pro</span>
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </a>        </div>
       </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="max-w-7xl mx-auto w-full px-6 md:px-8 lg:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 py-4 shadow-lg relative z-[9998] max-h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden">
             <div className="space-y-2">
-              {user && (
-              <div className="px-4">
-                <button
-                  onClick={() => {
-                    resetAllHeaderStates();
-                    handlePrivateSpaceNavigation();
-                  }}
-                  className="w-full flex items-center justify-between py-2 text-gray-700 dark:text-gray-200 font-medium"
-                >
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    <span>Mon espace</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-              )}
               {/* Comparateur - 1er Mobile */}
               <div className="px-4">
                 <a
@@ -836,6 +786,7 @@ const Header: React.FC<HeaderProps> = ({
               <div className="px-4" ref={scpiMobileRef}>
                 <button
                   onClick={() => {
+                    if (!isScpiMenuOpen) void loadScpiMenuData();
                     setIsScpiMenuOpen(!isScpiMenuOpen);
                     if (isScpiMenuOpen) {
                       setScpiSearch('');
@@ -847,7 +798,7 @@ const Header: React.FC<HeaderProps> = ({
                 >
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Nos SCPI ({scpiMenuItems.length})</span>
+                    <span>Nos SCPI{scpiMenuItems.length ? ` (${scpiMenuItems.length})` : ''}</span>
                   </div>
                   <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isScpiMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -868,7 +819,9 @@ const Header: React.FC<HeaderProps> = ({
                     </div>
                     <div className="max-h-[60vh] overflow-y-auto overscroll-contain webkit-overflow-scrolling-touch">
                       <div className="p-3 space-y-3">
-                        {scpiSearch ? (
+                        {isScpiMenuLoading && scpiMenuItems.length === 0 ? (
+                          <div className="px-3 py-8 text-center text-sm text-gray-500 dark:text-gray-400">Chargement des SCPI…</div>
+                        ) : scpiSearch ? (
                           filteredScpis.length > 0 ? (
                             <div className="space-y-1">
                               {filteredScpis.map((item) => (
