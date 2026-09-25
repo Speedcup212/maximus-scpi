@@ -1,0 +1,38 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "MaximusSCPI",
+    "identifier": "maximusscpi.com",
+    "documentationUrl": "https://maximusscpi.com/llms.txt"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:maximusscpi.com:skill:scpi-research",
+      "displayName": "MaximusSCPI SCPI Research",
+      "type": "application/ai-skill+md",
+      "url": "https://maximusscpi.com/.well-known/skills/scpi-research.md",
+      "description": "Read-only research skill for comparing SCPI data, understanding valuation, occupancy, debt, fees and liquidity, and locating MaximusSCPI public methodology and risk disclosures.",
+      "tags": [
+        "scpi",
+        "real-estate",
+        "investment-research",
+        "france",
+        "liquidity"
+      ],
+      "capabilities": [
+        "ScpiComparison",
+        "ScpiResearch",
+        "LiquidityAnalysis",
+        "RiskDisclosureLookup"
+      ],
+      "representativeQueries": [
+        "compare two SCPI on yield, TOF, debt and valuation",
+        "find the liquidity indicators for a French SCPI",
+        "explain the price and value of reconstitution of a SCPI",
+        "show the methodology and source period behind MaximusSCPI data"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-09-25T06:10:00Z"
+    }
+  ]
+}
