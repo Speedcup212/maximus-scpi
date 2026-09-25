@@ -1,7 +1,14 @@
+import { createHmac } from 'node:crypto';
+
 const getEnv = (key: string): string | undefined => {
   const netlifyEnv = (globalThis as any).Netlify?.env;
   return netlifyEnv?.get?.(key) || process.env[key];
 };
+
+const signDispatch = (timestamp: string, secret: string): string =>
+  createHmac('sha256', secret)
+    .update(`${timestamp}:scpi-ingest`)
+    .digest('hex');
 
 export default async (req: Request) => {
   let scheduledPayload: { next_run?: string } = {};
@@ -17,12 +24,14 @@ export default async (req: Request) => {
     return;
   }
 
-  const token = getEnv('SCPI_INGEST_TOKEN');
-  if (!token) {
-    console.error('[scpi-ingest-scheduled] SCPI_INGEST_TOKEN manquant');
+  const secret = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+  if (!secret) {
+    console.error('[scpi-ingest-scheduled] SUPABASE_SERVICE_ROLE_KEY manquant');
     return;
   }
 
+  const timestamp = String(Date.now());
+  const signature = signDispatch(timestamp, secret);
   const origin = new URL(req.url).origin;
   const target = `${origin}/.netlify/functions/scpi-ingest-background`;
 
@@ -30,7 +39,8 @@ export default async (req: Request) => {
     const response = await fetch(target, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
+        'X-Maximus-Timestamp': timestamp,
+        'X-Maximus-Signature': signature,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ trigger: 'scheduled' }),
@@ -46,5 +56,5 @@ export default async (req: Request) => {
 };
 
 export const config = {
-  schedule: '*/15 * * * *',
+  schedule: '*/5 * * * *',
 };
