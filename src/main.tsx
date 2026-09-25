@@ -1,7 +1,6 @@
 import { StrictMode, lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { AuthProvider } from './contexts/AuthContext';
 
 // Lazy load App to avoid blocking
 const App = lazy(() => import('./App.tsx'));
@@ -75,9 +74,7 @@ try {
           </div>
         </div>
       }>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <App />
       </Suspense>
     </StrictMode>
   );
