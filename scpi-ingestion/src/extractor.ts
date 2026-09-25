@@ -503,11 +503,11 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Prix de part ──────────────────────────────────────────────────────────
   const prixStr = firstMatch(text, [
+    /([\d\s\u00a0.,]+)\s*€\s*(?:\/\s*part)?\s*\n?\s*prix\s+de\s+souscription\b/i,
     /prix\s+de\s+(?:la\s+)?part\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /valeur\s+de\s+(?:la\s+)?part\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /prix\s+de\s+souscription\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /valeur\s+nominale\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /([\d\s\u00a0.,]+)\s*€\s*(?:\/\s*part)?\s*\n?\s*prix\s+de\s+souscription\b/i,
   ]);
   if (prixStr !== null) {
     const v = parseFrNum(prixStr);
@@ -516,9 +516,9 @@ function extractChiffresCles(text: string): ChiffresCles {
 
   // ── Nombre de parts ───────────────────────────────────────────────────────
   const nbPartsStr = firstMatch(text, [
+    /([\d\s\u00a0]{3,})\s*\n?\s*nombre\s+de\s+parts\b/i,
     /nombre\s+(?:total\s+)?de\s+parts?\s*(?:en\s+circulation)?\s*[:\-=]?\s*([\d\s\u00a0]+)/i,
     /parts?\s+en\s+circulation\s*[:\-=]?\s*([\d\s\u00a0]+)/i,
-    /([\d\s\u00a0]{3,})\s*\n?\s*nombre\s+de\s+parts\b/i,
   ]);
   if (nbPartsStr !== null) {
     const v = parseFrNum(nbPartsStr.replace(/\s/g, ""));
@@ -808,9 +808,9 @@ function extractValorisationRisque(text: string): ValorisationRisque {
 
   // Prix de reconstitution (per share)
   const prStr = firstMatch(text, [
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+reconstitution\b/i,
     /prix\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /valeur\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+reconstitution\b/i,
   ]);
   if (prStr !== null) {
     const v = parseFrNum(prStr);
@@ -965,9 +965,9 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   }
 
   const retraitStr = firstMatch(text, [
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*(?:prix|valeur)\s+de\s+retrait\b/i,
     /(?:prix|valeur)\s+de\s+retrait\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /retrait\s+(?:par\s+part|d['’]?une\s+part)\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*(?:prix|valeur)\s+de\s+retrait\b/i,
   ]);
   if (retraitStr !== null) {
     const v = parseFrNum(retraitStr);
@@ -975,9 +975,9 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   }
 
   const realisationStr = firstMatch(text, [
+    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+r[eé]alisation\b/i,
     /valeur\s+de\s+r[eé]alisation(?:\s+par\s+part)?\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
     /prix\s+de\s+r[eé]alisation\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+r[eé]alisation\b/i,
   ]);
   if (realisationStr !== null) {
     const v = parseFrNum(realisationStr);
@@ -1009,8 +1009,8 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   }
 
   const locatairesStr = firstMatch(text, [
-    /(?:nombre\s+de\s+)?locataires\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
     /([\d\s\u00a0]+)\s+locataires\b/i,
+    /(?:nombre\s+de\s+)?locataires\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
   ]);
   if (locatairesStr !== null) {
     const v = parseInt(locatairesStr.replace(/[\s\u00a0]/g, ""), 10);
@@ -1018,10 +1018,10 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
   }
 
   const immeublesStr = firstMatch(text, [
-    /(?:nombre\s+d['’]?)?(?:immeubles|actifs\s+immobiliers)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
     /([\d\s\u00a0]+)\s+(?:immeubles|actifs\s+immobiliers)\b/i,
-    /actifs\s+au\s+\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
     /\bActifs\s+\d+\s+\d+(?:\([^)]*\))?\s*[-–]\s*(\d+)\b/i,
+    /(?:nombre\s+d['’]?)?(?:immeubles|actifs\s+immobiliers)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+    /actifs\s+au\s+\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
   ]);
   if (immeublesStr !== null) {
     const v = parseInt(immeublesStr.replace(/[\s\u00a0]/g, ""), 10);
