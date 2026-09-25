@@ -20,6 +20,7 @@ import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
+import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
 
 interface OptimizedScpiLandingPageProps {
@@ -635,6 +636,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           className="h-20 sm:h-24 bg-gradient-to-b from-[#0D1117] via-[#DFF3EC] to-[#F8FAFC]"
         />
       )}
+
+      <ScpiIndicatorHistory
+        scpiSlug={landingSlug}
+        scpiName={landingData.nom}
+      />
 
       <div className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${useMaximusBrand ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
