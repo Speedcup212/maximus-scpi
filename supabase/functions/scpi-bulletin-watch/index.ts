@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v87";
+const PARSER_VERSION="2026-09-25-v88";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -136,7 +136,22 @@ async function pages(s:Source){
   const sr=rel(start,s.scpi_name);add(start,20);
   if(s.official_scpi_page_url&&s.official_scpi_page_url!==start)add(s.official_scpi_page_url,60000000);
   if(s.source_domain&&s.source_domain!==start)add(s.source_domain,1000);
-  const [home,sm]=await Promise.allSettled([getText(start,5500),sitemap(origin)]);
+
+  // Une page produit explicite contient généralement toute la documentation utile.
+  // Le sitemap complet est réservé aux sources racines/génériques : cela évite des
+  // milliers d'URL inutiles et les dépassements CPU sur les gros WordPress.
+  let targetedOfficial=false;
+  try{
+    if(s.official_scpi_page_url){
+      const u=new URL(s.official_scpi_page_url);
+      targetedOfficial=u.pathname.replace(/\/+$/,"").length>1;
+    }
+  }catch{}
+  const seededPdf=(s.discovered_page_url===start)&&(PDF_URL.test(start)||await remoteLooksPdf(start));
+  const [home,sm]=await Promise.allSettled([
+    seededPdf?Promise.resolve(""):getText(start,5500),
+    targetedOfficial?Promise.resolve([] as string[]):sitemap(origin)
+  ]);
   if(home.status==="fulfilled")for(const a of anchors(home.value,start)){const z=a.url+" "+a.text,q=rel(z,s.scpi_name),pp=period(z)||periodFromUrlDate(a.url)||periodFromDates(z);if(sr>=45&&BW.test(z))add(a.url,90+(pp?.k||0)*1000);else if(sr>=45&&DOC_HUB.test(z))add(a.url,50000000);else if(q>=18)add(a.url,35+(pp?.k||0)*1000);}
   if(sm.status==="fulfilled")for(const u of sm.value){const q=rel(u,s.scpi_name),pp=period(u)||periodFromUrlDate(u)||periodFromDates(u);if(q>=18)add(u,40+(pp?.k||0)*1000);}
   const ranked=[...map.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
@@ -163,17 +178,18 @@ async function remoteLooksPdf(url:string){
 }
 
 async function findBulletin(s:Source){
-  const pg=await pages(s),cs:Cand[]=[];
+  const pg=await pages(s),cs:Cand[]=[],pdfPages=new Set<string>();
   for(const page of pg){
     if(BAD.test(page)&&(PDF_URL.test(page)||/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(page)))continue;
     const seeded=page===s.discovered_page_url||page===s.official_scpi_page_url;
     const looksPdf=PDF_URL.test(page)||(seeded&&await remoteLooksPdf(page));
     if(!looksPdf)continue;
+    pdfPages.add(page);
     const pp=period(page)||periodFromUrlDate(page)||periodFromDates(page);
     const r=rel(page,s.scpi_name);
     if(seeded||r>=18||BW.test(page))cs.push({page,pdf:page,html:false,label:"",p:pp?.p||null,k:pp?.k||0,score:(pp?.k||0)*10000+(seeded?2500:1500)+r*2});
   }
-  const docs=await Promise.allSettled(pg.filter(page=>!PDF_URL.test(page)).map(async page=>({page,html:await getText(page)})));
+  const docs=await Promise.allSettled(pg.filter(page=>!PDF_URL.test(page)&&!pdfPages.has(page)).map(async page=>({page,html:await getText(page)})));
   for(const d of docs){if(d.status!=="fulfilled")continue;const title=((/<title[^>]*>([\s\S]*?)<\/title>/i.exec(d.value.html)?.[1])||"").replace(/<[^>]+>/g," ");const pageSignal=d.value.page+" "+title;const pr=rel(pageSignal,s.scpi_name),pagePeriod=period(pageSignal)||periodFromUrlDate(d.value.page)||periodFromDates(pageSignal);
     if(PDF_URL.test(d.value.page)){
       if(pr>=18&&(pagePeriod||BW.test(d.value.page)))cs.push({page:d.value.page,pdf:d.value.page,html:false,label:title,p:pagePeriod?.p||null,k:pagePeriod?.k||0,score:(pagePeriod?.k||0)*10000+1200+pr*2});
