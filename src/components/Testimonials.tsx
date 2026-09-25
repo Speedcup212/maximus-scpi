@@ -81,7 +81,7 @@ const Testimonials: React.FC = () => {
           <button
             type="button"
             onClick={() => (window as any).openRdvModal?.()}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 text-white rounded-xl font-bold text-lg hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-green-700 text-white rounded-xl font-bold text-lg hover:bg-green-800 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform"
           >
             <User className="w-5 h-5" />
             Prendre rendez-vous gratuitement
