@@ -253,7 +253,7 @@ const Footer: React.FC = () => {
               Gérer les cookies
             </button>
           </div>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-400">
             © {new Date().getFullYear()} MaximusSCPI. Tous droits réservés.
           </p>
         </div>
