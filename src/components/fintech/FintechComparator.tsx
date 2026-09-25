@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
@@ -7,11 +7,8 @@ import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import SCPICardDark from './SCPICardDark';
 import SCPITableRow from './SCPITableRow';
-import SelectionSidebar from './SelectionSidebar';
 import MobileSelectionBar from './MobileSelectionBar';
-import AnalysisDetailModal from './AnalysisDetailModal';
-import { SimulationModal } from '../simulation';
-import FilterPanel, { FilterState } from './FilterPanel';
+import type { FilterState } from './FilterPanel';
 import { sortSCPIByTaxOptimization, shouldOptimizeForTax, getTaxOptimizationScore } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
@@ -20,6 +17,13 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
+
+const SelectionSidebar = lazy(() => import('./SelectionSidebar'));
+const AnalysisDetailModal = lazy(() => import('./AnalysisDetailModal'));
+const FilterPanel = lazy(() => import('./FilterPanel'));
+const SimulationModal = lazy(() =>
+  import('../simulation').then(module => ({ default: module.SimulationModal }))
+);
 
 type ViewMode = 'grid' | 'list';
 
@@ -480,13 +484,25 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
         {/* Desktop Sidebar */}
         <aside id="selection-sidebar" className="block xl:sticky xl:top-24 scroll-mt-20">
-          <SelectionSidebar
-            selectedScpis={selectedScpis}
-            onRemove={(scpi) => toggleSelect(scpi)}
-            onClear={() => setSelectedScpis([])}
-            onVisualize={() => setIsSimulationOpen(true)}
-            zScoreVariant={zScoreVariant}
-          />
+          {selectedScpis.length > 0 ? (
+            <Suspense fallback={
+              <div className="rounded-xl border border-slate-700 bg-slate-800/70 p-5 text-sm text-slate-400">
+                Chargement de l’analyse de sélection…
+              </div>
+            }>
+              <SelectionSidebar
+                selectedScpis={selectedScpis}
+                onRemove={(scpi) => toggleSelect(scpi)}
+                onClear={() => setSelectedScpis([])}
+                onVisualize={() => setIsSimulationOpen(true)}
+                zScoreVariant={zScoreVariant}
+              />
+            </Suspense>
+          ) : (
+            <div className="rounded-xl border border-slate-700 bg-slate-800/70 p-5 text-sm text-slate-400">
+              Sélectionnez une ou plusieurs SCPI pour afficher l’analyse du portefeuille.
+            </div>
+          )}
         </aside>
       </div>
       </section>
@@ -504,15 +520,20 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         onOpen={() => setIsSimulationOpen(true)}
       />
 
-      {/* Simulation Modal */}
-      <SimulationModal
-        isOpen={isSimulationOpen}
-        onClose={() => setIsSimulationOpen(false)}
-        selectedScpis={selectedScpis}
-      />
+      {/* Simulation Modal — chargé uniquement à l'ouverture */}
+      {isSimulationOpen && (
+        <Suspense fallback={null}>
+          <SimulationModal
+            isOpen={isSimulationOpen}
+            onClose={() => setIsSimulationOpen(false)}
+            selectedScpis={selectedScpis}
+          />
+        </Suspense>
+      )}
 
       {/* Analysis Detail Modal */}
       {analysisScpi && (
+        <Suspense fallback={null}>
         <AnalysisDetailModal
           key={analysisScpi.id}
           isOpen={!!analysisScpi}
@@ -542,6 +563,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             setShowToast(true);
           }}
         />
+        </Suspense>
       )}
 
       {/* Toast de confirmation */}
@@ -552,14 +574,18 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
         duration={1000}
       />
 
-      {/* Filter Panel */}
-      <FilterPanel
-        isOpen={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-        filters={filters}
-        onFiltersChange={setFilters}
-        resultCount={filteredData.length}
-      />
+      {/* Filter Panel — chargé uniquement à l'ouverture */}
+      {isFilterOpen && (
+        <Suspense fallback={null}>
+          <FilterPanel
+            isOpen={isFilterOpen}
+            onClose={() => setIsFilterOpen(false)}
+            filters={filters}
+            onFiltersChange={setFilters}
+            resultCount={filteredData.length}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };
