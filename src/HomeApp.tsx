@@ -5,7 +5,8 @@ import InvestorQuiz from './components/InvestorQuiz';
 import { CookieConsent } from './components/CookieConsent';
 import type { QuizData } from './types/quiz';
 
-const HomeBelowFold = lazy(() => import('./HomeBelowFold'));
+const loadHomeBelowFold = () => import('./HomeBelowFold');
+const HomeBelowFold = lazy(loadHomeBelowFold);
 const FloatingButton = lazy(() => import('./components/FloatingButton'));
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
@@ -37,20 +38,30 @@ const HomeApp: React.FC = () => {
   useEffect(() => {
     if (showBelowFold) return;
 
-    // Keep all secondary homepage sections out of the startup waterfall.
-    // They load as soon as the visitor shows intent to continue, with a
-    // conservative fallback for crawlers/non-scrolling visitors.
-    const revealBelowFold = () => setShowBelowFold(true);
+    // Priorité au hero pendant le tout premier paint, puis préchargement rapide
+    // de la suite afin qu'elle soit déjà disponible quand l'utilisateur scrolle.
+    const preloadBelowFold = () => {
+      void loadHomeBelowFold();
+    };
+    const revealBelowFold = () => {
+      preloadBelowFold();
+      setShowBelowFold(true);
+    };
     const onScroll = () => {
-      if (window.scrollY > 96) revealBelowFold();
+      if (window.scrollY > 20) revealBelowFold();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    const fallback = window.setTimeout(revealBelowFold, 3500);
+
+    // Le téléchargement démarre presque immédiatement, mais après le premier paint.
+    const preloadTimer = window.setTimeout(preloadBelowFold, 180);
+    // La suite est montée rapidement même sans scroll : pas de page "vide" pendant plusieurs secondes.
+    const revealTimer = window.setTimeout(revealBelowFold, 850);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.clearTimeout(fallback);
+      window.clearTimeout(preloadTimer);
+      window.clearTimeout(revealTimer);
     };
   }, [showBelowFold]);
 
