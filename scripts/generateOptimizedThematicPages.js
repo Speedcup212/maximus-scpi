@@ -27,7 +27,6 @@ const priorityThematicPages = [
   'atream-scpi',
   'consultim-asset-management-scpi',
   'fiducial-gerance-scpi',
-  'greenman-arth-scpi',
   'inter-gestion-reim-scpi',
   'iroko-scpi',
   'kyaneos-asset-management-scpi',
@@ -413,14 +412,6 @@ const societyContent = {
     avis_cgp: "Les SCPI FIDUCIAL conviennent aux investisseurs cherchant une exposition aux commerces de proximité résiliants. Rendement modeste mais régulier.",
     faq: [["Buroboutic est-elle toujours pertinente ?","Buroboutic Métropoles mixe bureaux et commerces en zones urbaines. TD stable mais inférieur aux nouvelles SCPI. Profil défensif."],["Ficommerce Proximité : quel risque ?","Exposition aux commerces de proximité, secteur plus résilient que les grands centres commerciaux. Risque modéré."],["Quel horizon pour les SCPI FIDUCIAL ?","Minimum 8 ans, idéalement 12-15 ans pour lisser les cycles immobiliers."]]
   },
-  'greenman-arth-scpi': {
-    specialite: "Pionnier de l'immobilier alimentaire durable en Europe",
-    presentation: "GREENMAN ARTH est un gestionnaire franco-irlandais spécialisé dans la grande distribution alimentaire. Sa SCPI GMA Essentialis investit exclusivement dans des supermarchés et alimentations en Europe.",
-    points_forts: ["Niche défensive : alimentation = besoins essentiels", "Baux longs (10-15 ans)", "Locataires solides (grands distributeurs)"],
-    points_vigilance: ["Capitalisation faible (45M€)", "Mono-thématique = risque sectoriel", "Rendement de 4% en dessous du marché"],
-    avis_cgp: "GMA Essentialis est originale mais trop petite pour être positionnée seule. Intéressante en diversification pour son profil défensif alimentaire. Attendre 200M€+ de capitalisation.",
-    faq: [["Pourquoi investir dans des supermarchés ?","Les supermarchés ont des baux longs avec des locataires solides. C'est un actif défensif peu sensible aux cycles économiques."],["GMA Essentialis est-elle disponible en AV ?","La disponibilité en assurance-vie est limitée vu la taille. Vérifiez avec votre contrat."],["Quel rendement pour GMA Essentialis ?","4.0% brut en 2024. Inférieur aux SCPI européennes diversifiées mais avec un profil risque très faible."]]
-  },
   'inter-gestion-reim-scpi': {
     specialite: "Spécialiste de la SCPI résidentielle et diversifiée depuis 1983",
     presentation: "Inter Gestion REIM est l'un des plus anciens gestionnaires de SCPI français, créé en 1983. Il gère notamment Grand Paris Résidentiel, unique SCPI résidentielle du marché.",
@@ -513,8 +504,7 @@ const scpiDescriptions = {
   'Optimale': "SCPI diversifiée ISR sur métropoles françaises (bureaux 43%, commerces 29%, logistique 23%). TD attractif de 6.5%, capitalisation en croissance (92M€). Frais d'entrée de 10%, min 1500€.",
   'Buroboutic Métropoles': "SCPI mixte bureaux/commerces ISR (53% régions, 32% IDF). TD de 5.1%, TOF solide à 93.85%. Frais de gestion HT élevés (9.5%). Minimum d'entrée 2300€, délai jouissance 3 mois.",
   'Ficommerce Proximité': "Spécialiste commerces de proximité ISR (84% commerces). Large présence régionale et parisienne. TD 5.1%, TOF 94.56%. Frais souscription 12%, accessible dès 700€.",
-  'Selectipierre 2': "SCPI bureaux Paris premium (71% Paris, 23% IDF). TD plus faible (4.14%) reflétant la qualité des actifs prime. Min élevé (7730€), délai jouissance 6 mois. Profil patrimonial long terme.",
-  'GMA Essentialis': "SCPI alimentaire SFDR Article 9 (90% alimentaire, France 51% + Allemagne 49%). TOF excellent (99.7%) avec locataires grande distribution. TD de 4% pour un profil très défensif. Min 2060€.",
+  'Selectipierre 2': "SCPI bureaux Paris premium (71% Paris, 23% IDF). TD plus faible (4.14%) reflétant la qualité des actifs prime. Min élevé (7730€), délai jouissance 6 mois. Profil patrimonial long terme.": "SCPI alimentaire SFDR Article 9 (90% alimentaire, France 51% + Allemagne 49%). TOF excellent (99.7%) avec locataires grande distribution. TD de 4% pour un profil très défensif. Min 2060€.",
   'Cristal Life': "SCPI diversifiée ISR pan-européenne (7 pays). Commerces 33%, Bureaux 30%, Hôtellerie 17%, Santé 16%. TD de 6.54%, TOF 95.57%. Bonne alternative aux SCPI mono-secteur. Min 2250€.",
   'Grand Paris Résidentiel': "SCPI résidentielle de valorisation (0% de distribution). 100% logement en IDF (87%) et régions. Capital fixe, horizon 15+ ans. À éviter si vous cherchez des revenus réguliers. Accessible dès 200€.",
   'Cristal Rente': "SCPI de rendement SFDR Art.8 avec TOF solide à 98.99%. TD de 5%, profil équilibré. Bonne option pour un complément de revenu régulier. Gestionnaire historique depuis 1983.",

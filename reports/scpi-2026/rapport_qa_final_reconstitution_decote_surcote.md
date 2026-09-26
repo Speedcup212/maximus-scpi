@@ -54,7 +54,6 @@ _Généré le 2026-06-06T16:36:11.022Z — provider DeepSeek (extraction), QA m�
 | Mistral Sélection | 180 € | 182.19 € | -1.2 % | decote | Bulletin_Trimestriel_SCPI_Mistral_Sélection_Mars_26.pdf (p.4) |
 | Remake UK 2025 | 1025 € | 1037.16 € | -1.17 % | decote | document.pdf (p.18) |
 | Activimmo | 610 € | 616.58 € | -1.07 % | decote | 20250410-Rapport-annuel-2025-ActivImmo.pdf (p.6) |
-| GMA Essentialis | 206 € | 208.04 € | -0.98 % | decote | SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf (p.3) |
 | Kyaneos | 224 € | 226.2 € | -0.97 % | decote | BT-T1-2026-KP.pdf (p.4) |
 | Lf Avenir Sante | 300 € | 302.3 € | -0.76 % | decote | Q1_BT_20260331.pdf (p.4) |
 | Momentime | 200 € | 201.52 € | -0.75 % | decote | arkea-reim_momentime-ra-2025_2026-05-18_18-57-3_262.pdf (p.18) |

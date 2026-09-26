@@ -126,7 +126,6 @@ bagan-asset-management
 balzac-reim
 clubfunding-am
 elevation-capital-partners
-greenman-arth
 hsbc-reim-france
 midi-2i
 ofi-invest-real-estate

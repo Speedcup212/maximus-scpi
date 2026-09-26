@@ -473,25 +473,6 @@
       "taux_distribution_2025": "6,21 % (brut)"
     },
     {
-      "source_folder": "SCPI GMA Essentialis",
-      "status_initial": "already_existing_no_create",
-      "status_final": "already_in_system",
-      "canonical_name": "GMA Essentialis",
-      "societe_gestion": "GMA REIM",
-      "traite_v3": false,
-      "traite_extraction_47": false,
-      "doublon": false,
-      "non_scpi": false,
-      "bloque": false,
-      "confidence_score": 0.8,
-      "extraction_status_detail": "",
-      "commentaire": "Déjà présente dans MaximusSCPI",
-      "lot_extraction": null,
-      "source_document": "",
-      "prix_souscription": "",
-      "taux_distribution_2025": ""
-    },
-    {
       "source_folder": "SCPI Cristal Life",
       "status_initial": "to_extract_47",
       "status_final": "extracted_complete",

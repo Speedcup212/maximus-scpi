@@ -41,7 +41,6 @@ const EDITORIAL_SCPI_SLUGS = new Set([
   "esg-pierre-capital",
   "ficommerce-proximite",
   "fonciere-des-praticiens",
-  "gma-essentialis",
   "grand-paris-residentiel",
   "immorente",
   "kyaneos-pierre",

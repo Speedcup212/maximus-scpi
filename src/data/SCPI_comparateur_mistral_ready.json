@@ -604,26 +604,6 @@
     }
   },
   {
-    "nom_scpi": "GMA Essentialis",
-    "societe_de_gestion": "GREENMAN ARTH",
-    "annee_de_creation": 2021,
-    "label_isr": true,
-    "capitalisation_m€": 42.32,
-    "prix_de_souscription_€": 150.0,
-    "valeur_de_retrait_€": 185.4,
-    "surcote/decote_pct": -9.86,
-    "taux_de_distribution_pct": 0.0,
-    "tof_pct": 99.67,
-    "repartition_geographique_json": {
-      "France": 51.0,
-      "Allemagne": 49.0
-    },
-    "repartition_sectorielle_json": {
-      "Alimentaire": 90.0,
-      "Tertiaire": 10.0
-    }
-  },
-  {
     "nom_scpi": "Grand Paris Résidentiel",
     "societe_de_gestion": "Inter Gestion REIM",
     "annee_de_creation": 2018,

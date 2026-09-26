@@ -124,7 +124,6 @@ La liste `to_extract` du fichier maître contient **47 entrées**, dont :
 | # | Dossier source | Nom canonique | Société de gestion | Note |
 |---|---|---|---|---|
 | 65 | SCPI Foncière des Praticiens | Foncière des Praticiens | Fiducial Gérance | Fiche existante — pas de recréation |
-| 66 | SCPI GMA Essentialis | GMA Essentialis | GMA REIM | Fiche existante |
 | 67 | SCPI LF Avenir Santé | LF Avenir Santé | La Française REM | Fiche existante (hub validé partiel en TASK-DATA-003) |
 | 68 | Grand Paris Résidentiel | Grand Paris Résidentiel | Foncière Magellan | Fiche existante |
 | 69 | SCPI PERIAL Hospitalité Europe | PERIAL Hospitalité Europe | PERIAL AM | Fiche existante |

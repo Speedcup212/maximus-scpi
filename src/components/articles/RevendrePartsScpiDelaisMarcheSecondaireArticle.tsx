@@ -70,7 +70,6 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
-              <span>2 SCPI gagnantes : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-600 font-bold mt-1">•</span>
@@ -139,7 +138,6 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
 
         <div className="space-y-4">
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 border-l-4 border-green-500">
-            <h4 className="font-bold text-green-900 dark:text-green-200 mb-2">1. GMA Essentialis - Gain +23,60%</h4>
             <p className="text-sm text-gray-700 dark:text-gray-300">Achat 150€ → Revente 185€ | Gain: +35€/part | TDVM 0% | Cap 42,3 M€</p>
             <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">⚠️ SCPI sans dividende (TDVM 0%)</p>
           </div>
@@ -231,7 +229,6 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span><strong>3,9% gagnent</strong> (2/63) : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
@@ -276,7 +273,6 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
               <li>• <strong>Délai moyen : 6 à 18 mois</strong></li>
               <li>• <strong>Marché secondaire inactif</strong> : peu d'acheteurs</li>
               <li>• <strong>Prix de vente : inférieur de 5 à 10%</strong></li>
-              <li>• Exemples : GMA Essentialis (-9,86%), Épargne Foncière (-9,83%)</li>
               <li>• ❌ <strong>Liquidité difficile</strong></li>
             </ul>
           </div>
@@ -321,7 +317,6 @@ export const RevendrePartsScpiDelaisMarcheSecondaireArticle: React.FC = () => {
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-              <span><strong>Évitez les SCPI à forte décote</strong> : GMA Essentialis (-9,86%), Épargne Foncière (-9,83%) = 12-18 mois de délai</span>
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />

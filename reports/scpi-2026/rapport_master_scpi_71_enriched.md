@@ -114,7 +114,6 @@
 | SCPI | Société de gestion | Note |
 |---|---|---|
 | Foncière des Praticiens | Fiducial Gérance | Fiche existante — à mettre à jour avec données T1 2026 si souhaité |
-| GMA Essentialis | GMA REIM | Fiche existante |
 | LF Avenir Santé | La Française REM | Fiche existante — hub documentaire validé partiel (TASK-DATA-003) |
 | Grand Paris Résidentiel | Foncière Magellan | Fiche existante |
 | PERIAL Hospitalité Europe | PERIAL AM | Fiche existante |

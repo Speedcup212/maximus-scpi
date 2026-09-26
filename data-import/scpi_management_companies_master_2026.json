@@ -250,16 +250,6 @@
     "notes": ""
   },
   {
-    "scpi_name": "GMA Essentialis",
-    "management_company": "Greenman Arth",
-    "management_company_slug": "greenman-arth",
-    "source_type": "internal_data",
-    "source_detail": "src/data/scpi_complet.json",
-    "status": "active",
-    "confidence": "verified",
-    "notes": ""
-  },
-  {
     "scpi_name": "Cristal Life",
     "management_company": "Inter Gestion REIM",
     "management_company_slug": "inter-gestion-reim",

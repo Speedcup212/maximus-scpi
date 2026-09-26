@@ -253,32 +253,5 @@
         "file": "Rapport-ESG-2025.pdf"
       }
     ]
-  },
-  {
-    "name": "GMA Essentialis",
-    "folder": "SCPI GMA Essentialis",
-    "prix_souscription_actuel": 150,
-    "sources": [
-      {
-        "type": "RA",
-        "file": "Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf"
-      },
-      {
-        "type": "BT",
-        "file": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf"
-      },
-      {
-        "type": "NI",
-        "file": "SCPI-GMA-Essentialis-Note-dinformation-2025-Juillet.pdf"
-      },
-      {
-        "type": "DIC",
-        "file": "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf"
-      },
-      {
-        "type": "AUTRE",
-        "file": "Plaquette_commerciale_SCPI_GMA_Essentialis_190226.pdf"
-      }
-    ]
   }
 ]

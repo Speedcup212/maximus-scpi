@@ -83,10 +83,6 @@ Liste complète dans `data-import/corrections_log_qa.csv`. Exemples à fort impa
 | Épargne Pierre Europe | capitalisation | 479 | 635 | BPI1T2026-EPE-web-2.pdf |
 | Foncière des Praticiens | prix_retrait | 1012.00 | 1012 | BT-1T-2026-Fonciere-des-Praticiens.pdf |
 | Foncière des Praticiens | capitalisation | 179.407 | 173 | BT-1T-2026-Fonciere-des-Praticiens.pdf |
-| GMA Essentialis | prix_souscription | 150 | 206 | SCPI_GMA_Essentialis_-_Bulletin_dInformation_ |
-| GMA Essentialis | prix_retrait | 132.0 | 185.4 | SCPI_GMA_Essentialis_-_Bulletin_dInformation_ |
-| GMA Essentialis | taux_distribution | 0 | 4.0 | SCPI_GMA_Essentialis_-_Bulletin_dInformation_ |
-| GMA Essentialis | capitalisation | 42.32 | 44.55 | SCPI_GMA_Essentialis_-_Bulletin_dInformation_ |
 | Grand Paris Résidentiel | prix_retrait | 176.00 | 176 | IG_GPRBulletin_Semestriel2025_S1.pdf |
 
 ### Corrections structurelles majeures confirmées par document
@@ -94,7 +90,6 @@ Liste complète dans `data-import/corrections_log_qa.csv`. Exemples à fort impa
 - **Activimmo** : prix de souscription 207€ → **610€** (BT T1 2026, nominal réel)
 - **Buroboutic Métropoles** : prix 230€ → **77€** (division du nominal par 3 au 01/01/2026)
 - **Ficommerce Proximité** : prix 70€ et retrait 63€ confirmés (division du nominal par 3)
-- **GMA Essentialis** : prix réel **206€** (et non 150€), rendement 0 → **4,0%** sourcé
 - **Edissimo** : prix de souscription **172€**, prix de retrait **158,25€** (depuis 31/03/2025) confirmés
 - **Wemo One** : répartitions géo (Italie/Espagne/France/Irlande) et secteurs détaillés confirmés par BT
 - **Opportunité Immo** : aucune année 2025 comme rendement (corrigé)
@@ -136,7 +131,6 @@ Données non trouvées dans les documents lus — NON inventées, conservées en
 | Efimmo 1 | nb_locataires |
 | Epsicap Nano | nb_locataires, niveau_risque_dic |
 | Foncière des Praticiens | frais_gestion |
-| GMA Essentialis | repartition_geo |
 | Grand Paris Résidentiel | nb_locataires, repartition_sectorielle, frequence_distribution |
 | Immorente | repartition_geo, repartition_sectorielle, frais_gestion |
 | Iroko Atlas | taux_distribution, niveau_risque_dic |

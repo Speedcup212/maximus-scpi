@@ -39,7 +39,6 @@ Date : 01/06/2026 | Version : 1.0
 | Wemo One | repartition_sectorielle | Commerces 66.7%... (5 postes) | BT T1 2026 wemo_one_bt.pdf |
 | Wemo One | repartition_geo | Italie 46.1%... (4 pays) | BT T1 2026 wemo_one_bt.pdf |
 | Opportunite Immo | taux_distribution | 5.62% (2025 rejete) | Correction annee parsee comme TDVM |
-| GMA Essentialis | prix_retrait | 132 EUR (= 150 x 0.88) | Frais 12%, valeur stale 185.4 rejetee |
 | Ficommerce Proximite | prix_souscription | 70 EUR (split /3) | BT FIDUCIAL - Division du nominal 01/01/2026 |
 | Ficommerce Proximite | prix_retrait | 63 EUR (split /3) | BT FIDUCIAL - Division du nominal 01/01/2026 |
 | Ficommerce Proximite | tof | 95.72% | Correction valeur corrompue 9412026 |

@@ -2211,50 +2211,6 @@ export const managementCompanyConfigs: ManagementCompanyConfig[] = [
     sourcePriority: ['AMF/GECO', 'ASPIM', 'DIC', 'note d\'information', 'rapport annuel', 'site officiel']
   },
   {
-    slug: 'greenman-arth',
-    name: 'Greenman Arth',
-    displayName: 'Greenman Arth',
-    title: 'Greenman Arth : SCPI GMA Essentialis, stratégie et analyse',
-    seoTitle: 'Greenman Arth SCPI : société de gestion, GMA Essentialis | MaximusSCPI',
-    metaDescription: 'Analyse de Greenman Arth, société de gestion. SCPI GMA Essentialis, stratégie, analyse et points de vigilance.',
-    mainKeyword: 'Greenman Arth société de gestion SCPI',
-    keywords: ['Greenman Arth', 'GMA Essentialis', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI', 'AMF', 'documents réglementaires'],
-    category: 'gestionnaires-acteurs',
-    managedScpis: [
-      { name: 'GMA Essentialis', status: 'verified', sector: 'Diversifié Europe' }
-    ],
-    summary: 'Greenman Arth est une société de gestion à analyser via sa SCPI GMA Essentialis (association confirmée dans le référentiel interne). Une société de gestion ne garantit ni le rendement, ni la liquidité, ni le capital.',
-    keyPoints: [
-      'Société de gestion spécialisée',
-      'SCPI identifiée : GMA Essentialis — association confirmée',
-      'Stratégie européenne diversifiée',
-      'Points de vigilance : capitalisation, TOF, endettement, frais'
-    ],
-    vigilancePoints: [
-      { critere: 'Capitalisation de GMA Essentialis', importance: 'La taille de la SCPI influence la mutualisation', vigilance: 'Vérifier la capitalisation dans les bulletins trimestriels' },
-      { critere: 'TOF', importance: 'Reflet de l\'occupation locative', vigilance: 'Comparer avec la moyenne du marché (85–95 %)' },
-      { critere: 'Endettement', importance: 'Impact sur la résilience', vigilance: 'Vérifier le ratio d\'endettement dans les rapports annuels' },
-      { critere: 'Frais', importance: 'Impact sur le rendement net', vigilance: 'Frais de souscription et de gestion à comparer avec le marché' }
-    ],
-    casPratiques: [
-      { titre: 'Investisseur intéressé par Greenman Arth', description: 'Un investisseur analyse GMA Essentialis : stratégie, indicateurs, diversification et risques.' }
-    ],
-    faq: [
-      { question: 'Quelle SCPI est gérée par Greenman Arth ?', reponse: 'Greenman Arth gère la SCPI GMA Essentialis. Il est recommandé de consulter les documents réglementaires pour une analyse complète.' }
-    ],
-    internalLinks: [
-      { label: 'Comprendre les SCPI', url: '/articles/' },
-      { label: 'Société de gestion SCPI', url: '/societe-gestion-scpi/' },
-      { label: 'Gestionnaire de SCPI', url: '/gestionnaire-scpi/' },
-      { label: 'Sociétés de gestion SCPI', url: '/societes-de-gestion-scpi/' },
-      { label: 'AMF SCPI', url: '/amf-scpi/' },
-      { label: 'DIC SCPI', url: '/dic-scpi/' },
-      { label: 'Comparateur SCPI', url: '/comparateur-scpi/' },
-      { label: 'Risques SCPI', url: '/risques-scpi/' }
-    ],
-    angle: 'Société de gestion avec SCPI GMA Essentialis à analyser via les indicateurs.'
-  },
-  {
     slug: 'hsbc-reim-france',
     name: 'HSBC REIM France',
     displayName: 'HSBC REIM France',

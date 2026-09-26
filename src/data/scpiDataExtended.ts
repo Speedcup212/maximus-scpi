@@ -1465,53 +1465,6 @@ const baseSCPIData: SCPIExtended[] = [
     "nombreLocataires": 80
   },
   {
-    "id": 23,
-    "name": "GMA Essentialis",
-    "yield": 4.0,
-    "price": 206,
-    "minInvestment": 2060,
-    "category": "Diversifiée",
-    "managementCompany": "GREENMAN ARTH",
-    "tof": 99.7,
-    "capitalization": "44.55M€",
-    "sectors": [
-      {
-        "name": "Commerce alimentaire",
-        "value": 96.49
-      },
-      {
-        "name": "Droguerie",
-        "value": 2.08
-      },
-      {
-        "name": "Autres commerces",
-        "value": 1.43
-      }
-    ],
-    "geography": [
-      {
-        "name": "France",
-        "value": 51
-      },
-      {
-        "name": "Allemagne",
-        "value": 49
-      }
-    ],
-    "reconstitutionValue": 167,
-    "ranDays": 49,
-    "ltv": 38.8,
-    "hasWaitingShares": false,
-    "strategy": "Portefeuille diversifié multi-secteurs pour optimiser le couple rendement/risque",
-    "valeurRetrait": 185.4,
-    "assetsCount": 14,
-    "entryFees": 12,
-    "managementFees": 14.4,
-    "dureeDetentionRecommandee": 10,
-    "sfdr": "Article 9",
-    "nombreLocataires": 19
-  },
-  {
     "id": 24,
     "name": "Grand Paris Résidentiel",
     "yield": 0,

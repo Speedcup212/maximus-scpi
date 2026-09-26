@@ -341,24 +341,6 @@ Foncière des Praticiens,niveau_risque_dic,,3,sur 7,DIC_-_SCPI_Fonciere_des_Prat
 Foncière des Praticiens,duree_placement,8 à 12,8 à 12 ans,ans,DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf,La durée de conservation des parts recommandée est de 8 à 12 ans,verified,
 Foncière des Praticiens,frais_souscription,9.6,9.6,% TTC,DIC_-_SCPI_Fonciere_des_Praticiens_-_2025-05-02.pdf,"Coûts d'entrée 9.60 % du montant payé à l'entrée (prime d'émission 130 € dont 105,60 € TTC commission de souscription)",verified,
 Foncière des Praticiens,frais_gestion,8.5,,,,"Commission de gestion (% des loyers) non précisée dans BT/DIC ; KID frais récurrents 0,54 %/an.",manual_review,"Commission de gestion (% des loyers) non précisée dans BT/DIC ; KID frais récurrents 0,54 %/an."
-GMA Essentialis,prix_souscription,150,206,EUR,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Prix de souscription depuis 14 juillet 2024 : 206,00 € (dont 150 € valeur nominale et 56 € prime d'émission)",verified,"ANOMALIE : valeur précédente 150 € correspondait à la valeur nominale, pas au prix de souscription qui est 206 €."
-GMA Essentialis,prix_retrait,132.0,185.4,EUR,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Prix de retrait 185,40 €",verified,ANOMALIE : valeur précédente 132 € erronée.
-GMA Essentialis,taux_distribution,0,4.0,%,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Taux de distribution 2025 : 4,00 %",verified,"ANOMALIE : valeur précédente 0 erronée. TD 2024 = 4,00 % ; 2023 = 3,01 %."
-GMA Essentialis,capitalisation,42.32,44.55,M€,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,Capitalisation 44 550 858 € (au 31/12/2025),verified,
-GMA Essentialis,tof,99.67,99.7,%,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Taux d'occupation financier P3 2025 : 99,70 %",verified,
-GMA Essentialis,endettement,39.07,38.8,%,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Ratio de dettes : 38,8 % (dette 25,2 M€ au 31/12/2025)",verified,
-GMA Essentialis,nb_associes,,999,associés,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,Nombre d'associés : 999,verified,
-GMA Essentialis,nb_immeubles,,14,actifs,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,14 Actifs,verified,
-GMA Essentialis,nb_locataires,,19,locataires,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,19 Locataires,verified,
-GMA Essentialis,repartition_geo,"{'France': 51, 'Allemagne': 49}","{'Allemagne': 60, 'France': 40}",%,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,Répartition géographique : France / Allemagne 40 % / 60 %,manual_review,Ordre France/Allemagne face à 40 %/60 % ambigu dans le bulletin (OCR). À confirmer : probablement Allemagne 60 % / Franc
-GMA Essentialis,repartition_sectorielle,"{'Alimentaire': 90, 'Tertiaire': 10}","{'Commerce alimentaire': 96.49, 'Droguerie': 2.08, 'Autres commerces': 1.43}",%,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Répartition sectorielle : Commerce alimentaire 96,49 %, Droguerie 2,08 %, Autres commerces 1,43 %",verified,"Somme = 100,0 %."
-GMA Essentialis,liquidite,,0,parts en attente,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,Nombre de parts en attente de cession : 0,verified,Liquidité normale.
-GMA Essentialis,frequence_distribution,Trimestriel,trois fois par an,,DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf,"Les revenus sont versés trois fois par an, dans un délai de 45 jours suivant la fin de chaque période de souscription",verified,
-GMA Essentialis,sfdr_article,,9,,DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf,La SCPI poursuit un objectif d'investissement durable au sens de l'article 9 SFDR,verified,
-GMA Essentialis,niveau_risque_dic,,3,sur 7,DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf,Nous avons classé le produit dans la classe de risque 3 sur 7,verified,
-GMA Essentialis,duree_placement,10,10,ans,DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf,Période de détention minimale recommandée : 10 ans,verified,
-GMA Essentialis,frais_souscription,12,12,% TTC,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,Commission de souscription 10 % HT (soit 12 % TTC) du prix de souscription,verified,
-GMA Essentialis,frais_gestion,10,14.4,% TTC,SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf,"Commission de gestion annuelle 12 % HT maximum (soit 14,40 % TTC)",verified,
 Grand Paris Résidentiel,prix_souscription,200,200,EUR,IG_GPRBulletin_Semestriel2025_S1.pdf,Prix de souscription 200 €,verified,
 Grand Paris Résidentiel,prix_retrait,176.00,176,EUR,IG_GPRBulletin_Semestriel2025_S1.pdf,Valeur de retrait 176 € (prix de souscription moins frais de souscription),verified,
 Grand Paris Résidentiel,taux_distribution,0,0,%,IG_RapportAnnuel_2025GPR.pdf,Distribution : La Société de gestion procédera au versement des dividendes dès lors que les bénéfices de la SCPI le permettront ; résultat affecté au report à n,verified,SCPI résidentielle de capitalisation/déficit foncier : aucune distribution en 2025.

@@ -12751,496 +12751,6 @@
       "critical": 0
     },
     {
-      "name": "GMA Essentialis",
-      "indicators": [
-        {
-          "indicatorId": "prix_part",
-          "label": "Prix de la part",
-          "criticality": "critical",
-          "value": 206,
-          "displayValue": "206€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Prix de souscription (€)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "AnalysisDetailModal",
-            "AnalysisModal",
-            "ScpiDetailPage",
-            "OptimizedScpiLandingPage",
-            "SelectionSidebar"
-          ]
-        },
-        {
-          "indicatorId": "investissement_minimum",
-          "label": "Investissement minimum",
-          "criticality": "important",
-          "value": 2060,
-          "displayValue": "2k€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Minimum de souscription €",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal",
-            "OptimizedScpiLandingPage"
-          ]
-        },
-        {
-          "indicatorId": "valeur_retrait",
-          "label": "Valeur de retrait",
-          "criticality": "important",
-          "value": 185.4,
-          "displayValue": "185€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Valeur de retrait (€)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal"
-          ]
-        },
-        {
-          "indicatorId": "valeur_reconstitution",
-          "label": "Valeur de reconstitution (par part)",
-          "criticality": "critical",
-          "value": 208.04,
-          "displayValue": "208€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Valeur de reconstitution par part (€)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "AnalysisDetailModal",
-            "AnalysisModal",
-            "ScpiDetailPage",
-            "SelectionSidebar"
-          ]
-        },
-        {
-          "indicatorId": "valeur_realisation",
-          "label": "Valeur de réalisation",
-          "criticality": "secondary",
-          "value": 134.4,
-          "displayValue": "134€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Valeur de réalisation (€)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "decote_surcote",
-          "label": "Décote / Surcote",
-          "criticality": "critical",
-          "value": -0.98,
-          "displayValue": "-1.0%",
-          "status": "OK",
-          "confidence": 0.9,
-          "source": "calc(prix, valeur_reconstitution)",
-          "reason": "Recalculée (prix affiché vs VR affichée), QA publishable",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "AnalysisDetailModal",
-            "AnalysisModal",
-            "ScpiDetailPage",
-            "OptimizedScpiLandingPage",
-            "SelectionSidebar",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "taux_distribution",
-          "label": "Taux de distribution",
-          "criticality": "critical",
-          "value": 4,
-          "displayValue": "+4.0%",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Taux de distribution (%)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "AnalysisDetailModal",
-            "AnalysisModal",
-            "ScpiDetailPage",
-            "OptimizedScpiLandingPage",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "tof",
-          "label": "Taux d'occupation financier",
-          "criticality": "important",
-          "value": 99.7,
-          "displayValue": "+99.7%",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "TOF (%)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "AnalysisDetailModal",
-            "ScpiDetailPage",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "top",
-          "label": "Taux d'occupation physique",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "TOP (%)",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "ran",
-          "label": "Report à nouveau",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Report à nouveau (€/part)",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "capitalisation",
-          "label": "Capitalisation",
-          "criticality": "important",
-          "value": 44550000,
-          "displayValue": "44,6 M€",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Capitalisation (M€)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "AnalysisDetailModal",
-            "ScpiDetailPage",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "collecte_nette",
-          "label": "Collecte nette (trimestre)",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Collecte nette trimestre",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "endettement",
-          "label": "Endettement (LTV)",
-          "criticality": "important",
-          "value": 38.8,
-          "displayValue": "+38.8%",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Endettement (%)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "nombre_immeubles",
-          "label": "Nombre d'immeubles",
-          "criticality": "secondary",
-          "value": 14,
-          "displayValue": "14",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Nombre d'immeubles",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal"
-          ]
-        },
-        {
-          "indicatorId": "nombre_locataires",
-          "label": "Nombre de locataires",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Nombre de locataires",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "surface",
-          "label": "Surface du patrimoine",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Surface (m²)",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "walt",
-          "label": "WALT",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "WALT",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "walb",
-          "label": "WALB",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "WALB",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "delai_jouissance",
-          "label": "Délai de jouissance",
-          "criticality": "important",
-          "value": 5,
-          "displayValue": "5 mois",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Délai de jouissance (mois)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal"
-          ]
-        },
-        {
-          "indicatorId": "frais_souscription",
-          "label": "Frais de souscription",
-          "criticality": "important",
-          "value": 12,
-          "displayValue": "+12.0%",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Frais de souscription (TTC/%)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiTable",
-            "ComparisonTable",
-            "ScpiDetailPage",
-            "AnalysisDetailModal",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "frais_gestion",
-          "label": "Frais de gestion",
-          "criticality": "secondary",
-          "value": 14.4,
-          "displayValue": "+14.4%",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Frais de gestion (HT/%)",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "frequence_distribution",
-          "label": "Fréquence de distribution",
-          "criticality": "secondary",
-          "value": "trois fois par an",
-          "displayValue": "trois fois par an",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Versement des loyers",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal"
-          ]
-        },
-        {
-          "indicatorId": "secteur_principal",
-          "label": "Secteur principal",
-          "criticality": "secondary",
-          "value": "Commerce alimentaire (96.49%)",
-          "displayValue": "Commerce alimentaire (96.49%)",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Répartition Sectorielle JSON",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "geographie_principale",
-          "label": "Géographie principale",
-          "criticality": "secondary",
-          "value": "France (51%)",
-          "displayValue": "France (51%)",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "Répartition Géographique JSON",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal",
-            "scpiAnalysis"
-          ]
-        },
-        {
-          "indicatorId": "sfdr",
-          "label": "Classification SFDR",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "SFDR",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "sri",
-          "label": "Indicateur de risque (SRI)",
-          "criticality": "important",
-          "value": 3,
-          "displayValue": "3/7",
-          "status": "OK",
-          "confidence": 0.8,
-          "source": "niveau_risque_dic",
-          "reason": "Valeur présente et validée",
-          "isReliable": true,
-          "components": [
-            "ScpiDetailPage",
-            "AnalysisDetailModal"
-          ]
-        },
-        {
-          "indicatorId": "report_a_nouveau",
-          "label": "Report à nouveau (cumulé)",
-          "criticality": "secondary",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Report à nouveau cumulé (€/part)",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "parts_en_attente",
-          "label": "Parts en attente de retrait",
-          "criticality": "important",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "Parts en attente de retrait",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        },
-        {
-          "indicatorId": "liquidite",
-          "label": "Liquidité",
-          "criticality": "important",
-          "value": null,
-          "displayValue": "N/A",
-          "status": "WARNING",
-          "confidence": 0,
-          "source": "liquidite",
-          "reason": "Donnée absente (aucune source disponible)",
-          "isReliable": false,
-          "components": [
-            "ScpiDetailPage"
-          ]
-        }
-      ],
-      "ok": 18,
-      "warning": 11,
-      "critical": 0
-    },
-    {
       "name": "Grand Paris Résidentiel",
       "indicators": [
         {
@@ -31014,11 +30524,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -31331,11 +30836,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -31638,11 +31138,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -31936,11 +31431,6 @@
       },
       {
         "name": "Paref Hexa",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
-        "name": "GMA Essentialis",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
       },
@@ -32248,11 +31738,6 @@
       },
       {
         "name": "Paref Hexa",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
-        "name": "GMA Essentialis",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
       },
@@ -32569,11 +32054,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -32886,11 +32366,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -33199,11 +32674,6 @@
       },
       {
         "name": "Paref Hexa",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
-        "name": "GMA Essentialis",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
       },
@@ -33524,11 +32994,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -33791,11 +33256,6 @@
         "reason": "Donnée absente (aucune source disponible)"
       },
       {
-        "name": "GMA Essentialis",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
         "name": "Grand Paris Résidentiel",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
@@ -34054,11 +33514,6 @@
       },
       {
         "name": "Paref Evo",
-        "status": "WARNING",
-        "reason": "Donnée absente (aucune source disponible)"
-      },
-      {
-        "name": "GMA Essentialis",
         "status": "WARNING",
         "reason": "Donnée absente (aucune source disponible)"
       },

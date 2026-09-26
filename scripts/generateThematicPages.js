@@ -27,7 +27,6 @@ const thematicPages = [
   'atream-scpi',
   'consultim-asset-management-scpi',
   'fiducial-gerance-scpi',
-  'greenman-arth-scpi',
   'inter-gestion-reim-scpi',
   'iroko-scpi',
   'kyaneos-asset-management-scpi',

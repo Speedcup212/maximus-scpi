@@ -44,7 +44,6 @@
 | 20 | `euryale-am` | Euryale AM |
 | 21 | `fiducial-gerance` | Fiducial Gérance |
 | 22 | `foncieres-et-territoires` | Foncières & Territoires |
-| 23 | `greenman-arth` | Greenman Arth |
 | 24 | `groupama-gan-reim` | Groupama Gan REIM |
 | 25 | `hsbc-reim-france` | HSBC REIM France |
 | 26 | `inter-gestion-reim` | Inter Gestion REIM |

@@ -19,7 +19,6 @@
 - [https://maximusscpi.com/atream-scpi/](https://maximusscpi.com/atream-scpi/)
 - [https://maximusscpi.com/consultim-asset-management-scpi/](https://maximusscpi.com/consultim-asset-management-scpi/)
 - [https://maximusscpi.com/fiducial-gerance-scpi/](https://maximusscpi.com/fiducial-gerance-scpi/)
-- [https://maximusscpi.com/greenman-arth-scpi/](https://maximusscpi.com/greenman-arth-scpi/)
 - [https://maximusscpi.com/inter-gestion-reim-scpi/](https://maximusscpi.com/inter-gestion-reim-scpi/)
 - [https://maximusscpi.com/iroko-scpi/](https://maximusscpi.com/iroko-scpi/)
 - [https://maximusscpi.com/kyaneos-asset-management-scpi/](https://maximusscpi.com/kyaneos-asset-management-scpi/)

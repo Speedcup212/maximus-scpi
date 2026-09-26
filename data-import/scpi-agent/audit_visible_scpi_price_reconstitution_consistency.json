@@ -530,30 +530,6 @@
       ]
     },
     {
-      "name": "GMA Essentialis",
-      "qa_status": "publishable",
-      "price_displayed": 206,
-      "reconstitution_before": 167,
-      "discount_displayed_before": -0.98,
-      "recalc_before": 23.35,
-      "ecart_before": 24.33,
-      "status_before": "CRITICAL",
-      "reconstitution_after": 208.04,
-      "displayed_after": "-1.0%",
-      "recalc_after": -0.98,
-      "ecart_after": 0,
-      "kpi_discount": -0.98,
-      "text_mentions": [
-        -1
-      ],
-      "text_divergence": false,
-      "status_after": "FIXED_OR_NEUTRALIZED",
-      "decision": "corrigé (recalcul live)",
-      "issues": [
-        "Avant : décote -1.0% incohérente (VR affichée 167 €). Après : VR validée par part 208.04 €, décote recalculée -1.0% cohérente avec le prix 206 €."
-      ]
-    },
-    {
       "name": "Grand Paris Résidentiel",
       "qa_status": "publishable",
       "price_displayed": 200,

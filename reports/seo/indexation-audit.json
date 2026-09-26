@@ -1220,29 +1220,6 @@
       "canonical_differs": false
     },
     {
-      "url_sitemap": "https://maximusscpi.com/greenman-arth-scpi/",
-      "url_finale": "https://maximusscpi.com/greenman-arth-scpi/",
-      "status": 200,
-      "chain": [
-        "https://maximusscpi.com/greenman-arth-scpi/"
-      ],
-      "redirect_count": 0,
-      "error": null,
-      "content_type": "text/html",
-      "canonical": "https://maximusscpi.com/greenman-arth-scpi/",
-      "meta_robots": null,
-      "title": "SCPI Greenman ARTH 2026",
-      "description": "Découvrez les SCPI Greenman ARTH. Gestionnaire spécialisé dans l\\",
-      "h1": null,
-      "html_size": 3677,
-      "is_noindex": false,
-      "is_blocked": false,
-      "is_soft404": false,
-      "is_redirect": false,
-      "is_error": false,
-      "canonical_differs": false
-    },
-    {
       "url_sitemap": "https://maximusscpi.com/inter-gestion-reim-scpi/",
       "url_finale": "https://maximusscpi.com/inter-gestion-reim-scpi/",
       "status": 200,
@@ -4532,29 +4509,6 @@
       "canonical_differs": true
     },
     {
-      "url_sitemap": "https://maximusscpi.com/articles/greenman-arth/",
-      "url_finale": "https://maximusscpi.com/articles/greenman-arth/",
-      "status": 200,
-      "chain": [
-        "https://maximusscpi.com/articles/greenman-arth/"
-      ],
-      "redirect_count": 0,
-      "error": null,
-      "content_type": "text/html",
-      "canonical": "https://maximusscpi.com/",
-      "meta_robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
-      "title": "MaximusSCPI — Investir en SCPI avec un Expert Certifié ORIAS",
-      "description": "Comparez 63 SCPI en temps réel ✓ Rendements jusqu",
-      "h1": null,
-      "html_size": 7490,
-      "is_noindex": false,
-      "is_blocked": false,
-      "is_soft404": false,
-      "is_redirect": false,
-      "is_error": false,
-      "canonical_differs": true
-    },
-    {
       "url_sitemap": "https://maximusscpi.com/articles/hsbc-reim-france/",
       "url_finale": "https://maximusscpi.com/articles/hsbc-reim-france/",
       "status": 200,
@@ -5078,7 +5032,6 @@
           "https://maximusscpi.com/articles/balzac-reim/",
           "https://maximusscpi.com/articles/clubfunding-am/",
           "https://maximusscpi.com/articles/elevation-capital-partners/",
-          "https://maximusscpi.com/articles/greenman-arth/",
           "https://maximusscpi.com/articles/hsbc-reim-france/",
           "https://maximusscpi.com/articles/midi-2i/",
           "https://maximusscpi.com/articles/ofi-invest-real-estate/",
@@ -5253,7 +5206,6 @@
           "https://maximusscpi.com/articles/balzac-reim/",
           "https://maximusscpi.com/articles/clubfunding-am/",
           "https://maximusscpi.com/articles/elevation-capital-partners/",
-          "https://maximusscpi.com/articles/greenman-arth/",
           "https://maximusscpi.com/articles/hsbc-reim-france/",
           "https://maximusscpi.com/articles/midi-2i/",
           "https://maximusscpi.com/articles/ofi-invest-real-estate/",

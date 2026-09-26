@@ -683,28 +683,6 @@
       "formula": "(prix 1100 - VR comparable 1048.65) / VR 1048.65 × 100 = 4.9 %"
     },
     {
-      "nom_scpi": "GMA Essentialis",
-      "folder": "SCPI GMA Essentialis",
-      "statut_qa": "publishable",
-      "prix_souscription": 206,
-      "valeur_reconstitution": 208.04,
-      "unite_vr": "EUR/part",
-      "vr_par_part": true,
-      "vr_globale_derivee": false,
-      "valeur_reconstitution_ajustee": null,
-      "split_detecte": false,
-      "split_ratio": null,
-      "split_applique": false,
-      "decote_surcote_percent": -0.98,
-      "label": "decote",
-      "document_source": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf",
-      "page_source": 3,
-      "extrait_vr": "Valeur de reconstitution (par part) 208,04 €",
-      "source_periode_split": null,
-      "decision_qa": "Publiable — VR par part, écart cohérent.",
-      "formula": "(prix 206 - VR comparable 208.04) / VR 208.04 × 100 = -0.98 %"
-    },
-    {
       "nom_scpi": "Grand Paris Résidentiels",
       "folder": "Grans Paris Résidentiel",
       "statut_qa": "publishable",

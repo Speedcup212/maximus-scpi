@@ -49,7 +49,6 @@ Sur les **68 entrées** :
 | Epsicap | 1 | Epsicap Nano | ✅ verified | À créer |
 | Euryale AM | 1 | Pierval Santé | ✅ verified | À créer |
 | Fiducial Gérance | 3 | Buroboutic Métropoles, Ficommerce Proximité, Selectipierre 2 | ✅ verified | À créer |
-| Greenman Arth | 1 | GMA Essentialis | ✅ verified | À créer |
 | Inter Gestion REIM | 3 | Cristal Life, Cristal Rente, Grand Paris Résidentiel | ✅ verified | À créer |
 | Iroko | 2 | Iroko Atlas, Iroko Zen | ✅ verified | À créer |
 | Kyaneos Asset Management | 1 | Kyaneos Pierre | ✅ verified | À créer |
@@ -119,7 +118,6 @@ Sur les **68 entrées** :
 | Consultim Asset Management | Optimale |
 | Epsicap | Epsicap Nano |
 | Fiducial Gérance | Buroboutic Métropoles, Ficommerce Proximité, Selectipierre 2 |
-| Greenman Arth | GMA Essentialis |
 | Inter Gestion REIM | Cristal Life, Cristal Rente, Grand Paris Résidentiel |
 | Kyaneos Asset Management | Kyaneos Pierre |
 | Magellim REIM | Foncière des Praticiens |

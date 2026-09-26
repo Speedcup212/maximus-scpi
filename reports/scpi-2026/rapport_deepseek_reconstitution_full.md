@@ -154,7 +154,6 @@
 | Europimmo | 725 | 773.78 | — | 639.53 | — | -6.3 % | `verified` |
 | Eurovalys | 960 | 961.23 | — | 749.06 | — | -0.13 % | `verified` |
 | Foncière des praticiens | 1100 | 1048.65 | — | 920.89 | — | 4.9 % | `verified` |
-| GMA Essentialis | 206 | 208.04 | — | 160.42 | — | -0.98 % | `verified` |
 | HEXA | — | — | — | — | — | — | `rejected` |
 | Immorente | 340 | 321.03 | — | 266.94 | — | 5.91 % | `verified` |
 | Kyaneos | 224 | 226.2 | — | 187.1 | — | -0.97 % | `verified` |
@@ -799,11 +798,7 @@
 - **Commentaire :** Prix: 1 100 € | VR: 1 048,65 € | Écart: 4.9 % (surcote) | Statut: verified
 - **Tokens :** 7635
 
-### GMA Essentialis
 
-- **Dossier :** `SCPI GMA Essentialis`
-- **Document :** SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf + GMA-Essentialis-STATUTS-CONSTITUTIFS-2025.pdf + Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf
-- **Pages LLM :** 6 (SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf p.3, GMA-Essentialis-STATUTS-CONSTITUTIFS-2025.pdf p.9, Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf p.4, Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf p.78, Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf p.22, Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf p.23)
 - **Prix souscription :** 206 € (p.3)
 - **VR :** 208.04 € (p.3)
 - **VR ajustée :** — 

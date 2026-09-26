@@ -1324,54 +1324,6 @@ export const scpiLandingPages: Record<string, ScpiLandingData> = {
       theme: 'blue'
     }
 },
-  'gma-essentialis': {
-    nom: "GMA Essentialis",
-    slug: "gma-essentialis",
-    societe_gestion: "GREENMAN ARTH",
-    annee_creation: 2021,
-    label_isr: true,
-    capitalisation: "42.32 M€",
-    prix_souscription: "150 €",
-    rendement: "0%",
-    tof: "99.67%",
-    decote: "-9.86%",
-    endettement: "39.07%",
-    frais_souscription: "10%",
-    geographie: {
-    "France": 51,
-    "Allemagne": 49
-},
-    secteurs: {
-    "Tertiaire": 10,
-    "Alimentaire": 90
-},
-    avantages: [
-      "Taux d'occupation élevé de 99.67%",
-      "Label ISR - Investissement responsable",
-      "Gérée par GREENMAN ARTH"
-],
-    description_courte: "SCPI GMA Essentialis gérée par GREENMAN ARTH offrant 0% de rendement avec un taux d'occupation de 99.67%.",
-    description_longue: "GMA Essentialis, créée en 2021 par GREENMAN ARTH, se distingue par son rendement de 0% et un taux d'occupation de 99.67%. Avec une capitalisation de 42.32 M€, elle offre une solution d'investissement immobilier labellisée ISR adaptée aux investisseurs recherchant des revenus réguliers.",
-    pourquoi_investir: [
-      "Rendement attractif : 0% de taux de distribution",
-      "Taux d'occupation : 99.67% des biens loués",
-      "Label ISR - Investissement responsable",
-      "Société de gestion reconnue : GREENMAN ARTH"
-],
-    points_attention: [
-      "Endettement élevé de 39.07%",
-      "Frais de souscription de 10%"
-],
-    profil_investisseur: "Investisseurs avertis acceptant un niveau de risque modéré pour un rendement attractif. Horizon recommandé 8-10 ans."
-  ,
-    simulator: {
-      defaultInvestment: 50000,
-      defaultYield: 5.5,
-      title: `Simulez vos revenus Gma essentialis`,
-      subtitle: `Calculez vos revenus potentiels avec cette SCPI`,
-      theme: 'blue'
-    }
-},
   'grand-paris-residentiel': {
     nom: "Grand Paris Résidentiel",
     slug: "grand-paris-residentiel",

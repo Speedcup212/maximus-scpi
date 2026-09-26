@@ -311,7 +311,6 @@ Pages créées :
 - /societe-gestion/balzac-reim/ — créé
 - /societe-gestion/clubfunding-am/ — créé
 - /societe-gestion/elevation-capital-partners/ — créé
-- /societe-gestion/greenman-arth/ — créé
 - /societe-gestion/hsbc-reim-france/ — créé
 - /societe-gestion/midi-2i/ — créé
 - /societe-gestion/ofi-invest-real-estate/ — créé
@@ -319,7 +318,6 @@ Pages créées :
 
 Statut : Batch 5 terminé — sociétés à vérifier / acteurs récents ou spécialisés.
 Catégorie : Gestionnaires & acteurs SCPI
-Données SCPI associées : Greenman Arth (GMA Essentialis ✅) a une association confirmée. Aroxys, Bagan Asset Management, Balzac REIM, ClubFunding AM, Elevation Capital Partners, HSBC REIM France, MIDI 2i, Ofi Invest Real Estate, Otoktone 3i n'ont aucune SCPI identifiée dans les données internes — à vérifier auprès des sources officielles (ASPIM, AMF/GECO).
 
 ## Silo 9 — Comparatifs patrimoniaux
 

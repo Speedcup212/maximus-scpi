@@ -9,7 +9,6 @@
     "conflict_check": "Anti-doublon effectué vs scpi_complet.json (62 entrées) et SCPI_complet_avec_SFDR_Profil.json (51 entrées)",
     "v2_changes": "NCap Education Santé déplacée de candidates_new_scpi vers existing_scpi_missing_from_comparator — confirmée existante par l'utilisateur (2026-05-28)"
   },
-
   "existing_scpi_missing_from_comparator": [
     {
       "canonical_name": "Épargne Pierre Europe",
@@ -59,40 +58,44 @@
       "action_required": "1. Identifier la cause d'absence dans le comparateur (même diagnostic qu'Épargne Pierre Europe). 2. Collecter un bulletin trimestriel récent. 3. Ajouter entrée dans scpiIndicators.generated.ts si données confirmées."
     }
   ],
-
   "existing_scpi_do_not_recreate": [
-    {
-      "canonical_name": "GMA Essentialis",
-      "slug": "gma-essentialis",
-      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1268)"],
-      "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
-    },
     {
       "canonical_name": "LF Avenir Santé",
       "slug": "lf-avenir-sante",
-      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1517)"],
+      "data_locations": [
+        "scpi_complet.json",
+        "scpiDataExtended.ts (ligne 1517)"
+      ],
       "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
     },
     {
       "canonical_name": "Perial Hospitalité Europe",
       "slug": "perial-hospitalite-europe",
-      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 2222)"],
+      "data_locations": [
+        "scpi_complet.json",
+        "scpiDataExtended.ts (ligne 2222)"
+      ],
       "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
     },
     {
       "canonical_name": "Grand Paris Résidentiel",
       "slug": "grand-paris-residentiel",
-      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1304)"],
+      "data_locations": [
+        "scpi_complet.json",
+        "scpiDataExtended.ts (ligne 1304)"
+      ],
       "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
     },
     {
       "canonical_name": "Foncière des Praticiens",
       "slug": "fonciere-des-praticiens",
-      "data_locations": ["scpi_complet.json", "scpiDataExtended.ts (ligne 1228)"],
+      "data_locations": [
+        "scpi_complet.json",
+        "scpiDataExtended.ts (ligne 1228)"
+      ],
       "notes": "Déjà présente dans les deux sources principales. Ne pas recréer."
     }
   ],
-
   "candidates_new_scpi": [
     {
       "canonical_name": "SCPI NCAP Continent",

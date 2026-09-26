@@ -1609,18 +1609,6 @@ export const articleTemplates: ArticleTemplate[] = [
     keywords: ['Elevation Capital Partners', 'société de gestion SCPI', 'gestionnaire SCPI', 'AMF', 'documents réglementaires']
   },
   {
-    id: 129,
-    slug: 'greenman-arth',
-    title: 'Greenman Arth : SCPI GMA Essentialis, stratégie et analyse',
-    mainKeyword: 'Greenman Arth société de gestion SCPI',
-    searchIntent: 'analyser la société de gestion Greenman Arth et sa SCPI GMA Essentialis',
-    targetAudience: 'investisseurs SCPI tous niveaux',
-    category: 'gestionnaires-acteurs',
-    wordCountTarget: 2500,
-    metaDescription: 'Analyse de Greenman Arth, société de gestion. SCPI GMA Essentialis, stratégie, analyse et points de vigilance.',
-    keywords: ['Greenman Arth', 'GMA Essentialis', 'société de gestion SCPI', 'gestionnaire SCPI', 'SCPI', 'AMF', 'documents réglementaires']
-  },
-  {
     id: 130,
     slug: 'hsbc-reim-france',
     title: 'HSBC REIM France : société de gestion immobilière',

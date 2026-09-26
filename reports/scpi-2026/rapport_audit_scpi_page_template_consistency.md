@@ -39,7 +39,6 @@ Généré le 07/06/2026 23:00:06
 | ESG Pierre Capital | `/esg-pierre-capital` | éditoriale | OK |
 | Ficommerce Proximité | `/ficommerce-proximite` | éditoriale | OK |
 | Foncière des Praticiens | `/fonciere-des-praticiens` | éditoriale | OK |
-| GMA Essentialis | `/gma-essentialis` | éditoriale | OK |
 | Grand Paris Résidentiel | `/grand-paris-residentiel` | éditoriale | OK |
 | Immorente | `/immorente` | éditoriale | OK |
 | Iroko Zen | `/iroko-zen` | éditoriale | OK |

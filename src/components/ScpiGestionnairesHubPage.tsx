@@ -26,7 +26,6 @@ const ScpiGestionnairesHubPage: React.FC = () => {
       description: 'Experts thématiques reconnus',
       color: 'silver',
       gestionnaires: [
-        { name: 'Greenman (Retail)', encours: '1.8 Mds€', scpi: 2, rendement: '6.2%', slug: '/greenman-arth-scpi' },
         { name: 'Novaxia (Recyclage Urbain)', encours: '890 M€', scpi: 3, rendement: '8.2%', slug: '/novaxia-investissement-scpi' },
         { name: 'Iroko (Logistique)', encours: '750 M€', scpi: 2, rendement: '7.1%', slug: '/iroko-scpi' },
         { name: 'Arkea REIM', encours: '680 M€', scpi: 2, rendement: '5.4%', slug: '/arkea-reim-scpi' },

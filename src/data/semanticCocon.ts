@@ -535,13 +535,6 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
       icon: 'heart',
       type: 'sibling'
     },
-    {
-      title: 'Greenman : Leader Retail Parks',
-      url: '/greenman-arth-scpi',
-      description: 'Spécialiste européen des retail parks avec rendements attractifs',
-      icon: 'award',
-      type: 'child'
-    }
   ],
 
   '/scpi-sante-investissement': [
@@ -825,29 +818,6 @@ export const semanticCoconConfig: Record<string, SemanticLink[]> = {
     }
   ],
 
-  '/greenman-arth-scpi': [
-    {
-      title: 'SCPI Commerces',
-      url: '/scpi-commerces-investissement',
-      description: 'Greenman : leader européen des retail parks',
-      icon: 'shopping-cart',
-      type: 'parent'
-    },
-    {
-      title: 'SCPI Européennes',
-      url: '/scpi-europeennes',
-      description: 'Forte présence en Allemagne, Pays-Bas et Europe du Nord',
-      icon: 'globe',
-      type: 'parent'
-    },
-    {
-      title: 'Meilleures SCPI de Rendement',
-      url: '/meilleures-scpi-rendement',
-      description: 'Classement incluant les SCPI Greenman',
-      icon: 'trophy',
-      type: 'sibling'
-    }
-  ],
 
   // AUTRES GESTIONNAIRES
 

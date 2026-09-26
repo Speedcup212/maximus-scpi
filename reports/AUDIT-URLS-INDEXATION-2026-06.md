@@ -138,7 +138,6 @@ Si un utilisateur arrive sur `/scpi-sante` (sans slash), le canonical auto-g√©n√
 | `/atream-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
 | `/consultim-asset-management-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
 | `/fiducial-gerance-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
-| `/greenman-arth-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
 | `/inter-gestion-reim-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
 | `/iroko-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |
 | `/kyaneos-asset-management-scpi/` | sitemap + route + statique | Oui | Oui | Oui | Non | Oui | Faible |

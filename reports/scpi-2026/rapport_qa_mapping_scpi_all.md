@@ -73,7 +73,6 @@ Il ne s'agit pas d'une erreur de mapping mais d'un risque réel à signaler.
 
 | SCPI | Issues | Commentaire |
 |------|--------|-------------|
-| GMA Essentialis | Y, I, E, L, D, _, M, A, N, Q, U, A, N, T | YIELD=0 correct — SCPI en capital sans distribution |
 | Grand Paris Résidentiel | Y, I, E, L, D, _, M, A, N, Q, U, A, N, T | YIELD=0 correct — SCPI en capital sans distribution |
 | NCap Education Santé | G, E, O, _, G, E, N, E, R, I, Q, U, E, _, F, r, a, n, c, e, 7, 0, _, E, u, r, o, p, e, 3, 0 | À surveiller |
 | Patrimmo Croissance Impact | Y, I, E, L, D, _, M, A, N, Q, U, A, N, T | YIELD=0 correct — SCPI en capital sans distribution |

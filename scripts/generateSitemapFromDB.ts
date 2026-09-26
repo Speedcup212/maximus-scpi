@@ -262,7 +262,7 @@ async function generateSitemap() {
     'alderan-scpi', 'arkea-reim-scpi', 'la-francaise-rem-scpi',
     'atland-voisin-scpi', 'aestiam-scpi', 'altixia-reim-scpi',
     'amundi-immobilier-scpi', 'atream-scpi', 'consultim-asset-management-scpi',
-    'fiducial-gerance-scpi', 'greenman-arth-scpi', 'inter-gestion-reim-scpi',
+    'fiducial-gerance-scpi', 'inter-gestion-reim-scpi',
     'iroko-scpi', 'kyaneos-asset-management-scpi', 'magellim-reim-scpi',
     'norma-capital-scpi', 'novaxia-investissement-scpi', 'paref-gestion-scpi',
     'perial-asset-management-scpi', 'praemia-reim-france-scpi',

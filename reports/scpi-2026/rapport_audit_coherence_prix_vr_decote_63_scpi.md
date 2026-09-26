@@ -53,7 +53,6 @@ _Généré le 2026-06-07T21:00:03.752Z_
 | Épargne Pierre Europe | publishable | 200 € | 206.51 € | -2.6% | 205.4 € | -2.6% | 0.52 | corrigé (recalcul live) |
 | Ficommerce Proximité | publishable | 70 € | 238 € | +1.0% | 69.29 € | +1.0% | 71.61 | corrigé (recalcul live) |
 | Foncière des Praticiens | publishable | 1100 € | 1069 € | +4.9% | 1048.65 € | +4.9% | 2 | corrigé (recalcul live) |
-| GMA Essentialis | publishable | 206 € | 167 € | -1.0% | 208.04 € | -1.0% | 24.33 | corrigé (recalcul live) |
 | Immorente | publishable | 340 € | 328 € | +5.9% | 321.03 € | +5.9% | 2.25 | corrigé (recalcul live) |
 | Kyaneos Pierre | publishable | 224 € | 263 € | -1.0% | 226.2 € | -1.0% | 13.86 | corrigé (recalcul live) |
 | LF Avenir Santé | publishable | 300 € | 321 € | -0.8% | 302.3 € | -0.8% | 5.78 | corrigé (recalcul live) |
@@ -118,7 +117,6 @@ _Généré le 2026-06-07T21:00:03.752Z_
   - Avant : décote +1.0% incohérente (VR affichée 238 €). Après : VR validée par part 69.29 €, décote recalculée +1.0% cohérente avec le prix 70 €.
 - **Foncière des Praticiens** (publishable) — décision : **corrigé (recalcul live)**
   - Avant : décote +4.9% incohérente (VR affichée 1069 €). Après : VR validée par part 1048.65 €, décote recalculée +4.9% cohérente avec le prix 1100 €.
-- **GMA Essentialis** (publishable) — décision : **corrigé (recalcul live)**
   - Avant : décote -1.0% incohérente (VR affichée 167 €). Après : VR validée par part 208.04 €, décote recalculée -1.0% cohérente avec le prix 206 €.
 - **Immorente** (publishable) — décision : **corrigé (recalcul live)**
   - Avant : décote +5.9% incohérente (VR affichée 328 €). Après : VR validée par part 321.03 €, décote recalculée +5.9% cohérente avec le prix 340 €.

@@ -43,7 +43,6 @@
 | https://maximusscpi.com/atream-scpi/ | SCPI Atream 2026 \| Pierre Capitale, Eurovalys | - | 3874 o |
 | https://maximusscpi.com/consultim-asset-management-scpi/ | SCPI Consultim Asset Management 2026 | - | 3926 o |
 | https://maximusscpi.com/fiducial-gerance-scpi/ | SCPI Fiducial Gérance 2026 \| Force du Groupe Fiducial N°1 France | - | 4552 o |
-| https://maximusscpi.com/greenman-arth-scpi/ | SCPI Greenman ARTH 2026 | - | 3677 o |
 | https://maximusscpi.com/inter-gestion-reim-scpi/ | SCPI Inter Gestion REIM 2026 | - | 3858 o |
 | https://maximusscpi.com/iroko-scpi/ | SCPI Iroko 2026 \| Zen (5.80%), Global (4.70%) | - | 3857 o |
 | https://maximusscpi.com/kyaneos-asset-management-scpi/ | SCPI Kyaneos Asset Management 2026 | - | 3856 o |
@@ -234,7 +233,6 @@
 | https://maximusscpi.com/articles/balzac-reim/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/balzac-reim/ |
 | https://maximusscpi.com/articles/clubfunding-am/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/clubfunding-am/ |
 | https://maximusscpi.com/articles/elevation-capital-partners/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/elevation-capital-partners/ |
-| https://maximusscpi.com/articles/greenman-arth/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/greenman-arth/ |
 | https://maximusscpi.com/articles/hsbc-reim-france/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/hsbc-reim-france/ |
 | https://maximusscpi.com/articles/midi-2i/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/midi-2i/ |
 | https://maximusscpi.com/articles/ofi-invest-real-estate/ | https://maximusscpi.com/ | https://maximusscpi.com/articles/ofi-invest-real-estate/ |
@@ -413,7 +411,6 @@ Aucune soft 404 suspecte.
 - https://maximusscpi.com/articles/balzac-reim/
 - https://maximusscpi.com/articles/clubfunding-am/
 - https://maximusscpi.com/articles/elevation-capital-partners/
-- https://maximusscpi.com/articles/greenman-arth/
 - https://maximusscpi.com/articles/hsbc-reim-france/
 - https://maximusscpi.com/articles/midi-2i/
 - https://maximusscpi.com/articles/ofi-invest-real-estate/
@@ -456,7 +453,6 @@ Ces pages ont très peu de contenu HTML et risquent d'être considérées comme 
 | https://maximusscpi.com/atream-scpi/ | SCPI Atream 2026 \| Pierre Capitale, Eurovalys | - | 3874 o |
 | https://maximusscpi.com/consultim-asset-management-scpi/ | SCPI Consultim Asset Management 2026 | - | 3926 o |
 | https://maximusscpi.com/fiducial-gerance-scpi/ | SCPI Fiducial Gérance 2026 \| Force du Groupe Fiducial N°1 France | - | 4552 o |
-| https://maximusscpi.com/greenman-arth-scpi/ | SCPI Greenman ARTH 2026 | - | 3677 o |
 | https://maximusscpi.com/inter-gestion-reim-scpi/ | SCPI Inter Gestion REIM 2026 | - | 3858 o |
 | https://maximusscpi.com/iroko-scpi/ | SCPI Iroko 2026 \| Zen (5.80%), Global (4.70%) | - | 3857 o |
 | https://maximusscpi.com/kyaneos-asset-management-scpi/ | SCPI Kyaneos Asset Management 2026 | - | 3856 o |
@@ -641,7 +637,6 @@ Aucune.
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/balzac-reim/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/balzac-reim/)
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/clubfunding-am/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/clubfunding-am/)
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/elevation-capital-partners/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/elevation-capital-partners/)
-- [ ] Corriger la canonical de `https://maximusscpi.com/articles/greenman-arth/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/greenman-arth/)
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/hsbc-reim-france/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/hsbc-reim-france/)
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/midi-2i/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/midi-2i/)
 - [ ] Corriger la canonical de `https://maximusscpi.com/articles/ofi-invest-real-estate/` (actuellement https://maximusscpi.com/, devrait être https://maximusscpi.com/articles/ofi-invest-real-estate/)

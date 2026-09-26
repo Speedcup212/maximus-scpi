@@ -58,7 +58,6 @@ Triées par décote/surcote croissante. Colonne « Intégrée » = présence au 
 | Mistral Sélection | -1.2 % | non (absente du catalogue) |
 | Remake UK 2025 | -1.17 % | oui |
 | Activimmo | -1.07 % | oui |
-| GMA Essentialis | -0.98 % | oui |
 | Kyaneos | -0.97 % | oui (Kyaneos Pierre) |
 | Lf Avenir Sante | -0.76 % | oui |
 | Momentime | -0.75 % | non (absente du catalogue) |

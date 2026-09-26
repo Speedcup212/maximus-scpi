@@ -19,7 +19,6 @@
 - [Transitions Europe](https://maximusscpi.com/transitions-europe/) : fiche détaillée de la SCPI Transitions Europe.
 - [Remake Live](https://maximusscpi.com/remake-live/) : fiche détaillée de la SCPI Remake Live.
 - [Iroko Zen](https://maximusscpi.com/iroko-zen/) : fiche détaillée de la SCPI Iroko Zen.
-- [GMA Essentialis](https://maximusscpi.com/gma-essentialis/) : fiche détaillée avec données et points de vigilance disponibles.
 
 ## Analyse et liquidité
 

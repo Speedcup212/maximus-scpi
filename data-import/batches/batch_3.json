@@ -134,52 +134,6 @@
     "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI Foncière des praticiens"
   },
   {
-    "name": "GMA Essentialis",
-    "folder": "SCPI GMA Essentialis",
-    "docs": {
-      "SFDR": [
-        "10_SCPI-GMA-Essentialis_Annexe-Pre-Contractuelle_Article-9-SFDR.pdf"
-      ],
-      "DIC": [
-        "DIC_-_GMA_ESSENTIALIS_-_2025-12-15.pdf"
-      ],
-      "Statuts": [
-        "GMA-Essentialis-STATUTS-CONSTITUTIFS-2025.pdf"
-      ],
-      "AUTRE": [
-        "Plaquette_commerciale_SCPI_GMA_Essentialis_190226.pdf"
-      ],
-      "RA": [
-        "Rapport-Annuel-SCPI-GMA-Essentialis-2024.pdf"
-      ],
-      "NI": [
-        "SCPI-GMA-Essentialis-Note-dinformation-2025-Juillet.pdf"
-      ],
-      "BT": [
-        "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf"
-      ]
-    },
-    "current_values": {
-      "prix_souscription": 150,
-      "prix_retrait": 132.0,
-      "taux_distribution": 0,
-      "capitalisation": 42.32,
-      "tof": 99.67,
-      "endettement": 39.07,
-      "nb_associes": null,
-      "nb_immeubles": null,
-      "repartition_geo": {
-        "France": 51,
-        "Allemagne": 49
-      },
-      "repartition_sectorielle": {
-        "Alimentaire": 90,
-        "Tertiaire": 10
-      }
-    },
-    "folder_abs": "c:\\Users\\ericb\\Desktop\\maximus-scpi\\data-import\\Liste SCPI + Doc\\SCPI GMA Essentialis"
-  },
-  {
     "name": "Grand Paris Résidentiel",
     "folder": "Grans Paris Résidentiel",
     "docs": {

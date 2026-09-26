@@ -63,7 +63,7 @@ interface QAFinding {
 const FORBIDDEN_YEARS = new Set([2023, 2024, 2025, 2026]);
 const VALIDATED_HIGH_YIELD = new Set(['Wemo One']);
 const SCPI_ZERO_YIELD_KNOWN = new Set([
-  'GMA Essentialis', 'Grand Paris Résidentiel', 'Patrimmo Croissance Impact'
+  'Grand Paris Résidentiel', 'Patrimmo Croissance Impact'
 ]);
 
 // ── Helpers ────────────────────────────────────────────────────────────────

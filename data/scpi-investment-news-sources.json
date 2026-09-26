@@ -286,17 +286,6 @@
     "notes": "Veille automatisée Supabase — contrôle quotidien des sources officielles."
   },
   {
-    "slug": "gma-essentialis",
-    "name": "GMA Essentialis",
-    "managementCompany": "GREENMAN ARTH",
-    "officialUrl": "https://www.greenmanarth.com/fr/",
-    "newsUrl": "https://www.greenmanarth.com/fr/news-press/",
-    "documentsUrl": "",
-    "rssUrl": "",
-    "enabled": true,
-    "notes": "Veille automatisée Supabase — contrôle quotidien des sources officielles."
-  },
-  {
     "slug": "grand-paris-residentiel",
     "name": "Grand Paris Résidentiel",
     "managementCompany": "Inter Gestion REIM",

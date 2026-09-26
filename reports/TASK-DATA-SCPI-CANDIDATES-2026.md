@@ -82,7 +82,6 @@ const sourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompl
 
 | SCPI | Slug | Présence |
 |---|---|---|
-| GMA Essentialis | `gma-essentialis` | `scpi_complet.json` + `scpiDataExtended.ts:1268` |
 | LF Avenir Santé | `lf-avenir-sante` | `scpi_complet.json` + `scpiDataExtended.ts:1517` |
 | Perial Hospitalité Europe | `perial-hospitalite-europe` | `scpi_complet.json` + `scpiDataExtended.ts:2222` |
 | Grand Paris Résidentiel | `grand-paris-residentiel` | `scpi_complet.json` + `scpiDataExtended.ts:1304` |

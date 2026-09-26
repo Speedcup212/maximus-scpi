@@ -272,17 +272,6 @@
       "comment": ""
     },
     {
-      "index": 25,
-      "source_folder": "SCPI GMA Essentialis",
-      "canonical_name": "GMA Essentialis",
-      "management_company": "Greenman Arth",
-      "status": "already_existing_no_create",
-      "priority": "P1",
-      "action": "Ne pas recréer ; contrôle anti-doublon / mise à jour uniquement",
-      "origin": "captures Windows + contexte projet",
-      "comment": ""
-    },
-    {
       "index": 26,
       "source_folder": "SCPI Cristal Life",
       "canonical_name": "Cristal Life",

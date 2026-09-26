@@ -187,26 +187,5 @@
       "status": "verified",
       "comment": "Valeur par part (BT T1 2026)."
     }
-  },
-  {
-    "name": "GMA Essentialis",
-    "valeur_reconstitution": {
-      "new_value": 208.04,
-      "unit": "EUR/part",
-      "source_document": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf (BT P3 2025)",
-      "page": "3",
-      "extract": "Valeur de reconstitution2 (par part) 208,04 € … Prix de souscription 206,00 € depuis 14 juillet 2024",
-      "status": "verified",
-      "comment": "INCOHÉRENCE avec batch : la valeur par part (BT P3 2025) est cohérente avec le prix de souscription indiqué dans les documents (206 €, écart +1 %), mais PAS avec le prix_souscription_actuel=150 fourni dans le batch (écart +38 %). Le prix de 150 € n'apparaît dans aucun document fourni (DIC 15/12/2025 et NI 07/2025 ne publient pas de valeur par part) — prix batch probablement erroné/obsolète. RA 2024 indiquait 216,87 €/part au 31/12/2024."
-    },
-    "valeur_realisation": {
-      "new_value": 160.42,
-      "unit": "EUR/part",
-      "source_document": "SCPI_GMA_Essentialis_-_Bulletin_dInformation_P3_2025.pdf (BT P3 2025)",
-      "page": "3",
-      "extract": "Valeur de réalisation1 (par part) 160,42 €",
-      "status": "verified",
-      "comment": "Valeur par part la plus récente (BT P3 2025). RA 2024 indiquait 167,05 €/part au 31/12/2024."
-    }
   }
 ]

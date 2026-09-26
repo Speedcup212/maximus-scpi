@@ -396,24 +396,6 @@
     "yield_json": 5.5
   },
   {
-    "nom": "GMA Essentialis",
-    "id": 23,
-    "status": "OK",
-    "yield_effectif": 4.0,
-    "yield_source": "json",
-    "price": 206,
-    "tof": 99.7,
-    "nb_secteurs": 3,
-    "secteurs_somme": 100.0,
-    "nb_geo": 2,
-    "geo_somme": 100.0,
-    "capitalisation": "44.55M€",
-    "source": "ancien_stock",
-    "issues": "",
-    "yield_ts": 4.0,
-    "yield_json": 4.0
-  },
-  {
     "nom": "Grand Paris Résidentiel",
     "id": 24,
     "status": "ATTENTION",
