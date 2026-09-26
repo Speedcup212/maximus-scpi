@@ -1,0 +1,109 @@
+name: Deploy validated main to Netlify production
+
+on:
+  push:
+    paths:
+      - '.github/workflows/deploy-clean-main-netlify.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NETLIFY_AUTH_TOKEN_A: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_AUTH_TOKEN_B: ${{ secrets.NETLIFY_TOKEN }}
+      NETLIFY_AUTH_TOKEN_C: ${{ secrets.NETLIFY_ACCESS_TOKEN }}
+      NETLIFY_SITE_ID: e4f16f87-663d-4965-8de8-00f6840f1aa7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Remove one-off workflow from main
+        shell: bash
+        run: |
+          rm -f .github/workflows/deploy-clean-main-netlify.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "ci: remove one-off Netlify deployment workflow"
+          git push origin HEAD:main
+
+      - name: Resolve Netlify credential without exposing it
+        shell: bash
+        run: |
+          TOKEN="${NETLIFY_AUTH_TOKEN_A:-${NETLIFY_AUTH_TOKEN_B:-${NETLIFY_AUTH_TOKEN_C:-}}}"
+          if [ -z "$TOKEN" ]; then
+            echo "NETLIFY_TOKEN_AVAILABLE=false" >> "$GITHUB_ENV"
+            echo "No supported Netlify token secret is configured in this repository."
+          else
+            echo "NETLIFY_TOKEN_AVAILABLE=true" >> "$GITHUB_ENV"
+            echo "NETLIFY_AUTH_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+            echo "::add-mask::$TOKEN"
+          fi
+
+      - name: Stop cleanly if no Netlify credential exists
+        if: env.NETLIFY_TOKEN_AVAILABLE != 'true'
+        shell: bash
+        run: |
+          echo "Deployment cannot continue without a Netlify token secret."
+          exit 2
+
+      - name: Setup Node
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        run: npm ci
+
+      - name: Pull Netlify production build environment
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        shell: bash
+        run: |
+          npx --yes netlify-cli@latest link --id "$NETLIFY_SITE_ID"
+          npx --yes netlify-cli@latest env:list --plain --context production > .netlify-production.env
+          python <<'PY'
+          from pathlib import Path
+          import os
+          p = Path('.netlify-production.env')
+          if not p.exists():
+              raise SystemExit('Netlify environment export missing')
+          for raw in p.read_text(encoding='utf-8').splitlines():
+              if not raw or raw.lstrip().startswith('#') or '=' not in raw:
+                  continue
+              key, value = raw.split('=', 1)
+              key = key.strip()
+              value = value.strip().strip('"').strip("'")
+              if key and value and '*' not in value:
+                  with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
+                      f.write(f'{key}<<__NETLIFY_ENV__\n{value}\n__NETLIFY_ENV__\n')
+          PY
+          rm -f .netlify-production.env
+
+      - name: Full production build with Netlify environment
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        run: npm run build
+
+      - name: Assert retired SCPI absent from deploy artifact
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        shell: bash
+        run: |
+          if grep -RniE --exclude='*.map' 'gma[[:space:]_-]*essentialis|greenman[[:space:]_-]*arth' dist; then
+            echo "Retired SCPI reference found in dist; refusing production deploy."
+            exit 3
+          fi
+          echo "DIST_AUDIT_OK=true"
+
+      - name: Deploy dist to Netlify production
+        if: env.NETLIFY_TOKEN_AVAILABLE == 'true'
+        shell: bash
+        run: |
+          npx --yes netlify-cli@latest deploy --prod --dir=dist --site="$NETLIFY_SITE_ID" --auth="$NETLIFY_AUTH_TOKEN" --message="Purge retired SCPI and validate production build"
