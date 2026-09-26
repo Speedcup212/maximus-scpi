@@ -29,7 +29,7 @@ const HomeBelowFold: React.FC<HomeBelowFoldProps> = ({
         />
       </div>
 
-      <Suspense fallback={<div className="py-12" aria-hidden="true" />}>
+      <Suspense fallback={<div className="min-h-[360px]" aria-hidden="true" />}>
         <Testimonials />
       </Suspense>
 
@@ -37,7 +37,7 @@ const HomeBelowFold: React.FC<HomeBelowFoldProps> = ({
       <TeaserComparateur />
     </main>
 
-    <Suspense fallback={<div className="py-12" aria-hidden="true" />}>
+    <Suspense fallback={<div className="min-h-[420px]" aria-hidden="true" />}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <LandingPagesMenu onPageClick={(slug) => onNavigate(`/${slug}/`)} />
       </div>

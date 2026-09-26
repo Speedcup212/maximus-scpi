@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
@@ -21,7 +21,6 @@ const HomeApp: React.FC = () => {
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
   const [showBelowFold, setShowBelowFold] = useState(false);
-  const belowFoldTriggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -36,26 +35,21 @@ const HomeApp: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const target = belowFoldTriggerRef.current;
-    if (!target || showBelowFold) return;
+    if (showBelowFold) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some(entry => entry.isIntersecting)) {
-          setShowBelowFold(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '120px 0px' }
-    );
+    // Keep all secondary homepage sections out of the startup waterfall.
+    // They load as soon as the visitor shows intent to continue, with a
+    // conservative fallback for crawlers/non-scrolling visitors.
+    const revealBelowFold = () => setShowBelowFold(true);
+    const onScroll = () => {
+      if (window.scrollY > 96) revealBelowFold();
+    };
 
-    observer.observe(target);
-
-    // Safety fallback for non-scrolling users/crawlers, outside the critical startup window.
-    const fallback = window.setTimeout(() => setShowBelowFold(true), 6000);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const fallback = window.setTimeout(revealBelowFold, 3500);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', onScroll);
       window.clearTimeout(fallback);
     };
   }, [showBelowFold]);
@@ -92,7 +86,7 @@ const HomeApp: React.FC = () => {
       />
 
       <main>
-        <section className="relative overflow-hidden" style={{ backgroundColor: '#0D1117' }}>
+        <section className="relative overflow-hidden min-h-[calc(100svh-4rem)] flex items-center" style={{ backgroundColor: '#0D1117' }}>
           <div
             className="pointer-events-none absolute inset-0"
             style={{
@@ -166,7 +160,6 @@ const HomeApp: React.FC = () => {
 
       </main>
 
-      <div ref={belowFoldTriggerRef} className="h-px w-full" aria-hidden="true" />
       {showBelowFold && (
         <Suspense fallback={<div className="min-h-[240px]" aria-hidden="true" />}>
           <HomeBelowFold
@@ -177,18 +170,23 @@ const HomeApp: React.FC = () => {
         </Suspense>
       )}
 
-      <Suspense fallback={null}>
-        <FloatingButton
-          isVisible={showFloatingButton}
-          onClick={() => setIsRdvModalOpen(true)}
-        />
-        {isRdvModalOpen && (
+      {showFloatingButton && (
+        <Suspense fallback={null}>
+          <FloatingButton
+            isVisible={showFloatingButton}
+            onClick={() => setIsRdvModalOpen(true)}
+          />
+        </Suspense>
+      )}
+
+      {isRdvModalOpen && (
+        <Suspense fallback={null}>
           <RdvModal
             isOpen={isRdvModalOpen}
             onClose={() => setIsRdvModalOpen(false)}
           />
-        )}
-      </Suspense>
+        </Suspense>
+      )}
 
       <CookieConsent />
     </div>

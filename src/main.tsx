@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import type { ComponentType } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import HomeApp from './HomeApp';
 
 declare global {
   interface Window {
@@ -60,10 +61,11 @@ const selectEntry = async (): Promise<ComponentType> => {
     return module.default;
   }
 
-  // The plain homepage gets its own minimal bundle.
+  // The homepage is imported eagerly on purpose: this removes one full
+  // network round-trip before the first interactive paint and prevents the
+  // static shell from lingering visibly before React takes over.
   if (!path && !hasLegacyLandingParams) {
-    const module = await import('./HomeApp');
-    return module.default;
+    return HomeApp;
   }
 
   // The comparator gets an isolated bundle; heavy analytics remain lazy inside it.
