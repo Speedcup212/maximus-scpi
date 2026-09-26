@@ -26,7 +26,7 @@ const cleanJson = (value) => {
   }
 
   if (value && typeof value === 'object') {
-    const identifyingFields = ['Nom SCPI', 'name', 'nom', 'slug', 'scpi_slug', 'scpi_name'];
+    const identifyingFields = ['Nom SCPI', 'nom_scpi', 'name', 'nom', 'slug', 'scpi_slug', 'scpi_name'];
     const retiredObject = RETIRED.some(({ name, slug }) =>
       identifyingFields.some((field) => {
         const current = value[field];
@@ -130,6 +130,60 @@ const removeObjectPropertyByMarker = (file, marker) => {
   if (changed) fs.writeFileSync(file, text, 'utf8');
 };
 
+const removeLinesContainingRetired = (file) => {
+  if (!fs.existsSync(file)) return;
+  const text = fs.readFileSync(file, 'utf8');
+  if (!containsRetired(text)) return;
+  const cleaned = text
+    .split(/\r?\n/)
+    .filter((line) => !containsRetired(line))
+    .join('\n');
+  fs.writeFileSync(file, `${cleaned.replace(/\n+$/g, '')}\n`, 'utf8');
+};
+
+const cleanResaleArticle = () => {
+  const file = path.join(ROOT, 'src', 'components', 'articles', 'RevendrePartsScpiDelaisMarcheSecondaireArticle.tsx');
+  if (!fs.existsSync(file)) return;
+  let text = fs.readFileSync(file, 'utf8');
+  if (!containsRetired(text)) return;
+
+  text = text
+    .replace(
+      '<span>2 SCPI gagnantes : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>',
+      '<span>Iroko Zen présente dans ce panel un écart de retrait légèrement favorable (+0,99%)</span>'
+    )
+    .replace(
+      'Les 2 seules SCPI où vous gagnez à la revente',
+      'Un exemple d’écart de retrait favorable dans ce panel'
+    )
+    .replace(
+      '<span><strong>3,9% gagnent</strong> (2/63) : GMA Essentialis (+23,6%), Iroko Zen (+0,99%)</span>',
+      '<span><strong>Un cas favorable dans ce panel :</strong> Iroko Zen (+0,99%)</span>'
+    )
+    .replace(
+      '<li>• Exemples : GMA Essentialis (-9,86%), Épargne Foncière (-9,83%)</li>',
+      '<li>• Exemple : Épargne Foncière (-9,83%)</li>'
+    )
+    .replace(
+      '<span><strong>Évitez les SCPI à forte décote</strong> : GMA Essentialis (-9,86%), Épargne Foncière (-9,83%) = 12-18 mois de délai</span>',
+      '<span><strong>Évitez de décider sur la seule décote</strong> : vérifiez les parts en attente, la profondeur du marché secondaire et les délais observés</span>'
+    );
+
+  const cardMarker = '1. GMA Essentialis - Gain +23,60%';
+  const markerIndex = text.indexOf(cardMarker);
+  if (markerIndex >= 0) {
+    const start = text.lastIndexOf('          <div className=', markerIndex);
+    const closing = text.indexOf('          </div>', markerIndex);
+    if (start >= 0 && closing >= 0) {
+      const end = closing + '          </div>'.length;
+      text = text.slice(0, start) + text.slice(end);
+    }
+  }
+
+  text = text.replace('2. Iroko Zen - Gain +0,99%', 'Iroko Zen - Gain +0,99%');
+  fs.writeFileSync(file, text, 'utf8');
+};
+
 const cleanPublicGeneratedFiles = (publicDir) => {
   if (!fs.existsSync(publicDir)) return;
 
@@ -138,11 +192,10 @@ const cleanPublicGeneratedFiles = (publicDir) => {
   }
 
   const redirects = path.join(publicDir, '_redirects');
-  if (fs.existsSync(redirects)) {
-    const lines = fs.readFileSync(redirects, 'utf8').split(/\r?\n/);
-    const cleaned = lines.filter((line) => !containsRetired(line));
-    fs.writeFileSync(redirects, `${cleaned.join('\n').replace(/\n+$/g, '')}\n`, 'utf8');
-  }
+  removeLinesContainingRetired(redirects);
+
+  const llms = path.join(publicDir, 'llms.txt');
+  removeLinesContainingRetired(llms);
 
   const sitemap = path.join(publicDir, 'sitemap.xml');
   if (fs.existsSync(sitemap)) {
@@ -170,12 +223,24 @@ const purgeSource = () => {
   removeObjectPropertyByMarker(landing, "'gma-essentialis': {");
   removeObjectPropertyByMarker(landing, '"gma-essentialis": {');
 
+  removeArrayObjectByMarker(
+    path.join(ROOT, 'src', 'data', 'articleTemplatesConfig.ts'),
+    "slug: 'greenman-arth'"
+  );
+  removeArrayObjectByMarker(
+    path.join(ROOT, 'src', 'data', 'managementCompanyArticlesConfig.ts'),
+    "slug: 'greenman-arth'"
+  );
+
   const slugMapper = path.join(ROOT, 'src', 'utils', 'scpiSlugMapper.ts');
   if (fs.existsSync(slugMapper)) {
     let text = fs.readFileSync(slugMapper, 'utf8');
     text = text.replace(/^\s*["']gma-essentialis["'],?\s*\r?\n/gm, '');
     fs.writeFileSync(slugMapper, text, 'utf8');
   }
+
+  removeLinesContainingRetired(path.join(ROOT, 'src', 'utils', 'scpiAnalysis.ts'));
+  cleanResaleArticle();
 
   const publicDir = path.join(ROOT, 'public');
   if (fs.existsSync(publicDir)) {
