@@ -1,6 +1,6 @@
 # 🚀 Landing Pages Thématiques Optimisées (HTML Statique Complet)
 
-## ✅ Pages Générées (32)
+## ✅ Pages Générées (33)
 
 - [https://maximusscpi.com/meilleures-scpi-rendement/](https://maximusscpi.com/meilleures-scpi-rendement/)
 - [https://maximusscpi.com/scpi-europeennes/](https://maximusscpi.com/scpi-europeennes/)
@@ -76,4 +76,4 @@ Les pages sont automatiquement générées dans `dist/`.
 
 ---
 
-Généré le 26/09/2026 21:27:12
+Généré le 30/06/2026 16:01:35
