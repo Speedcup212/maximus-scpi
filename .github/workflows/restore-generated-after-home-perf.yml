@@ -1,0 +1,37 @@
+name: Restore generated production artifacts
+
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-generated-after-home-perf.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Restore production-generated files only
+        shell: bash
+        run: |
+          git checkout 5eb02b2211e9c2310b5521ce25eecac569d8d4a3 -- \
+            THEMATIC_PAGES_OPTIMIZED.md \
+            public/_redirects \
+            public/robots.txt \
+            public/sitemap.xml
+          rm -f .github/workflows/restore-generated-after-home-perf.yml
+
+      - name: Commit restoration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add THEMATIC_PAGES_OPTIMIZED.md public/_redirects public/robots.txt public/sitemap.xml .github/workflows/restore-generated-after-home-perf.yml
+          git commit -m "chore: restore generated production artifacts"
+          git push origin HEAD:main
