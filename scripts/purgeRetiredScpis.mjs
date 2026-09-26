@@ -47,6 +47,14 @@ const cleanJson = (value) => {
   return value;
 };
 
+const cleanJsonFile = (file) => {
+  const raw = fs.readFileSync(file, 'utf8');
+  if (!containsRetired(raw)) return;
+  const parsed = JSON.parse(raw);
+  const cleaned = cleanJson(parsed);
+  fs.writeFileSync(file, `${JSON.stringify(cleaned, null, 2)}\n`, 'utf8');
+};
+
 const findMatchingBrace = (text, openIndex) => {
   let depth = 0;
   let quote = null;
@@ -122,14 +130,35 @@ const removeObjectPropertyByMarker = (file, marker) => {
   if (changed) fs.writeFileSync(file, text, 'utf8');
 };
 
+const cleanPublicGeneratedFiles = (publicDir) => {
+  if (!fs.existsSync(publicDir)) return;
+
+  for (const file of walk(publicDir).filter((item) => item.endsWith('.json'))) {
+    cleanJsonFile(file);
+  }
+
+  const redirects = path.join(publicDir, '_redirects');
+  if (fs.existsSync(redirects)) {
+    const lines = fs.readFileSync(redirects, 'utf8').split(/\r?\n/);
+    const cleaned = lines.filter((line) => !containsRetired(line));
+    fs.writeFileSync(redirects, `${cleaned.join('\n').replace(/\n+$/g, '')}\n`, 'utf8');
+  }
+
+  const sitemap = path.join(publicDir, 'sitemap.xml');
+  if (fs.existsSync(sitemap)) {
+    let xml = fs.readFileSync(sitemap, 'utf8');
+    for (const { slug } of RETIRED) {
+      const escaped = slug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      xml = xml.replace(new RegExp(`<url>[\\s\\S]*?${escaped}[\\s\\S]*?<\\/url>\\s*`, 'gi'), '');
+    }
+    fs.writeFileSync(sitemap, xml, 'utf8');
+  }
+};
+
 const purgeSource = () => {
   const dataDir = path.join(ROOT, 'src', 'data');
   for (const file of walk(dataDir).filter((file) => file.endsWith('.json'))) {
-    const raw = fs.readFileSync(file, 'utf8');
-    if (!containsRetired(raw)) continue;
-    const parsed = JSON.parse(raw);
-    const cleaned = cleanJson(parsed);
-    fs.writeFileSync(file, `${JSON.stringify(cleaned, null, 2)}\n`, 'utf8');
+    cleanJsonFile(file);
   }
 
   removeArrayObjectByMarker(
@@ -155,6 +184,7 @@ const purgeSource = () => {
         fs.rmSync(path.join(publicDir, entry.name), { recursive: true, force: true });
       }
     }
+    cleanPublicGeneratedFiles(publicDir);
   }
 
   const failures = [];
