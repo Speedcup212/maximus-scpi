@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import OptimizedScpiLandingPage from './components/OptimizedScpiLandingPage';
+import ScpiQuarterlyAnalysis from './components/ScpiQuarterlyAnalysis';
 
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
@@ -42,6 +43,8 @@ const ScpiApp: React.FC = () => {
         isDarkMode={isDarkMode}
         toggleTheme={() => setIsDarkMode(v => !v)}
       />
+
+      <ScpiQuarterlyAnalysis scpiKey={scpiKey} />
 
       <Suspense fallback={null}>
         {isRdvModalOpen && (
