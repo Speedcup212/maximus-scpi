@@ -18,37 +18,54 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Remove GMA Essentialis references
+      - name: Remove all GMA Essentialis references
         shell: bash
         run: |
           python <<'PY'
           from pathlib import Path
-          import json, re
+          import json, re, unicodedata, shutil
 
           ROOT = Path('.')
-          BANNED = ('gma essentialis', 'gma-essentialis', 'greenman arth', 'greenman-arth', 'greenmanarth')
-          ID_FIELDS = {
-              'name','nom','nom_scpi','scpi_name','slug','scpi_slug','managementcompany',
-              'management_company','societe_gestion','société_gestion','displayname','company','gestionnaire'
-          }
+          SOURCE_EXT = {'.ts', '.tsx', '.js', '.jsx'}
+          TEXT_EXT = SOURCE_EXT | {'.json', '.md', '.txt', '.csv', '.yml', '.yaml', '.html', '.xml'}
+
+          def normalized(value):
+              s = unicodedata.normalize('NFKD', str(value)).encode('ascii', 'ignore').decode('ascii').lower()
+              return re.sub(r'[^a-z0-9]+', '', s)
 
           def banned_text(value):
-              s = str(value).lower()
-              return any(token in s for token in BANNED)
+              s = normalized(value)
+              return 'gmaessentialis' in s or 'greenmanarth' in s
 
-          def is_target_record(obj):
+          # 1) Delete files/folders explicitly named after the removed product/manager.
+          named_paths = []
+          for p in ROOT.rglob('*'):
+              if '.git' in p.parts or 'node_modules' in p.parts:
+                  continue
+              if banned_text(p.as_posix()):
+                  named_paths.append(p)
+          for p in sorted(named_paths, key=lambda x: len(x.parts), reverse=True):
+              if not p.exists():
+                  continue
+              if p.is_dir():
+                  shutil.rmtree(p)
+                  print(f'DELETED_DIR: {p}')
+              else:
+                  p.unlink()
+                  print(f'DELETED_FILE: {p}')
+
+          # 2) JSON: remove any list record directly identifying or mentioning the product/manager,
+          #    plus matching keys/scalar values in nested dictionaries.
+          def direct_target_record(obj):
               if not isinstance(obj, dict):
                   return False
-              for k, v in obj.items():
-                  if str(k).lower() in ID_FIELDS and isinstance(v, (str, int, float)) and banned_text(v):
-                      return True
-              return False
+              return any(isinstance(v, (str, int, float)) and banned_text(v) for v in obj.values())
 
           def clean_json(node):
               if isinstance(node, list):
                   out = []
                   for item in node:
-                      if is_target_record(item):
+                      if isinstance(item, dict) and direct_target_record(item):
                           continue
                       if isinstance(item, str) and banned_text(item):
                           continue
@@ -59,11 +76,12 @@ jobs:
                   for k, v in node.items():
                       if banned_text(k):
                           continue
+                      if isinstance(v, str) and banned_text(v):
+                          continue
                       out[k] = clean_json(v)
                   return out
               return node
 
-          # Clean every JSON source/catalog that still contains the product or manager.
           for p in ROOT.rglob('*.json'):
               if '.git' in p.parts or 'node_modules' in p.parts:
                   continue
@@ -76,7 +94,6 @@ jobs:
               try:
                   data = json.loads(raw)
               except Exception:
-                  # Do not silently corrupt non-standard JSON.
                   print(f'NON_STANDARD_JSON_REQUIRES_REVIEW: {p}')
                   continue
               cleaned = clean_json(data)
@@ -84,9 +101,11 @@ jobs:
               p.write_text(new, encoding='utf-8')
               print(f'CLEANED_JSON: {p}')
 
-          def brace_spans(text):
+          # Lexical container scanner for TS/JS catalogs.
+          def container_spans(text):
               stack=[]; spans=[]
               i=0; quote=None; esc=False; line_comment=False; block_comment=False
+              pairs={'}':'{', ']':'['}
               while i < len(text):
                   c=text[i]; n=text[i+1] if i+1 < len(text) else ''
                   if line_comment:
@@ -104,11 +123,24 @@ jobs:
                       quote=c; i+=1; continue
                   if c=='/' and n=='/': line_comment=True; i+=2; continue
                   if c=='/' and n=='*': block_comment=True; i+=2; continue
-                  if c=='{': stack.append(i)
-                  elif c=='}' and stack:
-                      start=stack.pop(); spans.append((start,i+1))
+                  if c in '{[':
+                      stack.append((c,i))
+                  elif c in '}]' and stack and stack[-1][0] == pairs[c]:
+                      opener,start=stack.pop(); spans.append((start,i+1,opener))
                   i+=1
               return spans
+
+          def extend_removal(text, start, end):
+              line_start=text.rfind('\n', 0, start)+1
+              if text[line_start:start].strip()=='' :
+                  start=line_start
+              j=end
+              while j < len(text) and text[j] in ' \t': j+=1
+              if j < len(text) and text[j]==',': j+=1
+              while j < len(text) and text[j] in ' \t': j+=1
+              if j < len(text) and text[j]=='\r': j+=1
+              if j < len(text) and text[j]=='\n': j+=1
+              return start,j
 
           def remove_enclosing_object(path, marker):
               p=Path(path)
@@ -117,70 +149,137 @@ jobs:
               changed=False
               while marker.lower() in text.lower():
                   pos=text.lower().find(marker.lower())
-                  candidates=[(s,e) for s,e in brace_spans(text) if s <= pos < e]
+                  candidates=[(s,e) for s,e,o in container_spans(text) if o=='{' and s <= pos < e]
                   if not candidates:
                       raise RuntimeError(f'Cannot locate enclosing object for {marker} in {path}')
-                  # Smallest enclosing object that contains the identifying marker.
-                  s,e=min(candidates, key=lambda x: x[1]-x[0])
-                  # For these catalog files the marker is a direct property of the top-level record.
-                  # If a smaller nested object somehow captured it, climb until the preceding text looks like an array item.
-                  ordered=sorted(candidates, key=lambda x: x[1]-x[0])
-                  for cs,ce in ordered:
-                      prefix=text[max(0,cs-8):cs]
-                      if '\n  ' in prefix or '\n    ' in prefix:
-                          s,e=cs,ce
-                          break
-                  # Include trailing comma and one newline when present.
-                  j=e
-                  while j < len(text) and text[j] in ' \t': j+=1
-                  if j < len(text) and text[j]==',':
-                      j+=1
-                  if j < len(text) and text[j]=='\r': j+=1
-                  if j < len(text) and text[j]=='\n': j+=1
-                  text=text[:s]+text[j:]
+                  s,e=min(candidates, key=lambda x:x[1]-x[0])
+                  s,e=extend_removal(text,s,e)
+                  text=text[:s]+text[e:]
                   changed=True
               if changed:
                   p.write_text(text, encoding='utf-8')
                   print(f'CLEANED_OBJECT: {path}')
 
-          # Hard-coded TypeScript catalogs that are not JSON-parseable.
-          remove_enclosing_object('data/scpiDataExtended.ts', '"name": "GMA Essentialis"')
-          remove_enclosing_object('data/managementCompanyArticlesConfig.ts', "slug: 'greenman-arth'")
+          def remove_keyed_container(path, marker):
+              p=Path(path)
+              if not p.exists(): return
+              text=p.read_text(encoding='utf-8')
+              changed=False
+              while marker.lower() in text.lower():
+                  pos=text.lower().find(marker.lower())
+                  candidates=[(s,e) for s,e,o in container_spans(text) if s >= pos and s-pos < 400]
+                  if not candidates:
+                      raise RuntimeError(f'Cannot locate keyed container for {marker} in {path}')
+                  s0,e0=min(candidates, key=lambda x:x[0])
+                  start=text.rfind('\n',0,pos)+1
+                  start,end=extend_removal(text,start,e0)
+                  text=text[:start]+text[end:]
+                  changed=True
+              if changed:
+                  p.write_text(text, encoding='utf-8')
+                  print(f'CLEANED_KEYED_CONTAINER: {path}')
 
-          # Remove editorial slug registration.
-          slug_file=Path('utils/scpiSlugMapper.ts')
-          if slug_file.exists():
-              text=slug_file.read_text(encoding='utf-8')
-              new='\n'.join(line for line in text.splitlines() if not banned_text(line)) + ('\n' if text.endswith('\n') else '')
-              if new != text:
-                  slug_file.write_text(new, encoding='utf-8')
-                  print('CLEANED_SLUG: utils/scpiSlugMapper.ts')
+          # 3) Structured TS/JS records.
+          enclosing_targets = [
+              ('data/scpiDataExtended.ts', '"name": "GMA Essentialis"'),
+              ('src/data/scpiDataExtended.ts', '"name": "GMA Essentialis"'),
+              ('data/managementCompanyArticlesConfig.ts', "slug: 'greenman-arth'"),
+              ('src/data/managementCompanyArticlesConfig.ts', "slug: 'greenman-arth'"),
+              ('src/data/articleTemplatesConfig.ts', "slug: 'greenman-arth'"),
+              ('src/data/semanticCocon.ts', "url: '/greenman-arth-scpi'"),
+          ]
+          for path,marker in enclosing_targets:
+              remove_enclosing_object(path, marker)
 
-          # Remove the one-off workflow itself so no current-branch trace remains.
+          keyed_targets = [
+              ('src/data/landingPagesData.ts', "'gma-essentialis':"),
+              ('src/data/thematicLandingPages.ts', "'greenman-arth-scpi':"),
+              ('src/data/semanticCocon.ts', "'/greenman-arth-scpi':"),
+              ('scripts/generateOptimizedThematicPages.js', "'greenman-arth-scpi':"),
+          ]
+          for path,marker in keyed_targets:
+              remove_keyed_container(path, marker)
+
+          # 4) Remove URL blocks from generated sitemaps/XML.
+          for p in ROOT.rglob('*.xml'):
+              if '.git' in p.parts or 'node_modules' in p.parts:
+                  continue
+              raw=p.read_text(encoding='utf-8', errors='ignore')
+              if not banned_text(raw): continue
+              blocks=re.compile(r'<url>.*?</url>\s*', re.S)
+              new=blocks.sub(lambda m: '' if banned_text(m.group(0)) else m.group(0), raw)
+              p.write_text(new, encoding='utf-8')
+              print(f'CLEANED_XML: {p}')
+
+          # 5) Remove exact catalog tokens from mixed list lines without dropping unrelated entries.
+          literal_tokens = [
+              'GMA Essentialis', 'gma-essentialis', 'greenman-arth', 'greenman-arth-scpi',
+              'Greenman Arth', 'GREENMAN ARTH'
+          ]
+          for p in ROOT.rglob('*'):
+              if not p.is_file() or '.git' in p.parts or 'node_modules' in p.parts or p.suffix.lower() not in SOURCE_EXT:
+                  continue
+              raw=p.read_text(encoding='utf-8', errors='ignore')
+              if not banned_text(raw): continue
+              text=raw
+              for token in literal_tokens:
+                  q=re.escape(token)
+                  # Quoted list element followed by comma.
+                  text=re.sub(rf"(['\"])({q})\1\s*,\s*", '', text, flags=re.I)
+                  # Quoted list element preceded by comma.
+                  text=re.sub(rf",\s*(['\"])({q})\1", '', text, flags=re.I)
+              # Safe removal of residual single-line source constructs that are wholly about the removed entity.
+              kept=[]
+              for line in text.splitlines(True):
+                  if not banned_text(line):
+                      kept.append(line); continue
+                  s=line.strip()
+                  removable = (
+                      s.startswith(('//','/*','*','<span','<h4','<li')) or
+                      s.startswith(('{ name:', '{name:', '"GMA Essentialis"', "'GMA Essentialis'", '"gma-essentialis"', "'gma-essentialis'", '"greenman-', "'greenman-"))
+                  )
+                  if removable:
+                      print(f'CLEANED_SOURCE_LINE: {p}: {s[:120]}')
+                      continue
+                  kept.append(line)
+              new=''.join(kept)
+              if new != raw:
+                  p.write_text(new, encoding='utf-8')
+
+          # 6) Historical reports, CSV ledgers, text exports: remove rows/lines mentioning the entity.
+          for p in ROOT.rglob('*'):
+              if not p.is_file() or '.git' in p.parts or 'node_modules' in p.parts:
+                  continue
+              if p.suffix.lower() not in {'.md','.txt','.csv'}:
+                  continue
+              raw=p.read_text(encoding='utf-8', errors='ignore')
+              if not banned_text(raw): continue
+              new=''.join(line for line in raw.splitlines(True) if not banned_text(line))
+              if new != raw:
+                  p.write_text(new, encoding='utf-8')
+                  print(f'CLEANED_TEXT_ROWS: {p}')
+
+          # 7) Remove this one-off workflow itself so the final branch has no self-reference.
           wf=Path('.github/workflows/remove-gma-essentialis.yml')
           if wf.exists():
               wf.unlink()
 
-          # Strict post-clean audit. Any remaining occurrence blocks the commit.
+          # 8) Strict repository audit. Any remaining current-branch reference blocks the commit.
           leftovers=[]
-          text_ext={'.ts','.tsx','.js','.jsx','.json','.md','.txt','.csv','.yml','.yaml','.html','.xml'}
           for p in ROOT.rglob('*'):
               if not p.is_file() or '.git' in p.parts or 'node_modules' in p.parts:
                   continue
-              if p.suffix.lower() not in text_ext:
+              if p.suffix.lower() not in TEXT_EXT:
                   continue
-              try:
-                  raw=p.read_text(encoding='utf-8', errors='ignore')
-              except Exception:
-                  continue
+              raw=p.read_text(encoding='utf-8', errors='ignore')
               for lineno,line in enumerate(raw.splitlines(),1):
                   if banned_text(line):
-                      leftovers.append(f'{p}:{lineno}:{line[:240]}')
+                      leftovers.append(f'{p}:{lineno}:{line[:260]}')
           if leftovers:
               print('REMAINING_REFERENCES:')
-              print('\n'.join(leftovers[:200]))
+              print('\n'.join(leftovers[:300]))
               raise SystemExit(2)
-          print('AUDIT_OK: zero current-branch references')
+          print('AUDIT_OK: zero current-branch text references')
           PY
 
       - name: Commit cleanup
