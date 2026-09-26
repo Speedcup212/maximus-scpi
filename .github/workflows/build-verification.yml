@@ -1,5 +1,6 @@
 name: Build verification
 
+# Manual verification marker 2026-09-26
 on:
   push:
     branches: [main]
