@@ -16,6 +16,13 @@
   status = 301
   force = true
 
+# ── SCPI retirée du catalogue public ──
+[[redirects]]
+  from = "/gma-essentialis/*"
+  to = "/comparateur-scpi/"
+  status = 301
+  force = true
+
 # ── SPA fallback ──
 [[redirects]]
   from = "/*"
