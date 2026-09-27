@@ -1,11 +1,11 @@
 import React from 'react';
 import ComparatorApp from './ComparatorApp';
-import ScpiVigilanceRationalePortal from './components/fintech/ScpiVigilanceRationalePortal';
+import ScpiVigilanceRationalePortalV2 from './components/fintech/ScpiVigilanceRationalePortalV2';
 
 const ComparatorAppEnhanced: React.FC = () => (
   <>
     <ComparatorApp />
-    <ScpiVigilanceRationalePortal />
+    <ScpiVigilanceRationalePortalV2 />
   </>
 );
 
