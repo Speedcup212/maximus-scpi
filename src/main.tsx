@@ -70,7 +70,7 @@ const selectEntry = async (): Promise<ComponentType> => {
 
   // The comparator gets an isolated bundle; heavy analytics remain lazy inside it.
   if (path === 'comparateur-scpi' || path === 'comparateur') {
-    const module = await import('./ComparatorApp');
+    const module = await import('./ComparatorAppEnhanced');
     return module.default;
   }
 
