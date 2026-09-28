@@ -3,6 +3,7 @@ import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import Footer from './components/Footer';
 import { CookieConsent } from './components/CookieConsent';
+import { observeComparatorRadarUx } from './utils/comparatorRadarUx';
 
 const FintechComparator = lazy(() => import('./components/fintech/FintechComparator'));
 const RdvModal = lazy(() => import('./components/RdvModal'));
@@ -22,6 +23,11 @@ const ComparatorApp: React.FC = () => {
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const cleanup = observeComparatorRadarUx();
+    return cleanup;
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-900">
