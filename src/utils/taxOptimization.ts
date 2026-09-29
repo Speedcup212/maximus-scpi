@@ -18,61 +18,37 @@ export const calculateNetYield = (grossYield: number, tmi: TMIValue, isEuropean:
 
   if (isEuropean) {
     return grossYield * 0.85;
-  } else {
-    const tmiDecimal = tmi / 100;
-    const totalTaxRate = tmiDecimal + 0.172;
-    return grossYield * (1 - totalTaxRate);
-  }
-};
-
-export const shouldOptimizeForTax = (tmi: TMIValue): boolean => {
-  return tmi !== null && tmi >= 30;
-};
-
-export const getTaxOptimizationScore = (scpi: SCPIExtended, tmi: TMIValue): number => {
-  if (!shouldOptimizeForTax(tmi)) return 0;
-
-  const isEuropean = isEuropeanSCPI(scpi);
-
-  if (isEuropean) {
-    return 100;
   }
 
-  return 0;
+  const tmiDecimal = tmi / 100;
+  const totalTaxRate = tmiDecimal + 0.172;
+  return grossYield * (1 - totalTaxRate);
 };
+
+/**
+ * La TMI reste une donnée informative du parcours, mais ne doit jamais
+ * modifier automatiquement le classement du comparateur.
+ *
+ * Pourquoi : la fiscalité des revenus immobiliers étrangers dépend du pays,
+ * de la convention fiscale applicable et de la situation personnelle. Une
+ * préférence automatique pour les SCPI européennes créerait donc un biais
+ * de classement trompeur.
+ */
+export const shouldOptimizeForTax = (_tmi: TMIValue): boolean => false;
+
+export const getTaxOptimizationScore = (_scpi: SCPIExtended, _tmi: TMIValue): number => 0;
 
 export const sortSCPIByTaxOptimization = (
   scpis: SCPIExtended[],
-  tmi: TMIValue,
+  _tmi: TMIValue,
   sortBy: 'yield' | 'price'
 ): SCPIExtended[] => {
   const sorted = [...scpis];
 
-  // Choix produit MaximusSCPI :
-  // à partir d'une TMI de 30 %, les SCPI européennes sont remontées en tête
-  // comme repère fiscal, puis triées selon le critère choisi.
-  // Ce classement reste indicatif : la fiscalité dépend des pays, conventions
-  // et de la situation personnelle de l'investisseur.
-  if (shouldOptimizeForTax(tmi)) {
-    sorted.sort((a, b) => {
-      const scoreA = getTaxOptimizationScore(a, tmi);
-      const scoreB = getTaxOptimizationScore(b, tmi);
-
-      if (scoreA !== scoreB) {
-        return scoreB - scoreA;
-      }
-
-      if (sortBy === 'yield') {
-        return b.yield - a.yield;
-      }
-      return a.price - b.price;
-    });
-  } else {
-    sorted.sort((a, b) => {
-      if (sortBy === 'yield') return b.yield - a.yield;
-      return a.price - b.price;
-    });
-  }
+  sorted.sort((a, b) => {
+    if (sortBy === 'yield') return b.yield - a.yield;
+    return a.price - b.price;
+  });
 
   return sorted;
 };
