@@ -3,9 +3,9 @@ import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import Footer from './components/Footer';
 import { CookieConsent } from './components/CookieConsent';
+import FintechComparator from './components/fintech/FintechComparator';
 import { observeComparatorRadarUx } from './utils/comparatorRadarUx';
 
-const FintechComparator = lazy(() => import('./components/fintech/FintechComparator'));
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
 const go = (path: string) => {
@@ -111,18 +111,12 @@ const ComparatorApp: React.FC = () => {
               </p>
             </div>
 
-            <Suspense fallback={
-              <div className="min-h-[520px] rounded-2xl border border-slate-800 bg-slate-950/40 flex items-center justify-center text-slate-400">
-                Chargement du comparateur…
-              </div>
-            }>
-              <FintechComparator
-                onCloseAnalysis={() => go('/')}
-                onGuidedJourneyClick={() => go('/parcours-guide')}
-                hideTitle={true}
-                zScoreVariant="compact"
-              />
-            </Suspense>
+            <FintechComparator
+              onCloseAnalysis={() => go('/')}
+              onGuidedJourneyClick={() => go('/parcours-guide')}
+              hideTitle={true}
+              zScoreVariant="compact"
+            />
 
             <section className="max-w-5xl mx-auto mt-16 sm:mt-20 border-t border-slate-800 pt-10 text-slate-300">
               <div className="mb-8">
