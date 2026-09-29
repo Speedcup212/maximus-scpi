@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import ComparatorApp from './ComparatorApp';
-import ScpiVigilanceRationalePortalV2 from './components/fintech/ScpiVigilanceRationalePortalV2';
+
+const ScpiVigilanceRationalePortalV2 = lazy(
+  () => import('./components/fintech/ScpiVigilanceRationalePortalV2'),
+);
 
 const ConsolidateMaximusAnalysis: React.FC = () => {
   useEffect(() => {
@@ -40,12 +43,40 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
   return null;
 };
 
-const ComparatorAppEnhanced: React.FC = () => (
-  <>
-    <ComparatorApp />
-    <ConsolidateMaximusAnalysis />
-    <ScpiVigilanceRationalePortalV2 />
-  </>
-);
+const ComparatorAppEnhanced: React.FC = () => {
+  const [analysisEnhancementsEnabled, setAnalysisEnhancementsEnabled] = useState(false);
+
+  useEffect(() => {
+    if (analysisEnhancementsEnabled) return;
+
+    const enableOnAnalysisClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const button = target.closest('button');
+      if (button?.textContent?.includes('Analyser')) {
+        setAnalysisEnhancementsEnabled(true);
+      }
+    };
+
+    // Capture permet de démarrer le chunk d'analyse avant même le rendu du modal.
+    document.addEventListener('click', enableOnAnalysisClick, true);
+    return () => document.removeEventListener('click', enableOnAnalysisClick, true);
+  }, [analysisEnhancementsEnabled]);
+
+  return (
+    <>
+      <ComparatorApp />
+      {analysisEnhancementsEnabled && (
+        <>
+          <ConsolidateMaximusAnalysis />
+          <Suspense fallback={null}>
+            <ScpiVigilanceRationalePortalV2 />
+          </Suspense>
+        </>
+      )}
+    </>
+  );
+};
 
 export default ComparatorAppEnhanced;
