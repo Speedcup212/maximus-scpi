@@ -114,16 +114,19 @@ const HomeApp: React.FC = () => {
                 </span>
 
                 <h1 className="mt-5 mb-6 md:mb-7 lg:mb-8 overflow-visible">
-                  <span className="block text-5xl sm:text-6xl lg:text-7xl font-bold leading-none text-slate-100">
-                    SCPI
+                  <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-slate-100">
+                    Analysez. Comparez.
                   </span>
-                  <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
-                    Testez. Comparez. Décidez.
+                  <span className="block mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
+                    Investissez dans plusieurs SCPI
+                  </span>
+                  <span className="block mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-slate-200">
+                    avec un seul parcours de souscription.
                   </span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-300 max-w-xl">
-                  En 2 minutes, obtenez une première orientation pédagogique selon votre montant, votre fiscalité, votre horizon d'investissement et votre tolérance au risque.
+                  MaximusSCPI vous aide à sélectionner et répartir votre investissement entre plusieurs SCPI, puis à les souscrire simplement depuis un parcours unique.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
@@ -135,7 +138,7 @@ const HomeApp: React.FC = () => {
                     className="lg:hidden px-7 py-4 rounded-xl font-semibold text-[#0D1117] shadow-2xl shadow-emerald-500/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
                     style={{ backgroundColor: '#00C896' }}
                   >
-                    Faire ma simulation pédagogique
+                    Construire mon portefeuille multi-SCPI
                   </button>
                   <a
                     href="/comparateur-scpi/"
