@@ -72,8 +72,8 @@ const HomeApp: React.FC = () => {
   return (
     <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <SEOHead
-        title="MaximusSCPI — Comparateur et analyse de SCPI | CGP-CIF"
-        description="Comparez les SCPI selon rendement, TOF, frais, capitalisation, endettement et risques. Analyses et outils par un CGP-CIF immatriculé à l’ORIAS."
+        title="MaximusSCPI — Analyse, comparaison et portefeuille multi-SCPI"
+        description="Analysez et comparez les SCPI, construisez votre portefeuille multi-SCPI et avancez vers la souscription depuis un parcours unique."
         canonical="https://maximusscpi.com/"
       />
 
@@ -110,23 +110,24 @@ const HomeApp: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold tracking-wide text-emerald-300">
-                  Analyse SCPI pédagogique • Fiscalité • Rendement net
+                  Analyse SCPI • Comparaison • Portefeuille multi-SCPI
                 </span>
 
-                <h1 className="mt-5 mb-6 md:mb-7 lg:mb-8 overflow-visible">
+                <h1 className="mt-5 mb-5 md:mb-6 overflow-visible">
                   <span className="block text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-slate-100">
                     Analysez. Comparez.
                   </span>
                   <span className="block mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text text-transparent pb-1">
-                    Investissez dans plusieurs SCPI
-                  </span>
-                  <span className="block mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-slate-200">
-                    avec un seul parcours de souscription.
+                    Investissez dans plusieurs SCPI.
                   </span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-300 max-w-xl">
-                  MaximusSCPI vous aide à sélectionner et répartir votre investissement entre plusieurs SCPI, puis à les souscrire simplement depuis un parcours unique.
+                <p className="text-lg sm:text-xl font-semibold leading-relaxed text-slate-200 max-w-xl">
+                  Un seul parcours pour construire et souscrire votre portefeuille multi-SCPI.
+                </p>
+
+                <p className="mt-3 text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+                  MaximusSCPI vous aide à sélectionner et répartir votre investissement entre plusieurs SCPI selon votre projet.
                 </p>
 
                 <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
@@ -149,11 +150,7 @@ const HomeApp: React.FC = () => {
                   </a>
                 </div>
 
-                <p className="mt-6 text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
-                  Comparateur, simulateurs, fiches SCPI, fiscalité, risques et rendement net&nbsp;: une expérience complète pour avancer avec méthode.
-                </p>
-
-                <p className="mt-4 text-sm sm:text-base font-semibold text-slate-200">
+                <p className="mt-6 text-sm sm:text-base font-semibold text-slate-200">
                   Plus de 4 650 situations patrimoniales étudiées — plus de 330 M€ de projets analysés
                 </p>
 
