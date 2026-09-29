@@ -9,6 +9,7 @@
 
 | ID | Agent | Description | Clôturé le | Livrable | Commit |
 |----|-------|-------------|------------|----------|--------|
+| TASK-010 | 01 — SEO + 03 — Data | Hub `/analyses/` « MaximusSCPI Research » — page dédiée, navigation desktop/mobile, renommage Apprendre → Comprendre et route légère dédiée | 29/09/2026 | `src/components/AnalysesPage.tsx`, `src/AnalysesApp.tsx`, `src/main.tsx`, `src/components/Header.tsx`, déploiement Netlify production validé | `fc2d124` |
 | TASK-004 | 03 — Data | Analyse automatique des bulletins SCPI — comparaison avec le trimestre précédent fiable, détection améliorations/dégradations/alertes, calibration de vigilance et affichage sur les fiches | 26/09/2026 | Table `scpi_bulletin_analysis`, moteur/trigger Supabase, lecture RLS publique, composant `ScpiQuarterlyAnalysis.tsx`, déploiement Netlify production validé | `9fff4cc` |
 | TASK-003 | 03 — Data | Audit fraîcheur et cohérence SCPI — chaîne Supabase → fiches → comparateur validée, corrections des anomalies live, garde-fous anti-régression et anti-incohérence installés | 26/09/2026 | 61 lignes live cohérentes ; migrations Supabase `guard_scpi_indicator_live_quality` et `relax_scpi_subscription_reconstitution_hard_guard` ; 4/4 tests de blocage réussis | migration Supabase |
 | TASK-SEO-003 | 01 — SEO + 04 — Conformité + Claude | Page pivot `/fiscalite-scpi/` — `FiscaliteScpiPage.tsx` créé, import + render block ajouté dans App.tsx, mentions CIF, risques, maillage interne | 15/05/2026 | `src/components/FiscaliteScpiPage.tsx` | PR #claude/issue-1-20260515-1418 |
