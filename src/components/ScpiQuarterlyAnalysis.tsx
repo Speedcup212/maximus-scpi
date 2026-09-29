@@ -4,21 +4,25 @@ import {
   AlertTriangle,
   CheckCircle2,
   Eye,
+  FileSearch,
   MinusCircle,
   RefreshCw,
   TrendingDown,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import {
+  freshnessLabel,
+  getEffectiveRiskLevel,
+  getPeriodFreshness,
+  humanizeAnalysisMetric,
+  sanitizeAnalysisSignal,
+  type AnalysisRiskLevel,
+  type ReliableAnalysisSignal,
+} from '../utils/analysisReliability';
 
-type RiskLevel = 'low' | 'medium' | 'high';
+type RiskLevel = AnalysisRiskLevel;
 type AnalysisStatus = 'complete' | 'insufficient_history' | 'pending';
-
-type AnalysisSignal = {
-  metric?: string;
-  severity?: 'high' | 'medium' | 'info';
-  message?: string;
-  [key: string]: unknown;
-};
+type AnalysisSignal = ReliableAnalysisSignal;
 
 type BulletinAnalysisRow = {
   scpi_slug: string;
@@ -36,6 +40,7 @@ type BulletinAnalysisRow = {
 
 interface ScpiQuarterlyAnalysisProps {
   scpiKey: string;
+  inline?: boolean;
 }
 
 const formatPeriod = (value?: string | null) => {
@@ -68,6 +73,12 @@ const riskConfig: Record<RiskLevel, { label: string; badge: string; panel: strin
   },
 };
 
+const freshnessClasses = {
+  recent: 'border-sky-400/25 bg-sky-400/[0.08] text-sky-200',
+  old: 'border-slate-600 bg-slate-800/70 text-slate-300',
+  unknown: 'border-amber-400/25 bg-amber-400/[0.08] text-amber-200',
+};
+
 const SignalList: React.FC<{
   title: string;
   items: AnalysisSignal[];
@@ -90,18 +101,29 @@ const SignalList: React.FC<{
         {title}
       </div>
       <ul className="space-y-2.5 text-sm leading-relaxed text-slate-300">
-        {items.slice(0, 4).map((item, index) => (
-          <li key={`${item.metric || 'signal'}-${index}`} className="flex gap-2.5">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-60" />
-            <span>{item.message || 'Signal détecté sur le dernier bulletin.'}</span>
-          </li>
-        ))}
+        {items.slice(0, 4).map((item, index) => {
+          const metricLabel = humanizeAnalysisMetric(item.metric);
+          return (
+            <li key={`${item.metric || 'signal'}-${index}`} className="flex gap-2.5">
+              {item.quality_issue ? (
+                <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
+              ) : (
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-60" />
+              )}
+              <span>
+                {metricLabel && <strong className="mr-1 text-white">{metricLabel} :</strong>}
+                {item.quality_issue && <strong className="mr-1 text-sky-200">À vérifier —</strong>}
+                {item.message || 'Signal détecté sur le dernier bulletin.'}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
 };
 
-const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }) => {
+const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey, inline = false }) => {
   const [analysis, setAnalysis] = useState<BulletinAnalysisRow | null>(null);
   const [portalTarget, setPortalTarget] = useState<Element | null>(null);
 
@@ -138,6 +160,11 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
   }, [slug]);
 
   useEffect(() => {
+    if (inline) {
+      setPortalTarget(null);
+      return;
+    }
+
     const findTarget = () => {
       const target = document.querySelector(
         'section.bg-slate-950.py-12.text-white > div > div.max-w-4xl'
@@ -157,20 +184,24 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
-  }, [slug]);
+  }, [inline, slug]);
 
-  if (!analysis || !portalTarget) return null;
+  if (!analysis || (!inline && !portalTarget)) return null;
 
-  const improvements = Array.isArray(analysis.improvements) ? analysis.improvements : [];
-  const deteriorations = Array.isArray(analysis.deteriorations) ? analysis.deteriorations : [];
-  const alerts = Array.isArray(analysis.alerts) ? analysis.alerts : [];
-  const watchPoints = Array.isArray(analysis.watch_points) ? analysis.watch_points : [];
-  const risk = riskConfig[analysis.risk_level] || riskConfig.low;
+  const improvements = (Array.isArray(analysis.improvements) ? analysis.improvements : []).map(sanitizeAnalysisSignal);
+  const deteriorations = (Array.isArray(analysis.deteriorations) ? analysis.deteriorations : []).map(sanitizeAnalysisSignal);
+  const alerts = (Array.isArray(analysis.alerts) ? analysis.alerts : []).map(sanitizeAnalysisSignal);
+  const watchPoints = (Array.isArray(analysis.watch_points) ? analysis.watch_points : []).map(sanitizeAnalysisSignal);
+  const allSignals = [...alerts, ...watchPoints, ...deteriorations, ...improvements];
+  const effectiveRiskLevel = getEffectiveRiskLevel(analysis.risk_level, allSignals);
+  const risk = riskConfig[effectiveRiskLevel] || riskConfig.low;
   const currentPeriod = formatPeriod(analysis.current_period);
   const previousPeriod = formatPeriod(analysis.previous_period);
   const hasHistory = analysis.status === 'complete' && Boolean(previousPeriod);
+  const freshness = getPeriodFreshness(analysis.current_period);
+  const riskWasDowngraded = analysis.risk_level === 'high' && effectiveRiskLevel !== 'high';
 
-  return createPortal(
+  const content = (
     <div className={`mt-6 rounded-3xl border p-5 sm:p-6 ${risk.panel}`}>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -181,6 +212,9 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
             </div>
             <span className={`rounded-full border px-3 py-1 text-xs font-bold ${risk.badge}`}>
               {risk.label}
+            </span>
+            <span className={`rounded-full border px-3 py-1 text-xs font-bold ${freshnessClasses[freshness]}`}>
+              {freshnessLabel[freshness]}
             </span>
           </div>
           <div className="mt-2 text-sm text-slate-400">
@@ -198,6 +232,12 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
         )}
       </div>
 
+      {riskWasDowngraded && (
+        <div className="mt-5 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-4 py-3 text-sm leading-6 text-sky-100">
+          Le niveau « vigilance élevée » a été neutralisé : aucun signal sévère documenté ne justifie ce niveau dans les données actuellement disponibles.
+        </div>
+      )}
+
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         <SignalList
           title="Ce qui s'améliore"
@@ -212,7 +252,7 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
           icon={<TrendingDown className="h-4 w-4 text-orange-300" />}
         />
         <SignalList
-          title="Alertes"
+          title="Vigilances prioritaires"
           items={alerts}
           tone="alert"
           icon={<AlertTriangle className="h-4 w-4 text-rose-300" />}
@@ -232,13 +272,13 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey }
       )}
 
       <p className="mt-4 text-xs leading-relaxed text-slate-500">
-        Lecture automatisée des indicateurs publiés et fiabilisés par MaximusSCPI. Les seuils servent à faire ressortir
-        des évolutions ou tensions à analyser ; ils ne constituent ni une recommandation d'investissement ni une
-        prévision de performance.
+        Lecture automatisée des indicateurs publiés et fiabilisés par MaximusSCPI. « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Les seuils servent à faire ressortir des évolutions ou tensions à analyser ; ils ne constituent ni une recommandation d'investissement ni une prévision de performance.
       </p>
-    </div>,
-    portalTarget
+    </div>
   );
+
+  if (inline) return content;
+  return createPortal(content, portalTarget as Element);
 };
 
 export default ScpiQuarterlyAnalysis;
