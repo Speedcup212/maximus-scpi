@@ -3,6 +3,7 @@ import { PieChart, Calculator } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
 import LoadingSpinner from './LoadingSpinner';
+import MoneyPageTools from './MoneyPageTools';
 import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
@@ -107,12 +108,9 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
     );
   }
 
-  // 1. Priorité : content_html Supabase
-  // 2. Fallback : composant React (component_name)
   const hasContentHtml = article.content_html && article.content_html.trim().length > 0;
   const cleanedHtml = hasContentHtml ? cleanArticleHtml(article.content_html!) : '';
 
-  // Schemas structurés pour SEO
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
     { name: 'Articles', url: 'https://maximusscpi.com/#articles' },
@@ -139,8 +137,9 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <MoneyPageTools slug={slug} />
+
         {hasContentHtml ? (
-          // Rendu du contenu HTML Supabase
           <article className="max-w-none">
             <div
               className="article-prose"
@@ -148,18 +147,15 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
             />
           </article>
         ) : getArticleComponent(article.component_name) ? (
-          // Fallback : composant React existant
           <article className="max-w-none">
             {React.createElement(getArticleComponent(article.component_name)!)}
           </article>
         ) : (
-          // Fallback : DynamicArticlePage (template config)
           <Suspense fallback={<LoadingSpinner />}>
             <DynamicArticlePage slug={slug} />
           </Suspense>
         )}
 
-        {/* CTA Section */}
         <div className="my-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 rounded-2xl p-8 text-center text-white shadow-2xl">
           <h2 className="text-3xl font-bold mb-4">Besoin d'un conseil personnalisé ?</h2>
           <p className="text-xl mb-6 text-blue-100 max-w-2xl mx-auto">
@@ -183,7 +179,6 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           </div>
         </div>
 
-        {/* Semantic Links */}
         <SemanticLinks
           currentPage={`/articles/${slug}`}
           links={getSemanticLinks(`/articles/${slug}`)}
@@ -194,8 +189,6 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   );
 };
 
-/** Nettoie les résidus Markdown présents dans le content_html Supabase
- *  (backticks ```, titres markdown #, etc.) */
 function cleanArticleHtml(raw: string): string {
   return raw
     .replace(/```html/gi, "")
