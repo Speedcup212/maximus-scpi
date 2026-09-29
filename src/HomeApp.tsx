@@ -155,7 +155,7 @@ const HomeApp: React.FC = () => {
                 </p>
 
                 <p className="hidden lg:block mt-4 text-sm text-slate-400">
-                  Répondez aux 4 questions à droite pour obtenir une première orientation.
+                  Répondez aux 4 questions à droite pour obtenir votre analyse MaximusSCPI.
                 </p>
               </div>
 
