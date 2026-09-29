@@ -8,6 +8,7 @@ export type Montant =
 
 export type TMI =
   | 'inconnu'
+  | '0'
   | '11'
   | '30'
   | '41'
