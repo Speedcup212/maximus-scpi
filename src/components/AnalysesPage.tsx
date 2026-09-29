@@ -13,6 +13,7 @@ import {
   Search,
   ShieldCheck,
 } from 'lucide-react';
+import AnalysesLiveFeed from './AnalysesLiveFeed';
 
 const researchPillars = [
   {
@@ -20,8 +21,8 @@ const researchPillars = [
     title: 'Analyses SCPI',
     description:
       'Lecture structurée des indicateurs d’exploitation, de valorisation et de liquidité : rendement, TOF, endettement, valeur de reconstitution, prix de part et profondeur du marché.',
-    href: '/comparateur-scpi/',
-    cta: 'Comparer les SCPI',
+    href: '#analyses-scpi',
+    cta: 'Voir les dernières analyses',
   },
   {
     icon: LineChart,
@@ -36,8 +37,8 @@ const researchPillars = [
     title: 'Signaux d’alerte',
     description:
       'Identification des points de vigilance avant souscription : dette, vacance, tension de liquidité, concentration, décote/surcote et incohérences entre rendement affiché et fondamentaux.',
-    href: '/risques-scpi/',
-    cta: 'Comprendre les risques',
+    href: '#analyses-scpi',
+    cta: 'Voir les vigilances détectées',
   },
   {
     icon: Database,
@@ -102,10 +103,10 @@ const AnalysesPage: React.FC = () => {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="/comparateur-scpi/"
+                href="#analyses-scpi"
                 className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
               >
-                Accéder au comparateur
+                Voir les dernières analyses
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
@@ -118,6 +119,8 @@ const AnalysesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <AnalysesLiveFeed />
 
       <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
         <div className="mb-8 max-w-3xl">
