@@ -14,7 +14,6 @@
 | TASK-SEO-003 | 01 — SEO + 04 — Conformité | P1 | Page pivot `/fiscalite-scpi/` — création composant `FiscaliteScpiPage.tsx`, wiring App.tsx, mentions CIF complètes | `seo-task.md` | ✅ Terminé |
 | TASK-004 | 04 — Conformité | P0 | Audit tunnel souscription (`SubscriptionFunnel.tsx`) — recueil d'informations investisseur, mentions CIF, consentement RGPD | `conformity-task.md` | ⏳ À démarrer |
 | TASK-005 | 04 — Conformité | P1 | Audit usage des disclaimers sur les pages publiques — vérifier présence de `DisclaimerBox` sur les simulateurs et pages comparatif | `conformity-task.md` | ⏳ À démarrer |
-| TASK-009 | 05 — CRM + 04 — Conformité | P0 | Auditer et fiabiliser tunnel CTA/formulaire → stockage/notification → Calendly, y compris mobile et consentements | `general-task.md` | ⏳ À démarrer |
 
 ---
 
