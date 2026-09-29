@@ -7,6 +7,8 @@
  * — no JSONB for identity/tracking.
  */
 
+import { trackFunnelEvent } from './funnelAnalytics';
+
 export type LeadChannel =
   | 'scpi_page'
   | 'comparateur'
@@ -25,7 +27,8 @@ export type LeadFormType =
   | 'lead_partner'
   | 'lead_access_request'
   | 'lead_souscription'
-  | 'lead_magnet';
+  | 'lead_magnet'
+  | 'portfolio_validation';
 
 export interface LeadIdentity {
   nom?: string | number | null;
@@ -79,6 +82,23 @@ function getTracking() {
     referrer: document.referrer || null,
     page_url: window.location.pathname,
   };
+}
+
+function trackSuccessfulLead(payload: LeadPayload, requestId: string) {
+  const action = typeof payload.answers?.action === 'string'
+    ? payload.answers.action
+    : undefined;
+
+  const metadata = {
+    form_type: payload.form_type,
+    action,
+    lead_request_id: requestId,
+  };
+
+  trackFunnelEvent('lead_form_submitted', metadata);
+  if (action === 'calendly') {
+    trackFunnelEvent('calendly_opened', metadata);
+  }
 }
 
 // ── Main ──────────────────────────────────────────────────
@@ -154,6 +174,7 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
 
       if (fallbackResponse.ok) {
         console.warn('[leadSubmitter] Lead recovered by Netlify fallback:', requestId);
+        trackSuccessfulLead(payload, requestId);
         return { ok: true, request_id: requestId };
       }
 
@@ -170,5 +191,6 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
     .then(() => console.info('[notify] ok', row.request_id))
     .catch((err: unknown) => console.warn('[notify] fail', row.request_id, err));
 
+  trackSuccessfulLead(payload, requestId);
   return { ok: true, request_id: requestId };
 }
