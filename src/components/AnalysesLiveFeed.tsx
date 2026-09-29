@@ -9,6 +9,7 @@ import {
   ExternalLink,
   FileSearch,
   RefreshCw,
+  Search,
   ShieldAlert,
   TrendingDown,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ const LazyScpiQuarterlyAnalysis = React.lazy(() => import('./ScpiQuarterlyAnalys
 type RiskLevel = AnalysisRiskLevel;
 type AnalysisStatus = 'complete' | 'insufficient_history' | 'pending';
 type RiskFilter = 'all' | RiskLevel;
+type SortMode = 'recent' | 'risk';
 
 type AnalysisSignal = ReliableAnalysisSignal;
 
@@ -64,6 +66,14 @@ type DisplayRow = {
   signals: SignalWithTone[];
   riskLevel: RiskLevel;
   freshness: AnalysisFreshness;
+};
+
+type ScpiMetrics = {
+  yield: number;
+  tof: number;
+  debt?: number;
+  discount: number;
+  discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
 };
 
 const riskConfig: Record<RiskLevel, { label: string; classes: string; order: number }> = {
@@ -118,6 +128,11 @@ const formatDate = (value?: string | null) => {
   }).format(date);
 };
 
+const formatPct = (value?: number) =>
+  typeof value === 'number' && Number.isFinite(value)
+    ? `${value.toFixed(1).replace('.', ',')} %`
+    : 'n.d.';
+
 const humanizeSlug = (slug: string) =>
   slug
     .split('-')
@@ -134,6 +149,22 @@ const normalizePeriod = (value?: string | null) =>
     .replace(/\s+/g, '')
     .replace(/Q/g, 'T')
     .replace(/[_/]/g, '-');
+
+const periodRank = (value?: string | null) => {
+  const normalized = normalizePeriod(value);
+  const yearFirst = normalized.match(/(20\d{2})-?T([1-4])/);
+  if (yearFirst) return Number(yearFirst[1]) * 10 + Number(yearFirst[2]);
+  const quarterFirst = normalized.match(/T([1-4])-?(20\d{2})/);
+  if (quarterFirst) return Number(quarterFirst[2]) * 10 + Number(quarterFirst[1]);
+  return 0;
+};
+
+const normalizeSearchText = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
 
 const validExternalUrl = (value?: string | null) =>
   Boolean(value && /^https?:\/\//i.test(value));
@@ -164,9 +195,12 @@ const freshnessOrder: Record<AnalysisFreshness, number> = {
 const AnalysesLiveFeed: React.FC = () => {
   const [rows, setRows] = useState<BulletinAnalysisRow[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
+  const [metricsBySlug, setMetricsBySlug] = useState<Record<string, ScpiMetrics>>({});
   const [sourceByPeriod, setSourceByPeriod] = useState<Record<string, BulletinSourceRow>>({});
   const [latestSourceBySlug, setLatestSourceBySlug] = useState<Record<string, BulletinSourceRow>>({});
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
+  const [sortMode, setSortMode] = useState<SortMode>('recent');
+  const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(12);
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -215,9 +249,17 @@ const AnalysesLiveFeed: React.FC = () => {
       });
 
       const nameMap: Record<string, string> = {};
+      const metricsMap: Record<string, ScpiMetrics> = {};
       scpiModule.scpiData.forEach((scpi) => {
         const slug = findScpiSlug(scpi.name) ?? createSlugFromName(scpi.name);
         nameMap[slug] = scpi.name;
+        metricsMap[slug] = {
+          yield: scpi.yield,
+          tof: scpi.tof,
+          debt: scpi.debt,
+          discount: scpi.discount,
+          discountQaStatus: scpi.discountQaStatus,
+        };
       });
 
       const periodMap: Record<string, BulletinSourceRow> = {};
@@ -231,6 +273,7 @@ const AnalysesLiveFeed: React.FC = () => {
 
       setRows(Array.from(deduped.values()));
       setNames(nameMap);
+      setMetricsBySlug(metricsMap);
       setSourceByPeriod(periodMap);
       setLatestSourceBySlug(latestMap);
       setLoading(false);
@@ -245,7 +288,7 @@ const AnalysesLiveFeed: React.FC = () => {
   useEffect(() => {
     setVisibleCount(12);
     setExpandedSlug(null);
-  }, [riskFilter]);
+  }, [riskFilter, sortMode, searchQuery]);
 
   const displayRows = useMemo<DisplayRow[]>(
     () =>
@@ -263,24 +306,43 @@ const AnalysesLiveFeed: React.FC = () => {
 
   const sortedRows = useMemo(() => {
     return [...displayRows].sort((a, b) => {
+      if (sortMode === 'recent') {
+        const periodDiff = periodRank(b.row.current_period) - periodRank(a.row.current_period);
+        if (periodDiff !== 0) return periodDiff;
+
+        const freshnessDiff = freshnessOrder[a.freshness] - freshnessOrder[b.freshness];
+        if (freshnessDiff !== 0) return freshnessDiff;
+
+        const generatedDiff =
+          new Date(b.row.generated_at || 0).getTime() - new Date(a.row.generated_at || 0).getTime();
+        if (generatedDiff !== 0) return generatedDiff;
+
+        return riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
+      }
+
       const riskDiff = riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
       if (riskDiff !== 0) return riskDiff;
-
-      const freshnessDiff = freshnessOrder[a.freshness] - freshnessOrder[b.freshness];
-      if (freshnessDiff !== 0) return freshnessDiff;
 
       const aTrend = Number(a.row.trend_score ?? 0);
       const bTrend = Number(b.row.trend_score ?? 0);
       if (aTrend !== bTrend) return aTrend - bTrend;
 
+      const periodDiff = periodRank(b.row.current_period) - periodRank(a.row.current_period);
+      if (periodDiff !== 0) return periodDiff;
+
       return new Date(b.row.generated_at || 0).getTime() - new Date(a.row.generated_at || 0).getTime();
     });
-  }, [displayRows]);
+  }, [displayRows, sortMode]);
 
-  const filteredRows = useMemo(
-    () => sortedRows.filter((item) => riskFilter === 'all' || item.riskLevel === riskFilter),
-    [riskFilter, sortedRows]
-  );
+  const filteredRows = useMemo(() => {
+    const needle = normalizeSearchText(searchQuery);
+    return sortedRows.filter((item) => {
+      if (riskFilter !== 'all' && item.riskLevel !== riskFilter) return false;
+      if (!needle) return true;
+      const name = names[item.row.scpi_slug] || humanizeSlug(item.row.scpi_slug);
+      return normalizeSearchText(`${name} ${item.row.scpi_slug}`).includes(needle);
+    });
+  }, [names, riskFilter, searchQuery, sortedRows]);
 
   const counts = useMemo(
     () => ({
@@ -386,135 +448,232 @@ const AnalysesLiveFeed: React.FC = () => {
               </button>
             </div>
 
-            <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {filteredRows.slice(0, visibleCount).map(({ row, signals, riskLevel, freshness }) => {
-                const risk = riskConfig[riskLevel];
-                const sourceKey = `${row.scpi_slug}|${normalizePeriod(row.current_period)}`;
-                const source = sourceByPeriod[sourceKey] || latestSourceBySlug[row.scpi_slug];
-                const sourceUrl = validExternalUrl(source?.source_url) ? source?.source_url : null;
-                const generatedAt = formatDate(row.generated_at);
-                const name = names[row.scpi_slug] || humanizeSlug(row.scpi_slug);
-                const hasHistory = row.status === 'complete' && Boolean(row.previous_period);
-                const riskWasDowngraded = row.risk_level === 'high' && riskLevel !== 'high';
-                const expanded = expandedSlug === row.scpi_slug;
+            <div className="mt-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <label className="relative block w-full lg:max-w-md">
+                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Rechercher une SCPI…"
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950/80 py-3 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-emerald-500/60"
+                  aria-label="Rechercher une SCPI dans les analyses"
+                />
+              </label>
 
-                return (
-                  <article
-                    key={row.scpi_slug}
-                    className="flex min-h-[22rem] flex-col rounded-2xl border border-slate-800 bg-slate-950/75 p-5 transition hover:border-slate-700"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <h3 className="truncate text-lg font-bold text-white" translate="no">{name}</h3>
-                        <div className="mt-1 text-xs text-slate-500">
-                          {hasHistory
-                            ? `${formatPeriod(row.previous_period)} → ${formatPeriod(row.current_period)}`
-                            : `${formatPeriod(row.current_period)} · historique partiel`}
+              <div className="inline-flex w-full rounded-xl border border-slate-700 bg-slate-950/80 p-1 lg:w-auto" aria-label="Trier les analyses">
+                <button
+                  type="button"
+                  onClick={() => setSortMode('recent')}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${
+                    sortMode === 'recent'
+                      ? 'bg-sky-400/15 text-sky-200'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Clock3 className="h-4 w-4" />
+                  Récentes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSortMode('risk')}
+                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${
+                    sortMode === 'risk'
+                      ? 'bg-rose-400/15 text-rose-200'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <ShieldAlert className="h-4 w-4" />
+                  Plus vigilantes
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.05] px-4 py-3 text-sm leading-6 text-slate-300">
+              <strong className="text-amber-200">Comment lire une vigilance :</strong> elle ne constitue ni une recommandation d’acheter, de conserver ou de vendre une SCPI. Elle signale un indicateur documenté qui mérite d’être approfondi. Le badge de qualité des données précise séparément si la comparaison historique est complète ou partielle.
+            </div>
+
+            {filteredRows.length ? (
+              <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {filteredRows.slice(0, visibleCount).map(({ row, signals, riskLevel, freshness }) => {
+                  const risk = riskConfig[riskLevel];
+                  const sourceKey = `${row.scpi_slug}|${normalizePeriod(row.current_period)}`;
+                  const source = sourceByPeriod[sourceKey] || latestSourceBySlug[row.scpi_slug];
+                  const sourceUrl = validExternalUrl(source?.source_url) ? source?.source_url : null;
+                  const generatedAt = formatDate(row.generated_at);
+                  const name = names[row.scpi_slug] || humanizeSlug(row.scpi_slug);
+                  const hasHistory = row.status === 'complete' && Boolean(row.previous_period);
+                  const riskWasDowngraded = row.risk_level === 'high' && riskLevel !== 'high';
+                  const expanded = expandedSlug === row.scpi_slug;
+                  const metrics = metricsBySlug[row.scpi_slug];
+                  const dataStatusLabel = row.status === 'pending'
+                    ? 'Analyse en cours'
+                    : hasHistory
+                      ? 'Données comparables'
+                      : 'Historique partiel';
+                  const dataStatusClasses = row.status === 'pending'
+                    ? 'border-sky-400/25 bg-sky-400/[0.08] text-sky-200'
+                    : hasHistory
+                      ? 'border-emerald-400/25 bg-emerald-400/[0.08] text-emerald-200'
+                      : 'border-amber-400/25 bg-amber-400/[0.08] text-amber-200';
+                  const discountLabel = metrics?.discountQaStatus === 'manual_review'
+                    ? 'à vérifier'
+                    : formatPct(metrics?.discount);
+
+                  return (
+                    <article
+                      key={row.scpi_slug}
+                      className="flex min-h-[22rem] flex-col rounded-2xl border border-slate-800 bg-slate-950/75 p-5 transition hover:border-slate-700"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <h3 className="truncate text-lg font-bold text-white" translate="no">{name}</h3>
+                          <div className="mt-1 text-xs text-slate-500">
+                            {hasHistory
+                              ? `${formatPeriod(row.previous_period)} → ${formatPeriod(row.current_period)}`
+                              : formatPeriod(row.current_period)}
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${freshnessClasses[freshness]}`}>
+                              {freshnessLabel[freshness]}
+                            </span>
+                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${dataStatusClasses}`}>
+                              {dataStatusLabel}
+                            </span>
+                          </div>
                         </div>
-                        <span className={`mt-2 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${freshnessClasses[freshness]}`}>
-                          {freshnessLabel[freshness]}
+                        <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${risk.classes}`}>
+                          {risk.label}
                         </span>
                       </div>
-                      <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${risk.classes}`}>
-                        {risk.label}
-                      </span>
-                    </div>
 
-                    {riskWasDowngraded && (
-                      <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-3.5 py-3 text-xs leading-5 text-sky-100">
-                        Niveau élevé neutralisé : aucun signal sévère documenté ne permet de justifier publiquement ce niveau de vigilance.
-                      </div>
-                    )}
-
-                    <div className="mt-5 space-y-2.5">
-                      {signals.slice(0, 3).map((signal, index) => {
-                        const metricLabel = humanizeAnalysisMetric(signal.metric);
-                        return (
-                          <div
-                            key={`${signal.metric || 'signal'}-${index}`}
-                            className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}
-                          >
-                            <div className="flex gap-2.5">
-                              {signal.quality_issue ? (
-                                <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
-                              ) : signal.tone === 'alert' ? (
-                                <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" />
-                              ) : signal.tone === 'negative' ? (
-                                <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" />
-                              ) : signal.tone === 'positive' ? (
-                                <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
-                              ) : (
-                                <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />
-                              )}
-                              <span>
-                                {metricLabel && (
-                                  <strong className="mr-1 text-white">{metricLabel} :</strong>
-                                )}
-                                {signal.quality_issue && (
-                                  <strong className="mr-1 text-sky-200">À vérifier —</strong>
-                                )}
-                                {signal.message || 'Signal détecté sur le dernier bulletin.'}
-                              </span>
+                      {metrics && (
+                        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-2 xl:grid-cols-4">
+                          {[
+                            ['TD', formatPct(metrics.yield)],
+                            ['TOF', formatPct(metrics.tof)],
+                            ['Dette', formatPct(metrics.debt)],
+                            ['Décote', discountLabel],
+                          ].map(([label, value]) => (
+                            <div key={label} className="rounded-lg border border-slate-800 bg-slate-900/70 px-2.5 py-2">
+                              <div className="text-[9px] font-semibold uppercase tracking-wide text-slate-500">{label}</div>
+                              <div className="mt-1 text-xs font-bold text-slate-100">{value}</div>
                             </div>
-                          </div>
-                        );
-                      })}
-
-                      {!signals.length && (
-                        <div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[0.04] px-3.5 py-3 text-sm leading-6 text-slate-400">
-                          Aucun signal quantitatif significatif détecté avec les données actuellement disponibles.
+                          ))}
                         </div>
                       )}
-                    </div>
 
-                    <div className="mt-auto pt-5">
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-800 pt-4 text-xs text-slate-500">
-                        {generatedAt && <span>Analyse générée le {generatedAt}</span>}
-                        {sourceUrl && (
-                          <a
-                            href={sourceUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-1 font-semibold text-sky-300 hover:text-sky-200"
-                          >
-                            Bulletin source
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
+                      {riskWasDowngraded && (
+                        <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-3.5 py-3 text-xs leading-5 text-sky-100">
+                          Niveau élevé neutralisé : aucun signal sévère documenté ne permet de justifier publiquement ce niveau de vigilance.
+                        </div>
+                      )}
+
+                      <div className="mt-5 space-y-2.5">
+                        {signals.slice(0, 3).map((signal, index) => {
+                          const metricLabel = humanizeAnalysisMetric(signal.metric);
+                          return (
+                            <div
+                              key={`${signal.metric || 'signal'}-${index}`}
+                              className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}
+                            >
+                              <div className="flex gap-2.5">
+                                {signal.quality_issue ? (
+                                  <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
+                                ) : signal.tone === 'alert' ? (
+                                  <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" />
+                                ) : signal.tone === 'negative' ? (
+                                  <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" />
+                                ) : signal.tone === 'positive' ? (
+                                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
+                                ) : (
+                                  <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />
+                                )}
+                                <span>
+                                  {metricLabel && (
+                                    <strong className="mr-1 text-white">{metricLabel} :</strong>
+                                  )}
+                                  {signal.quality_issue && (
+                                    <strong className="mr-1 text-sky-200">À vérifier —</strong>
+                                  )}
+                                  {signal.message || 'Signal détecté sur le dernier bulletin.'}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+
+                        {!signals.length && (
+                          <div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[0.04] px-3.5 py-3 text-sm leading-6 text-slate-400">
+                            Aucun signal quantitatif significatif détecté avec les données actuellement disponibles.
+                          </div>
                         )}
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)}
-                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200"
-                        aria-expanded={expanded}
-                      >
-                        {expanded ? 'Masquer le détail' : 'Voir le détail des vigilances'}
-                        {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                      </button>
+                      <div className="mt-auto pt-5">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-800 pt-4 text-xs text-slate-500">
+                          {generatedAt && <span>Analyse générée le {generatedAt}</span>}
+                          {sourceUrl && (
+                            <a
+                              href={sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1 font-semibold text-sky-300 hover:text-sky-200"
+                            >
+                              Bulletin source
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                        </div>
 
-                      {expanded && (
-                        <React.Suspense
-                          fallback={
-                            <div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />
-                          }
+                        <button
+                          type="button"
+                          onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)}
+                          className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200"
+                          aria-expanded={expanded}
                         >
-                          <LazyScpiQuarterlyAnalysis scpiKey={row.scpi_slug} inline />
-                        </React.Suspense>
-                      )}
+                          {expanded ? 'Masquer le détail' : 'Voir le détail des vigilances'}
+                          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                        </button>
 
-                      <a
-                        href={`/${row.scpi_slug}/`}
-                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
-                      >
-                        Voir la fiche complète de la SCPI
-                        <ArrowRight className="h-4 w-4" />
-                      </a>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+                        {expanded && (
+                          <React.Suspense
+                            fallback={
+                              <div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />
+                            }
+                          >
+                            <LazyScpiQuarterlyAnalysis scpiKey={row.scpi_slug} inline />
+                          </React.Suspense>
+                        )}
+
+                        <a
+                          href={`/${row.scpi_slug}/`}
+                          className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
+                        >
+                          Voir la fiche complète de la SCPI
+                          <ArrowRight className="h-4 w-4" />
+                        </a>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/70 p-8 text-center">
+                <Search className="mx-auto h-6 w-6 text-slate-600" />
+                <p className="mt-3 font-semibold text-white">Aucune SCPI ne correspond à cette recherche.</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setRiskFilter('all');
+                  }}
+                  className="mt-3 text-sm font-semibold text-emerald-300 hover:text-emerald-200"
+                >
+                  Réinitialiser les filtres
+                </button>
+              </div>
+            )}
 
             {visibleCount < filteredRows.length && (
               <div className="mt-7 text-center">
@@ -530,6 +689,7 @@ const AnalysesLiveFeed: React.FC = () => {
 
             <p className="mt-7 text-xs leading-6 text-slate-500">
               « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ».
+              Le tri « Récentes » privilégie la période du bulletin puis la date de génération ; le tri « Plus vigilantes » privilégie le niveau de vigilance et la tendance.
               Les niveaux de vigilance synthétisent des indicateurs publiés dans les bulletins et servent à identifier les points à approfondir ; ils ne constituent ni une recommandation personnalisée, ni une prévision de performance.
             </p>
           </>
