@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { X, Calendar, User, Mail, Phone, MessageCircle, DollarSign, Clock, Target, TrendingUp, Leaf } from 'lucide-react';
-import { Scpi } from '../types/scpi';
+import React, { useEffect, useMemo, useState } from 'react';
+import { X, Calendar, DollarSign, Mail, MessageCircle, Phone, TrendingUp, User } from 'lucide-react';
+import type { Scpi } from '../types/scpi';
 import { submitLead } from '../utils/leadSubmitter';
-import { buildCalendlyUrl } from '../config/calendly';
+import { buildCalendlyUrl, PORTFOLIO_CALENDLY_URL } from '../config/calendly';
 
 interface RdvModalProps {
   isOpen: boolean;
@@ -12,68 +12,118 @@ interface RdvModalProps {
   clientProfile?: any;
   profilRisque?: string;
   profilESG?: string;
-  scpi?: string[]; // liste des SCPI recommandées
+  scpi?: string[];
 }
 
-const RdvModal: React.FC<RdvModalProps> = ({ 
-  isOpen, 
-  onClose, 
+type QuizContext = {
+  quiz?: {
+    montant?: string;
+    tmi?: string;
+    horizon?: string;
+    objectif?: string;
+  };
+  orientation?: string;
+  portfolio?: Array<{ name: string; weight: number }>;
+  result?: string;
+};
+
+const montantLabel = (value?: string) => {
+  const labels: Record<string, string> = {
+    'moins-10k': 'Moins de 10 000 €',
+    '10k-50k': '10 000 – 50 000 €',
+    '50k-150k': '50 000 – 150 000 €',
+    'plus-150k': 'Plus de 150 000 €',
+  };
+  return value ? labels[value] || value : '';
+};
+
+const horizonLabel = (value?: string) => {
+  const labels: Record<string, string> = {
+    'moins-5ans': 'Moins de 5 ans',
+    '5-10ans': '5 à 10 ans',
+    'plus-10ans': 'Plus de 10 ans',
+  };
+  return value ? labels[value] || value : '';
+};
+
+const objectifLabel = (value?: string) => {
+  const labels: Record<string, string> = {
+    revenus: 'Revenus complémentaires',
+    fiscalite: 'Fiscalité',
+    diversification: 'Diversification',
+    croissance: 'Croissance du capital',
+    retraite: 'Préparer la retraite',
+    transmission: 'Transmission',
+  };
+  return value ? labels[value] || value : '';
+};
+
+const RdvModal: React.FC<RdvModalProps> = ({
+  isOpen,
+  onClose,
   selectedScpi = [],
   recommendedScpi = [],
-  clientProfile = null,
-  profilRisque = "Non défini",
-  profilESG = "Standard",
-  scpi = []
+  profilRisque = 'Non défini',
+  profilESG = 'Standard',
+  scpi = [],
 }) => {
-  // Combiner SCPI sélectionnées et recommandées
-  const allScpi = [
-    ...selectedScpi.map(scpi => scpi.name),
-    ...recommendedScpi,
-    ...scpi
-  ];
-  const uniqueScpi = [...new Set(allScpi)];
-
   const [formValues, setFormValues] = useState({
     name: '',
     email: '',
     phone: '',
     montant: '',
     commentaire: '',
-    creneau: ''
+    creneau: '',
   });
-
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quizContext, setQuizContext] = useState<QuizContext | null>(null);
 
-  // Capturer et stocker les paramètres UTM/gclid dès l'ouverture du modal
+  const explicitScpi = useMemo(() => {
+    const names = [
+      ...selectedScpi.map(item => item.name),
+      ...recommendedScpi,
+      ...scpi,
+    ];
+    return [...new Set(names.filter(Boolean))];
+  }, [selectedScpi, recommendedScpi, scpi]);
+
+  const portfolio = quizContext?.portfolio ?? [];
+  const isPortfolioFlow = portfolio.length > 0;
+  const portfolioNames = portfolio.map(item => item.name);
+  const leadScpi = isPortfolioFlow ? portfolioNames : explicitScpi;
+
   useEffect(() => {
-    if (isOpen) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = urlParams.get('utm_source');
-      const utmMedium = urlParams.get('utm_medium');
-      const utmCampaign = urlParams.get('utm_campaign');
-      const gclid = urlParams.get('gclid');
+    if (!isOpen) return;
 
-      // Stocker en sessionStorage si présents
-      if (utmSource || utmMedium || utmCampaign || gclid) {
-        console.log('📍 Paramètres Google Ads détectés dans RdvModal:', { utmSource, utmMedium, utmCampaign, gclid });
-        if (utmSource) sessionStorage.setItem('utm_source', utmSource);
-        if (utmMedium) sessionStorage.setItem('utm_medium', utmMedium);
-        if (utmCampaign) sessionStorage.setItem('utm_campaign', utmCampaign);
-        if (gclid) sessionStorage.setItem('gclid', gclid);
-      }
+    try {
+      const raw = sessionStorage.getItem('maximus_quiz_context');
+      setQuizContext(raw ? JSON.parse(raw) : null);
+    } catch {
+      setQuizContext(null);
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get('utm_source');
+    const utmMedium = urlParams.get('utm_medium');
+    const utmCampaign = urlParams.get('utm_campaign');
+    const utmTerm = urlParams.get('utm_term');
+    const gclid = urlParams.get('gclid');
+
+    if (utmSource) sessionStorage.setItem('utm_source', utmSource);
+    if (utmMedium) sessionStorage.setItem('utm_medium', utmMedium);
+    if (utmCampaign) sessionStorage.setItem('utm_campaign', utmCampaign);
+    if (utmTerm) sessionStorage.setItem('utm_term', utmTerm);
+    if (gclid) sessionStorage.setItem('gclid', gclid);
   }, [isOpen]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
-  if (!isOpen) return null;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormValues(prev => ({ ...prev, [name]: value }));
   };
@@ -87,19 +137,14 @@ const RdvModal: React.FC<RdvModalProps> = ({
     const submitter = nativeEvent.submitter as HTMLButtonElement | null;
     const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
     const contextSlug = window.location.pathname.replace(/^\/+|\/+$/g, '') || 'home';
-
-    let quizContext: Record<string, unknown> | null = null;
-    try {
-      const rawQuizContext = sessionStorage.getItem('maximus_quiz_context');
-      quizContext = rawQuizContext ? JSON.parse(rawQuizContext) : null;
-    } catch {
-      quizContext = null;
-    }
+    const effectiveMontant = isPortfolioFlow
+      ? montantLabel(quizContext?.quiz?.montant)
+      : formValues.montant;
 
     try {
       const result = await submitLead({
         channel: 'contact',
-        form_type: 'lead_rdv',
+        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
         context_type: contextSlug === 'home' ? 'site' : 'page',
         context_slug: contextSlug,
         identity: {
@@ -107,125 +152,144 @@ const RdvModal: React.FC<RdvModalProps> = ({
           email: formValues.email,
           telephone: formValues.phone,
         },
-        message: formValues.commentaire,
+        message: isPortfolioFlow ? '' : formValues.commentaire,
         answers: {
-          montant: formValues.montant,
-          creneau: formValues.creneau,
+          montant: effectiveMontant,
+          creneau: isPortfolioFlow ? '' : formValues.creneau,
           profil_risque: profilRisque,
           profil_esg: profilESG,
-          scpi: uniqueScpi.length > 0 ? uniqueScpi : scpi,
+          scpi: leadScpi,
           action,
           quiz_context: quizContext,
         },
       });
 
-      if (!result.ok) {
-        throw new Error(result.error || 'Erreur insertion');
-      }
-
-      sessionStorage.removeItem('maximus_quiz_context');
+      if (!result.ok) throw new Error(result.error || 'Erreur insertion');
 
       if (action === 'calendly') {
-        setStatus("✅ Coordonnées enregistrées. Ouverture de Calendly…");
-        window.location.href = buildCalendlyUrl(contextSlug, {
-          name: formValues.name,
-          email: formValues.email,
-        });
+        setStatus('Coordonnées enregistrées. Ouverture de Calendly…');
+        const targetUrl = buildCalendlyUrl(
+          isPortfolioFlow ? 'home-portefeuille' : contextSlug,
+          { name: formValues.name, email: formValues.email },
+          isPortfolioFlow ? PORTFOLIO_CALENDLY_URL : undefined
+        );
+        sessionStorage.removeItem('maximus_quiz_context');
+        window.location.href = targetUrl;
         return;
       }
 
-      setStatus("✅ Votre demande a bien été envoyée ! Vous recevrez une réponse rapidement.");
-      setFormValues({
-        name: '',
-        email: '',
-        phone: '',
-        montant: '',
-        commentaire: '',
-        creneau: ''
-      });
-
+      sessionStorage.removeItem('maximus_quiz_context');
+      setStatus('Votre demande a bien été envoyée.');
       setTimeout(() => {
         window.location.href = '/merci-landing-page.html';
-      }, 1200);
-
+      }, 900);
     } catch (err) {
-      console.error("❌ Erreur :", err);
-      setStatus(`❌ Erreur: ${err instanceof Error ? err.message : 'Problème technique'}`);
+      setStatus(`Erreur : ${err instanceof Error ? err.message : 'problème technique'}`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-[10001] p-4 pt-8 overflow-y-auto" onClick={handleBackdropClick} style={{ zIndex: 10001 }}>
-      <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-3xl max-h-[90vh] shadow-2xl border border-gray-200 dark:border-gray-600 flex flex-col my-4">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-600 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 flex-shrink-0">
+    <div
+      className="fixed inset-0 z-[10001] flex items-start justify-center overflow-y-auto bg-black/60 p-3 pt-5 sm:p-4 sm:pt-8"
+      onClick={handleBackdropClick}
+    >
+      <div className={`my-3 flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900 ${isPortfolioFlow ? 'max-w-xl' : 'max-w-2xl'}`}>
+        <div className="flex items-start justify-between gap-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50 p-5 dark:border-slate-700 dark:from-emerald-950/40 dark:to-blue-950/30">
           <div>
-            <h2 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-1">
-              📅 Prendre rendez-vous
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+              {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
+            </p>
+            <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
+              {isPortfolioFlow ? 'Faire valider votre allocation SCPI' : 'Prendre rendez-vous'}
             </h2>
-            <p className="text-base font-medium text-gray-700 dark:text-gray-200">
-              Échangez avec Eric Bellaiche, expert SCPI certifié
+            <p className="mt-1 text-sm text-gray-600 dark:text-slate-300">
+              Eric Bellaiche — Conseiller en Investissements Financiers
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 text-gray-500 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700/50 rounded-full transition-colors"
+            aria-label="Fermer"
+            className="rounded-full p-2 text-gray-500 transition hover:bg-white/70 dark:text-slate-400 dark:hover:bg-slate-800"
           >
-            <X className="w-6 h-6" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 min-h-0">
-          {/* SCPI sélectionnées - Affichage */}
-          {uniqueScpi.length > 0 && (
-            <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-              <h4 className="font-black text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2 text-base">
-                <TrendingUp className="w-4 h-4" />
-                SCPI sélectionnées ({uniqueScpi.length})
-              </h4>
-              <div className="flex flex-wrap gap-1">
-                {uniqueScpi.map((scpiName, index) => (
-                  <span key={index} className="px-2 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-sm font-bold rounded-full">
-                    {scpiName}
+        <div className="max-h-[82vh] overflow-y-auto p-5 sm:p-6">
+          {isPortfolioFlow && (
+            <div className="mb-5 rounded-2xl border border-emerald-400/25 bg-emerald-50/70 p-4 dark:bg-emerald-400/5">
+              <div className="flex items-center gap-2 text-sm font-bold text-gray-950 dark:text-white">
+                <TrendingUp className="h-4 w-4 text-emerald-500" />
+                Votre allocation MaximusSCPI
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                {quizContext?.quiz?.montant && (
+                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-gray-700 shadow-sm dark:bg-slate-800 dark:text-slate-200">
+                    {montantLabel(quizContext.quiz.montant)}
+                  </span>
+                )}
+                {quizContext?.quiz?.tmi && (
+                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-gray-700 shadow-sm dark:bg-slate-800 dark:text-slate-200">
+                    TMI {quizContext.quiz.tmi} %
+                  </span>
+                )}
+                {quizContext?.quiz?.horizon && (
+                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-gray-700 shadow-sm dark:bg-slate-800 dark:text-slate-200">
+                    {horizonLabel(quizContext.quiz.horizon)}
+                  </span>
+                )}
+                {quizContext?.quiz?.objectif && (
+                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-gray-700 shadow-sm dark:bg-slate-800 dark:text-slate-200">
+                    {objectifLabel(quizContext.quiz.objectif)}
+                  </span>
+                )}
+              </div>
+
+              {quizContext?.orientation && (
+                <p className="mt-3 text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                  {quizContext.orientation}
+                </p>
+              )}
+
+              <div className="mt-3 grid gap-2">
+                {portfolio.map(item => (
+                  <div key={item.name} className="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800/80">
+                    <span className="font-semibold text-gray-900 dark:text-white">{item.name}</span>
+                    <span className="font-black text-emerald-600 dark:text-emerald-300">{item.weight}%</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-3 text-xs leading-relaxed text-gray-500 dark:text-slate-400">
+                Vos réponses et cette allocation seront jointes automatiquement à votre demande. Vous n’avez rien à ressaisir.
+              </p>
+            </div>
+          )}
+
+          {!isPortfolioFlow && explicitScpi.length > 0 && (
+            <div className="mb-5 rounded-xl border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-950/30">
+              <p className="text-sm font-bold text-blue-800 dark:text-blue-200">SCPI sélectionnées</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {explicitScpi.map(name => (
+                  <span key={name} className="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-800 dark:bg-blue-900/60 dark:text-blue-200">
+                    {name}
                   </span>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Profils - Affichage */}
-          {profilESG !== "Standard" && (
-            <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
-              <h4 className="font-semibold text-purple-800 dark:text-purple-200 mb-2 flex items-center gap-2 text-sm">
-                <Target className="w-4 h-4" />
-                Votre profil
-              </h4>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center gap-2">
-                  <Leaf className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                  <span className="text-xs text-purple-700 dark:text-purple-300">
-                    <strong>ESG:</strong> {profilESG}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Contact Form */}
-          <div>
-            <h3 className="font-black text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2 text-lg">
-              <MessageCircle className="w-5 h-5" />
-              Demande de contact personnalisée
-            </h3>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Nom complet */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <User className="w-4 h-4 inline mr-1" />
-                  Nom complet *
+                <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                  <User className="mr-1 inline h-4 w-4" /> Nom complet *
                 </label>
                 <input
                   type="text"
@@ -233,16 +297,15 @@ const RdvModal: React.FC<RdvModalProps> = ({
                   value={formValues.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
-                  placeholder="Votre nom et prénom"
+                  autoComplete="name"
+                  className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                  placeholder="Nom et prénom"
                 />
               </div>
 
-              {/* Email */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <Mail className="w-4 h-4 inline mr-1" />
-                  Email *
+                <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                  <Mail className="mr-1 inline h-4 w-4" /> Email *
                 </label>
                 <input
                   type="email"
@@ -250,163 +313,112 @@ const RdvModal: React.FC<RdvModalProps> = ({
                   value={formValues.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
+                  autoComplete="email"
+                  className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
                   placeholder="votre@email.com"
                 />
               </div>
-
-              {/* Téléphone */}
-              <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <Phone className="w-4 h-4 inline mr-1" />
-                  Téléphone *
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formValues.phone}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
-                  placeholder="Votre numéro de téléphone"
-                />
-              </div>
-
-              {/* Montant à investir */}
-              <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <DollarSign className="w-4 h-4 inline mr-1" />
-                  Montant à investir *
-                </label>
-                <input
-                  type="text"
-                  name="montant"
-                  value={formValues.montant}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
-                  placeholder="Ex: 50 000€"
-                />
-              </div>
-
-              {/* Créneau préféré */}
-              <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <Calendar className="w-4 h-4 inline mr-1" />
-                  Créneau préféré
-                </label>
-                <select
-                  name="creneau"
-                  value={formValues.creneau}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent"
-                >
-                  <option value="">Peu importe / à convenir</option>
-                  <option value="Matin (9h-12h)">Matin (9h-12h)</option>
-                  <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
-                  <option value="Soir (18h-20h)">Soir (18h-20h)</option>
-                  <option value="Weekend">Weekend</option>
-                </select>
-              </div>
-
-              {/* Commentaire */}
-              <div>
-                <label className="block text-sm font-bold text-gray-800 dark:text-gray-100 mb-1">
-                  <MessageCircle className="w-4 h-4 inline mr-1" />
-                  Commentaire
-                </label>
-                <textarea
-                  name="commentaire"
-                  value={formValues.commentaire}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium text-base focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400 focus:border-transparent resize-none"
-                  placeholder="Décrivez votre projet d'investissement..."
-                />
-              </div>
-
-              {/* Status Message */}
-              {status && (
-                <div className={`p-4 rounded-lg border ${
-                  status.includes('✅') 
-                    ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-300'
-                    : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300'
-                }`}>
-                  <p className="text-sm font-bold">{status}</p>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="px-5 py-3 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg font-black text-base hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                >
-                  Annuler
-                </button>
-                <button
-                  type="submit"
-                  name="lead_action"
-                  value="callback"
-                  disabled={isSubmitting}
-                  className="px-5 py-3 bg-green-600 dark:bg-green-500 text-white rounded-lg font-black text-base hover:bg-green-700 dark:hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
-                >
-                  {isSubmitting ? 'Envoi…' : 'Être rappelé'}
-                </button>
-                <button
-                  type="submit"
-                  name="lead_action"
-                  value="calendly"
-                  disabled={isSubmitting}
-                  className="px-5 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-black text-base hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg"
-                >
-                  {isSubmitting ? 'Envoi…' : 'Choisir un créneau'}
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Expert Info */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-800/50 dark:to-slate-800/50 rounded-xl border border-gray-200 dark:border-gray-600">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
-                <User className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="font-black text-gray-900 dark:text-white text-lg">
-                  Eric Bellaiche
-                </h4>
-                <p className="text-base font-medium text-gray-700 dark:text-gray-200">
-                  Conseiller en Gestion de Patrimoine Certifié
-                </p>
-                <div className="flex gap-1 mt-1">
-                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-sm font-bold rounded">
-                    CIF n°D016571
-                  </span>
-                  <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-sm font-bold rounded">
-                    CNCEF
-                  </span>
-                </div>
-              </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-medium text-gray-700 dark:text-gray-200">
-              <div>
-                <strong>Spécialités :</strong>
-                <ul className="mt-1 space-y-0.5">
-                  <li>• Investissement SCPI</li>
-                  <li>• Optimisation fiscale</li>
-                </ul>
-              </div>
-              <div>
-                <strong>Engagement :</strong>
-                <ul className="mt-1 space-y-0.5">
-                  <li>• Conseil personnalisé</li>
-                  <li>• Transparence totale</li>
-                </ul>
-              </div>
+
+            <div>
+              <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                <Phone className="mr-1 inline h-4 w-4" /> Téléphone *
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formValues.phone}
+                onChange={handleInputChange}
+                required
+                autoComplete="tel"
+                className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                placeholder="Votre numéro de téléphone"
+              />
             </div>
-          </div>
+
+            {!isPortfolioFlow && (
+              <>
+                <div>
+                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                    <DollarSign className="mr-1 inline h-4 w-4" /> Montant à investir *
+                  </label>
+                  <input
+                    type="text"
+                    name="montant"
+                    value={formValues.montant}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                    placeholder="Ex : 50 000 €"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                    <Calendar className="mr-1 inline h-4 w-4" /> Créneau préféré
+                  </label>
+                  <select
+                    name="creneau"
+                    value={formValues.creneau}
+                    onChange={handleInputChange}
+                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                  >
+                    <option value="">Peu importe / à convenir</option>
+                    <option value="Matin (9h-12h)">Matin (9h-12h)</option>
+                    <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
+                    <option value="Soir (18h-20h)">Soir (18h-20h)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                    <MessageCircle className="mr-1 inline h-4 w-4" /> Commentaire
+                  </label>
+                  <textarea
+                    name="commentaire"
+                    value={formValues.commentaire}
+                    onChange={handleInputChange}
+                    rows={3}
+                    className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                    placeholder="Précisez votre projet si nécessaire"
+                  />
+                </div>
+              </>
+            )}
+
+            {status && (
+              <div className={`rounded-xl border p-3 text-sm font-semibold ${status.startsWith('Erreur') ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300' : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>
+                {status}
+              </div>
+            )}
+
+            <div className="grid gap-3 pt-1 sm:grid-cols-2">
+              <button
+                type="submit"
+                name="lead_action"
+                value="calendly"
+                disabled={isSubmitting}
+                className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
+              >
+                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+              </button>
+              <button
+                type="submit"
+                name="lead_action"
+                value="callback"
+                disabled={isSubmitting}
+                className="rounded-xl border-2 border-slate-300 bg-white px-5 py-3.5 text-base font-black text-slate-800 transition hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+              >
+                {isSubmitting ? 'Enregistrement…' : 'Être rappelé'}
+              </button>
+            </div>
+
+            {isPortfolioFlow && (
+              <p className="text-center text-xs leading-relaxed text-gray-500 dark:text-slate-400">
+                Le rendez-vous Calendly est un échange de 30 minutes en visioconférence Zoom consacré à votre portefeuille SCPI.
+              </p>
+            )}
+          </form>
         </div>
       </div>
     </div>
