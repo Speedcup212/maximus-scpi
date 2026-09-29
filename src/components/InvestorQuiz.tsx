@@ -95,17 +95,15 @@ export function calculateResult(data: QuizData): QuizResult {
     }
   }
 
-  // RÈGLE 2 — TMI élevée + horizon long terme
-  if (
-    (data.tmi === '30' || data.tmi === '41' || data.tmi === '45') &&
-    data.horizon === 'plus-10ans'
-  ) {
+  // RÈGLE 2 — TMI 30 % et plus : forte préférence Europe
+  if (data.tmi === '30' || data.tmi === '41' || data.tmi === '45') {
     return {
-      profil: 'Investisseur patrimonial long terme',
+      profil: 'Investisseur à fiscalité élevée',
       score: 88,
       geographicAllocation: [
-        { label: 'Europe hors France', value: 75 },
-        { label: 'International', value: 25 },
+        { label: 'Europe hors France', value: 70 },
+        { label: 'France', value: 20 },
+        { label: 'International', value: 10 },
       ],
       sectorAllocation: [
         { label: 'Bureaux', value: 20 },
@@ -114,29 +112,33 @@ export function calculateResult(data: QuizData): QuizResult {
         { label: 'Résidentiel', value: 10 },
         { label: 'Commerces', value: 10 },
       ],
+      alerte:
+        data.montant === 'moins-10k'
+          ? 'Avec moins de 10 000 €, la diversification sur plusieurs SCPI reste limitée, même avec une forte préférence européenne. Le ticket d\'entrée, les frais et la qualité des véhicules restent prioritaires.'
+          : undefined,
       recommandations: [
-        'Construire une exposition européenne significative pour optimiser la fiscalité nette potentielle.',
-        'Étudier un mix pleine propriété + nue-propriété pour lisser les revenus imposables.',
-        'Diversifier les gestionnaires et éviter une concentration sur une seule thématique.',
+        'Donner une forte préférence aux SCPI européennes pour améliorer la fiscalité nette potentielle.',
+        'Conserver une poche française lorsque la qualité patrimoniale, la valorisation ou la diversification le justifient.',
+        'Diversifier les gestionnaires, les pays et les secteurs plutôt que concentrer l\'allocation sur une seule zone européenne.',
       ],
       criteria: [
+        { label: 'Fiscalité nette', status: 'prioritaire', description: 'Comparer l\'impact fiscal réel des revenus France et Europe selon les pays et conventions applicables.' },
         { label: 'Capitalisation', status: 'prioritaire', description: 'Chercher une taille suffisante pour sécuriser la diversification immobilière.' },
         { label: 'TOF', status: 'prioritaire', description: 'Vérifier la stabilité du taux d\'occupation financier.' },
         { label: 'Décote / surcote', status: 'prioritaire', description: 'Identifier les SCPI achetées à un prix cohérent avec leur valeur patrimoniale.' },
         { label: 'Endettement', status: 'important', description: 'Éviter les véhicules trop dépendants de la dette.' },
         { label: 'Rendement', status: 'important', description: 'Privilégier un rendement soutenable plutôt qu\'un taux exceptionnel.' },
-        { label: 'Fiscalité nette', status: 'important', description: 'Comparer l\'impact fiscal France vs Europe sur la durée.' },
         { label: 'Diversification gestionnaires', status: 'important', description: 'Répartir l\'exposition entre plusieurs sociétés de gestion.' },
       ],
       fiscalStrategy: [
-        'SCPI européennes à privilégier.',
-        'Démembrement pertinent si les revenus ne sont pas nécessaires à court terme.',
-        'Pleine propriété possible sur une poche génératrice de revenus maîtrisés.',
+        'Forte préférence pour les SCPI européennes à partir de 30 % de TMI.',
+        'La France reste un complément possible si la qualité de la SCPI le justifie.',
+        'La fiscalité étrangère doit être vérifiée pays par pays selon les conventions fiscales applicables.',
       ],
       vigilancePoints: [
-        'L\'horizon long terme ne supprime pas le risque de liquidité.',
-        'La fiscalité étrangère doit être vérifiée pays par pays.',
-        'Une forte capitalisation ne garantit pas la performance.',
+        'La fiscalité ne doit pas conduire à retenir une SCPI de moindre qualité.',
+        'Une exposition européenne doit rester diversifiée entre pays, secteurs et gestionnaires.',
+        'Le traitement fiscal des revenus étrangers varie selon le pays et la convention fiscale applicable.',
       ],
     }
   }
@@ -332,7 +334,7 @@ function buildGeoJustification(quizData: QuizData): string {
   const isTmiElevated = quizData.tmi === '30' || quizData.tmi === '41' || quizData.tmi === '45'
 
   if (isTmiElevated) {
-    return "À partir de 30 % de tranche marginale, les revenus des SCPI françaises supportent une fiscalité lourde (impôt sur le revenu + 17,2 % de prélèvements sociaux). L'orientation privilégie donc les SCPI européennes et internationales, dont les revenus de source étrangère échappent le plus souvent aux prélèvements sociaux selon les conventions fiscales. La répartition précise se valide avec un conseiller."
+    return "À partir de 30 % de tranche marginale, MaximusSCPI applique une forte préférence européenne : la fiscalité potentielle des revenus immobiliers étrangers peut être plus favorable que celle des revenus fonciers français, selon le pays et la convention fiscale applicable. Cette préférence n'est pas exclusive : une poche française peut rester pertinente lorsque la qualité du véhicule le justifie."
   }
 
   return "À votre tranche d'imposition, la fiscalité des SCPI françaises reste mesurée. Le marché français peut donc constituer un socle pertinent (offre large, simplicité de déclaration), complété par une diversification européenne et internationale. La répartition précise dépend de votre situation et se valide avec un conseiller."
@@ -369,7 +371,7 @@ function QuizResultDashboard({
   // Classement qualitatif : géographie (piloté par la TMI)
   const isTmiElevated = quizData.tmi === '30' || quizData.tmi === '41' || quizData.tmi === '45'
   const geoPrincipaux: string[] = isTmiElevated ? ['Europe hors France'] : ['France']
-  const geoComplements: string[] = isTmiElevated ? ['International'] : ['Europe hors France', 'International']
+  const geoComplements: string[] = isTmiElevated ? ['France', 'International'] : ['Europe hors France', 'International']
 
   // Classement qualitatif : secteurs
   const sectorPrioritairesRaw = result.sectorAllocation.filter(s => s.value >= 20).map(s => s.label)
