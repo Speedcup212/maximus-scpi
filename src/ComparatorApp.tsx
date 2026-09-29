@@ -141,7 +141,7 @@ const ComparatorApp: React.FC = () => {
                 </div>
                 <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-5">
                   <h3 className="font-semibold text-white mb-2">Liquidité du marché des parts</h3>
-                  <p className="text-sm text-slate-400 mt-1">La liquidité d’une SCPI n’est pas garantie. MaximusSCPI distingue désormais l’occupation locative de la liquidité et s’appuie notamment sur la présence de parts en attente de retrait lorsque cette donnée est disponible.</p>
+                  <p className="text-sm leading-relaxed text-slate-400">La liquidité d’une SCPI n’est pas garantie. MaximusSCPI distingue désormais l’occupation locative de la liquidité et s’appuie notamment sur la présence de parts en attente de retrait lorsque cette donnée est disponible.</p>
                 </div>
                 <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-5">
                   <h3 className="font-semibold text-white mb-2">Endettement et capitalisation</h3>
