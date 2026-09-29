@@ -395,7 +395,7 @@ function QuizResultDashboard({
         <ScoreRing score={result.score} />
         <div className="flex-1 min-w-0">
           <p className="text-xs uppercase tracking-widest text-slate-400 mb-0.5">Votre profil</p>
-          <p className="text-[11px] text-emerald-400/80 mb-1">Simulation pédagogique indicative</p>
+          <p className="text-[11px] text-emerald-400/80 mb-1">Orientation indicative</p>
           <h3 className="text-lg sm:text-xl font-bold text-white leading-tight">{result.profil}</h3>
         </div>
       </div>
@@ -750,7 +750,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" style={{ backgroundColor: '#00C896' }} />
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full" style={{ backgroundColor: '#00C896' }} />
           </span>
-          <span className="text-sm font-semibold text-slate-200">Simulation pédagogique</span>
+          <span className="text-sm font-semibold text-slate-200">Construisez votre portefeuille SCPI</span>
         </div>
         <span className="rounded-full border border-slate-700/70 bg-slate-800/60 px-2.5 py-1 text-xs font-medium text-slate-300">
           {result ? 'Résultat' : '4 questions'}
