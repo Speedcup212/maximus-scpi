@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
@@ -22,8 +22,8 @@ const HomeApp: React.FC = () => {
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
   const [showBelowFold, setShowBelowFold] = useState(false);
-  const [quizExpanded, setQuizExpanded] = useState(false);
-  const quizColumnRef = useRef<HTMLDivElement | null>(null);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -68,24 +68,31 @@ const HomeApp: React.FC = () => {
   }, [showBelowFold]);
 
   useEffect(() => {
-    const element = quizColumnRef.current;
-    if (!element || typeof ResizeObserver === 'undefined') return;
+    if (!isAnalysisModalOpen) return;
 
-    const updateQuizPosition = () => {
-      // Le questionnaire initial reste aligné au hero. Le résultat, beaucoup plus long,
-      // est nettement abaissé sur desktop pour ne plus démarrer juste sous le header.
-      setQuizExpanded(element.getBoundingClientRect().height > 700);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsAnalysisModalOpen(false);
     };
+    window.addEventListener('keydown', onKeyDown);
 
-    updateQuizPosition();
-    const observer = new ResizeObserver(updateQuizPosition);
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isAnalysisModalOpen]);
 
   const handleLeadCapture = (data: QuizData) => {
     console.log('[MaximusSCPI] Lead quiz capturé :', data);
+    setQuizCompleted(true);
+    setIsAnalysisModalOpen(true);
+  };
+
+  const openRdvFromQuiz = () => {
+    setIsAnalysisModalOpen(false);
+    setIsRdvModalOpen(true);
   };
 
   return (
@@ -178,14 +185,63 @@ const HomeApp: React.FC = () => {
                 </p>
               </div>
 
-              <div
-                ref={quizColumnRef}
-                className={`lg:pl-2 transition-[margin] duration-300 ${quizExpanded ? 'lg:mt-[200px]' : ''}`}
-              >
-                <InvestorQuiz
-                  onComplete={handleLeadCapture}
-                  onRdvClick={() => setIsRdvModalOpen(true)}
-                />
+              <div className="lg:pl-2">
+                {quizCompleted && !isAnalysisModalOpen && (
+                  <div className="rounded-3xl border border-emerald-400/25 bg-slate-900/85 p-6 sm:p-7 shadow-2xl shadow-emerald-500/10 backdrop-blur-xl">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                      <span className="text-sm font-semibold text-slate-100">Analyse MaximusSCPI</span>
+                    </div>
+                    <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5 text-center">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Analyse conservée</p>
+                      <h2 className="mt-2 text-xl font-bold text-white">Votre stratégie SCPI est prête</h2>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                        Retrouvez votre allocation, les indicateurs pondérés, les vigilances et le Radar MaximusSCPI.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setIsAnalysisModalOpen(true)}
+                        className="mt-5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90"
+                      >
+                        Revoir mon analyse
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className={quizCompleted ? (isAnalysisModalOpen ? 'fixed inset-0 z-[10000] flex items-stretch justify-center bg-slate-950/85 backdrop-blur-sm md:items-center md:p-6' : 'hidden') : ''}>
+                  {quizCompleted && isAnalysisModalOpen && (
+                    <div className="relative h-full w-full overflow-y-auto bg-[#0D1117] md:h-auto md:max-h-[92vh] md:max-w-5xl md:rounded-3xl md:border md:border-slate-700/70 md:shadow-2xl">
+                      <div className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-700/70 bg-[#0D1117]/95 px-4 py-3 backdrop-blur md:rounded-t-3xl md:px-6">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Résultat personnalisé</p>
+                          <p className="text-sm font-bold text-white">Analyse MaximusSCPI</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsAnalysisModalOpen(false)}
+                          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 bg-slate-800/80 text-xl leading-none text-slate-300 transition hover:border-slate-500 hover:text-white"
+                          aria-label="Fermer l’analyse"
+                        >
+                          ×
+                        </button>
+                      </div>
+                      <div className="mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7">
+                        <InvestorQuiz
+                          onComplete={handleLeadCapture}
+                          onRdvClick={openRdvFromQuiz}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {!quizCompleted && (
+                    <InvestorQuiz
+                      onComplete={handleLeadCapture}
+                      onRdvClick={openRdvFromQuiz}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
