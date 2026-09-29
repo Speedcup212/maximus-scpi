@@ -3,6 +3,7 @@ import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
 import { CookieConsent } from './components/CookieConsent';
+import { trackFunnelEvent } from './utils/funnelAnalytics';
 import type { QuizData } from './types/quiz';
 
 const loadHomeBelowFold = () => import('./HomeBelowFold');
@@ -80,15 +81,73 @@ const HomeApp: React.FC = () => {
     };
   }, [isAnalysisModalOpen]);
 
+  useEffect(() => {
+    const quiz = document.getElementById('quiz-section');
+    if (!quiz) return;
+
+    const onQuizClick = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (!target) return;
+
+      const summary = target.closest('summary');
+      if (summary && quiz.contains(summary)) {
+        const details = summary.parentElement as HTMLDetailsElement | null;
+        if (details && !details.open) {
+          const scpiName = summary.querySelector('p')?.textContent?.trim() || undefined;
+          trackFunnelEvent('scpi_detail_opened', {
+            scpi_name: scpiName,
+            source: 'portfolio_analysis',
+          });
+        }
+        return;
+      }
+
+      const button = target.closest('button');
+      if (!button || !quiz.contains(button)) return;
+
+      // Seules les réponses du questionnaire portent ces trois classes.
+      const isAnswer =
+        button.classList.contains('group') &&
+        button.classList.contains('w-full') &&
+        button.classList.contains('text-left');
+      if (!isAnswer) return;
+
+      const stepMatch = (quiz.textContent || '').match(/Étape\s+(\d)\s+sur\s+4/i);
+      if (!stepMatch) return;
+
+      const step = Number(stepMatch[1]);
+      if (step === 1) {
+        trackFunnelEvent('quiz_started', { step: 1 });
+        trackFunnelEvent('quiz_step_1_completed', { step: 1 });
+      } else if (step === 2) {
+        trackFunnelEvent('quiz_step_2_completed', { step: 2 });
+      } else if (step === 3) {
+        trackFunnelEvent('quiz_step_3_completed', { step: 3 });
+      } else if (step === 4) {
+        trackFunnelEvent('quiz_completed', { step: 4 });
+      }
+    };
+
+    quiz.addEventListener('click', onQuizClick);
+    return () => quiz.removeEventListener('click', onQuizClick);
+  }, []);
+
   const handleLeadCapture = (data: QuizData) => {
     console.log('[MaximusSCPI] Lead quiz capturé :', data);
+    trackFunnelEvent('analysis_opened', { source: 'quiz_completion' });
     setQuizCompleted(true);
     setIsAnalysisModalOpen(true);
   };
 
   const openRdvFromQuiz = () => {
+    trackFunnelEvent('portfolio_validation_clicked', { source: 'analysis' });
     setIsAnalysisModalOpen(false);
     setIsRdvModalOpen(true);
+  };
+
+  const reopenAnalysis = () => {
+    trackFunnelEvent('analysis_opened', { source: 'reopen' });
+    setIsAnalysisModalOpen(true);
   };
 
   return (
@@ -196,7 +255,7 @@ const HomeApp: React.FC = () => {
                       </p>
                       <button
                         type="button"
-                        onClick={() => setIsAnalysisModalOpen(true)}
+                        onClick={reopenAnalysis}
                         className="mt-5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90"
                       >
                         Revoir mon analyse
