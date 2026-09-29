@@ -3,6 +3,8 @@ import {
   AlertTriangle,
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Clock3,
   ExternalLink,
   FileSearch,
@@ -12,18 +14,24 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
+import {
+  freshnessLabel,
+  getEffectiveRiskLevel,
+  getPeriodFreshness,
+  humanizeAnalysisMetric,
+  sanitizeAnalysisSignal,
+  type AnalysisFreshness,
+  type AnalysisRiskLevel,
+  type ReliableAnalysisSignal,
+} from '../utils/analysisReliability';
 
-type RiskLevel = 'low' | 'medium' | 'high';
+const LazyScpiQuarterlyAnalysis = React.lazy(() => import('./ScpiQuarterlyAnalysis'));
+
+type RiskLevel = AnalysisRiskLevel;
 type AnalysisStatus = 'complete' | 'insufficient_history' | 'pending';
 type RiskFilter = 'all' | RiskLevel;
 
-type AnalysisSignal = {
-  metric?: string;
-  severity?: 'high' | 'medium' | 'info';
-  message?: string;
-  quality_issue?: boolean;
-  [key: string]: unknown;
-};
+type AnalysisSignal = ReliableAnalysisSignal;
 
 type BulletinAnalysisRow = {
   scpi_slug: string;
@@ -51,6 +59,13 @@ type SignalWithTone = AnalysisSignal & {
   tone: 'alert' | 'watch' | 'negative' | 'positive';
 };
 
+type DisplayRow = {
+  row: BulletinAnalysisRow;
+  signals: SignalWithTone[];
+  riskLevel: RiskLevel;
+  freshness: AnalysisFreshness;
+};
+
 const riskConfig: Record<RiskLevel, { label: string; classes: string; order: number }> = {
   high: {
     label: 'Vigilance élevée',
@@ -67,6 +82,12 @@ const riskConfig: Record<RiskLevel, { label: string; classes: string; order: num
     classes: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
     order: 2,
   },
+};
+
+const freshnessClasses: Record<AnalysisFreshness, string> = {
+  recent: 'border-sky-400/25 bg-sky-400/[0.08] text-sky-200',
+  old: 'border-slate-600 bg-slate-800/70 text-slate-300',
+  unknown: 'border-amber-400/25 bg-amber-400/[0.08] text-amber-200',
 };
 
 const signalToneClasses = {
@@ -123,7 +144,7 @@ const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
     ...((Array.isArray(row.watch_points) ? row.watch_points : []).map((item) => ({ ...item, tone: 'watch' as const }))),
     ...((Array.isArray(row.deteriorations) ? row.deteriorations : []).map((item) => ({ ...item, tone: 'negative' as const }))),
     ...((Array.isArray(row.improvements) ? row.improvements : []).map((item) => ({ ...item, tone: 'positive' as const }))),
-  ];
+  ].map((signal) => sanitizeAnalysisSignal(signal));
 
   const seen = new Set<string>();
   return buckets.filter((item) => {
@@ -134,6 +155,12 @@ const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
   });
 };
 
+const freshnessOrder: Record<AnalysisFreshness, number> = {
+  recent: 0,
+  unknown: 1,
+  old: 2,
+};
+
 const AnalysesLiveFeed: React.FC = () => {
   const [rows, setRows] = useState<BulletinAnalysisRow[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
@@ -141,6 +168,7 @@ const AnalysesLiveFeed: React.FC = () => {
   const [latestSourceBySlug, setLatestSourceBySlug] = useState<Record<string, BulletinSourceRow>>({});
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
   const [visibleCount, setVisibleCount] = useState(12);
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -216,32 +244,52 @@ const AnalysesLiveFeed: React.FC = () => {
 
   useEffect(() => {
     setVisibleCount(12);
+    setExpandedSlug(null);
   }, [riskFilter]);
 
+  const displayRows = useMemo<DisplayRow[]>(
+    () =>
+      rows.map((row) => {
+        const signals = getSignals(row);
+        return {
+          row,
+          signals,
+          riskLevel: getEffectiveRiskLevel(row.risk_level, signals),
+          freshness: getPeriodFreshness(row.current_period),
+        };
+      }),
+    [rows]
+  );
+
   const sortedRows = useMemo(() => {
-    return [...rows].sort((a, b) => {
-      const riskDiff = riskConfig[a.risk_level].order - riskConfig[b.risk_level].order;
+    return [...displayRows].sort((a, b) => {
+      const riskDiff = riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
       if (riskDiff !== 0) return riskDiff;
-      const aTrend = Number(a.trend_score ?? 0);
-      const bTrend = Number(b.trend_score ?? 0);
+
+      const freshnessDiff = freshnessOrder[a.freshness] - freshnessOrder[b.freshness];
+      if (freshnessDiff !== 0) return freshnessDiff;
+
+      const aTrend = Number(a.row.trend_score ?? 0);
+      const bTrend = Number(b.row.trend_score ?? 0);
       if (aTrend !== bTrend) return aTrend - bTrend;
-      return new Date(b.generated_at || 0).getTime() - new Date(a.generated_at || 0).getTime();
+
+      return new Date(b.row.generated_at || 0).getTime() - new Date(a.row.generated_at || 0).getTime();
     });
-  }, [rows]);
+  }, [displayRows]);
 
   const filteredRows = useMemo(
-    () => sortedRows.filter((row) => riskFilter === 'all' || row.risk_level === riskFilter),
+    () => sortedRows.filter((item) => riskFilter === 'all' || item.riskLevel === riskFilter),
     [riskFilter, sortedRows]
   );
 
   const counts = useMemo(
     () => ({
-      all: rows.length,
-      high: rows.filter((row) => row.risk_level === 'high').length,
-      medium: rows.filter((row) => row.risk_level === 'medium').length,
-      low: rows.filter((row) => row.risk_level === 'low').length,
+      all: displayRows.length,
+      high: displayRows.filter((item) => item.riskLevel === 'high').length,
+      medium: displayRows.filter((item) => item.riskLevel === 'medium').length,
+      low: displayRows.filter((item) => item.riskLevel === 'low').length,
     }),
-    [rows]
+    [displayRows]
   );
 
   const latestGeneratedAt = useMemo(() => {
@@ -264,7 +312,7 @@ const AnalysesLiveFeed: React.FC = () => {
             <h2 className="mt-2 text-3xl font-bold text-white">Ce que disent les derniers bulletins SCPI</h2>
             <p className="mt-3 leading-7 text-slate-400">
               Cette sélection est alimentée automatiquement par les bulletins collectés et analysés par MaximusSCPI.
-              Les vigilances sont classées selon les signaux détectés sur l’occupation, la valorisation, la dette et la liquidité.
+              Une vigilance élevée n’est affichée que lorsqu’un signal sévère est explicitement documenté ; les valeurs douteuses sont neutralisées et signalées à vérifier.
             </p>
           </div>
           {latestGeneratedAt && (
@@ -339,15 +387,16 @@ const AnalysesLiveFeed: React.FC = () => {
             </div>
 
             <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {filteredRows.slice(0, visibleCount).map((row) => {
-                const risk = riskConfig[row.risk_level] || riskConfig.low;
-                const signals = getSignals(row);
+              {filteredRows.slice(0, visibleCount).map(({ row, signals, riskLevel, freshness }) => {
+                const risk = riskConfig[riskLevel];
                 const sourceKey = `${row.scpi_slug}|${normalizePeriod(row.current_period)}`;
                 const source = sourceByPeriod[sourceKey] || latestSourceBySlug[row.scpi_slug];
                 const sourceUrl = validExternalUrl(source?.source_url) ? source?.source_url : null;
                 const generatedAt = formatDate(row.generated_at);
                 const name = names[row.scpi_slug] || humanizeSlug(row.scpi_slug);
                 const hasHistory = row.status === 'complete' && Boolean(row.previous_period);
+                const riskWasDowngraded = row.risk_level === 'high' && riskLevel !== 'high';
+                const expanded = expandedSlug === row.scpi_slug;
 
                 return (
                   <article
@@ -362,39 +411,54 @@ const AnalysesLiveFeed: React.FC = () => {
                             ? `${formatPeriod(row.previous_period)} → ${formatPeriod(row.current_period)}`
                             : `${formatPeriod(row.current_period)} · historique partiel`}
                         </div>
+                        <span className={`mt-2 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${freshnessClasses[freshness]}`}>
+                          {freshnessLabel[freshness]}
+                        </span>
                       </div>
                       <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${risk.classes}`}>
                         {risk.label}
                       </span>
                     </div>
 
+                    {riskWasDowngraded && (
+                      <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-3.5 py-3 text-xs leading-5 text-sky-100">
+                        Niveau élevé neutralisé : aucun signal sévère documenté ne permet de justifier publiquement ce niveau de vigilance.
+                      </div>
+                    )}
+
                     <div className="mt-5 space-y-2.5">
-                      {signals.slice(0, 3).map((signal, index) => (
-                        <div
-                          key={`${signal.metric || 'signal'}-${index}`}
-                          className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}
-                        >
-                          <div className="flex gap-2.5">
-                            {signal.quality_issue ? (
-                              <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
-                            ) : signal.tone === 'alert' ? (
-                              <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" />
-                            ) : signal.tone === 'negative' ? (
-                              <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" />
-                            ) : signal.tone === 'positive' ? (
-                              <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
-                            ) : (
-                              <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />
-                            )}
-                            <span>
-                              {signal.quality_issue && (
-                                <strong className="mr-1 text-sky-200">À vérifier :</strong>
+                      {signals.slice(0, 3).map((signal, index) => {
+                        const metricLabel = humanizeAnalysisMetric(signal.metric);
+                        return (
+                          <div
+                            key={`${signal.metric || 'signal'}-${index}`}
+                            className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}
+                          >
+                            <div className="flex gap-2.5">
+                              {signal.quality_issue ? (
+                                <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
+                              ) : signal.tone === 'alert' ? (
+                                <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" />
+                              ) : signal.tone === 'negative' ? (
+                                <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" />
+                              ) : signal.tone === 'positive' ? (
+                                <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
+                              ) : (
+                                <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />
                               )}
-                              {signal.message || 'Signal détecté sur le dernier bulletin.'}
-                            </span>
+                              <span>
+                                {metricLabel && (
+                                  <strong className="mr-1 text-white">{metricLabel} :</strong>
+                                )}
+                                {signal.quality_issue && (
+                                  <strong className="mr-1 text-sky-200">À vérifier —</strong>
+                                )}
+                                {signal.message || 'Signal détecté sur le dernier bulletin.'}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
 
                       {!signals.length && (
                         <div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[0.04] px-3.5 py-3 text-sm leading-6 text-slate-400">
@@ -418,11 +482,32 @@ const AnalysesLiveFeed: React.FC = () => {
                           </a>
                         )}
                       </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)}
+                        className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200"
+                        aria-expanded={expanded}
+                      >
+                        {expanded ? 'Masquer le détail' : 'Voir le détail des vigilances'}
+                        {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                      </button>
+
+                      {expanded && (
+                        <React.Suspense
+                          fallback={
+                            <div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />
+                          }
+                        >
+                          <LazyScpiQuarterlyAnalysis scpiKey={row.scpi_slug} inline />
+                        </React.Suspense>
+                      )}
+
                       <a
                         href={`/${row.scpi_slug}/`}
                         className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
                       >
-                        Voir l’analyse complète de la SCPI
+                        Voir la fiche complète de la SCPI
                         <ArrowRight className="h-4 w-4" />
                       </a>
                     </div>
@@ -444,8 +529,8 @@ const AnalysesLiveFeed: React.FC = () => {
             )}
 
             <p className="mt-7 text-xs leading-6 text-slate-500">
-              Les niveaux de vigilance synthétisent des indicateurs publiés dans les bulletins trimestriels et les données disponibles.
-              Ils servent à identifier les points à approfondir et ne constituent ni une recommandation personnalisée, ni une prévision de performance.
+              « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ».
+              Les niveaux de vigilance synthétisent des indicateurs publiés dans les bulletins et servent à identifier les points à approfondir ; ils ne constituent ni une recommandation personnalisée, ni une prévision de performance.
             </p>
           </>
         )}
