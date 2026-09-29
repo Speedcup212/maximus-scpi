@@ -243,7 +243,7 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* 2. BLOC CENTRE : Navigation principale */}
         <nav className="hidden lg:flex flex-1 justify-center" aria-label="Navigation principale">
-          <ul className="flex items-center gap-6 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
+          <ul className="flex items-center gap-4 text-sm font-medium list-none p-0 m-0 whitespace-nowrap">
           <li>
           <a
             href="/comparateur-scpi/"
@@ -609,6 +609,17 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           </li>
           <li>
+            <a
+              href="/analyses/"
+              onClick={resetAllHeaderStates}
+              className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+              aria-label="Analyses"
+            >
+              <Search className="w-4 h-4" />
+              <span>Analyses</span>
+            </a>
+          </li>
+          <li>
           <a
             href="/actualites/"
             onClick={(e) => {
@@ -628,10 +639,10 @@ const Header: React.FC<HeaderProps> = ({
             href="/articles/"
             onClick={resetAllHeaderStates}
             className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap cursor-pointer"
-            aria-label="Apprendre"
+            aria-label="Comprendre"
           >
             <BookOpen className="w-4 h-4" />
-            <span>Apprendre</span>
+            <span>Comprendre</span>
           </a>
           </li>
           <li>
@@ -1067,6 +1078,17 @@ const Header: React.FC<HeaderProps> = ({
                 )}
               </div>
 
+              {/* Analyses */}
+              <a
+                href="/analyses/"
+                onClick={resetAllHeaderStates}
+                className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
+                aria-label="Analyses"
+              >
+                <Search className="w-4 h-4" />
+                <span>Analyses</span>
+              </a>
+
               {/* Actualités */}
               <a
                 href="/actualites/"
@@ -1083,15 +1105,15 @@ const Header: React.FC<HeaderProps> = ({
                 <span>Actualités</span>
               </a>
 
-              {/* Apprendre */}
+              {/* Comprendre */}
               <a
                 href="/articles/"
                 onClick={resetAllHeaderStates}
                 className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
-                aria-label="Apprendre"
+                aria-label="Comprendre"
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Apprendre</span>
+                <span>Comprendre</span>
               </a>
 
               {/* Le cabinet Section Mobile */}
