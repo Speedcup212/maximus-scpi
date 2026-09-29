@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Scpi } from '../types/scpi'
+import { PortfolioDistributionCharts, ScpiDetailedAnalysis } from './ScpiAnalysisDetails'
 import type {
   Montant,
   TMI,
@@ -381,7 +382,6 @@ const buildPortfolioAnalysis = (data: QuizData, universe: Scpi[]): PortfolioAnal
   }
 }
 
-// Export conservé pour les usages/tests existants du questionnaire.
 export function calculateResult(data: QuizData): QuizResult {
   if (data.horizon === 'moins-5ans') {
     return {
@@ -433,7 +433,6 @@ export function calculateResult(data: QuizData): QuizResult {
 const TOTAL_STEPS = 4
 
 function MiniRadar({ rows }: { rows: { label: string; value: number }[] }) {
-  // ViewBox élargi sur mobile : les libellés restent entièrement dans le SVG.
   const width = 280
   const height = 236
   const centerX = width / 2
@@ -541,17 +540,7 @@ function ShortHorizonResult({ data, onReset, onRdvClick }: { data: QuizData; onR
   )
 }
 
-function PortfolioResult({
-  data,
-  analysis,
-  onReset,
-  onRdvClick,
-}: {
-  data: QuizData
-  analysis: PortfolioAnalysis
-  onReset: () => void
-  onRdvClick: () => void
-}) {
+function PortfolioResult({ data, analysis, onReset, onRdvClick }: { data: QuizData; analysis: PortfolioAnalysis; onReset: () => void; onRdvClick: () => void }) {
   const handleRdv = () => {
     sessionStorage.setItem('maximus_quiz_context', JSON.stringify({
       quiz: data,
@@ -569,9 +558,7 @@ function PortfolioResult({
             <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Analyse MaximusSCPI</p>
             <h3 className="mt-1 text-xl sm:text-2xl font-bold text-white">Votre stratégie SCPI</h3>
           </div>
-          <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">
-            {analysis.picks.length} SCPI retenues
-          </span>
+          <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">{analysis.picks.length} SCPI retenues</span>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-1.5 text-[11px]">
@@ -595,37 +582,22 @@ function PortfolioResult({
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3">
-          <p className="text-[10px] text-slate-500">Rendement pondéré</p>
-          <p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedYield)}</p>
-        </div>
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3">
-          <p className="text-[10px] text-slate-500">TOF pondéré</p>
-          <p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedTof)}</p>
-        </div>
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3">
-          <p className="text-[10px] text-slate-500">Dette pondérée</p>
-          <p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedDebt)}</p>
-        </div>
-        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3">
-          <p className="text-[10px] text-slate-500">Décote / surcote</p>
-          <p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedDiscount)}</p>
-        </div>
+        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3"><p className="text-[10px] text-slate-500">Rendement pondéré</p><p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedYield)}</p></div>
+        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3"><p className="text-[10px] text-slate-500">TOF pondéré</p><p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedTof)}</p></div>
+        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3"><p className="text-[10px] text-slate-500">Dette pondérée</p><p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedDebt)}</p></div>
+        <div className="rounded-xl border border-slate-700/60 bg-slate-800/35 p-3"><p className="text-[10px] text-slate-500">Décote / surcote</p><p className="mt-1 text-base font-bold text-white">{formatPct(analysis.weightedDiscount)}</p></div>
       </div>
 
       <div className="sm:hidden rounded-xl border border-emerald-400/25 bg-emerald-400/8 p-3">
         <p className="text-center text-[10px] text-slate-400">L’allocation est prête. Consultez le détail ou faites-la valider directement.</p>
-        <button type="button" onClick={handleRdv} className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90">
-          Faire valider cette allocation
-        </button>
+        <button type="button" onClick={handleRdv} className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider cette allocation</button>
       </div>
 
-      {/* Conversion d'abord : le visiteur voit la proposition avant la méthodologie détaillée. */}
       <div>
         <div className="mb-2 flex items-end justify-between gap-3">
           <div>
             <p className="text-sm font-bold text-white">Votre allocation proposée</p>
-            <p className="text-[10px] text-slate-500">Pondérations indicatives adaptées à votre tranche de montant</p>
+            <p className="text-[10px] text-slate-500">Ouvrez « Détails » pour accéder au mini-rapport complet de chaque SCPI.</p>
           </div>
         </div>
 
@@ -647,21 +619,22 @@ function PortfolioResult({
                         <span>TOF {formatPct(pick.scpi.tof)}</span>
                         <span>Dette {formatPct(pick.scpi.debt)}</span>
                       </div>
-                      {publishedYieldNeedsContext && (
-                        <p className="mt-1 text-[9px] leading-tight text-amber-300/80">* rendement publié à contextualiser</p>
-                      )}
+                      {publishedYieldNeedsContext && <p className="mt-1 text-[9px] leading-tight text-amber-300/80">* rendement publié à contextualiser</p>}
                     </div>
                   </div>
                 </summary>
                 <div className="border-t border-slate-700/50 px-3.5 py-3 space-y-2">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300">Pourquoi elle ressort</p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-300">{pick.reason || 'Équilibre favorable entre les principaux critères analysés.'}</p>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <div className="rounded-lg bg-slate-950/20 p-2.5">
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300">Pourquoi elle ressort</p>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-300">{pick.reason || 'Équilibre favorable entre les principaux critères analysés.'}</p>
+                    </div>
+                    <div className="rounded-lg bg-slate-950/20 p-2.5">
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Vigilance</p>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">{pick.vigilance}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Vigilance</p>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-400">{pick.vigilance}</p>
-                  </div>
+                  <ScpiDetailedAnalysis scpi={pick.scpi} />
                 </div>
               </details>
             )
@@ -671,23 +644,17 @@ function PortfolioResult({
 
       <div className="rounded-2xl border border-emerald-400/30 bg-slate-800/45 p-4 text-center">
         <h4 className="text-sm sm:text-base font-bold text-white">Faire valider cette allocation</h4>
-        <p className="mx-auto mt-1 max-w-sm text-[10px] sm:text-xs leading-relaxed text-slate-400">
-          Adéquation, disponibilité des SCPI et répartition finale avant souscription.
-        </p>
-        <button type="button" onClick={handleRdv} className="mt-2.5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">
-          Faire valider mon portefeuille
-        </button>
+        <p className="mx-auto mt-1 max-w-sm text-[10px] sm:text-xs leading-relaxed text-slate-400">Adéquation, disponibilité des SCPI et répartition finale avant souscription.</p>
+        <button type="button" onClick={handleRdv} className="mt-2.5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider mon portefeuille</button>
       </div>
 
-      <div className="pt-1">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Analyse approfondie</p>
-      </div>
+      <div className="pt-1"><p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Analyse approfondie du portefeuille</p></div>
 
       <div className="rounded-2xl border border-slate-700/60 bg-slate-800/25 p-4">
         <div className="mb-2 flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-bold text-white">Radar MaximusSCPI — portefeuille</p>
-            <p className="text-[10px] text-slate-500">Synthèse des SCPI retenues dans cette simulation</p>
+            <p className="text-[10px] text-slate-500">Synthèse pondérée des SCPI retenues dans cette simulation</p>
           </div>
         </div>
         <MiniRadar rows={analysis.radar} />
@@ -695,17 +662,14 @@ function PortfolioResult({
           <div className="rounded-lg bg-emerald-400/8 border border-emerald-400/15 px-3 py-2 text-slate-300"><span className="font-semibold text-emerald-300">Point fort :</span> {analysis.strongest}</div>
           <div className="rounded-lg bg-amber-400/5 border border-amber-400/15 px-3 py-2 text-slate-300"><span className="font-semibold text-amber-300">À surveiller :</span> {analysis.watch}</div>
         </div>
+        <PortfolioDistributionCharts picks={analysis.picks} />
       </div>
 
       <div className="rounded-xl border border-slate-700/50 bg-slate-800/20 px-3.5 py-3 text-center">
-        <a href="/comparateur-scpi/" className="text-xs font-medium text-emerald-300 underline underline-offset-4 hover:text-emerald-200">
-          Comparer les SCPI en détail →
-        </a>
+        <a href="/comparateur-scpi/" className="text-xs font-medium text-emerald-300 underline underline-offset-4 hover:text-emerald-200">Comparer les SCPI en détail →</a>
       </div>
 
-      <p className="text-[10px] leading-relaxed text-slate-500">
-        Simulation informative fondée sur les données disponibles dans MaximusSCPI. Elle ne constitue pas une recommandation personnalisée ni une garantie de rendement, de liquidité ou de capital. La fiscalité étrangère dépend notamment du pays, de la convention fiscale et de votre situation.
-      </p>
+      <p className="text-[10px] leading-relaxed text-slate-500">Simulation informative fondée sur les données disponibles dans MaximusSCPI. Elle ne constitue pas une recommandation personnalisée ni une garantie de rendement, de liquidité ou de capital. La fiscalité étrangère dépend notamment du pays, de la convention fiscale et de votre situation.</p>
 
       <button type="button" onClick={onReset} className="w-full text-xs font-medium text-slate-500 hover:text-slate-300">← Modifier mes réponses</button>
     </div>
@@ -722,14 +686,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
   const [analysisError, setAnalysisError] = useState(false)
 
   const completedData = useMemo<QuizData | null>(() => {
-    if (
-      step < TOTAL_STEPS ||
-      !data.montant ||
-      !data.tmi ||
-      !data.horizon ||
-      !data.objectif
-    ) return null
-
+    if (step < TOTAL_STEPS || !data.montant || !data.tmi || !data.horizon || !data.objectif) return null
     return data as QuizData
   }, [data, step])
 
@@ -759,9 +716,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
         setAnalysisLoading(false)
       })
 
-    return () => {
-      cancelled = true
-    }
+    return () => { cancelled = true }
   }, [completedData])
 
   const selectAnswer = <K extends keyof QuizData>(key: K, value: QuizData[K]) => {
@@ -782,9 +737,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     }, 220)
   }
 
-  const goBack = () => {
-    if (step > 0 && step < TOTAL_STEPS) setStep(current => current - 1)
-  }
+  const goBack = () => { if (step > 0 && step < TOTAL_STEPS) setStep(current => current - 1) }
 
   const reset = () => {
     setStep(0)
@@ -799,9 +752,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     'group w-full text-left px-4 py-3.5 rounded-xl border text-slate-100 font-medium',
     'transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-400/40',
     'flex items-center justify-between gap-3',
-    selected
-      ? 'border-emerald-400/60 bg-emerald-400/15'
-      : 'border-slate-700/70 bg-slate-800/40 hover:border-emerald-400/60 hover:bg-emerald-400/10',
+    selected ? 'border-emerald-400/60 bg-emerald-400/15' : 'border-slate-700/70 bg-slate-800/40 hover:border-emerald-400/60 hover:bg-emerald-400/10',
   ].join(' ')
 
   const renderProgress = () => (
@@ -816,13 +767,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     </div>
   )
 
-  const renderQuestion = (
-    title: ReactNode,
-    subtitle: string,
-    options: { value: string; label: string }[],
-    onSelect: (value: string) => void,
-    selectedValue?: string
-  ) => (
+  const renderQuestion = (title: ReactNode, subtitle: string, options: { value: string; label: string }[], onSelect: (value: string) => void, selectedValue?: string) => (
     <div className="transition-all duration-300">
       <h2 className="text-lg sm:text-xl font-semibold text-white">{title}</h2>
       <p className="mt-1 mb-5 text-xs sm:text-sm text-slate-400">{subtitle}</p>
@@ -841,71 +786,35 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     <div id="quiz-section" className="scroll-mt-24 rounded-3xl border border-emerald-400/20 bg-slate-900/85 p-5 sm:p-7 shadow-2xl shadow-emerald-500/10 backdrop-blur-xl">
       <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-700/60 pb-4">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="relative flex h-2.5 w-2.5 shrink-0">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
-          </span>
-          <div className="min-w-0">
-            <span className="block truncate text-sm font-semibold text-slate-100">Analyse MaximusSCPI</span>
-            {step < TOTAL_STEPS && <span className="block text-[10px] text-slate-500">4 questions • analyse immédiate • sans coordonnées</span>}
-          </div>
+          <span className="relative flex h-2.5 w-2.5 shrink-0"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-50" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" /></span>
+          <div className="min-w-0"><span className="block truncate text-sm font-semibold text-slate-100">Analyse MaximusSCPI</span>{step < TOTAL_STEPS && <span className="block text-[10px] text-slate-500">4 questions • analyse immédiate • sans coordonnées</span>}</div>
         </div>
         {step < TOTAL_STEPS && <span className="shrink-0 rounded-full border border-slate-700/70 bg-slate-800/60 px-2.5 py-1 text-xs font-medium text-slate-300">≈ 30 sec</span>}
       </div>
 
       {step < TOTAL_STEPS && renderProgress()}
+      {step > 0 && step < TOTAL_STEPS && <button type="button" onClick={goBack} className="mb-4 text-sm font-medium text-slate-400 hover:text-slate-200">← Précédent</button>}
 
-      {step > 0 && step < TOTAL_STEPS && (
-        <button type="button" onClick={goBack} className="mb-4 text-sm font-medium text-slate-400 hover:text-slate-200">← Précédent</button>
-      )}
-
-      {step === 0 && renderQuestion(
-        'Quel montant envisagez-vous d’investir ?',
-        'Le montant détermine le niveau de diversification réaliste du portefeuille.',
-        MONTANT_OPTIONS,
-        value => selectAnswer('montant', value as Montant),
-        data.montant,
-      )}
+      {step === 0 && renderQuestion('Quel montant envisagez-vous d’investir ?', 'Le montant détermine le niveau de diversification réaliste du portefeuille.', MONTANT_OPTIONS, value => selectAnswer('montant', value as Montant), data.montant)}
 
       {step === 1 && (
         <div className="transition-all duration-300">
           <h2 className="text-lg sm:text-xl font-semibold text-white">Quelle est votre tranche marginale d’imposition ?</h2>
           <p className="mt-1 text-xs sm:text-sm text-slate-400">Elle influence fortement la géographie de l’allocation et la fiscalité nette potentielle.</p>
           <button type="button" onClick={() => setShowTmiTooltip(v => !v)} className="mt-2 mb-4 text-xs underline text-slate-400 hover:text-slate-200">Comment la trouver ?</button>
-          {showTmiTooltip && (
-            <p className="mb-4 rounded-lg border border-slate-700/70 bg-slate-800/80 px-4 py-3 text-xs text-slate-300">Consultez votre dernier avis d’imposition, rubrique « taux marginal d’imposition ».</p>
-          )}
+          {showTmiTooltip && <p className="mb-4 rounded-lg border border-slate-700/70 bg-slate-800/80 px-4 py-3 text-xs text-slate-300">Consultez votre dernier avis d’imposition, rubrique « taux marginal d’imposition ».</p>}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {TMI_OPTIONS.map(opt => (
-              <button key={opt.value} type="button" onClick={() => selectAnswer('tmi', opt.value)} className={optionButtonClass(data.tmi === opt.value)}>
-                <span>{opt.label}</span>
-                <span className={`h-2 w-2 rounded-full bg-emerald-400 transition-opacity ${data.tmi === opt.value ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} />
-              </button>
+              <button key={opt.value} type="button" onClick={() => selectAnswer('tmi', opt.value)} className={optionButtonClass(data.tmi === opt.value)}><span>{opt.label}</span><span className={`h-2 w-2 rounded-full bg-emerald-400 transition-opacity ${data.tmi === opt.value ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} /></button>
             ))}
           </div>
         </div>
       )}
 
-      {step === 2 && renderQuestion(
-        'Quel est votre horizon d’investissement ?',
-        'MaximusSCPI bloque volontairement une proposition standard lorsque l’horizon est trop court.',
-        HORIZON_OPTIONS,
-        value => selectAnswer('horizon', value as Horizon),
-        data.horizon,
-      )}
+      {step === 2 && renderQuestion('Quel est votre horizon d’investissement ?', 'MaximusSCPI bloque volontairement une proposition standard lorsque l’horizon est trop court.', HORIZON_OPTIONS, value => selectAnswer('horizon', value as Horizon), data.horizon)}
+      {step === 3 && renderQuestion('Quel est votre objectif principal ?', 'Il modifie la pondération des critères : rendement, occupation, valorisation, dette et liquidité.', OBJECTIF_OPTIONS, value => selectAnswer('objectif', value as Objectif), data.objectif)}
 
-      {step === 3 && renderQuestion(
-        'Quel est votre objectif principal ?',
-        'Il modifie la pondération des critères : rendement, occupation, valorisation, dette et liquidité.',
-        OBJECTIF_OPTIONS,
-        value => selectAnswer('objectif', value as Objectif),
-        data.objectif,
-      )}
-
-      {completedData && completedData.horizon === 'moins-5ans' && (
-        <ShortHorizonResult data={completedData} onReset={reset} onRdvClick={onRdvClick} />
-      )}
-
+      {completedData && completedData.horizon === 'moins-5ans' && <ShortHorizonResult data={completedData} onReset={reset} onRdvClick={onRdvClick} />}
       {completedData && completedData.horizon !== 'moins-5ans' && analysisLoading && <ResultLoading />}
 
       {completedData && completedData.horizon !== 'moins-5ans' && analysisError && (
@@ -916,9 +825,7 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
         </div>
       )}
 
-      {completedData && completedData.horizon !== 'moins-5ans' && analysis && (
-        <PortfolioResult data={completedData} analysis={analysis} onReset={reset} onRdvClick={onRdvClick} />
-      )}
+      {completedData && completedData.horizon !== 'moins-5ans' && analysis && <PortfolioResult data={completedData} analysis={analysis} onReset={reset} onRdvClick={onRdvClick} />}
     </div>
   )
 }
