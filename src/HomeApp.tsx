@@ -216,7 +216,7 @@ const HomeApp: React.FC = () => {
                     ? 'relative h-full w-full overflow-y-auto bg-[#0D1117] md:h-auto md:max-h-[92vh] md:max-w-5xl md:rounded-3xl md:border md:border-slate-700/70 md:shadow-2xl'
                     : 'w-full'}>
                     {quizCompleted && isAnalysisModalOpen && (
-                      <div className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-700/70 bg-[#0D1117]/95 px-4 py-3 backdrop-blur md:rounded-t-3xl md:px-6">
+                      <div key="analysis-modal-header" className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-700/70 bg-[#0D1117]/95 px-4 py-3 backdrop-blur md:rounded-t-3xl md:px-6">
                         <div>
                           <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Résultat personnalisé</p>
                           <p className="text-sm font-bold text-white">Analyse MaximusSCPI</p>
@@ -232,7 +232,7 @@ const HomeApp: React.FC = () => {
                       </div>
                     )}
 
-                    <div className={quizCompleted && isAnalysisModalOpen ? 'mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7' : ''}>
+                    <div key="quiz-host" className={quizCompleted && isAnalysisModalOpen ? 'mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7' : ''}>
                       <InvestorQuiz
                         onComplete={handleLeadCapture}
                         onRdvClick={openRdvFromQuiz}
