@@ -104,6 +104,8 @@ const OBJECTIF_LABELS: Record<Objectif, string> = {
   transmission: 'Transmission',
 }
 
+const HIGH_TMI_FRANCE_MAX = 10
+const HIGH_TMI_FRANCE_PREFERRED = 5
 const isHighTmi = (tmi: TMI) => tmi === '30' || tmi === '41' || tmi === '45'
 const clamp = (value: number, min = 0, max = 100) => Math.max(min, Math.min(max, value))
 const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value)
@@ -170,13 +172,16 @@ const scoreScpi = (scpi: Scpi, objective: Objectif): number => {
 
 const reasonFor = (scpi: Scpi, objective: Objectif) => {
   const reasons: string[] = []
+  const france = franceExposure(scpi)
 
   if (objective === 'revenus' && scpi.yield >= 5) reasons.push(`rendement ${formatPct(scpi.yield)}`)
   if (scpi.tof >= 94) reasons.push(`TOF ${formatPct(scpi.tof)}`)
   if (finite(scpi.debt) && scpi.debt <= 20) reasons.push(`dette contenue ${formatPct(scpi.debt)}`)
   if (scpi.discountQaStatus !== 'manual_review' && scpi.discount <= -2) reasons.push(`décote ${formatPct(scpi.discount)}`)
   if (scpi.capitalization >= 500_000_000) reasons.push('capitalisation significative')
-  if (franceExposure(scpi) <= 0.5 && (scpi.geography === 'europe' || scpi.geography === 'international')) reasons.push('exposition hors France')
+  if (france <= HIGH_TMI_FRANCE_MAX && (scpi.geography === 'europe' || scpi.geography === 'international')) {
+    reasons.push(france <= 0.5 ? 'exposition hors France' : `France limitée à ${formatPct(france)}`)
+  }
 
   if (reasons.length < 2) {
     if (scpi.yield > 0) reasons.push(`rendement ${formatPct(scpi.yield)}`)
@@ -271,7 +276,7 @@ const buildPortfolioAnalysis = (data: QuizData, universe: Scpi[]): PortfolioAnal
 
   if (highTmi) {
     candidates = candidates.filter(scpi =>
-      franceExposure(scpi) <= 0.5 &&
+      franceExposure(scpi) <= HIGH_TMI_FRANCE_MAX &&
       (scpi.geography === 'europe' || scpi.geography === 'international' || scpi.european)
     )
   }
@@ -293,6 +298,12 @@ const buildPortfolioAnalysis = (data: QuizData, universe: Scpi[]): PortfolioAnal
       if (!usedSectors.has(entry.scpi.sector)) adjusted += 4
       if (entry.scpi.hasWaitingShares === true) adjusted -= 8
       if (entry.scpi.maximusDataStatus && /stale|manual|review/i.test(entry.scpi.maximusDataStatus)) adjusted -= 4
+
+      if (highTmi) {
+        const france = franceExposure(entry.scpi)
+        if (france <= 0.5) adjusted += 4
+        else if (france <= HIGH_TMI_FRANCE_PREFERRED) adjusted += 2
+      }
 
       if (adjusted > bestAdjusted) {
         bestAdjusted = adjusted
@@ -353,9 +364,9 @@ const buildPortfolioAnalysis = (data: QuizData, universe: Scpi[]): PortfolioAnal
   const watch = [...radar].sort((a, b) => a.value - b.value)[0]?.label ?? 'Liquidité'
 
   return {
-    orientation: highTmi ? '100 % hors France' : 'Allocation France + Europe + international',
+    orientation: highTmi ? '≥ 90 % hors France' : 'Allocation France + Europe + international',
     orientationDetail: highTmi
-      ? 'À partir de 30 % de TMI, l’univers proposé exclut les SCPI ayant une exposition française identifiée dans les données géographiques.'
+      ? 'À partir de 30 % de TMI, Maximus privilégie les SCPI très majoritairement investies hors de France. Une SCPI reste éligible si son exposition française identifiée ne dépasse pas 10 %, avec préférence pour 0 à 5 %.'
       : 'La sélection recherche un équilibre entre rendement, occupation, valorisation, dette, liquidité et diversification.',
     universeCount: universe.length,
     eligibleCount: candidates.length,
@@ -388,16 +399,17 @@ export function calculateResult(data: QuizData): QuizResult {
 
   if (isHighTmi(data.tmi)) {
     return {
-      profil: 'Orientation hors France',
+      profil: 'Orientation très majoritairement hors France',
       score: 88,
       geographicAllocation: [
-        { label: 'Europe hors France', value: 75 },
-        { label: 'International', value: 25 },
+        { label: 'Europe hors France', value: 70 },
+        { label: 'International', value: 20 },
+        { label: 'France (maximum)', value: 10 },
       ],
       sectorAllocation: [],
-      recommandations: ['Construire l’allocation avec des SCPI exposées hors France.'],
+      recommandations: ['Privilégier les SCPI investies hors France, avec une exposition française identifiée limitée à 10 % maximum.'],
       criteria: [],
-      fiscalStrategy: ['À partir de 30 % de TMI, l’orientation MaximusSCPI est 100 % hors France.'],
+      fiscalStrategy: ['À partir de 30 % de TMI, l’orientation MaximusSCPI vise au moins 90 % hors France.'],
       vigilancePoints: ['La fiscalité étrangère varie selon les pays et les conventions applicables.'],
     }
   }
