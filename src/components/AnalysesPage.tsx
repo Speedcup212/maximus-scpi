@@ -211,18 +211,26 @@ const AnalysesPage: React.FC = () => {
         <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
           <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 p-7 lg:flex lg:items-center lg:justify-between">
             <div className="max-w-3xl">
-              <h2 className="text-2xl font-bold text-white">Passer de l’analyse à la comparaison</h2>
+              <h2 className="text-2xl font-bold text-white">Vous avez identifié les SCPI à surveiller. Construisez maintenant votre portefeuille.</h2>
               <p className="mt-2 text-slate-300">
-                Compare les SCPI sur plusieurs critères avant de retenir une allocation. Le rendement seul ne doit pas piloter la décision.
+                Utilisez l’analyse comme point de départ, puis répartissez votre investissement entre plusieurs SCPI selon votre montant, votre TMI, votre horizon et votre objectif.
               </p>
             </div>
-            <a
-              href="/comparateur-scpi/"
-              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-slate-100 lg:mt-0"
-            >
-              Ouvrir le comparateur
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row lg:mt-0 lg:pl-6">
+              <a
+                href="/#quiz-section"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
+              >
+                Construire mon portefeuille
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/comparateur-scpi/"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-900/70 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-500 hover:bg-slate-900"
+              >
+                Comparer les SCPI
+              </a>
+            </div>
           </div>
         </div>
       </section>
