@@ -1,6 +1,6 @@
-import { supabase } from '../lib/supabase';
 import type { Scpi } from '../types/scpi';
 import { createSlugFromName } from './scpiSlugMapper';
+import { selectSupabaseRest } from './supabaseRest';
 
 type IndicatorRow = {
   scpi_slug: string;
@@ -40,6 +40,45 @@ type IndicatorRow = {
   capital_type?: string | null;
   updated_at?: string | null;
 };
+
+const INDICATOR_SELECT = [
+  'scpi_slug',
+  'nom',
+  'societe_gestion',
+  'annee_creation',
+  'td',
+  'tof',
+  'capitalisation',
+  'prix_souscription',
+  'prix_reconstitution',
+  'prix_retrait',
+  'valeur_realisation',
+  'frais_souscription',
+  'frais_gestion',
+  'srri',
+  'duree_detention_recommandee',
+  'endettement',
+  'delai_jouissance',
+  'walt',
+  'walb',
+  'nombre_locataires',
+  'nombre_immeubles',
+  'nombre_parts',
+  'repartition_sectorielle',
+  'repartition_geographique',
+  'collecte_nette',
+  'nb_cessions_trimestre',
+  'distribution_par_part',
+  'versement_loyers',
+  'source_period',
+  'source_confidence',
+  'source_document',
+  'source_url',
+  'qa_status',
+  'parts_attente_retrait',
+  'capital_type',
+  'updated_at',
+].join(',');
 
 const toNumber = (value: unknown): number | undefined => {
   if (value === null || value === undefined || value === '') return undefined;
@@ -120,36 +159,47 @@ export function mergeScpiWithLiveIndicators(scpi: Scpi, row: IndicatorRow): Scpi
 }
 
 export async function getLiveScpiData(scpi: Scpi): Promise<Scpi> {
-  if (!supabase) return scpi;
   const slug = createSlugFromName(scpi.name);
+  const params = new URLSearchParams({
+    select: INDICATOR_SELECT,
+    scpi_slug: `eq.${slug}`,
+    limit: '1',
+  });
 
-  const { data, error } = await supabase
-    .from('scpi_indicators')
-    .select('*')
-    .eq('scpi_slug', slug)
-    .maybeSingle();
-
-  if (error || !data) return scpi;
-  return mergeScpiWithLiveIndicators(scpi, data as IndicatorRow);
+  try {
+    const rows = await selectSupabaseRest<IndicatorRow>('scpi_indicators', params, {
+      cacheTtlMs: 5 * 60 * 1000,
+    });
+    return rows[0] ? mergeScpiWithLiveIndicators(scpi, rows[0]) : scpi;
+  } catch {
+    return scpi;
+  }
 }
 
 export async function getLiveScpiDataBatch(scpiList: Scpi[]): Promise<Scpi[]> {
-  if (!supabase || scpiList.length === 0) return scpiList;
+  if (scpiList.length === 0) return scpiList;
 
   const slugs = scpiList.map((scpi) => createSlugFromName(scpi.name));
-  const { data, error } = await supabase
-    .from('scpi_indicators')
-    .select('*')
-    .in('scpi_slug', slugs);
-
-  if (error || !data || data.length === 0) return scpiList;
-
-  const bySlug = new Map(
-    (data as IndicatorRow[]).map((row) => [row.scpi_slug, row]),
-  );
-
-  return scpiList.map((scpi) => {
-    const row = bySlug.get(createSlugFromName(scpi.name));
-    return row ? mergeScpiWithLiveIndicators(scpi, row) : scpi;
+  const params = new URLSearchParams({
+    select: INDICATOR_SELECT,
+    scpi_slug: `in.(${slugs.join(',')})`,
   });
+
+  try {
+    const data = await selectSupabaseRest<IndicatorRow>('scpi_indicators', params, {
+      cacheTtlMs: 5 * 60 * 1000,
+      deferMs: 350,
+    });
+
+    if (data.length === 0) return scpiList;
+
+    const bySlug = new Map(data.map((row) => [row.scpi_slug, row]));
+
+    return scpiList.map((scpi) => {
+      const row = bySlug.get(createSlugFromName(scpi.name));
+      return row ? mergeScpiWithLiveIndicators(scpi, row) : scpi;
+    });
+  } catch {
+    return scpiList;
+  }
 }
