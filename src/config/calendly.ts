@@ -1,10 +1,17 @@
-// MaximusSCPI — URL Calendly centralisée
-// Définir VITE_CALENDLY_URL dans .env / Netlify pour la production.
+// MaximusSCPI — URLs Calendly centralisées
+// VITE_CALENDLY_URL : rendez-vous général MaximusSCPI.
+// VITE_CALENDLY_PORTFOLIO_URL : validation d'une allocation issue du questionnaire.
 const FALLBACK_CALENDLY_URL =
   'https://calendly.com/eric-bellaiche/rdv-strategique-scpi';
 
+const FALLBACK_PORTFOLIO_CALENDLY_URL =
+  'https://calendly.com/eric-bellaiche/scpi-construire-son-portefeuille';
+
 export const CALENDLY_URL =
   import.meta.env.VITE_CALENDLY_URL || FALLBACK_CALENDLY_URL;
+
+export const PORTFOLIO_CALENDLY_URL =
+  import.meta.env.VITE_CALENDLY_PORTFOLIO_URL || FALLBACK_PORTFOLIO_CALENDLY_URL;
 
 interface CalendlyPrefill {
   name?: string;
@@ -17,14 +24,16 @@ interface CalendlyPrefill {
  * - conserve les UTM de la session d'acquisition ;
  * - ajoute un fallback MaximusSCPI quand aucun UTM n'est présent ;
  * - place la page / SCPI d'origine dans utm_content ;
- * - peut préremplir le nom et l'email après capture du lead.
+ * - peut préremplir le nom et l'email après capture du lead ;
+ * - accepte une URL Calendly dédiée pour certains tunnels.
  */
 export function buildCalendlyUrl(
   contextSlug?: string,
-  prefill: CalendlyPrefill = {}
+  prefill: CalendlyPrefill = {},
+  baseUrl: string = CALENDLY_URL
 ): string {
   try {
-    const url = new URL(CALENDLY_URL);
+    const url = new URL(baseUrl);
     const browserAvailable = typeof window !== 'undefined';
 
     const currentParams = browserAvailable
@@ -55,6 +64,6 @@ export function buildCalendlyUrl(
 
     return url.toString();
   } catch {
-    return CALENDLY_URL;
+    return baseUrl;
   }
 }
