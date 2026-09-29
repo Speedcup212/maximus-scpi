@@ -137,50 +137,31 @@ const PieChart: React.FC<PieChartProps> = ({
       currentAngle += sliceAngle;
     });
 
-    // Texte central avec statistiques
-    if (data.length > 0) {
-      // Détecter le mode sombre via le canvas parent
+    // Le centre reste volontairement neutre hors survol pour éviter un "100 %"
+    // ou un compteur ambigu. Le détail du segment s'affiche uniquement au survol.
+    if (hoveredSegment !== null) {
       const isDarkMode = document.documentElement.classList.contains('dark');
+      const hoveredItem = data[hoveredSegment];
+      const percentage = ((hoveredItem.value / total) * 100).toFixed(1);
 
-      // Fond semi-transparent pour améliorer la lisibilité
       ctx.beginPath();
       ctx.arc(centerX, centerY, innerRadius - 5, 0, 2 * Math.PI);
       ctx.fillStyle = isDarkMode ? 'rgba(17, 24, 39, 0.85)' : 'rgba(255, 255, 255, 0.95)';
       ctx.fill();
 
-      // Bordure subtile
       ctx.strokeStyle = isDarkMode ? 'rgba(55, 65, 81, 0.5)' : 'rgba(229, 231, 235, 0.8)';
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Texte avec fond de lisibilité
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
+      ctx.fillStyle = isDarkMode ? '#f9fafb' : '#111827';
+      ctx.font = 'bold 14px Inter, sans-serif';
+      ctx.fillText(hoveredItem.name, centerX, centerY - 12);
 
-      if (hoveredSegment !== null) {
-        const hoveredItem = data[hoveredSegment];
-        const percentage = ((hoveredItem.value / total) * 100).toFixed(1);
-
-        // Nom du segment
-        ctx.fillStyle = isDarkMode ? '#f9fafb' : '#111827';
-        ctx.font = 'bold 14px Inter, sans-serif';
-        ctx.fillText(hoveredItem.name, centerX, centerY - 12);
-
-        // Pourcentage en couleur
-        ctx.font = 'bold 24px Inter, sans-serif';
-        ctx.fillStyle = hoveredItem.color;
-        ctx.fillText(`${percentage}%`, centerX, centerY + 12);
-      } else {
-        // Nombre d'éléments
-        ctx.fillStyle = isDarkMode ? '#f9fafb' : '#111827';
-        ctx.font = 'bold 28px Inter, sans-serif';
-        ctx.fillText(`${data.length}`, centerX, centerY - 6);
-
-        // Label "éléments"
-        ctx.font = 'bold 13px Inter, sans-serif';
-        ctx.fillStyle = isDarkMode ? '#d1d5db' : '#6b7280';
-        ctx.fillText('éléments', centerX, centerY + 14);
-      }
+      ctx.font = 'bold 24px Inter, sans-serif';
+      ctx.fillStyle = hoveredItem.color;
+      ctx.fillText(`${percentage}%`, centerX, centerY + 12);
     }
   }, [data, width, height, hoveredSegment, animationProgress, showLabels]);
 
