@@ -140,7 +140,7 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
     console.error('[leadSubmitter] Insert failed:', error.message);
 
     try {
-      await fetch('/.netlify/functions/lead-fallback', {
+      const fallbackResponse = await fetch('/.netlify/functions/lead-fallback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -151,8 +151,15 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
           payload: row,
         }),
       });
-    } catch {
-      /* fallback also failed — data is in console logs */
+
+      if (fallbackResponse.ok) {
+        console.warn('[leadSubmitter] Lead recovered by Netlify fallback:', requestId);
+        return { ok: true, request_id: requestId };
+      }
+
+      console.error('[leadSubmitter] Fallback failed:', fallbackResponse.status);
+    } catch (fallbackError) {
+      console.error('[leadSubmitter] Fallback unavailable:', fallbackError);
     }
 
     return { ok: false, request_id: requestId, error: error.message };
