@@ -192,7 +192,43 @@ const vigilanceFor = (scpi: Scpi) => {
   if (finite(scpi.debt) && scpi.debt > 30) return `Endettement à surveiller (${formatPct(scpi.debt)}).`
   if (scpi.tof > 0 && scpi.tof < 90) return `Occupation à surveiller (TOF ${formatPct(scpi.tof)}).`
   if (scpi.discountQaStatus !== 'manual_review' && scpi.discount > 5) return `Prix en surcote de ${formatPct(scpi.discount)}.`
-  return 'Aucun signal majeur détecté sur les critères affichés ; analyse documentaire à confirmer.'
+
+  if (finite(scpi.creation) && scpi.creation >= 2024) {
+    return `Historique encore court : SCPI créée en ${scpi.creation}, avec un recul limité sur plusieurs cycles immobiliers.`
+  }
+
+  if (scpi.yield >= 7.5) {
+    return `Distribution élevée (${formatPct(scpi.yield)}) : niveau à confirmer dans la durée et sur plusieurs exercices.`
+  }
+
+  const capitalizationM = scpi.capitalization / 1_000_000
+  if (capitalizationM > 0 && capitalizationM < 250) {
+    return `Capitalisation encore limitée (${Math.round(capitalizationM)} M€) : profondeur du portefeuille immobilier à suivre.`
+  }
+
+  const geoConcentration = [...(scpi.repartitionGeo ?? [])]
+    .filter(item => finite(item.value))
+    .sort((a, b) => b.value - a.value)[0]
+  if (geoConcentration && geoConcentration.value >= 55) {
+    return `Concentration géographique : ${geoConcentration.name} représente ${formatPct(geoConcentration.value)} du patrimoine.`
+  }
+
+  const sectorConcentration = [...(scpi.repartitionSector ?? [])]
+    .filter(item => finite(item.value))
+    .sort((a, b) => b.value - a.value)[0]
+  if (sectorConcentration && sectorConcentration.value >= 60) {
+    return `Concentration sectorielle : ${sectorConcentration.name} représente ${formatPct(sectorConcentration.value)} du patrimoine.`
+  }
+
+  if (scpi.discountQaStatus !== 'manual_review' && scpi.discount <= -4) {
+    return `Écart de valorisation notable (${formatPct(scpi.discount)}) : cohérence du prix de part et de la valeur de reconstitution à suivre.`
+  }
+
+  if (scpi.hasWaitingShares === undefined) {
+    return 'Liquidité secondaire à confirmer dans les dernières données publiées par la société de gestion.'
+  }
+
+  return 'Aucun point de vigilance majeur identifié sur les données analysées.'
 }
 
 const allocationWeights = (count: number): number[] => {
@@ -565,6 +601,13 @@ function PortfolioResult({
         </div>
       </div>
 
+      <div className="sm:hidden rounded-xl border border-emerald-400/25 bg-emerald-400/8 p-3">
+        <p className="text-center text-[10px] text-slate-400">L’allocation est prête. Consultez le détail ou faites-la valider directement.</p>
+        <button type="button" onClick={handleRdv} className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90">
+          Faire valider cette allocation
+        </button>
+      </div>
+
       {/* Conversion d'abord : le visiteur voit la proposition avant la méthodologie détaillée. */}
       <div>
         <div className="mb-2 flex items-end justify-between gap-3">
@@ -614,7 +657,7 @@ function PortfolioResult({
         </div>
       </div>
 
-      <div className="sticky bottom-2 z-20 rounded-2xl border border-emerald-400/30 bg-slate-900/95 p-3.5 text-center shadow-2xl shadow-slate-950/50 backdrop-blur sm:static sm:bg-slate-800/45 sm:p-4">
+      <div className="rounded-2xl border border-emerald-400/30 bg-slate-800/45 p-4 text-center">
         <h4 className="text-sm sm:text-base font-bold text-white">Faire valider cette allocation</h4>
         <p className="mx-auto mt-1 max-w-sm text-[10px] sm:text-xs leading-relaxed text-slate-400">
           Adéquation, disponibilité des SCPI et répartition finale avant souscription.
