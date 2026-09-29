@@ -160,8 +160,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     return geoNames[geography] || 'Autres';
   };
 
-  // Données pour les camemberts
-  // Répartition sectorielle agrégée (pondérée par les vraies répartitions)
+  // Exposition sectorielle agrégée et pondérée par le poids réel de chaque SCPI
   const sectorDistribution: Record<string, number> = {};
 
   // Liste des termes géographiques à exclure de la répartition sectorielle
@@ -195,11 +194,14 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }
   });
 
-  // Données pour PieChart Canvas (format avec pourcentages arrondis)
+  // Normalisation à 100 % pour que graphique, légende et pondérations affichent la même exposition
+  const sectorDistributionTotal = Object.values(sectorDistribution).reduce((sum, value) => sum + value, 0);
   const sectorData = Object.entries(sectorDistribution)
     .map(([name, value], index) => ({
       name,
-      value: Math.round(value * 10) / 10,
+      value: sectorDistributionTotal > 0
+        ? Math.round(((value / sectorDistributionTotal) * 100) * 10) / 10
+        : 0,
       color: [
         '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
         '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
@@ -208,13 +210,11 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
 
-  // Seuil d'affichage minimal pour la légende (identique Côté Pro)
-  const MIN_VISIBLE_DISTRIBUTION_PERCENT = 20;
+  // Toutes les expositions doivent être visibles : ne pas masquer les lignes sous un seuil arbitraire
+  const MIN_VISIBLE_DISTRIBUTION_PERCENT = 0;
+  const displayedSectorData = sectorData;
 
-  // Données filtrées pour l'affichage de la légende uniquement (les calculs restent complets)
-  const displayedSectorData = sectorData.filter(item => item.value >= MIN_VISIBLE_DISTRIBUTION_PERCENT);
-
-  // Répartition géographique agrégée (pondérée par les vraies répartitions)
+  // Exposition géographique agrégée et pondérée par le poids réel de chaque SCPI
   const geoDistribution: Record<string, number> = {};
   portfolio.forEach(item => {
     if (item.repartitionGeo && item.repartitionGeo.length > 0) {
@@ -234,11 +234,13 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }
   });
 
-  // Données pour PieChart Canvas (format avec pourcentages arrondis)
+  const geoDistributionTotal = Object.values(geoDistribution).reduce((sum, value) => sum + value, 0);
   const geoData = Object.entries(geoDistribution)
     .map(([name, value], index) => ({
       name,
-      value: Math.round(value * 10) / 10,
+      value: geoDistributionTotal > 0
+        ? Math.round(((value / geoDistributionTotal) * 100) * 10) / 10
+        : 0,
       color: [
         '#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
         '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
@@ -247,8 +249,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     .sort((a, b) => b.value - a.value)
     .filter(item => item.value > 0);
 
-  // Données filtrées pour l'affichage de la légende uniquement (les calculs restent complets)
-  const displayedGeoData = geoData.filter(item => item.value >= MIN_VISIBLE_DISTRIBUTION_PERCENT);
+  const displayedGeoData = geoData;
 
   // Score de diversification structurelle
   const diversificationScore = useMemo(() => {
@@ -551,31 +552,32 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                 </div>
               </div>
 
-              {/* Camemberts de répartition - EN BAS, CÔTE À CÔTE */}
+              {/* Expositions consolidées - EN BAS, CÔTE À CÔTE */}
               <div className="w-full flex flex-col md:flex-row gap-6 lg:gap-8">
-                {/* Répartition sectorielle - Style Comète */}
+                {/* Exposition sectorielle */}
                 <div className="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-gray-200 dark:border-gray-600 shadow-lg flex flex-col">
-                  <h4 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 text-lg">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-2 text-lg">
                     <Building className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    Répartition Sectorielle
+                    Exposition sectorielle
                   </h4>
+                  <p className="w-full text-xs text-gray-500 dark:text-gray-400 mb-4">
+                    Exposition consolidée du portefeuille, pondérée par le poids de chaque SCPI.
+                  </p>
                   <div className="flex flex-col items-center flex-1">
-                    {/* Graphique Canvas avec effet Comète */}
                     <div className="flex-1 flex items-center justify-center">
                       <PieChart data={sectorData} width={300} height={300} animated={true} />
                     </div>
-                    {/* Légende en dessous */}
                     <div className="w-full mt-6 space-y-2">
                       {displayedSectorData.map((sector, index) => (
                         <div key={index} className="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
                             <div
-                              className="w-3 h-3 rounded-full shadow-sm"
+                              className="w-3 h-3 rounded-full shadow-sm flex-shrink-0"
                               style={{ backgroundColor: sector.color }}
                             />
-                            <span className="text-gray-700 dark:text-gray-200 font-medium">{sector.name}</span>
+                            <span className="text-gray-700 dark:text-gray-200 font-medium truncate">{sector.name}</span>
                           </div>
-                          <span className="font-bold text-gray-900 dark:text-white">{sector.value.toFixed(1)}%</span>
+                          <span className="font-bold text-gray-900 dark:text-white ml-3 flex-shrink-0">{sector.value.toFixed(1)}%</span>
                         </div>
                       ))}
                       {displayedSectorData.length < sectorData.length && (
@@ -587,29 +589,30 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                   </div>
                 </div>
 
-                {/* Répartition géographique - Style Comète */}
+                {/* Exposition géographique */}
                 <div className="flex-1 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-gray-200 dark:border-gray-600 shadow-lg flex flex-col">
-                  <h4 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2 text-lg">
+                  <h4 className="font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-2 text-lg">
                     <MapPin className="w-5 h-5 text-green-600 dark:text-green-400" />
-                    Répartition Géographique
+                    Exposition géographique
                   </h4>
+                  <p className="w-full text-xs text-gray-500 dark:text-gray-400 mb-4">
+                    Exposition consolidée du portefeuille, pondérée par le poids de chaque SCPI.
+                  </p>
                   <div className="flex flex-col items-center flex-1">
-                    {/* Graphique Canvas avec effet Comète */}
                     <div className="flex-1 flex items-center justify-center">
                       <PieChart data={geoData} width={300} height={300} animated={true} />
                     </div>
-                    {/* Légende en dessous */}
                     <div className="w-full mt-6 space-y-2">
                       {displayedGeoData.map((geo, index) => (
                         <div key={index} className="flex items-center justify-between text-sm p-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
                             <div
-                              className="w-3 h-3 rounded-full shadow-sm"
+                              className="w-3 h-3 rounded-full shadow-sm flex-shrink-0"
                               style={{ backgroundColor: geo.color }}
                             />
-                            <span className="text-gray-700 dark:text-gray-200 font-medium">{geo.name}</span>
+                            <span className="text-gray-700 dark:text-gray-200 font-medium truncate">{geo.name}</span>
                           </div>
-                          <span className="font-bold text-gray-900 dark:text-white">{geo.value.toFixed(1)}%</span>
+                          <span className="font-bold text-gray-900 dark:text-white ml-3 flex-shrink-0">{geo.value.toFixed(1)}%</span>
                         </div>
                       ))}
                       {displayedGeoData.length < geoData.length && (
