@@ -73,7 +73,7 @@ const HomeApp: React.FC = () => {
 
     const updateQuizPosition = () => {
       // Le questionnaire initial reste aligné au hero. Le résultat, beaucoup plus long,
-      // est légèrement abaissé sur desktop pour éviter qu'il ne colle au header.
+      // est nettement abaissé sur desktop pour ne plus démarrer juste sous le header.
       setQuizExpanded(element.getBoundingClientRect().height > 700);
     };
 
@@ -180,7 +180,7 @@ const HomeApp: React.FC = () => {
 
               <div
                 ref={quizColumnRef}
-                className={`lg:pl-2 transition-[margin] duration-300 ${quizExpanded ? 'lg:mt-24' : ''}`}
+                className={`lg:pl-2 transition-[margin] duration-300 ${quizExpanded ? 'lg:mt-[200px]' : ''}`}
               >
                 <InvestorQuiz
                   onComplete={handleLeadCapture}
