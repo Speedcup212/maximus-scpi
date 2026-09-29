@@ -1,5 +1,5 @@
-import { StrictMode } from 'react';
-import type { ComponentType } from 'react';
+import { StrictMode, useLayoutEffect } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import HomeApp from './HomeApp';
@@ -62,8 +62,7 @@ const selectEntry = async (): Promise<ComponentType> => {
   }
 
   // The homepage is imported eagerly on purpose: this removes one full
-  // network round-trip before the first interactive paint and prevents the
-  // static shell from lingering visibly before React takes over.
+  // network round-trip before the first interactive paint.
   if (!path && !hasLegacyLandingParams) {
     return HomeApp;
   }
@@ -79,26 +78,38 @@ const selectEntry = async (): Promise<ComponentType> => {
   return module.default;
 };
 
+const AppReveal: React.FC<{ children: ReactNode }> = ({ children }) => {
+  useLayoutEffect(() => {
+    // Le shell statique reste masqué jusqu'au premier commit React complet.
+    // useLayoutEffect s'exécute avant le paint : pas de flash intermédiaire visible.
+    document.documentElement.classList.remove('app-booting');
+  }, []);
+
+  return <>{children}</>;
+};
+
 const mountApp = async () => {
   const rootElement = document.getElementById('root');
   if (!rootElement) {
     throw new Error('Root element not found');
   }
 
-  // Important performance behavior:
-  // wait for the selected route bundle before mounting React so the useful
-  // server-rendered shell remains visible instead of being replaced by a spinner.
+  // Le HTML statique reste disponible pour le SEO mais est masqué visuellement
+  // pendant le très court chargement du bundle de la route.
   const Entry = await selectEntry();
   const root = createRoot(rootElement);
   root.render(
     <StrictMode>
-      <Entry />
+      <AppReveal>
+        <Entry />
+      </AppReveal>
     </StrictMode>
   );
 };
 
 mountApp().catch((error) => {
   console.error('[FATAL] Failed to mount React:', error);
+  document.documentElement.classList.remove('app-booting');
 
   const errorDiv = document.createElement('div');
   errorDiv.style.cssText = 'padding: 40px; text-align: center; font-family: system-ui; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f9fafb;';
