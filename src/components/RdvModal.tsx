@@ -1,7 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { X, Calendar, DollarSign, Mail, MessageCircle, Phone, TrendingUp, User } from 'lucide-react';
 import type { Scpi } from '../types/scpi';
 import { submitLead } from '../utils/leadSubmitter';
+import { trackFunnelEvent } from '../utils/funnelAnalytics';
+import { openCalendlyPopup } from '../utils/calendlyPopup';
 import { buildCalendlyUrl, PORTFOLIO_CALENDLY_URL } from '../config/calendly';
 
 interface RdvModalProps {
@@ -58,6 +60,15 @@ const objectifLabel = (value?: string) => {
   return value ? labels[value] || value : '';
 };
 
+const isCalendlyOrigin = (origin: string) => {
+  try {
+    const hostname = new URL(origin).hostname;
+    return hostname === 'calendly.com' || hostname.endsWith('.calendly.com');
+  } catch {
+    return false;
+  }
+};
+
 const RdvModal: React.FC<RdvModalProps> = ({
   isOpen,
   onClose,
@@ -78,6 +89,8 @@ const RdvModal: React.FC<RdvModalProps> = ({
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quizContext, setQuizContext] = useState<QuizContext | null>(null);
+  const pendingCalendlyLeadIdRef = useRef<string | null>(null);
+  const bookingTrackedRef = useRef(false);
 
   const explicitScpi = useMemo(() => {
     const names = [
@@ -116,6 +129,33 @@ const RdvModal: React.FC<RdvModalProps> = ({
     if (utmTerm) sessionStorage.setItem('utm_term', utmTerm);
     if (gclid) sessionStorage.setItem('gclid', gclid);
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onCalendlyMessage = (event: MessageEvent) => {
+      if (!isCalendlyOrigin(event.origin)) return;
+      if (event.data?.event !== 'calendly.event_scheduled') return;
+      if (bookingTrackedRef.current) return;
+
+      bookingTrackedRef.current = true;
+      trackFunnelEvent('calendly_booking_completed', {
+        lead_request_id: pendingCalendlyLeadIdRef.current || undefined,
+        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
+        action: 'calendly',
+      });
+
+      setStatus('Rendez-vous réservé. Confirmation envoyée par Calendly.');
+      sessionStorage.removeItem('maximus_quiz_context');
+
+      window.setTimeout(() => {
+        window.location.href = '/merci-landing-page.html?source=calendly';
+      }, 900);
+    };
+
+    window.addEventListener('message', onCalendlyMessage);
+    return () => window.removeEventListener('message', onCalendlyMessage);
+  }, [isOpen, isPortfolioFlow]);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
@@ -167,14 +207,21 @@ const RdvModal: React.FC<RdvModalProps> = ({
       if (!result.ok) throw new Error(result.error || 'Erreur insertion');
 
       if (action === 'calendly') {
-        setStatus('Coordonnées enregistrées. Ouverture de Calendly…');
+        setStatus('Coordonnées enregistrées. Choisissez maintenant votre créneau.');
         const targetUrl = buildCalendlyUrl(
           isPortfolioFlow ? 'home-portefeuille' : contextSlug,
           { name: formValues.name, email: formValues.email },
           isPortfolioFlow ? PORTFOLIO_CALENDLY_URL : undefined
         );
-        sessionStorage.removeItem('maximus_quiz_context');
-        window.location.href = targetUrl;
+
+        pendingCalendlyLeadIdRef.current = result.request_id;
+        bookingTrackedRef.current = false;
+
+        try {
+          await openCalendlyPopup(targetUrl);
+        } catch {
+          window.location.href = targetUrl;
+        }
         return;
       }
 
