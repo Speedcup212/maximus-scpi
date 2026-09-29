@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
@@ -22,6 +22,8 @@ const HomeApp: React.FC = () => {
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
   const [showBelowFold, setShowBelowFold] = useState(false);
+  const [quizExpanded, setQuizExpanded] = useState(false);
+  const quizColumnRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -64,6 +66,23 @@ const HomeApp: React.FC = () => {
       window.clearTimeout(revealTimer);
     };
   }, [showBelowFold]);
+
+  useEffect(() => {
+    const element = quizColumnRef.current;
+    if (!element || typeof ResizeObserver === 'undefined') return;
+
+    const updateQuizPosition = () => {
+      // Le questionnaire initial reste aligné au hero. Le résultat, beaucoup plus long,
+      // est légèrement abaissé sur desktop pour éviter qu'il ne colle au header.
+      setQuizExpanded(element.getBoundingClientRect().height > 700);
+    };
+
+    updateQuizPosition();
+    const observer = new ResizeObserver(updateQuizPosition);
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleLeadCapture = (data: QuizData) => {
     console.log('[MaximusSCPI] Lead quiz capturé :', data);
@@ -159,7 +178,10 @@ const HomeApp: React.FC = () => {
                 </p>
               </div>
 
-              <div className="lg:pl-2">
+              <div
+                ref={quizColumnRef}
+                className={`lg:pl-2 transition-[margin] duration-300 ${quizExpanded ? 'lg:mt-24' : ''}`}
+              >
                 <InvestorQuiz
                   onComplete={handleLeadCapture}
                   onRdvClick={() => setIsRdvModalOpen(true)}
