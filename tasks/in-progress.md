@@ -7,7 +7,9 @@
 
 ## En cours
 
-| — | — | — | Aucune tâche en cours. | — | — |
+| ID | Agent | Priorité | Description | Démarré le | Fichiers consultés |
+|----|-------|----------|-------------|------------|-------------------|
+| TASK-006 | 00 — Superviseur | P0 | Finaliser performance et responsive du comparateur — chargement initial, stabilité visuelle, cartes/résultats mobile, tests de comparaison | 29/09/2026 | À lister avant lecture |
 
 ---
 
