@@ -73,6 +73,12 @@ const selectEntry = async (): Promise<ComponentType> => {
     return module.default;
   }
 
+  // Research hub gets its own lightweight entry bundle.
+  if (path === 'analyses') {
+    const module = await import('./AnalysesApp');
+    return module.default;
+  }
+
   // All legacy/editorial/private routes keep the existing router as a safe fallback.
   const module = await import('./App');
   return module.default;
