@@ -385,17 +385,21 @@ export function calculateResult(data: QuizData): QuizResult {
 const TOTAL_STEPS = 4
 
 function MiniRadar({ rows }: { rows: { label: string; value: number }[] }) {
-  const size = 220
-  const center = size / 2
-  const radius = 70
+  // ViewBox élargi sur mobile : les libellés restent entièrement dans le SVG.
+  const width = 280
+  const height = 236
+  const centerX = width / 2
+  const centerY = 116
+  const radius = 62
+  const labelRadius = 88
   const count = rows.length
 
   const point = (value: number, index: number, r = radius) => {
     const angle = -Math.PI / 2 + (index * Math.PI * 2) / count
     const appliedRadius = r * (value / 100)
     return {
-      x: center + Math.cos(angle) * appliedRadius,
-      y: center + Math.sin(angle) * appliedRadius,
+      x: centerX + Math.cos(angle) * appliedRadius,
+      y: centerY + Math.sin(angle) * appliedRadius,
     }
   }
 
@@ -410,21 +414,21 @@ function MiniRadar({ rows }: { rows: { label: string; value: number }[] }) {
   }).join(' ')
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[210px_1fr] gap-3 items-center">
-      <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[220px] mx-auto" role="img" aria-label="Radar MaximusSCPI du portefeuille">
+    <div className="grid grid-cols-1 sm:grid-cols-[220px_1fr] gap-3 items-center">
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full max-w-[280px] mx-auto overflow-visible" role="img" aria-label="Radar MaximusSCPI du portefeuille">
         {[25, 50, 75, 100].map(level => (
           <polygon key={level} points={polygon(level)} fill="none" stroke="rgba(148,163,184,0.22)" strokeWidth="1" />
         ))}
         {rows.map((_, index) => {
           const end = point(100, index)
-          return <line key={index} x1={center} y1={center} x2={end.x} y2={end.y} stroke="rgba(148,163,184,0.18)" strokeWidth="1" />
+          return <line key={index} x1={centerX} y1={centerY} x2={end.x} y2={end.y} stroke="rgba(148,163,184,0.18)" strokeWidth="1" />
         })}
         <polygon points={dataPoints} fill="rgba(0,200,150,0.20)" stroke="#00C896" strokeWidth="2" />
         {rows.map((row, index) => {
-          const p = point(100, index, 94)
-          const anchor = Math.abs(p.x - center) < 8 ? 'middle' : p.x > center ? 'start' : 'end'
+          const p = point(100, index, labelRadius)
+          const anchor = Math.abs(p.x - centerX) < 10 ? 'middle' : p.x > centerX ? 'start' : 'end'
           return (
-            <text key={row.label} x={p.x} y={p.y} textAnchor={anchor} dominantBaseline="middle" fill="#cbd5e1" fontSize="9" fontWeight="600">
+            <text key={row.label} x={p.x} y={p.y} textAnchor={anchor} dominantBaseline="middle" fill="#cbd5e1" fontSize="8.5" fontWeight="600">
               {row.label}
             </text>
           )
@@ -561,6 +565,69 @@ function PortfolioResult({
         </div>
       </div>
 
+      {/* Conversion d'abord : le visiteur voit la proposition avant la méthodologie détaillée. */}
+      <div>
+        <div className="mb-2 flex items-end justify-between gap-3">
+          <div>
+            <p className="text-sm font-bold text-white">Votre allocation proposée</p>
+            <p className="text-[10px] text-slate-500">Pondérations indicatives adaptées à votre tranche de montant</p>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          {analysis.picks.map((pick, index) => {
+            const publishedYieldNeedsContext = /premier exercice|non représentatif|non stabilis/i.test(pick.vigilance)
+            return (
+              <details key={pick.scpi.id} open={index === 0} className="group rounded-xl border border-slate-700/60 bg-slate-800/30 overflow-hidden">
+                <summary className="list-none cursor-pointer px-3.5 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-12 shrink-0 items-center justify-center rounded-lg bg-emerald-400/10 text-sm font-bold text-emerald-300">{pick.weight}%</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="truncate text-sm font-semibold text-white">{pick.scpi.name}</p>
+                        <span className="text-[10px] text-slate-500 group-open:hidden">Détails ↓</span>
+                      </div>
+                      <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-400">
+                        <span className={publishedYieldNeedsContext ? 'text-amber-300' : ''}>TD {formatPct(pick.scpi.yield)}{publishedYieldNeedsContext ? '*' : ''}</span>
+                        <span>TOF {formatPct(pick.scpi.tof)}</span>
+                        <span>Dette {formatPct(pick.scpi.debt)}</span>
+                      </div>
+                      {publishedYieldNeedsContext && (
+                        <p className="mt-1 text-[9px] leading-tight text-amber-300/80">* rendement publié à contextualiser</p>
+                      )}
+                    </div>
+                  </div>
+                </summary>
+                <div className="border-t border-slate-700/50 px-3.5 py-3 space-y-2">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300">Pourquoi elle ressort</p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-300">{pick.reason || 'Équilibre favorable entre les principaux critères analysés.'}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Vigilance</p>
+                    <p className="mt-1 text-xs leading-relaxed text-slate-400">{pick.vigilance}</p>
+                  </div>
+                </div>
+              </details>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="sticky bottom-2 z-20 rounded-2xl border border-emerald-400/30 bg-slate-900/95 p-3.5 text-center shadow-2xl shadow-slate-950/50 backdrop-blur sm:static sm:bg-slate-800/45 sm:p-4">
+        <h4 className="text-sm sm:text-base font-bold text-white">Faire valider cette allocation</h4>
+        <p className="mx-auto mt-1 max-w-sm text-[10px] sm:text-xs leading-relaxed text-slate-400">
+          Adéquation, disponibilité des SCPI et répartition finale avant souscription.
+        </p>
+        <button type="button" onClick={handleRdv} className="mt-2.5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">
+          Faire valider mon portefeuille
+        </button>
+      </div>
+
+      <div className="pt-1">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Analyse approfondie</p>
+      </div>
+
       <div className="rounded-2xl border border-slate-700/60 bg-slate-800/25 p-4">
         <div className="mb-2 flex items-center justify-between gap-3">
           <div>
@@ -575,57 +642,8 @@ function PortfolioResult({
         </div>
       </div>
 
-      <div>
-        <div className="mb-2 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-sm font-bold text-white">Allocation proposée</p>
-            <p className="text-[10px] text-slate-500">Pondérations indicatives adaptées à votre tranche de montant</p>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          {analysis.picks.map((pick, index) => (
-            <details key={pick.scpi.id} open={index === 0} className="group rounded-xl border border-slate-700/60 bg-slate-800/30 overflow-hidden">
-              <summary className="list-none cursor-pointer px-3.5 py-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-400/10 text-xs font-bold text-emerald-300">{pick.weight}%</div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="truncate text-sm font-semibold text-white">{pick.scpi.name}</p>
-                      <span className="text-[10px] text-slate-500 group-open:hidden">Détails ↓</span>
-                    </div>
-                    <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-400">
-                      <span>TD {formatPct(pick.scpi.yield)}</span>
-                      <span>TOF {formatPct(pick.scpi.tof)}</span>
-                      <span>Dette {formatPct(pick.scpi.debt)}</span>
-                    </div>
-                  </div>
-                </div>
-              </summary>
-              <div className="border-t border-slate-700/50 px-3.5 py-3 space-y-2">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300">Pourquoi elle ressort</p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-300">{pick.reason || 'Équilibre favorable entre les principaux critères analysés.'}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-300">Vigilance</p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-400">{pick.vigilance}</p>
-                </div>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-emerald-400/25 bg-slate-800/45 p-4 text-center">
-        <h4 className="text-base font-bold text-white">Fais valider cette allocation avant de souscrire</h4>
-        <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-slate-400">
-          Validation du projet, adéquation, disponibilité des SCPI et répartition finale avec un Conseiller en Investissements Financiers.
-        </p>
-        <button type="button" onClick={handleRdv} className="mt-3 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">
-          Faire valider mon portefeuille
-        </button>
-        <a href="/comparateur-scpi/" className="mt-3 inline-block text-xs font-medium text-emerald-300 underline underline-offset-4 hover:text-emerald-200">
+      <div className="rounded-xl border border-slate-700/50 bg-slate-800/20 px-3.5 py-3 text-center">
+        <a href="/comparateur-scpi/" className="text-xs font-medium text-emerald-300 underline underline-offset-4 hover:text-emerald-200">
           Comparer les SCPI en détail →
         </a>
       </div>
