@@ -40,8 +40,6 @@ const HomeApp: React.FC = () => {
   useEffect(() => {
     if (showBelowFold) return;
 
-    // Priorité au hero pendant le tout premier paint, puis préchargement rapide
-    // de la suite afin qu'elle soit déjà disponible quand l'utilisateur scrolle.
     const preloadBelowFold = () => {
       void loadHomeBelowFold();
     };
@@ -55,9 +53,7 @@ const HomeApp: React.FC = () => {
 
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Le téléchargement démarre presque immédiatement, mais après le premier paint.
     const preloadTimer = window.setTimeout(preloadBelowFold, 180);
-    // La suite est montée rapidement même sans scroll : pas de page "vide" pendant plusieurs secondes.
     const revealTimer = window.setTimeout(revealBelowFold, 850);
 
     return () => {
@@ -209,9 +205,17 @@ const HomeApp: React.FC = () => {
                   </div>
                 )}
 
-                <div className={quizCompleted ? (isAnalysisModalOpen ? 'fixed inset-0 z-[10000] flex items-stretch justify-center bg-slate-950/85 backdrop-blur-sm md:items-center md:p-6' : 'hidden') : ''}>
-                  {quizCompleted && isAnalysisModalOpen && (
-                    <div className="relative h-full w-full overflow-y-auto bg-[#0D1117] md:h-auto md:max-h-[92vh] md:max-w-5xl md:rounded-3xl md:border md:border-slate-700/70 md:shadow-2xl">
+                <div
+                  className={quizCompleted
+                    ? (isAnalysisModalOpen
+                      ? 'fixed inset-0 z-[10000] flex items-stretch justify-center bg-slate-950/85 backdrop-blur-sm md:items-center md:p-6'
+                      : 'hidden')
+                    : ''}
+                >
+                  <div className={quizCompleted && isAnalysisModalOpen
+                    ? 'relative h-full w-full overflow-y-auto bg-[#0D1117] md:h-auto md:max-h-[92vh] md:max-w-5xl md:rounded-3xl md:border md:border-slate-700/70 md:shadow-2xl'
+                    : 'w-full'}>
+                    {quizCompleted && isAnalysisModalOpen && (
                       <div className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-700/70 bg-[#0D1117]/95 px-4 py-3 backdrop-blur md:rounded-t-3xl md:px-6">
                         <div>
                           <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">Résultat personnalisé</p>
@@ -226,21 +230,15 @@ const HomeApp: React.FC = () => {
                           ×
                         </button>
                       </div>
-                      <div className="mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7">
-                        <InvestorQuiz
-                          onComplete={handleLeadCapture}
-                          onRdvClick={openRdvFromQuiz}
-                        />
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  {!quizCompleted && (
-                    <InvestorQuiz
-                      onComplete={handleLeadCapture}
-                      onRdvClick={openRdvFromQuiz}
-                    />
-                  )}
+                    <div className={quizCompleted && isAnalysisModalOpen ? 'mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7' : ''}>
+                      <InvestorQuiz
+                        onComplete={handleLeadCapture}
+                        onRdvClick={openRdvFromQuiz}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
