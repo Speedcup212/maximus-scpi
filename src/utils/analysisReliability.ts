@@ -24,6 +24,13 @@ const extractPercentages = (message?: string): number[] => {
     .filter(Number.isFinite);
 };
 
+const extractNumbers = (message?: string): number[] => {
+  if (!message) return [];
+  return [...message.matchAll(/-?\d+(?:[.,]\d+)?/g)]
+    .map((match) => Number(match[0].replace(',', '.')))
+    .filter(Number.isFinite);
+};
+
 const hasNumericEvidence = (message?: string) =>
   Boolean(message && /\d+(?:[.,]\d+)?/.test(message));
 
@@ -126,6 +133,63 @@ const passesSevereQuantitativeGate = (signal: ReliableAnalysisSignal) => {
   return false;
 };
 
+/**
+ * Une vigilance modérée doit elle aussi être explicable par un signal public.
+ * La liquidité suit la doctrine v5 : < 3 % ne suffit jamais à rendre le badge
+ * orange ; 3–5 % = modéré ; >= 5 % = élevé. La tendance peut enrichir le texte,
+ * jamais créer à elle seule une vigilance supérieure.
+ */
+const passesModerateQuantitativeGate = (signal: ReliableAnalysisSignal) => {
+  const key = normalizeMetric(signal.metric);
+  const message = signal.message;
+  const percentages = extractPercentages(message);
+
+  if (key === 'tof' || key === 'taux_occupation_financier') {
+    const current = lastPercentage(message);
+    return current !== null && current >= 80 && current < 90;
+  }
+
+  if (
+    key === 'liquidite_retraits' ||
+    key === 'parts_attente_retrait' ||
+    key === 'parts_en_attente_de_retrait'
+  ) {
+    const ratio = percentages[0];
+    return Number.isFinite(ratio) && Math.abs(ratio) >= 3 && Math.abs(ratio) < 5;
+  }
+
+  if (key === 'surcote_reconstitution' || key === 'decote_reconstitution') {
+    const gap = largestAbsolutePercentage(message);
+    return gap !== null && Math.abs(gap) >= 5 && Math.abs(gap) < 15;
+  }
+
+  if (key === 'endettement' || key === 'dette') {
+    const debt = percentages[0];
+    return Number.isFinite(debt) && Math.abs(debt) >= 30 && Math.abs(debt) < 40;
+  }
+
+  if (
+    key === 'valeur_reconstitution' ||
+    key === 'prix_reconstitution' ||
+    key === 'valeur_realisation'
+  ) {
+    const variation = largestAbsolutePercentage(message);
+    return variation !== null && Math.abs(variation) >= 5 && Math.abs(variation) < 15;
+  }
+
+  if (key === 'distribution' || key === 'distribution_par_part') {
+    const variation = largestAbsolutePercentage(message);
+    return variation !== null && Math.abs(variation) >= 10 && Math.abs(variation) < 20;
+  }
+
+  if (key === 'walb') {
+    const years = extractNumbers(message)[0];
+    return Number.isFinite(years) && years < 3;
+  }
+
+  return hasNumericEvidence(message);
+};
+
 export const sanitizeAnalysisSignal = <T extends ReliableAnalysisSignal>(signal: T): T => {
   if (signal.quality_issue) return signal;
 
@@ -169,12 +233,25 @@ export const hasDocumentedSevereSignal = (signals: ReliableAnalysisSignal[]) =>
     );
   });
 
+export const hasDocumentedModerateSignal = (signals: ReliableAnalysisSignal[]) =>
+  signals.some((signal) => {
+    const sanitized = sanitizeAnalysisSignal(signal);
+    return (
+      sanitized.severity === 'medium' &&
+      !sanitized.quality_issue &&
+      typeof sanitized.message === 'string' &&
+      sanitized.message.trim().length >= 12 &&
+      passesModerateQuantitativeGate(sanitized)
+    );
+  });
+
 export const getEffectiveRiskLevel = (
-  rawRisk: AnalysisRiskLevel,
+  _rawRisk: AnalysisRiskLevel,
   signals: ReliableAnalysisSignal[]
 ): AnalysisRiskLevel => {
-  if (rawRisk === 'high' && !hasDocumentedSevereSignal(signals)) return 'medium';
-  return rawRisk;
+  if (hasDocumentedSevereSignal(signals)) return 'high';
+  if (hasDocumentedModerateSignal(signals)) return 'medium';
+  return 'low';
 };
 
 const parseQuarterIndex = (period?: string | null): number | null => {
@@ -223,6 +300,8 @@ export const humanizeAnalysisMetric = (metric?: string) => {
     taux_occupation_financier: 'TOF',
     top: 'TOP',
     taux_occupation_physique: 'TOP',
+    walb: 'Durée ferme des baux',
+    walt: 'Durée résiduelle des baux',
     ran: 'Report à nouveau',
     report_a_nouveau: 'Report à nouveau',
     prix_part: 'Prix de part',
