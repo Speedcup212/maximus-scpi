@@ -37,12 +37,49 @@ const violations: string[] = [];
 
 const asArray = (value: unknown): Record<string, any>[] => Array.isArray(value) ? value as Record<string, any>[] : [];
 
+const validateHighAlertProof = (slug: string, alert: Record<string, any>) => {
+  const metric = String(alert.metric || '?');
+  const certification = alert.certification && typeof alert.certification === 'object'
+    ? alert.certification as Record<string, any>
+    : null;
+
+  if (!certification || certification.status !== 'certified_with_field_evidence') {
+    violations.push(`${slug}: alerte élevée ${metric} sans certification de champ`);
+    return;
+  }
+  if (certification.evidence_version !== '2026-09-30-v1-page-proof') {
+    violations.push(`${slug}: alerte élevée ${metric} avec version de preuve invalide`);
+  }
+
+  const proofs = asArray(certification.proofs);
+  if (!proofs.length) {
+    violations.push(`${slug}: alerte élevée ${metric} sans preuve exploitable`);
+    return;
+  }
+
+  for (const proof of proofs) {
+    const proofMetric = String(proof.metric || '');
+    const method = String(proof.method || '');
+    const sourceUrl = String(proof.source_url || '');
+    const page = Number(proof.page);
+
+    if (!proofMetric) violations.push(`${slug}: alerte élevée ${metric} avec preuve sans métrique`);
+    if (!/^https?:\/\//i.test(sourceUrl)) violations.push(`${slug}: alerte élevée ${metric} avec preuve sans URL source`);
+    if (method === 'pdf_page_text_match' && (!Number.isFinite(page) || page < 1)) {
+      violations.push(`${slug}: alerte élevée ${metric} avec preuve PDF sans page`);
+    } else if (method !== 'pdf_page_text_match' && method !== 'html_text_match' && !method.startsWith('manual_verified_plus_')) {
+      violations.push(`${slug}: alerte élevée ${metric} avec méthode de preuve inconnue (${method || 'absente'})`);
+    }
+  }
+};
+
 for (const row of data || []) {
   const slug = String(row.scpi_slug || '?');
   const alerts = asArray(row.alerts);
   const watches = asArray(row.watch_points);
   const improvements = asArray(row.improvements);
   const deteriorations = asArray(row.deteriorations);
+  const highAlerts = alerts.filter((signal) => signal.severity === 'high');
 
   if (row.risk_level === 'high' && row.current_source_certified !== true) {
     violations.push(`${slug}: vigilance élevée sans source courante certifiée`);
@@ -50,6 +87,11 @@ for (const row of data || []) {
   if (row.risk_level === 'high' && row.certification_status === 'review_required') {
     violations.push(`${slug}: vigilance élevée alors que la certification requiert une revue`);
   }
+  if (row.risk_level === 'high' && highAlerts.length === 0) {
+    violations.push(`${slug}: vigilance élevée sans alerte élevée certifiée`);
+  }
+  for (const alert of highAlerts) validateHighAlertProof(slug, alert);
+
   if (row.current_source_certified === true && !row.certified_source_url) {
     violations.push(`${slug}: source annoncée certifiée mais URL de preuve absente`);
   }
