@@ -34,6 +34,10 @@ const trendMetrics = new Set([
 ]);
 const priceGapMetrics = new Set(['surcote_reconstitution', 'decote_reconstitution']);
 const violations: string[] = [];
+const acceptedAnalysisVersions = new Set([
+  '2026-09-30-v4-certified',
+  '2026-09-30-v5-liquidity',
+]);
 
 const asArray = (value: unknown): Record<string, any>[] => Array.isArray(value) ? value as Record<string, any>[] : [];
 
@@ -110,7 +114,7 @@ for (const row of data || []) {
       violations.push(`${slug}: décote/surcote publiée malgré un événement structurel actif`);
     }
   }
-  if (row.analysis_version !== '2026-09-30-v4-certified') {
+  if (!acceptedAnalysisVersions.has(String(row.analysis_version || ''))) {
     violations.push(`${slug}: version d'analyse non certifiée (${String(row.analysis_version || 'absente')})`);
   }
 }
