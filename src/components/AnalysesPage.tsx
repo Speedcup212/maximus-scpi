@@ -92,13 +92,13 @@ const AnalysesPage: React.FC = () => {
           <div className="max-w-4xl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
               <Radar className="h-4 w-4" />
-              MaximusSCPI Research
+              MaximusSCPI Analyses
             </div>
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
               Analyser une SCPI avant de regarder son rendement
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
-              La performance affichée n’est qu’un résultat. MaximusSCPI Research cherche à comprendre ce qui la produit,
+              La performance affichée n’est qu’un résultat. MaximusSCPI analyse ce qui la produit,
               si elle est soutenable et quels risques peuvent dégrader la valeur ou la liquidité des parts.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -126,8 +126,8 @@ const AnalysesPage: React.FC = () => {
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
               <div className="text-xs font-bold uppercase tracking-[0.14em] text-sky-300">Contrôle qualité</div>
-              <div className="mt-2 text-xl font-bold text-white">Les données douteuses sont neutralisées</div>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Une valeur incohérente devient « N.D. » et ne déclenche pas artificiellement une vigilance.</p>
+              <div className="mt-2 text-xl font-bold text-white">Chaque donnée est contrôlée avant de déclencher une vigilance</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Une information incohérente ou insuffisamment documentée est affichée « N.D. » et exclue du niveau de vigilance.</p>
             </div>
             <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
               <div className="text-xs font-bold uppercase tracking-[0.14em] text-amber-300">Lecture multi-critères</div>
@@ -148,7 +148,7 @@ const AnalysesPage: React.FC = () => {
       <section className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-300">4 niveaux de lecture</p>
-          <h2 className="mt-2 text-3xl font-bold text-white">Le centre de recherche MaximusSCPI</h2>
+          <h2 className="mt-2 text-3xl font-bold text-white">Le centre d’analyse MaximusSCPI</h2>
           <p className="mt-3 text-slate-400">
             L’objectif n’est pas de produire un classement décoratif, mais de rendre chaque conclusion vérifiable et exploitable.
           </p>

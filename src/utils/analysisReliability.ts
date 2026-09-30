@@ -217,6 +217,7 @@ export const humanizeAnalysisMetric = (metric?: string) => {
   const labels: Record<string, string> = {
     td: 'Taux de distribution',
     taux_distribution: 'Taux de distribution',
+    distribution_yield: 'Taux de distribution',
     rendement: 'Rendement',
     tof: 'TOF',
     taux_occupation_financier: 'TOF',
@@ -230,7 +231,8 @@ export const humanizeAnalysisMetric = (metric?: string) => {
     prix_reconstitution: 'Valeur de reconstitution',
     valeur_reconstitution: 'Valeur de reconstitution',
     valeur_realisation: 'Valeur de réalisation',
-    data_quality_valeur_realisation: 'Qualité de la valeur de réalisation',
+    data_quality_history: 'Historique à confirmer',
+    data_quality_valeur_realisation: 'Valeur de réalisation à confirmer',
     collecte_nette: 'Collecte nette',
     endettement: 'Endettement',
     dette: 'Endettement',
@@ -247,6 +249,16 @@ export const humanizeAnalysisMetric = (metric?: string) => {
   };
 
   if (labels[key]) return labels[key];
+
+  if (key.startsWith('data_quality_')) {
+    const suffix = key
+      .replace(/^data_quality_/, '')
+      .split('_')
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+    return suffix ? `Qualité des données — ${suffix}` : 'Qualité des données';
+  }
 
   return key
     .split('_')
