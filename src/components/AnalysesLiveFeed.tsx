@@ -56,6 +56,17 @@ type BulletinSourceRow = {
   qa_status: string | null;
 };
 
+type IndicatorHistoryRow = {
+  scpi_slug: string;
+  source_period: string | null;
+  tof: number | string | null;
+  prix_souscription: number | string | null;
+  prix_reconstitution: number | string | null;
+  valeur_realisation: number | string | null;
+  endettement: number | string | null;
+  parts_attente_retrait: number | string | null;
+};
+
 type SignalWithTone = AnalysisSignal & {
   tone: 'alert' | 'watch' | 'negative' | 'positive';
 };
@@ -73,6 +84,26 @@ type ScpiMetrics = {
   debt?: number;
   discount: number;
   discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
+};
+
+type TrajectoryPoint = {
+  period: string;
+  value: number;
+};
+
+type Trajectory = {
+  label: string;
+  points: TrajectoryPoint[];
+  deltaLabel: string;
+};
+
+type MarketMovement = {
+  slug: string;
+  name: string;
+  riskLevel: RiskLevel;
+  signal: SignalWithTone;
+  period: string;
+  category: string;
 };
 
 const riskConfig: Record<RiskLevel, { label: string; classes: string; order: number }> = {
@@ -106,13 +137,6 @@ const signalToneClasses = {
   positive: 'border-emerald-400/20 bg-emerald-400/[0.05] text-emerald-100',
 };
 
-const signalToneLabels: Record<SignalWithTone['tone'], string> = {
-  alert: 'Point critique',
-  watch: 'À surveiller',
-  negative: 'Dégradation',
-  positive: 'Amélioration',
-};
-
 const formatPeriod = (value?: string | null) => {
   if (!value) return 'Période non précisée';
   const normalized = value.toUpperCase().trim();
@@ -138,6 +162,18 @@ const formatPct = (value?: number) =>
   typeof value === 'number' && Number.isFinite(value)
     ? `${value.toFixed(1).replace('.', ',')} %`
     : 'N.D.';
+
+const formatCompactNumber = (value: number) =>
+  new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 1 }).format(value);
+
+const parseNumber = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value.replace(',', '.'));
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+};
 
 const humanizeSlug = (slug: string) =>
   slug
@@ -170,6 +206,8 @@ const periodRank = (value?: string | null) => {
   if (yearFirst) return Number(yearFirst[1]) * 10 + Number(yearFirst[2]);
   const quarterFirst = normalized.match(/T([1-4])-?(20\d{2})/);
   if (quarterFirst) return Number(quarterFirst[2]) * 10 + Number(quarterFirst[1]);
+  const semester = normalized.match(/S([1-2])-?(20\d{2})/);
+  if (semester) return Number(semester[2]) * 10 + (semester[1] === '1' ? 2 : 4);
   return 0;
 };
 
@@ -182,13 +220,110 @@ const normalizeSearchText = (value: string) =>
 
 const validExternalUrl = (value?: string | null) => Boolean(value && /^https?:\/\//i.test(value));
 
-const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
+const extractPercentages = (message?: string): number[] => {
+  if (!message) return [];
+  return [...message.matchAll(/(-?\d+(?:[.,]\d+)?)\s*%/g)]
+    .map((match) => Number(match[1].replace(',', '.')))
+    .filter(Number.isFinite);
+};
+
+const closeEnough = (a: number, b: number, tolerance = 2) => Math.abs(Math.abs(a) - Math.abs(b)) <= tolerance;
+
+const sortHistory = (rows: IndicatorHistoryRow[]) =>
+  [...rows].sort((a, b) => periodRank(a.source_period) - periodRank(b.source_period));
+
+const latestNumericRows = (
+  rows: IndicatorHistoryRow[],
+  selector: (row: IndicatorHistoryRow) => number | null,
+  count = 2
+) =>
+  sortHistory(rows)
+    .map((row) => ({ row, value: selector(row) }))
+    .filter((item): item is { row: IndicatorHistoryRow; value: number } => item.value !== null)
+    .slice(-count);
+
+const validateExtremeSignal = <T extends SignalWithTone>(signal: T, history: IndicatorHistoryRow[]): T => {
+  if (signal.quality_issue) return signal;
+
+  const key = normalizeMetric(signal.metric);
+  const percentages = extractPercentages(signal.message);
+  const largest = percentages.length
+    ? percentages.reduce((current, value) => Math.abs(value) > Math.abs(current) ? value : current)
+    : null;
+
+  let requiresValidation = false;
+  let validated = false;
+
+  if (key === 'surcote_reconstitution' && largest !== null && Math.abs(largest) >= 15) {
+    requiresValidation = true;
+    const latest = sortHistory(history)
+      .filter((row) => parseNumber(row.prix_souscription) !== null && parseNumber(row.prix_reconstitution) !== null)
+      .slice(-1)[0];
+    if (latest) {
+      const price = parseNumber(latest.prix_souscription);
+      const reconstruction = parseNumber(latest.prix_reconstitution);
+      if (price !== null && reconstruction !== null && reconstruction > 0) {
+        const computed = ((price / reconstruction) - 1) * 100;
+        validated = closeEnough(computed, largest, 1.5);
+      }
+    }
+  }
+
+  if ((key === 'valeur_reconstitution' || key === 'prix_reconstitution') && largest !== null && Math.abs(largest) >= 15) {
+    requiresValidation = true;
+    const points = latestNumericRows(history, (row) => parseNumber(row.prix_reconstitution), 2);
+    if (points.length === 2 && points[0].value !== 0) {
+      const computed = ((points[1].value / points[0].value) - 1) * 100;
+      validated = closeEnough(computed, largest, 2);
+    }
+  }
+
+  if (key === 'valeur_realisation' && largest !== null && Math.abs(largest) >= 15) {
+    requiresValidation = true;
+    const points = latestNumericRows(history, (row) => parseNumber(row.valeur_realisation), 2);
+    if (points.length === 2 && points[0].value !== 0) {
+      const computed = ((points[1].value / points[0].value) - 1) * 100;
+      validated = closeEnough(computed, largest, 2);
+    }
+  }
+
+  if ((key === 'tof' || key === 'taux_occupation_financier') && percentages.length) {
+    const current = percentages[percentages.length - 1];
+    if (current < 70) {
+      requiresValidation = true;
+      const latest = latestNumericRows(history, (row) => parseNumber(row.tof), 1)[0];
+      validated = Boolean(latest && closeEnough(latest.value, current, 1));
+    }
+  }
+
+  if ((key === 'endettement' || key === 'dette') && percentages.length) {
+    const debt = percentages[0];
+    if (Math.abs(debt) >= 50) {
+      requiresValidation = true;
+      const latest = latestNumericRows(history, (row) => parseNumber(row.endettement), 1)[0];
+      validated = Boolean(latest && closeEnough(latest.value, debt, 2));
+    }
+  }
+
+  if (!requiresValidation || validated) return signal;
+
+  return {
+    ...signal,
+    severity: 'info',
+    quality_issue: true,
+    message: `${signal.message || 'Valeur extrême détectée.'} Valeur extrême neutralisée : l’historique disponible ne permet pas de reproduire ce signal avec un niveau de confiance suffisant.`,
+  } as T;
+};
+
+const getSignals = (row: BulletinAnalysisRow, history: IndicatorHistoryRow[]): SignalWithTone[] => {
   const buckets: SignalWithTone[] = [
     ...((Array.isArray(row.alerts) ? row.alerts : []).map((item) => ({ ...item, tone: 'alert' as const }))),
     ...((Array.isArray(row.watch_points) ? row.watch_points : []).map((item) => ({ ...item, tone: 'watch' as const }))),
     ...((Array.isArray(row.deteriorations) ? row.deteriorations : []).map((item) => ({ ...item, tone: 'negative' as const }))),
     ...((Array.isArray(row.improvements) ? row.improvements : []).map((item) => ({ ...item, tone: 'positive' as const }))),
-  ].map((signal) => sanitizeAnalysisSignal(signal));
+  ]
+    .map((signal) => sanitizeAnalysisSignal(signal))
+    .map((signal) => validateExtremeSignal(signal, history));
 
   const seen = new Set<string>();
   return buckets.filter((item) => {
@@ -202,7 +337,7 @@ const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
 const getThresholdText = (signal: SignalWithTone) => {
   const key = normalizeMetric(signal.metric);
   if (key === 'tof' || key === 'taux_occupation_financier') {
-    return 'Repère MaximusSCPI : < 85 % = vigilance élevée ; 85–90 % = vigilance modérée.';
+    return 'Repère MaximusSCPI : < 80 % = critique ; 80–85 % = vigilance forte ; 85–90 % = vigilance modérée.';
   }
   if (key === 'liquidite_retraits' || key === 'parts_attente_retrait' || key === 'parts_en_attente_de_retrait') {
     return 'Repère MaximusSCPI : ≥ 5 % de parts en attente = vigilance élevée ; 2–5 % = vigilance modérée.';
@@ -231,6 +366,56 @@ const getDiscountPresentation = (metrics?: ScpiMetrics) => {
   return { label: 'Écart', value: '0,0 %' };
 };
 
+const buildTrajectory = (history: IndicatorHistoryRow[]): Trajectory | null => {
+  const tofPoints = latestNumericRows(history, (row) => parseNumber(row.tof), 4)
+    .map(({ row, value }) => ({ period: formatPeriod(row.source_period), value }));
+
+  if (tofPoints.length >= 2) {
+    const delta = tofPoints[tofPoints.length - 1].value - tofPoints[0].value;
+    return {
+      label: 'Trajectoire TOF',
+      points: tofPoints,
+      deltaLabel: `${delta >= 0 ? '+' : ''}${formatCompactNumber(delta)} pt${Math.abs(delta) === 1 ? '' : 's'} sur la série affichée`,
+    };
+  }
+
+  const reconstructionPoints = latestNumericRows(history, (row) => parseNumber(row.prix_reconstitution), 4)
+    .map(({ row, value }) => ({ period: formatPeriod(row.source_period), value }));
+
+  if (reconstructionPoints.length >= 2 && reconstructionPoints[0].value !== 0) {
+    const delta = ((reconstructionPoints[reconstructionPoints.length - 1].value / reconstructionPoints[0].value) - 1) * 100;
+    return {
+      label: 'Valeur de reconstitution',
+      points: reconstructionPoints,
+      deltaLabel: `${delta >= 0 ? '+' : ''}${formatCompactNumber(delta)} % sur la série affichée`,
+    };
+  }
+
+  return null;
+};
+
+const getMovementCategory = (signal: SignalWithTone) => {
+  if (signal.tone === 'positive') return 'Amélioration';
+  const key = normalizeMetric(signal.metric);
+  if (key.includes('retrait') || key.includes('liquidite')) return 'Liquidité';
+  if (key === 'tof' || key.includes('occupation')) return 'Occupation';
+  if (key.includes('reconstitution') || key.includes('realisation') || key.includes('surcote') || key.includes('decote')) return 'Valorisation';
+  if (key.includes('dette') || key.includes('endettement')) return 'Financement';
+  return 'Dégradation';
+};
+
+const displayTone = (signal: SignalWithTone, riskLevel: RiskLevel): SignalWithTone['tone'] =>
+  signal.tone === 'alert' && riskLevel !== 'high' ? 'watch' : signal.tone;
+
+const getSignalLabel = (signal: SignalWithTone, riskLevel: RiskLevel) => {
+  const tone = displayTone(signal, riskLevel);
+  if (tone === 'alert') return 'Point critique';
+  if (tone === 'watch' && signal.tone === 'alert') return 'Vigilance forte';
+  if (tone === 'watch') return 'À surveiller';
+  if (tone === 'negative') return 'Dégradation';
+  return 'Amélioration';
+};
+
 const freshnessOrder: Record<AnalysisFreshness, number> = {
   recent: 0,
   unknown: 1,
@@ -241,6 +426,7 @@ const AnalysesLiveFeed: React.FC = () => {
   const [rows, setRows] = useState<BulletinAnalysisRow[]>([]);
   const [names, setNames] = useState<Record<string, string>>({});
   const [metricsBySlug, setMetricsBySlug] = useState<Record<string, ScpiMetrics>>({});
+  const [historyBySlug, setHistoryBySlug] = useState<Record<string, IndicatorHistoryRow[]>>({});
   const [sourceByPeriod, setSourceByPeriod] = useState<Record<string, BulletinSourceRow>>({});
   const [latestSourceBySlug, setLatestSourceBySlug] = useState<Record<string, BulletinSourceRow>>({});
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
@@ -264,7 +450,7 @@ const AnalysesLiveFeed: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const [analysisResult, sourceResult, scpiModule] = await Promise.all([
+      const [analysisResult, sourceResult, historyResult, scpiModule] = await Promise.all([
         supabase
           .from('scpi_bulletin_analysis')
           .select('scpi_slug,current_period,previous_period,status,risk_level,trend_score,improvements,deteriorations,alerts,watch_points,generated_at')
@@ -275,6 +461,10 @@ const AnalysesLiveFeed: React.FC = () => {
           .select('scpi_slug,period,source_url,found_at,qa_status')
           .order('found_at', { ascending: false })
           .limit(500),
+        supabase
+          .from('scpi_indicator_history')
+          .select('scpi_slug,source_period,tof,prix_souscription,prix_reconstitution,valeur_realisation,endettement,parts_attente_retrait')
+          .limit(5000),
         import('../data/scpiData'),
       ]);
 
@@ -285,6 +475,10 @@ const AnalysesLiveFeed: React.FC = () => {
         setError('Impossible de charger les analyses pour le moment.');
         setLoading(false);
         return;
+      }
+
+      if (historyResult.error) {
+        console.warn('[AnalysesLiveFeed] Historique partiellement indisponible.', historyResult.error);
       }
 
       const deduped = new Map<string, BulletinAnalysisRow>();
@@ -316,9 +510,20 @@ const AnalysesLiveFeed: React.FC = () => {
         if (!periodMap[key]) periodMap[key] = source;
       });
 
+      const historyMap: Record<string, IndicatorHistoryRow[]> = {};
+      (historyResult.data || []).forEach((item) => {
+        const historyRow = item as IndicatorHistoryRow;
+        if (!historyMap[historyRow.scpi_slug]) historyMap[historyRow.scpi_slug] = [];
+        historyMap[historyRow.scpi_slug].push(historyRow);
+      });
+      Object.keys(historyMap).forEach((slug) => {
+        historyMap[slug] = sortHistory(historyMap[slug]);
+      });
+
       setRows(Array.from(deduped.values()));
       setNames(nameMap);
       setMetricsBySlug(metricsMap);
+      setHistoryBySlug(historyMap);
       setSourceByPeriod(periodMap);
       setLatestSourceBySlug(latestMap);
       setLoading(false);
@@ -336,17 +541,16 @@ const AnalysesLiveFeed: React.FC = () => {
   }, [riskFilter, sortMode, searchQuery]);
 
   const displayRows = useMemo<DisplayRow[]>(
-    () =>
-      rows.map((row) => {
-        const signals = getSignals(row);
-        return {
-          row,
-          signals,
-          riskLevel: getEffectiveRiskLevel(row.risk_level, signals),
-          freshness: getPeriodFreshness(row.current_period),
-        };
-      }),
-    [rows]
+    () => rows.map((row) => {
+      const signals = getSignals(row, historyBySlug[row.scpi_slug] || []);
+      return {
+        row,
+        signals,
+        riskLevel: getEffectiveRiskLevel(row.risk_level, signals),
+        freshness: getPeriodFreshness(row.current_period),
+      };
+    }),
+    [historyBySlug, rows]
   );
 
   const sortedRows = useMemo(() => {
@@ -394,34 +598,51 @@ const AnalysesLiveFeed: React.FC = () => {
   );
 
   const marketMovements = useMemo(() => {
-    const candidates = [...displayRows]
-      .filter((item) => item.freshness === 'recent' && item.riskLevel !== 'low')
-      .sort((a, b) => {
-        const riskDiff = riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
-        if (riskDiff !== 0) return riskDiff;
-        return periodRank(b.row.current_period) - periodRank(a.row.current_period);
+    const movements: MarketMovement[] = [];
+
+    displayRows
+      .filter((item) => item.freshness === 'recent')
+      .forEach((item) => {
+        item.signals
+          .filter((signal) => !signal.quality_issue)
+          .forEach((signal) => {
+            movements.push({
+              slug: item.row.scpi_slug,
+              name: names[item.row.scpi_slug] || humanizeSlug(item.row.scpi_slug),
+              riskLevel: item.riskLevel,
+              signal,
+              period: formatPeriod(item.row.current_period),
+              category: getMovementCategory(signal),
+            });
+          });
       });
 
-    return candidates
-      .map((item) => {
-        const signal = item.signals.find((candidate) => !candidate.quality_issue && candidate.tone !== 'positive');
-        if (!signal) return null;
-        return {
-          slug: item.row.scpi_slug,
-          name: names[item.row.scpi_slug] || humanizeSlug(item.row.scpi_slug),
-          riskLevel: item.riskLevel,
-          signal,
-          period: formatPeriod(item.row.current_period),
-        };
-      })
-      .filter(Boolean)
-      .slice(0, 4) as Array<{
-        slug: string;
-        name: string;
-        riskLevel: RiskLevel;
-        signal: SignalWithTone;
-        period: string;
-      }>;
+    movements.sort((a, b) => {
+      if (a.signal.tone === 'positive' && b.signal.tone !== 'positive') return 1;
+      if (b.signal.tone === 'positive' && a.signal.tone !== 'positive') return -1;
+      return riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
+    });
+
+    const selected: MarketMovement[] = [];
+    const usedSlugs = new Set<string>();
+    const preferredCategories = ['Liquidité', 'Occupation', 'Valorisation', 'Amélioration'];
+
+    preferredCategories.forEach((category) => {
+      const candidate = movements.find((movement) => movement.category === category && !usedSlugs.has(movement.slug));
+      if (candidate) {
+        selected.push(candidate);
+        usedSlugs.add(candidate.slug);
+      }
+    });
+
+    for (const movement of movements) {
+      if (selected.length >= 4) break;
+      if (usedSlugs.has(movement.slug)) continue;
+      selected.push(movement);
+      usedSlugs.add(movement.slug);
+    }
+
+    return selected.slice(0, 4);
   }, [displayRows, names]);
 
   const latestGeneratedAt = useMemo(() => {
@@ -443,7 +664,7 @@ const AnalysesLiveFeed: React.FC = () => {
             </div>
             <h2 className="mt-2 text-3xl font-bold text-white">Ce qui change sur le marché des SCPI</h2>
             <p className="mt-3 leading-7 text-slate-400">
-              Les bulletins collectés sont comparés, contrôlés et synthétisés. Une vigilance élevée n’est conservée que lorsqu’un signal sévère comporte une preuve chiffrée exploitable ; une donnée incohérente est neutralisée au lieu d’être transformée en alerte.
+              Les bulletins collectés sont comparés, contrôlés et synthétisés. Une vigilance élevée n’est conservée que lorsqu’un signal sévère franchit un repère quantitatif et reste vérifiable ; les valeurs extrêmes non reproductibles sont neutralisées.
             </p>
           </div>
           {latestGeneratedAt && (
@@ -471,32 +692,35 @@ const AnalysesLiveFeed: React.FC = () => {
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-rose-300">Radar du marché</p>
                     <h3 className="mt-1 text-xl font-bold text-white">Les mouvements à surveiller maintenant</h3>
                   </div>
-                  <span className="text-xs text-slate-500">Sélection automatique · données récentes uniquement</span>
+                  <span className="text-xs text-slate-500">Liquidité · occupation · valorisation · améliorations</span>
                 </div>
                 <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-                  {marketMovements.map((movement) => (
-                    <a
-                      key={movement.slug}
-                      href={`/${movement.slug}/`}
-                      className="rounded-xl border border-slate-800 bg-slate-900/75 p-4 transition hover:border-slate-700 hover:bg-slate-900"
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <div className="font-bold text-white" translate="no">{movement.name}</div>
-                          <div className="mt-1 text-xs text-slate-500">{movement.period}</div>
+                  {marketMovements.map((movement) => {
+                    const tone = displayTone(movement.signal, movement.riskLevel);
+                    return (
+                      <a
+                        key={`${movement.slug}-${movement.category}`}
+                        href={`/${movement.slug}/`}
+                        className="rounded-xl border border-slate-800 bg-slate-900/75 p-4 transition hover:border-slate-700 hover:bg-slate-900"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <div className="font-bold text-white" translate="no">{movement.name}</div>
+                            <div className="mt-1 text-xs text-slate-500">{movement.period}</div>
+                          </div>
+                          <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${tone === 'positive' ? signalToneClasses.positive : riskConfig[movement.riskLevel].classes}`}>
+                            {movement.category}
+                          </span>
                         </div>
-                        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${riskConfig[movement.riskLevel].classes}`}>
-                          {movement.riskLevel === 'high' ? 'Élevée' : 'Modérée'}
-                        </span>
-                      </div>
-                      <div className="mt-3 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                        {signalToneLabels[movement.signal.tone]}
-                      </div>
-                      <p className="mt-1 line-clamp-3 text-sm leading-6 text-slate-300">
-                        {movement.signal.message || 'Évolution détectée dans le dernier bulletin.'}
-                      </p>
-                    </a>
-                  ))}
+                        <div className="mt-3 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                          {getSignalLabel(movement.signal, movement.riskLevel)}
+                        </div>
+                        <p className="mt-1 line-clamp-3 text-sm leading-6 text-slate-300">
+                          {movement.signal.message || 'Évolution détectée dans le dernier bulletin.'}
+                        </p>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -544,7 +768,7 @@ const AnalysesLiveFeed: React.FC = () => {
             </div>
 
             <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.05] px-4 py-3 text-sm leading-6 text-slate-300">
-              <strong className="text-amber-200">Comment lire une vigilance :</strong> elle ne constitue ni une recommandation d’acheter, de conserver ou de vendre une SCPI. Elle signale un indicateur documenté qui mérite d’être approfondi. Les valeurs non fiables sont affichées « N.D. » et ne servent pas à déclencher une vigilance.
+              <strong className="text-amber-200">Comment lire une vigilance :</strong> elle ne constitue ni une recommandation d’acheter, de conserver ou de vendre une SCPI. Elle signale un indicateur documenté qui mérite d’être approfondi. Les valeurs non fiables sont affichées « N.D. » ou « À vérifier » et ne servent pas à déclencher une vigilance élevée.
             </div>
 
             {filteredRows.length ? (
@@ -561,6 +785,7 @@ const AnalysesLiveFeed: React.FC = () => {
                   const expanded = expandedSlug === row.scpi_slug;
                   const metrics = metricsBySlug[row.scpi_slug];
                   const discountPresentation = getDiscountPresentation(metrics);
+                  const trajectory = buildTrajectory(historyBySlug[row.scpi_slug] || []);
                   const dataStatusLabel = row.status === 'pending' ? 'Analyse en cours' : hasHistory ? 'Données comparables' : 'Historique partiel';
                   const dataStatusClasses = row.status === 'pending'
                     ? 'border-sky-400/25 bg-sky-400/[0.08] text-sky-200'
@@ -600,9 +825,28 @@ const AnalysesLiveFeed: React.FC = () => {
                         </div>
                       )}
 
+                      {trajectory && (
+                        <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/45 p-3">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">{trajectory.label}</div>
+                            <div className="text-[10px] font-semibold text-sky-300">{trajectory.deltaLabel}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+                            {trajectory.points.map((point) => (
+                              <div key={`${point.period}-${point.value}`} className="rounded-md bg-slate-950/70 px-2 py-1.5 text-center">
+                                <div className="text-[9px] text-slate-500">{point.period}</div>
+                                <div className="mt-0.5 text-[11px] font-bold text-slate-200">
+                                  {trajectory.label === 'Trajectoire TOF' ? `${formatCompactNumber(point.value)} %` : formatCompactNumber(point.value)}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {riskWasDowngraded && (
                         <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-3.5 py-3 text-xs leading-5 text-sky-100">
-                          Niveau élevé neutralisé : aucun signal sévère suffisamment documenté ne permet de justifier publiquement ce niveau de vigilance.
+                          Niveau élevé recalibré : le signal ne franchit pas le repère quantitatif requis ou une valeur extrême n’est pas suffisamment reproductible dans l’historique disponible.
                         </div>
                       )}
 
@@ -610,11 +854,12 @@ const AnalysesLiveFeed: React.FC = () => {
                         {visibleSignals.map((signal, index) => {
                           const metricLabel = humanizeAnalysisMetric(signal.metric);
                           const thresholdText = getThresholdText(signal);
+                          const tone = displayTone(signal, riskLevel);
                           return (
-                            <div key={`${signal.metric || 'signal'}-${index}`} className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}>
-                              <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] opacity-80">{signalToneLabels[signal.tone]}</div>
+                            <div key={`${signal.metric || 'signal'}-${index}`} className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[tone]}`}>
+                              <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] opacity-80">{getSignalLabel(signal, riskLevel)}</div>
                               <div className="flex gap-2.5">
-                                {signal.quality_issue ? <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" /> : signal.tone === 'alert' ? <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" /> : signal.tone === 'negative' ? <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" /> : signal.tone === 'positive' ? <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" /> : <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />}
+                                {signal.quality_issue ? <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" /> : tone === 'alert' ? <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" /> : tone === 'negative' ? <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" /> : tone === 'positive' ? <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" /> : <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />}
                                 <span>
                                   {metricLabel && <strong className="mr-1 text-white">{metricLabel} :</strong>}
                                   {signal.quality_issue && <strong className="mr-1 text-sky-200">À vérifier —</strong>}
@@ -649,10 +894,15 @@ const AnalysesLiveFeed: React.FC = () => {
                           )}
                         </div>
 
-                        <button type="button" onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200" aria-expanded={expanded}>
-                          {expanded ? 'Masquer le détail' : 'Voir l’analyse détaillée'}
-                          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                        </button>
+                        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                          <button type="button" onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)} className="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200" aria-expanded={expanded}>
+                            {expanded ? 'Masquer le détail' : 'Voir l’analyse détaillée'}
+                            {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                          </button>
+                          <a href={`/${row.scpi_slug}/`} className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200">
+                            Fiche complète <ArrowRight className="h-4 w-4" />
+                          </a>
+                        </div>
 
                         {expanded && (
                           <React.Suspense fallback={<div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />}>
@@ -660,9 +910,18 @@ const AnalysesLiveFeed: React.FC = () => {
                           </React.Suspense>
                         )}
 
-                        <a href={`/${row.scpi_slug}/`} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200">
-                          Voir la fiche complète de la SCPI <ArrowRight className="h-4 w-4" />
-                        </a>
+                        {riskLevel !== 'low' && (
+                          <div className="mt-4 rounded-xl border border-emerald-400/15 bg-emerald-400/[0.04] p-3.5">
+                            <div className="text-xs font-semibold text-white">Vous détenez cette SCPI ?</div>
+                            <p className="mt-1 text-xs leading-5 text-slate-400">Mesurez son poids dans votre allocation avant d’envisager un arbitrage.</p>
+                            <a
+                              href={`/?source=analyses&scpi=${encodeURIComponent(row.scpi_slug)}#quiz-section`}
+                              className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200"
+                            >
+                              Analyser mon portefeuille <ArrowRight className="h-3.5 w-3.5" />
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </article>
                   );
@@ -685,7 +944,7 @@ const AnalysesLiveFeed: React.FC = () => {
             )}
 
             <p className="mt-7 text-xs leading-6 text-slate-500">
-              « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ». Les repères MaximusSCPI servent à homogénéiser la lecture des signaux ; ils ne constituent ni une norme réglementaire, ni une recommandation personnalisée, ni une prévision de performance.
+              « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ». Les repères MaximusSCPI servent à homogénéiser la lecture des signaux ; les valeurs extrêmes sont rapprochées de l’historique disponible avant de pouvoir soutenir une vigilance élevée. Ces repères ne constituent ni une norme réglementaire, ni une recommandation personnalisée, ni une prévision de performance.
             </p>
           </>
         )}
