@@ -27,7 +27,7 @@ const LazyScpiQuarterlyAnalysis = React.lazy(() => import('./ScpiQuarterlyAnalys
 type RiskLevel = AnalysisRiskLevel;
 type AnalysisStatus = 'complete' | 'insufficient_history' | 'pending';
 type RiskFilter = 'all' | RiskLevel;
-type SortMode = 'recent' | 'risk';
+type SortMode = 'alpha' | 'recent' | 'risk';
 type AnalysisSignal = ReliableAnalysisSignal;
 
 type BulletinAnalysisRow = {
@@ -411,7 +411,7 @@ const AnalysesLiveFeed: React.FC = () => {
   const [sourceByPeriod, setSourceByPeriod] = useState<Record<string, BulletinSourceRow>>({});
   const [latestSourceBySlug, setLatestSourceBySlug] = useState<Record<string, BulletinSourceRow>>({});
   const [riskFilter, setRiskFilter] = useState<RiskFilter>('all');
-  const [sortMode, setSortMode] = useState<SortMode>('recent');
+  const [sortMode, setSortMode] = useState<SortMode>('alpha');
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(20);
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
@@ -540,6 +540,12 @@ const AnalysesLiveFeed: React.FC = () => {
   const sortedRows = useMemo(
     () =>
       [...displayRows].sort((a, b) => {
+        if (sortMode === 'alpha') {
+          const aName = names[a.row.scpi_slug] || humanizeSlug(a.row.scpi_slug);
+          const bName = names[b.row.scpi_slug] || humanizeSlug(b.row.scpi_slug);
+          return aName.localeCompare(bName, 'fr', { sensitivity: 'base', numeric: true });
+        }
+
         if (sortMode === 'recent') {
           const periodDiff = periodRank(b.row.current_period) - periodRank(a.row.current_period);
           if (periodDiff !== 0) return periodDiff;
@@ -559,7 +565,7 @@ const AnalysesLiveFeed: React.FC = () => {
         if (aTrend !== bTrend) return aTrend - bTrend;
         return periodRank(b.row.current_period) - periodRank(a.row.current_period);
       }),
-    [displayRows, sortMode]
+    [displayRows, names, sortMode]
   );
 
   const filteredRows = useMemo(() => {
@@ -788,6 +794,13 @@ const AnalysesLiveFeed: React.FC = () => {
                 </div>
 
                 <div className="inline-flex rounded-lg border border-slate-800 bg-slate-950/60 p-1" aria-label="Trier les analyses">
+                  <button
+                    type="button"
+                    onClick={() => setSortMode('alpha')}
+                    className={`flex items-center justify-center rounded-md px-3 py-1.5 text-xs font-semibold transition ${sortMode === 'alpha' ? 'bg-emerald-400/15 text-emerald-200' : 'text-slate-400 hover:text-white'}`}
+                  >
+                    A–Z
+                  </button>
                   <button
                     type="button"
                     onClick={() => setSortMode('recent')}
