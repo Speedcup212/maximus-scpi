@@ -726,26 +726,26 @@ const AnalysesLiveFeed: React.FC = () => {
             )}
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <button type="button" onClick={() => setRiskFilter('all')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'all' ? 'border-blue-400/40 bg-blue-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700'}`}>
-                <div className="text-2xl font-bold">{counts.all}</div>
-                <div className="mt-1 text-xs uppercase tracking-wide">SCPI analysées</div>
-              </button>
-              <button type="button" onClick={() => setRiskFilter('high')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'high' ? 'border-rose-400/40 bg-rose-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-rose-400/20'}`}>
+              <div className="rounded-xl border border-blue-400/25 bg-blue-400/[0.06] px-4 py-3 text-left">
+                <div className="text-2xl font-bold text-white">{counts.all}</div>
+                <div className="mt-1 text-xs uppercase tracking-wide text-slate-400">SCPI analysées</div>
+              </div>
+              <div className="rounded-xl border border-rose-400/20 bg-slate-950/60 px-4 py-3 text-left">
                 <div className="text-2xl font-bold text-rose-300">{counts.high}</div>
-                <div className="mt-1 text-xs uppercase tracking-wide">Vigilance élevée</div>
-              </button>
-              <button type="button" onClick={() => setRiskFilter('medium')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'medium' ? 'border-amber-400/40 bg-amber-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-amber-400/20'}`}>
+                <div className="mt-1 text-xs uppercase tracking-wide text-slate-400">Vigilance élevée</div>
+              </div>
+              <div className="rounded-xl border border-amber-400/20 bg-slate-950/60 px-4 py-3 text-left">
                 <div className="text-2xl font-bold text-amber-300">{counts.medium}</div>
-                <div className="mt-1 text-xs uppercase tracking-wide">Vigilance modérée</div>
-              </button>
-              <button type="button" onClick={() => setRiskFilter('low')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'low' ? 'border-emerald-400/40 bg-emerald-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-emerald-400/20'}`}>
+                <div className="mt-1 text-xs uppercase tracking-wide text-slate-400">Vigilance modérée</div>
+              </div>
+              <div className="rounded-xl border border-emerald-400/20 bg-slate-950/60 px-4 py-3 text-left">
                 <div className="text-2xl font-bold text-emerald-300">{counts.low}</div>
-                <div className="mt-1 text-xs uppercase tracking-wide">Vigilance faible</div>
-              </button>
+                <div className="mt-1 text-xs uppercase tracking-wide text-slate-400">Vigilance faible</div>
+              </div>
             </div>
 
-            <div className="mt-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-              <label className="relative block w-full lg:max-w-md">
+            <div className="mt-5 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+              <label className="relative block w-full xl:max-w-md">
                 <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 <input
                   type="search"
@@ -757,13 +757,31 @@ const AnalysesLiveFeed: React.FC = () => {
                 />
               </label>
 
-              <div className="inline-flex w-full rounded-xl border border-slate-700 bg-slate-950/80 p-1 lg:w-auto" aria-label="Trier les analyses">
-                <button type="button" onClick={() => setSortMode('recent')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${sortMode === 'recent' ? 'bg-sky-400/15 text-sky-200' : 'text-slate-400 hover:text-white'}`}>
-                  <Clock3 className="h-4 w-4" /> Récentes
-                </button>
-                <button type="button" onClick={() => setSortMode('risk')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${sortMode === 'risk' ? 'bg-rose-400/15 text-rose-200' : 'text-slate-400 hover:text-white'}`}>
-                  <ShieldAlert className="h-4 w-4" /> Plus vigilantes
-                </button>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-950/80 p-1.5" aria-label="Filtrer par niveau de vigilance">
+                  <span className="px-2 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">Filtrer</span>
+                  <button type="button" onClick={() => setRiskFilter('all')} aria-pressed={riskFilter === 'all'} className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${riskFilter === 'all' ? 'border-sky-400/30 bg-sky-400/15 text-sky-100' : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+                    Toutes <span className="ml-1 opacity-70">{counts.all}</span>
+                  </button>
+                  <button type="button" onClick={() => setRiskFilter('low')} aria-pressed={riskFilter === 'low'} className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${riskFilter === 'low' ? 'border-emerald-400/30 bg-emerald-400/15 text-emerald-100' : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+                    Faible <span className="ml-1 opacity-70">{counts.low}</span>
+                  </button>
+                  <button type="button" onClick={() => setRiskFilter('medium')} aria-pressed={riskFilter === 'medium'} className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${riskFilter === 'medium' ? 'border-amber-400/30 bg-amber-400/15 text-amber-100' : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+                    Modérée <span className="ml-1 opacity-70">{counts.medium}</span>
+                  </button>
+                  <button type="button" onClick={() => setRiskFilter('high')} aria-pressed={riskFilter === 'high'} className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${riskFilter === 'high' ? 'border-rose-400/30 bg-rose-400/15 text-rose-100' : 'border-transparent text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+                    Élevée <span className="ml-1 opacity-70">{counts.high}</span>
+                  </button>
+                </div>
+
+                <div className="inline-flex w-full rounded-xl border border-slate-700 bg-slate-950/80 p-1 sm:w-auto" aria-label="Trier les analyses">
+                  <button type="button" onClick={() => setSortMode('recent')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition sm:flex-none ${sortMode === 'recent' ? 'bg-sky-400/15 text-sky-200' : 'text-slate-400 hover:text-white'}`}>
+                    <Clock3 className="h-4 w-4" /> Récentes
+                  </button>
+                  <button type="button" onClick={() => setSortMode('risk')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition sm:flex-none ${sortMode === 'risk' ? 'bg-rose-400/15 text-rose-200' : 'text-slate-400 hover:text-white'}`}>
+                    <ShieldAlert className="h-4 w-4" /> Plus vigilantes
+                  </button>
+                </div>
               </div>
             </div>
 
