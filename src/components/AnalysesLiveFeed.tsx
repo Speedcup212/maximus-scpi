@@ -32,7 +32,6 @@ type RiskLevel = AnalysisRiskLevel;
 type AnalysisStatus = 'complete' | 'insufficient_history' | 'pending';
 type RiskFilter = 'all' | RiskLevel;
 type SortMode = 'recent' | 'risk';
-
 type AnalysisSignal = ReliableAnalysisSignal;
 
 type BulletinAnalysisRow = {
@@ -107,6 +106,13 @@ const signalToneClasses = {
   positive: 'border-emerald-400/20 bg-emerald-400/[0.05] text-emerald-100',
 };
 
+const signalToneLabels: Record<SignalWithTone['tone'], string> = {
+  alert: 'Point critique',
+  watch: 'À surveiller',
+  negative: 'Dégradation',
+  positive: 'Amélioration',
+};
+
 const formatPeriod = (value?: string | null) => {
   if (!value) return 'Période non précisée';
   const normalized = value.toUpperCase().trim();
@@ -131,7 +137,7 @@ const formatDate = (value?: string | null) => {
 const formatPct = (value?: number) =>
   typeof value === 'number' && Number.isFinite(value)
     ? `${value.toFixed(1).replace('.', ',')} %`
-    : 'n.d.';
+    : 'N.D.';
 
 const humanizeSlug = (slug: string) =>
   slug
@@ -150,6 +156,14 @@ const normalizePeriod = (value?: string | null) =>
     .replace(/Q/g, 'T')
     .replace(/[_/]/g, '-');
 
+const normalizeMetric = (value?: string) =>
+  (value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+
 const periodRank = (value?: string | null) => {
   const normalized = normalizePeriod(value);
   const yearFirst = normalized.match(/(20\d{2})-?T([1-4])/);
@@ -166,8 +180,7 @@ const normalizeSearchText = (value: string) =>
     .toLowerCase()
     .trim();
 
-const validExternalUrl = (value?: string | null) =>
-  Boolean(value && /^https?:\/\//i.test(value));
+const validExternalUrl = (value?: string | null) => Boolean(value && /^https?:\/\//i.test(value));
 
 const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
   const buckets: SignalWithTone[] = [
@@ -184,6 +197,38 @@ const getSignals = (row: BulletinAnalysisRow): SignalWithTone[] => {
     seen.add(key);
     return true;
   });
+};
+
+const getThresholdText = (signal: SignalWithTone) => {
+  const key = normalizeMetric(signal.metric);
+  if (key === 'tof' || key === 'taux_occupation_financier') {
+    return 'Repère MaximusSCPI : < 85 % = vigilance élevée ; 85–90 % = vigilance modérée.';
+  }
+  if (key === 'liquidite_retraits' || key === 'parts_attente_retrait' || key === 'parts_en_attente_de_retrait') {
+    return 'Repère MaximusSCPI : ≥ 5 % de parts en attente = vigilance élevée ; 2–5 % = vigilance modérée.';
+  }
+  if (key === 'surcote_reconstitution') {
+    return 'Repère MaximusSCPI : ≥ 15 % = vigilance élevée ; 5–15 % = vigilance modérée.';
+  }
+  if (key === 'endettement' || key === 'dette') {
+    return 'Repère MaximusSCPI : ≥ 40 % = vigilance élevée ; 30–40 % = vigilance modérée.';
+  }
+  return null;
+};
+
+const getDiscountPresentation = (metrics?: ScpiMetrics) => {
+  if (!metrics) return { label: 'Décote / surcote', value: 'N.D.' };
+  const value = metrics.discount;
+  const invalid =
+    metrics.discountQaStatus === 'manual_review' ||
+    metrics.discountQaStatus === 'excluded_non_scpi' ||
+    !Number.isFinite(value) ||
+    Math.abs(value) >= 50;
+
+  if (invalid) return { label: 'Décote / surcote', value: 'N.D.' };
+  if (value > 0.05) return { label: 'Surcote', value: formatPct(Math.abs(value)) };
+  if (value < -0.05) return { label: 'Décote', value: formatPct(Math.abs(value)) };
+  return { label: 'Écart', value: '0,0 %' };
 };
 
 const freshnessOrder: Record<AnalysisFreshness, number> = {
@@ -309,27 +354,21 @@ const AnalysesLiveFeed: React.FC = () => {
       if (sortMode === 'recent') {
         const periodDiff = periodRank(b.row.current_period) - periodRank(a.row.current_period);
         if (periodDiff !== 0) return periodDiff;
-
         const freshnessDiff = freshnessOrder[a.freshness] - freshnessOrder[b.freshness];
         if (freshnessDiff !== 0) return freshnessDiff;
-
         const generatedDiff =
           new Date(b.row.generated_at || 0).getTime() - new Date(a.row.generated_at || 0).getTime();
         if (generatedDiff !== 0) return generatedDiff;
-
         return riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
       }
 
       const riskDiff = riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
       if (riskDiff !== 0) return riskDiff;
-
       const aTrend = Number(a.row.trend_score ?? 0);
       const bTrend = Number(b.row.trend_score ?? 0);
       if (aTrend !== bTrend) return aTrend - bTrend;
-
       const periodDiff = periodRank(b.row.current_period) - periodRank(a.row.current_period);
       if (periodDiff !== 0) return periodDiff;
-
       return new Date(b.row.generated_at || 0).getTime() - new Date(a.row.generated_at || 0).getTime();
     });
   }, [displayRows, sortMode]);
@@ -354,6 +393,37 @@ const AnalysesLiveFeed: React.FC = () => {
     [displayRows]
   );
 
+  const marketMovements = useMemo(() => {
+    const candidates = [...displayRows]
+      .filter((item) => item.freshness === 'recent' && item.riskLevel !== 'low')
+      .sort((a, b) => {
+        const riskDiff = riskConfig[a.riskLevel].order - riskConfig[b.riskLevel].order;
+        if (riskDiff !== 0) return riskDiff;
+        return periodRank(b.row.current_period) - periodRank(a.row.current_period);
+      });
+
+    return candidates
+      .map((item) => {
+        const signal = item.signals.find((candidate) => !candidate.quality_issue && candidate.tone !== 'positive');
+        if (!signal) return null;
+        return {
+          slug: item.row.scpi_slug,
+          name: names[item.row.scpi_slug] || humanizeSlug(item.row.scpi_slug),
+          riskLevel: item.riskLevel,
+          signal,
+          period: formatPeriod(item.row.current_period),
+        };
+      })
+      .filter(Boolean)
+      .slice(0, 4) as Array<{
+        slug: string;
+        name: string;
+        riskLevel: RiskLevel;
+        signal: SignalWithTone;
+        period: string;
+      }>;
+  }, [displayRows, names]);
+
   const latestGeneratedAt = useMemo(() => {
     const timestamps = rows
       .map((row) => (row.generated_at ? new Date(row.generated_at).getTime() : 0))
@@ -364,17 +434,16 @@ const AnalysesLiveFeed: React.FC = () => {
 
   return (
     <section id="analyses-scpi" className="border-y border-slate-800 bg-slate-900/30">
-      <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
+      <div className="mx-auto max-w-[1500px] px-6 py-14 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-emerald-300">
               <RefreshCw className="h-4 w-4" />
               Flux d’analyses réel
             </div>
-            <h2 className="mt-2 text-3xl font-bold text-white">Ce que disent les derniers bulletins SCPI</h2>
+            <h2 className="mt-2 text-3xl font-bold text-white">Ce qui change sur le marché des SCPI</h2>
             <p className="mt-3 leading-7 text-slate-400">
-              Cette sélection est alimentée automatiquement par les bulletins collectés et analysés par MaximusSCPI.
-              Une vigilance élevée n’est affichée que lorsqu’un signal sévère est explicitement documenté ; les valeurs douteuses sont neutralisées et signalées à vérifier.
+              Les bulletins collectés sont comparés, contrôlés et synthétisés. Une vigilance élevée n’est conservée que lorsqu’un signal sévère comporte une preuve chiffrée exploitable ; une donnée incohérente est neutralisée au lieu d’être transformée en alerte.
             </p>
           </div>
           {latestGeneratedAt && (
@@ -392,57 +461,60 @@ const AnalysesLiveFeed: React.FC = () => {
             ))}
           </div>
         ) : error ? (
-          <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950/70 p-6 text-slate-400">
-            {error}
-          </div>
+          <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950/70 p-6 text-slate-400">{error}</div>
         ) : (
           <>
+            {marketMovements.length > 0 && (
+              <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950/65 p-5 lg:p-6">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-rose-300">Radar du marché</p>
+                    <h3 className="mt-1 text-xl font-bold text-white">Les mouvements à surveiller maintenant</h3>
+                  </div>
+                  <span className="text-xs text-slate-500">Sélection automatique · données récentes uniquement</span>
+                </div>
+                <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                  {marketMovements.map((movement) => (
+                    <a
+                      key={movement.slug}
+                      href={`/${movement.slug}/`}
+                      className="rounded-xl border border-slate-800 bg-slate-900/75 p-4 transition hover:border-slate-700 hover:bg-slate-900"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="font-bold text-white" translate="no">{movement.name}</div>
+                          <div className="mt-1 text-xs text-slate-500">{movement.period}</div>
+                        </div>
+                        <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${riskConfig[movement.riskLevel].classes}`}>
+                          {movement.riskLevel === 'high' ? 'Élevée' : 'Modérée'}
+                        </span>
+                      </div>
+                      <div className="mt-3 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                        {signalToneLabels[movement.signal.tone]}
+                      </div>
+                      <p className="mt-1 line-clamp-3 text-sm leading-6 text-slate-300">
+                        {movement.signal.message || 'Évolution détectée dans le dernier bulletin.'}
+                      </p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <button
-                type="button"
-                onClick={() => setRiskFilter('all')}
-                className={`rounded-xl border px-4 py-3 text-left transition ${
-                  riskFilter === 'all'
-                    ? 'border-blue-400/40 bg-blue-400/10 text-white'
-                    : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700'
-                }`}
-              >
+              <button type="button" onClick={() => setRiskFilter('all')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'all' ? 'border-blue-400/40 bg-blue-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700'}`}>
                 <div className="text-2xl font-bold">{counts.all}</div>
                 <div className="mt-1 text-xs uppercase tracking-wide">SCPI analysées</div>
               </button>
-              <button
-                type="button"
-                onClick={() => setRiskFilter('high')}
-                className={`rounded-xl border px-4 py-3 text-left transition ${
-                  riskFilter === 'high'
-                    ? 'border-rose-400/40 bg-rose-400/10 text-white'
-                    : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-rose-400/20'
-                }`}
-              >
+              <button type="button" onClick={() => setRiskFilter('high')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'high' ? 'border-rose-400/40 bg-rose-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-rose-400/20'}`}>
                 <div className="text-2xl font-bold text-rose-300">{counts.high}</div>
                 <div className="mt-1 text-xs uppercase tracking-wide">Vigilance élevée</div>
               </button>
-              <button
-                type="button"
-                onClick={() => setRiskFilter('medium')}
-                className={`rounded-xl border px-4 py-3 text-left transition ${
-                  riskFilter === 'medium'
-                    ? 'border-amber-400/40 bg-amber-400/10 text-white'
-                    : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-amber-400/20'
-                }`}
-              >
+              <button type="button" onClick={() => setRiskFilter('medium')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'medium' ? 'border-amber-400/40 bg-amber-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-amber-400/20'}`}>
                 <div className="text-2xl font-bold text-amber-300">{counts.medium}</div>
                 <div className="mt-1 text-xs uppercase tracking-wide">Vigilance modérée</div>
               </button>
-              <button
-                type="button"
-                onClick={() => setRiskFilter('low')}
-                className={`rounded-xl border px-4 py-3 text-left transition ${
-                  riskFilter === 'low'
-                    ? 'border-emerald-400/40 bg-emerald-400/10 text-white'
-                    : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-emerald-400/20'
-                }`}
-              >
+              <button type="button" onClick={() => setRiskFilter('low')} className={`rounded-xl border px-4 py-3 text-left transition ${riskFilter === 'low' ? 'border-emerald-400/40 bg-emerald-400/10 text-white' : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-emerald-400/20'}`}>
                 <div className="text-2xl font-bold text-emerald-300">{counts.low}</div>
                 <div className="mt-1 text-xs uppercase tracking-wide">Vigilance faible</div>
               </button>
@@ -462,35 +534,17 @@ const AnalysesLiveFeed: React.FC = () => {
               </label>
 
               <div className="inline-flex w-full rounded-xl border border-slate-700 bg-slate-950/80 p-1 lg:w-auto" aria-label="Trier les analyses">
-                <button
-                  type="button"
-                  onClick={() => setSortMode('recent')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${
-                    sortMode === 'recent'
-                      ? 'bg-sky-400/15 text-sky-200'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <Clock3 className="h-4 w-4" />
-                  Récentes
+                <button type="button" onClick={() => setSortMode('recent')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${sortMode === 'recent' ? 'bg-sky-400/15 text-sky-200' : 'text-slate-400 hover:text-white'}`}>
+                  <Clock3 className="h-4 w-4" /> Récentes
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setSortMode('risk')}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${
-                    sortMode === 'risk'
-                      ? 'bg-rose-400/15 text-rose-200'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <ShieldAlert className="h-4 w-4" />
-                  Plus vigilantes
+                <button type="button" onClick={() => setSortMode('risk')} className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition lg:flex-none ${sortMode === 'risk' ? 'bg-rose-400/15 text-rose-200' : 'text-slate-400 hover:text-white'}`}>
+                  <ShieldAlert className="h-4 w-4" /> Plus vigilantes
                 </button>
               </div>
             </div>
 
             <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.05] px-4 py-3 text-sm leading-6 text-slate-300">
-              <strong className="text-amber-200">Comment lire une vigilance :</strong> elle ne constitue ni une recommandation d’acheter, de conserver ou de vendre une SCPI. Elle signale un indicateur documenté qui mérite d’être approfondi. Le badge de qualité des données précise séparément si la comparaison historique est complète ou partielle.
+              <strong className="text-amber-200">Comment lire une vigilance :</strong> elle ne constitue ni une recommandation d’acheter, de conserver ou de vendre une SCPI. Elle signale un indicateur documenté qui mérite d’être approfondi. Les valeurs non fiables sont affichées « N.D. » et ne servent pas à déclencher une vigilance.
             </div>
 
             {filteredRows.length ? (
@@ -506,45 +560,28 @@ const AnalysesLiveFeed: React.FC = () => {
                   const riskWasDowngraded = row.risk_level === 'high' && riskLevel !== 'high';
                   const expanded = expandedSlug === row.scpi_slug;
                   const metrics = metricsBySlug[row.scpi_slug];
-                  const dataStatusLabel = row.status === 'pending'
-                    ? 'Analyse en cours'
-                    : hasHistory
-                      ? 'Données comparables'
-                      : 'Historique partiel';
+                  const discountPresentation = getDiscountPresentation(metrics);
+                  const dataStatusLabel = row.status === 'pending' ? 'Analyse en cours' : hasHistory ? 'Données comparables' : 'Historique partiel';
                   const dataStatusClasses = row.status === 'pending'
                     ? 'border-sky-400/25 bg-sky-400/[0.08] text-sky-200'
                     : hasHistory
                       ? 'border-emerald-400/25 bg-emerald-400/[0.08] text-emerald-200'
                       : 'border-amber-400/25 bg-amber-400/[0.08] text-amber-200';
-                  const discountLabel = metrics?.discountQaStatus === 'manual_review'
-                    ? 'à vérifier'
-                    : formatPct(metrics?.discount);
+                  const visibleSignals = signals.slice(0, 2);
+                  const hiddenSignalCount = Math.max(0, signals.length - visibleSignals.length);
 
                   return (
-                    <article
-                      key={row.scpi_slug}
-                      className="flex min-h-[22rem] flex-col rounded-2xl border border-slate-800 bg-slate-950/75 p-5 transition hover:border-slate-700"
-                    >
+                    <article key={row.scpi_slug} className="flex min-h-[21rem] flex-col rounded-2xl border border-slate-800 bg-slate-950/75 p-5 transition hover:border-slate-700">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <h3 className="truncate text-lg font-bold text-white" translate="no">{name}</h3>
-                          <div className="mt-1 text-xs text-slate-500">
-                            {hasHistory
-                              ? `${formatPeriod(row.previous_period)} → ${formatPeriod(row.current_period)}`
-                              : formatPeriod(row.current_period)}
-                          </div>
+                          <div className="mt-1 text-xs text-slate-500">{hasHistory ? `${formatPeriod(row.previous_period)} → ${formatPeriod(row.current_period)}` : formatPeriod(row.current_period)}</div>
                           <div className="mt-2 flex flex-wrap gap-1.5">
-                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${freshnessClasses[freshness]}`}>
-                              {freshnessLabel[freshness]}
-                            </span>
-                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${dataStatusClasses}`}>
-                              {dataStatusLabel}
-                            </span>
+                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${freshnessClasses[freshness]}`}>{freshnessLabel[freshness]}</span>
+                            <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${dataStatusClasses}`}>{dataStatusLabel}</span>
                           </div>
                         </div>
-                        <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${risk.classes}`}>
-                          {risk.label}
-                        </span>
+                        <span className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${risk.classes}`}>{risk.label}</span>
                       </div>
 
                       {metrics && (
@@ -553,7 +590,7 @@ const AnalysesLiveFeed: React.FC = () => {
                             ['TD', formatPct(metrics.yield)],
                             ['TOF', formatPct(metrics.tof)],
                             ['Dette', formatPct(metrics.debt)],
-                            ['Décote', discountLabel],
+                            [discountPresentation.label, discountPresentation.value],
                           ].map(([label, value]) => (
                             <div key={label} className="rounded-lg border border-slate-800 bg-slate-900/70 px-2.5 py-2">
                               <div className="text-[9px] font-semibold uppercase tracking-wide text-slate-500">{label}</div>
@@ -565,43 +602,35 @@ const AnalysesLiveFeed: React.FC = () => {
 
                       {riskWasDowngraded && (
                         <div className="mt-4 rounded-xl border border-sky-400/20 bg-sky-400/[0.05] px-3.5 py-3 text-xs leading-5 text-sky-100">
-                          Niveau élevé neutralisé : aucun signal sévère documenté ne permet de justifier publiquement ce niveau de vigilance.
+                          Niveau élevé neutralisé : aucun signal sévère suffisamment documenté ne permet de justifier publiquement ce niveau de vigilance.
                         </div>
                       )}
 
                       <div className="mt-5 space-y-2.5">
-                        {signals.slice(0, 3).map((signal, index) => {
+                        {visibleSignals.map((signal, index) => {
                           const metricLabel = humanizeAnalysisMetric(signal.metric);
+                          const thresholdText = getThresholdText(signal);
                           return (
-                            <div
-                              key={`${signal.metric || 'signal'}-${index}`}
-                              className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}
-                            >
+                            <div key={`${signal.metric || 'signal'}-${index}`} className={`rounded-xl border px-3.5 py-3 text-sm leading-6 ${signalToneClasses[signal.tone]}`}>
+                              <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] opacity-80">{signalToneLabels[signal.tone]}</div>
                               <div className="flex gap-2.5">
-                                {signal.quality_issue ? (
-                                  <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" />
-                                ) : signal.tone === 'alert' ? (
-                                  <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" />
-                                ) : signal.tone === 'negative' ? (
-                                  <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" />
-                                ) : signal.tone === 'positive' ? (
-                                  <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
-                                ) : (
-                                  <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />
-                                )}
+                                {signal.quality_issue ? <FileSearch className="mt-1 h-4 w-4 shrink-0 text-sky-300" /> : signal.tone === 'alert' ? <ShieldAlert className="mt-1 h-4 w-4 shrink-0 text-rose-300" /> : signal.tone === 'negative' ? <TrendingDown className="mt-1 h-4 w-4 shrink-0 text-orange-300" /> : signal.tone === 'positive' ? <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" /> : <AlertTriangle className="mt-1 h-4 w-4 shrink-0 text-amber-300" />}
                                 <span>
-                                  {metricLabel && (
-                                    <strong className="mr-1 text-white">{metricLabel} :</strong>
-                                  )}
-                                  {signal.quality_issue && (
-                                    <strong className="mr-1 text-sky-200">À vérifier —</strong>
-                                  )}
+                                  {metricLabel && <strong className="mr-1 text-white">{metricLabel} :</strong>}
+                                  {signal.quality_issue && <strong className="mr-1 text-sky-200">À vérifier —</strong>}
                                   {signal.message || 'Signal détecté sur le dernier bulletin.'}
                                 </span>
                               </div>
+                              {thresholdText && !signal.quality_issue && <div className="mt-2 border-t border-white/10 pt-2 text-[11px] leading-5 opacity-75">{thresholdText}</div>}
                             </div>
                           );
                         })}
+
+                        {hiddenSignalCount > 0 && (
+                          <button type="button" onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)} className="w-full rounded-lg border border-slate-800 bg-slate-900/50 px-3 py-2 text-left text-xs font-semibold text-slate-300 hover:border-slate-700 hover:text-white">
+                            + {hiddenSignalCount} autre{hiddenSignalCount > 1 ? 's' : ''} point{hiddenSignalCount > 1 ? 's' : ''} à analyser
+                          </button>
+                        )}
 
                         {!signals.length && (
                           <div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[0.04] px-3.5 py-3 text-sm leading-6 text-slate-400">
@@ -614,44 +643,25 @@ const AnalysesLiveFeed: React.FC = () => {
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-slate-800 pt-4 text-xs text-slate-500">
                           {generatedAt && <span>Analyse générée le {generatedAt}</span>}
                           {sourceUrl && (
-                            <a
-                              href={sourceUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-1 font-semibold text-sky-300 hover:text-sky-200"
-                            >
-                              Bulletin source
-                              <ExternalLink className="h-3 w-3" />
+                            <a href={sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-semibold text-sky-300 hover:text-sky-200">
+                              Bulletin source <ExternalLink className="h-3 w-3" />
                             </a>
                           )}
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)}
-                          className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200"
-                          aria-expanded={expanded}
-                        >
-                          {expanded ? 'Masquer le détail' : 'Voir le détail des vigilances'}
+                        <button type="button" onClick={() => setExpandedSlug(expanded ? null : row.scpi_slug)} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-emerald-200" aria-expanded={expanded}>
+                          {expanded ? 'Masquer le détail' : 'Voir l’analyse détaillée'}
                           {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                         </button>
 
                         {expanded && (
-                          <React.Suspense
-                            fallback={
-                              <div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />
-                            }
-                          >
+                          <React.Suspense fallback={<div className="mt-4 h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900" />}>
                             <LazyScpiQuarterlyAnalysis scpiKey={row.scpi_slug} inline />
                           </React.Suspense>
                         )}
 
-                        <a
-                          href={`/${row.scpi_slug}/`}
-                          className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
-                        >
-                          Voir la fiche complète de la SCPI
-                          <ArrowRight className="h-4 w-4" />
+                        <a href={`/${row.scpi_slug}/`} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200">
+                          Voir la fiche complète de la SCPI <ArrowRight className="h-4 w-4" />
                         </a>
                       </div>
                     </article>
@@ -662,35 +672,20 @@ const AnalysesLiveFeed: React.FC = () => {
               <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950/70 p-8 text-center">
                 <Search className="mx-auto h-6 w-6 text-slate-600" />
                 <p className="mt-3 font-semibold text-white">Aucune SCPI ne correspond à cette recherche.</p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery('');
-                    setRiskFilter('all');
-                  }}
-                  className="mt-3 text-sm font-semibold text-emerald-300 hover:text-emerald-200"
-                >
-                  Réinitialiser les filtres
-                </button>
+                <button type="button" onClick={() => { setSearchQuery(''); setRiskFilter('all'); }} className="mt-3 text-sm font-semibold text-emerald-300 hover:text-emerald-200">Réinitialiser les filtres</button>
               </div>
             )}
 
             {visibleCount < filteredRows.length && (
               <div className="mt-7 text-center">
-                <button
-                  type="button"
-                  onClick={() => setVisibleCount((count) => count + 12)}
-                  className="rounded-lg border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-600 hover:bg-slate-800"
-                >
+                <button type="button" onClick={() => setVisibleCount((count) => count + 12)} className="rounded-lg border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-600 hover:bg-slate-800">
                   Afficher 12 analyses supplémentaires
                 </button>
               </div>
             )}
 
             <p className="mt-7 text-xs leading-6 text-slate-500">
-              « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ».
-              Le tri « Récentes » privilégie la période du bulletin puis la date de génération ; le tri « Plus vigilantes » privilégie le niveau de vigilance et la tendance.
-              Les niveaux de vigilance synthétisent des indicateurs publiés dans les bulletins et servent à identifier les points à approfondir ; ils ne constituent ni une recommandation personnalisée, ni une prévision de performance.
+              « Récent » correspond au trimestre courant ou aux deux trimestres précédents. Une donnée plus ancienne est signalée « Ancien ». Les repères MaximusSCPI servent à homogénéiser la lecture des signaux ; ils ne constituent ni une norme réglementaire, ni une recommandation personnalisée, ni une prévision de performance.
             </p>
           </>
         )}
