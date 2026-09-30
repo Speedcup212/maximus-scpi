@@ -85,40 +85,121 @@ const analysisGrid = [
 
 const AnalysesPage: React.FC = () => {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="analyses-mobile-optimized min-h-screen bg-slate-950 text-white">
+      <style>{`
+        @media (max-width: 1023px) {
+          .analyses-mobile-optimized #analyses-scpi > div {
+            display: flex;
+            flex-direction: column;
+            padding-top: 1.25rem;
+            padding-bottom: 2rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .flex.flex-col.gap-5 {
+            order: 0;
+            gap: 0.5rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .flex.flex-col.gap-5 h2 {
+            margin-top: 0.35rem;
+            font-size: 1.35rem;
+            line-height: 1.75rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .flex.flex-col.gap-5 p {
+            display: none;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-8.rounded-xl.border {
+            display: none;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-6.grid.grid-cols-2 {
+            order: 1;
+            margin-top: 0.85rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.25rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-6.grid.grid-cols-2 > div {
+            padding: 0.4rem 0.2rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-6.grid.grid-cols-2 > div > div:first-child {
+            font-size: 1rem;
+            line-height: 1.25rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-6.grid.grid-cols-2 > div > div:last-child {
+            font-size: 0.48rem;
+            line-height: 0.7rem;
+            letter-spacing: 0.025em;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-5.flex.flex-col {
+            order: 2;
+            margin-top: 0.75rem;
+            gap: 0.55rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi [aria-label="Trier les analyses"] {
+            display: none;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > p.mt-3 {
+            display: none;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-5.divide-y {
+            order: 3;
+            margin-top: 0.75rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > .mt-6.text-center {
+            order: 4;
+            margin-top: 1rem;
+          }
+
+          .analyses-mobile-optimized #analyses-scpi > div > p.mt-6 {
+            order: 5;
+            margin-top: 1rem;
+          }
+        }
+      `}</style>
+
       <section className="relative overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.16),transparent_34%),radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.10),transparent_28%)]" />
-        <div className="relative mx-auto grid max-w-[1500px] gap-10 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-20">
+        <div className="relative mx-auto grid max-w-[1500px] gap-10 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-20">
           <div className="max-w-4xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300 sm:mb-5">
               <Radar className="h-4 w-4" />
               MaximusSCPI Analyses
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
               Analyser une SCPI avant de regarder son rendement
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
               La performance affichée n’est qu’un résultat. MaximusSCPI analyse ce qui la produit,
               si elle est soutenable et quels risques peuvent dégrader la valeur ou la liquidité des parts.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3 sm:mt-8">
               <a
                 href="#analyses-scpi"
-                className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
+                className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400 sm:px-5 sm:py-3"
               >
-                Voir les dernières analyses
+                Voir les analyses
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="/methodologie-donnees-scpi/"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/70 px-5 py-3 text-sm font-semibold text-white transition hover:border-slate-500 hover:bg-slate-900"
+                className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-sm font-semibold text-white transition hover:border-slate-500 hover:bg-slate-900 sm:px-5 sm:py-3"
               >
-                Voir la méthodologie
+                Méthodologie
               </a>
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <div className="hidden gap-3 lg:grid lg:grid-cols-1 xl:grid-cols-2">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
               <div className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-300">Surveillance continue</div>
               <div className="mt-2 text-xl font-bold text-white">Bulletins SCPI analysés automatiquement</div>
