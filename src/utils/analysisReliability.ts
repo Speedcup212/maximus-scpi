@@ -245,12 +245,27 @@ export const hasDocumentedModerateSignal = (signals: ReliableAnalysisSignal[]) =
     );
   });
 
+const hasDocumentedNonSevereHighSignal = (signals: ReliableAnalysisSignal[]) =>
+  signals.some((signal) => {
+    const sanitized = sanitizeAnalysisSignal(signal);
+    return (
+      sanitized.severity === 'high' &&
+      !sanitized.quality_issue &&
+      typeof sanitized.message === 'string' &&
+      sanitized.message.trim().length >= 12 &&
+      hasNumericEvidence(sanitized.message)
+    );
+  });
+
 export const getEffectiveRiskLevel = (
   _rawRisk: AnalysisRiskLevel,
   signals: ReliableAnalysisSignal[]
 ): AnalysisRiskLevel => {
   if (hasDocumentedSevereSignal(signals)) return 'high';
   if (hasDocumentedModerateSignal(signals)) return 'medium';
+  // Un signal élevé documenté qui ne franchit pas une règle quantitative explicite
+  // est conservé au niveau modéré plutôt que d'être artificiellement ramené à faible.
+  if (hasDocumentedNonSevereHighSignal(signals)) return 'medium';
   return 'low';
 };
 
