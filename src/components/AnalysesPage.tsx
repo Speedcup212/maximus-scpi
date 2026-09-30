@@ -88,7 +88,7 @@ const AnalysesPage: React.FC = () => {
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="relative overflow-hidden border-b border-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.16),transparent_34%),radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.10),transparent_28%)]" />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
+        <div className="relative mx-auto grid max-w-[1500px] gap-10 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-20">
           <div className="max-w-4xl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
               <Radar className="h-4 w-4" />
@@ -115,6 +115,29 @@ const AnalysesPage: React.FC = () => {
               >
                 Voir la méthodologie
               </a>
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-300">Surveillance continue</div>
+              <div className="mt-2 text-xl font-bold text-white">Bulletins SCPI analysés automatiquement</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Comparaison des périodes, détection des dégradations, améliorations et tensions de liquidité.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-sky-300">Contrôle qualité</div>
+              <div className="mt-2 text-xl font-bold text-white">Les données douteuses sont neutralisées</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Une valeur incohérente devient « N.D. » et ne déclenche pas artificiellement une vigilance.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-amber-300">Lecture multi-critères</div>
+              <div className="mt-2 text-xl font-bold text-white">Rendement, TOF, dette, valorisation, liquidité</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Aucun score unique ne remplace la lecture séparée des fondamentaux et de leur trajectoire.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/65 p-5">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-rose-300">Traçabilité</div>
+              <div className="mt-2 text-xl font-bold text-white">Chaque signal doit rester vérifiable</div>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Période, source, valeur observée et repère d’analyse doivent permettre de comprendre l’origine de la vigilance.</p>
             </div>
           </div>
         </div>
