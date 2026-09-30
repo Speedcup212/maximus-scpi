@@ -25,25 +25,37 @@ const client = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
-const { data, error } = await client
-  .from('scpi_indicators')
-  .select('*')
-  .limit(5000);
+const [{ data, error }, { data: analysisData, error: analysisError }] = await Promise.all([
+  client.from('scpi_indicators').select('*').limit(5000),
+  client
+    .from('scpi_bulletin_analysis')
+    .select('scpi_slug,certification_status,current_source_certified,structural_event_detected')
+    .limit(5000),
+]);
 
 if (error) {
   console.error('[SCPI catalog] Lecture Supabase impossible :', error.message);
   process.exit(1);
 }
+if (analysisError) {
+  console.error('[SCPI catalog] Lecture certification impossible :', analysisError.message);
+  process.exit(1);
+}
 
 const bySlug = new Map((data || []).map((row: any) => [row.scpi_slug, row]));
+const certificationBySlug = new Map((analysisData || []).map((row: any) => [row.scpi_slug, row]));
 
 const assign = (target: Record<string, any>, key: string, value: unknown) => {
   if (value !== null && value !== undefined && value !== '') target[key] = value;
 };
 
+const isManualVerified = (status: unknown) => /^manual_verified/i.test(String(status || ''));
+
 for (const scpi of catalog) {
-  const row: any = bySlug.get(slugify(scpi['Nom SCPI']));
+  const slug = slugify(scpi['Nom SCPI']);
+  const row: any = bySlug.get(slug);
   if (!row) continue;
+  const certification: any = certificationBySlug.get(slug);
 
   assign(scpi, 'Taux de distribution (%)', row.td);
   assign(scpi, 'TOF (%)', row.tof);
@@ -70,6 +82,7 @@ for (const scpi of catalog) {
   assign(scpi, 'maximus_source_periode', row.source_period);
   assign(scpi, 'maximus_source_document', row.source_document);
   assign(scpi, 'maximus_data_status', row.qa_status);
+  assign(scpi, 'maximus_certification_status', certification?.certification_status);
   assign(scpi, 'Date de mise à jour', row.updated_at);
 
   if (row.repartition_sectorielle && typeof row.repartition_sectorielle === 'object') {
@@ -81,11 +94,19 @@ for (const scpi of catalog) {
 
   const price = Number(row.prix_souscription);
   const reconstitution = Number(row.prix_reconstitution);
-  if (Number.isFinite(price) && Number.isFinite(reconstitution) && reconstitution > 0) {
+  const valuesPresent = Number.isFinite(price) && Number.isFinite(reconstitution) && reconstitution > 0;
+  const priceSemanticsCertified =
+    valuesPresent &&
+    isManualVerified(row.qa_status) &&
+    certification?.current_source_certified === true &&
+    certification?.structural_event_detected !== true &&
+    String(row.capital_type || '').toLowerCase() === 'variable';
+
+  if (valuesPresent) {
     scpi['Surcote/décote (%)'] = ((price - reconstitution) / reconstitution) * 100;
-    scpi['Décote/Surcote QA'] = 'publishable';
   }
+  scpi['Décote/Surcote QA'] = priceSemanticsCertified ? 'publishable' : 'manual_review';
 }
 
 fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + '\n', 'utf-8');
-console.log(`[SCPI catalog] ${bySlug.size} lignes live superposées avant build.`);
+console.log(`[SCPI catalog] ${bySlug.size} lignes live superposées avant build ; décote/surcote publiée uniquement après certification sémantique manuelle.`);
