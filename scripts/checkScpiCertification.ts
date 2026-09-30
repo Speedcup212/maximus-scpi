@@ -4,8 +4,6 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  // Generic CI (e.g. GitHub PR builds) does not receive production Supabase secrets.
-  // Production/Netlify builds do: there, this check is fail-closed.
   console.warn('[SCPI certification] Supabase non configuré dans cet environnement : contrôle distant ignoré.');
   process.exit(0);
 }
@@ -33,16 +31,16 @@ const trendMetrics = new Set([
   'capital_type',
 ]);
 const priceGapMetrics = new Set(['surcote_reconstitution', 'decote_reconstitution']);
-const violations: string[] = [];
+const liquidityMetrics = new Set(['liquidite_retraits', 'parts_attente_retrait', 'parts_en_attente_de_retrait']);
 const acceptedAnalysisVersions = new Set([
   '2026-09-30-v4-certified',
   '2026-09-30-v5-liquidity',
 ]);
+const violations: string[] = [];
 
 const asArray = (value: unknown): Record<string, any>[] => Array.isArray(value) ? value as Record<string, any>[] : [];
 
-const validateHighAlertProof = (slug: string, alert: Record<string, any>) => {
-  const metric = String(alert.metric || '?');
+const validateEmbeddedProof = (slug: string, metric: string, alert: Record<string, any>) => {
   const certification = alert.certification && typeof alert.certification === 'object'
     ? alert.certification as Record<string, any>
     : null;
@@ -79,6 +77,7 @@ const validateHighAlertProof = (slug: string, alert: Record<string, any>) => {
 
 for (const row of data || []) {
   const slug = String(row.scpi_slug || '?');
+  const version = String(row.analysis_version || '');
   const alerts = asArray(row.alerts);
   const watches = asArray(row.watch_points);
   const improvements = asArray(row.improvements);
@@ -94,7 +93,27 @@ for (const row of data || []) {
   if (row.risk_level === 'high' && highAlerts.length === 0) {
     violations.push(`${slug}: vigilance élevée sans alerte élevée certifiée`);
   }
-  for (const alert of highAlerts) validateHighAlertProof(slug, alert);
+
+  for (const alert of highAlerts) {
+    const metric = String(alert.metric || '?');
+
+    // Doctrine v5 : les alertes de liquidité sont reconstruites côté base après
+    // contrôle documentaire du ratio. Elles n'embarquent plus l'ancien objet
+    // `certification` v4 dans le JSON de l'alerte. On contrôle donc ici les
+    // invariants v5 visibles : source courante certifiée + ratio >= 5 %.
+    if (version === '2026-09-30-v5-liquidity' && liquidityMetrics.has(metric)) {
+      const ratio = Number(alert.ratio_pct);
+      if (row.current_source_certified !== true) {
+        violations.push(`${slug}: alerte liquidité v5 sans source courante certifiée`);
+      }
+      if (!Number.isFinite(ratio) || ratio < 5) {
+        violations.push(`${slug}: alerte liquidité v5 élevée sans ratio >= 5 %`);
+      }
+      continue;
+    }
+
+    validateEmbeddedProof(slug, metric, alert);
+  }
 
   if (row.current_source_certified === true && !row.certified_source_url) {
     violations.push(`${slug}: source annoncée certifiée mais URL de preuve absente`);
@@ -114,8 +133,8 @@ for (const row of data || []) {
       violations.push(`${slug}: décote/surcote publiée malgré un événement structurel actif`);
     }
   }
-  if (!acceptedAnalysisVersions.has(String(row.analysis_version || ''))) {
-    violations.push(`${slug}: version d'analyse non certifiée (${String(row.analysis_version || 'absente')})`);
+  if (!acceptedAnalysisVersions.has(version)) {
+    violations.push(`${slug}: version d'analyse non certifiée (${version || 'absente'})`);
   }
 }
 
