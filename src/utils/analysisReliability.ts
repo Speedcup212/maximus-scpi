@@ -24,6 +24,9 @@ const extractPercentages = (message?: string): number[] => {
     .filter(Number.isFinite);
 };
 
+const hasNumericEvidence = (message?: string) =>
+  Boolean(message && /\d+(?:[.,]\d+)?/.test(message));
+
 const hasZeroPercentage = (message?: string) =>
   extractPercentages(message).some((value) => Math.abs(value) < 0.0001);
 
@@ -41,6 +44,23 @@ const isTriMetric = (metric?: string) => {
   const key = normalizeMetric(metric);
   return key === 'tri' || key.startsWith('tri_') || key.includes('taux_rendement_interne');
 };
+
+const severeEvidenceMetrics = new Set([
+  'tof',
+  'taux_occupation_financier',
+  'liquidite_retraits',
+  'parts_attente_retrait',
+  'parts_en_attente_de_retrait',
+  'valeur_reconstitution',
+  'prix_reconstitution',
+  'valeur_realisation',
+  'surcote_reconstitution',
+  'decote_reconstitution',
+  'endettement',
+  'dette',
+  'distribution',
+  'distribution_par_part',
+]);
 
 export const sanitizeAnalysisSignal = <T extends ReliableAnalysisSignal>(signal: T): T => {
   if (signal.quality_issue) return signal;
@@ -73,11 +93,14 @@ export const sanitizeAnalysisSignal = <T extends ReliableAnalysisSignal>(signal:
 export const hasDocumentedSevereSignal = (signals: ReliableAnalysisSignal[]) =>
   signals.some((signal) => {
     const sanitized = sanitizeAnalysisSignal(signal);
+    const metric = normalizeMetric(sanitized.metric);
     return (
       sanitized.severity === 'high' &&
       !sanitized.quality_issue &&
       typeof sanitized.message === 'string' &&
-      sanitized.message.trim().length >= 8
+      sanitized.message.trim().length >= 12 &&
+      hasNumericEvidence(sanitized.message) &&
+      severeEvidenceMetrics.has(metric)
     );
   });
 
@@ -141,14 +164,28 @@ export const humanizeAnalysisMetric = (metric?: string) => {
     prix_retrait: 'Prix de retrait',
     prix_reconstitution: 'Valeur de reconstitution',
     valeur_reconstitution: 'Valeur de reconstitution',
+    valeur_realisation: 'Valeur de réalisation',
+    data_quality_valeur_realisation: 'Qualité de la valeur de réalisation',
     collecte_nette: 'Collecte nette',
     endettement: 'Endettement',
     dette: 'Endettement',
     distribution: 'Distribution',
     distribution_par_part: 'Distribution par part',
     parts_attente_retrait: 'Parts en attente de retrait',
+    parts_en_attente_de_retrait: 'Parts en attente de retrait',
+    liquidite_retraits: 'Liquidité',
+    surcote_reconstitution: 'Surcote du prix de part',
+    decote_reconstitution: 'Décote du prix de part',
+    mutualisation: 'Diversification du patrimoine',
+    concentration: 'Concentration du patrimoine',
     tri: 'TRI',
   };
 
-  return labels[key] || metric || null;
+  if (labels[key]) return labels[key];
+
+  return key
+    .split('_')
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 };
