@@ -62,6 +62,70 @@ const severeEvidenceMetrics = new Set([
   'distribution_par_part',
 ]);
 
+const lastPercentage = (message?: string) => {
+  const values = extractPercentages(message);
+  return values.length ? values[values.length - 1] : null;
+};
+
+const largestAbsolutePercentage = (message?: string) => {
+  const values = extractPercentages(message);
+  if (!values.length) return null;
+  return values.reduce((largest, value) =>
+    Math.abs(value) > Math.abs(largest) ? value : largest
+  );
+};
+
+/**
+ * Les niveaux « élevés » sont volontairement rares : un simple flag high issu
+ * de l'analyse amont ne suffit pas. Il faut aussi franchir un repère quantitatif
+ * cohérent avec la nature de l'indicateur.
+ */
+const passesSevereQuantitativeGate = (signal: ReliableAnalysisSignal) => {
+  const key = normalizeMetric(signal.metric);
+  const message = signal.message;
+  const values = extractPercentages(message);
+
+  if (key === 'tof' || key === 'taux_occupation_financier') {
+    const current = lastPercentage(message);
+    return current !== null && current < 80;
+  }
+
+  if (
+    key === 'liquidite_retraits' ||
+    key === 'parts_attente_retrait' ||
+    key === 'parts_en_attente_de_retrait'
+  ) {
+    const ratio = values[0];
+    return Number.isFinite(ratio) && Math.abs(ratio) >= 5;
+  }
+
+  if (key === 'surcote_reconstitution' || key === 'decote_reconstitution') {
+    const gap = largestAbsolutePercentage(message);
+    return gap !== null && Math.abs(gap) >= 15;
+  }
+
+  if (key === 'endettement' || key === 'dette') {
+    const debt = values[0];
+    return Number.isFinite(debt) && Math.abs(debt) >= 40;
+  }
+
+  if (
+    key === 'valeur_reconstitution' ||
+    key === 'prix_reconstitution' ||
+    key === 'valeur_realisation'
+  ) {
+    const variation = largestAbsolutePercentage(message);
+    return variation !== null && Math.abs(variation) >= 15;
+  }
+
+  if (key === 'distribution' || key === 'distribution_par_part') {
+    const variation = largestAbsolutePercentage(message);
+    return variation !== null && Math.abs(variation) >= 20;
+  }
+
+  return false;
+};
+
 export const sanitizeAnalysisSignal = <T extends ReliableAnalysisSignal>(signal: T): T => {
   if (signal.quality_issue) return signal;
 
@@ -100,7 +164,8 @@ export const hasDocumentedSevereSignal = (signals: ReliableAnalysisSignal[]) =>
       typeof sanitized.message === 'string' &&
       sanitized.message.trim().length >= 12 &&
       hasNumericEvidence(sanitized.message) &&
-      severeEvidenceMetrics.has(metric)
+      severeEvidenceMetrics.has(metric) &&
+      passesSevereQuantitativeGate(sanitized)
     );
   });
 
