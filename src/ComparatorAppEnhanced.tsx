@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import ComparatorApp from './ComparatorApp';
+import ComparatorTrajectoryOverlay from './components/trajectory/ComparatorTrajectoryOverlay';
 
 const ScpiVigilanceRationalePortalV2 = lazy(
   () => import('./components/fintech/ScpiVigilanceRationalePortalV2'),
@@ -67,6 +68,7 @@ const ComparatorAppEnhanced: React.FC = () => {
   return (
     <>
       <ComparatorApp />
+      <ComparatorTrajectoryOverlay />
       {analysisEnhancementsEnabled && (
         <>
           <ConsolidateMaximusAnalysis />
