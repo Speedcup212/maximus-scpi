@@ -145,14 +145,19 @@ export const normalizeAndDedupeHistory = (
 ): NormalizedHistoryRow[] => {
   const byPeriod = new Map<string, ScpiHistoryRow>();
 
-  rows.forEach((row, index) => {
-    const parsed = parsePeriod(row.source_period);
-    const key = parsed?.key || row.source_period?.trim() || `snapshot-${row.snapshot_at || index}`;
-    const current = byPeriod.get(key);
-    if (!current || rowTimestamp(row) >= rowTimestamp(current)) {
-      byPeriod.set(key, row);
-    }
-  });
+  // Never publish rows already rejected by the QA pipeline. In particular,
+  // non-canonical duplicates and missing-period artefacts must not become the
+  // "latest" point of a trajectory or a market signal.
+  rows
+    .filter((row) => !row.qa_status?.toLowerCase().startsWith('invalid'))
+    .forEach((row, index) => {
+      const parsed = parsePeriod(row.source_period);
+      const key = parsed?.key || row.source_period?.trim() || `snapshot-${row.snapshot_at || index}`;
+      const current = byPeriod.get(key);
+      if (!current || rowTimestamp(row) >= rowTimestamp(current)) {
+        byPeriod.set(key, row);
+      }
+    });
 
   return Array.from(byPeriod.values())
     .sort((a, b) => {
