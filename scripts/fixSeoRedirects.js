@@ -17,7 +17,21 @@ let content = fs.readFileSync(redirectsPath, 'utf-8');
 // Cette ancienne réécriture servait la home et annulait le bénéfice du pré-rendu.
 content = content.replace(/^\/articles\s+\/index\.html\s+200\s*$/gm, '# /articles/ est servi par dist/articles/index.html (SSG)');
 
-const legacyRules = `# Nettoyage SEO legacy vérifié\n/les-actualites-des-scpi /actualites/ 301!\n/les-actualites-des-scpi/ /actualites/ 301!\n/scpi-de-rendement-scpi-esg-pierre-capitale /esg-pierre-capital/ 301!\n/scpi-de-rendement-scpi-esg-pierre-capitale/ /esg-pierre-capital/ 301!\n`;
+const legacyRules = `# Nettoyage SEO legacy vérifié
+# Anciennes fiches ayant une cible actuelle exacte
+/scpi-de-rendement-scpi-esg-pierre-capitale /esg-pierre-capital/ 301!
+/scpi-de-rendement-scpi-esg-pierre-capitale/ /esg-pierre-capital/ 301!
+/scpi-de-rendement-scpi-lf-europimmo /lf-europimmo/ 301!
+/scpi-de-rendement-scpi-lf-europimmo/ /lf-europimmo/ 301!
+
+# Anciennes pages sans équivalent actuel : vrai 404, jamais home 200
+/scpi-de-rendement-scpi-primopierre /404.html 404!
+/scpi-de-rendement-scpi-primopierre/ /404.html 404!
+/scpi-de-rendement-scpi-placement-pierre /404.html 404!
+/scpi-de-rendement-scpi-placement-pierre/ /404.html 404!
+/les-actualites-des-scpi /404.html 404!
+/les-actualites-des-scpi/ /404.html 404!
+`;
 
 if (!content.includes('# Nettoyage SEO legacy vérifié')) {
   const fallback = '# Fallback pour toutes les autres routes vers la SPA';
@@ -35,9 +49,13 @@ if (/^\/articles\s+\/index\.html\s+200\s*$/m.test(verification)) {
   console.error('❌ La réécriture /articles -> home est toujours présente.');
   process.exit(1);
 }
-if (!verification.includes('/les-actualites-des-scpi/ /actualites/ 301!')) {
-  console.error('❌ Les règles legacy attendues ne sont pas présentes.');
+if (!verification.includes('/scpi-de-rendement-scpi-primopierre/ /404.html 404!')) {
+  console.error('❌ La protection 404 Primopierre est absente.');
+  process.exit(1);
+}
+if (!verification.includes('/scpi-de-rendement-scpi-lf-europimmo/ /lf-europimmo/ 301!')) {
+  console.error('❌ La redirection LF Europimmo est absente.');
   process.exit(1);
 }
 
-console.log('✅ Redirects SEO durcis : hub articles statique + premières URL legacy nettoyées.');
+console.log('✅ Redirects SEO durcis : hub articles statique + 301 exactes + 404 legacy explicites.');
