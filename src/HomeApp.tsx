@@ -178,7 +178,7 @@ const HomeApp: React.FC = () => {
       />
 
       <main>
-        <section className="relative overflow-hidden min-h-[calc(100svh-4rem)] flex items-center" style={{ backgroundColor: '#0D1117' }}>
+        <section className="relative overflow-hidden min-h-[calc(100svh-4rem)] flex items-center lg:items-start" style={{ backgroundColor: '#0D1117' }}>
           <div
             className="pointer-events-none absolute inset-0"
             style={{
