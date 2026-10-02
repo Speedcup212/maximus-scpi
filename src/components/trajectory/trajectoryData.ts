@@ -77,9 +77,17 @@ export const toFiniteNumber = (value: unknown): number | null => {
 const normalizeRow = (row: ScpiHistoryRow): NormalizedHistoryRow => {
   const partsAttente = toFiniteNumber(row.parts_attente_retrait);
   const nombreParts = toFiniteNumber(row.nombre_parts);
-  const retraitPct =
+  const rawRetraitPct =
     partsAttente !== null && nombreParts !== null && nombreParts > 0
       ? (partsAttente / nombreParts) * 100
+      : null;
+
+  // A queue of pending withdrawals cannot be negative or exceed 100% of
+  // outstanding shares. Values outside that range are extraction artefacts,
+  // so keep them out of charts rather than publishing a misleading figure.
+  const retraitPct =
+    rawRetraitPct !== null && rawRetraitPct >= 0 && rawRetraitPct <= 100
+      ? rawRetraitPct
       : null;
 
   return {
