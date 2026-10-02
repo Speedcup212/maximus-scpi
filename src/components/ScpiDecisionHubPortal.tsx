@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 
 const SELECTION_STORAGE_KEY = 'maximus:scpi-selection:v1';
+const MAX_SELECTION_SIZE = 6;
 
 type DecisionTarget = 'radar' | 'trajectory' | 'analysis' | 'compare' | 'simulate';
 
@@ -51,8 +52,9 @@ const scrollIntoViewWithOffset = (target: HTMLElement) => {
 const resolveDecisionTarget = (target: Exclude<DecisionTarget, 'compare'>): HTMLElement | null => {
   if (target === 'trajectory') {
     return (
-      document.querySelector<HTMLElement>('[data-maximus-scpi-trajectory-host="true"]') ||
+      document.getElementById('trajectoire-scpi') ||
       findHeading('h2', 'Trajectoire Maximus')?.closest<HTMLElement>('section') ||
+      document.querySelector<HTMLElement>('[data-maximus-scpi-trajectory-host="true"]') ||
       null
     );
   }
@@ -145,7 +147,7 @@ const ScpiDecisionHub: React.FC<ScpiDecisionHubPortalProps> = ({ scpiSlug }) => 
 
   const ensureSelected = () => {
     if (selection.includes(scpiSlug)) return selection;
-    const next = [...selection, scpiSlug].slice(-8);
+    const next = [...selection, scpiSlug].slice(-MAX_SELECTION_SIZE);
     writeSelection(next);
     setSelection(next);
     return next;
@@ -154,7 +156,7 @@ const ScpiDecisionHub: React.FC<ScpiDecisionHubPortalProps> = ({ scpiSlug }) => 
   const toggleSelection = () => {
     const next = isSelected
       ? selection.filter((slug) => slug !== scpiSlug)
-      : [...selection, scpiSlug].slice(-8);
+      : [...selection, scpiSlug].slice(-MAX_SELECTION_SIZE);
     writeSelection(next);
     setSelection(next);
   };
@@ -200,7 +202,7 @@ const ScpiDecisionHub: React.FC<ScpiDecisionHubPortalProps> = ({ scpiSlug }) => 
               Parcours d’analyse Maximus
             </p>
             <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">
-              Tout comprendre sans quitter la fiche
+              Tout analyser depuis cette fiche
             </h2>
             <p className="mt-2 max-w-3xl text-sm sm:text-base text-slate-300">
               Une seule SCPI, cinq lectures complémentaires : état actuel, évolution, interprétation, comparaison et projection.
