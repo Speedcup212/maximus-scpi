@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
-import ScpiTrajectoryPanel from './ScpiTrajectoryPanel';
+import ScpiTrajectoryTabs from './ScpiTrajectoryTabs';
 
 const HOST_ATTR = 'data-maximus-analysis-trajectory-host';
 
@@ -31,20 +31,16 @@ const ComparatorAnalysisTrajectoryPortal: React.FC = () => {
 
       const modalHeadings = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3'));
       const keyHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Chiffres clés');
-      const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
-
       const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
-      const radarSection = radarHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
-      const anchorSection = radarSection || keySection;
-      if (!anchorSection) return;
+      if (!keySection) return;
 
       let host = modalRoot.querySelector<HTMLElement>(`[${HOST_ATTR}]`);
       if (!host) {
         host = document.createElement('div');
         host.setAttribute(HOST_ATTR, 'true');
-        anchorSection.insertAdjacentElement('afterend', host);
-      } else if (host.previousElementSibling !== anchorSection) {
-        anchorSection.insertAdjacentElement('afterend', host);
+        keySection.insertAdjacentElement('afterend', host);
+      } else if (host.previousElementSibling !== keySection) {
+        keySection.insertAdjacentElement('afterend', host);
       }
 
       if (target !== host) setTarget(host);
@@ -61,7 +57,7 @@ const ComparatorAnalysisTrajectoryPortal: React.FC = () => {
   if (!target || !scpiSlug) return null;
 
   return createPortal(
-    <ScpiTrajectoryPanel scpiSlug={scpiSlug} />,
+    <ScpiTrajectoryTabs scpiSlug={scpiSlug} />,
     target,
   );
 };
