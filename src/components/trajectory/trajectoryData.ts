@@ -106,13 +106,40 @@ const rowTimestamp = (row: ScpiHistoryRow) => {
   return Number.isFinite(timestamp) ? timestamp : 0;
 };
 
+const parsePeriod = (period: string | null | undefined) => {
+  if (!period) return null;
+  const trimmed = period.trim();
+  const canonical = trimmed.match(/^(\d{4})[- ]?T([1-4])$/i);
+  if (canonical) {
+    const year = Number(canonical[1]);
+    const quarter = Number(canonical[2]);
+    return {
+      key: `${year}-T${quarter}`,
+      ordinal: year * 4 + quarter,
+    };
+  }
+
+  const alternate = trimmed.match(/^T([1-4])[- ]?(\d{4})$/i);
+  if (alternate) {
+    const quarter = Number(alternate[1]);
+    const year = Number(alternate[2]);
+    return {
+      key: `${year}-T${quarter}`,
+      ordinal: year * 4 + quarter,
+    };
+  }
+
+  return null;
+};
+
 export const normalizeAndDedupeHistory = (
   rows: ScpiHistoryRow[],
 ): NormalizedHistoryRow[] => {
   const byPeriod = new Map<string, ScpiHistoryRow>();
 
   rows.forEach((row, index) => {
-    const key = row.source_period?.trim() || `snapshot-${row.snapshot_at || index}`;
+    const parsed = parsePeriod(row.source_period);
+    const key = parsed?.key || row.source_period?.trim() || `snapshot-${row.snapshot_at || index}`;
     const current = byPeriod.get(key);
     if (!current || rowTimestamp(row) >= rowTimestamp(current)) {
       byPeriod.set(key, row);
@@ -120,7 +147,17 @@ export const normalizeAndDedupeHistory = (
   });
 
   return Array.from(byPeriod.values())
-    .sort((a, b) => rowTimestamp(a) - rowTimestamp(b))
+    .sort((a, b) => {
+      const aPeriod = parsePeriod(a.source_period);
+      const bPeriod = parsePeriod(b.source_period);
+
+      if (aPeriod && bPeriod && aPeriod.ordinal !== bPeriod.ordinal) {
+        return aPeriod.ordinal - bPeriod.ordinal;
+      }
+      if (aPeriod && !bPeriod) return -1;
+      if (!aPeriod && bPeriod) return 1;
+      return rowTimestamp(a) - rowTimestamp(b);
+    })
     .map(normalizeRow);
 };
 
