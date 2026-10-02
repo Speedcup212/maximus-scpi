@@ -36,7 +36,7 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
       }
 
       // Comparator analysis hierarchy:
-      // Chiffres clés -> Radar MaximusSCPI -> Trajectoire Maximus -> remaining analysis.
+      // Chiffres clés -> Radar MaximusSCPI (complete block) -> Trajectoire Maximus -> remaining analysis.
       const modalHeading = Array.from(document.querySelectorAll<HTMLHeadingElement>('h2')).find((node) =>
         node.textContent?.trim().startsWith('Analyse Détaillée - '),
       );
@@ -48,7 +48,7 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
         const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
 
         const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
-        const radarSection = radarHeading?.parentElement?.parentElement as HTMLElement | null;
+        const radarSection = radarHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
 
         if (keySection && radarSection && radarSection.previousElementSibling !== keySection) {
           keySection.insertAdjacentElement('afterend', radarSection);

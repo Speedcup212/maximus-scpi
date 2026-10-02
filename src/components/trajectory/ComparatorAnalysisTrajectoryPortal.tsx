@@ -34,7 +34,7 @@ const ComparatorAnalysisTrajectoryPortal: React.FC = () => {
       const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
 
       const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
-      const radarSection = radarHeading?.parentElement?.parentElement as HTMLElement | null;
+      const radarSection = radarHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
       const anchorSection = radarSection || keySection;
       if (!anchorSection) return;
 
