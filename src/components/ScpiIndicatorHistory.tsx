@@ -136,80 +136,80 @@ const liquidityLevel = (
   if (capitalRegime === 'suspendu' || capitalRegime === 'fixe' || capitalRegime === 'secondaire') {
     return {
       label: 'Régime spécifique',
-      badgeClass: 'border-slate-300 bg-slate-100 text-slate-800',
-      cardClass: 'border-slate-200 bg-slate-50',
-      valueClass: 'text-slate-950',
+      badgeClass: 'border-slate-500/40 bg-slate-800/80 text-slate-200',
+      cardClass: 'border-slate-600/30 bg-slate-900/40',
+      valueClass: 'text-white',
     };
   }
 
   if (waitingParts === null || waitingPct === null) {
     return {
       label: 'Non documenté',
-      badgeClass: 'border-slate-200 bg-[#EEF5F2] text-slate-600',
-      cardClass: 'border-slate-200 bg-slate-50',
-      valueClass: 'text-slate-700',
+      badgeClass: 'border-slate-500/40 bg-slate-800/80 text-slate-300',
+      cardClass: 'border-slate-600/30 bg-slate-900/40',
+      valueClass: 'text-slate-200',
     };
   }
 
   if (waitingParts === 0) {
     return {
       label: 'Aucune part signalée',
-      badgeClass: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-      cardClass: 'border-emerald-200 bg-emerald-50/60',
-      valueClass: 'text-emerald-950',
+      badgeClass: 'border-emerald-400/30 bg-emerald-950/35 text-emerald-200',
+      cardClass: 'border-emerald-400/25 bg-emerald-950/25',
+      valueClass: 'text-emerald-200',
     };
   }
 
   if (waitingPct < 0.5) {
     return {
       label: 'File faible',
-      badgeClass: 'border-emerald-200 bg-emerald-50 text-emerald-800',
-      cardClass: 'border-emerald-200 bg-emerald-50/60',
-      valueClass: 'text-emerald-950',
+      badgeClass: 'border-emerald-400/30 bg-emerald-950/35 text-emerald-200',
+      cardClass: 'border-emerald-400/25 bg-emerald-950/25',
+      valueClass: 'text-emerald-200',
     };
   }
 
   if (waitingPct < 2) {
     return {
       label: 'À surveiller',
-      badgeClass: 'border-yellow-200 bg-yellow-50 text-yellow-900',
-      cardClass: 'border-yellow-200 bg-yellow-50/60',
-      valueClass: 'text-yellow-950',
+      badgeClass: 'border-yellow-400/30 bg-yellow-950/35 text-yellow-200',
+      cardClass: 'border-yellow-400/25 bg-yellow-950/25',
+      valueClass: 'text-yellow-200',
     };
   }
 
   if (waitingPct < 3) {
     return {
       label: 'Pré-alerte Maximus',
-      badgeClass: 'border-yellow-300 bg-yellow-50 text-yellow-950',
-      cardClass: 'border-yellow-300 bg-yellow-50/70',
-      valueClass: 'text-yellow-950',
+      badgeClass: 'border-yellow-400/35 bg-yellow-950/40 text-yellow-100',
+      cardClass: 'border-yellow-400/30 bg-yellow-950/30',
+      valueClass: 'text-yellow-100',
     };
   }
 
   if (waitingPct < 5) {
     return {
       label: 'Vigilance modérée',
-      badgeClass: 'border-amber-300 bg-amber-50 text-amber-950',
-      cardClass: 'border-amber-300 bg-amber-50/70',
-      valueClass: 'text-amber-950',
+      badgeClass: 'border-amber-400/35 bg-amber-950/40 text-amber-100',
+      cardClass: 'border-amber-400/30 bg-amber-950/30',
+      valueClass: 'text-amber-100',
     };
   }
 
   if (waitingPct < 10) {
     return {
       label: 'Vigilance élevée',
-      badgeClass: 'border-red-300 bg-red-50 text-red-900',
-      cardClass: 'border-red-300 bg-red-50/70',
-      valueClass: 'text-red-950',
+      badgeClass: 'border-red-400/35 bg-red-950/40 text-red-200',
+      cardClass: 'border-red-400/30 bg-red-950/30',
+      valueClass: 'text-red-200',
     };
   }
 
   return {
     label: 'Liquidité critique',
-    badgeClass: 'border-red-400 bg-red-100 text-red-950',
-    cardClass: 'border-red-400 bg-red-50',
-    valueClass: 'text-red-950',
+    badgeClass: 'border-red-400/45 bg-red-950/60 text-red-100',
+    cardClass: 'border-red-400/40 bg-red-950/40',
+    valueClass: 'text-red-100',
   };
 };
 
@@ -361,18 +361,18 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
   if (!hasHistory && !hasLiquidity) return null;
 
   return (
-    <section className="bg-gradient-to-b from-[#E8F2EE] via-[#F0F6F3] to-[#F8FAFC] py-8 sm:py-10">
+    <section className="bg-[#0B1116] py-8 sm:py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {hasLiquidity && (
-          <div className="rounded-3xl border border-emerald-900/10 bg-gradient-to-br from-[#F7FBF9] via-[#EFF7F3] to-[#E7F2EE] p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.07)]">
+          <div className="rounded-3xl border border-white/10 bg-[#111B20] p-5 sm:p-7 shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
               <div>
-                <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-700">
+                <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-400">
                   <ShieldCheck className="w-4 h-4" />
                   Liquidité Maximus
                 </div>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-black text-slate-950">Marché des parts de {scpiName}</h2>
-                <p className="mt-2 max-w-3xl text-slate-600">Lecture factuelle de la file publiée, de sa tendance et du régime de liquidité. Aucun score artificiel n’est calculé lorsque la donnée manque.</p>
+                <h2 className="mt-2 text-2xl sm:text-3xl font-black text-white">Marché des parts de {scpiName}</h2>
+                <p className="mt-2 max-w-3xl text-slate-300">Lecture factuelle de la file publiée, de sa tendance et du régime de liquidité. Aucun score artificiel n’est calculé lorsque la donnée manque.</p>
               </div>
               <div className={`inline-flex items-center self-start gap-2 rounded-xl border px-4 py-2.5 text-sm font-black ${liquidity.level.badgeClass}`}>
                 <ShieldAlert className="w-4 h-4" />
@@ -382,39 +382,39 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div className={`rounded-2xl border p-4 ${liquidity.level.cardClass}`}>
-                <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Stock en attente</div>
+                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Stock en attente</div>
                 <div className={`mt-2 text-2xl font-black ${liquidity.level.valueClass}`}>
                   {liquidity.waitingPct !== null ? formatPct(liquidity.waitingPct) : liquidity.waitingParts !== null ? formatParts(liquidity.waitingParts) : 'N/D'}
                 </div>
-                <div className="mt-1 text-xs text-slate-600">
+                <div className="mt-1 text-xs text-slate-300">
                   {liquidity.waitingParts !== null && liquidity.totalParts !== null
                     ? `${formatParts(liquidity.waitingParts)} sur ${formatParts(liquidity.totalParts)}`
                     : 'Pourcentage non calculable avec les données publiées'}
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><BarChart3 className="w-4 h-4" />Tendance</div>
-                <div className="mt-2 text-xl font-black text-slate-950">
+              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><BarChart3 className="w-4 h-4" />Tendance</div>
+                <div className="mt-2 text-xl font-black text-white">
                   {liquidity.trend === 'hausse' ? 'En hausse' : liquidity.trend === 'baisse' ? 'En baisse' : liquidity.trend === 'stable' ? 'Stable' : 'N/D'}
                 </div>
-                <div className="mt-1 text-xs text-slate-600">
+                <div className="mt-1 text-xs text-slate-300">
                   {liquidity.previousWaiting !== null && liquidity.currentWaitingHistory !== null
                     ? `${formatParts(liquidity.previousWaiting)} → ${formatParts(liquidity.currentWaitingHistory)}`
                     : 'Historique insuffisant pour qualifier la trajectoire'}
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><Clock className="w-4 h-4" />Absorption</div>
-                <div className="mt-2 text-xl font-black text-slate-950">N/D</div>
-                <div className="mt-1 text-xs text-slate-600">Retraits exécutés non encore structurés : aucun délai théorique n’est inventé.</div>
+              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><Clock className="w-4 h-4" />Absorption</div>
+                <div className="mt-2 text-xl font-black text-white">N/D</div>
+                <div className="mt-1 text-xs text-slate-300">Retraits exécutés non encore structurés : aucun délai théorique n’est inventé.</div>
               </div>
 
-              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><FileText className="w-4 h-4" />Régime</div>
-                <div className="mt-2 text-xl font-black text-slate-950">{capitalRegimeLabel(liquidity.capitalRegime)}</div>
-                <div className="mt-1 text-xs text-slate-600">
+              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><FileText className="w-4 h-4" />Régime</div>
+                <div className="mt-2 text-xl font-black text-white">{capitalRegimeLabel(liquidity.capitalRegime)}</div>
+                <div className="mt-1 text-xs text-slate-300">
                   {liquidity.capitalRegime === 'variable'
                     ? 'Lecture par demandes de retrait et compensation.'
                     : liquidity.capitalRegime === 'fixe' || liquidity.capitalRegime === 'secondaire'
@@ -427,14 +427,14 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
             </div>
 
             <div className="mt-4 grid lg:grid-cols-[1fr_auto] gap-4 items-start">
-              <div className="rounded-2xl border border-emerald-900/10 bg-[#EEF7F3] p-4 sm:p-5">
-                <div className="text-sm font-black text-slate-950">Analyse Maximus</div>
-                <p className="mt-2 text-sm leading-relaxed text-slate-700">{liquidity.analysis}</p>
+              <div className="rounded-2xl border border-emerald-400/15 bg-[#132720] p-4 sm:p-5">
+                <div className="text-sm font-black text-white">Analyse Maximus</div>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">{liquidity.analysis}</p>
               </div>
-              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4 min-w-[220px]">
-                <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Qualité de la donnée</div>
-                <div className="mt-1 text-2xl font-black text-slate-950">{liquidity.quality}</div>
-                <div className="mt-1 text-xs text-slate-600">
+              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4 min-w-[220px]">
+                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Qualité de la donnée</div>
+                <div className="mt-1 text-2xl font-black text-white">{liquidity.quality}</div>
+                <div className="mt-1 text-xs text-slate-300">
                   {liquidity.quality === 'A'
                     ? 'Stock calculable + source vérifiée.'
                     : liquidity.quality === 'B'
@@ -446,8 +446,8 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-emerald-900/10 bg-[#F3F8F6] px-4 py-3 text-xs leading-relaxed text-slate-600">
-              <strong className="text-slate-800">Méthode MaximusSCPI :</strong> 2 % = pré-alerte interne, sans valeur réglementaire ; 3 % à moins de 5 % = vigilance modérée ; 5 % et plus = vigilance élevée. À 10 % ou plus, la condition réglementaire d’ancienneté de douze mois doit encore être vérifiée. Une file à 0 ne garantit pas la liquidité future.
+            <div className="mt-5 rounded-2xl border border-white/10 bg-[#101A20] px-4 py-3 text-xs leading-relaxed text-slate-400">
+              <strong className="text-slate-200">Méthode MaximusSCPI :</strong> 2 % = pré-alerte interne, sans valeur réglementaire ; 3 % à moins de 5 % = vigilance modérée ; 5 % et plus = vigilance élevée. À 10 % ou plus, la condition réglementaire d’ancienneté de douze mois doit encore être vérifiée. Une file à 0 ne garantit pas la liquidité future.
             </div>
 
             <div className="mt-3 text-xs text-slate-500">
@@ -459,14 +459,14 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
         )}
 
         {hasHistory && data && (
-          <div className="rounded-3xl border border-emerald-900/10 bg-gradient-to-br from-[#F7FBF9] via-[#EFF7F3] to-[#E7F2EE] p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.07)]">
+          <div className="rounded-3xl border border-white/10 bg-[#111B20] p-5 sm:p-7 shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
               <div>
-                <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-700"><Activity className="w-4 h-4" />Évolution documentée</div>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-black text-slate-950">Ce qui a changé sur {scpiName}</h2>
-                <p className="mt-2 text-slate-600">Comparaison des indicateurs publiés entre {data.previous_period} et {data.current_period}.</p>
+                <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-400"><Activity className="w-4 h-4" />Évolution documentée</div>
+                <h2 className="mt-2 text-2xl sm:text-3xl font-black text-white">Ce qui a changé sur {scpiName}</h2>
+                <p className="mt-2 text-slate-300">Comparaison des indicateurs publiés entre {data.previous_period} et {data.current_period}.</p>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white"><Database className="w-4 h-4 text-emerald-300" />Historique MaximusSCPI</div>
+              <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/20 bg-emerald-950/35 px-4 py-2.5 text-sm font-semibold text-emerald-100"><Database className="w-4 h-4 text-emerald-300" />Historique MaximusSCPI</div>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -475,15 +475,15 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
                 const isDown = metric.delta < 0;
                 const Icon = isUp ? ArrowUpRight : isDown ? ArrowDownRight : Minus;
                 return (
-                  <div key={metric.key} className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
+                  <div key={metric.key} className="rounded-2xl border border-white/10 bg-[#162229] p-4">
                     <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-bold text-slate-700">{metric.label}</div>
-                      <div className="inline-flex items-center gap-1 rounded-full bg-[#EAF4F0] border border-emerald-900/10 px-2 py-1 text-xs font-bold text-slate-700"><Icon className="w-3.5 h-3.5" />{metric.deltaFormat(metric.delta)}</div>
+                      <div className="text-sm font-bold text-slate-200">{metric.label}</div>
+                      <div className="inline-flex items-center gap-1 rounded-full bg-[#1B2D28] border border-emerald-400/15 px-2 py-1 text-xs font-bold text-slate-200"><Icon className="w-3.5 h-3.5" />{metric.deltaFormat(metric.delta)}</div>
                     </div>
                     <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                      <div><div className="text-[11px] uppercase tracking-wide text-slate-400">{data.previous_period}</div><div className="mt-1 font-bold text-slate-700">{metric.format(metric.previous)}</div></div>
-                      <div className="text-slate-300">→</div>
-                      <div className="text-right"><div className="text-[11px] uppercase tracking-wide text-slate-400">{data.current_period}</div><div className="mt-1 font-black text-slate-950">{metric.format(metric.current)}</div></div>
+                      <div><div className="text-[11px] uppercase tracking-wide text-slate-500">{data.previous_period}</div><div className="mt-1 font-bold text-slate-300">{metric.format(metric.previous)}</div></div>
+                      <div className="text-slate-600">→</div>
+                      <div className="text-right"><div className="text-[11px] uppercase tracking-wide text-slate-500">{data.current_period}</div><div className="mt-1 font-black text-white">{metric.format(metric.current)}</div></div>
                     </div>
                   </div>
                 );
@@ -491,12 +491,12 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
             </div>
 
             {observations.length > 0 && (
-              <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 sm:p-5">
+              <div className="mt-6 rounded-2xl border border-amber-400/30 bg-amber-950/30 p-4 sm:p-5">
                 <div className="flex items-start gap-3">
-                  <ShieldAlert className="w-5 h-5 text-amber-700 mt-0.5 shrink-0" />
+                  <ShieldAlert className="w-5 h-5 text-amber-300 mt-0.5 shrink-0" />
                   <div>
-                    <div className="font-black text-amber-950">Évolutions à surveiller</div>
-                    <ul className="mt-2 space-y-1.5 text-sm text-amber-950/85">{observations.map((observation) => <li key={observation}>• {observation}</li>)}</ul>
+                    <div className="font-black text-amber-100">Évolutions à surveiller</div>
+                    <ul className="mt-2 space-y-1.5 text-sm text-amber-100/80">{observations.map((observation) => <li key={observation}>• {observation}</li>)}</ul>
                   </div>
                 </div>
               </div>
