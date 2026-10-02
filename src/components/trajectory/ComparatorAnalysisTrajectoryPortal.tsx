@@ -29,20 +29,22 @@ const ComparatorAnalysisTrajectoryPortal: React.FC = () => {
       const modalRoot = modalHeading.closest('.fixed.inset-0') as HTMLElement | null;
       if (!modalRoot) return;
 
-      const keyHeading = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3')).find(
-        (node) => node.textContent?.trim() === 'Chiffres clés',
-      );
-      const keyCard = keyHeading?.parentElement as HTMLElement | null;
-      const keySection = keyCard?.parentElement as HTMLElement | null;
-      if (!keySection) return;
+      const modalHeadings = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3'));
+      const keyHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Chiffres clés');
+      const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
+
+      const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
+      const radarSection = radarHeading?.parentElement?.parentElement as HTMLElement | null;
+      const anchorSection = radarSection || keySection;
+      if (!anchorSection) return;
 
       let host = modalRoot.querySelector<HTMLElement>(`[${HOST_ATTR}]`);
       if (!host) {
         host = document.createElement('div');
         host.setAttribute(HOST_ATTR, 'true');
-        keySection.insertAdjacentElement('afterend', host);
-      } else if (host.previousElementSibling !== keySection) {
-        keySection.insertAdjacentElement('afterend', host);
+        anchorSection.insertAdjacentElement('afterend', host);
+      } else if (host.previousElementSibling !== anchorSection) {
+        anchorSection.insertAdjacentElement('afterend', host);
       }
 
       if (target !== host) setTarget(host);
