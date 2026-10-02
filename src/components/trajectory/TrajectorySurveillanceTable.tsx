@@ -50,10 +50,9 @@ const formatNumber = (value: number | null, suffix = '', digits = 2) =>
     ? 'N.D.'
     : `${value.toLocaleString('fr-FR', { maximumFractionDigits: digits })}${suffix}`;
 
-const deltaTone = (value: number | null, inverse = false) => {
+const deltaTone = (value: number | null) => {
   if (value === null || Math.abs(value) < 0.01) return 'text-slate-400';
-  const good = inverse ? value < 0 : value > 0;
-  return good ? 'text-emerald-300' : 'text-rose-300';
+  return value > 0 ? 'text-emerald-300' : 'text-rose-300';
 };
 
 const TrajectorySurveillanceTable: React.FC = () => {
@@ -254,12 +253,12 @@ const TrajectorySurveillanceTable: React.FC = () => {
                       <td className="px-4 py-3.5">
                         <TrajectorySparkline values={row.liquiditySeries} className="text-amber-300" />
                       </td>
-                      <td className={`px-4 py-3.5 font-semibold ${deltaTone(row.retraits, true)}`}>
+                      <td className="px-4 py-3.5 font-semibold text-slate-300">
                         {formatNumber(row.retraits, ' %')}
                       </td>
                       <td className="px-4 py-3.5 text-right text-slate-300">{formatNumber(row.prix, ' €')}</td>
                       <td className="px-4 py-3.5 text-right text-slate-300">{formatNumber(row.reconstitution, ' €')}</td>
-                      <td className={`px-4 py-3.5 font-semibold ${deltaTone(row.valuationGap, true)}`}>
+                      <td className="px-4 py-3.5 font-semibold text-slate-300">
                         {row.valuationGap === null ? 'N.D.' : `${row.valuationGap > 0 ? '+' : ''}${formatNumber(row.valuationGap, ' %')}`}
                       </td>
                       <td className="px-4 py-3.5 text-slate-300">{formatNumber(row.dette, ' %')}</td>
