@@ -34,20 +34,33 @@ jobs:
       - name: Production build
         run: npm run build
 
-      - name: Publish built site snapshot
+      - name: Package controlled Netlify source
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
-          rm -rf /tmp/maximus-dist
-          mkdir -p /tmp/maximus-dist
-          cp -a dist/. /tmp/maximus-dist/
+          rm -f /tmp/maximus-netlify-source.zip
+          zip -q -r /tmp/maximus-netlify-source.zip \
+            package.json package-lock.json index.html netlify.toml \
+            vite.config.ts tsconfig.json tsconfig.app.json tsconfig.node.json \
+            postcss.config.js tailwind.config.js \
+            src public scripts netlify
+          ls -lh /tmp/maximus-netlify-source.zip
 
+      - name: Publish controlled source package
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/maximus-source-package
+          mkdir -p /tmp/maximus-source-package
+          cp /tmp/maximus-netlify-source.zip /tmp/maximus-source-package/source.zip
+          cd /tmp/maximus-source-package
+          git init
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git switch --orphan netlify-dist
-          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp -a /tmp/maximus-dist/. .
-          touch .nojekyll
-          git add -A
-          git commit -m "build: netlify dist ${GITHUB_SHA}"
-          git push --force origin HEAD:netlify-dist
+          git checkout -b netlify-source-package
+          git add source.zip
+          git commit -m "build: controlled Netlify source ${GITHUB_SHA}"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin netlify-source-package
