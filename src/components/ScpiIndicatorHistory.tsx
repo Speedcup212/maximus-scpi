@@ -145,7 +145,7 @@ const liquidityLevel = (
   if (waitingParts === null || waitingPct === null) {
     return {
       label: 'Non documenté',
-      badgeClass: 'border-slate-200 bg-white text-slate-600',
+      badgeClass: 'border-slate-200 bg-[#EEF5F2] text-slate-600',
       cardClass: 'border-slate-200 bg-slate-50',
       valueClass: 'text-slate-700',
     };
@@ -361,10 +361,10 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
   if (!hasHistory && !hasLiquidity) return null;
 
   return (
-    <section className="bg-[#F8FAFC] py-8 sm:py-10">
+    <section className="bg-gradient-to-b from-[#E8F2EE] via-[#F0F6F3] to-[#F8FAFC] py-8 sm:py-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {hasLiquidity && (
-          <div className="rounded-3xl border border-emerald-900/10 bg-white p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+          <div className="rounded-3xl border border-emerald-900/10 bg-gradient-to-br from-[#F7FBF9] via-[#EFF7F3] to-[#E7F2EE] p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.07)]">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
               <div>
                 <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-700">
@@ -393,7 +393,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><BarChart3 className="w-4 h-4" />Tendance</div>
                 <div className="mt-2 text-xl font-black text-slate-950">
                   {liquidity.trend === 'hausse' ? 'En hausse' : liquidity.trend === 'baisse' ? 'En baisse' : liquidity.trend === 'stable' ? 'Stable' : 'N/D'}
@@ -405,13 +405,13 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><Clock className="w-4 h-4" />Absorption</div>
                 <div className="mt-2 text-xl font-black text-slate-950">N/D</div>
                 <div className="mt-1 text-xs text-slate-600">Retraits exécutés non encore structurés : aucun délai théorique n’est inventé.</div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500"><FileText className="w-4 h-4" />Régime</div>
                 <div className="mt-2 text-xl font-black text-slate-950">{capitalRegimeLabel(liquidity.capitalRegime)}</div>
                 <div className="mt-1 text-xs text-slate-600">
@@ -427,11 +427,11 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
             </div>
 
             <div className="mt-4 grid lg:grid-cols-[1fr_auto] gap-4 items-start">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+              <div className="rounded-2xl border border-emerald-900/10 bg-[#EEF7F3] p-4 sm:p-5">
                 <div className="text-sm font-black text-slate-950">Analyse Maximus</div>
                 <p className="mt-2 text-sm leading-relaxed text-slate-700">{liquidity.analysis}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 min-w-[220px]">
+              <div className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4 min-w-[220px]">
                 <div className="text-xs font-bold uppercase tracking-wide text-slate-500">Qualité de la donnée</div>
                 <div className="mt-1 text-2xl font-black text-slate-950">{liquidity.quality}</div>
                 <div className="mt-1 text-xs text-slate-600">
@@ -446,7 +446,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
               </div>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-600">
+            <div className="mt-5 rounded-2xl border border-emerald-900/10 bg-[#F3F8F6] px-4 py-3 text-xs leading-relaxed text-slate-600">
               <strong className="text-slate-800">Méthode MaximusSCPI :</strong> 2 % = pré-alerte interne, sans valeur réglementaire ; 3 % à moins de 5 % = vigilance modérée ; 5 % et plus = vigilance élevée. À 10 % ou plus, la condition réglementaire d’ancienneté de douze mois doit encore être vérifiée. Une file à 0 ne garantit pas la liquidité future.
             </div>
 
@@ -459,7 +459,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
         )}
 
         {hasHistory && data && (
-          <div className="rounded-3xl border border-emerald-900/10 bg-white p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+          <div className="rounded-3xl border border-emerald-900/10 bg-gradient-to-br from-[#F7FBF9] via-[#EFF7F3] to-[#E7F2EE] p-5 sm:p-7 shadow-[0_18px_45px_rgba(15,23,42,0.07)]">
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
               <div>
                 <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-700"><Activity className="w-4 h-4" />Évolution documentée</div>
@@ -475,10 +475,10 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
                 const isDown = metric.delta < 0;
                 const Icon = isUp ? ArrowUpRight : isDown ? ArrowDownRight : Minus;
                 return (
-                  <div key={metric.key} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div key={metric.key} className="rounded-2xl border border-emerald-900/10 bg-[#F5F9F7] p-4">
                     <div className="flex items-center justify-between gap-3">
                       <div className="text-sm font-bold text-slate-700">{metric.label}</div>
-                      <div className="inline-flex items-center gap-1 rounded-full bg-white border border-slate-200 px-2 py-1 text-xs font-bold text-slate-700"><Icon className="w-3.5 h-3.5" />{metric.deltaFormat(metric.delta)}</div>
+                      <div className="inline-flex items-center gap-1 rounded-full bg-[#EAF4F0] border border-emerald-900/10 px-2 py-1 text-xs font-bold text-slate-700"><Icon className="w-3.5 h-3.5" />{metric.deltaFormat(metric.delta)}</div>
                     </div>
                     <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
                       <div><div className="text-[11px] uppercase tracking-wide text-slate-400">{data.previous_period}</div><div className="mt-1 font-bold text-slate-700">{metric.format(metric.previous)}</div></div>
