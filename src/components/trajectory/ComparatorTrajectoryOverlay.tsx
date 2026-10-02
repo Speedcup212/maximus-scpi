@@ -10,19 +10,18 @@ import {
   normalizeAndDedupeHistory,
 } from './trajectoryData';
 
-type Host = {
-  id: string;
-  element: HTMLElement;
-  slug: string;
-  compact: boolean;
-};
-
 type TrajectorySnapshot = {
   tofSeries: number[];
   liquiditySeries: number[];
   latestTof: number | null;
   latestLiquidity: number | null;
   tofDelta: number | null;
+  liquidityDelta: number | null;
+};
+
+type VisibleScpi = {
+  slug: string;
+  name: string;
 };
 
 const formatNumber = (value: number | null, suffix = '', digits = 2) =>
@@ -30,68 +29,114 @@ const formatNumber = (value: number | null, suffix = '', digits = 2) =>
     ? 'N.D.'
     : `${value.toLocaleString('fr-FR', { maximumFractionDigits: digits })}${suffix}`;
 
-const CompactTrajectory: React.FC<{
-  data: TrajectorySnapshot;
-  compact: boolean;
-}> = ({ data, compact }) => {
-  const delta = data.tofDelta;
+const deltaClass = (value: number | null, inverse = false) => {
+  if (value === null || Math.abs(value) < 0.01) return 'text-slate-500';
+  const favorable = inverse ? value < 0 : value > 0;
+  return favorable ? 'text-emerald-300' : 'text-rose-300';
+};
+
+const ComparatorTrajectoryTable: React.FC<{
+  items: VisibleScpi[];
+  trajectories: Record<string, TrajectorySnapshot>;
+}> = ({ items, trajectories }) => {
+  const rows = items
+    .map((item) => ({ ...item, trajectory: trajectories[item.slug] }))
+    .filter((item) => Boolean(item.trajectory));
+
+  if (rows.length === 0) return null;
 
   return (
-    <div
-      data-maximus-trajectory-portal="true"
-      className={compact ? 'mt-1.5 max-w-[190px]' : 'mt-2 max-w-[270px]'}
-      title="Historique observé dans les bulletins et documents officiels consolidés par MaximusSCPI."
-    >
-      <div className="flex items-center gap-2 text-[10px] font-semibold text-slate-400">
-        <span className="w-12 shrink-0">TOF</span>
-        <TrajectorySparkline
-          values={data.tofSeries}
-          width={compact ? 64 : 82}
-          height={20}
-          className="text-sky-300"
-          strokeWidth={1.8}
-        />
-        <span className="min-w-[42px] text-right text-slate-300">
-          {formatNumber(data.latestTof, '%')}
-        </span>
-        {!compact && (
-          <span
-            className={
-              delta === null || Math.abs(delta) < 0.01
-                ? 'min-w-[48px] text-right text-slate-500'
-                : delta > 0
-                  ? 'min-w-[48px] text-right text-emerald-300'
-                  : 'min-w-[48px] text-right text-rose-300'
-            }
-          >
-            {delta === null ? 'N.D.' : `${delta > 0 ? '+' : ''}${formatNumber(delta, ' pt')}`}
-          </span>
-        )}
+    <section className="mt-6 overflow-hidden rounded-2xl border border-sky-500/25 bg-slate-950/70 shadow-lg shadow-black/10">
+      <div className="flex flex-col gap-2 border-b border-slate-800 px-4 py-4 sm:flex-row sm:items-end sm:justify-between sm:px-5">
+        <div>
+          <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300">
+            Trajectoires Maximus
+          </div>
+          <h2 className="mt-1 text-lg font-bold text-white sm:text-xl">
+            Évolution des SCPI affichées
+          </h2>
+          <p className="mt-1 text-xs leading-5 text-slate-400">
+            Mini-courbes sur les dernières observations certifiées : TOF et parts en attente de retrait.
+          </p>
+        </div>
+        <div className="text-[11px] text-slate-500">
+          {rows.length} SCPI avec historique exploitable
+        </div>
       </div>
 
-      {!compact && data.liquiditySeries.length > 0 && (
-        <div className="mt-1 flex items-center gap-2 text-[10px] font-semibold text-slate-400">
-          <span className="w-12 shrink-0">Retraits</span>
-          <TrajectorySparkline
-            values={data.liquiditySeries}
-            width={82}
-            height={20}
-            className="text-amber-300"
-            strokeWidth={1.8}
-          />
-          <span className="min-w-[42px] text-right text-slate-300">
-            {formatNumber(data.latestLiquidity, '%')}
-          </span>
-        </div>
-      )}
-    </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-[820px] w-full text-left text-sm">
+          <thead className="bg-slate-900/80 text-[10px] uppercase tracking-[0.08em] text-slate-500">
+            <tr>
+              <th className="px-4 py-3 sm:px-5">SCPI</th>
+              <th className="px-4 py-3">TOF — trajectoire</th>
+              <th className="px-4 py-3 text-right">Actuel</th>
+              <th className="px-4 py-3 text-right">Δ 4 obs.</th>
+              <th className="px-4 py-3">Retraits — trajectoire</th>
+              <th className="px-4 py-3 text-right sm:pr-5">Actuel</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/90">
+            {rows.map(({ slug, name, trajectory }) => (
+              <tr key={slug} className="transition hover:bg-slate-800/35">
+                <td className="px-4 py-3.5 sm:px-5">
+                  <a
+                    href={`/${slug}/#trajectoire-scpi`}
+                    className="font-semibold text-white hover:text-sky-300"
+                  >
+                    {name}
+                  </a>
+                </td>
+                <td className="px-4 py-3.5">
+                  <TrajectorySparkline
+                    values={trajectory.tofSeries}
+                    width={118}
+                    height={28}
+                    className="text-sky-300"
+                    strokeWidth={2}
+                  />
+                </td>
+                <td className="px-4 py-3.5 text-right font-semibold text-slate-200">
+                  {formatNumber(trajectory.latestTof, ' %')}
+                </td>
+                <td className={`px-4 py-3.5 text-right font-semibold ${deltaClass(trajectory.tofDelta)}`}>
+                  {trajectory.tofDelta === null
+                    ? 'N.D.'
+                    : `${trajectory.tofDelta > 0 ? '+' : ''}${formatNumber(trajectory.tofDelta, ' pt')}`}
+                </td>
+                <td className="px-4 py-3.5">
+                  {trajectory.liquiditySeries.length >= 2 ? (
+                    <TrajectorySparkline
+                      values={trajectory.liquiditySeries}
+                      width={118}
+                      height={28}
+                      className="text-amber-300"
+                      strokeWidth={2}
+                    />
+                  ) : (
+                    <span className="text-xs text-slate-600">Historique insuffisant</span>
+                  )}
+                </td>
+                <td className="px-4 py-3.5 text-right font-semibold text-slate-200 sm:pr-5">
+                  {formatNumber(trajectory.latestLiquidity, ' %', 3)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="border-t border-slate-800 px-4 py-3 text-[10px] leading-4 text-slate-600 sm:px-5">
+        Les courbes décrivent les observations publiées ; elles ne constituent ni une prévision de performance ni un score de recommandation.
+      </div>
+    </section>
   );
 };
 
 const ComparatorTrajectoryOverlay: React.FC = () => {
   const [rows, setRows] = useState<ScpiHistoryRow[]>([]);
-  const [hosts, setHosts] = useState<Host[]>([]);
-  const idSequence = useRef(0);
+  const [host, setHost] = useState<HTMLElement | null>(null);
+  const [visibleScpis, setVisibleScpis] = useState<VisibleScpi[]>([]);
   const signatureRef = useRef('');
 
   useEffect(() => {
@@ -103,7 +148,6 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
       const { data, error } = await supabase
         .from('scpi_indicator_history')
         .select(HISTORY_SELECT)
-        .order('snapshot_at', { ascending: true })
         .limit(5000);
 
       if (cancelled) return;
@@ -123,6 +167,7 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
 
   const trajectories = useMemo(() => {
     const grouped = new Map<string, ScpiHistoryRow[]>();
+
     rows.forEach((row) => {
       const list = grouped.get(row.scpi_slug) || [];
       list.push(row);
@@ -130,6 +175,7 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
     });
 
     const mapped: Record<string, TrajectorySnapshot> = {};
+
     grouped.forEach((slugRows, slug) => {
       const history = normalizeAndDedupeHistory(slugRows).slice(-8);
       const tofSeries = getNumericSeries(history, 'tof');
@@ -138,6 +184,11 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
       const tofDelta =
         tofSeries.length >= 2
           ? tofSeries[tofSeries.length - 1] - tofSeries[Math.max(0, tofSeries.length - 5)]
+          : null;
+      const liquidityDelta =
+        liquiditySeries.length >= 2
+          ? liquiditySeries[liquiditySeries.length - 1] -
+            liquiditySeries[Math.max(0, liquiditySeries.length - 5)]
           : null;
 
       if (tofSeries.length >= 2 || liquiditySeries.length >= 2) {
@@ -149,6 +200,7 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
             latest?.retrait_attente_pct ??
             (liquiditySeries[liquiditySeries.length - 1] ?? null),
           tofDelta,
+          liquidityDelta,
         };
       }
     });
@@ -163,61 +215,62 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
     if (!root || knownSlugs.size === 0) return;
 
     const scan = () => {
-      const next: Host[] = [];
-      const candidates = root.querySelectorAll<HTMLElement>(
-        'h3.text-base.font-bold.text-white, div.font-bold.text-white.text-sm.truncate',
+      const candidates = Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'h3.text-base.font-bold.text-white, div.font-bold.text-white.text-sm.truncate',
+        ),
       );
 
+      const next: VisibleScpi[] = [];
+      const seen = new Set<string>();
+
       candidates.forEach((node) => {
-        const rawName = node.textContent?.trim() || '';
-        const slug = createSlugFromName(rawName);
-        if (!knownSlugs.has(slug)) return;
-
-        const host = node.parentElement as HTMLElement | null;
-        if (!host) return;
-
-        let id = host.dataset.maximusTrajectoryHostId;
-        if (!id) {
-          idSequence.current += 1;
-          id = `trajectory-host-${idSequence.current}`;
-          host.dataset.maximusTrajectoryHostId = id;
-        }
-
-        next.push({
-          id,
-          element: host,
-          slug,
-          compact: !Boolean(host.closest('#scpi-grid')),
-        });
+        const name = node.textContent?.trim() || '';
+        const slug = createSlugFromName(name);
+        if (!name || seen.has(slug) || !knownSlugs.has(slug)) return;
+        seen.add(slug);
+        next.push({ slug, name });
       });
 
-      const signature = next
-        .map((item) => `${item.id}:${item.slug}:${item.compact ? 1 : 0}`)
-        .join('|');
+      const signature = next.map((item) => item.slug).join('|');
       if (signature !== signatureRef.current) {
         signatureRef.current = signature;
-        setHosts(next);
+        setVisibleScpis(next);
       }
+
+      let trajectoryHost = root.querySelector<HTMLElement>('[data-maximus-comparator-trajectory-host="true"]');
+      const grid = root.querySelector<HTMLElement>('#scpi-grid');
+      const firstListName = root.querySelector<HTMLElement>('div.font-bold.text-white.text-sm.truncate');
+      const firstListRow = firstListName?.parentElement?.parentElement as HTMLElement | null;
+      const listWrapper = firstListRow?.parentElement?.parentElement as HTMLElement | null;
+      const anchor = grid || listWrapper;
+
+      if (!anchor || !anchor.parentElement) return;
+
+      if (!trajectoryHost) {
+        trajectoryHost = document.createElement('div');
+        trajectoryHost.dataset.maximusComparatorTrajectoryHost = 'true';
+      }
+
+      if (trajectoryHost.parentElement !== anchor.parentElement || trajectoryHost.nextElementSibling !== anchor) {
+        anchor.parentElement.insertBefore(trajectoryHost, anchor);
+      }
+
+      setHost((current) => (current === trajectoryHost ? current : trajectoryHost));
     };
 
     scan();
     const observer = new MutationObserver(scan);
     observer.observe(root, { childList: true, subtree: true });
+
     return () => observer.disconnect();
   }, [knownSlugs]);
 
-  return (
-    <>
-      {hosts.map((host) => {
-        const trajectory = trajectories[host.slug];
-        if (!trajectory) return null;
-        return createPortal(
-          <CompactTrajectory data={trajectory} compact={host.compact} />,
-          host.element,
-          host.id,
-        );
-      })}
-    </>
+  if (!host || visibleScpis.length === 0) return null;
+
+  return createPortal(
+    <ComparatorTrajectoryTable items={visibleScpis} trajectories={trajectories} />,
+    host,
   );
 };
 
