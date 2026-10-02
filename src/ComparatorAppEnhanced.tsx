@@ -14,15 +14,26 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
     const normalizeAnalysis = () => {
       const headings = Array.from(document.querySelectorAll<HTMLHeadingElement>('h3'));
 
-      // Hide only the former legacy analysis block.
+      // Hide only the former legacy "Analyse MaximusSCPI" card.
+      // Important: do NOT hide the surrounding div.p-6.space-y-8 wrapper,
+      // because it also contains the sector/geography pie charts and the
+      // technical dashboard.
       const legacyHeading = headings.find(
         (node) =>
           node.textContent?.trim() === 'Analyse MaximusSCPI' &&
           Boolean(node.closest('div.p-6.space-y-8')),
       );
 
-      const legacyBlock = legacyHeading?.closest('div.p-6.space-y-8') as HTMLElement | null;
-      if (legacyBlock) {
+      let legacyBlock = legacyHeading?.parentElement ?? null;
+      while (
+        legacyBlock &&
+        legacyBlock !== document.body &&
+        !legacyBlock.className.includes('bg-purple-500/10')
+      ) {
+        legacyBlock = legacyBlock.parentElement;
+      }
+
+      if (legacyBlock && legacyBlock !== document.body) {
         legacyBlock.style.display = 'none';
         legacyBlock.setAttribute('aria-hidden', 'true');
         legacyBlock.dataset.legacyMaximusAnalysisHidden = 'true';
