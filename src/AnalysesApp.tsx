@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import SEOHead from './components/SEOHead';
 import AnalysesPage from './components/AnalysesPage';
+import TrajectorySurveillanceTable from './components/trajectory/TrajectorySurveillanceTable';
 import { CookieConsent } from './components/CookieConsent';
 
 const go = (path: string) => {
@@ -68,6 +69,7 @@ const AnalysesApp: React.FC = () => {
         currentView="analyses"
       />
       <AnalysesPage />
+      <TrajectorySurveillanceTable />
       <Footer />
       <CookieConsent />
     </div>
