@@ -34,6 +34,26 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
       if (rationaleHeading) {
         rationaleHeading.textContent = 'Analyse MaximusSCPI';
       }
+
+      // Comparator analysis hierarchy:
+      // Chiffres clés -> Radar MaximusSCPI -> Trajectoire Maximus -> remaining analysis.
+      const modalHeading = Array.from(document.querySelectorAll<HTMLHeadingElement>('h2')).find((node) =>
+        node.textContent?.trim().startsWith('Analyse Détaillée - '),
+      );
+      const modalRoot = modalHeading?.closest('.fixed.inset-0') as HTMLElement | null;
+
+      if (modalRoot) {
+        const modalHeadings = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3'));
+        const keyHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Chiffres clés');
+        const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
+
+        const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
+        const radarSection = radarHeading?.parentElement?.parentElement as HTMLElement | null;
+
+        if (keySection && radarSection && radarSection.previousElementSibling !== keySection) {
+          keySection.insertAdjacentElement('afterend', radarSection);
+        }
+      }
     };
 
     normalizeAnalysis();
