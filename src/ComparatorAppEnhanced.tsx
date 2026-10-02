@@ -47,8 +47,6 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
         rationaleHeading.textContent = 'Analyse MaximusSCPI';
       }
 
-      // Comparator analysis hierarchy:
-      // Chiffres clés -> Radar MaximusSCPI (complete block) -> Trajectoire Maximus -> remaining analysis.
       const modalHeading = Array.from(document.querySelectorAll<HTMLHeadingElement>('h2')).find((node) =>
         node.textContent?.trim().startsWith('Analyse Détaillée - '),
       );
@@ -58,12 +56,33 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
         const modalHeadings = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3'));
         const keyHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Chiffres clés');
         const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
+        const sourceHeading = modalHeadings.find(
+          (node) => node.textContent?.trim() === 'Source & fraîcheur des données',
+        );
 
         const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
         const radarSection = radarHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
+        const sourceSection = sourceHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
+        const trajectoryHost = modalRoot.querySelector<HTMLElement>(
+          '[data-maximus-analysis-trajectory-host="true"]',
+        );
 
-        if (keySection && radarSection && radarSection.previousElementSibling !== keySection) {
-          keySection.insertAdjacentElement('afterend', radarSection);
+        // Desired hierarchy:
+        // Chiffres clés -> Trajectoire / Signaux marché -> Radar -> reste de l'analyse.
+        const radarAnchor = trajectoryHost || keySection;
+        if (radarAnchor && radarSection && radarSection.previousElementSibling !== radarAnchor) {
+          radarAnchor.insertAdjacentElement('afterend', radarSection);
+        }
+
+        // Source & fraîcheur is useful for auditability but should not interrupt
+        // the analytical reading. Move it to the very bottom, just above actions.
+        const stickyFooter = modalRoot.querySelector<HTMLElement>('div.sticky.bottom-0');
+        if (
+          sourceSection &&
+          stickyFooter?.parentElement &&
+          sourceSection.nextElementSibling !== stickyFooter
+        ) {
+          stickyFooter.parentElement.insertBefore(sourceSection, stickyFooter);
         }
       }
     };
