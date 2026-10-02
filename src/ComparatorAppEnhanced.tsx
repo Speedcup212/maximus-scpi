@@ -1,9 +1,11 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import ComparatorApp from './ComparatorApp';
-import ComparatorTrajectoryOverlay from './components/trajectory/ComparatorTrajectoryOverlay';
 
 const ScpiVigilanceRationalePortalV2 = lazy(
   () => import('./components/fintech/ScpiVigilanceRationalePortalV2'),
+);
+const ComparatorAnalysisTrajectoryPortal = lazy(
+  () => import('./components/trajectory/ComparatorAnalysisTrajectoryPortal'),
 );
 
 const ConsolidateMaximusAnalysis: React.FC = () => {
@@ -68,11 +70,11 @@ const ComparatorAppEnhanced: React.FC = () => {
   return (
     <>
       <ComparatorApp />
-      <ComparatorTrajectoryOverlay />
       {analysisEnhancementsEnabled && (
         <>
           <ConsolidateMaximusAnalysis />
           <Suspense fallback={null}>
+            <ComparatorAnalysisTrajectoryPortal />
             <ScpiVigilanceRationalePortalV2 />
           </Suspense>
         </>
