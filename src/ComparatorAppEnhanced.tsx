@@ -4,6 +4,9 @@ import ComparatorApp from './ComparatorApp';
 const ScpiVigilanceRationalePortalV2 = lazy(
   () => import('./components/fintech/ScpiVigilanceRationalePortalV2'),
 );
+const ComparatorAnalysisTrajectoryPortal = lazy(
+  () => import('./components/trajectory/ComparatorAnalysisTrajectoryPortal'),
+);
 
 const ConsolidateMaximusAnalysis: React.FC = () => {
   useEffect(() => {
@@ -71,6 +74,7 @@ const ComparatorAppEnhanced: React.FC = () => {
         <>
           <ConsolidateMaximusAnalysis />
           <Suspense fallback={null}>
+            <ComparatorAnalysisTrajectoryPortal />
             <ScpiVigilanceRationalePortalV2 />
           </Suspense>
         </>
