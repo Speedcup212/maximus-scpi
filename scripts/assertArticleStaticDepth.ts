@@ -23,14 +23,26 @@ const stripText = (html: string) => html
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 
 const extractRoot = (html: string) => {
-  const rootStart = html.indexOf('<div id="root"');
+  const rootStart = html.search(/<div\s+id=["']root["'][^>]*>/i);
   if (rootStart === -1) throw new Error('div#root absent');
   const openEnd = html.indexOf('>', rootStart);
   if (openEnd === -1) throw new Error('ouverture #root invalide');
-  const moduleStart = html.indexOf('<script type="module"', openEnd);
-  if (moduleStart === -1) throw new Error('script module absent');
-  const closeStart = html.lastIndexOf('</div>', moduleStart);
-  if (closeStart === -1 || closeStart <= openEnd) throw new Error('fermeture #root absente');
+
+  const divTag = /<div\b[^>]*>|<\/div>/gi;
+  divTag.lastIndex = openEnd + 1;
+  let depth = 1;
+  let match: RegExpExecArray | null;
+  let closeStart = -1;
+  while ((match = divTag.exec(html))) {
+    if (/^<div\b/i.test(match[0])) depth += 1;
+    else depth -= 1;
+    if (depth === 0) {
+      closeStart = match.index;
+      break;
+    }
+  }
+  if (closeStart === -1) throw new Error('fermeture #root absente');
+
   return {
     opening: html.slice(rootStart, openEnd + 1),
     inner: html.slice(openEnd + 1, closeStart)

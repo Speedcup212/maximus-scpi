@@ -107,15 +107,32 @@ const setArticleSeo = (baseHtml: string, template: (typeof templates)[number]) =
   return html;
 };
 
+const hasProductionModule = (html: string) => /<script\b(?=[^>]*\btype=["']module["'])(?=[^>]*\bsrc=["'][^"']+["'])[^>]*>/i.test(html);
+
 const extractRootBounds = (html: string) => {
-  const rootStart = html.indexOf('<div id="root"');
+  if (!hasProductionModule(html)) throw new Error('bundle Vite module absent du shell applicatif');
+
+  const rootStart = html.search(/<div\s+id=["']root["'][^>]*>/i);
   if (rootStart === -1) throw new Error('div#root absent du shell applicatif');
   const openEnd = html.indexOf('>', rootStart);
   if (openEnd === -1) throw new Error('ouverture div#root invalide');
-  const moduleStart = html.indexOf('<script type="module"', openEnd);
-  if (moduleStart === -1) throw new Error('script Vite de production absent du shell applicatif');
-  const closeStart = html.lastIndexOf('</div>', moduleStart);
-  if (closeStart === -1 || closeStart <= openEnd) throw new Error('fermeture div#root introuvable');
+
+  // Le bundle Vite peut être dans <head>. On localise donc la fermeture de #root
+  // par équilibrage des balises div, sans dépendre de la position des scripts.
+  const divTag = /<div\b[^>]*>|<\/div>/gi;
+  divTag.lastIndex = openEnd + 1;
+  let depth = 1;
+  let match: RegExpExecArray | null;
+  let closeStart = -1;
+  while ((match = divTag.exec(html))) {
+    if (/^<div\b/i.test(match[0])) depth += 1;
+    else depth -= 1;
+    if (depth === 0) {
+      closeStart = match.index;
+      break;
+    }
+  }
+  if (closeStart === -1) throw new Error('fermeture div#root introuvable');
   return { rootStart, openEnd, closeStart };
 };
 
@@ -154,8 +171,8 @@ const createSpaServer = (appShell: string) => http.createServer((req, res) => {
       return;
     }
 
-    // Important : toutes les routes applicatives, y compris /articles/*,
-    // reçoivent le vrai shell Vite de production plutôt que leur HTML déjà pré-généré.
+    // Toutes les routes applicatives, y compris /articles/*, reçoivent
+    // le vrai shell Vite plutôt que leur HTML SEO déjà généré.
     const body = Buffer.from(appShell, 'utf-8');
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8',
@@ -191,7 +208,6 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
     return !loading && h1 >= 1 && h2 >= 5 && text.length >= 2200;
   }, { timeout: 25000 });
 
-  // Laisser React finir les effets de métadonnées, sans attendre de réseau externe.
   await new Promise((resolve) => setTimeout(resolve, 120));
 
   const captured = await page.evaluate(() => {
@@ -232,7 +248,7 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
 const main = async () => {
   if (!fs.existsSync(appShellPath)) throw new Error('dist/index.html absent : lancer après vite build');
   const appShell = fs.readFileSync(appShellPath, 'utf-8');
-  extractRootBounds(appShell); // fail-fast : on exige le vrai bundle Vite.
+  extractRootBounds(appShell);
   fs.mkdirSync(articlesDir, { recursive: true });
 
   console.log(`🚀 Pré-rendu React autoritaire : ${templates.length} articles`);
