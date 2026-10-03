@@ -168,9 +168,10 @@ const createTrajectoryPanel=(row:TrajectoryDashboardRow,scpiName:string):HTMLEle
 const findModalRadarSection = (): HTMLElement | null => {
   const title = findAnalysisTitle();
   if (!title) return null;
-  const modalContainer = title.closest('div.fixed') || title.parentElement?.parentElement?.parentElement;
-  if (!modalContainer) return null;
-  const radarHeading = Array.from(modalContainer.querySelectorAll<HTMLHeadingElement>('h3')).find((h) => h.textContent?.trim() === RADAR_TITLE);
+  let scope: HTMLElement | null = title.parentElement;
+  while (scope && !Array.from(scope.querySelectorAll('h3')).some((h) => h.textContent?.trim() === RADAR_TITLE)) scope = scope.parentElement;
+  if (!scope) return null;
+  const radarHeading = Array.from(scope.querySelectorAll<HTMLHeadingElement>('h3')).find((h) => h.textContent?.trim() === RADAR_TITLE);
   if (!radarHeading) return null;
   let section: HTMLElement | null = radarHeading;
   while (section && section.parentElement) {
