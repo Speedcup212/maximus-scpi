@@ -1,11 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import { createHash } from 'crypto';
 import { fileURLToPath } from 'url';
 import { articleTemplates } from '../src/data/articleTemplatesConfig';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distArticlesDir = path.join(__dirname, '../dist/articles');
+const manifestPath = path.join(distArticlesDir, 'react-prerender-manifest.json');
 
 const stripText = (html: string) => html
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -18,39 +20,87 @@ const stripText = (html: string) => html
   .replace(/\s+/g, ' ')
   .trim();
 
-const failures: string[] = [];
-let enhanced = 0;
-let full = 0;
+const hash = (value: string) => createHash('sha256').update(value).digest('hex');
 
-for (const article of articleTemplates.filter((entry) => entry.indexable !== false)) {
+const extractRoot = (html: string) => {
+  const rootStart = html.indexOf('<div id="root"');
+  if (rootStart === -1) throw new Error('div#root absent');
+  const openEnd = html.indexOf('>', rootStart);
+  if (openEnd === -1) throw new Error('ouverture #root invalide');
+  const moduleStart = html.indexOf('<script type="module"', openEnd);
+  if (moduleStart === -1) throw new Error('script module absent');
+  const closeStart = html.lastIndexOf('</div>', moduleStart);
+  if (closeStart === -1 || closeStart <= openEnd) throw new Error('fermeture #root absente');
+  return {
+    opening: html.slice(rootStart, openEnd + 1),
+    inner: html.slice(openEnd + 1, closeStart)
+  };
+};
+
+if (!fs.existsSync(manifestPath)) {
+  console.error('❌ Manifest de pré-rendu React absent.');
+  process.exit(1);
+}
+
+const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+const manifestMap = new Map((manifest.articles || []).map((entry: any) => [entry.slug, entry]));
+const templates = articleTemplates.filter((entry) => entry.indexable !== false);
+const failures: string[] = [];
+let minChars = Number.POSITIVE_INFINITY;
+let minH2 = Number.POSITIVE_INFINITY;
+
+if (manifest.count !== templates.length) {
+  failures.push(`manifest : ${manifest.count} articles au lieu de ${templates.length}`);
+}
+
+for (const article of templates) {
   const filePath = path.join(distArticlesDir, article.slug, 'index.html');
   if (!fs.existsSync(filePath)) {
     failures.push(`${article.slug}: HTML absent`);
     continue;
   }
-  const html = fs.readFileSync(filePath, 'utf-8');
-  const textLength = stripText(html).length;
-  const h2Count = (html.match(/<h2\b/gi) || []).length;
-  const isEnhanced = html.includes('data-seo-depth="enhanced"');
-  const isThinLegacy = html.includes('article-seo-shell') && !isEnhanced;
 
-  if (isThinLegacy) failures.push(`${article.slug}: ancien shell SEO mince encore présent`);
-  if (isEnhanced) {
-    enhanced++;
-    if (textLength < 900) failures.push(`${article.slug}: contenu HTML enrichi trop court (${textLength} caractères)`);
-    if (h2Count < 3) failures.push(`${article.slug}: seulement ${h2Count} H2 dans le HTML enrichi`);
-    if (!html.includes('id="article-static-depth-schema"')) failures.push(`${article.slug}: schema Article statique absent`);
-  } else {
-    full++;
-    if (textLength < 700) failures.push(`${article.slug}: page statique complète trop courte (${textLength} caractères)`);
-    if (h2Count < 2) failures.push(`${article.slug}: profondeur éditoriale insuffisante (${h2Count} H2)`);
+  const html = fs.readFileSync(filePath, 'utf-8');
+  let root;
+  try {
+    root = extractRoot(html);
+  } catch (error: any) {
+    failures.push(`${article.slug}: ${error.message}`);
+    continue;
+  }
+
+  if (!root.opening.includes('data-react-prerender="true"')) {
+    failures.push(`${article.slug}: marqueur de pré-rendu React absent`);
+  }
+  if (!root.opening.includes(`data-react-prerender-slug="${article.slug}"`)) {
+    failures.push(`${article.slug}: slug de pré-rendu incohérent`);
+  }
+  if (root.inner.includes('article-seo-shell') || root.inner.includes('data-seo-depth="enhanced"')) {
+    failures.push(`${article.slug}: ancien contenu SEO parallèle encore présent`);
+  }
+
+  const textLength = stripText(root.inner).length;
+  const h1Count = (root.inner.match(/<h1\b/gi) || []).length;
+  const h2Count = (root.inner.match(/<h2\b/gi) || []).length;
+  minChars = Math.min(minChars, textLength);
+  minH2 = Math.min(minH2, h2Count);
+
+  if (textLength < 2200) failures.push(`${article.slug}: contenu React statique trop court (${textLength} caractères)`);
+  if (h1Count < 1) failures.push(`${article.slug}: H1 absent du rendu React`);
+  if (h2Count < 5) failures.push(`${article.slug}: profondeur insuffisante (${h2Count} H2)`);
+
+  const manifestEntry: any = manifestMap.get(article.slug);
+  if (!manifestEntry) {
+    failures.push(`${article.slug}: absent du manifest React`);
+  } else if (manifestEntry.rootHash !== hash(root.inner.trim())) {
+    failures.push(`${article.slug}: le HTML final diverge du rendu React capturé`);
   }
 }
 
 if (failures.length) {
-  console.error(`❌ Profondeur HTML articles insuffisante : ${failures.length} anomalie(s)`);
+  console.error(`❌ Parité React ↔ HTML statique rompue : ${failures.length} anomalie(s)`);
   failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));
   process.exit(1);
 }
 
-console.log(`✅ Profondeur HTML articles certifiée : ${enhanced} shells enrichis + ${full} pages statiques complètes.`);
+console.log(`✅ Parité React ↔ HTML certifiée : ${templates.length}/${templates.length} articles · minimum ${minChars} caractères · minimum ${minH2} H2.`);
