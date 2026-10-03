@@ -16,8 +16,7 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
 
       // Hide only the former legacy "Analyse MaximusSCPI" card.
       // Important: do NOT hide the surrounding div.p-6.space-y-8 wrapper,
-      // because it also contains the sector/geography pie charts and the
-      // technical dashboard.
+      // because it also contains the risk profile, pie charts and technical dashboard.
       const legacyHeading = headings.find(
         (node) =>
           node.textContent?.trim() === 'Analyse MaximusSCPI' &&
@@ -54,28 +53,17 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
 
       if (modalRoot) {
         const modalHeadings = Array.from(modalRoot.querySelectorAll<HTMLHeadingElement>('h3'));
-        const keyHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Chiffres clés');
-        const radarHeading = modalHeadings.find((node) => node.textContent?.trim() === 'Radar MaximusSCPI');
         const sourceHeading = modalHeadings.find(
           (node) => node.textContent?.trim() === 'Source & fraîcheur des données',
         );
-
-        const keySection = keyHeading?.parentElement?.parentElement as HTMLElement | null;
-        const radarSection = radarHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
         const sourceSection = sourceHeading?.closest('div.px-6.pb-6') as HTMLElement | null;
-        const trajectoryHost = modalRoot.querySelector<HTMLElement>(
-          '[data-maximus-analysis-trajectory-host="true"]',
-        );
 
-        // Desired hierarchy:
-        // Chiffres clés -> Trajectoire / Signaux marché -> Radar -> reste de l'analyse.
-        const radarAnchor = trajectoryHost || keySection;
-        if (radarAnchor && radarSection && radarSection.previousElementSibling !== radarAnchor) {
-          radarAnchor.insertAdjacentElement('afterend', radarSection);
-        }
-
-        // Source & fraîcheur is useful for auditability but should not interrupt
-        // the analytical reading. Move it to the very bottom, just above actions.
+        // Source & fraîcheur reste physiquement au bas de la modale pour garantir
+        // une lecture continue. L'ordre visuel détaillé est piloté par
+        // ComparatorAnalysisTrajectoryPortal :
+        // Chiffres clés -> Profil de risque -> Analyse MaximusSCPI ->
+        // Répartitions -> Radar -> Analyse/Trajectoire -> Tableau technique ->
+        // Actualité trimestrielle -> Source & fraîcheur.
         const stickyFooter = modalRoot.querySelector<HTMLElement>('div.sticky.bottom-0');
         if (
           sourceSection &&
