@@ -8,7 +8,6 @@ import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
 import { getArticleComponent } from '../utils/articleComponentsMap';
-import { getTemplateBySlug } from '../data/articleTemplatesConfig';
 
 const DynamicArticlePage = lazy(() => import('./DynamicArticlePage'));
 
@@ -107,15 +106,11 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   }
 
   if (useLocalFallback) {
-    const localTemplate = getTemplateBySlug(slug);
-    if (localTemplate) {
-      return (
-        <Suspense fallback={<LoadingSpinner />}>
-          <DynamicArticlePage slug={slug} />
-        </Suspense>
-      );
-    }
-    setError('Article non trouvé');
+    return (
+      <Suspense fallback={<LoadingSpinner />}>
+        <DynamicArticlePage slug={slug} />
+      </Suspense>
+    );
   }
 
   if (error || !article) {
