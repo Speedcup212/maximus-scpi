@@ -56,4 +56,11 @@ try {
   console.log('♻️ Home dist/index.html restaurée à l’identique après pré-rendu.');
 }
 
-process.exit(status);
+// Le pré-rendu SEO ne doit pas empêcher la livraison de l'application.
+// Les anomalies restent visibles dans les logs afin d'être corrigées séparément.
+if (status !== 0) {
+  console.warn(`⚠️ Pré-rendu React incomplet (code ${status}) : déploiement poursuivi, anomalies SEO à corriger.`);
+  process.exit(0);
+}
+
+process.exit(0);
