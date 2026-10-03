@@ -128,12 +128,14 @@ html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:title["'][^>]*
 html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:description["'][^>]*>/i, `<meta property="twitter:description" content="${escapeHtml(description)}" />`);
 
 const rootStart = html.indexOf('<div id="root">');
-const moduleScriptStart = html.indexOf('<script type="module"', rootStart);
-if (rootStart === -1 || moduleScriptStart === -1) {
-  console.error('❌ Structure dist/index.html inattendue : root ou script module introuvable.');
+const bodyEnd = html.indexOf('</body>', rootStart);
+if (rootStart === -1 || bodyEnd === -1) {
+  console.error('❌ Structure dist/index.html inattendue : root ou body introuvable.');
   process.exit(1);
 }
-const rootEnd = html.lastIndexOf('</div>', moduleScriptStart);
+// Vite déplace le script module compilé dans <head>. Ne pas l'utiliser comme borne du root.
+// Le root est le dernier </div> du body : les scripts de fin de body ne contiennent pas de div HTML.
+const rootEnd = html.lastIndexOf('</div>', bodyEnd);
 if (rootEnd === -1 || rootEnd < rootStart) {
   console.error('❌ Fermeture du root introuvable dans dist/index.html.');
   process.exit(1);
