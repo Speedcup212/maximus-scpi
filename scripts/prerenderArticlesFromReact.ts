@@ -16,7 +16,6 @@ const host = '127.0.0.1';
 const port = 4174;
 const origin = `http://${host}:${port}`;
 const SITE = 'https://maximusscpi.com';
-
 const templates = articleTemplates.filter((entry) => entry.indexable !== false);
 
 const contentTypes: Record<string, string> = {
@@ -170,27 +169,43 @@ const listen = (server: http.Server) => new Promise<void>((resolve, reject) => {
   server.listen(port, host, () => resolve());
 });
 const closeServer = (server: http.Server) => new Promise<void>((resolve) => server.close(() => resolve()));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const configurePage = async (page: any, workerId: number) => {
+  await page.setViewport({ width: 1365, height: 900 });
+  page.on('pageerror', (error: any) => console.error(`   ⚠️ [${workerId}] React: ${error?.message || error}`));
+  await page.setRequestInterception(true);
+  page.on('request', (request: any) => {
+    const requestUrl = request.url();
+    if (
+      requestUrl.includes('googletagmanager.com') ||
+      requestUrl.includes('google-analytics.com') ||
+      requestUrl.includes('elfsightcdn.com') ||
+      requestUrl.includes('calendly.com')
+    ) {
+      request.abort();
+      return;
+    }
+    request.continue();
+  });
+};
 
 const processArticle = async (page: any, template: (typeof templates)[number], appShell: string) => {
   const slug = template.slug;
   const url = `${origin}/articles/${slug}/`;
   const expectedCanonical = `${SITE}/articles/${slug}/`;
 
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
   try {
     await page.waitForFunction((canonical: string) => {
       const root = document.getElementById('root');
       if (!root) return false;
-
       const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
-      const h1 = root.querySelectorAll('h1').length;
-      const h2 = root.querySelectorAll('h2').length;
-      const loading = /chargement( en cours)?/i.test(text);
       const currentCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href || '';
-      return currentCanonical === canonical && !loading && h1 >= 1 && h2 >= 5 && text.length >= 2200;
-    }, { timeout: 10000 }, expectedCanonical);
-  } catch (error: any) {
+      return currentCanonical === canonical && root.querySelectorAll('h1').length >= 1 && root.querySelectorAll('h2').length >= 5 && text.length >= 2200;
+    }, { timeout: 15000, polling: 100 }, expectedCanonical);
+  } catch {
     const diagnostic = await page.evaluate(() => {
       const root = document.getElementById('root');
       if (!root) return { textLength: 0, h2: 0, h1: [], canonical: '' };
@@ -204,7 +219,6 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
     throw new Error(`article non prêt (${diagnostic.textLength} caractères, ${diagnostic.h2} H2, H1=${JSON.stringify(diagnostic.h1)}, canonical=${diagnostic.canonical || 'absent'})`);
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 80));
   const captured = await page.evaluate(() => {
     const root = document.getElementById('root');
     if (!root) throw new Error('root React absent');
@@ -218,8 +232,8 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
     };
   });
 
-  if (!captured.html || captured.text.length < 2200 || captured.h2Count < 5) {
-    throw new Error(`rendu React trop mince (${captured.text.length} caractères, ${captured.h2Count} H2)`);
+  if (!captured.html || captured.text.length < 2200 || captured.h1Count < 1 || captured.h2Count < 5) {
+    throw new Error(`rendu React trop mince (${captured.text.length} caractères, ${captured.h1Count} H1, ${captured.h2Count} H2)`);
   }
 
   const finalHtml = injectReactRoot(setArticleSeo(appShell, template), slug, captured.html);
@@ -254,46 +268,40 @@ const main = async () => {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
-    const workerCount = Math.min(4, templates.length);
+    const workerCount = Math.min(2, templates.length);
     let cursor = 0;
     const results: any[] = [];
     const failures: string[] = [];
 
     const worker = async (workerId: number) => {
-      const page = await browser.newPage();
-      await page.setViewport({ width: 1365, height: 900 });
-      page.on('pageerror', (error: any) => console.error(`   ⚠️ [${workerId}] React: ${error?.message || error}`));
-      await page.setRequestInterception(true);
-      page.on('request', (request: any) => {
-        const requestUrl = request.url();
-        if (
-          requestUrl.includes('googletagmanager.com') ||
-          requestUrl.includes('google-analytics.com') ||
-          requestUrl.includes('elfsightcdn.com') ||
-          requestUrl.includes('calendly.com')
-        ) {
-          request.abort();
-          return;
-        }
-        request.continue();
-      });
+      while (true) {
+        const index = cursor++;
+        if (index >= templates.length) break;
+        const template = templates[index];
+        let lastError: any = null;
 
-      try {
-        while (true) {
-          const index = cursor++;
-          if (index >= templates.length) break;
-          const template = templates[index];
+        for (let attempt = 1; attempt <= 3; attempt += 1) {
+          const page = await browser.newPage();
           try {
+            await configurePage(page, workerId);
             const result = await processArticle(page, template, appShell);
             results.push(result);
-            console.log(`   ✓ [${workerId}] ${template.slug} — ${result.words} mots, ${result.h2} H2`);
+            console.log(`   ✓ [${workerId}] ${template.slug} — ${result.words} mots, ${result.h2} H2${attempt > 1 ? ` (essai ${attempt})` : ''}`);
+            lastError = null;
+            break;
           } catch (error: any) {
-            failures.push(`${template.slug}: ${error?.message || error}`);
-            console.error(`   ❌ [${workerId}] ${template.slug}: ${error?.message || error}`);
+            lastError = error;
+            console.error(`   ⚠️ [${workerId}] ${template.slug} essai ${attempt}/3: ${error?.message || error}`);
+          } finally {
+            await page.close().catch(() => undefined);
           }
+          await sleep(150 * attempt);
         }
-      } finally {
-        await page.close();
+
+        if (lastError) {
+          failures.push(`${template.slug}: ${lastError?.message || lastError}`);
+          console.error(`   ❌ [${workerId}] ${template.slug}: échec après 3 essais`);
+        }
       }
     };
 
@@ -313,11 +321,7 @@ const main = async () => {
       count: results.length,
       articles: results
     };
-    fs.writeFileSync(
-      path.join(articlesDir, 'react-prerender-manifest.json'),
-      JSON.stringify(manifest, null, 2),
-      'utf-8'
-    );
+    fs.writeFileSync(path.join(articlesDir, 'react-prerender-manifest.json'), JSON.stringify(manifest, null, 2), 'utf-8');
 
     const minChars = Math.min(...results.map((entry) => entry.chars));
     const minWords = Math.min(...results.map((entry) => entry.words));
