@@ -66,9 +66,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   const landingData: ScpiLandingData = built.data;
   const isEditorial = built.isEditorial;
 
-  // Récupérer les vraies données de la SCPI depuis scpiData.
-  // Comparaison par slug (insensible aux accents/espaces) pour éviter les
-  // décalages de nommage (ex. "Périal O2" éditorial vs "Perial O2" data).
   const landingSlug = createSlugFromName(landingData.nom);
   const staticScpiData = scpiData.find(
     scpi => createSlugFromName(scpi.name) === landingSlug
@@ -98,7 +95,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Capturer et stocker les paramètres UTM/gclid dès l'arrivée sur la page
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const utmSource = urlParams.get('utm_source');
@@ -106,7 +102,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     const utmCampaign = urlParams.get('utm_campaign');
     const gclid = urlParams.get('gclid');
 
-    // Stocker en sessionStorage si présents
     if (utmSource || utmMedium || utmCampaign || gclid) {
       console.log('📍 Paramètres Google Ads détectés et stockés:', { utmSource, utmMedium, utmCampaign, gclid });
       if (utmSource) sessionStorage.setItem('utm_source', utmSource);
@@ -124,6 +119,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
 
   const colors = getColorScheme(scpiKey);
   const useMaximusBrand = true;
+  const isEmailLeadMagnet = scpiKey === 'iroko-zen' || scpiKey === 'novaxia-neo' || scpiKey === 'remake-live';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,7 +127,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     setSubmitStatus('idle');
 
     try {
-      // Vérification des variables d'environnement avant tout
       const result = await submitLead({
         channel: 'scpi_page',
         form_type: 'lead_contact',
@@ -186,7 +181,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         console.warn('⚠️ Erreur Sender (non bloquante):', senderError);
       }
 
-      // Tracking Google Ads UNIQUEMENT après succès confirmé
       if (window.gtag) {
         console.log('📊 Envoi des événements de conversion Google Ads');
         window.gtag('event', 'conversion', {
@@ -203,7 +197,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         });
       }
 
-      // Redirection UNIQUEMENT après succès confirmé
       console.log('✅ Redirection vers la page de remerciement');
       window.location.href = '/merci-landing-page.html';
 
@@ -218,7 +211,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     } catch (error: any) {
       console.error('❌ ERREUR CRITIQUE lors de la soumission:', error);
 
-      // Messages d'erreur spécifiques selon le type d'erreur
       if (error.message === 'CONFIGURATION_MANQUANTE') {
         console.error('🔧 Action requise: Vérifier les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY');
       } else if (error.message === 'IMPORT_SUPABASE_FAILED') {
@@ -229,7 +221,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         console.error('🔧 Action requise: Vérifier la structure de la table et les règles RLS');
       }
 
-      // Log pour diagnostic complet
       console.error('📋 Informations de diagnostic:', {
         url: window.location.href,
         userAgent: navigator.userAgent,
@@ -239,7 +230,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       });
 
       setSubmitStatus('error');
-      // PAS de redirection en cas d'erreur (respect de la règle stratégique)
     } finally {
       setIsSubmitting(false);
     }
@@ -268,8 +258,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     }
   };
 
-  // Qualification factuelle du rendement (garde-fou marketing) : jamais de
-  // « Performance exceptionnelle » sur un rendement faible.
+  const scrollToLeadForm = () => {
+    document.getElementById('analyse-personnalisee')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
   const heroYieldValue = realScpiData ? realScpiData.yield : parseFloat(String(landingData.rendement).replace(',', '.'));
   const yieldQualif = qualifyYield(heroYieldValue);
 
@@ -293,9 +288,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     return value.toFixed(2) + '%';
   };
 
-  // Générer le verdict de l'expert basé sur les données réelles de la SCPI
-  // Canonical SANS préfixe (URL officielle de la fiche), quelle que soit l'URL
-  // d'arrivée (ex. /scpi-wemo-one redirigé 301 → /wemo-one).
   const canonicalUrl = `https://maximusscpi.com/${landingData.slug}/`;
 
   return (
@@ -322,328 +314,217 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       />
 
       <div className={`bg-gradient-to-br ${colors.primary} text-white`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-              <div className="space-y-8">
-                <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${useMaximusBrand ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
-                  <Zap className="w-5 h-5" />
-                  {getBadgeText()}
-                </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+          <div className="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)] gap-8 lg:gap-10 items-start">
+            <div className="space-y-8">
+              <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${useMaximusBrand ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
+                <Zap className="w-5 h-5" />
+                {getBadgeText()}
+              </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-                  {landingData.h1_question || `SCPI ${landingData.nom}`}
-                  <span className={`block text-3xl sm:text-4xl lg:text-5xl text-${colors.secondary}-100 mt-3`}>
-                    {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} de rendement
-                  </span>
-                  <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
-                    {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : yieldQualif.label}
-                  </span>
-                </h1>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                {landingData.h1_question || `SCPI ${landingData.nom}`}
+                <span className={`block text-3xl sm:text-4xl lg:text-5xl text-${colors.secondary}-100 mt-3`}>
+                  {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} de rendement
+                </span>
+                <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
+                  {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : yieldQualif.label}
+                </span>
+              </h1>
 
-                <p className={`text-xl sm:text-2xl text-${colors.secondary}-50 leading-relaxed`}>
-                  {landingData.description_courte}
-                </p>
+              <p className={`text-xl sm:text-2xl text-${colors.secondary}-50 leading-relaxed`}>
+                {landingData.description_courte}
+              </p>
 
-                {realScpiData ? (
-                  <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
-                    <div className="flex items-end justify-between gap-3 mb-4">
-                      <div>
-                        <div className="text-sm sm:text-base font-semibold uppercase tracking-wide text-white/70">
-                          Les chiffres essentiels
-                        </div>
-                        <div className="text-base sm:text-lg text-white/90 mt-1">
-                          Une lecture simple avant d'aller dans le détail
-                        </div>
+              {realScpiData ? (
+                <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-4 sm:p-5">
+                  <div className="flex items-end justify-between gap-3 mb-4">
+                    <div>
+                      <div className="text-sm sm:text-base font-semibold uppercase tracking-wide text-white/70">
+                        Les chiffres essentiels
                       </div>
-                      <div className="hidden sm:block text-xs text-white/60">
-                        Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
+                      <div className="text-base sm:text-lg text-white/90 mt-1">
+                        Une lecture simple avant d'aller dans le détail
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-3 gap-3">
-                      {[
-                        {
-                          label: 'Rendement',
-                          value: formatPercentage(realScpiData.yield),
-                          help: 'Distribué sur l’année'
-                        },
-                        {
-                          label: 'Capitalisation',
-                          value: formatCurrency(realScpiData.capitalization),
-                          help: 'Taille de la SCPI'
-                        },
-                        {
-                          label: 'Prix de la part',
-                          value: formatCurrency(realScpiData.price),
-                          help: 'Prix de souscription'
-                        },
-                        {
-                          label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
-                          value: realScpiData.discountQaStatus === 'publishable'
-                            ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
-                            : 'À vérifier',
-                          help: realScpiData.valeurReconstitution
-                            ? `${formatCurrency(realScpiData.price)} vs ${formatCurrency(realScpiData.valeurReconstitution)}`
-                            : 'Vs valeur du patrimoine'
-                        },
-                        {
-                          label: 'TOF',
-                          value: formatPercentage(realScpiData.tof),
-                          help: 'Occupation financière'
-                        },
-                        {
-                          label: 'Endettement',
-                          value: realScpiData.debt !== undefined ? formatPercentage(realScpiData.debt) : 'ND',
-                          help: 'Niveau de dette'
-                        },
-                        {
-                          label: 'WALB / WALT',
-                          value:
-                            realScpiData.walb !== undefined && realScpiData.walt !== undefined
-                              ? `${realScpiData.walb.toFixed(1).replace('.', ',')} / ${realScpiData.walt.toFixed(1).replace('.', ',')} ans`
-                              : 'ND',
-                          help: 'Sorties possibles / baux restants'
-                        },
-                        scpiKey === 'comete'
-                          ? {
-                              label: 'Revalorisation',
-                              value: '+5,3 %',
-                              help: '237,50 € → 250 €'
-                            }
-                          : {
-                              label: "Frais d'entrée",
-                              value: realScpiData.fees !== undefined ? formatPercentage(realScpiData.fees) : 'ND',
-                              help: realScpiData.fees === 0 ? 'Sans frais de souscription' : 'Frais de souscription TTC'
-                            },
-                        {
-                          label: 'Délai de jouissance',
-                          value: realScpiData.delaiJouissance !== undefined
-                            ? realScpiData.delaiJouissance === 0
-                              ? 'Immédiat'
-                              : `${realScpiData.delaiJouissance} mois`
-                            : 'ND',
-                          help: 'Avant perception des premiers revenus'
-                        }
-                      ].map((metric) => (
-                        <div
-                          key={metric.label}
-                          className="rounded-xl border border-white/15 bg-slate-950/20 p-4 min-h-[132px] flex flex-col justify-between"
-                        >
-                          <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/65">
-                            {metric.label}
-                          </div>
-
-                          <div
-                            className={`mt-2 font-extrabold text-yellow-300 leading-none tabular-nums ${(
-                              metric.label === 'Délai de jouissance' || metric.label === 'WALB / WALT'
-                            ) ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-[32px]'}`}
-                          >
-                            {metric.value}
-                          </div>
-
-                          <div className="mt-2 text-xs sm:text-[13px] leading-snug text-white/65">
-                            {metric.help}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
+                    <div className="hidden sm:block text-xs text-white/60">
                       Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
                     </div>
                   </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {realScpiData && (
-                      <>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
-                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
-                        </div>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
-                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
-                        </div>
-                        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                          <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
-                          <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
 
-                <div className="space-y-4">
-                  {landingData.avantages.map((avantage, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-                      <span className={`text-${colors.secondary}-50 text-lg`}>{avantage}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-8">
-                {/* Lead Magnet pour les SCPI gratuites (sans frais d'entrée) */}
-                {(scpiKey === 'iroko-zen' || scpiKey === 'novaxia-neo' || scpiKey === 'remake-live') ? (
-                  <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl shadow-2xl p-8">
-                    <LeadMagnetEmailForm />
-                  </div>
-                ) : (
-                  /* Formulaire classique pour les autres SCPI */
-                  <div className="bg-white rounded-3xl shadow-2xl p-8 lg:sticky lg:top-4">
-                    <div className="text-center mb-6">
-                      <div className="mb-4 flex justify-center">
-                        <div className={`border-4 rounded-full shadow-xl ${useMaximusBrand ? 'border-[#00C896]' : 'border-blue-600'}`}>
-                          <EricAvatar size={70} />
-                        </div>
-                      </div>
-                      <p className={`text-sm font-bold mb-2 ${useMaximusBrand ? 'text-emerald-700' : 'text-blue-700'}`}>
-                        Eric Bellaiche - Expert MaximusSCPI
-                      </p>
-                      <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                        Obtenez votre analyse personnalisée
-                      </h2>
-                      <p className="text-gray-600">
-                        Gratuit et sans engagement - Rappel sous 24h
-                      </p>
-                    </div>
-
-                    {submitStatus === 'success' ? (
-                      <div className="bg-blue-50 border-2 border-blue-500 rounded-xl p-6 text-center">
-                        <CheckCircle className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">
-                          Demande envoyée avec succès !
-                        </h3>
-                        <p className="text-gray-700">
-                          Eric vous contacte sous 24h pour échanger sur votre projet.
-                        </p>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <label className="block text-sm font-semibold text-gray-800 mb-2">
-                              Prénom *
-                            </label>
-                            <input
-                              type="text"
-                              name="prenom"
-                              required
-                              value={formData.prenom}
-                              onChange={handleChange}
-                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
-                              placeholder="Jean"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-semibold text-gray-800 mb-2">
-                              Nom *
-                            </label>
-                            <input
-                              type="text"
-                              name="nom"
-                              required
-                              value={formData.nom}
-                              onChange={handleChange}
-                              className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
-                              placeholder="Dupont"
-                            />
-                          </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      {
+                        label: 'Rendement',
+                        value: formatPercentage(realScpiData.yield),
+                        help: 'Distribué sur l’année'
+                      },
+                      {
+                        label: 'Capitalisation',
+                        value: formatCurrency(realScpiData.capitalization),
+                        help: 'Taille de la SCPI'
+                      },
+                      {
+                        label: 'Prix de la part',
+                        value: formatCurrency(realScpiData.price),
+                        help: 'Prix de souscription'
+                      },
+                      {
+                        label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
+                        value: realScpiData.discountQaStatus === 'publishable'
+                          ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
+                          : 'À vérifier',
+                        help: realScpiData.valeurReconstitution
+                          ? `${formatCurrency(realScpiData.price)} vs ${formatCurrency(realScpiData.valeurReconstitution)}`
+                          : 'Vs valeur du patrimoine'
+                      },
+                      {
+                        label: 'TOF',
+                        value: formatPercentage(realScpiData.tof),
+                        help: 'Occupation financière'
+                      },
+                      {
+                        label: 'Endettement',
+                        value: realScpiData.debt !== undefined ? formatPercentage(realScpiData.debt) : 'ND',
+                        help: 'Niveau de dette'
+                      },
+                      {
+                        label: 'WALB / WALT',
+                        value:
+                          realScpiData.walb !== undefined && realScpiData.walt !== undefined
+                            ? `${realScpiData.walb.toFixed(1).replace('.', ',')} / ${realScpiData.walt.toFixed(1).replace('.', ',')} ans`
+                            : 'ND',
+                        help: 'Sorties possibles / baux restants'
+                      },
+                      scpiKey === 'comete'
+                        ? {
+                            label: 'Revalorisation',
+                            value: '+5,3 %',
+                            help: '237,50 € → 250 €'
+                          }
+                        : {
+                            label: "Frais d'entrée",
+                            value: realScpiData.fees !== undefined ? formatPercentage(realScpiData.fees) : 'ND',
+                            help: realScpiData.fees === 0 ? 'Sans frais de souscription' : 'Frais de souscription TTC'
+                          },
+                      {
+                        label: 'Délai de jouissance',
+                        value: realScpiData.delaiJouissance !== undefined
+                          ? realScpiData.delaiJouissance === 0
+                            ? 'Immédiat'
+                            : `${realScpiData.delaiJouissance} mois`
+                          : 'ND',
+                        help: 'Avant perception des premiers revenus'
+                      }
+                    ].map((metric) => (
+                      <div
+                        key={metric.label}
+                        className="rounded-xl border border-white/15 bg-slate-950/20 p-4 min-h-[132px] flex flex-col justify-between"
+                      >
+                        <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/65">
+                          {metric.label}
                         </div>
 
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-800 mb-2">
-                            Adresse e-mail *
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            required
-                            value={formData.email}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
-                            placeholder="vous@exemple.com"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-800 mb-2">
-                            Téléphone *
-                          </label>
-                          <input
-                            type="tel"
-                            name="telephone"
-                            required
-                            value={formData.telephone}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
-                            placeholder="06 12 34 56 78"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-800 mb-2">
-                            Votre message (Facultatif)
-                          </label>
-                          <textarea
-                            name="commentaire"
-                            value={formData.commentaire}
-                            onChange={handleChange}
-                            rows={3}
-                            className={`w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:border-transparent resize-none text-gray-900 ${useMaximusBrand ? 'focus:ring-emerald-500' : 'focus:ring-blue-500'}`}
-                            placeholder="Vos questions ou précisions..."
-                          />
-                        </div>
-
-                        {submitStatus === 'error' && (
-                          <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center">
-                            <p className="text-red-700 text-sm">
-                              Une erreur est survenue. Veuillez réessayer.
-                            </p>
-                          </div>
-                        )}
-
-                        <button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className={`w-full text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${useMaximusBrand ? 'bg-[#00C896] hover:bg-[#00B789] text-[#0D1117] shadow-lg shadow-emerald-900/20' : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'}`}
+                        <div
+                          className={`mt-2 font-extrabold text-yellow-300 leading-none tabular-nums ${(
+                            metric.label === 'Délai de jouissance' || metric.label === 'WALB / WALT'
+                          ) ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-[32px]'}`}
                         >
-                          {isSubmitting ? (
-                            <>
-                              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                              <span>Envoi en cours...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Mail className="w-5 h-5" />
-                              <span>Obtenir mon analyse personnalisée</span>
-                            </>
-                          )}
-                        </button>
-
-                        <div className="flex items-center justify-center gap-6 text-xs text-gray-600 pt-4">
-                          <div className="flex items-center gap-1">
-                            <CheckCircle className="w-4 h-4 text-green-500" />
-                            <span>Gratuit</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Shield className="w-4 h-4 text-blue-500" />
-                            <span>Sans engagement</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4 text-gray-500" />
-                            <span>Réponse 24h</span>
-                          </div>
+                          {metric.value}
                         </div>
-                      </form>
-                    )}
+
+                        <div className="mt-2 text-xs sm:text-[13px] leading-snug text-white/65">
+                          {metric.help}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                )}
+
+                  <div className="mt-3 text-[11px] leading-relaxed text-white/55 sm:hidden">
+                    Source : {realScpiData.periodeBulletinTrimestriel || 'dernières données disponibles'}
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {realScpiData && (
+                    <>
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
+                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
+                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
+                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              <div className="space-y-4">
+                {landingData.avantages.map((avantage, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+                    <span className={`text-${colors.secondary}-50 text-lg`}>{avantage}</span>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <aside className="lg:sticky lg:top-24">
+              <div className="rounded-3xl border border-white/15 bg-white/[0.97] p-6 sm:p-7 text-slate-900 shadow-2xl shadow-black/20">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="rounded-full border-2 border-[#00C896] shadow-md">
+                    <EricAvatar size={52} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">Eric Bellaiche · MaximusSCPI</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-700">Analyse personnalisée</p>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl sm:text-[28px] font-extrabold leading-tight text-slate-950">
+                  La SCPI {landingData.nom} est-elle adaptée à votre projet ?
+                </h2>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-600">
+                  Vérification de sa cohérence avec votre allocation, votre horizon d'investissement et votre fiscalité.
+                </p>
+
+                <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-semibold text-slate-600">
+                  <div className="rounded-xl bg-emerald-50 px-2 py-3">
+                    <CheckCircle className="mx-auto mb-1.5 h-4 w-4 text-emerald-600" />
+                    Gratuit
+                  </div>
+                  <div className="rounded-xl bg-slate-50 px-2 py-3">
+                    <Shield className="mx-auto mb-1.5 h-4 w-4 text-slate-600" />
+                    Sans engagement
+                  </div>
+                  <div className="rounded-xl bg-slate-50 px-2 py-3">
+                    <Clock className="mx-auto mb-1.5 h-4 w-4 text-slate-600" />
+                    Réponse 24 h
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={scrollToLeadForm}
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#00C896] px-5 py-3.5 font-bold text-[#0D1117] shadow-lg shadow-emerald-900/15 transition hover:bg-[#00B789]"
+                >
+                  Obtenir mon analyse personnalisée
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
+                  Le formulaire complet est disponible plus bas, après l'analyse de la SCPI.
+                </p>
+              </div>
+            </aside>
           </div>
         </div>
+      </div>
 
       {useMaximusBrand && (
         <div
@@ -815,38 +696,159 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       )}
 
-      <div className="bg-white py-10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="max-w-2xl">
-              <h2 className="text-2xl font-bold text-gray-900">
-                Besoin d'un avis avant d'investir ?
+      <section id="analyse-personnalisee" className="scroll-mt-24 bg-white py-12 sm:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div className="lg:sticky lg:top-24">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-emerald-700">Analyse personnalisée</p>
+              <h2 className="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight text-slate-950">
+                Faut-il investir dans {landingData.nom} ?
               </h2>
-              <p className="mt-2 text-gray-600">
-                Le formulaire en haut de page reste le point d'entrée principal. Vous pouvez aussi réserver directement 15 minutes ou comparer cette SCPI au reste du marché.
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-slate-600">
+                La fiche vous donne les données. Ici, l'objectif est de vérifier si cette SCPI est cohérente avec votre situation, votre horizon et le reste de votre patrimoine.
               </p>
+
+              <div className="mt-6 space-y-3 text-sm text-slate-700">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                  <span>Lecture de la SCPI dans votre allocation globale.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                  <span>Prise en compte de l'horizon, de la liquidité et de la fiscalité.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                  <span>Réponse sous 24 h, gratuite et sans engagement.</span>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-              <button
-                type="button"
-                onClick={handleContactClick}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-3 font-semibold text-white hover:bg-slate-800 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                Réserver 15 min
-              </button>
-              <button
-                type="button"
-                onClick={() => onComparateurClick?.()}
-                className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 font-semibold text-gray-900 hover:bg-slate-100 transition-colors"
-              >
-                <BarChart3 className="w-4 h-4" />
-                Comparer cette SCPI
-              </button>
+
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 sm:p-7 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+              {isEmailLeadMagnet ? (
+                <LeadMagnetEmailForm />
+              ) : (
+                <>
+                  <div className="mb-6 flex items-center gap-3">
+                    <div className="rounded-full border-2 border-[#00C896] shadow-md">
+                      <EricAvatar size={52} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">Eric Bellaiche · MaximusSCPI</p>
+                      <p className="text-sm text-slate-500">Demande d'analyse personnalisée</p>
+                    </div>
+                  </div>
+
+                  {submitStatus === 'success' ? (
+                    <div className="rounded-xl border-2 border-emerald-500 bg-emerald-50 p-6 text-center">
+                      <CheckCircle className="mx-auto mb-4 h-14 w-14 text-emerald-600" />
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">Demande envoyée avec succès !</h3>
+                      <p className="text-gray-700">Eric vous contacte sous 24 h pour échanger sur votre projet.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-800 mb-2">Prénom *</label>
+                          <input
+                            type="text"
+                            name="prenom"
+                            required
+                            value={formData.prenom}
+                            onChange={handleChange}
+                            className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500"
+                            placeholder="Jean"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-800 mb-2">Nom *</label>
+                          <input
+                            type="text"
+                            name="nom"
+                            required
+                            value={formData.nom}
+                            onChange={handleChange}
+                            className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500"
+                            placeholder="Dupont"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-800 mb-2">Adresse e-mail *</label>
+                        <input
+                          type="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500"
+                          placeholder="vous@exemple.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-800 mb-2">Téléphone *</label>
+                        <input
+                          type="tel"
+                          name="telephone"
+                          required
+                          value={formData.telephone}
+                          onChange={handleChange}
+                          className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500"
+                          placeholder="06 12 34 56 78"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-800 mb-2">Votre message (facultatif)</label>
+                        <textarea
+                          name="commentaire"
+                          value={formData.commentaire}
+                          onChange={handleChange}
+                          rows={3}
+                          className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500"
+                          placeholder="Vos questions ou précisions..."
+                        />
+                      </div>
+
+                      {submitStatus === 'error' && (
+                        <div className="rounded-xl border-2 border-red-200 bg-red-50 p-4 text-center">
+                          <p className="text-sm text-red-700">Une erreur est survenue. Veuillez réessayer.</p>
+                        </div>
+                      )}
+
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#00C896] px-6 py-4 font-bold text-[#0D1117] shadow-lg shadow-emerald-900/15 transition hover:bg-[#00B789] disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="h-5 w-5 animate-spin rounded-full border-b-2 border-[#0D1117]" />
+                            <span>Envoi en cours...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Mail className="h-5 w-5" />
+                            <span>Obtenir mon analyse personnalisée</span>
+                          </>
+                        )}
+                      </button>
+
+                      <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-2 text-xs text-gray-600">
+                        <div className="flex items-center gap-1"><CheckCircle className="h-4 w-4 text-emerald-600" /><span>Gratuit</span></div>
+                        <div className="flex items-center gap-1"><Shield className="h-4 w-4 text-slate-600" /><span>Sans engagement</span></div>
+                        <div className="flex items-center gap-1"><Clock className="h-4 w-4 text-slate-600" /><span>Réponse 24 h</span></div>
+                      </div>
+                    </form>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
