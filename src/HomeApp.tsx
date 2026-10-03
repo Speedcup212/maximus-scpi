@@ -205,6 +205,11 @@ const HomeApp: React.FC = () => {
     setIsAnalysisModalOpen(true);
   };
 
+  const startProjectAnalysis = () => {
+    trackFunnelEvent('home_primary_cta_clicked', { source: 'hero', destination: 'quiz' });
+    document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className={`min-h-screen bg-slate-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <SEOHead
@@ -267,19 +272,24 @@ const HomeApp: React.FC = () => {
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                  <a
-                    href="/comparateur-scpi/"
+                  <button
+                    type="button"
+                    onClick={startProjectAnalysis}
                     className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-2xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
                   >
-                    Voir le comparateur complet
-                  </a>
+                    Analyser mon projet en 2 minutes
+                  </button>
                   <a
-                    href="/analyses/"
+                    href="/comparateur-scpi/"
+                    onClick={() => trackFunnelEvent('home_secondary_cta_clicked', { source: 'hero', destination: 'comparateur' })}
                     className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/70 px-6 py-3.5 text-sm font-bold text-slate-100 transition hover:border-emerald-500/50 hover:bg-slate-800"
                   >
-                    Découvrir les analyses
+                    Voir le comparateur
                   </a>
                 </div>
+                <p className="mt-3 text-xs font-medium text-slate-500">
+                  4 questions • analyse immédiate • rendez-vous visio si vous souhaitez faire valider votre allocation
+                </p>
 
                 <div className="mt-7 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="rounded-xl border border-slate-700 bg-slate-800/55 px-4 py-3">
