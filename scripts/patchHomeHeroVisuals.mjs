@@ -24,6 +24,19 @@ const replaceOrVerify = (filePath, before, after, label) => {
   console.log(`✓ ${label} appliqué`);
 };
 
+const removeOrVerify = (filePath, target, label) => {
+  let content = fs.readFileSync(filePath, 'utf8');
+
+  if (!content.includes(target)) {
+    console.log(`✓ ${label} déjà appliqué`);
+    return;
+  }
+
+  content = content.replace(target, '');
+  fs.writeFileSync(filePath, content, 'utf8');
+  console.log(`✓ ${label} appliqué`);
+};
+
 const homeAppPath = path.join(projectRoot, 'src', 'HomeApp.tsx');
 const indexPath = path.join(projectRoot, 'index.html');
 const syncPath = path.join(projectRoot, 'scripts', 'syncHomeStaticHero.mjs');
@@ -40,6 +53,47 @@ replaceOrVerify(
   `                <p className="max-w-xl text-lg font-semibold leading-relaxed text-slate-200 sm:text-xl">`,
   `                <p className="max-w-xl text-base font-medium leading-relaxed text-slate-200 sm:text-lg">`,
   'Sous-titre React allégé'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `              <div className="relative mx-auto min-h-[550px] w-full max-w-2xl lg:mx-0">`,
+  `              <div className="relative mx-auto min-h-[560px] w-full max-w-2xl sm:min-h-[590px] lg:mx-0 lg:min-h-[620px] lg:w-[116%] lg:max-w-none lg:-translate-x-8">`,
+  'Zone visuelle droite agrandie et recentrée'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute left-0 top-6 z-10 w-[60%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
+  `                <div className="absolute left-0 top-2 z-10 w-[64%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
+  'Carte comparateur agrandie et remontée'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute right-0 top-20 z-20 w-[47%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
+  `                <div className="absolute right-0 top-14 z-20 w-[49%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte analyse agrandie et repositionnée'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute bottom-10 left-3 z-10 w-[57%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
+  `                <div className="absolute bottom-8 left-4 z-10 w-[61%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte évolution agrandie et repositionnée'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute bottom-0 right-1 z-20 w-[42%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
+  `                <div className="absolute bottom-2 right-0 z-20 w-[45%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte simulateurs agrandie et repositionnée'
+);
+
+removeOrVerify(
+  homeAppPath,
+  `\n                <p className="absolute -bottom-7 left-3 text-[10px] text-slate-500">\n                  Aperçus construits à partir des composants et données du site.\n                </p>`,
+  'Mention sous les visuels supprimée'
 );
 
 replaceOrVerify(
