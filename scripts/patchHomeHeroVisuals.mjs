@@ -65,29 +65,29 @@ replaceOrVerify(
 replaceOrVerify(
   homeAppPath,
   `                <div className="absolute left-0 top-6 z-10 w-[60%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
-  `                <div className="absolute left-0 top-2 z-10 w-[64%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
-  'Carte comparateur agrandie et remontée'
+  `                <div className="absolute left-0 top-5 z-10 w-[64%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
+  'Carte comparateur agrandie et légèrement descendue'
 );
 
 replaceOrVerify(
   homeAppPath,
   `                <div className="absolute right-0 top-20 z-20 w-[47%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
-  `                <div className="absolute right-0 top-14 z-20 w-[49%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
-  'Carte analyse agrandie et repositionnée'
+  `                <div className="absolute right-4 top-14 z-20 w-[49%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte analyse agrandie et rapprochée du centre'
 );
 
 replaceOrVerify(
   homeAppPath,
   `                <div className="absolute bottom-10 left-3 z-10 w-[57%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
-  `                <div className="absolute bottom-8 left-4 z-10 w-[61%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
-  'Carte évolution agrandie et repositionnée'
+  `                <div className="absolute bottom-14 left-4 z-10 w-[61%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte évolution agrandie et remontée'
 );
 
 replaceOrVerify(
   homeAppPath,
   `                <div className="absolute bottom-0 right-1 z-20 w-[42%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">`,
-  `                <div className="absolute bottom-2 right-0 z-20 w-[45%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
-  'Carte simulateurs agrandie et repositionnée'
+  `                <div className="absolute bottom-6 right-4 z-20 w-[45%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  'Carte simulateurs agrandie et rapprochée du centre'
 );
 
 removeOrVerify(
