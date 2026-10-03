@@ -16,7 +16,7 @@
     "audit:scpi-consistency": "npx tsx scripts/scpi-agents/audit-visible-scpi-price-reconstitution-consistency.ts",
     "check:scpi-usages": "npx tsx scripts/scpi-agents/check-forbidden-scpi-usages.ts",
     "check:certification": "npx tsx scripts/runScpiCertification.ts",
-    "test:scpi-text-consistency": "vitest run src/utils/__tests__/scpiAnalysis.test.ts",
+    "test:scpi-text-consistency": "npx tsx scripts/scpi-agents/test-analysis-text-discount-consistency.ts",
     "audit:scpi-pages": "npx tsx scripts/scpi-agents/audit-scpi-page-template-consistency.ts",
     "audit:scpi-seo": "node scripts/generateRedirectsSSG.js && node scripts/assertScpiCanonicalRoutes.js",
     "qa:scpi": "npm run check:certification && npm run audit:scpi-indicators && npm run audit:scpi-consistency && npm run audit:scpi-pages && npm run audit:scpi-seo && npm run test:scpi-text-consistency && npm run check:scpi-usages && npx vite build",
@@ -40,7 +40,7 @@
     "react-dom": "^18.3.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.4.1",
-    "remark-gfm": "^6.0.0",
+    "remark-gfm": "^10.1.0",
     "xml2js": "^0.6.2",
     "zod": "^4.3.6"
   },
