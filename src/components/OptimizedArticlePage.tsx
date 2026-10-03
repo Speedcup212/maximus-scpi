@@ -1,15 +1,14 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Calculator } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
-import LoadingSpinner from './LoadingSpinner';
 import MoneyPageTools from './MoneyPageTools';
+import DynamicArticlePage from './DynamicArticlePage';
 import { getSemanticLinks } from '../data/semanticCocon';
+import { getTemplateBySlug } from '../data/articleTemplatesConfig';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
 import { getArticleComponent } from '../utils/articleComponentsMap';
-
-const DynamicArticlePage = lazy(() => import('./DynamicArticlePage'));
 
 interface OptimizedArticlePageProps {
   slug: string;
@@ -38,10 +37,9 @@ interface ArticleData {
   content_html: string | null;
 }
 
-const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => {
+const SupabaseArticlePage: React.FC<{ slug: string }> = ({ slug }) => {
   const [article, setArticle] = useState<ArticleData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [useLocalFallback, setUseLocalFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -51,13 +49,10 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
       try {
         setLoading(true);
         setError(null);
-        setUseLocalFallback(false);
         setArticle(null);
 
-        // Le contenu React local est la source de secours autoritaire pour le build,
-        // les crawlers et tout environnement où Supabase n'est pas disponible.
         if (!supabase) {
-          if (!cancelled) setUseLocalFallback(true);
+          if (!cancelled) setError('Article non trouvé');
           return;
         }
 
@@ -69,20 +64,20 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           .maybeSingle();
 
         if (fetchError) {
-          console.warn('Article Supabase indisponible, fallback React local:', fetchError);
-          if (!cancelled) setUseLocalFallback(true);
+          console.warn('Article Supabase indisponible:', fetchError);
+          if (!cancelled) setError('Article non trouvé');
           return;
         }
 
         if (!data) {
-          if (!cancelled) setUseLocalFallback(true);
+          if (!cancelled) setError('Article non trouvé');
           return;
         }
 
         if (!cancelled) setArticle(data);
       } catch (err) {
-        console.warn('Chargement Supabase impossible, fallback React local:', err);
-        if (!cancelled) setUseLocalFallback(true);
+        console.warn('Chargement Supabase impossible:', err);
+        if (!cancelled) setError('Article non trouvé');
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -105,14 +100,6 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
     );
   }
 
-  if (useLocalFallback) {
-    return (
-      <Suspense fallback={<LoadingSpinner />}>
-        <DynamicArticlePage slug={slug} />
-      </Suspense>
-    );
-  }
-
   if (error || !article) {
     return (
       <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
@@ -128,6 +115,7 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
   const hasContentHtml = article.content_html && article.content_html.trim().length > 0;
   const cleanedHtml = hasContentHtml ? cleanArticleHtml(article.content_html!) : '';
+  const mappedComponent = getArticleComponent(article.component_name);
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Accueil', url: 'https://maximusscpi.com' },
@@ -159,19 +147,19 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
 
         {hasContentHtml ? (
           <article className="max-w-none">
-            <div
-              className="article-prose"
-              dangerouslySetInnerHTML={{ __html: cleanedHtml }}
-            />
+            <div className="article-prose" dangerouslySetInnerHTML={{ __html: cleanedHtml }} />
           </article>
-        ) : getArticleComponent(article.component_name) ? (
+        ) : mappedComponent ? (
           <article className="max-w-none">
-            {React.createElement(getArticleComponent(article.component_name)!)}
+            {React.createElement(mappedComponent)}
           </article>
         ) : (
-          <Suspense fallback={<LoadingSpinner />}>
-            <DynamicArticlePage slug={slug} />
-          </Suspense>
+          <div className="min-h-[40vh] flex items-center justify-center">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Article non trouvé</h1>
+              <a href="/articles/" className="text-emerald-600 hover:underline">Voir les articles</a>
+            </div>
+          </div>
         )}
 
         <div className="my-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 rounded-2xl p-8 text-center text-white shadow-2xl">
@@ -207,11 +195,21 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
   );
 };
 
+const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => {
+  // Les articles du catalogue local ont une source React versionnée et autoritaire.
+  // Ils ne doivent jamais dépendre de Supabase pour leur rendu utilisateur ou leur pré-rendu SEO.
+  if (getTemplateBySlug(slug)) {
+    return <DynamicArticlePage slug={slug} />;
+  }
+
+  return <SupabaseArticlePage slug={slug} />;
+};
+
 function cleanArticleHtml(raw: string): string {
   return raw
-    .replace(/```html/gi, "")
-    .replace(/```/g, "")
-    .replace(/^\s*#{1,6}\s+/gm, "")
+    .replace(/```html/gi, '')
+    .replace(/```/g, '')
+    .replace(/^\s*#{1,6}\s+/gm, '')
     .trim();
 }
 
