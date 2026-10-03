@@ -133,6 +133,14 @@ replaceOrVerify(
   'Simulateurs intégrés à la grille'
 );
 
+// Finitions du dashboard unifié : plus grand, plus dense et légèrement remonté.
+replaceOrVerify(
+  homeAppPath,
+  `              <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-4 rounded-3xl border border-slate-700/60 bg-slate-900/35 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm lg:mx-0 lg:w-[116%] lg:max-w-none lg:-translate-x-6 lg:grid-cols-12 lg:gap-4 lg:p-5">`,
+  `              <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-3 rounded-3xl border border-slate-700/60 bg-slate-900/35 p-3 shadow-2xl shadow-black/20 backdrop-blur-sm lg:mx-0 lg:w-[128%] lg:max-w-none lg:-translate-x-8 lg:-translate-y-2.5 lg:grid-cols-12 lg:gap-3 lg:p-3.5">`,
+  'Dashboard agrandi de 10 %, densifié et remonté'
+);
+
 replaceOrVerify(
   indexPath,
   `.initial-title-main{display:block;font-size:clamp(50px,5.4vw,72px);line-height:1;font-weight:800;color:#f1f5f9}`,
