@@ -20,7 +20,7 @@ const AnalysesPage: React.FC = () => {
                 MaximusSCPI Research
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-                Analyses SCPI : signaux actuels et trajectoires
+                Analyses SCPI : signaux actuels et trajectoires historiques des SCPI
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400 sm:text-base">
                 Une lecture opérationnelle des fondamentaux : occupation, liquidité, valorisation, dette et évolution dans le temps. Les données insuffisamment fiables restent neutralisées.
