@@ -4,6 +4,7 @@ import { selectSupabaseRest } from './supabaseRest';
 const RADAR_TITLE = 'Radar MaximusSCPI';
 const ANALYSIS_TITLE_PREFIX = 'Analyse Détaillée - ';
 const TRAJECTORY_PANEL_ATTR = 'data-maximus-trajectory-panel';
+const TRAJECTORY_SLOT_ATTR = 'data-maximus-trajectory-slot';
 
 type TrajectoryDashboardRow = {
   scpi_slug: string;
@@ -272,33 +273,6 @@ const applyMobileLayoutFix = (block: HTMLElement) => {
 const findAnalysisTitle = (): HTMLHeadingElement | null => {
   const headings = Array.from(document.querySelectorAll<HTMLHeadingElement>('h2'));
   return headings.find((heading) => heading.textContent?.trim().startsWith(ANALYSIS_TITLE_PREFIX)) || null;
-};
-
-const getAnalysisModalRoot = (): HTMLElement | null => {
-  const title = findAnalysisTitle();
-  if (!title) return null;
-
-  let current: HTMLElement | null = title.parentElement;
-  while (current) {
-    const hasRadar = Array.from(current.querySelectorAll('h3')).some(
-      (heading) => heading.textContent?.trim() === RADAR_TITLE,
-    );
-    const hasKeyFigures = Array.from(current.querySelectorAll('h3')).some(
-      (heading) => heading.textContent?.trim() === 'Chiffres clés',
-    );
-    if (hasRadar && hasKeyFigures) return current;
-    current = current.parentElement;
-  }
-
-  return null;
-};
-
-const getDirectChildSection = (root: HTMLElement, descendant: HTMLElement): HTMLElement | null => {
-  let current: HTMLElement | null = descendant;
-  while (current && current.parentElement !== root) {
-    current = current.parentElement;
-  }
-  return current && current.parentElement === root ? current : null;
 };
 
 const getAnalysisScpiName = (): string | null => {
@@ -617,20 +591,12 @@ const ensureTrajectoryPanel = async () => {
   const slug = createSlugFromName(scpiName);
   if (!slug) return;
 
-  const modalRoot = getAnalysisModalRoot();
-  if (!modalRoot) return;
+  const slot = document.querySelector<HTMLElement>(`[${TRAJECTORY_SLOT_ATTR}]`);
+  if (!slot || !slot.isConnected) return;
 
-  const radarBlock = getRadarBlocks(modalRoot)[0];
-  if (!radarBlock || !radarBlock.isConnected) return;
-
-  const radarSection = getDirectChildSection(modalRoot, radarBlock);
-  if (!radarSection) return;
-
-  const existing = modalRoot.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);
+  const existing = document.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);
   if (existing) {
-    if (radarSection.nextElementSibling !== existing) {
-      radarSection.insertAdjacentElement('afterend', existing);
-    }
+    if (existing.parentElement !== slot) slot.replaceChildren(existing);
     return;
   }
 
@@ -640,23 +606,17 @@ const ensureTrajectoryPanel = async () => {
   const stillOpenName = getAnalysisScpiName();
   if (!stillOpenName || createSlugFromName(stillOpenName) !== slug) return;
 
-  const currentModalRoot = getAnalysisModalRoot();
-  if (!currentModalRoot) return;
-  const currentRadarBlock = getRadarBlocks(currentModalRoot)[0];
-  if (!currentRadarBlock) return;
-  const currentRadarSection = getDirectChildSection(currentModalRoot, currentRadarBlock);
-  if (!currentRadarSection) return;
+  const currentSlot = document.querySelector<HTMLElement>(`[${TRAJECTORY_SLOT_ATTR}]`);
+  if (!currentSlot || !currentSlot.isConnected) return;
 
-  const alreadyInserted = currentModalRoot.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);
+  const alreadyInserted = document.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);
   if (alreadyInserted) {
-    if (currentRadarSection.nextElementSibling !== alreadyInserted) {
-      currentRadarSection.insertAdjacentElement('afterend', alreadyInserted);
-    }
+    if (alreadyInserted.parentElement !== currentSlot) currentSlot.replaceChildren(alreadyInserted);
     return;
   }
 
   const panel = createTrajectoryPanel(row, scpiName);
-  currentRadarSection.insertAdjacentElement('afterend', panel);
+  currentSlot.replaceChildren(panel);
 };
 
 export const normalizeComparatorRadarUx = () => {
