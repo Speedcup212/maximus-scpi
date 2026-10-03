@@ -250,11 +250,14 @@ const HomeApp: React.FC = () => {
                 </span>
 
                 <h1 className="mt-5 mb-5 overflow-visible md:mb-6">
-                  <span className="block text-4xl font-bold leading-tight text-slate-100 sm:text-5xl lg:text-6xl">
+                  <span className="block text-4xl font-bold leading-tight text-slate-100 sm:text-5xl lg:whitespace-nowrap lg:text-5xl">
                     Analysez. Comparez.
                   </span>
                   <span className="mt-2 block bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text pb-1 text-3xl font-bold leading-tight text-transparent sm:text-4xl lg:text-5xl">
-                    Investissez sur MaximusSCPI.
+                    Investissez sur
+                  </span>
+                  <span className="block bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text pb-1 text-3xl font-bold leading-tight text-transparent sm:text-4xl lg:text-5xl">
+                    MaximusSCPI.
                   </span>
                 </h1>
 
