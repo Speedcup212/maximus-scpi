@@ -11,6 +11,7 @@ type TrajectoryDashboardRow = {
   tof?: number | string | null;
   niveau_tof?: string | null;
   trajectoire_tof?: string | null;
+  delta_last_obs?: number | string | null;
   tof_points?: number | string | null;
   tof_gate?: string | null;
   tof_signal_eligible?: boolean | null;
@@ -63,6 +64,7 @@ const DASHBOARD_SELECT = [
   'tof',
   'niveau_tof',
   'trajectoire_tof',
+  'delta_last_obs',
   'tof_points',
   'tof_gate',
   'tof_signal_eligible',
@@ -333,7 +335,8 @@ const renderMetricCard = (options: {
     points,
     signalEligible,
   } = options;
-  const canShowDirection = signalEligible !== false && gate === 'PASS' && Boolean(trajectory);
+  const gateAllowsDirection = gate === 'PASS' || gate === 'PASS_EVOLUTION';
+  const canShowDirection = signalEligible !== false && gateAllowsDirection && Boolean(trajectory);
   const details: string[] = [];
 
   if (period) details.push(`Période ${escapeHtml(period)}`);
@@ -457,7 +460,7 @@ const createTrajectoryPanel = (row: TrajectoryDashboardRow, scpiName: string): H
   wrapper.setAttribute(TRAJECTORY_PANEL_ATTR, row.scpi_slug);
 
   const tofDelta = row.tof_signal_eligible && row.tof_gate === 'PASS'
-    ? formatDelta(row.prix_souscription_delta_last)
+    ? formatDelta(row.delta_last_obs, ' pt')
     : null;
 
   const subscriptionDelta = row.subscription_value_gate === 'PASS' || row.subscription_value_gate === 'PASS_EVOLUTION'
@@ -601,7 +604,8 @@ const ensureTrajectoryPanel = async () => {
   if (document.querySelector(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`)) return;
 
   const panel = createTrajectoryPanel(row, scpiName);
-  radarBlock.insertAdjacentElement('afterend', panel);
+  const insertionAnchor = radarBlock.parentElement instanceof HTMLElement ? radarBlock.parentElement : radarBlock;
+  insertionAnchor.insertAdjacentElement('afterend', panel);
 };
 
 export const normalizeComparatorRadarUx = () => {
