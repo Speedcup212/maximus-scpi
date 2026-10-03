@@ -283,17 +283,6 @@ const HomeApp: React.FC = () => {
                     Découvrir les analyses
                   </a>
                 </div>
-
-                <div className="mt-7 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-slate-700 bg-slate-800/55 px-4 py-3">
-                    <p className="text-lg font-black text-emerald-400">4 650+</p>
-                    <p className="text-xs text-slate-400">situations patrimoniales étudiées</p>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-800/55 px-4 py-3">
-                    <p className="text-lg font-black text-emerald-400">330 M€+</p>
-                    <p className="text-xs text-slate-400">de projets analysés</p>
-                  </div>
-                </div>
               </div>
 
               <div className="relative mx-auto min-h-[550px] w-full max-w-2xl lg:mx-0">
