@@ -16,7 +16,7 @@ const go = (path: string) => {
   window.location.href = path;
 };
 
-const ToolIcon = ({ type }: { type: 'compare' | 'analysis' | 'trend' | 'simulation' }) => {
+const ToolIcon = ({ type }: { type: 'compare' | 'analysis' | 'trend' | 'simulation' | 'distribution' }) => {
   if (type === 'compare') {
     return (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -35,6 +35,13 @@ const ToolIcon = ({ type }: { type: 'compare' | 'analysis' | 'trend' | 'simulati
     return (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M3 18 9 12l4 4 8-10" /><path d="M15 6h6v6" />
+      </svg>
+    );
+  }
+  if (type === 'distribution') {
+    return (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M12 2v10h10" /><path d="M21.2 15a10 10 0 1 1-12.2-12.2" />
       </svg>
     );
   }
@@ -69,6 +76,46 @@ const MiniTrend = () => (
   </svg>
 );
 
+const MiniDistributionDonut = ({
+  values,
+  colors,
+}: {
+  values: number[];
+  colors: string[];
+}) => {
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const total = values.reduce((sum, value) => sum + value, 0) || 1;
+  let offset = 0;
+
+  return (
+    <svg viewBox="0 0 64 64" className="h-16 w-16 shrink-0" aria-hidden="true">
+      <g transform="rotate(-90 32 32)">
+        <circle cx="32" cy="32" r={radius} fill="none" stroke="#334155" strokeWidth="12" />
+        {values.map((value, index) => {
+          const segment = (value / total) * circumference;
+          const node = (
+            <circle
+              key={`${value}-${index}`}
+              cx="32"
+              cy="32"
+              r={radius}
+              fill="none"
+              stroke={colors[index % colors.length]}
+              strokeWidth="12"
+              strokeDasharray={`${segment} ${circumference}`}
+              strokeDashoffset={-offset}
+            />
+          );
+          offset += segment;
+          return node;
+        })}
+      </g>
+      <circle cx="32" cy="32" r="13" fill="#1e293b" />
+    </svg>
+  );
+};
+
 const HomeApp: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
@@ -82,6 +129,9 @@ const HomeApp: React.FC = () => {
 
   const previewScpis = useMemo(() => scpiDataExtended.slice(0, 3), []);
   const featuredScpi = previewScpis[0];
+  const distributionColors = ['#3b82f6', '#34d399', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'];
+  const sectorValues = (featuredScpi?.sectors ?? []).slice(0, 8).map(item => item.value);
+  const geographyValues = (featuredScpi?.geography ?? []).slice(0, 8).map(item => item.value);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -293,7 +343,7 @@ const HomeApp: React.FC = () => {
                 </div>
               </div>
 
-              <div className="relative mx-auto min-h-[550px] w-full max-w-2xl lg:mx-0">
+              <div className="relative mx-auto min-h-[620px] w-full max-w-2xl lg:mx-0">
                 <div className="absolute left-0 top-6 z-10 w-[60%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">
                   <div className="border-b border-slate-700 bg-slate-900/70 p-4">
                     <div className="flex items-center justify-between gap-3">
@@ -338,6 +388,30 @@ const HomeApp: React.FC = () => {
                     <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-2">
                       <p className="text-[9px] text-slate-500">TOF</p>
                       <p className="mt-0.5 text-sm font-bold text-blue-400">{featuredScpi ? `${featuredScpi.tof}%` : '—'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute left-[27%] top-[265px] z-30 w-[48%] rounded-2xl border border-slate-600 bg-slate-800/95 p-3.5 shadow-2xl shadow-black/35 backdrop-blur">
+                  <div className="flex items-center gap-2 text-pink-400">
+                    <ToolIcon type="distribution" />
+                    <p className="text-sm font-bold text-white">Répartitions</p>
+                  </div>
+                  <p className="mt-1 text-[10px] text-slate-400">Secteurs & géographie de la SCPI.</p>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-slate-700 bg-slate-900/55 p-2.5 text-center">
+                      <div className="flex justify-center">
+                        <MiniDistributionDonut values={sectorValues} colors={distributionColors} />
+                      </div>
+                      <p className="mt-1 text-[10px] font-semibold text-slate-200">Sectorielle</p>
+                      <p className="text-[9px] text-slate-500">{featuredScpi?.sectors?.length ?? 0} secteurs</p>
+                    </div>
+                    <div className="rounded-xl border border-slate-700 bg-slate-900/55 p-2.5 text-center">
+                      <div className="flex justify-center">
+                        <MiniDistributionDonut values={geographyValues} colors={distributionColors} />
+                      </div>
+                      <p className="mt-1 text-[10px] font-semibold text-slate-200">Géographique</p>
+                      <p className="text-[9px] text-slate-500">{featuredScpi?.geography?.length ?? 0} zones</p>
                     </div>
                   </div>
                 </div>
