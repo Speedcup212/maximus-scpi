@@ -174,53 +174,22 @@ const closeServer = (server: http.Server) => new Promise<void>((resolve) => serv
 const processArticle = async (page: any, template: (typeof templates)[number], appShell: string) => {
   const slug = template.slug;
   const url = `${origin}/articles/${slug}/`;
-  const expectedTitle = template.title;
+  const expectedCanonical = `${SITE}/articles/${slug}/`;
 
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
 
   try {
-    await page.waitForFunction((title: string) => {
+    await page.waitForFunction((canonical: string) => {
       const root = document.getElementById('root');
       if (!root) return false;
 
-      const normalizedTitle = String(title)
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-      const rawTokens = normalizedTitle.split(' ');
-      const expectedTokens: string[] = [];
-      for (let i = 0; i < rawTokens.length && expectedTokens.length < 9; i += 1) {
-        if (rawTokens[i].length >= 3) expectedTokens.push(rawTokens[i]);
-      }
-
-      const h1Nodes = root.querySelectorAll('h1');
-      let titleMatch = false;
-      for (let i = 0; i < h1Nodes.length; i += 1) {
-        const h1 = String(h1Nodes[i].textContent || '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-        let overlap = 0;
-        for (let j = 0; j < expectedTokens.length; j += 1) {
-          if (h1.indexOf(expectedTokens[j]) !== -1) overlap += 1;
-        }
-        if (overlap >= Math.min(4, expectedTokens.length)) {
-          titleMatch = true;
-          break;
-        }
-      }
-
       const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
+      const h1 = root.querySelectorAll('h1').length;
       const h2 = root.querySelectorAll('h2').length;
       const loading = /chargement( en cours)?/i.test(text);
-      return titleMatch && !loading && h2 >= 5 && text.length >= 2200;
-    }, { timeout: 10000 }, expectedTitle);
+      const currentCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href || '';
+      return currentCanonical === canonical && !loading && h1 >= 1 && h2 >= 5 && text.length >= 2200;
+    }, { timeout: 10000 }, expectedCanonical);
   } catch (error: any) {
     const diagnostic = await page.evaluate(() => {
       const root = document.getElementById('root');
