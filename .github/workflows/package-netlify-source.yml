@@ -21,6 +21,15 @@ jobs:
       - name: Build source archive
         run: git archive --format=zip --output=/tmp/source.zip HEAD
 
+      - name: Upload source archive artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: netlify-source-${{ github.sha }}
+          path: /tmp/source.zip
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+
       - name: Checkout package branch
         uses: actions/checkout@v4
         with:
