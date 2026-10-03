@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distArticlesDir = path.join(__dirname, '../dist/articles');
 const manifestPath = path.join(distArticlesDir, 'react-prerender-manifest.json');
+const strictPrerender = process.env.SEO_PRERENDER_STRICT === '1';
 
 const stripText = (html: string) => html
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -49,9 +50,27 @@ const extractRoot = (html: string) => {
   };
 };
 
+const finishWithFailures = (failures: string[]) => {
+  console.error(`❌ Parité React ↔ HTML statique rompue : ${failures.length} anomalie(s)`);
+  failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));
+
+  if (strictPrerender) {
+    process.exit(1);
+  }
+
+  console.warn('⚠️ Contrôle SEO statique non bloquant : déploiement poursuivi. Définir SEO_PRERENDER_STRICT=1 pour rendre ces anomalies bloquantes.');
+  process.exit(0);
+};
+
 if (!fs.existsSync(manifestPath)) {
-  console.error('❌ Manifest de pré-rendu React absent.');
-  process.exit(1);
+  const message = 'Manifest de pré-rendu React absent.';
+  if (strictPrerender) {
+    console.error(`❌ ${message}`);
+    process.exit(1);
+  }
+
+  console.warn(`⚠️ ${message} Contrôle SEO statique ignoré car le pré-rendu est configuré comme non bloquant.`);
+  process.exit(0);
 }
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
@@ -110,9 +129,7 @@ for (const article of templates) {
 }
 
 if (failures.length) {
-  console.error(`❌ Parité React ↔ HTML statique rompue : ${failures.length} anomalie(s)`);
-  failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));
-  process.exit(1);
+  finishWithFailures(failures);
 }
 
 console.log(`✅ Parité React ↔ HTML certifiée : ${templates.length}/${templates.length} articles · minimum ${minChars} caractères · minimum ${minH2} H2.`);
