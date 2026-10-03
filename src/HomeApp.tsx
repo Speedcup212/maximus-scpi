@@ -266,7 +266,7 @@ const HomeApp: React.FC = () => {
                 </p>
 
                 <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
-                  MaximusSCPI va au-delà du rendement affiché : données clés, analyses détaillées, évolution dans le temps et signaux de vigilance.
+                  Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
