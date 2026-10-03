@@ -1,9 +1,8 @@
-import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Header from './components/Header';
 import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
 import { CookieConsent } from './components/CookieConsent';
-import { scpiDataExtended } from './data/scpiDataExtended';
 import { trackFunnelEvent } from './utils/funnelAnalytics';
 import type { QuizData } from './types/quiz';
 
@@ -16,72 +15,94 @@ const go = (path: string) => {
   window.location.href = path;
 };
 
-const ToolIcon = ({ type }: { type: 'compare' | 'analysis' | 'trend' | 'simulation' }) => {
+const Arrow = () => (
+  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+
+const ProductIcon = ({ type }: { type: 'compare' | 'analysis' | 'trend' | 'simulation' }) => {
   if (type === 'compare') {
     return (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M4 19V9M10 19V5M16 19v-7M22 19V3" />
       </svg>
     );
   }
   if (type === 'analysis') {
     return (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <path d="M3 3v18h18" /><path d="m7 16 4-5 4 3 4-7" />
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <path d="M4 4v16h16" /><path d="m7 15 4-5 4 3 4-6" />
       </svg>
     );
   }
   if (type === 'trend') {
     return (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M3 18 9 12l4 4 8-10" /><path d="M15 6h6v6" />
       </svg>
     );
   }
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
       <rect x="4" y="2" width="16" height="20" rx="2" /><path d="M8 6h8M8 10h2M14 10h2M8 14h2M14 14h2M8 18h2M14 18h2" />
     </svg>
   );
 };
 
-const MiniRadar = () => (
-  <svg viewBox="0 0 180 150" className="h-32 w-full" aria-hidden="true">
-    <polygon points="90,12 160,58 134,132 46,132 20,58" fill="rgba(15,23,42,.55)" stroke="#475569" strokeWidth="1.5" />
-    <polygon points="90,34 137,66 118,113 58,112 40,68" fill="rgba(16,185,129,.18)" stroke="#34d399" strokeWidth="2.5" />
-    <line x1="90" y1="12" x2="90" y2="132" stroke="#334155" />
-    <line x1="20" y1="58" x2="134" y2="132" stroke="#334155" />
-    <line x1="160" y1="58" x2="46" y2="132" stroke="#334155" />
-    {[[90,34],[137,66],[118,113],[58,112],[40,68]].map(([cx, cy]) => (
-      <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3.5" fill="#34d399" />
+const RadarPreview = () => (
+  <svg viewBox="0 0 220 190" className="h-40 w-full" aria-hidden="true">
+    <polygon points="110,18 194,78 164,166 56,166 26,78" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.4" />
+    <polygon points="110,42 166,82 145,142 72,144 50,85" fill="rgba(16,185,129,.18)" stroke="#10b981" strokeWidth="2.4" />
+    <line x1="110" y1="18" x2="110" y2="166" stroke="#dbe3eb" />
+    <line x1="26" y1="78" x2="164" y2="166" stroke="#dbe3eb" />
+    <line x1="194" y1="78" x2="56" y2="166" stroke="#dbe3eb" />
+    {[[110,42],[166,82],[145,142],[72,144],[50,85]].map(([cx, cy]) => (
+      <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="3.5" fill="#10b981" />
     ))}
   </svg>
 );
 
-const MiniTrend = () => (
-  <svg viewBox="0 0 320 120" className="h-28 w-full" aria-hidden="true">
-    {[26, 54, 82].map(y => <line key={y} x1="10" x2="310" y1={y} y2={y} stroke="#334155" strokeWidth="1" />)}
-    <path d="M16 91 C54 82 82 76 112 72 C146 68 160 59 192 58 C224 57 255 48 302 35" fill="none" stroke="#34d399" strokeWidth="3" strokeLinecap="round" />
-    <path d="M16 91 C54 82 82 76 112 72 C146 68 160 59 192 58 C224 57 255 48 302 35 L302 108 L16 108 Z" fill="rgba(16,185,129,.08)" />
-    {[[16,91],[76,78],[136,66],[196,58],[252,49],[302,35]].map(([cx, cy]) => (
-      <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="#34d399" />
-    ))}
+const TrendPreview = ({ compact = false }: { compact?: boolean }) => (
+  <svg viewBox="0 0 320 120" className={compact ? 'h-20 w-full' : 'h-28 w-full'} aria-hidden="true">
+    {[28, 58, 88].map(y => <line key={y} x1="10" x2="310" y1={y} y2={y} stroke="#e2e8f0" strokeWidth="1" />)}
+    <path d="M14 92 C50 87 74 76 108 74 C142 72 169 64 198 62 C232 60 262 47 306 34" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" />
+    <path d="M14 92 C50 87 74 76 108 74 C142 72 169 64 198 62 C232 60 262 47 306 34 L306 108 L14 108 Z" fill="rgba(16,185,129,.08)" />
   </svg>
+);
+
+const FeatureCard = ({
+  type,
+  title,
+  text,
+  link,
+  linkLabel,
+}: {
+  type: 'compare' | 'analysis' | 'trend' | 'simulation';
+  title: string;
+  text: string;
+  link: string;
+  linkLabel: string;
+}) => (
+  <article className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_18px_55px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-[0_22px_70px_rgba(15,23,42,0.10)] sm:p-7">
+    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+      <ProductIcon type={type} />
+    </div>
+    <h3 className="mt-5 text-xl font-black text-slate-950">{title}</h3>
+    <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+    <a href={link} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-emerald-700 transition group-hover:gap-3">
+      {linkLabel} <Arrow />
+    </a>
+  </article>
 );
 
 const HomeApp: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme ? savedTheme === 'dark' : true;
-  });
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isRdvModalOpen, setIsRdvModalOpen] = useState(false);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
   const [showBelowFold, setShowBelowFold] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
-
-  const previewScpis = useMemo(() => scpiDataExtended.slice(0, 3), []);
-  const featuredScpi = previewScpis[0];
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -205,11 +226,16 @@ const HomeApp: React.FC = () => {
     setIsAnalysisModalOpen(true);
   };
 
+  const startProjectAnalysis = () => {
+    trackFunnelEvent('home_primary_cta_clicked', { source: 'hero', destination: 'quiz' });
+    document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <div className={`min-h-screen bg-slate-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+    <div className="min-h-screen bg-white text-slate-950">
       <SEOHead
         title="MaximusSCPI — Analyse, comparaison et portefeuille multi-SCPI"
-        description="Comparez les SCPI, analysez leurs forces et leurs risques, simulez votre projet et construisez votre portefeuille multi-SCPI."
+        description="Comparez, analysez, simulez et suivez les SCPI avec MaximusSCPI. Construisez votre portefeuille multi-SCPI à partir de données et d’outils d’aide à la décision."
         canonical="https://maximusscpi.com/"
       />
 
@@ -233,173 +259,224 @@ const HomeApp: React.FC = () => {
       />
 
       <main>
-        <section className="relative overflow-hidden border-b border-slate-800 bg-[#0D1117]">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(55% 55% at 10% 8%, rgba(0,200,150,0.13) 0%, transparent 62%), radial-gradient(48% 48% at 92% 16%, rgba(0,86,179,0.18) 0%, transparent 62%), radial-gradient(40% 40% at 70% 92%, rgba(244,114,182,0.08) 0%, transparent 65%)',
-            }}
-          />
+        <section className="relative overflow-hidden border-b border-slate-100 bg-white">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -left-24 top-16 h-80 w-80 rounded-full bg-emerald-50 blur-3xl" />
+            <div className="absolute right-[-120px] top-[-80px] h-[420px] w-[420px] rounded-full bg-slate-100 blur-3xl" />
+          </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-            <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
+          <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+            <div className="grid items-center gap-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
               <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold tracking-wide text-emerald-300">
-                  Analyse SCPI • Comparaison • Simulation • Suivi
-                </span>
-
-                <h1 className="mt-5 mb-5 overflow-visible md:mb-6">
-                  <span className="block text-4xl font-bold leading-tight text-slate-100 sm:text-5xl lg:text-6xl">
-                    Analysez. Comparez.
-                  </span>
-                  <span className="mt-2 block bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text pb-1 text-3xl font-bold leading-tight text-transparent sm:text-4xl lg:text-5xl">
-                    Investissez dans plusieurs SCPI.
-                  </span>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Plateforme dédiée aux SCPI</p>
+                <h1 className="mt-5 max-w-3xl text-4xl font-black leading-[1.03] tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-6xl">
+                  Analysez. Comparez.
+                  <span className="mt-2 block text-emerald-600">Investissez dans plusieurs SCPI.</span>
                 </h1>
-
-                <p className="max-w-xl text-lg font-semibold leading-relaxed text-slate-200 sm:text-xl">
+                <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-slate-700 sm:text-xl">
                   Un seul espace pour comprendre les SCPI, les comparer, simuler votre investissement et construire votre portefeuille.
                 </p>
-
-                <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
-                  MaximusSCPI va au-delà du rendement affiché : données clés, analyses détaillées, évolution dans le temps et signaux de vigilance.
+                <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500">
+                  MaximusSCPI analyse aussi leur évolution dans le temps afin de faire ressortir les forces, les fragilités et les signaux à surveiller.
                 </p>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                   <a
                     href="/comparateur-scpi/"
-                    className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-2xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                    onClick={() => trackFunnelEvent('home_primary_cta_clicked', { source: 'hero', destination: 'comparateur' })}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-black text-white shadow-[0_10px_30px_rgba(5,150,105,0.24)] transition hover:-translate-y-0.5 hover:bg-emerald-700"
                   >
-                    Voir le comparateur complet
+                    Voir le comparateur complet <Arrow />
                   </a>
                   <a
                     href="/analyses/"
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/70 px-6 py-3.5 text-sm font-bold text-slate-100 transition hover:border-emerald-500/50 hover:bg-slate-800"
+                    onClick={() => trackFunnelEvent('home_secondary_cta_clicked', { source: 'hero', destination: 'analyses' })}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-black text-slate-900 transition hover:border-slate-400 hover:bg-slate-50"
                   >
                     Découvrir les analyses
                   </a>
                 </div>
 
-                <div className="mt-7 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-slate-700 bg-slate-800/55 px-4 py-3">
-                    <p className="text-lg font-black text-emerald-400">4 650+</p>
-                    <p className="text-xs text-slate-400">situations patrimoniales étudiées</p>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-800/55 px-4 py-3">
-                    <p className="text-lg font-black text-emerald-400">330 M€+</p>
-                    <p className="text-xs text-slate-400">de projets analysés</p>
-                  </div>
+                <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-slate-200 pt-6 text-sm text-slate-500">
+                  <span><strong className="text-slate-950">4 650+</strong> situations patrimoniales étudiées</span>
+                  <span><strong className="text-slate-950">330 M€+</strong> de projets analysés</span>
                 </div>
               </div>
 
-              <div className="relative mx-auto min-h-[550px] w-full max-w-2xl lg:mx-0">
-                <div className="absolute left-0 top-6 z-10 w-[60%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">
-                  <div className="border-b border-slate-700 bg-slate-900/70 p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-2 text-emerald-400">
-                        <ToolIcon type="compare" />
-                        <p className="text-sm font-bold text-white">Comparateur SCPI</p>
-                      </div>
-                      <span className="rounded-lg border border-slate-600 bg-slate-700 px-2 py-1 text-[9px] font-semibold text-slate-300">Grille</span>
+              <div className="relative mx-auto min-h-[570px] w-full max-w-2xl lg:mx-0">
+                <div className="absolute left-0 top-2 z-10 w-[63%] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_22px_70px_rgba(15,23,42,0.12)]">
+                  <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-600">Comparateur</p>
+                      <h2 className="mt-1 text-base font-black text-slate-950">Comparez les indicateurs clés</h2>
                     </div>
-                    <p className="mt-1 text-[10px] text-slate-400">Même logique visuelle que le comparateur MaximusSCPI.</p>
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700">Aperçu</span>
                   </div>
-                  <div className="grid grid-cols-4 border-b border-slate-700 bg-slate-900/40 px-3 py-2 text-[9px] font-semibold uppercase tracking-wide text-slate-500">
-                    <span>SCPI</span><span>TD</span><span>TOF</span><span>Prix</span>
+                  <div className="grid grid-cols-4 bg-slate-50 px-4 py-2 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+                    <span>SCPI</span><span>TD hist.</span><span>TOF</span><span>Risque</span>
                   </div>
-                  {previewScpis.map((scpi) => (
-                    <div key={scpi.id} className="grid grid-cols-4 items-center border-b border-slate-700/70 px-3 py-2.5 text-[10px] last:border-b-0">
-                      <span className="truncate font-semibold text-white">{scpi.name}</span>
-                      <span className="font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</span>
-                      <span className="text-slate-300">{scpi.tof}%</span>
-                      <span className="text-slate-300">{scpi.price}€</span>
+                  {[
+                    ['SCPI A', '6,1 %', '98 %', '3/7'],
+                    ['SCPI B', '5,3 %', '96 %', '2/7'],
+                    ['SCPI C', '5,8 %', '97 %', '4/7'],
+                  ].map((row) => (
+                    <div key={row[0]} className="grid grid-cols-4 items-center border-t border-slate-100 px-4 py-3 text-xs">
+                      <span className="font-bold text-slate-900">{row[0]}</span>
+                      <span className="font-black text-emerald-600">{row[1]}</span>
+                      <span className="text-slate-600">{row[2]}</span>
+                      <span className="text-slate-600">{row[3]}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="absolute right-0 top-20 z-20 w-[47%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center gap-2 text-cyan-400">
-                        <ToolIcon type="analysis" />
-                        <p className="text-sm font-bold text-white">Analyse détaillée</p>
-                      </div>
-                      <p className="mt-1 text-[10px] text-slate-400">Radar, chiffres clés et points de vigilance.</p>
-                    </div>
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                  </div>
-                  <MiniRadar />
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-2">
-                      <p className="text-[9px] text-slate-500">TD brut</p>
-                      <p className="mt-0.5 text-sm font-bold text-emerald-400">{featuredScpi ? `${featuredScpi.yield.toFixed(2)}%` : '—'}</p>
-                    </div>
-                    <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-2">
-                      <p className="text-[9px] text-slate-500">TOF</p>
-                      <p className="mt-0.5 text-sm font-bold text-blue-400">{featuredScpi ? `${featuredScpi.tof}%` : '—'}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-10 left-3 z-10 w-[57%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">
+                <div className="absolute right-0 top-12 z-20 w-[45%] rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_24px_70px_rgba(15,23,42,0.14)]">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <div className="flex items-center gap-2 text-emerald-400">
-                        <ToolIcon type="trend" />
-                        <p className="text-sm font-bold text-white">Évolution & signaux</p>
-                      </div>
-                      <p className="mt-1 text-[10px] text-slate-400">Visualisez les indicateurs trimestre après trimestre.</p>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-600">Analyse Maximus</p>
+                      <p className="mt-1 text-sm font-black text-slate-950">Radar multi-critères</p>
                     </div>
-                    <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-[9px] font-bold text-amber-300">À surveiller</span>
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                   </div>
-                  <div className="mt-3 flex gap-1.5 text-[9px] font-semibold">
-                    <span className="rounded-lg bg-emerald-600 px-2 py-1 text-white">TOF</span>
-                    <span className="rounded-lg bg-slate-700 px-2 py-1 text-slate-300">Prix</span>
-                    <span className="rounded-lg bg-slate-700 px-2 py-1 text-slate-300">Dette</span>
-                    <span className="rounded-lg bg-slate-700 px-2 py-1 text-slate-300">Liquidité</span>
+                  <RadarPreview />
+                  <div className="grid grid-cols-2 gap-2 text-[10px]">
+                    <div className="rounded-xl bg-slate-50 p-2.5"><span className="block text-slate-400">Occupation</span><strong className="text-slate-900">Élevée</strong></div>
+                    <div className="rounded-xl bg-slate-50 p-2.5"><span className="block text-slate-400">Liquidité</span><strong className="text-amber-600">À suivre</strong></div>
                   </div>
-                  <MiniTrend />
                 </div>
 
-                <div className="absolute bottom-0 right-1 z-20 w-[42%] rounded-2xl border border-slate-700 bg-slate-800 p-4 shadow-2xl shadow-black/30">
-                  <div className="flex items-center gap-2 text-orange-400">
-                    <ToolIcon type="simulation" />
-                    <p className="text-sm font-bold text-white">Simulateurs</p>
+                <div className="absolute bottom-14 left-4 z-10 w-[58%] rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-600">Évolution</p>
+                      <p className="mt-1 text-sm font-black text-slate-950">Suivez les ruptures dans le temps</p>
+                    </div>
+                    <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-black text-amber-700">À surveiller</span>
                   </div>
-                  <p className="mt-1 text-[10px] leading-relaxed text-slate-400">Testez votre projet avec les outils MaximusSCPI.</p>
-                  <div className="mt-4 space-y-2.5">
-                    {['Montant investi', 'Durée', 'Hypothèses fiscales'].map((label, index) => (
-                      <div key={label} className="rounded-lg border border-slate-700 bg-slate-900/50 px-3 py-2">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[9px] text-slate-400">{label}</span>
-                          <span className={`h-1.5 rounded-full ${index === 0 ? 'w-14 bg-emerald-500' : index === 1 ? 'w-10 bg-blue-500' : 'w-12 bg-orange-500'}`} />
-                        </div>
-                      </div>
-                    ))}
+                  <div className="mt-3 flex gap-2 text-[10px] font-bold text-slate-500">
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">TOF</span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1">Prix</span>
+                    <span className="rounded-full bg-slate-100 px-2.5 py-1">Dette</span>
                   </div>
-                  <a href="/simulateurs/" className="mt-4 inline-flex text-[10px] font-semibold text-emerald-400 hover:text-emerald-300">
-                    Voir les simulateurs →
-                  </a>
+                  <TrendPreview />
                 </div>
 
-                <p className="absolute -bottom-7 left-3 text-[10px] text-slate-500">
-                  Aperçus construits à partir des composants et données du site.
+                <div className="absolute bottom-0 right-1 z-20 w-[40%] rounded-3xl border border-slate-200 bg-white p-5 shadow-[0_24px_70px_rgba(15,23,42,0.14)]">
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-600">Simulation</p>
+                  <p className="mt-1 text-sm font-black text-slate-950">Capital simulé</p>
+                  <p className="mt-4 text-3xl font-black tracking-tight text-slate-950">100 000 €</p>
+                  <p className="mt-1 text-xs text-slate-500">Hypothèses personnalisables selon le simulateur.</p>
+                  <div className="mt-4 space-y-2">
+                    <div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-[72%] rounded-full bg-emerald-500" /></div>
+                    <div className="h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full w-[54%] rounded-full bg-slate-400" /></div>
+                  </div>
+                  <a href="/simulateurs/" className="mt-4 inline-flex items-center gap-1 text-xs font-black text-emerald-700">Voir les simulateurs <Arrow /></a>
+                </div>
+
+                <p className="absolute -bottom-8 left-4 max-w-[520px] text-[10px] leading-4 text-slate-400">
+                  Exemples illustratifs. Les performances passées ne préjugent pas des performances futures. Capital et revenus non garantis ; liquidité limitée.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="quiz-section" className="border-b border-slate-800 bg-slate-900 py-12 sm:py-16">
+        <section className="bg-[#fbfcfd] py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Des outils pensés pour vos investissements</p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Une vision complète des SCPI, dans un seul espace</h2>
+              <p className="mt-4 text-base leading-7 text-slate-600">Comparez, analysez, simulez et suivez les SCPI grâce aux outils MaximusSCPI.</p>
+            </div>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-2">
+              <FeatureCard
+                type="compare"
+                title="Comparer les SCPI"
+                text="Mettez les SCPI côte à côte sur les indicateurs qui comptent vraiment : rendement historique, occupation, capitalisation, prix, risque et plus encore."
+                link="/comparateur-scpi/"
+                linkLabel="Ouvrir le comparateur"
+              />
+              <FeatureCard
+                type="analysis"
+                title="Analyses détaillées"
+                text="Accédez à une lecture structurée de chaque SCPI : chiffres clés, profil de risque, radar, analyse Maximus et données documentées."
+                link="/analyses/"
+                linkLabel="Voir les analyses"
+              />
+              <FeatureCard
+                type="trend"
+                title="Suivre l’évolution"
+                text="Visualisez les indicateurs trimestre après trimestre afin d’identifier les améliorations, les dégradations et les ruptures structurelles."
+                link="/analyses/"
+                linkLabel="Explorer les trajectoires"
+              />
+              <FeatureCard
+                type="simulation"
+                title="Simuler votre projet"
+                text="Testez différents montants, modes de détention et hypothèses pour mieux comprendre les impacts financiers et fiscaux de votre projet."
+                link="/simulateurs/"
+                linkLabel="Voir les simulateurs"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-slate-100 bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Une analyse plus complète</p>
+                <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Un rendement ne suffit pas pour juger une SCPI</h2>
+                <p className="mt-5 max-w-xl text-base leading-7 text-slate-600">
+                  MaximusSCPI analyse chaque SCPI sous plusieurs angles et dans la durée, pour mettre en perspective le rendement avec l’occupation, la valorisation, l’endettement et la liquidité.
+                </p>
+                <a href="/analyses/" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-slate-950 px-5 py-3 text-sm font-black text-white transition hover:bg-slate-800">
+                  Voir l’analyse complète <Arrow />
+                </a>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">Aujourd’hui</p>
+                  <p className="mt-2 text-base font-black text-slate-950">Lecture multi-critères</p>
+                  <RadarPreview />
+                </div>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">Dans le temps</p>
+                  <p className="mt-2 text-base font-black text-slate-950">Trajectoire des indicateurs</p>
+                  <div className="mt-5 rounded-2xl bg-white p-2"><TrendPreview compact /></div>
+                  <div className="mt-3 rounded-2xl bg-white p-2"><TrendPreview compact /></div>
+                </div>
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-400">Signaux Maximus</p>
+                  <p className="mt-2 text-base font-black text-slate-950">Ce qui mérite votre attention</p>
+                  <div className="mt-5 space-y-3 text-xs font-bold">
+                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-3 text-emerald-800">Occupation en amélioration</div>
+                    <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3 text-slate-700">Valorisation stable</div>
+                    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 text-amber-800">Liquidité à surveiller</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="quiz-section" className="bg-slate-950 py-14 sm:py-18">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
               <div className="lg:sticky lg:top-24">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-400">Votre projet</p>
-                <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">Construisez votre sélection multi-SCPI</h2>
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-400">
-                  Répondez aux 4 questions pour obtenir une première analyse de répartition. Cette étape pédagogique ne remplace pas un conseil personnalisé.
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-emerald-400">Votre projet</p>
+                <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">Construisez une première sélection multi-SCPI</h2>
+                <p className="mt-4 max-w-lg text-base leading-7 text-slate-400">
+                  Répondez à 4 questions pour obtenir une première analyse de répartition. Cette étape reste pédagogique et ne remplace pas un conseil personnalisé.
                 </p>
+                <button
+                  type="button"
+                  onClick={startProjectAnalysis}
+                  className="mt-6 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-emerald-400"
+                >
+                  Commencer l’analyse <Arrow />
+                </button>
               </div>
 
               <div className="lg:pl-2">
@@ -465,10 +542,23 @@ const HomeApp: React.FC = () => {
             </div>
           </div>
         </section>
+
+        <section className="bg-white py-16 sm:py-20">
+          <div className="mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Passez à l’action</p>
+            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Commencez par comparer les SCPI</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600">
+              Analysez les données, identifiez les différences et approfondissez ensuite les SCPI qui correspondent à votre projet.
+            </p>
+            <a href="/comparateur-scpi/" className="mt-7 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-black text-white transition hover:bg-emerald-700">
+              Accéder au comparateur <Arrow />
+            </a>
+          </div>
+        </section>
       </main>
 
       {showBelowFold && (
-        <Suspense fallback={<div className="min-h-[240px] bg-slate-900" aria-hidden="true" />}>
+        <Suspense fallback={<div className="min-h-[240px] bg-white" aria-hidden="true" />}>
           <HomeBelowFold
             isDarkMode={isDarkMode}
             onContactClick={() => setIsRdvModalOpen(true)}

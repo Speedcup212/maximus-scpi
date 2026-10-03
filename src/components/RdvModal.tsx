@@ -145,7 +145,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
         action: 'calendly',
       });
 
-      setStatus('Rendez-vous réservé. Confirmation envoyée par Calendly.');
+      setStatus('Rendez-vous visio réservé. Confirmation envoyée par Calendly.');
       sessionStorage.removeItem('maximus_quiz_context');
 
       window.setTimeout(() => {
@@ -207,7 +207,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
       if (!result.ok) throw new Error(result.error || 'Erreur insertion');
 
       if (action === 'calendly') {
-        setStatus('Coordonnées enregistrées. Choisissez maintenant votre créneau.');
+        setStatus('Coordonnées enregistrées. Choisissez maintenant votre créneau visio.');
         const targetUrl = buildCalendlyUrl(
           isPortfolioFlow ? 'home-portefeuille' : contextSlug,
           { name: formValues.name, email: formValues.email },
@@ -251,7 +251,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
               {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
             </p>
             <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
-              {isPortfolioFlow ? 'Faire valider votre allocation SCPI' : 'Prendre rendez-vous'}
+              {isPortfolioFlow ? 'Faire valider votre allocation SCPI en visio' : 'Prendre rendez-vous en visio'}
             </h2>
             <p className="mt-1 text-sm text-gray-600 dark:text-slate-300">
               Eric Bellaiche — Conseiller en Investissements Financiers
@@ -447,7 +447,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
                 disabled={isSubmitting}
                 className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
               >
-                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau visio'}
               </button>
               <button
                 type="submit"
