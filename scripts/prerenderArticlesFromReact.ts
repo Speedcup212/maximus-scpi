@@ -70,7 +70,6 @@ const setArticleSeo = (baseHtml: string, template: (typeof templates)[number]) =
   html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:description["'][^>]*>/i, `<meta property="twitter:description" content="${escapeHtml(description)}" />`);
 
   html = html.replace(/\s*<script[^>]+id=["']article-react-prerender-schema["'][^>]*>[\s\S]*?<\/script>/gi, '');
-
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -80,16 +79,8 @@ const setArticleSeo = (baseHtml: string, template: (typeof templates)[number]) =
         description,
         url: canonical,
         mainEntityOfPage: canonical,
-        author: {
-          '@type': 'Person',
-          name: 'Eric Bellaiche',
-          jobTitle: 'Conseiller en Gestion de Patrimoine'
-        },
-        publisher: {
-          '@type': 'Organization',
-          name: 'MaximusSCPI',
-          url: SITE
-        },
+        author: { '@type': 'Person', name: 'Eric Bellaiche', jobTitle: 'Conseiller en Gestion de Patrimoine' },
+        publisher: { '@type': 'Organization', name: 'MaximusSCPI', url: SITE },
         keywords: template.keywords || []
       },
       {
@@ -103,37 +94,28 @@ const setArticleSeo = (baseHtml: string, template: (typeof templates)[number]) =
     ]
   };
   const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
-  html = html.replace('</head>', `    <script id="article-react-prerender-schema" type="application/ld+json">${schemaJson}</script>\n  </head>`);
-  return html;
+  return html.replace('</head>', `    <script id="article-react-prerender-schema" type="application/ld+json">${schemaJson}</script>\n  </head>`);
 };
 
 const hasProductionModule = (html: string) => /<script\b(?=[^>]*\btype=["']module["'])(?=[^>]*\bsrc=["'][^"']+["'])[^>]*>/i.test(html);
 
 const extractRootBounds = (html: string) => {
   if (!hasProductionModule(html)) throw new Error('bundle Vite module absent du shell applicatif');
-
   const rootStart = html.search(/<div\s+id=["']root["'][^>]*>/i);
   if (rootStart === -1) throw new Error('div#root absent du shell applicatif');
   const openEnd = html.indexOf('>', rootStart);
   if (openEnd === -1) throw new Error('ouverture div#root invalide');
 
-  // Le bundle Vite peut être dans <head>. On localise donc la fermeture de #root
-  // par équilibrage des balises div, sans dépendre de la position des scripts.
   const divTag = /<div\b[^>]*>|<\/div>/gi;
   divTag.lastIndex = openEnd + 1;
   let depth = 1;
   let match: RegExpExecArray | null;
-  let closeStart = -1;
   while ((match = divTag.exec(html))) {
     if (/^<div\b/i.test(match[0])) depth += 1;
     else depth -= 1;
-    if (depth === 0) {
-      closeStart = match.index;
-      break;
-    }
+    if (depth === 0) return { rootStart, openEnd, closeStart: match.index };
   }
-  if (closeStart === -1) throw new Error('fermeture div#root introuvable');
-  return { rootStart, openEnd, closeStart };
+  throw new Error('fermeture div#root introuvable');
 };
 
 const injectReactRoot = (baseHtml: string, slug: string, rootHtml: string) => {
@@ -158,7 +140,6 @@ const createSpaServer = (appShell: string) => http.createServer((req, res) => {
   try {
     const requestUrl = new URL(req.url || '/', origin);
     const filePath = safeFileForRequest(requestUrl.pathname);
-
     if (filePath) {
       const ext = path.extname(filePath).toLowerCase();
       const body = fs.readFileSync(filePath);
@@ -171,8 +152,6 @@ const createSpaServer = (appShell: string) => http.createServer((req, res) => {
       return;
     }
 
-    // Toutes les routes applicatives, y compris /articles/*, reçoivent
-    // le vrai shell Vite plutôt que leur HTML SEO déjà généré.
     const body = Buffer.from(appShell, 'utf-8');
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8',
@@ -190,36 +169,60 @@ const listen = (server: http.Server) => new Promise<void>((resolve, reject) => {
   server.once('error', reject);
   server.listen(port, host, () => resolve());
 });
-
 const closeServer = (server: http.Server) => new Promise<void>((resolve) => server.close(() => resolve()));
 
 const processArticle = async (page: any, template: (typeof templates)[number], appShell: string) => {
   const slug = template.slug;
   const url = `${origin}/articles/${slug}/`;
+  const expectedTitle = template.title;
 
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
-  await page.waitForFunction(() => {
-    const root = document.getElementById('root');
-    if (!root) return false;
-    const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
-    const h1 = root.querySelectorAll('h1').length;
-    const h2 = root.querySelectorAll('h2').length;
-    const loading = text.includes('Chargement...') || text.includes('Chargement en cours');
-    return !loading && h1 >= 1 && h2 >= 5 && text.length >= 2200;
-  }, { timeout: 25000 });
 
-  await new Promise((resolve) => setTimeout(resolve, 120));
+  try {
+    await page.waitForFunction((title: string) => {
+      const root = document.getElementById('root');
+      if (!root) return false;
+      const normalize = (value: string) => value
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      const expectedTokens = normalize(title).split(' ').filter((token) => token.length >= 3).slice(0, 9);
+      const h1Texts = Array.from(root.querySelectorAll('h1')).map((node) => normalize((node.textContent || '')));
+      const titleMatch = h1Texts.some((h1) => {
+        const overlap = expectedTokens.filter((token) => h1.includes(token)).length;
+        return overlap >= Math.min(4, expectedTokens.length);
+      });
+      const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
+      const h2 = root.querySelectorAll('h2').length;
+      const loading = /chargement( en cours)?/i.test(text);
+      return titleMatch && !loading && h2 >= 5 && text.length >= 2200;
+    }, { timeout: 25000 }, expectedTitle);
+  } catch (error: any) {
+    const diagnostic = await page.evaluate(() => {
+      const root = document.getElementById('root');
+      if (!root) return { textLength: 0, h2: 0, h1: [], canonical: '' };
+      return {
+        textLength: (root.innerText || '').replace(/\s+/g, ' ').trim().length,
+        h2: root.querySelectorAll('h2').length,
+        h1: Array.from(root.querySelectorAll('h1')).map((node) => (node.textContent || '').replace(/\s+/g, ' ').trim()).slice(0, 3),
+        canonical: document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href || ''
+      };
+    });
+    throw new Error(`article non prêt (${diagnostic.textLength} caractères, ${diagnostic.h2} H2, H1=${JSON.stringify(diagnostic.h1)}, canonical=${diagnostic.canonical || 'absent'})`);
+  }
 
+  await new Promise((resolve) => setTimeout(resolve, 80));
   const captured = await page.evaluate(() => {
     const root = document.getElementById('root');
     if (!root) throw new Error('root React absent');
     const clone = root.cloneNode(true) as HTMLElement;
     clone.querySelectorAll('script, iframe, [class*="modal"], [class*="Modal"]').forEach((el) => el.remove());
-    const html = clone.innerHTML.trim();
-    const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
     return {
-      html,
-      text,
+      html: clone.innerHTML.trim(),
+      text: (root.innerText || '').replace(/\s+/g, ' ').trim(),
       h1Count: clone.querySelectorAll('h1').length,
       h2Count: clone.querySelectorAll('h2').length
     };
@@ -229,8 +232,7 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
     throw new Error(`rendu React trop mince (${captured.text.length} caractères, ${captured.h2Count} H2)`);
   }
 
-  const seoShell = setArticleSeo(appShell, template);
-  const finalHtml = injectReactRoot(seoShell, slug, captured.html);
+  const finalHtml = injectReactRoot(setArticleSeo(appShell, template), slug, captured.html);
   const pageDir = path.join(articlesDir, slug);
   fs.mkdirSync(pageDir, { recursive: true });
   fs.writeFileSync(path.join(pageDir, 'index.html'), finalHtml, 'utf-8');
@@ -273,12 +275,12 @@ const main = async () => {
       page.on('pageerror', (error: any) => console.error(`   ⚠️ [${workerId}] React: ${error?.message || error}`));
       await page.setRequestInterception(true);
       page.on('request', (request: any) => {
-        const url = request.url();
+        const requestUrl = request.url();
         if (
-          url.includes('googletagmanager.com') ||
-          url.includes('google-analytics.com') ||
-          url.includes('elfsightcdn.com') ||
-          url.includes('calendly.com')
+          requestUrl.includes('googletagmanager.com') ||
+          requestUrl.includes('google-analytics.com') ||
+          requestUrl.includes('elfsightcdn.com') ||
+          requestUrl.includes('calendly.com')
         ) {
           request.abort();
           return;
