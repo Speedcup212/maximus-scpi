@@ -169,19 +169,22 @@ const findModalRadarSection = (): HTMLElement | null => {
   const title = findAnalysisTitle();
   if (!title) return null;
   let scope: HTMLElement | null = title.parentElement;
-  while (scope && !Array.from(scope.querySelectorAll('h3')).some((h) => h.textContent?.trim() === RADAR_TITLE)) scope = scope.parentElement;
-  if (!scope) return null;
-  const radarHeading = Array.from(scope.querySelectorAll<HTMLHeadingElement>('h3')).find((h) => h.textContent?.trim() === RADAR_TITLE);
-  if (!radarHeading) return null;
-  let section: HTMLElement | null = radarHeading;
-  while (section && section.parentElement) {
-    if (section.classList.contains('px-6') && section.classList.contains('pb-6')) return section;
-    section = section.parentElement;
+  while (scope) {
+    const radarHeading = Array.from(scope.querySelectorAll<HTMLHeadingElement>('h3')).find((h) => h.textContent?.trim() === RADAR_TITLE);
+    if (radarHeading) {
+      let section: HTMLElement | null = radarHeading;
+      while (section && section.parentElement) {
+        if (section.classList.contains('px-6') && section.classList.contains('pb-6')) return section;
+        section = section.parentElement;
+      }
+      return null;
+    }
+    scope = scope.parentElement;
   }
   return null;
 };
 
-const ensureTrajectoryPanel=async()=>{if(typeof document==='undefined')return;const scpiName=getAnalysisScpiName();if(!scpiName)return;const slug=createSlugFromName(scpiName);if(!slug)return;const radarSection=findModalRadarSection();if(!radarSection||!radarSection.isConnected)return;const existing=document.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);if(existing){if(radarSection.nextElementSibling!==existing)radarSection.insertAdjacentElement('afterend',existing);return;}const row=await loadTrajectoryDashboard(slug);if(!row)return;const stillOpenName=getAnalysisScpiName();if(!stillOpenName||createSlugFromName(stillOpenName)!==slug)return;const currentRadarSection=findModalRadarSection();if(!currentRadarSection)return;const alreadyInserted=document.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);if(alreadyInserted){if(currentRadarSection.nextElementSibling!==alreadyInserted)currentRadarSection.insertAdjacentElement('afterend',alreadyInserted);return;}currentRadarSection.insertAdjacentElement('afterend',createTrajectoryPanel(row,scpiName));};
+const ensureTrajectoryPanel=async()=>{if(typeof document==='undefined')return;const scpiName=getAnalysisScpiName();if(!scpiName)return;const slug=createSlugFromName(scpiName);if(!slug)return;const radarSection=findModalRadarSection();if(!radarSection||!radarSection.isConnected)return;const allPanels=Array.from(document.querySelectorAll<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}]`));const existing=allPanels.find((panel)=>panel.getAttribute(TRAJECTORY_PANEL_ATTR)===slug)||null;allPanels.filter((panel)=>panel!==existing).forEach((panel)=>panel.remove());if(existing){if(radarSection.nextElementSibling!==existing)radarSection.insertAdjacentElement('afterend',existing);return;}const row=await loadTrajectoryDashboard(slug);if(!row)return;const stillOpenName=getAnalysisScpiName();if(!stillOpenName||createSlugFromName(stillOpenName)!==slug)return;const currentRadarSection=findModalRadarSection();if(!currentRadarSection)return;const latestExisting=document.querySelector<HTMLElement>(`[${TRAJECTORY_PANEL_ATTR}="${slug}"]`);if(latestExisting){if(currentRadarSection.nextElementSibling!==latestExisting)currentRadarSection.insertAdjacentElement('afterend',latestExisting);return;}currentRadarSection.insertAdjacentElement('afterend',createTrajectoryPanel(row,scpiName));};
 
 export const normalizeComparatorRadarUx=()=>{if(typeof window==='undefined')return;getRadarBlocks().forEach((block)=>{replaceLeafText(block);applyMobileLayoutFix(block);});};
 export const observeComparatorRadarUx=()=>{if(typeof window==='undefined'||typeof MutationObserver==='undefined')return()=>undefined;let frame:number|null=null;const schedule=()=>{if(frame!==null)cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{frame=null;normalizeComparatorRadarUx();void ensureTrajectoryPanel();});};schedule();const observer=new MutationObserver(schedule);observer.observe(document.body,{childList:true,subtree:true,characterData:true});window.addEventListener('resize',schedule);return()=>{observer.disconnect();window.removeEventListener('resize',schedule);if(frame!==null)cancelAnimationFrame(frame);};};
