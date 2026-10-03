@@ -96,6 +96,43 @@ removeOrVerify(
   'Mention sous les visuels supprimée'
 );
 
+// Recomposition complète du bloc de droite : un seul dashboard structuré,
+// sans cartes flottantes ni chevauchements arbitraires.
+replaceOrVerify(
+  homeAppPath,
+  `              <div className="relative mx-auto min-h-[560px] w-full max-w-2xl sm:min-h-[590px] lg:mx-0 lg:min-h-[620px] lg:w-[116%] lg:max-w-none lg:-translate-x-8">`,
+  `              <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-4 rounded-3xl border border-slate-700/60 bg-slate-900/35 p-4 shadow-2xl shadow-black/20 backdrop-blur-sm lg:mx-0 lg:w-[116%] lg:max-w-none lg:-translate-x-6 lg:grid-cols-12 lg:gap-4 lg:p-5">`,
+  'Bloc outils transformé en dashboard unifié'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute left-0 top-5 z-10 w-[64%] overflow-hidden rounded-2xl border-2 border-slate-700 bg-slate-800 shadow-2xl shadow-black/30">`,
+  `                <div className="relative h-full overflow-hidden rounded-2xl border border-slate-700 bg-slate-800/95 shadow-xl shadow-black/20 lg:col-span-7">`,
+  'Comparateur intégré à la grille'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute right-4 top-14 z-20 w-[49%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  `                <div className="relative h-full rounded-2xl border border-slate-700 bg-slate-800/95 p-5 shadow-xl shadow-black/20 lg:col-span-5">`,
+  'Analyse intégrée à la grille'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute bottom-14 left-4 z-10 w-[61%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  `                <div className="relative h-full rounded-2xl border border-slate-700 bg-slate-800/95 p-5 shadow-xl shadow-black/20 lg:col-span-7">`,
+  'Évolution intégrée à la grille'
+);
+
+replaceOrVerify(
+  homeAppPath,
+  `                <div className="absolute bottom-6 right-4 z-20 w-[45%] rounded-2xl border border-slate-700 bg-slate-800 p-5 shadow-2xl shadow-black/30">`,
+  `                <div className="relative h-full rounded-2xl border border-slate-700 bg-slate-800/95 p-5 shadow-xl shadow-black/20 lg:col-span-5">`,
+  'Simulateurs intégrés à la grille'
+);
+
 replaceOrVerify(
   indexPath,
   `.initial-title-main{display:block;font-size:clamp(50px,5.4vw,72px);line-height:1;font-weight:800;color:#f1f5f9}`,
