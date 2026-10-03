@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import { createHash } from 'crypto';
-import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer';
 import { articleTemplates } from '../src/data/articleTemplatesConfig';
@@ -12,43 +11,113 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.join(__dirname, '..');
 const distDir = path.join(projectRoot, 'dist');
 const articlesDir = path.join(distDir, 'articles');
+const appShellPath = path.join(distDir, 'index.html');
 const host = '127.0.0.1';
 const port = 4174;
 const origin = `http://${host}:${port}`;
+const SITE = 'https://maximusscpi.com';
 
 const templates = articleTemplates.filter((entry) => entry.indexable !== false);
 
-const waitForServer = () => new Promise<void>((resolve, reject) => {
-  const startedAt = Date.now();
-  const tick = () => {
-    const req = http.get(origin, (res) => {
-      res.resume();
-      if (res.statusCode && res.statusCode < 500) return resolve();
-      if (Date.now() - startedAt > 30000) return reject(new Error(`Vite preview indisponible (${res.statusCode})`));
-      setTimeout(tick, 250);
-    });
-    req.on('error', () => {
-      if (Date.now() - startedAt > 30000) return reject(new Error('Vite preview inaccessible après 30 s'));
-      setTimeout(tick, 250);
-    });
-  };
-  tick();
-});
-
-const extractRootBounds = (html: string) => {
-  const rootStart = html.indexOf('<div id="root"');
-  if (rootStart === -1) throw new Error('div#root absent');
-  const openEnd = html.indexOf('>', rootStart);
-  if (openEnd === -1) throw new Error('ouverture div#root invalide');
-  const moduleStart = html.indexOf('<script type="module"', openEnd);
-  if (moduleStart === -1) throw new Error('script Vite de production absent après #root');
-  const closeStart = html.lastIndexOf('</div>', moduleStart);
-  if (closeStart === -1 || closeStart <= openEnd) throw new Error('fermeture div#root introuvable');
-  return { rootStart, openEnd, closeStart };
+const contentTypes: Record<string, string> = {
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.ico': 'image/x-icon',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2'
 };
 
 const normalizeText = (value: string) => value.replace(/\s+/g, ' ').trim();
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
+const escapeHtml = (value: unknown) => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
+
+const replaceOrInsertHeadTag = (html: string, pattern: RegExp, replacement: string) => {
+  if (pattern.test(html)) return html.replace(pattern, replacement);
+  return html.replace('</head>', `    ${replacement}\n  </head>`);
+};
+
+const setArticleSeo = (baseHtml: string, template: (typeof templates)[number]) => {
+  const canonical = `${SITE}/articles/${template.slug}/`;
+  const title = template.title;
+  const description = template.metaDescription;
+  const keywords = (template.keywords || []).join(', ');
+
+  let html = baseHtml;
+  html = replaceOrInsertHeadTag(html, /<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${escapeHtml(description)}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+name=["']keywords["'][^>]*>/i, `<meta name="keywords" content="${escapeHtml(keywords)}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+name=["']robots["'][^>]*>/i, '<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />');
+  html = replaceOrInsertHeadTag(html, /<link\s+rel=["']canonical["'][^>]*>/i, `<link rel="canonical" href="${canonical}" />`);
+  html = replaceOrInsertHeadTag(html, /<link\s+rel=["']alternate["'][^>]*hreflang=["']fr["'][^>]*>/i, `<link rel="alternate" hreflang="fr" href="${canonical}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']og:type["'][^>]*>/i, '<meta property="og:type" content="article" />');
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']og:url["'][^>]*>/i, `<meta property="og:url" content="${canonical}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${escapeHtml(title)}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${escapeHtml(description)}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:url["'][^>]*>/i, `<meta property="twitter:url" content="${canonical}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:title["'][^>]*>/i, `<meta property="twitter:title" content="${escapeHtml(title)}" />`);
+  html = replaceOrInsertHeadTag(html, /<meta\s+property=["']twitter:description["'][^>]*>/i, `<meta property="twitter:description" content="${escapeHtml(description)}" />`);
+
+  html = html.replace(/\s*<script[^>]+id=["']article-react-prerender-schema["'][^>]*>[\s\S]*?<\/script>/gi, '');
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: title,
+        description,
+        url: canonical,
+        mainEntityOfPage: canonical,
+        author: {
+          '@type': 'Person',
+          name: 'Eric Bellaiche',
+          jobTitle: 'Conseiller en Gestion de Patrimoine'
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'MaximusSCPI',
+          url: SITE
+        },
+        keywords: template.keywords || []
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'Articles', item: `${SITE}/articles/` },
+          { '@type': 'ListItem', position: 3, name: title, item: canonical }
+        ]
+      }
+    ]
+  };
+  const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
+  html = html.replace('</head>', `    <script id="article-react-prerender-schema" type="application/ld+json">${schemaJson}</script>\n  </head>`);
+  return html;
+};
+
+const extractRootBounds = (html: string) => {
+  const rootStart = html.indexOf('<div id="root"');
+  if (rootStart === -1) throw new Error('div#root absent du shell applicatif');
+  const openEnd = html.indexOf('>', rootStart);
+  if (openEnd === -1) throw new Error('ouverture div#root invalide');
+  const moduleStart = html.indexOf('<script type="module"', openEnd);
+  if (moduleStart === -1) throw new Error('script Vite de production absent du shell applicatif');
+  const closeStart = html.lastIndexOf('</div>', moduleStart);
+  if (closeStart === -1 || closeStart <= openEnd) throw new Error('fermeture div#root introuvable');
+  return { rootStart, openEnd, closeStart };
+};
 
 const injectReactRoot = (baseHtml: string, slug: string, rootHtml: string) => {
   const { rootStart, openEnd, closeStart } = extractRootBounds(baseHtml);
@@ -56,29 +125,60 @@ const injectReactRoot = (baseHtml: string, slug: string, rootHtml: string) => {
     .replace(/\sdata-react-prerender=(['"])[\s\S]*?\1/gi, '')
     .replace(/\sdata-react-prerender-slug=(['"])[\s\S]*?\1/gi, '')
     .replace(/>$/, ` data-react-prerender="true" data-react-prerender-slug="${slug}">`);
-
   return baseHtml.slice(0, rootStart) + openingTag + rootHtml + baseHtml.slice(closeStart);
 };
 
-const launchPreview = () => {
-  const viteBin = path.join(projectRoot, 'node_modules', '.bin', 'vite');
-  const child = spawn(viteBin, ['preview', '--host', host, '--port', String(port), '--strictPort'], {
-    cwd: projectRoot,
-    stdio: ['ignore', 'pipe', 'pipe']
-  });
-  child.stdout.on('data', (chunk) => process.stdout.write(`[vite-preview] ${chunk}`));
-  child.stderr.on('data', (chunk) => process.stderr.write(`[vite-preview] ${chunk}`));
-  return child;
+const safeFileForRequest = (pathname: string) => {
+  const decoded = decodeURIComponent(pathname).replace(/^\/+/, '');
+  if (!decoded) return null;
+  const candidate = path.resolve(distDir, decoded);
+  if (!candidate.startsWith(path.resolve(distDir) + path.sep)) return null;
+  if (!fs.existsSync(candidate) || !fs.statSync(candidate).isFile()) return null;
+  return candidate;
 };
 
-const processArticle = async (page: any, template: (typeof templates)[number]) => {
+const createSpaServer = (appShell: string) => http.createServer((req, res) => {
+  try {
+    const requestUrl = new URL(req.url || '/', origin);
+    const filePath = safeFileForRequest(requestUrl.pathname);
+
+    if (filePath) {
+      const ext = path.extname(filePath).toLowerCase();
+      const body = fs.readFileSync(filePath);
+      res.writeHead(200, {
+        'Content-Type': contentTypes[ext] || 'application/octet-stream',
+        'Content-Length': body.length,
+        'Cache-Control': 'no-store'
+      });
+      res.end(body);
+      return;
+    }
+
+    // Important : toutes les routes applicatives, y compris /articles/*,
+    // reçoivent le vrai shell Vite de production plutôt que leur HTML déjà pré-généré.
+    const body = Buffer.from(appShell, 'utf-8');
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Content-Length': body.length,
+      'Cache-Control': 'no-store'
+    });
+    res.end(body);
+  } catch (error: any) {
+    res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end(error?.message || 'Erreur serveur SPA');
+  }
+});
+
+const listen = (server: http.Server) => new Promise<void>((resolve, reject) => {
+  server.once('error', reject);
+  server.listen(port, host, () => resolve());
+});
+
+const closeServer = (server: http.Server) => new Promise<void>((resolve) => server.close(() => resolve()));
+
+const processArticle = async (page: any, template: (typeof templates)[number], appShell: string) => {
   const slug = template.slug;
   const url = `${origin}/articles/${slug}/`;
-  const filePath = path.join(articlesDir, slug, 'index.html');
-
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`${slug}: shell HTML absent avant pré-rendu`);
-  }
 
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
   await page.waitForFunction(() => {
@@ -87,9 +187,12 @@ const processArticle = async (page: any, template: (typeof templates)[number]) =
     const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
     const h1 = root.querySelectorAll('h1').length;
     const h2 = root.querySelectorAll('h2').length;
-    const legacyShell = root.querySelector('.article-seo-shell');
-    return !legacyShell && h1 >= 1 && h2 >= 5 && text.length >= 2200;
-  }, { timeout: 20000 });
+    const loading = text.includes('Chargement...') || text.includes('Chargement en cours');
+    return !loading && h1 >= 1 && h2 >= 5 && text.length >= 2200;
+  }, { timeout: 25000 });
+
+  // Laisser React finir les effets de métadonnées, sans attendre de réseau externe.
+  await new Promise((resolve) => setTimeout(resolve, 120));
 
   const captured = await page.evaluate(() => {
     const root = document.getElementById('root');
@@ -97,7 +200,7 @@ const processArticle = async (page: any, template: (typeof templates)[number]) =
     const clone = root.cloneNode(true) as HTMLElement;
     clone.querySelectorAll('script, iframe, [class*="modal"], [class*="Modal"]').forEach((el) => el.remove());
     const html = clone.innerHTML.trim();
-    const text = (clone.innerText || '').replace(/\s+/g, ' ').trim();
+    const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
     return {
       html,
       text,
@@ -107,12 +210,14 @@ const processArticle = async (page: any, template: (typeof templates)[number]) =
   });
 
   if (!captured.html || captured.text.length < 2200 || captured.h2Count < 5) {
-    throw new Error(`${slug}: rendu React trop mince (${captured.text.length} caractères, ${captured.h2Count} H2)`);
+    throw new Error(`rendu React trop mince (${captured.text.length} caractères, ${captured.h2Count} H2)`);
   }
 
-  const baseHtml = fs.readFileSync(filePath, 'utf-8');
-  const finalHtml = injectReactRoot(baseHtml, slug, captured.html);
-  fs.writeFileSync(filePath, finalHtml, 'utf-8');
+  const seoShell = setArticleSeo(appShell, template);
+  const finalHtml = injectReactRoot(seoShell, slug, captured.html);
+  const pageDir = path.join(articlesDir, slug);
+  fs.mkdirSync(pageDir, { recursive: true });
+  fs.writeFileSync(path.join(pageDir, 'index.html'), finalHtml, 'utf-8');
 
   return {
     slug,
@@ -125,15 +230,17 @@ const processArticle = async (page: any, template: (typeof templates)[number]) =
 };
 
 const main = async () => {
-  if (!fs.existsSync(distDir)) throw new Error('dist/ absent : lancer après vite build');
-  if (!fs.existsSync(articlesDir)) throw new Error('dist/articles/ absent');
+  if (!fs.existsSync(appShellPath)) throw new Error('dist/index.html absent : lancer après vite build');
+  const appShell = fs.readFileSync(appShellPath, 'utf-8');
+  extractRootBounds(appShell); // fail-fast : on exige le vrai bundle Vite.
+  fs.mkdirSync(articlesDir, { recursive: true });
 
   console.log(`🚀 Pré-rendu React autoritaire : ${templates.length} articles`);
-  const preview = launchPreview();
+  const server = createSpaServer(appShell);
   let browser: any;
 
   try {
-    await waitForServer();
+    await listen(server);
     browser = await puppeteer.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
@@ -147,16 +254,20 @@ const main = async () => {
     const worker = async (workerId: number) => {
       const page = await browser.newPage();
       await page.setViewport({ width: 1365, height: 900 });
+      page.on('pageerror', (error: any) => console.error(`   ⚠️ [${workerId}] React: ${error?.message || error}`));
       await page.setRequestInterception(true);
       page.on('request', (request: any) => {
         const url = request.url();
         if (
-          url.startsWith(origin) ||
-          url.startsWith('data:') ||
-          url.startsWith('blob:') ||
-          url.startsWith('about:')
-        ) request.continue();
-        else request.abort();
+          url.includes('googletagmanager.com') ||
+          url.includes('google-analytics.com') ||
+          url.includes('elfsightcdn.com') ||
+          url.includes('calendly.com')
+        ) {
+          request.abort();
+          return;
+        }
+        request.continue();
       });
 
       try {
@@ -165,7 +276,7 @@ const main = async () => {
           if (index >= templates.length) break;
           const template = templates[index];
           try {
-            const result = await processArticle(page, template);
+            const result = await processArticle(page, template, appShell);
             results.push(result);
             console.log(`   ✓ [${workerId}] ${template.slug} — ${result.words} mots, ${result.h2} H2`);
           } catch (error: any) {
@@ -205,7 +316,7 @@ const main = async () => {
     console.log(`✅ Pré-rendu React terminé : ${results.length}/${templates.length} articles · minimum ${minWords} mots / ${minChars} caractères`);
   } finally {
     if (browser) await browser.close();
-    preview.kill('SIGTERM');
+    await closeServer(server);
   }
 };
 
