@@ -8,6 +8,7 @@ import { getSemanticLinks } from '../data/semanticCocon';
 import { generateBreadcrumbSchema, generateArticleSchema } from '../utils/seoOptimizer';
 import { supabase } from '../supabaseClient';
 import { getArticleComponent } from '../utils/articleComponentsMap';
+import { getTemplateBySlug } from '../data/articleTemplatesConfig';
 
 const DynamicArticlePage = lazy(() => import('./DynamicArticlePage'));
 
@@ -41,16 +42,23 @@ interface ArticleData {
 const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => {
   const [article, setArticle] = useState<ArticleData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [useLocalFallback, setUseLocalFallback] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadArticle() {
       try {
         setLoading(true);
         setError(null);
+        setUseLocalFallback(false);
+        setArticle(null);
 
+        // Le contenu React local est la source de secours autoritaire pour le build,
+        // les crawlers et tout environnement où Supabase n'est pas disponible.
         if (!supabase) {
-          setError('Supabase non configuré');
+          if (!cancelled) setUseLocalFallback(true);
           return;
         }
 
@@ -62,26 +70,29 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
           .maybeSingle();
 
         if (fetchError) {
-          console.error('Erreur chargement article:', fetchError);
-          setError('Erreur lors du chargement de l\'article');
+          console.warn('Article Supabase indisponible, fallback React local:', fetchError);
+          if (!cancelled) setUseLocalFallback(true);
           return;
         }
 
         if (!data) {
-          setError('Article non trouvé');
+          if (!cancelled) setUseLocalFallback(true);
           return;
         }
 
-        setArticle(data);
+        if (!cancelled) setArticle(data);
       } catch (err) {
-        console.error('Erreur:', err);
-        setError('Une erreur est survenue');
+        console.warn('Chargement Supabase impossible, fallback React local:', err);
+        if (!cancelled) setUseLocalFallback(true);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
 
     loadArticle();
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   if (loading) {
@@ -93,6 +104,18 @@ const OptimizedArticlePage: React.FC<OptimizedArticlePageProps> = ({ slug }) => 
         </div>
       </div>
     );
+  }
+
+  if (useLocalFallback) {
+    const localTemplate = getTemplateBySlug(slug);
+    if (localTemplate) {
+      return (
+        <Suspense fallback={<LoadingSpinner />}>
+          <DynamicArticlePage slug={slug} />
+        </Suspense>
+      );
+    }
+    setError('Article non trouvé');
   }
 
   if (error || !article) {
