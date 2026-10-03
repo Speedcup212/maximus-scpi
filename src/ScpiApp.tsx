@@ -3,6 +3,7 @@ import OptimizedScpiLandingPage from './components/OptimizedScpiLandingPage';
 import ScpiQuarterlyAnalysis from './components/ScpiQuarterlyAnalysis';
 import ScpiTrajectoryPortal from './components/trajectory/ScpiTrajectoryPortal';
 import ScpiDecisionHubPortal from './components/ScpiDecisionHubPortal';
+import ScpiPageVisualPolish from './components/ScpiPageVisualPolish';
 
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
@@ -46,6 +47,7 @@ const ScpiApp: React.FC = () => {
         toggleTheme={() => setIsDarkMode(v => !v)}
       />
 
+      <ScpiPageVisualPolish scpiSlug={scpiKey} />
       <ScpiDecisionHubPortal scpiSlug={scpiKey} />
       <ScpiTrajectoryPortal scpiSlug={scpiKey} />
       <ScpiQuarterlyAnalysis scpiKey={scpiKey} />
