@@ -1,4 +1,6 @@
 export type FunnelEventName =
+  | 'home_primary_cta_clicked'
+  | 'home_secondary_cta_clicked'
   | 'quiz_started'
   | 'quiz_step_1_completed'
   | 'quiz_step_2_completed'
@@ -42,6 +44,7 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
   const allowed = new Set([
     'step',
     'source',
+    'destination',
     'scpi_id',
     'scpi_name',
     'portfolio_size',
