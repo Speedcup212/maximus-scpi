@@ -8,10 +8,17 @@
 
 - [Comparateur SCPI](https://maximusscpi.com/comparateur-scpi/) : comparer rendement, TOF, frais, capitalisation, valorisation, endettement, secteurs, géographie et indicateurs de liquidité.
 - [Simulateurs SCPI](https://maximusscpi.com/simulateurs/) : accéder aux simulateurs pédagogiques du site.
-- [Méthodologie des données](https://maximusscpi.com/methodologie-donnees/) : comprendre les sources, périodes de référence et limites des données.
+- [Méthodologie des données](https://maximusscpi.com/methodologie-donnees-scpi/) : comprendre les sources, périodes de référence, contrôles et limites des données.
 - [Risques des SCPI](https://maximusscpi.com/risques-scpi/) : perte en capital, liquidité, valorisation, occupation, endettement et autres risques.
 - [Comprendre les SCPI](https://maximusscpi.com/comprendre-les-scpi/) : guide pédagogique sur le fonctionnement des SCPI.
 - [Actualités SCPI](https://maximusscpi.com/actualites/) : suivre les évolutions et informations récentes publiées sur le site.
+
+## Cadre réglementaire
+
+- [AMF et SCPI](https://maximusscpi.com/amf-scpi/) : rôle de l'AMF, documentation réglementaire et limites du contrôle réglementaire.
+- [ORIAS et SCPI](https://maximusscpi.com/orias-scpi/) : vérification de l'immatriculation des intermédiaires et limites de cette vérification.
+- [DIC SCPI](https://maximusscpi.com/dic-scpi/) : lire le document d'informations clés, le risque, les scénarios et les coûts.
+- [Note d'information SCPI](https://maximusscpi.com/note-information-scpi/) : fonctionnement, frais, souscription, retrait et risques.
 
 ## Fiches SCPI
 
@@ -24,16 +31,19 @@
 
 - [Revente de parts de SCPI et marché secondaire](https://maximusscpi.com/articles/revendre-parts-scpi-delais-marche-secondaire/) : comprendre les délais, la liquidité et le marché secondaire.
 - [Décote et valeur de reconstitution](https://maximusscpi.com/decote-valeur-reconstitution-scpi/) : comprendre le rapport entre prix de part et valeur de reconstitution.
-- [TOF des SCPI](https://maximusscpi.com/tof-scpi/) : comprendre le taux d'occupation financier.
-- [Endettement des SCPI](https://maximusscpi.com/endettement-scpi/) : comprendre le levier et ses risques.
+- [TOF des SCPI](https://maximusscpi.com/tof-scpi/) : comprendre le taux d'occupation financier et sa trajectoire.
+- [Endettement des SCPI](https://maximusscpi.com/endettement-scpi/) : comprendre le levier, le coût de la dette et ses risques.
+- [Capitalisation des SCPI](https://maximusscpi.com/capitalisation-scpi/) : comprendre la taille du fonds et ses limites comme critère de comparaison.
 
 ## Informations sur l'éditeur
 
 - [À propos de MaximusSCPI](https://maximusscpi.com/qui-sommes-nous/) : présentation du site et de son approche.
+- [Expertise et cadre professionnel](https://maximusscpi.com/expertise-orias-cif/) : présentation du cadre professionnel et distinction entre information générale et conseil personnalisé.
 - [Avertissements et risques](https://maximusscpi.com/avertissements-risques-scpi/) : limites, risques et précautions de lecture.
 
 ## Ressources agentiques
 
+- [Sitemap XML](https://maximusscpi.com/sitemap.xml) : liste des URL publiques destinées à l'indexation.
 - [Manifeste ARD](https://maximusscpi.com/.well-known/ard.json) : catalogue de ressources agentiques conforme au format ARD.
 - [Manifeste ai-catalog compatible](https://maximusscpi.com/.well-known/ai-catalog.json) : chemin de compatibilité pour les consommateurs utilisant l'ancien nom.
 - [Skill de recherche SCPI](https://maximusscpi.com/.well-known/skills/scpi-research.md) : instructions de navigation et d'analyse des ressources publiques MaximusSCPI.
