@@ -20,6 +20,15 @@ const wordCount = (html) => html
   .split(' ')
   .filter(Boolean).length;
 
+const visitIndexHtml = (dir, callback) => {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) visitIndexHtml(full, callback);
+    else if (entry.isFile() && entry.name === 'index.html') callback(full);
+  }
+};
+
 // 1) AMF : title SERP sous 60 caractères + profondeur pédagogique suffisante.
 {
   const file = path.join(distDir, 'amf-scpi', 'index.html');
@@ -91,4 +100,83 @@ const wordCount = (html) => html
   console.log(`✅ Structured data sociétés de gestion nettoyée : ${fixed} pages`);
 }
 
-console.log('✅ Nettoyage SEO final : AMF + home + sociétés de gestion');
+// 4) Données structurées globales :
+// - ne pas publier un faux logo pour le gestionnaire d'une SCPI ; si le provider n'a qu'un nom sans logo officiel vérifié, on l'omet du FinancialProduct ;
+// - conserver un logo MaximusSCPI réel partout où MaximusSCPI est l'Organization ;
+// - si une page éditoriale ne fournit aucune date de publication vérifiable, ne pas prétendre à un Article complet : WebPage est plus exact.
+{
+  let financialProvidersRemoved = 0;
+  let undatedArticlesDowngraded = 0;
+  let maximusLogosFixed = 0;
+
+  visitIndexHtml(distDir, (file) => {
+    let html = read(file);
+    let changed = false;
+    const normalized = file.split(path.sep).join('/');
+
+    html = html.replace(/<script([^>]*type=["']application\/ld\+json["'][^>]*)>([\s\S]*?)<\/script>/gi, (full, attrs, rawJson) => {
+      const source = rawJson.trim();
+      if (!source) return full;
+      let data;
+      try {
+        data = JSON.parse(source);
+      } catch {
+        return full;
+      }
+
+      let localChanged = false;
+      const walk = (node, parent = null, key = null) => {
+        if (Array.isArray(node)) {
+          node.forEach((item, index) => walk(item, node, index));
+          return;
+        }
+        if (!node || typeof node !== 'object') return;
+
+        const type = node['@type'];
+        const types = Array.isArray(type) ? type : [type];
+
+        if (types.includes('Organization')) {
+          const name = String(node.name || '').toLowerCase();
+          const url = String(node.url || '').replace(/\/$/, '').toLowerCase();
+          if (name === 'maximusscpi' || url === SITE.toLowerCase()) {
+            const currentLogo = typeof node.logo === 'string' ? node.logo : node.logo?.url;
+            if (currentLogo !== MAXIMUS_LOGO) {
+              node.logo = { '@type': 'ImageObject', url: MAXIMUS_LOGO };
+              maximusLogosFixed += 1;
+              localChanged = true;
+            }
+          }
+        }
+
+        if (types.includes('FinancialProduct') && node.provider?.['@type'] === 'Organization') {
+          const providerLogo = typeof node.provider.logo === 'string' ? node.provider.logo : node.provider.logo?.url;
+          if (!providerLogo) {
+            delete node.provider;
+            financialProvidersRemoved += 1;
+            localChanged = true;
+          }
+        }
+
+        const articleLike = types.some((value) => value === 'Article' || value === 'NewsArticle' || value === 'BlogPosting');
+        if (articleLike && normalized.includes('/dist/articles/') && !node.datePublished) {
+          node['@type'] = 'WebPage';
+          undatedArticlesDowngraded += 1;
+          localChanged = true;
+        }
+
+        Object.entries(node).forEach(([childKey, value]) => walk(value, node, childKey));
+      };
+
+      walk(data);
+      if (!localChanged) return full;
+      changed = true;
+      return `<script${attrs}>${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
+    });
+
+    if (changed) write(file, html);
+  });
+
+  console.log(`✅ Structured data globales : ${financialProvidersRemoved} provider(s) non vérifiés omis ; ${undatedArticlesDowngraded} Article(s) sans date converti(s) en WebPage ; ${maximusLogosFixed} logo(s) MaximusSCPI normalisé(s).`);
+}
+
+console.log('✅ Nettoyage SEO final : AMF + home + sociétés de gestion + schemas globaux');
