@@ -22,7 +22,7 @@ const schema = {
       description: 'Site français d’information, de comparaison et d’analyse des SCPI.',
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE}/Logo%20MaximusSCPI.com.png`
+        url: `${SITE}/Maximus%20logo%20250x50%204.svg`
       }
     },
     {
@@ -66,5 +66,9 @@ const graph = Array.isArray(parsed['@graph']) ? parsed['@graph'] : [];
 const types = new Set(graph.map((node) => node['@type']));
 for (const required of ['Organization', 'Person', 'WebSite', 'WebPage']) {
   if (!types.has(required)) throw new Error(`Type schema manquant sur la home : ${required}`);
+}
+const organization = graph.find((node) => node['@type'] === 'Organization');
+if (!organization?.logo?.url?.includes('Maximus%20logo%20250x50%204.svg')) {
+  throw new Error('Logo Organization invalide ou absent');
 }
 console.log('✅ Graphe GEO home injecté : Organization + Person + WebSite + WebPage');
