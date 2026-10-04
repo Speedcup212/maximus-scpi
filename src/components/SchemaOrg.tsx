@@ -5,6 +5,9 @@ interface SchemaOrgProps {
   data: any;
 }
 
+const SITE_URL = 'https://maximusscpi.com';
+const BRAND_LOGO = `${SITE_URL}/Logo%20MaximusSCPI.com.png`;
+
 export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
   let schema: any = {};
 
@@ -14,21 +17,20 @@ export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
         "@context": "https://schema.org",
         "@type": "FinancialService",
         "name": "MaximusSCPI",
-        "description": "Comparateur indépendant SCPI : 63 SCPI analysées, simulation gratuite, conseiller ORIAS",
-        "url": "https://maximusscpi.com",
-        "logo": "https://maximusscpi.com/Maximus%20logo%20250x50%204.svg",
+        "description": "Comparateur et site d'analyse pédagogique des SCPI : données, trajectoires, risques, fiscalité et simulateurs",
+        "url": SITE_URL,
+        "logo": BRAND_LOGO,
         "founder": {
           "@type": "Person",
           "name": "Eric Bellaiche",
-          "jobTitle": "Conseiller en Investissement Financier",
-          "description": "Expert SCPI indépendant, CIF certifié ORIAS"
+          "jobTitle": "Conseiller en Investissement Financier"
         },
         "address": {
           "@type": "PostalAddress",
           "addressCountry": "FR"
         },
         "areaServed": "FR",
-        "serviceType": "Conseil en investissement SCPI"
+        "serviceType": "Information, comparaison et conseil en investissement SCPI"
       };
       break;
 
@@ -40,7 +42,7 @@ export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
           "@type": "ListItem",
           "position": index + 1,
           "name": item.name,
-          "item": `https://maximusscpi.com${item.url}`
+          "item": `${SITE_URL}${item.url}`
         }))
       };
       break;
@@ -60,33 +62,39 @@ export const SchemaOrg: React.FC<SchemaOrgProps> = ({ type, data }) => {
       };
       break;
 
-    case 'Article':
-      schema = {
+    case 'Article': {
+      const articleSchema: any = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": data.title,
         "description": data.description,
+        "image": data.image || BRAND_LOGO,
         "author": {
           "@type": "Person",
           "name": "Eric Bellaiche",
           "jobTitle": "Conseiller en Investissement Financier"
         },
-        "datePublished": data.datePublished || "2026-01-15",
-        "dateModified": data.dateModified || new Date().toISOString().split('T')[0],
         "publisher": {
           "@type": "Organization",
           "name": "MaximusSCPI",
+          "url": SITE_URL,
           "logo": {
             "@type": "ImageObject",
-            "url": "https://maximusscpi.com/Maximus%20logo%20250x50%204.svg"
+            "url": BRAND_LOGO
           }
         },
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": `https://maximusscpi.com${data.url}`
+          "@id": `${SITE_URL}${data.url}`
         }
       };
+      // Ne jamais fabriquer une date de publication/modification. Une date n'est émise
+      // que si elle provient réellement des données de l'article.
+      if (data.datePublished) articleSchema.datePublished = data.datePublished;
+      if (data.dateModified) articleSchema.dateModified = data.dateModified;
+      schema = articleSchema;
       break;
+    }
 
     case 'FinancialProduct':
       schema = {
@@ -132,6 +140,7 @@ export const generateBreadcrumbs = (path: string): BreadcrumbItem[] => {
 
   const pathMapping: Record<string, string> = {
     'article': 'Articles SCPI',
+    'articles': 'Articles SCPI',
     'scpi': 'SCPI',
     'comprendre-scpi': 'Comprendre les SCPI',
     'faq': 'Questions Fréquentes',
