@@ -1694,6 +1694,11 @@ const App: React.FC = () => {
     window.location.assign('/');
   };
 
+  const handleArticlesClick = () => {
+    console.log('[Navigation] handleArticlesClick appelé');
+    navigateToView('articles-list', '/articles');
+  };
+
   const handleActualitesClick = () => {
     navigateToView('actualites', '/actualites');
   };
