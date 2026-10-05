@@ -55,8 +55,23 @@ jobs:
           )
           replace_once(
               'src/components/GenericScpiLandingPage.tsx',
-              '  ChevronRight, ChevronLeft, Zap\n',
-              '  ChevronRight, ChevronLeft, Zap, Calendar\n'
+              "import {\n  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,\n  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,\n  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck,\n  ChevronRight, ChevronLeft, Zap\n} from 'lucide-react';\nimport Logo from './Logo';",
+              "import {\n  TrendingUp, Shield, CheckCircle, ArrowRight, Award, Building2, Leaf,\n  Lock, Eye, ChevronRight, ChevronLeft, Zap, Calendar\n} from 'lucide-react';"
+          )
+          replace_once(
+              'src/components/ScpiLandingPage.tsx',
+              "import React, { useState, useEffect, memo } from 'react';",
+              "import React, { useState, useEffect } from 'react';"
+          )
+          replace_once(
+              'src/components/ScpiLandingPage.tsx',
+              "import {\n  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,\n  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,\n  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck\n} from 'lucide-react';",
+              "import {\n  TrendingUp, Shield, CheckCircle, Phone,\n  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,\n  Target, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck\n} from 'lucide-react';"
+          )
+          replace_once(
+              'src/components/ScpiLandingPage.tsx',
+              "import Logo from './Logo';\nimport MaximusLogo3Bars from './MaximusLogo3Bars';\n",
+              ''
           )
           replace_count(
               'src/components/ScpiLandingPage.tsx',
