@@ -22,10 +22,11 @@ export const useProfile = (userId?: string | null) => {
       return;
     }
 
+    const client = supabase;
     let isActive = true;
 
     const queryProfile = async () => {
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await client
         .from('profiles')
         .select('*')
         .eq('user_id', userId)
@@ -41,7 +42,7 @@ export const useProfile = (userId?: string | null) => {
       // Après un retour OAuth, le contexte React peut recevoir l'utilisateur
       // juste avant que la session soit pleinement attachée aux requêtes REST.
       // Attendre explicitement getSession évite une lecture anon transitoire.
-      const { data: sessionData } = await supabase.auth.getSession();
+      const { data: sessionData } = await client.auth.getSession();
       if (!isActive) return;
 
       if (!sessionData.session || sessionData.session.user.id !== userId) {
@@ -57,7 +58,7 @@ export const useProfile = (userId?: string | null) => {
       if (!data && !fetchError) {
         await sleep(180);
         if (!isActive) return;
-        await supabase.auth.getSession();
+        await client.auth.getSession();
         ({ data, fetchError } = await queryProfile());
       }
 
