@@ -1,6 +1,7 @@
 import type { Scpi } from '../types/scpi';
 import { createSlugFromName } from './scpiSlugMapper';
 import { selectSupabaseRest } from './supabaseRest';
+import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from './certifiedLiquidity';
 
 type IndicatorRow = {
   scpi_slug: string;
@@ -41,44 +42,32 @@ type IndicatorRow = {
   updated_at?: string | null;
 };
 
+type LiquidityRow = {
+  scpi_slug: string;
+  liquidity_basis?: string | null;
+  regime_changed?: boolean | null;
+  parts_attente_retrait?: number | string | null;
+  nombre_parts?: number | string | null;
+};
+
+type GateRow = {
+  scpi_slug: string;
+  reconstitution_gate?: string | null;
+  market_signal_gate?: string | null;
+};
+
 const INDICATOR_SELECT = [
-  'scpi_slug',
-  'nom',
-  'societe_gestion',
-  'annee_creation',
-  'td',
-  'tof',
-  'capitalisation',
-  'prix_souscription',
-  'prix_reconstitution',
-  'prix_retrait',
-  'valeur_realisation',
-  'frais_souscription',
-  'frais_gestion',
-  'srri',
-  'duree_detention_recommandee',
-  'endettement',
-  'delai_jouissance',
-  'walt',
-  'walb',
-  'nombre_locataires',
-  'nombre_immeubles',
-  'nombre_parts',
-  'repartition_sectorielle',
-  'repartition_geographique',
-  'collecte_nette',
-  'nb_cessions_trimestre',
-  'distribution_par_part',
-  'versement_loyers',
-  'source_period',
-  'source_confidence',
-  'source_document',
-  'source_url',
-  'qa_status',
-  'parts_attente_retrait',
-  'capital_type',
-  'updated_at',
+  'scpi_slug','nom','societe_gestion','annee_creation','td','tof','capitalisation',
+  'prix_souscription','prix_reconstitution','prix_retrait','valeur_realisation',
+  'frais_souscription','frais_gestion','srri','duree_detention_recommandee','endettement',
+  'delai_jouissance','walt','walb','nombre_locataires','nombre_immeubles','nombre_parts',
+  'repartition_sectorielle','repartition_geographique','collecte_nette','nb_cessions_trimestre',
+  'distribution_par_part','versement_loyers','source_period','source_confidence','source_document',
+  'source_url','qa_status','parts_attente_retrait','capital_type','updated_at',
 ].join(',');
+
+const LIQUIDITY_SELECT = 'scpi_slug,liquidity_basis,regime_changed,parts_attente_retrait,nombre_parts';
+const GATE_SELECT = 'scpi_slug,reconstitution_gate,market_signal_gate';
 
 const toNumber = (value: unknown): number | undefined => {
   if (value === null || value === undefined || value === '') return undefined;
@@ -104,11 +93,28 @@ const calculateDiscount = (
   return ((price - reconstitution) / reconstitution) * 100;
 };
 
-export function mergeScpiWithLiveIndicators(scpi: Scpi, row: IndicatorRow): Scpi {
+export function mergeScpiWithLiveIndicators(
+  scpi: Scpi,
+  row: IndicatorRow,
+  liquidity?: LiquidityRow | null,
+  gate?: GateRow | null,
+): Scpi {
   const price = toNumber(row.prix_souscription) ?? scpi.price;
   const reconstitution = toNumber(row.prix_reconstitution) ?? scpi.valeurReconstitution;
-  const liveDiscount = calculateDiscount(price, reconstitution);
-  const waiting = toNumber(row.parts_attente_retrait);
+  const liquidityBasis = normalizeLiquidityBasis(liquidity?.liquidity_basis, row.capital_type);
+  const comparableDiscount = isSubscriptionReconstitutionComparable({
+    capitalType: row.capital_type,
+    liquidityBasis,
+    liquidityRegimeChanged: liquidity?.regime_changed,
+    reconstitutionGate: gate?.reconstitution_gate,
+  });
+  const liveDiscount = comparableDiscount ? calculateDiscount(price, reconstitution) : undefined;
+  const certifiedWaiting = liquidityBasis === 'withdrawal_queue'
+    ? toNumber(liquidity?.parts_attente_retrait ?? row.parts_attente_retrait)
+    : undefined;
+  const certifiedTotalParts = liquidityBasis === 'withdrawal_queue'
+    ? toNumber(liquidity?.nombre_parts ?? row.nombre_parts)
+    : toNumber(row.nombre_parts);
   const sectors = toRepartition(row.repartition_sectorielle);
   const geography = toRepartition(row.repartition_geographique);
 
@@ -119,37 +125,40 @@ export function mergeScpiWithLiveIndicators(scpi: Scpi, row: IndicatorRow): Scpi
     creation: toNumber(row.annee_creation) ?? scpi.creation,
     yield: toNumber(row.td) ?? scpi.yield,
     tof: toNumber(row.tof) ?? scpi.tof,
-    capitalization:
-      toNumber(row.capitalisation) !== undefined
-        ? (toNumber(row.capitalisation) as number) * 1_000_000
-        : scpi.capitalization,
+    capitalization: toNumber(row.capitalisation) !== undefined
+      ? (toNumber(row.capitalisation) as number) * 1_000_000
+      : scpi.capitalization,
     price,
     valeurReconstitution: reconstitution,
     valeurRetrait: toNumber(row.prix_retrait) ?? scpi.valeurRetrait,
     valeurRealisation: toNumber(row.valeur_realisation) ?? scpi.valeurRealisation,
     discount: liveDiscount ?? scpi.discount,
-    discountQaStatus: liveDiscount !== undefined ? 'publishable' : scpi.discountQaStatus,
+    discountQaStatus: comparableDiscount && liveDiscount !== undefined ? 'publishable' : 'manual_review',
+    capitalType: row.capital_type || scpi.capitalType,
+    liquidityBasis: liquidityBasis || scpi.liquidityBasis,
+    liquidityRegimeChanged: Boolean(liquidity?.regime_changed),
+    reconstitutionGate: gate?.reconstitution_gate || scpi.reconstitutionGate,
     fees: toNumber(row.frais_souscription) ?? scpi.fees,
     fraisGestion: toNumber(row.frais_gestion) ?? scpi.fraisGestion,
     profilRisque: toNumber(row.srri) ?? scpi.profilRisque,
-    dureeDetentionRecommandee:
-      toNumber(row.duree_detention_recommandee) ?? scpi.dureeDetentionRecommandee,
+    dureeDetentionRecommandee: toNumber(row.duree_detention_recommandee) ?? scpi.dureeDetentionRecommandee,
     debt: toNumber(row.endettement) ?? scpi.debt,
     delaiJouissance: toNumber(row.delai_jouissance) ?? scpi.delaiJouissance,
     walt: toNumber(row.walt) ?? scpi.walt,
     walb: toNumber(row.walb) ?? scpi.walb,
     nombreLocataires: toNumber(row.nombre_locataires) ?? scpi.nombreLocataires,
     nbImmeubles: toNumber(row.nombre_immeubles) ?? scpi.nbImmeubles,
-    nbPartsTotal: toNumber(row.nombre_parts) ?? scpi.nbPartsTotal,
+    nbPartsTotal: certifiedTotalParts ?? scpi.nbPartsTotal,
     collecteNetteTrimestre: toNumber(row.collecte_nette) ?? scpi.collecteNetteTrimestre,
-    nbCessionsTrimestre:
-      toNumber(row.nb_cessions_trimestre) ?? scpi.nbCessionsTrimestre,
+    nbCessionsTrimestre: toNumber(row.nb_cessions_trimestre) ?? scpi.nbCessionsTrimestre,
     distribution: toNumber(row.distribution_par_part) ?? scpi.distribution,
     versementLoyers: row.versement_loyers || scpi.versementLoyers,
     repartitionSector: sectors ?? scpi.repartitionSector,
     repartitionGeo: geography ?? scpi.repartitionGeo,
-    partsAttenteRetrait: waiting ?? scpi.partsAttenteRetrait,
-    hasWaitingShares: waiting !== undefined ? waiting > 0 : scpi.hasWaitingShares,
+    partsAttenteRetrait: certifiedWaiting,
+    hasWaitingShares: liquidityBasis === 'withdrawal_queue' && certifiedWaiting !== undefined
+      ? certifiedWaiting > 0
+      : false,
     periodeBulletinTrimestriel: row.source_period || scpi.periodeBulletinTrimestriel,
     maximusSourcePeriode: row.source_period || scpi.maximusSourcePeriode,
     maximusSourceDocument: row.source_document || scpi.maximusSourceDocument,
@@ -158,19 +167,22 @@ export function mergeScpiWithLiveIndicators(scpi: Scpi, row: IndicatorRow): Scpi
   };
 }
 
+const singleParams = (slug: string, select: string) => new URLSearchParams({
+  select,
+  scpi_slug: `eq.${slug}`,
+  limit: '1',
+});
+
 export async function getLiveScpiData(scpi: Scpi): Promise<Scpi> {
   const slug = createSlugFromName(scpi.name);
-  const params = new URLSearchParams({
-    select: INDICATOR_SELECT,
-    scpi_slug: `eq.${slug}`,
-    limit: '1',
-  });
 
   try {
-    const rows = await selectSupabaseRest<IndicatorRow>('scpi_indicators', params, {
-      cacheTtlMs: 5 * 60 * 1000,
-    });
-    return rows[0] ? mergeScpiWithLiveIndicators(scpi, rows[0]) : scpi;
+    const [rows, liquidityRows, gateRows] = await Promise.all([
+      selectSupabaseRest<IndicatorRow>('scpi_indicators', singleParams(slug, INDICATOR_SELECT), { cacheTtlMs: 5 * 60 * 1000 }),
+      selectSupabaseRest<LiquidityRow>('scpi_trajectory_pilot_liquidity', singleParams(slug, LIQUIDITY_SELECT), { cacheTtlMs: 5 * 60 * 1000 }),
+      selectSupabaseRest<GateRow>('scpi_trajectory_signal_gate', singleParams(slug, GATE_SELECT), { cacheTtlMs: 5 * 60 * 1000 }),
+    ]);
+    return rows[0] ? mergeScpiWithLiveIndicators(scpi, rows[0], liquidityRows[0], gateRows[0]) : scpi;
   } catch {
     return scpi;
   }
@@ -180,24 +192,27 @@ export async function getLiveScpiDataBatch(scpiList: Scpi[]): Promise<Scpi[]> {
   if (scpiList.length === 0) return scpiList;
 
   const slugs = scpiList.map((scpi) => createSlugFromName(scpi.name));
-  const params = new URLSearchParams({
-    select: INDICATOR_SELECT,
-    scpi_slug: `in.(${slugs.join(',')})`,
-  });
+  const indicatorParams = new URLSearchParams({ select: INDICATOR_SELECT, scpi_slug: `in.(${slugs.join(',')})` });
+  const liquidityParams = new URLSearchParams({ select: LIQUIDITY_SELECT, scpi_slug: `in.(${slugs.join(',')})` });
+  const gateParams = new URLSearchParams({ select: GATE_SELECT, scpi_slug: `in.(${slugs.join(',')})` });
 
   try {
-    const data = await selectSupabaseRest<IndicatorRow>('scpi_indicators', params, {
-      cacheTtlMs: 5 * 60 * 1000,
-      deferMs: 350,
-    });
+    const [data, liquidityData, gateData] = await Promise.all([
+      selectSupabaseRest<IndicatorRow>('scpi_indicators', indicatorParams, { cacheTtlMs: 5 * 60 * 1000, deferMs: 350 }),
+      selectSupabaseRest<LiquidityRow>('scpi_trajectory_pilot_liquidity', liquidityParams, { cacheTtlMs: 5 * 60 * 1000, deferMs: 350 }),
+      selectSupabaseRest<GateRow>('scpi_trajectory_signal_gate', gateParams, { cacheTtlMs: 5 * 60 * 1000, deferMs: 350 }),
+    ]);
 
     if (data.length === 0) return scpiList;
 
     const bySlug = new Map(data.map((row) => [row.scpi_slug, row]));
+    const liquidityBySlug = new Map(liquidityData.map((row) => [row.scpi_slug, row]));
+    const gateBySlug = new Map(gateData.map((row) => [row.scpi_slug, row]));
 
     return scpiList.map((scpi) => {
-      const row = bySlug.get(createSlugFromName(scpi.name));
-      return row ? mergeScpiWithLiveIndicators(scpi, row) : scpi;
+      const slug = createSlugFromName(scpi.name);
+      const row = bySlug.get(slug);
+      return row ? mergeScpiWithLiveIndicators(scpi, row, liquidityBySlug.get(slug), gateBySlug.get(slug)) : scpi;
     });
   } catch {
     return scpiList;
