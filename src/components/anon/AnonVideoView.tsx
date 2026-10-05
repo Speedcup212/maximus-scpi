@@ -6,14 +6,9 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
   const [scpiName, setScpiName] = useState('');
 
   useEffect(() => {
-    if (!supabase) {
-      setLoading(false);
-      return;
-    }
-    const client = supabase;
     async function fetchVideoData() {
       try {
-        const { data, error } = await client
+        const { data, error } = await supabase
           .from('shared_links')
           .select('*, scpi_catalog(name)')
           .eq('id', videoUuid)
@@ -29,7 +24,7 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
           }
 
           // Incrémenter immédiatement le compteur de vues dans Supabase
-          await client
+          await supabase
             .from('shared_links')
             .update({ view_count: (data.view_count || 0) + 1 })
             .eq('id', videoUuid);

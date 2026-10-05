@@ -5,12 +5,8 @@ const PingSupabase: React.FC = () => {
   const [result, setResult] = useState<string>("");
 
   const handlePing = async () => {
-    if (!supabase) {
-      setResult("❌ Supabase non configuré");
-      return;
-    }
     try {
-      const { error } = await supabase.from("pg_tables").select("*").limit(1);
+      const { data, error } = await supabase.from("pg_tables").select("*").limit(1);
       if (error) throw error;
       setResult("✅ Connexion Supabase OK");
     } catch (err) {

@@ -17,12 +17,9 @@ const PartnerClientDetail: React.FC<PartnerClientDetailProps> = ({ clientId, onN
   const [cases, setCases] = useState<Case[]>([]);
 
   useEffect(() => {
-    if (!supabase) return;
-    const clientApi = supabase;
-
     const load = async () => {
-      const { data: clientRow } = await clientApi.from('profiles').select('*').eq('user_id', clientId).single();
-      const { data: casesRows } = await clientApi.from('cases').select('*').eq('client_user_id', clientId);
+      const { data: clientRow } = await supabase.from('profiles').select('*').eq('user_id', clientId).single();
+      const { data: casesRows } = await supabase.from('cases').select('*').eq('client_user_id', clientId);
       if (clientRow) setClient(clientRow as Profile);
       if (casesRows) setCases(casesRows as Case[]);
     };

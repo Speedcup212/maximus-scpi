@@ -339,10 +339,9 @@ export default function MoneyPageTools({ slug }: MoneyPageToolsProps) {
       return;
     }
 
-    const client = supabase;
     let cancelled = false;
     const load = async () => {
-      const { data, error } = await client
+      const { data, error } = await supabase
         .from('scpi_indicators')
         .select('nom,td,tof,endettement,prime_decote,capitalisation,source_period,qa_status')
         .limit(100);
