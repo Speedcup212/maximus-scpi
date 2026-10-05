@@ -1,0 +1,70 @@
+name: Step A home navigation fix
+
+on:
+  push:
+    branches:
+      - fix/step-a-home-navigation
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: ${{ !contains(github.event.head_commit.message, '[step-a-applied]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/step-a-home-navigation
+          fetch-depth: 1
+
+      - name: Patch legacy home navigation
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('src/App.tsx')
+          text = path.read_text()
+          old = """  const handleBackToHome = () => {
+            setCurrentView('home');
+            setSelectedCategory(null);
+            setSelectedArticle(null);
+            setSelectedLandingPage(null);
+            // Utiliser replaceState au lieu de pushState pour éviter les problèmes de mutation
+            // et ne pas ajouter d'entrée à l'historique
+            try {
+              window.history.replaceState(null, '', '/');
+            } catch (error) {
+              // Fallback: utiliser window.location si replaceState échoue
+              window.location.href = '/';
+              return;
+            }
+            window.scrollTo(0, 0);
+          };
+          """
+          new = """  const handleBackToHome = () => {
+            // La home autoritaire est montée par main.tsx via HomeApp.
+            // Depuis les routes legacy, une simple mutation de currentView conservait
+            // l'ancienne home embarquée dans App.tsx. Une navigation réelle garantit
+            // qu'un retour accueil charge toujours la même HomeApp.
+            window.location.assign('/');
+          };
+          """
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected exactly one legacy handleBackToHome block, found {text.count(old)}')
+          path.write_text(text.replace(old, new))
+          PY
+
+          git diff --check
+          git diff -- src/App.tsx
+
+      - name: Commit exact source fix
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/App.tsx
+          git commit -m "fix(step-a): always return to authoritative HomeApp [step-a-applied]"
+          git push origin HEAD:fix/step-a-home-navigation
