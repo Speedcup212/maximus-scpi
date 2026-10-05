@@ -1,0 +1,92 @@
+name: Repair Pro and reset Client V1 once
+
+on:
+  push:
+    branches:
+      - repair/pro-client-rebuild-20261005
+    paths:
+      - '.github/workflows/repair-pro-client-reset-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Restore private app files to pre Client-V1 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=22c1f5c9c2d2481abeddc5423a8d65a87f5b9495
+          for f in \
+            src/app/components/AppLayout.tsx \
+            src/app/components/AuthGuard.tsx \
+            src/app/components/RoleGuard.tsx \
+            src/app/pages/AppClientDashboard.tsx \
+            src/app/pages/AppEntry.tsx \
+            src/app/pages/AppLogin.tsx \
+            src/app/types.ts \
+            src/main.tsx; do
+            git show "$BASE:$f" > "$f"
+          done
+          rm -f supabase/migrations/20261005152000_create_client_scpi_positions.sql
+          rm -f supabase/migrations/20261005154000_harden_client_scpi_positions.sql
+          cat > supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql <<'SQL'
+          drop table if exists public.client_scpi_positions;
+          SQL
+      - name: Fix professionnels route collision
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('src/App.tsx')
+          s = p.read_text()
+          old = "if (path.startsWith('pro')) {"
+          new = "if (path === 'pro' || path.startsWith('pro/')) {"
+          count = s.count(old)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one Pro prefix matcher, found {count}')
+          p.write_text(s.replace(old, new, 1))
+      - name: Verify Client V1 removal invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          ! grep -R "client_scpi_positions" -n src || (echo 'Client V1 table reference remains in src' && exit 1)
+          ! grep -R "maximusPostLoginPath\|maximusLoginEmailHint" -n src || (echo 'Client V1 auth routing remains in src' && exit 1)
+          ! grep -R "URL directe de l'espace client" -n src || (echo 'Client V1 /espace-client rewrite remains' && exit 1)
+          grep -q "path === 'pro' || path.startsWith('pro/')" src/App.tsx
+      - name: Install dependencies
+        run: npm ci
+      - name: Production build
+        run: npm run build
+      - name: Start preview
+        run: |
+          nohup npm run preview -- --host 127.0.0.1 --port 4173 >/tmp/maximus-vite.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/maximus-vite.log
+          exit 1
+      - name: Browser crash test professionnels
+        run: node scripts/smoke-professionnels.mjs
+      - name: Commit verified reset only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'maximus-repair'
+          git config user.email 'maximus-repair@users.noreply.github.com'
+          git rm .github/workflows/repair-pro-client-reset-once.yml
+          git add src/App.tsx src/app src/main.tsx supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql
+          git add -u supabase/migrations
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix(pro): restore professionnels and remove client V1 [skip netlify]'
+          git push origin HEAD:repair/pro-client-rebuild-20261005
