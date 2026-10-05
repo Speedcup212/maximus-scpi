@@ -35,13 +35,13 @@ export default function TeaserComparateur() {
     <section className="relative py-14 sm:py-16" style={{ backgroundColor: '#0D1117' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* En-tête */}
-        <div className="text-center max-w-2xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
-            Trois grandes familles de SCPI à comparer
+            Comparateur SCPI : confrontez les données qui comptent
           </h2>
           <p className="mt-3 text-slate-300">
-            Rendements, frais, zones géographiques, labels ISR, taux
-            d'occupation — une analyse multicritère pour comparer plus vite.
+            Taux de distribution, TOF, frais, capitalisation, valeur de reconstitution,
+            endettement, secteurs, géographie et liquidité : comparez les SCPI sur une base multicritère.
           </p>
         </div>
 
@@ -90,11 +90,11 @@ export default function TeaserComparateur() {
         {/* CTA unique outline */}
         <div className="mt-10 text-center">
           <a
-            href="/comparateur-scpi"
+            href="/comparateur-scpi/"
             className="inline-flex items-center justify-center px-6 py-4 rounded-xl font-semibold border-2 transition-all duration-200 hover:bg-[#00C896] hover:text-[#0D1117]"
             style={{ borderColor: '#00C896', color: '#00C896' }}
           >
-            Accéder au comparateur complet →
+            Accéder au comparateur SCPI →
           </a>
           <p className="mt-4 text-xs text-slate-300">
             Outil pédagogique — ne constitue pas une recommandation
