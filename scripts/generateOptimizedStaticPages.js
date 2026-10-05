@@ -101,6 +101,14 @@ const buildStaticHistory = (slug, name) => {
 
   const metrics = candidates
     .map(([label, key, type]) => {
+      // Legacy snapshots have no certified liquidity semantics. They cannot prove a
+      // comparable withdrawal queue, particularly after a secondary-market switch.
+      if (key === 'parts_attente_retrait' &&
+          (previous.liquidity_basis !== 'withdrawal_queue' || current.liquidity_basis !== 'withdrawal_queue' ||
+           previous.capital_type !== 'variable' || current.capital_type !== 'variable' ||
+           previous.regime_changed !== false || current.regime_changed !== false ||
+           previous.signal_certification !== 'trajectory_certified' || current.signal_certification !== 'trajectory_certified')) return null;
+      if (key === 'prix_retrait' && (previous.capital_type !== 'variable' || current.capital_type !== 'variable')) return null;
       const before = toNumber(previous[key]);
       const after = toNumber(current[key]);
       if (before === null || after === null) return null;
@@ -190,7 +198,7 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
         '<main class="scpi-shell-hero">' +
           '<div class="scpi-shell-inner">' +
             '<p class="scpi-shell-kicker">Fiche SCPI · Analyse MaximusSCPI</p>' +
-            '<h1>SCPI ' + escapeHtml(name) + '</h1>' +
+            '<h1>SCPI ' + escapeHtml(name) + ' : analyse, indicateurs et risques</h1>' +
             (company ? '<p class="scpi-shell-company">Gérée par ' + escapeHtml(company) + '</p>' : '') +
             '<div class="scpi-shell-metrics">' + metrics + '</div>' +
             '<p class="scpi-shell-note">Analyse détaillée, patrimoine, valorisation et points de vigilance.</p>' +
@@ -220,13 +228,19 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
     '</div>';
 
   const rootStart = baseHtml.indexOf('<div id="root">');
-  const moduleScriptStart = baseHtml.indexOf('<script type="module"', rootStart);
-  if (rootStart === -1 || moduleScriptStart === -1) return baseHtml;
-
-  const rootEnd = baseHtml.lastIndexOf('</div>', moduleScriptStart);
-  if (rootEnd === -1 || rootEnd < rootStart) return baseHtml;
-
-  return baseHtml.slice(0, rootStart) + shell + baseHtml.slice(rootEnd + 6);
+  if (rootStart === -1) throw new Error(`Racine React absente pour ${slug}`);
+  // Vite places the entry module in <head>; do not use its position to locate #root.
+  const tags = /<\/?div\b[^>]*>/g;
+  tags.lastIndex = rootStart + '<div id="root">'.length;
+  let depth = 1;
+  let tag;
+  while ((tag = tags.exec(baseHtml))) {
+    depth += tag[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) {
+      return baseHtml.slice(0, rootStart) + shell + baseHtml.slice(tags.lastIndex);
+    }
+  }
+  throw new Error(`Fermeture de la racine React absente pour ${slug}`);
 };
 
 const setSeo = (baseHtml, scpi, slug) => {
@@ -276,8 +290,8 @@ const setSeo = (baseHtml, scpi, slug) => {
   const schemaJson = JSON.stringify(schema).replace(/</g, '\\u003c');
   html = html.replace(
     '</head>',
-    '    <script id="scpi-static-schema" type="application/ld+json">' + schemaJson + '</script>\\n' +
-    '    <script>window.__SCPI_STATIC_SLUG__=' + JSON.stringify(slug) + ';</script>\\n  </head>'
+    '    <script id="scpi-static-schema" type="application/ld+json">' + schemaJson + '</script>\n' +
+    '    <script>window.__SCPI_STATIC_SLUG__=' + JSON.stringify(slug) + ';</script>\n  </head>'
   );
   return html;
 };

@@ -12,11 +12,16 @@ import {
 import { Activity, Database, LineChart as LineChartIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import {
-  HISTORY_SELECT,
+  CERTIFIED_HISTORY_SELECT,
+  CertifiedLiquiditySnapshot,
   ScpiHistoryRow,
+  TrajectorySignalGate,
+  applyCertifiedLiquidity,
+  currentCertifiedLiquidity,
   formatPeriod,
   formatSigned,
   latestDelta,
+  liquidityLabel,
   normalizeAndDedupeHistory,
   valuationGapPct,
 } from './trajectoryData';
@@ -43,32 +48,52 @@ const numberFormatter = (value: number | null, suffix = '', maxDigits = 2) =>
 const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) => {
   const [activeMetric, setActiveMetric] = useState<MetricKey>('tof');
   const [rows, setRows] = useState<ScpiHistoryRow[]>([]);
+  const [liquidity, setLiquidity] = useState<CertifiedLiquiditySnapshot | null>(null);
+  const [signalGate, setSignalGate] = useState<TrajectorySignalGate | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
+      setLoading(true);
+      setRows([]);
+      setLiquidity(null);
+      setSignalGate(null);
       if (!supabase || !scpiSlug) {
         if (!cancelled) setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from('scpi_indicator_history')
-        .select(HISTORY_SELECT)
+      const [historyResult, liquidityResult, gateResult] = await Promise.all([
+        supabase
+        .from('scpi_trajectory_pilot_history')
+        .select(CERTIFIED_HISTORY_SELECT)
         .eq('scpi_slug', scpiSlug)
         .order('snapshot_at', { ascending: true })
-        .limit(80);
+        .limit(80),
+        supabase.from('scpi_trajectory_pilot_liquidity')
+          .select('scpi_slug,source_period,liquidity_basis,liquidity_pressure_pct,retrait_attente_pct,regime_changed,signal_certification')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+        supabase.from('scpi_trajectory_signal_gate')
+          .select('scpi_slug,data_gate,structural_gate,semantic_gate,liquidity_gate,liquidity_signal_eligible')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+      ]);
 
       if (cancelled) return;
-      if (error) {
-        console.warn('[ScpiTrajectoryPanel] Historique indisponible.', error);
+      if (historyResult.error) {
+        console.warn('[ScpiTrajectoryPanel] Historique indisponible.', historyResult.error);
         setLoading(false);
         return;
       }
 
-      setRows((data || []) as unknown as ScpiHistoryRow[]);
+      setRows((historyResult.data || []) as unknown as ScpiHistoryRow[]);
+      if (liquidityResult.error || gateResult.error) {
+        console.warn('[ScpiTrajectoryPanel] Contexte de liquidité indisponible : ratios masqués.');
+      } else {
+        setLiquidity(liquidityResult.data as CertifiedLiquiditySnapshot | null);
+        setSignalGate(gateResult.data as TrajectorySignalGate | null);
+      }
       setLoading(false);
     };
 
@@ -78,7 +103,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     };
   }, [scpiSlug]);
 
-  const history = useMemo(() => normalizeAndDedupeHistory(rows), [rows]);
+  const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquidity, signalGate), [rows, liquidity, signalGate]);
   const recentHistory = useMemo(() => history.slice(-16), [history]);
   const latest = history[history.length - 1] || null;
 
@@ -88,6 +113,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
         period: formatPeriod(row.source_period),
         tof: row.tof,
         retrait_attente_pct: row.retrait_attente_pct,
+        secondary_pressure_pct: row.liquidity_basis === 'secondary_market_order_book' ? row.liquidity_pressure_pct : null,
         prix_souscription: row.prix_souscription,
         prix_reconstitution: row.prix_reconstitution,
         valeur_realisation: row.valeur_realisation,
@@ -98,7 +124,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
   );
 
   const tofDelta = latestDelta(history, 'tof', 4);
-  const liquidityDelta = latestDelta(history, 'retrait_attente_pct', 4);
+  const { value: liquidityValue, delta: liquidityDelta } = currentCertifiedLiquidity(history, liquidity, signalGate);
   const debtDelta = latestDelta(history, 'endettement', 4);
   const distributionDelta = latestDelta(history, 'distribution_par_part', 4);
   const valuationGap = latest
@@ -118,6 +144,21 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
   if (history.length < 2) return null;
 
   const renderChart = () => {
+    if (activeMetric === 'liquidite') {
+      return (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.14)" />
+            <XAxis dataKey="period" tick={{ fill: '#94a3b8', fontSize: 11 }} minTickGap={24} />
+            <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} width={56} domain={['auto', 'auto']} />
+            <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 10 }} labelStyle={{ color: '#e2e8f0' }} />
+            <Legend wrapperStyle={{ fontSize: 12 }} />
+            <Line type="linear" dataKey="retrait_attente_pct" name="File de retraits (%)" connectNulls={false} stroke="#f59e0b" strokeWidth={2.6} dot={{ r: 2.8 }} />
+            <Line type="linear" dataKey="secondary_pressure_pct" name="Pression du marché secondaire (%)" connectNulls={false} stroke="#38bdf8" strokeWidth={2.6} dot={{ r: 2.8 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    }
     if (activeMetric === 'valorisation') {
       return (
         <ResponsiveContainer width="100%" height="100%">
@@ -141,9 +182,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     const config =
       activeMetric === 'tof'
         ? { dataKey: 'tof', name: 'TOF (%)', stroke: '#38bdf8' }
-        : activeMetric === 'liquidite'
-          ? { dataKey: 'retrait_attente_pct', name: 'Parts en attente (%)', stroke: '#f59e0b' }
-          : activeMetric === 'distribution'
+        : activeMetric === 'distribution'
             ? { dataKey: 'distribution_par_part', name: 'Distribution / part', stroke: '#34d399' }
             : { dataKey: 'endettement', name: 'Endettement (%)', stroke: '#a78bfa' };
 
@@ -196,12 +235,12 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">TOF actuel</div>
             <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.tof ?? null, ' %')}</div>
-            <div className="mt-1 text-xs text-slate-400">Δ 4 obs. {formatSigned(tofDelta, ' pt')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(tofDelta, ' pt')}</div>
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-            <div className="text-xs text-slate-500">Parts en attente</div>
-            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.retrait_attente_pct ?? null, ' %')}</div>
-            <div className="mt-1 text-xs text-slate-400">Δ 4 obs. {formatSigned(liquidityDelta, ' pt')}</div>
+            <div className="text-xs text-slate-500">{liquidityLabel(latest?.liquidity_basis)}</div>
+            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(liquidityValue, ' %')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(liquidityDelta, ' pt')}</div>
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Prix / reconstitution</div>
@@ -213,14 +252,27 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Distribution / part</div>
             <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.distribution_par_part ?? null, ' €')}</div>
-            <div className="mt-1 text-xs text-slate-400">Δ 4 obs. {formatSigned(distributionDelta, ' €')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(distributionDelta, ' €')}</div>
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Endettement</div>
             <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.endettement ?? null, ' %')}</div>
-            <div className="mt-1 text-xs text-slate-400">Δ 4 obs. {formatSigned(debtDelta, ' pt')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(debtDelta, ' pt')}</div>
           </div>
         </div>
+
+        {activeMetric === 'liquidite' && (
+            <p className="mb-4 text-xs leading-5 text-slate-400">
+              {liquidity?.regime_changed
+                ? 'Changement de régime : la file de retraits et le marché secondaire ne sont pas directement comparables. '
+                : ''}
+              {liquidity?.signal_certification === 'suppressed_regime_change_pending_data'
+                ? 'Les données du nouveau marché sont en attente ; aucun ratio ni amélioration ne peut être déduit de l’annulation de la file.'
+                : !liquidity || !signalGate
+                  ? 'Contexte certifié indisponible ; les ratios de liquidité sont masqués.'
+                  : 'Les interruptions correspondent à des données absentes ou non comparables. La pression secondaire est distincte de la file de retraits.'}
+            </p>
+        )}
 
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6">
           <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
@@ -254,7 +306,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                 <tr>
                   <th className="px-4 py-3">Période</th>
                   <th className="px-4 py-3 text-right">TOF</th>
-                  <th className="px-4 py-3 text-right">Retraits</th>
+                  <th className="px-4 py-3 text-right">Liquidité / base</th>
                   <th className="px-4 py-3 text-right">Prix</th>
                   <th className="px-4 py-3 text-right">Reconstitution</th>
                   <th className="px-4 py-3 text-right">Réalisation</th>
@@ -270,7 +322,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                     <tr key={`${row.source_period || row.snapshot_at}-${index}`} className="hover:bg-slate-800/30">
                       <td className="px-4 py-3 font-semibold text-white">{formatPeriod(row.source_period)}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.tof, ' %')}</td>
-                      <td className="px-4 py-3 text-right">{numberFormatter(row.retrait_attente_pct, ' %')}</td>
+                      <td className="px-4 py-3 text-right">
+                        {numberFormatter(row.liquidity_basis === 'secondary_market_order_book' ? row.liquidity_pressure_pct : row.retrait_attente_pct, ' %')}
+                        <span className="block text-[10px] text-slate-500">{liquidityLabel(row.liquidity_basis)}</span>
+                      </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.valeur_realisation, ' €')}</td>

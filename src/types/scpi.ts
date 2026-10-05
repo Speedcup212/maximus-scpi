@@ -49,6 +49,10 @@ export interface Scpi {
   collecteNetteTrimestre?: number; // Collecte nette du trimestre (en €)
   nbCessionsTrimestre?: number; // Nombre de cessions du trimestre
   actualitesTrimestrielles?: string; // Actualités trimestrielles (séparées par " | ")
+  actualitePeriode?: string; // Période propre au résumé éditorial vérifié
+  actualiteDateDocument?: string;
+  actualiteSourceDocument?: string;
+  actualiteSourceUrl?: string;
   periodeBulletinTrimestriel?: string; // Période du dernier bulletin (ex: "T3 2025")
   dateBulletin?: string; // Date du bulletin (ex: "30/09/2025")
   liquidite?: string; // Situation de liquidité / marché des parts issue des documents sources
