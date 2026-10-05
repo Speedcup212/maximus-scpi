@@ -1,0 +1,5 @@
+SEO comparator demand routing batch
+- canonical internal anchor from homepage
+- explicit semantic bridge from /articles/ to /comparateur-scpi/
+- canonical methodology link from comparator landing
+- build assertions to prevent regressions
