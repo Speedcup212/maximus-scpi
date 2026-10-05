@@ -1,0 +1,42 @@
+name: Typecheck audit
+
+on:
+  push:
+    branches: [agents/typecheck-audit-20261005]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript diagnostic inventory
+        shell: bash
+        run: |
+          set +e
+          npx tsc -b --pretty false 2>&1 | tee /tmp/tsc.log
+          code=${PIPESTATUS[0]}
+          echo "TSC_EXIT=$code"
+          echo "DIAGNOSTIC_LINES=$(grep -cE 'error TS[0-9]+' /tmp/tsc.log || true)"
+          echo "TOP_FILES"
+          grep -E 'error TS[0-9]+' /tmp/tsc.log | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -nr | head -40 || true
+          echo "TOP_CODES"
+          grep -oE 'TS[0-9]+' /tmp/tsc.log | sort | uniq -c | sort -nr | head -30 || true
+          echo "AGENT_CHANGED_FILES"
+          grep -E '^(src/components/ScpiDetailPage\.tsx|src/components/ScpiPremiumAnalysis\.tsx|src/components/TMIExplanationModal\.tsx|src/components/fintech/AnalysisDetailModal\.tsx|src/components/trajectory/ScpiTrajectoryPanel\.tsx|src/components/trajectory/ScpiTrajectoryTabs\.tsx|src/components/trajectory/trajectoryData\.ts|src/data/scpiData\.ts|src/types/scpi\.ts|src/utils/scpiAnalysis\.ts).*error TS' /tmp/tsc.log || true
+          exit 0
