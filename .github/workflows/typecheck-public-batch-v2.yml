@@ -1,0 +1,87 @@
+name: Public TypeScript batch v2
+on:
+  push:
+    branches: [diagnostic/typescript-public-batch-20261005]
+    paths: ['.github/workflows/typecheck-public-batch-v2.yml']
+permissions:
+  contents: write
+jobs:
+  batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply batch on current main
+        shell: bash
+        run: |
+          git fetch origin main
+          expected='c9abcec86c162976d23de7226e60f71acd64107a'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B batch-work origin/main
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          footer_files = ['src/components/ActualitesPage.tsx','src/components/EducationArticlesIndexPage.tsx','src/components/GestionnairesActeursScpiPage.tsx','src/components/ManagementCompanyArticlePage.tsx','src/components/SocietesDeGestionScpiPage.tsx']
+          pat = re.compile(r'<LegalFooter\s+isDarkMode=\{isDarkMode\}\s+onContactClick=\{onContactClick\}\s+onAboutClick=\{onAboutClick\}\s*/>')
+          for f in footer_files:
+              p=Path(f); s=p.read_text(); ns,n=pat.subn('<LegalFooter />',s,count=1)
+              if n != 1: raise SystemExit(f'footer {f}: {n}')
+              p.write_text(ns)
+          counts={'src/components/ScpiCreditSimulator.tsx':2,'src/components/ScpiDemembrementSimulator.tsx':1,'src/components/ScpiEnvelopeComparator.tsx':1,'src/components/ScpiNetIncomeSimulator.tsx':2,'src/pages/SimulateurTresorerieIS.tsx':1}
+          old='formatter={(value: number) => formatEuro(value)}'; new='formatter={(value) => formatEuro(Number(value))}'
+          for f,nexp in counts.items():
+              p=Path(f); s=p.read_text(); n=s.count(old)
+              if n != nexp: raise SystemExit(f'formatter {f}: {n}/{nexp}')
+              p.write_text(s.replace(old,new))
+          p=Path('src/components/ScpiEnvelopeComparator.tsx'); s=p.read_text(); a='formatter={(value: number) => `${value.toFixed(2)} %`}'; b='formatter={(value) => `${Number(value).toFixed(2)} %`}'
+          if s.count(a) != 1: raise SystemExit('TRI formatter mismatch')
+          p.write_text(s.replace(a,b,1))
+          p=Path('src/components/simulation/AllocationSliders.tsx'); s=p.read_text()
+          if s.count('<style jsx>{`') != 1: raise SystemExit('style jsx mismatch')
+          p.write_text(s.replace('<style jsx>{`','<style>{`',1))
+          lines=["import type { Scpi } from '../types/scpi';",'', 'export interface AMFInvestorProfile {','  icon: string;','  color: string;','  name: string;','  description: string;','  characteristics: {','    horizon: string;','    objective: string;','    tolerance: string;','  };','}','', 'export interface AMFESGProfile {','  icon: string;','  color: string;','  name: string;','  description: string;','  impactScore: number;','}','', 'export interface AMFRecommendation {','  scpi: Scpi;','  allocation?: number;','}','', 'export interface AMFProfileResult {','  profile: AMFInvestorProfile;','  esgProfile: AMFESGProfile;','  recommendations: AMFRecommendation[];','  simulation: {','    investmentAmount: number;','    annualIncome: number;','  };','}']
+          amf=Path('src/utils/amfScoring.ts')
+          if amf.exists(): raise SystemExit('amfScoring exists')
+          amf.write_text('\n'.join(lines)+'\n')
+          p=Path('src/components/SCPIResults.tsx'); s=p.read_text(); a='import { AMFProfileResult } from "../utils/amfScoring";'; b='import type { AMFProfileResult } from "../utils/amfScoring";'
+          if s.count(a) != 1: raise SystemExit('AMF import mismatch')
+          p.write_text(s.replace(a,b,1))
+          PY
+          git add -N src/utils/amfScoring.ts
+          git diff --binary > /tmp/batch.patch
+      - run: npm ci
+      - name: Typecheck once
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          echo "TOTAL=$total UNUSED=$unused RUNTIME=$((total-unused))"
+          grep -E '(SCPIResults.tsx|ScpiCreditSimulator.tsx|ScpiDemembrementSimulator.tsx|ScpiEnvelopeComparator.tsx|ScpiNetIncomeSimulator.tsx|SimulateurTresorerieIS.tsx|AllocationSliders.tsx).*error TS' /tmp/typecheck.log || true
+          test "$total" -le 973
+      - name: Fast Vite build
+        run: npx vite build
+      - name: Promote one batch
+        shell: bash
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='c9abcec86c162976d23de7226e60f71acd64107a'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B main origin/main
+          git apply /tmp/batch.patch
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/components/ActualitesPage.tsx src/components/EducationArticlesIndexPage.tsx src/components/GestionnairesActeursScpiPage.tsx src/components/ManagementCompanyArticlePage.tsx src/components/SCPIResults.tsx src/components/ScpiCreditSimulator.tsx src/components/ScpiDemembrementSimulator.tsx src/components/ScpiEnvelopeComparator.tsx src/components/ScpiNetIncomeSimulator.tsx src/components/SocietesDeGestionScpiPage.tsx src/components/simulation/AllocationSliders.tsx src/pages/SimulateurTresorerieIS.tsx src/utils/amfScoring.ts
+          test "$(git diff --cached --name-only | wc -l)" -eq 13
+          git commit -m 'fix(types): batch public contracts and chart formatters [skip netlify]'
+          git push origin HEAD:main
