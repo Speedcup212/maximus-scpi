@@ -142,8 +142,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   const nbImmeubles = scpiForAnalysis?.nbImmeubles ?? scpi.assetsCount;
 
   const numberOfShares = Math.floor(investmentAmount / scpi.price);
-  const actualInvestment = numberOfShares * scpi.price;
-  const currentYield = scpiForAnalysis?.yield ?? scpi.yield;
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
