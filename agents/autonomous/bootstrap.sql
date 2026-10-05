@@ -119,13 +119,26 @@ end $$;
 
 create or replace function maximus_agents.finish_task(p_id uuid,p_token uuid,p_status text,p_result jsonb)
 returns jsonb language plpgsql security invoker set search_path = pg_catalog, maximus_agents as $$
-declare t maximus_agents.tasks;
+declare t maximus_agents.tasks; e jsonb;
 begin
   if p_status not in ('done','failed','blocked') then raise exception 'Invalid terminal status'; end if;
   if jsonb_typeof(p_result) is distinct from 'object' or coalesce(length(p_result->>'summary'),0)=0
     or coalesce(p_result->>'verdict','') not in ('PASS','REVIEW','FAIL') then raise exception 'summary and verdict required'; end if;
   if jsonb_typeof(p_result->'evidence') is distinct from 'array' then raise exception 'Evidence array required'; end if;
   if jsonb_array_length(p_result->'evidence')=0 then raise exception 'Evidence required'; end if;
+  for e in select value from jsonb_array_elements(p_result->'evidence') loop
+    if jsonb_typeof(e) is distinct from 'object'
+      or jsonb_typeof(e->'source') is distinct from 'string'
+      or coalesce(length(btrim(e->>'source')),0)=0
+      or jsonb_typeof(e->'observed_at') is distinct from 'string'
+      or coalesce(length(btrim(e->>'observed_at')),0)=0
+      or jsonb_typeof(e->'finding') is null or e->'finding'='null'::jsonb
+      or e->'finding' in ('{}'::jsonb,'[]'::jsonb,'""'::jsonb) then
+      raise exception 'Evidence requires source, observed_at and non-empty finding';
+    end if;
+    -- Validate the observation date, without trusting its factual content.
+    perform (e->>'observed_at')::timestamptz;
+  end loop;
   if p_status<>'done' and p_result->>'verdict'='PASS' then raise exception 'Non-completed task cannot PASS'; end if;
   select * into t from maximus_agents.tasks where id=p_id for update;
   if t.id is null or t.status<>'running' or t.lease_token is distinct from p_token or t.lease_until<now() then

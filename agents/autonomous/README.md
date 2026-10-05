@@ -33,6 +33,7 @@ Les documents d'exploitation sont conservés sur la branche `agents/autonomous-c
 - Un seul agent actif par rôle, lease de 30 minutes, deux tentatives maximum par tâche, deux prises de tâche maximum par rôle et par jour de Paris.
 - Pas de nouvel appel à une API IA payante, abonnement, ressource cloud ou dépendance. Les plafonds de tâches limitent le travail ; ils ne constituent pas un plafond monétaire des plateformes existantes.
 - Un résultat sans preuve n'est jamais PASS. Une indisponibilité de connecteur est BLOCKED, pas un succès.
+- Chaque preuve doit contenir une source nommée, une date valide et un constat non vide. Cette structure est contrôlée en SQL ; la véracité reste contrôlée indépendamment par QA.
 - Les anomalies et nouveaux travaux sont dédupliqués. Aucun retraitement des SCPI PASS sans régression.
 - La couverture SEO publique ne prouve pas une indexation Google ; Search Console reste une preuve distincte.
 

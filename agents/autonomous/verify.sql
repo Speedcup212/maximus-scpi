@@ -4,7 +4,7 @@ delete from maximus_agents.runs;
 delete from maximus_agents.tasks;
 do $$
 declare t maximus_agents.tasks; a maximus_agents.tasks; s maximus_agents.tasks; q maximus_agents.tasks;
-  n integer; rejected boolean; proof jsonb := '{"summary":"transactional fixture","verdict":"PASS","evidence":[{"source":"verify.sql","finding":"fixture"}]}';
+  n integer; rejected boolean; proof jsonb := jsonb_build_object('summary','transactional fixture','verdict','PASS','evidence',jsonb_build_array(jsonb_build_object('source','verify.sql','observed_at',now(),'finding','fixture')));
 begin
   perform maximus_agents.prepare_cycle();
   perform maximus_agents.prepare_cycle();
@@ -23,6 +23,18 @@ begin
   begin perform maximus_agents.finish_task(t.id,t.lease_token,'done',proof||'{"evidence":[]}');
   exception when others then rejected := true; end;
   if not rejected then raise exception 'Missing evidence accepted'; end if;
+  rejected := false;
+  begin perform maximus_agents.finish_task(t.id,t.lease_token,'done',proof||'{"evidence":[{}]}');
+  exception when others then rejected := true; end;
+  if not rejected then raise exception 'Empty evidence object accepted'; end if;
+  rejected := false;
+  begin perform maximus_agents.finish_task(t.id,t.lease_token,'done',proof||'{"evidence":[null]}');
+  exception when others then rejected := true; end;
+  if not rejected then raise exception 'Null evidence object accepted'; end if;
+  rejected := false;
+  begin perform maximus_agents.finish_task(t.id,t.lease_token,'done',proof||'{"evidence":[{"source":"verify.sql","observed_at":"invalid-date","finding":"fixture"}]}');
+  exception when others then rejected := true; end;
+  if not rejected then raise exception 'Invalid observation date accepted'; end if;
   update maximus_agents.tasks set lease_until=now()-interval '1 minute' where id=t.id;
   rejected := false;
   begin perform maximus_agents.finish_task(t.id,t.lease_token,'done',proof);
@@ -56,5 +68,5 @@ begin
     or has_function_privilege('authenticated','maximus_agents.finish_task(uuid,uuid,text,jsonb)','EXECUTE') then
     raise exception 'Private function exposed'; end if;
 end $$;
-select 'PASS' as verification,'dedupe, exclusivity, dependencies, evidence, stale token, timeout, retry, budget, QA gate, kill switch, ACL' as checks;
+select 'PASS' as verification,'dedupe, exclusivity, dependencies, evidence array, empty proof object, null proof, invalid date, stale token, timeout, retry, budget, QA gate, kill switch, ACL' as checks;
 rollback;
