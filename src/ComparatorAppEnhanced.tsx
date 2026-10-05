@@ -104,6 +104,12 @@ const ConsolidateMaximusAnalysis: React.FC = () => {
             supplementHost.className = 'px-6 pb-6 space-y-4';
           }
 
+          // Le panneau de la modale est réordonné en flex par le portail Trajectoire.
+          // Sans ordre explicite, ce host prend l'ordre 0 et remonte tout en haut.
+          // 85 le place volontairement après l'actualité (80) et avant la source (90).
+          supplementHost.style.order = '85';
+          supplementHost.setAttribute('data-maximus-analysis-order', '85');
+
           const destinationParent = sourceSection?.parentElement ?? stickyFooter?.parentElement ?? null;
           const destinationAnchor = sourceSection ?? stickyFooter ?? null;
           if (
