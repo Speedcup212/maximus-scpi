@@ -38,12 +38,12 @@ jobs:
           echo
           echo "riskProfile diagnostics:"
           grep -E 'riskProfile|ClientProfile|RiskProfile' /tmp/typecheck.log | head -120 || true
-          if grep -E "Cannot find module '../types/riskProfile'|Cannot find module './types/riskProfile'" /tmp/typecheck.log; then
-            echo 'riskProfile module is still unresolved.' >&2
+          if grep -E "Cannot find module '../types/riskProfile'|Cannot find module './types/riskProfile'|Property 'tmi' does not exist on type 'ClientProfile'" /tmp/typecheck.log; then
+            echo 'riskProfile contract remains incomplete.' >&2
             exit 1
           fi
-          if [ "$total" -ge 1007 ]; then
-            echo "No net TypeScript reduction versus 1007 baseline: ${total}." >&2
+          if [ "$total" -gt 996 ]; then
+            echo "Expected <= 996 diagnostics after riskProfile contract, got ${total}." >&2
             exit 1
           fi
       - name: Production build
