@@ -29,24 +29,12 @@ jobs:
           p=Path('src/utils/pdfGenerator.ts')
           s=p.read_text()
           anchor="interface PortfolioItem extends Scpi {\n  investedAmount: number;\n  percentage: number;\n}\n"
-          insert="""interface PortfolioItem extends Scpi {
-  investedAmount: number;
-  percentage: number;
-}
-
-type PdfColor = [number, number, number];
-
-interface PdfColors {
-  primary: PdfColor;
-  secondary: PdfColor;
-  dark: PdfColor;
-  light: PdfColor;
-  success: PdfColor;
-  warning: PdfColor;
-  white: PdfColor;
-  gray: PdfColor;
-}
-"""
+          lines=[
+            'interface PortfolioItem extends Scpi {','  investedAmount: number;','  percentage: number;','}', '',
+            'type PdfColor = [number, number, number];','',
+            'interface PdfColors {','  primary: PdfColor;','  secondary: PdfColor;','  dark: PdfColor;','  light: PdfColor;','  success: PdfColor;','  warning: PdfColor;','  white: PdfColor;','  gray: PdfColor;','}'
+          ]
+          insert='\n'.join(lines)+'\n'
           if s.count(anchor)!=1: raise SystemExit('PortfolioItem anchor mismatch')
           s=s.replace(anchor,insert,1)
           if s.count('  const colors = {')!=1: raise SystemExit('colors declaration mismatch')
@@ -66,7 +54,6 @@ interface PdfColors {
           if s.count('color: number[]')!=1: raise SystemExit('metric color type mismatch')
           s=s.replace('color: number[]','color: PdfColor',1)
           p.write_text(s)
-          print('PDF palette and scope patch applied')
           PY
           test "$(git diff --name-only)" = "src/utils/pdfGenerator.ts"
           git diff --binary > /tmp/pdf.patch
