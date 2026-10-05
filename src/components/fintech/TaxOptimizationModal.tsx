@@ -71,7 +71,7 @@ const TaxOptimizationModal: React.FC<TaxOptimizationModalProps> = ({
           <div className="space-y-3">
             {tmiOptions.map((option) => {
               const isSelected = currentTMI === option.value;
-              const isHighTMI = option.value >= 30;
+              const isHighTMI = option.value !== null && option.value >= 30;
 
               return (
                 <button
