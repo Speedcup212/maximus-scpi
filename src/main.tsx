@@ -3,6 +3,7 @@ import type { ComponentType, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import HomeApp from './HomeApp';
+import { AuthProvider } from './contexts/AuthContext';
 
 declare global {
   interface Window {
@@ -87,9 +88,23 @@ const selectEntry = async (): Promise<ComponentType> => {
     return module.default;
   }
 
-  // All legacy/editorial/private routes keep the existing router as a safe fallback.
+  // Keep the public professional portal outside the authenticated legacy router.
+  // This avoids the historical `professionnels` -> `pro` prefix collision.
+  if (path === 'professionnels') {
+    const module = await import('./components/expert/ProfessionnelsPortal');
+    return module.default;
+  }
+
+  // Legacy/private routes require the auth context used by ProLayout and the app guards.
+  // The dedicated public entries above remain lightweight and do not load Supabase auth.
   const module = await import('./App');
-  return module.default;
+  const LegacyApp = module.default;
+  const LegacyAppWithAuth = () => (
+    <AuthProvider>
+      <LegacyApp />
+    </AuthProvider>
+  );
+  return LegacyAppWithAuth;
 };
 
 const AppReveal: React.FC<{ children: ReactNode }> = ({ children }) => {
