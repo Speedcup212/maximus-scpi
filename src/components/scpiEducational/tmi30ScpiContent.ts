@@ -3,169 +3,152 @@ import type { ScpiEducationalPageConfig } from './shared'
 export const tmi30ScpiConfig: ScpiEducationalPageConfig = {
   path: '/scpi-tmi-30',
   badge: 'Fiscalité & stratégie',
-  h1: 'SCPI avec TMI 30 % : fiscalité, Europe et démembrement',
+  h1: 'SCPI avec TMI 30 % : fiscalité, Europe et modes de détention',
   heroSubtitle:
-    'À TMI 30 %, la fiscalité devient un critère central dans l\'analyse SCPI. Le rendement brut ne suffit plus : le rendement net après impôt et prélèvements sociaux doit être comparé selon les options : SCPI françaises, européennes, démembrement, assurance-vie, crédit ou SCI à l\'IS. Le taux marginal total peut atteindre environ 47,2 %, ce qui transforme profondément la lecture du rendement.',
-  seoTitle: 'SCPI TMI 30 % : rendement net, Europe, démembrement, AV et crédit',
+    'Avec une tranche marginale d\'imposition à 30 %, la fiscalité des revenus fonciers français devient un paramètre important, mais elle ne suffit pas à déterminer la bonne stratégie. Il faut comparer le net fiscal, les frais, l\'origine des revenus, l\'IFI, la liquidité et l\'horizon.',
+  seoTitle: 'SCPI TMI 30 % : fiscalité, rendement net, Europe, AV et crédit',
   seoDescription:
-    'Analyse complète des SCPI avec une TMI à 30 % : fiscalité des revenus fonciers (IR 30 % + PS), SCPI européennes (crédit d\'impôt), démembrement, assurance-vie, crédit, SCI à l\'IS. Tableau comparatif des solutions, exemples chiffrés et cas pratiques.',
-  shortAnswerTitle: 'Pourquoi la TMI 30 % change-t-elle l\'analyse ?',
+    'SCPI et TMI 30 % : rendement net, revenus français et étrangers, assurance-vie, démembrement, crédit, SCI à l\'IS et IFI.',
+  shortAnswerTitle: 'Que change une TMI à 30 % pour un projet SCPI ?',
   shortAnswer:
-    'À TMI 30 %, un investisseur en SCPI française en direct supporte un taux marginal total d\'environ 47,2 % (30 % + prélèvements sociaux au taux en vigueur). Le rendement net après impôt peut être significativement inférieur au TDVM brut : un TDVM de 5 % peut se traduire par un rendement net d\'environ 2,6 % avant frais. C\'est pourquoi les alternatives — SCPI européennes (crédit d\'impôt), démembrement temporaire (neutralisation des revenus), assurance-vie (capitalisation différée), crédit (déduction des intérêts) ou SCI à l\'IS (capitalisation société) — doivent être analysées en rendement net fiscal, pas en rendement brut.',
+    'Une TMI à 30 % augmente le poids marginal de l\'impôt sur les revenus fonciers français, auxquels peuvent s\'ajouter les prélèvements sociaux. Mais le taux marginal n\'est pas un taux moyen appliqué à tous les flux. La bonne méthode consiste à calculer le net réellement conservé puis à comparer, sans automatisme, le direct France, les revenus étrangers selon les conventions, l\'assurance-vie, la nue-propriété, le crédit et éventuellement une structure sociétaire.',
   keyMessage:
-    'À TMI 30 %, le rendement affiché doit être retraité de la fiscalité pour éviter une mauvaise lecture. Le rendement net fiscal est le seul indicateur pertinent pour comparer les options.',
+    'À TMI 30 %, la fiscalité compte, mais elle doit rester un élément de comparaison parmi la qualité de la SCPI, les frais, l\'IFI, l\'horizon et la liquidité.',
   definitionParagraphs: [
-    'La TMI à 30 % concerne les foyers dont les revenus imposables se situent entre environ 28 000 € et 75 000 € par part fiscale (seuils 2026 indicatifs, susceptibles d\'être revalorisés). Pour un couple sans enfant, cela correspond à des revenus nets imposables compris entre environ 56 000 € et 150 000 €.',
-    'Pour une SCPI française en direct, les revenus fonciers sont ajoutés au revenu global et imposés à la TMI (30 %) majorée des prélèvements sociaux (taux en vigueur). Le taux marginal total atteint environ 47,2 %. Un TDVM de 5 % peut ainsi se traduire par un rendement net d\'environ 2,6 % avant frais de souscription.',
-    'À ce niveau de TMI, les SCPI européennes prennent tout leur sens : les revenus étrangers sont imposés au taux effectif du pays source (souvent 15 % à 25 %), avec un crédit d\'impôt en France. Le différentiel fiscal par rapport aux SCPI françaises peut améliorer le rendement net de manière significative, d\'autant plus selon la convention fiscale applicable.',
-    'Le démembrement temporaire (nue-propriété) peut être particulièrement pertinent à TMI 30 % : aucun revenu à déclarer pendant la durée du démembrement, ce qui évite l\'imposition au taux marginal de 47,2 %. L\'économie fiscale peut justifier l\'absence temporaire de revenus si l\'horizon est compatible.',
-    'L\'assurance-vie reste une option structurante : capitalisation sans imposition immédiate, abattement après 8 ans, fiscalité allégée sur les rachats. À TMI 30 %, l\'écart entre le rendement net en direct et en assurance-vie peut justifier le choix du contrat, sous réserve d\'analyser les frais UC.',
-    'Le crédit peut être intéressant si les intérêts d\'emprunt sont déductibles des revenus fonciers (sous conditions). L\'effet de levier combiné à la déductibilité peut améliorer le rendement net pour un investisseur en TMI 30 %, car la déduction d\'intérêts est valorisée à la TMI marginale.',
-    'La SCI à l\'IS peut être évoquée avec prudence pour les TMI 30 %. L\'IS peut être plus favorable que l\'IR sur les bénéfices capitalisés, mais la complexité et les frais de structure (comptabilité, juridique) doivent être justifiés par le volume et l\'objectif patrimonial.',
-    'Si l\'investisseur est également assujetti à l\'IFI, les parts de SCPI détenues en direct sont généralement imposables. L\'assurance-vie et la nue-propriété peuvent avoir un traitement différent. À vérifier selon la situation.',
+    'La TMI de 30 % s\'applique uniquement à la tranche marginale correspondante du revenu imposable. Elle ne signifie pas que l\'ensemble des revenus du foyer est taxé à 30 %.',
+    'Les revenus fonciers français détenus en direct sont soumis au barème progressif et, en principe, aux prélèvements sociaux selon les règles en vigueur. Une simulation simplifiée TMI + prélèvements sociaux donne un ordre de grandeur marginal, pas le taux effectif réel du foyer.',
+    'Le calcul peut être modifié par la nature des revenus, les charges déductibles et l\'effet fiscal de la CSG déductible lorsque les conditions sont réunies.',
+    'Pour les revenus immobiliers étrangers, le traitement dépend de la convention fiscale conclue avec chaque pays. Il ne faut pas appliquer automatiquement un crédit d\'impôt ou un taux effectif identique à toute l\'Europe.',
+    'L\'assurance-vie peut différer l\'imposition à l\'IR jusqu\'au rachat, mais ajoute les frais et contraintes du contrat. Une unité de compte immobilière peut rester partiellement taxable à l\'IFI.',
+    'La nue-propriété peut être étudiée lorsque l\'investisseur n\'a pas besoin de distributions pendant la durée du démembrement. La clé représente la valeur économique des droits abandonnés pendant la période et ne constitue pas une économie fiscale garantie.',
+    'Le crédit peut permettre la déduction de certaines charges financières lorsque les conditions sont réunies, mais le coût du financement et le cash-flow doivent être intégrés avant de conclure.',
+    'Une SCI à l\'IS peut servir à capitaliser au niveau d\'une société, mais les parts de SCPI détenues en pleine propriété ne sont pas amortissables. L\'IS, les coûts de structure, la distribution future et la sortie doivent être modélisés.',
   ],
-  tableTitle: 'Solution / Intérêt potentiel à TMI 30 % / Complexité / Risque principal',
+  tableTitle: 'Pistes à comparer avec une TMI à 30 %',
   tableRows: [
     {
       level: 'SCPI françaises en direct',
-      advantage:
-        'Simplicité, choix large, transparence des flux. Fiscalité connue.',
-      vigilance:
-        'Rendement net fortement réduit (~47,2 % de prélèvement). Peu d\'optimisation possible. À comparer avec les alternatives.',
+      advantage: 'Simplicité et accès large au marché.',
+      vigilance: 'Fiscalité courante à calculer précisément, sans se limiter à une addition TMI + prélèvements sociaux.',
     },
     {
       level: 'SCPI européennes',
-      advantage:
-        'Crédit d\'impôt étranger. Taux effectif souvent 15-25 %. Rendement net amélioré. Diversification géographique.',
-      vigilance:
-        'Complexité fiscale moyenne. Analyse pays par pays nécessaire. Déclarations spécifiques. Risque de change.',
-    },
-    {
-      level: 'Nue-propriété',
-      advantage:
-        'Aucun revenu imposable. Économie d\'impôt significative. Décote à l\'entrée. Capitalisation sans fiscalité.',
-      vigilance:
-        'Absence de revenus totale. Horizon long. Liquidité limitée pendant la période.',
+      advantage: 'Diversification et fiscalité pouvant différer selon les conventions.',
+      vigilance: 'Analyse pays par pays indispensable ; déclaration plus complexe et risque de change hors zone euro.',
     },
     {
       level: 'Assurance-vie',
-      advantage:
-        'Capitalisation sans impôt immédiat. Abattement après 8 ans. Fiscalité allégée aux rachats. Transmission.',
-      vigilance:
-        'Frais UC. Choix limité de SCPI. Fiscalité aux rachats. Taux de reversement variable.',
+      advantage: 'Capitalisation dans le contrat et fiscalité propre aux rachats.',
+      vigilance: 'Frais UC, liste de supports, IFI potentiel et modalités de sortie à intégrer.',
+    },
+    {
+      level: 'Nue-propriété',
+      advantage: 'Pas de distributions attribuées au nu-propriétaire pendant le démembrement.',
+      vigilance: 'Aucun revenu, liquidité réduite, clé à analyser et IFI à vérifier selon le montage.',
     },
     {
       level: 'Crédit',
-      advantage:
-        'Effet de levier. Intérêts déductibles valorisés à 30 %. Amélioration potentielle du rendement net.',
-      vigilance:
-        'Risque de taux. Cash-flow à vérifier. Endettement personnel. Garanties.',
+      advantage: 'Effet de levier et charges financières potentiellement déductibles sous conditions.',
+      vigilance: 'Coût du crédit, cash-flow, garanties et risque de taux peuvent absorber le bénéfice fiscal.',
     },
     {
       level: 'SCI à l\'IS',
-      advantage:
-        'Imposition à l\'IS (taux potentiellement < 30 %). Capitalisation possible. Amortissement comptable.',
-      vigilance:
-        'Complexité élevée. Frais de comptabilité. Double imposition IS + IR. Volume suffisant nécessaire.',
+      advantage: 'Capitalisation possible dans la société après IS.',
+      vigilance: 'Coûts, fiscalité de distribution et sortie. Pas d\'amortissement des parts de SCPI en pleine propriété.',
     },
   ],
   tableNote:
-    'Ces repères sont indicatifs. La situation personnelle (horizon, besoin de revenus, objectifs, capacité d\'emprunt) prime sur l\'optimisation fiscale seule.',
+    'Aucune option n\'est automatiquement supérieure à TMI 30 %. Les comparaisons doivent être faites en net après fiscalité, frais et risques.',
   criteriaTitle: 'Critères à croiser avec une TMI à 30 %',
   criteriaCards: [
-    { title: 'Rendement net fiscal', text: 'Comparer le rendement net après impôt de chaque option : direct, européennes, nue-propriété, assurance-vie, crédit. C\'est le seul indicateur pertinent.' },
-    { title: 'TOF', text: 'Un TOF faible peut réduire les distributions et amplifier l\'impact négatif de la fiscalité sur le rendement net.' },
-    { title: 'Capitalisation', text: 'La taille et la diversification de la SCPI influencent la régularité des distributions et la résilience du véhicule.' },
-    { title: 'Endettement', text: 'Une SCPI endettée peut distribuer moins en période de taux élevés, réduisant le rendement net après impôt.' },
-    { title: 'Frais', text: 'Les frais de souscription et de gestion pèsent sur le rendement net. En direct, la fiscalité immédiate amplifie leur impact.' },
-    { title: 'SCPI européennes', text: 'À TMI 30 %, l\'écart fiscal avec les SCPI françaises peut être déterminant. Le crédit d\'impôt améliore le rendement net.' },
-    { title: 'Horizon', text: 'Plus l\'horizon est long, plus la capitalisation en AV ou le démembrement peuvent compenser la fiscalité immédiate du direct.' },
-    { title: 'IFI', text: 'Vérifier l\'impact IFI des parts de SCPI selon le mode de détention. Direct généralement imposable, AV généralement non.' },
-    { title: 'Besoin de revenus', text: 'Avec besoin, le direct ou l\'AV avec rachats sont à privilégier. Sans besoin, nue-propriété ou capitalisation AV sont des pistes.' },
+    { title: 'Net fiscal réel', text: 'Distinguer taux marginal, taux moyen, prélèvements sociaux et charges déductibles.' },
+    { title: 'Origine des revenus', text: 'Ventiler France et étranger puis appliquer les conventions fiscales concernées.' },
+    { title: 'Besoin de revenus', text: 'Un besoin immédiat peut rendre la nue-propriété ou certaines stratégies de capitalisation inadaptées.' },
+    { title: 'Horizon', text: 'L\'horizon influence l\'impact des frais, du crédit, du démembrement et de l\'assurance-vie.' },
+    { title: 'IFI', text: 'Le traitement dépend du mode de détention et de la fraction immobilière taxable.' },
+    { title: 'Liquidité', text: 'Comparer les mécanismes de retrait ou de cession avant de rechercher un avantage fiscal.' },
+    { title: 'Qualité de la SCPI', text: 'TOF, valeurs, dette, collecte, patrimoine et gouvernance restent prioritaires.' },
   ],
   commonErrors: [
-    'Comparer des SCPI uniquement sur leur TDVM brut sans retraiter la fiscalité personnelle.',
-    'Écarter les SCPI européennes par méconnaissance de leur fiscalité nette et du crédit d\'impôt.',
-    'Choisir le démembrement uniquement pour l\'économie d\'impôt sans vérifier la compatibilité avec l\'horizon et le besoin de revenus.',
-    'Ignorer les frais UC de l\'assurance-vie qui peuvent réduire significativement l\'avantage fiscal attendu.',
-    'Sous-estimer l\'impact des prélèvements sociaux (taux en vigueur) dans le calcul du rendement net.',
-    'Ne pas analyser le TOF, la capitalisation et l\'endettement avant de choisir une stratégie.',
-    'Opter pour une SCI à l\'IS sans vérifier que le volume investi justifie la complexité et les frais.',
+    'Appliquer 30 % à l\'ensemble des revenus au lieu de raisonner par tranche marginale.',
+    'Présenter les SCPI européennes comme automatiquement plus avantageuses fiscalement.',
+    'Présenter l\'assurance-vie comme automatiquement hors IFI.',
+    'Présenter la nue-propriété comme une économie d\'impôt sans valoriser les revenus abandonnés.',
+    'Supposer qu\'une SCI à l\'IS permet d\'amortir les parts de SCPI en pleine propriété.',
+    'Choisir un montage uniquement pour sa fiscalité sans intégrer les frais, le risque et la liquidité.',
   ],
   practicalCases: [
     {
-      title: 'Exemple chiffré — 10 000 € de revenus fonciers, TMI 30 %',
-      text: 'Revenus fonciers bruts théoriques : 10 000 €. IR à 30 % = 3 000 €. Prélèvements sociaux (taux en vigueur) : environ 1 720 €. Total prélevé : environ 4 720 €. Net perçu : environ 5 280 €. Soit 52,8 % du brut. Simulation pédagogique simplifiée, hors frais de souscription, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
+      title: 'Direct France',
+      text: 'La simulation distingue revenu foncier, prélèvements sociaux, charges déductibles éventuelles et situation globale du foyer avant de calculer le net réellement conservé.',
     },
     {
-      title: 'SCPI française en direct — TMI 30 %, TDVM 5 %',
-      text: 'Un investisseur en TMI 30 % détient une SCPI française en direct. Après impôt (30 % + PS) et frais de souscription amortis, le rendement net est d\'environ 2,5 % à 2,8 %. Le TDVM brut de 5 % ne reflète pas le rendement réellement conservé. Simulation pédagogique : comparer avec le net en AV ou en SCPI européenne.',
+      title: 'Revenus étrangers',
+      text: 'Une SCPI investit dans plusieurs pays. La fiche fiscale annuelle permet de ventiler les revenus et d\'appliquer les conventions concernées au lieu d\'utiliser un taux moyen européen.',
     },
     {
-      title: 'SCPI européenne — TMI 30 %, crédit d\'impôt',
-      text: 'Une SCPI européenne investie en Allemagne et aux Pays-Bas affiche un TDVM de 4,5 %. Après crédit d\'impôt étranger et PS réduits, le rendement net peut être proche de ce que produirait une SCPI française à 6 % en TDVM brut. Simulation pédagogique : le différentiel fiscal justifie l\'analyse approfondie.',
+      title: 'Assurance-vie',
+      text: 'La fiscalité à l\'IR est différée jusqu\'au rachat, mais le comparatif intègre les frais UC, la distribution réellement créditée, l\'IFI éventuel et la fiscalité de sortie.',
     },
     {
-      title: 'Nue-propriété — TMI 30 %, 10 ans',
-      text: 'Un investisseur en TMI 30 % acquiert en nue-propriété pour 10 ans. Il ne perçoit pas de revenus mais économise l\'impôt à 47,2 % sur les distributions qu\'il n\'aurait pas perçues en pleine propriété. La décote de 25 % compense l\'absence de revenus. Simulation pédagogique : l\'économie fiscale est significative à cette TMI.',
+      title: 'Nue-propriété',
+      text: 'L\'investisseur n\'a pas besoin de revenus pendant plusieurs années. La décision dépend de la clé proposée, de la valeur future des parts, de la liquidité et de la qualité de la SCPI.',
     },
     {
-      title: 'Assurance-vie — TMI 30 %, horizon 10 ans',
-      text: 'Un investisseur en TMI 30 % place 100 000 € en SCPI via AV avec 0,75 % de frais UC. Rendement brut SCPI : 5 %. Net après frais UC et SCPI : ~3,7 % capitalisé sans impôt. Après 10 ans, rachat avec abattement. Comparé au direct (~2,6 %), l\'écart peut justifier le choix de l\'AV.',
+      title: 'Crédit',
+      text: 'La déductibilité éventuelle de certaines charges financières doit être comparée au coût total du crédit, au cash-flow et au risque de baisse de valeur des parts.',
     },
   ],
   methodParagraphs: [
-    'MaximusSCPI analyse chaque projet SCPI en comparant les options selon la TMI réelle de l\'investisseur, avec un focus sur le rendement net fiscal plutôt que sur le TDVM brut.',
-    'La première étape consiste à calculer le rendement net en direct, puis à le comparer avec les alternatives : SCPI européennes, nue-propriété, assurance-vie, crédit, SCI à l\'IS.',
-    'La deuxième étape intègre les frais et l\'horizon : plus l\'horizon est long, plus la capitalisation en assurance-vie ou en nue-propriété peut compenser la fiscalité immédiate du direct.',
-    'La troisième étape vérifie la compatibilité avec le besoin de revenus et l\'objectif patrimonial : transmission, retraite, revenus complémentaires.',
-    'Le comparateur MaximusSCPI et les simulateurs aident à visualiser les écarts de rendement net entre les options, sans constituer une recommandation personnalisée.',
+    'Confirmer la TMI et distinguer taux marginal et taux moyen d\'imposition.',
+    'Ventiler les revenus SCPI par nature et par pays.',
+    'Calculer le net de la détention directe avec les règles applicables au foyer.',
+    'Comparer plusieurs modes de détention sur un même horizon et avec des supports de risque comparable.',
+    'Intégrer frais, IFI, liquidité et besoin de revenus dans chaque scénario.',
+    'Tester des scénarios défavorables sur distribution, prix de part et coût du crédit.',
+    'Écarter les solutions dont l\'avantage dépend d\'une hypothèse fiscale non vérifiée.',
   ],
   conclusionParagraphs: [
-    'À TMI 30 %, l\'analyse SCPI ne peut pas se limiter au TDVM brut. Le rendement net après impôt, les SCPI européennes, le démembrement, l\'assurance-vie et le crédit sont des pistes à approfondir selon la situation personnelle.',
-    'Sources et points à vérifier : barème de l\'IR en vigueur, taux des prélèvements sociaux, conventions fiscales des pays concernés, DIC et notes d\'information des SCPI.',
-    'Utilisez le comparateur MaximusSCPI pour identifier les SCPI, puis validez votre pré-orientation avec le Cabinet Eric Bellaiche pour une simulation adaptée à votre TMI réelle et à votre horizon.',
+    'À TMI 30 %, la fiscalité devient importante mais ne justifie aucune allocation automatique.',
+    'Le bon arbitrage résulte d\'une comparaison en net après fiscalité, frais, IFI et liquidité.',
+    'La qualité de la SCPI reste le premier filtre avant le choix de l\'enveloppe.',
   ],
   faqItems: [
     {
       question: 'Les SCPI sont-elles fiscalement pénalisées à TMI 30 % ?',
-      answer: 'Le taux marginal total d\'environ 47,2 % réduit significativement le rendement net par rapport au TDVM brut. Cela ne rend pas les SCPI inintéressantes, mais oblige à comparer les options en rendement net.',
+      answer: 'La fiscalité des revenus fonciers français peut réduire sensiblement le rendement net, mais le calcul dépend du foyer, des charges et du mode de détention.',
     },
     {
       question: 'Faut-il privilégier les SCPI européennes ?',
-      answer: 'À TMI 30 %, les SCPI européennes peuvent améliorer le rendement net grâce au crédit d\'impôt et à un taux effectif souvent plus faible (15-25 % selon les pays). L\'analyse doit être faite pays par pays.',
+      answer: 'Non automatiquement. Leur fiscalité varie selon les conventions et leur qualité immobilière doit être analysée séparément.',
     },
     {
       question: 'Le démembrement est-il pertinent à TMI 30 % ?',
-      answer: 'Oui, pour les investisseurs sans besoin immédiat de revenus. L\'économie d\'impôt (47,2 % non prélevés) et la décote à l\'entrée peuvent compenser l\'absence de distributions sur la période.',
+      answer: 'Il peut l\'être si l\'investisseur n\'a pas besoin de revenus et accepte une liquidité réduite. La clé de démembrement reste déterminante.',
     },
     {
-      question: 'Assurance-vie ou SCPI en direct ?',
-      answer: 'L\'assurance-vie capitalise sans impôt immédiat et offre un abattement après 8 ans. À TMI 30 %, l\'écart de rendement net entre direct et AV peut justifier le contrat, sous réserve des frais UC.',
-    },
-    {
-      question: 'Comment calculer le rendement net fiscal ?',
-      answer: 'Partez du TDVM brut, appliquez la TMI (30 %) et les prélèvements sociaux, déduisez les frais amortis. Pour les SCPI européennes, intégrez le crédit d\'impôt. Un conseiller peut réaliser cette simulation.',
+      question: 'Assurance-vie ou direct ?',
+      answer: 'L\'assurance-vie peut différer l\'imposition à l\'IR jusqu\'au rachat, mais il faut intégrer les frais, les supports disponibles, la fiscalité du rachat et l\'IFI éventuel.',
     },
     {
       question: 'Les intérêts d\'emprunt sont-ils déductibles ?',
-      answer: 'Sous conditions, les intérêts d\'emprunt pour acquérir des parts de SCPI peuvent être déductibles des revenus fonciers. La déduction est valorisée à la TMI (30 %), ce qui renforce l\'effet de levier.',
+      answer: 'Certaines charges financières peuvent être déductibles des revenus fonciers lorsqu\'elles remplissent les conditions légales. Le traitement dépend du financement et de l\'affectation de la dette.',
     },
     {
       question: 'La SCI à l\'IS est-elle pertinente à TMI 30 % ?',
-      answer: 'Potentiellement, mais la complexité et les frais doivent être justifiés par un volume suffisant. À TMI 30 %, l\'écart entre IS et IR est moins marqué qu\'à TMI 41 % ou 45 %.',
+      answer: 'Elle peut être étudiée pour une logique de capitalisation, mais la TMI seule ne la justifie pas. Les coûts, l\'IS, les distributions futures et la sortie doivent être comparés.',
+    },
+    {
+      question: 'Une SCI à l\'IS peut-elle amortir les parts de SCPI ?',
+      answer: 'Non pour des parts détenues en pleine propriété. Elles sont des titres sans durée d\'utilisation limitée. L\'usufruit temporaire relève d\'un traitement différent.',
     },
     {
       question: 'Quel impact sur l\'IFI ?',
-      answer: 'Les parts de SCPI en direct sont généralement imposables à l\'IFI. En assurance-vie ou en nue-propriété, le traitement peut différer. À vérifier selon la situation et la réglementation en vigueur.',
+      answer: 'Le traitement dépend du mode de détention et de la fraction immobilière taxable. L\'assurance-vie et la nue-propriété ne sont pas automatiquement hors IFI.',
     },
     {
-      question: 'Quels risques analyser à TMI 30 % ?',
-      answer: 'Les mêmes qu\'à toute TMI : TOF, endettement, capitalisation, décote/surcote, frais. L\'impact de la fiscalité amplifie l\'importance du choix de la SCPI.',
-    },
-    {
-      question: 'Comment MaximusSCPI compare les solutions avec TMI 30 % ?',
-      answer: 'Le comparateur affiche les indicateurs clés. Les contenus pédagogiques aident à comparer le rendement net selon les options. Un échange avec le Cabinet Eric Bellaiche permet une analyse personnalisée.',
+      question: 'Comment MaximusSCPI traite une TMI à 30 % ?',
+      answer: 'MaximusSCPI compare les scénarios en net après fiscalité et frais puis croise ce résultat avec la qualité de la SCPI, l\'IFI, l\'horizon et la liquidité.',
     },
   ],
   comparateurCtaLabel: 'Comparer les scénarios SCPI avec une TMI à 30 %',
