@@ -15,7 +15,25 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     if (loading || profileLoading) return;
-    if (!user) return;
+    if (!user || !profile) return;
+
+    // Lorsqu'un utilisateur est passé par /espace-client, AuthGuard mémorise
+    // /app/client avant de l'envoyer vers la connexion. Le callback OAuth
+    // revient volontairement sur /app (route déjà utilisée/acceptée), puis on
+    // restaure ici uniquement une destination Client. Le contrôle de rôle
+    // reste ensuite assuré par RoleGuard sur la page cible.
+    try {
+      const requestedPath = sessionStorage.getItem('maximusPostLoginPath');
+      if (requestedPath?.startsWith('/app/client')) {
+        sessionStorage.removeItem('maximusPostLoginPath');
+        sessionStorage.removeItem('maximusLoginEmailHint');
+        onNavigate(requestedPath);
+        return;
+      }
+    } catch {
+      // Si sessionStorage est indisponible, conserver le routage par rôle.
+    }
+
     if (profile.role === 'partner') {
       onNavigate('/pro/dashboard');
     } else if (profile.role === 'admin') {

@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 export type ArticleCtaBlockProps = {
-  variant: 'top' | 'middle' | 'bottom';
+  variant: 'top' | 'middle';
   topic?: 'demembrement' | 'fiscalite' | 'credit' | 'assurance-vie' | 'risques' | 'general';
 };
 
