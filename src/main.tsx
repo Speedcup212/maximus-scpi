@@ -127,6 +127,11 @@ mountApp().catch((error) => {
     </div>
   `;
 
-  rootElement.innerHTML = '';
-  rootElement.appendChild(errorDiv);
+  const rootElement = document.getElementById('root');
+  if (rootElement) {
+    rootElement.innerHTML = '';
+    rootElement.appendChild(errorDiv);
+  } else {
+    document.body.appendChild(errorDiv);
+  }
 });

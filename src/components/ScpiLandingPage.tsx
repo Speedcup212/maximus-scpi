@@ -1,14 +1,12 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
+  TrendingUp, Shield, CheckCircle, Phone,
   ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck
+  Target, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck
 } from 'lucide-react';
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
 import { scpiData as scpiDataArray } from '../data/scpiData';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
-import Logo from './Logo';
-import MaximusLogo3Bars from './MaximusLogo3Bars';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
@@ -842,15 +840,15 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
       </div>
 
       {/* Simulateur de Revenus */}
-      {landingData.simulator && (
+      {scpiData.simulator && (
         <div className="bg-white py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <ThematicSimulator
-              defaultInvestment={landingData.simulator.defaultInvestment}
-              defaultYield={landingData.simulator.defaultYield}
-              title={landingData.simulator.title}
-              subtitle={landingData.simulator.subtitle}
-              theme={landingData.simulator.theme}
+              defaultInvestment={scpiData.simulator.defaultInvestment}
+              defaultYield={scpiData.simulator.defaultYield}
+              title={scpiData.simulator.title}
+              subtitle={scpiData.simulator.subtitle}
+              theme={scpiData.simulator.theme}
             />
           </div>
         </div>
