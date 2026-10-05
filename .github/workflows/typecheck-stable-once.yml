@@ -32,15 +32,15 @@ jobs:
           set -e
           total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
           unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
-          echo "TypeScript diagnostics after TMI fix: ${total}"
+          echo "TypeScript diagnostics after PingSupabase fix: ${total}"
           echo "Unused diagnostics: ${unused}"
           echo "Runtime/typing diagnostics: $((total-unused))"
-          if grep -E '^src/components/fintech/TaxOptimizationModal\.tsx\(.*error TS18047:' /tmp/typecheck.log; then
-            echo 'TaxOptimizationModal TS18047 remains.' >&2
+          if grep -E '^src/components/PingSupabase\.tsx\(.*error TS[0-9]+:' /tmp/typecheck.log; then
+            echo 'PingSupabase diagnostics remain.' >&2
             exit 1
           fi
-          if [ "$total" -gt 1010 ]; then
-            echo "Expected <= 1010 diagnostics, got ${total}." >&2
+          if [ "$total" -gt 1008 ]; then
+            echo "Expected <= 1008 diagnostics, got ${total}." >&2
             exit 1
           fi
       - name: Production build
