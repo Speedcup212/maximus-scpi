@@ -1,0 +1,27 @@
+name: Inventory Calendly declarations once
+
+on:
+  push:
+    branches:
+      - diagnostic/calendly-declarations-20261005
+    paths:
+      - '.github/workflows/inventory-calendly-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Locate Calendly declarations and uses
+        shell: bash
+        run: |
+          echo '=== Calendly references ==='
+          grep -RIn --exclude-dir=node_modules --exclude-dir=.git --include='*.ts' --include='*.tsx' --include='*.d.ts' 'Calendly' . || true
+          echo
+          echo '=== Window declarations ==='
+          grep -RIn --exclude-dir=node_modules --exclude-dir=.git --include='*.ts' --include='*.tsx' --include='*.d.ts' -A12 -B2 'interface Window' src . 2>/dev/null | head -300 || true
