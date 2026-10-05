@@ -26,14 +26,74 @@ source = source
     ''
   );
 
+const neutralPointsBlock = [
+  '// Lecture méthodologique neutre',
+  '  const pointsHTML = `',
+  '    <div class="society-two-col">',
+  '      <div class="society-col">',
+  '        <h3>✅ Données à comparer</h3>',
+  '        <ul class="society-col-strong">',
+  '          <li>Comparer les SCPI gérées sur leur taux de distribution, leur TOF, leurs frais et leur capitalisation.</li>',
+  '          <li>Contrôler les secteurs, les zones géographiques, les locataires et la trajectoire des valeurs.</li>',
+  '          <li>Vérifier la période de référence et la source de chaque donnée avant toute comparaison.</li>',
+  '        </ul>',
+  '      </div>',
+  '      <div class="society-col">',
+  '        <h3>⚠️ Points de vigilance</h3>',
+  '        <ul class="society-col-warn">',
+  '          <li>La distribution et le capital ne sont pas garantis.</li>',
+  '          <li>La liquidité dépend des souscriptions, des retraits et du mécanisme propre à chaque SCPI.</li>',
+  '          <li>La fiscalité dépend du mode de détention, de la nature des revenus et des pays concernés.</li>',
+  '        </ul>',
+  '      </div>',
+  '    </div>`;',
+  '',
+  '  // SCPI cards (enriched)',
+].join('\n');
+
 source = source.replace(
   /\/\/ Points forts \/ vigilance[\s\S]*?\/\/ SCPI cards \(enriched\)/,
-  `// Lecture méthodologique neutre\n  const pointsHTML = \`\n    <div class="society-two-col">\n      <div class="society-col">\n        <h3>✅ Données à comparer</h3>\n        <ul class="society-col-strong">\n          <li>Comparer les SCPI gérées sur leur taux de distribution, leur TOF, leurs frais et leur capitalisation.</li>\n          <li>Contrôler les secteurs, les zones géographiques, les locataires et la trajectoire des valeurs.</li>\n          <li>Vérifier la période de référence et la source de chaque donnée avant toute comparaison.</li>\n        </ul>\n      </div>\n      <div class="society-col">\n        <h3>⚠️ Points de vigilance</h3>\n        <ul class="society-col-warn">\n          <li>La distribution et le capital ne sont pas garantis.</li>\n          <li>La liquidité dépend des souscriptions, des retraits et du mécanisme propre à chaque SCPI.</li>\n          <li>La fiscalité dépend du mode de détention, de la nature des revenus et des pays concernés.</li>\n        </ul>\n      </div>\n    </div>\`;\n\n  // SCPI cards (enriched)`
+  neutralPointsBlock
 );
+
+const neutralFaqBlock = [
+  '// FAQ neutre et durable',
+  '  const neutralFaq = [',
+  '    [`Quelles SCPI sont gérées par ${societyName} ?`, `Cette page recense les SCPI attribuées à ${societyName} dans le catalogue MaximusSCPI. Ouvrez chaque fiche pour vérifier les dernières données et leurs sources.`],',
+  "    ['Comment comparer les SCPI de cette société de gestion ?', 'Comparez rendement, TOF, frais, capitalisation, valorisation, endettement, géographie, secteurs et liquidité sur la même période de référence.'],",
+  "    ['Les données affichées constituent-elles une recommandation ?', 'Non. Elles ont une vocation informative et comparative. Une décision d’investissement doit intégrer la situation, les objectifs, les risques et le mode de détention.'],",
+  '  ];',
+  '  const faqHTML = `',
+  '    <div class="society-faq">',
+  '      ${neutralFaq.map(item => `',
+  '      <details>',
+  '        <summary>${item[0]}</summary>',
+  '        <div class="society-faq-answer">${item[1]}</div>',
+  '      </details>`).join(\'\\n      \')}',
+  '    </div>`;',
+  '',
+  '  const faqSchemaJSON = `,',
+  '  {',
+  '    "@context": "https://schema.org",',
+  '    "@type": "FAQPage",',
+  '    "mainEntity": [',
+  '      ${neutralFaq.map(item => `{',
+  '        "@type": "Question",',
+  '        "name": "${escapeJsonLd(item[0])}",',
+  '        "acceptedAnswer": {',
+  '          "@type": "Answer",',
+  '          "text": "${escapeJsonLd(item[1])}"',
+  '        }',
+  '      }`).join(\',\\n      \')}',
+  '    ]',
+  '  }`;',
+  '',
+  '  // HTML complet',
+].join('\n');
 
 source = source.replace(
   /\/\/ FAQ\n  let faqHTML = '';[\s\S]*?\/\/ HTML complet/,
-  `// FAQ neutre et durable\n  const neutralFaq = [\n    [\`Quelles SCPI sont gérées par \\${societyName} ?\`, \`Cette page recense les SCPI attribuées à \\${societyName} dans le catalogue MaximusSCPI. Ouvrez chaque fiche pour vérifier les dernières données et leurs sources.\`],\n    ['Comment comparer les SCPI de cette société de gestion ?', 'Comparez rendement, TOF, frais, capitalisation, valorisation, endettement, géographie, secteurs et liquidité sur la même période de référence.'],\n    ['Les données affichées constituent-elles une recommandation ?', 'Non. Elles ont une vocation informative et comparative. Une décision d’investissement doit intégrer la situation, les objectifs, les risques et le mode de détention.'],\n  ];\n  const faqHTML = \`\n    <div class="society-faq">\n      \\${neutralFaq.map(item => \`\n      <details>\n        <summary>\\${item[0]}</summary>\n        <div class="society-faq-answer">\\${item[1]}</div>\n      </details>\`).join('\\n      ')}\n    </div>\`;\n\n  const faqSchemaJSON = \`,\n  {\n    "@context": "https://schema.org",\n    "@type": "FAQPage",\n    "mainEntity": [\n      \\${neutralFaq.map(item => \`{\n        "@type": "Question",\n        "name": "\\${escapeJsonLd(item[0])}",\n        "acceptedAnswer": {\n          "@type": "Answer",\n          "text": "\\${escapeJsonLd(item[1])}"\n        }\n      }\`).join(',\\n      ')}\n    ]\n  }\`;\n\n  // HTML complet`
+  neutralFaqBlock
 );
 
 source = source
@@ -43,7 +103,19 @@ source = source
   .replace('<p>${content.presentation}</p>', '<p>Cette page regroupe les SCPI rattachées à ${societyName} dans le catalogue MaximusSCPI. Les chiffres doivent être rapprochés des dernières publications officielles de la société de gestion et de chaque SCPI.</p>')
   .replace(
     /<!-- 4\. AVIS CGP -->[\s\S]*?<!-- 5\. FAQ -->/,
-    `<!-- 4. MÉTHODOLOGIE -->\n    <section class="society-section">\n      <h2 class="accent-yellow">Méthode de lecture MaximusSCPI</h2>\n      <div class="society-avis">\n        <div class="society-avis-text">\n          <p>La société de gestion n'est pas classée sur une opinion commerciale. MaximusSCPI compare les SCPI à partir des données publiées, de leur fraîcheur, de leur trajectoire et des signaux de vigilance observables.</p>\n        </div>\n      </div>\n    </section>\n\n    <!-- 5. FAQ -->`
+    [
+      '<!-- 4. MÉTHODOLOGIE -->',
+      '    <section class="society-section">',
+      '      <h2 class="accent-yellow">Méthode de lecture MaximusSCPI</h2>',
+      '      <div class="society-avis">',
+      '        <div class="society-avis-text">',
+      "          <p>La société de gestion n'est pas classée sur une opinion commerciale. MaximusSCPI compare les SCPI à partir des données publiées, de leur fraîcheur, de leur trajectoire et des signaux de vigilance observables.</p>",
+      '        </div>',
+      '      </div>',
+      '    </section>',
+      '',
+      '    <!-- 5. FAQ -->',
+    ].join('\n')
   )
   .replace('<h3>Prêt à investir avec ${societyName} ?</h3>', '<h3>Comparer les SCPI gérées par ${societyName}</h3>')
   .replace('Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h', 'Sans engagement • Analyse personnalisée sur rendez-vous');
