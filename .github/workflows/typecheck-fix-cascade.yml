@@ -20,8 +20,8 @@ jobs:
           p = Path('src/components/fintech/AnalysisDetailModal.tsx')
           text = p.read_text()
           for line in [
-              '  const actualInvestment = shares * sharePrice;\n',
-              '  const currentYield = scpi.yield;\n',
+              '  const actualInvestment = numberOfShares * scpi.price;\n',
+              '  const currentYield = scpiForAnalysis?.yield ?? scpi.yield;\n',
           ]:
               if line not in text:
                   raise SystemExit(f'Expected line missing: {line!r}')
