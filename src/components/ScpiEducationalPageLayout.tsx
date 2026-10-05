@@ -11,7 +11,7 @@ import {
   Target,
   TrendingUp,
 } from 'lucide-react'
-import SchemaOrg, { generateBreadcrumbs } from './SchemaOrg'
+import SchemaOrg from './SchemaOrg'
 import Breadcrumb from './Breadcrumb'
 import {
   AUTHOR_CREDIT,
@@ -35,7 +35,13 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
   onNavigate,
   onComparateurClick,
 }) => {
-  const breadcrumbs = generateBreadcrumbs(config.path)
+  // Le fil d'Ariane SEO conserve le titre de la page, mais le fil d'Ariane visible
+  // masque l'élément courant : le H1 reste ainsi l'unique titre affiché dans le hero.
+  const breadcrumbs = [
+    { name: 'Accueil', url: '/' },
+    { name: 'Comprendre les SCPI', url: '/articles/' },
+    { name: config.h1, url: config.path },
+  ]
   const currentDate = new Date().toLocaleDateString('fr-FR', {
     year: 'numeric',
     month: 'long',
@@ -70,7 +76,7 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
         <div className="text-sm text-slate-400 mb-1">Dernière mise à jour : {currentDate}</div>
         <p className="text-xs text-slate-500 mb-3">{AUTHOR_CREDIT}</p>
 
-        <Breadcrumb items={breadcrumbs} onNavigate={onNavigate} />
+        <Breadcrumb items={breadcrumbs} hideCurrentItem onNavigate={onNavigate} />
 
         {/* Hero */}
         <div className={`${sectionClass} mb-8`}>
@@ -79,7 +85,7 @@ const ScpiEducationalPageLayout: React.FC<ScpiEducationalPageLayoutProps> = ({
             {config.badge}
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
+          <h1 className="max-w-full break-words text-3xl md:text-4xl font-bold text-white leading-tight mb-4 [overflow-wrap:anywhere]">
             {config.h1}
           </h1>
 
