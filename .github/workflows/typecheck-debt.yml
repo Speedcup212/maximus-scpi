@@ -1,0 +1,71 @@
+name: TypeScript debt diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
+      - 'tsconfig*.json'
+      - '.github/workflows/typecheck-debt.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**/*.ts'
+      - 'src/**/*.tsx'
+      - 'tsconfig*.json'
+      - '.github/workflows/typecheck-debt.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Measure TypeScript debt
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          status=$?
+          set -e
+
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192):' /tmp/typecheck.log || true)
+
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: $((total-unused))"
+          echo
+          echo "Top files by diagnostic count:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | sed -E 's/^([^(:]+).*/\1/' \
+            | sort | uniq -c | sort -nr | head -25 || true
+          echo
+          echo "First 120 diagnostics:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log | head -120 || true
+
+          {
+            echo "## TypeScript debt"
+            echo "- Total diagnostics: **${total}**"
+            echo "- Unused diagnostics: **${unused}**"
+            echo "- Other diagnostics: **$((total-unused))**"
+            echo "- tsc exit code: \`${status}\` (informational until legacy debt reaches zero)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Historical debt is tracked explicitly; this diagnostic is intentionally non-blocking.
+          exit 0
