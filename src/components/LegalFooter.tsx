@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, FileText, Shield, Info, Mail, Phone, MapPin } from 'lucide-react';
+import { ExternalLink, FileText, Shield, Info, Mail, Phone } from 'lucide-react';
 import Logo from './Logo';
 
 const LegalFooter: React.FC = () => {
@@ -58,9 +58,8 @@ const LegalFooter: React.FC = () => {
                 <li>
                   <button 
                     onClick={() => {
-                      if (window.openSCPIWizard) {
-                        window.openSCPIWizard();
-                      }
+                      const openSCPIWizard = (window as Window & { openSCPIWizard?: () => void }).openSCPIWizard;
+                      openSCPIWizard?.();
                     }}
                     className="text-gray-400 hover:text-white transition-colors"
                   >

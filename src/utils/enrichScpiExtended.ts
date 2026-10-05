@@ -49,7 +49,6 @@ export function enrichScpiExtended(
     reconstitutionValue: matchingScpi.valeurReconstitution ?? scpiExtended.reconstitutionValue,
     valeurRetrait: matchingScpi.valeurRetrait ?? scpiExtended.valeurRetrait,
     valeurRealisation: matchingScpi.valeurRealisation ?? scpiExtended.valeurRealisation,
-    valeurReconstitution: matchingScpi.valeurReconstitution ?? scpiExtended.valeurReconstitution,
     
     // Frais
     entryFees: scpiExtended.entryFees ?? matchingScpi.fees,
