@@ -66,3 +66,51 @@ replaceInFile('src/data/managementCompanyArticlesConfig.ts', [
     "La fiscalité des revenus de SCPI européennes varie selon les pays, les conventions et la situation du contribuable. Le rendement net doit être calculé au cas par cas à partir des flux réellement déclarés."
   ],
 ]);
+
+replaceInFile('src/data/articleTemplatesConfig.ts', [
+  [
+    "metaDescription: '100 000€ sur fonds euros à 2% vs SCPI 5% sur 15 ans : +63 000€ de différence. Calculs détaillés avec inflation.',",
+    "metaDescription: 'Comparer fonds euros et SCPI : rendement observé, risque, liquidité, frais, inflation et horizon. Les hypothèses doivent être actualisées avant toute décision.',"
+  ],
+  [
+    "metaDescription: '200 000€ en SCPI : portefeuille diversifié 5-6 SCPI, revenus 10 000€/an, fiscalité couple, horizon 15 ans.',",
+    "metaDescription: 'Investir 200 000 € en SCPI : méthode de diversification, concentration, liquidité, fiscalité, frais et scénarios de revenus sans rendement garanti.',"
+  ],
+  [
+    "metaDescription: 'PER et SCPI : déduction fiscale + revenus locatifs. Stratégie optimale pour TMI 30-41%, simulation 15-20 ans.',",
+    "metaDescription: 'PER et SCPI : déduction éventuelle des versements, frais, supports disponibles, horizon retraite, liquidité et fiscalité de sortie à comparer.',"
+  ],
+  [
+    "metaDescription: 'Diversification SCPI : 4-6 SCPI minimum pour limiter les risques. Stratégie allocation secteurs, zones géographiques.',",
+    "metaDescription: 'Diversification SCPI : nombre de lignes, gestionnaires, secteurs, zones, liquidité et concentrations. Il n’existe pas de nombre minimum universel.',"
+  ],
+  [
+    "metaDescription: 'SCPI avec TMI 11% : rendement net 5,3%, privilégier SCPI européennes PS 0%. Stratégie fiscale optimale.',",
+    "metaDescription: 'SCPI avec TMI 11 % : analyser la fiscalité réelle, les revenus français et étrangers, les frais, le mode de détention et les risques sans allocation automatique.',"
+  ],
+  [
+    "metaDescription: 'SCPI TMI 30% : arbitrage direct vs AV. Rendement net 4,3% AV vs 3,9% direct. Stratégie optimale selon horizon.',",
+    "metaDescription: 'SCPI avec TMI 30 % : comparer direct et assurance-vie selon frais, fiscalité des flux, liquidité, horizon et conditions du contrat.',"
+  ],
+  [
+    "title: 'TMI 41% et plus : pourquoi les SCPI en assurance-vie sont incontournables',",
+    "title: 'TMI 41 % et SCPI : direct, assurance-vie et autres modes de détention',"
+  ],
+  [
+    "metaDescription: 'SCPI TMI 41%+ : assurance-vie obligatoire. Rendement net 4,1% vs 2,6% direct. Optimisation fiscale maximale.',",
+    "metaDescription: 'SCPI avec TMI 41 % : comparer direct, assurance-vie, démembrement et autres modes de détention selon frais, fiscalité, liquidité et horizon.',"
+  ],
+  [
+    "title: 'IFI et SCPI : comment réduire l\\'Impôt sur la Fortune Immobilière',",
+    "title: 'IFI et SCPI : déclaration, valorisation et points de vigilance',"
+  ],
+  [
+    "metaDescription: 'SCPI et IFI : intégration patrimoine taxable, stratégies pour limiter l\\'impact. SCPI en AV exonérées IFI.',",
+    "metaDescription: 'SCPI et IFI : valeur à déclarer, détention directe, assurance-vie, démembrement et société. Le traitement dépend de la structure et des règles applicables.',"
+  ],
+  [
+    "metaDescription: 'SCPI européennes : rendement 6-6,5%, PS 0%, diversification Allemagne/Pays-Bas. Optimisation fiscale TMI 30-41%.',",
+    "metaDescription: 'SCPI européennes : diversification, revenus étrangers, conventions fiscales, frais, liquidité et risques à analyser pays par pays.',"
+  ],
+  ["keywords: ['SCPI européennes', 'PS 0%', 'Allemagne', 'Pays-Bas', 'rendement 6,5%']", "keywords: ['SCPI européennes', 'revenus étrangers', 'conventions fiscales', 'diversification', 'risques SCPI']"],
+]);
