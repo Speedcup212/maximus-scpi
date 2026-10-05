@@ -866,7 +866,11 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         </div>
       </div>
 
-      <LegalFooter />
+      <LegalFooter
+        isDarkMode={isDarkMode}
+        onContactClick={onContactClick}
+        onAboutClick={onAboutClick}
+      />
       </div>
     </>
   );

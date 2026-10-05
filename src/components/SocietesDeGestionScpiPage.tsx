@@ -330,7 +330,11 @@ const SocietesDeGestionScpiPage: React.FC<SocietesDeGestionScpiPageProps> = ({
           </div>
         </div>
 
-        <LegalFooter />
+        <LegalFooter
+          isDarkMode={isDarkMode}
+          onContactClick={onContactClick}
+          onAboutClick={onAboutClick}
+        />
       </div>
     </>
   );

@@ -76,7 +76,7 @@ export const generateOptimizedThematicSEO = (theme: string, keyword: string, cou
   };
 };
 
-export const generateFAQSchema = (questions: ReadonlyArray<{ question: string; answer: string }>) => {
+export const generateFAQSchema = (questions: Array<{ question: string; answer: string }>) => {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

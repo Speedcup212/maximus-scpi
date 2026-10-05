@@ -542,7 +542,7 @@ const SimulateurTresorerieIS: React.FC = () => {
                       }}
                       itemStyle={{ color: '#f9fafb' }}
                       labelStyle={{ color: '#9ca3af' }}
-                      formatter={(value) => formatEuro(Number(value))}
+                      formatter={(value: number) => formatEuro(value)}
                       labelFormatter={(label) => `Année ${label}`}
                     />
                     <Line

@@ -61,7 +61,7 @@ export type IndicatorId =
  * Couvre `Scpi` et `SCPIExtended` (champs nommés différemment) sans coupler
  * le registre aux fichiers data.
  */
-export type ScpiLike = Omit<Partial<Scpi>, 'capitalization'> & {
+export type ScpiLike = Partial<Scpi> & {
   reconstitutionValue?: number | null;
   capitalization?: number | string | null;
   [key: string]: unknown;

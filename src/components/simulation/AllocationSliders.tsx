@@ -100,7 +100,7 @@ const AllocationSliders: React.FC<AllocationSlidersProps> = ({ selectedScpis }) 
         })}
       </div>
 
-      <style>{`
+      <style jsx>{`
         .slider-emerald::-webkit-slider-thumb {
           appearance: none;
           width: 20px;

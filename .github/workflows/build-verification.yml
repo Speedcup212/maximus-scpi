@@ -1,12 +1,16 @@
 name: Build verification
 
-# Manual verification marker 2026-09-26
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
+
+# Un seul run utile par branche/PR : chaque nouveau commit annule le run obsolète.
+concurrency:
+  group: build-verification-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -16,8 +20,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Checkout exact candidate
         uses: actions/checkout@v4
+        with:
+          # Sur une PR, GitHub propose par défaut refs/pull/<n>/merge.
+          # Recovery doit certifier le contenu exact de la branche candidate,
+          # sans embarquer les commits parallèles présents sur main.
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Verify checked SHA
+        shell: bash
+        run: |
+          ACTUAL_SHA="$(git rev-parse HEAD)"
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            EXPECTED_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            EXPECTED_SHA="${GITHUB_SHA}"
+          fi
+          echo "candidate_sha=${ACTUAL_SHA}"
+          test "${ACTUAL_SHA}" = "${EXPECTED_SHA}"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -34,6 +55,8 @@ jobs:
       - name: Production build
         run: npm run build
 
+      # Le packaging Netlify n'existe plus dans un second workflow concurrent.
+      # Il ne s'exécute que sur un push réel de main, jamais sur une PR Recovery.
       - name: Package controlled Netlify source
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash

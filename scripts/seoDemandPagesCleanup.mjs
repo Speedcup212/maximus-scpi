@@ -151,12 +151,11 @@ for (const [slug, [heading, p1, p2]] of Object.entries(depthBlocks)) {
   depthChanged += 1;
 }
 
-// Home et AMF : dépasser proprement le seuil du crawler avec une phrase utile, pas du bourrage.
+// AMF : dépasser proprement le seuil du crawler avec une phrase utile, sans modifier la home validée.
 for (const [slug, sentence] of [
-  ['', 'Le comparateur et les simulateurs doivent être utilisés avec les fiches détaillées : aucun score propriétaire ne remplace la lecture des documents réglementaires, des bulletins trimestriels et des rapports annuels publiés par les sociétés de gestion.'],
   ['amf-scpi', 'Le contrôle réglementaire et l’analyse économique répondent donc à deux questions différentes et complémentaires pour l’investisseur.']
 ]) {
-  const file = slug ? pageFile(slug) : path.join(distDir, 'index.html');
+  const file = pageFile(slug);
   if (!fs.existsSync(file)) continue;
   let html = read(file);
   html = html.replace(/<p[^>]*data-demand-extra[^>]*>[\s\S]*?<\/p>/i, '');
@@ -217,7 +216,30 @@ for (const slug of Object.keys(depthBlocks)) {
   const file = pageFile(slug);
   if (fs.existsSync(file) && wordCount(read(file)) < 300) throw new Error(`Régression thin-content ${slug}`);
 }
-if (wordCount(read(path.join(distDir, 'index.html'))) < 300) throw new Error('Home <300 mots après durcissement');
+
+// La home est une landing produit interactive : sa qualité ne se mesure pas à un quota de mots.
+// On vérifie les décisions UX/SEO validées et l'absence des anciens éléments obsolètes.
+{
+  const homeFile = path.join(distDir, 'index.html');
+  const homeHtml = read(homeFile);
+  const homeText = textOnly(homeHtml);
+  const requiredHomeSignals = [
+    'Analysez. Comparez.',
+    'Investissez sur',
+    'MaximusSCPI.',
+    '/comparateur-scpi/',
+    '/analyses/',
+    'Comprendre'
+  ];
+  for (const signal of requiredHomeSignals) {
+    if (!homeHtml.includes(signal)) throw new Error(`Régression home : signal requis absent (${signal})`);
+  }
+  if (/4\s*650/i.test(homeText) || /330\s*M€?/i.test(homeText)) {
+    throw new Error('Régression home : anciennes preuves sociales réapparues');
+  }
+  if (homeText.length < 600) throw new Error(`Régression home : shell statique insuffisant (${homeText.length} caractères)`);
+}
+
 if (wordCount(read(pageFile('amf-scpi'))) < 300) throw new Error('AMF <300 mots après durcissement');
 
 console.log(`✅ Durcissement pages à demande : ${metadataChanged} metadata ; ${depthChanged} pages enrichies ; ${scpiDepthAdded} fiches SCPI approfondies.`);

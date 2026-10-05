@@ -5,6 +5,5 @@ interface Window {
   openRdvModal?: () => void;
   Calendly?: {
     initPopupWidget: (options: { url: string }) => void;
-    closePopupWidget?: () => void;
   };
 }

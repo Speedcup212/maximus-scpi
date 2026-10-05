@@ -1108,7 +1108,11 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           </section>
         </div>
 
-        <LegalFooter />
+        <LegalFooter
+          isDarkMode={isDarkMode}
+          onContactClick={onContactClick}
+          onAboutClick={onAboutClick}
+        />
       </div>
     </>
   );
