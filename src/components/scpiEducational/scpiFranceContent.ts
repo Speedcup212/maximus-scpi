@@ -37,18 +37,18 @@ export const scpiFranceConfig: ScpiEducationalPageConfig = {
     },
     {
       level: 'TOF et baux',
-      advantage: 'Permettent d'évaluer l'occupation et la visibilité locative.',
+      advantage: "Permettent d'évaluer l'occupation et la visibilité locative.",
       vigilance: 'Un TOF élevé ne garantit pas la solidité des loyers ; analyser locataires, baux et échéances.',
     },
     {
       level: 'Prix et valeurs',
       advantage: 'Prix de part, valeur de réalisation et valeur de reconstitution donnent plusieurs angles de lecture.',
-      vigilance: 'Une décote ou une surcote n'est pas un signal d'achat ou de vente à elle seule.',
+      vigilance: "Une décote ou une surcote n'est pas un signal d'achat ou de vente à elle seule.",
     },
     {
       level: 'Liquidité',
       advantage: 'Le mécanisme de retrait ou de marché secondaire est encadré.',
-      vigilance: 'Le délai de sortie n'est pas garanti et peut s'allonger fortement si les demandes de retrait dépassent les souscriptions.',
+      vigilance: "Le délai de sortie n'est pas garanti et peut s'allonger fortement si les demandes de retrait dépassent les souscriptions.",
     },
     {
       level: 'Endettement',
