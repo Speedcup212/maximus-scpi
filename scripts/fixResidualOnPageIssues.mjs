@@ -59,3 +59,67 @@ const patchTitle = (html, title) => html
     console.log(`✅ FAQ statique enrichie : ${count} mots`);
   }
 }
+
+// Home : signal interne canonique et explicite vers la landing transactionnelle.
+{
+  const file = path.join(distDir, 'index.html');
+  if (fs.existsSync(file)) {
+    let html = fs.readFileSync(file, 'utf8');
+    html = html
+      .replace('<a href="/comparateur-scpi/">Comparateur</a>', '<a href="/comparateur-scpi/">Comparateur SCPI</a>')
+      .replace('>Voir le comparateur complet</a>', '>Accéder au comparateur SCPI</a>');
+
+    fs.writeFileSync(file, html, 'utf8');
+    if (!html.includes('href="/comparateur-scpi/">Comparateur SCPI</a>')) {
+      throw new Error('Home : lien canonique Comparateur SCPI absent du HTML final');
+    }
+    if (!html.includes('>Accéder au comparateur SCPI</a>')) {
+      throw new Error('Home : CTA Comparateur SCPI absent du HTML final');
+    }
+    console.log('✅ Home : signal interne vers /comparateur-scpi/ renforcé');
+  }
+}
+
+// Hub Articles : transformer la cannibalisation actuelle en passerelle sémantique vers le comparateur.
+{
+  const file = path.join(distDir, 'articles', 'index.html');
+  if (fs.existsSync(file)) {
+    let html = fs.readFileSync(file, 'utf8');
+    html = html.replace('<a href="/comparateur-scpi/">Comparateur</a>', '<a href="/comparateur-scpi/">Comparateur SCPI</a>');
+    html = html.replace(/<p class="articles-shell-compare">[\s\S]*?<\/p>/i, '');
+
+    const bridge = `<p class="articles-shell-compare">Tu veux confronter directement les véhicules plutôt que parcourir un guide ? <a href="/comparateur-scpi/">Accéder au comparateur SCPI</a> pour comparer taux de distribution, TOF, frais, valeurs, endettement, secteurs, géographie et liquidité.</p>`;
+    html = html.replace(/(<p class="articles-shell-count">[\s\S]*?<\/p>)/i, `$1${bridge}`);
+    html = html.replace(
+      '.articles-shell-count{margin-top:14px;color:#94a3b8;font-size:14px}',
+      '.articles-shell-count{margin-top:14px;color:#94a3b8;font-size:14px}.articles-shell-compare{max-width:820px;margin-top:18px;color:#cbd5e1;font-size:16px;line-height:1.6}.articles-shell-compare a{color:#6ee7b7;font-weight:750;text-decoration:underline;text-underline-offset:3px}'
+    );
+
+    fs.writeFileSync(file, html, 'utf8');
+    if (!html.includes('class="articles-shell-compare"')) {
+      throw new Error('Hub Articles : passerelle vers comparateur absente');
+    }
+    if (!html.includes('href="/comparateur-scpi/">Accéder au comparateur SCPI</a>')) {
+      throw new Error('Hub Articles : ancre canonique comparateur absente');
+    }
+    console.log('✅ Hub Articles : passerelle sémantique vers /comparateur-scpi/ ajoutée');
+  }
+}
+
+// Comparateur : aucun lien interne ne doit renvoyer vers l’ancien slug de méthodologie.
+{
+  const file = path.join(distDir, 'comparateur-scpi', 'index.html');
+  if (fs.existsSync(file)) {
+    let html = fs.readFileSync(file, 'utf8');
+    html = html.replaceAll('href="/methodologie-donnees/"', 'href="/methodologie-donnees-scpi/"');
+    fs.writeFileSync(file, html, 'utf8');
+
+    if (html.includes('href="/methodologie-donnees/"')) {
+      throw new Error('Comparateur : ancien slug méthodologie encore présent');
+    }
+    if (!html.includes('href="/methodologie-donnees-scpi/"')) {
+      throw new Error('Comparateur : lien canonique méthodologie absent');
+    }
+    console.log('✅ Comparateur : lien méthodologie canonicalisé');
+  }
+}
