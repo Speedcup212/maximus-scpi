@@ -56,46 +56,10 @@ source = source.replace(
   neutralPointsBlock
 );
 
-const neutralFaqBlock = [
-  '// FAQ neutre et durable',
-  '  const neutralFaq = [',
-  '    [`Quelles SCPI sont gérées par ${societyName} ?`, `Cette page recense les SCPI attribuées à ${societyName} dans le catalogue MaximusSCPI. Ouvrez chaque fiche pour vérifier les dernières données et leurs sources.`],',
-  "    ['Comment comparer les SCPI de cette société de gestion ?', 'Comparez rendement, TOF, frais, capitalisation, valorisation, endettement, géographie, secteurs et liquidité sur la même période de référence.'],",
-  "    ['Les données affichées constituent-elles une recommandation ?', 'Non. Elles ont une vocation informative et comparative. Une décision d’investissement doit intégrer la situation, les objectifs, les risques et le mode de détention.'],",
-  '  ];',
-  '  const faqHTML = `',
-  '    <div class="society-faq">',
-  '      ${neutralFaq.map(item => `',
-  '      <details>',
-  '        <summary>${item[0]}</summary>',
-  '        <div class="society-faq-answer">${item[1]}</div>',
-  '      </details>`).join(\'\\n      \')}',
-  '    </div>`;',
-  '',
-  '  const faqSchemaJSON = `,',
-  '  {',
-  '    "@context": "https://schema.org",',
-  '    "@type": "FAQPage",',
-  '    "mainEntity": [',
-  '      ${neutralFaq.map(item => `{',
-  '        "@type": "Question",',
-  '        "name": "${escapeJsonLd(item[0])}",',
-  '        "acceptedAnswer": {',
-  '          "@type": "Answer",',
-  '          "text": "${escapeJsonLd(item[1])}"',
-  '        }',
-  '      }`).join(\',\\n      \')}',
-  '    ]',
-  '  }`;',
-  '',
-  '  // HTML complet',
-].join('\n');
-
-source = source.replace(
-  /\/\/ FAQ\n  let faqHTML = '';[\s\S]*?\/\/ HTML complet/,
-  neutralFaqBlock
-);
-
+// Important : ne pas remplacer le premier bloc FAQ du fichier. Il appartient au
+// générateur thématique générique et ne connaît pas societyName. Les éventuels
+// raccourcis fiscaux des FAQ sociétés de gestion sont neutralisés en amont par
+// patchLegacyRuntimeSeo.mjs, puis contrôlés dans le HTML final par les assertions YMYL.
 source = source
   .replace(/,\s*"aggregateRating"\s*:\s*\{\s*"@type"\s*:\s*"AggregateRating",\s*"ratingValue"\s*:\s*"4\.8",\s*"reviewCount"\s*:\s*"127"\s*\}/g, '')
   .replace('<h1>SCPI ${societyName} — Analyse 2026</h1>', '<h1>SCPI ${societyName} — données et analyses</h1>')
