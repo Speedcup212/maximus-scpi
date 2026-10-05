@@ -38,8 +38,6 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re
-
-          # 1) LegalFooter no longer accepts obsolete props.
           footer_files = [
               'src/components/ActualitesPage.tsx',
               'src/components/EducationArticlesIndexPage.tsx',
@@ -53,7 +51,6 @@ jobs:
               if n != 1: raise SystemExit(f'LegalFooter patch count for {f}: {n}')
               p.write_text(ns)
 
-          # 2) Recharts formatter values may be string/number: normalize at boundary.
           euro_counts = {
               'src/components/ScpiCreditSimulator.tsx': 2,
               'src/components/ScpiDemembrementSimulator.tsx': 1,
@@ -74,12 +71,10 @@ jobs:
           if s.count(old_pct) != 1: raise SystemExit('TRI formatter exact match missing')
           p.write_text(s.replace(old_pct, new_pct, 1))
 
-          # 3) React DOM style tag does not support the styled-jsx-only `jsx` prop.
           p = Path('src/components/simulation/AllocationSliders.tsx'); s = p.read_text()
           if s.count('<style jsx>{`') != 1: raise SystemExit('style jsx exact match missing')
           p.write_text(s.replace('<style jsx>{`', '<style>{`', 1))
 
-          # 4) Restore the missing type contract consumed by SCPIResults only.
           amf = Path('src/utils/amfScoring.ts')
           if amf.exists(): raise SystemExit('amfScoring.ts unexpectedly already exists')
           amf.write_text("""import type { Scpi } from '../types/scpi';
@@ -125,7 +120,6 @@ export interface AMFProfileResult {
           if s.count(old_import) != 1: raise SystemExit('AMF import exact match missing')
           p.write_text(s.replace(old_import, new_import, 1))
           PY
-          git diff --name-only | sort
       - name: Install dependencies
         run: npm ci
       - name: TypeScript gate
@@ -138,8 +132,7 @@ export interface AMFProfileResult {
           unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
           runtime=$((total-unused))
           echo "TOTAL=${total} UNUSED=${unused} RUNTIME=${runtime}"
-          echo 'Targeted residuals:'
-          grep -E '(SCPIResults.tsx|LegalFooter|ScpiCreditSimulator.tsx|ScpiDemembrementSimulator.tsx|ScpiEnvelopeComparator.tsx|ScpiNetIncomeSimulator.tsx|SimulateurTresorerieIS.tsx|AllocationSliders.tsx).*error TS' /tmp/typecheck.log || true
+          grep -E '(SCPIResults.tsx|ScpiCreditSimulator.tsx|ScpiDemembrementSimulator.tsx|ScpiEnvelopeComparator.tsx|ScpiNetIncomeSimulator.tsx|SimulateurTresorerieIS.tsx|AllocationSliders.tsx).*error TS' /tmp/typecheck.log || true
           if [ "$total" -gt 973 ]; then
             echo "Expected <= 973 diagnostics after batch, got ${total}." >&2
             exit 1
@@ -161,30 +154,29 @@ export interface AMFProfileResult {
           fi
           git checkout -B main origin/main
           git apply /tmp/batch.patch
-          expected_files=$(cat <<'EOF'
-src/components/ActualitesPage.tsx
-src/components/EducationArticlesIndexPage.tsx
-src/components/GestionnairesActeursScpiPage.tsx
-src/components/ManagementCompanyArticlePage.tsx
-src/components/SCPIResults.tsx
-src/components/ScpiCreditSimulator.tsx
-src/components/ScpiDemembrementSimulator.tsx
-src/components/ScpiEnvelopeComparator.tsx
-src/components/ScpiNetIncomeSimulator.tsx
-src/components/SocietesDeGestionScpiPage.tsx
-src/components/simulation/AllocationSliders.tsx
-src/pages/SimulateurTresorerieIS.tsx
-src/utils/amfScoring.ts
-EOF
-)
-          actual_files=$(git diff --name-only | sort)
-          if [ "$actual_files" != "$(printf '%s\n' "$expected_files" | sort)" ]; then
-            echo 'Unexpected batch file set:' >&2
-            printf '%s\n' "$actual_files" >&2
-            exit 1
-          fi
+          python - <<'PY'
+          import subprocess
+          expected = {
+              'src/components/ActualitesPage.tsx',
+              'src/components/EducationArticlesIndexPage.tsx',
+              'src/components/GestionnairesActeursScpiPage.tsx',
+              'src/components/ManagementCompanyArticlePage.tsx',
+              'src/components/SCPIResults.tsx',
+              'src/components/ScpiCreditSimulator.tsx',
+              'src/components/ScpiDemembrementSimulator.tsx',
+              'src/components/ScpiEnvelopeComparator.tsx',
+              'src/components/ScpiNetIncomeSimulator.tsx',
+              'src/components/SocietesDeGestionScpiPage.tsx',
+              'src/components/simulation/AllocationSliders.tsx',
+              'src/pages/SimulateurTresorerieIS.tsx',
+              'src/utils/amfScoring.ts',
+          }
+          actual = set(subprocess.check_output(['git','diff','--name-only'], text=True).splitlines())
+          if actual != expected:
+              raise SystemExit(f'Unexpected batch file set: {sorted(actual)}')
+          PY
           git config user.name 'maximus-agents'
           git config user.email 'maximus-agents@users.noreply.github.com'
-          git add $actual_files
+          git add src/components/ActualitesPage.tsx src/components/EducationArticlesIndexPage.tsx src/components/GestionnairesActeursScpiPage.tsx src/components/ManagementCompanyArticlePage.tsx src/components/SCPIResults.tsx src/components/ScpiCreditSimulator.tsx src/components/ScpiDemembrementSimulator.tsx src/components/ScpiEnvelopeComparator.tsx src/components/ScpiNetIncomeSimulator.tsx src/components/SocietesDeGestionScpiPage.tsx src/components/simulation/AllocationSliders.tsx src/pages/SimulateurTresorerieIS.tsx src/utils/amfScoring.ts
           git commit -m 'fix(types): batch public contracts and chart formatters [skip netlify]'
           git push origin HEAD:main
