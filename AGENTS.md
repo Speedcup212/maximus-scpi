@@ -1,50 +1,72 @@
 # AGENTS.md — Règles opérationnelles MaximusSCPI
 
-## Rôle du superviseur IA dans Cursor
-Exécuter techniquement les missions dans le repo MaximusSCPI.
-Ne jamais prendre de décision stratégique, réglementaire ou commerciale sans validation explicite.
+## Mode actif : RECOVERY
+
+Depuis le 05/10/2026, le chantier est en mode Recovery.
+
+- Branche de travail unique : `recovery/maximus-clean-20261005`.
+- Golden base : production stable `cf5ee9e158f4f0ef5ab5cd9336163effa83c2427`.
+- `main` n'est pas une source de vérité pour la release tant que RC-1 n'est pas validée.
+- Une seule tâche P0 active à la fois.
+- Aucun déploiement Netlify avant `RECOVERY-004`, sauf hotfix de production explicitement autorisé.
+- Aucun nouveau chantier produit pendant Recovery.
+
+## Rôle du superviseur IA
+
+Exécuter techniquement les missions du rail Recovery, dans l'ordre de `tasks/backlog.md`.
+Ne jamais ouvrir un nouveau périmètre tant que la tâche active n'est pas testée et clôturée.
 
 ---
 
 ## Règles absolues
 
 ### Périmètre d'intervention
-- **Phase 1 (actuelle) :** modifications autorisées uniquement dans `/agents` et `/tasks`.
-- **Toute modification de `src/`, `public/`, `supabase/`, `package.json`, `netlify.toml`, `vite.config.*` ou du sitemap nécessite une validation explicite avant toute action.**
-- Aucun push direct en production sans confirmation.
-- Aucun refactoring global, aucune modification de routes, de Supabase ou du code React sans tâche écrite dans `tasks/backlog.md`.
+- Toute modification doit appartenir à une tâche `RECOVERY-*` écrite.
+- Aucun commit direct sur `main`.
+- Aucun refactoring global.
+- Aucun changement de route, Supabase, logique SCPI ou UI hors périmètre exact de la tâche active.
+- Aucun déploiement Netlify depuis une branche de travail non validée.
 
-### Gestion des tokens
-- Lecture limitée à **5 fichiers maximum par mission**, sauf justification validée.
-- Lister les fichiers à consulter avant de les ouvrir — attendre validation.
-- Ne pas résumer les fichiers agents déjà connus.
-- Répondre en synthèse courte, hiérarchisée, exploitable.
+### WIP
+- **WIP limit = 1 P0**.
+- Une tâche suivante ne démarre qu'après clôture de la précédente.
+- Les travaux gelés restent gelés même s'ils sont faciles ou attractifs.
 
-### Cycle de travail obligatoire
-1. Créer ou identifier la tâche dans `tasks/backlog.md`.
-2. Déplacer la tâche dans `tasks/in-progress.md` au démarrage.
-3. Lister les fichiers nécessaires — attendre validation.
-4. Exécuter la mission de manière ciblée.
-5. Déplacer la tâche dans `tasks/done.md` à la clôture.
-6. Commits petits, ciblés, documentés. Pas de push sans confirmation.
+### Cycle obligatoire
+1. Identifier la tâche Recovery active.
+2. Lister le périmètre exact des fichiers.
+3. Exécuter la correction ciblée.
+4. Exécuter les tests nommés.
+5. Documenter les preuves et limites.
+6. Clôturer la tâche.
+7. Seulement ensuite démarrer la suivante.
+
+### Définition de « terminé »
+Une correction est terminée uniquement si :
+- elle existe sur la branche Recovery ;
+- les tests ciblés sont PASS ;
+- le build production est PASS lorsque du code exécutable est touché ;
+- les consommateurs réellement montés ont été vérifiés ;
+- aucune donnée `NULL` n'a été transformée en valeur rassurante artificielle ;
+- si une publication est nécessaire, la tâche reste non résolue jusqu'à contrôle post-release.
 
 ### Commits
-- Messages clairs et courts.
-- Un commit = une mission ou une correction identifiée.
-- Ne jamais commiter `THEMATIC_PAGES_OPTIMIZED.md`, `public/sitemap.xml` ou les fichiers générés automatiquement par le build.
+- Un commit = une correction cohérente.
+- Messages explicites.
+- Pas de fichiers générés du build.
+- Ne pas commiter `THEMATIC_PAGES_OPTIMIZED.md`, `public/sitemap.xml`, `dist/` ou `.netlify/`.
 
 ---
 
 ## Contraintes SCPI/CIF — non négociables
 
-Toute production (texte, code, data, template) doit respecter :
-
-- **Pas de promesse de rendement.** Les taux de distribution sont des données historiques.
-- **Pas de recommandation personnalisée sans recueil d'informations patrimoniales préalable.**
-- **Distinction obligatoire** entre information générale, pédagogie et conseil personnalisé.
-- **Rappel des risques SCPI** lorsque des chiffres de performance sont cités (perte en capital, revenus non garantis, liquidité limitée).
-- **Données SCPI sourcées** : DIC, note d'information, bulletin trimestriel, rapport annuel, ASPIM, société de gestion. Pas d'extrapolation.
-- Ne jamais présenter une SCPI comme garantie, sûre ou recommandée sans réserve.
+- Pas de promesse de rendement.
+- Pas de recommandation personnalisée sans recueil préalable.
+- Distinguer information générale, pédagogie et conseil personnalisé.
+- Rappeler les risques lorsque des performances sont citées.
+- Données SCPI sourcées : DIC, note d'information, bulletin, rapport annuel, ASPIM, société de gestion.
+- Aucune extrapolation présentée comme donnée certaine.
+- Les changements de régime de liquidité doivent être explicitement pris en compte ; une ancienne file de retraits ne peut pas être présentée comme comparable après passage au marché secondaire.
 
 ---
 
@@ -59,6 +81,4 @@ Toute production (texte, code, data, template) doit respecter :
 | 04 | `agents/04-conformite-cif.md` | Conformité CIF/AMF |
 | 05 | `agents/05-crm-relance.md` | CRM, relances, RGPD |
 
-**Routage des missions → voir `agents/router.md`**
-**Templates de mission → voir `agents/templates/`**
-**Suivi des tâches → voir `tasks/`**
+Le superviseur ne délègue que la tâche Recovery active.
