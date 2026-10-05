@@ -8,9 +8,9 @@ import { default as ArticleInvestir200k } from '../components/articles/Investir2
 import { default as ArticleScpiVsLocatif } from '../components/articles/ScpiOuImmobilierLocatifComparatif20AnsArticle';
 import { default as ArticleScpiCredit } from '../components/articles/AchatScpiCreditEffetLevierFiscaliteArticle';
 import { default as ArticleDemembrement } from '../components/articles/DemembrementScpiNueProprieteUsufruitArticle';
-import { default as ArticleScpiTmi11 } from '../components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle';
-import { default as ArticleScpiTmi30 } from '../components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle';
-import { default as ArticleScpiTmi41 } from '../components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle';
+import { InvestirScpiTmi11PourcentFiscaliteOptimaleArticle as ArticleScpiTmi11 } from '../components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle';
+import { ScpiTmi30PourcentArbitrageAvDirectArticle as ArticleScpiTmi30 } from '../components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle';
+import { ForteImpositionTmi41ScpiAssuranceVieArticle as ArticleScpiTmi41 } from '../components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle';
 import { default as ArticleScpiEuropeennes } from '../components/articles/ScpiEuropeennesAvantagesPs0RendementArticle';
 import { default as ArticleScpiFiscales } from '../components/articles/ScpiFiscalesMalrauxDeficitFoncier2025Article';
 import { default as ArticleScpiSante } from '../components/articles/ScpiSanteSeniorsEhpadCliniquesInvestissementArticle';
@@ -20,7 +20,7 @@ import { default as ArticleScpiLogistique } from '../components/articles/ScpiLog
 import { default as ArticleScpiResidentielles } from '../components/articles/ScpiResidentiellesLogementLocatifScpiHabitationArticle';
 import { default as ArticlePerScpi } from '../components/articles/PerScpiRetraiteDeductionFiscaleArticle';
 import { default as ArticleSciScpi } from '../components/articles/SciScpiSocieteCivileImmobilierePartsArticle';
-import { default as ArticleIfiScpi } from '../components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle';
+import { IfiScpiImpotFortuneImmobiliereStrategiesArticle as ArticleIfiScpi } from '../components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle';
 import { default as ArticleSuccessionScpi } from '../components/articles/SuccessionScpiTransmissionDroitsHeritageArticle';
 import { default as ArticleDiversificationScpi } from '../components/articles/DiversificationScpiCombienNombrePartsArticle';
 import { default as ArticleRendementScpi2025 } from '../components/articles/RendementScpi2025TdvmTauxDistributionArticle';
