@@ -49,8 +49,6 @@ const parseGeoDistribution = (geoStr: string): Record<string, number> => {
 const determineSector = (repartitionStr: string, sectorDistribution: Record<string, number>): 'bureaux' | 'commerces' | 'residentiel' | 'sante' | 'logistique' | 'hotellerie' | 'diversifie' => {
   if (!repartitionStr) return 'diversifie';
 
-  const lowerStr = repartitionStr.toLowerCase();
-
   // Calculer les scores par catégorie en analysant la répartition
   const scores = {
     bureaux: 0,
@@ -355,7 +353,6 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   const sector = determineSector(scpi['Répartition Sectorielle'] || '', sectorDistribution);
   const geography = determineGeography(geoDistribution);
   const recommended = isRecommended(scpi);
-  const isAtPar = scpi['Surcote/décote (%)'] === 0;
 
   return {
     id: index + 1,
