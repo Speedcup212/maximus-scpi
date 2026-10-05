@@ -15,25 +15,7 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     if (loading || profileLoading) return;
-    if (!user || !profile) return;
-
-    // Lorsqu'un utilisateur est passé par /espace-client, AuthGuard mémorise
-    // /app/client avant de l'envoyer vers la connexion. Le callback OAuth
-    // revient volontairement sur /app (route déjà utilisée/acceptée), puis on
-    // restaure ici uniquement une destination Client. Le contrôle de rôle
-    // reste ensuite assuré par RoleGuard sur la page cible.
-    try {
-      const requestedPath = sessionStorage.getItem('maximusPostLoginPath');
-      if (requestedPath?.startsWith('/app/client')) {
-        sessionStorage.removeItem('maximusPostLoginPath');
-        sessionStorage.removeItem('maximusLoginEmailHint');
-        onNavigate(requestedPath);
-        return;
-      }
-    } catch {
-      // Si sessionStorage est indisponible, conserver le routage par rôle.
-    }
-
+    if (!user) return;
     if (profile.role === 'partner') {
       onNavigate('/pro/dashboard');
     } else if (profile.role === 'admin') {
@@ -93,11 +75,11 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
-      <div className="max-w-2xl text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">Espace client MaximusSCPI</p>
-        <h1 className="mt-3 text-3xl font-semibold">Suivez vos SCPI. Surveillez leur trajectoire.</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-300">
-          Retrouvez votre portefeuille SCPI, sa valorisation, ses revenus estimés, sa diversification et les signaux de vigilance disponibles. Votre dossier réglementaire et vos documents restent accessibles dans un espace séparé.
+      <div className="max-w-xl text-center">
+        <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">Espace privé</p>
+        <h1 className="mt-3 text-3xl font-semibold">Accès réservé aux clients et partenaires</h1>
+        <p className="mt-3 text-sm text-slate-300">
+          Suivez vos dossiers, recevez vos comptes rendus et accédez à vos documents en toute sécurité.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
