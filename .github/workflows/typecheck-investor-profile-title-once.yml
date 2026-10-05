@@ -1,0 +1,99 @@
+name: Validate investor profile title contract once
+
+on:
+  push:
+    branches:
+      - diagnostic/investor-profile-title-20261005
+    paths:
+      - '.github/workflows/typecheck-investor-profile-title-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded type correction
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/components/InvestorProfileSimulator.tsx')
+          s = p.read_text()
+          old_import = "import { setInvestorProfile } from '../utils/investorProfile';"
+          new_import = "import { setInvestorProfile, type InvestorProfile } from '../utils/investorProfile';"
+          old_type = "const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; style: string; vigilance: string[] }> = {"
+          new_type = "const PROFILE_CONTENT: Record<ProfileKey, { title: Exclude<InvestorProfile, null>; description: string; style: string; vigilance: string[] }> = {"
+          if old_import not in s or old_type not in s:
+              raise SystemExit('Expected investor profile declarations not found')
+          s = s.replace(old_import, new_import, 1).replace(old_type, new_type, 1)
+          p.write_text(s)
+          PY
+          test "$(git diff --name-only)" = "src/components/InvestorProfileSimulator.tsx"
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify TypeScript reduction
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          runtime=$((total-unused))
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: ${runtime}"
+          grep -E 'InvestorProfileSimulator.tsx.*setInvestorProfile|InvestorProfileSimulator.tsx' /tmp/typecheck.log | head -40 || true
+          if grep -E 'InvestorProfileSimulator.tsx.*Argument of type.*string.*InvestorProfile' /tmp/typecheck.log; then
+            echo 'Investor profile title mismatch remains.' >&2
+            exit 1
+          fi
+          if [ "$total" -gt 1001 ]; then
+            echo "Expected <= 1001 diagnostics, got ${total}." >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
+      - name: Promote only validated file to unchanged main
+        shell: bash
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='fe538b8b84904f0e650e9c3f6ba2294a6226ceb1'
+          current=$(git rev-parse origin/main)
+          if [ "$current" != "$expected" ]; then
+            echo "main moved: expected $expected, got $current" >&2
+            exit 1
+          fi
+          git checkout -B main origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/components/InvestorProfileSimulator.tsx')
+          s = p.read_text()
+          old_import = "import { setInvestorProfile } from '../utils/investorProfile';"
+          new_import = "import { setInvestorProfile, type InvestorProfile } from '../utils/investorProfile';"
+          old_type = "const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; style: string; vigilance: string[] }> = {"
+          new_type = "const PROFILE_CONTENT: Record<ProfileKey, { title: Exclude<InvestorProfile, null>; description: string; style: string; vigilance: string[] }> = {"
+          if old_import not in s or old_type not in s:
+              raise SystemExit('Expected investor profile declarations not found on main')
+          p.write_text(s.replace(old_import, new_import, 1).replace(old_type, new_type, 1))
+          PY
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/components/InvestorProfileSimulator.tsx
+          test "$(git diff --cached --name-only)" = "src/components/InvestorProfileSimulator.tsx"
+          git commit -m 'fix(types): narrow investor profile title contract [skip netlify]'
+          git push origin HEAD:main
