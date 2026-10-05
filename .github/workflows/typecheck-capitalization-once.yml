@@ -65,6 +65,8 @@ jobs:
       - name: Promote only validated file to unchanged main
         shell: bash
         run: |
+          git reset --hard HEAD
+          git clean -fd
           git fetch origin main
           expected='029a8b6b48c78ae75f41ee88ef751b50c61e4598'
           current=$(git rev-parse origin/main)
