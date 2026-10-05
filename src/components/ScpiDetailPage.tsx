@@ -480,19 +480,13 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   <div className="flex-1">
                     <h4 className="font-black text-gray-900 dark:text-white text-xl mb-1">Actualité Trimestrielle</h4>
                     <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
-                      {scpi.periodeBulletinTrimestriel === 'T3 2025'
-                        ? "Mise à jour BULLETIN TRIMESTRIEL D'INFORMATION T3 2025"
-                        : scpi.dateBulletin 
-                          ? `Bulletin ${scpi.periodeBulletinTrimestriel || ''} - ${scpi.dateBulletin}`.trim()
-                          : scpi.periodeBulletinTrimestriel 
-                            ? `Bulletin ${scpi.periodeBulletinTrimestriel}` 
-                            : 'Données officielles du bulletin'}
+                      {`Bulletin ${scpi.actualitePeriode} · ${scpi.actualiteDateDocument}`}
                     </p>
                   </div>
-                  {scpi.periodeBulletinTrimestriel && (
+                  {scpi.actualitePeriode && (
                     <div className="px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white rounded-full border-2 border-blue-400 dark:border-blue-300 shadow-md">
                       <span className="text-xs font-bold">
-                        {scpi.dateBulletin ? `${scpi.periodeBulletinTrimestriel} - ${scpi.dateBulletin}` : scpi.periodeBulletinTrimestriel}
+                        {scpi.actualitePeriode}
                       </span>
                     </div>
                   )}
@@ -501,6 +495,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed bg-white/60 dark:bg-gray-800/60 rounded-lg p-5 border border-blue-200 dark:border-blue-700"
                   dangerouslySetInnerHTML={{ __html: getScpiNews(scpi) }}
                 />
+                <a className="text-sm underline" href={scpi.actualiteSourceUrl} target="_blank" rel="noopener noreferrer">{scpi.actualiteSourceDocument}</a>
               </div>
             )}
 

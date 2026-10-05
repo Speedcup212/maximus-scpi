@@ -130,7 +130,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     quarterlyNews = ''; // En cas d'erreur, on affiche une chaîne vide
   }
   const periodeBulletin = scpiForAnalysis?.periodeBulletinTrimestriel;
-  const dateBulletin = scpiForAnalysis?.dateBulletin;
 
   // Utiliser les données locatives de scpiForAnalysis si elles ne sont pas dans scpi
   const nombreLocataires = scpi.nombreLocataires ?? scpiForAnalysis?.nombreLocataires;
@@ -1041,7 +1040,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           <div className="border-t border-slate-600/50 my-2"></div>
 
           {/* 7. Actualité Trimestrielle (bulletin) - Toujours affichée si actualités disponibles */}
-          {scpiForAnalysis?.actualitesTrimestrielles && (
+          {quarterlyNews && scpiForAnalysis && (
             <div className="bg-slate-700/30 rounded-xl border border-slate-700 overflow-hidden">
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -1051,11 +1050,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="text-left">
                     <h3 className="text-lg font-bold text-white">Actualité Trimestrielle</h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      {dateBulletin 
-                        ? `Bulletin ${periodeBulletin || ''} - ${dateBulletin}`.trim()
-                        : periodeBulletin 
-                          ? `Bulletin ${periodeBulletin}` 
-                          : 'Données officielles du bulletin'}
+                      {`Bulletin ${scpiForAnalysis.actualitePeriode} · ${scpiForAnalysis.actualiteDateDocument}`}
                     </p>
                   </div>
                 </div>
@@ -1069,6 +1064,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <p className="text-slate-400 italic">Actualités en cours de traitement...</p>
                   </div>
                 )}
+                <a className="text-xs text-blue-300 underline" href={scpiForAnalysis.actualiteSourceUrl} target="_blank" rel="noopener noreferrer">{scpiForAnalysis.actualiteSourceDocument}</a>
               </div>
             </div>
           )}

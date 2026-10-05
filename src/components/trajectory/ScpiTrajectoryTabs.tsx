@@ -12,12 +12,17 @@ import {
 import { supabase } from '../../lib/supabase';
 import ScpiTrajectoryPanel from './ScpiTrajectoryPanel';
 import {
-  HISTORY_SELECT,
+  CERTIFIED_HISTORY_SELECT,
+  CertifiedLiquiditySnapshot,
   NormalizedHistoryRow,
   ScpiHistoryRow,
+  TrajectorySignalGate,
+  applyCertifiedLiquidity,
+  currentCertifiedLiquidity,
   formatPeriod,
   formatSigned,
   latestDelta,
+  liquidityLabel,
   normalizeAndDedupeHistory,
   valuationGapPct,
 } from './trajectoryData';
@@ -82,32 +87,50 @@ const formatNumber = (value: number | null, suffix = '', digits = 2) =>
 
 const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   const [rows, setRows] = useState<ScpiHistoryRow[]>([]);
+  const [liquiditySnapshot, setLiquiditySnapshot] = useState<CertifiedLiquiditySnapshot | null>(null);
+  const [signalGate, setSignalGate] = useState<TrajectorySignalGate | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
+      setLoading(true);
+      setRows([]);
+      setLiquiditySnapshot(null);
+      setSignalGate(null);
       if (!supabase || !scpiSlug) {
         if (!cancelled) setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from('scpi_indicator_history')
-        .select(HISTORY_SELECT)
+      const [historyResult, liquidityResult, gateResult] = await Promise.all([
+        supabase
+        .from('scpi_trajectory_pilot_history')
+        .select(CERTIFIED_HISTORY_SELECT)
         .eq('scpi_slug', scpiSlug)
         .order('snapshot_at', { ascending: true })
-        .limit(80);
+        .limit(80),
+        supabase.from('scpi_trajectory_pilot_liquidity')
+          .select('scpi_slug,source_period,liquidity_basis,liquidity_pressure_pct,retrait_attente_pct,regime_changed,signal_certification,niveau_liquidite')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+        supabase.from('scpi_trajectory_signal_gate')
+          .select('scpi_slug,data_gate,structural_gate,semantic_gate,liquidity_gate,liquidity_signal_eligible')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+      ]);
 
       if (cancelled) return;
-      if (error) {
-        console.warn('[MarketSignalsPanel] Historique indisponible.', error);
+      if (historyResult.error) {
+        console.warn('[MarketSignalsPanel] Historique indisponible.', historyResult.error);
         setLoading(false);
         return;
       }
 
-      setRows((data || []) as unknown as ScpiHistoryRow[]);
+      setRows((historyResult.data || []) as unknown as ScpiHistoryRow[]);
+      if (!liquidityResult.error && !gateResult.error) {
+        setLiquiditySnapshot(liquidityResult.data as CertifiedLiquiditySnapshot | null);
+        setSignalGate(gateResult.data as TrajectorySignalGate | null);
+      }
       setLoading(false);
     };
 
@@ -117,11 +140,10 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
     };
   }, [scpiSlug]);
 
-  const history = useMemo(() => normalizeAndDedupeHistory(rows), [rows]);
+  const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquiditySnapshot, signalGate), [rows, liquiditySnapshot, signalGate]);
 
   const signals = useMemo<Signal[]>(() => {
-    const liquidity = latestNumeric(history, 'retrait_attente_pct');
-    const liquidityDelta = latestDelta(history, 'retrait_attente_pct', 4);
+    const { value: liquidity, delta: liquidityDelta, basis: liquidityBasis } = currentCertifiedLiquidity(history, liquiditySnapshot, signalGate);
     const tof = latestNumeric(history, 'tof');
     const tofDelta = latestDelta(history, 'tof', 4);
     const debt = latestNumeric(history, 'endettement');
@@ -147,6 +169,8 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
     const liquidityTone: Tone =
       liquidity === null
         ? 'unavailable'
+        : liquidityBasis === 'secondary_market_order_book'
+          ? liquiditySnapshot?.niveau_liquidite?.startsWith('tension') ? 'watch' : 'neutral'
         : liquidity >= 2 || (liquidityDelta !== null && liquidityDelta >= 0.5)
           ? 'watch'
           : liquidity <= 0.25 && (liquidityDelta === null || liquidityDelta <= 0.1)
@@ -189,14 +213,18 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
 
     return [
       {
-        title: 'Liquidité des parts',
+        title: liquidityLabel(liquidityBasis),
         value: formatNumber(liquidity, ' %', 3),
         detail:
           liquidity === null
-            ? 'File de retrait non exploitable sur les observations disponibles.'
+            ? liquiditySnapshot?.regime_changed
+              ? 'Changement de régime : données du nouveau marché en attente. Une file annulée ne démontre pas une amélioration.'
+              : 'Données de liquidité courantes non exploitables ; aucune ancienne file n’est reprise.'
+            : liquidityBasis === 'secondary_market_order_book'
+              ? `Pression du marché secondaire, distincte de la file de retraits. Variation sur un an : ${formatSigned(liquidityDelta, ' pt')}.`
             : liquidity === 0
               ? 'Aucune tension visible dans la file de retrait publiée ; cela ne garantit pas la liquidité future.'
-              : `Évolution sur 4 observations : ${formatSigned(liquidityDelta, ' pt')}.`,
+              : `Variation sur un an : ${formatSigned(liquidityDelta, ' pt')}.`,
         tone: liquidityTone,
         icon: <Activity className="h-5 w-5" />,
       },
@@ -206,7 +234,7 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
         detail:
           tof === null
             ? 'TOF historique insuffisant.'
-            : `Évolution sur 4 observations : ${formatSigned(tofDelta, ' pt')}.`,
+            : `Variation sur un an : ${formatSigned(tofDelta, ' pt')}.`,
         tone: tofTone,
         icon: <Gauge className="h-5 w-5" />,
       },
@@ -245,7 +273,7 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
         icon: <BarChart3 className="h-5 w-5" />,
       },
     ];
-  }, [history]);
+  }, [history, liquiditySnapshot, signalGate]);
 
   const watchCount = signals.filter((signal) => signal.tone === 'watch').length;
   const availableCount = signals.filter((signal) => signal.tone !== 'unavailable').length;

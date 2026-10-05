@@ -47,7 +47,7 @@ const BULLETIN_WORDS =
   /(bulletin|trimestriel|trimestrielle|information\s+trimestrielle|bulletin\s+d['’]?information|\bbt\b)/i;
 
 const EXCLUDED_DOCUMENTS =
-  /(dic|kiid|priips?|prospectus|statuts?|rapport\s+annuel|annual\s+report|sfdr|notice\s+d['’]?information|r[eè]glement|politique\s+esg|document\s+pr[eé]contractuel)/i;
+  /(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|document[-_\s]+pr[eé]contractuel|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|code[-_\s]+de[-_\s]+transparence)/i;
 
 const PAGE_HINTS =
   /(scpi|documentation|documents?|bulletins?|trimestriel|nos-scpi|produits?|fonds?|supports?|investissement|immobilier)/i;
@@ -57,8 +57,6 @@ const STOP_TOKENS = new Set([
   'europe', 'europeen', 'europeenne', 'pierre', 'paris', 'grand', 'avenir',
   'patrimoine', 'capital', 'immo', 'immobilier', 'region', 'regions',
 ]);
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const normalize = (value: string): string =>
   String(value || '')
@@ -217,7 +215,7 @@ function extractAnchors(html: string, baseUrl: string): Array<{ url: string; tex
   return out;
 }
 
-function extractPdfLinks(html: string, baseUrl: string): Array<{ url: string; text: string; index: number }> {
+export function extractPdfLinks(html: string, baseUrl: string): Array<{ url: string; text: string; index: number }> {
   const links: Array<{ url: string; text: string; index: number }> = [];
   const seen = new Set<string>();
 
@@ -229,8 +227,9 @@ function extractPdfLinks(html: string, baseUrl: string): Array<{ url: string; te
       !/\.pdf(?:$|[?#])/i.test(url) &&
       !/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(url)
     ) return;
-    if (EXCLUDED_DOCUMENTS.test(combined)) return;
     seen.add(url);
+    // Une URL exclue par son libellé ne doit pas revenir via le scan brut HTML.
+    if (EXCLUDED_DOCUMENTS.test(combined)) return;
     links.push({ url, text, index });
   };
 
@@ -758,17 +757,6 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     const fileName = filenameFromUrl(candidate.pdfUrl);
     const storagePath = `${source.scpi_slug}/${period}/${sha256}.pdf`;
 
-    const { error: uploadError } = await client.storage
-      .from(process.env.SUPABASE_STORAGE_BUCKET || 'scpi-bulletins')
-      .upload(storagePath, buffer, {
-        contentType: 'application/pdf',
-        upsert: false,
-      });
-
-    if (uploadError && !/already exists|duplicate/i.test(uploadError.message)) {
-      throw new Error(`Storage: ${uploadError.message}`);
-    }
-
     const rawPatch = buildIndicatorPatch(extraction);
     const { data: current } = await client
       .from('scpi_indicators')
@@ -784,6 +772,24 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     const metricsCount = Object.keys(accepted).filter(
       (key) => !['repartition_sectorielle', 'repartition_geographique'].includes(key)
     ).length;
+
+    if (current?.source_period === period && /^manual_verified/i.test(String(current?.qa_status || ''))) {
+      const status = rejected.length ? 'needs_review' : 'unchanged';
+      const message = `Snapshot manuel vérifié du même trimestre conservé ; aucune écriture de bulletin ni de live.${rejected.length ? ` Rejets QA à revoir : ${rejected.join(' | ')}` : ''}`;
+      await updateRegistry(client, source.scpi_slug, { next_check_at: futureIso(24) });
+      await finishEvent(client, eventId, {
+        status, step: 'protected_snapshot', bulletin_url: candidate.pdfUrl,
+        source_period: period, metrics_count: metricsCount, message,
+      });
+      return { status, scpi_slug: source.scpi_slug, period, metrics_count: metricsCount, message };
+    }
+
+    const { error: uploadError } = await client.storage
+      .from(process.env.SUPABASE_STORAGE_BUCKET || 'scpi-bulletins')
+      .upload(storagePath, buffer, { contentType: 'application/pdf', upsert: false });
+    if (uploadError && !/already exists|duplicate/i.test(uploadError.message)) {
+      throw new Error(`Storage: ${uploadError.message}`);
+    }
 
     const qaStatus =
       rejected.length > 0 ? 'auto_partial_review' :

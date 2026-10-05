@@ -1,6 +1,8 @@
 import { Scpi } from '../types/scpi';
 import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
 import scpiCompletJson from './scpi_complet.json';
+import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
+import { filterDocumentedNonLiquidityWarnings } from '../utils/scpiLiquidityText.mjs';
 // Force reload: Perial Opportunités Europe prix mis à jour à 44€
 
 // Helper function to parse sectorial distribution from string or JSON
@@ -329,6 +331,7 @@ function mergeScpiEntries(entries: any[]): any[] {
 const mergedData = mergeScpiEntries(sourceData);
 
 export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
+  const editorialNews = getVerifiedScpiNews(scpi.maximus_editorial_news);
   // Utiliser les champs JSON structurés s'ils existent (nouveau format), sinon parser les chaînes
   let sectorDistribution: Record<string, number> = {};
   let geoDistribution: Record<string, number> = {};
@@ -393,12 +396,15 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     walb: cleanNumericValue(scpi['WALB']),
     collecteNetteTrimestre: cleanNumericValue(scpi['Collecte nette trimestre']),
     nbCessionsTrimestre: cleanNumericValue(scpi['Nombre de cessions trimestre']),
-    actualitesTrimestrielles: scpi['Actualités trimestrielles'] || undefined,
+    actualitesTrimestrielles: editorialNews?.text,
+    actualitePeriode: editorialNews?.period,
+    actualiteDateDocument: editorialNews?.documentDate,
+    actualiteSourceDocument: editorialNews?.sourceDocument,
+    actualiteSourceUrl: editorialNews?.sourceUrl,
     periodeBulletinTrimestriel: scpi['Période bulletin trimestriel'] || undefined,
     dateBulletin: scpi['Date bulletin'] || undefined,
-    liquidite: typeof scpi['liquidite'] === 'string'
-      ? scpi['liquidite']
-      : (typeof scpi['liquidite'] === 'number' ? `${scpi['liquidite']} parts en attente de retrait` : undefined),
+    // Undated legacy prose must not override the certified liquidity regime.
+    liquidite: undefined,
     partsAttenteRetrait:
       cleanNumericValue(scpi['Parts en attente de retrait']) ??
       (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
@@ -417,7 +423,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
       if (/\bparts? en attente\b|\bdemandes? de retrait\b/.test(note) && !/en cas de/.test(note)) return true;
       return undefined;
     })(),
-    maximusWarnings: Array.isArray(scpi['maximus_warnings']) ? scpi['maximus_warnings'] : undefined,
+    maximusWarnings: filterDocumentedNonLiquidityWarnings(scpi['maximus_warnings']),
     maximusDataStatus: typeof scpi['maximus_data_status'] === 'string' ? scpi['maximus_data_status'] : undefined,
     maximusSourcePeriode: typeof scpi['maximus_source_periode'] === 'string' ? scpi['maximus_source_periode'] : undefined,
     maximusSourceDocument: typeof scpi['maximus_source_document'] === 'string' ? scpi['maximus_source_document'] : undefined,
@@ -428,9 +434,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     maximusLifecycleNote: typeof scpi['maximus_lifecycle_note'] === 'string' ? scpi['maximus_lifecycle_note'] : undefined,
     maximusLifecycleSource: typeof scpi['maximus_lifecycle_source'] === 'string' ? scpi['maximus_lifecycle_source'] : undefined,
     // Nouvelle structure optionnelle pour les actualités détaillées
-    actualiteTrimestrielle: Array.isArray(scpi['Actualite_trimestrielle'])
-      ? scpi['Actualite_trimestrielle']
-      : undefined,
+    // Legacy structured facts lack independent source provenance, so are not published.
+    actualiteTrimestrielle: undefined,
     sfdr: scpi['SFDR'] || undefined,
     profilCible: scpi['Profil cible'] || undefined,
     // Profil de risque : chercher dans le nouveau format structuré (DIC) ou l'ancien format
@@ -443,4 +448,3 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
          cleanNumericValue(scpi['Risque (1-7)']))
   };
 });
-

@@ -35,6 +35,15 @@ const SECTORS = [
 ];
 
 const PAGES = [
+  {
+    slug:'analyses',
+    title:'Analyses SCPI : indicateurs, trajectoires et risques | MaximusSCPI',
+    description:'Consultez les analyses SCPI : occupation, valorisation, dette, liquidité et évolution des indicateurs. Sources et limites à vérifier pour chaque fonds.',
+    h1:'Analyses SCPI : indicateurs, trajectoires et risques',
+    intro:'Comparez les fondamentaux des SCPI et leur évolution à partir des indicateurs documentés. Chaque analyse distingue les chiffres disponibles, leur période et les éléments qui restent à vérifier.',
+    sections:[['Lire les indicateurs','Occupation financière, valorisation, endettement et liquidité complètent le taux de distribution historique.'],['Observer les trajectoires','Les évolutions se lisent sur des périodes comparables. Un changement de mécanisme de sortie peut empêcher certaines comparaisons.'],['Vérifier les sources et les limites','Consultez les périodes et documents de chaque fiche. Une donnée absente ne constitue pas une preuve d’absence de risque.']],
+    links:[['/comete/','Analyse de Comète'],['/transitions-europe/','Analyse de Transitions Europe'],['/comparateur-scpi/','Comparer les SCPI'],['/methodologie-donnees-scpi/','Sources et méthodologie'],['/avertissements-risques-scpi/','Risques des SCPI']]
+  },
   ...SIMS.map(([slug,title,description,h1,intro,appName]) => ({
     slug,title,description,h1,intro,appName,
     sections: [
@@ -194,6 +203,8 @@ for (const page of PAGES) {
   for (const [prop,value] of [['og:url',url],['og:title',page.title],['og:description',page.description],['twitter:url',url],['twitter:title',page.title],['twitter:description',page.description]]) {
     html = replaceOrInsert(html,new RegExp(`<meta\\s+property=["']${prop.replace(':','\\:')}["'][^>]*>`,'i'),`<meta property="${prop}" content="${esc(value)}" />`);
   }
+  // The source is the home shell. Remove its schemas before adding the page-specific graph.
+  html = html.replace(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi,'');
   html = html.replace('</head>',`    <script id="seo-catchup-schema" type="application/ld+json">${JSON.stringify(schema(page)).replace(/</g,'\\u003c')}</script>\n  </head>`);
   html = replaceRoot(html,root(page));
   fs.mkdirSync(dir,{recursive:true});

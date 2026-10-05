@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { buildScpiEditorialNews } from '../src/utils/scpiNewsRecord.mjs';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -25,12 +26,13 @@ const client = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
-const [{ data, error }, { data: analysisData, error: analysisError }] = await Promise.all([
+const [{ data, error }, { data: analysisData, error: analysisError }, { data: bulletinData, error: bulletinError }] = await Promise.all([
   client.from('scpi_indicators').select('*').limit(5000),
   client
     .from('scpi_bulletin_analysis')
-    .select('scpi_slug,certification_status,current_source_certified,structural_event_detected')
+    .select('scpi_slug,certification_status,current_source_certified,structural_event_detected,current_period,current_snapshot,certified_source_url')
     .limit(5000),
+  client.from('scpi_bulletins').select('id,scpi_slug,period,source_url,extraction_json').limit(5000),
 ]);
 
 if (error) {
@@ -41,9 +43,15 @@ if (analysisError) {
   console.error('[SCPI catalog] Lecture certification impossible :', analysisError.message);
   process.exit(1);
 }
+if (bulletinError) {
+  console.error('[SCPI catalog] Lecture des preuves éditoriales impossible :', bulletinError.message);
+  process.exit(1);
+}
 
 const bySlug = new Map((data || []).map((row: any) => [row.scpi_slug, row]));
 const certificationBySlug = new Map((analysisData || []).map((row: any) => [row.scpi_slug, row]));
+const bulletinById = new Map((bulletinData || []).map((row: any) => [row.id, row]));
+let editorialSummaries = 0;
 
 const assign = (target: Record<string, any>, key: string, value: unknown) => {
   if (value !== null && value !== undefined && value !== '') target[key] = value;
@@ -54,8 +62,13 @@ const isManualVerified = (status: unknown) => /^manual_verified/i.test(String(st
 for (const scpi of catalog) {
   const slug = slugify(scpi['Nom SCPI']);
   const row: any = bySlug.get(slug);
-  if (!row) continue;
   const certification: any = certificationBySlug.get(slug);
+  const bulletin = bulletinById.get(certification?.current_snapshot?.bulletin_id);
+  // Replace the whole editorial record together; never combine legacy text with
+  // the current metrics' period, source or technical update timestamp.
+  scpi.maximus_editorial_news = buildScpiEditorialNews(certification, bulletin);
+  if (scpi.maximus_editorial_news) editorialSummaries++;
+  if (!row) continue;
 
   assign(scpi, 'Taux de distribution (%)', row.td);
   assign(scpi, 'TOF (%)', row.tof);
@@ -109,4 +122,4 @@ for (const scpi of catalog) {
 }
 
 fs.writeFileSync(catalogPath, JSON.stringify(catalog, null, 2) + '\n', 'utf-8');
-console.log(`[SCPI catalog] ${bySlug.size} lignes live superposées avant build ; décote/surcote publiée uniquement après certification sémantique manuelle.`);
+console.log(`[SCPI catalog] ${bySlug.size} lignes live superposées avant build ; ${editorialSummaries} résumés factuels avec preuve PDF, période et date concordantes ; décote/surcote publiée uniquement après certification sémantique manuelle.`);
