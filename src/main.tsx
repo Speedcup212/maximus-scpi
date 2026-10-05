@@ -3,6 +3,7 @@ import type { ComponentType, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import HomeApp from './HomeApp';
+import { AuthProvider } from './contexts/AuthContext';
 
 declare global {
   interface Window {
@@ -50,15 +51,7 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 const selectEntry = async (): Promise<ComponentType> => {
-  let path = window.location.pathname.replace(/^\/|\/$/g, '');
-
-  // URL directe de l'espace client : elle ouvre désormais le cockpit client,
-  // y compris pour un administrateur autorisé à tester la vue client.
-  if (path === 'espace-client') {
-    window.history.replaceState({}, '', `/app/client${window.location.search}${window.location.hash}`);
-    path = 'app/client';
-  }
-
+  const path = window.location.pathname.replace(/^\/|\/$/g, '');
   const params = new URLSearchParams(window.location.search);
   const hasLegacyLandingParams =
     params.has('filter') || params.has('sector') || params.has('geo');
@@ -87,9 +80,21 @@ const selectEntry = async (): Promise<ComponentType> => {
     return module.default;
   }
 
-  // All legacy/editorial/private routes keep the existing router as a safe fallback.
+  // Keep the public professional portal outside the authenticated legacy router.
+  if (path === 'professionnels') {
+    const module = await import('./components/expert/ProfessionnelsPortal');
+    return module.default;
+  }
+
+  // Legacy/private routes require the auth context used by ProLayout and app guards.
   const module = await import('./App');
-  return module.default;
+  const LegacyApp = module.default;
+  const LegacyAppWithAuth = () => (
+    <AuthProvider>
+      <LegacyApp />
+    </AuthProvider>
+  );
+  return LegacyAppWithAuth;
 };
 
 const AppReveal: React.FC<{ children: ReactNode }> = ({ children }) => {
