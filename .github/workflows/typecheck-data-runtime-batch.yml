@@ -32,28 +32,21 @@ jobs:
                   return
               raise SystemExit(f'Expected pattern missing in {path}')
 
-          def replace_count(path, old, new, expected):
-              p = Path(path)
-              text = p.read_text()
-              count = text.count(old)
-              if count == expected:
-                  p.write_text(text.replace(old, new))
-                  return
-              if count == 0 and text.count(new) >= expected:
-                  return
-              raise SystemExit(f'Unexpected count in {path}: {count}, expected {expected}')
-
           replace_once(
               'src/config/calendlyMapping.ts',
               "  const map: Record<QuizData['tmi'], string> = {\n    '11': '11 %',",
               "  const map: Record<QuizData['tmi'], string> = {\n    '0': '0 %',\n    '11': '11 %',"
           )
 
-          replace_count(
+          replace_once(
               'src/components/LifeToScpiPage.tsx',
-              'tauxRevalorisation',
-              'tauxRevalorisationPart',
-              2
+              'value={inputs.tauxRevalorisation}',
+              'value={inputs.tauxRevalorisationPart}'
+          )
+          replace_once(
+              'src/components/LifeToScpiPage.tsx',
+              "handleInputChange('tauxRevalorisation', Number(e.target.value))",
+              "handleInputChange('tauxRevalorisationPart', Number(e.target.value))"
           )
 
           replace_once(
