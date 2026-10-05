@@ -49,23 +49,9 @@ export type NormalizedHistoryRow = Omit<
 };
 
 export const HISTORY_SELECT = [
-  'scpi_slug',
-  'snapshot_at',
-  'source_period',
-  'source_url',
-  'qa_status',
-  'source_confidence',
-  'tof',
-  'td',
-  'capitalisation',
-  'prix_souscription',
-  'prix_reconstitution',
-  'prix_retrait',
-  'valeur_realisation',
-  'endettement',
-  'distribution_par_part',
-  'parts_attente_retrait',
-  'nombre_parts',
+  'scpi_slug', 'snapshot_at', 'source_period', 'source_url', 'qa_status', 'source_confidence',
+  'tof', 'td', 'capitalisation', 'prix_souscription', 'prix_reconstitution', 'prix_retrait',
+  'valeur_realisation', 'endettement', 'distribution_par_part', 'parts_attente_retrait', 'nombre_parts',
 ].join(',');
 
 export const toFiniteNumber = (value: unknown): number | null => {
@@ -74,38 +60,22 @@ export const toFiniteNumber = (value: unknown): number | null => {
   return Number.isFinite(number) ? number : null;
 };
 
-const normalizeRow = (row: ScpiHistoryRow): NormalizedHistoryRow => {
-  const partsAttente = toFiniteNumber(row.parts_attente_retrait);
-  const nombreParts = toFiniteNumber(row.nombre_parts);
-  const rawRetraitPct =
-    partsAttente !== null && nombreParts !== null && nombreParts > 0
-      ? (partsAttente / nombreParts) * 100
-      : null;
-
-  // A queue of pending withdrawals cannot be negative or exceed 100% of
-  // outstanding shares. Values outside that range are extraction artefacts,
-  // so keep them out of charts rather than publishing a misleading figure.
-  const retraitPct =
-    rawRetraitPct !== null && rawRetraitPct >= 0 && rawRetraitPct <= 100
-      ? rawRetraitPct
-      : null;
-
-  return {
-    ...row,
-    tof: toFiniteNumber(row.tof),
-    td: toFiniteNumber(row.td),
-    capitalisation: toFiniteNumber(row.capitalisation),
-    prix_souscription: toFiniteNumber(row.prix_souscription),
-    prix_reconstitution: toFiniteNumber(row.prix_reconstitution),
-    prix_retrait: toFiniteNumber(row.prix_retrait),
-    valeur_realisation: toFiniteNumber(row.valeur_realisation),
-    endettement: toFiniteNumber(row.endettement),
-    distribution_par_part: toFiniteNumber(row.distribution_par_part),
-    parts_attente_retrait: partsAttente,
-    nombre_parts: nombreParts,
-    source_confidence: toFiniteNumber(row.source_confidence),
-    retrait_attente_pct: retraitPct,
-  };
+export const parsePeriod = (period: string | null | undefined) => {
+  if (!period) return null;
+  const trimmed = period.trim();
+  const canonical = trimmed.match(/^(\d{4})[- ]?T([1-4])$/i);
+  if (canonical) {
+    const year = Number(canonical[1]);
+    const quarter = Number(canonical[2]);
+    return { key: `${year}-T${quarter}`, ordinal: year * 4 + quarter };
+  }
+  const alternate = trimmed.match(/^T([1-4])[- ]?(\d{4})$/i);
+  if (alternate) {
+    const quarter = Number(alternate[1]);
+    const year = Number(alternate[2]);
+    return { key: `${year}-T${quarter}`, ordinal: year * 4 + quarter };
+  }
+  return null;
 };
 
 const rowTimestamp = (row: ScpiHistoryRow) => {
@@ -114,116 +84,118 @@ const rowTimestamp = (row: ScpiHistoryRow) => {
   return Number.isFinite(timestamp) ? timestamp : 0;
 };
 
-const parsePeriod = (period: string | null | undefined) => {
-  if (!period) return null;
-  const trimmed = period.trim();
-  const canonical = trimmed.match(/^(\d{4})[- ]?T([1-4])$/i);
-  if (canonical) {
-    const year = Number(canonical[1]);
-    const quarter = Number(canonical[2]);
-    return {
-      key: `${year}-T${quarter}`,
-      ordinal: year * 4 + quarter,
-    };
-  }
-
-  const alternate = trimmed.match(/^T([1-4])[- ]?(\d{4})$/i);
-  if (alternate) {
-    const quarter = Number(alternate[1]);
-    const year = Number(alternate[2]);
-    return {
-      key: `${year}-T${quarter}`,
-      ordinal: year * 4 + quarter,
-    };
-  }
-
-  return null;
+const rowQuality = (row: ScpiHistoryRow) => {
+  const confidence = toFiniteNumber(row.source_confidence) ?? 0;
+  const qa = (row.qa_status || '').toLowerCase();
+  const verified = qa.includes('verified') ? 2 : qa.includes('certified') ? 1 : 0;
+  return verified * 100 + confidence;
 };
 
-export const normalizeAndDedupeHistory = (
-  rows: ScpiHistoryRow[],
-): NormalizedHistoryRow[] => {
+export const isPublishableHistoryRow = (row: ScpiHistoryRow) => {
+  const qa = (row.qa_status || '').toLowerCase();
+  const confidence = toFiniteNumber(row.source_confidence);
+  return Boolean(
+    parsePeriod(row.source_period) &&
+    row.source_url &&
+    !qa.startsWith('invalid') &&
+    qa !== 'manual_period_correction' &&
+    confidence !== null &&
+    confidence >= 0.95,
+  );
+};
+
+const safePercent = (value: unknown) => {
+  const parsed = toFiniteNumber(value);
+  return parsed !== null && parsed >= 0 && parsed <= 100 ? parsed : null;
+};
+
+const normalizeRow = (row: ScpiHistoryRow): NormalizedHistoryRow => {
+  const partsAttente = toFiniteNumber(row.parts_attente_retrait);
+  const nombreParts = toFiniteNumber(row.nombre_parts);
+  const rawRetraitPct = partsAttente !== null && nombreParts !== null && nombreParts > 0
+    ? (partsAttente / nombreParts) * 100
+    : null;
+  const retraitPct = rawRetraitPct !== null && rawRetraitPct >= 0 && rawRetraitPct <= 100 ? rawRetraitPct : null;
+
+  return {
+    ...row,
+    tof: safePercent(row.tof),
+    td: toFiniteNumber(row.td),
+    capitalisation: toFiniteNumber(row.capitalisation),
+    prix_souscription: toFiniteNumber(row.prix_souscription),
+    prix_reconstitution: toFiniteNumber(row.prix_reconstitution),
+    prix_retrait: toFiniteNumber(row.prix_retrait),
+    valeur_realisation: toFiniteNumber(row.valeur_realisation),
+    endettement: safePercent(row.endettement),
+    distribution_par_part: toFiniteNumber(row.distribution_par_part),
+    parts_attente_retrait: partsAttente,
+    nombre_parts: nombreParts,
+    source_confidence: toFiniteNumber(row.source_confidence),
+    retrait_attente_pct: retraitPct,
+  };
+};
+
+export const normalizeAndDedupeHistory = (rows: ScpiHistoryRow[]): NormalizedHistoryRow[] => {
   const byPeriod = new Map<string, ScpiHistoryRow>();
-
-  // Never publish rows already rejected by the QA pipeline. In particular,
-  // non-canonical duplicates and missing-period artefacts must not become the
-  // "latest" point of a trajectory or a market signal.
-  rows
-    .filter((row) => !row.qa_status?.toLowerCase().startsWith('invalid'))
-    .forEach((row, index) => {
-      const parsed = parsePeriod(row.source_period);
-      const key = parsed?.key || row.source_period?.trim() || `snapshot-${row.snapshot_at || index}`;
-      const current = byPeriod.get(key);
-      if (!current || rowTimestamp(row) >= rowTimestamp(current)) {
-        byPeriod.set(key, row);
-      }
-    });
-
+  rows.filter(isPublishableHistoryRow).forEach((row) => {
+    const parsed = parsePeriod(row.source_period);
+    if (!parsed) return;
+    const current = byPeriod.get(parsed.key);
+    if (!current || rowQuality(row) > rowQuality(current) || (rowQuality(row) === rowQuality(current) && rowTimestamp(row) >= rowTimestamp(current))) {
+      byPeriod.set(parsed.key, row);
+    }
+  });
   return Array.from(byPeriod.values())
-    .sort((a, b) => {
-      const aPeriod = parsePeriod(a.source_period);
-      const bPeriod = parsePeriod(b.source_period);
-
-      if (aPeriod && bPeriod && aPeriod.ordinal !== bPeriod.ordinal) {
-        return aPeriod.ordinal - bPeriod.ordinal;
-      }
-      if (aPeriod && !bPeriod) return -1;
-      if (!aPeriod && bPeriod) return 1;
-      return rowTimestamp(a) - rowTimestamp(b);
-    })
+    .sort((a, b) => (parsePeriod(a.source_period)?.ordinal || 0) - (parsePeriod(b.source_period)?.ordinal || 0))
     .map(normalizeRow);
 };
 
 export const formatPeriod = (period: string | null | undefined) => {
-  if (!period) return 'N.D.';
-  const match = period.match(/^(\d{4})[- ]?T([1-4])$/i);
-  if (match) return `T${match[2]} ${match[1]}`;
-  const alt = period.match(/^T([1-4])[- ]?(\d{4})$/i);
-  if (alt) return `T${alt[1]} ${alt[2]}`;
-  return period;
+  const parsed = parsePeriod(period);
+  if (!parsed) return period || 'N.D.';
+  const [year, quarter] = parsed.key.split('-T');
+  return `T${quarter} ${year}`;
 };
 
-export const humanizeSlug = (slug: string) =>
-  slug
-    .split('-')
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
+export const humanizeSlug = (slug: string) => slug.split('-').filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
 
-export const latestDelta = (
-  rows: NormalizedHistoryRow[],
-  key: keyof NormalizedHistoryRow,
-  lookback = 4,
-): number | null => {
-  const values = rows
-    .map((row) => toFiniteNumber(row[key]))
-    .filter((value): value is number => value !== null);
-  if (values.length < 2) return null;
-  const latest = values[values.length - 1];
-  const previousIndex = Math.max(0, values.length - 1 - lookback);
-  return latest - values[previousIndex];
+export const metricObservations = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow) => rows
+  .map((row) => ({ row, value: toFiniteNumber(row[key]), period: parsePeriod(row.source_period) }))
+  .filter((item): item is { row: NormalizedHistoryRow; value: number; period: { key: string; ordinal: number } } => item.value !== null && item.period !== null);
+
+export const latestDelta = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow, lookback = 4): number | null => {
+  const observations = metricObservations(rows, key);
+  if (observations.length < 2) return null;
+  const latest = observations[observations.length - 1];
+  const targetOrdinal = latest.period.ordinal - lookback;
+  const exact = observations.find((item) => item.period.ordinal === targetOrdinal);
+  if (!exact) return null;
+  return latest.value - exact.value;
 };
 
-export const getNumericSeries = (
-  rows: NormalizedHistoryRow[],
-  key: keyof NormalizedHistoryRow,
-) =>
-  rows
-    .map((row) => toFiniteNumber(row[key]))
-    .filter((value): value is number => value !== null);
+export const latestSequentialDelta = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow): number | null => {
+  const observations = metricObservations(rows, key);
+  if (observations.length < 2) return null;
+  const latest = observations[observations.length - 1];
+  const previous = observations[observations.length - 2];
+  if (latest.period.ordinal - previous.period.ordinal !== 1) return null;
+  return latest.value - previous.value;
+};
+
+export const hasTrajectoryDepth = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow, minimumPoints = 4) => {
+  const observations = metricObservations(rows, key);
+  return observations.length >= minimumPoints;
+};
+
+export const getNumericSeries = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow) => metricObservations(rows, key).map((item) => item.value);
 
 export const formatSigned = (value: number | null, suffix = '') => {
   if (value === null || !Number.isFinite(value)) return 'N.D.';
   const sign = value > 0 ? '+' : '';
-  return `${sign}${value.toLocaleString('fr-FR', {
-    maximumFractionDigits: 2,
-  })}${suffix}`;
+  return `${sign}${value.toLocaleString('fr-FR', { maximumFractionDigits: 2 })}${suffix}`;
 };
 
-export const valuationGapPct = (
-  price: number | null,
-  reconstitution: number | null,
-): number | null => {
+export const valuationGapPct = (price: number | null, reconstitution: number | null): number | null => {
   if (price === null || reconstitution === null || reconstitution === 0) return null;
   return ((price - reconstitution) / reconstitution) * 100;
 };
