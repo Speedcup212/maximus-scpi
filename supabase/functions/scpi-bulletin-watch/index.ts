@@ -63,7 +63,7 @@ function anchors(html:string,base:string){
 function pdfs(html:string,base:string){
   base=htmlBase(html,base);
   const a:{url:string;text:string;i:number}[]=[];const seen=new Set<string>();
-  const add=(raw:string,text:string,i:number)=>{const u=makeUrl(raw,base);if(!u||seen.has(u)||BAD.test(u+" "+text))return;if(!PDF_URL.test(u)&&!/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(u))return;seen.add(u);a.push({url:u,text,i});};
+  const add=(raw:string,text:string,i:number)=>{const u=makeUrl(raw,base);if(!u||seen.has(u))return;if(!PDF_URL.test(u)&&!/\/(?:download|telecharger|telechargement)(?:\/|\?)/i.test(u))return;seen.add(u);if(BAD.test(u+" "+text))return;a.push({url:u,text,i});};
   anchors(html,base).forEach((x,i)=>add(x.url,x.text,i));let m:RegExpExecArray|null,i=a.length;const re=/["']([^"'\s]{4,900}\.pdf(?:\?[^"']*)?)["']/gi;while((m=re.exec(html)))add(m[1]||"","",i++);return a;
 }
 function period(s:string){
@@ -1066,6 +1066,16 @@ Deno.serve(async(req:Request)=>{
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
     const currentKey=period(String(cur?.source_period||""))?.k||0,incomingKey=pp.k||0;
     const canPromote=!currentKey||incomingKey>=currentKey;
+    // La QA SQL protège un snapshot manuel du même trimestre. Ne pas toucher
+    // le live ni son bulletin associé avant ce garde ; les rejets restent visibles.
+    const protectedSnapshot=cur?.source_period===pp.p&&/^manual_verified/i.test(String(cur?.qa_status||""));
+    if(protectedSnapshot){
+      const metricCount=Object.keys(r).length;
+      const status=bad.length?"needs_review":"unchanged";
+      await reg(db,s.scpi_slug,{last_checked_at:new Date().toISOString(),next_check_at:later(24)});
+      await finish(db,eid,{status,step:"edge_protected_snapshot",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:"Snapshot manuel vérifié du même trimestre conservé ; aucune écriture de bulletin ni de live."+(bad.length?" Rejets QA à revoir : "+bad.join(", "):"")});
+      return Response.json({ok:true,slug:s.scpi_slug,status:"protected_snapshot",review_required:bad.length>0,period:pp.p,metrics:metricCount,rejected:bad});
+    }
     if(!c.html){const bytes=await getPdf(c.pdf);path=s.scpi_slug+"/"+pp.p+"/"+hashPdf+".pdf";const up=await db.storage.from("scpi-bulletins").upload(path,bytes,{contentType:"application/pdf",upsert:false});if(up.error&&!/already exists|duplicate/i.test(up.error.message))throw new Error("Storage: "+up.error.message);}
     const metricCount=Object.keys(r).length;
     const coreCount=[
