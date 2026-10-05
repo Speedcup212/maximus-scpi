@@ -5,7 +5,7 @@ import {
   Shield, Target, Calculator, FileText, ArrowLeft
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
+import { formatCurrency, resolveDisplayedDiscount } from '../utils/formatters';
 import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import { getLatestScore } from '../utils/scpiScoreService';
 import { scoreToStars } from '../utils/scoreToStars';

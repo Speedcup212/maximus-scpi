@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, HelpCircle, Calculator, FileText, Euro, AlertTriangle, Target } from 'lucide-react';
+import { X, HelpCircle, Calculator, FileText, Euro, Target } from 'lucide-react';
 
 interface TMIExplanationModalProps {
   isOpen: boolean;
