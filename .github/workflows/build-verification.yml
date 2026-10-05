@@ -20,8 +20,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Checkout exact candidate
         uses: actions/checkout@v4
+        with:
+          # Sur une PR, GitHub propose par défaut refs/pull/<n>/merge.
+          # Recovery doit certifier le contenu exact de la branche candidate,
+          # sans embarquer les commits parallèles présents sur main.
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+
+      - name: Verify checked SHA
+        shell: bash
+        run: |
+          ACTUAL_SHA="$(git rev-parse HEAD)"
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            EXPECTED_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            EXPECTED_SHA="${GITHUB_SHA}"
+          fi
+          echo "candidate_sha=${ACTUAL_SHA}"
+          test "${ACTUAL_SHA}" = "${EXPECTED_SHA}"
 
       - name: Setup Node
         uses: actions/setup-node@v4
