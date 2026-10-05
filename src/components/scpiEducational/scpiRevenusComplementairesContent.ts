@@ -38,7 +38,7 @@ export const scpiRevenusComplementairesConfig: ScpiEducationalPageConfig = {
     {
       level: 'Délai de jouissance',
       advantage: 'Connu à la souscription et intégrable dans le calendrier.',
-      vigilance: 'Crée une période sans revenu qu'il faut financer séparément.',
+      vigilance: "Crée une période sans revenu qu'il faut financer séparément.",
     },
     {
       level: 'Fiscalité',
@@ -48,7 +48,7 @@ export const scpiRevenusComplementairesConfig: ScpiEducationalPageConfig = {
     {
       level: 'Liquidité',
       advantage: 'Peut être suivie via retraits, collecte et marché secondaire.',
-      vigilance: 'La sortie n'est jamais garantie à une date ni à un prix donné.',
+      vigilance: 'La sortie n\'est jamais garantie à une date ni à un prix donné.',
     },
     {
       level: 'Diversification',
