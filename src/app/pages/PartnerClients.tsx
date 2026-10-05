@@ -16,9 +16,10 @@ const PartnerClients: React.FC<PartnerClientsProps> = ({ onNavigate }) => {
   const [clients, setClients] = useState<Profile[]>([]);
 
   useEffect(() => {
-    if (!profile?.org_id) return;
+    if (!profile?.org_id || !supabase) return;
+    const client = supabase;
     const fetchClients = async () => {
-      const { data } = await supabase
+      const { data } = await client
         .from('profiles')
         .select('*')
         .eq('org_id', profile.org_id)
