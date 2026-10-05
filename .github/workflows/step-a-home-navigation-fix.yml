@@ -24,27 +24,15 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           path = Path('src/App.tsx')
           text = path.read_text()
-          old = """  const handleBackToHome = () => {
-            setCurrentView('home');
-            setSelectedCategory(null);
-            setSelectedArticle(null);
-            setSelectedLandingPage(null);
-            // Utiliser replaceState au lieu de pushState pour éviter les problèmes de mutation
-            // et ne pas ajouter d'entrée à l'historique
-            try {
-              window.history.replaceState(null, '', '/');
-            } catch (error) {
-              // Fallback: utiliser window.location si replaceState échoue
-              window.location.href = '/';
-              return;
-            }
-            window.scrollTo(0, 0);
-          };
-          """
-          new = """  const handleBackToHome = () => {
+          pattern = re.compile(
+              r"^  const handleBackToHome = \(\) => \{\n.*?^  \};\n",
+              re.MULTILINE | re.DOTALL,
+          )
+          replacement = """  const handleBackToHome = () => {
             // La home autoritaire est montée par main.tsx via HomeApp.
             // Depuis les routes legacy, une simple mutation de currentView conservait
             // l'ancienne home embarquée dans App.tsx. Une navigation réelle garantit
@@ -52,9 +40,10 @@ jobs:
             window.location.assign('/');
           };
           """
-          if text.count(old) != 1:
-              raise SystemExit(f'Expected exactly one legacy handleBackToHome block, found {text.count(old)}')
-          path.write_text(text.replace(old, new))
+          matches = pattern.findall(text)
+          if len(matches) != 1:
+              raise SystemExit(f'Expected exactly one handleBackToHome block, found {len(matches)}')
+          path.write_text(pattern.sub(replacement, text, count=1))
           PY
 
           git diff --check
