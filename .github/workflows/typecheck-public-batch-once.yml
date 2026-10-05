@@ -1,0 +1,190 @@
+name: Validate public TypeScript batch once
+
+on:
+  push:
+    branches:
+      - diagnostic/typescript-public-batch-20261005
+    paths:
+      - '.github/workflows/typecheck-public-batch-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Checkout current main and apply bounded batch
+        shell: bash
+        run: |
+          git fetch origin main
+          expected='c9abcec86c162976d23de7226e60f71acd64107a'
+          current=$(git rev-parse origin/main)
+          if [ "$current" != "$expected" ]; then
+            echo "main moved: expected $expected, got $current" >&2
+            exit 1
+          fi
+          git checkout -B batch-work origin/main
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          # 1) LegalFooter no longer accepts obsolete props.
+          footer_files = [
+              'src/components/ActualitesPage.tsx',
+              'src/components/EducationArticlesIndexPage.tsx',
+              'src/components/GestionnairesActeursScpiPage.tsx',
+              'src/components/ManagementCompanyArticlePage.tsx',
+              'src/components/SocietesDeGestionScpiPage.tsx',
+          ]
+          pattern = re.compile(r'<LegalFooter\s+isDarkMode=\{isDarkMode\}\s+onContactClick=\{onContactClick\}\s+onAboutClick=\{onAboutClick\}\s*/>')
+          for f in footer_files:
+              p = Path(f); s = p.read_text(); ns, n = pattern.subn('<LegalFooter />', s, count=1)
+              if n != 1: raise SystemExit(f'LegalFooter patch count for {f}: {n}')
+              p.write_text(ns)
+
+          # 2) Recharts formatter values may be string/number: normalize at boundary.
+          euro_counts = {
+              'src/components/ScpiCreditSimulator.tsx': 2,
+              'src/components/ScpiDemembrementSimulator.tsx': 1,
+              'src/components/ScpiEnvelopeComparator.tsx': 1,
+              'src/components/ScpiNetIncomeSimulator.tsx': 2,
+              'src/pages/SimulateurTresorerieIS.tsx': 1,
+          }
+          old = 'formatter={(value: number) => formatEuro(value)}'
+          new = 'formatter={(value) => formatEuro(Number(value))}'
+          for f, expected_count in euro_counts.items():
+              p = Path(f); s = p.read_text(); n = s.count(old)
+              if n != expected_count: raise SystemExit(f'Euro formatter count for {f}: {n}, expected {expected_count}')
+              p.write_text(s.replace(old, new))
+
+          p = Path('src/components/ScpiEnvelopeComparator.tsx'); s = p.read_text()
+          old_pct = 'formatter={(value: number) => `${value.toFixed(2)} %`}'
+          new_pct = 'formatter={(value) => `${Number(value).toFixed(2)} %`}'
+          if s.count(old_pct) != 1: raise SystemExit('TRI formatter exact match missing')
+          p.write_text(s.replace(old_pct, new_pct, 1))
+
+          # 3) React DOM style tag does not support the styled-jsx-only `jsx` prop.
+          p = Path('src/components/simulation/AllocationSliders.tsx'); s = p.read_text()
+          if s.count('<style jsx>{`') != 1: raise SystemExit('style jsx exact match missing')
+          p.write_text(s.replace('<style jsx>{`', '<style>{`', 1))
+
+          # 4) Restore the missing type contract consumed by SCPIResults only.
+          amf = Path('src/utils/amfScoring.ts')
+          if amf.exists(): raise SystemExit('amfScoring.ts unexpectedly already exists')
+          amf.write_text("""import type { Scpi } from '../types/scpi';
+
+export interface AMFInvestorProfile {
+  icon: string;
+  color: string;
+  name: string;
+  description: string;
+  characteristics: {
+    horizon: string;
+    objective: string;
+    tolerance: string;
+  };
+}
+
+export interface AMFESGProfile {
+  icon: string;
+  color: string;
+  name: string;
+  description: string;
+  impactScore: number;
+}
+
+export interface AMFRecommendation {
+  scpi: Scpi;
+  allocation?: number;
+}
+
+export interface AMFProfileResult {
+  profile: AMFInvestorProfile;
+  esgProfile: AMFESGProfile;
+  recommendations: AMFRecommendation[];
+  simulation: {
+    investmentAmount: number;
+    annualIncome: number;
+  };
+}
+""")
+          p = Path('src/components/SCPIResults.tsx'); s = p.read_text()
+          old_import = 'import { AMFProfileResult } from "../utils/amfScoring";'
+          new_import = 'import type { AMFProfileResult } from "../utils/amfScoring";'
+          if s.count(old_import) != 1: raise SystemExit('AMF import exact match missing')
+          p.write_text(s.replace(old_import, new_import, 1))
+          PY
+          git diff --name-only | sort
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript gate
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          runtime=$((total-unused))
+          echo "TOTAL=${total} UNUSED=${unused} RUNTIME=${runtime}"
+          echo 'Targeted residuals:'
+          grep -E '(SCPIResults.tsx|LegalFooter|ScpiCreditSimulator.tsx|ScpiDemembrementSimulator.tsx|ScpiEnvelopeComparator.tsx|ScpiNetIncomeSimulator.tsx|SimulateurTresorerieIS.tsx|AllocationSliders.tsx).*error TS' /tmp/typecheck.log || true
+          if [ "$total" -gt 973 ]; then
+            echo "Expected <= 973 diagnostics after batch, got ${total}." >&2
+            exit 1
+          fi
+      - name: Fast application build
+        run: npx vite build
+      - name: Promote validated batch to unchanged main
+        shell: bash
+        run: |
+          git diff > /tmp/batch.patch
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='c9abcec86c162976d23de7226e60f71acd64107a'
+          current=$(git rev-parse origin/main)
+          if [ "$current" != "$expected" ]; then
+            echo "main moved before promotion: expected $expected, got $current" >&2
+            exit 1
+          fi
+          git checkout -B main origin/main
+          git apply /tmp/batch.patch
+          expected_files=$(cat <<'EOF'
+src/components/ActualitesPage.tsx
+src/components/EducationArticlesIndexPage.tsx
+src/components/GestionnairesActeursScpiPage.tsx
+src/components/ManagementCompanyArticlePage.tsx
+src/components/SCPIResults.tsx
+src/components/ScpiCreditSimulator.tsx
+src/components/ScpiDemembrementSimulator.tsx
+src/components/ScpiEnvelopeComparator.tsx
+src/components/ScpiNetIncomeSimulator.tsx
+src/components/SocietesDeGestionScpiPage.tsx
+src/components/simulation/AllocationSliders.tsx
+src/pages/SimulateurTresorerieIS.tsx
+src/utils/amfScoring.ts
+EOF
+)
+          actual_files=$(git diff --name-only | sort)
+          if [ "$actual_files" != "$(printf '%s\n' "$expected_files" | sort)" ]; then
+            echo 'Unexpected batch file set:' >&2
+            printf '%s\n' "$actual_files" >&2
+            exit 1
+          fi
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add $actual_files
+          git commit -m 'fix(types): batch public contracts and chart formatters [skip netlify]'
+          git push origin HEAD:main
