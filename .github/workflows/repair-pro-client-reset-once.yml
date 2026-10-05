@@ -31,13 +31,13 @@ jobs:
             src/app/components/AppLayout.tsx \
             src/app/components/AuthGuard.tsx \
             src/app/components/RoleGuard.tsx \
-            src/app/pages/AppClientDashboard.tsx \
             src/app/pages/AppEntry.tsx \
             src/app/pages/AppLogin.tsx \
             src/app/types.ts \
             src/main.tsx; do
             git show "$BASE:$f" > "$f"
           done
+          rm -f src/app/pages/AppClientDashboard.tsx
           rm -f supabase/migrations/20261005152000_create_client_scpi_positions.sql
           rm -f supabase/migrations/20261005154000_harden_client_scpi_positions.sql
           cat > supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql <<'SQL'
@@ -59,6 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test ! -e src/app/pages/AppClientDashboard.tsx
           ! grep -R "client_scpi_positions" -n src || (echo 'Client V1 table reference remains in src' && exit 1)
           ! grep -R "maximusPostLoginPath\|maximusLoginEmailHint" -n src || (echo 'Client V1 auth routing remains in src' && exit 1)
           ! grep -R "URL directe de l'espace client" -n src || (echo 'Client V1 /espace-client rewrite remains' && exit 1)
