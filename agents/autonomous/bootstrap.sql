@@ -25,6 +25,8 @@ create table if not exists maximus_agents.tasks (
   role text not null references maximus_agents.agents(role),
   title text not null,
   priority integer not null default 10,
+  kind text not null default 'audit' check(kind in ('audit','execute','verify')),
+  issue_ids uuid[] not null default '{}',
   status text not null default 'pending' check(status in ('pending','running','done','failed','blocked')),
   attempts integer not null default 0 check(attempts between 0 and 2),
   depends_on uuid[] not null default '{}',
@@ -70,11 +72,11 @@ begin
     result=jsonb_build_object('summary','Lease expiré','verdict','REVIEW','evidence',jsonb_build_array(jsonb_build_object('source','lease_until','finding','timeout')))
     where status='running' and lease_until<now();
   update maximus_agents.tasks set status='pending',updated_at=now()
-    where status='failed' and attempts<2 and cycle_date=d;
+    where status='failed' and attempts<2 and (cycle_date=d or kind in ('execute','verify'));
   -- Never replay a stale daily audit. Historical failures remain visible in runs.
   update maximus_agents.tasks set status='blocked',completed_at=now(),updated_at=now(),
     result=jsonb_build_object('summary','Cycle dépassé : remplacer par un contrôle actuel','verdict','REVIEW','evidence',jsonb_build_array(jsonb_build_object('source','cycle_date','finding',cycle_date)))
-    where cycle_date<d and status='pending';
+    where cycle_date<d and status='pending' and kind='audit';
   select to_jsonb(h) into snapshot from public.scpi_chantier_health h limit 1;
   if snapshot is null then raise exception 'SCPI health unavailable'; end if;
   foreach r in array array['DATA','ANALYST','SEARCH'] loop
@@ -143,6 +145,9 @@ begin
   select * into t from maximus_agents.tasks where id=p_id for update;
   if t.id is null or t.status<>'running' or t.lease_token is distinct from p_token or t.lease_until<now() then
     raise exception 'Invalid or expired lease';
+  end if;
+  if t.kind<>'audit' and current_setting('maximus_agents.execution_record',true) is distinct from 'on' then
+    raise exception 'Use record_execution for execution and verification tasks';
   end if;
   if t.role='QA' and p_result->>'verdict'='PASS' and exists(
     select 1 from unnest(t.depends_on) dep(id) join maximus_agents.tasks parent on parent.id=dep.id

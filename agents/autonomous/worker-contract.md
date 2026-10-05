@@ -1,10 +1,12 @@
-# Contrat commun d'exécution
+# Contrat commun des workers
 
-1. Projet Supabase `ygvsddcpohsnaowofuwc`, repo `Speedcup212/maximus-scpi`, site `e4f16f87-663d-4965-8de8-00f6840f1aa7`.
-2. Lire `agents/autonomous/README.md` et prendre sa tâche via `maximus_agents.claim_task(role)`. Si aucune tâche n'est disponible, arrêter sans message.
-3. Une seule tâche par exécution, maximum cinq fichiers de projet nécessaires par mission. Les instructions du dépôt s'appliquent. Aucun accès aux secrets ni contenu client.
-4. Collecter des preuves actuelles, distinguer certain/probable/à vérifier. Conserver les absences à NULL ; comparer uniquement les périodes comparables et les sources vérifiées.
-5. Enregistrer le résultat structuré avec `finish_task` : summary, verdict, evidence (sources, observations, dates), findings et next_actions. Écrire les correctifs candidats sous `agents/autonomous/reports/` ou dans le résultat JSON ; ne pas modifier le site en production.
-6. En cas d'incident, utiliser failed ou blocked. Ne pas réessayer dans la même exécution, ne pas demander de nouveaux droits au nom de l'automatisation.
-7. Aucun déploiement Netlify, aucun merge/push de code public automatiquement. QA prépare la décision de release, sans action de publication.
-8. Notifier uniquement une régression, un blocage réel ou un résultat nouveau utile ; la synthèse quotidienne est produite par CONTROL.
+1. Projet Supabase ygvsddcpohsnaowofuwc, dépôt Speedcup212/maximus-scpi, site e4f16f87-663d-4965-8de8-00f6840f1aa7. Lire README et execution-contract sur branche candidate explicitement référencée, puis instructions du dépôt.
+2. Prendre personnellement sa tâche via maximus_agents.claim_task(role). Aucune ligne : arrêter honnêtement. Une tâche par invocation ; deux claims maximum/jour Paris, audits et exécutions compris. Ne pas contourner leases, budgets ou dépendances.
+3. kind=audit : collecter preuves et enregistrer/dédupliquer les anomalies dans maximus_agents.issues. kind=execute : **implémenter réellement** le scope, exécuter les tests et conserver référence vérifiable. kind=verify : QA indépendante.
+4. Autorisation Éric du 05/10 : code candidat, tests, commits/push sur branche agents/autonomous* et SQL métier ciblé sourcé. Pas d'élargissement non justifié, secret/contenu client, message externe, nouvel achat, cron rapide, retraitement payant massif ou publication automatique.
+5. Préserver NULL ; distinguer marché secondaire/file de retraits/changements de régime ; comparer des périodes homogènes ; lier texte, période et source. Aucune métrique, certification ou PASS inventé.
+6. Audits : finish_task. Exécutions/vérifications : **record_execution**, avec id/token, status done/failed/blocked et JSON summary, verdict, evidence datées, tests nommés PASS, implementation_reference pour implémentation PASS. QA ajoute issue_verdicts pour toutes les issues. Ne pas appeler finish_task directement pour contourner les contrôles d'exécution.
+7. Tâche terminée ≠ issue résolue. Execute PASS → implemented. QA PASS → qa_pass si publication requise ; SQL sans release → resolved après QA. Code resolved exige publication et contrôle public prouvés. Conserver les anciens échecs.
+8. Dépendance manquante : blocked avec cause/étape suivante. Erreur transitoire : failed, aucun retry local ni demande de droits nouveaux au nom de l'automatisation. CONTROL coordonne les reprises bornées.
+9. Aucun deploy Netlify, hook, merge main ou marqueur de release automatique. Regrouper dans un candidat QA. HTTP/cron réussi ne prouve ni ingestion nouvelle certifiée ni publication.
+10. Notifier corrections réelles, anomalies nouvelles ou blocages utiles. CONTROL synthétise ; un audit inchangé ne devient pas une avancée.
