@@ -1,0 +1,110 @@
+name: Validate App contract batch
+on:
+  push:
+    branches: [diagnostic/app-contract-batch-20261005]
+    paths: ['.github/workflows/typecheck-app-contract-batch.yml']
+permissions:
+  contents: write
+jobs:
+  batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded App contract patch
+        shell: bash
+        run: |
+          git fetch origin main
+          expected='84d77f1d9d62970474be8caea653526fad5f6446'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B app-work origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/App.tsx')
+          s = p.read_text()
+
+          replacements = {
+            'm.FondsEurosOuScpiArticle || m.default': 'm.FondsEurosOuScpiArticle',
+            'm.ScpiDirectOuAssuranceVieArticle || m.default': 'm.ScpiDirectOuAssuranceVieArticle',
+            'm.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle || m.default': 'm.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle',
+            'm.ScpiTmi30PourcentArbitrageAvDirectArticle || m.default': 'm.ScpiTmi30PourcentArbitrageAvDirectArticle',
+            'm.ForteImpositionTmi41ScpiAssuranceVieArticle || m.default': 'm.ForteImpositionTmi41ScpiAssuranceVieArticle',
+            'm.IfiScpiImpotFortuneImmobiliereStrategiesArticle || m.default': 'm.IfiScpiImpotFortuneImmobiliereStrategiesArticle',
+          }
+          for old, new in replacements.items():
+              n = s.count(old)
+              if n != 1:
+                  raise SystemExit(f'lazy import match {old}: {n}')
+              s = s.replace(old, new, 1)
+
+          start = s.index("const [currentView, setCurrentView] = useState<")
+          end = s.index(">('home');", start)
+          decl = s[start:end]
+          routes = [
+            'expert-verification',
+            'article-fonds-euros-ou-scpi','article-scpi-direct-av','article-cout-opportunite-100k',
+            'article-portfolio-200k','article-scpi-vs-locatif','article-scpi-credit','article-demembrement',
+            'article-scpi-tmi-11','article-scpi-tmi-30','article-scpi-tmi-41','article-scpi-europeennes',
+            'article-scpi-fiscales','article-scpi-sante','article-scpi-bureaux','article-scpi-commerces',
+            'article-scpi-logistique','article-scpi-residentielles','article-per-scpi','article-sci-scpi',
+            'article-ifi-scpi','article-succession-scpi','article-diversification-scpi','article-rendement-scpi-2025',
+            'article-risques-scpi','article-frais-scpi','article-scpi-vs-etf','article-scpi-vs-opci',
+            'article-premier-investissement','article-scpi-jeune-actif','article-construire-portefeuille',
+            'scpi-secteurs-hub','scpi-gestionnaires-hub','scpi-objectifs-hub','scpi-europeennes-hub',
+          ]
+          missing = [r for r in routes if f"'{r}'" not in decl]
+          if len(missing) < 30:
+              raise SystemExit(f'Unexpected missing route count: {len(missing)}')
+          insertion = ''.join(f" | '{r}'" for r in missing)
+          s = s[:end] + insertion + s[end:]
+
+          old_prop = "          onComparateurClick={handleComparateurClick}\n        />"
+          new_prop = "          onComparateurClick={handleComparateurClick}\n          onAnalyseActuClick={handleActualitesClick}\n        />"
+          if s.count(old_prop) != 1:
+              raise SystemExit(f'ArticleGenerator prop match: {s.count(old_prop)}')
+          s = s.replace(old_prop, new_prop, 1)
+
+          p.write_text(s)
+          print(f'Added {len(missing)} route literals, fixed {len(replacements)} lazy imports, added 1 prop')
+          PY
+          test "$(git diff --name-only)" = "src/App.tsx"
+          git diff --binary > /tmp/app.patch
+      - run: npm ci
+      - name: Typecheck once
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          app=$(grep -E -c '^src/App.tsx.*error TS[0-9]+:' /tmp/typecheck.log || true)
+          echo "TOTAL=$total UNUSED=$unused RUNTIME=$((total-unused)) APP=$app"
+          echo '=== Remaining App diagnostics ==='
+          grep -E '^src/App.tsx.*error TS[0-9]+:' /tmp/typecheck.log | head -80 || true
+          test "$total" -le 920
+          test "$app" -le 45
+      - name: Fast Vite build
+        run: npx vite build
+      - name: Promote single validated App batch
+        shell: bash
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='84d77f1d9d62970474be8caea653526fad5f6446'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B main origin/main
+          git apply /tmp/app.patch
+          test "$(git diff --name-only)" = "src/App.tsx"
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/App.tsx
+          git commit -m 'fix(types): align App route contract and article imports [skip netlify]'
+          git push origin HEAD:main
