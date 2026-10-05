@@ -1,195 +1,130 @@
 # Agents IA MaximusSCPI
 
-Ce dossier contient les agents IA internes du projet MaximusSCPI.
+Le système d'agents MaximusSCPI fonctionne désormais comme une chaîne d'exécution contrôlée, et non comme une simple collection de prompts ou de briefs.
 
-Objectif : structurer le travail SEO, contenu, data, conformité et CRM sans modifier le site de manière incontrôlée.
+## Architecture de référence
 
----
+Le runtime opérationnel est le schéma Supabase `maximus_agents`.
 
-## 1. Principe général
+Flux cible :
 
-Les agents servent à produire :
+`SCAN → DÉTECTE → ISSUE → TÂCHE → EXÉCUTE → TESTE → QA → RELEASE GATE → DÉPLOIE → RE-TESTE`
 
-- des briefs ;
-- des audits ;
-- des recommandations ;
-- des prompts Cursor ;
-- des rapports ;
-- des contrôles de conformité ;
-- des plans d’action.
+Les fichiers de ce dossier documentent les expertises, règles et garde-fous. L'état réel du travail est conservé dans `maximus_agents.issues`, `tasks`, `runs`, `agents` et `issue_dashboard`.
 
-Par défaut, ils ne doivent pas modifier le code du site.
+## Rôles runtime
 
----
+- `CONTROL` : orchestration, dépendances, arbitrage et gate de release.
+- `DATA` : données SCPI, bulletins, historiques, trajectoires et backfill.
+- `ANALYST` : cohérence métier et analyses.
+- `SEARCH` : recherche et contrôle de sources officielles.
+- `QA` : validation finale, conformité et régressions.
 
-## 2. Ordre d’utilisation
+## Référentiels spécialisés
 
-Toujours commencer par l’agent superviseur :
+- `00-superviseur.md` : contrat global d'orchestration.
+- `01-seo-maximusscpi.md` : SEO / AEO / GEO / LLMO.
+- `02-contenu-video.md` : contenus vidéo.
+- `03-data-scpi.md` : règles data SCPI.
+- `04-conformite-cif.md` : conformité CIF / AMF.
+- `05-crm-relance.md` : CRM / relances / RGPD.
+- `06-agent-validation-ux-seo-conformite.md` : grille de contrôle UX / SEO / conformité.
+- `router.md` : orientation vers l'expertise appropriée.
 
-- 00-superviseur.md
+Ces fichiers ne doivent pas créer de task board parallèle au runtime Supabase.
 
-Le superviseur décide ensuite quel agent doit intervenir.
+## Principe d'autonomie
 
-Agents disponibles :
+Les agents doivent exécuter les travaux réversibles, bornés et testables lorsqu'une issue persistante existe avec des critères d'acceptation explicites.
 
-- 00-superviseur.md
-- 01-seo-maximusscpi.md
-- 02-contenu-video.md
-- 03-data-scpi.md
-- 04-conformite-cif.md
-- 05-crm-relance.md
-- 06-agent-validation-ux-seo-conformite.md
-- router.md
+Exemples autorisés :
 
----
+- correction ciblée de code ;
+- amélioration UX/SEO localisée ;
+- correction ou normalisation de données SCPI sourcées ;
+- ajout de tests ;
+- migration non destructive ;
+- recherche documentaire et backfill ;
+- correction de contenu générique conforme ;
+- production des preuves QA.
 
-## 3. Rôle des agents
+La validation humaine reste obligatoire pour les opérations destructrices, sécurité/auth/paiement/secrets, modification réglementaire substantielle, personnalisation de conseil, refactoring architectural large ou opération production irréversible.
 
-### Agent 00 — Superviseur
+## Règles de release
 
-Pilote les autres agents, définit le périmètre, détecte les risques et bloque les modifications non validées.
+Une modification du code ou des données n'est pas synonyme de publication.
 
-### Agent 01 — SEO MaximusSCPI
+Pour une release production :
 
-Travaille sur la visibilité Google, la visibilité IA, les cocons sémantiques, les pages SCPI et le maillage interne.
+1. critères d'acceptation satisfaits ;
+2. tests passés ;
+3. QA positive ;
+4. health gate global vert ;
+5. changements regroupés ;
+6. déploiement explicite ;
+7. production confirmée `ready` ;
+8. re-test ;
+9. référence de release enregistrée.
 
-### Agent 02 — Contenu vidéo
+## Netlify : zéro micro-déploiement
 
-Produit des scripts TikTok, YouTube Shorts, hooks, angles pédagogiques et storytelling SCPI.
+Le fichier `scripts/netlify-ignore.mjs` bloque les builds production ordinaires sur `main`.
 
-### Agent 03 — Data SCPI
+Seuls ces marqueurs autorisent une production :
 
-Contrôle les données SCPI, les indicateurs, les bulletins trimestriels, les rapports annuels et les incohérences chiffrées.
+- `[deploy]`
+- `[release]`
+- `[hotfix]`
+- `DEPLOY_NOW`
 
-### Agent 04 — Conformité CIF
+Les commits de documentation, préparation, QA ou corrections non urgentes doivent rester sans marqueur et être regroupés dans la prochaine release validée.
 
-Vérifie les formulations sensibles, les risques de promesse de rendement, les recommandations personnalisées et les mentions réglementaires.
+## Data SCPI
 
-### Agent 05 — CRM / Relance
+Le socle des 61 SCPI reste prioritaire sur l'extension du catalogue.
 
-Structure les relances prospects, les messages commerciaux, les séquences emails et la conversion vers rendez-vous qualifié.
+Principes :
 
-### Agent 06 — Validation UX / SEO / Conformité CIF
+- aucune donnée inventée ;
+- priorité aux sources officielles correspondant au bon produit et à la bonne période ;
+- une rupture structurelle ou une cadence différente ne doit pas être maquillée en comparaison certifiée ;
+- les cas particuliers doivent être explicitement classés ;
+- le pipeline legacy `scpi_trajectory_agent_jobs` ne doit pas être réactivé quand il est marqué `superseded_by_maximus_agents`.
 
-Valide automatiquement chaque brief, livrable ou modification de page avant implémentation. Produit un score sur 4 axes (SEO, visibilité IA, UX/CTA, conformité CIF) et détermine si la validation humaine est nécessaire ou si la validation IA seule suffit.
+## File de publication SCPI
 
----
+`public.scpi_publish_queue` stocke les changements qui attendent une publication groupée.
 
-## 4. Validation avant modification du site
+Une ligne n'est considérée publiée qu'après confirmation d'un déploiement production `ready`. À ce moment seulement, `published_at` peut être renseigné et la référence de release enregistrée.
 
-Tout livrable (brief SEO, FAQ, méta, contenu, CTA) doit passer par l'Agent 06 avant implémentation.
+## Conformité
 
-L'Agent 06 produit un rapport avec 4 scores (/100) et une décision :
+Règles absolues :
 
-- `VALIDATION IA : OK` + tous les scores ≥ 75 + aucun red flag → l'utilisateur peut écrire `VALIDÉ POUR MODIFICATION DU SITE`.
-- `VALIDATION IA : À CORRIGER` → corriger et re-soumettre avant modification.
-- `VALIDATION IA : BLOQUÉ` → validation humaine obligatoire, aucune modification du site.
+- aucune promesse de rendement ;
+- aucune présentation d'une SCPI comme garantie ou sans risque ;
+- aucune recommandation personnalisée sans recueil d'informations adapté ;
+- information générale, pédagogie et conseil personnalisé doivent rester distincts ;
+- les risques pertinents doivent être affichés ;
+- conformité > SEO > conversion.
 
----
+## Définition de DONE
 
-## 5. Règles absolues
+Une tâche n'est pas terminée parce qu'un fichier a été modifié ou qu'un rapport a été produit.
 
-Les agents doivent respecter les règles suivantes :
+Elle est `DONE` uniquement si :
 
-- ne jamais promettre de rendement ;
-- ne jamais présenter une SCPI comme garantie ;
-- ne jamais présenter une SCPI comme sans risque ;
-- ne jamais présenter une SCPI comme systématiquement meilleure ;
-- ne jamais faire de recommandation personnalisée sans recueil d’informations ;
-- distinguer information générale, pédagogie et conseil personnalisé ;
-- mentionner les risques lorsque nécessaire : perte en capital, liquidité, revenus non garantis, fiscalité, marché immobilier, frais ;
-- signaler les points à vérifier : DIC, note d’information, bulletin trimestriel, rapport annuel, AMF, ASPIM, société de gestion.
+- le critère d'acceptation est atteint ;
+- les preuves sont conservées ;
+- la QA est positive ;
+- les dépendances sont fermées ;
+- lorsqu'une release est requise, la production est `ready` et référencée ;
+- le re-test ne révèle pas de régression critique.
 
----
+## Cockpit attendu
 
-## 6. Règles Cursor
+Le pilotage doit afficher au minimum :
 
-En phase actuelle, seuls ces fichiers peuvent être créés ou modifiés :
+`61 SCPI | PASS/FAIL/PARTIAL | historiques certifiés | QA | publications en attente | régressions | release candidate`
 
-- /agents/*.md
-- /agents/reports/*.md
-- /agents/templates/*.md
-
-Sont interdits sans validation explicite :
-
-- /src
-- /public
-- /supabase
-- /netlify
-- /scripts
-- package.json
-- package-lock.json
-- vite.config
-- sitemap.xml
-- robots.txt
-- routes React
-- composants React
-- fonctions Supabase
-- fonctions Netlify
-
-Avant toute modification du site, l’utilisateur doit écrire explicitement :
-
-VALIDÉ POUR MODIFICATION DU SITE
-
-Sans cette phrase, les agents restent en mode analyse, brief ou recommandation.
-
----
-
-## 7. Workflow recommandé
-
-Pour chaque nouvelle demande :
-
-1. Lire 00-superviseur.md.
-2. Identifier l’objectif réel.
-3. Définir l’agent prioritaire.
-4. Produire un brief.
-5. Faire passer les sujets sensibles par 04-conformite-cif.md.
-6. Soumettre le livrable à l'Agent 06 pour validation scoring.
-7. Ne modifier aucun fichier du site sans validation explicite et rapport Agent 06 OK.
-8. Créer si besoin un rapport dans /agents/reports.
-9. Ne jamais faire Keep All sans revue fichier par fichier.
-10. Ne jamais faire Commit sans contrôle du git status.
-
----
-
-## 8. Commandes utiles
-
-Vérifier les modifications en cours :
-
-git status --short
-
-Voir les modifications sur les agents :
-
-git diff -- agents
-
-Vérifier uniquement le dossier agents :
-
-git status --short agents
-
-Lister les fichiers agents :
-
-Get-ChildItem agents -File | Select-Object Name, Length, LastWriteTime
-
----
-
-## 9. Objectif final
-
-Le système d’agents MaximusSCPI doit aider à produire plus vite et mieux :
-
-- des contenus SEO performants ;
-- des contenus IA-friendly ;
-- des scripts vidéo ;
-- des données SCPI contrôlées ;
-- des relances prospects ;
-- des audits de conformité ;
-- des briefs Cursor propres.
-
-Mais il doit surtout éviter :
-
-- les modifications sauvages ;
-- les promesses commerciales dangereuses ;
-- les erreurs réglementaires ;
-- les contenus trop agressifs ;
-- les incohérences de données ;
-- les refactorings non demandés.
-
+L'objectif n'est pas d'augmenter le nombre d'agents. L'objectif est d'augmenter le débit de chantiers réellement fermés sans dégrader la fiabilité du site.
