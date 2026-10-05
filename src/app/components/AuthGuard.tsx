@@ -26,6 +26,15 @@ const AuthGuard: React.FC<AuthGuardProps> = ({
 
   useEffect(() => {
     if (!loading && !user) {
+      try {
+        sessionStorage.setItem('maximusPostLoginPath', window.location.pathname || '/app');
+        const emailHint = new URLSearchParams(window.location.search).get('email');
+        if (emailHint) {
+          sessionStorage.setItem('maximusLoginEmailHint', emailHint);
+        }
+      } catch {
+        // Le login reste fonctionnel même si sessionStorage est indisponible.
+      }
       onRedirect('/app/login');
     }
   }, [loading, user, onRedirect]);
