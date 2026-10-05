@@ -123,16 +123,16 @@ const ProfessionnelsPortal = lazy(() => import('./components/expert/Professionne
 const AnonVideoView = lazy(() => import('./components/anon/AnonVideoView'));
 
 // 30 Articles Éducation SCPI
-const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle || m.default })));
-const ScpiDirectOuAssuranceVie = lazy(() => import('./components/articles/ScpiDirectOuAssuranceVie').then(m => ({ default: m.ScpiDirectOuAssuranceVieArticle || m.default })));
+const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle })));
+const ScpiDirectOuAssuranceVie = lazy(() => import('./components/articles/ScpiDirectOuAssuranceVie').then(m => ({ default: m.ScpiDirectOuAssuranceVieArticle })));
 const CoutOpportunite100kEuros = lazy(() => import('./components/articles/100000EurosFondsEurosCoutOpportuniteArticle').then(module => ({ default: module.Cent000EurosFondsEurosCoutOpportuniteArticle || module.default })));
 const Portfolio200kEurosScpi = lazy(() => import('./components/articles/Investir200000EurosScpiPortefeuilleDiversifieArticle').then(m => ({ default: m.Investir200000EurosScpiPortefeuilleDiversifieArticle || m.default })));
 const ScpiOuImmobilierLocatif = lazy(() => import('./components/articles/ScpiOuImmobilierLocatifComparatif20AnsArticle').then(m => ({ default: m.ScpiOuImmobilierLocatifComparatif20AnsArticle || m.default })));
 const ScpiACredit = lazy(() => import('./components/articles/AchatScpiCreditEffetLevierFiscaliteArticle').then(m => ({ default: m.AchatScpiCreditEffetLevierFiscaliteArticle || m.default })));
 const DemembrementScpi = lazy(() => import('./components/articles/DemembrementScpiNueProprieteUsufruitArticle').then(m => ({ default: m.DemembrementScpiNueProprieteUsufruitArticle || m.default })));
-const ScpiTmi11 = lazy(() => import('./components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle').then(m => ({ default: m.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle || m.default })));
-const ScpiTmi30 = lazy(() => import('./components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle').then(m => ({ default: m.ScpiTmi30PourcentArbitrageAvDirectArticle || m.default })));
-const ScpiTmi41 = lazy(() => import('./components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle').then(m => ({ default: m.ForteImpositionTmi41ScpiAssuranceVieArticle || m.default })));
+const ScpiTmi11 = lazy(() => import('./components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle').then(m => ({ default: m.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle })));
+const ScpiTmi30 = lazy(() => import('./components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle').then(m => ({ default: m.ScpiTmi30PourcentArbitrageAvDirectArticle })));
+const ScpiTmi41 = lazy(() => import('./components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle').then(m => ({ default: m.ForteImpositionTmi41ScpiAssuranceVieArticle })));
 const ScpiEuropeennes = lazy(() => import('./components/articles/ScpiEuropeennesAvantagesPs0RendementArticle').then(m => ({ default: m.ScpiEuropeennesAvantagesPs0RendementArticle || m.default })));
 const ScpiFiscales = lazy(() => import('./components/articles/ScpiFiscalesMalrauxDeficitFoncier2025Article').then(m => ({ default: m.ScpiFiscalesMalrauxDeficitFoncier2025Article || m.default })));
 const ScpiSante = lazy(() => import('./components/articles/ScpiSanteSeniorsEhpadCliniquesInvestissementArticle').then(m => ({ default: m.ScpiSanteSeniorsEhpadCliniquesInvestissementArticle || m.default })));
@@ -142,7 +142,7 @@ const ScpiLogistique = lazy(() => import('./components/articles/ScpiLogistiqueEn
 const ScpiResidentielles = lazy(() => import('./components/articles/ScpiResidentiellesLogementLocatifScpiHabitationArticle').then(m => ({ default: m.ScpiResidentiellesLogementLocatifScpiHabitationArticle || m.default })));
 const PerScpi = lazy(() => import('./components/articles/PerScpiRetraiteDeductionFiscaleArticle').then(m => ({ default: m.PerScpiRetraiteDeductionFiscaleArticle || m.default })));
 const SciScpi = lazy(() => import('./components/articles/SciScpiSocieteCivileImmobilierePartsArticle').then(m => ({ default: m.SciScpiSocieteCivileImmobilierePartsArticle || m.default })));
-const IfiScpi = lazy(() => import('./components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle').then(m => ({ default: m.IfiScpiImpotFortuneImmobiliereStrategiesArticle || m.default })));
+const IfiScpi = lazy(() => import('./components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle').then(m => ({ default: m.IfiScpiImpotFortuneImmobiliereStrategiesArticle })));
 const SuccessionScpi = lazy(() => import('./components/articles/SuccessionScpiTransmissionDroitsHeritageArticle').then(m => ({ default: m.SuccessionScpiTransmissionDroitsHeritageArticle || m.default })));
 const DiversificationScpi = lazy(() => import('./components/articles/DiversificationScpiCombienNombrePartsArticle').then(m => ({ default: m.DiversificationScpiCombienNombrePartsArticle || m.default })));
 const RendementScpi2025 = lazy(() => import('./components/articles/RendementScpi2025TdvmTauxDistributionArticle').then(m => ({ default: m.RendementScpi2025TdvmTauxDistributionArticle || m.default })));
