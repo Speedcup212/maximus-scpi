@@ -1,0 +1,28 @@
+name: Step A catalog audit
+
+on:
+  push:
+    branches:
+      - audit/step-a-catalog-count
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/step-a-catalog-count
+          fetch-depth: 1
+      - name: Enumerate top-level SCPI names
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          text = Path('src/data/scpiDataExtended.ts').read_text()
+          names = re.findall(r'^    "name": "([^"]+)"', text, flags=re.M)
+          print(f'LOCAL_SCPI_COUNT={len(names)}')
+          for name in names:
+              print(f'LOCAL_SCPI={name}')
+          PY
