@@ -6,155 +6,126 @@ export interface OptimizedSEO {
   h1: string;
 }
 
+const clampDescription = (value: string): string => value.replace(/\s+/g, ' ').trim().substring(0, 155);
+
+const formatMetric = (value: number | null | undefined, digits = 1): string | null => {
+  if (!Number.isFinite(value)) return null;
+  return Number(value).toFixed(digits).replace('.', ',');
+};
+
 export const generateOptimizedScpiSEO = (scpi: Scpi): OptimizedSEO => {
-  const year = new Date().getFullYear();
-  const rendement = scpi.yield.toFixed(1);
+  const rendement = formatMetric(scpi.yield);
+  const tof = formatMetric(scpi.tof);
+  const sector = scpi.sector ? scpi.sector.charAt(0).toUpperCase() + scpi.sector.slice(1) : null;
+  const geography = scpi.european ? 'Europe' : 'France';
 
-  const trustBadges = [];
-  if (scpi.fees === 0) trustBadges.push('0% Frais');
-  if (scpi.isr) trustBadges.push('Label ISR');
-  if (scpi.capitalization >= 500000000) trustBadges.push('Leader Marché');
-  const trustBadge = trustBadges[0] || 'Analyse Expert';
+  const title = `SCPI ${scpi.name} : rendement, TOF, frais et analyse | MaximusSCPI`;
 
-  const geoUSP = scpi.european ? 'Europe' : 'France';
-  const sectorUSP = scpi.sector.charAt(0).toUpperCase() + scpi.sector.slice(1);
-
-  const title = `SCPI ${scpi.name} (${scpi.company}) : Rendement ${rendement}% | ${trustBadge} ${year}`;
-
-  const descriptionParts = [];
-  descriptionParts.push(`✓ SCPI ${scpi.name} : ${rendement}% de rendement ${year - 1}`);
-  descriptionParts.push(`✓ ${geoUSP} ${sectorUSP}`);
-  if (scpi.tof >= 95) {
-    descriptionParts.push(`✓ TOF ${scpi.tof}%`);
-  }
-  if (scpi.fees === 0) {
-    descriptionParts.push('✓ 0% frais');
-  }
-  descriptionParts.push('✓ Analyse détaillée');
-  descriptionParts.push('✓ Simulation gratuite → RDV conseiller ORIAS');
-
-  const description = descriptionParts.join(' ');
-
-  const h1 = `SCPI ${scpi.name} (${scpi.company}) : ${rendement}% de Rendement sur Actifs ${geoUSP} ${sectorUSP}`;
+  const descriptionParts = [`SCPI ${scpi.name} (${scpi.company})`];
+  if (rendement) descriptionParts.push(`taux de distribution ${rendement} %`);
+  if (tof) descriptionParts.push(`TOF ${tof} %`);
+  if (sector) descriptionParts.push(`${sector}, ${geography}`);
+  descriptionParts.push('Radar, trajectoire, liquidité, frais et points de vigilance.');
 
   return {
     title,
-    description: description.substring(0, 155),
-    h1
+    description: clampDescription(descriptionParts.join(' · ')),
+    h1: `SCPI ${scpi.name} : analyse, rendement et trajectoire`,
   };
 };
 
 export const generateOptimizedSectorSEO = (sector: string): OptimizedSEO => {
-  const year = new Date().getFullYear();
   const sectorName = sector.charAt(0).toUpperCase() + sector.slice(1);
 
-  const sectorData: Record<string, { count: number; avgYield: string; top: string }> = {
-    'bureaux': { count: 15, avgYield: '4.8', top: 'Iroko Zen' },
-    'commerces': { count: 12, avgYield: '5.2', top: 'Comète' },
-    'sante': { count: 8, avgYield: '4.5', top: 'Primovie' },
-    'diversifie': { count: 20, avgYield: '5.5', top: 'Epargne Pierre' }
-  };
-
-  const data = sectorData[sector.toLowerCase()] || { count: 10, avgYield: '5.0', top: 'Alderan' };
-
-  const title = `SCPI ${sectorName} : Top ${data.count} Meilleures ${year} | Comparatif Expert`;
-
-  const description = `✓ Comparez ${data.count} SCPI ${sectorName} ✓ Rendement moyen ${data.avgYield}% ✓ Leader: ${data.top} ✓ Analyse détaillée ✓ Simulation gratuite → Conseiller ORIAS`;
-
-  const h1 = `SCPI ${sectorName} : Top ${data.count} Meilleures ${year} (Rendement Moyen ${data.avgYield}%)`;
-
   return {
-    title,
-    description: description.substring(0, 155),
-    h1
+    title: `SCPI ${sectorName} : comparatif, rendement et risques | MaximusSCPI`,
+    description: clampDescription(
+      `Comparez les SCPI ${sectorName} selon rendement, TOF, frais, capitalisation, endettement, valorisation, liquidité et trajectoire.`
+    ),
+    h1: `SCPI ${sectorName} : comparer les fondamentaux et les risques`,
   };
 };
 
 export const generateOptimizedManagerSEO = (manager: string, scpiCount: number, avgYield: number): OptimizedSEO => {
-  const year = new Date().getFullYear();
-
-  const title = `${manager} SCPI : ${scpiCount} Fonds | Rendement Moyen ${avgYield.toFixed(1)}% | Avis ${year}`;
-
-  const description = `✓ ${manager} : ${scpiCount} SCPI au catalogue ✓ Rendement moyen ${avgYield.toFixed(1)}% ✓ Analyse complète ✓ Comparatif détaillé ✓ Avis expert → Conseiller ORIAS`;
-
-  const h1 = `${manager} : ${scpiCount} SCPI | Rendement Moyen ${avgYield.toFixed(1)}% | Analyse Complète ${year}`;
+  const countLabel = Number.isFinite(scpiCount) && scpiCount > 0 ? `${scpiCount} SCPI` : 'SCPI gérées';
+  const avgYieldLabel = Number.isFinite(avgYield) && avgYield > 0
+    ? ` · taux de distribution moyen observé ${avgYield.toFixed(1).replace('.', ',')} %`
+    : '';
 
   return {
-    title,
-    description: description.substring(0, 155),
-    h1
+    title: `${manager} : ${countLabel}, analyses et données SCPI | MaximusSCPI`,
+    description: clampDescription(
+      `${manager} : ${countLabel}${avgYieldLabel}. Comparez les fonds, leurs données, leur trajectoire et leurs points de vigilance.`
+    ),
+    h1: `${manager} : SCPI, données et analyses`,
   };
 };
 
 export const generateOptimizedThematicSEO = (theme: string, keyword: string, count: number, avgYield: string): OptimizedSEO => {
-  const year = new Date().getFullYear();
-
-  const title = `${theme} : Top ${count} SCPI ${year} | Rendement ${avgYield}% | Guide Expert`;
-
-  const description = `✓ ${theme} : sélection ${count} meilleures SCPI ✓ Rendement moyen ${avgYield}% ✓ Comparatif détaillé ✓ Stratégie optimale ✓ Simulation gratuite → RDV conseiller ORIAS`;
-
-  const h1 = `${theme} : Top ${count} Meilleures SCPI ${year} (Rendement ${avgYield}%)`;
+  const countLabel = Number.isFinite(count) && count > 0 ? `${count} SCPI` : 'SCPI';
+  const normalizedYield = typeof avgYield === 'string' && avgYield.trim() ? avgYield.trim() : null;
+  const yieldLabel = normalizedYield ? ` · rendement moyen observé ${normalizedYield} %` : '';
+  const keywordLabel = keyword?.trim() ? ` ${keyword.trim()}` : '';
 
   return {
-    title,
-    description: description.substring(0, 155),
-    h1
+    title: `${theme} : comparatif ${countLabel} et critères d'analyse | MaximusSCPI`,
+    description: clampDescription(
+      `${theme}${keywordLabel} : comparez ${countLabel}${yieldLabel}. Rendement, TOF, frais, valorisation, dette, liquidité et risques.`
+    ),
+    h1: `${theme} : comparer les SCPI sur leurs fondamentaux`,
   };
 };
 
 export const generateFAQSchema = (questions: Array<{ question: string; answer: string }>) => {
   return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": questions.map(qa => ({
-      "@type": "Question",
-      "name": qa.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": qa.answer
-      }
-    }))
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map(qa => ({
+      '@type': 'Question',
+      name: qa.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: qa.answer,
+      },
+    })),
   };
 };
 
-export const generateFinancialProductSchema = (scpi: Scpi, rating?: number) => {
+export const generateFinancialProductSchema = (scpi: Scpi, _rating?: number) => {
+  const rendement = formatMetric(scpi.yield, 2);
+  const price = Number.isFinite(scpi.price) && scpi.price > 0 ? scpi.price : null;
+
   return {
-    "@context": "https://schema.org",
-    "@type": "FinancialProduct",
-    "name": `SCPI ${scpi.name}`,
-    "description": `SCPI ${scpi.name} gérée par ${scpi.company}, secteur ${scpi.sector}, rendement ${scpi.yield.toFixed(2)}%`,
-    "provider": {
-      "@type": "Organization",
-      "name": scpi.company
+    '@context': 'https://schema.org',
+    '@type': 'FinancialProduct',
+    name: `SCPI ${scpi.name}`,
+    description: rendement
+      ? `SCPI ${scpi.name} gérée par ${scpi.company}, secteur ${scpi.sector}, taux de distribution observé ${rendement} %.`
+      : `SCPI ${scpi.name} gérée par ${scpi.company}, secteur ${scpi.sector}.`,
+    provider: {
+      '@type': 'Organization',
+      name: scpi.company,
     },
-    "offers": {
-      "@type": "Offer",
-      "price": scpi.price.toString(),
-      "priceCurrency": "EUR",
-      "availability": "https://schema.org/InStock"
-    },
-    ...(rating && {
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": rating.toFixed(1),
-        "bestRating": "10",
-        "worstRating": "0",
-        "ratingCount": "1"
-      }
-    })
+    ...(price && {
+      offers: {
+        '@type': 'Offer',
+        price: price.toString(),
+        priceCurrency: 'EUR',
+      },
+    }),
   };
 };
 
 export const generateBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => {
   return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": items.map((item, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "name": item.name,
-      "item": item.url
-    }))
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
   };
 };
 
@@ -164,23 +135,24 @@ export const generateSoftwareApplicationSchema = (simulator: {
   url: string;
 }) => {
   return {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": simulator.name,
-    "description": simulator.description,
-    "url": simulator.url,
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "EUR"
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: simulator.name,
+    description: simulator.description,
+    url: simulator.url,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
     },
-    "provider": {
-      "@type": "Organization",
-      "name": "MaximusSCPI",
-      "url": "https://maximusscpi.com"
-    }
+    provider: {
+      '@type': 'Organization',
+      '@id': 'https://maximusscpi.com/#organization',
+      name: 'MaximusSCPI',
+      url: 'https://maximusscpi.com',
+    },
   };
 };
 
@@ -188,29 +160,32 @@ export const generateArticleSchema = (article: {
   headline: string;
   description: string;
   author: string;
-  datePublished: string;
-  dateModified: string;
-  image: string;
+  datePublished?: string;
+  dateModified?: string;
+  image?: string;
 }) => {
   return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": article.headline,
-    "description": article.description,
-    "author": {
-      "@type": "Person",
-      "name": article.author
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.headline,
+    description: article.description,
+    author: {
+      '@type': 'Person',
+      name: article.author,
+      url: 'https://maximusscpi.com/qui-sommes-nous/',
     },
-    "datePublished": article.datePublished,
-    "dateModified": article.dateModified,
-    "image": article.image,
-    "publisher": {
-      "@type": "Organization",
-      "name": "MaximusSCPI",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://maximusscpi.com/images/logo.png"
-      }
-    }
+    ...(article.datePublished && { datePublished: article.datePublished }),
+    ...(article.dateModified && { dateModified: article.dateModified }),
+    ...(article.image && { image: article.image }),
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://maximusscpi.com/#organization',
+      name: 'MaximusSCPI',
+      url: 'https://maximusscpi.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://maximusscpi.com/Logo%20MaximusSCPI.com.png',
+      },
+    },
   };
 };
