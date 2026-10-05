@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
-  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck,
-  ChevronRight, ChevronLeft, Zap
+  TrendingUp, Shield, CheckCircle, ArrowRight, Award, Building2, Leaf,
+  Lock, Eye, ChevronRight, ChevronLeft, Zap, Calendar
 } from 'lucide-react';
-import Logo from './Logo';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';

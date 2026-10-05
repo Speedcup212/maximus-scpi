@@ -27,7 +27,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', variant = 'full' }) => {
       style={{ aspectRatio: '5/1' }}
       loading="eager"
       decoding="async"
-      fetchpriority="high"
+      fetchPriority="high"
     />
   );
 };
