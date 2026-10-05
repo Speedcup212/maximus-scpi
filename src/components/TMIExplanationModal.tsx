@@ -52,7 +52,7 @@ const TMIExplanationModal: React.FC<TMIExplanationModalProps> = ({ isOpen, onClo
             
             <div className="bg-white/60 dark:bg-gray-800/60 p-3 rounded-lg border border-blue-200 dark:border-blue-700">
               <p className="text-sm text-gray-700 dark:text-gray-200">
-                <strong>Exemple :</strong> Revenus 50k€ → TMI 30% (seulement sur la partie > 28 797€)
+                <strong>Exemple :</strong> Revenus 50k€ → TMI 30% (seulement sur la partie &gt; 28 797€)
               </p>
             </div>
           </div>
@@ -187,9 +187,6 @@ const TMIExplanationModal: React.FC<TMIExplanationModalProps> = ({ isOpen, onClo
                 <div className="text-xs text-gray-600 dark:text-gray-300">SCPI européennes</div>
               </div>
             </div>
-          </div>
-        </div>
-
           </div>
         </div>
 
