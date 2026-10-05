@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { supabase, requireSupabase } from '../../lib/supabase';
 import SupabaseNotConfigured from '../components/SupabaseNotConfigured';
 
@@ -7,12 +7,33 @@ type AppLoginProps = {
 };
 
 const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
-  const [email, setEmail] = useState('');
+  const initialEmail = useMemo(() => {
+    const fromQuery = new URLSearchParams(window.location.search).get('email');
+    if (fromQuery) return fromQuery;
+    try {
+      return sessionStorage.getItem('maximusLoginEmailHint') || '';
+    } catch {
+      return '';
+    }
+  }, []);
+
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const activated = new URLSearchParams(window.location.search).get('activated');
   const [resetSent, setResetSent] = useState(false);
+
+  const getPostLoginPath = () => {
+    try {
+      const next = sessionStorage.getItem('maximusPostLoginPath') || '/app';
+      sessionStorage.removeItem('maximusPostLoginPath');
+      sessionStorage.removeItem('maximusLoginEmailHint');
+      return next.startsWith('/app') ? next : '/app';
+    } catch {
+      return '/app';
+    }
+  };
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -23,7 +44,7 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     if (error) {
       setMessage(error.message);
     } else {
-      onNavigate('/app');
+      onNavigate(getPostLoginPath());
     }
     setLoading(false);
   };
@@ -36,7 +57,17 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     setLoading(true);
     setMessage(null);
     const client = requireSupabase();
-    const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: `${window.location.origin}/app` } });
+    let redirectPath = '/app';
+    try {
+      const stored = sessionStorage.getItem('maximusPostLoginPath');
+      if (stored?.startsWith('/app')) redirectPath = stored;
+    } catch {
+      // Fallback sur /app.
+    }
+    const { error } = await client.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: `${window.location.origin}${redirectPath}` }
+    });
     if (error) {
       setMessage(error.message);
     } else {
