@@ -1,7 +1,7 @@
 # Backlog — MaximusSCPI Recovery
 
 > Ordre strict. Aucun chantier ne saute la file sans défaut P0 de production.
-> Une seule tâche P0 active à la fois.
+> WIP = 1.
 
 ---
 
@@ -9,8 +9,8 @@
 
 | Ordre | ID | Priorité | Description | Statut |
 |------:|----|----------|-------------|--------|
-| 1 | RECOVERY-001 | P0 | Régimes de liquidité / comparabilité / consommateurs montés | 🔄 En cours |
-| 2 | RECOVERY-002 | P1 | Restaurer uniquement les décisions UX déjà validées sur la home : H1 validé, cartes outils, `Comprendre`, retrait des chiffres 4 650 / 330 M€, responsive, sans changer logo/header/footer hors décision existante | ⏸️ Gelé jusqu'à RECOVERY-001 |
+| 1 | RECOVERY-001 | P0 | Régimes de liquidité / comparabilité / consommateurs montés | ✅ Code + build validés ; publication différée au RC |
+| 2 | RECOVERY-002 | P1 | Restaurer uniquement les décisions UX déjà validées sur la home : H1 validé, cartes outils, `Comprendre`, retrait des chiffres 4 650 / 330 M€, responsive, sans changer logo/header/footer hors décision existante | 🔄 En cours |
 | 3 | RECOVERY-003 | P1 | Simplifier la CI : un seul flux test → build → package ; supprimer le doublon de packaging ; sortir les artefacts `.netlify/` du suivi Git | ⏸️ Gelé jusqu'à RECOVERY-002 |
 | 4 | RECOVERY-004 | P0 release | Construire RC-1 et exécuter le gate complet avant un unique déploiement Netlify | ⏸️ En attente |
 | 5 | RECOVERY-005 | P2 | Reprendre la dette TypeScript par petits lots uniquement après RC-1 | ⏸️ Différé |
