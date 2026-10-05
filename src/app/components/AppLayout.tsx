@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, LayoutDashboard, Users, FileText, Shield } from 'lucide-react';
+import { FileText, LayoutDashboard, LogOut, Shield, Users, WalletCards } from 'lucide-react';
 import type { ProfileRole } from '../types';
 
 type AppLayoutProps = {
@@ -12,10 +12,15 @@ type AppLayoutProps = {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate, onSignOut }) => {
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: role === 'partner' ? '/app/partner' : role === 'admin' ? '/app/admin' : '/app/client' },
+    {
+      id: 'dashboard',
+      label: role === 'client' ? 'Mon portefeuille' : 'Dashboard',
+      icon: role === 'client' ? WalletCards : LayoutDashboard,
+      path: role === 'partner' ? '/app/partner' : role === 'admin' ? '/app/admin' : '/app/client'
+    },
     ...(role === 'client'
       ? [
-          { id: 'cases', label: 'Mes dossiers', icon: FileText, path: '/app/client/dossiers' }
+          { id: 'cases', label: 'Mon dossier', icon: FileText, path: '/app/client/dossiers' }
         ]
       : []),
     ...(role === 'partner'
@@ -32,9 +37,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      <div className="flex">
-        <aside className="hidden lg:flex w-64 flex-col border-r border-white/10 bg-slate-900/40 p-6">
-          <div className="text-lg font-semibold">MaximusSCPI</div>
+      <div className="flex min-h-screen">
+        <aside className="hidden w-64 flex-col border-r border-white/10 bg-slate-900/40 p-6 lg:flex">
+          <button onClick={() => onNavigate('/')} className="text-left text-lg font-semibold">MaximusSCPI</button>
+          {role === 'client' && <div className="mt-1 text-xs text-slate-500">Espace client privé</div>}
           <div className="mt-6 space-y-2">
             {menuItems.map(item => (
               <button
@@ -58,19 +64,39 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
           </div>
         </aside>
 
-        <div className="flex-1">
-          <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/80 backdrop-blur">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">Espace privé</p>
-                <h1 className="text-lg font-semibold">{title}</h1>
+        <div className="min-w-0 flex-1">
+          <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/90 backdrop-blur">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-emerald-300 sm:text-xs">Espace privé</p>
+                <h1 className="truncate text-base font-semibold sm:text-lg">{title}</h1>
               </div>
-              <div className="hidden lg:flex items-center gap-4 text-xs text-slate-400">
-                <span>Rôle : {role}</span>
+              <button
+                onClick={onSignOut}
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-300 hover:bg-white/10 lg:hidden"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Déconnexion</span>
+              </button>
+              <div className="hidden items-center gap-4 text-xs text-slate-400 lg:flex">
+                <span>{role === 'client' ? 'Compte client' : `Rôle : ${role}`}</span>
               </div>
             </div>
+
+            <nav className="flex gap-2 overflow-x-auto border-t border-white/5 px-4 py-2 lg:hidden">
+              {menuItems.map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.path)}
+                  className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-xs text-slate-300 hover:bg-white/10"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </button>
+              ))}
+            </nav>
           </header>
-          <main className="mx-auto max-w-7xl px-6 py-8">{children}</main>
+          <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
         </div>
       </div>
     </div>

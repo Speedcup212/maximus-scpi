@@ -50,7 +50,15 @@ window.addEventListener('unhandledrejection', (e) => {
 });
 
 const selectEntry = async (): Promise<ComponentType> => {
-  const path = window.location.pathname.replace(/^\/|\/$/g, '');
+  let path = window.location.pathname.replace(/^\/|\/$/g, '');
+
+  // URL publique mémorisable pour l'espace client, raccordée au routeur privé existant.
+  // L'authentification et la redirection par rôle restent gérées par /app.
+  if (path === 'espace-client') {
+    window.history.replaceState({}, '', `/app${window.location.search}${window.location.hash}`);
+    path = 'app';
+  }
+
   const params = new URLSearchParams(window.location.search);
   const hasLegacyLandingParams =
     params.has('filter') || params.has('sector') || params.has('geo');
