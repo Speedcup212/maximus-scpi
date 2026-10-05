@@ -83,10 +83,13 @@ async function generateSitemap() {
   // Catalogue local = source de vérité des fiches SCPI.
   // Le sitemap ne dépend plus d'une table Supabase "scpi" inexistante.
   const scpiCatalogPath = join(__dirname, '..', 'src', 'data', 'scpi_complet.json');
+  const certifiedScpiCohortPath = join(__dirname, '..', 'src', 'data', 'certified_scpi_cohort.json');
   const scpiCatalogJson = JSON.parse(fs.readFileSync(scpiCatalogPath, 'utf-8'));
   const scpiCatalog = Array.isArray(scpiCatalogJson)
     ? scpiCatalogJson
     : (scpiCatalogJson.Sheet1 || []);
+  const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+  const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs || []);
 
   const toScpiSlug = (name: string): string =>
     name
@@ -98,7 +101,8 @@ async function generateSitemap() {
 
   const scpiNames = scpiCatalog
     .map((row: Record<string, unknown>) => String(row['Nom SCPI'] || '').trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .filter((name: string) => certifiedScpiSlugSet.has(toScpiSlug(name)));
 
   // Les slugs SCPI ne passent pas par les exclusions génériques d'articles/pages.
   // "Log In" est une SCPI réelle et son slug canonique est /log-in/.
@@ -106,6 +110,9 @@ async function generateSitemap() {
 
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
+  }
+  if (scpiSlugs.length !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== 61) {
+    throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
   }
 
   // ── 1. Récupérer les slugs locaux depuis articleTemplatesConfig ──

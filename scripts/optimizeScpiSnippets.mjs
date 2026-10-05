@@ -6,8 +6,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distDir = path.join(__dirname, '../dist');
 const catalogPath = path.join(__dirname, '../src/data/scpi_complet.json');
+const certifiedScpiCohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
 const raw = JSON.parse(fs.readFileSync(catalogPath, 'utf-8'));
-const catalog = Array.isArray(raw) ? raw : (raw.Sheet1 || []);
+const rawCatalog = Array.isArray(raw) ? raw : (raw.Sheet1 || []);
+const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+const certifiedScpiSlugSet = new Set(certifiedScpiCohort.slugs || []);
 
 const slugify = (value) => String(value || '')
   .toLowerCase()
@@ -15,6 +18,10 @@ const slugify = (value) => String(value || '')
   .replace(/[\u0300-\u036f]/g, '')
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/(^-|-$)/g, '');
+
+const catalog = rawCatalog.filter((row) =>
+  certifiedScpiSlugSet.has(slugify(row['Nom SCPI']))
+);
 
 const esc = (value = '') => String(value)
   .replace(/&/g, '&amp;')

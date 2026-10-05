@@ -7,10 +7,11 @@ const __dirname = path.dirname(__filename);
 const root = path.join(__dirname, '..');
 
 const catalogPath = path.join(root, 'src/data/scpi_complet.json');
+const certifiedScpiCohortPath = path.join(root, 'src/data/certified_scpi_cohort.json');
 const redirectsPath = path.join(root, 'public/_redirects');
 const sitemapPath = path.join(root, 'public/sitemap.xml');
 
-for (const required of [catalogPath, redirectsPath, sitemapPath]) {
+for (const required of [catalogPath, certifiedScpiCohortPath, redirectsPath, sitemapPath]) {
   if (!fs.existsSync(required)) {
     console.error('❌ Artefact SEO manquant: ' + required);
     process.exit(1);
@@ -19,6 +20,8 @@ for (const required of [catalogPath, redirectsPath, sitemapPath]) {
 
 const raw = JSON.parse(fs.readFileSync(catalogPath, 'utf-8'));
 const catalog = Array.isArray(raw) ? raw : (raw.Sheet1 || []);
+const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+const certifiedScpiSlugSet = new Set(certifiedScpiCohort.slugs || []);
 const redirects = fs.readFileSync(redirectsPath, 'utf-8').split(/\r?\n/).map((line) => line.trim());
 const sitemap = fs.readFileSync(sitemapPath, 'utf-8');
 
@@ -30,10 +33,20 @@ const slugify = (name) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-const names = catalog.map((row) => String(row['Nom SCPI'] || '').trim()).filter(Boolean);
+const names = catalog
+  .map((row) => String(row['Nom SCPI'] || '').trim())
+  .filter(Boolean)
+  .filter((name) => certifiedScpiSlugSet.has(slugify(name)));
 const slugs = names.map(slugify);
 const unique = new Set(slugs);
 const errors = [];
+
+if (certifiedScpiCohort.count !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== 61) {
+  errors.push('Cohorte certifiée invalide: count=' + certifiedScpiCohort.count + ', slugs=' + certifiedScpiSlugSet.size + '.');
+}
+if (unique.size !== certifiedScpiSlugSet.size) {
+  errors.push('Catalogue public incomplet: ' + unique.size + '/' + certifiedScpiSlugSet.size + ' slugs certifiés présents.');
+}
 
 if (unique.size !== names.length) {
   errors.push('Catalogue: ' + names.length + ' noms pour ' + unique.size + ' slugs uniques.');

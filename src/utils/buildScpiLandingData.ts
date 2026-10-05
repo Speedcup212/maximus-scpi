@@ -145,12 +145,18 @@ export interface BuiltLandingData {
 
 export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   const variants = slugVariants(scpiKey);
+  const publicScpi = findScpiBySlug(scpiKey);
+
+  // Une fiche éditoriale legacy ne doit jamais contourner la cohorte publique certifiée.
+  // Si le slug n'existe pas dans scpiData (déjà filtré sur les 61 certifiées), la fiche
+  // n'est pas publiée, même si une ancienne entrée subsiste dans landingPagesData.
+  if (!publicScpi) return null;
 
   // 1. Fiche éditoriale par clé directe (avec/sans préfixe scpi-).
   for (const v of variants) {
     const direct = scpiLandingPages[v];
     if (direct) {
-      const live = findScpiBySlug(direct.slug);
+      const live = findScpiBySlug(direct.slug) || publicScpi;
       return { data: enrichEditorialWithLive(direct, live), isEditorial: true };
     }
   }
@@ -158,7 +164,7 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   // 2. Fiche éditoriale par slug.
   const bySlug = Object.values(scpiLandingPages).find((d) => variants.includes(d.slug));
   if (bySlug) {
-    const live = findScpiBySlug(bySlug.slug);
+    const live = findScpiBySlug(bySlug.slug) || publicScpi;
     return { data: enrichEditorialWithLive(bySlug, live), isEditorial: true };
   }
 

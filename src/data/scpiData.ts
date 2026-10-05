@@ -3,6 +3,7 @@ import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
 import scpiCompletJson from './scpi_complet.json';
 import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
 import { filterDocumentedNonLiquidityWarnings } from '../utils/scpiLiquidityText.mjs';
+import certifiedScpiCohort from './certified_scpi_cohort.json';
 // Force reload: Perial Opportunités Europe prix mis à jour à 44€
 
 // Helper function to parse sectorial distribution from string or JSON
@@ -216,7 +217,20 @@ const cleanNumericValue = (value: any): number | undefined => {
 
 // Convert JSON data to Scpi format
 // Utiliser le nouveau fichier scpi_complet.json s'il est disponible, sinon utiliser l'ancien
-const sourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompleteJson.Sheet1 || scpiCompleteJson);
+const toCertifiedScpiSlug = (name: string): string =>
+  name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs);
+
+const rawSourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompleteJson.Sheet1 || scpiCompleteJson);
+const sourceData = rawSourceData.filter((row: any) =>
+  certifiedScpiSlugSet.has(toCertifiedScpiSlug(String(row['Nom SCPI'] || '')))
+);
 
 // Fonction pour fusionner les entrées multiples d'une même SCPI
 // Priorité : entrée principale + données trimestrielles de l'entrée avec période bulletin

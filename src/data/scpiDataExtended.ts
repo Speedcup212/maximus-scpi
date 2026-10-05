@@ -1,3 +1,5 @@
+import certifiedScpiCohort from './certified_scpi_cohort.json';
+
 export interface SCPIExtended {
   id: number;
   name: string;
@@ -4035,6 +4037,18 @@ const baseSCPIData: SCPIExtended[] = [
     "reconstitutionValue": 965.93
   }
 ];
-export const scpiDataExtended: SCPIExtended[] = baseSCPIData;
+const toCertifiedScpiSlug = (name: string): string =>
+  name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs);
+
+export const scpiDataExtended: SCPIExtended[] = baseSCPIData.filter((scpi) =>
+  certifiedScpiSlugSet.has(toCertifiedScpiSlug(scpi.name))
+);
 
 export default scpiDataExtended;

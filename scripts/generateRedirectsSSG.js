@@ -13,8 +13,11 @@ const scpiData = scpiDataJson.Sheet1 || scpiDataJson;
 // Liste COMPLÈTE des SCPI (64, inclut les SCPI récentes type Wemo One / Epsicap Nano
 // absentes du fichier SFDR). Utilisée pour couvrir TOUTES les redirections /scpi-*.
 const scpiCompletePath = path.join(__dirname, '../src/data/scpi_complet.json');
+const certifiedScpiCohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
 const scpiCompleteJson = JSON.parse(fs.readFileSync(scpiCompletePath, 'utf-8'));
-const scpiComplete = Array.isArray(scpiCompleteJson) ? scpiCompleteJson : (scpiCompleteJson.Sheet1 || []);
+const scpiCompleteRaw = Array.isArray(scpiCompleteJson) ? scpiCompleteJson : (scpiCompleteJson.Sheet1 || []);
+const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+const certifiedScpiSlugSet = new Set(certifiedScpiCohort.slugs || []);
 
 const createSlug = (name) => {
   return 'scpi-' + name
@@ -34,6 +37,10 @@ const createNoPrefixSlug = (name) => {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 };
+
+const scpiComplete = scpiCompleteRaw.filter((row) =>
+  certifiedScpiSlugSet.has(createNoPrefixSlug(String(row['Nom SCPI'] || '')))
+);
 
 // Une seule URL canonique par SCPI : /{slug}/.
 // Netlify normalise le trailing slash AVANT les redirects : il ne faut jamais

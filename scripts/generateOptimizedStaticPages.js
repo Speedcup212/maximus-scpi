@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename);
 const distDir = path.join(__dirname, '../dist');
 const appShellPath = path.join(distDir, 'index.html');
 const scpiDataPath = path.join(__dirname, '../src/data/scpi_complet.json');
+const certifiedScpiCohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
 const scpiHistoryPath = path.join(__dirname, '../src/data/scpiIndicatorHistory.json');
 
 if (!fs.existsSync(appShellPath)) {
@@ -16,7 +17,9 @@ if (!fs.existsSync(appShellPath)) {
 }
 
 const rawCatalog = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
-const scpiData = Array.isArray(rawCatalog) ? rawCatalog : (rawCatalog.Sheet1 || []);
+const rawScpiData = Array.isArray(rawCatalog) ? rawCatalog : (rawCatalog.Sheet1 || []);
+const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+const certifiedScpiSlugSet = new Set(certifiedScpiCohort.slugs || []);
 const rawHistory = fs.existsSync(scpiHistoryPath)
   ? JSON.parse(fs.readFileSync(scpiHistoryPath, 'utf-8'))
   : { rows: [] };
@@ -30,6 +33,10 @@ const createSlug = (name) =>
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
+
+const scpiData = rawScpiData.filter((row) =>
+  certifiedScpiSlugSet.has(createSlug(row['Nom SCPI']))
+);
 
 const escapeHtml = (value) =>
   String(value ?? '')
