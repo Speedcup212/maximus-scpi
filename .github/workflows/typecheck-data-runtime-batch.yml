@@ -1,0 +1,124 @@
+name: Typecheck data runtime batch
+on:
+  push:
+    branches: [fix/typecheck-data-runtime-batch-20261005]
+permissions:
+  contents: write
+jobs:
+  patch-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/typecheck-data-runtime-batch-20261005
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded data/runtime fixes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              if old in text:
+                  p.write_text(text.replace(old, new, 1))
+                  return
+              if new in text:
+                  return
+              raise SystemExit(f'Expected pattern missing in {path}')
+
+          def replace_count(path, old, new, expected):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count == expected:
+                  p.write_text(text.replace(old, new))
+                  return
+              if count == 0 and text.count(new) >= expected:
+                  return
+              raise SystemExit(f'Unexpected count in {path}: {count}, expected {expected}')
+
+          replace_once(
+              'src/config/calendlyMapping.ts',
+              "  const map: Record<QuizData['tmi'], string> = {\n    '11': '11 %',",
+              "  const map: Record<QuizData['tmi'], string> = {\n    '0': '0 %',\n    '11': '11 %',"
+          )
+
+          replace_count(
+              'src/components/LifeToScpiPage.tsx',
+              'tauxRevalorisation',
+              'tauxRevalorisationPart',
+              2
+          )
+
+          replace_once(
+              'src/utils/enrichScpiExtended.ts',
+              '    valeurReconstitution: matchingScpi.valeurReconstitution ?? scpiExtended.valeurReconstitution,\n',
+              ''
+          )
+
+          replace_once(
+              'src/utils/scpiSanitize.ts',
+              '  if (clone.tof !== null && clone.tof > 100) {',
+              '  if (clone.tof != null && clone.tof > 100) {'
+          )
+          replace_once(
+              'src/utils/scpiSanitize.ts',
+              '  if (clone.endettement !== null && clone.endettement < 0) {',
+              '  if (clone.endettement != null && clone.endettement < 0) {'
+          )
+          replace_once(
+              'src/utils/scpiSanitize.ts',
+              'function sanitizeRepartition(repartition: Record<string, number>): Record<string, number> {',
+              'function sanitizeRepartition(repartition: Record<string, number | string>): Record<string, number> {'
+          )
+
+          replace_once(
+              'src/components/LegalFooter.tsx',
+              "import { ExternalLink, FileText, Shield, Info, Mail, Phone, MapPin } from 'lucide-react';",
+              "import { ExternalLink, FileText, Shield, Info, Mail, Phone } from 'lucide-react';"
+          )
+          replace_once(
+              'src/components/LegalFooter.tsx',
+              "                      if (window.openSCPIWizard) {\n                        window.openSCPIWizard();\n                      }",
+              "                      const openSCPIWizard = (window as Window & { openSCPIWizard?: () => void }).openSCPIWizard;\n                      openSCPIWizard?.();"
+          )
+
+          replace_once(
+              'src/components/ScpiPageVisualPolish.tsx',
+              "const getText = (node: Element | null) => (node?.textContent || '').replace(/\\s+/g, ' ').trim();",
+              "const getText = (node: Element | null | undefined) => (node?.textContent || '').replace(/\\s+/g, ' ').trim();"
+          )
+          PY
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript targeted verification
+        shell: bash
+        run: |
+          set +e
+          npx tsc -b --pretty false 2>&1 | tee /tmp/tsc.log
+          code=${PIPESTATUS[0]}
+          echo "TSC_EXIT=$code"
+          echo "DIAGNOSTIC_LINES=$(grep -cE 'error TS[0-9]+' /tmp/tsc.log || true)"
+          TARGET=$(grep -E '^(src/config/calendlyMapping\.ts|src/components/LifeToScpiPage\.tsx|src/utils/enrichScpiExtended\.ts|src/utils/scpiSanitize\.ts|src/components/LegalFooter\.tsx|src/components/ScpiPageVisualPolish\.tsx).*error TS' /tmp/tsc.log || true)
+          if [ -n "$TARGET" ]; then
+            echo "$TARGET"
+            exit 1
+          fi
+          exit 0
+      - name: Production build
+        run: npm run build
+      - name: Commit bounded fixes
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "maximus-typecheck-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/config/calendlyMapping.ts src/components/LifeToScpiPage.tsx src/utils/enrichScpiExtended.ts src/utils/scpiSanitize.ts src/components/LegalFooter.tsx src/components/ScpiPageVisualPolish.tsx
+          git commit -m "fix(typecheck): resolve bounded data runtime diagnostics [skip netlify]"
+          git push origin HEAD:fix/typecheck-data-runtime-batch-20261005
