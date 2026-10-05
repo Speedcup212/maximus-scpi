@@ -13,7 +13,7 @@ permissions:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Restore private app files to pre Client-V1 baseline
+      - name: Restore exact pre-Client-V1 files
         shell: bash
         run: |
           set -euo pipefail
@@ -33,13 +33,12 @@ jobs:
             src/app/components/RoleGuard.tsx \
             src/app/pages/AppEntry.tsx \
             src/app/pages/AppLogin.tsx \
-            src/app/types.ts \
+            src/app/pages/ClientDashboard.tsx \
             src/main.tsx; do
             git show "$BASE:$f" > "$f"
           done
-          rm -f src/app/pages/AppClientDashboard.tsx
-          rm -f supabase/migrations/20261005152000_create_client_scpi_positions.sql
-          rm -f supabase/migrations/20261005154000_harden_client_scpi_positions.sql
+          rm -f supabase/migrations/20261005165000_create_client_scpi_positions.sql
+          rm -f supabase/migrations/20261005171500_harden_client_scpi_positions.sql
           cat > supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql <<'SQL'
           drop table if exists public.client_scpi_positions;
           SQL
@@ -55,15 +54,26 @@ jobs:
           if count != 1:
               raise SystemExit(f'Expected exactly one Pro prefix matcher, found {count}')
           p.write_text(s.replace(old, new, 1))
-      - name: Verify Client V1 removal invariants
+      - name: Verify reset invariants
         shell: bash
         run: |
           set -euo pipefail
-          test ! -e src/app/pages/AppClientDashboard.tsx
           ! grep -R "client_scpi_positions" -n src || (echo 'Client V1 table reference remains in src' && exit 1)
           ! grep -R "maximusPostLoginPath\|maximusLoginEmailHint" -n src || (echo 'Client V1 auth routing remains in src' && exit 1)
-          ! grep -R "URL directe de l'espace client" -n src || (echo 'Client V1 /espace-client rewrite remains' && exit 1)
+          ! grep -R "URL directe de l'espace client" -n src || (echo 'Client V1 direct rewrite remains' && exit 1)
           grep -q "path === 'pro' || path.startsWith('pro/')" src/App.tsx
+          test ! -e supabase/migrations/20261005165000_create_client_scpi_positions.sql
+          test ! -e supabase/migrations/20261005171500_harden_client_scpi_positions.sql
+          for f in \
+            src/app/components/AppLayout.tsx \
+            src/app/components/AuthGuard.tsx \
+            src/app/components/RoleGuard.tsx \
+            src/app/pages/AppEntry.tsx \
+            src/app/pages/AppLogin.tsx \
+            src/app/pages/ClientDashboard.tsx \
+            src/main.tsx; do
+            cmp -s "$f" <(git show 22c1f5c9c2d2481abeddc5423a8d65a87f5b9495:"$f") || { echo "$f differs from pre-V1 baseline"; exit 1; }
+          done
       - name: Install dependencies
         run: npm ci
       - name: Production build
@@ -79,14 +89,22 @@ jobs:
           exit 1
       - name: Browser crash test professionnels
         run: node scripts/smoke-professionnels.mjs
-      - name: Commit verified reset only
+      - name: Commit verified repair only
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'maximus-repair'
           git config user.email 'maximus-repair@users.noreply.github.com'
           git rm .github/workflows/repair-pro-client-reset-once.yml
-          git add src/App.tsx src/app src/main.tsx supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql
+          git add src/App.tsx \
+            src/app/components/AppLayout.tsx \
+            src/app/components/AuthGuard.tsx \
+            src/app/components/RoleGuard.tsx \
+            src/app/pages/AppEntry.tsx \
+            src/app/pages/AppLogin.tsx \
+            src/app/pages/ClientDashboard.tsx \
+            src/main.tsx \
+            supabase/migrations/20261005215000_remove_client_scpi_positions_v1.sql
           git add -u supabase/migrations
           git diff --cached --quiet && exit 0
           git commit -m 'fix(pro): restore professionnels and remove client V1 [skip netlify]'
