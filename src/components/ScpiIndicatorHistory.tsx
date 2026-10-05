@@ -1,29 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Activity,
-  ArrowDownRight,
-  ArrowUpRight,
-  BarChart3,
-  Clock,
-  Database,
-  FileText,
-  Minus,
-  ShieldAlert,
-  ShieldCheck,
-} from 'lucide-react';
+import { Activity, BarChart3, Database, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import {
+  type CertifiedLiquiditySnapshot,
+  type LiquiditySignalGate,
+  resolveCertifiedLiquidity,
+  toFiniteNumber,
+} from '../utils/certifiedLiquidity';
 
 type ChangeRow = {
   scpi_slug: string;
   previous_period: string | null;
   current_period: string | null;
-  previous_source_document: string | null;
-  current_source_document: string | null;
-  previous_source_url: string | null;
-  current_source_url: string | null;
-  previous_td: number | string | null;
-  current_td: number | string | null;
-  td_delta: number | string | null;
   previous_tof: number | string | null;
   current_tof: number | string | null;
   tof_delta: number | string | null;
@@ -36,12 +24,6 @@ type ChangeRow = {
   previous_prix_reconstitution: number | string | null;
   current_prix_reconstitution: number | string | null;
   prix_reconstitution_delta: number | string | null;
-  previous_prix_retrait: number | string | null;
-  current_prix_retrait: number | string | null;
-  prix_retrait_delta: number | string | null;
-  previous_valeur_realisation: number | string | null;
-  current_valeur_realisation: number | string | null;
-  valeur_realisation_delta: number | string | null;
   previous_endettement: number | string | null;
   current_endettement: number | string | null;
   endettement_delta: number | string | null;
@@ -51,28 +33,10 @@ type ChangeRow = {
   previous_walb: number | string | null;
   current_walb: number | string | null;
   walb_delta: number | string | null;
-  previous_collecte_nette: number | string | null;
-  current_collecte_nette: number | string | null;
-  collecte_nette_delta: number | string | null;
-  previous_distribution_par_part: number | string | null;
-  current_distribution_par_part: number | string | null;
-  distribution_par_part_delta: number | string | null;
-  previous_nombre_locataires: number | string | null;
-  current_nombre_locataires: number | string | null;
-  nombre_locataires_delta: number | string | null;
-  previous_nombre_immeubles: number | string | null;
-  current_nombre_immeubles: number | string | null;
-  nombre_immeubles_delta: number | string | null;
-  previous_parts_attente_retrait: number | string | null;
-  current_parts_attente_retrait: number | string | null;
-  parts_attente_retrait_delta: number | string | null;
 };
 
-type IndicatorRow = {
+type SourceRow = {
   scpi_slug: string;
-  parts_attente_retrait: number | string | null;
-  nombre_parts: number | string | null;
-  capital_type: string | null;
   source_period: string | null;
   source_document: string | null;
   qa_status: string | null;
@@ -93,159 +57,62 @@ type Metric = {
   deltaFormat: (value: number) => string;
 };
 
-type LiquidityLevel = {
-  label: string;
-  badgeClass: string;
-  cardClass: string;
-  valueClass: string;
-};
-
-const toNumber = (value: number | string | null | undefined): number | null => {
-  if (value === null || value === undefined || value === '') return null;
-  const n = typeof value === 'number' ? value : Number(value);
-  return Number.isFinite(n) ? n : null;
-};
-
 const formatPct = (value: number) => `${value.toFixed(2).replace('.', ',')} %`;
 const formatEuros = (value: number) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value) + ' €';
-const formatParts = (value: number) => new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(value) + ' parts';
 const formatYears = (value: number) => `${value.toFixed(1).replace('.', ',')} ans`;
 const formatDeltaPoints = (value: number) => `${value > 0 ? '+' : ''}${value.toFixed(2).replace('.', ',')} pt`;
 const formatDeltaValue = (value: number, suffix: string) => `${value > 0 ? '+' : ''}${new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(value)}${suffix}`;
+const formatMillions = (value: number) => Math.abs(value) >= 1000
+  ? `${(value / 1000).toFixed(2).replace('.', ',')} Md€`
+  : `${value.toFixed(value >= 100 ? 0 : 1).replace('.', ',')} M€`;
 
-const formatMillions = (value: number) => {
-  if (Math.abs(value) >= 1000) return `${(value / 1000).toFixed(2).replace('.', ',')} Md€`;
-  return `${value.toFixed(value >= 100 ? 0 : 1).replace('.', ',')} M€`;
+const liquidityLabel = (basis: ReturnType<typeof resolveCertifiedLiquidity>['basis']) => {
+  if (basis === 'withdrawal_queue') return 'File de retraits';
+  if (basis === 'secondary_market_order_book') return 'Pression du marché secondaire';
+  if (basis === 'fixed_capital_market') return 'Marché secondaire / capital fixe';
+  return 'Liquidité non comparable';
 };
 
-const normalizeCapitalType = (capitalType: string | null | undefined) => {
-  const value = (capitalType || '').trim().toLowerCase();
-  if (!value) return 'non_documente' as const;
-  if (value.includes('suspend')) return 'suspendu' as const;
-  if (value.includes('fix')) return 'fixe' as const;
-  if (value.includes('secondaire')) return 'secondaire' as const;
-  if (value.includes('variab')) return 'variable' as const;
-  return 'autre' as const;
-};
-
-const liquidityLevel = (
-  waitingPct: number | null,
-  capitalRegime: ReturnType<typeof normalizeCapitalType>,
-  waitingParts: number | null,
-): LiquidityLevel => {
-  if (capitalRegime === 'suspendu' || capitalRegime === 'fixe' || capitalRegime === 'secondaire') {
-    return {
-      label: 'Régime spécifique',
-      badgeClass: 'border-slate-500/40 bg-slate-800/80 text-slate-200',
-      cardClass: 'border-slate-600/30 bg-slate-900/40',
-      valueClass: 'text-white',
-    };
+const liquidityLevel = (value: number | null, basis: ReturnType<typeof resolveCertifiedLiquidity>['basis']) => {
+  if (value === null || basis === 'fixed_capital_market') {
+    return { label: 'Non comparable', className: 'border-slate-500/40 bg-slate-800/80 text-slate-200' };
   }
-
-  if (waitingParts === null || waitingPct === null) {
-    return {
-      label: 'Non documenté',
-      badgeClass: 'border-slate-500/40 bg-slate-800/80 text-slate-300',
-      cardClass: 'border-slate-600/30 bg-slate-900/40',
-      valueClass: 'text-slate-200',
-    };
-  }
-
-  if (waitingParts === 0) {
-    return {
-      label: 'Aucune part signalée',
-      badgeClass: 'border-emerald-400/30 bg-emerald-950/35 text-emerald-200',
-      cardClass: 'border-emerald-400/25 bg-emerald-950/25',
-      valueClass: 'text-emerald-200',
-    };
-  }
-
-  if (waitingPct < 0.5) {
-    return {
-      label: 'File faible',
-      badgeClass: 'border-emerald-400/30 bg-emerald-950/35 text-emerald-200',
-      cardClass: 'border-emerald-400/25 bg-emerald-950/25',
-      valueClass: 'text-emerald-200',
-    };
-  }
-
-  if (waitingPct < 2) {
-    return {
-      label: 'À surveiller',
-      badgeClass: 'border-yellow-400/30 bg-yellow-950/35 text-yellow-200',
-      cardClass: 'border-yellow-400/25 bg-yellow-950/25',
-      valueClass: 'text-yellow-200',
-    };
-  }
-
-  if (waitingPct < 3) {
-    return {
-      label: 'Pré-alerte Maximus',
-      badgeClass: 'border-yellow-400/35 bg-yellow-950/40 text-yellow-100',
-      cardClass: 'border-yellow-400/30 bg-yellow-950/30',
-      valueClass: 'text-yellow-100',
-    };
-  }
-
-  if (waitingPct < 5) {
-    return {
-      label: 'Vigilance modérée',
-      badgeClass: 'border-amber-400/35 bg-amber-950/40 text-amber-100',
-      cardClass: 'border-amber-400/30 bg-amber-950/30',
-      valueClass: 'text-amber-100',
-    };
-  }
-
-  if (waitingPct < 10) {
-    return {
-      label: 'Vigilance élevée',
-      badgeClass: 'border-red-400/35 bg-red-950/40 text-red-200',
-      cardClass: 'border-red-400/30 bg-red-950/30',
-      valueClass: 'text-red-200',
-    };
-  }
-
-  return {
-    label: 'Liquidité critique',
-    badgeClass: 'border-red-400/45 bg-red-950/60 text-red-100',
-    cardClass: 'border-red-400/40 bg-red-950/40',
-    valueClass: 'text-red-100',
-  };
-};
-
-const capitalRegimeLabel = (regime: ReturnType<typeof normalizeCapitalType>) => {
-  switch (regime) {
-    case 'variable': return 'Capital variable';
-    case 'fixe': return 'Capital fixe';
-    case 'secondaire': return 'Marché secondaire';
-    case 'suspendu': return 'Variabilité suspendue';
-    case 'autre': return 'Régime à vérifier';
-    default: return 'N/D';
-  }
+  if (value < 0.5) return { label: 'Faible', className: 'border-emerald-400/30 bg-emerald-950/35 text-emerald-200' };
+  if (value < 2) return { label: 'À surveiller', className: 'border-yellow-400/30 bg-yellow-950/35 text-yellow-200' };
+  if (value < 5) return { label: 'Vigilance modérée', className: 'border-amber-400/35 bg-amber-950/40 text-amber-100' };
+  if (value < 10) return { label: 'Vigilance élevée', className: 'border-red-400/35 bg-red-950/40 text-red-200' };
+  return { label: 'Liquidité critique', className: 'border-red-400/45 bg-red-950/60 text-red-100' };
 };
 
 const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, scpiName }) => {
   const [data, setData] = useState<ChangeRow | null>(null);
-  const [indicator, setIndicator] = useState<IndicatorRow | null>(null);
+  const [liquidity, setLiquidity] = useState<CertifiedLiquiditySnapshot | null>(null);
+  const [gate, setGate] = useState<LiquiditySignalGate | null>(null);
+  const [source, setSource] = useState<SourceRow | null>(null);
 
   useEffect(() => {
     let active = true;
 
     const load = async () => {
       if (!supabase) return;
-
-      const [changesResult, indicatorResult] = await Promise.all([
+      const [changesResult, liquidityResult, gateResult, sourceResult] = await Promise.all([
         supabase.from('scpi_indicator_changes').select('*').eq('scpi_slug', scpiSlug).maybeSingle(),
-        supabase
-          .from('scpi_indicators')
-          .select('scpi_slug,parts_attente_retrait,nombre_parts,capital_type,source_period,source_document,qa_status')
-          .eq('scpi_slug', scpiSlug)
-          .maybeSingle(),
+        supabase.from('scpi_trajectory_pilot_liquidity')
+          .select('scpi_slug,source_period,parts_attente_retrait,nombre_parts,retrait_attente_pct,prev_pct,niveau_liquidite,trajectoire_liquidite,liquidity_basis,liquidity_pressure_pct,prev_pressure_pct,liquidity_sell_orders,liquidity_buy_orders,regime_changed,signal_certification')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+        supabase.from('scpi_trajectory_signal_gate')
+          .select('scpi_slug,data_gate,structural_gate,semantic_gate,liquidity_gate,liquidity_signal_eligible,reconstitution_gate,market_signal_gate')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
+        supabase.from('scpi_indicators')
+          .select('scpi_slug,source_period,source_document,qa_status')
+          .eq('scpi_slug', scpiSlug).maybeSingle(),
       ]);
 
       if (!active) return;
       setData(changesResult.error || !changesResult.data ? null : changesResult.data as ChangeRow);
-      setIndicator(indicatorResult.error || !indicatorResult.data ? null : indicatorResult.data as IndicatorRow);
+      setLiquidity(liquidityResult.error || !liquidityResult.data ? null : liquidityResult.data as CertifiedLiquiditySnapshot);
+      setGate(gateResult.error || !gateResult.data ? null : gateResult.data as LiquiditySignalGate);
+      setSource(sourceResult.error || !sourceResult.data ? null : sourceResult.data as SourceRow);
     };
 
     void load();
@@ -254,110 +121,36 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
 
   const metrics = useMemo<Metric[]>(() => {
     if (!data) return [];
-
     const raw = [
-      { key: 'tof', label: 'TOF', previous: toNumber(data.previous_tof), current: toNumber(data.current_tof), delta: toNumber(data.tof_delta), format: formatPct, deltaFormat: formatDeltaPoints },
-      { key: 'endettement', label: 'Endettement', previous: toNumber(data.previous_endettement), current: toNumber(data.current_endettement), delta: toNumber(data.endettement_delta), format: formatPct, deltaFormat: formatDeltaPoints },
-      { key: 'parts_attente_retrait', label: 'Parts en attente', previous: toNumber(data.previous_parts_attente_retrait), current: toNumber(data.current_parts_attente_retrait), delta: toNumber(data.parts_attente_retrait_delta), format: formatParts, deltaFormat: (v: number) => formatDeltaValue(v, ' parts') },
-      { key: 'capitalisation', label: 'Capitalisation', previous: toNumber(data.previous_capitalisation), current: toNumber(data.current_capitalisation), delta: toNumber(data.capitalisation_delta), format: formatMillions, deltaFormat: (v: number) => formatDeltaValue(v, ' M€') },
-      { key: 'prix_souscription', label: 'Prix de la part', previous: toNumber(data.previous_prix_souscription), current: toNumber(data.current_prix_souscription), delta: toNumber(data.prix_souscription_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
-      { key: 'prix_reconstitution', label: 'Valeur de reconstitution', previous: toNumber(data.previous_prix_reconstitution), current: toNumber(data.current_prix_reconstitution), delta: toNumber(data.prix_reconstitution_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
-      { key: 'prix_retrait', label: 'Prix de retrait', previous: toNumber(data.previous_prix_retrait), current: toNumber(data.current_prix_retrait), delta: toNumber(data.prix_retrait_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
-      { key: 'walt', label: 'WALT', previous: toNumber(data.previous_walt), current: toNumber(data.current_walt), delta: toNumber(data.walt_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
-      { key: 'walb', label: 'WALB', previous: toNumber(data.previous_walb), current: toNumber(data.current_walb), delta: toNumber(data.walb_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
+      { key: 'tof', label: 'TOF', previous: toFiniteNumber(data.previous_tof), current: toFiniteNumber(data.current_tof), delta: toFiniteNumber(data.tof_delta), format: formatPct, deltaFormat: formatDeltaPoints },
+      { key: 'endettement', label: 'Endettement', previous: toFiniteNumber(data.previous_endettement), current: toFiniteNumber(data.current_endettement), delta: toFiniteNumber(data.endettement_delta), format: formatPct, deltaFormat: formatDeltaPoints },
+      { key: 'capitalisation', label: 'Capitalisation', previous: toFiniteNumber(data.previous_capitalisation), current: toFiniteNumber(data.current_capitalisation), delta: toFiniteNumber(data.capitalisation_delta), format: formatMillions, deltaFormat: (v: number) => formatDeltaValue(v, ' M€') },
+      { key: 'prix_souscription', label: 'Prix de la part', previous: toFiniteNumber(data.previous_prix_souscription), current: toFiniteNumber(data.current_prix_souscription), delta: toFiniteNumber(data.prix_souscription_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
+      { key: 'walt', label: 'WALT', previous: toFiniteNumber(data.previous_walt), current: toFiniteNumber(data.current_walt), delta: toFiniteNumber(data.walt_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
+      { key: 'walb', label: 'WALB', previous: toFiniteNumber(data.previous_walb), current: toFiniteNumber(data.current_walb), delta: toFiniteNumber(data.walb_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
     ];
-
     return raw
       .filter((metric) => metric.previous !== null && metric.current !== null && metric.delta !== null)
-      .map((metric) => ({ ...metric, previous: metric.previous as number, current: metric.current as number, delta: metric.delta as number }))
-      .slice(0, 6);
+      .map((metric) => ({ ...metric, previous: metric.previous as number, current: metric.current as number, delta: metric.delta as number }));
   }, [data]);
 
-  const observations = useMemo(() => {
-    if (!data) return [];
-    const result: string[] = [];
-    const tofDelta = toNumber(data.tof_delta);
-    const debtDelta = toNumber(data.endettement_delta);
-    const previousWaiting = toNumber(data.previous_parts_attente_retrait);
-    const currentWaiting = toNumber(data.current_parts_attente_retrait);
-    const previousReconstitution = toNumber(data.previous_prix_reconstitution);
-    const currentReconstitution = toNumber(data.current_prix_reconstitution);
+  const certified = useMemo(() => resolveCertifiedLiquidity(liquidity, gate), [liquidity, gate]);
+  const level = liquidityLevel(certified.currentPct, certified.basis);
 
-    if (tofDelta !== null && Math.abs(tofDelta) >= 0.5) {
-      result.push(`TOF ${tofDelta < 0 ? 'en baisse' : 'en hausse'} de ${Math.abs(tofDelta).toFixed(2).replace('.', ',')} point${Math.abs(tofDelta) >= 2 ? 's' : ''}.`);
-    }
-    if (debtDelta !== null && Math.abs(debtDelta) >= 1) {
-      result.push(`Endettement ${debtDelta > 0 ? 'en hausse' : 'en baisse'} de ${Math.abs(debtDelta).toFixed(2).replace('.', ',')} point${Math.abs(debtDelta) >= 2 ? 's' : ''}.`);
-    }
-    if (previousWaiting !== null && currentWaiting !== null && previousWaiting !== currentWaiting) {
-      result.push(currentWaiting === 0 && previousWaiting > 0
-        ? `Parts en attente : ${formatParts(previousWaiting)} → aucune part signalée sur la dernière période structurée.`
-        : `Parts en attente : ${formatParts(previousWaiting)} → ${formatParts(currentWaiting)}.`);
-    }
-    if (previousReconstitution !== null && currentReconstitution !== null && previousReconstitution !== 0) {
-      const pct = ((currentReconstitution - previousReconstitution) / previousReconstitution) * 100;
-      if (Math.abs(pct) >= 1) result.push(`Valeur de reconstitution ${pct > 0 ? 'en hausse' : 'en baisse'} de ${Math.abs(pct).toFixed(1).replace('.', ',')} %.`);
-    }
+  const trendLabel = certified.comparableTrend && certified.deltaPct !== null
+    ? certified.deltaPct > 0 ? 'En hausse' : certified.deltaPct < 0 ? 'En baisse' : 'Stable'
+    : 'Non comparable';
 
-    return result.slice(0, 3);
-  }, [data]);
-
-  const liquidity = useMemo(() => {
-    const waitingParts = toNumber(indicator?.parts_attente_retrait);
-    const totalParts = toNumber(indicator?.nombre_parts);
-    const waitingPct = waitingParts !== null && totalParts !== null && totalParts > 0 ? (waitingParts / totalParts) * 100 : null;
-    const capitalRegime = normalizeCapitalType(indicator?.capital_type);
-    const level = liquidityLevel(waitingPct, capitalRegime, waitingParts);
-
-    const previousWaiting = toNumber(data?.previous_parts_attente_retrait);
-    const currentWaitingHistory = toNumber(data?.current_parts_attente_retrait);
-    const trend = previousWaiting !== null && currentWaitingHistory !== null
-      ? currentWaitingHistory > previousWaiting ? 'hausse' : currentWaitingHistory < previousWaiting ? 'baisse' : 'stable'
-      : 'non_documentee';
-
-    const hasSource = Boolean(indicator?.source_document || indicator?.source_period);
-    const qaVerified = Boolean(indicator?.qa_status && /verified/i.test(indicator.qa_status));
-    const quality = waitingParts !== null && totalParts !== null && hasSource && qaVerified
-      ? 'A'
-      : waitingParts !== null && hasSource
-        ? 'B'
-        : waitingParts !== null
-          ? 'C'
-          : 'N/D';
-
-    let analysis = 'Les données disponibles ne permettent pas de qualifier la liquidité sans extrapolation.';
-    if (capitalRegime === 'suspendu') {
-      analysis = 'La variabilité est indiquée comme suspendue. Le stock de retraits ne doit pas être comparé mécaniquement à celui d’une SCPI fonctionnant normalement à capital variable.';
-    } else if (capitalRegime === 'fixe' || capitalRegime === 'secondaire') {
-      analysis = 'Cette SCPI relève d’un marché secondaire. La liquidité doit être analysée à partir des ordres de vente, des ordres d’achat, des volumes exécutés et des prix d’exécution, et non à partir de la seule file de retraits.';
-    } else if (waitingParts === 0 && waitingPct !== null) {
-      analysis = 'Aucune part en attente de retrait n’est signalée dans la dernière donnée structurée. Cela décrit la situation publiée à cette date, sans garantir un délai futur de retrait.';
-    } else if (waitingPct !== null && waitingPct >= 10) {
-      analysis = 'Le ratio atteint ou dépasse 10 %. C’est un signal quantitatif critique. La condition réglementaire d’ancienneté de douze mois doit encore être vérifiée avant de conclure que le seuil légal est constitué.';
-    } else if (waitingPct !== null && waitingPct >= 5) {
-      analysis = `La file représente ${formatPct(waitingPct)} des parts. Selon la doctrine MaximusSCPI active, le niveau de vigilance est élevé.`;
-    } else if (waitingPct !== null && waitingPct >= 3) {
-      analysis = trend === 'hausse'
-        ? `La file représente ${formatPct(waitingPct)} des parts et progresse entre les deux dernières périodes structurées. Le niveau de vigilance est modéré, avec une trajectoire défavorable à suivre.`
-        : trend === 'baisse'
-          ? `La file représente ${formatPct(waitingPct)} des parts. Le niveau de vigilance est modéré, mais la dernière évolution disponible est orientée à la baisse.`
-          : `La file représente ${formatPct(waitingPct)} des parts. Le niveau de vigilance est modéré selon la doctrine MaximusSCPI.`;
-    } else if (waitingPct !== null && waitingPct >= 2) {
-      analysis = trend === 'hausse'
-        ? `La file représente ${formatPct(waitingPct)} des parts et augmente. Le seuil de 2 % déclenche une pré-alerte interne Maximus, mais ne relève pas à lui seul la SCPI en vigilance modérée.`
-        : `La file représente ${formatPct(waitingPct)} des parts. Le seuil de 2 % sert de pré-alerte interne Maximus ; la vigilance modérée commence à 3 % dans la doctrine actuellement appliquée.`;
-    } else if (waitingPct !== null && waitingPct >= 0.5) {
-      analysis = `La file représente ${formatPct(waitingPct)} des parts. Le niveau reste faible mais mérite un suivi de trajectoire.`;
-    } else if (waitingPct !== null && waitingPct > 0) {
-      analysis = `La file publiée reste faible à ${formatPct(waitingPct)} des parts. La tendance et la capacité réelle d’exécution restent nécessaires pour apprécier la liquidité dans la durée.`;
-    }
-
-    return { waitingParts, totalParts, waitingPct, capitalRegime, level, previousWaiting, currentWaitingHistory, trend, quality, analysis };
-  }, [data, indicator]);
+  const liquidityAnalysis = useMemo(() => {
+    if (!certified.publishableLevel) return 'Les données certifiées disponibles ne permettent pas de qualifier la liquidité sans extrapolation.';
+    if (certified.regimeChanged) return 'Un changement de régime a été identifié. Les données avant et après bascule ne sont pas comparées comme une même série.';
+    if (certified.basis === 'secondary_market_order_book') return 'La liquidité est lue à partir du carnet d’ordres du marché secondaire. Une ancienne file de retraits n’est pas réutilisée.';
+    if (certified.basis === 'withdrawal_queue') return 'La liquidité est lue à partir de la file de retraits certifiée pour la période courante. La tendance n’est affichée que sur périodes comparables.';
+    return 'Le régime ne permet pas de produire un ratio comparable de liquidité.';
+  }, [certified]);
 
   const hasHistory = Boolean(data && data.previous_period && data.current_period && metrics.length > 0);
-  const hasLiquidity = Boolean(indicator);
-
+  const hasLiquidity = Boolean(liquidity || gate);
   if (!hasHistory && !hasLiquidity) return null;
 
   return (
@@ -368,144 +161,72 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
               <div>
                 <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-400">
-                  <ShieldCheck className="w-4 h-4" />
-                  Liquidité Maximus
+                  <ShieldCheck className="w-4 h-4" /> Liquidité Maximus
                 </div>
                 <h2 className="mt-2 text-2xl sm:text-3xl font-black text-white">Marché des parts de {scpiName}</h2>
-                <p className="mt-2 max-w-3xl text-slate-300">Lecture factuelle de la file publiée, de sa tendance et du régime de liquidité. Aucun score artificiel n’est calculé lorsque la donnée manque.</p>
+                <p className="mt-2 max-w-3xl text-slate-300">Lecture fondée sur le régime et les signaux certifiés. Les séries incompatibles ne sont pas raccordées artificiellement.</p>
               </div>
-              <div className={`inline-flex items-center self-start gap-2 rounded-xl border px-4 py-2.5 text-sm font-black ${liquidity.level.badgeClass}`}>
-                <ShieldAlert className="w-4 h-4" />
-                {liquidity.level.label}
+              <div className={`inline-flex items-center self-start gap-2 rounded-xl border px-4 py-2.5 text-sm font-black ${level.className}`}>
+                <ShieldAlert className="w-4 h-4" /> {level.label}
               </div>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <div className={`rounded-2xl border p-4 ${liquidity.level.cardClass}`}>
-                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Stock en attente</div>
-                <div className={`mt-2 text-2xl font-black ${liquidity.level.valueClass}`}>
-                  {liquidity.waitingPct !== null ? formatPct(liquidity.waitingPct) : liquidity.waitingParts !== null ? formatParts(liquidity.waitingParts) : 'N/D'}
-                </div>
+              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
+                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">{liquidityLabel(certified.basis)}</div>
+                <div className="mt-2 text-2xl font-black text-white">{certified.currentPct !== null ? formatPct(certified.currentPct) : 'N/D'}</div>
                 <div className="mt-1 text-xs text-slate-300">
-                  {liquidity.waitingParts !== null && liquidity.totalParts !== null
-                    ? `${formatParts(liquidity.waitingParts)} sur ${formatParts(liquidity.totalParts)}`
-                    : 'Pourcentage non calculable avec les données publiées'}
+                  {certified.basis === 'withdrawal_queue' && certified.withdrawalParts !== null && certified.totalParts !== null
+                    ? `${new Intl.NumberFormat('fr-FR').format(certified.withdrawalParts)} parts sur ${new Intl.NumberFormat('fr-FR').format(certified.totalParts)}`
+                    : certified.basis === 'secondary_market_order_book'
+                      ? 'Carnet d’ordres secondaire — pas de conversion en file de retraits'
+                      : 'Ratio non comparable'}
                 </div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><BarChart3 className="w-4 h-4" />Tendance</div>
-                <div className="mt-2 text-xl font-black text-white">
-                  {liquidity.trend === 'hausse' ? 'En hausse' : liquidity.trend === 'baisse' ? 'En baisse' : liquidity.trend === 'stable' ? 'Stable' : 'N/D'}
-                </div>
+                <div className="mt-2 text-xl font-black text-white">{trendLabel}</div>
                 <div className="mt-1 text-xs text-slate-300">
-                  {liquidity.previousWaiting !== null && liquidity.currentWaitingHistory !== null
-                    ? `${formatParts(liquidity.previousWaiting)} → ${formatParts(liquidity.currentWaitingHistory)}`
-                    : 'Historique insuffisant pour qualifier la trajectoire'}
+                  {certified.comparableTrend && certified.previousPct !== null && certified.currentPct !== null
+                    ? `${formatPct(certified.previousPct)} → ${formatPct(certified.currentPct)}`
+                    : certified.regimeChanged ? 'Changement de régime : variation neutralisée' : 'Historique comparable insuffisant'}
                 </div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><Clock className="w-4 h-4" />Absorption</div>
-                <div className="mt-2 text-xl font-black text-white">N/D</div>
-                <div className="mt-1 text-xs text-slate-300">Retraits exécutés non encore structurés : aucun délai théorique n’est inventé.</div>
+                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Certification</div>
+                <div className="mt-2 text-xl font-black text-white">{certified.certification || 'N/D'}</div>
+                <div className="mt-1 text-xs text-slate-300">Gate : {gate?.liquidity_gate || 'N/D'}</div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><FileText className="w-4 h-4" />Régime</div>
-                <div className="mt-2 text-xl font-black text-white">{capitalRegimeLabel(liquidity.capitalRegime)}</div>
-                <div className="mt-1 text-xs text-slate-300">
-                  {liquidity.capitalRegime === 'variable'
-                    ? 'Lecture par demandes de retrait et compensation.'
-                    : liquidity.capitalRegime === 'fixe' || liquidity.capitalRegime === 'secondaire'
-                      ? 'Lecture par carnet et transactions du marché secondaire.'
-                      : liquidity.capitalRegime === 'suspendu'
-                        ? 'Comparaison directe avec une file normale à éviter.'
-                        : 'Régime non suffisamment documenté.'}
-                </div>
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><Database className="w-4 h-4" />Source</div>
+                <div className="mt-2 text-lg font-black text-white">{liquidity?.source_period || source?.source_period || 'N/D'}</div>
+                <div className="mt-1 text-xs text-slate-300">{source?.source_document || 'Document officiel certifié / registre Maximus'}</div>
               </div>
             </div>
 
-            <div className="mt-4 grid lg:grid-cols-[1fr_auto] gap-4 items-start">
-              <div className="rounded-2xl border border-emerald-400/15 bg-[#132720] p-4 sm:p-5">
-                <div className="text-sm font-black text-white">Analyse Maximus</div>
-                <p className="mt-2 text-sm leading-relaxed text-slate-300">{liquidity.analysis}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-[#162229] p-4 min-w-[220px]">
-                <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Qualité de la donnée</div>
-                <div className="mt-1 text-2xl font-black text-white">{liquidity.quality}</div>
-                <div className="mt-1 text-xs text-slate-300">
-                  {liquidity.quality === 'A'
-                    ? 'Stock calculable + source vérifiée.'
-                    : liquidity.quality === 'B'
-                      ? 'Donnée sourcée mais calcul ou QA incomplet.'
-                      : liquidity.quality === 'C'
-                        ? 'Donnée partielle, à compléter.'
-                        : 'Donnée de file non disponible.'}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-5 rounded-2xl border border-white/10 bg-[#101A20] px-4 py-3 text-xs leading-relaxed text-slate-400">
-              <strong className="text-slate-200">Méthode MaximusSCPI :</strong> 2 % = pré-alerte interne, sans valeur réglementaire ; 3 % à moins de 5 % = vigilance modérée ; 5 % et plus = vigilance élevée. À 10 % ou plus, la condition réglementaire d’ancienneté de douze mois doit encore être vérifiée. Une file à 0 ne garantit pas la liquidité future.
-            </div>
-
-            <div className="mt-3 text-xs text-slate-500">
-              Source : {indicator?.source_document || indicator?.source_period || 'dernière donnée structurée disponible'}
-              {indicator?.source_document && indicator?.source_period ? ` · ${indicator.source_period}` : ''}
-              {indicator?.qa_status ? ` · Statut données : ${indicator.qa_status}` : ''}
-            </div>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{liquidityAnalysis}</p>
           </div>
         )}
 
-        {hasHistory && data && (
-          <div className="rounded-3xl border border-white/10 bg-[#111B20] p-5 sm:p-7 shadow-[0_18px_45px_rgba(0,0,0,0.22)]">
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
-              <div>
-                <div className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-400"><Activity className="w-4 h-4" />Évolution documentée</div>
-                <h2 className="mt-2 text-2xl sm:text-3xl font-black text-white">Ce qui a changé sur {scpiName}</h2>
-                <p className="mt-2 text-slate-300">Comparaison des indicateurs publiés entre {data.previous_period} et {data.current_period}.</p>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/20 bg-emerald-950/35 px-4 py-2.5 text-sm font-semibold text-emerald-100"><Database className="w-4 h-4 text-emerald-300" />Historique MaximusSCPI</div>
+        {hasHistory && (
+          <div className="rounded-3xl border border-white/10 bg-[#111B20] p-5 sm:p-7">
+            <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-sky-300">
+              <Activity className="w-4 h-4" /> Évolution des indicateurs
             </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {metrics.map((metric) => {
-                const isUp = metric.delta > 0;
-                const isDown = metric.delta < 0;
-                const Icon = isUp ? ArrowUpRight : isDown ? ArrowDownRight : Minus;
-                return (
-                  <div key={metric.key} className="rounded-2xl border border-white/10 bg-[#162229] p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-sm font-bold text-slate-200">{metric.label}</div>
-                      <div className="inline-flex items-center gap-1 rounded-full bg-[#1B2D28] border border-emerald-400/15 px-2 py-1 text-xs font-bold text-slate-200"><Icon className="w-3.5 h-3.5" />{metric.deltaFormat(metric.delta)}</div>
-                    </div>
-                    <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-                      <div><div className="text-[11px] uppercase tracking-wide text-slate-500">{data.previous_period}</div><div className="mt-1 font-bold text-slate-300">{metric.format(metric.previous)}</div></div>
-                      <div className="text-slate-600">→</div>
-                      <div className="text-right"><div className="text-[11px] uppercase tracking-wide text-slate-500">{data.current_period}</div><div className="mt-1 font-black text-white">{metric.format(metric.current)}</div></div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {observations.length > 0 && (
-              <div className="mt-6 rounded-2xl border border-amber-400/30 bg-amber-950/30 p-4 sm:p-5">
-                <div className="flex items-start gap-3">
-                  <ShieldAlert className="w-5 h-5 text-amber-300 mt-0.5 shrink-0" />
-                  <div>
-                    <div className="font-black text-amber-100">Évolutions à surveiller</div>
-                    <ul className="mt-2 space-y-1.5 text-sm text-amber-100/80">{observations.map((observation) => <li key={observation}>• {observation}</li>)}</ul>
-                  </div>
+            <h3 className="mt-2 text-xl sm:text-2xl font-black text-white">{data?.previous_period} → {data?.current_period}</h3>
+            <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {metrics.map((metric) => (
+                <div key={metric.key} className="rounded-2xl border border-white/10 bg-[#162229] p-4">
+                  <div className="text-xs font-bold uppercase tracking-wide text-slate-400">{metric.label}</div>
+                  <div className="mt-2 text-lg font-black text-white">{metric.format(metric.previous)} → {metric.format(metric.current)}</div>
+                  <div className="mt-1 text-xs text-slate-300">Variation : {metric.deltaFormat(metric.delta)}</div>
                 </div>
-              </div>
-            )}
-
-            <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-slate-500">
-              <div>Source actuelle : {data.current_source_document || data.current_period}{data.previous_source_document ? ` · Source précédente : ${data.previous_source_document}` : ''}</div>
-              <div>Une variation d’indicateur ne constitue pas, à elle seule, un signal d’achat ou de vente.</div>
+              ))}
             </div>
+            <p className="mt-4 text-xs leading-5 text-slate-400">La liquidité est volontairement exclue de ce tableau générique : elle est traitée séparément avec son régime et ses gates de comparabilité.</p>
           </div>
         )}
       </div>
