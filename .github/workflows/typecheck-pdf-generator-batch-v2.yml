@@ -1,0 +1,85 @@
+name: Validate PDF generator batch v2
+on:
+  push:
+    branches: [diagnostic/pdf-generator-batch-20261005]
+    paths: ['.github/workflows/typecheck-pdf-generator-batch-v2.yml']
+permissions:
+  contents: write
+jobs:
+  batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded PDF generator patch
+        shell: bash
+        run: |
+          git fetch origin main
+          expected='7011e3f7ef54a433f2a1c0bbcee789ef3671ea6c'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B pdf-work origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('src/utils/pdfGenerator.ts')
+          s=p.read_text()
+          anchor="interface PortfolioItem extends Scpi {\n  investedAmount: number;\n  percentage: number;\n}\n"
+          lines=['interface PortfolioItem extends Scpi {','  investedAmount: number;','  percentage: number;','}','', 'type PdfColor = [number, number, number];','', 'interface PdfColors {','  primary: PdfColor;','  secondary: PdfColor;','  dark: PdfColor;','  light: PdfColor;','  success: PdfColor;','  warning: PdfColor;','  white: PdfColor;','  gray: PdfColor;','}']
+          insert='\n'.join(lines)+'\n'
+          assert s.count(anchor)==1
+          s=s.replace(anchor,insert,1)
+          assert s.count('  const colors = {')==1
+          s=s.replace('  const colors = {','  const colors: PdfColors = {',1)
+          old='  const totalCapitalization = portfolio.reduce((sum, item) => sum + item.capitalization, 0);\n'
+          assert s.count(old)==1
+          s=s.replace(old,'',1)
+          old='splitTextToLines(pdf, riskProfile.description, pageWidth - 60, 14)'
+          assert s.count(old)==1
+          s=s.replace(old,"splitTextToLines(pdf, riskProfile.description ?? '', pageWidth - 60, 14)",1)
+          anchor2="  addPageHeader(pdf, 'Résumé de Votre Portefeuille', pageWidth, colors);\n"
+          assert s.count(anchor2)==1
+          s=s.replace(anchor2,anchor2+'  const totalCapitalization = portfolio.reduce((sum, item) => sum + item.capitalization, 0);\n',1)
+          assert s.count('colors: any')==10
+          s=s.replace('colors: any','colors: PdfColors')
+          assert s.count('color: number[]')==1
+          s=s.replace('color: number[]','color: PdfColor',1)
+          p.write_text(s)
+          PY
+          test "$(git diff --name-only)" = "src/utils/pdfGenerator.ts"
+          git diff --binary > /tmp/pdf.patch
+      - run: npm ci
+      - name: Typecheck PDF once
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          pdf_runtime=$(grep -E '^src/utils/pdfGenerator.ts.*error TS[0-9]+:' /tmp/typecheck.log | grep -Ev 'error TS(6133|6192|6196|6198):' | wc -l | tr -d ' ')
+          echo "TOTAL=$total UNUSED=$unused RUNTIME=$((total-unused)) PDF_RUNTIME=$pdf_runtime"
+          grep -E '^src/utils/pdfGenerator.ts.*error TS[0-9]+:' /tmp/typecheck.log || true
+          test "$pdf_runtime" -eq 0
+      - name: Fast Vite build
+        run: npx vite build
+      - name: Promote validated PDF batch
+        shell: bash
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='7011e3f7ef54a433f2a1c0bbcee789ef3671ea6c'
+          test "$(git rev-parse origin/main)" = "$expected"
+          git checkout -B main origin/main
+          git apply /tmp/pdf.patch
+          test "$(git diff --name-only)" = "src/utils/pdfGenerator.ts"
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/utils/pdfGenerator.ts
+          git commit -m 'fix(types): type PDF palette and repair summary scope [skip netlify]'
+          git push origin HEAD:main
