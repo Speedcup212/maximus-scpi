@@ -67,11 +67,23 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     setGoogleLoading(true);
     setMessage(null);
     const client = requireSupabase();
-    const redirectPath = peekPostLoginPath();
+
+    // La destination finale reste mémorisée en sessionStorage. On utilise /app
+    // comme callback OAuth car cette route est déjà acceptée en production,
+    // puis AppEntry renvoie vers /app/client si c'était la vue demandée.
+    try {
+      const requested = peekPostLoginPath();
+      if (requested.startsWith('/app')) {
+        sessionStorage.setItem('maximusPostLoginPath', requested);
+      }
+    } catch {
+      // Le flux OAuth reste fonctionnel sans sessionStorage.
+    }
+
     const { error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}${redirectPath}`
+        redirectTo: `${window.location.origin}/app`
       }
     });
     if (error) {
