@@ -1,23 +1,25 @@
-# Tâches en cours — MaximusSCPI
+# Tâches en cours — MaximusSCPI Recovery
 
-> Déplacer ici les tâches du backlog au démarrage.
-> Une seule tâche active par agent à la fois si possible.
-
----
-
-## En cours
-
-| ID | Agent | Priorité | Description | Démarré le | Fichiers consultés |
-|----|-------|----------|-------------|------------|-------------------|
-| TASK-006 | 00 — Superviseur | P0 | Finaliser performance et responsive du comparateur — chargement initial, stabilité visuelle, cartes/résultats mobile, tests de comparaison | 29/09/2026 | `src/ComparatorApp.tsx`, `src/components/fintech/FintechComparator.tsx`, `SCPICardDark.tsx`, `MobileSelectionBar.tsx`, `SelectionSidebar.tsx` |
-| TASK-007 | 03 — Data + 04 — Conformité | P0 | Rendre chaque vigilance orange/rouge explicable — motif, seuil, valeur observée, source et cohérence fiche/comparateur | 29/09/2026 | `src/utils/zScoreAttention.ts`, `src/utils/scpiAnalysis.ts`, `ScpiVigilanceRationalePortalV2.tsx`, `AnalysisDetailModal.tsx`, `src/App.tsx` |
-| TASK-008 | 03 — Data | P0 | Revalider pipeline bulletins → Supabase → analyse trimestrielle → fiches et fraîcheur des sources en production | 29/09/2026 | `netlify/functions/scpi-ingest-scheduled.ts`, `scpi-ingest-background.mts`, `utils/scpi-bulletin-ingestion.ts`, déploiement Netlify |
-| TASK-009 | 05 — CRM + 04 — Conformité | P0 | Auditer et fiabiliser tunnel CTA/formulaire → stockage/notification → Calendly, y compris mobile et consentements | 29/09/2026 | `src/utils/leadSubmitter.ts`, `src/components/RdvModal.tsx`, `netlify/functions/lead-fallback.ts`, `src/config/calendly.ts` |
-| TASK-011 | 00 — Superviseur | P0 | Refonte de la home selon la maquette validée — hero produit, cartes visuelles Comparateur / Analyses / Évolution / Simulation, sections de valeur et CTA | 03/10/2026 | `src/HomeApp.tsx`, `src/HomeBelowFold.tsx` |
+> Mode RECOVERY actif à compter du 05/10/2026.
+> Une seule tâche P0 active. Aucun nouveau chantier ne démarre tant qu'elle n'est pas clôturée.
+> Branche de travail unique : `recovery/maximus-clean-20261005`.
+> Base de référence : production stable `cf5ee9e158f4f0ef5ab5cd9336163effa83c2427`.
+> Aucun déploiement Netlify depuis cette branche avant le gate RC.
 
 ---
 
-## Format
+## P0 actif
 
-| ID | Agent | Priorité | Description | Démarré le | Fichiers consultés |
-|----|-------|----------|-------------|------------|-------------------|
+| ID | Agent | Priorité | Description | Critère de clôture |
+|----|-------|----------|-------------|--------------------|
+| RECOVERY-001 | 00 Superviseur + 03 Data + QA | P0 | Corriger définitivement les régimes de liquidité et variations : supprimer tout calcul/file historique non comparable après changement de régime, préserver `NULL`, utiliser les sources certifiées dans tous les consommateurs montés | Tests ciblés PASS + build PASS + contrôle fiche/historique/trajectoire/radar/modal/comparateur sur cas marché secondaire, capital variable et cas standard |
+
+---
+
+## Règles pendant RECOVERY-001
+
+- Interdit de démarrer la home, le nettoyage TypeScript global, Surveillance/Monitor, plugin ChatGPT, extension 212 SCPI, nouveau moat ou nouvelle feature.
+- Aucun commit direct sur `main`.
+- Aucun déploiement Netlify.
+- Pas de refactoring global.
+- Une correction n'est considérée terminée que si elle existe sur la branche recovery et possède une preuve de test.
