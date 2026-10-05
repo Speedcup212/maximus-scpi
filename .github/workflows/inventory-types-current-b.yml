@@ -1,0 +1,56 @@
+name: Inventory current public TypeScript debt B
+
+on:
+  push:
+    branches:
+      - diagnostic/typescript-current-inventory-20261005b
+    paths:
+      - '.github/workflows/inventory-types-current-b.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Inventory public runtime debt
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: $((total-unused))"
+          echo
+          echo "Top public runtime files:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192|6196|6198):' \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -nr | head -50 || true
+          echo
+          echo "Small public files (<=8 diagnostics):"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192|6196|6198):' \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -n | awk '$1<=8' | head -80 || true
+          echo
+          echo "First 320 public runtime diagnostics:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192|6196|6198):' \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | head -320 || true
+          exit 0
