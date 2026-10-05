@@ -1,0 +1,42 @@
+name: Typecheck final agent-subset cleanup
+
+on:
+  push:
+    branches: [agents/typecheck-audit-20261005]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agents/typecheck-audit-20261005
+          fetch-depth: 0
+      - name: Remove final unused variables
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          targets = {
+            'src/components/fintech/AnalysisDetailModal.tsx': '  const annualRevenue = actualInvestment * (currentYield / 100);\n',
+            'src/utils/scpiAnalysis.ts': '  const versementLoyers = scpi.versementLoyers;\n',
+          }
+          for path, line in targets.items():
+              p = Path(path)
+              text = p.read_text()
+              if line not in text:
+                  raise SystemExit(f'Expected line missing in {path}')
+              p.write_text(text.replace(line, '', 1))
+          PY
+      - name: Commit
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "maximus-typecheck-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/components/fintech/AnalysisDetailModal.tsx src/utils/scpiAnalysis.ts
+          git commit -m "fix(typecheck): clear final agent subset diagnostics [skip netlify]"
+          git push origin HEAD:agents/typecheck-audit-20261005
