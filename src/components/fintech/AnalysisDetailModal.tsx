@@ -141,8 +141,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   // Utiliser le nombre d'immeubles de scpiForAnalysis si disponible (priorité aux données mises à jour)
   const nbImmeubles = scpiForAnalysis?.nbImmeubles ?? scpi.assetsCount;
 
-  const numberOfShares = Math.floor(investmentAmount / scpi.price);
-
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       'Diversifiée': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
