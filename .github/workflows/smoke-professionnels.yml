@@ -1,0 +1,45 @@
+name: Smoke professionnels
+
+on:
+  push:
+    branches:
+      - repair/pro-client-rebuild-20261005
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'scripts/smoke-professionnels.mjs'
+      - '.github/workflows/smoke-professionnels.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Production build
+        run: npm run build
+      - name: Start preview
+        run: |
+          nohup npm run preview -- --host 127.0.0.1 --port 4173 >/tmp/maximus-vite.log 2>&1 &
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/maximus-vite.log
+          exit 1
+      - name: Crash test /professionnels
+        run: node scripts/smoke-professionnels.mjs
+      - name: Preview log on failure
+        if: failure()
+        run: cat /tmp/maximus-vite.log || true
