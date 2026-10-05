@@ -1,10 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, XCircle, Star, FileText, Newspaper, Plus, Check } from 'lucide-react';
+import { X, TrendingUp, PieChart, DollarSign, Calendar, BarChart3, AlertCircle, Clock, Shield, Tag, Building2, Percent, TrendingDown, CheckCircle2, Star, FileText, Newspaper, Plus } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { scpiData } from '../../data/scpiData';
-import { getScpiAdvantages, getScpiPointsAttention, getScpiNews, getScpiKeyTakeaways, getCapitalizationCategory, formatCapitalizationWithLiquidity } from '../../utils/scpiAnalysis';
-import { checkScpiDataCompleteness, getCompletenessDisplay } from '../../utils/scpiDataCompleteness';
+import { getScpiAdvantages, getScpiPointsAttention, getScpiNews, getScpiKeyTakeaways, getCapitalizationCategory } from '../../utils/scpiAnalysis';
 import { getLatestScore } from '../../utils/scpiScoreService';
 import { scoreToStars } from '../../utils/scoreToStars';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
@@ -50,8 +49,6 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast, score = null, scoreDetail = null }) => {
-  const [investmentAmount, setInvestmentAmount] = useState<number>(50000);
-  const [investmentYears, setInvestmentYears] = useState<number>(15);
   const [fetchedScore, setFetchedScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
 
@@ -142,31 +139,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   
   // Utiliser le nombre d'immeubles de scpiForAnalysis si disponible (priorité aux données mises à jour)
   const nbImmeubles = scpiForAnalysis?.nbImmeubles ?? scpi.assetsCount;
-
-  // Vérifier la complétude des données
-  const completenessResult = useMemo(() => {
-    if (!scpiForAnalysis) return null;
-    return checkScpiDataCompleteness(scpiForAnalysis, scpi);
-  }, [scpiForAnalysis, scpi]);
-
-  const numberOfShares = Math.floor(investmentAmount / scpi.price);
-  const actualInvestment = numberOfShares * scpi.price;
-  const currentYield = scpiForAnalysis?.yield ?? scpi.yield;
-  const annualRevenue = actualInvestment * (currentYield / 100);
-  const monthlyRevenue = annualRevenue / 12;
-  const netYield = currentYield - 0.5;
-  const annualNetRevenue = actualInvestment * (netYield / 100);
-
-  const projectionData = Array.from({ length: investmentYears + 1 }, (_, year) => {
-    const totalRevenue = annualRevenue * year;
-    const totalValue = actualInvestment + totalRevenue;
-    return {
-      year: year === 0 ? 'Début' : `An ${year}`,
-      capital: actualInvestment,
-      revenus: totalRevenue,
-      total: totalValue
-    };
-  });
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
@@ -277,7 +249,17 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
               {/* Capitalisation */}
               {(() => {
-                const cap = scpiForAnalysis?.capitalization ?? scpi.capitalization;
+                const rawCap = scpiForAnalysis?.capitalization ?? scpi.capitalization;
+                const cap = typeof rawCap === 'number'
+                  ? rawCap
+                  : (() => {
+                      const normalized = rawCap.trim().replace(/\s/g, '').replace(',', '.').toUpperCase();
+                      const parsed = Number.parseFloat(normalized.replace(/[^0-9.-]/g, ''));
+                      if (!Number.isFinite(parsed)) return 0;
+                      if (normalized.includes('MD')) return parsed * 1_000_000_000;
+                      if (normalized.includes('M')) return parsed * 1_000_000;
+                      return parsed;
+                    })();
                 const capCategory = getCapitalizationCategory(cap);
                 const capM = cap / 1000000;
                 const capB = cap / 1000000000;
@@ -423,7 +405,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <PolarRadiusAxis
                         angle={90}
                         domain={[0, 100]}
-                        ticks={[0, 25, 50, 75, 100]}
+                        tickCount={5}
                         tick={{ fill: '#94a3b8', fontSize: 9 }}
                         axisLine={false}
                         tickLine={false}
@@ -444,7 +426,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                           borderRadius: '8px',
                           color: '#fff'
                         }}
-                        formatter={(value: number) => [`${value}/100`, 'Score']}
+                        formatter={(value: number | undefined) => [`${value ?? 0}/100`, 'Score']}
                       />
                     </RadarChart>
                   </ResponsiveContainer>
@@ -623,7 +605,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       animationDuration={800}
                       animationEasing="ease-out"
                     >
-                      {scpi.sectors.sort((a, b) => b.value - a.value).map((entry, index) => (
+                      {scpi.sectors.sort((a, b) => b.value - a.value).map((_, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={`url(#${GRADIENT_IDS.sectors[index % GRADIENT_IDS.sectors.length]})`}
@@ -713,7 +695,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       animationDuration={800}
                       animationEasing="ease-out"
                     >
-                      {scpi.geography.sort((a, b) => b.value - a.value).map((entry, index) => (
+                      {scpi.geography.sort((a, b) => b.value - a.value).map((_, index) => (
                         <Cell
                           key={`cell-geo-${index}`}
                           fill={`url(#${GRADIENT_IDS.geography[index % GRADIENT_IDS.geography.length]})`}
@@ -807,9 +789,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <DollarSign className="w-4 h-4 text-slate-400" />
                       <div className="text-xs text-slate-400">Frais de gestion</div>
                     </div>
-                    {(scpi.managementFees !== undefined || scpi.fraisGestion !== undefined) ? (
+                    {scpi.managementFees !== undefined ? (
                       <div className="text-lg font-bold text-white">
-                        {(scpi.managementFees ?? scpi.fraisGestion)}% TTC
+                        {scpi.managementFees}% TTC
                       </div>
                     ) : (
                       <div className="text-lg font-bold text-slate-500">N/A</div>
@@ -975,15 +957,15 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <DollarSign className="w-4 h-4 text-emerald-400" />
                       <div className="text-xs text-emerald-400 font-semibold">Val. Reconstitution</div>
                     </div>
-                    {(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (
+                    {scpi.reconstitutionValue !== undefined ? (
                       <div className="text-lg font-bold text-emerald-400">
-                        {(scpi.reconstitutionValue ?? scpi.valeurReconstitution)?.toFixed(2)}€
+                        {scpi.reconstitutionValue.toFixed(2)}€
                       </div>
                     ) : (
                       <div className="text-lg font-bold text-slate-500">N/A</div>
                     )}
                   </div>
-                  {(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) && (
+                  {(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined) && (
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <Tag className="w-4 h-4 text-slate-400" />

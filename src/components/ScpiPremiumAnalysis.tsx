@@ -8,7 +8,6 @@ import {
   Landmark,
   MapPin,
   Newspaper,
-  ShieldCheck,
 } from 'lucide-react';
 import type { Scpi } from '../types/scpi';
 import type { ScpiLandingData } from '../data/landingPagesData';

@@ -304,19 +304,13 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   const capitalizationM = scpi.capitalization / 1000000;
   const nbImmeubles = scpi.nbImmeubles;
   const walt = scpi.walt;
-  const walb = scpi.walb;
-  const nombreLocataires = scpi.nombreLocataires;
   const sector = scpi.sector;
-  const isr = scpi.isr;
-  const company = scpi.company;
   const creation = scpi.creation;
-  const versementLoyers = scpi.versementLoyers;
   
   // Caractéristiques combinées pour personnalisation
   const isVeryLargeCap = capitalizationM >= 2000;
   const isLargeCap = capitalizationM >= 800;
   const isMediumCap = capitalizationM >= 300;
-  const isSmallCap = capitalizationM < 100;
   const isHighYield = yieldValue >= 6.5;
   const isMediumYield = yieldValue >= 5.0 && yieldValue < 6.5;
   const isLowYield = yieldValue < 4.5;
@@ -331,10 +325,8 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   const isVeryDiversified = nbImmeubles !== undefined && nbImmeubles >= 200;
   const isDiversified = nbImmeubles !== undefined && nbImmeubles >= 100;
   const isLongLease = walt !== undefined && walt >= 7;
-  const isMediumLease = walt !== undefined && walt >= 4 && walt < 7;
   const isOldScpi = creation < 2000;
   const isRecentScpi = creation >= 2015;
-  const isMensuel = versementLoyers === 'Mensuel';
 
   // 1. 💰 EST-CE QUE ÇA RAPPORTE CORRECTEMENT ? (Rendement) - Personnalisé selon profil
   let revenus: string = '';
