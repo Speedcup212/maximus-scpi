@@ -13,30 +13,31 @@ const SetPassword: React.FC = () => {
 
   useEffect(() => {
     if (!supabase) return;
+    const client = supabase;
     const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     const bootstrap = async () => {
       try {
         const url = new URL(window.location.href);
         const code = url.searchParams.get('code');
         if (code) {
-          await supabase.auth.exchangeCodeForSession(window.location.href);
+          await client.auth.exchangeCodeForSession(window.location.href);
         } else if (url.hash) {
           const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
           const accessToken = hashParams.get('access_token');
           const refreshToken = hashParams.get('refresh_token');
           if (accessToken && refreshToken) {
-            await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+            await client.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
           }
         }
 
-        let session = (await supabase.auth.getSession()).data.session;
+        let session = (await client.auth.getSession()).data.session;
         if (!session) {
           await wait(250);
-          session = (await supabase.auth.getSession()).data.session;
+          session = (await client.auth.getSession()).data.session;
         }
         if (!session) {
           await wait(250);
-          session = (await supabase.auth.getSession()).data.session;
+          session = (await client.auth.getSession()).data.session;
         }
 
         if (!session) {
