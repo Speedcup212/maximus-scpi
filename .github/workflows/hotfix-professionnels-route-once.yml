@@ -22,41 +22,15 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Patch Pro routing and restore auth context for legacy App
-        shell: python
-        run: |
-          from pathlib import Path
-
-          app = Path('src/App.tsx')
-          s = app.read_text()
-          old_route = "if (path.startsWith('pro')) {"
-          new_route = "if (path === 'pro' || path.startsWith('pro/')) {"
-          if s.count(old_route) != 1:
-              raise SystemExit(f'Expected one Pro matcher, found {s.count(old_route)}')
-          app.write_text(s.replace(old_route, new_route, 1))
-
-          main = Path('src/main.tsx')
-          m = main.read_text()
-          import_anchor = "import HomeApp from './HomeApp';"
-          auth_import = "import { AuthProvider } from './contexts/AuthContext';"
-          if auth_import not in m:
-              if m.count(import_anchor) != 1:
-                  raise SystemExit('HomeApp import anchor not found exactly once')
-              m = m.replace(import_anchor, import_anchor + "\n" + auth_import, 1)
-
-          old_fallback = "  const module = await import('./App');\n  return module.default;"
-          new_fallback = "  const module = await import('./App');\n  const LegacyApp = module.default;\n  const LegacyAppWithAuth = () => (\n    <AuthProvider>\n      <LegacyApp />\n    </AuthProvider>\n  );\n  return LegacyAppWithAuth;"
-          if m.count(old_fallback) != 1:
-              raise SystemExit(f'Legacy App fallback anchor count={m.count(old_fallback)}')
-          main.write_text(m.replace(old_fallback, new_fallback, 1))
-      - name: Verify intended invariants
+      - name: Verify isolated Pro fix
         shell: bash
         run: |
           set -euo pipefail
-          grep -q "path === 'pro' || path.startsWith('pro/')" src/App.tsx
           grep -q "import { AuthProvider } from './contexts/AuthContext';" src/main.tsx
+          grep -q "if (path === 'professionnels')" src/main.tsx
+          grep -q "import('./components/expert/ProfessionnelsPortal')" src/main.tsx
           grep -q '<AuthProvider>' src/main.tsx
-          git diff -- src/App.tsx src/main.tsx
+          git diff cf5ee9e158f4f0ef5ab5cd9336163effa83c2427 -- src/main.tsx scripts/smoke-professionnels.mjs
       - name: Install dependencies
         run: npm ci
       - name: Production build
@@ -72,13 +46,13 @@ jobs:
           exit 1
       - name: Browser smoke public portal and CGP login
         run: node scripts/smoke-professionnels.mjs
-      - name: Commit verified hotfix
+      - name: Mark verified hotfix
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'maximus-repair'
           git config user.email 'maximus-repair@users.noreply.github.com'
           git rm .github/workflows/hotfix-professionnels-route-once.yml
-          git add src/App.tsx src/main.tsx scripts/smoke-professionnels.mjs
-          git commit -m 'fix(pro): restore portal routing and auth provider [skip netlify]'
+          git add src/main.tsx scripts/smoke-professionnels.mjs
+          git commit -m 'test(pro): verify portal and CGP login [skip netlify]'
           git push origin HEAD:hotfix/professionnels-route-20261005
