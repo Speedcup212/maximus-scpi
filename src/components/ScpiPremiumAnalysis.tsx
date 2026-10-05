@@ -499,12 +499,13 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
   }, [age, gap, landingData.societe_gestion, scpi, topGeo, topSector]);
 
   const quarterlyFallback = useMemo(() => {
+    if (!scpi.actualitePeriode || !scpi.actualiteDateDocument || !scpi.actualiteSourceDocument || !scpi.actualiteSourceUrl) return [];
     const parts = (scpi.actualitesTrimestrielles || '')
       .split('|')
       .map((item) => item.trim())
       .filter(Boolean);
-    return parts.slice(0, 2);
-  }, [scpi.actualitesTrimestrielles]);
+    return parts.slice(0, 6);
+  }, [scpi.actualitesTrimestrielles, scpi.actualitePeriode, scpi.actualiteDateDocument, scpi.actualiteSourceDocument, scpi.actualiteSourceUrl]);
 
   return (
     <section className="bg-slate-950 py-12 text-white">
@@ -687,8 +688,9 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
           ) : quarterlyFallback.length > 0 ? (
             <div className="p-6 sm:p-8">
               <div className="text-sm font-semibold text-slate-200 mb-4">
-                Faits marquants du dernier bulletin disponible
+                Résumé factuel documenté
               </div>
+              <p className="text-xs text-slate-400 mb-4">Période du résumé : {scpi.actualitePeriode} · Document daté : {formatDate(scpi.actualiteDateDocument)}</p>
               <div className="grid md:grid-cols-3 gap-4">
                 {quarterlyFallback.map((item) => (
                   <div key={item} className="rounded-xl border border-white/10 bg-slate-900/70 p-4 text-sm text-slate-300">
@@ -696,6 +698,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
                   </div>
                 ))}
               </div>
+              <a className="mt-4 inline-block text-sm text-emerald-300 underline" href={scpi.actualiteSourceUrl} target="_blank" rel="noopener noreferrer">{scpi.actualiteSourceDocument}</a>
             </div>
           ) : (
             <div className="p-8 text-center">
