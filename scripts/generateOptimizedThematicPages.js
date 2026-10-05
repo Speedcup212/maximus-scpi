@@ -1283,7 +1283,12 @@ const generatePages = () => {
 
   // Charger les SCPI depuis le fichier JSON
   const scpiDataPath = path.join(__dirname, '../src/data/scpi_complet.json');
-  const scpiData = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
+  const certifiedScpiCohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
+  const rawScpiData = JSON.parse(fs.readFileSync(scpiDataPath, 'utf-8'));
+  const certifiedScpiCohort = JSON.parse(fs.readFileSync(certifiedScpiCohortPath, 'utf-8'));
+  const certifiedScpiSlugSet = new Set(certifiedScpiCohort.slugs || []);
+  const scpiData = (Array.isArray(rawScpiData) ? rawScpiData : (rawScpiData.Sheet1 || []))
+    .filter((scpi) => certifiedScpiSlugSet.has(createSlugFromName(scpi['Nom SCPI'])));
 
   // Indexer les SCPI par slug
   const scpiBySlug = {};
