@@ -1,0 +1,91 @@
+name: Validate structural capitalization input once
+
+on:
+  push:
+    branches:
+      - diagnostic/typescript-capitalization-20261005
+    paths:
+      - '.github/workflows/typecheck-capitalization-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded type correction
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/indicators/scpiIndicatorRegistry.ts')
+          s = p.read_text()
+          old = "export type ScpiLike = Partial<Scpi> & {\n"
+          new = "export type ScpiLike = Omit<Partial<Scpi>, 'capitalization'> & {\n"
+          if old not in s:
+              raise SystemExit('Expected ScpiLike declaration not found')
+          p.write_text(s.replace(old, new, 1))
+          PY
+          test "$(git diff --name-only)" = "src/indicators/scpiIndicatorRegistry.ts"
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify TypeScript reduction
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          runtime=$((total-unused))
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: ${runtime}"
+          if grep -E 'scpiIndicatorRegistry.ts\(114,19\).*replace.*never' /tmp/typecheck.log; then
+            echo 'Capitalization narrowing error remains.' >&2
+            exit 1
+          fi
+          if [ "$total" -gt 1003 ]; then
+            echo "Expected <= 1003 diagnostics, got ${total}." >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
+      - name: Promote only validated file to unchanged main
+        shell: bash
+        run: |
+          git fetch origin main
+          expected='029a8b6b48c78ae75f41ee88ef751b50c61e4598'
+          current=$(git rev-parse origin/main)
+          if [ "$current" != "$expected" ]; then
+            echo "main moved: expected $expected, got $current" >&2
+            exit 1
+          fi
+          git checkout -B main origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/indicators/scpiIndicatorRegistry.ts')
+          s = p.read_text()
+          old = "export type ScpiLike = Partial<Scpi> & {\n"
+          new = "export type ScpiLike = Omit<Partial<Scpi>, 'capitalization'> & {\n"
+          if old not in s:
+              raise SystemExit('Expected ScpiLike declaration not found on main')
+          p.write_text(s.replace(old, new, 1))
+          PY
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/indicators/scpiIndicatorRegistry.ts
+          test "$(git diff --cached --name-only)" = "src/indicators/scpiIndicatorRegistry.ts"
+          git commit -m 'fix(types): widen structural capitalization input [skip netlify]'
+          git push origin HEAD:main
