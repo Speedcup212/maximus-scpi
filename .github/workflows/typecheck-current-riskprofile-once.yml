@@ -1,4 +1,4 @@
-name: Compare risk profile contract against current production
+name: Inventory current public TypeScript debt
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,41 +24,32 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Compare baseline and candidate TypeScript debt
+      - name: Inventory public runtime debt
         shell: bash
         run: |
-          set -e
-          cp src/types/riskProfile.ts /tmp/riskProfile.ts
-          rm src/types/riskProfile.ts
           set +e
-          npm run typecheck > /tmp/typecheck-baseline.log 2>&1
+          npm run typecheck > /tmp/typecheck.log 2>&1
           set -e
-          mv /tmp/riskProfile.ts src/types/riskProfile.ts
-          set +e
-          npm run typecheck > /tmp/typecheck-candidate.log 2>&1
-          set -e
-
-          baseline_total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck-baseline.log || true)
-          candidate_total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck-candidate.log || true)
-          baseline_unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck-baseline.log || true)
-          candidate_unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck-candidate.log || true)
-          baseline_runtime=$((baseline_total-baseline_unused))
-          candidate_runtime=$((candidate_total-candidate_unused))
-
-          echo "Baseline diagnostics: ${baseline_total} (${baseline_unused} unused / ${baseline_runtime} runtime)"
-          echo "Candidate diagnostics: ${candidate_total} (${candidate_unused} unused / ${candidate_runtime} runtime)"
-          echo "Net reduction: $((baseline_total-candidate_total)) total / $((baseline_runtime-candidate_runtime)) runtime"
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: $((total-unused))"
           echo
-          echo "Candidate riskProfile diagnostics:"
-          grep -E 'riskProfile|ClientProfile|RiskProfile' /tmp/typecheck-candidate.log | head -120 || true
-
-          if grep -E "Cannot find module '../types/riskProfile'|Cannot find module './types/riskProfile'|Property 'tmi' does not exist on type 'ClientProfile'" /tmp/typecheck-candidate.log; then
-            echo 'riskProfile contract remains incomplete.' >&2
-            exit 1
-          fi
-          if [ "$candidate_runtime" -ge "$baseline_runtime" ]; then
-            echo 'No runtime/typing reduction from riskProfile contract.' >&2
-            exit 1
-          fi
-      - name: Production build
-        run: npm run build
+          echo "Top public runtime files (auth/pro/expert excluded):"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192|6196|6198):' \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -nr | head -40 || true
+          echo
+          echo "First 280 public runtime diagnostics:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192|6196|6198):' \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | head -280 || true
+          echo
+          echo "Missing modules outside auth/pro/expert:"
+          grep -E 'error TS2307:' /tmp/typecheck.log \
+            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|app/pages/AppEntry|app/pages/AppLogin)' \
+            | head -100 || true
+          exit 0
