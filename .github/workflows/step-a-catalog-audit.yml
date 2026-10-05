@@ -14,7 +14,7 @@ jobs:
         with:
           ref: audit/step-a-catalog-count
           fetch-depth: 1
-      - name: Enumerate top-level SCPI names
+      - name: Enumerate top-level SCPI names and unsupported references
         shell: bash
         run: |
           python - <<'PY'
@@ -26,3 +26,7 @@ jobs:
           for name in names:
               print(f'LOCAL_SCPI={name}')
           PY
+          echo '--- CAP_HEBERGIMMO_REFERENCES ---'
+          grep -RIl --exclude-dir=.git --exclude='*.map' "Aestiam Cap'Hebergimmo\|aestiam-cap-hebergimmo" src public scripts || true
+          echo '--- PIERRE_RENDEMENT_REFERENCES ---'
+          grep -RIl --exclude-dir=.git --exclude='*.map' "Aestiam Pierre Rendement\|aestiam-pierre-rendement" src public scripts || true
