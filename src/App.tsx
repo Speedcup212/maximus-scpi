@@ -1687,12 +1687,12 @@ const App: React.FC = () => {
   };
 
   const handleBackToHome = () => {
-  // La home autoritaire est montée par main.tsx via HomeApp.
-  // Depuis les routes legacy, une simple mutation de currentView conservait
-  // l'ancienne home embarquée dans App.tsx. Une navigation réelle garantit
-  // qu'un retour accueil charge toujours la même HomeApp.
-  window.location.assign('/');
-};
+    // La home autoritaire est montée par main.tsx via HomeApp.
+    // Depuis les routes legacy, une simple mutation de currentView conservait
+    // l'ancienne home embarquée dans App.tsx. Une navigation réelle garantit
+    // qu'un retour accueil charge toujours la même HomeApp.
+    window.location.assign('/');
+  };
 
   const handleActualitesClick = () => {
     navigateToView('actualites', '/actualites');
