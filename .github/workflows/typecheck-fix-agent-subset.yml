@@ -17,8 +17,9 @@ jobs:
           fetch-depth: 0
 
       - name: Apply bounded safe fixes
-        shell: python
+        shell: bash
         run: |
+          python - <<'PY'
           from pathlib import Path
 
           def replace(path, old, new, required=True):
@@ -71,28 +72,28 @@ jobs:
                         '  const [investmentYears] = useState<number>(15);')
 
           completeness = """  // Vérifier la complétude des données
-  const completenessResult = useMemo(() => {
-    if (!scpiForAnalysis) return null;
-    return checkScpiDataCompleteness(scpiForAnalysis, scpi);
-  }, [scpiForAnalysis, scpi]);
+          const completenessResult = useMemo(() => {
+            if (!scpiForAnalysis) return null;
+            return checkScpiDataCompleteness(scpiForAnalysis, scpi);
+          }, [scpiForAnalysis, scpi]);
 
-"""
+          """
           replace(path, completeness, '')
           replace(path, '  const monthlyRevenue = annualRevenue / 12;\n', '')
           replace(path, '  const netYield = currentYield - 0.5;\n', '')
           replace(path, '  const annualNetRevenue = actualInvestment * (netYield / 100);\n', '')
           projection = """  const projectionData = Array.from({ length: investmentYears + 1 }, (_, year) => {
-    const totalRevenue = annualRevenue * year;
-    const totalValue = actualInvestment + totalRevenue;
-    return {
-      year: year === 0 ? 'Début' : `An ${year}`,
-      capital: actualInvestment,
-      revenus: totalRevenue,
-      total: totalValue
-    };
-  });
+            const totalRevenue = annualRevenue * year;
+            const totalValue = actualInvestment + totalRevenue;
+            return {
+              year: year === 0 ? 'Début' : `An ${year}`,
+              capital: actualInvestment,
+              revenus: totalRevenue,
+              total: totalValue
+            };
+          });
 
-"""
+          """
           replace(path, projection, '')
           replace(path,
                   "                const cap = scpiForAnalysis?.capitalization ?? scpi.capitalization;\n                const capCategory = getCapitalizationCategory(cap);\n",
@@ -106,6 +107,7 @@ jobs:
           replace(path, '(scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) ? (', 'scpi.reconstitutionValue !== undefined ? (')
           replace(path, '{(scpi.reconstitutionValue ?? scpi.valeurReconstitution)?.toFixed(2)}€', '{scpi.reconstitutionValue.toFixed(2)}€')
           replace(path, '(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined || scpi.valeurReconstitution !== undefined) && (', '(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined) && (')
+          PY
 
       - name: Commit fixes when changed
         shell: bash
