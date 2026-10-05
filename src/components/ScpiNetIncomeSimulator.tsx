@@ -713,7 +713,7 @@ const ScpiNetIncomeSimulator: React.FC<ScpiNetIncomeSimulatorProps> = ({
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatEuro(Number(value))}
                   />
                   <Legend />
                   <Bar dataKey="Brut" fill="#94a3b8" />
@@ -744,7 +744,7 @@ const ScpiNetIncomeSimulator: React.FC<ScpiNetIncomeSimulatorProps> = ({
                   />
                   <YAxis stroke="#6b7280" />
                   <Tooltip
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatEuro(Number(value))}
                     contentStyle={{
                       backgroundColor: 'rgba(255, 255, 255, 0.95)',
                       border: '1px solid #e5e7eb',

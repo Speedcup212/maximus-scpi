@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { AMFProfileResult } from "../utils/amfScoring";
+import type { AMFProfileResult } from "../utils/amfScoring";
 import { normalizeGeoLabel, normalizeSectorLabel } from "../utils/labelNormalization";
 import ScpiTable from "./ScpiTable";
 

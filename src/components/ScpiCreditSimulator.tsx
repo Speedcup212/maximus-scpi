@@ -950,7 +950,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatEuro(Number(value))}
                   />
                   <Legend />
                   <Line
@@ -995,7 +995,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatEuro(Number(value))}
                   />
                   <Bar
                     dataKey="cashflow"

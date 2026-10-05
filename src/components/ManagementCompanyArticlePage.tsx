@@ -671,11 +671,7 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
           </section>
         </div>
 
-        <LegalFooter
-          isDarkMode={isDarkMode}
-          onContactClick={onContactClick}
-          onAboutClick={onAboutClick}
-        />
+        <LegalFooter />
       </div>
     </>
   );

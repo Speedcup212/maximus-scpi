@@ -385,11 +385,7 @@ const GestionnairesActeursScpiPage: React.FC<GestionnairesActeursScpiPageProps> 
           </section>
         </div>
 
-        <LegalFooter
-          isDarkMode={isDarkMode}
-          onContactClick={onContactClick}
-          onAboutClick={onAboutClick}
-        />
+        <LegalFooter />
       </div>
     </>
   );

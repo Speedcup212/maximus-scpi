@@ -658,7 +658,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k€`}
             />
             <Tooltip
-              formatter={(value: number) => formatEuro(value)}
+              formatter={(value) => formatEuro(Number(value))}
               labelFormatter={(label) => `Année ${label}`}
             />
             <Legend />
