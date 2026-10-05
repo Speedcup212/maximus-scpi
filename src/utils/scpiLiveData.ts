@@ -158,7 +158,7 @@ export function mergeScpiWithLiveIndicators(
     partsAttenteRetrait: certifiedWaiting,
     hasWaitingShares: liquidityBasis === 'withdrawal_queue' && certifiedWaiting !== undefined
       ? certifiedWaiting > 0
-      : false,
+      : undefined,
     periodeBulletinTrimestriel: row.source_period || scpi.periodeBulletinTrimestriel,
     maximusSourcePeriode: row.source_period || scpi.maximusSourcePeriode,
     maximusSourceDocument: row.source_document || scpi.maximusSourceDocument,
