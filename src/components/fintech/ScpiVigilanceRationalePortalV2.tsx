@@ -3,6 +3,12 @@ import { createPortal } from 'react-dom';
 import { AlertTriangle, CheckCircle2, Eye, Info, ShieldCheck } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import {
+  isSubscriptionReconstitutionComparable,
+  resolveCertifiedLiquidity,
+  type CertifiedLiquiditySnapshot,
+  type LiquiditySignalGate,
+} from '../../utils/certifiedLiquidity';
 
 type RiskLevel = 'low' | 'medium' | 'high';
 
@@ -41,8 +47,7 @@ type ScpiIndicator = {
   walb: number | string | null;
   nombre_locataires: number | string | null;
   nombre_immeubles: number | string | null;
-  nombre_parts: number | string | null;
-  parts_attente_retrait: number | string | boolean | null;
+  capital_type: string | null;
   annee_creation: number | string | null;
   repartition_sectorielle: unknown;
   repartition_geographique: unknown;
@@ -128,6 +133,8 @@ const parseDistribution = (raw: unknown) => {
 const buildRationale = (
   analysis: BulletinAnalysis | null,
   indicator: ScpiIndicator | null,
+  liquidity: CertifiedLiquiditySnapshot | null,
+  gate: LiquiditySignalGate | null,
 ): Rationale => {
   const favorable: string[] = [];
   const vigilance: string[] = [];
@@ -145,8 +152,7 @@ const buildRationale = (
   const reconstitution = toNumber(indicator?.prix_reconstitution);
   const buildings = toNumber(indicator?.nombre_immeubles);
   const tenants = toNumber(indicator?.nombre_locataires);
-  const shares = toNumber(indicator?.nombre_parts);
-  const waiting = toNumber(indicator?.parts_attente_retrait);
+  const certifiedLiquidity = resolveCertifiedLiquidity(liquidity, gate);
 
   if (tof != null) {
     if (tof > 0 && tof < 50) {
@@ -175,23 +181,62 @@ const buildRationale = (
     pushUnique(favorable, `WALT de ${formatNumber(walt)} ans : durée résiduelle des baux favorable.`);
   }
 
-  const estimatedShares =
-    shares != null && shares > 0
-      ? shares
-      : capM != null && price != null && price > 0
-        ? (capM * 1_000_000) / price
-        : null;
-  const waitingRatio =
-    waiting != null && waiting > 0 && estimatedShares != null && estimatedShares > 0
-      ? (waiting / estimatedShares) * 100
-      : null;
+  if (certifiedLiquidity.publishableLevel) {
+    if (certifiedLiquidity.regimeChanged) {
+      pushUnique(
+        information,
+        'Un changement de régime de liquidité a été identifié : les données avant et après bascule ne sont pas comparées comme une même série.',
+        4,
+      );
+    }
 
-  if (waiting === 0) {
-    pushUnique(favorable, `Aucune part en attente de retrait dans la dernière donnée disponible.`);
-  } else if (waiting != null && waiting > 0 && waitingRatio != null && waitingRatio < 0.5) {
+    if (certifiedLiquidity.basis === 'withdrawal_queue') {
+      const waiting = certifiedLiquidity.withdrawalParts;
+      const waitingRatio = certifiedLiquidity.currentPct;
+
+      if (waitingRatio === 0 && (waiting === 0 || waiting === null)) {
+        pushUnique(favorable, 'Aucune file de retraits significative dans la donnée certifiée de la période courante.');
+      } else if (waitingRatio != null && waitingRatio < 0.5) {
+        const waitingLabel = waiting != null
+          ? `${formatNumber(waiting, 0)} part${waiting > 1 ? 's' : ''} en attente, soit `
+          : '';
+        pushUnique(
+          favorable,
+          `${waitingLabel}${formatNumber(waitingRatio, 3)} % des parts : niveau faible dans la file de retraits certifiée.`,
+        );
+      } else if (waitingRatio != null && waitingRatio < 1) {
+        pushUnique(
+          information,
+          `File de retraits certifiée : ${formatNumber(waitingRatio, 3)} % des parts.`,
+          4,
+        );
+      }
+    } else if (certifiedLiquidity.basis === 'secondary_market_order_book') {
+      if (certifiedLiquidity.currentPct != null) {
+        pushUnique(
+          information,
+          `Pression du marché secondaire : ${formatNumber(certifiedLiquidity.currentPct, 3)} %. Cette mesure provient du carnet d'ordres et n'est pas convertie en file de retraits.`,
+          4,
+        );
+      } else {
+        pushUnique(
+          information,
+          'La liquidité est suivie via le carnet d’ordres du marché secondaire ; aucune ancienne file de retraits n’est réutilisée.',
+          4,
+        );
+      }
+    } else if (certifiedLiquidity.basis === 'fixed_capital_market') {
+      pushUnique(
+        information,
+        'La liquidité relève d’un marché secondaire à capital fixe : aucun ratio de file de retraits n’est affiché.',
+        4,
+      );
+    }
+  } else if (liquidity || gate) {
     pushUnique(
-      favorable,
-      `${formatNumber(waiting, 0)} part${waiting > 1 ? 's' : ''} en attente, soit ${formatNumber(waitingRatio, 3)} % des parts : volume non significatif.`,
+      information,
+      'La liquidité n’est pas qualifiée automatiquement lorsque les gates de certification ou de comparabilité ne sont pas satisfaits.',
+      4,
     );
   }
 
@@ -248,7 +293,18 @@ const buildRationale = (
     }
   }
 
-  if (price != null && reconstitution != null && reconstitution > 0) {
+  const comparableReconstitution = Boolean(
+    gate?.reconstitution_gate?.startsWith('PASS') &&
+    gate?.market_signal_gate?.startsWith('PASS') &&
+    isSubscriptionReconstitutionComparable({
+      capitalType: indicator?.capital_type,
+      liquidityBasis: certifiedLiquidity.basis,
+      liquidityRegimeChanged: certifiedLiquidity.regimeChanged,
+      reconstitutionGate: gate?.reconstitution_gate,
+    }),
+  );
+
+  if (comparableReconstitution && price != null && reconstitution != null && reconstitution > 0) {
     const spread = (price / reconstitution - 1) * 100;
     if (spread <= -5) {
       pushUnique(
@@ -446,9 +502,9 @@ const RationaleBlock: React.FC<{
         <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
         <span>
           Doctrine propriétaire MaximusSCPI : les micro-signaux ne sont pas classés comme facteurs
-          de vigilance. Pour la liquidité, une file inférieure à 0,5 % des parts est considérée non
-          significative, 0,5–1 % comme information, 1–3 % comme vigilance, 3–5 % comme tension
-          notable et ≥ 5 % comme signal majeur. Cette appréciation est distincte du SRI
+          de vigilance. Les seuils de file de retraits ne s'appliquent qu'aux SCPI dont le régime
+          certifié est « withdrawal_queue ». Un marché secondaire ou un changement de régime est
+          présenté avec sa propre base de liquidité, sans conversion artificielle. Cette appréciation est distincte du SRI
           réglementaire.
           {analysis?.current_period ? ` Analyse fondée notamment sur le bulletin ${analysis.current_period}.` : ''}
         </span>
@@ -460,6 +516,8 @@ const RationaleBlock: React.FC<{
 const ScpiVigilanceRationalePortalV2: React.FC = () => {
   const [analyses, setAnalyses] = useState<Record<string, BulletinAnalysis>>({});
   const [indicators, setIndicators] = useState<Record<string, ScpiIndicator>>({});
+  const [liquidities, setLiquidities] = useState<Record<string, CertifiedLiquiditySnapshot>>({});
+  const [gates, setGates] = useState<Record<string, LiquiditySignalGate>>({});
   const [target, setTarget] = useState<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
 
@@ -469,7 +527,7 @@ const ScpiVigilanceRationalePortalV2: React.FC = () => {
     const load = async () => {
       if (!supabase) return;
 
-      const [analysisResult, indicatorResult] = await Promise.all([
+      const [analysisResult, indicatorResult, liquidityResult, gateResult] = await Promise.all([
         supabase
           .from('scpi_bulletin_analysis')
           .select(
@@ -478,7 +536,17 @@ const ScpiVigilanceRationalePortalV2: React.FC = () => {
         supabase
           .from('scpi_indicators')
           .select(
-            'scpi_slug,nom,tof,capitalisation,prix_souscription,prix_reconstitution,endettement,walt,walb,nombre_locataires,nombre_immeubles,nombre_parts,parts_attente_retrait,annee_creation,repartition_sectorielle,repartition_geographique',
+            'scpi_slug,nom,tof,capitalisation,prix_souscription,prix_reconstitution,endettement,walt,walb,nombre_locataires,nombre_immeubles,capital_type,annee_creation,repartition_sectorielle,repartition_geographique',
+          ),
+        supabase
+          .from('scpi_trajectory_pilot_liquidity')
+          .select(
+            'scpi_slug,source_period,parts_attente_retrait,nombre_parts,retrait_attente_pct,prev_pct,liquidity_basis,liquidity_pressure_pct,prev_pressure_pct,liquidity_sell_orders,liquidity_buy_orders,regime_changed,signal_certification,niveau_liquidite,trajectoire_liquidite',
+          ),
+        supabase
+          .from('scpi_trajectory_signal_gate')
+          .select(
+            'scpi_slug,data_gate,structural_gate,semantic_gate,liquidity_gate,liquidity_signal_eligible,reconstitution_gate,market_signal_gate',
           ),
       ]);
 
@@ -489,6 +557,12 @@ const ScpiVigilanceRationalePortalV2: React.FC = () => {
       }
       if (indicatorResult.error) {
         console.warn('[ScpiVigilanceRationale] Indicateurs indisponibles', indicatorResult.error);
+      }
+      if (liquidityResult.error) {
+        console.warn('[ScpiVigilanceRationale] Liquidité certifiée indisponible', liquidityResult.error);
+      }
+      if (gateResult.error) {
+        console.warn('[ScpiVigilanceRationale] Gates de trajectoire indisponibles', gateResult.error);
       }
 
       const analysisMap: Record<string, BulletinAnalysis> = {};
@@ -501,8 +575,20 @@ const ScpiVigilanceRationalePortalV2: React.FC = () => {
         indicatorMap[row.scpi_slug] = row;
       }
 
+      const liquidityMap: Record<string, CertifiedLiquiditySnapshot> = {};
+      for (const row of (liquidityResult.data || []) as CertifiedLiquiditySnapshot[]) {
+        if (row.scpi_slug) liquidityMap[row.scpi_slug] = row;
+      }
+
+      const gateMap: Record<string, LiquiditySignalGate> = {};
+      for (const row of (gateResult.data || []) as Array<LiquiditySignalGate & { scpi_slug?: string }>) {
+        if (row.scpi_slug) gateMap[row.scpi_slug] = row;
+      }
+
       setAnalyses(analysisMap);
       setIndicators(indicatorMap);
+      setLiquidities(liquidityMap);
+      setGates(gateMap);
     };
 
     void load();
@@ -563,7 +649,12 @@ const ScpiVigilanceRationalePortalV2: React.FC = () => {
 
   const analysis = activeSlug ? analyses[activeSlug] ?? null : null;
   const indicator = activeSlug ? indicators[activeSlug] ?? null : null;
-  const rationale = useMemo(() => buildRationale(analysis, indicator), [analysis, indicator]);
+  const liquidity = activeSlug ? liquidities[activeSlug] ?? null : null;
+  const gate = activeSlug ? gates[activeSlug] ?? null : null;
+  const rationale = useMemo(
+    () => buildRationale(analysis, indicator, liquidity, gate),
+    [analysis, indicator, liquidity, gate],
+  );
 
   if (!target || !activeSlug) return null;
 
