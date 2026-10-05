@@ -54,10 +54,10 @@ export function sanitizeScpiInput(scpi: ScpiInput): ScpiInput {
   }
 
   // 3. Normaliser les pourcentages (s'assurer qu'ils sont entre 0 et 100)
-  if (clone.tof !== null && clone.tof > 100) {
+  if (clone.tof != null && clone.tof > 100) {
     clone.tof = 100; // Cap à 100%
   }
-  if (clone.endettement !== null && clone.endettement < 0) {
+  if (clone.endettement != null && clone.endettement < 0) {
     clone.endettement = 0; // Pas d'endettement négatif
   }
 
@@ -107,7 +107,7 @@ export function sanitizeScpiInput(scpi: ScpiInput): ScpiInput {
 /**
  * Sanitise une répartition (secteur ou géo)
  */
-function sanitizeRepartition(repartition: Record<string, number>): Record<string, number> {
+function sanitizeRepartition(repartition: Record<string, number | string>): Record<string, number> {
   const sanitized: Record<string, number> = {};
 
   for (const [key, value] of Object.entries(repartition)) {

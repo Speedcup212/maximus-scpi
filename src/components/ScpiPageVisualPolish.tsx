@@ -4,7 +4,7 @@ interface ScpiPageVisualPolishProps {
   scpiSlug: string;
 }
 
-const getText = (node: Element | null) => (node?.textContent || '').replace(/\s+/g, ' ').trim();
+const getText = (node: Element | null | undefined) => (node?.textContent || '').replace(/\s+/g, ' ').trim();
 
 const ScpiPageVisualPolish: React.FC<ScpiPageVisualPolishProps> = ({ scpiSlug }) => {
   useEffect(() => {

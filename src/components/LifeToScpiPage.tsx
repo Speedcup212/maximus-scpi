@@ -1163,8 +1163,8 @@ const LifeToScpiSimulator: React.FC = () => {
                         <input
                           type="number"
                           step="0.1"
-                          value={inputs.tauxRevalorisation}
-                          onChange={(e) => handleInputChange('tauxRevalorisation', Number(e.target.value))}
+                          value={inputs.tauxRevalorisationPart}
+                          onChange={(e) => handleInputChange('tauxRevalorisationPart', Number(e.target.value))}
                           className="w-full px-4 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-600 dark:focus:ring-green-500 focus:border-orange-600 dark:focus:border-green-500 bg-white dark:bg-gray-700 text-white dark:text-white"
                         />
                         <span className="absolute right-4 top-2 text-white dark:text-gray-400">%</span>

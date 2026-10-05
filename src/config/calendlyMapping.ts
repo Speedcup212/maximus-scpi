@@ -22,6 +22,7 @@ function mapMontant(value: QuizData['montant']): string {
 
 function mapTmi(value: QuizData['tmi']): string {
   const map: Record<QuizData['tmi'], string> = {
+    '0': '0 %',
     '11': '11 %',
     '30': '30 %',
     '41': '41 %',
