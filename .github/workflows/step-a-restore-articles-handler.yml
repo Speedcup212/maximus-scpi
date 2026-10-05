@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   restore:
-    if: ${{ !contains(github.event.head_commit.message, '[handler-restored]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
@@ -25,6 +24,9 @@ jobs:
           from pathlib import Path
           p = Path('src/App.tsx')
           text = p.read_text()
+          if 'const handleArticlesClick = () =>' in text:
+              print('handler already present')
+              raise SystemExit(0)
           anchor = """  const handleActualitesClick = () => {
     navigateToView('actualites', '/actualites');
   };
@@ -35,17 +37,19 @@ jobs:
   };
 
 """
-          if 'const handleArticlesClick = () =>' in text:
-              raise SystemExit('handleArticlesClick already present')
           if text.count(anchor) != 1:
               raise SystemExit(f'Expected one handleActualitesClick anchor, got {text.count(anchor)}')
           p.write_text(text.replace(anchor, handler + anchor, 1))
           PY
           git diff --check
           git diff -- src/App.tsx
-      - name: Commit source repair
+      - name: Commit source repair when needed
         shell: bash
         run: |
+          if git diff --quiet -- src/App.tsx; then
+            echo 'No source change needed'
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/App.tsx
