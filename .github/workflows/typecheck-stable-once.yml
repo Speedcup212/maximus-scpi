@@ -1,4 +1,4 @@
-name: Inventory stable TypeScript debt once
+name: Validate risk profile type contract once
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Inventory public runtime debt
+      - name: Verify risk profile contract
         shell: bash
         run: |
           set +e
@@ -36,20 +36,15 @@ jobs:
           echo "Unused diagnostics: ${unused}"
           echo "Runtime/typing diagnostics: $((total-unused))"
           echo
-          echo "Top public runtime files:"
-          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
-            | grep -v -E 'error TS(6133|6192|6196|6198):' \
-            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/)' \
-            | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -nr | head -40 || true
-          echo
-          echo "First 260 public runtime diagnostics:"
-          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
-            | grep -v -E 'error TS(6133|6192|6196|6198):' \
-            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/)' \
-            | head -260 || true
-          echo
-          echo "Missing modules outside Pro/Expert:"
-          grep -E 'error TS2307:' /tmp/typecheck.log \
-            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/)' \
-            | head -80 || true
-          exit 0
+          echo "riskProfile diagnostics:"
+          grep -E 'riskProfile|ClientProfile|RiskProfile' /tmp/typecheck.log | head -120 || true
+          if grep -E "Cannot find module '../types/riskProfile'|Cannot find module './types/riskProfile'" /tmp/typecheck.log; then
+            echo 'riskProfile module is still unresolved.' >&2
+            exit 1
+          fi
+          if [ "$total" -ge 1007 ]; then
+            echo "No net TypeScript reduction versus 1007 baseline: ${total}." >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
