@@ -1,0 +1,94 @@
+name: Fix App currentView routes once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-app-current-view-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Add verified currentView route literals
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path('src/App.tsx')
+          text = path.read_text()
+          pattern = r"(const \[currentView, setCurrentView\] = useState<)([^>]+)(>\('home'\);)"
+          match = re.search(pattern, text)
+          if not match:
+            raise SystemExit('currentView union not found exactly once')
+
+          union = match.group(2)
+          routes = [
+            'expert-verification',
+            'article-fonds-euros-ou-scpi', 'article-scpi-direct-av',
+            'article-cout-opportunite-100k', 'article-portfolio-200k',
+            'article-scpi-vs-locatif', 'article-scpi-credit', 'article-demembrement',
+            'article-scpi-tmi-11', 'article-scpi-tmi-30', 'article-scpi-tmi-41',
+            'article-scpi-europeennes', 'article-scpi-fiscales', 'article-scpi-sante',
+            'article-scpi-bureaux', 'article-scpi-commerces', 'article-scpi-logistique',
+            'article-scpi-residentielles', 'article-per-scpi', 'article-sci-scpi',
+            'article-ifi-scpi', 'article-succession-scpi', 'article-diversification-scpi',
+            'article-rendement-scpi-2025', 'article-risques-scpi', 'article-frais-scpi',
+            'article-scpi-vs-etf', 'article-scpi-vs-opci', 'article-premier-investissement',
+            'article-scpi-jeune-actif', 'article-construire-portefeuille',
+            'scpi-secteurs-hub', 'scpi-gestionnaires-hub', 'scpi-objectifs-hub',
+            'scpi-europeennes-hub'
+          ]
+
+          existing = set(re.findall(r"'([^']+)'", union))
+          unexpected = [route for route in routes if route in existing]
+          if unexpected:
+            raise SystemExit(f'Routes unexpectedly already typed: {unexpected}')
+
+          addition = ''.join(f" | '{route}'" for route in routes)
+          new_union = union + addition
+          new_text = text[:match.start()] + match.group(1) + new_union + match.group(3) + text[match.end():]
+          path.write_text(new_text)
+          print(f'Added {len(routes)} verified route literals')
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify TypeScript improvement
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          status=$?
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          echo "TypeScript diagnostics after route patch: ${total}"
+          if [ "$total" -ge 991 ]; then
+            echo "Route patch did not reduce diagnostics below baseline 991" >&2
+            exit 1
+          fi
+          if grep -E "src/App\.tsx.*(expert-verification|article-fonds-euros-ou-scpi|article-scpi-direct-av|scpi-secteurs-hub|scpi-gestionnaires-hub|scpi-objectifs-hub|scpi-europeennes-hub)" /tmp/typecheck.log; then
+            echo 'Target currentView route diagnostics still present.' >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
+      - name: Commit validated route typing
+        shell: bash
+        run: |
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/App.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix(app): type all active currentView routes [skip netlify]'
+          git push origin HEAD:main
