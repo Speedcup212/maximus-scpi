@@ -67,11 +67,23 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     setGoogleLoading(true);
     setMessage(null);
     const client = requireSupabase();
-    const redirectPath = peekPostLoginPath();
+
+    // Conserver la destination Client dans le même onglet, mais utiliser /app
+    // comme callback OAuth unique. Cela évite de dépendre d'une URL de callback
+    // spécifique à /app/client tout en laissant AppEntry restaurer la destination.
+    try {
+      const requested = peekPostLoginPath();
+      if (requested.startsWith('/app/client')) {
+        sessionStorage.setItem('maximusPostLoginPath', requested);
+      }
+    } catch {
+      // Le flux reste utilisable même sans sessionStorage.
+    }
+
     const { error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}${redirectPath}`
+        redirectTo: `${window.location.origin}/app`
       }
     });
     if (error) {
@@ -88,10 +100,19 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     setLoading(true);
     setMessage(null);
     const client = requireSupabase();
-    const redirectPath = peekPostLoginPath();
+
+    try {
+      const requested = peekPostLoginPath();
+      if (requested.startsWith('/app/client')) {
+        sessionStorage.setItem('maximusPostLoginPath', requested);
+      }
+    } catch {
+      // Le flux reste utilisable même sans sessionStorage.
+    }
+
     const { error } = await client.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}${redirectPath}` }
+      options: { emailRedirectTo: `${window.location.origin}/app` }
     });
     if (error) {
       setMessage(error.message);
