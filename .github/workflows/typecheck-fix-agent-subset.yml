@@ -21,6 +21,7 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           def replace(path, old, new, required=True):
               p = Path(path)
@@ -31,6 +32,16 @@ jobs:
                   return False
               p.write_text(text.replace(old, new))
               return True
+
+          def replace_re(path, pattern, new, required=True):
+              p = Path(path)
+              text = p.read_text()
+              updated, count = re.subn(pattern, new, text, flags=re.MULTILINE | re.DOTALL)
+              if count == 0 and required:
+                  raise SystemExit(f'Regex not found in {path}: {pattern[:80]!r}')
+              if count:
+                  p.write_text(updated)
+              return count
 
           replace('src/components/ScpiDetailPage.tsx',
                   "import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';",
@@ -68,33 +79,16 @@ jobs:
                   '')
           replace(path, '  const [investmentAmount, setInvestmentAmount] = useState<number>(50000);',
                         '  const [investmentAmount] = useState<number>(50000);')
-          replace(path, '  const [investmentYears, setInvestmentYears] = useState<number>(15);',
-                        '  const [investmentYears] = useState<number>(15);')
-
-          completeness = """  // Vérifier la complétude des données
-          const completenessResult = useMemo(() => {
-            if (!scpiForAnalysis) return null;
-            return checkScpiDataCompleteness(scpiForAnalysis, scpi);
-          }, [scpiForAnalysis, scpi]);
-
-          """
-          replace(path, completeness, '')
+          replace(path, '  const [investmentYears, setInvestmentYears] = useState<number>(15);\n', '')
+          replace_re(path,
+                     r"  // Vérifier la complétude des données\n  const completenessResult = useMemo\(\(\) => \{\n.*?  \}, \[scpiForAnalysis, scpi\]\);\n\n",
+                     '')
           replace(path, '  const monthlyRevenue = annualRevenue / 12;\n', '')
           replace(path, '  const netYield = currentYield - 0.5;\n', '')
           replace(path, '  const annualNetRevenue = actualInvestment * (netYield / 100);\n', '')
-          projection = """  const projectionData = Array.from({ length: investmentYears + 1 }, (_, year) => {
-            const totalRevenue = annualRevenue * year;
-            const totalValue = actualInvestment + totalRevenue;
-            return {
-              year: year === 0 ? 'Début' : `An ${year}`,
-              capital: actualInvestment,
-              revenus: totalRevenue,
-              total: totalValue
-            };
-          });
-
-          """
-          replace(path, projection, '')
+          replace_re(path,
+                     r"  const projectionData = Array\.from\(\{ length: investmentYears \+ 1 \}, \(_, year\) => \{\n.*?  \}\);\n\n",
+                     '')
           replace(path,
                   "                const cap = scpiForAnalysis?.capitalization ?? scpi.capitalization;\n                const capCategory = getCapitalizationCategory(cap);\n",
                   "                const rawCap = scpiForAnalysis?.capitalization ?? scpi.capitalization;\n                const cap = typeof rawCap === 'number'\n                  ? rawCap\n                  : (() => {\n                      const normalized = rawCap.trim().replace(/\\s/g, '').replace(',', '.').toUpperCase();\n                      const parsed = Number.parseFloat(normalized.replace(/[^0-9.-]/g, ''));\n                      if (!Number.isFinite(parsed)) return 0;\n                      if (normalized.includes('MD')) return parsed * 1_000_000_000;\n                      if (normalized.includes('M')) return parsed * 1_000_000;\n                      return parsed;\n                    })();\n                const capCategory = getCapitalizationCategory(cap);\n")
