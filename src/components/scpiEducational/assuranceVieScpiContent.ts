@@ -2,161 +2,82 @@ import type { ScpiEducationalPageConfig } from './shared'
 
 export const assuranceVieScpiConfig: ScpiEducationalPageConfig = {
   path: '/scpi-assurance-vie',
-  badge: 'Enveloppe d\'investissement',
-  h1: 'SCPI en assurance-vie : avantages, limites et frais à analyser',
+  badge: 'Enveloppe d’investissement',
+  h1: 'SCPI en assurance-vie : avantages, limites, fiscalité et liquidité',
   heroSubtitle:
-    'Loger des SCPI dans un contrat d\'assurance-vie peut présenter un intérêt fiscal et administratif, mais l\'investisseur doit analyser les frais du contrat, le taux de reversement des loyers, le choix limité de SCPI disponibles, les conditions de liquidité et la fiscalité des rachats. L\'assurance-vie n\'améliore pas la qualité de la SCPI sous-jacente.',
-  seoTitle: 'SCPI en assurance-vie : fiscalité, frais UC, rendement, liquidité et transmission',
+    'Détenir une exposition à des SCPI via un contrat d’assurance-vie peut permettre de capitaliser dans l’enveloppe et de bénéficier de sa fiscalité lors des rachats. En contrepartie, l’investisseur dépend des supports référencés, des frais et des règles du contrat. L’assurance-vie ne transforme ni la qualité ni le risque de la SCPI sous-jacente.',
+  seoTitle: 'SCPI en assurance-vie : fiscalité, frais, liquidité et transmission',
   seoDescription:
-    'Analyse complète des SCPI en assurance-vie : fonctionnement en UC, fiscalité capitalisation vs rachat, frais de gestion UC, taux de reversement, choix limité de SCPI, comparaison avec détention directe et démembrement. Tableau comparatif et exemple chiffré 100 000 €.',
-  shortAnswerTitle: 'Pourquoi des SCPI en assurance-vie ?',
+    'SCPI en assurance-vie : fonctionnement des unités de compte, fiscalité des rachats, frais, liquidité, IFI, transmission et comparaison avec la détention directe.',
+  shortAnswerTitle: 'Pourquoi détenir des SCPI via une assurance-vie ?',
   shortAnswer:
-    'L\'assurance-vie permet de détenir des SCPI sous forme d\'unités de compte (UC) dans un cadre fiscal et successoral spécifique. Les revenus sont capitalisés dans le contrat et imposés uniquement lors des rachats, selon la fiscalité propre à l\'assurance-vie (abattement après 8 ans). En contrepartie, l\'investisseur ne détient pas directement les parts, paie des frais de gestion UC en plus des frais de la SCPI, subit un choix de SCPI limité par l\'assureur, et le rendement reversé peut être inférieur au TDVM brut de la SCPI. L\'assurance-vie n\'est ni supérieure ni inférieure à la détention en direct : tout dépend de la situation personnelle, de l\'horizon et des frais.',
+    'L’assurance-vie permet d’accéder à certaines SCPI sous forme d’unités de compte et de différer l’imposition personnelle jusqu’au rachat. Lors d’un rachat, seule la quote-part de gains comprise dans le retrait est fiscalisée selon l’ancienneté du contrat et les règles applicables. L’intérêt doit être comparé aux frais du contrat, aux supports disponibles, au traitement des distributions, à la liquidité, à l’IFI et aux objectifs de transmission.',
   keyMessage:
-    'L\'assurance-vie peut améliorer le cadre fiscal, mais elle ne transforme pas une mauvaise SCPI en bon investissement. Les frais UC réduisent le rendement reversé.',
+    'L’assurance-vie est une enveloppe, pas un accélérateur de rendement : son intérêt vient du cadre fiscal et patrimonial, à comparer à ses frais et contraintes.',
   definitionParagraphs: [
-    'L\'assurance-vie est un contrat d\'épargne qui permet d\'investir sur des supports en euros et en unités de compte (UC). Les SCPI peuvent être proposées comme UC : l\'assureur achète des parts pour le compte du contractant, qui reste propriétaire des actifs dans le cadre juridique du contrat.',
-    'La fiscalité de l\'assurance-vie est spécifique : les revenus des SCPI sont capitalisés dans le contrat sans imposition immédiate. L\'impôt s\'applique uniquement lors des rachats, avec un abattement fiscal renforcé après 8 ans de détention (4 600 € par an pour une personne seule, 9 200 € pour un couple sur les plus-values).',
-    'L\'assureur prélève des frais de gestion sur les UC, généralement entre 0,5 % et 1 % par an, en sus des frais de gestion de la SCPI elle-même (10 % à 12 % des loyers perçus). Ces frais cumulés réduisent le rendement net reversé à l\'investisseur.',
-    'Le rendement des SCPI n\'est pas intégralement reversé dans l\'assurance-vie : l\'assureur conserve une partie des loyers pour constituer des provisions ou couvrir des frais. Le taux de reversement — parfois appelé « rendement du fonds » — diffère du TDVM brut de la SCPI. Un TDVM de 5 % peut se traduire par un rendement effectif de 4 % à 4,5 % dans le contrat selon l\'assureur.',
-    'Le choix de SCPI dans un contrat d\'assurance-vie est limité par l\'assureur. L\'investisseur ne peut sélectionner que les SCPI référencées dans son contrat, ce qui réduit les possibilités de diversification par rapport à un investissement en direct. Certains contrats proposent moins de 5 SCPI, d\'autres jusqu\'à 20.',
-    'La liquidité dépend du contrat : l\'arbitrage vers le fonds euros ou le rachat total/partiel est généralement possible sous quelques jours, contrairement au marché secondaire des SCPI en direct (2 à 6 mois). Cette liquidité apparente ne garantit pas la valeur de rachat, qui fluctue selon le prix de souscription de la SCPI au moment de la sortie.',
-    'L\'intérêt successoral de l\'assurance-vie est connu : les capitaux transmis bénéficient d\'un abattement de 152 500 € par bénéficiaire (sous conditions), ce qui peut être un critère de choix déterminant pour les investisseurs orientés transmission. La fiscalité successorale de l\'assurance-vie diffère du droit commun des successions.',
-    'Le capital investi en SCPI via une assurance-vie n\'est pas garanti (contrairement au fonds euros). Les SCPI restent des actifs risqués : perte en capital possible, revenus non garantis, liquidité limitée. L\'assurance-vie ne change pas la nature du risque immobilier sous-jacent.',
+    'Dans un contrat d’assurance-vie, le souscripteur détient des droits exprimés en unités de compte. Il ne devient pas directement associé de la SCPI de la même manière qu’en détention directe ; l’assureur porte juridiquement les actifs représentatifs du contrat selon ses conditions.',
+    'Les produits générés dans le contrat ne sont pas imposés chaque année comme des revenus fonciers au nom du souscripteur. Lors d’un rachat, la fiscalité porte sur la quote-part de gains incluse dans la somme retirée.',
+    'Après huit ans, un abattement annuel sur les gains retirés peut s’appliquer : 4 600 € pour une personne seule et 9 200 € pour un couple soumis à imposition commune. Les modalités de taxation dépendent aussi de la date et du montant des versements.',
+    'Les frais doivent être lus dans les conditions du contrat et la documentation du support : frais sur versement éventuels, frais de gestion du contrat, frais spécifiques au support et conditions de souscription ou de sortie. Il ne faut pas retrancher une seconde fois des frais déjà pris en compte dans le taux de distribution publié par une SCPI.',
+    'Le traitement des distributions varie selon les contrats : certains reversent tout ou partie du revenu dans le contrat, d’autres appliquent des modalités spécifiques. Il n’existe pas de « taux de reversement » universel applicable à toutes les assurances-vie.',
+    'La gamme de SCPI est limitée aux supports référencés par l’assureur. Une bonne SCPI disponible en direct peut ne pas être accessible dans le contrat, et les conditions d’accès peuvent évoluer.',
+    'La liquidité d’une assurance-vie repose sur l’obligation de rachat du contrat par l’assureur, dans les conditions légales et contractuelles. Il ne faut toutefois pas promettre un délai fixe de quelques heures ou quelques jours : le traitement dépend du contrat, des pièces, du support et des circonstances.',
+    'Les unités de compte immobilières d’un contrat rachetable ne sont pas automatiquement hors IFI. La fraction de la valeur de rachat représentative d’actifs immobiliers imposables peut entrer dans l’assiette.',
+    'Le régime successoral de l’assurance-vie peut être favorable mais dépend notamment de l’âge de l’assuré lors des versements, de leur date, des bénéficiaires et des règles fiscales applicables. L’abattement de 152 500 € par bénéficiaire ne doit pas être présenté comme applicable à tous les versements sans condition.',
+    'Le capital investi en unités de compte n’est pas garanti. Les risques de baisse de valeur, de revenu et de marché immobilier demeurent.',
   ],
-  tableTitle: 'Mode de détention / Fiscalité / Frais / Liquidité / Vigilance',
+  tableTitle: 'Mode de détention / atouts / vigilances',
   tableRows: [
-    {
-      level: 'SCPI en direct',
-      advantage:
-        'Fiscalité : IR (TMI) + PS chaque année. Frais : souscription 8-12 % + gestion 10-12 % des loyers. Liquidité : marché secondaire 2-6 mois. Transmission : droits de succession.',
-      vigilance:
-        'Fiscalité immédiate lourde aux TMI élevées. Aucun frais d\'enveloppe supplémentaire.',
-    },
-    {
-      level: 'SCPI en assurance-vie',
-      advantage:
-        'Fiscalité : capitalisation sans impôt, fiscalité aux rachats, abattement après 8 ans. Frais : souscription SCPI + gestion SCPI + gestion UC 0,5-1 %. Liquidité : rachat sous quelques jours. Transmission : abattement 152 500 €.',
-      vigilance:
-        'Frais UC en sus. Taux de reversement variable. Choix limité de SCPI. Rendement reversé < TDVM brut.',
-    },
-    {
-      level: 'SCPI en nue-propriété',
-      advantage:
-        'Fiscalité : aucun revenu pendant la période. Frais : souscription + gestion (pas de frais UC). Liquidité : limitée pendant le démembrement. Transmission : décote à l\'entrée.',
-      vigilance:
-        'Aucun revenu pendant le démembrement. Horizon long. Fiscalité à la reconstitution.',
-    },
-    {
-      level: 'SCPI via SCI à l\'IS',
-      advantage:
-        'Fiscalité : IS sur les résultats, capitalisation possible. Frais : souscription + gestion + comptabilité SCI (2 000-5 000 €). Liquidité : dépend de la cession des parts de SCI. Transmission : donation de parts.',
-      vigilance:
-        'Double imposition IS + IR sur distribution. Frais comptables. Complexité juridique et fiscale.',
-    },
+    { level: 'SCPI en direct', advantage: 'Détention directe, univers plus large, crédit et démembrement possibles.', vigilance: 'Fiscalité annuelle des revenus, liquidité non garantie et frais propres à la SCPI.' },
+    { level: 'SCPI en assurance-vie', advantage: 'Fiscalité au rachat, capitalisation dans l’enveloppe et cadre successoral spécifique.', vigilance: 'Frais du contrat, choix limité, modalités de distributions, rachat et IFI des UC immobilières.' },
+    { level: 'SCPI en nue-propriété', advantage: 'Pas de distribution au nu-propriétaire pendant la période et prix décoté selon la clé.', vigilance: 'Absence de revenus, durée et risque sur la valeur future de la part.' },
+    { level: 'SCPI via société', advantage: 'Cadre de détention pouvant répondre à des objectifs de capitalisation ou transmission.', vigilance: 'Comptabilité, fiscalité de la société et des distributions, IFI et coûts juridiques à étudier.' },
   ],
   tableNote:
-    'Ce tableau est une synthèse pédagogique. Les frais et la fiscalité dépendent du contrat d\'assurance-vie, de la SCPI et de la situation personnelle.',
-  criteriaTitle: 'Critères à croiser pour les SCPI en assurance-vie',
+    'Comparer les modes de détention avec les mêmes hypothèses de rendement et en intégrant tous les frais et impôts. Les caractéristiques varient fortement d’un contrat à l’autre.',
+  criteriaTitle: 'Critères à vérifier avant de choisir une assurance-vie',
   criteriaCards: [
-    { title: 'Frais du contrat UC', text: 'Des frais de gestion UC élevés (1 % ou plus) réduisent significativement le rendement reversé sur la durée. Comparer entre contrats.' },
-    { title: 'Taux de reversement', text: 'Vérifier le pourcentage des loyers effectivement reversé par l\'assureur. Il peut être inférieur au TDVM brut de la SCPI.' },
-    { title: 'Choix de SCPI', text: 'Un contrat pauvre en SCPI limite la diversification. Vérifier la liste des UC disponibles et leur qualité (TOF, capitalisation, rendement).' },
-    { title: 'Fiscalité du rachat', text: 'La fiscalité s\'applique à la sortie. Simuler selon la TMI, l\'ancienneté du contrat et l\'option fiscale (PFU ou barème progressif).' },
-    { title: 'TOF de la SCPI', text: 'Même en assurance-vie, la qualité locative de la SCPI sous-jacente reste déterminante pour la régularité des reversements.' },
-    { title: 'Capitalisation', text: 'La taille de la SCPI influence sa capacité à maintenir des distributions régulières, y compris dans le cadre de l\'assurance-vie.' },
-    { title: 'Endettement', text: 'Une SCPI endettée dans un contrat d\'assurance-vie conserve le même risque de taux qu\'en direct. La dette ne disparaît pas dans l\'enveloppe.' },
-    { title: 'Horizon', text: 'L\'avantage fiscal de l\'assurance-vie (abattement après 8 ans) incite à un horizon long. Un rachat avant 8 ans est fiscalement moins avantageux.' },
+    { title: 'Frais du contrat', text: 'Lire les frais de gestion UC, frais sur versement éventuels et frais spécifiques au support.' },
+    { title: 'Traitement des distributions', text: 'Vérifier comment le contrat crédite ou réinvestit les revenus de la SCPI.' },
+    { title: 'Supports disponibles', text: 'Contrôler la liste réelle des SCPI accessibles et les éventuels plafonds d’investissement.' },
+    { title: 'Fiscalité des rachats', text: 'Simuler la quote-part de gains imposable selon l’ancienneté et l’historique des versements.' },
+    { title: 'Liquidité', text: 'Lire les conditions et délais de rachat ; ne pas confondre liquidité du contrat et liquidité intrinsèque de la SCPI.' },
+    { title: 'IFI', text: 'Vérifier la fraction immobilière taxable communiquée par l’assureur.' },
+    { title: 'Transmission', text: 'Analyser l’âge aux versements, la clause bénéficiaire et le régime fiscal applicable.' },
+    { title: 'Qualité de la SCPI', text: 'TOF, prix de part, endettement, patrimoine et liquidité restent à analyser même dans une enveloppe.' },
   ],
   commonErrors: [
-    'Croire que l\'assurance-vie améliore le rendement de la SCPI elle-même.',
-    'Ignorer les frais de gestion UC qui s\'ajoutent aux frais de la SCPI (double frais).',
-    'Ne pas vérifier le taux de reversement des loyers par l\'assureur.',
-    'Choisir un contrat uniquement sur la réputation sans vérifier la liste des SCPI disponibles.',
-    'Oublier que la liquidité du contrat ne garantit pas la valeur de rachat (fluctuation du prix des parts).',
-    'Confondre avantage fiscal de l\'assurance-vie (cadre) et qualité de la SCPI sous-jacente (support).',
-    'Sous-estimer l\'impact des frais UC sur le rendement net sur un horizon long (15-20 ans).',
+    'Affirmer que l’assurance-vie rend une SCPI plus performante par elle-même.',
+    'Déduire deux fois les frais de gestion immobilière déjà intégrés dans les distributions publiées.',
+    'Utiliser un taux de reversement standard qui n’existe pas pour tous les contrats.',
+    'Promettre un rachat en 48 ou 72 heures.',
+    'Présenter les unités de compte immobilières comme automatiquement hors IFI.',
+    'Présenter l’abattement successoral de 152 500 € comme universel sans conditions liées notamment à l’âge et aux versements.',
   ],
   practicalCases: [
-    {
-      title: 'Exemple chiffré — 100 000 € en assurance-vie',
-      text: 'Investissement théorique : 100 000 € via contrat AV. Rendement SCPI théorique : 5 % brut. Frais SCPI : 12 % des loyers. Frais UC : 0,75 %/an. Rendement reversé estimé : ~3,7 % net par an. Simulation pédagogique simplifiée, hors frais de souscription SCPI, hors fiscalité complète, hors variation du prix des parts, sans garantie de rendement et sous réserve de la situation personnelle.',
-    },
-    {
-      title: 'TMI 30 % — Comparaison direct vs AV sur 10 ans',
-      text: 'Un investisseur en TMI 30 % compare le direct (rendement net ~2,6 % après IR + PS) et l\'AV (capitalisation à ~3,7 % net de frais UC, fiscalité différée uniquement au rachat). Sur 10 ans, l\'écart en faveur de l\'AV peut être significatif grâce à la capitalisation sans impôt immédiat. Simulation pédagogique : l\'avantage dépend des frais UC et de la TMI.',
-    },
-    {
-      title: 'Assurance-vie avec choix limité de SCPI',
-      text: 'Un contrat propose 4 SCPI avec un TOF moyen de 90 % et un rendement moyen de 4,5 %. En direct, l\'investisseur pourrait sélectionner une SCPI à 5,5 % de TDVM avec un TOF à 95 %. L\'avantage fiscal de l\'AV doit être mis en balance avec le choix plus restreint et le rendement potentiellement inférieur.',
-    },
-    {
-      title: 'Transmission — Abattement successoral',
-      text: 'Un investisseur de 65 ans place 200 000 € en SCPI dans son assurance-vie, désignant ses deux enfants comme bénéficiaires. Chaque enfant bénéficie de l\'abattement de 152 500 €. Simulation pédagogique : l\'objectif transmission justifie le choix de l\'AV, sous réserve d\'analyser la SCPI sous-jacente.',
-    },
-    {
-      title: 'Rachat avant 8 ans — Fiscalité moins avantageuse',
-      text: 'Un investisseur rachète son contrat au bout de 5 ans. La fiscalité des plus-values est moins favorable qu\'après 8 ans (pas d\'abattement). Simulation pédagogique : l\'horizon doit être compatible avec la durée recommandée de 8 ans minimum pour bénéficier de l\'avantage fiscal.',
-    },
+    { title: 'Comparaison directe', text: 'Un investisseur compare la même SCPI en direct et dans un contrat qui la référence. Il utilise le rendement effectivement crédité, les frais de l’enveloppe et la fiscalité de chaque mode plutôt qu’un taux théorique standard.' },
+    { title: 'Rachat après huit ans', text: 'Le souscripteur retire une partie de son contrat. Seule la quote-part de gains du rachat est fiscalisée ; l’abattement annuel éventuel s’applique aux gains selon les règles en vigueur.' },
+    { title: 'Transmission', text: 'La clause bénéficiaire et la date des versements sont analysées avant d’estimer le régime fiscal successoral. Aucun abattement n’est appliqué mécaniquement sans vérifier les conditions.' },
+    { title: 'IFI', text: 'L’assureur communique la fraction de la valeur de rachat représentative d’unités de compte immobilières imposables. Cette information est utilisée dans la déclaration IFI du foyer concerné.' },
   ],
   methodParagraphs: [
-    'MaximusSCPI compare les SCPI en direct, en assurance-vie et en démembrement dans son comparateur et ses contenus pédagogiques. L\'objectif est d\'éclairer les différences de fiscalité, de frais et de liquidité sans recommander un mode plutôt qu\'un autre.',
-    'La première étape consiste à évaluer le rendement net selon le mode de détention : en direct, les revenus sont imposés chaque année ; en assurance-vie, ils sont capitalisés avec une fiscalité différée.',
-    'La deuxième étape intègre les frais UC de l\'assurance-vie, qui s\'ajoutent aux frais de la SCPI. Un contrat à frais élevés peut neutraliser l\'avantage fiscal.',
-    'La troisième étape vérifie la liste des SCPI disponibles dans le contrat et leur qualité intrinsèque via les indicateurs du comparateur (TOF, capitalisation, rendement, endettement).',
-    'La quatrième étape simule l\'impact selon l\'horizon : rachat avant ou après 8 ans, option fiscale (PFU ou barème), transmission.',
-    'MaximusSCPI ne constitue pas une recommandation personnalisée. Un échange avec le Cabinet Eric Bellaiche permet de simuler le rendement net et l\'impact fiscal selon votre TMI, votre contrat et votre horizon.',
+    'Comparer le même support ou des supports équivalents entre direct et assurance-vie.',
+    'Recenser les frais réellement prélevés par le contrat et le support sans double comptage.',
+    'Simuler un rachat selon l’ancienneté du contrat et l’historique des versements.',
+    'Contrôler les conditions de liquidité, l’IFI et le traitement successoral avec la documentation contractuelle.',
+    'Revenir ensuite à la qualité immobilière de la SCPI : une enveloppe fiscale ne corrige pas un actif fragile.',
   ],
   conclusionParagraphs: [
-    'L\'assurance-vie est un cadre intéressant pour détenir des SCPI, à condition d\'analyser les frais UC, le taux de reversement, le choix limité de SCPI et la fiscalité des rachats. L\'avantage fiscal ne doit pas occulter la qualité de la SCPI sous-jacente.',
-    'Sources et points à vérifier : notice d\'information du contrat d\'assurance-vie, DIC des SCPI, notes d\'information, bulletins trimestriels. Comparer les frais UC et le taux de reversement entre plusieurs contrats avant de choisir.',
-    'Utilisez le comparateur MaximusSCPI pour identifier les SCPI à approfondir, comparez les contrats d\'assurance-vie disponibles, puis validez votre analyse avec un conseiller pour une simulation adaptée à votre TMI et à votre horizon.',
+    'L’assurance-vie peut être un bon cadre de détention des SCPI pour capitaliser, organiser des rachats ou préparer une transmission.',
+    'Son intérêt dépend des frais, du contrat, des SCPI référencées et de la situation fiscale du souscripteur.',
+    'La comparaison doit être réalisée net de frais et d’impôt, avec une lecture exacte des conditions contractuelles.',
   ],
   faqItems: [
-    {
-      question: 'Peut-on acheter des SCPI en assurance-vie ?',
-      answer: 'Oui, sous forme d\'unités de compte (UC). L\'assureur achète les parts pour le compte du contractant, qui ne détient pas directement les parts mais les droits liés au contrat.',
-    },
-    {
-      question: 'Est-ce fiscalement plus intéressant qu\'en direct ?',
-      answer: 'Cela dépend de la TMI, de l\'ancienneté du contrat et des frais UC. L\'assurance-vie permet une capitalisation sans imposition immédiate et un abattement après 8 ans. À comparer avec le rendement net en direct.',
-    },
-    {
-      question: 'Quels frais faut-il regarder ?',
-      answer: 'Frais de gestion UC (0,5 % à 1 % par an), frais du contrat (versement, arbitrage, rachat), et frais de souscription et de gestion de la SCPI elle-même. Les frais cumulés peuvent réduire le rendement reversé.',
-    },
-    {
-      question: 'Le rendement est-il reversé à 100 % ?',
-      answer: 'Non. L\'assureur prélève des frais de gestion UC sur les loyers perçus. Le taux de reversement varie selon les contrats et les SCPI. Le rendement du contrat diffère du TDVM brut de la SCPI.',
-    },
-    {
-      question: 'La liquidité est-elle garantie ?',
-      answer: 'L\'arbitrage ou le rachat est généralement possible sous quelques jours, mais la valeur de rachat dépend du prix de souscription de la SCPI au moment de la sortie. La liquidité du contrat ne garantit pas la valeur de rachat.',
-    },
-    {
-      question: 'Quelle différence avec les SCPI en direct ?',
-      answer: 'En direct, l\'investisseur détient les parts et perçoit les revenus imposables chaque année. En assurance-vie, les revenus sont capitalisés et la fiscalité est différée, mais les frais UC s\'ajoutent et le choix est limité.',
-    },
-    {
-      question: 'Quelle différence avec le démembrement ?',
-      answer: 'Le démembrement supprime les revenus temporairement avec une décote à l\'entrée. L\'assurance-vie capitalise les revenus sans décote, avec une fiscalité différée et des frais récurrents.',
-    },
-    {
-      question: 'Faut-il racheter après 8 ans ?',
-      answer: 'L\'abattement fiscal (4 600 € par an) rend le rachat après 8 ans fiscalement plus avantageux. Mais il n\'est pas obligatoire de racheter : la capitalisation peut se poursuivre.',
-    },
-    {
-      question: 'Quel est l\'intérêt successoral ?',
-      answer: 'Les capitaux transmis via l\'assurance-vie bénéficient d\'un abattement de 152 500 € par bénéficiaire (sous conditions), ce qui peut réduire significativement les droits de succession.',
-    },
-    {
-      question: 'Le capital est-il garanti ?',
-      answer: 'Non. Les SCPI en UC ne sont pas garanties (contrairement au fonds euros). Le capital peut baisser, les revenus ne sont pas garantis. L\'assurance-vie ne couvre pas le risque immobilier.',
-    },
-    {
-      question: 'Comment MaximusSCPI compare les SCPI en assurance-vie ?',
-      answer: 'Le comparateur présente les indicateurs clés des SCPI. L\'analyse du mode de détention (direct, assurance-vie, démembrement) est proposée comme une piste à approfondir selon la situation de l\'investisseur.',
-    },
+    { question: 'Peut-on acheter des SCPI en assurance-vie ?', answer: 'Oui, lorsque le contrat référence des supports en unités de compte exposés à des SCPI. Le souscripteur détient des droits sur le contrat et non directement les parts comme en détention en direct.' },
+    { question: 'Les revenus sont-ils imposés chaque année ?', answer: 'Pas comme des revenus fonciers au nom du souscripteur. La fiscalité de l’assurance-vie intervient lors des rachats sur la quote-part de gains incluse dans le retrait.' },
+    { question: 'L’assurance-vie garantit-elle une meilleure liquidité ?', answer: 'Elle organise le rachat au niveau du contrat, mais le délai réel dépend des conditions contractuelles et du traitement par l’assureur. Aucun délai fixe ne doit être garanti.' },
+    { question: 'Les SCPI en assurance-vie sont-elles hors IFI ?', answer: 'Pas automatiquement. Dans un contrat rachetable, la fraction de la valeur de rachat représentative d’unités de compte immobilières imposables peut entrer dans l’IFI.' },
+    { question: 'L’abattement de 152 500 € s’applique-t-il toujours ?', answer: 'Non. Le régime successoral dépend notamment de l’âge de l’assuré lors des versements et des règles applicables. Il faut vérifier le cas concret.' },
   ],
-  comparateurCtaLabel: 'Comparer SCPI en direct et SCPI en assurance-vie',
+  comparateurCtaLabel: 'Comparer les SCPI et modes de détention',
 }
