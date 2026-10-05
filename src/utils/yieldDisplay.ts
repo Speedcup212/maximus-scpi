@@ -25,30 +25,11 @@ export interface YieldDisplayInfo {
  * Détermine si une SCPI est principalement européenne (hors France)
  */
 export function isEuropeanScpi(scpi: Scpi | SCPIExtended): boolean {
-  // Vérifier la propriété geography
-  if ('geography' in scpi) {
-    return scpi.geography === 'europe' || scpi.geography === 'international';
+  const geography = scpi.geography;
+  if (typeof geography !== 'string') {
+    return false;
   }
-  
-  // Vérifier la propriété european
-  if ('european' in scpi && scpi.european) {
-    return true;
-  }
-  
-  // Vérifier la répartition géographique
-  if ('repartitionGeo' in scpi && scpi.repartitionGeo && scpi.repartitionGeo.length > 0) {
-    const franceEntry = scpi.repartitionGeo.find(g => 
-      g.name.toLowerCase().includes('france') || 
-      g.name.toLowerCase().includes('français')
-    );
-    const francePercentage = franceEntry?.value || 0;
-    
-    // Si moins de 50% en France, considérer comme européenne
-    return francePercentage < 50;
-  }
-  
-  // Par défaut, considérer comme française
-  return false;
+  return geography === 'europe' || geography === 'international';
 }
 
 /**
