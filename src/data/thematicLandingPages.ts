@@ -62,11 +62,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
       { value: 'Variable', label: 'Distribution passée, non garantie' },
-      { value: '63', label: 'SCPI analysées' },
+      { value: '61', label: 'SCPI analysées' },
       { value: '95%+', label: 'TOF moyen' }
     ],
     benefits: [
-      'Sélection rigoureuse parmi 63 SCPI du marché',
+      'Sélection rigoureuse parmi 61 SCPI suivies par MaximusSCPI',
       'Rendements moyens de 4% à 6%',
       'Diversification géographique et sectorielle',
       'Taux d\'occupation financier supérieur à 93%',
@@ -535,19 +535,19 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'comparateur-scpi': {
     slug: 'comparateur-scpi',
-    title: 'Comparateur SCPI 2026 : Comparez 63 SCPI (Rendement, Frais, Secteur)',
+    title: 'Comparateur SCPI 2026 : Comparez 61 SCPI (Rendement, Frais, Secteur)',
     metaDescription: 'Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS.',
     heroTitle: 'Comparateur SCPI',
-    heroTitleHighlight: '63 SCPI à comparer',
-    heroSubtitle: 'Comparez les performances de toutes les SCPI du marché français',
+    heroTitleHighlight: '61 SCPI à comparer',
+    heroSubtitle: 'Comparez les 61 SCPI suivies par MaximusSCPI avec le même référentiel',
     labelText: 'Comparaison Gratuite',
     keyMetrics: [
-      { value: '63', label: 'SCPI analysées' },
+      { value: '61', label: 'SCPI analysées' },
       { value: '100%', label: 'Données officielles' },
       { value: 'Gratuit', label: 'Sans engagement' }
     ],
     benefits: [
-      'Toutes les SCPI du marché en un seul tableau',
+      '61 SCPI suivies dans un seul tableau',
       'Données officielles des sociétés de gestion',
       'Mise à jour régulière des performances',
       'Comparaison objective et transparente',
@@ -555,12 +555,12 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     ],
     pourquoiChoisir: {
       title: 'Pourquoi utiliser notre comparateur ?',
-      subtitle: 'La vue la plus complète du marché des SCPI',
+      subtitle: 'Une vue homogène des 61 SCPI suivies',
       features: [
         {
           icon: 'database',
-          title: '63 SCPI comparées',
-          description: 'Accédez à la totalité des SCPI disponibles sur le marché français avec leurs données actualisées.'
+          title: '61 SCPI comparées',
+          description: 'Accédez aux 61 SCPI de la cohorte suivie par MaximusSCPI avec leurs données actualisées.'
         },
         {
           icon: 'trending-up',
@@ -1958,79 +1958,104 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
 
   'aestiam-scpi': {
     slug: 'aestiam-scpi',
-    title: 'SCPI Aestiam 2026 | Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%)',
-    metaDescription: 'Aestiam : gestionnaire historique de SCPI avec 30 ans d\'expérience et 3.5 Mds€ d\'actifs. Découvrez Pierre Rendement (5.04%), Cap Hebergimmo (4.55%), Placement Pierre (4.85%). Rendements stables, diversification secteur/géo, taux d\'occupation élevé. Guide complet 2026.',
+    title: 'SCPI Aestiam 2026 : Aestiam Agora et Aestiam Horizon | Analyse MaximusSCPI',
+    metaDescription: 'Comparez Aestiam Agora et Aestiam Horizon : taux de distribution 2025, TOF, capitalisation, prix de part et points de vigilance suivis par MaximusSCPI.',
     heroTitle: 'SCPI Aestiam',
-    heroTitleHighlight: '3 SCPI performantes - 30 ans d\'expertise',
-    heroSubtitle: 'Gestionnaire historique agréé AMF avec 3.5 milliards d\'euros d\'actifs sous gestion. Spécialiste de l\'immobilier diversifié : bureaux, commerces, santé. Rendements réguliers entre 4.5% et 5%.',
-    labelText: 'Gestionnaire Leader - 30 ans',
+    heroTitleHighlight: '2 SCPI suivies dans la cohorte certifiée MaximusSCPI',
+    heroSubtitle: 'Comparez Aestiam Agora et Aestiam Horizon à partir des derniers indicateurs certifiés disponibles dans MaximusSCPI.',
+    labelText: 'Données certifiées MaximusSCPI',
     keyMetrics: [
-      { value: '3 SCPI', label: 'Au catalogue' },
-      { value: '4.55% à 5.04%', label: 'Rendements 2024' },
-      { value: '3.5 Mds€', label: 'Actifs sous gestion' },
-      { value: '95%+', label: 'Taux d\'occupation' }
+      { value: '2', label: 'SCPI suivies' },
+      { value: '4,50% / 5,10%', label: 'TD 2025 Agora / Horizon' },
+      { value: '467 / 374 M€', label: 'Capitalisation' },
+      { value: '90,91% / 88,54%', label: 'TOF publié' }
     ],
     benefits: [
-      'Gestionnaire historique avec 30 ans d\'expérience en gestion immobilière',
-      'Diversification sectorielle : bureaux (40%), commerces (35%), santé (25%)',
-      '3.5 milliards d\'euros d\'actifs sous gestion - Solidité financière',
-      'Rendements stables et réguliers entre 4.5% et 5% depuis 10 ans',
-      'Taux d\'occupation supérieur à 95% - Locataires de qualité',
-      'Gestion prudente : faible endettement, sélection rigoureuse des actifs',
-      'Distribution trimestrielle de dividendes - Transparence totale',
-      'Agréé AMF - Contrôle et régulation stricte'
+      'Deux SCPI Aestiam intégrées à la cohorte certifiée MaximusSCPI',
+      'Lecture croisée du taux de distribution, du TOF, de la capitalisation et du prix de part',
+      'Données issues des bulletins périodiques et du pipeline de certification MaximusSCPI',
+      'Comparaison avec les autres SCPI suivies sans se limiter au rendement'
     ],
     pourquoiChoisir: {
-      title: 'Pourquoi choisir Aestiam ?',
-      subtitle: 'Un gestionnaire historique reconnu pour sa solidité et sa performance régulière',
+      title: 'Comment comparer les SCPI Aestiam ?',
+      subtitle: 'Les deux véhicules suivis présentent des profils distincts ; le rendement ne suffit pas à les départager.',
       features: [
-        { icon: 'Award', title: 'Expertise Reconnue', description: '30 ans d\'expérience en gestion immobilière. Équipe de 25+ professionnels spécialisés. Plus de 3.5 Mds€ d\'actifs sous gestion avec une connaissance approfondie du marché français.' },
-        { icon: 'Shield', title: 'Solidité Financière', description: 'Gestion prudente avec faible endettement (< 30%). Taux d\'occupation supérieur à 95%. Locataires de qualité (grandes enseignes, entreprises du CAC 40). Réserves financières importantes.' },
-        { icon: 'TrendingUp', title: 'Performance Régulière', description: 'Rendements stables entre 4.5% et 5% sur les 10 dernières années. Distribution trimestrielle régulière. Performance supérieure à la moyenne du marché. Historique de valorisation positive.' },
-        { icon: 'Building2', title: 'Diversification à analyser', description: 'Portefeuille diversifié sur 3 secteurs : bureaux (40%), commerces (35%), santé (25%). Répartition géographique équilibrée en France. Plus de 150 actifs immobiliers différents.' }
+        {
+          icon: 'bar-chart',
+          title: 'Aestiam Agora',
+          description: 'TD 2025 de 4,50 %, TOF publié de 90,91 %, capitalisation de 467 M€ et prix de souscription de 922 €.'
+        },
+        {
+          icon: 'building',
+          title: 'Aestiam Horizon',
+          description: 'TD 2025 de 5,10 %, TOF publié de 88,54 %, capitalisation de 374 M€ et prix de souscription de 350 €.'
+        },
+        {
+          icon: 'shield',
+          title: 'Lire les risques avec les chiffres',
+          description: 'TOF, valorisation, endettement, liquidité et évolution historique doivent être analysés ensemble avant toute décision.'
+        },
+        {
+          icon: 'database',
+          title: 'Même référentiel',
+          description: 'Les deux SCPI sont comparées avec les mêmes règles de données et de certification que le reste de la cohorte MaximusSCPI.'
+        }
       ]
     },
     informationsPratiques: {
-      title: 'Les 3 SCPI Aestiam en détail',
+      title: 'Les 2 SCPI Aestiam suivies',
       items: [
-        { icon: 'Building', title: 'Pierre Rendement', points: ['Rendement 2024 : 5.04% (TDVM)', 'Bureaux (50%) et commerces (50%) France', 'Capitalisation : 780 M€ - 158 actifs', 'Prix de part : 225€ (minimum 10 parts)', 'Frais de souscription : 10.16% HT', 'Taux d\'occupation : 96%', 'Distribution trimestrielle : 12.60€/part/an', 'Créée en 1993 - 30 ans d\'historique'] },
-        { icon: 'Hotel', title: 'Cap Hebergimmo', points: ['Rendement 2024 : 4.55% (TDVM)', 'Résidences seniors et santé (100%)', 'Capitalisation : 290 M€ - 52 actifs', 'Prix de part : 180€ (minimum 10 parts)', 'Frais de souscription : 10% HT', 'Taux d\'occupation : 98% (baux longs)', 'Baux fermes avec opérateurs reconnus', 'Secteur santé résilient et porteur'] },
-        { icon: 'Store', title: 'Placement Pierre', points: ['Rendement 2024 : 4.85% (TDVM)', 'Commerces (60%) et bureaux (40%)', 'Capitalisation : 420 M€ - 85 actifs', 'Prix de part : 200€ (minimum 10 parts)', 'Frais de souscription : 10% HT', 'Taux d\'occupation : 94%', 'Focus centres commerciaux et retail', 'Emplacements stratégiques en France'] }
+        {
+          icon: 'Building',
+          title: 'Aestiam Agora',
+          points: [
+            'Taux de distribution 2025 : 4,50 %',
+            'TOF publié : 90,91 %',
+            'Capitalisation : 467 M€',
+            'Prix de souscription : 922 €',
+            'Dernière période suivie : T2 2026'
+          ]
+        },
+        {
+          icon: 'Building2',
+          title: 'Aestiam Horizon',
+          points: [
+            'Taux de distribution 2025 : 5,10 %',
+            'TOF publié : 88,54 %',
+            'Capitalisation : 374 M€',
+            'Prix de souscription : 350 €',
+            'Dernière période suivie : T2 2026'
+          ]
+        },
+        {
+          icon: 'FileText',
+          title: 'Méthode MaximusSCPI',
+          points: [
+            'Comparer les indicateurs sur la même période',
+            'Contrôler leur trajectoire historique',
+            'Identifier les données non comparables ou non certifiées',
+            'Ne pas conclure sur le seul taux de distribution'
+          ]
+        }
       ]
     },
     faq: [
-      { question: 'Quelle SCPI Aestiam choisir en 2026 ?', answer: 'Pierre Rendement (5.04%) pour un mix bureaux/commerces équilibré et le meilleur rendement. Cap Hebergimmo (4.55%) pour l\'exposition exclusive au secteur santé (résilient, baux longs). Placement Pierre (4.85%) pour les commerces et retail. Pour un investissement optimal, diversifiez sur 2 SCPI : Pierre Rendement + Cap Hebergimmo pour combiner performance et résilience.' },
-      { question: 'Aestiam est-elle fiable et sécurisée ?', answer: 'Oui, Aestiam est un gestionnaire historique agréé AMF avec 30 ans d\'expérience (depuis 1993) et 3.5 Mds€ sous gestion. La société affiche une gestion prudente avec un faible endettement (<30%), des taux d\'occupation élevés (>95%), et une sélection rigoureuse des actifs. Performance stable depuis 30 ans avec distribution régulière de dividendes. Aestiam est considéré comme un acteur de référence sur le marché français de la SCPI.' },
-      { question: 'Quel est le ticket d\'entrée minimum chez Aestiam ?', answer: 'Le ticket d\'entrée minimum varie selon la SCPI : Pierre Rendement (10 parts × 225€ = 2 250€), Cap Hebergimmo (10 parts × 180€ = 1 800€), Placement Pierre (10 parts × 200€ = 2 000€). Vous pouvez investir via plusieurs modes : comptant, crédit, démembrement, ou assurance-vie. Les frais de souscription sont de 10% à 10.16% HT.' },
-      { question: 'Comment sont distribués les revenus des SCPI Aestiam ?', answer: 'Les dividendes sont distribués trimestriellement (janvier, avril, juillet, octobre) directement sur votre compte bancaire. Pierre Rendement distribue environ 12.60€/part/an, Cap Hebergimmo 8.50€/part/an, Placement Pierre 10.20€/part/an. Les revenus proviennent des loyers perçus sur les actifs immobiliers, après déduction des charges et frais de gestion (environ 12% HT).' },
-      { question: 'Peut-on revendre ses parts Aestiam facilement ?', answer: 'Les SCPI Aestiam bénéficient d\'un marché secondaire actif. Pierre Rendement et Placement Pierre affichent généralement des délais de cession de 2 à 6 mois. Cap Hebergimmo peut nécessiter 4 à 8 mois. Le prix de cession peut être légèrement inférieur au prix de souscription (-5% à -10%). Pour une liquidité optimale, privilégiez Pierre Rendement qui est la plus liquide. Le démembrement temporaire peut améliorer la liquidité.' }
+      {
+        question: 'Quelles SCPI Aestiam sont suivies par MaximusSCPI ?',
+        answer: 'La cohorte certifiée actuelle comprend Aestiam Agora et Aestiam Horizon. Les anciennes entrées Aestiam Cap\'Hebergimmo et Aestiam Pierre Rendement ne font pas partie de cette cohorte publique.'
+      },
+      {
+        question: 'Quelle SCPI Aestiam affiche le taux de distribution 2025 le plus élevé ?',
+        answer: 'Aestiam Horizon affiche 5,10 % en 2025 contre 4,50 % pour Aestiam Agora. Ce seul écart ne suffit pas à déterminer laquelle est la plus adaptée : le TOF, la valorisation, la liquidité, l\'endettement et la trajectoire doivent aussi être examinés.'
+      },
+      {
+        question: 'Quelles sont les dernières périodes de données suivies ?',
+        answer: 'Les indicateurs certifiés actuellement enregistrés pour Aestiam Agora et Aestiam Horizon sont rattachés à la période T2 2026 dans le pipeline MaximusSCPI.'
+      }
     ],
     temoignages: [],
-    relatedScpi: ['aestiam-pierre-rendement', 'aestiam-cap-hebergimmo']
-  ,
-    geographie: {
-      'France': 58,
-      'Allemagne': 18,
-      'Pays-Bas': 12,
-      'Espagne': 8,
-      'Autres': 4
-    },
-    secteurs: {
-      'Bureaux': 52,
-      'Commerces': 23,
-      'Santé': 13,
-      'Logistique': 9,
-      'Autres': 3
-    }
-,
-    simulator: {
-      defaultInvestment: 55000,
-      defaultYield: 5.2,
-      title: `Simulez vos revenus Aestiam`,
-      subtitle: `Pionnier de la gestion SCPI`,
-      theme: 'blue'
-    }
-},
+    relatedScpi: ['aestiam-agora', 'aestiam-horizon']
+  },
 
   'altixia-reim-scpi': {
     slug: 'altixia-reim-scpi',
