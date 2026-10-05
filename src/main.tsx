@@ -52,11 +52,11 @@ window.addEventListener('unhandledrejection', (e) => {
 const selectEntry = async (): Promise<ComponentType> => {
   let path = window.location.pathname.replace(/^\/|\/$/g, '');
 
-  // URL publique mémorisable pour l'espace client, raccordée au routeur privé existant.
-  // L'authentification et la redirection par rôle restent gérées par /app.
+  // URL directe de l'espace client : elle ouvre désormais le cockpit client,
+  // y compris pour un administrateur autorisé à tester la vue client.
   if (path === 'espace-client') {
-    window.history.replaceState({}, '', `/app${window.location.search}${window.location.hash}`);
-    path = 'app';
+    window.history.replaceState({}, '', `/app/client${window.location.search}${window.location.hash}`);
+    path = 'app/client';
   }
 
   const params = new URLSearchParams(window.location.search);
