@@ -35,12 +35,6 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
     }
 
     setLoading(true);
-    if (!supabase) {
-      setError('Service d’inscription indisponible.');
-      setLoading(false);
-      return;
-    }
-    const client = supabase;
 
     try {
       // Étape A : Vérification ORIAS via Netlify Function
@@ -64,7 +58,7 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
       const isApproved = oriasData.valid === true && isCif;
 
       // Étape B : Création du compte Supabase Auth
-      const { data: signUpData, error: signUpError } = await client.auth.signUp({
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -93,7 +87,7 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
       }
 
       // Étape C : Insertion dans la table profiles
-      const { error: profileError } = await client.from('profiles').upsert({
+      const { error: profileError } = await supabase.from('profiles').upsert({
         id: signUpData.user.id,
         first_name: firstName,
         last_name: lastName,

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../lib/supabase";
+import type { AuthError } from "@supabase/supabase-js";
 
 interface User {
   id: string;
@@ -37,77 +38,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
       return;
     }
-
-    let active = true;
-    let settled = false;
-    let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
-
-    const applySession = (session: Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']) => {
-      if (!active) return;
-      settled = true;
-      if (fallbackTimer) {
-        clearTimeout(fallbackTimer);
-        fallbackTimer = null;
-      }
+    // Récupérer la session actuelle
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ? {
         id: session.user.id,
-        email: session.user.email || '',
+        email: session.user.email!,
         created_at: session.user.created_at
       } : null);
       setLoading(false);
-    };
-
-    const settleNullAfterGracePeriod = () => {
-      if (settled || fallbackTimer) return;
-      // Après un retour OAuth, Supabase peut émettre INITIAL_SESSION(null)
-      // quelques millisecondes avant SIGNED_IN. Ne jamais rediriger vers /login
-      // pendant cette fenêtre, sinon on crée une boucle OAuth visible.
-      fallbackTimer = setTimeout(async () => {
-        if (!active || settled) return;
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!active || settled) return;
-        applySession(session);
-      }, 650);
-    };
-
-    // S'abonner AVANT le premier getSession : le retour OAuth peut être traité
-    // pendant l'initialisation du client Supabase.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!active) return;
-
-      if (session) {
-        applySession(session);
-        return;
-      }
-
-      if (event === 'SIGNED_OUT') {
-        applySession(null);
-        return;
-      }
-
-      // INITIAL_SESSION(null) n'est pas définitif lors d'un callback OAuth.
-      if (event === 'INITIAL_SESSION') {
-        settleNullAfterGracePeriod();
-      }
     });
 
-    const bootstrap = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!active || settled) return;
-      if (session) {
-        applySession(session);
-      } else {
-        settleNullAfterGracePeriod();
-      }
-    };
+    // Écouter les changements d'authentification
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ? {
+        id: session.user.id,
+        email: session.user.email!,
+        created_at: session.user.created_at
+      } : null);
+      setLoading(false);
+    });
 
-    bootstrap();
-
-    return () => {
-      active = false;
-      if (fallbackTimer) clearTimeout(fallbackTimer);
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
@@ -118,8 +69,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (email: string, password: string) => {
     const client = requireSupabase();
-    const { error } = await client.auth.signUp({
-      email,
+    const { error } = await client.auth.signUp({ 
+      email, 
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`
@@ -130,33 +81,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     const client = requireSupabase();
+    console.log('🔍 Démarrage Google OAuth...');
+    console.log('🔗 Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
+    console.log('🌐 Current URL:', window.location.origin);
+    
     const redirectUrl = `${window.location.origin}/auth/callback`;
-
-    const { error } = await client.auth.signInWithOAuth({
+    console.log('🔄 Redirect URL:', redirectUrl);
+    
+    const { data, error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: redirectUrl,
         queryParams: {
           access_type: 'offline',
-          prompt: 'consent'
+          prompt: 'consent',
+          hd: undefined // Permettre tous les domaines Google
         }
       }
     });
-
+    
+    console.log('📊 Google Auth Response:', { data, error });
+    
     if (error) {
+      console.error('❌ Erreur Google OAuth:', error);
+      
+      // Messages d'erreur spécifiques
       if (error.message.includes('Provider not found') || error.message.includes('provider_not_found')) {
-        throw new Error('Google OAuth non configuré. Vérifiez la configuration Supabase.');
+        throw new Error('🔧 Google OAuth non configuré. Vérifiez la configuration dans Supabase → Authentication → Providers.');
+      } else if (error.message.includes('Invalid redirect') || error.message.includes('redirect_uri_mismatch')) {
+        throw new Error(`🔗 URL de redirection invalide. Ajoutez "${redirectUrl}" dans Google Console et Supabase.`);
+      } else if (error.message.includes('Invalid client') || error.message.includes('unauthorized_client')) {
+        throw new Error('🔑 Client Google invalide. Vérifiez vos clés Client ID/Secret dans Supabase.');
+      } else if (error.message.includes('popup_blocked')) {
+        throw new Error('🚫 Popup bloqué. Autorisez les popups pour ce site ou réessayez.');
+      } else {
+        throw new Error(`🔴 Erreur Google OAuth: ${error.message}`);
       }
-      if (error.message.includes('Invalid redirect') || error.message.includes('redirect_uri_mismatch')) {
-        throw new Error(`URL de redirection invalide : ${redirectUrl}`);
-      }
-      if (error.message.includes('Invalid client') || error.message.includes('unauthorized_client')) {
-        throw new Error('Client Google invalide. Vérifiez les identifiants OAuth.');
-      }
-      throw new Error(`Erreur Google OAuth : ${error.message}`);
     }
+    
+    console.log('✅ Google OAuth initié avec succès - Redirection en cours...');
   };
-
   const signOut = async () => {
     const client = requireSupabase();
     const { error } = await client.auth.signOut();

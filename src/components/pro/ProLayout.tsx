@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { ProReportProvider } from '../../contexts/ProReportContext';
@@ -50,7 +50,7 @@ export default function ProLayout({ onNavigate, onSignOut, currentPath, children
             PRO
           </span>
         </div>
-        <button onClick={async () => { if (supabase) await supabase.auth.signOut(); onSignOut(); }}
+        <button onClick={async () => { await supabase.auth.signOut(); onSignOut(); }}
           className="text-xs sm:text-sm text-slate-500 hover:text-red-400 transition px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg hover:bg-red-950/30 flex-shrink-0">
           Déconnexion
         </button>

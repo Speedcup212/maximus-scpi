@@ -22,11 +22,9 @@ let premiumMetaCache: SCPIPremiumMeta[] | null = null;
 
 async function loadPremiumMeta(): Promise<SCPIPremiumMeta[]> {
   if (premiumMetaCache) return premiumMetaCache;
-  if (!supabase) return [];
-  const client = supabase;
   try {
     // Depuis Supabase scpi_catalog pour les données enrichies
-    const { data } = await client
+    const { data } = await supabase
       .from('scpi_catalog')
       .select('id, name, updated_at');
     if (data) {
@@ -78,10 +76,9 @@ export default function ProComparator() {
   const [allowedLoaded, setAllowedLoaded] = useState(false);
 
   const loadAllowedScpi = useCallback(async () => {
-    if (!user || allowedLoaded || !supabase) return;
-    const client = supabase;
+    if (!user || allowedLoaded) return;
     try {
-      const { data } = await client
+      const { data } = await supabase
         .from('cgp_profiles')
         .select('allowed_scpi')
         .eq('id', user.id)

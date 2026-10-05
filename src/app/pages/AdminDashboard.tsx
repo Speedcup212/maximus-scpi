@@ -17,10 +17,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
   const [newOrgSlug, setNewOrgSlug] = useState('');
 
   const refresh = async () => {
-    if (!supabase) return;
-    const client = supabase;
-    const { data: profilesRows } = await client.from('profiles').select('*').order('created_at', { ascending: false });
-    const { data: orgRows } = await client.from('organizations').select('*').order('created_at', { ascending: false });
+    const { data: profilesRows } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
+    const { data: orgRows } = await supabase.from('organizations').select('*').order('created_at', { ascending: false });
     if (profilesRows) setProfiles(profilesRows as Profile[]);
     if (orgRows) setOrganizations(orgRows as Organization[]);
   };
@@ -30,13 +28,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
   }, []);
 
   const updateProfile = async (userId: string, updates: Partial<Profile>) => {
-    if (!supabase) return;
     await supabase.from('profiles').update(updates).eq('user_id', userId);
     refresh();
   };
 
   const createOrg = async () => {
-    if (!newOrgName.trim() || !supabase) return;
+    if (!newOrgName.trim()) return;
     await supabase.from('organizations').insert({ name: newOrgName.trim(), slug: newOrgSlug || null });
     setNewOrgName('');
     setNewOrgSlug('');

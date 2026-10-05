@@ -15,10 +15,8 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({ onNavigate }) => {
   const [cases, setCases] = useState<Case[]>([]);
 
   useEffect(() => {
-    if (!supabase) return;
-    const client = supabase;
     const fetchCases = async () => {
-      const { data } = await client.from('cases').select('*').order('updated_at', { ascending: false }).limit(8);
+      const { data } = await supabase.from('cases').select('*').order('updated_at', { ascending: false }).limit(8);
       if (data) setCases(data as Case[]);
     };
     fetchCases();

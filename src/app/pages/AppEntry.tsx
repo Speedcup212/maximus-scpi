@@ -15,24 +15,7 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     if (loading || profileLoading) return;
-    if (!user || !profile) return;
-
-    // Après un OAuth / magic-link, Supabase peut revenir sur /app même si une
-    // destination plus précise avait été demandée. La destination mémorisée
-    // doit primer sur le routage par rôle (notamment pour un admin qui teste
-    // volontairement le cockpit client).
-    try {
-      const requestedPath = sessionStorage.getItem('maximusPostLoginPath');
-      if (requestedPath?.startsWith('/app/')) {
-        sessionStorage.removeItem('maximusPostLoginPath');
-        sessionStorage.removeItem('maximusLoginEmailHint');
-        onNavigate(requestedPath);
-        return;
-      }
-    } catch {
-      // Si sessionStorage est indisponible, conserver le routage par rôle.
-    }
-
+    if (!user) return;
     if (profile.role === 'partner') {
       onNavigate('/pro/dashboard');
     } else if (profile.role === 'admin') {
