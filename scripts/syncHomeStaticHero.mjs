@@ -27,14 +27,12 @@ if (!heroPattern.test(html)) {
 }
 html = html.replace(heroPattern, desiredBlock);
 
-// Navigation statique alignée sur le header React validé.
 html = html.replace(
   `<a href="/simulateurs/">Simulateurs</a>\n            <a href="/articles/">Apprendre</a>`,
   `<a href="/simulateurs/">Simulateurs</a>\n            <a href="/analyses/">Analyses</a>\n            <a href="/articles/">Comprendre</a>`
 );
 html = html.replace(`<a href="/articles/">Apprendre</a>`, `<a href="/articles/">Comprendre</a>`);
 
-// Copie du shell statique : aucune preuve sociale historique non justifiée.
 html = html.replace(
   'Analyse SCPI pédagogique • Fiscalité • Rendement net',
   'Analyse SCPI • Comparaison • Simulation • Suivi'
@@ -51,15 +49,22 @@ html = html.replace(/\s*<p class="initial-proof-strong">Plus de 4 650 situations
 
 fs.writeFileSync(target, html, 'utf-8');
 
+// Cette vérification conserve volontairement la signature attendue par
+// patchHomeHeroVisuals.mjs afin que le prebuild reste idempotent.
+if (
+  !html.includes('<span class="initial-title-main">Analysez. Comparez.</span>') ||
+  !html.includes('<span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>')
+) {
+  console.error('❌ Synchronisation du H1 statique de la home non vérifiée.');
+  process.exit(1);
+}
+
 const required = [
-  '<span class="initial-title-main">Analysez. Comparez.</span>',
-  '<span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>',
   '<a href="/analyses/">Analyses</a>',
   '<a href="/articles/">Comprendre</a>',
   'Analyse SCPI • Comparaison • Simulation • Suivi',
   'Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.',
 ];
-
 const forbidden = [
   '>Apprendre</a>',
   'Plus de 4 650 situations patrimoniales étudiées',
@@ -69,10 +74,10 @@ const forbidden = [
 
 const missing = required.filter((value) => !html.includes(value));
 const leaked = forbidden.filter((value) => html.includes(value));
-
 if (missing.length || leaked.length) {
   console.error('❌ Home statique non conforme.', { missing, leaked });
   process.exit(1);
 }
 
-console.log('✅ Home statique synchronisée avec la home React validée : H1, navigation, copie et preuves sociales.');
+console.log('✅ H1 statique de la home synchronisé avec HomeApp : Analysez. Comparez. / Investissez sur (blanc) / MaximusSCPI. (vert)');
+console.log('✅ Home statique alignée : Analyses, Comprendre, copie actuelle, anciennes preuves sociales supprimées.');
