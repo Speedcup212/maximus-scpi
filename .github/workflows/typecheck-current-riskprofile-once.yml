@@ -1,0 +1,64 @@
+name: Compare risk profile contract against current production
+
+on:
+  push:
+    branches:
+      - diagnostic/typescript-current-20261005
+    paths:
+      - '.github/workflows/typecheck-current-riskprofile-once.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Compare baseline and candidate TypeScript debt
+        shell: bash
+        run: |
+          set -e
+          cp src/types/riskProfile.ts /tmp/riskProfile.ts
+          rm src/types/riskProfile.ts
+          set +e
+          npm run typecheck > /tmp/typecheck-baseline.log 2>&1
+          set -e
+          mv /tmp/riskProfile.ts src/types/riskProfile.ts
+          set +e
+          npm run typecheck > /tmp/typecheck-candidate.log 2>&1
+          set -e
+
+          baseline_total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck-baseline.log || true)
+          candidate_total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck-candidate.log || true)
+          baseline_unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck-baseline.log || true)
+          candidate_unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck-candidate.log || true)
+          baseline_runtime=$((baseline_total-baseline_unused))
+          candidate_runtime=$((candidate_total-candidate_unused))
+
+          echo "Baseline diagnostics: ${baseline_total} (${baseline_unused} unused / ${baseline_runtime} runtime)"
+          echo "Candidate diagnostics: ${candidate_total} (${candidate_unused} unused / ${candidate_runtime} runtime)"
+          echo "Net reduction: $((baseline_total-candidate_total)) total / $((baseline_runtime-candidate_runtime)) runtime"
+          echo
+          echo "Candidate riskProfile diagnostics:"
+          grep -E 'riskProfile|ClientProfile|RiskProfile' /tmp/typecheck-candidate.log | head -120 || true
+
+          if grep -E "Cannot find module '../types/riskProfile'|Cannot find module './types/riskProfile'|Property 'tmi' does not exist on type 'ClientProfile'" /tmp/typecheck-candidate.log; then
+            echo 'riskProfile contract remains incomplete.' >&2
+            exit 1
+          fi
+          if [ "$candidate_runtime" -ge "$baseline_runtime" ]; then
+            echo 'No runtime/typing reduction from riskProfile contract.' >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
