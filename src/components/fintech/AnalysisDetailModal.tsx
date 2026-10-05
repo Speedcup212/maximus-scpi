@@ -49,7 +49,6 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClose, scpi, onAdd, isSelected = false, onShowToast, score = null, scoreDetail = null }) => {
-  const [investmentAmount] = useState<number>(50000);
   const [fetchedScore, setFetchedScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
 
