@@ -306,7 +306,6 @@ export const getScpiKeyTakeaways = (scpi: Scpi): string[] => {
   const walt = scpi.walt;
   const sector = scpi.sector;
   const creation = scpi.creation;
-  const versementLoyers = scpi.versementLoyers;
   
   // Caractéristiques combinées pour personnalisation
   const isVeryLargeCap = capitalizationM >= 2000;
