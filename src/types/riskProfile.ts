@@ -32,6 +32,7 @@ export interface ClientProfile {
   age: number;
   investmentAmount: number;
   investmentHorizon: number;
+  tmi?: number;
   riskProfile: RiskProfile;
   preferences: ClientPreferences;
 }
