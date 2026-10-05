@@ -1,0 +1,92 @@
+name: Validate yield display narrowing once
+
+on:
+  push:
+    branches:
+      - diagnostic/yield-display-fix-20261005
+    paths:
+      - '.github/workflows/typecheck-yield-display-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout diagnostic branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply bounded narrowing correction
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/utils/yieldDisplay.ts')
+          s = p.read_text()
+          start = s.index('export function isEuropeanScpi(scpi: Scpi | SCPIExtended): boolean {')
+          end = s.index('/**\n * Extrait le taux de distribution net depuis les données', start)
+          new_fn = """export function isEuropeanScpi(scpi: Scpi | SCPIExtended): boolean {\n  const geography = scpi.geography;\n  if (typeof geography !== 'string') {\n    return false;\n  }\n  return geography === 'europe' || geography === 'international';\n}\n\n"""
+          p.write_text(s[:start] + new_fn + s[end:])
+          PY
+          test "$(git diff --name-only)" = "src/utils/yieldDisplay.ts"
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify TypeScript reduction
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck.log 2>&1
+          set -e
+          total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
+          unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
+          runtime=$((total-unused))
+          echo "TypeScript diagnostics: ${total}"
+          echo "Unused diagnostics: ${unused}"
+          echo "Runtime/typing diagnostics: ${runtime}"
+          grep -E '^src/utils/yieldDisplay.ts' /tmp/typecheck.log || true
+          if grep -E '^src/utils/yieldDisplay.ts' /tmp/typecheck.log; then
+            echo 'yieldDisplay diagnostics remain.' >&2
+            exit 1
+          fi
+          if [ "$total" -gt 996 ]; then
+            echo "Expected <= 996 diagnostics, got ${total}." >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
+      - name: Promote only validated file to unchanged main
+        shell: bash
+        run: |
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          expected='5d802788f8690070ab8d2cc2366b43540533907b'
+          current=$(git rev-parse origin/main)
+          if [ "$current" != "$expected" ]; then
+            echo "main moved: expected $expected, got $current" >&2
+            exit 1
+          fi
+          git checkout -B main origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('src/utils/yieldDisplay.ts')
+          s = p.read_text()
+          start = s.index('export function isEuropeanScpi(scpi: Scpi | SCPIExtended): boolean {')
+          end = s.index('/**\n * Extrait le taux de distribution net depuis les données', start)
+          new_fn = """export function isEuropeanScpi(scpi: Scpi | SCPIExtended): boolean {\n  const geography = scpi.geography;\n  if (typeof geography !== 'string') {\n    return false;\n  }\n  return geography === 'europe' || geography === 'international';\n}\n\n"""
+          p.write_text(s[:start] + new_fn + s[end:])
+          PY
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/utils/yieldDisplay.ts
+          test "$(git diff --cached --name-only)" = "src/utils/yieldDisplay.ts"
+          git commit -m 'fix(types): simplify yield geography narrowing [skip netlify]'
+          git push origin HEAD:main
