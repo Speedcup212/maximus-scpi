@@ -1,3 +1,3 @@
 2026-10-05
-Release trigger for the validated SEO/GEO hardening batch.
-Includes YMYL fiscal cleanup, legacy generator hardening, structured-data cleanup, LMNP/SCPI snippet normalization and FAQ crawler-depth improvements.
+Release trigger for the validated comparator-demand SEO batch.
+Routes comparator intent through canonical links from the homepage and articles hub, while preserving the comparator landing as the transactional destination.
