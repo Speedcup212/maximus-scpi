@@ -13,18 +13,11 @@ const RoleGuard: React.FC<RoleGuardProps> = ({ roles, onRedirect, children }) =>
   const { user } = useAuth();
   const { profile, loading } = useProfile(user?.id);
 
-  const canAccess = Boolean(
-    profile && (
-      roles.includes(profile.role) ||
-      (profile.role === 'admin' && roles.length === 1 && roles[0] === 'client')
-    )
-  );
-
   useEffect(() => {
-    if (!loading && profile && !canAccess) {
+    if (!loading && profile && !roles.includes(profile.role)) {
       onRedirect('/app');
     }
-  }, [loading, profile, canAccess, onRedirect]);
+  }, [loading, profile, roles, onRedirect]);
 
   if (loading) {
     return (
@@ -34,7 +27,7 @@ const RoleGuard: React.FC<RoleGuardProps> = ({ roles, onRedirect, children }) =>
     );
   }
 
-  if (!profile || !canAccess) {
+  if (!profile || !roles.includes(profile.role)) {
     return null;
   }
 
