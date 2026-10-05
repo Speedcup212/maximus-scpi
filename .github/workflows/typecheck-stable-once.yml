@@ -1,4 +1,4 @@
-name: Measure stable TypeScript debt once
+name: Validate stable TypeScript fix once
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   diagnostic:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,32 +24,24 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Measure TypeScript debt
+      - name: Verify TypeScript reduction
         shell: bash
         run: |
           set +e
           npm run typecheck > /tmp/typecheck.log 2>&1
-          status=$?
           set -e
           total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
           unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
-          echo "TypeScript diagnostics: ${total}"
+          echo "TypeScript diagnostics after ArticleCtaBlock fix: ${total}"
           echo "Unused diagnostics: ${unused}"
           echo "Runtime/typing diagnostics: $((total-unused))"
-          echo "tsc exit code: ${status}"
-          echo
-          echo "Top files by diagnostic count:"
-          grep -E 'error TS[0-9]+:' /tmp/typecheck.log | sed -E 's/^([^(:]+).*/\1/' | sort | uniq -c | sort -nr | head -30 || true
-          echo
-          echo "First 220 runtime/typing diagnostics excluding Auth/Pro:"
-          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
-            | grep -v -E 'error TS(6133|6192|6196|6198):' \
-            | grep -v -E '^src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/)' \
-            | head -220 || true
-          echo
-          echo "ArticleCtaBlock/bottom diagnostics:"
-          grep -E 'ArticleCtaBlock|Type '\''"bottom"'\''' /tmp/typecheck.log || true
-          echo
-          echo "Missing-module diagnostics:"
-          grep -E 'error TS2307:' /tmp/typecheck.log | head -80 || true
-          exit 0
+          if grep -E 'Type '\''"bottom"'\'' is not assignable to type '\''"top" \| "middle"' /tmp/typecheck.log; then
+            echo 'Bottom CTA diagnostics remain.' >&2
+            exit 1
+          fi
+          if [ "$total" -gt 1011 ]; then
+            echo "Expected <= 1011 diagnostics, got ${total}." >&2
+            exit 1
+          fi
+      - name: Production build
+        run: npm run build
