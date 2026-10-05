@@ -8,7 +8,7 @@ on:
       - '.github/workflows/typecheck-stable-once.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   diagnostic:
@@ -22,6 +22,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Apply bounded MoneyPageTools fix
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path('src/components/MoneyPageTools.tsx')
+          text = path.read_text()
+          old = "    let cancelled = false;\n    const load = async () => {\n      const { data, error } = await supabase\n"
+          new = "    const client = supabase;\n    let cancelled = false;\n    const load = async () => {\n      const { data, error } = await client\n"
+          count = text.count(old)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one MoneyPageTools target, found {count}')
+          path.write_text(text.replace(old, new))
       - name: Install dependencies
         run: npm ci
       - name: Verify TypeScript reduction
@@ -32,16 +44,25 @@ jobs:
           set -e
           total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
           unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
-          echo "TypeScript diagnostics after PingSupabase fix: ${total}"
+          echo "TypeScript diagnostics after MoneyPageTools fix: ${total}"
           echo "Unused diagnostics: ${unused}"
           echo "Runtime/typing diagnostics: $((total-unused))"
-          if grep -E '^src/components/PingSupabase\.tsx\(.*error TS[0-9]+:' /tmp/typecheck.log; then
-            echo 'PingSupabase diagnostics remain.' >&2
+          if grep -E '^src/components/MoneyPageTools\.tsx\(.*error TS18047:' /tmp/typecheck.log; then
+            echo 'MoneyPageTools TS18047 remains.' >&2
             exit 1
           fi
-          if [ "$total" -gt 1008 ]; then
-            echo "Expected <= 1008 diagnostics, got ${total}." >&2
+          if [ "$total" -gt 1007 ]; then
+            echo "Expected <= 1007 diagnostics, got ${total}." >&2
             exit 1
           fi
       - name: Production build
         run: npm run build
+      - name: Commit validated file to diagnostic branch
+        shell: bash
+        run: |
+          git config user.name 'maximus-agents'
+          git config user.email 'maximus-agents@users.noreply.github.com'
+          git add src/components/MoneyPageTools.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix(types): preserve Supabase narrowing in MoneyPageTools [skip netlify]'
+          git push origin HEAD:diagnostic/typescript-stable-20261005
