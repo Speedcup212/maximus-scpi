@@ -56,6 +56,15 @@ jobs:
             | sed -E 's/^([^(:]+).*/\1/' \
             | sort | uniq -c | sort -nr | head -25 || true
           echo
+          echo "All App.tsx diagnostics:"
+          grep -E '^src/App\.tsx\(.*error TS[0-9]+:' /tmp/typecheck.log || true
+          echo
+          echo "First 160 non-App runtime/typing diagnostics:"
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log \
+            | grep -v -E 'error TS(6133|6192):' \
+            | grep -v -E '^src/App\.tsx\(' \
+            | head -160 || true
+          echo
           echo "First 120 diagnostics:"
           grep -E 'error TS[0-9]+:' /tmp/typecheck.log | head -120 || true
 
