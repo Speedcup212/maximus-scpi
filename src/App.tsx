@@ -1687,20 +1687,11 @@ const App: React.FC = () => {
   };
 
   const handleBackToHome = () => {
-    setCurrentView('home');
-    setSelectedCategory(null);
-    setSelectedArticle(null);
-    setSelectedLandingPage(null);
-    // Utiliser replaceState au lieu de pushState pour éviter les problèmes de mutation
-    // et ne pas ajouter d'entrée à l'historique
-    try {
-      window.history.replaceState(null, '', '/');
-    } catch (error) {
-      // Fallback: utiliser window.location si replaceState échoue
-      window.location.href = '/';
-      return;
-    }
-    window.scrollTo(0, 0);
+    // La home autoritaire est montée par main.tsx via HomeApp.
+    // Depuis les routes legacy, une simple mutation de currentView conservait
+    // l'ancienne home embarquée dans App.tsx. Une navigation réelle garantit
+    // qu'un retour accueil charge toujours la même HomeApp.
+    window.location.assign('/');
   };
 
   const handleArticlesClick = () => {
