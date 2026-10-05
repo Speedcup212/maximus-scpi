@@ -16,6 +16,10 @@ export type ScpiHistoryRow = {
   distribution_par_part: number | string | null;
   parts_attente_retrait: number | string | null;
   nombre_parts: number | string | null;
+  capital_type?: string | null;
+  liquidity_basis?: string | null;
+  liquidity_pressure_pct?: number | string | null;
+  retrait_attente_pct?: number | string | null;
 };
 
 export type NormalizedHistoryRow = Omit<
@@ -32,6 +36,8 @@ export type NormalizedHistoryRow = Omit<
   | 'parts_attente_retrait'
   | 'nombre_parts'
   | 'source_confidence'
+  | 'liquidity_pressure_pct'
+  | 'retrait_attente_pct'
 > & {
   tof: number | null;
   td: number | null;
@@ -46,13 +52,48 @@ export type NormalizedHistoryRow = Omit<
   nombre_parts: number | null;
   source_confidence: number | null;
   retrait_attente_pct: number | null;
+  liquidity_basis: string | null;
+  liquidity_pressure_pct: number | null;
 };
 
 export const HISTORY_SELECT = [
   'scpi_slug', 'snapshot_at', 'source_period', 'source_url', 'qa_status', 'source_confidence',
   'tof', 'td', 'capitalisation', 'prix_souscription', 'prix_reconstitution', 'prix_retrait',
   'valeur_realisation', 'endettement', 'distribution_par_part', 'parts_attente_retrait', 'nombre_parts',
+  'capital_type', 'liquidity_basis',
 ].join(',');
+
+export const CERTIFIED_HISTORY_SELECT = `${HISTORY_SELECT},retrait_attente_pct,liquidity_pressure_pct`;
+
+export type CertifiedLiquiditySnapshot = {
+  scpi_slug: string;
+  source_period: string | null;
+  liquidity_basis: string | null;
+  liquidity_pressure_pct: number | string | null;
+  retrait_attente_pct: number | string | null;
+  regime_changed: boolean | null;
+  signal_certification: string | null;
+  niveau_liquidite?: string | null;
+};
+
+export type TrajectorySignalGate = {
+  scpi_slug: string;
+  data_gate: string | null;
+  structural_gate: string | null;
+  semantic_gate: string | null;
+  liquidity_gate: string | null;
+  liquidity_signal_eligible: boolean | null;
+};
+
+export const normalizeLiquidityBasis = (basis?: string | null, capitalType?: string | null) => {
+  if (basis?.startsWith('secondary_market_order_book')) return 'secondary_market_order_book';
+  if (basis?.startsWith('fixed_capital')) return 'fixed_capital_market';
+  if (basis?.startsWith('withdrawal_queue')) return 'withdrawal_queue';
+  if (basis) return null;
+  if (capitalType === 'fixe') return 'fixed_capital_market';
+  if (capitalType === 'variable') return 'withdrawal_queue';
+  return null;
+};
 
 export const toFiniteNumber = (value: unknown): number | null => {
   if (value === null || value === undefined || value === '') return null;
@@ -112,7 +153,8 @@ const safePercent = (value: unknown) => {
 const normalizeRow = (row: ScpiHistoryRow): NormalizedHistoryRow => {
   const partsAttente = toFiniteNumber(row.parts_attente_retrait);
   const nombreParts = toFiniteNumber(row.nombre_parts);
-  const rawRetraitPct = partsAttente !== null && nombreParts !== null && nombreParts > 0
+  const basis = normalizeLiquidityBasis(row.liquidity_basis, row.capital_type);
+  const rawRetraitPct = basis === 'withdrawal_queue' && partsAttente !== null && nombreParts !== null && nombreParts > 0
     ? (partsAttente / nombreParts) * 100
     : null;
   const retraitPct = rawRetraitPct !== null && rawRetraitPct >= 0 && rawRetraitPct <= 100 ? rawRetraitPct : null;
@@ -131,9 +173,45 @@ const normalizeRow = (row: ScpiHistoryRow): NormalizedHistoryRow => {
     parts_attente_retrait: partsAttente,
     nombre_parts: nombreParts,
     source_confidence: toFiniteNumber(row.source_confidence),
-    retrait_attente_pct: retraitPct,
+    liquidity_basis: basis,
+    retrait_attente_pct: basis === 'withdrawal_queue'
+      ? (Object.prototype.hasOwnProperty.call(row, 'retrait_attente_pct') ? safePercent(row.retrait_attente_pct) : retraitPct)
+      : null,
+    liquidity_pressure_pct: basis === 'withdrawal_queue' || basis === 'secondary_market_order_book'
+      ? safePercent(row.liquidity_pressure_pct)
+      : null,
   };
 };
+
+/** The current certified snapshot is authoritative; no raw fallback on missing gates. */
+export const applyCertifiedLiquidity = (
+  rows: NormalizedHistoryRow[],
+  snapshot: CertifiedLiquiditySnapshot | null,
+  gate: TrajectorySignalGate | null,
+): NormalizedHistoryRow[] => {
+  const usableGate = gate?.data_gate === 'PASS' && gate.structural_gate === 'PASS' && gate.semantic_gate === 'PASS'
+    && gate.liquidity_gate?.startsWith('PASS');
+  if (!snapshot || !usableGate) {
+    return rows.map((row) => ({ ...row, retrait_attente_pct: null, liquidity_pressure_pct: null }));
+  }
+  const snapshotPeriod = parsePeriod(snapshot.source_period)?.key;
+  const usableLevel = ['trajectory_certified', 'level_only', 'stale_last_known'].includes(snapshot.signal_certification || '');
+  return rows.map((row) => {
+    if (parsePeriod(row.source_period)?.key !== snapshotPeriod) return row;
+    const basis = normalizeLiquidityBasis(snapshot.liquidity_basis);
+    return {
+      ...row,
+      liquidity_basis: basis,
+      retrait_attente_pct: usableLevel && basis === 'withdrawal_queue' ? safePercent(snapshot.retrait_attente_pct) : null,
+      liquidity_pressure_pct: usableLevel && (basis === 'withdrawal_queue' || basis === 'secondary_market_order_book')
+        ? safePercent(snapshot.liquidity_pressure_pct) : null,
+    };
+  });
+};
+
+export const liquidityLabel = (basis?: string | null) => basis === 'secondary_market_order_book'
+  ? 'Pression du marché secondaire'
+  : basis === 'withdrawal_queue' ? 'File de retraits' : 'Liquidité non comparable';
 
 export const normalizeAndDedupeHistory = (rows: ScpiHistoryRow[]): NormalizedHistoryRow[] => {
   const byPeriod = new Map<string, ScpiHistoryRow>();
@@ -164,13 +242,38 @@ export const metricObservations = (rows: NormalizedHistoryRow[], key: keyof Norm
   .filter((item): item is { row: NormalizedHistoryRow; value: number; period: { key: string; ordinal: number } } => item.value !== null && item.period !== null);
 
 export const latestDelta = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow, lookback = 4): number | null => {
+  const latestRow = rows[rows.length - 1];
+  if (!latestRow || toFiniteNumber(latestRow[key]) === null) return null;
   const observations = metricObservations(rows, key);
   if (observations.length < 2) return null;
   const latest = observations[observations.length - 1];
   const targetOrdinal = latest.period.ordinal - lookback;
   const exact = observations.find((item) => item.period.ordinal === targetOrdinal);
   if (!exact) return null;
+  if (key === 'retrait_attente_pct' || key === 'liquidity_pressure_pct') {
+    const comparableRows = rows.filter((row) => {
+      const ordinal = parsePeriod(row.source_period)?.ordinal;
+      return ordinal !== undefined && ordinal >= targetOrdinal && ordinal <= latest.period.ordinal;
+    });
+    if (!latest.row.liquidity_basis || comparableRows.some((row) => row.liquidity_basis !== latest.row.liquidity_basis)) return null;
+  }
   return latest.value - exact.value;
+};
+
+/** Never backfill a current liquidity signal with an older withdrawal regime. */
+export const currentCertifiedLiquidity = (
+  rows: NormalizedHistoryRow[],
+  snapshot: CertifiedLiquiditySnapshot | null,
+  gate: TrajectorySignalGate | null,
+) => {
+  const certified = applyCertifiedLiquidity(rows, snapshot, gate);
+  const latest = certified[certified.length - 1];
+  const basis = latest?.liquidity_basis ?? null;
+  const key = basis === 'secondary_market_order_book' ? 'liquidity_pressure_pct' : 'retrait_attente_pct';
+  const value = latest?.[key] ?? null;
+  const eligible = gate?.liquidity_signal_eligible === true
+    && snapshot?.signal_certification === 'trajectory_certified' && !snapshot.regime_changed;
+  return { basis, value, delta: eligible ? latestDelta(certified, key, 4) : null };
 };
 
 export const latestSequentialDelta = (rows: NormalizedHistoryRow[], key: keyof NormalizedHistoryRow): number | null => {
