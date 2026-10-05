@@ -19,10 +19,11 @@ export default function ProRapports() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const fetchReports = useCallback(async () => {
-    if (!user) return;
+    if (!user || !supabase) return;
+    const client = supabase;
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('pro_reports')
         .select('id, cabinet_name, report_data, created_at, expires_at, view_count')
         .eq('cgp_id', user.id)
@@ -50,7 +51,7 @@ export default function ProRapports() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer ce rapport ? Cette action est irréversible.')) return;
+    if (!confirm('Supprimer ce rapport ? Cette action est irréversible.') || !supabase) return;
     try {
       await supabase.from('pro_reports').delete().eq('id', id);
       fetchReports();

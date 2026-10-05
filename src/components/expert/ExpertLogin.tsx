@@ -15,8 +15,10 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    if (!supabase) return;
+    const client = supabase;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         window.location.href = '/expert-comptable/post-login';
       }
@@ -28,6 +30,11 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
     e.preventDefault();
     setError('');
     setLoading(true);
+    if (!supabase) {
+      setError('Service de connexion indisponible.');
+      setLoading(false);
+      return;
+    }
 
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -44,6 +51,11 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const handleGoogleLogin = async () => {
     setError('');
     setGoogleLoading(true);
+    if (!supabase) {
+      setError('Service de connexion indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
 
     const { error: googleError } = await supabase.auth.signInWithOAuth({
       provider: 'google',

@@ -15,8 +15,10 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    if (!supabase) return;
+    const client = supabase;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         onNavigate('/pro/dashboard');
       }
@@ -28,6 +30,11 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
     e.preventDefault();
     setError('');
     setLoading(true);
+    if (!supabase) {
+      setError('Service de connexion indisponible.');
+      setLoading(false);
+      return;
+    }
 
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -44,6 +51,11 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
   const handleGoogleLogin = async () => {
     setError('');
     setGoogleLoading(true);
+    if (!supabase) {
+      setError('Service de connexion indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {

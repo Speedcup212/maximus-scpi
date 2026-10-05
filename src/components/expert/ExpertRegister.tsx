@@ -15,8 +15,10 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    if (!supabase) return;
+    const client = supabase;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         window.location.href = '/expert-comptable/verification';
       }
@@ -41,6 +43,11 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
       return;
     }
 
+    if (!supabase) {
+      setError('Service d’inscription indisponible.');
+      setLoading(false);
+      return;
+    }
     const { error: authError } = await supabase.auth.signUp({ email, password });
 
     if (authError) {
@@ -57,6 +64,11 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
   const handleGoogleSignUp = async () => {
     setError('');
     setGoogleLoading(true);
+    if (!supabase) {
+      setError('Service d’inscription indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
 
     const { error: googleError } = await supabase.auth.signInWithOAuth({
       provider: 'google',

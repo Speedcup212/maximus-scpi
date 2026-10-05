@@ -11,12 +11,17 @@ export default function ProSettings() {
   const [association, setAssociation] = useState('ANACOFI');
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+    const client = supabase;
     const fetchProfile = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await client.auth.getSession();
         if (!session) return;
 
-        const { data, error } = await supabase
+        const { data, error } = await client
           .from('cgp_profiles')
           .select('*')
           .eq('id', session.user.id)
@@ -43,10 +48,12 @@ export default function ProSettings() {
     setSuccess(false);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      if (!supabase) throw new Error("Supabase non configuré");
+      const client = supabase;
+      const { data: { session } } = await client.auth.getSession();
       if (!session) throw new Error("Pas de session active");
 
-      const { error } = await supabase
+      const { error } = await client
         .from('cgp_profiles')
         .update({
           company_name: companyName,
