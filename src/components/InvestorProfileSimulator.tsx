@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle, Shield, AlertCircle } from 'lucide-react';
-import { setInvestorProfile } from '../utils/investorProfile';
+import { setInvestorProfile, type InvestorProfile } from '../utils/investorProfile';
 
 type AnswerOption = 'A' | 'B' | 'C' | 'D';
 
@@ -161,7 +161,7 @@ type ProfileKey =
   | 'dynamique'
   | 'agressif';
 
-const PROFILE_CONTENT: Record<ProfileKey, { title: string; description: string; style: string; vigilance: string[] }> = {
+const PROFILE_CONTENT: Record<ProfileKey, { title: Exclude<InvestorProfile, null>; description: string; style: string; vigilance: string[] }> = {
   'oppose': {
     title: 'PROFIL OPPOSE AU RISQUE',
     description: "Vous cherchez avant tout à éviter les situations inconfortables et les variations imprévues. Votre priorité est la protection et la lisibilité immédiate. Les phases d’incertitude génèrent rapidement un besoin de sécurisation. Ce profil n’est pas figé dans le temps.",
