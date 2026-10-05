@@ -1,4 +1,4 @@
-name: Validate Calendly global contract once
+name: Batch TypeScript inventory current main
 
 on:
   push:
@@ -8,25 +8,29 @@ on:
       - '.github/workflows/inventory-calendly-once.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  validate-and-promote:
+  inventory:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - name: Checkout diagnostic branch
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - name: Checkout current main
+        shell: bash
+        run: |
+          git fetch origin main
+          git checkout -B current-main origin/main
+          echo "MAIN_SHA=$(git rev-parse HEAD)"
       - name: Install dependencies
         run: npm ci
-      - name: Verify TypeScript reduction
+      - name: Inventory TypeScript debt
         shell: bash
         run: |
           set +e
@@ -35,46 +39,8 @@ jobs:
           total=$(grep -E -c 'error TS[0-9]+:' /tmp/typecheck.log || true)
           unused=$(grep -E -c 'error TS(6133|6192|6196|6198):' /tmp/typecheck.log || true)
           runtime=$((total-unused))
-          echo "TypeScript diagnostics: ${total}"
-          echo "Unused diagnostics: ${unused}"
-          echo "Runtime/typing diagnostics: ${runtime}"
-          grep -E 'calendlyPopup.ts\(3,5\)|Subsequent property declarations must have the same type' /tmp/typecheck.log || true
-          if grep -E 'calendlyPopup.ts\(3,5\).*Subsequent property declarations' /tmp/typecheck.log; then
-            echo 'Calendly global declaration conflict remains.' >&2
-            exit 1
-          fi
-          if [ "$total" -gt 1002 ]; then
-            echo "Expected <= 1002 diagnostics, got ${total}." >&2
-            exit 1
-          fi
-      - name: Production build
-        run: npm run build
-      - name: Promote only validated declaration to unchanged main
-        shell: bash
-        run: |
-          git reset --hard HEAD
-          git clean -fd
-          git fetch origin main
-          expected='880f194e934f15bfb3d7092c2e99010ac44ceac3'
-          current=$(git rev-parse origin/main)
-          if [ "$current" != "$expected" ]; then
-            echo "main moved: expected $expected, got $current" >&2
-            exit 1
-          fi
-          git checkout -B main origin/main
-          python - <<'PY'
-          from pathlib import Path
-          p = Path('src/vite-env.d.ts')
-          s = p.read_text()
-          old = "  Calendly?: {\n    initPopupWidget: (options: { url: string }) => void;\n  };"
-          new = "  Calendly?: {\n    initPopupWidget: (options: { url: string }) => void;\n    closePopupWidget?: () => void;\n  };"
-          if old not in s:
-              raise SystemExit('Expected Calendly declaration not found on main')
-          p.write_text(s.replace(old, new, 1))
-          PY
-          git config user.name 'maximus-agents'
-          git config user.email 'maximus-agents@users.noreply.github.com'
-          git add src/vite-env.d.ts
-          test "$(git diff --cached --name-only)" = "src/vite-env.d.ts"
-          git commit -m 'fix(types): align Calendly global contract [skip netlify]'
-          git push origin HEAD:main
+          echo "TOTAL=${total} UNUSED=${unused} RUNTIME=${runtime}"
+          echo '=== Runtime/type errors by file ==='
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log | grep -Ev 'error TS(6133|6192|6196|6198):' | sed -E 's#^([^(:]+).*#\1#' | sort | uniq -c | sort -nr | head -40
+          echo '=== First 160 runtime/type diagnostics (excluding Auth/Pro/Expert) ==='
+          grep -E 'error TS[0-9]+:' /tmp/typecheck.log | grep -Ev 'error TS(6133|6192|6196|6198):' | grep -Ev 'src/(contexts/AuthContext|contexts/ProReportContext|components/pro/|components/expert/|components/app/)' | head -160 || true
