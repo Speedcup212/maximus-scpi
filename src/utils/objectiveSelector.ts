@@ -11,7 +11,7 @@ export const INVESTMENT_OBJECTIVES: InvestmentObjective[] = [
   {
     id: 'revenus',
     name: 'Générer des revenus',
-    description: 'Privilégier les distributions régulières et élevées',
+    description: 'Comparer la régularité des distributions et la solidité des fondamentaux',
     icon: '💰',
     color: '#10b981',
     criteria: {
@@ -23,7 +23,7 @@ export const INVESTMENT_OBJECTIVES: InvestmentObjective[] = [
   {
     id: 'capitaliser',
     name: 'Capitaliser',
-    description: 'Optimiser la valorisation du patrimoine à long terme',
+    description: 'Rechercher une trajectoire patrimoniale cohérente à long terme',
     icon: '📈',
     color: '#3b82f6',
     criteria: {
@@ -36,7 +36,7 @@ export const INVESTMENT_OBJECTIVES: InvestmentObjective[] = [
   {
     id: 'diversifier',
     name: 'Diversifier',
-    description: 'Répartir les risques sur plusieurs secteurs et zones',
+    description: 'Répartir les risques entre plusieurs secteurs et zones',
     icon: '🎯',
     color: '#8b5cf6',
     criteria: {
@@ -48,131 +48,118 @@ export const INVESTMENT_OBJECTIVES: InvestmentObjective[] = [
   },
   {
     id: 'fiscalite',
-    name: 'Optimiser la fiscalité',
-    description: 'Minimiser l\'impact fiscal selon votre TMI',
+    name: 'Comparer la fiscalité',
+    description: 'Comparer les modes de détention et les flux fiscaux sans biais automatique par TMI',
     icon: '🏛️',
     color: '#f59e0b',
     criteria: {
-      minYield: 4.5,
-      preferredGeography: ['europe', 'international'],
+      minYield: 4.0,
       maxSingleAllocation: 40
     }
   }
 ];
 
+const safeNumber = (value: number | null | undefined, fallback = 0): number =>
+  Number.isFinite(value) ? Number(value) : fallback;
+
+const qualityScore = (scpi: Scpi): number => {
+  const yieldScore = Math.min(Math.max(safeNumber(scpi.yield), 0), 10) * 4;
+  const tofScore = Math.min(Math.max(safeNumber(scpi.tof), 0), 100) * 0.35;
+  const capitalization = Math.max(safeNumber(scpi.capitalization), 0);
+  const capitalizationScore = capitalization > 0 ? Math.min(Math.log10(capitalization), 10) * 2 : 0;
+
+  return yieldScore + tofScore + capitalizationScore;
+};
+
+const byQuality = (a: Scpi, b: Scpi): number =>
+  qualityScore(b) - qualityScore(a);
+
 export const applyObjective = (
-  objective: ObjectiveType, 
-  tmi: number, 
+  objective: ObjectiveType,
+  tmi: number,
   availableScpi: Scpi[]
 ): ObjectiveSelection => {
-  let filteredScpi: Scpi[] = [];
+  let selectedScpi: Scpi[] = [];
   let message = '';
   let strategy = '';
 
-  // Filtrage selon la TMI
-  const isLowTmi = tmi <= 11;
-  const isHighTmi = tmi >= 30;
+  const rankedUniverse = [...availableScpi].sort(byQuality);
 
-  if (isLowTmi) {
-    // TMI ≤ 11% : privilégier SCPI françaises et européennes avec bons indicateurs
-    filteredScpi = availableScpi.filter(scpi => {
-      return (
-        (scpi.geography === 'france' || scpi.geography === 'europe') &&
-        scpi.capitalization >= 100000000 && // Capitalisation élevée
-        scpi.tof >= 90 && // Bon taux d'occupation
-        scpi.yield >= 4.0 // Rendement décent
-      );
-    });
-    
-    strategy = 'France + Europe, indicateurs solides';
-    message = `Avec une TMI de ${tmi}%, voici une sélection équilibrée France + Europe, basée sur rendement et solidité.`;
-  } else if (isHighTmi) {
-    // TMI ≥ 30% : privilégier SCPI européennes (éviter purement françaises)
-    filteredScpi = availableScpi.filter(scpi => {
-      return (
-        scpi.geography === 'europe' || 
-        scpi.geography === 'international' ||
-        scpi.european === true
-      ) && scpi.yield >= 4.0;
-    });
-    
-    strategy = 'Europe + International, optimisation fiscale';
-    message = `Avec une TMI de ${tmi}%, nous vous orientons vers les SCPI européennes et internationales pour optimiser la fiscalité.`;
-  } else {
-    // TMI intermédiaire : équilibre
-    filteredScpi = availableScpi.filter(scpi => 
-      scpi.yield >= 4.5 && scpi.tof >= 90
-    );
-    
-    strategy = 'Équilibre performance/fiscalité';
-    message = `Avec une TMI de ${tmi}%, voici un équilibre entre performance et optimisation fiscale.`;
-  }
-
-  // Appliquer les critères spécifiques à l'objectif
   switch (objective) {
-    case 'revenus':
-      filteredScpi = filteredScpi
-        .filter(scpi => scpi.yield >= 5.0)
-        .sort((a, b) => b.yield - a.yield)
+    case 'revenus': {
+      selectedScpi = [...rankedUniverse]
+        .sort((a, b) => {
+          const yieldDelta = safeNumber(b.yield) - safeNumber(a.yield);
+          return yieldDelta !== 0 ? yieldDelta : byQuality(a, b);
+        })
         .slice(0, 6);
-      break;
 
-    case 'capitaliser':
-      filteredScpi = filteredScpi
-        .filter(scpi =>
-          scpi.capitalization >= 200000000 &&
-          (scpi.sector === 'bureaux' || scpi.sector === 'logistique' || scpi.sector === 'residentiel')
-        )
-        .sort((a, b) => b.capitalization - a.capitalization)
+      strategy = 'Distributions + fondamentaux';
+      message = 'Sélection indicative fondée sur la distribution et les fondamentaux. Le revenu futur n’est pas garanti et doit être stressé dans plusieurs scénarios.';
+      break;
+    }
+
+    case 'capitaliser': {
+      selectedScpi = [...rankedUniverse]
+        .sort((a, b) => {
+          const capDelta = safeNumber(b.capitalization) - safeNumber(a.capitalization);
+          return capDelta !== 0 ? capDelta : byQuality(a, b);
+        })
         .slice(0, 6);
-      break;
 
-    case 'diversifier':
-      // Sélectionner 1-2 SCPI par secteur principal
+      strategy = 'Trajectoire patrimoniale + solidité';
+      message = 'Sélection indicative orientée capitalisation et solidité. La valorisation future dépend des actifs, des valeurs d’expertise, de la dette et du prix de part.';
+      break;
+    }
+
+    case 'diversifier': {
       const sectorGroups: Record<string, Scpi[]> = {};
-      filteredScpi.forEach(scpi => {
-        if (!sectorGroups[scpi.sector]) {
-          sectorGroups[scpi.sector] = [];
-        }
-        sectorGroups[scpi.sector].push(scpi);
+      rankedUniverse.forEach(scpi => {
+        const sector = scpi.sector || 'autres';
+        if (!sectorGroups[sector]) sectorGroups[sector] = [];
+        sectorGroups[sector].push(scpi);
       });
 
-      filteredScpi = [];
-      Object.values(sectorGroups).forEach(group => {
-        const sorted = group.sort((a, b) => b.yield - a.yield);
-        filteredScpi.push(...sorted.slice(0, 2)); // Max 2 par secteur
-      });
+      const diversified: Scpi[] = [];
+      Object.values(sectorGroups)
+        .sort((a, b) => qualityScore(b[0]) - qualityScore(a[0]))
+        .forEach(group => {
+          const candidate = [...group].sort(byQuality)[0];
+          if (candidate) diversified.push(candidate);
+        });
 
-      filteredScpi = filteredScpi.slice(0, 6);
-      break;
-
-    case 'fiscalite':
-      if (isHighTmi) {
-        // Privilégier les SCPI européennes et internationales
-        filteredScpi = filteredScpi
-          .filter(scpi => scpi.geography !== 'france' || scpi.european)
-          .sort((a, b) => {
-            // Score fiscal : européennes > internationales > françaises européennes
-            const getScore = (s: Scpi) => {
-              if (s.geography === 'international') return 3;
-              if (s.geography === 'europe') return 2;
-              if (s.european) return 1;
-              return 0;
-            };
-            return getScore(b) - getScore(a) || b.yield - a.yield;
-          })
-          .slice(0, 6);
-      } else {
-        // TMI faible : privilégier les meilleures performances
-        filteredScpi = filteredScpi
-          .sort((a, b) => b.yield - a.yield)
-          .slice(0, 6);
+      if (diversified.length < 6) {
+        const alreadySelected = new Set(diversified.map(scpi => scpi.name));
+        rankedUniverse.forEach(scpi => {
+          if (diversified.length < 6 && !alreadySelected.has(scpi.name)) {
+            diversified.push(scpi);
+            alreadySelected.add(scpi.name);
+          }
+        });
       }
+
+      selectedScpi = diversified.slice(0, 6);
+      strategy = 'Diversification sectorielle + fondamentaux';
+      message = 'Sélection indicative diversifiée par secteur. Il faut ensuite contrôler les expositions géographiques, locataires et risques réellement communs.';
       break;
+    }
+
+    case 'fiscalite': {
+      selectedScpi = rankedUniverse.slice(0, 6);
+      strategy = 'Comparaison fiscale sans filtre géographique automatique';
+      message = `TMI ${tmi}% : la TMI seule ne justifie pas d’exclure les SCPI françaises ni de privilégier automatiquement l’Europe. Comparez les revenus par pays, les conventions fiscales et le mode de détention avant d’arbitrer.`;
+      break;
+    }
+
+    default: {
+      selectedScpi = rankedUniverse.slice(0, 6);
+      strategy = 'Fondamentaux';
+      message = 'Sélection indicative fondée sur les données disponibles.';
+    }
   }
 
   return {
-    selectedScpi: filteredScpi,
+    selectedScpi,
     message,
     strategy
   };
