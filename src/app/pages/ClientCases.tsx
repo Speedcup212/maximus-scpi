@@ -15,8 +15,11 @@ const ClientCases: React.FC<ClientCasesProps> = ({ onNavigate }) => {
   const [cases, setCases] = useState<Case[]>([]);
 
   useEffect(() => {
+    if (!supabase) return;
+    const client = supabase;
+
     const fetchCases = async () => {
-      const { data } = await supabase.from('cases').select('*').order('updated_at', { ascending: false });
+      const { data } = await client.from('cases').select('*').order('updated_at', { ascending: false });
       if (data) {
         setCases(data as Case[]);
       }
