@@ -197,6 +197,7 @@ async function generateSitemap() {
   const moneyPages = [
     'comparateur-scpi',
     'analyses',
+    'surveillance',
     'meilleures-scpi-rendement',
   ];
   for (const p of moneyPages) {
