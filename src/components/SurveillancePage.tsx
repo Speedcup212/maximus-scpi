@@ -49,15 +49,6 @@ type IndicatorRow = {
   nom: string | null;
 };
 
-type StructuralEventRow = {
-  scpi_slug: string;
-  event_type: string | null;
-  effective_date: string | null;
-  source_period: string | null;
-  evidence: string | null;
-  verification_status: string | null;
-};
-
 type Signal = {
   kind: SignalKind;
   level: Exclude<SignalLevel, 'clear'>;
@@ -94,30 +85,6 @@ const formatPeriod = (period: string | null) => {
   return match ? `T${match[2]} ${match[1]}` : period;
 };
 
-const humanizeEvent = (type: string | null) => {
-  const labels: Record<string, string> = {
-    structural_transition: 'Changement de régime',
-    capital_variability_suspension: 'Suspension de la variabilité',
-    variability_suspended: 'Variabilité suspendue',
-    merger: 'Fusion',
-    methodology_change: 'Changement de méthodologie',
-    launch: 'Lancement récent',
-    reporting_cadence_semiannual: 'Cadence semestrielle',
-    semiannual_reporting: 'Cadence semestrielle',
-    tof_not_applicable_structure: 'TOF non applicable à la structure',
-  };
-  return labels[type || ''] || 'Événement structurel';
-};
-
-const structuralLevel = (type: string | null): Signal['level'] => {
-  if (
-    type === 'structural_transition' ||
-    type === 'capital_variability_suspension' ||
-    type === 'variability_suspended'
-  ) return 'watch';
-  return 'info';
-};
-
 const severityRank: Record<SignalLevel, number> = {
   critical: 3,
   watch: 2,
@@ -132,7 +99,7 @@ const levelFromSignals = (signals: Signal[]): SignalLevel => {
   return 'clear';
 };
 
-const buildSignals = (row: DashboardRow, event?: StructuralEventRow): Signal[] => {
+const buildSignals = (row: DashboardRow): Signal[] => {
   const signals: Signal[] = [];
   const tof = toNumber(row.tof);
   const tofDelta = toNumber(row.delta_4obs);
@@ -261,15 +228,6 @@ const buildSignals = (row: DashboardRow, event?: StructuralEventRow): Signal[] =
     });
   }
 
-  if (event) {
-    signals.push({
-      kind: 'structure',
-      level: structuralLevel(event.event_type),
-      title: humanizeEvent(event.event_type),
-      detail: event.evidence || `Événement vérifié ${event.source_period || ''}`.trim(),
-    });
-  }
-
   return signals;
 };
 
@@ -290,7 +248,6 @@ const toneLabels: Record<SignalLevel, string> = {
 const SurveillancePage: React.FC = () => {
   const [dashboardRows, setDashboardRows] = useState<DashboardRow[]>([]);
   const [indicatorRows, setIndicatorRows] = useState<IndicatorRow[]>([]);
-  const [events, setEvents] = useState<StructuralEventRow[]>([]);
   const [filter, setFilter] = useState<FilterKey>('priority');
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(true);
@@ -304,11 +261,7 @@ const SurveillancePage: React.FC = () => {
         return;
       }
 
-      const eventCutoff = new Date();
-      eventCutoff.setMonth(eventCutoff.getMonth() - 18);
-      const eventCutoffIso = eventCutoff.toISOString().slice(0, 10);
-
-      const [dashboardResult, indicatorResult, eventResult] = await Promise.all([
+      const [dashboardResult, indicatorResult] = await Promise.all([
         supabase
           .from('scpi_trajectory_pilot_dashboard')
           .select(
@@ -318,12 +271,6 @@ const SurveillancePage: React.FC = () => {
         supabase
           .from('scpi_indicators')
           .select('scpi_slug,nom')
-          .limit(100),
-        supabase
-          .from('scpi_structural_events')
-          .select('scpi_slug,event_type,effective_date,source_period,evidence,verification_status')
-          .gte('effective_date', eventCutoffIso)
-          .order('effective_date', { ascending: false })
           .limit(100),
       ]);
 
@@ -345,18 +292,6 @@ const SurveillancePage: React.FC = () => {
         );
       }
 
-      if (eventResult.error) {
-        console.warn('[Surveillance] Événements structurels indisponibles.', eventResult.error);
-      } else {
-        setEvents(
-          ((eventResult.data || []) as StructuralEventRow[]).filter(
-            (event) =>
-              certifiedSlugSet.has(event.scpi_slug) &&
-              Boolean(event.verification_status?.includes('verified')),
-          ),
-        );
-      }
-
       setLoading(false);
     };
 
@@ -368,15 +303,10 @@ const SurveillancePage: React.FC = () => {
 
   const rows = useMemo<SurveillanceRow[]>(() => {
     const nameMap = new Map(indicatorRows.map((row) => [row.scpi_slug, row.nom || row.scpi_slug]));
-    const latestEvent = new Map<string, StructuralEventRow>();
-
-    for (const event of events) {
-      if (!latestEvent.has(event.scpi_slug)) latestEvent.set(event.scpi_slug, event);
-    }
 
     return dashboardRows
       .map((row) => {
-        const signals = buildSignals(row, latestEvent.get(row.scpi_slug));
+        const signals = buildSignals(row);
         return {
           slug: row.scpi_slug,
           name: nameMap.get(row.scpi_slug) || row.scpi_slug,
@@ -392,7 +322,7 @@ const SurveillancePage: React.FC = () => {
         if (signalCount !== 0) return signalCount;
         return a.name.localeCompare(b.name, 'fr');
       });
-  }, [dashboardRows, events, indicatorRows]);
+  }, [dashboardRows, indicatorRows]);
 
   const counts = useMemo(() => ({
     total: rows.length,
