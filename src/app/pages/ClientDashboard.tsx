@@ -19,6 +19,12 @@ import { supabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
+import {
+  buildSurveillanceSignals,
+  getSurveillanceStatus,
+  SURVEILLANCE_DASHBOARD_SELECT,
+  type SurveillanceDashboardRow,
+} from '../../utils/surveillanceSignals';
 
 type ClientDashboardProps = {
   onNavigate: (path: string) => void;
@@ -55,18 +61,7 @@ type ScpiIndicator = {
   qa_status: string | null;
 };
 
-type Trajectory = {
-  scpi_slug: string;
-  latest_period: string | null;
-  niveau_tof: string | null;
-  trajectoire_tof: string | null;
-  niveau_liquidite: string | null;
-  trajectoire_liquidite: string | null;
-  retrait_attente_pct: number | string | null;
-  prix_souscription_delta_last: number | string | null;
-  data_gate: string | null;
-  market_signal_gate: string | null;
-};
+type Trajectory = SurveillanceDashboardRow;
 
 type PortfolioHolding = {
   slug: string;
@@ -84,12 +79,12 @@ type PortfolioHolding = {
   source: 'maximus' | 'external' | 'mixed';
 };
 
-type RadarLevel = 'stable' | 'watch' | 'critical' | 'pending';
+type RadarLevel = 'stable' | 'info' | 'watch' | 'critical' | 'pending';
 
 type PortfolioAlert = {
   slug: string;
   name: string;
-  level: 'watch' | 'critical';
+  level: 'info' | 'watch' | 'critical';
   message: string;
 };
 
@@ -122,36 +117,18 @@ const prettifySignal = (value: string | null | undefined) => {
 };
 
 const getRadarLevel = (trajectory?: Trajectory): RadarLevel => {
-  if (!trajectory || trajectory.data_gate !== 'PASS') return 'pending';
-
-  const liquidity = trajectory.niveau_liquidite ?? '';
-  const tofTrend = trajectory.trajectoire_tof ?? '';
-  const liquidityTrend = trajectory.trajectoire_liquidite ?? '';
-
-  if (
-    liquidity === 'tension_forte' ||
-    tofTrend === 'baisse_forte' ||
-    liquidityTrend === 'deterioration_forte'
-  ) {
-    return 'critical';
-  }
-
-  if (
-    liquidity === 'tension_significative' ||
-    liquidity === 'surveillance' ||
-    tofTrend === 'baisse' ||
-    liquidityTrend === 'deterioration'
-  ) {
-    return 'watch';
-  }
-
-  return 'stable';
+  const status = getSurveillanceStatus(trajectory);
+  return status === 'clear' ? 'stable' : status;
 };
 
 const radarPresentation: Record<RadarLevel, { label: string; className: string }> = {
   stable: {
     label: 'Stable',
     className: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+  },
+  info: {
+    label: 'Information',
+    className: 'border-sky-500/30 bg-sky-500/10 text-sky-200'
   },
   watch: {
     label: 'À surveiller',
@@ -226,7 +203,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
 
     const trajectoryResult = await supabase
       .from('scpi_trajectory_pilot_dashboard')
-      .select('scpi_slug,latest_period,niveau_tof,trajectoire_tof,niveau_liquidite,trajectoire_liquidite,retrait_attente_pct,prix_souscription_delta_last,data_gate,market_signal_gate')
+      .select(SURVEILLANCE_DASHBOARD_SELECT)
       .in('scpi_slug', slugs);
 
     setTrajectories(
@@ -377,57 +354,15 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     const nextAlerts: PortfolioAlert[] = [];
 
     for (const holding of holdings) {
-      const trajectory = holding.trajectory;
-      if (!trajectory || trajectory.data_gate !== 'PASS') continue;
+      if (!holding.trajectory) continue;
 
-      if (trajectory.trajectoire_tof === 'baisse_forte') {
+      const signals = buildSurveillanceSignals(holding.trajectory);
+      for (const signal of signals) {
         nextAlerts.push({
           slug: holding.slug,
           name: holding.name,
-          level: 'critical',
-          message: 'TOF en baisse forte sur la trajectoire suivie.'
-        });
-      } else if (trajectory.trajectoire_tof === 'baisse') {
-        nextAlerts.push({
-          slug: holding.slug,
-          name: holding.name,
-          level: 'watch',
-          message: 'TOF orienté à la baisse.'
-        });
-      }
-
-      if (
-        trajectory.niveau_liquidite === 'tension_forte' ||
-        trajectory.trajectoire_liquidite === 'deterioration_forte'
-      ) {
-        nextAlerts.push({
-          slug: holding.slug,
-          name: holding.name,
-          level: 'critical',
-          message: 'Signal fort de tension ou de détérioration de la liquidité.'
-        });
-      } else if (
-        trajectory.niveau_liquidite === 'tension_significative' ||
-        trajectory.niveau_liquidite === 'surveillance' ||
-        trajectory.trajectoire_liquidite === 'deterioration'
-      ) {
-        nextAlerts.push({
-          slug: holding.slug,
-          name: holding.name,
-          level: 'watch',
-          message: `Liquidité : ${prettifySignal(
-            trajectory.niveau_liquidite || trajectory.trajectoire_liquidite
-          )}.`
-        });
-      }
-
-      const priceDelta = numberValue(trajectory.prix_souscription_delta_last);
-      if (priceDelta !== null && priceDelta < 0) {
-        nextAlerts.push({
-          slug: holding.slug,
-          name: holding.name,
-          level: 'watch',
-          message: `Dernière variation publiée du prix de souscription : ${formatPercent(priceDelta)}.`
+          level: signal.level,
+          message: `${signal.title} · ${signal.detail}`
         });
       }
     }
@@ -442,7 +377,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           acc[getRadarLevel(holding.trajectory)] += 1;
           return acc;
         },
-        { stable: 0, watch: 0, critical: 0, pending: 0 } as Record<RadarLevel, number>
+        { stable: 0, info: 0, watch: 0, critical: 0, pending: 0 } as Record<RadarLevel, number>
       ),
     [holdings]
   );
@@ -743,7 +678,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   Synthèse des trajectoires actuellement disponibles. Ce n’est ni une notation réglementaire ni une prévision de performance.
                 </p>
                 <div className="mt-5 grid grid-cols-2 gap-3">
-                  {(['stable', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
+                  {(['stable', 'info', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
                     <div
                       key={level}
                       className={`rounded-xl border p-4 ${radarPresentation[level].className}`}
@@ -917,13 +852,19 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     className={`rounded-xl border p-4 ${
                       alert.level === 'critical'
                         ? 'border-red-500/25 bg-red-500/5'
-                        : 'border-amber-500/25 bg-amber-500/5'
+                        : alert.level === 'watch'
+                          ? 'border-amber-500/25 bg-amber-500/5'
+                          : 'border-sky-500/25 bg-sky-500/5'
                     }`}
                   >
                     <div className="text-sm font-medium text-white">{alert.name}</div>
                     <div
                       className={`mt-1 text-xs ${
-                        alert.level === 'critical' ? 'text-red-200' : 'text-amber-200'
+                        alert.level === 'critical'
+                          ? 'text-red-200'
+                          : alert.level === 'watch'
+                            ? 'text-amber-200'
+                            : 'text-sky-200'
                       }`}
                     >
                       {alert.message}
