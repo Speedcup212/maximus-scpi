@@ -5,8 +5,8 @@ const SITE = 'https://maximusscpi.com';
 export const simulatorSeoConfig = {
 
   'simulateur-revenus-nets': {
-    title: 'Simulateur Revenus Nets SCPI 2026 Gratuit | MaximusSCPI',
-    description: 'Calculez vos revenus nets après impôts et prélèvements sociaux. Simulateur SCPI gratuit par CGP-CIF.',
+    title: 'Simulateur SCPI 2026 : revenus nets après impôts | MaximusSCPI',
+    description: 'Simulez gratuitement vos revenus SCPI nets après fiscalité, frais et délai de jouissance. Estimation mensuelle et annuelle selon vos hypothèses.',
     canonical: `${SITE}/simulateur-revenus-nets-scpi/`,
     app: { name: 'Simulateur Revenus Nets SCPI', description: 'Calculez les revenus nets de votre investissement SCPI après fiscalité (IR + PS)', url: `${SITE}/simulateur-revenus-nets-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Revenus nets'],
