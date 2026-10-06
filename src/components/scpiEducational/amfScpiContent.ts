@@ -6,9 +6,9 @@ export const amfScpiConfig: ScpiEducationalPageConfig = {
   h1: 'AMF et SCPI : rôle, contrôle et documents à vérifier',
   heroSubtitle:
     "L'Autorité des Marchés Financiers (AMF) encadre les SCPI via l'agrément des sociétés de gestion, le contrôle de l'information diffusée et la supervision des documents réglementaires. Comprendre ce cadre permet à l'investisseur de savoir ce qui est contrôlé et ce qui ne l'est pas.",
-  seoTitle: 'AMF SCPI : contrôle, réglementation, documents et points de vigilance',
+  seoTitle: 'AMF et SCPI : ce que le régulateur contrôle vraiment | MaximusSCPI',
   seoDescription:
-    "Comprenez le rôle de l'AMF dans l'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.",
+    "SCPI et AMF : découvrez ce que le régulateur contrôle, les documents à vérifier et ce que l'agrément ne garantit ni sur le rendement ni sur le capital.",
   shortAnswerTitle: "Quel est le rôle de l'AMF pour les SCPI ?",
   shortAnswer:
     "L'Autorité des Marchés Financiers (AMF) agrée les sociétés de gestion de SCPI et contrôle l'information qu'elles diffusent auprès des investisseurs. Elle s'assure que les documents réglementaires (note d'information, DIC, rapport annuel, bulletin trimestriel) sont conformes et accessibles. Cependant, le contrôle AMF ne garantit pas le rendement d'une SCPI, ni sa liquidité, ni la préservation du capital. L'investisseur doit lire les documents et analyser les indicateurs clés.",
