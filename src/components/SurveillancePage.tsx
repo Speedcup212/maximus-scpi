@@ -304,6 +304,10 @@ const SurveillancePage: React.FC = () => {
         return;
       }
 
+      const eventCutoff = new Date();
+      eventCutoff.setMonth(eventCutoff.getMonth() - 18);
+      const eventCutoffIso = eventCutoff.toISOString().slice(0, 10);
+
       const [dashboardResult, indicatorResult, eventResult] = await Promise.all([
         supabase
           .from('scpi_trajectory_pilot_dashboard')
@@ -318,6 +322,7 @@ const SurveillancePage: React.FC = () => {
         supabase
           .from('scpi_structural_events')
           .select('scpi_slug,event_type,effective_date,source_period,evidence,verification_status')
+          .gte('effective_date', eventCutoffIso)
           .order('effective_date', { ascending: false })
           .limit(100),
       ]);
