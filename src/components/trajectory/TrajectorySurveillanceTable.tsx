@@ -8,6 +8,7 @@ import {
   Table2,
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import certifiedScpiCohort from '../../data/certified_scpi_cohort.json';
 import TrajectorySparkline from './TrajectorySparkline';
 import {
   HISTORY_SELECT,
@@ -25,15 +26,25 @@ type DashboardRow = {
   latest_period: string | null;
   tof: number | string | null;
   delta_4obs: number | string | null;
-  retrait_attente_pct: number | string | null;
   endettement: number | string | null;
   prix_souscription: number | string | null;
   prix_reconstitution: number | string | null;
   valeur_realisation: number | string | null;
-  source_confidence: number | string | null;
+  liquidity_basis: string | null;
+  liquidity_pressure_pct: number | string | null;
+  retrait_attente_pct: number | string | null;
+  liquidity_regime_changed: boolean | null;
+  liquidity_signal_certification: string | null;
+  tof_gate: string | null;
+  tof_signal_eligible: boolean | null;
+  liquidity_gate: string | null;
+  liquidity_signal_eligible: boolean | null;
+  reconstitution_gate: string | null;
+  debt_gate: string | null;
+  market_signal_gate: string | null;
 };
 
-type SortKey = 'tofDelta' | 'retraits' | 'valorisation' | 'dette';
+type SortKey = 'tofDelta' | 'liquidite' | 'valorisation' | 'dette';
 type SortDirection = 'asc' | 'desc';
 
 type EnrichedRow = {
@@ -42,20 +53,24 @@ type EnrichedRow = {
   latestPeriod: string | null;
   tof: number | null;
   tofDelta: number | null;
-  retraits: number | null;
+  liquidity: number | null;
+  liquidityLabel: string;
   dette: number | null;
   prix: number | null;
   reconstitution: number | null;
   realisation: number | null;
   valuationGap: number | null;
   tofSeries: number[];
-  liquiditySeries: number[];
 };
+
+const certifiedSlugSet = new Set<string>(certifiedScpiCohort.slugs);
 
 const formatNumber = (value: number | null, suffix = '', digits = 2) =>
   value === null
     ? 'N.D.'
     : `${value.toLocaleString('fr-FR', { maximumFractionDigits: digits })}${suffix}`;
+
+const gatePass = (value?: string | null) => Boolean(value?.startsWith('PASS'));
 
 const safePercent = (value: unknown) => {
   const parsed = toFiniteNumber(value);
@@ -70,6 +85,35 @@ const safeDelta = (value: unknown) => {
 const deltaTone = (value: number | null) => {
   if (value === null || Math.abs(value) < 0.01) return 'text-slate-400';
   return value > 0 ? 'text-emerald-300' : 'text-rose-300';
+};
+
+const certifiedLiquidity = (row: DashboardRow) => {
+  if (
+    row.liquidity_regime_changed ||
+    row.liquidity_signal_certification === 'suppressed_regime_change_pending_data'
+  ) {
+    return { value: null, label: 'Régime en transition' };
+  }
+
+  if (!row.liquidity_signal_eligible || !gatePass(row.liquidity_gate)) {
+    return { value: null, label: 'Signal non certifié' };
+  }
+
+  if (row.liquidity_basis?.startsWith('secondary_market_order_book')) {
+    return {
+      value: safePercent(row.liquidity_pressure_pct),
+      label: 'Pression marché secondaire',
+    };
+  }
+
+  if (row.liquidity_basis?.startsWith('withdrawal_queue')) {
+    return {
+      value: safePercent(row.retrait_attente_pct),
+      label: 'File de retraits',
+    };
+  }
+
+  return { value: null, label: 'Liquidité N.D.' };
 };
 
 const TrajectorySurveillanceTable: React.FC = () => {
@@ -93,7 +137,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
         supabase
           .from('scpi_trajectory_pilot_dashboard')
           .select(
-            'scpi_slug,latest_period,tof,delta_4obs,retrait_attente_pct,endettement,prix_souscription,prix_reconstitution,valeur_realisation,source_confidence',
+            'scpi_slug,latest_period,tof,delta_4obs,endettement,prix_souscription,prix_reconstitution,valeur_realisation,liquidity_basis,liquidity_pressure_pct,retrait_attente_pct,liquidity_regime_changed,liquidity_signal_certification,tof_gate,tof_signal_eligible,liquidity_gate,liquidity_signal_eligible,reconstitution_gate,debt_gate,market_signal_gate',
           )
           .limit(100),
         supabase
@@ -108,13 +152,21 @@ const TrajectorySurveillanceTable: React.FC = () => {
       if (dashboardResult.error) {
         console.warn('[TrajectorySurveillanceTable] Dashboard indisponible.', dashboardResult.error);
       } else {
-        setDashboardRows((dashboardResult.data || []) as unknown as DashboardRow[]);
+        setDashboardRows(
+          ((dashboardResult.data || []) as DashboardRow[]).filter((row) =>
+            certifiedSlugSet.has(row.scpi_slug),
+          ),
+        );
       }
 
       if (historyResult.error) {
         console.warn('[TrajectorySurveillanceTable] Historique indisponible.', historyResult.error);
       } else {
-        setHistoryRows((historyResult.data || []) as unknown as ScpiHistoryRow[]);
+        setHistoryRows(
+          ((historyResult.data || []) as ScpiHistoryRow[]).filter((row) =>
+            certifiedSlugSet.has(row.scpi_slug),
+          ),
+        );
       }
 
       setLoading(false);
@@ -141,23 +193,28 @@ const TrajectorySurveillanceTable: React.FC = () => {
       const history = normalizeAndDedupeHistory(historyBySlug.get(row.scpi_slug) || []).slice(-8);
       const prix = toFiniteNumber(row.prix_souscription);
       const reconstitution = toFiniteNumber(row.prix_reconstitution);
+      const liquidity = certifiedLiquidity(row);
+
+      const comparableValuation =
+        gatePass(row.reconstitution_gate) &&
+        gatePass(row.market_signal_gate) &&
+        !row.liquidity_regime_changed &&
+        !row.liquidity_basis?.startsWith('secondary_market_order_book');
 
       return {
         slug: row.scpi_slug,
         name: humanizeSlug(row.scpi_slug),
         latestPeriod: row.latest_period,
-        tof: safePercent(row.tof),
-        tofDelta: safeDelta(row.delta_4obs),
-        retraits: safePercent(row.retrait_attente_pct),
-        dette: safePercent(row.endettement),
+        tof: row.tof_signal_eligible && gatePass(row.tof_gate) ? safePercent(row.tof) : null,
+        tofDelta: row.tof_signal_eligible && gatePass(row.tof_gate) ? safeDelta(row.delta_4obs) : null,
+        liquidity: liquidity.value,
+        liquidityLabel: liquidity.label,
+        dette: gatePass(row.debt_gate) ? safePercent(row.endettement) : null,
         prix,
         reconstitution,
         realisation: toFiniteNumber(row.valeur_realisation),
-        valuationGap: valuationGapPct(prix, reconstitution),
+        valuationGap: comparableValuation ? valuationGapPct(prix, reconstitution) : null,
         tofSeries: getNumericSeries(history, 'tof').filter((value) => value >= 0 && value <= 100),
-        liquiditySeries: getNumericSeries(history, 'retrait_attente_pct').filter(
-          (value) => value >= 0 && value <= 100,
-        ),
       };
     });
   }, [dashboardRows, historyBySlug]);
@@ -165,7 +222,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
   const sortedRows = useMemo(() => {
     const getSortValue = (row: EnrichedRow) => {
       if (sortKey === 'tofDelta') return row.tofDelta;
-      if (sortKey === 'retraits') return row.retraits;
+      if (sortKey === 'liquidite') return row.liquidity;
       if (sortKey === 'valorisation') return row.valuationGap;
       return row.dette;
     };
@@ -215,19 +272,19 @@ const TrajectorySurveillanceTable: React.FC = () => {
             </div>
             <h2 className="text-xl font-bold text-white sm:text-2xl">Trajectoires comparées des SCPI</h2>
             <p className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-500">
-              Les écarts les plus significatifs d’abord. Trie par TOF, retraits, valorisation ou dette.
+              Même référentiel que Surveillance : TOF, liquidité, valorisation et dette sont affichés uniquement lorsque les gates de certification autorisent la comparaison.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
             <button type="button" onClick={() => changeSort('tofDelta')} className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-semibold text-slate-300 hover:border-sky-500/50">Baisses de TOF</button>
-            <button type="button" onClick={() => changeSort('retraits')} className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-semibold text-slate-300 hover:border-sky-500/50">Retraits élevés</button>
+            <button type="button" onClick={() => changeSort('liquidite')} className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-semibold text-slate-300 hover:border-sky-500/50">Liquidité</button>
             <button type="button" onClick={() => changeSort('valorisation')} className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-semibold text-slate-300 hover:border-sky-500/50">Valorisation</button>
           </div>
         </div>
 
         <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/55">
           <div className="overflow-x-auto">
-            <table className="min-w-[1180px] w-full text-left text-sm">
+            <table className="min-w-[1120px] w-full text-left text-sm">
               <thead className="bg-slate-950/90 text-[10px] uppercase tracking-[0.08em] text-slate-500">
                 <tr>
                   <th className="px-4 py-2.5">SCPI</th>
@@ -236,9 +293,9 @@ const TrajectorySurveillanceTable: React.FC = () => {
                   <th className="px-4 py-2.5">
                     <button type="button" onClick={() => changeSort('tofDelta')} className="inline-flex items-center gap-1.5">Δ 4 obs. {sortIcon('tofDelta')}</button>
                   </th>
-                  <th className="px-4 py-2.5">Trajectoire retraits</th>
+                  <th className="px-4 py-2.5">Base liquidité</th>
                   <th className="px-4 py-2.5">
-                    <button type="button" onClick={() => changeSort('retraits')} className="inline-flex items-center gap-1.5">Retraits {sortIcon('retraits')}</button>
+                    <button type="button" onClick={() => changeSort('liquidite')} className="inline-flex items-center gap-1.5">Liquidité {sortIcon('liquidite')}</button>
                   </th>
                   <th className="px-4 py-2.5 text-right">Prix</th>
                   <th className="px-4 py-2.5 text-right">Reconstitution</th>
@@ -273,11 +330,9 @@ const TrajectorySurveillanceTable: React.FC = () => {
                       <td className={`px-4 py-3 font-semibold ${deltaTone(row.tofDelta)}`}>
                         {row.tofDelta === null ? 'N.D.' : `${row.tofDelta > 0 ? '+' : ''}${formatNumber(row.tofDelta, ' pt')}`}
                       </td>
-                      <td className="px-4 py-3">
-                        <TrajectorySparkline values={row.liquiditySeries} className="text-amber-300" />
-                      </td>
+                      <td className="px-4 py-3 text-xs text-slate-500">{row.liquidityLabel}</td>
                       <td className="px-4 py-3 font-semibold text-slate-300">
-                        {formatNumber(row.retraits, ' %')}
+                        {formatNumber(row.liquidity, ' %', 3)}
                       </td>
                       <td className="px-4 py-3 text-right text-slate-300">{formatNumber(row.prix, ' €')}</td>
                       <td className="px-4 py-3 text-right text-slate-300">{formatNumber(row.reconstitution, ' €')}</td>
@@ -316,7 +371,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
         )}
 
         <p className="mt-3 text-xs leading-5 text-slate-600">
-          Une donnée incohérente ou un pourcentage impossible est neutralisé en N.D. Les variations ne constituent ni une prévision de performance ni une notation réglementaire.
+          Une donnée non certifiée, un changement de régime ou une comparaison non homogène est neutralisé en N.D. La pression d’un marché secondaire n’est jamais présentée comme une file de retraits.
         </p>
       </div>
     </section>

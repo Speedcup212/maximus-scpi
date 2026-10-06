@@ -87,6 +87,13 @@ const selectEntry = async (): Promise<ComponentType> => {
     return module.default;
   }
 
+  // Surveillance gets a dedicated bundle so the market-monitor view stays isolated
+  // from the legacy router and can evolve without loading the full application.
+  if (path === 'surveillance') {
+    const module = await import('./SurveillanceApp');
+    return module.default;
+  }
+
   // All legacy/editorial/private routes keep the existing router as a safe fallback.
   const module = await import('./App');
   return module.default;

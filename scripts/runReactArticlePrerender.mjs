@@ -56,11 +56,12 @@ try {
   console.log('♻️ Home dist/index.html restaurée à l’identique après pré-rendu.');
 }
 
-// Le pré-rendu SEO ne doit pas empêcher la livraison de l'application.
-// Les anomalies restent visibles dans les logs afin d'être corrigées séparément.
+// Le pré-rendu fait désormais partie du gate de release : le script interne
+// possède déjà un recovery isolé dans un Chromium neuf. S'il échoue encore,
+// l'anomalie est considérée réelle et doit bloquer la livraison.
 if (status !== 0) {
-  console.warn(`⚠️ Pré-rendu React incomplet (code ${status}) : déploiement poursuivi, anomalies SEO à corriger.`);
-  process.exit(0);
+  console.error(`❌ Pré-rendu React incomplet après recovery (code ${status}) : build bloqué.`);
+  process.exit(status);
 }
 
 process.exit(0);

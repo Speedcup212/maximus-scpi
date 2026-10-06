@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2 } from 'lucide-react';
+import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Eye } from 'lucide-react';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
 import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
@@ -620,6 +620,17 @@ const Header: React.FC<HeaderProps> = ({
             </a>
           </li>
           <li>
+            <a
+              href="/surveillance/"
+              onClick={resetAllHeaderStates}
+              className="px-1.5 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap"
+              aria-label="Surveillance"
+            >
+              <Eye className="w-4 h-4" />
+              <span>Surveillance</span>
+            </a>
+          </li>
+          <li>
           <a
             href="/actualites/"
             onClick={(e) => {
@@ -1087,6 +1098,17 @@ const Header: React.FC<HeaderProps> = ({
               >
                 <Search className="w-4 h-4" />
                 <span>Analyses</span>
+              </a>
+
+              {/* Surveillance */}
+              <a
+                href="/surveillance/"
+                onClick={resetAllHeaderStates}
+                className="w-full flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors font-medium"
+                aria-label="Surveillance"
+              >
+                <Eye className="w-4 h-4" />
+                <span>Surveillance</span>
               </a>
 
               {/* Actualités */}
