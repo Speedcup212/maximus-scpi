@@ -128,7 +128,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-300">Business MaximusSCPI</p>
             <h2 className="mt-1 text-xl font-bold text-white">Funnel commercial — 30 derniers jours</h2>
             <p className="mt-1 text-xs text-slate-400">
-              Sessions uniques par étape. Les leads proviennent directement de contact_submissions.
+              Sessions uniques ayant accepté les analytics. Les leads, eux, proviennent directement de contact_submissions et restent la mesure commerciale de référence.
             </p>
           </div>
           <div className="text-xs text-slate-500">
