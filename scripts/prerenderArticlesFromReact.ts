@@ -171,8 +171,14 @@ const listen = (server: http.Server) => new Promise<void>((resolve, reject) => {
 const closeServer = (server: http.Server) => new Promise<void>((resolve) => server.close(() => resolve()));
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const launchBrowser = () => puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+});
+
 const configurePage = async (page: any, workerId: number) => {
   await page.setViewport({ width: 1365, height: 900 });
+  await page.setCacheEnabled(false);
   page.on('pageerror', (error: any) => console.error(`   ⚠️ [${workerId}] React: ${error?.message || error}`));
   await page.setRequestInterception(true);
   page.on('request', (request: any) => {
@@ -263,10 +269,7 @@ const main = async () => {
 
   try {
     await listen(server);
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-    });
+    browser = await launchBrowser();
 
     // Le pré-rendu concurrent produisait des faux négatifs aléatoires :
     // plusieurs routes restaient ponctuellement sur le shell de chargement
@@ -276,7 +279,10 @@ const main = async () => {
     const workerCount = Math.min(1, templates.length);
     let cursor = 0;
     const results: any[] = [];
-    const failures: string[] = [];
+    const failedTemplates: Array<{
+      template: (typeof templates)[number];
+      error: string;
+    }> = [];
 
     const worker = async (workerId: number) => {
       while (true) {
@@ -304,7 +310,10 @@ const main = async () => {
         }
 
         if (lastError) {
-          failures.push(`${template.slug}: ${lastError?.message || lastError}`);
+          failedTemplates.push({
+            template,
+            error: lastError?.message || String(lastError),
+          });
           console.error(`   ❌ [${workerId}] ${template.slug}: échec après 3 essais`);
         }
       }
@@ -312,9 +321,65 @@ const main = async () => {
 
     await Promise.all(Array.from({ length: workerCount }, (_, index) => worker(index + 1)));
 
-    if (failures.length) {
-      console.error(`❌ Pré-rendu React incomplet : ${failures.length} anomalie(s)`);
-      failures.slice(0, 40).forEach((failure) => console.error(`   - ${failure}`));
+    let finalFailures = failedTemplates;
+
+    // Recovery pass: a few legacy routes can occasionally remain on the loading shell
+    // even though the exact same route succeeds on the next build. Retry ONLY those
+    // slugs in a brand-new Chromium process with cache disabled. This preserves the
+    // real production router while making the SEO gate resistant to transient browser
+    // state. A slug that still fails here remains a real blocking anomaly.
+    if (failedTemplates.length > 0) {
+      console.warn(`♻️ Recovery pré-rendu isolé : ${failedTemplates.length} route(s) à rejouer dans un Chromium neuf.`);
+
+      await browser.close();
+      browser = null;
+      await sleep(1000);
+      browser = await launchBrowser();
+
+      const recoveryFailures: typeof failedTemplates = [];
+
+      for (const failed of failedTemplates) {
+        let lastError: any = null;
+
+        for (let attempt = 1; attempt <= 5; attempt += 1) {
+          const page = await browser.newPage();
+          try {
+            await configurePage(page, 9);
+            const result = await processArticle(page, failed.template, appShell);
+            results.push(result);
+            console.log(
+              `   ✓ [recovery] ${failed.template.slug} — ${result.words} mots, ${result.h2} H2${attempt > 1 ? ` (essai ${attempt})` : ''}`,
+            );
+            lastError = null;
+            break;
+          } catch (error: any) {
+            lastError = error;
+            console.error(
+              `   ⚠️ [recovery] ${failed.template.slug} essai ${attempt}/5: ${error?.message || error}`,
+            );
+          } finally {
+            await page.close().catch(() => undefined);
+          }
+
+          await sleep(1000 * attempt);
+        }
+
+        if (lastError) {
+          recoveryFailures.push({
+            template: failed.template,
+            error: lastError?.message || String(lastError),
+          });
+        }
+      }
+
+      finalFailures = recoveryFailures;
+    }
+
+    if (finalFailures.length) {
+      console.error(`❌ Pré-rendu React incomplet après recovery isolé : ${finalFailures.length} anomalie(s)`);
+      finalFailures.slice(0, 40).forEach(({ template, error }) =>
+        console.error(`   - ${template.slug}: ${error}`),
+      );
       process.exitCode = 1;
       return;
     }
