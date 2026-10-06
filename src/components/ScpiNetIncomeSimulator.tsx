@@ -204,7 +204,7 @@ const ScpiNetIncomeSimulator: React.FC<ScpiNetIncomeSimulatorProps> = ({
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            Simulateur de revenus nets SCPI
+            Simulateur SCPI : revenus nets après impôts
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Estimez vos revenus réels après fiscalité, frais d'entrée et délai de jouissance
