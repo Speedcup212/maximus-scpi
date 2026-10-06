@@ -204,7 +204,7 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
       const text = (root.innerText || '').replace(/\s+/g, ' ').trim();
       const currentCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href || '';
       return currentCanonical === canonical && root.querySelectorAll('h1').length >= 1 && root.querySelectorAll('h2').length >= 5 && text.length >= 2200;
-    }, { timeout: 15000, polling: 100 }, expectedCanonical);
+    }, { timeout: 20000, polling: 100 }, expectedCanonical);
   } catch {
     const diagnostic = await page.evaluate(() => {
       const root = document.getElementById('root');
@@ -268,7 +268,12 @@ const main = async () => {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
-    const workerCount = Math.min(2, templates.length);
+    // Le pré-rendu concurrent produisait des faux négatifs aléatoires :
+    // plusieurs routes restaient ponctuellement sur le shell de chargement
+    // (1686 caractères, 0 H1/H2), puis passaient au retry suivant.
+    // Une seule page à la fois rend le gate SEO déterministe tout en restant
+    // largement sous le timeout global du workflow.
+    const workerCount = Math.min(1, templates.length);
     let cursor = 0;
     const results: any[] = [];
     const failures: string[] = [];
@@ -295,7 +300,7 @@ const main = async () => {
           } finally {
             await page.close().catch(() => undefined);
           }
-          await sleep(150 * attempt);
+          await sleep(600 * attempt);
         }
 
         if (lastError) {
