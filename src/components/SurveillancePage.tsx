@@ -14,7 +14,7 @@ import certifiedScpiCohort from '../data/certified_scpi_cohort.json';
 
 type SignalLevel = 'critical' | 'watch' | 'info' | 'clear';
 type SignalKind = 'liquidity' | 'tof' | 'valuation' | 'debt' | 'structure';
-type FilterKey = 'all' | 'priority' | SignalKind;
+type FilterKey = 'all' | 'priority' | 'watching' | SignalKind;
 
 type DashboardRow = {
   scpi_slug: string;
@@ -137,25 +137,16 @@ const buildSignals = (row: DashboardRow, event?: StructuralEventRow): Signal[] =
   const tof = toNumber(row.tof);
   const tofDelta = toNumber(row.delta_4obs);
 
-  if (row.tof_signal_eligible && gatePass(row.tof_gate)) {
-    const weakLevel = row.niveau_tof === 'faible' || row.niveau_tof === 'fragile';
-    const negativeTrend = row.trajectoire_tof === 'baisse' || row.trajectoire_tof === 'baisse_forte';
-
-    if (weakLevel || negativeTrend) {
-      const critical = row.niveau_tof === 'faible' || row.trajectoire_tof === 'baisse_forte';
-      const parts = [
-        tof !== null ? `TOF ${formatNumber(tof, ' %')}` : null,
-        tofDelta !== null ? `Δ 4 observations ${tofDelta > 0 ? '+' : ''}${formatNumber(tofDelta, ' pt')}` : null,
-      ].filter(Boolean);
-
-      signals.push({
-        kind: 'tof',
-        level: critical ? 'critical' : 'watch',
-        title: critical ? 'Occupation sous vigilance forte' : 'Occupation à surveiller',
-        detail: parts.join(' · ') || 'Trajectoire du TOF défavorable sur données certifiées.',
-      });
-    }
-  }
+  const tofLevelBad =
+    Boolean(row.tof_signal_eligible && gatePass(row.tof_gate)) &&
+    (row.niveau_tof === 'faible' || row.niveau_tof === 'fragile');
+  const tofTrendBad =
+    Boolean(row.tof_signal_eligible && gatePass(row.tof_gate)) &&
+    (row.trajectoire_tof === 'baisse' || row.trajectoire_tof === 'baisse_forte');
+  const tofExtreme =
+    Boolean(row.tof_signal_eligible && gatePass(row.tof_gate)) &&
+    row.niveau_tof === 'faible' &&
+    row.trajectoire_tof === 'baisse_forte';
 
   const liquidityBasis = row.liquidity_basis || '';
   const regimeSuppressed =
@@ -169,31 +160,68 @@ const buildSignals = (row: DashboardRow, event?: StructuralEventRow): Signal[] =
       title: 'Changement de régime de liquidité',
       detail: 'Le signal de liquidité est neutralisé tant que les observations du nouveau régime ne sont pas comparables.',
     });
-  } else if (row.liquidity_signal_eligible && gatePass(row.liquidity_gate)) {
-    const level = row.niveau_liquidite;
-    const trend = row.trajectoire_liquidite;
+  }
+
+  const liquidityLevel = row.niveau_liquidite;
+  const liquidityTrend = row.trajectoire_liquidite;
+  const liquidityEligible =
+    Boolean(row.liquidity_signal_eligible && gatePass(row.liquidity_gate)) &&
+    !regimeSuppressed;
+  const liquidityBad =
+    liquidityEligible &&
+    (
+      liquidityLevel === 'tension_significative' ||
+      liquidityLevel === 'tension_forte' ||
+      liquidityLevel === 'tension_forte_secondaire' ||
+      liquidityLevel === 'tension_tres_forte' ||
+      liquidityTrend === 'deterioration' ||
+      liquidityTrend === 'deterioration_forte'
+    );
+  const liquidityExtreme = liquidityEligible && liquidityLevel === 'tension_tres_forte';
+
+  const debt = toNumber(row.endettement);
+  const debtDelta = toNumber(row.endettement_delta_last);
+  const debtBad = gatePass(row.debt_gate) && debt !== null && debt >= 30;
+  const debtExtreme = gatePass(row.debt_gate) && debt !== null && debt >= 40;
+
+  const criticalContext =
+    liquidityExtreme ||
+    tofExtreme ||
+    (liquidityBad && tofTrendBad) ||
+    (debtExtreme && (tofLevelBad || liquidityBad));
+
+  if (tofLevelBad || tofTrendBad) {
+    const tofCritical =
+      criticalContext &&
+      (tofExtreme || (liquidityBad && tofTrendBad) || (debtExtreme && tofLevelBad));
+    const parts = [
+      tof !== null ? `TOF ${formatNumber(tof, ' %')}` : null,
+      tofDelta !== null ? `Δ 4 observations ${tofDelta > 0 ? '+' : ''}${formatNumber(tofDelta, ' pt')}` : null,
+    ].filter(Boolean);
+
+    signals.push({
+      kind: 'tof',
+      level: tofCritical ? 'critical' : 'watch',
+      title: tofCritical ? 'Occupation sous vigilance forte' : 'Occupation à surveiller',
+      detail: parts.join(' · ') || 'Trajectoire du TOF défavorable sur données certifiées.',
+    });
+  }
+
+  if (liquidityBad) {
     const isSecondary = liquidityBasis.startsWith('secondary_market_order_book');
     const metric = toNumber(isSecondary ? row.liquidity_pressure_pct : row.retrait_attente_pct);
-    const strong =
-      level === 'tension_tres_forte' ||
-      level === 'tension_forte' ||
-      level === 'tension_forte_secondaire' ||
-      trend === 'deterioration_forte';
-    const moderate =
-      level === 'tension_significative' ||
-      level === 'surveillance' ||
-      trend === 'deterioration';
+    const liquidityCritical =
+      criticalContext &&
+      (liquidityExtreme || (liquidityBad && tofTrendBad) || (debtExtreme && liquidityBad));
 
-    if (strong || moderate) {
-      signals.push({
-        kind: 'liquidity',
-        level: strong ? 'critical' : 'watch',
-        title: isSecondary ? 'Pression sur le marché secondaire' : 'Liquidité sous surveillance',
-        detail: metric === null
-          ? 'Signal certifié de liquidité défavorable.'
-          : `${isSecondary ? 'Pression secondaire' : 'File de retraits'} : ${formatNumber(metric, ' %', 3)}`,
-      });
-    }
+    signals.push({
+      kind: 'liquidity',
+      level: liquidityCritical ? 'critical' : 'watch',
+      title: isSecondary ? 'Pression sur le marché secondaire' : 'Liquidité sous surveillance',
+      detail: metric === null
+        ? 'Signal certifié de liquidité défavorable.'
+        : `${isSecondary ? 'Pression secondaire' : 'File de retraits'} : ${formatNumber(metric, ' %', 3)}`,
+    });
   }
 
   const price = toNumber(row.prix_souscription);
@@ -223,24 +251,14 @@ const buildSignals = (row: DashboardRow, event?: StructuralEventRow): Signal[] =
     }
   }
 
-  const debt = toNumber(row.endettement);
-  const debtDelta = toNumber(row.endettement_delta_last);
-  if (gatePass(row.debt_gate) && debt !== null) {
-    if (debt >= 40) {
-      signals.push({
-        kind: 'debt',
-        level: 'critical',
-        title: 'Endettement élevé',
-        detail: `${formatNumber(debt, ' %')}${debtDelta !== null ? ` · variation ${debtDelta > 0 ? '+' : ''}${formatNumber(debtDelta, ' pt')}` : ''}`,
-      });
-    } else if (debt >= 30) {
-      signals.push({
-        kind: 'debt',
-        level: 'watch',
-        title: 'Endettement à surveiller',
-        detail: `${formatNumber(debt, ' %')}${debtDelta !== null ? ` · variation ${debtDelta > 0 ? '+' : ''}${formatNumber(debtDelta, ' pt')}` : ''}`,
-      });
-    }
+  if (debtBad && debt !== null) {
+    const debtCritical = criticalContext && debtExtreme && (tofLevelBad || liquidityBad);
+    signals.push({
+      kind: 'debt',
+      level: debtCritical ? 'critical' : 'watch',
+      title: debtCritical ? 'Endettement élevé avec signal concordant' : 'Endettement à surveiller',
+      detail: `${formatNumber(debt, ' %')}${debtDelta !== null ? ` · variation ${debtDelta > 0 ? '+' : ''}${formatNumber(debtDelta, ' pt')}` : ''}`,
+    });
   }
 
   if (event) {
@@ -375,7 +393,7 @@ const SurveillancePage: React.FC = () => {
     total: rows.length,
     critical: rows.filter((row) => row.level === 'critical').length,
     watch: rows.filter((row) => row.level === 'watch').length,
-    clear: rows.filter((row) => row.level === 'clear').length,
+    noPriority: rows.filter((row) => row.level === 'info' || row.level === 'clear').length,
   }), [rows]);
 
   const visibleRows = useMemo(() => {
@@ -384,13 +402,15 @@ const SurveillancePage: React.FC = () => {
     return rows.filter((row) => {
       if (normalizedQuery && !row.name.toLocaleLowerCase('fr-FR').includes(normalizedQuery)) return false;
       if (filter === 'all') return true;
-      if (filter === 'priority') return row.level === 'critical' || row.level === 'watch';
+      if (filter === 'priority') return row.level === 'critical';
+      if (filter === 'watching') return row.level === 'watch';
       return row.signals.some((signal) => signal.kind === filter);
     });
   }, [filter, query, rows]);
 
   const filters: Array<{ key: FilterKey; label: string }> = [
     { key: 'priority', label: 'Priorité' },
+    { key: 'watching', label: 'À surveiller' },
     { key: 'all', label: 'Toutes' },
     { key: 'liquidity', label: 'Liquidité' },
     { key: 'tof', label: 'TOF' },
@@ -423,7 +443,7 @@ const SurveillancePage: React.FC = () => {
               ['SCPI surveillées', counts.total, 'text-sky-300'],
               ['Vigilances fortes', counts.critical, 'text-rose-300'],
               ['À surveiller', counts.watch, 'text-amber-300'],
-              ['Sans signal fort', counts.clear, 'text-emerald-300'],
+              ['Sans alerte prioritaire', counts.noPriority, 'text-emerald-300'],
             ].map(([label, value, tone]) => (
               <div key={String(label)} className="rounded-xl border border-slate-800 bg-slate-900/65 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">{label}</div>
