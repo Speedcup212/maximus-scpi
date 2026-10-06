@@ -15,7 +15,7 @@ const targets = [
   },
   {
     path: 'articles',
-    title: 'Guides SCPI : fiscalité, risques et stratégies | MaximusSCPI',
+    title: 'Guides SCPI 2026 : fiscalité, risques et stratégies | MaximusSCPI',
     description: 'Guides MaximusSCPI sur la fiscalité, les risques, la liquidité, le rendement, le démembrement et les stratégies d’investissement en SCPI.',
     schema: {
       '@context': 'https://schema.org',
