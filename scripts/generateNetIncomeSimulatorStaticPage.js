@@ -16,8 +16,8 @@ if (!fs.existsSync(sourcePath)) {
 
 let html = fs.readFileSync(sourcePath, 'utf-8');
 
-const title = 'Simulateur Revenus Nets SCPI 2026 Gratuit | MaximusSCPI';
-const description = 'Calculez vos revenus nets après impôts et prélèvements sociaux. Simulateur SCPI gratuit par CGP-CIF.';
+const title = 'Simulateur SCPI 2026 : revenus nets après impôts | MaximusSCPI';
+const description = 'Simulez gratuitement vos revenus SCPI nets après fiscalité, frais et délai de jouissance. Estimation mensuelle et annuelle selon vos hypothèses.';
 const url = 'https://maximusscpi.com/simulateur-revenus-nets-scpi/';
 
 const replaceOrInsert = (source, pattern, replacement) => {
@@ -91,7 +91,7 @@ const staticRoot = `<div id="root">
     <section style="max-width:1100px;margin:0 auto;padding:48px 24px 56px">
       <nav aria-label="Fil d’Ariane" style="font-size:14px;margin-bottom:28px"><a href="/" style="color:#047857">Accueil</a> · <a href="/simulateurs/" style="color:#047857">Simulateurs</a> · Revenus nets SCPI</nav>
       <p style="margin:0 0 10px;color:#047857;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em">Outil SCPI gratuit</p>
-      <h1 style="font-size:clamp(36px,5vw,54px);line-height:1.08;margin:0 0 16px;font-weight:800;letter-spacing:-.03em">Simulateur de revenus nets SCPI</h1>
+      <h1 style="font-size:clamp(36px,5vw,54px);line-height:1.08;margin:0 0 16px;font-weight:800;letter-spacing:-.03em">Simulateur SCPI : revenus nets après impôts</h1>
       <p style="max-width:820px;font-size:19px;line-height:1.65;color:#475569;margin:0 0 34px">Estimez vos revenus après fiscalité, frais d’entrée et délai de jouissance. Le simulateur permet de distinguer revenu brut, revenu net et rendement net selon vos hypothèses.</p>
 
       <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:0 0 36px">
