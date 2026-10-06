@@ -109,12 +109,20 @@ const RdvModal: React.FC<RdvModalProps> = ({
   useEffect(() => {
     if (!isOpen) return;
 
+    let parsedContext: QuizContext | null = null;
     try {
       const raw = sessionStorage.getItem('maximus_quiz_context');
-      setQuizContext(raw ? JSON.parse(raw) : null);
+      parsedContext = raw ? JSON.parse(raw) : null;
+      setQuizContext(parsedContext);
     } catch {
       setQuizContext(null);
     }
+
+    trackFunnelEvent('lead_form_opened', {
+      source: parsedContext?.portfolio?.length ? 'portfolio_analysis' : 'site',
+      form_type: parsedContext?.portfolio?.length ? 'portfolio_validation' : 'lead_rdv',
+      portfolio_size: parsedContext?.portfolio?.length || undefined,
+    });
 
     const urlParams = new URLSearchParams(window.location.search);
     const utmSource = urlParams.get('utm_source');
@@ -251,11 +259,16 @@ const RdvModal: React.FC<RdvModalProps> = ({
               {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
             </p>
             <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
-              {isPortfolioFlow ? 'Faire valider votre allocation SCPI' : 'Prendre rendez-vous'}
+              {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
             </h2>
             <p className="mt-1 text-sm text-gray-600 dark:text-slate-300">
               Eric Bellaiche — Conseiller en Investissements Financiers
             </p>
+            {isPortfolioFlow && (
+              <p className="mt-2 max-w-lg text-xs leading-relaxed text-gray-500 dark:text-slate-400">
+                Vérification de l’adéquation, de la disponibilité des SCPI et de la répartition finale avant souscription. Votre portefeuille pourra ensuite être suivi dans MaximusSCPI.
+              </p>
+            )}
           </div>
           <button
             type="button"
@@ -316,6 +329,11 @@ const RdvModal: React.FC<RdvModalProps> = ({
               <p className="mt-3 text-xs leading-relaxed text-gray-500 dark:text-slate-400">
                 Vos réponses et cette allocation seront jointes automatiquement à votre demande. Vous n’avez rien à ressaisir.
               </p>
+              <div className="mt-3 grid gap-1.5 text-xs text-gray-600 dark:text-slate-300 sm:grid-cols-3">
+                <span className="rounded-lg bg-white/80 px-2.5 py-2 text-center font-semibold dark:bg-slate-800">Adéquation</span>
+                <span className="rounded-lg bg-white/80 px-2.5 py-2 text-center font-semibold dark:bg-slate-800">Souscription</span>
+                <span className="rounded-lg bg-white/80 px-2.5 py-2 text-center font-semibold dark:bg-slate-800">Suivi dans le temps</span>
+              </div>
             </div>
           )}
 

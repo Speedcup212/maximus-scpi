@@ -590,7 +590,7 @@ function PortfolioResult({ data, analysis, onReset, onRdvClick }: { data: QuizDa
 
       <div className="sm:hidden rounded-xl border border-emerald-400/25 bg-emerald-400/8 p-3">
         <p className="text-center text-[10px] text-slate-400">L’allocation est prête. Consultez le détail ou faites-la valider directement.</p>
-        <button type="button" onClick={handleRdv} className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider cette allocation</button>
+        <button type="button" onClick={handleRdv} className="mt-2 w-full rounded-xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider et suivre cette allocation</button>
       </div>
 
       <div>
@@ -643,9 +643,11 @@ function PortfolioResult({ data, analysis, onReset, onRdvClick }: { data: QuizDa
       </div>
 
       <div className="rounded-2xl border border-emerald-400/30 bg-slate-800/45 p-4 text-center">
-        <h4 className="text-sm sm:text-base font-bold text-white">Faire valider cette allocation</h4>
-        <p className="mx-auto mt-1 max-w-sm text-[10px] sm:text-xs leading-relaxed text-slate-400">Adéquation, disponibilité des SCPI et répartition finale avant souscription.</p>
-        <button type="button" onClick={handleRdv} className="mt-2.5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider mon portefeuille</button>
+        <h4 className="text-sm sm:text-base font-bold text-white">Passer de l’analyse à un portefeuille suivi</h4>
+        <p className="mx-auto mt-1 max-w-md text-[10px] sm:text-xs leading-relaxed text-slate-400">
+          Faites vérifier l’adéquation, la disponibilité des SCPI et la répartition finale avant souscription. Les SCPI détenues pourront ensuite être suivies dans votre espace MaximusSCPI.
+        </p>
+        <button type="button" onClick={handleRdv} className="mt-2.5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90">Faire valider et suivre mon portefeuille</button>
       </div>
 
       <div className="pt-1"><p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Analyse approfondie du portefeuille</p></div>
@@ -707,7 +709,19 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     import('../data/scpiData')
       .then(({ scpiData }) => {
         if (cancelled) return
-        setAnalysis(buildPortfolioAnalysis(completedData, scpiData))
+        const nextAnalysis = buildPortfolioAnalysis(completedData, scpiData)
+        setAnalysis(nextAnalysis)
+
+        try {
+          sessionStorage.setItem('maximus_quiz_context', JSON.stringify({
+            quiz: completedData,
+            orientation: nextAnalysis.orientation,
+            portfolio: nextAnalysis.picks.map(p => ({ name: p.scpi.name, weight: p.weight })),
+          }))
+        } catch {
+          // Le résultat reste utilisable même si le stockage navigateur est indisponible.
+        }
+
         setAnalysisLoading(false)
       })
       .catch(() => {
@@ -746,6 +760,11 @@ export default function InvestorQuiz({ onComplete, onRdvClick }: InvestorQuizPro
     setLocked(false)
     setAnalysis(null)
     setAnalysisError(false)
+    try {
+      sessionStorage.removeItem('maximus_quiz_context')
+    } catch {
+      // Aucun impact sur le parcours si le stockage navigateur est indisponible.
+    }
   }
 
   const optionButtonClass = (selected: boolean) => [

@@ -187,11 +187,21 @@ const HomeApp: React.FC = () => {
     return () => quiz.removeEventListener('click', onQuizClick);
   }, []);
 
-  const handleLeadCapture = (data: QuizData) => {
-    console.log('[MaximusSCPI] Lead quiz capturé :', data);
+  const handleQuizComplete = (data: QuizData) => {
+    try {
+      sessionStorage.setItem('maximus_quiz_context', JSON.stringify({ quiz: data }));
+    } catch {
+      // Le parcours reste fonctionnel si le stockage navigateur est indisponible.
+    }
+
     trackFunnelEvent('analysis_opened', { source: 'quiz_completion' });
     setQuizCompleted(true);
     setIsAnalysisModalOpen(true);
+  };
+
+  const scrollToPortfolioBuilder = () => {
+    trackFunnelEvent('hero_portfolio_clicked', { source: 'home_hero' });
+    document.getElementById('quiz-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const openRdvFromQuiz = () => {
@@ -270,19 +280,23 @@ const HomeApp: React.FC = () => {
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                  <a
-                    href="/comparateur-scpi/"
+                  <button
+                    type="button"
+                    onClick={scrollToPortfolioBuilder}
                     className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-2xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
                   >
-                    Voir le comparateur complet
-                  </a>
+                    Construire mon portefeuille
+                  </button>
                   <a
-                    href="/analyses/"
+                    href="/comparateur-scpi/"
                     className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/70 px-6 py-3.5 text-sm font-bold text-slate-100 transition hover:border-emerald-500/50 hover:bg-slate-800"
                   >
-                    Découvrir les analyses
+                    Voir le comparateur
                   </a>
                 </div>
+                <p className="mt-3 max-w-xl text-xs leading-relaxed text-slate-500">
+                  Analyse gratuite et informative. Si vous souhaitez aller plus loin, votre allocation peut ensuite être vérifiée avant souscription et suivie dans le temps.
+                </p>
               </div>
 
               <div className="relative mx-auto min-h-[550px] w-full max-w-2xl lg:mx-0">
@@ -409,8 +423,15 @@ const HomeApp: React.FC = () => {
                       </p>
                       <button
                         type="button"
-                        onClick={reopenAnalysis}
+                        onClick={openRdvFromQuiz}
                         className="mt-5 w-full rounded-xl bg-emerald-400 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:opacity-90"
+                      >
+                        Faire valider et suivre mon portefeuille
+                      </button>
+                      <button
+                        type="button"
+                        onClick={reopenAnalysis}
+                        className="mt-2.5 w-full rounded-xl border border-slate-700 bg-slate-900/60 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-500"
                       >
                         Revoir mon analyse
                       </button>
@@ -447,10 +468,30 @@ const HomeApp: React.FC = () => {
 
                     <div className={quizCompleted && isAnalysisModalOpen ? 'mx-auto w-full max-w-4xl p-3 sm:p-5 md:p-7' : ''}>
                       <InvestorQuiz
-                        onComplete={handleLeadCapture}
+                        onComplete={handleQuizComplete}
                         onRdvClick={openRdvFromQuiz}
                       />
                     </div>
+
+                    {quizCompleted && isAnalysisModalOpen && (
+                      <div className="sticky bottom-0 z-20 border-t border-emerald-400/20 bg-[#0D1117]/95 px-4 py-3 backdrop-blur md:rounded-b-3xl md:px-6">
+                        <div className="mx-auto flex max-w-4xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                          <div>
+                            <p className="text-sm font-bold text-white">Votre allocation est prête à être vérifiée</p>
+                            <p className="mt-0.5 text-xs leading-relaxed text-slate-400">
+                              Vérification de l’adéquation, de la disponibilité et de la répartition avant souscription, puis suivi des SCPI dans le temps.
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={openRdvFromQuiz}
+                            className="shrink-0 rounded-xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:opacity-90"
+                          >
+                            Faire valider et suivre
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
