@@ -32,8 +32,8 @@ const ComparatorApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-900">
       <SEOHead
-        title="Comparateur SCPI 2026 : rendement, TOF, frais et risques"
-        description="Comparez les SCPI selon taux de distribution, TOF, frais, capitalisation, décote, endettement, secteurs, géographie et liquidité observée."
+        title="Comparateur SCPI 2026 : comparez 61 SCPI | MaximusSCPI"
+        description="Comparez 61 SCPI sur rendement, TOF, frais, capitalisation, valorisation, dette et liquidité. Données sourcées et trajectoires MaximusSCPI."
         keywords={['comparateur SCPI', 'comparatif SCPI', 'comparer SCPI', 'rendement SCPI', 'TOF SCPI', 'frais SCPI', 'liquidité SCPI']}
         canonical="https://maximusscpi.com/comparateur-scpi/"
         schemaData={{
@@ -103,7 +103,7 @@ const ComparatorApp: React.FC = () => {
         <div id="comparator" data-comparator className="pt-6 sm:pt-8 pb-16 sm:pb-20">
           <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 mb-5">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
-              Comparateur SCPI 2026
+              Comparateur SCPI 2026 : comparez 61 SCPI
             </h1>
             <p className="mt-1 text-sm text-slate-400 max-w-3xl">
               Comparez les SCPI selon leurs indicateurs clés : rendement, frais, TOF, capitalisation, secteurs et zones géographiques.

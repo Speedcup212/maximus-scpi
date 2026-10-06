@@ -219,7 +219,7 @@ const rootContent = `
     <main>
       <section class="articles-shell-hero">
         <p class="articles-shell-kicker">Guides & analyses SCPI</p>
-        <h1>Comprendre les SCPI</h1>
+        <h1>Guides SCPI : comprendre, fiscalité, risques et stratégies</h1>
         <p>Fiscalité, risques, rendement, liquidité, sociétés de gestion et stratégies patrimoniales : retrouvez les analyses publiées par MaximusSCPI.</p>
         <p class="articles-shell-count">${articleEntries.length} articles accessibles directement en HTML.</p>
       </section>
@@ -240,8 +240,8 @@ const rootContent = `
 
 let html = appShell;
 const canonical = 'https://maximusscpi.com/articles/';
-const title = 'Comprendre les SCPI : guides, fiscalité, risques et stratégies | MaximusSCPI';
-const description = `${articleEntries.length} articles pour comprendre les SCPI : rendement, fiscalité, risques, liquidité, sociétés de gestion, comparatifs et stratégies patrimoniales.`;
+const title = 'Guides SCPI 2026 : fiscalité, risques et stratégies | MaximusSCPI';
+const description = `${articleEntries.length} guides pour comprendre les SCPI : fiscalité, risques, liquidité, sociétés de gestion et stratégies patrimoniales.`;
 
 html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`);
 html = replaceOrInsertHeadTag(html, /<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${escapeHtml(description)}" />`);
@@ -259,7 +259,7 @@ fs.writeFileSync(outputPath, html, 'utf-8');
 const verification = fs.readFileSync(outputPath, 'utf-8');
 const linkCount = (verification.match(/href="\/articles\/[^"]+\/"/g) || []).length;
 const missingLocalLinks = localTemplates.filter((entry) => !verification.includes(`href="/articles/${entry.slug}/"`));
-if (!verification.includes('<h1>Comprendre les SCPI</h1>')
+if (!verification.includes('<h1>Guides SCPI : comprendre, fiscalité, risques et stratégies</h1>')
   || !verification.includes(`rel="canonical" href="${canonical}"`)
   || missingLocalLinks.length > 0
   || linkCount < localTemplates.length) {

@@ -421,9 +421,9 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
   return (
     <>
       <SEOHead
-        title="Comprendre les SCPI | MaximusSCPI"
-        description={"Guides, fiscalité, risques, critères d'analyse et stratégies pour analyser les SCPI avec méthode. " + totalArticles + " articles experts."}
-        keywords={['comprendre les SCPI', 'guide SCPI', 'fiscalité SCPI', 'stratégie investissement', 'comparatif SCPI']}
+        title="Guides SCPI 2026 : fiscalité, risques et stratégies | MaximusSCPI"
+        description={"Guides pédagogiques sur la fiscalité, les risques, la liquidité et les stratégies SCPI. " + totalArticles + " articles MaximusSCPI."}
+        keywords={['comprendre les SCPI', 'guide SCPI', 'fiscalité SCPI', 'risques SCPI', 'stratégie investissement']}
         canonical="https://maximusscpi.com/articles/"
       />
 
@@ -457,10 +457,16 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
             <BookOpen className="w-20 h-20 text-blue-600" />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Comprendre les SCPI
+            Guides SCPI : comprendre, fiscalité, risques et stratégies
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
             Guides, fiscalité, risques, critères d'analyse et stratégies pour analyser les SCPI avec méthode.
+          </p>
+          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            Vous cherchez un outil de comparaison ?{' '}
+            <a href="/comparateur-scpi/" className="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+              Accéder au comparateur SCPI
+            </a>
           </p>
         </div>
 
