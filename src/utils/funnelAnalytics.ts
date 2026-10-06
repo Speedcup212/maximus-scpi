@@ -6,7 +6,9 @@ export type FunnelEventName =
   | 'quiz_completed'
   | 'analysis_opened'
   | 'scpi_detail_opened'
+  | 'hero_portfolio_clicked'
   | 'portfolio_validation_clicked'
+  | 'lead_form_opened'
   | 'lead_form_submitted'
   | 'calendly_opened'
   | 'calendly_booking_completed';
