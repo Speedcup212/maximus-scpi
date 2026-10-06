@@ -44,6 +44,15 @@ const PAGES = [
     sections:[['Lire les indicateurs','Occupation financière, valorisation, endettement et liquidité complètent le taux de distribution historique.'],['Observer les trajectoires','Les évolutions se lisent sur des périodes comparables. Un changement de mécanisme de sortie peut empêcher certaines comparaisons.'],['Vérifier les sources et les limites','Consultez les périodes et documents de chaque fiche. Une donnée absente ne constitue pas une preuve d’absence de risque.']],
     links:[['/comete/','Analyse de Comète'],['/transitions-europe/','Analyse de Transitions Europe'],['/comparateur-scpi/','Comparer les SCPI'],['/methodologie-donnees-scpi/','Sources et méthodologie'],['/avertissements-risques-scpi/','Risques des SCPI']]
   },
+  {
+    slug:'surveillance',
+    title:'Surveillance SCPI : alertes, liquidité, TOF et risques | MaximusSCPI',
+    description:'Surveillez les 61 SCPI suivies par MaximusSCPI : signaux certifiés sur le TOF, la liquidité, la valorisation, la dette et les changements structurels.',
+    h1:'Surveillance SCPI : les signaux qui méritent une attention immédiate',
+    intro:'MaximusSCPI priorise les variations et événements qui justifient une vérification : occupation, liquidité, valorisation, endettement et changements de régime. Les données non comparables restent neutralisées.',
+    sections:[['Prioriser les vigilances','Les signaux forts remontent d’abord afin de concentrer la lecture sur les SCPI qui présentent une dégradation ou une tension documentée.'],['Respecter les régimes de liquidité','Une file de retraits, un carnet d’ordres et un changement de régime ne sont jamais mélangés dans un même indicateur.'],['Éviter les faux signaux','Les gates de certification neutralisent les périodes insuffisantes, les ruptures structurelles et les ratios non comparables.']],
+    links:[['/analyses/','Voir les trajectoires'],['/comparateur-scpi/','Comparer les SCPI'],['/methodologie-donnees-scpi/','Sources et méthodologie'],['/avertissements-risques-scpi/','Risques des SCPI']]
+  },
   ...SIMS.map(([slug,title,description,h1,intro,appName]) => ({
     slug,title,description,h1,intro,appName,
     sections: [
