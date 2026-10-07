@@ -42,6 +42,14 @@ const QUESTIONNAIRES: ToolCard[] = [
 // Section 2 — Simulateurs.
 const SIMULATEURS: ToolCard[] = [
   {
+    title: 'Simulateur SCPI 2026',
+    description: 'Estimez les revenus potentiels, le délai de jouissance et la fiscalité d’un investissement SCPI à partir de vos hypothèses.',
+    path: '/simulateur-scpi/',
+    cta: 'Lancer le simulateur',
+    badge: 'Nouveau',
+    Icon: Calculator,
+  },
+  {
     title: 'Diagnostic revente SCPI',
     description: 'Sélectionnez une SCPI et analysez son mode de sortie, sa liquidité, ses valeurs patrimoniales et la fiabilité des données disponibles.',
     path: '/simulateur-marche-secondaire-scpi',
