@@ -65,7 +65,7 @@ const RequestAccessForm: React.FC<RequestAccessFormProps> = ({ onSuccess }) => {
     <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-white">
       <h1 className="text-2xl font-semibold">Demander un accès</h1>
       <p className="mt-2 text-sm text-slate-300">
-        Demande réservée. Si votre profil est validé, vous recevrez une invitation.
+        Demande réservée. Après validation, vous pourrez vous connecter avec Google en utilisant exactement cette adresse email.
       </p>
       {message && (
         <div className="mt-4 rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-200">
@@ -117,7 +117,7 @@ const RequestAccessForm: React.FC<RequestAccessFormProps> = ({ onSuccess }) => {
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950 p-6 text-white">
             <h2 className="text-lg font-semibold">Demande envoyée</h2>
             <p className="mt-2 text-sm text-slate-300">
-              Votre demande a bien été envoyée. Si votre profil est validé, vous recevrez une invitation par email.
+              Votre demande a bien été envoyée. Après validation par MaximusSCPI, revenez sur la page de connexion et utilisez Google avec cette même adresse email.
             </p>
             <button
               className="mt-4 w-full rounded-lg bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100"
