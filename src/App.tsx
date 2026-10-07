@@ -73,7 +73,7 @@ const GuidedJourney = lazy(() => import('./components/guidedJourney/GuidedJourne
 const SubscriptionFunnel = lazy(() => import('./components/subscription/SubscriptionFunnel'));
 const TestSenderReact = lazy(() => import('./components/TestSenderReact'));
 const LifeToScpiPage = lazy(() => import('./components/LifeToScpiPage'));
-const ScpiNetIncomeSimulator = lazy(() => import('./components/ScpiNetIncomeSimulator'));
+const ScpiNetIncomeSimulator = lazy(() => import('./components/ScpiDirectIncomeSimulator'));
 const ScpiAcquisitionSimulatorPage = lazy(() => import('./pages/ScpiAcquisitionSimulatorPage'));
 const ScpiCreditSimulator = lazy(() => import('./components/ScpiCreditSimulator'));
 const ScpiDemembrementSimulator = lazy(() => import('./components/ScpiDemembrementSimulator'));
