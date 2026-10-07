@@ -99,8 +99,6 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     }
     setLoading(true);
     setMessage(null);
-    const client = requireSupabase();
-
     try {
       const requested = peekPostLoginPath();
       if (requested.startsWith('/app/client')) {
@@ -110,12 +108,14 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
       // Le flux reste utilisable même sans sessionStorage.
     }
 
-    const { error } = await client.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/app` }
+    const response = await fetch('/.netlify/functions/auth-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, action: 'magiclink' })
     });
-    if (error) {
-      setMessage(error.message);
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      setMessage(payload?.error || "Impossible d'envoyer le lien pour le moment.");
     } else {
       setMessage('Lien envoyé. Vérifiez votre email.');
     }
@@ -130,12 +130,14 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     setLoading(true);
     setMessage(null);
     setResetSent(false);
-    const client = requireSupabase();
-    const { error } = await client.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/app/set-password`
+    const response = await fetch('/.netlify/functions/auth-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, action: 'recovery' })
     });
-    if (error) {
-      setMessage(error.message);
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      setMessage(payload?.error || "Impossible d'envoyer le lien pour le moment.");
     } else {
       setResetSent(true);
     }
