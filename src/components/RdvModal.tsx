@@ -288,6 +288,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
                 {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
               </h2>
               <p className="mt-1 text-sm font-semibold text-gray-600 dark:text-slate-300">
+                Visio • 30 min
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
                 Conseiller MaximusSCPI
               </p>
               {isPortfolioFlow && (
@@ -496,7 +499,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
                 disabled={isSubmitting}
                 className="w-full rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
               >
-                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau visio'}
               </button>
             ) : (
                           <div className="grid gap-3 pt-1 sm:grid-cols-2">
