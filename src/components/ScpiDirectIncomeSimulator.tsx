@@ -29,6 +29,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   onRdvClick,
 }) => {
   const [amount, setAmount] = useState(defaultAmount);
+  const [amountInput, setAmountInput] = useState(String(defaultAmount));
   const [yieldRate, setYieldRate] = useState(defaultYield);
   const [yieldWasCustomized, setYieldWasCustomized] = useState(false);
   const [tmi, setTmi] = useState(defaultTmi);
@@ -123,8 +124,29 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   min={1000}
                   max={5000000}
                   step={1000}
-                  value={amount}
-                  onChange={(event) => setAmount(clamp(Number(event.target.value) || 1000, 1000, 5000000))}
+                  value={amountInput}
+                  onChange={(event) => {
+                    const rawValue = event.target.value;
+                    setAmountInput(rawValue);
+
+                    if (rawValue === '') return;
+
+                    const parsedValue = Number(rawValue);
+                    if (Number.isFinite(parsedValue)) {
+                      setAmount(clamp(parsedValue, 1000, 5000000));
+                    }
+                  }}
+                  onBlur={() => {
+                    if (amountInput === '') {
+                      setAmountInput(String(amount));
+                      return;
+                    }
+
+                    const normalizedAmount = clamp(Number(amountInput) || amount, 1000, 5000000);
+                    setAmount(normalizedAmount);
+                    setAmountInput(String(normalizedAmount));
+                  }}
+                  onFocus={(event) => event.currentTarget.select()}
                   className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-xl font-bold text-gray-950 outline-none focus:border-green-600 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
                 />
                 <Euro className="h-5 w-5 shrink-0 text-gray-400" />
@@ -135,7 +157,11 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 max={5000000}
                 step={1000}
                 value={amount}
-                onChange={(event) => setAmount(Number(event.target.value))}
+                onChange={(event) => {
+                  const nextAmount = Number(event.target.value);
+                  setAmount(nextAmount);
+                  setAmountInput(String(nextAmount));
+                }}
                 className="mt-4 w-full"
               />
             </div>
