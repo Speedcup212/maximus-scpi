@@ -29,17 +29,9 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   const [yieldRate, setYieldRate] = useState(defaultYield);
   const [tmi, setTmi] = useState(defaultTmi);
   const [origin, setOrigin] = useState<'france' | 'international'>('france');
-  const [foreignEffectiveTaxRate, setForeignEffectiveTaxRate] = useState('');
   const [delaiJouissanceMois, setDelaiJouissanceMois] = useState(6);
   const [spreadRate, setSpreadRate] = useState(10);
   const [horizon, setHorizon] = useState(10);
-
-  const parsedForeignRate = useMemo(() => {
-    if (foreignEffectiveTaxRate.trim() === '') return null;
-    const value = Number(foreignEffectiveTaxRate.replace(',', '.'));
-    if (!Number.isFinite(value) || value < 0 || value > 100) return null;
-    return value / 100;
-  }, [foreignEffectiveTaxRate]);
 
   const calculations = useMemo(() => {
     const fullYearGross = amount * (yieldRate / 100);
@@ -49,7 +41,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
     const commonTaxInput = {
       origin,
       tmiRate: tmi / 100,
-      foreignEffectiveTaxRate: parsedForeignRate,
     } as const;
 
     const fullYearTax = estimateSimpleScpiIncomeTax({
@@ -84,7 +75,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
       breakEvenYears,
       productiveMonths,
     };
-  }, [amount, yieldRate, delaiJouissanceMois, origin, tmi, parsedForeignRate, spreadRate, horizon]);
+  }, [amount, yieldRate, delaiJouissanceMois, origin, tmi, spreadRate, horizon]);
 
   const taxEstimateAvailable = calculations.fullYearTax.available;
   const netAnnual = calculations.fullYearTax.netIncome;
@@ -204,26 +195,18 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               </div>
             ) : (
               <div className="rounded-2xl border border-amber-300 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-950/20">
-                <label className="block text-sm font-semibold text-amber-950 dark:text-amber-100">
-                  Taux fiscal effectif après convention, si vous le connaissez
-                </label>
-                <div className="mt-3 flex items-center gap-3">
-                  <input
-                    type="number"
-                    inputMode="decimal"
-                    min={0}
-                    max={100}
-                    step={0.1}
-                    value={foreignEffectiveTaxRate}
-                    onChange={(event) => setForeignEffectiveTaxRate(event.target.value)}
-                    placeholder="Ex. 18"
-                    className="w-full rounded-xl border border-amber-300 bg-white px-4 py-3 text-lg text-gray-950 outline-none focus:border-amber-600 dark:border-amber-700 dark:bg-gray-900 dark:text-white"
-                  />
-                  <span className="font-semibold text-amber-900 dark:text-amber-200">%</span>
-                </div>
-                <p className="mt-3 text-xs leading-5 text-amber-900 dark:text-amber-200">
-                  Aucun taux standard n'est appliqué par défaut. La convention fiscale du pays concerné peut prévoir une exonération avec taux effectif ou un crédit d'impôt. Laissez vide si vous ne disposez pas d'une estimation fiable. Les valeurs hors de 0 à 100 % sont refusées.
+                <p className="text-sm font-semibold text-amber-950 dark:text-amber-100">
+                  Fiscalité Europe / international
                 </p>
+                <p className="mt-2 text-sm leading-6 text-amber-900 dark:text-amber-200">
+                  La fiscalité dépend des pays détenus par la SCPI et des conventions fiscales applicables. MaximusSCPI n'applique donc aucun taux standard pour fabriquer un revenu net.
+                </p>
+                <a
+                  href="/comparateur-scpi/"
+                  className="mt-4 inline-flex items-center justify-center rounded-lg bg-amber-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-800 dark:bg-amber-200 dark:text-amber-950 dark:hover:bg-amber-100"
+                >
+                  Sélectionner une SCPI pour affiner l'analyse
+                </a>
               </div>
             )}
 
@@ -282,7 +265,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-5 text-sm text-gray-300">Revenu brut annuel estimé</p>
                   <p className="mt-1 text-4xl font-bold">{formatEuro(calculations.fullYearGross)}</p>
                   <div className="mt-4 rounded-xl border border-amber-700 bg-amber-950/40 p-4 text-sm text-amber-100">
-                    MaximusSCPI n'affiche pas de faux « net international ». Renseignez un taux fiscal effectif fiable pour calculer un net, ou faites analyser la convention fiscale applicable.
+                    MaximusSCPI n'affiche pas de faux « net international ». Sélectionnez une SCPI pour tenir compte de sa répartition géographique et des conventions fiscales applicables.
                   </div>
                 </>
               )}
@@ -307,15 +290,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                       <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.socialContributions || 0)}</strong>
                     </div>
                   </>
-                )}
-
-                {origin === 'international' && taxEstimateAvailable && (
-                  <div className="flex justify-between gap-4">
-                    <span className="text-gray-600 dark:text-gray-300">
-                      Fiscalité estimée au taux saisi ({((calculations.fullYearTax.effectiveTaxRate || 0) * 100).toFixed(1)} %)
-                    </span>
-                    <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.totalTax || 0)}</strong>
-                  </div>
                 )}
 
                 <div className="flex justify-between gap-4 border-t border-gray-200 pt-3 dark:border-gray-700">
@@ -356,7 +330,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-6 text-amber-800 dark:text-amber-300">
-                  Projection nette désactivée tant qu'aucun taux fiscal international fiable n'est renseigné.
+                  Projection nette non affichée pour l'international tant qu'une SCPI et sa répartition géographique ne sont pas prises en compte.
                 </p>
               )}
             </div>
@@ -391,7 +365,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-1">
                     {origin === 'france'
                       ? "Le calcul applique de façon pédagogique la TMI et 17,2 % de prélèvements sociaux au revenu brut simulé. La base imposable réelle de la SCPI, les charges déductibles, les intérêts d'emprunt, les éventuels revenus financiers et la situation du foyer peuvent modifier le résultat."
-                      : "Les revenus immobiliers étrangers doivent être traités selon la convention fiscale du pays concerné. Le taux saisi est une hypothèse utilisateur et non un taux fiscal recommandé par MaximusSCPI."}
+                      : "Les revenus immobiliers étrangers doivent être traités selon les pays détenus par la SCPI et les conventions fiscales applicables. Le simulateur grand public affiche donc le brut et n'invente pas de fiscalité nette standard."}
                   </p>
                   <p className="mt-2">
                     Les revenus et la valeur des parts de SCPI ne sont pas garantis. Il existe un risque de perte en capital et un risque de liquidité.
