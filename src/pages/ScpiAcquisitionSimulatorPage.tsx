@@ -14,7 +14,7 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => (
       </div>
     </section>
 
-    <ScpiDirectIncomeSimulator embedded />
+    <ScpiDirectIncomeSimulator embedded onRdvClick={onRdvClick} />
 
     <section className="px-4 pb-16">
       <div className="mx-auto max-w-5xl space-y-10">
@@ -42,7 +42,7 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => (
           <div><h2 className="text-2xl font-bold">Le rendement ne suffit pas pour choisir une SCPI.</h2><p className="mt-2 text-gray-300">Compare ensuite les SCPI sur leurs données patrimoniales, leur trajectoire et leurs signaux de vigilance.</p></div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-0">
             <a href="/comparateur-scpi/" className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">Comparer les SCPI <ArrowRight className="h-4 w-4" /></a>
-            <button onClick={onRdvClick} className="rounded-lg border border-gray-600 px-5 py-3 font-semibold hover:bg-gray-800">Étudier mon projet</button>
+            <button onClick={onRdvClick} className="rounded-lg border border-gray-600 px-5 py-3 font-semibold hover:bg-gray-800">Faire analyser ma simulation</button>
           </div>
         </div>
       </div>
