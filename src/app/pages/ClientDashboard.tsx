@@ -7,10 +7,13 @@ import {
   FileText,
   Gauge,
   Globe2,
+  Pencil,
   Plus,
   RefreshCw,
+  Save,
   ShieldCheck,
   Trash2,
+  X,
   TrendingUp,
   WalletCards
 } from 'lucide-react';
@@ -22,7 +25,6 @@ import type { Case } from '../types';
 import {
   buildSurveillanceSignals,
   getSurveillanceStatus,
-  SURVEILLANCE_DASHBOARD_SELECT,
   type SurveillanceDashboardRow,
 } from '../../utils/surveillanceSignals';
 
@@ -153,7 +155,13 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [surveillanceError, setSurveillanceError] = useState<string | null>(null);
   const [showAddPosition, setShowAddPosition] = useState(false);
+  const [managedSlug, setManagedSlug] = useState<string | null>(null);
+  const [editingPositionId, setEditingPositionId] = useState<string | null>(null);
+  const [editUnits, setEditUnits] = useState('');
+  const [editPurchasePrice, setEditPurchasePrice] = useState('');
+  const [editPurchaseDate, setEditPurchaseDate] = useState('');
   const [selectedSlug, setSelectedSlug] = useState('');
   const [units, setUnits] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
@@ -164,6 +172,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
 
     setLoading(true);
     setError(null);
+    setSurveillanceError(null);
 
     const [positionsResult, indicatorsResult, casesResult] = await Promise.all([
       supabase
@@ -194,21 +203,27 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     setIndicators((indicatorsResult.data ?? []) as ScpiIndicator[]);
     if (!casesResult.error) setCases((casesResult.data ?? []) as Case[]);
 
-    const slugs = Array.from(new Set(loadedPositions.map(position => position.scpi_slug)));
-    if (slugs.length === 0) {
+    if (loadedPositions.length === 0) {
       setTrajectories([]);
       setLoading(false);
       return;
     }
 
-    const trajectoryResult = await supabase
-      .from('scpi_trajectory_pilot_dashboard')
-      .select(SURVEILLANCE_DASHBOARD_SELECT)
-      .in('scpi_slug', slugs);
+    const { data: surveillancePayload, error: surveillanceInvokeError } =
+      await supabase.functions.invoke('client-surveillance', {
+        body: {}
+      });
 
-    setTrajectories(
-      trajectoryResult.error ? [] : ((trajectoryResult.data ?? []) as Trajectory[])
-    );
+    if (surveillanceInvokeError || surveillancePayload?.error) {
+      setTrajectories([]);
+      setSurveillanceError(
+        surveillancePayload?.error ||
+          'La surveillance Maximus est momentanément indisponible. Le portefeuille reste accessible.'
+      );
+    } else {
+      setTrajectories((surveillancePayload?.data ?? []) as Trajectory[]);
+    }
+
     setLoading(false);
   }, [user]);
 
@@ -441,24 +456,84 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     await loadDashboard();
   };
 
-  const handleDeleteHolding = async (holding: PortfolioHolding) => {
-    if (!supabase || !user) return;
+  const startEditPosition = (position: Position) => {
+    setEditingPositionId(position.id);
+    setEditUnits(String(position.units ?? ''));
+    setEditPurchasePrice(String(position.purchase_price_per_unit ?? ''));
+    setEditPurchaseDate(position.purchase_date || '');
+    setError(null);
+  };
 
-    const confirmed = window.confirm(`Supprimer ${holding.name} de ton portefeuille Maximus ?`);
+  const cancelEditPosition = () => {
+    setEditingPositionId(null);
+    setEditUnits('');
+    setEditPurchasePrice('');
+    setEditPurchaseDate('');
+  };
+
+  const handleUpdatePosition = async (position: Position) => {
+    if (!supabase || !user || position.source !== 'external') return;
+
+    const parsedUnits = Number(editUnits.replace(',', '.'));
+    const parsedPrice = Number(editPurchasePrice.replace(',', '.'));
+
+    if (
+      !Number.isFinite(parsedUnits) ||
+      parsedUnits <= 0 ||
+      !Number.isFinite(parsedPrice) ||
+      parsedPrice <= 0
+    ) {
+      setError('Renseigne un nombre de parts et un prix d’achat valides.');
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+
+    const { error: updateError } = await supabase
+      .from('client_scpi_positions')
+      .update({
+        units: parsedUnits,
+        purchase_price_per_unit: parsedPrice,
+        purchase_date: editPurchaseDate || null
+      })
+      .eq('id', position.id)
+      .eq('user_id', user.id)
+      .eq('source', 'external');
+
+    if (updateError) {
+      setError(`Modification impossible : ${updateError.message}`);
+      setSaving(false);
+      return;
+    }
+
+    cancelEditPosition();
+    setSaving(false);
+    await loadDashboard();
+  };
+
+  const handleDeletePosition = async (position: Position) => {
+    if (!supabase || !user || position.source !== 'external') return;
+
+    const indicator = indicatorMap.get(position.scpi_slug);
+    const name = indicator?.nom || position.scpi_slug;
+    const confirmed = window.confirm(`Supprimer cette ligne ${name} ajoutée manuellement ?`);
     if (!confirmed) return;
 
     setError(null);
     const { error: deleteError } = await supabase
       .from('client_scpi_positions')
       .delete()
+      .eq('id', position.id)
       .eq('user_id', user.id)
-      .in('id', holding.positionIds);
+      .eq('source', 'external');
 
     if (deleteError) {
       setError(`Suppression impossible : ${deleteError.message}`);
       return;
     }
 
+    if (editingPositionId === position.id) cancelEditPosition();
     await loadDashboard();
   };
 
@@ -526,6 +601,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         {error && (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-sm text-red-200">
             {error}
+          </div>
+        )}
+
+        {surveillanceError && (
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100">
+            {surveillanceError}
           </div>
         )}
 
@@ -808,14 +889,123 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                           <div className="text-[10px] uppercase tracking-wider text-slate-500">Trajectoire</div>
                           <div className="mt-1 max-w-40 text-xs text-slate-300">{prettifySignal(holding.trajectory?.trajectoire_tof)}</div>
                         </div>
-                        <button
-                          onClick={() => void handleDeleteHolding(holding)}
-                          title="Supprimer du portefeuille"
-                          className="rounded-lg border border-white/10 p-2 text-slate-500 hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-300"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        {holding.source !== 'maximus' ? (
+                          <button
+                            onClick={() => {
+                              setManagedSlug(current => (current === holding.slug ? null : holding.slug));
+                              cancelEditPosition();
+                            }}
+                            title="Gérer les positions ajoutées manuellement"
+                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-2 text-xs text-slate-300 hover:border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-200"
+                          >
+                            <Pencil className="h-4 w-4" />
+                            Gérer
+                          </button>
+                        ) : (
+                          <span className="text-[10px] text-slate-600">Synchronisée</span>
+                        )}
                       </div>
+
+                      {managedSlug === holding.slug && (
+                        <div className="mt-4 border-t border-white/10 pt-4">
+                          <div className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                            Positions ajoutées manuellement
+                          </div>
+                          <div className="space-y-3">
+                            {positions
+                              .filter(position => position.scpi_slug === holding.slug && position.source === 'external')
+                              .map(position => (
+                                <div
+                                  key={position.id}
+                                  className="rounded-xl border border-white/10 bg-slate-950/50 p-4"
+                                >
+                                  {editingPositionId === position.id ? (
+                                    <div className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto] md:items-end">
+                                      <label className="text-xs text-slate-400">
+                                        Parts
+                                        <input
+                                          value={editUnits}
+                                          onChange={event => setEditUnits(event.target.value)}
+                                          inputMode="decimal"
+                                          className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
+                                        />
+                                      </label>
+                                      <label className="text-xs text-slate-400">
+                                        Prix d’achat / part
+                                        <input
+                                          value={editPurchasePrice}
+                                          onChange={event => setEditPurchasePrice(event.target.value)}
+                                          inputMode="decimal"
+                                          className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
+                                        />
+                                      </label>
+                                      <label className="text-xs text-slate-400">
+                                        Date d’achat
+                                        <input
+                                          type="date"
+                                          value={editPurchaseDate}
+                                          onChange={event => setEditPurchaseDate(event.target.value)}
+                                          className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
+                                        />
+                                      </label>
+                                      <div className="flex gap-2">
+                                        <button
+                                          type="button"
+                                          disabled={saving}
+                                          onClick={() => void handleUpdatePosition(position)}
+                                          className="rounded-lg bg-emerald-400 p-2 text-slate-950 disabled:opacity-50"
+                                          title="Enregistrer"
+                                        >
+                                          <Save className="h-4 w-4" />
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={cancelEditPosition}
+                                          className="rounded-lg border border-white/10 p-2 text-slate-300"
+                                          title="Annuler"
+                                        >
+                                          <X className="h-4 w-4" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                      <div className="text-xs text-slate-300">
+                                        <span className="font-medium text-white">
+                                          {numberValue(position.units)?.toLocaleString('fr-FR', { maximumFractionDigits: 6 }) ?? '—'} parts
+                                        </span>
+                                        {' · '}
+                                        {formatCurrency(numberValue(position.purchase_price_per_unit), 2)} / part
+                                        {' · '}
+                                        {position.purchase_date
+                                          ? new Date(position.purchase_date).toLocaleDateString('fr-FR')
+                                          : 'date non renseignée'}
+                                      </div>
+                                      <div className="flex gap-2">
+                                        <button
+                                          type="button"
+                                          onClick={() => startEditPosition(position)}
+                                          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-200 hover:bg-white/5"
+                                        >
+                                          <Pencil className="h-3.5 w-3.5" />
+                                          Modifier
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => void handleDeletePosition(position)}
+                                          className="rounded-lg border border-red-500/20 p-2 text-red-300 hover:bg-red-500/10"
+                                          title="Supprimer cette position"
+                                        >
+                                          <Trash2 className="h-4 w-4" />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}

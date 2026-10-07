@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, LayoutDashboard, LogOut, Shield, Users, WalletCards } from 'lucide-react';
+import { FileText, LayoutDashboard, LogOut, Shield, UserRound, Users, WalletCards } from 'lucide-react';
 import type { ProfileRole } from '../types';
 
 type AppLayoutProps = {
@@ -33,7 +33,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
           { id: 'admin', label: 'Administration', icon: Shield, path: '/app/admin' },
           { id: 'requests', label: 'Demandes d’accès', icon: Users, path: '/app/admin/access-requests' }
         ]
-      : [])
+      : []),
+    { id: 'account', label: 'Mon compte', icon: UserRound, path: '/app/account' }
   ];
 
   return (
