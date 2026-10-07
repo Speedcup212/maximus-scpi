@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { requireSupabase } from '../../lib/supabase';
 
 type RequestAccessFormProps = {
   onSuccess?: () => void;
@@ -16,28 +17,44 @@ const RequestAccessForm: React.FC<RequestAccessFormProps> = ({ onSuccess }) => {
     event.preventDefault();
     setLoading(true);
     setMessage(null);
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedFirstName = firstName.trim();
+    const normalizedLastName = lastName.trim();
+    const fullName = [normalizedFirstName, normalizedLastName].filter(Boolean).join(' ');
+
     try {
-      const response = await fetch('/.netlify/functions/request-access', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim(),
-          firstName: firstName.trim(),
-          lastName: lastName.trim()
-        })
+      const client = requireSupabase();
+
+      // L'insertion publique est volontairement limitée par la RLS Supabase :
+      // seuls les enregistrements au statut PENDING sont acceptés.
+      const { error } = await client.from('access_requests').insert({
+        requested_role: 'CLIENT',
+        full_name: fullName,
+        email: normalizedEmail,
+        phone: null,
+        message: null,
+        status: 'PENDING'
       });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        const detail = payload?.error || `Erreur ${response.status}`;
-        throw new Error(detail);
+
+      if (error) {
+        const isDuplicate =
+          error.code === '23505' ||
+          String(error.message || '').toLowerCase().includes('duplicate') ||
+          String(error.message || '').toLowerCase().includes('unique');
+
+        if (!isDuplicate) {
+          throw error;
+        }
       }
+
       setShowSuccess(true);
       onSuccess?.();
     } catch (err: unknown) {
       const msg =
         err instanceof Error
           ? err.message
-          : 'Erreur réseau. Vérifiez que Netlify Dev tourne sur le port 8888.';
+          : 'Impossible d’envoyer la demande pour le moment.';
       setMessage(msg);
     } finally {
       setLoading(false);
