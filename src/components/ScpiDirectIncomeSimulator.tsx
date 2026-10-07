@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
+import { Calculator, Calendar, Euro, Info } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
 import EricAvatar from './EricAvatar';
 import { trackFunnelEvent } from '../utils/funnelAnalytics';
@@ -36,7 +36,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   const [tmi, setTmi] = useState(defaultTmi);
   const [origin, setOrigin] = useState<'france' | 'international'>('france');
   const [delaiJouissanceMois, setDelaiJouissanceMois] = useState(6);
-  const [spreadRate, setSpreadRate] = useState(10);
   const [horizon, setHorizon] = useState(10);
   const [interactionTick, setInteractionTick] = useState(0);
   const simulationStartedRef = useRef(false);
@@ -93,8 +92,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
       ...commonTaxInput,
     });
 
-    const withdrawalGap = amount * (spreadRate / 100);
-    const immediateWithdrawalValue = amount - withdrawalGap;
     const netFull = fullYearTax.netIncome;
     const netFirst = firstYearTax.netIncome;
     const cumulativeGross =
@@ -103,22 +100,16 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
       netFull !== null && netFirst !== null
         ? netFirst + Math.max(0, horizon - 1) * netFull
         : null;
-    const breakEvenYears =
-      netFull !== null && netFull > 0 ? withdrawalGap / netFull : null;
-
     return {
       fullYearGross,
       firstYearGross,
       fullYearTax,
       firstYearTax,
-      withdrawalGap,
-      immediateWithdrawalValue,
       cumulativeGross,
       cumulativeNet,
-      breakEvenYears,
       productiveMonths,
     };
-  }, [amount, yieldRate, delaiJouissanceMois, origin, tmi, spreadRate, horizon]);
+  }, [amount, yieldRate, delaiJouissanceMois, origin, tmi, horizon]);
 
   const taxEstimateAvailable = calculations.fullYearTax.available;
   const netAnnual = calculations.fullYearTax.netIncome;
@@ -221,36 +212,18 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
             </div>
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                    Délai de jouissance : {delaiJouissanceMois} mois
-                  </label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={12}
-                    step={1}
-                    value={delaiJouissanceMois}
-                    onChange={(event) => setDelaiJouissanceMois(Number(event.target.value))}
-                    className="mt-3 w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                    Écart souscription / retrait : {spreadRate.toFixed(1)} %
-                  </label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={15}
-                    step={0.5}
-                    value={spreadRate}
-                    onChange={(event) => setSpreadRate(Number(event.target.value))}
-                    className="mt-3 w-full"
-                  />
-                </div>
-              </div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Délai de jouissance : {delaiJouissanceMois} mois
+              </label>
+              <input
+                type="range"
+                min={0}
+                max={12}
+                step={1}
+                value={delaiJouissanceMois}
+                onChange={(event) => setDelaiJouissanceMois(Number(event.target.value))}
+                className="mt-3 w-full"
+              />
             </div>
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
@@ -467,27 +440,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               )}
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h2 className="flex items-center gap-2 text-lg font-bold text-gray-950 dark:text-white">
-                <ShieldCheck className="h-5 w-5 text-green-600" />
-                Écart souscription / retrait
-              </h2>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl bg-slate-50 p-4 dark:bg-gray-900">
-                  <p className="text-xs text-gray-500">Valeur théorique immédiate</p>
-                  <p className="mt-1 text-xl font-bold text-gray-950 dark:text-white">{formatEuro(calculations.immediateWithdrawalValue)}</p>
-                </div>
-                <div className="rounded-xl bg-slate-50 p-4 dark:bg-gray-900">
-                  <p className="text-xs text-gray-500">Écart simulé</p>
-                  <p className="mt-1 text-xl font-bold text-red-600">{formatEuro(calculations.withdrawalGap)}</p>
-                </div>
-              </div>
-              {calculations.breakEvenYears !== null && (
-                <p className="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                  À hypothèses constantes, cet écart représente environ {calculations.breakEvenYears.toFixed(1)} années de revenus nets estimatifs. Ce n'est pas une durée de détention recommandée ni une garantie de récupération du capital.
-                </p>
-              )}
-            </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-700 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
               <div className="flex gap-3">
