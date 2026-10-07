@@ -148,6 +148,39 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
             </div>
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                    Délai de jouissance : {delaiJouissanceMois} mois
+                  </label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={12}
+                    step={1}
+                    value={delaiJouissanceMois}
+                    onChange={(event) => setDelaiJouissanceMois(Number(event.target.value))}
+                    className="mt-3 w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                    Écart souscription / retrait : {spreadRate.toFixed(1)} %
+                  </label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={15}
+                    step={0.5}
+                    value={spreadRate}
+                    onChange={(event) => setSpreadRate(Number(event.target.value))}
+                    className="mt-3 w-full"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Origine des revenus immobiliers</p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <button
@@ -215,38 +248,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               </div>
             )}
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
-              <div className="grid gap-5 sm:grid-cols-2">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                    Délai de jouissance : {delaiJouissanceMois} mois
-                  </label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={12}
-                    step={1}
-                    value={delaiJouissanceMois}
-                    onChange={(event) => setDelaiJouissanceMois(Number(event.target.value))}
-                    className="mt-3 w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                    Écart souscription / retrait : {spreadRate.toFixed(1)} %
-                  </label>
-                  <input
-                    type="range"
-                    min={0}
-                    max={15}
-                    step={0.5}
-                    value={spreadRate}
-                    onChange={(event) => setSpreadRate(Number(event.target.value))}
-                    className="mt-3 w-full"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="space-y-5">
