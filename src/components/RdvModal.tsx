@@ -106,6 +106,10 @@ const RdvModal: React.FC<RdvModalProps> = ({
   const portfolioNames = portfolio.map(item => item.name);
   const leadScpi = isPortfolioFlow ? portfolioNames : explicitScpi;
 
+  const isSimulatorLanding =
+    typeof window !== 'undefined' &&
+    window.location.pathname.replace(/\/+$/, '') === '/simulateur-scpi';
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -116,6 +120,18 @@ const RdvModal: React.FC<RdvModalProps> = ({
       setQuizContext(parsedContext);
     } catch {
       setQuizContext(null);
+    }
+
+    if (isSimulatorLanding) {
+      try {
+        const savedAmount = Number(sessionStorage.getItem('maximus_simulator_amount'));
+        if (Number.isFinite(savedAmount) && savedAmount > 0) {
+          const formattedAmount = `${new Intl.NumberFormat('fr-FR').format(savedAmount)} €`;
+          setFormValues(prev => ({ ...prev, montant: formattedAmount }));
+        }
+      } catch {
+        // Le montant reste éditable si le stockage de session n'est pas disponible.
+      }
     }
 
     trackFunnelEvent('lead_form_opened', {
@@ -183,7 +199,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
 
     const nativeEvent = e.nativeEvent as SubmitEvent;
     const submitter = nativeEvent.submitter as HTMLButtonElement | null;
-    const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
+    const action = isSimulatorLanding
+      ? 'calendly'
+      : submitter?.value === 'calendly' ? 'calendly' : 'callback';
     const contextSlug = window.location.pathname.replace(/^\/+|\/+$/g, '') || 'home';
     const effectiveMontant = isPortfolioFlow
       ? montantLabel(quizContext?.quiz?.montant)
@@ -427,36 +445,40 @@ const RdvModal: React.FC<RdvModalProps> = ({
                   />
                 </div>
 
-                <div>
-                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
-                    <Calendar className="mr-1 inline h-4 w-4" /> Créneau préféré
-                  </label>
-                  <select
-                    name="creneau"
-                    value={formValues.creneau}
-                    onChange={handleInputChange}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                  >
-                    <option value="">Peu importe / à convenir</option>
-                    <option value="Matin (9h-12h)">Matin (9h-12h)</option>
-                    <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
-                    <option value="Soir (18h-20h)">Soir (18h-20h)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
-                    <MessageCircle className="mr-1 inline h-4 w-4" /> Commentaire
-                  </label>
-                  <textarea
-                    name="commentaire"
-                    value={formValues.commentaire}
-                    onChange={handleInputChange}
-                    rows={3}
-                    className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                    placeholder="Précisez votre projet si nécessaire"
-                  />
-                </div>
+                {!isSimulatorLanding && (
+                  <>
+                                    <div>
+                                      <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                                        <Calendar className="mr-1 inline h-4 w-4" /> Créneau préféré
+                                      </label>
+                                      <select
+                                        name="creneau"
+                                        value={formValues.creneau}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                                      >
+                                        <option value="">Peu importe / à convenir</option>
+                                        <option value="Matin (9h-12h)">Matin (9h-12h)</option>
+                                        <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
+                                        <option value="Soir (18h-20h)">Soir (18h-20h)</option>
+                                      </select>
+                                    </div>
+                    
+                                    <div>
+                                      <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                                        <MessageCircle className="mr-1 inline h-4 w-4" /> Commentaire
+                                      </label>
+                                      <textarea
+                                        name="commentaire"
+                                        value={formValues.commentaire}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                        className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                                        placeholder="Précisez votre projet si nécessaire"
+                                      />
+                                    </div>
+                  </>
+                )}
               </>
             )}
 
@@ -466,26 +488,38 @@ const RdvModal: React.FC<RdvModalProps> = ({
               </div>
             )}
 
-            <div className="grid gap-3 pt-1 sm:grid-cols-2">
+            {isSimulatorLanding ? (
               <button
                 type="submit"
                 name="lead_action"
                 value="calendly"
                 disabled={isSubmitting}
-                className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
+                className="w-full rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
               >
                 {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
               </button>
-              <button
-                type="submit"
-                name="lead_action"
-                value="callback"
-                disabled={isSubmitting}
-                className="rounded-xl border-2 border-slate-300 bg-white px-5 py-3.5 text-base font-black text-slate-800 transition hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-              >
-                {isSubmitting ? 'Enregistrement…' : 'Être rappelé'}
-              </button>
-            </div>
+            ) : (
+                          <div className="grid gap-3 pt-1 sm:grid-cols-2">
+                            <button
+                              type="submit"
+                              name="lead_action"
+                              value="calendly"
+                              disabled={isSubmitting}
+                              className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
+                            >
+                              {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+                            </button>
+                            <button
+                              type="submit"
+                              name="lead_action"
+                              value="callback"
+                              disabled={isSubmitting}
+                              className="rounded-xl border-2 border-slate-300 bg-white px-5 py-3.5 text-base font-black text-slate-800 transition hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                            >
+                              {isSubmitting ? 'Enregistrement…' : 'Être rappelé'}
+                            </button>
+                          </div>
+            )}
 
             {isPortfolioFlow && (
               <p className="text-center text-xs leading-relaxed text-gray-500 dark:text-slate-400">
