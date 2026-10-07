@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Calculator, ShieldCheck, BarChart3 } from 'lucide-react';
 import ScpiDirectIncomeSimulator from '../components/ScpiDirectIncomeSimulator';
 import { trackFunnelEvent } from '../utils/funnelAnalytics';
+import { simulatorSeoConfig } from '../data/simulatorSeoConfig';
 
 type Props = { onRdvClick: () => void };
 
@@ -65,6 +66,24 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => {
           <p className="mt-3 leading-7 text-gray-600 dark:text-gray-300">Un taux de distribution seul ne suffit pas pour juger un investissement. Le revenu réellement disponible dépend notamment du délai de jouissance, de la fiscalité, de l’origine géographique des revenus et de la durée de détention. Les résultats affichés sont des estimations fondées sur les hypothèses saisies et ne constituent ni une promesse de rendement ni un conseil personnalisé.</p>
           <p className="mt-3 leading-7 text-gray-600 dark:text-gray-300">Les SCPI présentent un risque de perte en capital et de liquidité. Les revenus et la valeur des parts peuvent évoluer à la hausse comme à la baisse. La fiscalité des revenus étrangers doit être appréciée selon les conventions fiscales applicables et la situation de l’investisseur.</p>
         </article>
+
+        <section aria-labelledby="simulateur-scpi-faq" className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800 md:p-8">
+          <h2 id="simulateur-scpi-faq" className="text-2xl font-bold text-gray-950 dark:text-white">
+            Questions fréquentes sur la simulation SCPI
+          </h2>
+          <div className="mt-5 divide-y divide-gray-200 dark:divide-gray-700">
+            {simulatorSeoConfig['simulateur-scpi'].faq.map(item => (
+              <details key={item.question} className="group py-4">
+                <summary className="cursor-pointer list-none pr-6 font-semibold text-gray-950 dark:text-white">
+                  {item.question}
+                </summary>
+                <p className="mt-2 max-w-4xl text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </section>
 
         <div className="rounded-2xl bg-gray-950 p-7 text-white md:flex md:items-center md:justify-between md:gap-8">
           <div><h2 className="text-2xl font-bold">Le rendement ne suffit pas pour choisir une SCPI.</h2><p className="mt-2 text-gray-300">Compare ensuite les SCPI sur leurs données patrimoniales, leur trajectoire et leurs signaux de vigilance.</p></div>
