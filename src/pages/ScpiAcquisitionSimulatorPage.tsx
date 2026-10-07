@@ -10,7 +10,7 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => (
       <div className="mx-auto max-w-4xl">
         <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-green-700 dark:text-green-400">Outil gratuit • sans inscription</p>
         <h1 className="text-4xl font-bold tracking-tight text-gray-950 dark:text-white md:text-5xl">Simulateur SCPI 2026</h1>
-        <p className="mx-auto mt-4 max-w-3xl text-lg text-gray-600 dark:text-gray-300">Estime tes revenus SCPI, leur fiscalité et l'effet du délai de jouissance à partir de tes propres hypothèses.</p>
+        <p className="mx-auto mt-4 max-w-3xl text-lg text-gray-600 dark:text-gray-300">Estimez vos revenus SCPI en détention directe, leur fiscalité et l'effet du délai de jouissance à partir de vos propres hypothèses.</p>
       </div>
     </section>
 
@@ -41,7 +41,7 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => (
         <div className="rounded-2xl bg-gray-950 p-7 text-white md:flex md:items-center md:justify-between md:gap-8">
           <div><h2 className="text-2xl font-bold">Le rendement ne suffit pas pour choisir une SCPI.</h2><p className="mt-2 text-gray-300">Compare ensuite les SCPI sur leurs données patrimoniales, leur trajectoire et leurs signaux de vigilance.</p></div>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-0">
-            <a href="/comparateur" className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">Comparer les SCPI <ArrowRight className="h-4 w-4" /></a>
+            <a href="/comparateur-scpi/" className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold hover:bg-green-700">Comparer les SCPI <ArrowRight className="h-4 w-4" /></a>
             <button onClick={onRdvClick} className="rounded-lg border border-gray-600 px-5 py-3 font-semibold hover:bg-gray-800">Étudier mon projet</button>
           </div>
         </div>
