@@ -99,8 +99,6 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     }
     setLoading(true);
     setMessage(null);
-    const client = requireSupabase();
-
     try {
       const requested = peekPostLoginPath();
       if (requested.startsWith('/app/client')) {
