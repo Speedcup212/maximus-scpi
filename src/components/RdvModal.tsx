@@ -135,8 +135,12 @@ const RdvModal: React.FC<RdvModalProps> = ({
     }
 
     trackFunnelEvent('lead_form_opened', {
-      source: parsedContext?.portfolio?.length ? 'portfolio_analysis' : 'site',
-      form_type: parsedContext?.portfolio?.length ? 'portfolio_validation' : 'lead_rdv',
+      source: parsedContext?.portfolio?.length
+        ? 'portfolio_analysis'
+        : isSimulatorLanding ? 'simulateur_scpi' : 'site',
+      form_type: parsedContext?.portfolio?.length
+        ? 'portfolio_validation'
+        : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
       portfolio_size: parsedContext?.portfolio?.length || undefined,
     });
 
@@ -165,7 +169,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
       bookingTrackedRef.current = true;
       trackFunnelEvent('calendly_booking_completed', {
         lead_request_id: pendingCalendlyLeadIdRef.current || undefined,
-        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
+        form_type: isPortfolioFlow
+          ? 'portfolio_validation'
+          : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
         action: 'calendly',
       });
 
@@ -210,7 +216,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
     try {
       const result = await submitLead({
         channel: 'contact',
-        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
+        form_type: isPortfolioFlow
+          ? 'portfolio_validation'
+          : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
         context_type: contextSlug === 'home' ? 'site' : 'page',
         context_slug: contextSlug,
         identity: {
@@ -218,10 +226,10 @@ const RdvModal: React.FC<RdvModalProps> = ({
           email: formValues.email,
           telephone: formValues.phone,
         },
-        message: isPortfolioFlow ? '' : formValues.commentaire,
+        message: isPortfolioFlow || isSimulatorLanding ? '' : formValues.commentaire,
         answers: {
           montant: effectiveMontant,
-          creneau: isPortfolioFlow ? '' : formValues.creneau,
+          creneau: isPortfolioFlow || isSimulatorLanding ? '' : formValues.creneau,
           profil_risque: profilRisque,
           profil_esg: profilESG,
           scpi: leadScpi,
