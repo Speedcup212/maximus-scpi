@@ -61,6 +61,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Client space browser smoke
+        run: node scripts/client-space-browser-smoke.mjs
+
       # Le packaging Netlify n'existe plus dans un second workflow concurrent.
       # Il ne s'exécute que sur un push réel de main, jamais sur une PR Recovery.
       - name: Package controlled Netlify source
