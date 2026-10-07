@@ -5,6 +5,7 @@ const commitRef = process.env.COMMIT_REF || 'HEAD';
 const productionToken = /\[(deploy|release|hotfix)\]|DEPLOY_NOW/i;
 const previewToken = /\[(preview|deploy-preview)\]|PREVIEW_NOW/i;
 // Paid Netlify builds stay opt-in: release tokens are the production publication gate.
+// Release trigger: publish simulator simplification batch.
 
 let message = '';
 try {
