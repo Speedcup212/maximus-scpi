@@ -254,21 +254,30 @@ const RdvModal: React.FC<RdvModalProps> = ({
     >
       <div className={`my-3 flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900 ${isPortfolioFlow ? 'max-w-xl' : 'max-w-2xl'}`}>
         <div className="flex items-start justify-between gap-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50 p-5 dark:border-slate-700 dark:from-emerald-950/40 dark:to-blue-950/30">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
-              {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
-            </p>
-            <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
-              {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
-            </h2>
-            <p className="mt-1 text-sm text-gray-600 dark:text-slate-300">
-              Eric Bellaiche — Conseiller en Investissements Financiers
-            </p>
-            {isPortfolioFlow && (
-              <p className="mt-2 max-w-lg text-xs leading-relaxed text-gray-500 dark:text-slate-400">
-                Vérification de l’adéquation, de la disponibilité des SCPI et de la répartition finale avant souscription. Votre portefeuille pourra ensuite être suivi dans MaximusSCPI.
+          <div className="flex min-w-0 items-start gap-4">
+            <img
+              src="/images/eric-120.webp"
+              alt="Conseiller MaximusSCPI"
+              width="56"
+              height="56"
+              className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/25"
+            />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+                {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
               </p>
-            )}
+              <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
+                {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
+              </h2>
+              <p className="mt-1 text-sm font-semibold text-gray-600 dark:text-slate-300">
+                Conseiller MaximusSCPI
+              </p>
+              {isPortfolioFlow && (
+                <p className="mt-2 max-w-lg text-xs leading-relaxed text-gray-500 dark:text-slate-400">
+                  Vérification de l’adéquation, de la disponibilité des SCPI et de la répartition finale avant souscription. Votre portefeuille pourra ensuite être suivi dans MaximusSCPI.
+                </p>
+              )}
+            </div>
           </div>
           <button
             type="button"
