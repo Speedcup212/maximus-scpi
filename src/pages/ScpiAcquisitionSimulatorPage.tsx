@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Calculator, ShieldCheck, BarChart3 } from 'lucide-react';
-import ScpiNetIncomeSimulator from '../components/ScpiNetIncomeSimulator';
+import ScpiDirectIncomeSimulator from '../components/ScpiDirectIncomeSimulator';
 
 type Props = { onRdvClick: () => void };
 
@@ -14,7 +14,7 @@ const ScpiAcquisitionSimulatorPage: React.FC<Props> = ({ onRdvClick }) => (
       </div>
     </section>
 
-    <ScpiNetIncomeSimulator />
+    <ScpiDirectIncomeSimulator embedded />
 
     <section className="px-4 pb-16">
       <div className="mx-auto max-w-5xl space-y-10">
