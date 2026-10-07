@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProfile } from '../hooks/useProfile';
 import { supabase } from '../../lib/supabase';
@@ -9,70 +9,19 @@ type AppEntryProps = {
   onNavigate: (path: string) => void;
 };
 
-const OWNER_RECOVERY_EMAIL = 'eric.bellaiche@gmail.com';
-
 const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
   const { user, loading } = useAuth();
-  const { profile, loading: profileLoading, setProfile } = useProfile(user?.id);
-  const [ownerRecoveryLoading, setOwnerRecoveryLoading] = useState(false);
-  const [ownerRecoveryAttempted, setOwnerRecoveryAttempted] = useState(false);
+  const { profile, loading: profileLoading } = useProfile(user?.id);
 
   useEffect(() => {
-    if (
-      loading ||
-      profileLoading ||
-      ownerRecoveryAttempted ||
-      !user ||
-      profile ||
-      !supabase ||
-      user.email.toLowerCase() !== OWNER_RECOVERY_EMAIL
-    ) {
-      return;
-    }
-
-    let active = true;
-    setOwnerRecoveryAttempted(true);
-    setOwnerRecoveryLoading(true);
-
-    const recoverOwnerAccess = async () => {
-      const { data: recovered, error: recoveryError } = await supabase.rpc('claim_owner_admin_recovery');
-
-      if (!active) return;
-
-      if (recoveryError || !recovered) {
-        console.error('[AppEntry] Owner admin recovery failed', recoveryError);
-        setOwnerRecoveryLoading(false);
-        return;
-      }
-
-      const { data: recoveredProfile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!active) return;
-
-      if (profileError) {
-        console.error('[AppEntry] Owner profile reload failed', profileError);
-      } else if (recoveredProfile) {
-        setProfile(recoveredProfile);
-      }
-
-      setOwnerRecoveryLoading(false);
-    };
-
-    recoverOwnerAccess();
-
-    return () => {
-      active = false;
-    };
-  }, [loading, profileLoading, ownerRecoveryAttempted, user, profile, setProfile]);
-
-  useEffect(() => {
-    if (loading || profileLoading || ownerRecoveryLoading) return;
+    if (loading || profileLoading) return;
     if (!user || !profile) return;
 
+    // Lorsqu'un utilisateur est passé par /espace-client, AuthGuard mémorise
+    // /app/client avant de l'envoyer vers la connexion. Le callback OAuth
+    // revient volontairement sur /app (route déjà utilisée/acceptée), puis on
+    // restaure ici uniquement une destination Client. Le contrôle de rôle
+    // reste ensuite assuré par RoleGuard sur la page cible.
     try {
       const requestedPath = sessionStorage.getItem('maximusPostLoginPath');
       if (requestedPath?.startsWith('/app/client')) {
@@ -92,9 +41,9 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
     } else {
       onNavigate('/app/client');
     }
-  }, [loading, profileLoading, ownerRecoveryLoading, user, profile, onNavigate]);
+  }, [loading, profileLoading, user, profile, onNavigate]);
 
-  if (loading || (user && profileLoading) || ownerRecoveryLoading) {
+  if (loading || (user && profileLoading)) {
     return (
       <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
         <div className="text-sm text-slate-400 animate-pulse">Chargement…</div>
