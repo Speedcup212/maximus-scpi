@@ -194,3 +194,75 @@ export async function sendClientActivationEmail(params: ClientActivationEmailPar
   const { subject, htmlContent } = buildClientActivationEmailContent(params);
   await sendBrevoEmail({ email: params.email, subject, htmlContent });
 }
+
+
+interface AuthActionEmailParams {
+  email: string;
+  actionUrl: string;
+  action: 'magiclink' | 'recovery';
+}
+
+export async function sendAuthActionEmail(params: AuthActionEmailParams): Promise<void> {
+  const isRecovery = params.action === 'recovery';
+  const subject = isRecovery
+    ? 'Réinitialisez votre mot de passe MaximusSCPI'
+    : 'Votre lien de connexion MaximusSCPI';
+  const title = isRecovery ? 'Réinitialiser mon mot de passe' : 'Se connecter à MaximusSCPI';
+  const intro = isRecovery
+    ? 'Vous avez demandé à définir un nouveau mot de passe pour votre espace privé MaximusSCPI.'
+    : 'Voici votre lien sécurisé pour vous connecter à votre espace privé MaximusSCPI.';
+  const safeUrl = escapeHtml(params.actionUrl);
+
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <tr>
+            <td style="background:linear-gradient(135deg,#064e3b,#059669);padding:32px 40px;text-align:center;">
+              <p style="margin:0;font-size:28px;color:#ffffff;font-weight:700;letter-spacing:-0.5px;">MaximusSCPI</p>
+              <p style="margin:8px 0 0;font-size:13px;color:#d1fae5;">Espace privé</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:40px;">
+              <h1 style="margin:0 0 18px;font-size:22px;color:#111827;font-weight:700;">${title}</h1>
+              <p style="margin:0 0 24px;font-size:15px;color:#4b5563;line-height:1.7;">${intro}</p>
+              <table cellpadding="0" cellspacing="0" style="margin:0 auto 24px;">
+                <tr>
+                  <td align="center" style="background-color:#10b981;border-radius:8px;padding:14px 36px;">
+                    <a href="${safeUrl}"
+                       style="font-size:16px;font-weight:600;color:#ffffff;text-decoration:none;display:inline-block;letter-spacing:0.3px;">
+                      ${title}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0 0 20px;font-size:13px;color:#6b7280;line-height:1.6;">
+                Pour votre sécurité, ce lien est à usage unique. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.
+              </p>
+              <p style="margin:0;font-size:15px;color:#4b5563;line-height:1.7;">Cordialement,</p>
+              <p style="margin:4px 0 0;font-size:15px;color:#111827;font-weight:600;">L'équipe MaximusSCPI</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  await sendBrevoEmail({
+    email: params.email,
+    subject,
+    htmlContent,
+  });
+}
