@@ -58,6 +58,8 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
     const immediateWithdrawalValue = amount - withdrawalGap;
     const netFull = fullYearTax.netIncome;
     const netFirst = firstYearTax.netIncome;
+    const cumulativeGross =
+      firstYearGross + Math.max(0, horizon - 1) * fullYearGross;
     const cumulativeNet =
       netFull !== null && netFirst !== null
         ? netFirst + Math.max(0, horizon - 1) * netFull
@@ -72,6 +74,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
       firstYearTax,
       withdrawalGap,
       immediateWithdrawalValue,
+      cumulativeGross,
       cumulativeNet,
       breakEvenYears,
       productiveMonths,
@@ -329,15 +332,27 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 ))}
               </div>
 
-              {calculations.cumulativeNet !== null ? (
+              {origin === 'france' && calculations.cumulativeNet !== null ? (
                 <div className="mt-5">
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Revenus cumulés estimatifs, sans réinvestissement</p>
-                  <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-white">{formatEuro(calculations.cumulativeNet)}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Revenus nets cumulés estimatifs sur {horizon} ans, sans réinvestissement
+                  </p>
+                  <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-white">
+                    {formatEuro(calculations.cumulativeNet)}
+                  </p>
                 </div>
               ) : (
-                <p className="mt-5 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                  Projection nette non affichée pour l'international, car la fiscalité dépend des pays détenus et des conventions fiscales applicables.
-                </p>
+                <div className="mt-5">
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Revenus bruts cumulés estimatifs sur {horizon} ans, sans réinvestissement
+                  </p>
+                  <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-white">
+                    {formatEuro(calculations.cumulativeGross)}
+                  </p>
+                  <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                    Avant fiscalité. La fiscalité internationale dépend des pays détenus et des conventions fiscales applicables.
+                  </p>
+                </div>
               )}
             </div>
 
