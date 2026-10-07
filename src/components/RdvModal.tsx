@@ -494,7 +494,11 @@ const RdvModal: React.FC<RdvModalProps> = ({
             )}
 
             {status && (
-              <div className={`rounded-xl border p-3 text-sm font-semibold ${status.startsWith('Erreur') ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300' : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>
+              <div
+                role="status"
+                aria-live="polite"
+                className={`rounded-xl border p-3 text-sm font-semibold ${status.startsWith('Erreur') ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300' : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300'}`}
+              >
                 {status}
               </div>
             )}
