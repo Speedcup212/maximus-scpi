@@ -211,12 +211,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 <p className="mt-2 text-sm leading-6 text-amber-900 dark:text-amber-200">
                   La fiscalité dépend des pays détenus par la SCPI et des conventions fiscales applicables. MaximusSCPI n'applique donc aucun taux standard pour fabriquer un revenu net.
                 </p>
-                <a
-                  href="/comparateur-scpi/"
-                  className="mt-4 inline-flex items-center justify-center rounded-lg bg-amber-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-amber-800 dark:bg-amber-200 dark:text-amber-950 dark:hover:bg-amber-100"
-                >
-                  Sélectionner une SCPI pour affiner l'analyse
-                </a>
               </div>
             )}
 
@@ -275,7 +269,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-5 text-sm text-gray-300">Revenu brut annuel estimé</p>
                   <p className="mt-1 text-4xl font-bold">{formatEuro(calculations.fullYearGross)}</p>
                   <div className="mt-4 rounded-xl border border-amber-700 bg-amber-950/40 p-4 text-sm text-amber-100">
-                    MaximusSCPI n'affiche pas de faux « net international ». Sélectionnez une SCPI pour tenir compte de sa répartition géographique et des conventions fiscales applicables.
+                    La fiscalité nette dépend des pays détenus par la SCPI et des conventions fiscales applicables. Le simulateur affiche donc ici uniquement le revenu brut.
                   </div>
                 </>
               )}
@@ -340,7 +334,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </div>
               ) : (
                 <p className="mt-5 text-sm leading-6 text-amber-800 dark:text-amber-300">
-                  Projection nette non affichée pour l'international tant qu'une SCPI et sa répartition géographique ne sont pas prises en compte.
+                  Projection nette non affichée pour l'international, car la fiscalité dépend des pays détenus et des conventions fiscales applicables.
                 </p>
               )}
             </div>
