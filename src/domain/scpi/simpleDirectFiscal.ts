@@ -26,12 +26,13 @@ export type SimpleScpiFiscalEstimate = {
  * - adds 17.2% social contributions.
  *
  * International:
- * - never invents a treaty rate;
- * - returns no net estimate until the caller supplies an effective tax rate
- *   derived from the relevant tax treaty / investor situation.
+ * - by default, applies the user's marginal IR rate as a simplified estimate;
+ * - assumes 0% French social contributions for the public simulator;
+ * - if an explicit effective foreign/treaty rate is supplied, that rate overrides
+ *   the simplified TMI-only estimate.
  *
  * This intentionally does not model financial income, capital gains, micro-foncier,
- * deductible expenses, loan interest, CSG deductibility or treaty mechanics.
+ * deductible expenses, loan interest, CSG deductibility or detailed treaty mechanics.
  */
 export function estimateSimpleScpiIncomeTax(input: SimpleScpiFiscalInput): SimpleScpiFiscalEstimate {
   const { grossIncome, origin, tmiRate, foreignEffectiveTaxRate = null } = input;
@@ -57,28 +58,32 @@ export function estimateSimpleScpiIncomeTax(input: SimpleScpiFiscalInput): Simpl
     };
   }
 
-  if (foreignEffectiveTaxRate === null || foreignEffectiveTaxRate === undefined) {
+  if (foreignEffectiveTaxRate !== null && foreignEffectiveTaxRate !== undefined) {
+    if (!Number.isFinite(foreignEffectiveTaxRate) || foreignEffectiveTaxRate < 0 || foreignEffectiveTaxRate > 1) {
+      throw new Error('foreignEffectiveTaxRate must be between 0 and 1');
+    }
+
+    const totalTax = grossIncome * foreignEffectiveTaxRate;
     return {
-      available: false,
-      ir: null,
-      socialContributions: null,
-      totalTax: null,
-      netIncome: null,
-      effectiveTaxRate: null,
+      available: true,
+      ir: totalTax,
+      socialContributions: 0,
+      totalTax,
+      netIncome: grossIncome - totalTax,
+      effectiveTaxRate: foreignEffectiveTaxRate,
     };
   }
 
-  if (!Number.isFinite(foreignEffectiveTaxRate) || foreignEffectiveTaxRate < 0 || foreignEffectiveTaxRate > 1) {
-    throw new Error('foreignEffectiveTaxRate must be between 0 and 1');
-  }
+  const ir = grossIncome * tmiRate;
+  const socialContributions = 0;
+  const totalTax = ir;
 
-  const totalTax = grossIncome * foreignEffectiveTaxRate;
   return {
     available: true,
-    ir: null,
-    socialContributions: null,
+    ir,
+    socialContributions,
     totalTax,
     netIncome: grossIncome - totalTax,
-    effectiveTaxRate: foreignEffectiveTaxRate,
+    effectiveTaxRate: grossIncome > 0 ? totalTax / grossIncome : 0,
   };
 }

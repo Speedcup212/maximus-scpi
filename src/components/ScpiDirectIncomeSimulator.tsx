@@ -125,7 +125,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               Simulateur SCPI : revenus après fiscalité
             </h1>
             <p className="mt-3 text-lg text-gray-600 dark:text-gray-300">
-              Estimez vos revenus à partir de vos hypothèses, sans appliquer de fiscalité internationale fictive.
+              Estimez vos revenus à partir de vos hypothèses avec une approche fiscale simplifiée.
             </p>
           </header>
         )}
@@ -257,42 +257,32 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   }`}
                 >
                   <span className="block font-semibold text-gray-950 dark:text-white">Europe / international</span>
-                  <span className="mt-1 block text-xs text-gray-600 dark:text-gray-400">Fiscalité dépendante des pays et conventions fiscales.</span>
+                  <span className="mt-1 block text-xs text-gray-600 dark:text-gray-400">Estimation simplifiée à la TMI, sans prélèvements sociaux français.</span>
                 </button>
               </div>
             </div>
 
-            {origin === 'france' ? (
-              <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
-                  Tranche marginale d'imposition
-                </label>
-                <select
-                  value={tmi}
-                  onChange={(event) => setTmi(Number(event.target.value))}
-                  className="mt-3 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-lg text-gray-950 outline-none focus:border-green-600 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
-                >
-                  <option value={0}>0 %</option>
-                  <option value={11}>11 %</option>
-                  <option value={30}>30 %</option>
-                  <option value={41}>41 %</option>
-                  <option value={45}>45 %</option>
-                </select>
-                <p className="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                  Le calcul applique une approximation marginale sur le revenu simulé. La base fiscale réelle communiquée par la SCPI peut différer du montant distribué.
-                </p>
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-800/70">
-                <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                  <Info className="h-4 w-4 text-sky-500" />
-                  Fiscalité Europe / international
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                  La fiscalité dépend des pays détenus par la SCPI et des conventions fiscales applicables. MaximusSCPI n'applique donc aucun taux standard pour fabriquer un revenu net.
-                </p>
-              </div>
-            )}
+            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Tranche marginale d'imposition
+              </label>
+              <select
+                value={tmi}
+                onChange={(event) => setTmi(Number(event.target.value))}
+                className="mt-3 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-lg text-gray-950 outline-none focus:border-green-600 dark:border-gray-600 dark:bg-gray-900 dark:text-white"
+              >
+                <option value={0}>0 %</option>
+                <option value={11}>11 %</option>
+                <option value={30}>30 %</option>
+                <option value={41}>41 %</option>
+                <option value={45}>45 %</option>
+              </select>
+              <p className="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
+                {origin === 'france'
+                  ? "Le calcul applique une approximation marginale sur le revenu simulé. La base fiscale réelle communiquée par la SCPI peut différer du montant distribué."
+                  : "Hypothèse simplifiée Europe : IR estimé à la TMI et prélèvements sociaux français supposés non applicables. Le traitement réel dépend des pays détenus et des conventions fiscales."}
+              </p>
+            </div>
 
           </div>
 
@@ -372,22 +362,24 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <strong className="text-gray-950 dark:text-white">{formatEuro(calculations.fullYearGross)}</strong>
                 </div>
 
-                {origin === 'france' && (
-                  <>
-                    <div className="flex justify-between gap-4">
-                      <span className="text-gray-600 dark:text-gray-300">IR estimatif au taux marginal ({tmi} %)</span>
-                      <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.ir || 0)}</strong>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <span className="text-gray-600 dark:text-gray-300">Prélèvements sociaux (17,2 %)</span>
-                      <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.socialContributions || 0)}</strong>
-                    </div>
-                    <div className="flex justify-between gap-4 border-t border-gray-200 pt-3 dark:border-gray-700">
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Revenu net annuel estimé</span>
-                      <strong className="text-green-700 dark:text-green-400">{formatEuro(netAnnual || 0)}</strong>
-                    </div>
-                  </>
-                )}
+                <>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-gray-600 dark:text-gray-300">IR estimatif au taux marginal ({tmi} %)</span>
+                    <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.ir || 0)}</strong>
+                  </div>
+                  <div className="flex justify-between gap-4">
+                    <span className="text-gray-600 dark:text-gray-300">
+                      {origin === 'france' ? 'Prélèvements sociaux (17,2 %)' : 'Prélèvements sociaux français (hypothèse)'}
+                    </span>
+                    <strong className={origin === 'france' ? 'text-red-600' : 'text-gray-950 dark:text-white'}>
+                      {origin === 'france' ? '- ' : ''}{formatEuro(calculations.fullYearTax.socialContributions || 0)}
+                    </strong>
+                  </div>
+                  <div className="flex justify-between gap-4 border-t border-gray-200 pt-3 dark:border-gray-700">
+                    <span className="font-semibold text-gray-700 dark:text-gray-200">Revenu net annuel estimé</span>
+                    <strong className="text-green-700 dark:text-green-400">{formatEuro(netAnnual || 0)}</strong>
+                  </div>
+                </>
               </div>
             </div>
 
@@ -426,7 +418,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 ))}
               </div>
 
-              {origin === 'france' && calculations.cumulativeNet !== null ? (
+              {calculations.cumulativeNet !== null ? (
                 <div className="mt-5">
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     Revenus nets cumulés estimatifs sur {horizon} ans, sans réinvestissement
@@ -443,9 +435,6 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-white">
                     {formatEuro(calculations.cumulativeGross)}
                   </p>
-                  <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">
-                    Avant fiscalité. La fiscalité internationale dépend des pays détenus et des conventions fiscales applicables.
-                  </p>
                 </div>
               )}
             </div>
@@ -459,7 +448,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-1">
                     {origin === 'france'
                       ? "Le calcul applique de façon pédagogique la TMI et 17,2 % de prélèvements sociaux au revenu brut simulé. La base imposable réelle de la SCPI, les charges déductibles, les intérêts d'emprunt, les éventuels revenus financiers et la situation du foyer peuvent modifier le résultat."
-                      : "Les revenus immobiliers étrangers doivent être traités selon les pays détenus par la SCPI et les conventions fiscales applicables. Le simulateur grand public affiche donc le brut et n'invente pas de fiscalité nette standard."}
+                      : "Pour simplifier la comparaison, le calcul Europe applique la TMI au revenu brut simulé et retient 0 % de prélèvements sociaux français. Cette hypothèse pédagogique ne reproduit pas les mécanismes précis des conventions fiscales, crédits d'impôt ou impositions étrangères."}
                   </p>
                   <p className="mt-2">
                     Les revenus et la valeur des parts de SCPI ne sont pas garantis. Il existe un risque de perte en capital et un risque de liquidité.

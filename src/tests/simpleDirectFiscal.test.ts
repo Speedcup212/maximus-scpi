@@ -21,17 +21,19 @@ describe('estimateSimpleScpiIncomeTax', () => {
     expect(result.effectiveTaxRate).toBeCloseTo(0.472, 8);
   });
 
-  it('does not invent a tax rate for foreign property income', () => {
+  it('uses a simplified TMI-only estimate for international income', () => {
     const result = estimateSimpleScpiIncomeTax({
       grossIncome: 5000,
       origin: 'international',
       tmiRate: 0.30,
     });
 
-    expect(result.available).toBe(false);
-    expect(result.totalTax).toBeNull();
-    expect(result.netIncome).toBeNull();
-    expect(result.effectiveTaxRate).toBeNull();
+    expect(result.available).toBe(true);
+    expect(result.ir).toBeCloseTo(1500, 8);
+    expect(result.socialContributions).toBe(0);
+    expect(result.totalTax).toBeCloseTo(1500, 8);
+    expect(result.netIncome).toBeCloseTo(3500, 8);
+    expect(result.effectiveTaxRate).toBeCloseTo(0.30, 8);
   });
 
   it('uses an explicitly supplied effective treaty tax rate for foreign income', () => {
@@ -43,8 +45,8 @@ describe('estimateSimpleScpiIncomeTax', () => {
     });
 
     expect(result.available).toBe(true);
-    expect(result.ir).toBeNull();
-    expect(result.socialContributions).toBeNull();
+    expect(result.ir).toBeCloseTo(1000, 8);
+    expect(result.socialContributions).toBe(0);
     expect(result.totalTax).toBeCloseTo(1000, 8);
     expect(result.netIncome).toBeCloseTo(4000, 8);
     expect(result.effectiveTaxRate).toBeCloseTo(0.20, 8);
