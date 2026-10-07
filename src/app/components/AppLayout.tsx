@@ -30,7 +30,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
       : []),
     ...(role === 'admin'
       ? [
-          { id: 'admin', label: 'Administration', icon: Shield, path: '/app/admin' }
+          { id: 'admin', label: 'Administration', icon: Shield, path: '/app/admin' },
+          { id: 'requests', label: 'Demandes d’accès', icon: Users, path: '/app/admin/access-requests' }
         ]
       : [])
   ];
