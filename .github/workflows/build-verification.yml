@@ -55,6 +55,9 @@ jobs:
       - name: Surveillance signal regression tests
         run: npx vitest run src/tests/surveillanceSignals.test.ts
 
+      - name: SCPI fiscal simulator regression tests
+        run: npx vitest run src/tests/simpleDirectFiscal.test.ts
+
       - name: Production build
         run: npm run build
 

@@ -106,6 +106,10 @@ const RdvModal: React.FC<RdvModalProps> = ({
   const portfolioNames = portfolio.map(item => item.name);
   const leadScpi = isPortfolioFlow ? portfolioNames : explicitScpi;
 
+  const isSimulatorLanding =
+    typeof window !== 'undefined' &&
+    window.location.pathname.replace(/\/+$/, '') === '/simulateur-scpi';
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -118,9 +122,25 @@ const RdvModal: React.FC<RdvModalProps> = ({
       setQuizContext(null);
     }
 
+    if (isSimulatorLanding) {
+      try {
+        const savedAmount = Number(sessionStorage.getItem('maximus_simulator_amount'));
+        if (Number.isFinite(savedAmount) && savedAmount > 0) {
+          const formattedAmount = `${new Intl.NumberFormat('fr-FR').format(savedAmount)} €`;
+          setFormValues(prev => ({ ...prev, montant: formattedAmount }));
+        }
+      } catch {
+        // Le montant reste éditable si le stockage de session n'est pas disponible.
+      }
+    }
+
     trackFunnelEvent('lead_form_opened', {
-      source: parsedContext?.portfolio?.length ? 'portfolio_analysis' : 'site',
-      form_type: parsedContext?.portfolio?.length ? 'portfolio_validation' : 'lead_rdv',
+      source: parsedContext?.portfolio?.length
+        ? 'portfolio_analysis'
+        : isSimulatorLanding ? 'simulateur_scpi' : 'site',
+      form_type: parsedContext?.portfolio?.length
+        ? 'portfolio_validation'
+        : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
       portfolio_size: parsedContext?.portfolio?.length || undefined,
     });
 
@@ -149,7 +169,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
       bookingTrackedRef.current = true;
       trackFunnelEvent('calendly_booking_completed', {
         lead_request_id: pendingCalendlyLeadIdRef.current || undefined,
-        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
+        form_type: isPortfolioFlow
+          ? 'portfolio_validation'
+          : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
         action: 'calendly',
       });
 
@@ -183,7 +205,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
 
     const nativeEvent = e.nativeEvent as SubmitEvent;
     const submitter = nativeEvent.submitter as HTMLButtonElement | null;
-    const action = submitter?.value === 'calendly' ? 'calendly' : 'callback';
+    const action = isSimulatorLanding
+      ? 'calendly'
+      : submitter?.value === 'calendly' ? 'calendly' : 'callback';
     const contextSlug = window.location.pathname.replace(/^\/+|\/+$/g, '') || 'home';
     const effectiveMontant = isPortfolioFlow
       ? montantLabel(quizContext?.quiz?.montant)
@@ -192,7 +216,9 @@ const RdvModal: React.FC<RdvModalProps> = ({
     try {
       const result = await submitLead({
         channel: 'contact',
-        form_type: isPortfolioFlow ? 'portfolio_validation' : 'lead_rdv',
+        form_type: isPortfolioFlow
+          ? 'portfolio_validation'
+          : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
         context_type: contextSlug === 'home' ? 'site' : 'page',
         context_slug: contextSlug,
         identity: {
@@ -200,10 +226,10 @@ const RdvModal: React.FC<RdvModalProps> = ({
           email: formValues.email,
           telephone: formValues.phone,
         },
-        message: isPortfolioFlow ? '' : formValues.commentaire,
+        message: isPortfolioFlow || isSimulatorLanding ? '' : formValues.commentaire,
         answers: {
           montant: effectiveMontant,
-          creneau: isPortfolioFlow ? '' : formValues.creneau,
+          creneau: isPortfolioFlow || isSimulatorLanding ? '' : formValues.creneau,
           profil_risque: profilRisque,
           profil_esg: profilESG,
           scpi: leadScpi,
@@ -254,21 +280,33 @@ const RdvModal: React.FC<RdvModalProps> = ({
     >
       <div className={`my-3 flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900 ${isPortfolioFlow ? 'max-w-xl' : 'max-w-2xl'}`}>
         <div className="flex items-start justify-between gap-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50 p-5 dark:border-slate-700 dark:from-emerald-950/40 dark:to-blue-950/30">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
-              {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
-            </p>
-            <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
-              {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
-            </h2>
-            <p className="mt-1 text-sm text-gray-600 dark:text-slate-300">
-              Eric Bellaiche — Conseiller en Investissements Financiers
-            </p>
-            {isPortfolioFlow && (
-              <p className="mt-2 max-w-lg text-xs leading-relaxed text-gray-500 dark:text-slate-400">
-                Vérification de l’adéquation, de la disponibilité des SCPI et de la répartition finale avant souscription. Votre portefeuille pourra ensuite être suivi dans MaximusSCPI.
+          <div className="flex min-w-0 items-start gap-4">
+            <img
+              src="/images/eric-120.webp"
+              alt="Conseiller MaximusSCPI"
+              width="56"
+              height="56"
+              className="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-emerald-500/25"
+            />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+                {isPortfolioFlow ? 'Étape suivante' : 'Rendez-vous MaximusSCPI'}
               </p>
-            )}
+              <h2 className="mt-1 text-xl font-black text-gray-950 dark:text-white sm:text-2xl">
+                {isPortfolioFlow ? 'Faire valider et suivre votre allocation SCPI' : 'Prendre rendez-vous'}
+              </h2>
+              <p className="mt-1 text-sm font-semibold text-gray-600 dark:text-slate-300">
+                Visio • 30 min
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500 dark:text-slate-400">
+                Conseiller MaximusSCPI
+              </p>
+              {isPortfolioFlow && (
+                <p className="mt-2 max-w-lg text-xs leading-relaxed text-gray-500 dark:text-slate-400">
+                  Vérification de l’adéquation, de la disponibilité des SCPI et de la répartition finale avant souscription. Votre portefeuille pourra ensuite être suivi dans MaximusSCPI.
+                </p>
+              )}
+            </div>
           </div>
           <button
             type="button"
@@ -418,65 +456,85 @@ const RdvModal: React.FC<RdvModalProps> = ({
                   />
                 </div>
 
-                <div>
-                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
-                    <Calendar className="mr-1 inline h-4 w-4" /> Créneau préféré
-                  </label>
-                  <select
-                    name="creneau"
-                    value={formValues.creneau}
-                    onChange={handleInputChange}
-                    className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                  >
-                    <option value="">Peu importe / à convenir</option>
-                    <option value="Matin (9h-12h)">Matin (9h-12h)</option>
-                    <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
-                    <option value="Soir (18h-20h)">Soir (18h-20h)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
-                    <MessageCircle className="mr-1 inline h-4 w-4" /> Commentaire
-                  </label>
-                  <textarea
-                    name="commentaire"
-                    value={formValues.commentaire}
-                    onChange={handleInputChange}
-                    rows={3}
-                    className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
-                    placeholder="Précisez votre projet si nécessaire"
-                  />
-                </div>
+                {!isSimulatorLanding && (
+                  <>
+                                    <div>
+                                      <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                                        <Calendar className="mr-1 inline h-4 w-4" /> Créneau préféré
+                                      </label>
+                                      <select
+                                        name="creneau"
+                                        value={formValues.creneau}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                                      >
+                                        <option value="">Peu importe / à convenir</option>
+                                        <option value="Matin (9h-12h)">Matin (9h-12h)</option>
+                                        <option value="Après-midi (14h-17h)">Après-midi (14h-17h)</option>
+                                        <option value="Soir (18h-20h)">Soir (18h-20h)</option>
+                                      </select>
+                                    </div>
+                    
+                                    <div>
+                                      <label className="mb-1 block text-sm font-bold text-gray-800 dark:text-slate-100">
+                                        <MessageCircle className="mr-1 inline h-4 w-4" /> Commentaire
+                                      </label>
+                                      <textarea
+                                        name="commentaire"
+                                        value={formValues.commentaire}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                        className="w-full resize-none rounded-xl border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 focus:border-transparent focus:ring-2 focus:ring-emerald-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white"
+                                        placeholder="Précisez votre projet si nécessaire"
+                                      />
+                                    </div>
+                  </>
+                )}
               </>
             )}
 
             {status && (
-              <div className={`rounded-xl border p-3 text-sm font-semibold ${status.startsWith('Erreur') ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300' : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300'}`}>
+              <div
+                role="status"
+                aria-live="polite"
+                className={`rounded-xl border p-3 text-sm font-semibold ${status.startsWith('Erreur') ? 'border-red-300 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300' : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300'}`}
+              >
                 {status}
               </div>
             )}
 
-            <div className="grid gap-3 pt-1 sm:grid-cols-2">
+            {isSimulatorLanding ? (
               <button
                 type="submit"
                 name="lead_action"
                 value="calendly"
                 disabled={isSubmitting}
-                className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
+                className="w-full rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
               >
-                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+                {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau visio'}
               </button>
-              <button
-                type="submit"
-                name="lead_action"
-                value="callback"
-                disabled={isSubmitting}
-                className="rounded-xl border-2 border-slate-300 bg-white px-5 py-3.5 text-base font-black text-slate-800 transition hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-              >
-                {isSubmitting ? 'Enregistrement…' : 'Être rappelé'}
-              </button>
-            </div>
+            ) : (
+                          <div className="grid gap-3 pt-1 sm:grid-cols-2">
+                            <button
+                              type="submit"
+                              name="lead_action"
+                              value="calendly"
+                              disabled={isSubmitting}
+                              className="rounded-xl bg-emerald-500 px-5 py-3.5 text-base font-black text-slate-950 shadow-lg transition hover:bg-emerald-400 disabled:opacity-50"
+                            >
+                              {isSubmitting ? 'Enregistrement…' : 'Choisir mon créneau'}
+                            </button>
+                            <button
+                              type="submit"
+                              name="lead_action"
+                              value="callback"
+                              disabled={isSubmitting}
+                              className="rounded-xl border-2 border-slate-300 bg-white px-5 py-3.5 text-base font-black text-slate-800 transition hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
+                            >
+                              {isSubmitting ? 'Enregistrement…' : 'Être rappelé'}
+                            </button>
+                          </div>
+            )}
 
             {isPortfolioFlow && (
               <p className="text-center text-xs leading-relaxed text-gray-500 dark:text-slate-400">
