@@ -5,7 +5,7 @@ const SITE = 'https://maximusscpi.com';
 export const simulatorSeoConfig = {
 
   'simulateur-scpi': {
-    title: 'Simulateur SCPI 2026 : revenus, fiscalité et projection | MaximusSCPI',
+    title: 'Simulateur SCPI 2026 : revenus & fiscalité | MaximusSCPI',
     description: 'Simulez un investissement SCPI : revenus bruts et nets, fiscalité, délai de jouissance et projection. Outil gratuit, sans inscription.',
     canonical: `${SITE}/simulateur-scpi/`,
     app: { name: 'Simulateur SCPI MaximusSCPI', description: 'Estimez les revenus et la fiscalité d’un investissement SCPI selon vos hypothèses.', url: `${SITE}/simulateur-scpi/` },
