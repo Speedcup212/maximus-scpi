@@ -12,6 +12,7 @@ const SITE = 'https://maximusscpi.com';
 // du sitemap afin d'éviter la cannibalisation. Les variantes éditoriales plus longues
 // restent intactes lorsqu'elles traitent un angle distinct.
 const priorityPages = [
+  'simulateur-scpi',
   'amf-scpi',
   'orias-scpi',
   'dic-scpi',
