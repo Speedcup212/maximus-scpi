@@ -8,8 +8,17 @@ const BASE = `http://${HOST}:${PORT}`;
 
 const preview = spawn(
   process.execPath,
-  ['node_modules/vite/bin/vite.js', 'preview', '--host', HOST, '--port', String(PORT)],
-  { stdio: ['ignore', 'pipe', 'pipe'] },
+  ['node_modules/vite/bin/vite.js', '--host', HOST, '--port', String(PORT)],
+  {
+    stdio: ['ignore', 'pipe', 'pipe'],
+    env: {
+      ...process.env,
+      // Le smoke teste le routage/les guards, pas l'infrastructure distante.
+      // Ces valeurs factices permettent d'initialiser supabase-js en CI sans exposer de clé réelle.
+      VITE_SUPABASE_URL: 'https://smoke-test.supabase.co',
+      VITE_SUPABASE_ANON_KEY: 'smoke-test-publishable-key',
+    },
+  },
 );
 
 let previewLogs = '';
@@ -38,7 +47,7 @@ const waitForServer = async () => {
     if (ok) return;
     await sleep(250);
   }
-  throw new Error(`Vite preview n'a pas démarré.\n${previewLogs}`);
+  throw new Error(`Vite dev n'a pas démarré.\n${previewLogs}`);
 };
 
 const assertContains = async (page, path, expected) => {
