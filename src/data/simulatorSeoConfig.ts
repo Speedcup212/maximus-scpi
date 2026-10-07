@@ -18,12 +18,12 @@ export const simulatorSeoConfig = {
   },
   'simulateur-revenus-nets': {
     title: 'Simulateur SCPI 2026 : revenus nets après impôts | MaximusSCPI',
-    description: 'Simulez gratuitement vos revenus SCPI nets après fiscalité, frais et délai de jouissance. Estimation mensuelle et annuelle selon vos hypothèses.',
+    description: 'Estimez vos revenus SCPI en direct avec une fiscalité France explicite et un traitement international dépendant des conventions fiscales.',
     canonical: `${SITE}/simulateur-revenus-nets-scpi/`,
-    app: { name: 'Simulateur Revenus Nets SCPI', description: 'Calculez les revenus nets de votre investissement SCPI après fiscalité (IR + PS)', url: `${SITE}/simulateur-revenus-nets-scpi/` },
+    app: { name: 'Simulateur Revenus Nets SCPI', description: 'Estimez les revenus d’une SCPI détenue en direct avec hypothèses fiscales explicites.', url: `${SITE}/simulateur-revenus-nets-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Revenus nets'],
     faq: [
-      { question: 'Comment sont imposés les revenus de SCPI ?', answer: 'Les revenus SCPI sont soumis à l\'impôt sur le revenu (barème progressif) et aux prélèvements sociaux (17,2%). En assurance-vie, ils peuvent être fiscalement avantageux après 8 ans.' },
+      { question: 'Comment sont imposés les revenus d’une SCPI détenue en direct ?', answer: 'Pour une SCPI détenant des immeubles en France, la quote-part de revenus fonciers relève du barème de l’impôt sur le revenu et des prélèvements sociaux. Pour les revenus immobiliers étrangers, le traitement dépend de la convention fiscale applicable.' },
       { question: 'Quel simulateur SCPI choisir ?', answer: 'MaximusSCPI propose 9 simulateurs gratuits : revenus nets, crédit, démembrement, enveloppes fiscales, profil investisseur, impact fiscal et comparateur démembrement.' },
     ],
   },
