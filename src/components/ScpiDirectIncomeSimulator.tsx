@@ -27,6 +27,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
 }) => {
   const [amount, setAmount] = useState(defaultAmount);
   const [yieldRate, setYieldRate] = useState(defaultYield);
+  const [yieldWasCustomized, setYieldWasCustomized] = useState(false);
   const [tmi, setTmi] = useState(defaultTmi);
   const [origin, setOrigin] = useState<'france' | 'international'>('france');
   const [delaiJouissanceMois, setDelaiJouissanceMois] = useState(6);
@@ -135,11 +136,14 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 max={10}
                 step={0.1}
                 value={yieldRate}
-                onChange={(event) => setYieldRate(Number(event.target.value))}
+                onChange={(event) => {
+                  setYieldRate(Number(event.target.value));
+                  setYieldWasCustomized(true);
+                }}
                 className="mt-4 w-full"
               />
               <p className="mt-2 text-xs leading-5 text-gray-500 dark:text-gray-400">
-                Hypothèse de simulation uniquement. Les distributions futures ne sont pas garanties.
+                Hypothèse indicative pour la simulation. Le taux de distribution réel dépend de chaque SCPI et n'est pas garanti.
               </p>
             </div>
 
@@ -148,7 +152,10 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <button
                   type="button"
-                  onClick={() => setOrigin('france')}
+                  onClick={() => {
+                    setOrigin('france');
+                    if (!yieldWasCustomized) setYieldRate(5);
+                  }}
                   className={`rounded-xl border-2 p-4 text-left transition ${
                     origin === 'france'
                       ? 'border-green-600 bg-green-50 dark:bg-green-950/20'
@@ -160,7 +167,10 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setOrigin('international')}
+                  onClick={() => {
+                    setOrigin('international');
+                    if (!yieldWasCustomized) setYieldRate(6);
+                  }}
                   className={`rounded-xl border-2 p-4 text-left transition ${
                     origin === 'international'
                       ? 'border-green-600 bg-green-50 dark:bg-green-950/20'
