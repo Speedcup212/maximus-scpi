@@ -4,6 +4,18 @@ const SITE = 'https://maximusscpi.com';
 
 export const simulatorSeoConfig = {
 
+  'simulateur-scpi': {
+    title: 'Simulateur SCPI 2026 : revenus, fiscalité et projection | MaximusSCPI',
+    description: 'Simulez un investissement SCPI : revenus bruts et nets, fiscalité, délai de jouissance et projection. Outil gratuit, sans inscription.',
+    canonical: `${SITE}/simulateur-scpi/`,
+    app: { name: 'Simulateur SCPI MaximusSCPI', description: 'Estimez les revenus et la fiscalité d’un investissement SCPI selon vos hypothèses.', url: `${SITE}/simulateur-scpi/` },
+    breadcrumb: ['Accueil', 'Simulateurs', 'Simulateur SCPI'],
+    faq: [
+      { question: 'Combien rapporte 100 000 € investis en SCPI ?', answer: 'Le revenu dépend du taux de distribution, de la fiscalité, du délai de jouissance et de la situation de l’investisseur. Le simulateur permet de tester plusieurs hypothèses sans considérer le rendement comme garanti.' },
+      { question: 'Les revenus d’une SCPI sont-ils garantis ?', answer: 'Non. Les revenus, la valeur des parts et la liquidité ne sont pas garantis. Une SCPI est un placement immobilier de long terme exposé notamment aux marchés immobiliers et au risque de perte en capital.' },
+      { question: 'Quelle fiscalité appliquer aux revenus de SCPI ?', answer: 'La fiscalité dépend notamment de la localisation des immeubles, du mode de détention et de la situation fiscale de l’investisseur. Les revenus fonciers français et les revenus étrangers ne se traitent pas de la même manière.' },
+    ],
+  },
   'simulateur-revenus-nets': {
     title: 'Simulateur SCPI 2026 : revenus nets après impôts | MaximusSCPI',
     description: 'Simulez gratuitement vos revenus SCPI nets après fiscalité, frais et délai de jouissance. Estimation mensuelle et annuelle selon vos hypothèses.',
