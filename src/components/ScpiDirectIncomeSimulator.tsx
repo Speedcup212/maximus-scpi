@@ -374,6 +374,23 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               </div>
             )}
 
+            {onRdvClick && amount < 50000 && (
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-gray-800">
+                <p className="text-sm font-semibold text-gray-950 dark:text-white">
+                  Projet inférieur à 50 000 € ?
+                </p>
+                <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                  Comparez les SCPI et leurs principaux indicateurs avant d’aller plus loin.
+                </p>
+                <a
+                  href="/comparateur-scpi/"
+                  className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-gray-300 px-5 py-3.5 text-base font-bold text-gray-900 transition hover:bg-gray-50 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Comparer les SCPI
+                </a>
+              </div>
+            )}
+
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h2 className="text-lg font-bold text-gray-950 dark:text-white">Détail annuel</h2>
               <div className="mt-4 space-y-3 text-sm">
