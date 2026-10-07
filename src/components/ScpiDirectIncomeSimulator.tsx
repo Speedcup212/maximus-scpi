@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { AlertTriangle, Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
+import { Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
 
 interface ScpiDirectIncomeSimulatorProps {
@@ -204,11 +204,12 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl border border-amber-300 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-950/20">
-                <p className="text-sm font-semibold text-amber-950 dark:text-amber-100">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-700 dark:bg-slate-800/70">
+                <p className="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  <Info className="h-4 w-4 text-sky-500" />
                   Fiscalité Europe / international
                 </p>
-                <p className="mt-2 text-sm leading-6 text-amber-900 dark:text-amber-200">
+                <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                   La fiscalité dépend des pays détenus par la SCPI et des conventions fiscales applicables. MaximusSCPI n'applique donc aucun taux standard pour fabriquer un revenu net.
                 </p>
               </div>
@@ -268,7 +269,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 <>
                   <p className="mt-5 text-sm text-gray-300">Revenu brut annuel estimé</p>
                   <p className="mt-1 text-4xl font-bold">{formatEuro(calculations.fullYearGross)}</p>
-                  <div className="mt-4 rounded-xl border border-amber-700 bg-amber-950/40 p-4 text-sm text-amber-100">
+                  <div className="mt-4 rounded-xl border border-slate-700 bg-slate-800/70 p-4 text-sm text-slate-200">
                     La fiscalité nette dépend des pays détenus par la SCPI et des conventions fiscales applicables. Le simulateur affiche donc ici uniquement le revenu brut.
                   </div>
                 </>
@@ -333,7 +334,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <p className="mt-1 text-3xl font-bold text-gray-950 dark:text-white">{formatEuro(calculations.cumulativeNet)}</p>
                 </div>
               ) : (
-                <p className="mt-5 text-sm leading-6 text-amber-800 dark:text-amber-300">
+                <p className="mt-5 text-sm leading-6 text-slate-600 dark:text-slate-300">
                   Projection nette non affichée pour l'international, car la fiscalité dépend des pays détenus et des conventions fiscales applicables.
                 </p>
               )}
@@ -361,9 +362,9 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               )}
             </div>
 
-            <div className="rounded-2xl border border-amber-300 bg-amber-50 p-5 text-sm leading-6 text-amber-950 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-100">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-700 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
               <div className="flex gap-3">
-                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+                <Info className="mt-0.5 h-5 w-5 shrink-0 text-sky-500" />
                 <div>
                   <p className="font-semibold">Limites de la simulation</p>
                   <p className="mt-1">
