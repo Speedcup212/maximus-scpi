@@ -1,12 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
+import EricAvatar from './EricAvatar';
 
 interface ScpiDirectIncomeSimulatorProps {
   defaultAmount?: number;
   defaultYield?: number;
   defaultTmi?: number;
   embedded?: boolean;
+  onRdvClick?: () => void;
 }
 
 const formatEuro = (value: number) =>
@@ -24,6 +26,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   defaultYield = 5,
   defaultTmi = 30,
   embedded = false,
+  onRdvClick,
 }) => {
   const [amount, setAmount] = useState(defaultAmount);
   const [yieldRate, setYieldRate] = useState(defaultYield);
@@ -279,6 +282,30 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </>
               )}
             </div>
+
+            {onRdvClick && amount >= 50000 && (
+              <div className="rounded-2xl border border-green-500/30 bg-green-50 p-5 shadow-sm dark:border-green-500/30 dark:bg-green-950/20">
+                <div className="flex items-center gap-4">
+                  <EricAvatar size={64} className="shrink-0 ring-2 ring-green-500/30" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-700 dark:text-green-400">Projet de 50 000 € ou plus ?</p>
+                    <p className="mt-1 text-base font-bold text-gray-950 dark:text-white">
+                      Faites analyser votre simulation par un conseiller MaximusSCPI.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={onRdvClick}
+                  className="mt-4 w-full rounded-xl bg-green-600 px-5 py-3.5 text-base font-bold text-white transition hover:bg-green-700"
+                >
+                  Faire analyser ma simulation
+                </button>
+                <p className="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
+                  Analyse de la cohérence du projet et des SCPI adaptées à votre objectif.
+                </p>
+              </div>
+            )}
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h2 className="text-lg font-bold text-gray-950 dark:text-white">Détail annuel</h2>
