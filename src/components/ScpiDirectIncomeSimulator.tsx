@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
 import EricAvatar from './EricAvatar';
@@ -36,6 +36,14 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   const [delaiJouissanceMois, setDelaiJouissanceMois] = useState(6);
   const [spreadRate, setSpreadRate] = useState(10);
   const [horizon, setHorizon] = useState(10);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('maximus_simulator_amount', String(amount));
+    } catch {
+      // Non-bloquant : le formulaire restera simplement éditable manuellement.
+    }
+  }, [amount]);
 
   const calculations = useMemo(() => {
     const fullYearGross = amount * (yieldRate / 100);
