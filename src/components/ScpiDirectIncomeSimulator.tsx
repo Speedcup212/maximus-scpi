@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Calculator, Calendar, Euro, Info, ShieldCheck } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
 import EricAvatar from './EricAvatar';
+import { trackFunnelEvent } from '../utils/funnelAnalytics';
 
 interface ScpiDirectIncomeSimulatorProps {
   defaultAmount?: number;
@@ -37,6 +38,18 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   const [delaiJouissanceMois, setDelaiJouissanceMois] = useState(6);
   const [spreadRate, setSpreadRate] = useState(10);
   const [horizon, setHorizon] = useState(10);
+  const [interactionTick, setInteractionTick] = useState(0);
+  const simulationStartedRef = useRef(false);
+  const simulationResultTrackedRef = useRef(false);
+
+  const markSimulationInteraction = () => {
+    if (!simulationStartedRef.current) {
+      simulationStartedRef.current = true;
+      trackFunnelEvent('simulation_start', { source: 'simulateur_scpi' });
+    }
+    setInteractionTick(value => value + 1);
+  };
+
 
   useEffect(() => {
     try {
@@ -45,6 +58,20 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
       // Non-bloquant : le formulaire restera simplement éditable manuellement.
     }
   }, [amount]);
+
+  useEffect(() => {
+    if (interactionTick === 0 || simulationResultTrackedRef.current) return;
+
+    simulationResultTrackedRef.current = true;
+    trackFunnelEvent('simulation_result', {
+      source: 'simulateur_scpi',
+      amount,
+      yield_rate: yieldRate,
+      origin,
+      horizon,
+    });
+  }, [interactionTick, amount, yieldRate, origin, horizon]);
+
 
   const calculations = useMemo(() => {
     const fullYearGross = amount * (yieldRate / 100);
@@ -112,7 +139,13 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
           </header>
         )}
 
-        <div className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]">
+        <div
+          className="grid gap-7 lg:grid-cols-[0.95fr_1.05fr]"
+          onChangeCapture={markSimulationInteraction}
+          onClickCapture={(event) => {
+            if ((event.target as HTMLElement).closest('button')) markSimulationInteraction();
+          }}
+        >
           <div className="space-y-5">
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200">
