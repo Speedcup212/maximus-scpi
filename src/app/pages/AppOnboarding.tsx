@@ -46,14 +46,12 @@ const AppOnboarding: React.FC<AppOnboardingProps> = ({ onNavigate }) => {
     setSaving(true);
     const client = requireSupabase();
 
-    // Ne jamais permettre au navigateur de modifier son rôle ou son statut.
-    const { error } = await client
-      .from('profiles')
-      .update({
-        full_name: fullName.trim() || null,
-        phone: phone.trim() || null
-      })
-      .eq('user_id', user.id);
+    // RPC volontairement limitée au nom et au téléphone :
+    // le navigateur ne possède plus de droit UPDATE direct sur profiles.
+    const { error } = await client.rpc('update_my_profile', {
+      p_full_name: fullName.trim(),
+      p_phone: phone.trim()
+    });
 
     if (error) {
       setMessage(error.message);
