@@ -37,8 +37,8 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
   const parsedForeignRate = useMemo(() => {
     if (foreignEffectiveTaxRate.trim() === '') return null;
     const value = Number(foreignEffectiveTaxRate.replace(',', '.'));
-    if (!Number.isFinite(value)) return null;
-    return clamp(value, 0, 100) / 100;
+    if (!Number.isFinite(value) || value < 0 || value > 100) return null;
+    return value / 100;
   }, [foreignEffectiveTaxRate]);
 
   const calculations = useMemo(() => {
@@ -126,9 +126,9 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
               <input
                 type="range"
                 min={1000}
-                max={500000}
+                max={5000000}
                 step={1000}
-                value={Math.min(amount, 500000)}
+                value={amount}
                 onChange={(event) => setAmount(Number(event.target.value))}
                 className="mt-4 w-full"
               />
@@ -209,8 +209,11 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </label>
                 <div className="mt-3 flex items-center gap-3">
                   <input
-                    type="text"
+                    type="number"
                     inputMode="decimal"
+                    min={0}
+                    max={100}
+                    step={0.1}
                     value={foreignEffectiveTaxRate}
                     onChange={(event) => setForeignEffectiveTaxRate(event.target.value)}
                     placeholder="Ex. 18"
@@ -219,7 +222,7 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                   <span className="font-semibold text-amber-900 dark:text-amber-200">%</span>
                 </div>
                 <p className="mt-3 text-xs leading-5 text-amber-900 dark:text-amber-200">
-                  Aucun taux standard n'est appliqué par défaut. La convention fiscale du pays concerné peut prévoir une exonération avec taux effectif ou un crédit d'impôt. Laissez vide si vous ne disposez pas d'une estimation fiable.
+                  Aucun taux standard n'est appliqué par défaut. La convention fiscale du pays concerné peut prévoir une exonération avec taux effectif ou un crédit d'impôt. Laissez vide si vous ne disposez pas d'une estimation fiable. Les valeurs hors de 0 à 100 % sont refusées.
                 </p>
               </div>
             )}
