@@ -365,10 +365,10 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
             )}
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h2 className="text-lg font-bold text-gray-950 dark:text-white">Détail annuel</h2>
+              <h2 className="text-lg font-bold text-gray-950 dark:text-white">Comment est calculé votre revenu net ?</h2>
               <div className="mt-4 space-y-3 text-sm">
                 <div className="flex justify-between gap-4">
-                  <span className="text-gray-600 dark:text-gray-300">Revenu brut année pleine</span>
+                  <span className="text-gray-600 dark:text-gray-300">Revenus bruts annuels</span>
                   <strong className="text-gray-950 dark:text-white">{formatEuro(calculations.fullYearGross)}</strong>
                 </div>
 
@@ -382,16 +382,26 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                       <span className="text-gray-600 dark:text-gray-300">Prélèvements sociaux (17,2 %)</span>
                       <strong className="text-red-600">- {formatEuro(calculations.fullYearTax.socialContributions || 0)}</strong>
                     </div>
+                    <div className="flex justify-between gap-4 border-t border-gray-200 pt-3 dark:border-gray-700">
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Revenu net annuel estimé</span>
+                      <strong className="text-green-700 dark:text-green-400">{formatEuro(netAnnual || 0)}</strong>
+                    </div>
                   </>
                 )}
-
-                <div className="flex justify-between gap-4 border-t border-gray-200 pt-3 dark:border-gray-700">
-                  <span className="text-gray-600 dark:text-gray-300">Première année ({calculations.productiveMonths} mois productifs)</span>
-                  <strong className="text-gray-950 dark:text-white">
-                    {firstYearNet !== null ? formatEuro(firstYearNet) : formatEuro(calculations.firstYearGross) + ' brut'}
-                  </strong>
-                </div>
               </div>
+            </div>
+
+            <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
+              <h2 className="text-lg font-bold text-gray-950 dark:text-white">Première année</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600 dark:text-gray-300">
+                Avec un délai de jouissance de {delaiJouissanceMois} mois, la première année comprend {calculations.productiveMonths} mois productifs.
+              </p>
+              <p className="mt-3 text-3xl font-bold text-gray-950 dark:text-white">
+                {firstYearNet !== null ? formatEuro(firstYearNet) : formatEuro(calculations.firstYearGross) + ' brut'}
+              </p>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Revenus estimés sur la première année de détention.
+              </p>
             </div>
 
             <div className="rounded-2xl bg-white p-6 shadow-sm dark:bg-gray-800">
