@@ -8,6 +8,10 @@ export type FunnelEventName =
   | 'scpi_detail_opened'
   | 'hero_portfolio_clicked'
   | 'portfolio_validation_clicked'
+  | 'simulation_start'
+  | 'simulation_result'
+  | 'qualified_50k'
+  | 'rdv_click'
   | 'lead_form_opened'
   | 'lead_form_submitted'
   | 'calendly_opened'
@@ -50,6 +54,11 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
     'form_type',
     'action',
     'lead_request_id',
+    'amount',
+    'yield_rate',
+    'origin',
+    'horizon',
+    'threshold',
   ]);
 
   return Object.fromEntries(
