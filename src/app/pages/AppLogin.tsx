@@ -27,7 +27,7 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
       const bootstrapError = sessionStorage.getItem('maximusAuthBootstrapError');
       if (bootstrapError) {
         sessionStorage.removeItem('maximusAuthBootstrapError');
-        return `Connexion Google non finalisée : ${bootstrapError}. Réessaie une fois.`;
+        return `Connexion Google non finalisée : ${bootstrapError}. Veuillez réessayer.`;
       }
     } catch {
       // Le login reste fonctionnel sans sessionStorage.
@@ -81,7 +81,7 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
     if (error) {
       setMessage(
         error.message === 'Invalid login credentials'
-          ? 'Identifiants incorrects. Pour une première connexion ou un mot de passe oublié, utilise Google.'
+          ? 'Identifiants incorrects. Pour une première connexion ou si vous avez oublié votre mot de passe, utilisez Google.'
           : error.message
       );
     } else {
@@ -156,7 +156,7 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
         <div className="mt-4 flex gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs leading-5 text-emerald-100">
           <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
           <p>
-            Première connexion : utilise Google avec l’adresse validée par MaximusSCPI. Une fois connecté, tu peux définir un mot de passe dans « Mon compte ».
+            Première connexion : utilisez Google avec l’adresse validée par MaximusSCPI. Une fois connecté, vous pourrez définir un mot de passe dans « Mon compte ».
           </p>
         </div>
 
