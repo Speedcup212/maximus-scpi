@@ -222,7 +222,11 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
         ? 'File de retraits'
         : certifiedLiquidity.basis === 'secondary_market_order_book'
           ? 'Pression du marché secondaire'
-          : 'Donnée non comparable';
+          : certifiedLiquidity.basis === 'fixed_capital_market'
+            ? 'Marché secondaire (capital fixe) — données non publiées'
+            : certifiedLiquidity.regimeChanged
+              ? 'Régime de liquidité en transition'
+              : 'Liquidité non documentée';
       const tofDelta = latestDelta(history, 'tof', 4);
 
       if (tofSeries.length >= 2 || latest?.tof !== null || latestLiquidity !== null) {
