@@ -48,14 +48,18 @@ export const buildHistoricalPortfolioTof = (
   const total = [...cleanHoldings.values()].reduce((sum, value) => sum + value, 0);
   if (!total) return [];
   const byPeriod = new Map<string, Map<string, number>>();
+  const conflicts = new Set<string>();
   for (const row of rows) {
     if (!isAcceptedHistory(row) || !cleanHoldings.has(row.scpi_slug)) continue;
     const values = byPeriod.get(row.source_period!) || new Map<string, number>();
     // Un doublon source et période ambigus ne peut être compté deux fois.
     const tof = numberOrNull(row.tof)!;
+    const identity = row.source_period + ':' + row.scpi_slug;
+    if (conflicts.has(identity)) continue;
     if (!values.has(row.scpi_slug)) values.set(row.scpi_slug, tof);
     else if (Math.abs(values.get(row.scpi_slug)! - tof) > 0.001) {
-      values.delete(row.scpi_slug); // conflit : masquer la mesure sur cette période
+      values.delete(row.scpi_slug);
+      conflicts.add(identity); // ne jamais rétablir la valeur après un conflit
     }
     byPeriod.set(row.source_period!, values);
   }
