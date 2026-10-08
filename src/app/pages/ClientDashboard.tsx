@@ -5,7 +5,6 @@ import {
   Building2,
   Euro,
   FileText,
-  Gauge,
   Globe2,
   Pencil,
   Plus,
@@ -25,6 +24,8 @@ import { aggregatePortfolioExposure, resolveExposure, type ScpiExposure } from '
 import { scpiDataExtended } from '../../data/scpiDataExtended';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import ClientScpiCard from '../components/ClientScpiCard';
+import ClientPortfolioRadarTrajectory from '../components/ClientPortfolioRadarTrajectory';
+import { aggregateGlobalPortfolioTrajectory } from '../../utils/clientPortfolioTrajectory';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -406,16 +407,14 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     return nextAlerts;
   }, [holdings]);
 
-  const radarCounts = useMemo(
-    () =>
-      holdings.reduce(
-        (acc, holding) => {
-          acc[getRadarLevel(holding.trajectory)] += 1;
-          return acc;
-        },
-        { stable: 0, info: 0, watch: 0, critical: 0, pending: 0 } as Record<RadarLevel, number>
-      ),
-    [holdings]
+  const globalTrajectory = useMemo(
+    () => aggregateGlobalPortfolioTrajectory(holdings.map(holding => ({
+      slug: holding.slug,
+      name: holding.name,
+      currentValue: holding.currentValue,
+      trajectory: holding.trajectory,
+    })), Boolean(surveillanceError)),
+    [holdings, surveillanceError]
   );
 
   const selectedIndicator = selectedSlug ? indicatorMap.get(selectedSlug) : undefined;
@@ -833,6 +832,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 ))}
               </div>
             </section>
+
+            <ClientPortfolioRadarTrajectory
+              summary={globalTrajectory}
+              surveillanceUnavailable={Boolean(surveillanceError)}
+            />
+
             <section className="space-y-5">
               <div className="flex flex-col justify-between gap-2 px-1 sm:flex-row sm:items-end">
                 <div>
@@ -967,28 +972,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               })}
             </section>
 
-            <section className="grid gap-6 xl:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Gauge className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Radar portefeuille</h3>
-                </div>
-                <p className="mt-2 text-xs leading-5 text-slate-400">
-                  Synthèse des trajectoires certifiées, sans prévision de performance.
-                </p>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  {(['stable', 'info', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
-                    <div
-                      key={level}
-                      className={`rounded-xl border p-4 ${radarPresentation[level].className}`}
-                    >
-                      <div className="text-2xl font-semibold">{radarCounts[level]}</div>
-                      <div className="mt-1 text-xs">{radarPresentation[level].label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+            <section className="grid gap-6 xl:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
                 <div className="flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-emerald-300" />
@@ -1082,6 +1066,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               {surveillanceError ? (
                 <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
                   Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
+                </div>
+              ) : alerts.length === 0 && globalTrajectory.unverifiedPercent > 0.01 ? (
+                <div className="rounded-xl border border-slate-500/20 bg-slate-500/5 p-4 text-sm text-slate-300">
+                  Aucun signal détecté sur les positions certifiées. Certaines SCPI restent hors du périmètre de surveillance.
                 </div>
               ) : alerts.length === 0 ? (
                 <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
