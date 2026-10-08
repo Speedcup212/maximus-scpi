@@ -156,7 +156,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
         <article className="min-w-0 rounded-3xl border border-white/10 bg-gradient-to-br from-sky-500/[0.07] via-slate-900/60 to-slate-950 p-5 lg:p-6">
           <div className="flex items-center gap-2"><Activity className="h-5 w-5 text-sky-300" /><h4 className="font-semibold text-white">Trajectoire : l'occupation des immeubles s'améliore-t-elle ?</h4></div>
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            <strong className="text-white">TOF = taux d'occupation financier.</strong> Il renseigne sur
+            <strong className="text-white">TOF = taux d'occupation financier.</strong> Il mesure
             l'occupation locative à partir des loyers. Il ne correspond ni au rendement distribué,
             ni à la valeur de vos parts.
           </p>
