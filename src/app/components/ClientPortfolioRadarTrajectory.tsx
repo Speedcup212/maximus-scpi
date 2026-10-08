@@ -65,9 +65,8 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-300">Surveillance consolidée</p>
           <h3 id="global-portfolio-title" className="mt-1 text-xl font-semibold text-white">Radar & trajectoire du portefeuille</h3>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-            <strong className="text-white">À quoi sert cette analyse ?</strong> Elle vous montre quelles SCPI
-            présentent des signes de vigilance et si leur occupation locative progresse ou recule.
-            Les pourcentages sont pondérés selon la valeur indicative de vos parts.
+            <strong className="text-white">À quoi sert cette analyse ?</strong> Identifier les SCPI qui méritent votre attention
+            et suivre l'occupation de leurs immeubles, selon leur poids dans votre portefeuille.
           </p>
         </div>
         <span className="w-fit rounded-full border border-white/10 bg-slate-900 px-3 py-1 text-xs text-slate-300">{summary.rows.length} SCPI suivies</span>
@@ -76,11 +75,14 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
       <div className="grid gap-4 xl:grid-cols-[1.12fr_1fr]">
         <article className="min-w-0 rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/[0.07] via-slate-900/60 to-slate-950 p-5 lg:p-6">
           <div className="flex items-center gap-2"><Gauge className="h-5 w-5 text-emerald-300" /><h4 className="font-semibold text-white">Radar : quelles SCPI surveiller ?</h4></div>
-          <p className="mt-2 text-sm leading-6 text-slate-300">
-            Le radar recherche des <strong className="text-white">signaux d'alerte</strong> sur l'occupation,
-            la liquidité, la valorisation et l'endettement des SCPI.
-            Il ne prédit pas une perte en capital.
-          </p>
+          <details className="mt-2 text-sm text-slate-300">
+            <summary className="w-fit cursor-pointer rounded-md py-1 font-medium text-emerald-300 hover:text-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Comprendre le radar</summary>
+            <p className="mt-2 leading-6">
+              Le radar recherche des <strong className="text-white">signaux d'alerte</strong> sur l'occupation,
+              la liquidité, la valorisation et l'endettement des SCPI.
+              Il ne prédit pas une perte en capital.
+            </p>
+          </details>
           <p className={'mt-4 text-base font-semibold leading-6 ' + heading.color}>{heading.title}</p>
           <p className="mt-2 text-sm leading-5 text-slate-300">{heading.description}</p>
           <div className="mt-3 rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 text-sm leading-6 text-slate-200">
@@ -106,11 +108,11 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
             </div>
           </div>
           <div className="mt-5">
-            <div className="mb-2 flex items-center justify-between gap-2"><span className="text-xs font-medium text-slate-200">Exposition pondérée aux signaux</span><span className="text-[11px] text-slate-500">Sur 100 % du capital</span></div>
+            <div className="mb-2 flex items-center justify-between gap-2"><span className="text-xs font-medium text-slate-200">Exposition pondérée aux signaux</span><span className="text-xs text-slate-400">Sur 100 % du capital</span></div>
             <SegmentedBar label="Radar du portefeuille"
               values={summary.weights.map(w => ({ key: radarColors[w.status].label, percent: w.percent, fill: radarColors[w.status].fill }))} />
-            <div className="mt-4 grid grid-cols-2 gap-3 text-xs sm:grid-cols-3">
-              {summary.weights.map(w => (
+            <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+              {summary.weights.filter(w => w.count > 0).map(w => (
                 <div key={w.status} className="flex items-start gap-2">
                   <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-sm" style={{ backgroundColor: radarColors[w.status].fill }} />
                   <div className="min-w-0">
@@ -121,8 +123,9 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               ))}
             </div>
           </div>
-          <div className="mt-5 border-t border-white/10 pt-4">
-            <h5 className="text-sm font-semibold text-slate-100">Pourquoi une SCPI est-elle surveillée ?</h5>
+          <details className="mt-4 border-t border-white/10 pt-3">
+            <summary className="w-fit cursor-pointer py-1 text-sm font-semibold text-emerald-300 hover:text-emerald-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Comprendre les quatre axes de surveillance</summary>
+            <h5 className="mt-2 text-sm font-semibold text-slate-100">Pourquoi une SCPI est-elle surveillée ?</h5>
             <p className="mt-1 text-xs leading-5 text-slate-300">Chaque ligne représente un domaine contrôlé. Un signal peut concerner plusieurs domaines : leurs pourcentages ne s'additionnent pas.</p>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
               {summary.axes.map(axis => (
@@ -147,18 +150,17 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
                 </div>
               ))}
             </div>
-          </div>
-          <p className="mt-5 border-t border-white/10 pt-4 text-[11px] leading-5 text-slate-500">
-            Synthèse des signaux existants, pas une notation réglementaire SRRI/SRI ni une recommandation personnalisée.
+          </details>
+          <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400">
+            Signaux indicatifs, sans notation réglementaire ni recommandation personnalisée.
           </p>
         </article>
 
         <article className="min-w-0 rounded-3xl border border-white/10 bg-gradient-to-br from-sky-500/[0.07] via-slate-900/60 to-slate-950 p-5 lg:p-6">
           <div className="flex items-center gap-2"><Activity className="h-5 w-5 text-sky-300" /><h4 className="font-semibold text-white">Trajectoire : l'occupation des immeubles s'améliore-t-elle ?</h4></div>
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            <strong className="text-white">TOF = taux d'occupation financier.</strong> Il mesure
-            l'occupation locative à partir des loyers. Il ne correspond ni au rendement distribué,
-            ni à la valeur de vos parts.
+            <strong className="text-white">TOF = taux d'occupation financier.</strong> Il mesure l'occupation des immeubles à partir des loyers,
+            et non le rendement ou la valeur de vos parts.
           </p>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4">
@@ -166,16 +168,30 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               <div className="mt-2 text-2xl font-semibold tabular-nums text-white">
                 {summary.tofWeighted === null ? '—' : pct(summary.tofWeighted, 2)}
               </div>
-              <div className="mt-1 text-[11px] text-slate-500">{summary.referencePeriod || 'Période non disponible'}</div>
+              <div className="mt-1 text-xs text-slate-400">{summary.referencePeriod || 'Période non disponible'}</div>
             </div>
             <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4">
               <div className="text-xs font-medium text-slate-300">Évolution de l'occupation sur 4 observations</div>
               <div className={'mt-2 flex items-center gap-2 text-2xl font-semibold tabular-nums ' + directionColor}>
                 <Direction className="h-5 w-5 shrink-0" />{points(delta)}
               </div>
-              <div className="mt-1 text-[11px] text-slate-500">Capital comparable : {pct(summary.delta4CoveragePercent, 0)}</div>
+              <div className="mt-1 text-xs text-slate-400">Capital comparable : {pct(summary.delta4CoveragePercent, 0)}</div>
             </div>
           </div>
+          <p className="mt-4 rounded-xl border border-sky-500/20 bg-sky-500/5 px-4 py-3 text-sm leading-6 text-slate-200">
+            <strong className="text-white">À retenir : </strong>
+            {summary.tofWeighted === null ? 'Les données disponibles ne permettent pas de calculer une trajectoire fiable.'
+              : <>L'occupation moyenne atteint {pct(summary.tofWeighted, 2)}
+                {delta === null ? ', sans évolution comparable exploitable.' : <> et {delta < -0.001 ? 'recule' : delta > 0.001 ? 'progresse' : 'reste globalement stable'} de {Math.abs(delta).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} point(s) sur quatre observations.</>}
+                {decliningPositions.length > 0 && !surveillanceUnavailable ? <> Le TOF de {decliningNames} est orienté à la baisse.</> : null}
+              </>}
+            {' '}Cela ne mesure pas la variation de la valeur des parts.
+          </p>
+          <ClientHistoricalTofChart points={history} unavailable={historyUnavailable} />
+          <details className="mt-3 rounded-xl border border-white/10 bg-slate-950/20 px-4 py-3">
+            <summary className="cursor-pointer text-sm font-medium text-sky-300 hover:text-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
+              Comprendre la trajectoire et voir le détail des calculs
+            </summary>
           <div className="mt-4 rounded-xl border border-sky-500/20 bg-sky-500/5 px-4 py-3 text-sm leading-6 text-slate-200">
             <strong className="text-white">Comment interpréter ces chiffres ? </strong>
             {summary.tofWeighted === null
@@ -191,7 +207,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between gap-2">
               <span className="text-xs font-medium text-slate-200">Évolution de l'occupation, par SCPI détenue</span>
-              <span className="text-[11px] text-slate-400">Couverture {pct(summary.tofCoveragePercent, 0)}</span>
+              <span className="text-xs text-slate-400">Couverture {pct(summary.tofCoveragePercent, 0)}</span>
             </div>
             <SegmentedBar label="Trajectoires TOF"
               values={summary.trends.map(t => ({ key: trendColors[t.trend].label, percent: t.percent, fill: trendColors[t.trend].fill }))} />
@@ -205,7 +221,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               ))}
             </div>
           </div>
-          <ClientHistoricalTofChart points={history} unavailable={historyUnavailable} />
+
           <div className="mt-5 rounded-xl border border-white/10 bg-slate-950/30 px-4 py-3 text-xs leading-5 text-slate-300">
             {summary.referencePeriod === null ? (
               <span><ShieldAlert className="mr-2 inline h-4 w-4 text-amber-300" />Aucune période commune exploitable : trajectoire non calculée.</span>
@@ -219,18 +235,19 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
           <p className="mt-3 text-[11px] leading-5 text-slate-500">
             Cette tendance du TOF ne représente ni une courbe de rendement ni une variation du capital investi.
           </p>
+          </details>
         </article>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
         <div className="flex flex-col gap-1 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between">
           <h4 className="text-sm font-semibold text-white">Contribution des SCPI au radar global</h4>
-          <span className="text-[11px] text-slate-400">Cliquez sur une SCPI pour consulter sa fiche ci-dessous</span>
+          <span className="text-xs text-slate-400">Cliquez sur une SCPI pour consulter sa fiche ci-dessous</span>
         </div>
         <div className="divide-y divide-white/10">
           {summary.rows.map(row => (
             <a key={row.slug} href={'#holding-' + row.slug} onClick={() => onSelectHolding?.(row.slug)}
-              className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 text-xs transition hover:bg-white/[0.05] focus-visible:bg-white/[0.05]">
+              className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 text-sm transition hover:bg-white/[0.05] focus-visible:bg-white/[0.05]">
               <span className="min-w-[10rem] flex-1 font-medium text-slate-100">{row.name}</span>
               <span className="w-20 shrink-0 text-right font-semibold tabular-nums text-slate-200">{pct(row.percent)}</span>
               <span className="flex min-w-[10rem] items-center gap-1.5 text-slate-300">
