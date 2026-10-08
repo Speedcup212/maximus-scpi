@@ -1,8 +1,10 @@
 import {
   getSurveillanceStatus,
+  buildSurveillanceSignals,
   surveillanceGatePass,
   toSurveillanceNumber,
   type SurveillanceDashboardRow,
+  type SurveillanceSignalKind,
 } from './surveillanceSignals';
 
 /**
@@ -21,9 +23,11 @@ export type GlobalRadarPosition = {
 };
 export type WeightedStatus = { status: GlobalRadarLevel; value: number; percent: number; count: number };
 export type WeightedTrend = { trend: GlobalTrendLevel; percent: number; value: number };
+export type PortfolioRadarAxis = { kind: SurveillanceSignalKind; label: string; vigilancePercent: number; informationPercent: number; scpiCount: number };
 export type GlobalPortfolioTrajectory = {
   totalValue: number;
   weights: WeightedStatus[];
+  axes: PortfolioRadarAxis[];
   overallStatus: 'critical' | 'watch' | 'partial' | 'info' | 'clear' | 'unavailable';
   monitoredPercent: number;
   riskExposurePercent: number;
@@ -46,6 +50,12 @@ export type GlobalPortfolioTrajectory = {
 };
 const STATUS_ORDER: GlobalRadarLevel[] = ['critical', 'watch', 'info', 'stable', 'pending'];
 const TREND_ORDER: GlobalTrendLevel[] = ['decline', 'stable', 'rise', 'unknown'];
+const RADAR_AXES: Array<{ kind: SurveillanceSignalKind; label: string }> = [
+  { kind: 'tof', label: 'Occupation' },
+  { kind: 'liquidity', label: 'Liquidité' },
+  { kind: 'valuation', label: 'Valorisation' },
+  { kind: 'debt', label: 'Endettement' },
+];
 const ROUND_LIMIT = (value: number) => Math.max(0, Math.min(100, value));
 const percent = (value: number, total: number) => total > 0 ? ROUND_LIMIT(value / total * 100) : 0;
 const validPositiveValue = (value: number) => Number.isFinite(value) && value > 0 ? value : 0;
@@ -80,11 +90,25 @@ export const aggregateGlobalPortfolioTrajectory = (
   }));
   const totalValue = valid.reduce((sum, item) => sum + item.currentValue, 0);
   const values = new Map<GlobalRadarLevel, number>(STATUS_ORDER.map(key => [key, 0]));
+  const axes: PortfolioRadarAxis[] = RADAR_AXES.map(a => ({ ...a, vigilancePercent: 0, informationPercent: 0, scpiCount: 0 }));
   const counts = new Map<GlobalRadarLevel, number>(STATUS_ORDER.map(key => [key, 0]));
   const rows = valid.map((holding) => {
     const status = getStatus(holding.trajectory);
     values.set(status, (values.get(status) ?? 0) + holding.currentValue);
     counts.set(status, (counts.get(status) ?? 0) + 1);
+    if (status !== 'pending' && holding.trajectory && holding.currentValue > 0) {
+      const signals = buildSurveillanceSignals(holding.trajectory);
+      for (const axis of axes) {
+        const relevant = signals.filter(signal => signal.kind === axis.kind);
+        if (!relevant.length) continue;
+        axis.scpiCount += 1;
+        if (relevant.some(signal => signal.level === 'watch' || signal.level === 'critical')) {
+          axis.vigilancePercent += percent(holding.currentValue, totalValue);
+        } else {
+          axis.informationPercent += percent(holding.currentValue, totalValue);
+        }
+      }
+    }
     return {
       slug: holding.slug,
       name: holding.name,
@@ -148,6 +172,7 @@ export const aggregateGlobalPortfolioTrajectory = (
   return {
     totalValue,
     weights,
+    axes,
     overallStatus,
     monitoredPercent,
     riskExposurePercent,
