@@ -609,11 +609,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   }) => (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
       <div className="flex items-center justify-between">
-        <span className="text-xs uppercase tracking-[0.2em] text-slate-400">{label}</span>
+        <span className="text-xs font-medium uppercase tracking-[0.1em] text-slate-300">{label}</span>
         <Icon className="h-4 w-4 text-emerald-300" />
       </div>
       <div className="mt-3 text-2xl font-semibold text-white">{value}</div>
-      <div className="mt-1 text-xs text-slate-500">{detail}</div>
+      <div className="mt-2 text-xs leading-5 text-slate-400">{detail}</div>
     </div>
   );
 
@@ -624,7 +624,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       onNavigate={onNavigate}
       onSignOut={signOut}
     >
-      <div className="space-y-6">
+      <div className="space-y-5">
         <section className="overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 via-slate-950 to-slate-950 p-6 lg:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
@@ -702,7 +702,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               </p>
             </div>
             <form onSubmit={handleAddPosition} className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-              <label className="text-xs text-slate-400 xl:col-span-2">
+              <label className="text-sm text-slate-300 xl:col-span-2">
                 SCPI
                 <select
                   required
@@ -813,11 +813,16 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           />
         </section>
 
-        <p className="px-1 text-sm leading-6 text-slate-400">
-          Les revenus affichés sont des <strong className="text-slate-200">projections brutes au dernier TD annuel publié</strong>,
-          hors date de jouissance et fiscalité. Aucun historique de distributions réellement encaissées
-          n’est connecté à votre espace. Le montant mensuel n'est pas un calendrier de paiement.
-        </p>
+        <details className="rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-slate-300">
+          <summary className="cursor-pointer font-medium text-slate-200 hover:text-white">
+            Comprendre les revenus théoriques et leurs limites
+          </summary>
+          <p className="mt-2 leading-6 text-slate-300">
+            Les revenus affichés sont des <strong className="text-slate-100">projections brutes au dernier TD annuel publié</strong>,
+            hors date de jouissance et fiscalité. Aucun historique de distributions réellement encaissées
+            n’est connecté à votre espace. Le montant mensuel n'est pas un calendrier de paiement.
+          </p>
+        </details>
         {loading ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center text-sm text-slate-400">
             Chargement du portefeuille…
@@ -838,6 +843,81 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </section>
         ) : (
           <>
+            <section aria-label="Alertes du portefeuille" className="grid gap-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-amber-300" />
+                  <h3 className="font-semibold text-white">Alertes Maximus</h3>
+                </div>
+                <p className="mt-1 text-sm text-slate-300">
+                  Les points à examiner en priorité dans votre portefeuille.
+                </p>
+              </div>
+              <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
+                {surveillanceError ? '—' : alerts.length}
+              </span>
+            </div>
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              {surveillanceError ? (
+                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
+                  Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
+                </div>
+              ) : alerts.length === 0 && globalTrajectory.unverifiedPercent > 0.01 ? (
+                <div className="rounded-xl border border-slate-500/20 bg-slate-500/5 p-4 text-sm text-slate-300">
+                  Aucun signal détecté sur les positions certifiées. Certaines SCPI restent hors du périmètre de surveillance.
+                </div>
+              ) : alerts.length === 0 ? (
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
+                  Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
+                </div>
+              ) : (
+                alerts.slice(0, 2).map((alert, index) => (
+                  <div
+                    key={`${alert.slug}-${index}`}
+                    className={`rounded-xl border p-4 ${
+                      alert.level === 'critical'
+                        ? 'border-red-500/25 bg-red-500/5'
+                        : alert.level === 'watch'
+                          ? 'border-amber-500/25 bg-amber-500/5'
+                          : 'border-sky-500/25 bg-sky-500/5'
+                    }`}
+                  >
+                    <div className="text-sm font-medium text-white">{alert.name}</div>
+                    <div
+                      className={`mt-1 text-xs ${
+                        alert.level === 'critical'
+                          ? 'text-red-200'
+                          : alert.level === 'watch'
+                            ? 'text-amber-200'
+                            : 'text-sky-200'
+                      }`}
+                    >
+                      {alert.message}
+                    </div>
+                  </div>
+                ))
+              )}
+              {!surveillanceError && alerts.length > 2 && (
+                <details className="rounded-xl border border-white/10 bg-slate-950/30 p-4 lg:col-span-2">
+                  <summary className="cursor-pointer text-sm font-medium text-emerald-300 hover:text-emerald-200">
+                    Voir les {alerts.length - 2} autres alertes
+                  </summary>
+                  <div className="mt-3 grid gap-3 lg:grid-cols-2">
+                    {alerts.slice(2).map((alert, index) => (
+                      <div key={alert.slug + '-extra-' + index} className="rounded-lg border border-white/10 p-3 text-sm text-slate-200">
+                        <p className="font-semibold text-white">{alert.name}</p>
+                        <p className="mt-1 text-slate-300">{alert.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              )}
+            </div>
+          </div>
+            </section>
+
             <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -868,12 +948,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               </div>
             </section>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               <h3 className="text-lg font-semibold text-white">Répartitions du portefeuille</h3>
               <p className="text-sm leading-5 text-slate-400">Secteurs et pays, pondérés par les valeurs indicatives de vos SCPI. Les sources et limites de fiabilité sont indiquées sous les graphiques.</p>
             </div>
-            <section className="grid gap-6 xl:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+            <section className="grid gap-4 lg:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
                 <div className="flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-emerald-300" />
                   <h3 className="text-base font-semibold text-white">Répartition sectorielle du portefeuille</h3>
@@ -912,7 +992,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
                 <div className="flex items-center gap-2">
                   <Globe2 className="h-5 w-5 text-emerald-300" />
                   <h3 className="text-base font-semibold text-white">Répartition géographique du portefeuille</h3>
@@ -1103,65 +1183,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </>
         )}
 
-        <section className="grid gap-6 xl:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-amber-300" />
-                  <h3 className="font-semibold text-white">Alertes Maximus</h3>
-                </div>
-                <p className="mt-2 text-xs text-slate-500">
-                  Signaux dérivés des trajectoires publiées : TOF, liquidité et variations de prix disponibles.
-                </p>
-              </div>
-              <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
-                {surveillanceError ? '—' : alerts.length}
-              </span>
-            </div>
-            <div className="mt-5 space-y-3">
-              {surveillanceError ? (
-                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
-                  Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
-                </div>
-              ) : alerts.length === 0 && globalTrajectory.unverifiedPercent > 0.01 ? (
-                <div className="rounded-xl border border-slate-500/20 bg-slate-500/5 p-4 text-sm text-slate-300">
-                  Aucun signal détecté sur les positions certifiées. Certaines SCPI restent hors du périmètre de surveillance.
-                </div>
-              ) : alerts.length === 0 ? (
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
-                  Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
-                </div>
-              ) : (
-                alerts.slice(0, 8).map((alert, index) => (
-                  <div
-                    key={`${alert.slug}-${index}`}
-                    className={`rounded-xl border p-4 ${
-                      alert.level === 'critical'
-                        ? 'border-red-500/25 bg-red-500/5'
-                        : alert.level === 'watch'
-                          ? 'border-amber-500/25 bg-amber-500/5'
-                          : 'border-sky-500/25 bg-sky-500/5'
-                    }`}
-                  >
-                    <div className="text-sm font-medium text-white">{alert.name}</div>
-                    <div
-                      className={`mt-1 text-xs ${
-                        alert.level === 'critical'
-                          ? 'text-red-200'
-                          : alert.level === 'watch'
-                            ? 'text-amber-200'
-                            : 'text-sky-200'
-                      }`}
-                    >
-                      {alert.message}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
+        <section aria-label="Dossier client" className="grid gap-4">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">

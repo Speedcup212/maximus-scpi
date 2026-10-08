@@ -80,7 +80,7 @@ const Stat = ({ label, value, hint, emphasis = false }: {
   <div className="min-w-0 rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3">
     <div className="text-[10px] uppercase tracking-[0.13em] text-slate-400">{label}</div>
     <div className={emphasis ? 'mt-1 text-xl font-semibold tabular-nums text-white' : 'mt-1 text-base font-semibold tabular-nums text-slate-100'}>{value}</div>
-    {hint && <div className="mt-1 text-[11px] leading-4 text-slate-500">{hint}</div>}
+    {hint && <div className="mt-1 text-xs leading-5 text-slate-400">{hint}</div>}
   </div>
 );
 
@@ -129,10 +129,10 @@ const VisualDistribution = ({ title, icon: Icon, exposure }: {
                   </div>
                 </div>
               ))}
-              {colors.length > 5 && <p className="text-[11px] text-slate-500">+ {colors.length - 5} autres catégories sur la fiche</p>}
+              {colors.length > 5 && <p className="text-xs text-slate-400">+ {colors.length - 5} autres catégories sur la fiche</p>}
             </div>
           </div>
-          <p className="mt-3 text-[11px] leading-4 text-slate-500">
+          <p className="mt-3 text-xs leading-5 text-slate-400">
             {exposure.source === 'catalog'
               ? 'Répartition historique non datée du catalogue : présentation exploratoire, non certifiée pour le portefeuille.'
               : 'Répartition issue de données structurées MaximusSCPI ; fraîcheur à vérifier.'}
@@ -185,7 +185,7 @@ const ClientScpiCard: React.FC<Props> = ({
               {company || 'Société de gestion non renseignée'} · {holding.units.toLocaleString('fr-FR', { maximumFractionDigits: 6 })} parts
               {' · '}{holding.source === 'external' ? 'Détenues ailleurs' : holding.source === 'maximus' ? 'Souscrites via Maximus' : 'Origines mixtes'}
             </p>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-400">
               {indicator?.source_period ? periodLabel(indicator.source_period) : 'Indicateurs datés selon les dernières sources disponibles'}
               {trajectory?.latest_period ? ' · Trajectoires ' + trajectory.latest_period : ''}
             </p>
@@ -212,10 +212,10 @@ const ClientScpiCard: React.FC<Props> = ({
       </div>
 
       <div className="grid gap-3 border-b border-white/10 px-5 py-4 text-sm sm:grid-cols-3 lg:grid-cols-4 lg:px-6">
-        <div><p className="text-xs text-slate-400">Capital investi</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.invested)}</p></div>
-        <div><p className="text-xs text-slate-400">Valeur indicative</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.currentValue)}</p></div>
-        <div><p className="text-xs text-slate-400">Projection brute annuelle</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.annualIncome)}</p></div>
-        <div><p className="text-xs text-slate-400">TOF publié</p><p className="mt-1 text-lg font-semibold text-white">{pct(tof, 2)}</p></div>
+        <div><p className="text-sm text-slate-300">Capital investi</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.invested)}</p></div>
+        <div><p className="text-sm text-slate-300">Valeur indicative</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.currentValue)}</p><p className="mt-1 text-xs text-slate-400">{delta > 0 ? '+' : ''}{euro(delta)} vs prix d'achat</p></div>
+        <div><p className="text-sm text-slate-300">Projection brute annuelle</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.annualIncome)}</p></div>
+        <div><p className="text-sm text-slate-300">TOF publié</p><p className="mt-1 text-lg font-semibold text-white">{pct(tof, 2)}</p></div>
       </div>
       <section className="border-b border-white/10 px-5 py-4 lg:px-6" aria-label={'Répartitions de ' + holding.name}>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -232,22 +232,10 @@ const ClientScpiCard: React.FC<Props> = ({
         </div>
       </section>
       {expanded && <div id={'holding-details-' + holding.slug} className="p-5 lg:p-6">
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <Stat label="Capital investi" value={euro(holding.invested)} hint={euro(holding.averagePurchasePrice, 2) + ' / part à l’achat'} emphasis />
-          <Stat
-            label={holding.valuationBasis === 'withdrawal' ? 'Valeur indicative de retrait' : holding.valuationBasis === 'subscription' ? 'Valeur indicative de souscription' : 'Coût retenu faute de valeur publiée'}
-            value={euro(holding.currentValue)}
-            hint={holding.valuationBasis === 'withdrawal'
-              ? euro(num(indicator?.prix_retrait), 2) + ' / part · hors délai de cession'
-              : holding.valuationBasis === 'subscription'
-                ? 'Prix de souscription, pas valeur de revente'
-                : 'Aucune valeur actuelle exploitable'}
-            emphasis
-          />
-          <Stat label="Différence valeur / coût" value={euro(delta)} hint={(deltaPct === null ? '—' : pctChange(deltaPct)) + ' · pas une perte réalisée'} emphasis />
-          <Stat label="Projection brute annualisée" value={euro(holding.annualIncome)} hint={'Non encaissée ; TD publié appliqué aux parts, hors jouissance'} emphasis />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat label="Prix d'achat moyen par part" value={euro(holding.averagePurchasePrice, 2)} hint="Moyenne pondérée de vos achats" />
+          <Stat label="Écart valeur indicative / capital investi" value={euro(delta)} hint={(deltaPct === null ? '—' : pctChange(deltaPct)) + ' · écart indicatif non réalisé'} />
         </div>
-
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Stat label="Taux de distribution" value={pct(indicator?.td, 2)} hint={indicator?.td_annee ? 'Référence ' + indicator.td_annee : 'Année du TD à vérifier'} />
           <Stat label="Taux d’occupation (TOF)" value={pct(tof, 2)} hint={trajectory?.trajectoire_tof ? 'Trajectoire : ' + trajectory.trajectoire_tof.replace(/_/g, ' ') : 'Évolution non certifiée'} />
