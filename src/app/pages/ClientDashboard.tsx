@@ -124,6 +124,12 @@ const formatCurrency = (value: number | null | undefined, maximumFractionDigits 
   }).format(value);
 };
 
+const formatPurchaseDateFr = (value: string | null): string => {
+  if (!value) return 'non renseignée';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  return `${value.slice(8, 10)}/${value.slice(5, 7)}/${value.slice(0, 4)}`;
+};
+
 const formatPercent = (value: number | null | undefined, digits = 1) => {
   if (value === null || value === undefined || !Number.isFinite(value)) return '—';
   return `${value.toLocaleString('fr-FR', {
@@ -185,10 +191,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const [units, setUnits] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
+  const [dateCorrections, setDateCorrections] = useState<Record<string, string>>({});
+  const [dateCorrectionError, setDateCorrectionError] = useState<string | null>(null);
+  const [dateCorrectionSuccess, setDateCorrectionSuccess] = useState<string | null>(null);
   const todayIso = new Date(Date.now() - new Date().getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
   const futurePositions = positions.filter(position => position.purchase_date && position.purchase_date > todayIso);
   const futureDatedPositions = futurePositions.length;
-  const firstEditableFuturePosition = futurePositions.find(position => position.source === 'external');
 
   const loadDashboard = useCallback(async () => {
     if (!supabase || !user) return;
@@ -571,6 +579,41 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     await loadDashboard();
   };
 
+  const handleCorrectFutureDate = async (position: Position) => {
+    if (!supabase || !user || position.source !== 'external') return;
+    const correctedDate = dateCorrections[position.id] ?? '';
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(correctedDate) || correctedDate > todayIso) {
+      setDateCorrectionError('Veuillez saisir une date réelle d’achat qui ne soit pas postérieure à aujourd’hui.');
+      return;
+    }
+
+    setSaving(true);
+    setDateCorrectionError(null);
+    setDateCorrectionSuccess(null);
+    // Ne modifie ni le nombre de parts, ni le prix d'achat.
+    const { error: correctionError } = await supabase
+      .from('client_scpi_positions')
+      .update({ purchase_date: correctedDate })
+      .eq('id', position.id)
+      .eq('user_id', user.id)
+      .eq('source', 'external');
+
+    if (correctionError) {
+      setDateCorrectionError('La date n’a pas pu être enregistrée. Veuillez réessayer.');
+      setSaving(false);
+      return;
+    }
+
+    setDateCorrections(previous => {
+      const next = { ...previous };
+      delete next[position.id];
+      return next;
+    });
+    setSaving(false);
+    await loadDashboard();
+    setDateCorrectionSuccess('La date d’achat a été mise à jour. Votre portefeuille est actualisé.');
+  };
+
   const handleDeletePosition = async (position: Position) => {
     if (!supabase || !user || position.source !== 'external') return;
 
@@ -668,29 +711,90 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             {surveillanceError} Aucun indicateur de surveillance ne doit être interprété comme rassurant tant que le service est hors ligne.
           </div>
         )}
-        {futureDatedPositions > 0 && (
-          <div className="flex flex-col gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100 sm:flex-row sm:items-center sm:justify-between">
-            <p>
-              {futureDatedPositions} position(s) comportent une date d’achat future.
-              {firstEditableFuturePosition
-                ? ' Vérifiez et corrigez la date de la position concernée.'
-                : ' Cette donnée synchronisée doit être corrigée à la source.'}
-            </p>
-            {firstEditableFuturePosition && (
-              <button
-                type="button"
-                onClick={() => {
-                  setManagedSlug(firstEditableFuturePosition.scpi_slug);
-                  setExpandedSlug(firstEditableFuturePosition.scpi_slug);
-                  startEditPosition(firstEditableFuturePosition);
-                  requestAnimationFrame(() => document.getElementById('holding-' + firstEditableFuturePosition.scpi_slug)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-                }}
-                className="shrink-0 rounded-lg border border-amber-400/30 px-3 py-2 text-xs font-semibold text-amber-100 hover:bg-amber-400/10"
-              >
-                Corriger la date
-              </button>
-            )}
+        {dateCorrectionSuccess && (
+          <div role="status" className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4 text-sm text-emerald-100">
+            {dateCorrectionSuccess}
           </div>
+        )}
+        {futureDatedPositions > 0 && (
+          <section aria-label="Dates d'achat à vérifier" className="space-y-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-5 text-amber-50">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="mt-1 h-5 w-5 shrink-0 text-amber-300" aria-hidden="true" />
+              <div className="space-y-1">
+                <h3 className="text-base font-semibold text-white">
+                  {futureDatedPositions === 1 ? 'Une date d’achat à vérifier' : `${futureDatedPositions} dates d’achat à vérifier`}
+                </h3>
+                <p className="text-sm leading-6 text-amber-100">
+                  Certaines parts sont enregistrées comme déjà détenues, mais leur date d’achat est dans le futur.
+                  Vérifiez la date figurant sur votre bulletin de souscription.
+                </p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {futurePositions.map(position => {
+                const scpiName = indicatorMap.get(position.scpi_slug)?.nom || position.scpi_slug;
+                return (
+                  <div key={position.id} className="rounded-xl border border-amber-500/20 bg-slate-950/50 p-4">
+                    <p className="text-sm leading-6 text-slate-200">
+                      <strong className="font-semibold text-white">{scpiName}</strong>
+                      {' : date enregistrée '}
+                      <strong className="font-semibold text-amber-200">{formatPurchaseDateFr(position.purchase_date)}</strong>,
+                      {' alors qu’aujourd’hui nous sommes le '}{formatPurchaseDateFr(todayIso)}.
+                    </p>
+                    {position.source === 'external' ? (
+                      <>
+                        <p className="mt-2 text-sm leading-6 text-slate-300">
+                          Si vous possédez déjà ces parts, indiquez la date réelle de votre souscription ci-dessous.
+                          Seule cette date sera modifiée : le nombre de parts et le prix d’achat resteront inchangés.
+                        </p>
+                        <form onSubmit={event => { event.preventDefault(); void handleCorrectFutureDate(position); }}
+                          className="mt-4 flex flex-col items-start gap-3 sm:flex-row sm:items-end">
+                          <label htmlFor={'correct-date-' + position.id} className="w-full max-w-xs text-sm font-medium text-white">
+                            Date réelle d’achat
+                            <input
+                              id={'correct-date-' + position.id}
+                              type="date"
+                              required
+                              max={todayIso}
+                              value={dateCorrections[position.id] ?? ''}
+                              onChange={event => {
+                                setDateCorrections(previous => ({ ...previous, [position.id]: event.target.value }));
+                                setDateCorrectionError(null);
+                                setDateCorrectionSuccess(null);
+                              }}
+                              aria-describedby={'correct-date-help-' + position.id}
+                              className="mt-2 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-3 text-base text-white focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+                            />
+                          </label>
+                          <button
+                            type="submit"
+                            disabled={saving || !(dateCorrections[position.id] ?? '') || (dateCorrections[position.id] ?? '') > todayIso}
+                            className="rounded-lg bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {saving ? 'Enregistrement…' : 'Enregistrer la date'}
+                          </button>
+                        </form>
+                        <p id={'correct-date-help-' + position.id} className="mt-3 text-xs leading-5 text-slate-400">
+                          Si l’achat est seulement prévu et que vous ne détenez pas encore les parts,
+                          ne saisissez pas une date fictive : retirez cette position depuis « Gérer mes parts ».
+                        </p>
+                      </>
+                    ) : (
+                      <p className="mt-2 text-sm leading-6 text-slate-300">
+                        Cette position a été enregistrée automatiquement. Contactez votre conseiller
+                        afin de faire corriger la date à la source.
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {dateCorrectionError && (
+              <p role="alert" className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                {dateCorrectionError}
+              </p>
+            )}
+          </section>
         )}
 
         {showAddPosition && (
