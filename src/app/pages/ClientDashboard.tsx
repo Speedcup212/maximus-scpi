@@ -21,6 +21,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import { estimateAnnualizedScpiIncome } from '../../utils/clientPortfolioMath';
+import { aggregatePortfolioExposure, resolveExposure } from '../../utils/clientPortfolioExposure';
+import { scpiDataExtended } from '../../data/scpiDataExtended';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import ClientScpiCard from '../components/ClientScpiCard';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -49,6 +53,17 @@ type Breakdown = Record<string, number> | null;
 type ScpiIndicator = {
   scpi_slug: string;
   nom: string | null;
+  societe_gestion: string | null;
+  td_annee: number | null;
+  source_period: string | null;
+  updated_at: string | null;
+  categorie: string | null;
+  versement_loyers: string | null;
+  sfdr: string | null;
+  label_isr: boolean | null;
+  delai_jouissance: number | string | null;
+  srri: number | null;
+  capitalisation: number | string | null;
   td: number | string | null;
   tof: number | string | null;
   prix_souscription: number | string | null;
@@ -112,11 +127,6 @@ const formatPercent = (value: number | null | undefined, digits = 1) => {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits
   })} %`;
-};
-
-const prettifySignal = (value: string | null | undefined) => {
-  if (!value) return 'Donnée en cours de certification';
-  return value.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
 };
 
 const getRadarLevel = (trajectory?: Trajectory): RadarLevel => {
@@ -184,7 +194,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         .order('created_at', { ascending: true }),
       supabase
         .from('scpi_indicators')
-        .select('scpi_slug,nom,td,tof,prix_souscription,prix_retrait,prix_reconstitution,prime_decote,endettement,distribution_par_part,repartition_sectorielle,repartition_geographique,secteur_principal,geographie_principale,qa_status')
+        .select('scpi_slug,nom,societe_gestion,td_annee,source_period,updated_at,categorie,versement_loyers,sfdr,label_isr,delai_jouissance,srri,capitalisation,td,tof,prix_souscription,prix_retrait,prix_reconstitution,prime_decote,endettement,distribution_par_part,repartition_sectorielle,repartition_geographique,secteur_principal,geographie_principale,qa_status')
         .order('nom', { ascending: true }),
       supabase.from('cases').select('*').order('updated_at', { ascending: false }).limit(3)
     ]);
@@ -333,41 +343,42 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     };
   }, [holdings]);
 
-  const buildDiversification = useCallback(
-    (kind: 'sector' | 'geo') => {
-      const result = new Map<string, number>();
-      if (totals.currentValue <= 0) return [] as Array<[string, number]>;
+  // Les fiches détaillées publiques disposent déjà de répartitions structurées.
+  // Aucune catégorie principale n'est artificiellement transformée en 100 %.
+  const catalogBySlug = useMemo(
+    () => new Map(scpiDataExtended.map(item => [createSlugFromName(item.name), item])),
+    []
+  );
+  const holdingExposures = useMemo(() => {
+    const result = new Map<string, {
+      sector: ReturnType<typeof resolveExposure>;
+      geography: ReturnType<typeof resolveExposure>;
+    }>();
+    for (const holding of holdings) {
+      const catalog = catalogBySlug.get(holding.slug);
+      result.set(holding.slug, {
+        sector: resolveExposure(holding.indicator?.repartition_sectorielle, catalog?.sectors, 'sector'),
+        geography: resolveExposure(holding.indicator?.repartition_geographique, catalog?.geography, 'geography'),
+      });
+    }
+    return result;
+  }, [holdings, catalogBySlug]);
 
-      for (const holding of holdings) {
-        const portfolioWeight = holding.currentValue / totals.currentValue;
-        const breakdown =
-          kind === 'sector'
-            ? holding.indicator?.repartition_sectorielle
-            : holding.indicator?.repartition_geographique;
-        const fallback =
-          kind === 'sector'
-            ? holding.indicator?.secteur_principal
-            : holding.indicator?.geographie_principale;
-
-        if (breakdown && Object.keys(breakdown).length > 0) {
-          for (const [label, percentage] of Object.entries(breakdown)) {
-            const numericPercentage = numberValue(percentage) ?? 0;
-            result.set(label, (result.get(label) ?? 0) + portfolioWeight * numericPercentage);
-          }
-        } else if (fallback) {
-          result.set(fallback, (result.get(fallback) ?? 0) + portfolioWeight * 100);
-        }
-      }
-
-      return Array.from(result.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
-    },
-    [holdings, totals.currentValue]
+  const sectorBreakdown = useMemo(
+    () => aggregatePortfolioExposure(holdings.map(holding => ({
+      currentValue: holding.currentValue,
+      exposure: holdingExposures.get(holding.slug)?.sector || { items: [], source: 'missing' },
+    }))),
+    [holdings, holdingExposures],
   );
 
-  const sectorBreakdown = useMemo(() => buildDiversification('sector'), [buildDiversification]);
-  const geoBreakdown = useMemo(() => buildDiversification('geo'), [buildDiversification]);
+  const geoBreakdown = useMemo(
+    () => aggregatePortfolioExposure(holdings.map(holding => ({
+      currentValue: holding.currentValue,
+      exposure: holdingExposures.get(holding.slug)?.geography || { items: [], source: 'missing' },
+    }))),
+    [holdings, holdingExposures],
+  );
 
   const alerts = useMemo<PortfolioAlert[]>(() => {
     const nextAlerts: PortfolioAlert[] = [];
@@ -769,14 +780,43 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </section>
         ) : (
           <>
+            <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-base font-semibold text-white">Composition de ton portefeuille</h3>
+                  <p className="mt-1 text-xs text-slate-400">Poids calculé sur les valeurs de retrait indicatives. Ce n’est pas une allocation recommandée.</p>
+                </div>
+                <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">{holdings.length} SCPI détenues</span>
+              </div>
+              <div className="mt-5 flex h-4 overflow-hidden rounded-full bg-slate-800" role="img" aria-label="Poids des SCPI détenues">
+                {holdings.map((holding, index) => (
+                  <div key={holding.slug}
+                    title={holding.name + ' · ' + formatPercent(totals.currentValue > 0 ? holding.currentValue / totals.currentValue * 100 : 0)}
+                    style={{
+                      width: (totals.currentValue > 0 ? holding.currentValue / totals.currentValue * 100 : 0) + '%',
+                      backgroundColor: ['#34d399', '#60a5fa', '#a78bfa', '#fbbf24', '#fb7185', '#38bdf8'][index % 6]
+                    }}
+                  />
+                ))}
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {holdings.map((holding, index) => (
+                  <div key={holding.slug} className="flex min-w-0 items-center gap-3 text-xs text-slate-300">
+                    <span className="h-3 w-3 shrink-0 rounded-sm" style={{ backgroundColor: ['#34d399', '#60a5fa', '#a78bfa', '#fbbf24', '#fb7185', '#38bdf8'][index % 6] }} />
+                    <span className="min-w-0 flex-1 truncate">{holding.name}</span>
+                    <span className="font-semibold tabular-nums text-white">{formatPercent(totals.currentValue > 0 ? holding.currentValue / totals.currentValue * 100 : 0)}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
             <section className="grid gap-6 xl:grid-cols-3">
               <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
                 <div className="flex items-center gap-2">
                   <Gauge className="h-5 w-5 text-emerald-300" />
                   <h3 className="font-semibold text-white">Radar portefeuille</h3>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-500">
-                  Synthèse des trajectoires actuellement disponibles. Ce n’est ni une notation réglementaire ni une prévision de performance.
+                <p className="mt-2 text-xs leading-5 text-slate-400">
+                  Synthèse des trajectoires certifiées, sans prévision de performance.
                 </p>
                 <div className="mt-5 grid grid-cols-2 gap-3">
                   {(['stable', 'info', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
@@ -797,10 +837,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   <h3 className="font-semibold text-white">Diversification sectorielle</h3>
                 </div>
                 <div className="mt-5 space-y-4">
-                  {sectorBreakdown.length === 0 ? (
-                    <p className="text-sm text-slate-500">Données sectorielles insuffisantes.</p>
+                  {sectorBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
                   ) : (
-                    sectorBreakdown.map(([label, value]) => (
+                    sectorBreakdown.entries.slice(0, 5).map(({ label, value }) => (
                       <div key={label}>
                         <div className="flex justify-between text-xs">
                           <span className="text-slate-300">{label}</span>
@@ -815,6 +855,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                       </div>
                     ))
                   )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Portefeuille documenté : {formatPercent(sectorBreakdown.coveredPercent, 0)}
+                    {sectorBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(sectorBreakdown.missingPercent, 0) : ''}
+                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                  </p>
                 </div>
               </div>
 
@@ -824,10 +869,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   <h3 className="font-semibold text-white">Diversification géographique</h3>
                 </div>
                 <div className="mt-5 space-y-4">
-                  {geoBreakdown.length === 0 ? (
-                    <p className="text-sm text-slate-500">Données géographiques insuffisantes.</p>
+                  {geoBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
                   ) : (
-                    geoBreakdown.map(([label, value]) => (
+                    geoBreakdown.entries.slice(0, 5).map(({ label, value }) => (
                       <div key={label}>
                         <div className="flex justify-between text-xs">
                           <span className="text-slate-300">{label}</span>
@@ -842,92 +887,46 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                       </div>
                     ))
                   )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Portefeuille documenté : {formatPercent(geoBreakdown.coveredPercent, 0)}
+                    {geoBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(geoBreakdown.missingPercent, 0) : ''}
+                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                  </p>
                 </div>
               </div>
             </section>
 
-            <section className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
-              <div className="flex flex-col gap-2 border-b border-white/10 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <section className="space-y-5">
+              <div className="flex flex-col justify-between gap-2 px-1 sm:flex-row sm:items-end">
                 <div>
-                  <h3 className="font-semibold text-white">Mes SCPI</h3>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Plusieurs achats d’une même SCPI sont consolidés dans une seule ligne.
+                  <h3 className="text-lg font-semibold text-white">Mes SCPI — analyses détaillées</h3>
+                  <p className="mt-1 text-xs text-slate-400">
+                    Données des fiches MaximusSCPI, revenus indicatifs, répartitions et signaux propres à chaque position.
                   </p>
                 </div>
-                <span className="text-xs text-slate-500">Données MaximusSCPI + prix d’achat renseignés</span>
+                <span className="text-[11px] text-slate-500">Les achats d’une même SCPI sont consolidés.</span>
               </div>
-              <div className="divide-y divide-white/10">
-                {holdings.map(holding => {
-                  const radar = getRadarLevel(holding.trajectory);
-                  return (
-                    <div key={holding.slug} className="p-5 lg:px-6">
-                      <div className="grid gap-5 xl:grid-cols-[1.5fr_repeat(5,minmax(0,1fr))_auto] xl:items-center">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <a
-                              href={`/${holding.slug}/`}
-                              className="font-semibold text-white hover:text-emerald-300"
-                            >
-                              {holding.name}
-                            </a>
-                            <span
-                              className={`rounded-full border px-2 py-1 text-[10px] font-medium ${radarPresentation[radar].className}`}
-                            >
-                              {radarPresentation[radar].label}
-                            </span>
-                          </div>
-                          <div className="mt-2 text-xs text-slate-500">
-                            {holding.units.toLocaleString('fr-FR', { maximumFractionDigits: 6 })} parts ·{' '}
-                            {holding.source === 'external'
-                              ? 'Achetée ailleurs'
-                              : holding.source === 'maximus'
-                                ? 'Via Maximus'
-                                : 'Origines mixtes'}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">Investi</div>
-                          <div className="mt-1 text-sm text-slate-200">{formatCurrency(holding.invested)}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">Valeur</div>
-                          <div className="mt-1 text-sm text-slate-200">{formatCurrency(holding.currentValue)}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">Revenus/an</div>
-                          <div className="mt-1 text-sm text-slate-200">{formatCurrency(holding.annualIncome)}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">Rend. coût</div>
-                          <div className="mt-1 text-sm text-slate-200">{formatPercent(holding.yieldOnCost)}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">TOF</div>
-                          <div className="mt-1 text-sm text-slate-200">{formatPercent(numberValue(holding.indicator?.tof))}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-wider text-slate-500">Trajectoire</div>
-                          <div className="mt-1 max-w-40 text-xs text-slate-300">{prettifySignal(holding.trajectory?.trajectoire_tof)}</div>
-                        </div>
-                        {holding.source !== 'maximus' ? (
-                          <button
-                            onClick={() => {
-                              setManagedSlug(current => (current === holding.slug ? null : holding.slug));
-                              cancelEditPosition();
-                            }}
-                            title="Gérer les positions ajoutées manuellement"
-                            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-2 text-xs text-slate-300 hover:border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-200"
-                          >
-                            <Pencil className="h-4 w-4" />
-                            Gérer
-                          </button>
-                        ) : (
-                          <span className="text-[10px] text-slate-600">Synchronisée</span>
-                        )}
-                      </div>
-
-                      {managedSlug === holding.slug && (
-                        <div className="mt-4 border-t border-white/10 pt-4">
+              {holdings.map(holding => {
+                const radar = getRadarLevel(holding.trajectory);
+                const exposure = holdingExposures.get(holding.slug);
+                return (
+                  <ClientScpiCard
+                    key={holding.slug}
+                    holding={holding}
+                    sector={exposure?.sector || { items: [], source: 'missing' }}
+                    geography={exposure?.geography || { items: [], source: 'missing' }}
+                    company={holding.indicator?.societe_gestion || catalogBySlug.get(holding.slug)?.managementCompany}
+                    alerts={holding.trajectory ? buildSurveillanceSignals(holding.trajectory) : []}
+                    radarLabel={radarPresentation[radar].label}
+                    radarClass={radarPresentation[radar].className}
+                    surveillanceUnavailable={Boolean(surveillanceError)}
+                    manageExpanded={managedSlug === holding.slug}
+                    onManage={() => {
+                      setManagedSlug(current => current === holding.slug ? null : holding.slug);
+                      cancelEditPosition();
+                    }}
+                  >
+                    <div className="mt-4 border-t border-white/10 pt-4">
                           <div className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                             Positions ajoutées manuellement
                           </div>
@@ -1026,11 +1025,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                               ))}
                           </div>
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                  </ClientScpiCard>
+                );
+              })}
             </section>
           </>
         )}
