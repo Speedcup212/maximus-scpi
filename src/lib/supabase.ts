@@ -14,7 +14,10 @@ export const supabase: SupabaseClient | null =
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true
+          // Le callback OAuth est traité explicitement dans AuthContext afin
+          // d'éviter les courses au démarrage observées sur Firefox.
+          detectSessionInUrl: false,
+          flowType: 'pkce'
         }
       })
     : null;
