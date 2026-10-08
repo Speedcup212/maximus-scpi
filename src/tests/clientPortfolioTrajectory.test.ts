@@ -51,6 +51,10 @@ describe('Radar et trajectoire globale du portefeuille client', () => {
     expect(res.weights.find(w => w.status === 'stable')?.count).toBe(1);
     expect(res.weights.find(w => w.status === 'watch')?.percent).toBeCloseTo(1795 / 4090 * 100, 6);
     expect(res.monitoredPercent).toBe(100);
+    expect(res.axes.find(axis => axis.kind === 'tof')?.vigilancePercent)
+      .toBeCloseTo(1795 / 4090 * 100, 6);
+    expect(res.axes.find(axis => axis.kind === 'liquidity')?.vigilancePercent).toBe(0);
+
     expect(res.unverifiedPercent).toBe(0);
   });
   it('calcule uniquement un TOF et une variation sur période comparable', () => {
