@@ -609,11 +609,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   }) => (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
       <div className="flex items-center justify-between">
-        <span className="text-xs uppercase tracking-[0.2em] text-slate-400">{label}</span>
+        <span className="text-xs font-medium uppercase tracking-[0.1em] text-slate-300">{label}</span>
         <Icon className="h-4 w-4 text-emerald-300" />
       </div>
       <div className="mt-3 text-2xl font-semibold text-white">{value}</div>
-      <div className="mt-1 text-xs text-slate-500">{detail}</div>
+      <div className="mt-2 text-xs leading-5 text-slate-400">{detail}</div>
     </div>
   );
 
@@ -702,7 +702,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               </p>
             </div>
             <form onSubmit={handleAddPosition} className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-              <label className="text-xs text-slate-400 xl:col-span-2">
+              <label className="text-sm text-slate-300 xl:col-span-2">
                 SCPI
                 <select
                   required
@@ -813,11 +813,16 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           />
         </section>
 
-        <p className="px-1 text-sm leading-6 text-slate-400">
-          Les revenus affichés sont des <strong className="text-slate-200">projections brutes au dernier TD annuel publié</strong>,
-          hors date de jouissance et fiscalité. Aucun historique de distributions réellement encaissées
-          n’est connecté à votre espace. Le montant mensuel n'est pas un calendrier de paiement.
-        </p>
+        <details className="rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3 text-sm text-slate-300">
+          <summary className="cursor-pointer font-medium text-slate-200 hover:text-white">
+            Comprendre les revenus théoriques et leurs limites
+          </summary>
+          <p className="mt-2 leading-6 text-slate-300">
+            Les revenus affichés sont des <strong className="text-slate-100">projections brutes au dernier TD annuel publié</strong>,
+            hors date de jouissance et fiscalité. Aucun historique de distributions réellement encaissées
+            n’est connecté à votre espace. Le montant mensuel n'est pas un calendrier de paiement.
+          </p>
+        </details>
         {loading ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center text-sm text-slate-400">
             Chargement du portefeuille…
@@ -846,15 +851,15 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   <AlertTriangle className="h-5 w-5 text-amber-300" />
                   <h3 className="font-semibold text-white">Alertes Maximus</h3>
                 </div>
-                <p className="mt-2 text-xs text-slate-500">
-                  Signaux dérivés des trajectoires publiées : TOF, liquidité et variations de prix disponibles.
+                <p className="mt-1 text-sm text-slate-300">
+                  Les points à examiner en priorité dans votre portefeuille.
                 </p>
               </div>
               <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
                 {surveillanceError ? '—' : alerts.length}
               </span>
             </div>
-            <div className="mt-5 space-y-3">
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
               {surveillanceError ? (
                 <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
                   Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
@@ -868,7 +873,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
                 </div>
               ) : (
-                alerts.slice(0, 8).map((alert, index) => (
+                alerts.slice(0, 2).map((alert, index) => (
                   <div
                     key={`${alert.slug}-${index}`}
                     className={`rounded-xl border p-4 ${
@@ -893,6 +898,21 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     </div>
                   </div>
                 ))
+              )}
+              {!surveillanceError && alerts.length > 2 && (
+                <details className="rounded-xl border border-white/10 bg-slate-950/30 p-4 lg:col-span-2">
+                  <summary className="cursor-pointer text-sm font-medium text-emerald-300 hover:text-emerald-200">
+                    Voir les {alerts.length - 2} autres alertes
+                  </summary>
+                  <div className="mt-3 grid gap-3 lg:grid-cols-2">
+                    {alerts.slice(2).map((alert, index) => (
+                      <div key={alert.slug + '-extra-' + index} className="rounded-lg border border-white/10 p-3 text-sm text-slate-200">
+                        <p className="font-semibold text-white">{alert.name}</p>
+                        <p className="mt-1 text-slate-300">{alert.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                </details>
               )}
             </div>
           </div>
