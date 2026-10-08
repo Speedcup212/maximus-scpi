@@ -116,6 +116,32 @@ const mountApp = async () => {
     throw new Error('Root element not found');
   }
 
+  const normalizedPath = window.location.pathname.replace(/^\/|\/$/g, '');
+  const isPrivateRoute = normalizedPath.startsWith('app') || normalizedPath.startsWith('espace');
+
+  if (isPrivateRoute) {
+    try {
+      const { bootstrapSupabaseAuthFromUrl } = await import('./lib/supabase');
+      const authBootstrap = await bootstrapSupabaseAuthFromUrl();
+
+      if (authBootstrap.error) {
+        try {
+          sessionStorage.setItem('maximusAuthBootstrapError', authBootstrap.error);
+        } catch {
+          // Le login reste utilisable sans sessionStorage.
+        }
+      } else {
+        try {
+          sessionStorage.removeItem('maximusAuthBootstrapError');
+        } catch {
+          // Rien à faire.
+        }
+      }
+    } catch (error) {
+      console.error('[Auth bootstrap] Failed before router mount', error);
+    }
+  }
+
   // Le HTML statique reste disponible pour le SEO mais est masqué visuellement
   // pendant le très court chargement du bundle de la route.
   const Entry = await selectEntry();
