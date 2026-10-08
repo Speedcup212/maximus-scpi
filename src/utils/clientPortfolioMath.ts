@@ -24,3 +24,14 @@ export const estimateAnnualizedScpiIncome = (
   ) return null;
   return units * publishedSubscriptionPrice * annualDistributionRate / 100;
 };
+
+/** Capitalisation issue de scpi_indicators : valeurs stockées en millions d'euros. */
+export const formatCapitalizationMillions = (millions: number | null): string => {
+  if (millions === null || !Number.isFinite(millions) || millions < 0) return '—';
+  if (millions >= 1000) {
+    return millions / 1000 < 10
+      ? (millions / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' Md€'
+      : (millions / 1000).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' Md€';
+  }
+  return millions.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' M€';
+};
