@@ -624,7 +624,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       onNavigate={onNavigate}
       onSignOut={signOut}
     >
-      <div className="space-y-6">
+      <div className="space-y-5">
         <section className="overflow-hidden rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 via-slate-950 to-slate-950 p-6 lg:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
@@ -838,6 +838,66 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </section>
         ) : (
           <>
+            <section aria-label="Alertes du portefeuille" className="grid gap-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-amber-300" />
+                  <h3 className="font-semibold text-white">Alertes Maximus</h3>
+                </div>
+                <p className="mt-2 text-xs text-slate-500">
+                  Signaux dérivés des trajectoires publiées : TOF, liquidité et variations de prix disponibles.
+                </p>
+              </div>
+              <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
+                {surveillanceError ? '—' : alerts.length}
+              </span>
+            </div>
+            <div className="mt-5 space-y-3">
+              {surveillanceError ? (
+                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
+                  Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
+                </div>
+              ) : alerts.length === 0 && globalTrajectory.unverifiedPercent > 0.01 ? (
+                <div className="rounded-xl border border-slate-500/20 bg-slate-500/5 p-4 text-sm text-slate-300">
+                  Aucun signal détecté sur les positions certifiées. Certaines SCPI restent hors du périmètre de surveillance.
+                </div>
+              ) : alerts.length === 0 ? (
+                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
+                  Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
+                </div>
+              ) : (
+                alerts.slice(0, 8).map((alert, index) => (
+                  <div
+                    key={`${alert.slug}-${index}`}
+                    className={`rounded-xl border p-4 ${
+                      alert.level === 'critical'
+                        ? 'border-red-500/25 bg-red-500/5'
+                        : alert.level === 'watch'
+                          ? 'border-amber-500/25 bg-amber-500/5'
+                          : 'border-sky-500/25 bg-sky-500/5'
+                    }`}
+                  >
+                    <div className="text-sm font-medium text-white">{alert.name}</div>
+                    <div
+                      className={`mt-1 text-xs ${
+                        alert.level === 'critical'
+                          ? 'text-red-200'
+                          : alert.level === 'watch'
+                            ? 'text-amber-200'
+                            : 'text-sky-200'
+                      }`}
+                    >
+                      {alert.message}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+            </section>
+
             <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
@@ -868,12 +928,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               </div>
             </section>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               <h3 className="text-lg font-semibold text-white">Répartitions du portefeuille</h3>
               <p className="text-sm leading-5 text-slate-400">Secteurs et pays, pondérés par les valeurs indicatives de vos SCPI. Les sources et limites de fiabilité sont indiquées sous les graphiques.</p>
             </div>
-            <section className="grid gap-6 xl:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+            <section className="grid gap-4 lg:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
                 <div className="flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-emerald-300" />
                   <h3 className="text-base font-semibold text-white">Répartition sectorielle du portefeuille</h3>
@@ -912,7 +972,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
                 <div className="flex items-center gap-2">
                   <Globe2 className="h-5 w-5 text-emerald-300" />
                   <h3 className="text-base font-semibold text-white">Répartition géographique du portefeuille</h3>
@@ -1103,65 +1163,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </>
         )}
 
-        <section className="grid gap-6 xl:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-amber-300" />
-                  <h3 className="font-semibold text-white">Alertes Maximus</h3>
-                </div>
-                <p className="mt-2 text-xs text-slate-500">
-                  Signaux dérivés des trajectoires publiées : TOF, liquidité et variations de prix disponibles.
-                </p>
-              </div>
-              <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
-                {surveillanceError ? '—' : alerts.length}
-              </span>
-            </div>
-            <div className="mt-5 space-y-3">
-              {surveillanceError ? (
-                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
-                  Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
-                </div>
-              ) : alerts.length === 0 && globalTrajectory.unverifiedPercent > 0.01 ? (
-                <div className="rounded-xl border border-slate-500/20 bg-slate-500/5 p-4 text-sm text-slate-300">
-                  Aucun signal détecté sur les positions certifiées. Certaines SCPI restent hors du périmètre de surveillance.
-                </div>
-              ) : alerts.length === 0 ? (
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
-                  Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
-                </div>
-              ) : (
-                alerts.slice(0, 8).map((alert, index) => (
-                  <div
-                    key={`${alert.slug}-${index}`}
-                    className={`rounded-xl border p-4 ${
-                      alert.level === 'critical'
-                        ? 'border-red-500/25 bg-red-500/5'
-                        : alert.level === 'watch'
-                          ? 'border-amber-500/25 bg-amber-500/5'
-                          : 'border-sky-500/25 bg-sky-500/5'
-                    }`}
-                  >
-                    <div className="text-sm font-medium text-white">{alert.name}</div>
-                    <div
-                      className={`mt-1 text-xs ${
-                        alert.level === 'critical'
-                          ? 'text-red-200'
-                          : alert.level === 'watch'
-                            ? 'text-amber-200'
-                            : 'text-sky-200'
-                      }`}
-                    >
-                      {alert.message}
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
+        <section aria-label="Dossier client" className="grid gap-4">
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
