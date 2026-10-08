@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
+import { classifyTofOccupation } from '../utils/surveillanceSignals';
 import {
   freshnessLabel,
   getEffectiveRiskLevel,
@@ -64,7 +65,7 @@ type IndicatorHistoryRow = {
 };
 
 type SignalWithTone = AnalysisSignal & {
-  tone: 'alert' | 'watch' | 'negative' | 'positive';
+  tone: 'alert' | 'watch' | 'negative' | 'positive' | 'info';
 };
 
 type DisplayRow = {
@@ -118,6 +119,7 @@ const signalToneClasses = {
   watch: 'border-amber-400/20 bg-amber-400/[0.06] text-amber-100',
   negative: 'border-orange-400/20 bg-orange-400/[0.05] text-orange-100',
   positive: 'border-emerald-400/20 bg-emerald-400/[0.05] text-emerald-100',
+  info: 'border-sky-400/20 bg-sky-400/[0.06] text-sky-100',
 };
 
 const formatPeriod = (value?: string | null) => {
@@ -316,6 +318,35 @@ const validateExtremeSignal = <T extends SignalWithTone>(
   } as T;
 };
 
+/**
+ * Lecture par bulletins : conserve les mouvements, mais ne transforme pas une
+ * baisse à TOF satisfaisant en alerte sans autre indicateur.
+ * Vérification de cohérence sur le même trimestre (pas de valeur de catalogue).
+ */
+const contextualizeTofBulletinSignal = (
+  signal: SignalWithTone,
+  row: BulletinAnalysisRow,
+  history: IndicatorHistoryRow[]
+): SignalWithTone => {
+  const key = normalizeMetric(signal.metric);
+  if ((key !== 'tof' && key !== 'taux_occupation_financier') ||
+      signal.tone === 'positive' || signal.quality_issue) return signal;
+  const samePeriod = history.find(h => normalizePeriod(h.source_period) === normalizePeriod(row.current_period));
+  const recordedTof = parseNumber(samePeriod?.tof);
+  const statedTof = parseNumber(signal.current);
+  if (statedTof === null || recordedTof === null ||
+      Math.abs(recordedTof - statedTof) > 0.3) return signal;
+  const tier = classifyTofOccupation(recordedTof);
+  if (tier !== 'eleve' && tier !== 'satisfaisant') return signal;
+  return {
+    ...signal,
+    tone: 'info',
+    severity: 'info',
+    message: (signal.message || 'Évolution du TOF constatée.') +
+      ' Le taux d’occupation reste satisfaisant : évolution à suivre, sans alerte d’occupation liée à cette seule baisse.',
+  };
+};
+
 const getSignals = (
   row: BulletinAnalysisRow,
   history: IndicatorHistoryRow[]
@@ -339,7 +370,8 @@ const getSignals = (
     }))),
   ]
     .map((signal) => sanitizeAnalysisSignal(signal))
-    .map((signal) => validateExtremeSignal(signal, history));
+    .map((signal) => validateExtremeSignal(signal, history))
+    .map((signal) => contextualizeTofBulletinSignal(signal, row, history));
 
   const seen = new Set<string>();
   return buckets.filter((item) => {
@@ -393,6 +425,7 @@ const getSignalLabel = (signal: SignalWithTone, riskLevel: RiskLevel) => {
   if (tone === 'alert') return 'Point critique';
   if (tone === 'watch' && signal.tone === 'alert') return 'Vigilance forte';
   if (tone === 'watch') return 'À surveiller';
+  if (tone === 'info') return 'Information de suivi';
   if (tone === 'negative') return 'Dégradation';
   return 'Amélioration';
 };
@@ -710,7 +743,7 @@ const AnalysesLiveFeed: React.FC = () => {
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-rose-300">Radar du marché</p>
-                    <h3 className="mt-1 text-lg font-bold text-white">Les mouvements à surveiller maintenant</h3>
+                    <h3 className="mt-1 text-lg font-bold text-white">Mouvements et informations de suivi</h3>
                   </div>
                   <span className="text-xs text-slate-500">Liquidité · occupation · valorisation · améliorations</span>
                 </div>
@@ -727,7 +760,7 @@ const AnalysesLiveFeed: React.FC = () => {
                           <div className="min-w-0 truncate text-sm font-bold text-white" translate="no">
                             {movement.name}
                           </div>
-                          <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold ${tone === 'positive' ? signalToneClasses.positive : riskConfig[movement.riskLevel].classes}`}>
+                          <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold ${tone === 'positive' ? signalToneClasses.positive : tone === 'info' ? signalToneClasses.info : riskConfig[movement.riskLevel].classes}`}>
                             {movement.category}
                           </span>
                         </div>

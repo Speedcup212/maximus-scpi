@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import certifiedScpiCohort from '../../data/certified_scpi_cohort.json';
+import { classifyTofOccupation } from '../../utils/surveillanceSignals';
 import TrajectorySparkline from './TrajectorySparkline';
 import {
   HISTORY_SELECT,
@@ -82,9 +83,23 @@ const safeDelta = (value: unknown) => {
   return parsed !== null && Math.abs(parsed) <= 100 ? parsed : null;
 };
 
-const deltaTone = (value: number | null) => {
-  if (value === null || Math.abs(value) < 0.01) return 'text-slate-400';
-  return value > 0 ? 'text-emerald-300' : 'text-rose-300';
+const tofTierLabel: Record<ReturnType<typeof classifyTofOccupation>, string> = {
+  eleve: 'Très bon niveau',
+  satisfaisant: 'Niveau satisfaisant',
+  fragile: 'Niveau fragile',
+  faible: 'Niveau faible',
+  critique: 'Niveau critique',
+  inconnu: 'Données insuffisantes',
+};
+
+const deltaTone = (change: number | null, currentTof: number | null) => {
+  if (change === null || Math.abs(change) < 0.01) return 'text-slate-400';
+  const tier = classifyTofOccupation(currentTof);
+  if (change > 0) return 'text-emerald-300';
+  if (tier === 'inconnu') return 'text-slate-400';
+  if (tier === 'eleve' || tier === 'satisfaisant') return 'text-sky-300';
+  if (tier === 'critique') return 'text-rose-300';
+  return 'text-amber-300';
 };
 
 const certifiedLiquidity = (row: DashboardRow) => {
@@ -271,8 +286,10 @@ const TrajectorySurveillanceTable: React.FC = () => {
               Observatoire Maximus
             </div>
             <h2 className="text-xl font-bold text-white sm:text-2xl">Trajectoires comparées des SCPI</h2>
-            <p className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-500">
-              Même référentiel que Surveillance : TOF, liquidité, valorisation et dette sont affichés uniquement lorsque les gates de certification autorisent la comparaison.
+            <p className="mt-1.5 max-w-3xl text-sm leading-6 text-slate-300">
+              Même référentiel que Surveillance : le niveau du TOF et son évolution sont distincts.
+              Une baisse à 94 % indique un recul à suivre, pas une occupation préoccupante.
+              Les comparaisons nécessitent des données certifiées.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 text-xs">
@@ -330,10 +347,13 @@ const TrajectorySurveillanceTable: React.FC = () => {
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <TrajectorySparkline values={row.tofSeries} className="text-sky-300" />
-                          <span className="min-w-[54px] text-right font-semibold text-slate-200">{formatNumber(row.tof, ' %')}</span>
+                          <div className="min-w-[92px] text-right">
+                            <span className="font-semibold text-slate-200">{formatNumber(row.tof, ' %')}</span>
+                            <div className="mt-1 text-[11px] leading-4 text-slate-400">{tofTierLabel[classifyTofOccupation(row.tof)]}</div>
+                          </div>
                         </div>
                       </td>
-                      <td className={`px-4 py-3 font-semibold ${deltaTone(row.tofDelta)}`}>
+                      <td className={`px-4 py-3 font-semibold ${deltaTone(row.tofDelta, row.tof)}`}>
                         {row.tofDelta === null ? 'N.D.' : `${row.tofDelta > 0 ? '+' : ''}${formatNumber(row.tofDelta, ' pt')}`}
                       </td>
                       <td className="px-4 py-3 text-xs text-slate-500">{row.liquidityLabel}</td>
