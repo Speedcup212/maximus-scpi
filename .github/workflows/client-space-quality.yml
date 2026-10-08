@@ -5,6 +5,7 @@ on:
       - 'src/app/pages/ClientDashboard.tsx'
       - 'src/app/components/ClientScpiCard.tsx'
       - 'src/utils/clientPortfolio*.ts'
+      - 'src/tests/clientPortfolio*.test.ts'
       - '.github/workflows/client-space-quality.yml'
   workflow_dispatch:
 jobs:
@@ -23,7 +24,7 @@ jobs:
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
       - name: Tests portefeuille et ventilations
-        run: npx vitest run src/utils/clientPortfolioMath.test.ts src/utils/clientPortfolioExposure.test.ts
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts
       - name: Vérification TypeScript sur les fichiers modifiés
         shell: bash
         run: |
