@@ -112,6 +112,15 @@ try {
   await assertContains(page, '/app/login', ['Connexion', 'Continuer avec Google']);
   await assertContains(page, '/app/request-access', ['Demander un accès', 'Après validation']);
 
+  await page.goto(`${BASE}/app`, { waitUntil: 'networkidle2', timeout: 30_000 });
+  await sleep(1000);
+  const appEntryBody = await page.$eval('body', el => el.innerText);
+  if (!appEntryBody.includes('Connexion') || appEntryBody.includes('Suivez vos SCPI. Surveillez leur trajectoire.')) {
+    throw new Error(
+      `/app doit rediriger vers la connexion lorsqu'aucune session n'existe.\nBody:\n${appEntryBody.slice(0, 2000)}`,
+    );
+  }
+
   await page.goto(`${BASE}/app/client`, { waitUntil: 'networkidle2', timeout: 30_000 });
   await sleep(1000);
   const protectedBody = await page.$eval('body', el => el.innerText);
