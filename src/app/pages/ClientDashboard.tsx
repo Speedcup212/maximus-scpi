@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
+  Info,
   BellRing,
   Building2,
   Euro,
@@ -434,7 +435,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       }
     }
 
-    return nextAlerts;
+    const levelOrder = { critical: 0, watch: 1, info: 2 };
+    return nextAlerts.sort((first, second) => levelOrder[first.level] - levelOrder[second.level]);
   }, [holdings]);
 
   const globalTrajectory = useMemo(
@@ -952,11 +954,13 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-amber-300" />
-                  <h3 className="font-semibold text-white">Alertes Maximus</h3>
+                  {alerts.some(alert => alert.level === 'critical' || alert.level === 'watch')
+                    ? <AlertTriangle className="h-5 w-5 text-amber-300" />
+                    : <Info className="h-5 w-5 text-sky-300" />}
+                  <h3 className="font-semibold text-white">Suivi Maximus : alertes et informations</h3>
                 </div>
                 <p className="mt-1 text-sm text-slate-300">
-                  Les points à examiner en priorité dans votre portefeuille.
+                  Les vigilances sont prioritaires ; les tendances satisfaisantes mais en évolution restent des informations de suivi.
                 </p>
               </div>
               <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
@@ -988,7 +992,14 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                           : 'border-sky-500/25 bg-sky-500/5'
                     }`}
                   >
-                    <div className="text-sm font-medium text-white">{alert.name}</div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-sm font-medium text-white">{alert.name}</div>
+                      <span className={alert.level === 'info'
+                        ? 'text-xs font-medium text-sky-200'
+                        : 'text-xs font-medium text-amber-200'}>
+                        {alert.level === 'info' ? 'Information de suivi' : alert.level === 'watch' ? 'À surveiller' : 'Vigilance forte'}
+                      </span>
+                    </div>
                     <div
                       className={`mt-1 text-xs ${
                         alert.level === 'critical'
@@ -1006,7 +1017,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               {!surveillanceError && alerts.length > 2 && (
                 <details className="rounded-xl border border-white/10 bg-slate-950/30 p-4 lg:col-span-2">
                   <summary className="cursor-pointer text-sm font-medium text-emerald-300 hover:text-emerald-200">
-                    Voir les {alerts.length - 2} autres alertes
+                    Voir les {alerts.length - 2} autres informations ou alertes
                   </summary>
                   <div className="mt-3 grid gap-3 lg:grid-cols-2">
                     {alerts.slice(2).map((alert, index) => (
