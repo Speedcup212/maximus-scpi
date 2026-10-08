@@ -394,8 +394,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const sectorBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.sector.source === 'structured'
-        ? holdingExposures.get(holding.slug)!.sector : EMPTY_EXPOSURE,
+      // Sources structurées en priorité, fiches historiques en repli.
+      // Les séries éditoriales ne sont pas certifiées ; l'écran le précise.
+      exposure: holdingExposures.get(holding.slug)?.sector || EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -403,8 +404,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const geoBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.geography.source === 'structured'
-        ? holdingExposures.get(holding.slug)!.geography : EMPTY_EXPOSURE,
+      exposure: holdingExposures.get(holding.slug)?.geography || EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -868,6 +868,91 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               </div>
             </section>
 
+            <div className="space-y-2">
+              <h3 className="text-lg font-semibold text-white">Répartitions du portefeuille</h3>
+              <p className="text-sm leading-5 text-slate-400">Secteurs et pays, pondérés par les valeurs indicatives de vos SCPI. Les sources et limites de fiabilité sont indiquées sous les graphiques.</p>
+            </div>
+            <section className="grid gap-6 xl:grid-cols-2">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-emerald-300" />
+                  <h3 className="text-base font-semibold text-white">Répartition sectorielle du portefeuille</h3>
+                </div>
+                <div className="mt-5 space-y-4">
+                  {sectorBreakdown.catalogPercent > 0 && (
+                    <p className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-100">
+                      Estimation historique non certifiée sur {formatPercent(sectorBreakdown.catalogPercent, 0)} de la valeur du portefeuille.
+                    </p>
+                  )}
+                  {sectorBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
+                  ) : (
+                    sectorBreakdown.entries.slice(0, 5).map(({ label, value }) => (
+                      <div key={label}>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-slate-300">{label}</span>
+                          <span className="text-slate-500">{formatPercent(value)}</span>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                          <div
+                            className="h-1.5 rounded-full bg-emerald-400"
+                            style={{ width: `${Math.min(value, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Répartition affichée sur {formatPercent(sectorBreakdown.coveredPercent, 0)} du portefeuille.
+                    {' '}Source structurée : {formatPercent(sectorBreakdown.structuredPercent, 0)} ;
+                    {' '}fiches historiques : {formatPercent(sectorBreakdown.catalogPercent, 0)}.
+                    {sectorBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(sectorBreakdown.missingPercent, 0) + '.' : ''}
+                    {' '}Répartition indicative pondérée par les valeurs affichées. Les fiches historiques ne sont pas certifiées et leurs périodes restent à vérifier ; les catégories des sociétés de gestion peuvent se recouper.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <div className="flex items-center gap-2">
+                  <Globe2 className="h-5 w-5 text-emerald-300" />
+                  <h3 className="text-base font-semibold text-white">Répartition géographique du portefeuille</h3>
+                </div>
+                <div className="mt-5 space-y-4">
+                  {geoBreakdown.catalogPercent > 0 && (
+                    <p className="rounded-lg border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-100">
+                      Estimation historique non certifiée sur {formatPercent(geoBreakdown.catalogPercent, 0)} de la valeur du portefeuille.
+                    </p>
+                  )}
+                  {geoBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
+                  ) : (
+                    geoBreakdown.entries.slice(0, 5).map(({ label, value }) => (
+                      <div key={label}>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-slate-300">{label}</span>
+                          <span className="text-slate-500">{formatPercent(value)}</span>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                          <div
+                            className="h-1.5 rounded-full bg-emerald-400"
+                            style={{ width: `${Math.min(value, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Répartition affichée sur {formatPercent(geoBreakdown.coveredPercent, 0)} du portefeuille.
+                    {' '}Source structurée : {formatPercent(geoBreakdown.structuredPercent, 0)} ;
+                    {' '}fiches historiques : {formatPercent(geoBreakdown.catalogPercent, 0)}.
+                    {geoBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(geoBreakdown.missingPercent, 0) + '.' : ''}
+                    {' '}Répartition indicative pondérée par les valeurs affichées. Les données historiques du catalogue sont non certifiées et leurs périodes restent à vérifier.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+
             <ClientPortfolioRadarTrajectory
               summary={globalTrajectory}
               surveillanceUnavailable={Boolean(surveillanceError)}
@@ -1013,75 +1098,6 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
               })}
             </section>
 
-            <section className="grid gap-6 xl:grid-cols-2">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Diversification sectorielle</h3>
-                </div>
-                <div className="mt-5 space-y-4">
-                  {sectorBreakdown.entries.length === 0 ? (
-                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
-                  ) : (
-                    sectorBreakdown.entries.slice(0, 5).map(({ label, value }) => (
-                      <div key={label}>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-300">{label}</span>
-                          <span className="text-slate-500">{formatPercent(value)}</span>
-                        </div>
-                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
-                          <div
-                            className="h-1.5 rounded-full bg-emerald-400"
-                            style={{ width: `${Math.min(value, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))
-                  )}
-                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Répartition affichée sur {formatPercent(sectorBreakdown.coveredPercent, 0)} du portefeuille.
-                    {' '}Source structurée : {formatPercent(sectorBreakdown.structuredPercent, 0)} ;
-                    {' '}fiches historiques : {formatPercent(sectorBreakdown.catalogPercent, 0)}.
-                    {sectorBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(sectorBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Les fiches historiques non datées restent consultables individuellement, mais sont exclues de la diversification consolidée tant que leurs périodes et sources ne sont pas validées.
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Globe2 className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Diversification géographique</h3>
-                </div>
-                <div className="mt-5 space-y-4">
-                  {geoBreakdown.entries.length === 0 ? (
-                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
-                  ) : (
-                    geoBreakdown.entries.slice(0, 5).map(({ label, value }) => (
-                      <div key={label}>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-300">{label}</span>
-                          <span className="text-slate-500">{formatPercent(value)}</span>
-                        </div>
-                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
-                          <div
-                            className="h-1.5 rounded-full bg-emerald-400"
-                            style={{ width: `${Math.min(value, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))
-                  )}
-                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Répartition affichée sur {formatPercent(geoBreakdown.coveredPercent, 0)} du portefeuille.
-                    {' '}Source structurée : {formatPercent(geoBreakdown.structuredPercent, 0)} ;
-                    {' '}fiches historiques : {formatPercent(geoBreakdown.catalogPercent, 0)}.
-                    {geoBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(geoBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Les répartitions historiques sans période fiable sont exclues des totaux.
-                  </p>
-                </div>
-              </div>
-            </section>
 
 
           </>

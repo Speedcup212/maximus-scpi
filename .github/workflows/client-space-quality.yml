@@ -13,6 +13,8 @@ on:
       - 'src/app/components/ClientHistoricalTofChart.tsx'
       - 'src/utils/clientPortfolio*.ts'
       - 'src/tests/clientPortfolio*.test.ts'
+      - 'src/tests/clientExposureVisibility.test.ts'
+      - 'src/tests/clientRadarPedagogy.test.ts'
       - '.github/workflows/client-space-quality.yml'
   workflow_dispatch:
 jobs:
@@ -31,7 +33,7 @@ jobs:
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
       - name: Tests portefeuille et ventilations
-        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts src/tests/clientExposureVisibility.test.ts src/tests/clientRadarPedagogy.test.ts
       - name: Vérification TypeScript sur les fichiers modifiés
         shell: bash
         run: |

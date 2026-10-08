@@ -217,6 +217,20 @@ const ClientScpiCard: React.FC<Props> = ({
         <div><p className="text-xs text-slate-400">Projection brute annuelle</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.annualIncome)}</p></div>
         <div><p className="text-xs text-slate-400">TOF publié</p><p className="mt-1 text-lg font-semibold text-white">{pct(tof, 2)}</p></div>
       </div>
+      <section className="border-b border-white/10 px-5 py-4 lg:px-6" aria-label={'Répartitions de ' + holding.name}>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <h5 className="text-sm font-semibold text-white">Répartitions de cette SCPI</h5>
+          {(sector.source === 'catalog' || geography.source === 'catalog') && (
+            <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-100">
+              Données historiques non certifiées
+            </span>
+          )}
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <VisualDistribution title="Répartition sectorielle" icon={Layers3} exposure={sector} />
+          <VisualDistribution title="Répartition géographique" icon={Globe2} exposure={geography} />
+        </div>
+      </section>
       {expanded && <div id={'holding-details-' + holding.slug} className="p-5 lg:p-6">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Stat label="Capital investi" value={euro(holding.invested)} hint={euro(holding.averagePurchasePrice, 2) + ' / part à l’achat'} emphasis />
@@ -241,10 +255,7 @@ const ClientScpiCard: React.FC<Props> = ({
           <Stat label="Valeur de reconstitution" value={euro(indicator?.prix_reconstitution, 2)} hint={valuationGap === null ? 'Écart indisponible' : 'Prix / reconstitution : ' + pctChange(valuationGap)} />
         </div>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
-          <VisualDistribution title="Répartition sectorielle" icon={Layers3} exposure={sector} />
-          <VisualDistribution title="Répartition géographique" icon={Globe2} exposure={geography} />
-        </div>
+
 
         <div className="mt-4 grid gap-4 xl:grid-cols-[1fr_1.1fr]">
           <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-4">
