@@ -22,7 +22,18 @@ const AppLogin: React.FC<AppLoginProps> = ({ onNavigate }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(() => {
+    try {
+      const bootstrapError = sessionStorage.getItem('maximusAuthBootstrapError');
+      if (bootstrapError) {
+        sessionStorage.removeItem('maximusAuthBootstrapError');
+        return `Connexion Google non finalisée : ${bootstrapError}. Réessaie une fois.`;
+      }
+    } catch {
+      // Le login reste fonctionnel sans sessionStorage.
+    }
+    return null;
+  });
   const activated = new URLSearchParams(window.location.search).get('activated');
 
   const peekPostLoginPath = () => {

@@ -15,7 +15,13 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     if (loading || profileLoading) return;
-    if (!user || !profile) return;
+
+    if (!user) {
+      onNavigate('/app/login');
+      return;
+    }
+
+    if (!profile) return;
 
     // Lorsqu'un utilisateur est passé par /espace-client, AuthGuard mémorise
     // /app/client avant de l'envoyer vers la connexion. Le callback OAuth
@@ -93,27 +99,7 @@ const AppEntry: React.FC<AppEntryProps> = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
-      <div className="max-w-2xl text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">Espace client MaximusSCPI</p>
-        <h1 className="mt-3 text-3xl font-semibold">Suivez vos SCPI. Surveillez leur trajectoire.</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-300">
-          Retrouvez votre portefeuille SCPI, sa valorisation, ses revenus estimés, sa diversification et les signaux de vigilance disponibles. Votre dossier réglementaire et vos documents restent accessibles dans un espace séparé.
-        </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <button
-            onClick={() => onNavigate('/app/login')}
-            className="rounded-lg bg-emerald-500/20 px-5 py-3 text-sm font-semibold text-emerald-100"
-          >
-            Se connecter
-          </button>
-          <button
-            onClick={() => onNavigate('/app/request-access')}
-            className="rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-white"
-          >
-            Demander un accès
-          </button>
-        </div>
-      </div>
+      <div className="text-sm text-slate-400 animate-pulse">Ouverture de l’espace privé…</div>
     </div>
   );
 };
