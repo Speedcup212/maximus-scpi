@@ -29,52 +29,6 @@ const sessionUser = (session: Session | null): User | null =>
       }
     : null;
 
-const cleanOAuthUrl = () => {
-  const url = new URL(window.location.href);
-  ['code', 'error', 'error_code', 'error_description'].forEach(key => url.searchParams.delete(key));
-  url.hash = '';
-  const nextUrl = `${url.pathname}${url.search}`;
-  window.history.replaceState({}, document.title, nextUrl || '/app');
-};
-
-const recoverOAuthSession = async (): Promise<Session | null> => {
-  const client = requireSupabase();
-
-  const {
-    data: { session: existingSession }
-  } = await client.auth.getSession();
-
-  if (existingSession) return existingSession;
-
-  const url = new URL(window.location.href);
-  const code = url.searchParams.get('code');
-
-  if (code) {
-    const { data, error } = await client.auth.exchangeCodeForSession(code);
-    if (error) throw error;
-    cleanOAuthUrl();
-    return data.session;
-  }
-
-  // Compatibilité avec un callback implicit éventuellement lancé avant
-  // le déploiement du passage en PKCE.
-  const hash = new URLSearchParams(url.hash.replace(/^#/, ''));
-  const accessToken = hash.get('access_token');
-  const refreshToken = hash.get('refresh_token');
-
-  if (accessToken && refreshToken) {
-    const { data, error } = await client.auth.setSession({
-      access_token: accessToken,
-      refresh_token: refreshToken
-    });
-    if (error) throw error;
-    cleanOAuthUrl();
-    return data.session;
-  }
-
-  return null;
-};
-
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -95,31 +49,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     let mounted = true;
+    let unsubscribe: (() => void) | undefined;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const initialize = async () => {
+      const {
+        data: { session },
+        error
+      } = await supabase.auth.getSession();
+
       if (!mounted) return;
+
+      if (error) {
+        console.error('[Auth] getSession failed', error);
+      }
+
       setUser(sessionUser(session));
       setLoading(false);
-    });
 
-    const bootstrapAuth = async () => {
-      try {
-        const session = await recoverOAuthSession();
+      const {
+        data: { subscription }
+      } = supabase.auth.onAuthStateChange((_event, nextSession) => {
         if (!mounted) return;
-        setUser(sessionUser(session));
-      } catch (error) {
-        console.error('[Auth] OAuth callback/session recovery failed', error);
-        if (mounted) setUser(null);
-      } finally {
-        if (mounted) setLoading(false);
-      }
+        setUser(sessionUser(nextSession));
+        setLoading(false);
+      });
+
+      unsubscribe = () => subscription.unsubscribe();
     };
 
-    void bootstrapAuth();
+    void initialize();
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      unsubscribe?.();
     };
   }, []);
 
