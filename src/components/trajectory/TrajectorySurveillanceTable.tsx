@@ -123,13 +123,17 @@ const TrajectorySurveillanceTable: React.FC = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [dashboardLoadError, setDashboardLoadError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
       if (!supabase) {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setDashboardLoadError(true);
+          setLoading(false);
+        }
         return;
       }
 
@@ -150,6 +154,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
       if (cancelled) return;
 
       if (dashboardResult.error) {
+        setDashboardLoadError(true);
         console.warn('[TrajectorySurveillanceTable] Dashboard indisponible.', dashboardResult.error);
       } else {
         setDashboardRows(
@@ -282,13 +287,17 @@ const TrajectorySurveillanceTable: React.FC = () => {
           </div>
         </div>
 
-        {!loading && sortedRows.length === 0 && (
-          <div role="status" className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">
-            Les trajectoires sont temporairement indisponibles : aucune donnée certifiée n'a été reçue.
-            Les indicateurs restent neutralisés pour éviter toute comparaison non fiable.
+        {!loading && dashboardLoadError && (
+          <div role="alert" className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">
+            Impossible de charger les trajectoires pour le moment. Actualise la page ou réessaie plus tard.
           </div>
         )}
-        {(loading || sortedRows.length > 0) && <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/55">
+        {!loading && !dashboardLoadError && sortedRows.length === 0 && (
+          <div role="status" className="mb-4 rounded-xl border border-slate-800 bg-slate-900/55 px-4 py-4 text-sm text-slate-300">
+            Aucune trajectoire exploitable n'est disponible actuellement. Les indicateurs non certifiés restent masqués.
+          </div>
+        )}
+        {(loading || (!dashboardLoadError && sortedRows.length > 0)) && <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/55">
           <div className="overflow-x-auto">
             <table className="min-w-[1120px] w-full text-left text-sm">
               <thead className="bg-slate-950/90 text-[10px] uppercase tracking-[0.08em] text-slate-500">
