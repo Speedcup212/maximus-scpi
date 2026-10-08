@@ -4,6 +4,8 @@ import {
   CertifiedLiquiditySnapshot,
   currentCertifiedLiquidity,
   latestDelta,
+  liquidityLabel,
+  formatLiquidityPercent,
   normalizeAndDedupeHistory,
   ScpiHistoryRow,
   TrajectorySignalGate,
@@ -128,5 +130,39 @@ describe('annual calendar comparison', () => {
   it('does not silently report an old annual variation when the current metric is missing', () => {
     const history = normalizeAndDedupeHistory([row('2025-T1'), row('2026-T1'), row('2026-T2', { tof: null })]);
     expect(latestDelta(history, 'tof')).toBeNull();
+  });
+});
+
+describe('Historique client : sémantique des données et précision', () => {
+  it('distingue base inconnue et liquidité effectivement incomparable', () => {
+    expect(liquidityLabel(null)).toBe('Base non documentée');
+    expect(liquidityLabel(undefined)).toBe('Base non documentée');
+    expect(liquidityLabel('withdrawal_queue')).toBe('File de retraits');
+    expect(liquidityLabel('secondary_market_order_book')).toBe('Pression du marché secondaire');
+    expect(liquidityLabel('fixed_capital_market')).toContain('capital fixe');
+  });
+
+  it('ne confond pas un taux positif inférieur à 0,01 % avec un vrai zéro', () => {
+    expect(formatLiquidityPercent(null)).toBe('N.D.');
+    expect(formatLiquidityPercent(0)).toBe('0 %');
+    expect(formatLiquidityPercent(0.0001)).toBe('< 0,01 %');
+    expect(formatLiquidityPercent(0.0038)).toBe('< 0,01 %');
+    expect(formatLiquidityPercent(0.01)).toBe('0,01 %');
+    expect(formatLiquidityPercent(1.456)).toBe('1,46 %');
+  });
+
+  it('conserve les chiffres pour une SCPI variable explicitement documentée et n’infère pas les chiffres d’une base inconnue', () => {
+    const documented = normalizeAndDedupeHistory([
+      row('2025-T2', { parts_attente_retrait: 0, nombre_parts: 614582, endettement: null }),
+      row('2025-T3', { parts_attente_retrait: 0, nombre_parts: 626190, endettement: 8.53 }),
+      row('2025-T4', { parts_attente_retrait: 0, nombre_parts: 642199, endettement: 12.83 }),
+      row('2026-T1', { parts_attente_retrait: 0, nombre_parts: 656071, endettement: 9.88 }),
+    ]);
+    expect(documented.map(x => x.retrait_attente_pct)).toEqual([0, 0, 0, 0]);
+    expect(documented.map(x => x.endettement)).toEqual([null, 8.53, 12.83, 9.88]);
+    const unknown = normalizeAndDedupeHistory([
+      row('2025-T2', { capital_type: null, liquidity_basis: null, parts_attente_retrait: 25, nombre_parts: 656071 }),
+    ]);
+    expect(unknown[0].retrait_attente_pct).toBeNull();
   });
 });

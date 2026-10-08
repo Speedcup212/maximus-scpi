@@ -19,6 +19,7 @@ import {
   applyCertifiedLiquidity,
   currentCertifiedLiquidity,
   formatPeriod,
+  formatLiquidityPercent,
   formatSigned,
   latestDelta,
   liquidityLabel,
@@ -239,7 +240,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">{liquidityLabel(latest?.liquidity_basis)}</div>
-            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(liquidityValue, ' %')}</div>
+            <div className="mt-1 text-xl font-bold text-white">{formatLiquidityPercent(liquidityValue)}</div>
             <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(liquidityDelta, ' pt')}</div>
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
@@ -264,13 +265,13 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
         {activeMetric === 'liquidite' && (
             <p className="mb-4 text-xs leading-5 text-slate-400">
               {liquidity?.regime_changed
-                ? 'Changement de régime : la file de retraits et le marché secondaire ne sont pas directement comparables. '
+                ? 'Changement de régime confirmé : file de retraits et marché secondaire non comparables. '
                 : ''}
               {liquidity?.signal_certification === 'suppressed_regime_change_pending_data'
                 ? 'Les données du nouveau marché sont en attente ; aucun ratio ni amélioration ne peut être déduit de l’annulation de la file.'
                 : !liquidity || !signalGate
                   ? 'Contexte certifié indisponible ; les ratios de liquidité sont masqués.'
-                  : 'Les interruptions correspondent à des données absentes ou non comparables. La pression secondaire est distincte de la file de retraits.'}
+                  : 'Les interruptions indiquent des valeurs non renseignées ou des ruptures de méthode. Une base inconnue ne permet pas de calculer un ratio fiable.'}
             </p>
         )}
 
@@ -300,6 +301,11 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             <Activity className="h-4 w-4 text-sky-300" />
             Historique vérifiable
           </div>
+          <p className="px-4 pt-3 text-xs leading-5 text-slate-400 sm:px-5">
+            « N.D. » ou « — » signifie que la valeur n'est pas renseignée ou validée dans MaximusSCPI pour cette période,
+            et non qu'elle est nulle. « Base non documentée » signifie que le mode de liquidité n'est pas identifié.
+            Les files de retraits et les marchés secondaires ne sont pas comparés entre eux.
+          </p>
           <div className="overflow-x-auto">
             <table className="min-w-[920px] w-full text-left text-sm">
               <thead className="bg-slate-950/70 text-xs uppercase tracking-wide text-slate-500">
@@ -323,13 +329,13 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                       <td className="px-4 py-3 font-semibold text-white">{formatPeriod(row.source_period)}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.tof, ' %')}</td>
                       <td className="px-4 py-3 text-right">
-                        {numberFormatter(row.liquidity_basis === 'secondary_market_order_book' ? row.liquidity_pressure_pct : row.retrait_attente_pct, ' %')}
+                        {formatLiquidityPercent(row.liquidity_basis === 'secondary_market_order_book' ? row.liquidity_pressure_pct : row.retrait_attente_pct)}
                         <span className="block text-[10px] text-slate-500">{liquidityLabel(row.liquidity_basis)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.valeur_realisation, ' €')}</td>
-                      <td className="px-4 py-3 text-right">{numberFormatter(row.endettement, ' %')}</td>
+                      <td className="px-4 py-3 text-right" title={row.endettement === null ? 'Taux non renseigné ou non validé pour ce trimestre' : 'Taux publié sur la période indiquée'}>{row.endettement === null ? <span className="text-slate-500">—</span> : numberFormatter(row.endettement, ' %')}</td>
                       <td className="px-4 py-3">
                         {row.source_url ? (
                           <a
