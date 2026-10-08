@@ -466,7 +466,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     }
 
     return items.slice(0, 3);
-  }, [age, gap, scpi, topGeo, topSector]);
+  }, [age, gap, scpi, tofTier, topGeo, topSector]);
 
   const narrative = useMemo(() => {
     const positionParts = [
