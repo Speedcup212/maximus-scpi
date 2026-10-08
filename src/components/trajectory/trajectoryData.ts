@@ -209,9 +209,22 @@ export const applyCertifiedLiquidity = (
   });
 };
 
+/**
+ * Absence de base ≠ changement de régime : ne jamais qualifier d'« non comparable »
+ * une donnée dont la méthode n'a simplement pas été renseignée.
+ */
 export const liquidityLabel = (basis?: string | null) => basis === 'secondary_market_order_book'
   ? 'Pression du marché secondaire'
-  : basis === 'withdrawal_queue' ? 'File de retraits' : 'Liquidité non comparable';
+  : basis === 'withdrawal_queue' ? 'File de retraits'
+    : basis === 'fixed_capital_market' ? 'Marché secondaire (capital fixe)'
+      : 'Base non documentée';
+
+/** Évite d'afficher 0 % pour une file de retraits réellement positive mais faible. */
+export const formatLiquidityPercent = (value: number | null): string => {
+  if (value === null || !Number.isFinite(value)) return 'N.D.';
+  if (value > 0 && value < 0.01) return '< 0,01 %';
+  return `${value.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} %`;
+};
 
 export const normalizeAndDedupeHistory = (rows: ScpiHistoryRow[]): NormalizedHistoryRow[] => {
   const byPeriod = new Map<string, ScpiHistoryRow>();
