@@ -14,13 +14,20 @@ describe('réutilisation du module Trajectoire public dans l’espace client', (
     expect(panel).toContain('CERTIFIED_HISTORY_SELECT');
   });
 
-  it('ne charge le module que lorsque la fiche détenue est dépliée', () => {
-    const expandedStart = card.indexOf("{expanded && <div id={'holding-details-'");
+  it('affiche la trajectoire dès le haut du détail, sans toucher aux répartitions ni aux alertes', () => {
+    const metricCardsEnd = card.indexOf('<div><p className="text-sm text-slate-300">TOF publié</p>');
+    const expandedStart = card.indexOf("{expanded && (\n        <section id={'holding-trajectory-'");
     const trajectoryStart = card.indexOf('<ScpiTrajectoryPanel scpiSlug={holding.slug} />');
-    const expandedEnd = card.indexOf('      </div>}', expandedStart);
-    expect(expandedStart).toBeGreaterThan(0);
+    const sectorSection = card.indexOf("aria-label={'Répartitions de ' + holding.name}");
+    const regularDetails = card.indexOf("{expanded && <div id={'holding-details-'");
+    expect(metricCardsEnd).toBeGreaterThan(0);
+    expect(expandedStart).toBeGreaterThan(metricCardsEnd);
     expect(trajectoryStart).toBeGreaterThan(expandedStart);
-    expect(trajectoryStart).toBeLessThan(expandedEnd);
+    expect(trajectoryStart).toBeLessThan(sectorSection);
+    expect(sectorSection).toBeLessThan(regularDetails);
+    expect(card).toContain('Trajectoire historique détaillée');
+    expect(card).toContain('Lecture patrimoniale');
+    expect(card).toContain('Surveillance de cette SCPI');
   });
 
   it('conserve les cinq axes, le tableau et la source officielle déjà publiés', () => {
