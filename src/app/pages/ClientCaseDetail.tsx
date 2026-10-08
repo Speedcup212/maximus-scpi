@@ -161,7 +161,7 @@ const ClientCaseDetail: React.FC<ClientCaseDetailProps> = ({ caseId, onNavigate 
     setDownloadingId(null);
 
     if (signedUrlError || !data?.signedUrl) {
-      setDownloadError('Impossible d’ouvrir ce document. Réessaie dans quelques instants.');
+      setDownloadError('Impossible d’ouvrir ce document. Veuillez réessayer dans quelques instants.');
       return;
     }
 
@@ -233,7 +233,7 @@ const ClientCaseDetail: React.FC<ClientCaseDetailProps> = ({ caseId, onNavigate 
                 <h3 className="font-semibold text-white">Suivi et comptes rendus</h3>
               </div>
               <p className="mt-2 text-xs text-slate-500">
-                Synthèse lisible des éléments ajoutés à ton dossier.
+                Synthèse des éléments ajoutés à votre dossier.
               </p>
 
               <div className="mt-5 space-y-5">
