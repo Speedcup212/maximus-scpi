@@ -1,0 +1,43 @@
+name: Espace client - contrôle qualité
+on:
+  pull_request:
+    paths:
+      - 'src/app/pages/ClientDashboard.tsx'
+      - 'src/app/components/ClientScpiCard.tsx'
+      - 'src/utils/clientPortfolio*.ts'
+      - 'src/tests/clientPortfolio*.test.ts'
+      - '.github/workflows/client-space-quality.yml'
+  workflow_dispatch:
+jobs:
+  check:
+    name: TypeScript et tests métier
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Installation des dépendances
+        run: npm ci --no-audit --no-fund
+      - name: Tests portefeuille et ventilations
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts
+      - name: Vérification TypeScript sur les fichiers modifiés
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck-client.log 2>&1
+          status=$?
+          set -e
+          if grep -E 'src/(app/pages/ClientDashboard|app/components/ClientScpiCard|utils/clientPortfolioExposure|utils/clientPortfolioMath)(\\.test)?\\.tsx?\\([0-9]+,[0-9]+\\): error TS' /tmp/typecheck-client.log; then
+            echo 'Des erreurs TypeScript affectent les fichiers de la refonte.'
+            exit 1
+          fi
+          if [ "$status" -ne 0 ]; then
+            echo 'Typecheck global non vert : erreurs préexistantes hors fichiers modifiés.'
+            grep -c 'error TS' /tmp/typecheck-client.log || true
+          fi
+          echo 'Aucune erreur TypeScript dans les fichiers de la refonte.'
