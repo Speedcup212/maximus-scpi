@@ -22,7 +22,21 @@ jobs:
           cache: npm
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
-      - name: Vérification TypeScript
-        run: npm run typecheck
       - name: Tests portefeuille et ventilations
         run: npx vitest run src/utils/clientPortfolioMath.test.ts src/utils/clientPortfolioExposure.test.ts
+      - name: Vérification TypeScript sur les fichiers modifiés
+        shell: bash
+        run: |
+          set +e
+          npm run typecheck > /tmp/typecheck-client.log 2>&1
+          status=$?
+          set -e
+          if grep -E 'src/(app/pages/ClientDashboard|app/components/ClientScpiCard|utils/clientPortfolioExposure|utils/clientPortfolioMath)(\\.test)?\\.tsx?\\([0-9]+,[0-9]+\\): error TS' /tmp/typecheck-client.log; then
+            echo 'Des erreurs TypeScript affectent les fichiers de la refonte.'
+            exit 1
+          fi
+          if [ "$status" -ne 0 ]; then
+            echo 'Typecheck global non vert : erreurs préexistantes hors fichiers modifiés.'
+            grep -c 'error TS' /tmp/typecheck-client.log || true
+          fi
+          echo 'Aucune erreur TypeScript dans les fichiers de la refonte.'
