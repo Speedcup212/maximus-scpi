@@ -20,6 +20,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
+import { estimateAnnualizedScpiIncome } from '../../utils/clientPortfolioMath';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -166,6 +167,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const [units, setUnits] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
+  const todayIso = new Date(Date.now() - new Date().getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+  const futureDatedPositions = positions.filter(position => position.purchase_date && position.purchase_date > todayIso).length;
 
   const loadDashboard = useCallback(async () => {
     if (!supabase || !user) return;
@@ -254,7 +257,6 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         numberValue(indicator?.prix_retrait) ??
         numberValue(indicator?.prix_souscription) ??
         purchaseUnitPrice;
-      const distributionPerPart = numberValue(indicator?.distribution_par_part);
       const td = numberValue(indicator?.td);
 
       const existing = grouped.get(position.scpi_slug);
@@ -265,12 +267,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         existing.averagePurchasePrice =
           existing.units > 0 ? existing.invested / existing.units : 0;
         existing.currentValue = existing.units * currentUnitValue;
-        existing.annualIncome =
-          distributionPerPart !== null
-            ? existing.units * distributionPerPart
-            : td !== null
-              ? existing.currentValue * td / 100
-              : null;
+        existing.annualIncome = estimateAnnualizedScpiIncome(
+          existing.units,
+          numberValue(indicator?.prix_souscription),
+          td,
+        );
         existing.yieldOnCost =
           existing.annualIncome !== null && existing.invested > 0
             ? existing.annualIncome / existing.invested * 100
@@ -280,12 +281,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       }
 
       const currentValue = positionUnits * currentUnitValue;
-      const annualIncome =
-        distributionPerPart !== null
-          ? positionUnits * distributionPerPart
-          : td !== null
-            ? currentValue * td / 100
-            : null;
+      const annualIncome = estimateAnnualizedScpiIncome(
+        positionUnits,
+        numberValue(indicator?.prix_souscription),
+        td,
+      );
 
       grouped.set(position.scpi_slug, {
         slug: position.scpi_slug,
@@ -321,9 +321,13 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       invested,
       currentValue,
       annualIncome,
-      monthlyIncome: incomeHoldings.length > 0 ? annualIncome / 12 : null,
+      monthlyIncome: incomeHoldings.length === holdings.length && holdings.length > 0
+        ? annualIncome / 12
+        : null,
       yieldOnCost:
-        incomeHoldings.length > 0 && invested > 0 ? annualIncome / invested * 100 : null,
+        incomeHoldings.length === holdings.length && holdings.length > 0 && invested > 0
+          ? annualIncome / invested * 100
+          : null,
       delta: invested > 0 ? currentValue - invested : null,
       incomeCoverage: incomeHoldings.length
     };
@@ -432,6 +436,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       return;
     }
 
+    if (purchaseDate && purchaseDate > todayIso) {
+      setError('La date d’achat ne peut pas être dans le futur pour une position déjà détenue.');
+      return;
+    }
+
     setSaving(true);
     setError(null);
 
@@ -484,6 +493,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       parsedPrice <= 0
     ) {
       setError('Renseigne un nombre de parts et un prix d’achat valides.');
+      return;
+    }
+
+    if (editPurchaseDate && editPurchaseDate > todayIso) {
+      setError('La date d’achat ne peut pas être dans le futur pour une position déjà détenue.');
       return;
     }
 
@@ -573,7 +587,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 Suivi SCPI
               </p>
               <h2 className="mt-2 text-2xl font-semibold text-white lg:text-3xl">
-                Ton portefeuille, surveillé dans le temps.
+                {surveillanceError ? 'Surveillance temporairement indisponible' : 'Ton portefeuille, surveillé dans le temps.'}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
                 Valorisation indicative, revenus estimés, diversification et signaux de vigilance sont recalculés à partir des données MaximusSCPI disponibles.
@@ -606,7 +620,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
 
         {surveillanceError && (
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100">
-            {surveillanceError}
+            {surveillanceError} Aucun indicateur de surveillance ne doit être interprété comme rassurant tant que le service est hors ligne.
+          </div>
+        )}
+        {futureDatedPositions > 0 && (
+          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100">
+            {futureDatedPositions} position(s) comportent une date d’achat future. Vérifie et corrige ces dates avec le bouton « Gérer ».
           </div>
         )}
 
@@ -664,6 +683,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 Date d’achat
                 <input
                   type="date"
+                  max={todayIso}
                   value={purchaseDate}
                   onChange={event => setPurchaseDate(event.target.value)}
                   className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-3 text-sm text-white outline-none focus:border-emerald-500/50"
@@ -711,21 +731,21 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           />
           <MetricCard
             icon={Euro}
-            label="Revenus annuels"
+            label="Revenus annualisés indicatifs"
             value={totals.incomeCoverage > 0 ? formatCurrency(totals.annualIncome) : '—'}
-            detail={`${totals.incomeCoverage}/${holdings.length} SCPI avec distribution exploitable`}
+            detail={`${totals.incomeCoverage}/${holdings.length} SCPI avec taux de distribution exploitable`}
           />
           <MetricCard
             icon={TrendingUp}
-            label="Rendement sur coût"
+            label="Rendement indicatif sur coût"
             value={formatPercent(totals.yieldOnCost)}
-            detail="Revenus estimés / capital investi"
+            detail={totals.incomeCoverage === holdings.length ? 'Annualisation au TD publié / capital investi' : 'Non calculable : données partielles'}
           />
           <MetricCard
             icon={BellRing}
-            label="Revenus mensuels"
+            label="Équivalent mensuel indicatif"
             value={formatCurrency(totals.monthlyIncome)}
-            detail="Équivalent mensuel indicatif"
+            detail="Moyenne mathématique, pas une fréquence de versement"
           />
         </section>
 
@@ -943,6 +963,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                         Date d’achat
                                         <input
                                           type="date"
+                                          max={todayIso}
                                           value={editPurchaseDate}
                                           onChange={event => setEditPurchaseDate(event.target.value)}
                                           className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
@@ -1027,11 +1048,15 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 </p>
               </div>
               <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-slate-300">
-                {alerts.length}
+                {surveillanceError ? '—' : alerts.length}
               </span>
             </div>
             <div className="mt-5 space-y-3">
-              {alerts.length === 0 ? (
+              {surveillanceError ? (
+                <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-amber-200">
+                  Surveillance indisponible : aucun bilan des alertes n’est possible actuellement.
+                </div>
+              ) : alerts.length === 0 ? (
                 <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
                   Aucun signal de vigilance exploitable sur les SCPI suivies à cet instant.
                 </div>
@@ -1111,7 +1136,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           <div className="flex gap-3">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" />
             <p>
-              La valeur affichée est indicative : Maximus utilise en priorité la valeur de retrait publiée lorsqu’elle est disponible, puis le prix de souscription à défaut. Elle ne garantit pas le prix ni le délai de cession. Les revenus sont estimés à partir de la dernière distribution exploitable ou, à défaut, du taux de distribution disponible. Les performances passées ne préjugent pas des performances futures ; les parts de SCPI présentent notamment un risque de perte en capital et de liquidité.
+              La valeur affichée est indicative : Maximus utilise en priorité la valeur de retrait publiée lorsqu’elle est disponible, puis le prix de souscription à défaut. Elle ne garantit pas le prix ni le délai de cession. Les revenus sont des annualisations indicatives calculées avec le taux de distribution publié et le prix de souscription de référence, sans garantie de maintien du taux, de jouissance immédiate ni de versements mensuels. En l’absence de taux exploitable, les revenus ne sont pas calculés. Les performances passées ne préjugent pas des performances futures ; les parts de SCPI présentent notamment un risque de perte en capital et de liquidité.
             </p>
           </div>
         </section>
