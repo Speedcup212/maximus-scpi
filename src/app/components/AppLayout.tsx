@@ -40,7 +40,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="flex min-h-screen">
-        <aside className="hidden w-64 flex-col border-r border-white/10 bg-slate-900/40 p-6 lg:flex">
+        <aside className={`hidden shrink-0 flex-col border-r border-white/10 bg-slate-900/40 p-5 lg:flex ${role === 'client' ? 'w-52' : 'w-64'}`}>
           <button onClick={() => onNavigate('/')} className="text-left text-lg font-semibold">MaximusSCPI</button>
           {role === 'client' && <div className="mt-1 text-xs text-slate-500">Espace client privé</div>}
           <div className="mt-6 space-y-2">
@@ -68,7 +68,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
 
         <div className="min-w-0 flex-1">
           <header className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/90 backdrop-blur">
-            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+            <div className={`mx-auto flex items-center justify-between gap-4 px-4 py-4 sm:px-6 ${role === 'client' ? 'w-full max-w-[1480px]' : 'max-w-7xl'}`}>
               <div className="min-w-0">
                 <p className="text-[10px] uppercase tracking-[0.3em] text-emerald-300 sm:text-xs">Espace privé</p>
                 <h1 className="truncate text-base font-semibold sm:text-lg">{title}</h1>
@@ -98,7 +98,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ role, title, children, onNavigate
               ))}
             </nav>
           </header>
-          <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+          <main className={`mx-auto w-full min-w-0 px-4 py-6 sm:px-6 sm:py-8 ${role === 'client' ? 'max-w-[1480px] xl:px-8' : 'max-w-7xl'}`}>{children}</main>
         </div>
       </div>
     </div>
