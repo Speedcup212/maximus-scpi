@@ -21,7 +21,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import { estimateAnnualizedScpiIncome } from '../../utils/clientPortfolioMath';
-import { aggregatePortfolioExposure, resolveExposure } from '../../utils/clientPortfolioExposure';
+import { aggregatePortfolioExposure, resolveExposure, type ScpiExposure } from '../../utils/clientPortfolioExposure';
 import { scpiDataExtended } from '../../data/scpiDataExtended';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import ClientScpiCard from '../components/ClientScpiCard';
@@ -90,6 +90,7 @@ type PortfolioHolding = {
   averagePurchasePrice: number;
   currentUnitValue: number;
   currentValue: number;
+  valuationBasis: 'withdrawal' | 'subscription' | 'purchase';
   annualIncome: number | null;
   yieldOnCost: number | null;
   indicator?: ScpiIndicator;
@@ -156,6 +157,8 @@ const radarPresentation: Record<RadarLevel, { label: string; className: string }
     className: 'border-slate-500/30 bg-slate-500/10 text-slate-300'
   }
 };
+
+const EMPTY_EXPOSURE: ScpiExposure = { items: [], source: 'missing' };
 
 const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const { user, signOut } = useAuth();
@@ -263,10 +266,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       const invested = positionUnits * purchaseUnitPrice;
       const indicator = indicatorMap.get(position.scpi_slug);
       const trajectory = trajectoryMap.get(position.scpi_slug);
-      const currentUnitValue =
-        numberValue(indicator?.prix_retrait) ??
-        numberValue(indicator?.prix_souscription) ??
-        purchaseUnitPrice;
+      const withdrawal = numberValue(indicator?.prix_retrait);
+      const subscription = numberValue(indicator?.prix_souscription);
+      const valuationBasis = withdrawal !== null ? 'withdrawal' : subscription !== null ? 'subscription' : 'purchase';
+      const currentUnitValue = withdrawal ?? subscription ?? purchaseUnitPrice;
       const td = numberValue(indicator?.td);
 
       const existing = grouped.get(position.scpi_slug);
@@ -306,6 +309,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         averagePurchasePrice: purchaseUnitPrice,
         currentUnitValue,
         currentValue,
+        valuationBasis,
         annualIncome,
         yieldOnCost:
           annualIncome !== null && invested > 0 ? annualIncome / invested * 100 : null,
@@ -367,7 +371,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const sectorBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.sector || { items: [], source: 'missing' },
+      exposure: holdingExposures.get(holding.slug)?.sector || EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -375,7 +379,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const geoBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.geography || { items: [], source: 'missing' },
+      exposure: holdingExposures.get(holding.slug)?.geography || EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -913,8 +917,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   <ClientScpiCard
                     key={holding.slug}
                     holding={holding}
-                    sector={exposure?.sector || { items: [], source: 'missing' }}
-                    geography={exposure?.geography || { items: [], source: 'missing' }}
+                    sector={exposure?.sector || EMPTY_EXPOSURE}
+                    geography={exposure?.geography || EMPTY_EXPOSURE}
                     company={holding.indicator?.societe_gestion || catalogBySlug.get(holding.slug)?.managementCompany}
                     alerts={holding.trajectory ? buildSurveillanceSignals(holding.trajectory) : []}
                     radarLabel={radarPresentation[radar].label}
