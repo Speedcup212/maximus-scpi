@@ -259,7 +259,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
     );
   };
 
-  if (!loading && sortedRows.length === 0) return null;
+
 
   return (
     <section id="observatoire-trajectoires" className="bg-slate-950 py-7 sm:py-9">
@@ -282,7 +282,13 @@ const TrajectorySurveillanceTable: React.FC = () => {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/55">
+        {!loading && sortedRows.length === 0 && (
+          <div role="status" className="mb-4 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">
+            Les trajectoires sont temporairement indisponibles : aucune donnée certifiée n'a été reçue.
+            Les indicateurs restent neutralisés pour éviter toute comparaison non fiable.
+          </div>
+        )}
+        {(loading || sortedRows.length > 0) && <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/55">
           <div className="overflow-x-auto">
             <table className="min-w-[1120px] w-full text-left text-sm">
               <thead className="bg-slate-950/90 text-[10px] uppercase tracking-[0.08em] text-slate-500">
@@ -346,7 +352,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
               </tbody>
             </table>
           </div>
-        </div>
+        </div>}
 
         {!loading && sortedRows.length > 8 && (
           <div className="mt-4 text-center">
