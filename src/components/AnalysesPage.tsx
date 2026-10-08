@@ -73,9 +73,6 @@ const AnalysesPage: React.FC = () => {
             <LineChart className="h-4 w-4" />
             Trajectoires
           </button>
-          <span className="ml-auto hidden text-xs text-slate-500 md:inline">
-            Un seul écran d’analyse à la fois pour aller directement à l’essentiel.
-          </span>
         </div>
       </section>
 
