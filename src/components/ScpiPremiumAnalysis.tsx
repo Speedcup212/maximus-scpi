@@ -15,6 +15,7 @@ import type { InvestmentNewsItem } from '../types/investmentNews';
 import { ASSET_TYPE_LABELS } from '../types/investmentNews';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { supabase } from '../supabaseClient';
+import { classifyTofOccupation } from '../utils/surveillanceSignals';
 import newsJson from '../../data/news/scpi-investment-news-latest.json';
 
 interface ScpiPremiumAnalysisProps {
@@ -349,6 +350,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
   }, [slug, localFallbackNews]);
 
   const gap = valuationGap(scpi);
+  const tofTier = classifyTofOccupation(scpi.tof);
   const age = scpi.creation ? Math.max(0, new Date().getFullYear() - scpi.creation) : null;
   const topGeo = topEntry(scpi.repartitionGeo);
   const topSector = topEntry(scpi.repartitionSector);
@@ -394,8 +396,8 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
 
   const strengths = useMemo(() => {
     const items: string[] = [];
-    if (scpi.tof >= 95) items.push(`Occupation très élevée : TOF de ${formatPercent(scpi.tof)}.`);
-    else if (scpi.tof >= 90) items.push(`Occupation élevée : TOF de ${formatPercent(scpi.tof)}.`);
+    if (tofTier === 'eleve') items.push(`Occupation très élevée : TOF de ${formatPercent(scpi.tof)}.`);
+    else if (tofTier === 'satisfaisant') items.push(`Occupation satisfaisante : TOF de ${formatPercent(scpi.tof)}.`);
 
     if (typeof scpi.debt === 'number' && scpi.debt <= 15) {
       items.push(`Levier limité : endettement de ${formatPercent(scpi.debt)}.`);
@@ -423,7 +425,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     if (scpi.isr) items.push('Label ISR indiqué dans les données de la SCPI.');
 
     return items.slice(0, 3);
-  }, [scpi, gap, topGeo, topSector]);
+  }, [scpi, tofTier, gap, topGeo, topSector]);
 
   const watchPoints = useMemo(() => {
     const items: string[] = [];
@@ -435,8 +437,8 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     if (age != null && age < 3) {
       items.push(`Historique court : SCPI créée en ${scpi.creation}.`);
     }
-    if (typeof scpi.tof === 'number' && scpi.tof < 90) {
-      items.push(`TOF sous 90 % : ${formatPercent(scpi.tof)}.`);
+    if (tofTier === 'fragile' || tofTier === 'faible' || tofTier === 'critique') {
+      items.push(`Occupation à surveiller : TOF de ${formatPercent(scpi.tof)}.`);
     }
     if (typeof scpi.debt === 'number' && scpi.debt >= 30) {
       items.push(`Endettement à surveiller : ${formatPercent(scpi.debt)}.`);
@@ -464,7 +466,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     }
 
     return items.slice(0, 3);
-  }, [age, gap, scpi, topGeo, topSector]);
+  }, [age, gap, scpi, tofTier, topGeo, topSector]);
 
   const narrative = useMemo(() => {
     const positionParts = [

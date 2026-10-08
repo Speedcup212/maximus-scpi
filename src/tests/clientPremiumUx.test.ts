@@ -10,7 +10,7 @@ const scpi = readFileSync(new URL('../app/components/ClientScpiCard.tsx', import
 
 describe('ergonomie espace client premium', () => {
   it('place les alertes avant la répartition et les fiches SCPI', () => {
-    const alertIndex = page.indexOf('Alertes Maximus');
+    const alertIndex = page.indexOf('Suivi Maximus : alertes et informations');
     const compositionIndex = page.indexOf('Composition de votre portefeuille');
     const exposuresIndex = page.indexOf('Répartitions du portefeuille');
     const radarIndex = page.indexOf('<ClientPortfolioRadarTrajectory');
@@ -26,7 +26,7 @@ describe('ergonomie espace client premium', () => {
     expect(page).toContain('Répartition géographique du portefeuille');
     expect(page).toContain('Estimation historique non certifiée');
     expect(page).toContain('alerts.slice(0, 2)');
-    expect(page).toContain('Voir les {alerts.length - 2} autres alertes');
+    expect(page).toContain('Voir les {alerts.length - 2} autres informations ou alertes');
     expect(page).toContain('Comprendre les revenus théoriques et leurs limites');
   });
   it('affiche la courbe et les conclusions avant les détails facultatifs', () => {

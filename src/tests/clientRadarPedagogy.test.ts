@@ -68,6 +68,30 @@ describe('pédagogie de surveillance du portefeuille', () => {
     expect(markup).toContain('Cela n&#x27;indique pas une variation de la valeur de vos parts');
     expect(markup).not.toContain('recule de +1,6');
   });
+  it('signale un TOF satisfaisant en baisse comme information, sans alerte orange', () => {
+    const weights = example.weights.map(weight =>
+      weight.status === 'watch' ? { ...weight, percent: 0, count: 0, value: 0 }
+        : weight.status === 'info' ? { ...weight, percent: 43.8875305623, count: 1, value: 1795 }
+          : weight
+    );
+    const summary: GlobalPortfolioTrajectory = {
+      ...example,
+      weights,
+      overallStatus: 'info',
+      riskExposurePercent: 0,
+      axes: example.axes.map(axis => axis.kind === 'tof'
+        ? { ...axis, vigilancePercent: 0, informationPercent: 43.8875305623 }
+        : axis),
+      rows: example.rows.map(row => row.slug === 'coeur-d-europe'
+        ? { ...row, status: 'info' as const } : row),
+    };
+    const markup = render(summary);
+    expect(markup).toContain('Informations de suivi, sans alerte de vigilance');
+    expect(markup).toContain('Aucune alerte de vigilance');
+    expect(markup).toContain('43,9');
+    expect(markup).toContain('Cœur d&#x27;Europe');
+    expect(markup).not.toContain('43,9 % de la valeur indicative de vos SCPI est concernée par un signal de vigilance');
+  });
   it('ne prétend pas qu’un service hors ligne conclut à une absence de risque', () => {
     const markup = render({ ...example, monitoredPercent: 0, overallStatus: 'unavailable', tofWeighted: null, delta4Weighted: null }, true);
     expect(markup).toContain('La surveillance ne permet pas actuellement de conclure');

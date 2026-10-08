@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Activity, AlertTriangle, ArrowUpRight, Building2, ExternalLink,
+  Activity, AlertTriangle, Info, ArrowUpRight, Building2, ExternalLink,
   Globe2, Layers3, Pencil, ShieldAlert, TrendingUp, ChevronDown,
 } from 'lucide-react';
 import type { SurveillanceDashboardRow, SurveillanceSignal } from '../../utils/surveillanceSignals';
@@ -285,7 +285,9 @@ const ClientScpiCard: React.FC<Props> = ({
                       ? 'rounded-xl border border-amber-500/20 bg-amber-500/5 p-3'
                       : 'rounded-xl border border-sky-500/20 bg-sky-500/5 p-3'}>
                     <div className="flex items-start gap-2">
-                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-300" />
+                      {alert.level === 'info'
+                        ? <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-300" />
+                        : <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-300" />}
                       <div>
                         <p className="text-xs font-medium text-white">{alert.title}</p>
                         <p className="mt-1 text-[11px] leading-5 text-slate-300">{alert.detail}</p>

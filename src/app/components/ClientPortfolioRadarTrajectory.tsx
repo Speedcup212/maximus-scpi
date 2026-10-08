@@ -26,7 +26,7 @@ const globalTitles: Record<GlobalPortfolioTrajectory['overallStatus'], { title: 
   critical: { title: 'Vigilance forte sur une partie du portefeuille', description: 'Au moins une SCPI présente un signal fort selon les règles Maximus.', color: 'text-rose-200' },
   watch: { title: 'Une partie du portefeuille est à surveiller', description: 'Des signaux défavorables ont été détectés, sans préjuger de leur évolution.', color: 'text-amber-200' },
   partial: { title: 'Analyse partiellement documentée', description: 'Certains actifs ne disposent pas de trajectoire certifiée.', color: 'text-slate-200' },
-  info: { title: 'Informations à examiner', description: 'Des informations sont disponibles sans vigilance modérée ou forte détectée.', color: 'text-sky-200' },
+  info: { title: 'Informations de suivi, sans alerte de vigilance', description: 'Certains indicateurs évoluent, mais aucune vigilance modérée ou forte n’est déclenchée sur les données exploitées.', color: 'text-sky-200' },
   clear: { title: 'Aucun signal détecté sur les données certifiées', description: 'Cela ne garantit ni liquidité ni stabilité future.', color: 'text-emerald-200' },
   unavailable: { title: 'Surveillance indisponible ou non certifiée', description: 'Aucune conclusion de risque n’est possible.', color: 'text-slate-200' },
 };
@@ -49,6 +49,8 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
   const watchPositions = summary.rows
     .filter(row => row.status === 'watch' || row.status === 'critical')
     .sort((first, second) => second.percent - first.percent);
+  const infoPositions = summary.rows.filter(row => row.status === 'info');
+  const infoPercent = summary.weights.find(weight => weight.status === 'info')?.percent ?? 0;
   const watchedNames = watchPositions.slice(0, 2).map(row => row.name).join(' et ');
   const watchMore = watchPositions.length > 2 ? ` et ${watchPositions.length - 2} autre(s) SCPI` : '';
   const decliningPositions = summary.rows
@@ -91,7 +93,9 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               ? 'La surveillance ne permet pas actuellement de conclure sur les risques des SCPI détenues.'
               : watchPositions.length > 0
                 ? <>{pct(summary.riskExposurePercent)} de la valeur indicative de vos SCPI est concernée par un signal de vigilance, notamment {watchedNames}{watchMore}. Il s'agit d'un indicateur à examiner, pas d'une perte constatée.</>
-                : <>Aucun signal de vigilance n'a été détecté sur les {monitoredValueLabel} de valeur de portefeuille couverts par les contrôles disponibles. Cela ne garantit pas l'absence de risque.</>}
+                : infoPositions.length > 0
+                  ? <>Aucune alerte de vigilance sur les données suivies. {pct(infoPercent)} du portefeuille présente des informations de suivi, notamment {infoPositions.slice(0, 2).map(row => row.name).join(' et ')}. Une baisse d’occupation peut être suivie sans qualifier le TOF de préoccupant.</>
+                  : <>Aucun signal de vigilance n'a été détecté sur les {monitoredValueLabel} de valeur de portefeuille couverts par les contrôles disponibles. Cela ne garantit pas l'absence de risque.</>}
           </div>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
@@ -152,7 +156,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
             </div>
           </details>
           <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-slate-400">
-            Signaux indicatifs, sans notation réglementaire ni recommandation personnalisée.
+            Les évolutions du TOF sont conservées même lorsqu'elles ne déclenchent aucune alerte. Signaux indicatifs, sans notation réglementaire ni recommandation personnalisée.
           </p>
         </article>
 

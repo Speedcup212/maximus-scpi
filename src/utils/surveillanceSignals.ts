@@ -73,6 +73,22 @@ export const toSurveillanceNumber = (value: unknown): number | null => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+/**
+ * Référentiel commun : classification descriptive du NIVEAU d'occupation,
+ * sans tirer de conclusion de risque à partir de la pente seule.
+ * Seuils éditoriaux MaximusSCPI, non réglementaires.
+ */
+export type TofOccupationTier = 'eleve' | 'satisfaisant' | 'fragile' | 'faible' | 'critique' | 'inconnu';
+export const classifyTofOccupation = (value: unknown): TofOccupationTier => {
+  const tof = toSurveillanceNumber(value);
+  if (tof === null || tof < 0 || tof > 100) return 'inconnu';
+  if (tof >= 95) return 'eleve';
+  if (tof >= 90) return 'satisfaisant';
+  if (tof >= 85) return 'fragile';
+  if (tof >= 80) return 'faible';
+  return 'critique';
+};
+
 export const surveillanceGatePass = (value?: string | null) => Boolean(value?.startsWith('PASS'));
 
 export const formatSurveillanceNumber = (
@@ -100,16 +116,19 @@ export const buildSurveillanceSignals = (
   const tof = toSurveillanceNumber(row.tof);
   const tofDelta = toSurveillanceNumber(row.delta_4obs);
 
-  const tofLevelBad =
-    Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) &&
-    (row.niveau_tof === 'faible' || row.niveau_tof === 'fragile');
-  const tofTrendBad =
-    Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) &&
+  // Le NIVEAU du TOF prime sur la pente. Une baisse à 94 % relève du
+  // suivi informatif, jamais d'une alerte d'occupation à elle seule.
+  // Seuils internes d'interprétation (non réglementaires).
+  const tofTier = classifyTofOccupation(tof);
+  const tofEligible = Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) &&
+    tofTier !== 'inconnu';
+  const tofTrendBad = tofEligible &&
     (row.trajectoire_tof === 'baisse' || row.trajectoire_tof === 'baisse_forte');
-  const tofExtreme =
-    Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) &&
-    row.niveau_tof === 'faible' &&
-    row.trajectoire_tof === 'baisse_forte';
+  const tofLevelBad = tofEligible &&
+    (tofTier === 'fragile' || tofTier === 'faible' || tofTier === 'critique');
+  const tofVeryWeak = tofEligible && (tofTier === 'faible' || tofTier === 'critique');
+  const tofExtreme = tofEligible && (tofTier === 'critique' ||
+    (tofVeryWeak && row.trajectoire_tof === 'baisse_forte'));
 
   const liquidityBasis = row.liquidity_basis || '';
   const regimeSuppressed =
@@ -151,27 +170,34 @@ export const buildSurveillanceSignals = (
   const criticalContext =
     liquidityExtreme ||
     tofExtreme ||
-    (liquidityBad && tofTrendBad) ||
+    (liquidityBad && tofLevelBad && tofTrendBad) ||
     (debtExtreme && (tofLevelBad || liquidityBad));
 
-  if (tofLevelBad || tofTrendBad) {
+  if (tofEligible && (tofLevelBad || tofTrendBad)) {
     const tofCritical =
-      criticalContext &&
-      (tofExtreme || (liquidityBad && tofTrendBad) || (debtExtreme && tofLevelBad));
+      tofExtreme ||
+      (tofLevelBad && liquidityBad && tofTrendBad) ||
+      (tofVeryWeak && debtExtreme && tofTrendBad);
+    const level: SurveillanceSignal['level'] =
+      tofCritical ? 'critical' : tofLevelBad ? 'watch' : 'info';
     const parts = [
       tof !== null ? `TOF ${formatSurveillanceNumber(tof, ' %')}` : null,
       tofDelta !== null
-        ? `Δ 4 observations ${tofDelta > 0 ? '+' : ''}${formatSurveillanceNumber(tofDelta, ' pt')}`
+        ? `évolution sur 4 observations ${tofDelta > 0 ? '+' : ''}${formatSurveillanceNumber(tofDelta, ' pt')}`
         : null,
     ].filter(Boolean);
+    const interpretation = tof! >= 90
+      ? 'Niveau d’occupation satisfaisant. Recul à suivre, sans alerte de risque fondée sur le seul TOF.'
+      : tof! >= 85
+        ? 'Niveau d’occupation fragile : vigilance justifiée.'
+        : 'Occupation faible : vigilance renforcée.';
 
     signals.push({
       kind: 'tof',
-      level: tofCritical ? 'critical' : 'watch',
-      title: tofCritical ? 'Occupation sous vigilance forte' : 'Occupation à surveiller',
-      detail:
-        parts.join(' · ') ||
-        'Trajectoire du TOF défavorable sur données certifiées.',
+      level,
+      title: level === 'info' ? 'Occupation satisfaisante — tendance en baisse'
+        : level === 'critical' ? 'Occupation sous vigilance forte' : 'Occupation à surveiller',
+      detail: `${parts.join(' · ')} · ${interpretation}`,
     });
   }
 
@@ -184,7 +210,7 @@ export const buildSurveillanceSignals = (
       criticalContext &&
       (
         liquidityExtreme ||
-        (liquidityBad && tofTrendBad) ||
+        (liquidityBad && tofLevelBad && tofTrendBad) ||
         (debtExtreme && liquidityBad)
       );
 
