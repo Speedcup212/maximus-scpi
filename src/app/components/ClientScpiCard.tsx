@@ -166,7 +166,7 @@ const ClientScpiCard: React.FC<Props> = ({
   ].filter((item): item is string => item !== null);
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 shadow-xl shadow-black/10">
+    <article id={'holding-' + holding.slug} className="scroll-mt-32 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 shadow-xl shadow-black/10">
       <div className="flex flex-col gap-4 border-b border-white/10 p-5 sm:flex-row sm:items-start sm:justify-between lg:p-6">
         <div className="flex min-w-0 items-center gap-4">
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-emerald-500/25 bg-emerald-500/10">
