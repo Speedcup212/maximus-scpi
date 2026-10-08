@@ -218,6 +218,15 @@ const ClientScpiCard: React.FC<Props> = ({
         <div><p className="text-sm text-slate-300">Projection brute annuelle</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.annualIncome)}</p></div>
         <div><p className="text-sm text-slate-300">TOF publié</p><p className="mt-1 text-lg font-semibold text-white">{pct(tof, 2)}</p></div>
       </div>
+      {expanded && (
+        <section id={'holding-trajectory-' + holding.slug} aria-label={'Trajectoire historique de ' + holding.name} className="border-b border-white/10">
+          <div className="px-5 pt-5 lg:px-6">
+            <h5 className="text-base font-semibold text-white">Trajectoire historique détaillée</h5>
+            <p className="mt-1 text-xs text-slate-400">Retrouvez les cinq indicateurs historiques et les sources officielles de cette SCPI.</p>
+          </div>
+          <ScpiTrajectoryPanel scpiSlug={holding.slug} />
+        </section>
+      )}
       <section className="border-b border-white/10 px-5 py-4 lg:px-6" aria-label={'Répartitions de ' + holding.name}>
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <h5 className="text-sm font-semibold text-white">Répartitions de cette SCPI</h5>
@@ -307,9 +316,6 @@ const ClientScpiCard: React.FC<Props> = ({
               Analyse SCPI complète <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>
-        </div>
-        <div className="-mx-5 mt-6 lg:-mx-6" aria-label={'Trajectoire historique de ' + holding.name}>
-          <ScpiTrajectoryPanel scpiSlug={holding.slug} />
         </div>
         {manageExpanded && (
           <div className="mt-5 border-t border-white/10 pt-5">{children}</div>
