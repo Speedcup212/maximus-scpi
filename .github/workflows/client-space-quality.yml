@@ -1,0 +1,28 @@
+name: Espace client - contrôle qualité
+on:
+  pull_request:
+    paths:
+      - 'src/app/pages/ClientDashboard.tsx'
+      - 'src/app/components/ClientScpiCard.tsx'
+      - 'src/utils/clientPortfolio*.ts'
+      - '.github/workflows/client-space-quality.yml'
+  workflow_dispatch:
+jobs:
+  check:
+    name: TypeScript et tests métier
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Installation des dépendances
+        run: npm ci --no-audit --no-fund
+      - name: Vérification TypeScript
+        run: npm run typecheck
+      - name: Tests portefeuille et ventilations
+        run: npx vitest run src/utils/clientPortfolioMath.test.ts src/utils/clientPortfolioExposure.test.ts
