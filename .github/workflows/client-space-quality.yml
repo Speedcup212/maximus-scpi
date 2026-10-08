@@ -22,6 +22,7 @@ on:
       - 'src/tests/clientFuturePurchaseDateUx.test.ts'
       - 'src/tests/clientPositionForm.test.ts'
       - 'src/tests/clientPositionEditDate.test.ts'
+      - 'src/tests/clientTrajectoryReuse.test.ts'
       - 'src/utils/clientPositionForm.ts'
       - 'src/tests/surveillanceTofClassification.test.ts'
       - 'src/tests/tofPresentationConsistency.test.ts'
@@ -47,7 +48,7 @@ jobs:
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
       - name: Tests portefeuille et ventilations
-        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts src/tests/clientExposureVisibility.test.ts src/tests/clientRadarPedagogy.test.ts src/tests/clientPremiumUx.test.ts src/tests/clientFuturePurchaseDateUx.test.ts src/tests/clientPositionForm.test.ts src/tests/clientPositionEditDate.test.ts src/tests/surveillanceTofClassification.test.ts src/tests/tofPresentationConsistency.test.ts
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts src/tests/clientExposureVisibility.test.ts src/tests/clientRadarPedagogy.test.ts src/tests/clientPremiumUx.test.ts src/tests/clientFuturePurchaseDateUx.test.ts src/tests/clientPositionForm.test.ts src/tests/clientPositionEditDate.test.ts src/tests/clientTrajectoryReuse.test.ts src/tests/surveillanceTofClassification.test.ts src/tests/tofPresentationConsistency.test.ts
       - name: Vérification TypeScript sur les fichiers modifiés
         shell: bash
         run: |
