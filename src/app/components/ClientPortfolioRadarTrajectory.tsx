@@ -46,6 +46,17 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
   const Direction = delta === null || Math.abs(delta) < 0.001 ? Minus : delta > 0 ? TrendingUp : TrendingDown;
   const directionColor = delta === null ? 'text-slate-400' : delta < -0.001 ? 'text-amber-300'
     : delta > 0.001 ? 'text-emerald-300' : 'text-slate-100';
+  const watchPositions = summary.rows
+    .filter(row => row.status === 'watch' || row.status === 'critical')
+    .sort((first, second) => second.percent - first.percent);
+  const watchedNames = watchPositions.slice(0, 2).map(row => row.name).join(' et ');
+  const watchMore = watchPositions.length > 2 ? ` et ${watchPositions.length - 2} autre(s) SCPI` : '';
+  const decliningPositions = summary.rows
+    .filter(row => row.trend === 'decline')
+    .sort((first, second) => second.percent - first.percent);
+  const decliningNames = decliningPositions.slice(0, 2).map(row => row.name).join(' et ');
+  const decliningPercent = summary.trends.find(trend => trend.trend === 'decline')?.percent ?? 0;
+  const monitoredValueLabel = pct(summary.monitoredPercent, 0);
 
   return (
     <section aria-labelledby="global-portfolio-title" className="space-y-4">
@@ -53,28 +64,45 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-300">Surveillance consolidée</p>
           <h3 id="global-portfolio-title" className="mt-1 text-xl font-semibold text-white">Radar & trajectoire du portefeuille</h3>
-          <p className="mt-1 text-xs leading-5 text-slate-400">SCPI détenues dans cet espace, pondérées par leur valeur indicative.</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
+            <strong className="text-white">À quoi sert cette analyse ?</strong> Elle vous montre quelles SCPI
+            présentent des signes de vigilance et si leur occupation locative progresse ou recule.
+            Les pourcentages sont pondérés selon la valeur indicative de vos parts.
+          </p>
         </div>
         <span className="w-fit rounded-full border border-white/10 bg-slate-900 px-3 py-1 text-xs text-slate-300">{summary.rows.length} SCPI suivies</span>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.12fr_1fr]">
         <article className="min-w-0 rounded-3xl border border-white/10 bg-gradient-to-br from-emerald-500/[0.07] via-slate-900/60 to-slate-950 p-5 lg:p-6">
-          <div className="flex items-center gap-2"><Gauge className="h-5 w-5 text-emerald-300" /><h4 className="font-semibold text-white">Radar global de vigilance</h4></div>
-          <p className={'mt-4 text-lg font-semibold leading-6 ' + heading.color}>{heading.title}</p>
-          <p className="mt-2 text-xs leading-5 text-slate-400">{heading.description}</p>
+          <div className="flex items-center gap-2"><Gauge className="h-5 w-5 text-emerald-300" /><h4 className="font-semibold text-white">Radar : quelles SCPI surveiller ?</h4></div>
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            Le radar recherche des <strong className="text-white">signaux d'alerte</strong> sur l'occupation,
+            la liquidité, la valorisation et l'endettement des SCPI.
+            Il ne prédit pas une perte en capital.
+          </p>
+          <p className={'mt-4 text-base font-semibold leading-6 ' + heading.color}>{heading.title}</p>
+          <p className="mt-2 text-sm leading-5 text-slate-300">{heading.description}</p>
+          <div className="mt-3 rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3 text-sm leading-6 text-slate-200">
+            <strong className="text-white">Ce que cela signifie pour votre portefeuille : </strong>
+            {surveillanceUnavailable || summary.monitoredPercent === 0
+              ? 'La surveillance ne permet pas actuellement de conclure sur les risques des SCPI détenues.'
+              : watchPositions.length > 0
+                ? <>{pct(summary.riskExposurePercent)} de la valeur indicative de vos SCPI est concernée par un signal de vigilance, notamment {watchedNames}{watchMore}. Il s'agit d'un indicateur à examiner, pas d'une perte constatée.</>
+                : <>Aucun signal de vigilance n'a été détecté sur les {monitoredValueLabel} de valeur de portefeuille couverts par les contrôles disponibles. Cela ne garantit pas l'absence de risque.</>}
+          </div>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">Part sous vigilance</div>
+              <div className="text-xs font-medium text-slate-300">Part du portefeuille à surveiller</div>
               <div className="mt-1 text-2xl font-semibold tabular-nums text-amber-200">
                 {surveillanceUnavailable || summary.monitoredPercent === 0 ? '—' : pct(summary.riskExposurePercent)}
               </div>
-              <div className="mt-1 text-[11px] text-slate-500">Vigilance modérée et forte</div>
+              <div className="mt-1 text-xs leading-5 text-slate-400">Poids de vos SCPI présentant au moins un signal, et non montant que vous risquez de perdre.</div>
             </div>
             <div className="rounded-xl border border-white/10 bg-slate-950/50 p-4">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">Capital couvert par le radar</div>
+              <div className="text-xs font-medium text-slate-300">Portefeuille analysable</div>
               <div className="mt-1 text-2xl font-semibold tabular-nums text-white">{pct(summary.monitoredPercent)}</div>
-              <div className="mt-1 text-[11px] text-slate-500">Hors positions non certifiées</div>
+              <div className="mt-1 text-xs leading-5 text-slate-400">Parts disposant de données exploitables. 100 % ne signifie pas « sans risque ».</div>
             </div>
           </div>
           <div className="mt-5">
@@ -94,8 +122,8 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
             </div>
           </div>
           <div className="mt-5 border-t border-white/10 pt-4">
-            <h5 className="text-xs font-semibold text-slate-200">Axes de surveillance Maximus</h5>
-            <p className="mt-1 text-[11px] leading-4 text-slate-500">Part du capital exposée à un signal identifié sur chaque axe. Les axes ne s'additionnent pas.</p>
+            <h5 className="text-sm font-semibold text-slate-100">Pourquoi une SCPI est-elle surveillée ?</h5>
+            <p className="mt-1 text-xs leading-5 text-slate-300">Chaque ligne représente un domaine contrôlé. Un signal peut concerner plusieurs domaines : leurs pourcentages ne s'additionnent pas.</p>
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
               {summary.axes.map(axis => (
                 <div key={axis.kind}>
@@ -109,8 +137,12 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
                     <div className="bg-amber-400" style={{ width: axis.vigilancePercent + '%' }} />
                     <div className="bg-sky-400" style={{ width: axis.informationPercent + '%' }} />
                   </div>
-                  <p className="mt-1 text-[10px] text-slate-500">
-                    {axis.scpiCount} SCPI avec signal · {pct(axis.informationPercent)} d'information
+                  <p className="mt-1 text-xs leading-5 text-slate-400">
+                    {axis.kind === 'tof' && 'Occupation : évolution des loyers liés aux surfaces louées (TOF).'}
+                    {axis.kind === 'liquidity' && 'Liquidité : éventuelles difficultés à revendre les parts.'}
+                    {axis.kind === 'valuation' && 'Valorisation : écart entre le prix de la part et la valeur estimée du patrimoine.'}
+                    {axis.kind === 'debt' && 'Endettement : niveau de dette supporté par la SCPI.'}
+                    {' '}{axis.scpiCount} SCPI avec signal.
                   </p>
                 </div>
               ))}
@@ -122,27 +154,43 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
         </article>
 
         <article className="min-w-0 rounded-3xl border border-white/10 bg-gradient-to-br from-sky-500/[0.07] via-slate-900/60 to-slate-950 p-5 lg:p-6">
-          <div className="flex items-center gap-2"><Activity className="h-5 w-5 text-sky-300" /><h4 className="font-semibold text-white">Trajectoire globale du TOF</h4></div>
-          <p className="mt-2 text-xs leading-5 text-slate-400">Données certifiées de période comparable, pas évolution financière du portefeuille.</p>
+          <div className="flex items-center gap-2"><Activity className="h-5 w-5 text-sky-300" /><h4 className="font-semibold text-white">Trajectoire : l'occupation des immeubles s'améliore-t-elle ?</h4></div>
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            <strong className="text-white">TOF = taux d'occupation financier.</strong> Il renseigne sur
+            l'occupation locative à partir des loyers. Il ne correspond ni au rendement distribué,
+            ni à la valeur de vos parts.
+          </p>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">TOF moyen pondéré</div>
+              <div className="text-xs font-medium text-slate-300">Occupation financière moyenne des SCPI</div>
               <div className="mt-2 text-2xl font-semibold tabular-nums text-white">
                 {summary.tofWeighted === null ? '—' : pct(summary.tofWeighted, 2)}
               </div>
               <div className="mt-1 text-[11px] text-slate-500">{summary.referencePeriod || 'Période non disponible'}</div>
             </div>
             <div className="rounded-xl border border-white/10 bg-slate-950/50 px-4 py-4">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400">Variation sur 4 observations</div>
+              <div className="text-xs font-medium text-slate-300">Évolution de l'occupation sur 4 observations</div>
               <div className={'mt-2 flex items-center gap-2 text-2xl font-semibold tabular-nums ' + directionColor}>
                 <Direction className="h-5 w-5 shrink-0" />{points(delta)}
               </div>
               <div className="mt-1 text-[11px] text-slate-500">Capital comparable : {pct(summary.delta4CoveragePercent, 0)}</div>
             </div>
           </div>
+          <div className="mt-4 rounded-xl border border-sky-500/20 bg-sky-500/5 px-4 py-3 text-sm leading-6 text-slate-200">
+            <strong className="text-white">Comment interpréter ces chiffres ? </strong>
+            {summary.tofWeighted === null
+              ? 'Les données disponibles ne suffisent pas à calculer une occupation moyenne représentative.'
+              : <>
+                Le TOF pondéré est de {pct(summary.tofWeighted, 2)} sur la période {summary.referencePeriod || 'étudiée'}.
+                {delta === null
+                  ? ' Son évolution ne peut pas être calculée sur une période comparable.'
+                  : <> L'indicateur {delta < -0.001 ? 'recule' : delta > 0.001 ? 'progresse' : 'reste quasiment stable'} de {points(Math.abs(delta))} sur quatre observations. <strong className="text-white">Cela n'indique pas une variation de la valeur de vos parts.</strong></>}
+              </>}
+            {decliningPositions.length > 0 && !surveillanceUnavailable && <> {pct(decliningPercent)} de la valeur indicative est placée dans {decliningNames}, dont le TOF est orienté à la baisse.</>}
+          </div>
           <div className="mt-5">
             <div className="mb-2 flex items-center justify-between gap-2">
-              <span className="text-xs font-medium text-slate-200">Trajectoires par exposition</span>
+              <span className="text-xs font-medium text-slate-200">Évolution de l'occupation, par SCPI détenue</span>
               <span className="text-[11px] text-slate-400">Couverture {pct(summary.tofCoveragePercent, 0)}</span>
             </div>
             <SegmentedBar label="Trajectoires TOF"
