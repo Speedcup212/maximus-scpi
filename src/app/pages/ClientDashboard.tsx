@@ -813,93 +813,6 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 ))}
               </div>
             </section>
-            <section className="grid gap-6 xl:grid-cols-3">
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Gauge className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Radar portefeuille</h3>
-                </div>
-                <p className="mt-2 text-xs leading-5 text-slate-400">
-                  Synthèse des trajectoires certifiées, sans prévision de performance.
-                </p>
-                <div className="mt-5 grid grid-cols-2 gap-3">
-                  {(['stable', 'info', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
-                    <div
-                      key={level}
-                      className={`rounded-xl border p-4 ${radarPresentation[level].className}`}
-                    >
-                      <div className="text-2xl font-semibold">{radarCounts[level]}</div>
-                      <div className="mt-1 text-xs">{radarPresentation[level].label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Diversification sectorielle</h3>
-                </div>
-                <div className="mt-5 space-y-4">
-                  {sectorBreakdown.entries.length === 0 ? (
-                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
-                  ) : (
-                    sectorBreakdown.entries.slice(0, 5).map(({ label, value }) => (
-                      <div key={label}>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-300">{label}</span>
-                          <span className="text-slate-500">{formatPercent(value)}</span>
-                        </div>
-                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
-                          <div
-                            className="h-1.5 rounded-full bg-emerald-400"
-                            style={{ width: `${Math.min(value, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))
-                  )}
-                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Portefeuille documenté : {formatPercent(sectorBreakdown.coveredPercent, 0)}
-                    {sectorBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(sectorBreakdown.missingPercent, 0) : ''}
-                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <div className="flex items-center gap-2">
-                  <Globe2 className="h-5 w-5 text-emerald-300" />
-                  <h3 className="font-semibold text-white">Diversification géographique</h3>
-                </div>
-                <div className="mt-5 space-y-4">
-                  {geoBreakdown.entries.length === 0 ? (
-                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
-                  ) : (
-                    geoBreakdown.entries.slice(0, 5).map(({ label, value }) => (
-                      <div key={label}>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-300">{label}</span>
-                          <span className="text-slate-500">{formatPercent(value)}</span>
-                        </div>
-                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
-                          <div
-                            className="h-1.5 rounded-full bg-emerald-400"
-                            style={{ width: `${Math.min(value, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))
-                  )}
-                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Portefeuille documenté : {formatPercent(geoBreakdown.coveredPercent, 0)}
-                    {geoBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(geoBreakdown.missingPercent, 0) : ''}
-                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
-                  </p>
-                </div>
-              </div>
-            </section>
-
             <section className="space-y-5">
               <div className="flex flex-col justify-between gap-2 px-1 sm:flex-row sm:items-end">
                 <div>
@@ -1033,6 +946,95 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 );
               })}
             </section>
+
+            <section className="grid gap-6 xl:grid-cols-3">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <div className="flex items-center gap-2">
+                  <Gauge className="h-5 w-5 text-emerald-300" />
+                  <h3 className="font-semibold text-white">Radar portefeuille</h3>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-slate-400">
+                  Synthèse des trajectoires certifiées, sans prévision de performance.
+                </p>
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {(['stable', 'info', 'watch', 'critical', 'pending'] as RadarLevel[]).map(level => (
+                    <div
+                      key={level}
+                      className={`rounded-xl border p-4 ${radarPresentation[level].className}`}
+                    >
+                      <div className="text-2xl font-semibold">{radarCounts[level]}</div>
+                      <div className="mt-1 text-xs">{radarPresentation[level].label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-emerald-300" />
+                  <h3 className="font-semibold text-white">Diversification sectorielle</h3>
+                </div>
+                <div className="mt-5 space-y-4">
+                  {sectorBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
+                  ) : (
+                    sectorBreakdown.entries.slice(0, 5).map(({ label, value }) => (
+                      <div key={label}>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-slate-300">{label}</span>
+                          <span className="text-slate-500">{formatPercent(value)}</span>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                          <div
+                            className="h-1.5 rounded-full bg-emerald-400"
+                            style={{ width: `${Math.min(value, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Portefeuille documenté : {formatPercent(sectorBreakdown.coveredPercent, 0)}
+                    {sectorBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(sectorBreakdown.missingPercent, 0) : ''}
+                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <div className="flex items-center gap-2">
+                  <Globe2 className="h-5 w-5 text-emerald-300" />
+                  <h3 className="font-semibold text-white">Diversification géographique</h3>
+                </div>
+                <div className="mt-5 space-y-4">
+                  {geoBreakdown.entries.length === 0 ? (
+                    <p className="text-sm text-slate-500">Répartition détaillée non documentée.</p>
+                  ) : (
+                    geoBreakdown.entries.slice(0, 5).map(({ label, value }) => (
+                      <div key={label}>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-slate-300">{label}</span>
+                          <span className="text-slate-500">{formatPercent(value)}</span>
+                        </div>
+                        <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                          <div
+                            className="h-1.5 rounded-full bg-emerald-400"
+                            style={{ width: `${Math.min(value, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
+                    Portefeuille documenté : {formatPercent(geoBreakdown.coveredPercent, 0)}
+                    {geoBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(geoBreakdown.missingPercent, 0) : ''}
+                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+
           </>
         )}
 
