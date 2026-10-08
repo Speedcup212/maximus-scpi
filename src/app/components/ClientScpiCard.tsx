@@ -32,6 +32,7 @@ export type ClientScpiCardHolding = {
   units: number;
   invested: number;
   currentValue: number;
+  valuationBasis: 'withdrawal' | 'subscription' | 'purchase';
   averagePurchasePrice: number;
   annualIncome: number | null;
   yieldOnCost: number | null;
@@ -203,7 +204,16 @@ const ClientScpiCard: React.FC<Props> = ({
       <div className="p-5 lg:p-6">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Stat label="Capital investi" value={euro(holding.invested)} hint={euro(holding.averagePurchasePrice, 2) + ' / part à l’achat'} emphasis />
-          <Stat label="Valeur de retrait indicative" value={euro(holding.currentValue)} hint={euro(num(indicator?.prix_retrait), 2) + ' / part si disponible'} emphasis />
+          <Stat
+            label={holding.valuationBasis === 'withdrawal' ? 'Valeur indicative de retrait' : holding.valuationBasis === 'subscription' ? 'Valeur indicative de souscription' : 'Coût retenu faute de valeur publiée'}
+            value={euro(holding.currentValue)}
+            hint={holding.valuationBasis === 'withdrawal'
+              ? euro(num(indicator?.prix_retrait), 2) + ' / part · hors délai de cession'
+              : holding.valuationBasis === 'subscription'
+                ? 'Prix de souscription, pas valeur de revente'
+                : 'Aucune valeur actuelle exploitable'}
+            emphasis
+          />
           <Stat label="Différence valeur / coût" value={euro(delta)} hint={(deltaPct === null ? '—' : pctChange(deltaPct)) + ' · pas une perte réalisée'} emphasis />
           <Stat label="Revenus annualisés indicatifs" value={euro(holding.annualIncome)} hint={'TD publié appliqué aux parts, hors jouissance'} emphasis />
         </div>
