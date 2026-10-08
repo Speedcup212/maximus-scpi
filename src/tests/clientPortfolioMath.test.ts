@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { estimateAnnualizedScpiIncome } from '../utils/clientPortfolioMath';
+import { estimateAnnualizedScpiIncome, formatCapitalizationMillions } from '../utils/clientPortfolioMath';
 
 describe('estimateAnnualizedScpiIncome', () => {
   it('utilise le TD annuel plutôt que le dernier versement par part', () => {
@@ -24,5 +24,12 @@ describe('estimateAnnualizedScpiIncome', () => {
     expect(estimateAnnualizedScpiIncome(10, 255, -1)).toBeNull();
     expect(estimateAnnualizedScpiIncome(10, 255, 101)).toBeNull();
     expect(estimateAnnualizedScpiIncome(10, Number.NaN, 6.21)).toBeNull();
+  });
+
+  it('affiche correctement les capitalisations en millions et milliards d’euros', () => {
+    expect(formatCapitalizationMillions(247.6662)).toBe('247,7 M€');
+    expect(formatCapitalizationMillions(275.460792)).toBe('275,5 M€');
+    expect(formatCapitalizationMillions(4391.49)).toBe('4,39 Md€');
+    expect(formatCapitalizationMillions(null)).toBe('—');
   });
 });
