@@ -91,6 +91,29 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               ))}
             </div>
           </div>
+          <div className="mt-5 border-t border-white/10 pt-4">
+            <h5 className="text-xs font-semibold text-slate-200">Axes de surveillance Maximus</h5>
+            <p className="mt-1 text-[11px] leading-4 text-slate-500">Part du capital exposée à un signal identifié sur chaque axe. Les axes ne s'additionnent pas.</p>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              {summary.axes.map(axis => (
+                <div key={axis.kind}>
+                  <div className="flex items-center justify-between gap-2 text-xs">
+                    <span className="font-medium text-slate-200">{axis.label}</span>
+                    <span className="tabular-nums text-amber-200">
+                      {summary.monitoredPercent === 0 ? '—' : pct(axis.vigilancePercent)}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-slate-800">
+                    <div className="bg-amber-400" style={{ width: axis.vigilancePercent + '%' }} />
+                    <div className="bg-sky-400" style={{ width: axis.informationPercent + '%' }} />
+                  </div>
+                  <p className="mt-1 text-[10px] text-slate-500">
+                    {axis.scpiCount} SCPI avec signal · {pct(axis.informationPercent)} d'information
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
           <p className="mt-5 border-t border-white/10 pt-4 text-[11px] leading-5 text-slate-500">
             Synthèse des signaux existants, pas une notation réglementaire SRRI/SRI ni une recommandation personnalisée.
           </p>
