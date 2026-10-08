@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import type { SurveillanceDashboardRow, SurveillanceSignal } from '../../utils/surveillanceSignals';
 import type { ScpiExposure, ExposureEntry } from '../../utils/clientPortfolioExposure';
+import { formatCapitalizationMillions } from '../../utils/clientPortfolioMath';
 
 type Numeric = number | string | null | undefined;
 export type ClientScpiCardIndicator = {
@@ -109,15 +110,16 @@ const VisualDistribution = ({ title, icon: Icon, exposure }: {
               role="img"
               aria-label={title + ' : ' + items.map(item => item.label + ' ' + pct(item.value)).join(', ')}
             >
-              <div className="absolute inset-[18px] flex items-center justify-center rounded-full bg-slate-900 text-center">
-                <span className="max-w-[72px] text-[11px] leading-4 text-slate-200">{top?.label}</span>
+              <div className="absolute inset-[18px] flex flex-col items-center justify-center rounded-full bg-slate-900 text-center">
+                <span className="text-base font-semibold tabular-nums leading-5 text-white">{top ? pct(top.value, 0) : '—'}</span>
+                <span className="mt-0.5 text-[9px] uppercase tracking-wide text-slate-400">1re exposition</span>
               </div>
             </div>
             <div className="w-full min-w-0 flex-1 space-y-2">
               {colors.slice(0, 5).map((item) => (
                 <div key={item.label}>
                   <div className="flex items-center justify-between gap-2 text-xs">
-                    <span className="truncate text-slate-300">{item.label}</span>
+                    <span className="min-w-0 text-slate-300" title={item.label}>{item.label}</span>
                     <span className="shrink-0 tabular-nums text-slate-200">{pct(item.value)}</span>
                   </div>
                   <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-800">
@@ -130,8 +132,8 @@ const VisualDistribution = ({ title, icon: Icon, exposure }: {
           </div>
           <p className="mt-3 text-[11px] leading-4 text-slate-500">
             {exposure.source === 'catalog'
-              ? 'Source : répartition de la fiche SCPI Maximus ; période à vérifier.'
-              : 'Source : répartition structurée MaximusSCPI.'}
+              ? 'Répartition du catalogue MaximusSCPI : période de référence à vérifier.'
+              : 'Répartition issue de données structurées MaximusSCPI ; fraîcheur à vérifier.'}
           </p>
         </>
       ) : (
@@ -244,7 +246,7 @@ const ClientScpiCard: React.FC<Props> = ({
             </ul>
             <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-slate-400">
               {num(indicator?.endettement) !== null && <span className="rounded-lg border border-white/10 px-2 py-1">Endettement : {pct(indicator?.endettement)}</span>}
-              {num(indicator?.capitalisation) !== null && <span className="rounded-lg border border-white/10 px-2 py-1">Capitalisation : {euro(indicator?.capitalisation)}</span>}
+              {num(indicator?.capitalisation) !== null && <span className="rounded-lg border border-white/10 px-2 py-1">Capitalisation : {formatCapitalizationMillions(num(indicator?.capitalisation))}</span>}
               {indicator?.label_isr && <span className="rounded-lg border border-white/10 px-2 py-1">Label ISR</span>}
               {indicator?.sfdr && <span className="rounded-lg border border-white/10 px-2 py-1">SFDR : {indicator.sfdr}</span>}
               {indicator?.srri != null && <span className="rounded-lg border border-white/10 px-2 py-1">Risque publié : {indicator.srri}/7</span>}
