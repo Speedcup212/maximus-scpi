@@ -18,6 +18,7 @@ import {
   type SurveillanceDashboardRow,
   type SurveillanceSignalKind,
   type SurveillanceSignalLevel,
+  type SurveillanceSignal as Signal,
 } from '../utils/surveillanceSignals';
 
 type SignalLevel = SurveillanceSignalLevel;
@@ -73,13 +74,17 @@ const SurveillancePage: React.FC = () => {
   const [filter, setFilter] = useState<FilterKey>('priority');
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [dashboardLoadError, setDashboardLoadError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
       if (!supabase) {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setDashboardLoadError(true);
+          setLoading(false);
+        }
         return;
       }
 
@@ -97,6 +102,7 @@ const SurveillancePage: React.FC = () => {
       if (cancelled) return;
 
       if (dashboardResult.error) {
+        setDashboardLoadError(true);
         console.warn('[Surveillance] Dashboard indisponible.', dashboardResult.error);
       } else {
         setDashboardRows(
@@ -202,7 +208,7 @@ const SurveillancePage: React.FC = () => {
             ].map(([label, value, tone]) => (
               <div key={String(label)} className="rounded-xl border border-slate-800 bg-slate-900/65 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">{label}</div>
-                <div className={`mt-1 text-3xl font-bold ${tone}`}>{loading ? '—' : value}</div>
+                <div className={`mt-1 text-3xl font-bold ${tone}`}>{loading || dashboardLoadError ? '—' : value}</div>
               </div>
             ))}
           </div>
@@ -249,7 +255,7 @@ const SurveillancePage: React.FC = () => {
               Lecture priorisée
             </div>
             <h2 className="mt-1 text-xl font-bold text-white sm:text-2xl">
-              {loading ? 'Chargement des signaux…' : `${visibleRows.length} SCPI affichées`}
+              {loading ? 'Chargement des signaux…' : dashboardLoadError ? 'Signaux temporairement indisponibles' : `${visibleRows.length} SCPI affichées`}
             </h2>
           </div>
           <a
@@ -266,6 +272,10 @@ const SurveillancePage: React.FC = () => {
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="h-28 animate-pulse rounded-xl border border-slate-800 bg-slate-900/55" />
             ))}
+          </div>
+        ) : dashboardLoadError ? (
+          <div role="alert" className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-8 text-center text-amber-100">
+            Impossible de charger les données de surveillance pour le moment. Actualise la page ou réessaie plus tard.
           </div>
         ) : visibleRows.length === 0 ? (
           <div className="rounded-xl border border-slate-800 bg-slate-900/55 p-8 text-center text-slate-400">
