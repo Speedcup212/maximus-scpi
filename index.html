@@ -8,6 +8,9 @@
     <script>
       (function () {
         try {
+          var privatePath = /^\/(?:app(?:\/|$)|espace(?:-|\/|$))/.test(window.location.pathname);
+          document.documentElement.classList.toggle('private-app-booting', privatePath);
+
           var savedTheme = localStorage.getItem('theme');
           var dark = savedTheme ? savedTheme === 'dark' : true;
           document.documentElement.classList.toggle('dark', dark);
@@ -33,6 +36,8 @@
       body{margin:0;line-height:inherit;background:#fff;color:#111827}
       html.dark body{background:#111827;color:#f3f4f6}
       #root{min-height:100vh;display:flex;flex-direction:column}
+      html.private-app-booting body{background:#020617}
+      html.private-app-booting #root{visibility:hidden}
 
       /* Typography */
       h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;margin:0}

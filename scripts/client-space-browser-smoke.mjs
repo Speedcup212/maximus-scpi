@@ -70,6 +70,40 @@ try {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
+  const shellPage = await browser.newPage();
+  await shellPage.setRequestInterception(true);
+  shellPage.on('request', request => {
+    const url = request.url();
+    if (
+      request.resourceType() === 'script' &&
+      (url.includes('/src/main.tsx') || url.includes('/@vite/') || url.includes('/node_modules/'))
+    ) {
+      request.abort();
+      return;
+    }
+    request.continue();
+  });
+  await shellPage.goto(`${BASE}/app/login`, { waitUntil: 'domcontentloaded', timeout: 30_000 });
+  const privateShellState = await shellPage.evaluate(() => {
+    const root = document.getElementById('root');
+    const oldShell = document.querySelector('.initial-shell');
+    return {
+      bootClass: document.documentElement.classList.contains('private-app-booting'),
+      rootVisibility: root ? getComputedStyle(root).visibility : null,
+      oldShellPresent: Boolean(oldShell),
+    };
+  });
+  if (
+    !privateShellState.bootClass ||
+    privateShellState.rootVisibility !== 'hidden' ||
+    !privateShellState.oldShellPresent
+  ) {
+    throw new Error(
+      `Shell privé non protégé avant React: ${JSON.stringify(privateShellState)}`,
+    );
+  }
+  await shellPage.close();
+
   const page = await browser.newPage();
   page.on('pageerror', error => {
     throw error;
