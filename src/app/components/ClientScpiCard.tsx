@@ -4,6 +4,7 @@ import {
   Globe2, Layers3, Pencil, ShieldAlert, TrendingUp, ChevronDown,
 } from 'lucide-react';
 import type { SurveillanceDashboardRow, SurveillanceSignal } from '../../utils/surveillanceSignals';
+import ScpiTrajectoryPanel from '../../components/trajectory/ScpiTrajectoryPanel';
 import type { ScpiExposure, ExposureEntry } from '../../utils/clientPortfolioExposure';
 import { formatCapitalizationMillions } from '../../utils/clientPortfolioMath';
 
@@ -306,6 +307,9 @@ const ClientScpiCard: React.FC<Props> = ({
               Analyse SCPI complète <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>
+        </div>
+        <div className="-mx-5 mt-6 lg:-mx-6" aria-label={'Trajectoire historique de ' + holding.name}>
+          <ScpiTrajectoryPanel scpiSlug={holding.slug} />
         </div>
         {manageExpanded && (
           <div className="mt-5 border-t border-white/10 pt-5">{children}</div>
