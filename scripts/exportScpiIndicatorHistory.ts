@@ -112,7 +112,7 @@ if (!eligibleSlugs.length) {
 }
 
 const { data, error } = await supabase
-  .from('scpi_indicator_history')
+  .from('scpi_trajectory_pilot_history')
   .select(
     [
       'scpi_slug',

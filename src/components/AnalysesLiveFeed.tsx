@@ -476,7 +476,7 @@ const AnalysesLiveFeed: React.FC = () => {
           .order('found_at', { ascending: false })
           .limit(500),
         supabase
-          .from('scpi_indicator_history')
+          .from('scpi_trajectory_pilot_history')
           .select('scpi_slug,source_period,tof,prix_souscription,prix_reconstitution,valeur_realisation,endettement,parts_attente_retrait')
           .limit(5000),
         import('../data/scpiData'),
