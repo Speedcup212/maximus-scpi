@@ -18,9 +18,9 @@ const isValidLabel = (label: string, kind: ExposureKind) =>
 
 const readEntries = (input: unknown): ExposureEntry[] => {
   if (Array.isArray(input)) {
-    return input.filter((row): row is ExposureEntry =>
+    return input.filter(row =>
       Boolean(row && typeof row.name === 'string' && Number.isFinite(Number(row.value))))
-      .map(row => ({ label: row.name, value: Number(row.value) }));
+      .map(row => ({ label: String(row.name), value: Number(row.value) }));
   }
   if (input && typeof input === 'object') {
     return Object.entries(input).map(([label, raw]) => ({ label, value: Number(raw) }));
