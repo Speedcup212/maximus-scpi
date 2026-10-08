@@ -247,6 +247,7 @@ const ClientScpiCard: React.FC<Props> = ({
               {num(indicator?.capitalisation) !== null && <span className="rounded-lg border border-white/10 px-2 py-1">Capitalisation : {euro(indicator?.capitalisation)}</span>}
               {indicator?.label_isr && <span className="rounded-lg border border-white/10 px-2 py-1">Label ISR</span>}
               {indicator?.sfdr && <span className="rounded-lg border border-white/10 px-2 py-1">SFDR : {indicator.sfdr}</span>}
+              {indicator?.srri != null && <span className="rounded-lg border border-white/10 px-2 py-1">Risque publié : {indicator.srri}/7</span>}
               {num(indicator?.delai_jouissance) !== null && <span className="rounded-lg border border-white/10 px-2 py-1">Jouissance : {num(indicator?.delai_jouissance)} mois</span>}
               {indicator?.versement_loyers && <span className="rounded-lg border border-white/10 px-2 py-1">Distribution : {indicator.versement_loyers}</span>}
             </div>
