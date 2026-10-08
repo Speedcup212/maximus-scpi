@@ -73,6 +73,22 @@ export const toSurveillanceNumber = (value: unknown): number | null => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+/**
+ * Référentiel commun : classification descriptive du NIVEAU d'occupation,
+ * sans tirer de conclusion de risque à partir de la pente seule.
+ * Seuils éditoriaux MaximusSCPI, non réglementaires.
+ */
+export type TofOccupationTier = 'eleve' | 'satisfaisant' | 'fragile' | 'faible' | 'critique' | 'inconnu';
+export const classifyTofOccupation = (value: unknown): TofOccupationTier => {
+  const tof = toSurveillanceNumber(value);
+  if (tof === null || tof < 0 || tof > 100) return 'inconnu';
+  if (tof >= 95) return 'eleve';
+  if (tof >= 90) return 'satisfaisant';
+  if (tof >= 85) return 'fragile';
+  if (tof >= 80) return 'faible';
+  return 'critique';
+};
+
 export const surveillanceGatePass = (value?: string | null) => Boolean(value?.startsWith('PASS'));
 
 export const formatSurveillanceNumber = (
@@ -103,13 +119,15 @@ export const buildSurveillanceSignals = (
   // Le NIVEAU du TOF prime sur la pente. Une baisse à 94 % relève du
   // suivi informatif, jamais d'une alerte d'occupation à elle seule.
   // Seuils internes d'interprétation (non réglementaires).
+  const tofTier = classifyTofOccupation(tof);
   const tofEligible = Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) &&
-    tof !== null && tof >= 0 && tof <= 100;
+    tofTier !== 'inconnu';
   const tofTrendBad = tofEligible &&
     (row.trajectoire_tof === 'baisse' || row.trajectoire_tof === 'baisse_forte');
-  const tofLevelBad = tofEligible && tof! < 90;
-  const tofVeryWeak = tofEligible && tof! < 85;
-  const tofExtreme = tofEligible && (tof! < 80 ||
+  const tofLevelBad = tofEligible &&
+    (tofTier === 'fragile' || tofTier === 'faible' || tofTier === 'critique');
+  const tofVeryWeak = tofEligible && (tofTier === 'faible' || tofTier === 'critique');
+  const tofExtreme = tofEligible && (tofTier === 'critique' ||
     (tofVeryWeak && row.trajectoire_tof === 'baisse_forte'));
 
   const liquidityBasis = row.liquidity_basis || '';
