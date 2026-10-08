@@ -28,6 +28,7 @@ import ClientScpiCard from '../components/ClientScpiCard';
 import ClientPortfolioRadarTrajectory from '../components/ClientPortfolioRadarTrajectory';
 import { aggregateGlobalPortfolioTrajectory } from '../../utils/clientPortfolioTrajectory';
 import { buildHistoricalPortfolioTof, type HistoricalTofRow } from '../../utils/clientPortfolioHistory';
+import { isCompleteClientPosition, positivePositionNumber } from '../../utils/clientPositionForm';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -457,6 +458,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     [historyRows, holdings]
   );
   const selectedIndicator = selectedSlug ? indicatorMap.get(selectedSlug) : undefined;
+  const canAddPosition = Boolean(selectedIndicator && isCompleteClientPosition({ scpiSlug: selectedSlug, units, purchasePrice, purchaseDate }, todayIso));
 
   useEffect(() => {
     if (!selectedIndicator || purchasePrice) return;
@@ -477,24 +479,14 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     event.preventDefault();
     if (!supabase || !user) return;
 
-    const parsedUnits = Number(units.replace(',', '.'));
-    const parsedPrice = Number(purchasePrice.replace(',', '.'));
-
-    if (
-      !selectedSlug ||
-      !Number.isFinite(parsedUnits) ||
-      parsedUnits <= 0 ||
-      !Number.isFinite(parsedPrice) ||
-      parsedPrice <= 0
-    ) {
-      setError('Veuillez renseigner une SCPI, un nombre de parts et un prix d’achat valides.');
+    // Défense côté enregistrement en plus du bouton désactivé.
+    if (!canAddPosition) {
+      setError('Veuillez renseigner les quatre champs : SCPI, nombre de parts, prix d’achat par part et date réelle d’achat (aujourd’hui au plus tard).');
       return;
     }
 
-    if (purchaseDate && purchaseDate > todayIso) {
-      setError('La date d’achat ne peut pas être dans le futur pour une position déjà détenue.');
-      return;
-    }
+    const parsedUnits = positivePositionNumber(units)!;
+    const parsedPrice = positivePositionNumber(purchasePrice)!;
 
     setSaving(true);
     setError(null);
@@ -504,7 +496,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       scpi_slug: selectedSlug,
       units: parsedUnits,
       purchase_price_per_unit: parsedPrice,
-      purchase_date: purchaseDate || null,
+      purchase_date: purchaseDate,
       source: 'external'
     });
 
@@ -827,7 +819,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   ))}
                 </select>
               </label>
-              <label className="text-xs text-slate-400">
+              <label className="text-sm text-slate-300">
                 Nombre de parts
                 <input
                   required
@@ -838,7 +830,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-3 text-sm text-white outline-none focus:border-emerald-500/50"
                 />
               </label>
-              <label className="text-xs text-slate-400">
+              <label className="text-sm text-slate-300">
                 Prix d’achat / part
                 <input
                   required
@@ -849,21 +841,31 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                   className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-3 text-sm text-white outline-none focus:border-emerald-500/50"
                 />
               </label>
-              <label className="text-xs text-slate-400">
+              <label className="text-sm text-slate-300">
                 Date d’achat
                 <input
                   type="date"
+                  required
                   max={todayIso}
                   value={purchaseDate}
                   onChange={event => setPurchaseDate(event.target.value)}
                   className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-3 text-sm text-white outline-none focus:border-emerald-500/50"
                 />
               </label>
-              <div className="flex items-end gap-3 md:col-span-2 xl:col-span-5">
+              <div className="flex flex-col items-start gap-3 md:col-span-2 xl:col-span-5">
+                <p id="add-position-help" role="status" className={canAddPosition
+                  ? 'text-sm text-emerald-300'
+                  : 'text-sm text-slate-300'}>
+                  {canAddPosition
+                    ? 'Tous les champs sont valides. Vous pouvez ajouter cette SCPI.'
+                    : 'Pour activer l’ajout, renseignez les quatre champs : SCPI, nombre de parts, prix d’achat par part et date réelle d’achat (aujourd’hui au plus tard).'}
+                </p>
+                <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="submit"
-                  disabled={saving}
-                  className="rounded-xl bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 disabled:opacity-50"
+                  disabled={saving || !canAddPosition}
+                  aria-describedby="add-position-help"
+                  className="rounded-xl bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {saving ? 'Enregistrement…' : 'Ajouter au portefeuille'}
                 </button>
@@ -877,6 +879,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 >
                   Annuler
                 </button>
+                </div>
               </div>
             </form>
           </section>

@@ -20,6 +20,8 @@ on:
       - 'src/tests/clientRadarPedagogy.test.ts'
       - 'src/tests/clientPremiumUx.test.ts'
       - 'src/tests/clientFuturePurchaseDateUx.test.ts'
+      - 'src/tests/clientPositionForm.test.ts'
+      - 'src/utils/clientPositionForm.ts'
       - 'src/tests/surveillanceTofClassification.test.ts'
       - 'src/tests/tofPresentationConsistency.test.ts'
       - 'src/components/ScpiQuarterlyAnalysis.tsx'
@@ -44,7 +46,7 @@ jobs:
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
       - name: Tests portefeuille et ventilations
-        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts src/tests/clientExposureVisibility.test.ts src/tests/clientRadarPedagogy.test.ts src/tests/clientPremiumUx.test.ts src/tests/clientFuturePurchaseDateUx.test.ts src/tests/surveillanceTofClassification.test.ts src/tests/tofPresentationConsistency.test.ts
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientPortfolioHistory.test.ts src/tests/clientFormalAddress.test.ts src/tests/clientExposureVisibility.test.ts src/tests/clientRadarPedagogy.test.ts src/tests/clientPremiumUx.test.ts src/tests/clientFuturePurchaseDateUx.test.ts src/tests/clientPositionForm.test.ts src/tests/surveillanceTofClassification.test.ts src/tests/tofPresentationConsistency.test.ts
       - name: Vérification TypeScript sur les fichiers modifiés
         shell: bash
         run: |
@@ -52,7 +54,7 @@ jobs:
           npm run typecheck > /tmp/typecheck-client.log 2>&1
           status=$?
           set -e
-          if grep -E 'src/(app/pages/ClientDashboard|app/components/AppLayout|app/components/ClientScpiCard|app/components/ClientPortfolioRadarTrajectory|components/ScpiPremiumAnalysis|components/ScpiQuarterlyAnalysis|components/AnalysesLiveFeed|components/SurveillancePage|components/trajectory/TrajectorySurveillanceTable|utils/surveillanceSignals|app/components/ClientHistoricalTofChart|utils/clientPortfolioHistory|utils/clientPortfolioExposure|utils/clientPortfolioMath|utils/clientPortfolioTrajectory)(\\.test)?\\.tsx?\\([0-9]+,[0-9]+\\): error TS' /tmp/typecheck-client.log; then
+          if grep -E 'src/(app/pages/ClientDashboard|app/components/AppLayout|app/components/ClientScpiCard|app/components/ClientPortfolioRadarTrajectory|components/ScpiPremiumAnalysis|components/ScpiQuarterlyAnalysis|components/AnalysesLiveFeed|components/SurveillancePage|components/trajectory/TrajectorySurveillanceTable|utils/surveillanceSignals|utils/clientPositionForm|app/components/ClientHistoricalTofChart|utils/clientPortfolioHistory|utils/clientPortfolioExposure|utils/clientPortfolioMath|utils/clientPortfolioTrajectory)(\\.test)?\\.tsx?\\([0-9]+,[0-9]+\\): error TS' /tmp/typecheck-client.log; then
             echo 'Des erreurs TypeScript affectent les fichiers de la refonte.'
             exit 1
           fi
