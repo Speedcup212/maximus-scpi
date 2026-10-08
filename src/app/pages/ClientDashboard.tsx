@@ -28,7 +28,7 @@ import ClientScpiCard from '../components/ClientScpiCard';
 import ClientPortfolioRadarTrajectory from '../components/ClientPortfolioRadarTrajectory';
 import { aggregateGlobalPortfolioTrajectory } from '../../utils/clientPortfolioTrajectory';
 import { buildHistoricalPortfolioTof, type HistoricalTofRow } from '../../utils/clientPortfolioHistory';
-import { isCompleteClientPosition, positivePositionNumber } from '../../utils/clientPositionForm';
+import { isCompleteClientPosition, isValidPurchaseDate, positivePositionNumber } from '../../utils/clientPositionForm';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -459,6 +459,12 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   );
   const selectedIndicator = selectedSlug ? indicatorMap.get(selectedSlug) : undefined;
   const canAddPosition = Boolean(selectedIndicator && isCompleteClientPosition({ scpiSlug: selectedSlug, units, purchasePrice, purchaseDate }, todayIso));
+  const canSaveEditedPosition = (position: Position) => isCompleteClientPosition({
+    scpiSlug: position.scpi_slug,
+    units: editUnits,
+    purchasePrice: editPurchasePrice,
+    purchaseDate: editPurchaseDate,
+  }, todayIso);
 
   useEffect(() => {
     if (!selectedIndicator || purchasePrice) return;
@@ -530,24 +536,15 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const handleUpdatePosition = async (position: Position) => {
     if (!supabase || !user || position.source !== 'external') return;
 
-    const parsedUnits = Number(editUnits.replace(',', '.'));
-    const parsedPrice = Number(editPurchasePrice.replace(',', '.'));
-
-    if (
-      !Number.isFinite(parsedUnits) ||
-      parsedUnits <= 0 ||
-      !Number.isFinite(parsedPrice) ||
-      parsedPrice <= 0
-    ) {
-      setError('Veuillez renseigner un nombre de parts et un prix d’achat valides.');
+    // Contrôle côté enregistrement : même validation que pour l'ajout.
+    // Une date vide ne doit jamais pouvoir effacer la date d'une position.
+    if (!canSaveEditedPosition(position)) {
+      setError('Pour enregistrer vos modifications, renseignez les trois champs : nombre de parts, prix d’achat par part et date réelle d’achat (aujourd’hui au plus tard).');
       return;
     }
 
-    if (editPurchaseDate && editPurchaseDate > todayIso) {
-      setError('La date d’achat ne peut pas être dans le futur pour une position déjà détenue.');
-      return;
-    }
-
+    const parsedUnits = positivePositionNumber(editUnits)!;
+    const parsedPrice = positivePositionNumber(editPurchasePrice)!;
     setSaving(true);
     setError(null);
 
@@ -556,7 +553,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       .update({
         units: parsedUnits,
         purchase_price_per_unit: parsedPrice,
-        purchase_date: editPurchaseDate || null
+        purchase_date: editPurchaseDate
       })
       .eq('id', position.id)
       .eq('user_id', user.id)
@@ -576,7 +573,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const handleCorrectFutureDate = async (position: Position) => {
     if (!supabase || !user || position.source !== 'external') return;
     const correctedDate = dateCorrections[position.id] ?? '';
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(correctedDate) || correctedDate > todayIso) {
+    if (!isValidPurchaseDate(correctedDate, todayIso)) {
       setDateCorrectionError('Veuillez saisir une date réelle d’achat qui ne soit pas postérieure à aujourd’hui.');
       return;
     }
@@ -1211,6 +1208,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                         <input
                                           value={editUnits}
                                           onChange={event => setEditUnits(event.target.value)}
+                                          required
                                           inputMode="decimal"
                                           className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
                                         />
@@ -1220,6 +1218,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                         <input
                                           value={editPurchasePrice}
                                           onChange={event => setEditPurchasePrice(event.target.value)}
+                                          required
                                           inputMode="decimal"
                                           className="mt-1 w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white"
                                         />
@@ -1228,6 +1227,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                         Date d’achat
                                         <input
                                           type="date"
+                                          required
                                           max={todayIso}
                                           value={editPurchaseDate}
                                           onChange={event => setEditPurchaseDate(event.target.value)}
@@ -1237,10 +1237,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                       <div className="flex gap-2">
                                         <button
                                           type="button"
-                                          disabled={saving}
+                                          disabled={saving || !canSaveEditedPosition(position)}
+                                          aria-describedby={'edit-position-help-' + position.id}
                                           onClick={() => void handleUpdatePosition(position)}
-                                          className="rounded-lg bg-emerald-400 p-2 text-slate-950 disabled:opacity-50"
-                                          title="Enregistrer"
+                                          className="rounded-lg bg-emerald-400 p-2 text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+                                          title={canSaveEditedPosition(position) ? 'Enregistrer' : 'Renseignez les parts, le prix et la date d’achat'}
                                         >
                                           <Save className="h-4 w-4" />
                                         </button>
@@ -1253,6 +1254,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                                           <X className="h-4 w-4" />
                                         </button>
                                       </div>
+                                      <p id={'edit-position-help-' + position.id} role="status" className={'text-xs leading-5 md:col-span-4 ' + (canSaveEditedPosition(position) ? 'text-emerald-300' : 'text-slate-300')}>
+                                        {canSaveEditedPosition(position)
+                                          ? 'Tous les champs sont valides. Vous pouvez enregistrer.'
+                                          : 'Pour enregistrer, complétez les parts, le prix par part et la date réelle d’achat. La date est obligatoire.'}
+                                      </p>
                                     </div>
                                   ) : (
                                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
