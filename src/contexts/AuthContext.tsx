@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { supabase, requireSupabase } from "../lib/supabase";
-import type { AuthError } from "@supabase/supabase-js";
+import type { Session } from "@supabase/supabase-js";
 
 interface User {
   id: string;
@@ -20,6 +20,61 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const sessionUser = (session: Session | null): User | null =>
+  session?.user
+    ? {
+        id: session.user.id,
+        email: session.user.email || '',
+        created_at: session.user.created_at
+      }
+    : null;
+
+const cleanOAuthUrl = () => {
+  const url = new URL(window.location.href);
+  ['code', 'error', 'error_code', 'error_description'].forEach(key => url.searchParams.delete(key));
+  url.hash = '';
+  const nextUrl = `${url.pathname}${url.search}`;
+  window.history.replaceState({}, document.title, nextUrl || '/app');
+};
+
+const recoverOAuthSession = async (): Promise<Session | null> => {
+  const client = requireSupabase();
+
+  const {
+    data: { session: existingSession }
+  } = await client.auth.getSession();
+
+  if (existingSession) return existingSession;
+
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get('code');
+
+  if (code) {
+    const { data, error } = await client.auth.exchangeCodeForSession(code);
+    if (error) throw error;
+    cleanOAuthUrl();
+    return data.session;
+  }
+
+  // Compatibilité avec un callback implicit éventuellement lancé avant
+  // le déploiement du passage en PKCE.
+  const hash = new URLSearchParams(url.hash.replace(/^#/, ''));
+  const accessToken = hash.get('access_token');
+  const refreshToken = hash.get('refresh_token');
+
+  if (accessToken && refreshToken) {
+    const { data, error } = await client.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken
+    });
+    if (error) throw error;
+    cleanOAuthUrl();
+    return data.session;
+  }
+
+  return null;
+};
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -38,27 +93,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
       return;
     }
-    // Récupérer la session actuelle
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ? {
-        id: session.user.id,
-        email: session.user.email!,
-        created_at: session.user.created_at
-      } : null);
-      setLoading(false);
-    });
 
-    // Écouter les changements d'authentification
+    let mounted = true;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ? {
-        id: session.user.id,
-        email: session.user.email!,
-        created_at: session.user.created_at
-      } : null);
+      if (!mounted) return;
+      setUser(sessionUser(session));
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    const bootstrapAuth = async () => {
+      try {
+        const session = await recoverOAuthSession();
+        if (!mounted) return;
+        setUser(sessionUser(session));
+      } catch (error) {
+        console.error('[Auth] OAuth callback/session recovery failed', error);
+        if (mounted) setUser(null);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    void bootstrapAuth();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
@@ -69,11 +131,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signUp = async (email: string, password: string) => {
     const client = requireSupabase();
-    const { error } = await client.auth.signUp({ 
-      email, 
+    const { error } = await client.auth.signUp({
+      email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`
+        emailRedirectTo: `${window.location.origin}/app`
       }
     });
     if (error) throw error;
@@ -81,46 +143,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     const client = requireSupabase();
-    console.log('🔍 Démarrage Google OAuth...');
-    console.log('🔗 Supabase URL:', import.meta.env.VITE_SUPABASE_URL);
-    console.log('🌐 Current URL:', window.location.origin);
-    
-    const redirectUrl = `${window.location.origin}/auth/callback`;
-    console.log('🔄 Redirect URL:', redirectUrl);
-    
-    const { data, error } = await client.auth.signInWithOAuth({
+    const { error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-          hd: undefined // Permettre tous les domaines Google
-        }
+        redirectTo: `${window.location.origin}/app`
       }
     });
-    
-    console.log('📊 Google Auth Response:', { data, error });
-    
-    if (error) {
-      console.error('❌ Erreur Google OAuth:', error);
-      
-      // Messages d'erreur spécifiques
-      if (error.message.includes('Provider not found') || error.message.includes('provider_not_found')) {
-        throw new Error('🔧 Google OAuth non configuré. Vérifiez la configuration dans Supabase → Authentication → Providers.');
-      } else if (error.message.includes('Invalid redirect') || error.message.includes('redirect_uri_mismatch')) {
-        throw new Error(`🔗 URL de redirection invalide. Ajoutez "${redirectUrl}" dans Google Console et Supabase.`);
-      } else if (error.message.includes('Invalid client') || error.message.includes('unauthorized_client')) {
-        throw new Error('🔑 Client Google invalide. Vérifiez vos clés Client ID/Secret dans Supabase.');
-      } else if (error.message.includes('popup_blocked')) {
-        throw new Error('🚫 Popup bloqué. Autorisez les popups pour ce site ou réessayez.');
-      } else {
-        throw new Error(`🔴 Erreur Google OAuth: ${error.message}`);
-      }
-    }
-    
-    console.log('✅ Google OAuth initié avec succès - Redirection en cours...');
+    if (error) throw error;
   };
+
   const signOut = async () => {
     const client = requireSupabase();
     const { error } = await client.auth.signOut();
@@ -130,7 +161,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetPassword = async (email: string) => {
     const client = requireSupabase();
     const { error } = await client.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/callback`
+      redirectTo: `${window.location.origin}/app`
     });
     if (error) throw error;
   };
