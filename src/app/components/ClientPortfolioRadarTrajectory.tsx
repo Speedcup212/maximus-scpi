@@ -174,7 +174,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
         <div className="flex flex-col gap-1 border-b border-white/10 p-4 sm:flex-row sm:items-center sm:justify-between">
           <h4 className="text-sm font-semibold text-white">Contribution des SCPI au radar global</h4>
-          <span className="text-[11px] text-slate-400">Clique sur une SCPI pour consulter sa fiche ci-dessous</span>
+          <span className="text-[11px] text-slate-400">Cliquez sur une SCPI pour consulter sa fiche ci-dessous</span>
         </div>
         <div className="divide-y divide-white/10">
           {summary.rows.map(row => (
