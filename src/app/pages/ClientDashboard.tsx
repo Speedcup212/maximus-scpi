@@ -181,7 +181,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const [purchasePrice, setPurchasePrice] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
   const todayIso = new Date(Date.now() - new Date().getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
-  const futureDatedPositions = positions.filter(position => position.purchase_date && position.purchase_date > todayIso).length;
+  const futurePositions = positions.filter(position => position.purchase_date && position.purchase_date > todayIso);
+  const futureDatedPositions = futurePositions.length;
+  const firstEditableFuturePosition = futurePositions.find(position => position.source === 'external');
 
   const loadDashboard = useCallback(async () => {
     if (!supabase || !user) return;
@@ -639,8 +641,26 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           </div>
         )}
         {futureDatedPositions > 0 && (
-          <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100">
-            {futureDatedPositions} position(s) comportent une date d’achat future. Vérifie et corrige ces dates avec le bouton « Gérer ».
+          <div className="flex flex-col gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-5 py-4 text-sm text-amber-100 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              {futureDatedPositions} position(s) comportent une date d’achat future.
+              {firstEditableFuturePosition
+                ? ' Vérifie et corrige la date de la position concernée.'
+                : ' Cette donnée synchronisée doit être corrigée à la source.'}
+            </p>
+            {firstEditableFuturePosition && (
+              <button
+                type="button"
+                onClick={() => {
+                  setManagedSlug(firstEditableFuturePosition.scpi_slug);
+                  startEditPosition(firstEditableFuturePosition);
+                  requestAnimationFrame(() => document.getElementById('holding-' + firstEditableFuturePosition.scpi_slug)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+                }}
+                className="shrink-0 rounded-lg border border-amber-400/30 px-3 py-2 text-xs font-semibold text-amber-100 hover:bg-amber-400/10"
+              >
+                Corriger la date
+              </button>
+            )}
           </div>
         )}
 
@@ -994,9 +1014,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     ))
                   )}
                   <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Portefeuille documenté : {formatPercent(sectorBreakdown.coveredPercent, 0)}
-                    {sectorBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(sectorBreakdown.missingPercent, 0) : ''}
-                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                    Répartition affichée sur {formatPercent(sectorBreakdown.coveredPercent, 0)} du portefeuille.
+                    {' '}Source structurée : {formatPercent(sectorBreakdown.structuredPercent, 0)} ;
+                    {' '}fiches historiques : {formatPercent(sectorBreakdown.catalogPercent, 0)}.
+                    {sectorBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(sectorBreakdown.missingPercent, 0) + '.' : ''}
+                    {' '}Périodes à vérifier. Les catégories sectorielles des sociétés de gestion peuvent se recouper.
                   </p>
                 </div>
               </div>
@@ -1026,9 +1048,11 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     ))
                   )}
                   <p className="mt-4 border-t border-white/10 pt-3 text-[11px] text-slate-400">
-                    Portefeuille documenté : {formatPercent(geoBreakdown.coveredPercent, 0)}
-                    {geoBreakdown.missingPercent > 0 ? ' · Part non documentée : ' + formatPercent(geoBreakdown.missingPercent, 0) : ''}
-                    . Certaines répartitions proviennent des fiches SCPI, période à vérifier.
+                    Répartition affichée sur {formatPercent(geoBreakdown.coveredPercent, 0)} du portefeuille.
+                    {' '}Source structurée : {formatPercent(geoBreakdown.structuredPercent, 0)} ;
+                    {' '}fiches historiques : {formatPercent(geoBreakdown.catalogPercent, 0)}.
+                    {geoBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(geoBreakdown.missingPercent, 0) + '.' : ''}
+                    {' '}Périodes à vérifier.
                   </p>
                 </div>
               </div>

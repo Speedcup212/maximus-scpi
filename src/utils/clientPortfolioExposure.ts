@@ -1,6 +1,6 @@
 export type ExposureKind = 'sector' | 'geography';
 export type ExposureEntry = { label: string; value: number };
-export type ExposureSource = 'certified' | 'catalog' | 'missing';
+export type ExposureSource = 'structured' | 'catalog' | 'missing';
 export type ScpiExposure = { items: ExposureEntry[]; source: ExposureSource };
 
 const countryLabels = new Set([
@@ -44,33 +44,48 @@ export const resolveExposure = (
   catalog: unknown,
   kind: ExposureKind,
 ): ScpiExposure => {
-  const certified = validatedExposure(published, kind);
-  if (certified.length) return { items: certified, source: 'certified' };
+  const structured = validatedExposure(published, kind);
+  // La présence d'une ventilation structurée ne certifie pas sa fraîcheur.
+  if (structured.length) return { items: structured, source: 'structured' };
   const fromCatalog = validatedExposure(catalog, kind);
   if (fromCatalog.length) return { items: fromCatalog, source: 'catalog' };
   return { items: [], source: 'missing' };
 };
 
 export type HoldingExposureInput = { currentValue: number; exposure: ScpiExposure };
-export type PortfolioExposure = { entries: ExposureEntry[]; coveredPercent: number; missingPercent: number };
+export type PortfolioExposure = {
+  entries: ExposureEntry[];
+  coveredPercent: number;
+  structuredPercent: number;
+  catalogPercent: number;
+  missingPercent: number;
+};
 export const aggregatePortfolioExposure = (holdings: HoldingExposureInput[]): PortfolioExposure => {
   const total = holdings.reduce((sum, item) => sum + Math.max(0, item.currentValue), 0);
-  if (!total) return { entries: [], coveredPercent: 0, missingPercent: 100 };
+  if (!total) {
+    return { entries: [], coveredPercent: 0, structuredPercent: 0, catalogPercent: 0, missingPercent: 100 };
+  }
   const combined = new Map<string, { label: string; value: number }>();
-  let coveredValue = 0;
+  let structuredValue = 0;
+  let catalogValue = 0;
   for (const { currentValue, exposure } of holdings) {
     if (currentValue <= 0 || !exposure.items.length) continue;
-    coveredValue += currentValue;
+    if (exposure.source === 'structured') structuredValue += currentValue;
+    if (exposure.source === 'catalog') catalogValue += currentValue;
     for (const { label, value } of exposure.items) {
       const key = normalizeLabel(label);
       const previous = combined.get(key);
       combined.set(key, { label: previous?.label || label, value: (previous?.value || 0) + currentValue / total * value });
     }
   }
-  const coveredPercent = Math.max(0, Math.min(100, coveredValue / total * 100));
+  const structuredPercent = Math.max(0, Math.min(100, structuredValue / total * 100));
+  const catalogPercent = Math.max(0, Math.min(100, catalogValue / total * 100));
+  const coveredPercent = Math.min(100, structuredPercent + catalogPercent);
   return {
     entries: [...combined.values()].sort((a, b) => b.value - a.value),
     coveredPercent,
+    structuredPercent,
+    catalogPercent,
     missingPercent: Math.max(0, 100 - coveredPercent),
   };
 };
