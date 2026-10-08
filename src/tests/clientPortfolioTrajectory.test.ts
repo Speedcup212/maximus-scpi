@@ -46,12 +46,13 @@ const holdings = [
 describe('Radar et trajectoire globale du portefeuille client', () => {
   it('pondère les signaux par la valorisation sans compter les SCPI à parts égales', () => {
     const res = aggregateGlobalPortfolioTrajectory(holdings);
-    expect(res.overallStatus).toBe('watch');
-    expect(res.riskExposurePercent).toBeCloseTo(1795 / 4090 * 100, 6);
+    expect(res.overallStatus).toBe('info');
+    expect(res.riskExposurePercent).toBe(0);
     expect(res.weights.find(w => w.status === 'stable')?.count).toBe(1);
-    expect(res.weights.find(w => w.status === 'watch')?.percent).toBeCloseTo(1795 / 4090 * 100, 6);
+    expect(res.weights.find(w => w.status === 'info')?.percent).toBeCloseTo(1795 / 4090 * 100, 6);
     expect(res.monitoredPercent).toBe(100);
-    expect(res.axes.find(axis => axis.kind === 'tof')?.vigilancePercent)
+    expect(res.axes.find(axis => axis.kind === 'tof')?.vigilancePercent).toBe(0);
+    expect(res.axes.find(axis => axis.kind === 'tof')?.informationPercent)
       .toBeCloseTo(1795 / 4090 * 100, 6);
     expect(res.axes.find(axis => axis.kind === 'liquidity')?.vigilancePercent).toBe(0);
 
