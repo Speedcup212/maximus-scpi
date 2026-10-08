@@ -184,7 +184,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
                 Le TOF pondéré est de {pct(summary.tofWeighted, 2)} sur la période {summary.referencePeriod || 'étudiée'}.
                 {delta === null
                   ? ' Son évolution ne peut pas être calculée sur une période comparable.'
-                  : <> L'indicateur {delta < -0.001 ? 'recule' : delta > 0.001 ? 'progresse' : 'reste quasiment stable'} de {points(Math.abs(delta))} sur quatre observations. <strong className="text-white">Cela n'indique pas une variation de la valeur de vos parts.</strong></>}
+                  : <> L'indicateur {delta < -0.001 ? 'recule' : delta > 0.001 ? 'progresse' : 'reste quasiment stable'} de {Math.abs(delta).toLocaleString('fr-FR', { maximumFractionDigits: 2 })} point(s) sur quatre observations. <strong className="text-white">Cela n'indique pas une variation de la valeur de vos parts.</strong></>}
               </>}
             {decliningPositions.length > 0 && !surveillanceUnavailable && <> {pct(decliningPercent)} de la valeur indicative est placée dans {decliningNames}, dont le TOF est orienté à la baisse.</>}
           </div>
