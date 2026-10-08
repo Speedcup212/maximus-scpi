@@ -60,6 +60,13 @@ const ROUND_LIMIT = (value: number) => Math.max(0, Math.min(100, value));
 const percent = (value: number, total: number) => total > 0 ? ROUND_LIMIT(value / total * 100) : 0;
 const validPositiveValue = (value: number) => Number.isFinite(value) && value > 0 ? value : 0;
 const getStatus = (row?: SurveillanceDashboardRow): GlobalRadarLevel => {
+  if (!row) return 'pending';
+  const anyIndicatorEligible =
+    Boolean(row.tof_signal_eligible && surveillanceGatePass(row.tof_gate)) ||
+    Boolean(row.liquidity_signal_eligible && surveillanceGatePass(row.liquidity_gate)) ||
+    surveillanceGatePass(row.debt_gate) ||
+    Boolean(surveillanceGatePass(row.market_signal_gate) && surveillanceGatePass(row.reconstitution_gate));
+  if (!anyIndicatorEligible) return 'pending';
   const value = getSurveillanceStatus(row);
   return value === 'clear' ? 'stable' : value;
 };
