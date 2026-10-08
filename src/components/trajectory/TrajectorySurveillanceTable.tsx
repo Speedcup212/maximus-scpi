@@ -156,7 +156,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
           )
           .limit(100),
         supabase
-          .from('scpi_indicator_history')
+          .from('scpi_trajectory_pilot_history')
           .select(HISTORY_SELECT)
           .order('snapshot_at', { ascending: true })
           .limit(5000),

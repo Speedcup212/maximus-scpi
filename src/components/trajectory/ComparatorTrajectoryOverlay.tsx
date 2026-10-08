@@ -4,9 +4,15 @@ import { supabase } from '../../lib/supabase';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import TrajectorySparkline from './TrajectorySparkline';
 import {
+  type CertifiedLiquiditySnapshot,
+  type LiquiditySignalGate,
+  resolveCertifiedLiquidity,
+} from '../../utils/certifiedLiquidity';
+import {
   HISTORY_SELECT,
   ScpiHistoryRow,
   getNumericSeries,
+  latestDelta,
   normalizeAndDedupeHistory,
 } from './trajectoryData';
 
@@ -15,9 +21,11 @@ type TrajectorySnapshot = {
   liquiditySeries: number[];
   latestTof: number | null;
   latestLiquidity: number | null;
+  liquidityLabel: string;
   tofDelta: number | null;
-  liquidityDelta: number | null;
 };
+type LiquidityRow = CertifiedLiquiditySnapshot & { scpi_slug: string };
+type LiquidityGateRow = LiquiditySignalGate & { scpi_slug: string };
 
 type VisibleScpi = {
   slug: string;
@@ -56,7 +64,7 @@ const ComparatorTrajectoryTable: React.FC<{
             Évolution des SCPI affichées
           </h2>
           <p className="mt-1 text-xs leading-5 text-slate-400">
-            Mini-courbes sur les dernières observations certifiées : TOF et parts en attente de retrait.
+            TOF vérifié et évolution à trimestre comparable. La liquidité est affichée selon son régime et sa certification.
           </p>
         </div>
         <div className="text-[11px] text-slate-500">
@@ -71,8 +79,8 @@ const ComparatorTrajectoryTable: React.FC<{
               <th className="px-4 py-3 sm:px-5">SCPI</th>
               <th className="px-4 py-3">TOF — trajectoire</th>
               <th className="px-4 py-3 text-right">Actuel</th>
-              <th className="px-4 py-3 text-right">Δ 4 obs.</th>
-              <th className="px-4 py-3">Retraits — trajectoire</th>
+              <th className="px-4 py-3 text-right">Δ sur 1 an</th>
+              <th className="px-4 py-3">Liquidité — trajectoire</th>
               <th className="px-4 py-3 text-right sm:pr-5">Actuel</th>
             </tr>
           </thead>
@@ -119,6 +127,7 @@ const ComparatorTrajectoryTable: React.FC<{
                 </td>
                 <td className="px-4 py-3.5 text-right font-semibold text-slate-200 sm:pr-5">
                   {formatNumber(trajectory.latestLiquidity, ' %', 3)}
+                  <div className="mt-1 text-[10px] text-slate-500">{trajectory.liquidityLabel}</div>
                 </td>
               </tr>
             ))}
@@ -135,6 +144,8 @@ const ComparatorTrajectoryTable: React.FC<{
 
 const ComparatorTrajectoryOverlay: React.FC = () => {
   const [rows, setRows] = useState<ScpiHistoryRow[]>([]);
+  const [liquidityRows, setLiquidityRows] = useState<LiquidityRow[]>([]);
+  const [liquidityGates, setLiquidityGates] = useState<LiquidityGateRow[]>([]);
   const [host, setHost] = useState<HTMLElement | null>(null);
   const [visibleScpis, setVisibleScpis] = useState<VisibleScpi[]>([]);
   const signatureRef = useRef('');
@@ -145,18 +156,30 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
     const load = async () => {
       if (!supabase) return;
 
-      const { data, error } = await supabase
-        .from('scpi_indicator_history')
-        .select(HISTORY_SELECT)
-        .limit(5000);
+      const [historyResult, liquidityResult, gateResult] = await Promise.all([
+        supabase.from('scpi_trajectory_pilot_history').select(HISTORY_SELECT).limit(5000),
+        supabase.from('scpi_trajectory_pilot_liquidity')
+          .select('scpi_slug,source_period,parts_attente_retrait,nombre_parts,retrait_attente_pct,prev_pct,liquidity_basis,liquidity_pressure_pct,prev_pressure_pct,liquidity_sell_orders,liquidity_buy_orders,regime_changed,signal_certification')
+          .limit(100),
+        supabase.from('scpi_trajectory_signal_gate')
+          .select('scpi_slug,data_gate,structural_gate,semantic_gate,liquidity_gate,liquidity_signal_eligible')
+          .limit(100),
+      ]);
 
       if (cancelled) return;
-      if (error) {
-        console.warn('[ComparatorTrajectoryOverlay] Historique indisponible.', error);
+      if (historyResult.error) {
+        console.warn('[ComparatorTrajectoryOverlay] Historique certifié indisponible.', historyResult.error);
         return;
       }
-
-      setRows((data || []) as unknown as ScpiHistoryRow[]);
+      setRows((historyResult.data || []) as unknown as ScpiHistoryRow[]);
+      if (liquidityResult.error || gateResult.error) {
+        console.warn('[ComparatorTrajectoryOverlay] Certification de liquidité indisponible : indicateurs masqués.');
+        setLiquidityRows([]);
+        setLiquidityGates([]);
+      } else {
+        setLiquidityRows((liquidityResult.data || []) as LiquidityRow[]);
+        setLiquidityGates((gateResult.data || []) as LiquidityGateRow[]);
+      }
     };
 
     void load();
@@ -166,6 +189,8 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
   }, []);
 
   const trajectories = useMemo(() => {
+    const liquidityMap = new Map(liquidityRows.map(row => [row.scpi_slug, row]));
+    const gateMap = new Map(liquidityGates.map(row => [row.scpi_slug, row]));
     const grouped = new Map<string, ScpiHistoryRow[]>();
 
     rows.forEach((row) => {
@@ -177,36 +202,43 @@ const ComparatorTrajectoryOverlay: React.FC = () => {
     const mapped: Record<string, TrajectorySnapshot> = {};
 
     grouped.forEach((slugRows, slug) => {
-      const history = normalizeAndDedupeHistory(slugRows).slice(-8);
-      const tofSeries = getNumericSeries(history, 'tof');
-      const liquiditySeries = getNumericSeries(history, 'retrait_attente_pct');
+      const history = normalizeAndDedupeHistory(slugRows);
+      const recentHistory = history.slice(-8);
+      const tofSeries = getNumericSeries(recentHistory, 'tof');
       const latest = history[history.length - 1] || null;
-      const tofDelta =
-        tofSeries.length >= 2
-          ? tofSeries[tofSeries.length - 1] - tofSeries[Math.max(0, tofSeries.length - 5)]
-          : null;
-      const liquidityDelta =
-        liquiditySeries.length >= 2
-          ? liquiditySeries[liquiditySeries.length - 1] -
-            liquiditySeries[Math.max(0, liquiditySeries.length - 5)]
-          : null;
+      const certifiedLiquidity = resolveCertifiedLiquidity(
+        liquidityMap.get(slug) || null,
+        gateMap.get(slug) || null,
+      );
+      const latestLiquidity = certifiedLiquidity.publishableLevel &&
+        certifiedLiquidity.certification !== 'stale_last_known'
+        ? certifiedLiquidity.currentPct
+        : null;
+      const liquiditySeries = certifiedLiquidity.comparableTrend &&
+        certifiedLiquidity.previousPct !== null && certifiedLiquidity.currentPct !== null
+        ? [certifiedLiquidity.previousPct, certifiedLiquidity.currentPct]
+        : [];
+      const liquidityLabel = certifiedLiquidity.basis === 'withdrawal_queue'
+        ? 'File de retraits'
+        : certifiedLiquidity.basis === 'secondary_market_order_book'
+          ? 'Pression du marché secondaire'
+          : 'Donnée non comparable';
+      const tofDelta = latestDelta(history, 'tof', 4);
 
-      if (tofSeries.length >= 2 || liquiditySeries.length >= 2) {
+      if (tofSeries.length >= 2 || latest?.tof !== null || latestLiquidity !== null) {
         mapped[slug] = {
           tofSeries,
           liquiditySeries,
-          latestTof: latest?.tof ?? (tofSeries[tofSeries.length - 1] ?? null),
-          latestLiquidity:
-            latest?.retrait_attente_pct ??
-            (liquiditySeries[liquiditySeries.length - 1] ?? null),
+          latestTof: latest?.tof ?? null,
+          latestLiquidity,
+          liquidityLabel,
           tofDelta,
-          liquidityDelta,
         };
       }
     });
 
     return mapped;
-  }, [rows]);
+  }, [rows, liquidityRows, liquidityGates]);
 
   const knownSlugs = useMemo(() => new Set(Object.keys(trajectories)), [trajectories]);
 

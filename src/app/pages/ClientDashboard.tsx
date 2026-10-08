@@ -244,16 +244,16 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       return;
     }
 
-    // Historique public strictement filtré par RLS (bulletins sourcés, QA forte).
+    // Historique public provenant de la vue certifiée ; les positions clientes restent filtrées par RLS.
     // Limité aux SCPI réellement détenues : jamais de données d'un autre client.
     const slugs = [...new Set(loadedPositions.map(position => position.scpi_slug))];
     const [surveillanceResult, historyResult] = await Promise.all([
       supabase.functions.invoke('client-surveillance', { body: {} }),
-      supabase.from('scpi_indicator_history')
+      supabase.from('scpi_trajectory_pilot_history')
         .select('scpi_slug,source_period,tof,qa_status,source_url,snapshot_at')
         .in('scpi_slug', slugs)
         .order('source_period', { ascending: true })
-        .limit(600),
+        .limit(5000),
     ]);
     const { data: surveillancePayload, error: surveillanceInvokeError } = surveillanceResult;
     if (historyResult.error) {
