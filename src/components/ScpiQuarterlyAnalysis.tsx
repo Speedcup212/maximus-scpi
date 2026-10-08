@@ -5,11 +5,13 @@ import {
   CheckCircle2,
   Eye,
   FileSearch,
+  Info,
   MinusCircle,
   RefreshCw,
   TrendingDown,
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { classifyTofOccupation } from '../utils/surveillanceSignals';
 import {
   freshnessLabel,
   getEffectiveRiskLevel,
@@ -83,7 +85,7 @@ const SignalList: React.FC<{
   title: string;
   items: AnalysisSignal[];
   icon: React.ReactNode;
-  tone: 'positive' | 'negative' | 'alert' | 'watch';
+  tone: 'positive' | 'negative' | 'alert' | 'watch' | 'info';
 }> = ({ title, items, icon, tone }) => {
   if (!items.length) return null;
 
@@ -92,6 +94,7 @@ const SignalList: React.FC<{
     negative: 'border-orange-400/20 bg-orange-400/[0.06]',
     alert: 'border-rose-400/20 bg-rose-400/[0.06]',
     watch: 'border-sky-400/20 bg-sky-400/[0.05]',
+    info: 'border-sky-400/20 bg-sky-400/[0.05]',
   }[tone];
 
   return (
@@ -192,7 +195,27 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey, 
   const deteriorations = (Array.isArray(analysis.deteriorations) ? analysis.deteriorations : []).map(sanitizeAnalysisSignal);
   const alerts = (Array.isArray(analysis.alerts) ? analysis.alerts : []).map(sanitizeAnalysisSignal);
   const watchPoints = (Array.isArray(analysis.watch_points) ? analysis.watch_points : []).map(sanitizeAnalysisSignal);
-  const allSignals = [...alerts, ...watchPoints, ...deteriorations, ...improvements];
+  // Séparer la variation du niveau : un bulletin complet avec TOF >= 90 %
+  // peut constater un recul sans justifier une alerte d'occupation.
+  const isInformativeTof = (signal: AnalysisSignal) => {
+    if (analysis.status !== 'complete' || signal.quality_issue) return false;
+    const metric = (signal.metric || '').toLowerCase();
+    if (metric !== 'tof' && metric !== 'taux_occupation_financier') return false;
+    const tier = classifyTofOccupation(signal.current);
+    return tier === 'eleve' || tier === 'satisfaisant';
+  };
+  const informationSignals = [...alerts, ...watchPoints, ...deteriorations]
+    .filter(isInformativeTof)
+    .map(signal => ({
+      ...signal,
+      severity: 'info' as const,
+      message: (signal.message || 'Évolution du TOF constatée.') +
+        ' Le taux d’occupation reste satisfaisant : information de suivi, sans alerte d’occupation fondée sur ce recul isolé.',
+    }));
+  const actualAlerts = alerts.filter(signal => !isInformativeTof(signal));
+  const actualWatchPoints = watchPoints.filter(signal => !isInformativeTof(signal));
+  const actualDeteriorations = deteriorations.filter(signal => !isInformativeTof(signal));
+  const allSignals = [...actualAlerts, ...actualWatchPoints, ...actualDeteriorations, ...informationSignals, ...improvements];
   const effectiveRiskLevel = getEffectiveRiskLevel(analysis.risk_level, allSignals);
   const risk = riskConfig[effectiveRiskLevel] || riskConfig.low;
   const currentPeriod = formatPeriod(analysis.current_period);
@@ -247,25 +270,31 @@ const ScpiQuarterlyAnalysis: React.FC<ScpiQuarterlyAnalysisProps> = ({ scpiKey, 
         />
         <SignalList
           title="Ce qui se dégrade"
-          items={deteriorations}
+          items={actualDeteriorations}
           tone="negative"
           icon={<TrendingDown className="h-4 w-4 text-orange-300" />}
         />
         <SignalList
           title="Vigilances prioritaires"
-          items={alerts}
+          items={actualAlerts}
           tone="alert"
           icon={<AlertTriangle className="h-4 w-4 text-rose-300" />}
         />
         <SignalList
           title="À surveiller"
-          items={watchPoints}
+          items={actualWatchPoints}
           tone="watch"
           icon={<Eye className="h-4 w-4 text-sky-300" />}
         />
+        <SignalList
+          title="Informations de suivi — occupation satisfaisante"
+          items={informationSignals}
+          tone="info"
+          icon={<Info className="h-4 w-4 text-sky-300" />}
+        />
       </div>
 
-      {!improvements.length && !deteriorations.length && !alerts.length && !watchPoints.length && (
+      {!improvements.length && !actualDeteriorations.length && !actualAlerts.length && !actualWatchPoints.length && !informationSignals.length && (
         <div className="mt-5 rounded-xl border border-white/10 bg-slate-950/50 px-4 py-3 text-sm text-slate-400">
           Aucun signal quantitatif significatif n'est détecté avec les données actuellement disponibles.
         </div>
