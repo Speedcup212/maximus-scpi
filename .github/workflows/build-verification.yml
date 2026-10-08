@@ -53,7 +53,7 @@ jobs:
         run: node --import tsx/esm --test scpi-ingestion/src/extractor.test.ts
 
       - name: Surveillance signal regression tests
-        run: npx vitest run src/tests/surveillanceSignals.test.ts
+        run: npx vitest run src/tests/surveillanceSignals.test.ts src/tests/scpiPublicationFreshness.test.ts
 
       - name: SCPI fiscal simulator regression tests
         run: npx vitest run src/tests/simpleDirectFiscal.test.ts

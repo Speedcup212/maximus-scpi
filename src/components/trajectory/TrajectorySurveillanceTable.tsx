@@ -10,6 +10,7 @@ import {
 import { supabase } from '../../lib/supabase';
 import certifiedScpiCohort from '../../data/certified_scpi_cohort.json';
 import { classifyTofOccupation } from '../../utils/surveillanceSignals';
+import { dominantPublishedQuarter, isOlderQuarter } from '../../utils/scpiPublicationFreshness';
 import TrajectorySparkline from './TrajectorySparkline';
 import {
   HISTORY_SELECT,
@@ -52,6 +53,7 @@ type EnrichedRow = {
   slug: string;
   name: string;
   latestPeriod: string | null;
+  staleBulletin: boolean;
   tof: number | null;
   tofDelta: number | null;
   liquidity: number | null;
@@ -203,12 +205,18 @@ const TrajectorySurveillanceTable: React.FC = () => {
     return grouped;
   }, [historyRows]);
 
+  const referencePeriod = useMemo(
+    () => dominantPublishedQuarter(dashboardRows.map((row) => row.latest_period)),
+    [dashboardRows],
+  );
+
   const enrichedRows = useMemo<EnrichedRow[]>(() => {
     return dashboardRows.map((row) => {
       const history = normalizeAndDedupeHistory(historyBySlug.get(row.scpi_slug) || []).slice(-8);
       const prix = toFiniteNumber(row.prix_souscription);
       const reconstitution = toFiniteNumber(row.prix_reconstitution);
       const liquidity = certifiedLiquidity(row);
+      const staleBulletin = isOlderQuarter(row.latest_period, referencePeriod);
 
       const comparableValuation =
         gatePass(row.reconstitution_gate) &&
@@ -220,19 +228,20 @@ const TrajectorySurveillanceTable: React.FC = () => {
         slug: row.scpi_slug,
         name: humanizeSlug(row.scpi_slug),
         latestPeriod: row.latest_period,
+        staleBulletin,
         tof: row.tof_signal_eligible && gatePass(row.tof_gate) ? safePercent(row.tof) : null,
-        tofDelta: row.tof_signal_eligible && gatePass(row.tof_gate) ? safeDelta(row.delta_4obs) : null,
-        liquidity: liquidity.value,
-        liquidityLabel: liquidity.label,
-        dette: gatePass(row.debt_gate) ? safePercent(row.endettement) : null,
+        tofDelta: !staleBulletin && row.tof_signal_eligible && gatePass(row.tof_gate) ? safeDelta(row.delta_4obs) : null,
+        liquidity: staleBulletin ? null : liquidity.value,
+        liquidityLabel: staleBulletin ? 'Bulletin ancien · signal suspendu' : liquidity.label,
+        dette: !staleBulletin && gatePass(row.debt_gate) ? safePercent(row.endettement) : null,
         prix,
         reconstitution,
         realisation: toFiniteNumber(row.valeur_realisation),
-        valuationGap: comparableValuation ? valuationGapPct(prix, reconstitution) : null,
+        valuationGap: !staleBulletin && comparableValuation ? valuationGapPct(prix, reconstitution) : null,
         tofSeries: getNumericSeries(history, 'tof').filter((value) => value >= 0 && value <= 100),
       };
     });
-  }, [dashboardRows, historyBySlug]);
+  }, [dashboardRows, historyBySlug, referencePeriod]);
 
   const sortedRows = useMemo(() => {
     const getSortValue = (row: EnrichedRow) => {
@@ -343,7 +352,14 @@ const TrajectorySurveillanceTable: React.FC = () => {
                       <td className="px-4 py-3">
                         <a href={`/${row.slug}/`} className="font-semibold text-white hover:text-sky-300">{row.name}</a>
                       </td>
-                      <td className="px-4 py-3 text-slate-500">{formatPeriod(row.latestPeriod)}</td>
+                      <td className="px-4 py-3 text-slate-500">
+                        {formatPeriod(row.latestPeriod)}
+                        {row.staleBulletin && (
+                          <div className="mt-1 text-[11px] font-semibold text-amber-300">
+                            Bulletin à actualiser
+                          </div>
+                        )}
+                      </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <TrajectorySparkline values={row.tofSeries} className="text-sky-300" />
@@ -397,7 +413,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
         )}
 
         <p className="mt-3 text-xs leading-5 text-slate-600">
-          Une donnée non certifiée, un changement de régime ou une comparaison non homogène est neutralisé en N.D. La pression d’un marché secondaire n’est jamais présentée comme une file de retraits.
+          Une donnée non certifiée, un bulletin en retard, un changement de régime ou une comparaison non homogène neutralise les signaux comparatifs en N.D. Le dernier niveau historique reste daté. La pression d’un marché secondaire n’est jamais présentée comme une file de retraits.
         </p>
       </div>
     </section>
