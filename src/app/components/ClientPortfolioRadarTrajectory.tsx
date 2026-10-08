@@ -1,8 +1,10 @@
 import React from 'react';
+import type { PortfolioTofPoint } from '../../utils/clientPortfolioHistory';
+import ClientHistoricalTofChart from './ClientHistoricalTofChart';
 import { Activity, ArrowRight, Gauge, ShieldAlert, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import type { GlobalPortfolioTrajectory, GlobalRadarLevel, GlobalTrendLevel } from '../../utils/clientPortfolioTrajectory';
 
-type Props = { summary: GlobalPortfolioTrajectory; surveillanceUnavailable: boolean };
+type Props = { summary: GlobalPortfolioTrajectory; surveillanceUnavailable: boolean; history: PortfolioTofPoint[]; historyUnavailable: boolean; onSelectHolding?: (slug: string) => void };
 const radarColors: Record<GlobalRadarLevel, { label: string; fill: string }> = {
   critical: { label: 'Vigilance forte', fill: '#fb7185' },
   watch: { label: 'À surveiller', fill: '#fbbf24' },
@@ -38,7 +40,7 @@ const SegmentedBar = ({ label, values }: { label: string; values: { key: string;
   </div>
 );
 
-const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillanceUnavailable }) => {
+const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillanceUnavailable, history, historyUnavailable, onSelectHolding }) => {
   const heading = globalTitles[summary.overallStatus];
   const delta = summary.delta4Weighted;
   const Direction = delta === null || Math.abs(delta) < 0.001 ? Minus : delta > 0 ? TrendingUp : TrendingDown;
@@ -155,6 +157,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
               ))}
             </div>
           </div>
+          <ClientHistoricalTofChart points={history} unavailable={historyUnavailable} />
           <div className="mt-5 rounded-xl border border-white/10 bg-slate-950/30 px-4 py-3 text-xs leading-5 text-slate-300">
             {summary.referencePeriod === null ? (
               <span><ShieldAlert className="mr-2 inline h-4 w-4 text-amber-300" />Aucune période commune exploitable : trajectoire non calculée.</span>
@@ -178,7 +181,7 @@ const ClientPortfolioRadarTrajectory: React.FC<Props> = ({ summary, surveillance
         </div>
         <div className="divide-y divide-white/10">
           {summary.rows.map(row => (
-            <a key={row.slug} href={'#holding-' + row.slug}
+            <a key={row.slug} href={'#holding-' + row.slug} onClick={() => onSelectHolding?.(row.slug)}
               className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 text-xs transition hover:bg-white/[0.05] focus-visible:bg-white/[0.05]">
               <span className="min-w-[10rem] flex-1 font-medium text-slate-100">{row.name}</span>
               <span className="w-20 shrink-0 text-right font-semibold tabular-nums text-slate-200">{pct(row.percent)}</span>

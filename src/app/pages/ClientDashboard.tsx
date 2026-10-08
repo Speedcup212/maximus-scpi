@@ -26,6 +26,7 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import ClientScpiCard from '../components/ClientScpiCard';
 import ClientPortfolioRadarTrajectory from '../components/ClientPortfolioRadarTrajectory';
 import { aggregateGlobalPortfolioTrajectory } from '../../utils/clientPortfolioTrajectory';
+import { buildHistoricalPortfolioTof, type HistoricalTofRow } from '../../utils/clientPortfolioHistory';
 import StatusBadge from '../components/StatusBadge';
 import type { Case } from '../types';
 import {
@@ -166,6 +167,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const [positions, setPositions] = useState<Position[]>([]);
   const [indicators, setIndicators] = useState<ScpiIndicator[]>([]);
   const [trajectories, setTrajectories] = useState<Trajectory[]>([]);
+  const [historyRows, setHistoryRows] = useState<HistoricalTofRow[]>([]);
+  const [historyUnavailable, setHistoryUnavailable] = useState(false);
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -192,6 +196,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     setLoading(true);
     setError(null);
     setSurveillanceError(null);
+    setHistoryUnavailable(false);
 
     const [positionsResult, indicatorsResult, casesResult] = await Promise.all([
       supabase
@@ -223,15 +228,30 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     if (!casesResult.error) setCases((casesResult.data ?? []) as Case[]);
 
     if (loadedPositions.length === 0) {
+      setHistoryRows([]);
       setTrajectories([]);
       setLoading(false);
       return;
     }
 
-    const { data: surveillancePayload, error: surveillanceInvokeError } =
-      await supabase.functions.invoke('client-surveillance', {
-        body: {}
-      });
+    // Historique public strictement filtré par RLS (bulletins sourcés, QA forte).
+    // Limité aux SCPI réellement détenues : jamais de données d'un autre client.
+    const slugs = [...new Set(loadedPositions.map(position => position.scpi_slug))];
+    const [surveillanceResult, historyResult] = await Promise.all([
+      supabase.functions.invoke('client-surveillance', { body: {} }),
+      supabase.from('scpi_indicator_history')
+        .select('scpi_slug,source_period,tof,qa_status,source_url,snapshot_at')
+        .in('scpi_slug', slugs)
+        .order('source_period', { ascending: true })
+        .limit(600),
+    ]);
+    const { data: surveillancePayload, error: surveillanceInvokeError } = surveillanceResult;
+    if (historyResult.error) {
+      setHistoryRows([]);
+      setHistoryUnavailable(true);
+    } else {
+      setHistoryRows((historyResult.data ?? []) as HistoricalTofRow[]);
+    }
 
     if (surveillanceInvokeError || surveillancePayload?.error) {
       setTrajectories([]);
@@ -374,7 +394,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const sectorBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.sector || EMPTY_EXPOSURE,
+      exposure: holdingExposures.get(holding.slug)?.sector.source === 'structured'
+        ? holdingExposures.get(holding.slug)!.sector : EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -382,7 +403,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const geoBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.geography || EMPTY_EXPOSURE,
+      exposure: holdingExposures.get(holding.slug)?.geography.source === 'structured'
+        ? holdingExposures.get(holding.slug)!.geography : EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -417,6 +439,13 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
     [holdings, surveillanceError]
   );
 
+  const historicalTof = useMemo(
+    () => buildHistoricalPortfolioTof(
+      historyRows,
+      holdings.map(holding => ({ slug: holding.slug, currentValue: holding.currentValue })),
+    ),
+    [historyRows, holdings]
+  );
   const selectedIndicator = selectedSlug ? indicatorMap.get(selectedSlug) : undefined;
 
   useEffect(() => {
@@ -652,6 +681,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 type="button"
                 onClick={() => {
                   setManagedSlug(firstEditableFuturePosition.scpi_slug);
+                  setExpandedSlug(firstEditableFuturePosition.scpi_slug);
                   startEditPosition(firstEditableFuturePosition);
                   requestAnimationFrame(() => document.getElementById('holding-' + firstEditableFuturePosition.scpi_slug)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
                 }}
@@ -765,9 +795,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
           />
           <MetricCard
             icon={Euro}
-            label="Revenus annualisés indicatifs"
+            label="Revenus théoriques annualisés"
             value={totals.incomeCoverage > 0 ? formatCurrency(totals.annualIncome) : '—'}
-            detail={`${totals.incomeCoverage}/${holdings.length} SCPI avec taux de distribution exploitable`}
+            detail={`${totals.incomeCoverage}/${holdings.length} SCPI avec TD exploitable (année publiée)`}
           />
           <MetricCard
             icon={TrendingUp}
@@ -779,10 +809,15 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             icon={BellRing}
             label="Équivalent mensuel indicatif"
             value={formatCurrency(totals.monthlyIncome)}
-            detail="Moyenne mathématique, pas une fréquence de versement"
+            detail="Projection, non revenus réellement perçus"
           />
         </section>
 
+        <p className="px-1 text-sm leading-6 text-slate-400">
+          Les revenus affichés sont des <strong className="text-slate-200">projections brutes au dernier TD annuel publié</strong>,
+          hors date de jouissance et fiscalité. Aucun historique de distributions réellement encaissées
+          n’est connecté à votre espace. Le montant mensuel n'est pas un calendrier de paiement.
+        </p>
         {loading ? (
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-10 text-center text-sm text-slate-400">
             Chargement du portefeuille…
@@ -836,6 +871,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             <ClientPortfolioRadarTrajectory
               summary={globalTrajectory}
               surveillanceUnavailable={Boolean(surveillanceError)}
+              history={historicalTof}
+              historyUnavailable={historyUnavailable}
+              onSelectHolding={setExpandedSlug}
             />
 
             <section className="space-y-5">
@@ -843,7 +881,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 <div>
                   <h3 className="text-lg font-semibold text-white">Mes SCPI — analyses détaillées</h3>
                   <p className="mt-1 text-xs text-slate-400">
-                    Données des fiches MaximusSCPI, revenus indicatifs, répartitions et signaux propres à chaque position.
+                    Résumé des positions. Dépliez une SCPI pour consulter ses indicateurs, expositions et signaux propres.
                   </p>
                 </div>
                 <span className="text-[11px] text-slate-500">Les achats d’une même SCPI sont consolidés.</span>
@@ -863,7 +901,10 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     radarClass={radarPresentation[radar].className}
                     surveillanceUnavailable={Boolean(surveillanceError)}
                     manageExpanded={managedSlug === holding.slug}
+                    expanded={expandedSlug === holding.slug || managedSlug === holding.slug}
+                    onToggleExpanded={() => setExpandedSlug(current => current === holding.slug ? null : holding.slug)}
                     onManage={() => {
+                      setExpandedSlug(holding.slug);
                       setManagedSlug(current => current === holding.slug ? null : holding.slug);
                       cancelEditPosition();
                     }}
@@ -1002,7 +1043,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     {' '}Source structurée : {formatPercent(sectorBreakdown.structuredPercent, 0)} ;
                     {' '}fiches historiques : {formatPercent(sectorBreakdown.catalogPercent, 0)}.
                     {sectorBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(sectorBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Périodes à vérifier. Les catégories sectorielles des sociétés de gestion peuvent se recouper.
+                    {' '}Les fiches historiques non datées restent consultables individuellement, mais sont exclues de la diversification consolidée tant que leurs périodes et sources ne sont pas validées.
                   </p>
                 </div>
               </div>
@@ -1036,7 +1077,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     {' '}Source structurée : {formatPercent(geoBreakdown.structuredPercent, 0)} ;
                     {' '}fiches historiques : {formatPercent(geoBreakdown.catalogPercent, 0)}.
                     {geoBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(geoBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Périodes à vérifier.
+                    {' '}Les répartitions historiques sans période fiable sont exclues des totaux.
                   </p>
                 </div>
               </div>
