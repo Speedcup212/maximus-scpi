@@ -26,7 +26,7 @@ describe('correction des dates futures dans le portefeuille client', () => {
     expect(handler).toContain(".update({ purchase_date: correctedDate })");
     expect(handler).toContain(".eq('user_id', user.id)");
     expect(handler).toContain(".eq('source', 'external')");
-    expect(handler).toContain('correctedDate > todayIso');
+    expect(handler).toContain('isValidPurchaseDate(correctedDate, todayIso)');
     expect(handler).not.toContain('units: parsedUnits');
     expect(handler).not.toContain('purchase_price_per_unit: parsedPrice');
   });
