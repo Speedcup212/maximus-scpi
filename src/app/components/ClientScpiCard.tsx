@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Activity, AlertTriangle, ArrowUpRight, Building2, ExternalLink,
-  Globe2, Layers3, Pencil, ShieldAlert, TrendingUp,
+  Globe2, Layers3, Pencil, ShieldAlert, TrendingUp, ChevronDown,
 } from 'lucide-react';
 import type { SurveillanceDashboardRow, SurveillanceSignal } from '../../utils/surveillanceSignals';
 import type { ScpiExposure, ExposureEntry } from '../../utils/clientPortfolioExposure';
@@ -51,6 +51,8 @@ type Props = {
   radarClass: string;
   surveillanceUnavailable: boolean;
   manageExpanded: boolean;
+  expanded: boolean;
+  onToggleExpanded: () => void;
   onManage: () => void;
   children?: React.ReactNode;
 };
@@ -132,7 +134,7 @@ const VisualDistribution = ({ title, icon: Icon, exposure }: {
           </div>
           <p className="mt-3 text-[11px] leading-4 text-slate-500">
             {exposure.source === 'catalog'
-              ? 'Répartition du catalogue MaximusSCPI : période de référence à vérifier.'
+              ? 'Répartition historique non datée du catalogue : présentation exploratoire, non certifiée pour le portefeuille.'
               : 'Répartition issue de données structurées MaximusSCPI ; fraîcheur à vérifier.'}
           </p>
         </>
@@ -147,7 +149,7 @@ const VisualDistribution = ({ title, icon: Icon, exposure }: {
 
 const ClientScpiCard: React.FC<Props> = ({
   holding, sector, geography, company, alerts,
-  radarLabel, radarClass, surveillanceUnavailable, manageExpanded, onManage, children,
+  radarLabel, radarClass, surveillanceUnavailable, manageExpanded, expanded, onToggleExpanded, onManage, children,
 }) => {
   const { indicator, trajectory } = holding;
   const delta = holding.currentValue - holding.invested;
@@ -190,6 +192,12 @@ const ClientScpiCard: React.FC<Props> = ({
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <button type="button" onClick={onToggleExpanded} aria-expanded={expanded}
+            aria-controls={'holding-details-' + holding.slug}
+            className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5">
+            {expanded ? 'Masquer les détails' : 'Voir les détails'}
+            <ChevronDown className={'h-4 w-4 transition-transform ' + (expanded ? 'rotate-180' : '')} />
+          </button>
           {holding.source !== 'maximus' && (
             <button type="button" onClick={onManage} aria-expanded={manageExpanded}
               className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-3 py-2 text-xs text-slate-200 hover:border-emerald-500/30 hover:bg-white/5">
@@ -203,7 +211,13 @@ const ClientScpiCard: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="p-5 lg:p-6">
+      <div className="grid gap-3 border-b border-white/10 px-5 py-4 text-sm sm:grid-cols-3 lg:grid-cols-4 lg:px-6">
+        <div><p className="text-xs text-slate-400">Capital investi</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.invested)}</p></div>
+        <div><p className="text-xs text-slate-400">Valeur indicative</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.currentValue)}</p></div>
+        <div><p className="text-xs text-slate-400">Projection brute annuelle</p><p className="mt-1 text-lg font-semibold text-white">{euro(holding.annualIncome)}</p></div>
+        <div><p className="text-xs text-slate-400">TOF publié</p><p className="mt-1 text-lg font-semibold text-white">{pct(tof, 2)}</p></div>
+      </div>
+      {expanded && <div id={'holding-details-' + holding.slug} className="p-5 lg:p-6">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <Stat label="Capital investi" value={euro(holding.invested)} hint={euro(holding.averagePurchasePrice, 2) + ' / part à l’achat'} emphasis />
           <Stat
@@ -217,7 +231,7 @@ const ClientScpiCard: React.FC<Props> = ({
             emphasis
           />
           <Stat label="Différence valeur / coût" value={euro(delta)} hint={(deltaPct === null ? '—' : pctChange(deltaPct)) + ' · pas une perte réalisée'} emphasis />
-          <Stat label="Revenus annualisés indicatifs" value={euro(holding.annualIncome)} hint={'TD publié appliqué aux parts, hors jouissance'} emphasis />
+          <Stat label="Projection brute annualisée" value={euro(holding.annualIncome)} hint={'Non encaissée ; TD publié appliqué aux parts, hors jouissance'} emphasis />
         </div>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -295,7 +309,7 @@ const ClientScpiCard: React.FC<Props> = ({
         {manageExpanded && (
           <div className="mt-5 border-t border-white/10 pt-5">{children}</div>
         )}
-      </div>
+      </div>}
     </article>
   );
 };
