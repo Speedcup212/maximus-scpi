@@ -394,7 +394,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const sectorBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.sector || EMPTY_EXPOSURE,
+      exposure: holdingExposures.get(holding.slug)?.sector.source === 'structured'
+        ? holdingExposures.get(holding.slug)!.sector : EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -402,7 +403,8 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
   const geoBreakdown = useMemo(
     () => aggregatePortfolioExposure(holdings.map(holding => ({
       currentValue: holding.currentValue,
-      exposure: holdingExposures.get(holding.slug)?.geography || EMPTY_EXPOSURE,
+      exposure: holdingExposures.get(holding.slug)?.geography.source === 'structured'
+        ? holdingExposures.get(holding.slug)!.geography : EMPTY_EXPOSURE,
     }))),
     [holdings, holdingExposures],
   );
@@ -879,7 +881,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 <div>
                   <h3 className="text-lg font-semibold text-white">Mes SCPI — analyses détaillées</h3>
                   <p className="mt-1 text-xs text-slate-400">
-                    Données des fiches MaximusSCPI, revenus indicatifs, répartitions et signaux propres à chaque position.
+                    Résumé des positions. Dépliez une SCPI pour consulter ses indicateurs, expositions et signaux propres.
                   </p>
                 </div>
                 <span className="text-[11px] text-slate-500">Les achats d’une même SCPI sont consolidés.</span>
@@ -1041,7 +1043,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     {' '}Source structurée : {formatPercent(sectorBreakdown.structuredPercent, 0)} ;
                     {' '}fiches historiques : {formatPercent(sectorBreakdown.catalogPercent, 0)}.
                     {sectorBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(sectorBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Périodes à vérifier. Les catégories sectorielles des sociétés de gestion peuvent se recouper.
+                    {' '}Les fiches historiques non datées restent consultables individuellement, mais sont exclues de la diversification consolidée tant que leurs périodes et sources ne sont pas validées.
                   </p>
                 </div>
               </div>
@@ -1075,7 +1077,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                     {' '}Source structurée : {formatPercent(geoBreakdown.structuredPercent, 0)} ;
                     {' '}fiches historiques : {formatPercent(geoBreakdown.catalogPercent, 0)}.
                     {geoBreakdown.missingPercent > 0 ? ' Non documenté : ' + formatPercent(geoBreakdown.missingPercent, 0) + '.' : ''}
-                    {' '}Périodes à vérifier.
+                    {' '}Les répartitions historiques sans période fiable sont exclues des totaux.
                   </p>
                 </div>
               </div>
