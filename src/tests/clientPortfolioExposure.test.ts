@@ -41,4 +41,39 @@ describe('client portfolio exposures', () => {
     expect(result.catalogPercent).toBe(75);
     expect(result.missingPercent).toBe(0);
   });
+
+  it('restaure la ventilation globale indicative lorsque seules les fiches historiques sont disponibles', () => {
+    const one = resolveExposure(null, [
+      { name: 'Logistique', value: 70 },
+      { name: 'Bureaux', value: 30 },
+    ], 'sector');
+    const two = resolveExposure(null, [
+      { name: 'Commerces', value: 60 },
+      { name: 'Bureaux', value: 40 },
+    ], 'sector');
+    const aggregated = aggregatePortfolioExposure([
+      { currentValue: 2295, exposure: one },
+      { currentValue: 1795, exposure: two },
+    ]);
+    expect(aggregated.entries.length).toBeGreaterThan(0);
+    expect(aggregated.catalogPercent).toBe(100);
+    expect(aggregated.structuredPercent).toBe(0);
+    expect(aggregated.coveredPercent).toBe(100);
+    expect(aggregated.entries.reduce((sum, entry) => sum + entry.value, 0)).toBeCloseTo(100, 7);
+  });
+
+  it('conserve le manque de couverture sans gonfler les parts connues', () => {
+    const catalogue = resolveExposure(null, [
+      { name: 'France', value: 60 },
+      { name: 'Espagne', value: 40 },
+    ], 'geography');
+    const breakdown = aggregatePortfolioExposure([
+      { currentValue: 2000, exposure: catalogue },
+      { currentValue: 2000, exposure: resolveExposure(null, null, 'geography') },
+    ]);
+    expect(breakdown.coveredPercent).toBe(50);
+    expect(breakdown.catalogPercent).toBe(50);
+    expect(breakdown.missingPercent).toBe(50);
+    expect(breakdown.entries.reduce((sum, entry) => sum + entry.value, 0)).toBeCloseTo(50, 7);
+  });
 });
