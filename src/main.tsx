@@ -104,6 +104,7 @@ const AppReveal: React.FC<{ children: ReactNode }> = ({ children }) => {
     // Le shell statique reste masqué jusqu'au premier commit React complet.
     // useLayoutEffect s'exécute avant le paint : pas de flash intermédiaire visible.
     document.documentElement.classList.remove('app-booting');
+    document.documentElement.classList.remove('private-app-booting');
   }, []);
 
   return <>{children}</>;
@@ -131,6 +132,7 @@ const mountApp = async () => {
 mountApp().catch((error) => {
   console.error('[FATAL] Failed to mount React:', error);
   document.documentElement.classList.remove('app-booting');
+  document.documentElement.classList.remove('private-app-booting');
 
   const errorDiv = document.createElement('div');
   errorDiv.style.cssText = 'padding: 40px; text-align: center; font-family: system-ui; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f9fafb;';
