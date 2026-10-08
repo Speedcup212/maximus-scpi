@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - 'src/app/pages/ClientDashboard.tsx'
+      - 'src/app/pages/ClientCases.tsx'
+      - 'src/app/pages/ClientCaseDetail.tsx'
+      - 'src/app/pages/AccountPage.tsx'
+      - 'src/app/pages/AppLogin.tsx'
+      - 'src/app/pages/AppOnboarding.tsx'
       - 'src/app/components/ClientScpiCard.tsx'
       - 'src/app/components/ClientPortfolioRadarTrajectory.tsx'
       - 'src/utils/clientPortfolio*.ts'
@@ -25,7 +30,7 @@ jobs:
       - name: Installation des dépendances
         run: npm ci --no-audit --no-fund
       - name: Tests portefeuille et ventilations
-        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts
+        run: npx vitest run src/tests/clientPortfolioMath.test.ts src/tests/clientPortfolioExposure.test.ts src/tests/clientPortfolioTrajectory.test.ts src/tests/clientFormalAddress.test.ts
       - name: Vérification TypeScript sur les fichiers modifiés
         shell: bash
         run: |

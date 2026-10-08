@@ -448,7 +448,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       !Number.isFinite(parsedPrice) ||
       parsedPrice <= 0
     ) {
-      setError('Renseigne une SCPI, un nombre de parts et un prix d’achat valides.');
+      setError('Veuillez renseigner une SCPI, un nombre de parts et un prix d’achat valides.');
       return;
     }
 
@@ -508,7 +508,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
       !Number.isFinite(parsedPrice) ||
       parsedPrice <= 0
     ) {
-      setError('Renseigne un nombre de parts et un prix d’achat valides.');
+      setError('Veuillez renseigner un nombre de parts et un prix d’achat valides.');
       return;
     }
 
@@ -603,7 +603,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
                 Suivi SCPI
               </p>
               <h2 className="mt-2 text-2xl font-semibold text-white lg:text-3xl">
-                {surveillanceError ? 'Surveillance temporairement indisponible' : 'Ton portefeuille, surveillé dans le temps.'}
+                {surveillanceError ? 'Surveillance temporairement indisponible' : 'Votre portefeuille, surveillé dans le temps.'}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
                 Valorisation indicative, revenus estimés, diversification et signaux de vigilance sont recalculés à partir des données MaximusSCPI disponibles.
@@ -644,7 +644,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             <p>
               {futureDatedPositions} position(s) comportent une date d’achat future.
               {firstEditableFuturePosition
-                ? ' Vérifie et corrige la date de la position concernée.'
+                ? ' Vérifiez et corrigez la date de la position concernée.'
                 : ' Cette donnée synchronisée doit être corrigée à la source.'}
             </p>
             {firstEditableFuturePosition && (
@@ -790,9 +790,9 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
         ) : holdings.length === 0 ? (
           <section className="rounded-3xl border border-dashed border-white/15 bg-white/[0.03] p-10 text-center">
             <WalletCards className="mx-auto h-8 w-8 text-emerald-300" />
-            <h3 className="mt-4 text-lg font-semibold text-white">Ton portefeuille est vide</h3>
+            <h3 className="mt-4 text-lg font-semibold text-white">Votre portefeuille est vide</h3>
             <p className="mx-auto mt-2 max-w-xl text-sm text-slate-400">
-              Ajoute tes SCPI détenues ailleurs pour obtenir une vue consolidée et les signaux de surveillance disponibles.
+              Ajoutez vos SCPI détenues ailleurs pour obtenir une vue consolidée et les signaux de surveillance disponibles.
             </p>
             <button
               onClick={() => setShowAddPosition(true)}
@@ -806,7 +806,7 @@ const ClientDashboard: React.FC<ClientDashboardProps> = ({ onNavigate }) => {
             <section className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 lg:p-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-base font-semibold text-white">Composition de ton portefeuille</h3>
+                  <h3 className="text-base font-semibold text-white">Composition de votre portefeuille</h3>
                   <p className="mt-1 text-xs text-slate-400">Poids calculé sur les valeurs de retrait indicatives. Ce n’est pas une allocation recommandée.</p>
                 </div>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-300">{holdings.length} SCPI détenues</span>

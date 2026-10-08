@@ -39,7 +39,7 @@ const AppOnboarding: React.FC<AppOnboardingProps> = ({ onNavigate }) => {
     }
 
     if (!user || !profile || profile.status !== 'active') {
-      setMessage('Ton accès doit être validé avant de finaliser le profil.');
+      setMessage('Votre accès doit être validé avant de finaliser le profil.');
       return;
     }
 
@@ -91,7 +91,7 @@ const AppOnboarding: React.FC<AppOnboardingProps> = ({ onNavigate }) => {
     return (
       <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
         <div className="w-full max-w-xl rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 text-sm text-amber-100">
-          Accès restreint. Ton compte doit d’abord être validé par MaximusSCPI.
+          Accès restreint. Votre compte doit d’abord être validé par MaximusSCPI.
         </div>
       </div>
     );
@@ -100,9 +100,9 @@ const AppOnboarding: React.FC<AppOnboardingProps> = ({ onNavigate }) => {
   return (
     <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
       <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-8">
-        <h1 className="text-2xl font-semibold">Finaliser ton accès</h1>
+        <h1 className="text-2xl font-semibold">Finaliser votre accès</h1>
         <p className="mt-2 text-sm text-slate-300">
-          Complète tes informations. Ton rôle et ton statut d’accès sont gérés uniquement par MaximusSCPI.
+          Complétez vos informations. Votre profil et votre statut d’accès sont gérés uniquement par MaximusSCPI.
         </p>
 
         {message && (

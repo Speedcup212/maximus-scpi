@@ -59,7 +59,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNavigate }) => {
 
     setPassword('');
     setConfirmation('');
-    setMessage('Mot de passe enregistré. Tu peux désormais utiliser Google ou email + mot de passe.');
+    setMessage('Mot de passe enregistré. Vous pouvez désormais vous connecter avec Google ou votre adresse e-mail et votre mot de passe.');
   };
 
   if (profileLoading || !profile) {
@@ -103,7 +103,7 @@ const AccountPage: React.FC<AccountPageProps> = ({ onNavigate }) => {
           <div className="mt-6 flex gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-xs leading-5 text-emerald-100">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
             <p>
-              Google reste le moyen de connexion recommandé. Tu peux ajouter un mot de passe ci-contre pour disposer d’une seconde méthode.
+              Google reste le moyen de connexion recommandé. Vous pouvez également définir un mot de passe pour disposer d’une seconde méthode de connexion.
             </p>
           </div>
         </section>

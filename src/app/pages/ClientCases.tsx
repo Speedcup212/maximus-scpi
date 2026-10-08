@@ -34,7 +34,7 @@ const ClientCases: React.FC<ClientCasesProps> = ({ onNavigate }) => {
 
     if (fetchError) {
       setCases([]);
-      setError('Impossible de charger tes dossiers. Réessaie dans quelques instants.');
+      setError('Impossible de charger vos dossiers. Veuillez réessayer dans quelques instants.');
       setLoading(false);
       return;
     }
@@ -75,7 +75,7 @@ const ClientCases: React.FC<ClientCasesProps> = ({ onNavigate }) => {
         ) : cases.length === 0 ? (
           <EmptyState
             title="Aucun dossier"
-            description="Dès qu’un dossier est créé pour ton compte, il apparaîtra ici."
+            description="Dès qu’un dossier sera créé pour votre compte, il apparaîtra ici."
           />
         ) : (
           cases.map(item => (
