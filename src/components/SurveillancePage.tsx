@@ -22,7 +22,7 @@ import {
 
 type SignalLevel = SurveillanceSignalLevel;
 type SignalKind = SurveillanceSignalKind;
-type FilterKey = 'all' | 'priority' | 'watching' | SignalKind;
+type FilterKey = 'all' | 'priority' | 'watching' | 'information' | SignalKind;
 type DashboardRow = SurveillanceDashboardRow;
 
 type IndicatorRow = {
@@ -64,7 +64,7 @@ const toneLabels: Record<SignalLevel, string> = {
   critical: 'Vigilance forte',
   watch: 'À surveiller',
   info: 'Information',
-  clear: 'Aucun signal fort',
+  clear: 'Aucun signal détecté',
 };
 
 const SurveillancePage: React.FC = () => {
@@ -148,7 +148,8 @@ const SurveillancePage: React.FC = () => {
     total: rows.length,
     critical: rows.filter((row) => row.level === 'critical').length,
     watch: rows.filter((row) => row.level === 'watch').length,
-    noPriority: rows.filter((row) => row.level === 'info' || row.level === 'clear').length,
+    information: rows.filter((row) => row.level === 'info').length,
+    clear: rows.filter((row) => row.level === 'clear').length,
   }), [rows]);
 
   const visibleRows = useMemo(() => {
@@ -159,6 +160,7 @@ const SurveillancePage: React.FC = () => {
       if (filter === 'all') return true;
       if (filter === 'priority') return row.level === 'critical';
       if (filter === 'watching') return row.level === 'watch';
+      if (filter === 'information') return row.level === 'info';
       return row.signals.some((signal) => signal.kind === filter);
     });
   }, [filter, query, rows]);
@@ -166,6 +168,7 @@ const SurveillancePage: React.FC = () => {
   const filters: Array<{ key: FilterKey; label: string }> = [
     { key: 'priority', label: 'Priorité' },
     { key: 'watching', label: 'À surveiller' },
+    { key: 'information', label: 'Informations' },
     { key: 'all', label: 'Toutes' },
     { key: 'liquidity', label: 'Liquidité' },
     { key: 'tof', label: 'TOF' },
@@ -184,21 +187,22 @@ const SurveillancePage: React.FC = () => {
               Surveillance MaximusSCPI
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Surveillance SCPI : les signaux qui méritent une attention immédiate
+              Surveillance SCPI : distinguer alertes et informations de suivi
             </h1>
             <p className="mt-4 max-w-4xl text-sm leading-6 text-slate-400 sm:text-base">
               Les 61 SCPI de la cohorte MaximusSCPI sont relues avec les mêmes gates de certification.
-              Un signal n’est affiché que si la donnée est exploitable et comparable ; les changements de régime
-              sont explicitement neutralisés lorsqu’ils cassent la continuité historique.
+              Les vraies vigilances sont distinguées des simples informations de tendance : un TOF encore satisfaisant
+              peut reculer sans déclencher une alerte orange. Les données doivent rester exploitables et comparables.
             </p>
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {[
               ['SCPI surveillées', counts.total, 'text-sky-300'],
               ['Vigilances fortes', counts.critical, 'text-rose-300'],
               ['À surveiller', counts.watch, 'text-amber-300'],
-              ['Sans alerte prioritaire', counts.noPriority, 'text-emerald-300'],
+              ['Informations de suivi', counts.information, 'text-sky-300'],
+              ['Sans signal détecté', counts.clear, 'text-emerald-300'],
             ].map(([label, value, tone]) => (
               <div key={String(label)} className="rounded-xl border border-slate-800 bg-slate-900/65 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">{label}</div>
