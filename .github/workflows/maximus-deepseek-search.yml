@@ -1,7 +1,10 @@
 name: MaximusSCPI - DeepSeek SEARCH corrective pilot
 
 on:
-  # Diagnostic gate: no unattended retry until the CLI gateway is validated.
+  push:
+    branches: [main]
+    paths: [".github/workflows/maximus-deepseek-search.yml"]
+  # No recurring schedule until a real execution completes safely.
   workflow_dispatch:
 
 permissions:
@@ -101,12 +104,30 @@ jobs:
           set -euo pipefail
           npm ci --no-audit --no-fund
           npm install -g @anthropic-ai/claude-code --no-audit --no-fund
+          set +e
           timeout 540 claude -p "$(cat /tmp/maximus-search-prompt.txt)" \
             --model deepseek-flash \
             --permission-mode dontAsk \
             --allowedTools "Read,Glob,Grep,Edit,Write" \
-            --max-turns 6 \
-            --output-format text > /tmp/maximus-search-output.txt
+            --max-turns 8 \
+            --output-format json > /tmp/maximus-search-output.json 2>/tmp/maximus-search-error.log
+          agent_code=$?
+          set -e
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          let result={};
+          try{result=JSON.parse(fs.readFileSync('/tmp/maximus-search-output.json','utf8'))}catch{}
+          console.log('SEARCH CLI subtype:',result.subtype||'unknown');
+          console.log('SEARCH CLI is_error:',result.is_error??'unknown');
+          // Exclude arbitrary tool results and secrets; only show a brief final status for diagnosis.
+          console.log('SEARCH CLI final status:',String(result.result||result.error||'none').slice(0,600));
+          const err=fs.readFileSync('/tmp/maximus-search-error.log','utf8');
+          console.log('SEARCH CLI diagnostics:',err.slice(0,500));
+          NODE
+          if [ "$agent_code" -ne 0 ]; then
+            echo "DeepSeek code agent failed with exit $agent_code"
+            exit "$agent_code"
+          fi
           echo "DEEPSEEK_STEP_OK=true" >> "$GITHUB_ENV"
 
       - name: Verify scope, build, explicit route assertions and commit candidate
