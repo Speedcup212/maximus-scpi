@@ -1,0 +1,57 @@
+name: MaximusSCPI - 12 SEO and growth agents (drafts only)
+
+on:
+  schedule:
+    # Four rotating batches per week, at most three model requests per run.
+    - cron: "23 6 * * 1-4"
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-growth-agents.yml"
+      - "scripts/agents/runGrowthAgents.mjs"
+      - "scripts/agents/runGrowthAgents.test.mjs"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-growth-agents.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maximus-growth-drafts
+  cancel-in-progress: false
+
+jobs:
+  growth-drafts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+    steps:
+      - name: Checkout source without modification
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Verify guardrails and role allocation
+        run: node --test scripts/agents/runGrowthAgents.test.mjs
+
+      - name: Run capped DeepSeek drafts without publication
+        if: github.event_name != 'pull_request'
+        run: node scripts/agents/runGrowthAgents.mjs
+
+      - name: Retain draft artifacts (no production deploy)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maximus-growth-drafts
+          path: artifacts/growth-drafts/
+          if-no-files-found: ignore
+          retention-days: 14
