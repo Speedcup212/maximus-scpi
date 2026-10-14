@@ -1,12 +1,7 @@
 name: MaximusSCPI - DeepSeek SEARCH corrective pilot
 
 on:
-  push:
-    branches: [main]
-    paths: [".github/workflows/maximus-deepseek-search.yml"]
-  schedule:
-    # One bounded corrective attempt daily. Supabase caps claims and retries.
-    - cron: "25 6 * * *"
+  # Diagnostic gate: no unattended retry until the CLI gateway is validated.
   workflow_dispatch:
 
 permissions:
