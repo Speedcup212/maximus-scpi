@@ -5,6 +5,12 @@ on:
     # Four rotating batches per week, at most three model requests per run.
     - cron: "23 6 * * 1-4"
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-growth-agents.yml"
+      - "scripts/agents/runGrowthAgents.mjs"
+      - "scripts/agents/runGrowthAgents.test.mjs"
   push:
     branches: [main]
     paths:
@@ -38,6 +44,7 @@ jobs:
         run: node --test scripts/agents/runGrowthAgents.test.mjs
 
       - name: Run capped DeepSeek drafts without publication
+        if: github.event_name != 'pull_request'
         run: node scripts/agents/runGrowthAgents.mjs
 
       - name: Retain draft artifacts (no production deploy)
