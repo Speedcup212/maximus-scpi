@@ -1,6 +1,9 @@
 name: MaximusSCPI - independent watchdog
 
 on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/maximus-watchdog.yml"]
   schedule:
     # UTC; two distinct daily controls, no AI API and no Netlify deployment.
     - cron: "17 6,18 * * *"
