@@ -45,7 +45,7 @@ jobs:
           node-version: "22"
 
       - name: Verify guardrails and role allocation
-        run: node --test scripts/agents/runGrowthAgents.test.mjs
+        run: node --test scripts/agents/*.test.mjs
 
       - name: Run capped DeepSeek drafts without publication
         if: github.event_name != 'pull_request'
