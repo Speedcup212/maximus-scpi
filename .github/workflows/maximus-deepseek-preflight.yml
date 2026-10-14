@@ -39,7 +39,8 @@ jobs:
               Authorization: `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-              model: "deepseek-flash",
+              model: "deepseek-v4-flash",
+              thinking: { type: "disabled" },
               max_tokens: 24,
               stream: false,
               messages: [
@@ -58,7 +59,7 @@ jobs:
             throw new Error("DeepSeek returned no completion");
           }
           console.log("DeepSeek API connection: SUCCESS");
-          console.log(`Model: ${data.model || "deepseek-flash"}`);
+          console.log(`Model: ${data.model || "deepseek-v4-flash"}`);
           console.log(`Total tokens for test: ${data.usage?.total_tokens ?? "unknown"}`);
           console.log("This connection test does NOT run AI agents, read Supabase or deploy Netlify.");
           NODE
