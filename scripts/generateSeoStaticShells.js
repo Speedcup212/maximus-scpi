@@ -221,5 +221,18 @@ for (const page of PAGES) {
   fs.writeFileSync(target,html,'utf-8');
   generated++;
 }
+// Unknown news paths must not fall through to the homepage SPA with HTTP 200.
+// A real static news page shadows this unforced 404 rule.
+const redirectFile = path.join(distDir, '_redirects');
+if (fs.existsSync(redirectFile)) {
+  let rules = fs.readFileSync(redirectFile, 'utf8');
+  const guard = '/actualites/* /404.html 404';
+  const fallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
+  if (!rules.split(/\r?\n/).some(line => line.trim() === guard)) {
+    if (!fallback.test(rules)) throw new Error('SPA fallback missing: cannot protect /actualites/*');
+    rules = rules.replace(fallback, guard + '\n' + 'console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);');
+    fs.writeFileSync(redirectFile, rules, 'utf8');
+  }
+}
 console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);
 if (generated + skipped !== PAGES.length) process.exit(1);
