@@ -24,7 +24,8 @@ test('queued and failed runs pessimistically consume slots; sorting is determini
              run(10,'workflow_dispatch','2026-10-14T12:00:00Z','failure'),
              run(13,'workflow_dispatch','2026-10-14T12:00:00Z','in_progress'),
              run(11,'workflow_dispatch','2026-10-14T12:00:00Z','cancelled')];
- assert.equal(dailyAllowance(runs,12,day).allowed,0);
+ assert.equal(dailyAllowance(runs,12,day).allowed,1);
+ assert.equal(dailyAllowance(runs,13,day).allowed,0);
  assert.equal(dailyAllowance(runs,10,day).allowed,1);
  assert.equal(dailyAllowance(runs,11,day).allowed,1);
 });
