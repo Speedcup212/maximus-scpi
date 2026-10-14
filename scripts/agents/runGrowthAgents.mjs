@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {enforceQuota} from './growthQuota.mjs';
 
 export const ROLES = Object.freeze({
  SEO_TECH:['SEO','Diagnostiquer les statuts HTTP, canoniques, H1 et sitemap réellement observés. Proposer des correctifs sans prétendre les avoir appliqués.'],
@@ -92,8 +93,16 @@ async function main() {
  }
  const apiKey=process.env.DEEPSEEK_API_KEY;
  if(!apiKey)throw Error('DEEPSEEK_API_KEY missing; zero model calls');
+ const quota=await enforceQuota();
+ manifest.quota={allowed:quota.allowed,prior_reserved:quota.prior_reserved,max_daily:quota.max_daily||3,reason:quota.reason};
+ if(quota.allowed<=0) {
+  manifest.results.push({status:'skipped',reason:'daily_deepseek_budget_exhausted'});
+  fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2));
+  console.log('Daily DeepSeek budget exhausted; zero model calls');
+  return;
+ }
  const evidence=await collect();
- for(const role of selected.slice(0,3)) {
+ for(const role of selected.slice(0,quota.allowed)) {
   try {
    const draft=await generate(role,apiKey,evidence);
    const record={role,department:ROLES[role][0],created_at:new Date().toISOString(),

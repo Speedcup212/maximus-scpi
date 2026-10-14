@@ -10,6 +10,8 @@ on:
     paths:
       - ".github/workflows/maximus-growth-agents.yml"
       - "scripts/agents/runGrowthAgents.mjs"
+      - "scripts/agents/growthQuota.mjs"
+      - "scripts/agents/growthQuota.test.mjs"
       - "scripts/agents/runGrowthAgents.test.mjs"
   push:
     branches: [main]
@@ -18,6 +20,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: maximus-growth-drafts
@@ -28,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 12
     env:
+      GITHUB_TOKEN: ${{ github.token }}
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
     steps:
       - name: Checkout source without modification
@@ -41,7 +45,7 @@ jobs:
           node-version: "22"
 
       - name: Verify guardrails and role allocation
-        run: node --test scripts/agents/runGrowthAgents.test.mjs
+        run: node --test scripts/agents/*.test.mjs
 
       - name: Run capped DeepSeek drafts without publication
         if: github.event_name != 'pull_request'
