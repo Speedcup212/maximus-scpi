@@ -211,5 +211,19 @@ for (const page of PAGES) {
   fs.writeFileSync(target,html,'utf-8');
   generated++;
 }
+// An unknown /actualites/:slug/ must never inherit the homepage via the SPA fallback.
+// Unforced 404 is shadowed by a real static news page when one exists.
+const redirectFile = path.join(distDir, '_redirects');
+if (fs.existsSync(redirectFile)) {
+  let rules = fs.readFileSync(redirectFile, 'utf8');
+  const guard = '/actualites/* /404.html 404';
+  const fallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
+  if (!rules.split(/\r?\n/).some(line => line.trim() === guard)) {
+    if (!fallback.test(rules)) throw new Error('SPA fallback introuvable : impossible de protéger /actualites/*');
+    rules = rules.replace(fallback, guard + '\n' + 'console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);');
+    fs.writeFileSync(redirectFile, rules, 'utf8');
+  }
+}
+
 console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);
 if (generated + skipped !== PAGES.length) process.exit(1);
