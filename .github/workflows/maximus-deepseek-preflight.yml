@@ -63,3 +63,39 @@ jobs:
           console.log(`Total tokens for test: ${data.usage?.total_tokens ?? "unknown"}`);
           console.log("This connection test does NOT run AI agents, read Supabase or deploy Netlify.");
           NODE
+
+      - name: Diagnose coding agent gateway without claiming any SCPI task
+        if: env.DEEPSEEK_API_KEY != ''
+        continue-on-error: true
+        shell: bash
+        env:
+          ANTHROPIC_BASE_URL: https://api.deepseek.com/anthropic
+          ANTHROPIC_AUTH_TOKEN: ${{ secrets.DEEPSEEK_API_KEY }}
+          ANTHROPIC_MODEL: deepseek-flash
+          ANTHROPIC_DEFAULT_OPUS_MODEL: deepseek-flash
+          ANTHROPIC_DEFAULT_SONNET_MODEL: deepseek-flash
+          ANTHROPIC_DEFAULT_HAIKU_MODEL: deepseek-flash
+          CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1"
+        run: |
+          npm install -g @anthropic-ai/claude-code --no-audit --no-fund
+          set +e
+          timeout 80 claude -p 'Reply only with OK.' --model deepseek-flash --max-turns 1 \
+            --permission-mode dontAsk --output-format json \
+            > /tmp/deepseek-agent-check.json 2>/tmp/deepseek-agent-check.err
+          result_code=$?
+          set -e
+          echo "Coding agent exit status: $result_code"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          let o={};
+          try { o=JSON.parse(fs.readFileSync('/tmp/deepseek-agent-check.json','utf8')); } catch {}
+          const raw=fs.existsSync('/tmp/deepseek-agent-check.json')?fs.readFileSync('/tmp/deepseek-agent-check.json','utf8'):'';
+          const err=fs.existsSync('/tmp/deepseek-agent-check.err')?fs.readFileSync('/tmp/deepseek-agent-check.err','utf8'):'';
+          // No credentials in output: display only SDK result subtype and clipped error metadata.
+          console.log('CLI result type:',o.type||'unavailable');
+          console.log('CLI result subtype:',o.subtype||'unavailable');
+          console.log('CLI is_error:',o.is_error??'unknown');
+          console.log('CLI session status:',String(o.result||o.error||raw||'empty').slice(0,450));
+          console.log('CLI diagnostics:',err.slice(0,450));
+          NODE
+          exit "$result_code"
