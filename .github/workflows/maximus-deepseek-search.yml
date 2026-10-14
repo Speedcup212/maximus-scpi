@@ -1,10 +1,8 @@
 name: MaximusSCPI - DeepSeek SEARCH corrective pilot
 
 on:
-  push:
-    branches: [main]
-    paths: [".github/workflows/maximus-deepseek-search.yml"]
-  # No recurring schedule until a real execution completes safely.
+  # Paused: SEARCH consumed 2 authorized attempts (CLI error_max_turns).
+  # Manual workflow_dispatch only after scope is reduced and runtime validated.
   workflow_dispatch:
 
 permissions:
