@@ -1,0 +1,103 @@
+name: MaximusSCPI - independent watchdog
+
+on:
+  schedule:
+    # UTC; two distinct daily controls, no AI API and no Netlify deployment.
+    - cron: "17 6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  id-token: write
+
+concurrency:
+  group: maximus-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check protected Supabase watchdog through GitHub OIDC
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "MaximusSCPI — incident d'orchestration ou qualité";
+            const endpoint = "https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-watchdog-oidc";
+            const audience = "maximus-watchdog-ygvsddcpohsnaowofuwc";
+            let data;
+            let bridgeError = "";
+            try {
+              const token = await core.getIDToken(audience);
+              const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+                signal: AbortSignal.timeout(20000)
+              });
+              if (!response.ok) throw new Error(`Supabase bridge HTTP ${response.status}`);
+              data = await response.json();
+            } catch (error) {
+              bridgeError = String(error.message || error);
+              core.warning(`Maximus bridge failed: ${bridgeError}`);
+            }
+            const ageMinutes = data?.observed_at
+              ? Math.floor((Date.now() - new Date(data.observed_at).getTime()) / 60000)
+              : null;
+            const staleMonitor = ageMinutes === null || ageMinutes < 0 || ageMinutes > 90;
+            const runner = data?.runner_state || "UNAVAILABLE";
+            const incidents = Array.isArray(data?.active_incidents)
+              ? data.active_incidents.slice().sort() : [];
+            const unhealthy = !!bridgeError || staleMonitor ||
+              runner === "STALE" || runner === "DISABLED" ||
+              Number(data?.strict_fail || 0) > 0 || incidents.length > 0;
+            const body = [
+              "## MaximusSCPI — supervision indépendante",
+              "",
+              "Contrôle automatique GitHub Actions / Supabase. Ce workflow ne corrige aucune donnée",
+              "financière et ne déclenche jamais de déploiement Netlify.",
+              "",
+              `- Exécuteur : **${runner}**`,
+              `- Tâches non terminées : **${data?.pending_tasks ?? "inconnu"}**`,
+              `- Issues bloquées : **${data?.blocked_issues ?? "inconnu"}**`,
+              `- Crash test documentaire strict : **${data?.strict_pass ?? "?"}/61 PASS ; ${data?.strict_fail ?? "?"} échecs**`,
+              `- Supervision Supabase actualisée : **${staleMonitor ? "NON" : "OUI"}**`,
+              `- Incidents : **${incidents.length ? incidents.join(", ") : "aucun"}**`,
+              `- Accès au pont : **${bridgeError ? "ERREUR" : "OK"}**`,
+              "",
+              "Priorité : diagnostiquer et relancer un exécuteur IA externe indépendant,",
+              "puis traiter les anomalies strictes avec les preuves source et QA.",
+              "",
+              "Le suivi interne ne constitue pas une preuve d'exécution des agents.",
+              "",
+              "[Consulter l'architecture](https://github.com/Speedcup212/maximus-scpi/blob/agents/autonomous-control-20261005/agents/autonomous/watchdog-2026-10-14.md)"
+            ].join("\n");
+            const all = await github.paginate(github.rest.issues.listForRepo, {
+              owner, repo, state: "all", per_page: 100
+            });
+            const issue = all.find(x => !x.pull_request && x.title === title);
+            if (unhealthy) {
+              if (!issue) {
+                const created = await github.rest.issues.create({ owner, repo, title, body });
+                core.notice(`Created Maximus watchdog incident #${created.data.number}`);
+              } else {
+                if (issue.state !== "open" || issue.body !== body) {
+                  await github.rest.issues.update({
+                    owner, repo, issue_number: issue.number, state: "open", body
+                  });
+                }
+                core.notice(`Maximus watchdog incident #${issue.number} remains open`);
+              }
+            } else if (issue && issue.state === "open") {
+              await github.rest.issues.update({
+                owner, repo, issue_number: issue.number, state: "closed",
+                state_reason: "completed"
+              });
+              core.notice(`Closed resolved Maximus watchdog incident #${issue.number}`);
+            } else {
+              core.notice("Maximus watchdog healthy; no issue required");
+            }
+            if (bridgeError) core.setFailed(`Supabase watchdog unreachable: ${bridgeError}`);
