@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Iroko Atlas master SCPI template parity (all tools)
+        run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
+
       - name: CORUM end-to-end onboarding contract (unpublished candidates)
         run: |
           node --test scripts/scpi-candidates/auditCorumE2e.test.mjs
