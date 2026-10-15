@@ -52,16 +52,31 @@ Deno.serve(async(req:Request)=>{
  if(!["source_verified_content","source_verified"].includes(String(r.qa_status||"")))return Response.json({ok:false,status:"source_not_verified",slug,year,qa:r.qa_status});
  const {data:s}=await db.from("scpi_source_registry").select("official_scpi_page_url,source_domain").eq("scpi_slug",slug).maybeSingle();const referer=s?.official_scpi_page_url||s?.source_domain||undefined;
  const {data:cur}=await db.from("scpi_indicators").select("prix_souscription").eq("scpi_slug",slug).maybeSingle();const price=typeof cur?.prix_souscription==="number"?cur.prix_souscription:Number(cur?.prix_souscription||0)||null;
- try{const bytes=await getPdf(r.source_url,referer);let pages=await pagesText(bytes);let ocrRecovered=false;
-if(pages.join(" ").trim().length<600){
+ try{const bytes=await getPdf(r.source_url,referer);
+let pages=await pagesText(bytes);let ocrRecovered=false;
 const digest=await crypto.subtle.digest("SHA-256",bytes);
 const hash=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join("");
-const {data:ocr}=await db.rpc("scpi_ocr_read_verified_pages",{p_slug:slug,p_period:String(year)+"-RA",p_kind:"annual_report",p_url:r.source_url,p_sha256:hash});
-if(ocr?.length){const recovered=Array(pages.length).fill("");for(const x of ocr)if(x.page_number>=1&&x.page_number<=recovered.length)recovered[x.page_number-1]=x.page_text;pages=recovered;ocrRecovered=true;}
-else {const {data:state}=await db.rpc("scpi_ocr_request_fallback",{p_slug:slug,p_period:String(year)+"-RA",p_kind:"annual_report",p_url:r.source_url});return Response.json({ok:false,status:"ocr_pending",slug,year,queue:state});}
+const {data:ocr,error:ocrError}=await db.rpc("scpi_ocr_read_verified_pages",{
+  p_slug:slug,p_period:String(year)+"-RA",p_kind:"annual_report",p_url:r.source_url,p_sha256:hash
+});
+if(ocrError)throw new Error("OCR read: "+ocrError.message);
+if(ocr?.length){
+  const recovered=Array(pages.length).fill("");
+  for(const x of ocr)if(x.page_number>=1&&x.page_number<=recovered.length)recovered[x.page_number-1]=x.page_text;
+  pages=pages.map((x,i)=>recovered[i]||x);ocrRecovered=true;
+}else{
+  const nativeChars=pages.join(" ").trim().length;
+  const sparse=pages.length>3&&pages.filter(x=>x.trim().length<50).length>pages.length*0.35;
+  if(nativeChars<600||sparse){
+    const {data:state,error:queueError}=await db.rpc("scpi_ocr_request_fallback",{
+      p_slug:slug,p_period:String(year)+"-RA",p_kind:"annual_report",p_url:r.source_url
+    });
+    if(queueError)throw new Error("OCR queue: "+queueError.message);
+    return Response.json({ok:false,status:"ocr_pending",slug,year,queue:state});
+  }
 }
 const parsed=parse(pages,price);const count=Object.keys(parsed.metrics).length;const qa=count>=5?"auto_extracted_evidence_review":count>=2?"partial_evidence_review":"source_only";const conf=count>=5?0.90:count>=2?0.75:1.0;
-   await db.from("scpi_annual_reports").update({processed_at:new Date().toISOString(),extraction_json:{metrics:parsed.metrics,evidence:parsed.evidence,parser_version:PARSER_VERSION},extraction_confidence:conf,qa_status:r.qa_status==="source_verified"?"source_verified":r.qa_status,updated_at:new Date().toISOString()}).eq("id",r.id);
+   await db.from("scpi_annual_reports").update({processed_at:new Date().toISOString(),extraction_json:{metrics:parsed.metrics,evidence:parsed.evidence,parser_version:PARSER_VERSION,...(ocrRecovered?{ocr_pdf_sha256:hash,ocr_status:'independent_qa_pending'}:{})},extraction_confidence:conf,qa_status:r.qa_status==="source_verified"?"source_verified":r.qa_status,updated_at:new Date().toISOString()}).eq("id",r.id);
    if(ocrRecovered)return Response.json({ok:true,status:"ocr_staged_pending_independent_qa",slug,year,metrics:count,keys:Object.keys(parsed.metrics)});
    const payload:any={scpi_slug:slug,fiscal_year:year,...parsed.metrics,source_url:r.source_url,source_document:r.source_document,source_report_id:r.id,qa_status:qa,source_confidence:conf,evidence:parsed.evidence,updated_at:new Date().toISOString()};
    const {error}=await db.from("scpi_annual_fundamentals").upsert(payload,{onConflict:"scpi_slug,fiscal_year"});if(error)throw error;
