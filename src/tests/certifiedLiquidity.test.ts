@@ -52,6 +52,56 @@ describe('certified liquidity guards', () => {
     expect(result.comparableTrend).toBe(false);
   });
 
+  it('permits a certified current level but no trajectory for PASS_LIMITED', () => {
+    const result = resolveCertifiedLiquidity({
+      liquidity_basis: 'withdrawal_queue',
+      retrait_attente_pct: 8.4739,
+      prev_pct: 2.9,
+      regime_changed: false,
+      signal_certification: 'level_only',
+    }, { ...passGate, liquidity_gate: 'PASS_LIMITED', liquidity_signal_eligible: false });
+    expect(result.publishableLevel).toBe(true);
+    expect(result.currentPct).toBeCloseTo(8.4739);
+    expect(result.previousPct).toBeNull();
+    expect(result.deltaPct).toBeNull();
+    expect(result.comparableTrend).toBe(false);
+  });
+
+  it('never computes a trajectory when the explicit liquidity signal eligibility is false', () => {
+    const result = resolveCertifiedLiquidity({
+      liquidity_basis: 'withdrawal_queue',
+      retrait_attente_pct: 4,
+      prev_pct: 2,
+      regime_changed: false,
+      signal_certification: 'trajectory_certified',
+    }, { ...passGate, liquidity_signal_eligible: false });
+    expect(result.currentPct).toBe(4);
+    expect(result.previousPct).toBeNull();
+    expect(result.deltaPct).toBeNull();
+    expect(result.comparableTrend).toBe(false);
+  });
+
+  it('does not compare stale data or secondary-market regime switches', () => {
+    const stale = resolveCertifiedLiquidity({
+      liquidity_basis: 'withdrawal_queue',
+      retrait_attente_pct: 3,
+      prev_pct: 1,
+      signal_certification: 'stale_last_known',
+    }, { ...passGate, liquidity_gate: 'PASS_STALE', liquidity_signal_eligible: false });
+    expect(stale.publishableLevel).toBe(true);
+    expect(stale.comparableTrend).toBe(false);
+    const pending = resolveCertifiedLiquidity({
+      liquidity_basis: 'secondary_market_order_book',
+      liquidity_pressure_pct: 10,
+      regime_changed: true,
+      signal_certification: 'suppressed_regime_change_pending_data',
+    }, { ...passGate, liquidity_gate: 'PASS_PENDING_REGIME', liquidity_signal_eligible: false });
+    expect(pending.publishableLevel).toBe(false);
+    expect(pending.currentPct).toBeNull();
+    expect(pending.comparableTrend).toBe(false);
+    expect(pending.withdrawalParts).toBeNull();
+  });
+
   it('masks liquidity when gates are not PASS', () => {
     const result = resolveCertifiedLiquidity({
       liquidity_basis: 'withdrawal_queue',

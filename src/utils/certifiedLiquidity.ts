@@ -125,7 +125,7 @@ export const resolveCertifiedLiquidity = (
       ? safePercent(snapshot.prev_pressure_pct)
       : null;
 
-  const comparableTrend = certification === 'trajectory_certified' && !regimeChanged && currentPct !== null && previousPct !== null;
+  const comparableTrend = certification === 'trajectory_certified' && gate.liquidity_signal_eligible === true && !regimeChanged && currentPct !== null && previousPct !== null;
 
   return {
     basis,
