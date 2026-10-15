@@ -9,7 +9,7 @@ const workflowRef=repo+"/.github/workflows/maximus-scpi-ocr.yml@refs/heads/main"
 const dbUrl=Deno.env.get("SUPABASE_DB_URL");
 if(!dbUrl) throw new Error("Database connection unavailable");
 const sql=postgres(dbUrl,{max:1,prepare:false,ssl:"require",connect_timeout:10,idle_timeout:20});
-const norm=(s:string)=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").replace(/\s+/g," ").trim();
+const norm=(s:string)=>s.replace(/œ/g,"oe").replace(/Œ/g,"Oe").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").replace(/\s+/g," ").trim();
 const fail=(code:number,msg:string)=>Response.json({error:msg},{status:code,headers:{"Cache-Control":"no-store"}});
 const validStr=(s:unknown,n=300)=>typeof s==="string"&&s.length>0&&s.length<=n;
 const cleanError=(s:unknown)=>String(s||"ocr_failed").replace(/[\r\n]/g," ").slice(0,190);
@@ -35,8 +35,8 @@ Deno.serve(async(req:Request)=>{
         INSERT INTO maximus_agents.scpi_ocr_jobs (scpi_slug,source_period,document_kind)
         SELECT d.scpi_slug,d.source_period,d.document_kind
           FROM maximus_agents.scpi_candidate_document_index d
-         WHERE d.source_period ~ '^20[0-9]{2}-T[1-4]$'
-           AND d.document_kind='quarterly_bulletin'
+         WHERE d.source_period ~ '^20[0-9]{2}-(T[1-4]|RA)$'
+           AND d.document_kind IN ('quarterly_bulletin','annual_report')
            AND d.status='direct_pdf_checked'
            AND d.verified_pdf_at IS NOT NULL
            AND d.direct_document_url LIKE 'https://%'
@@ -113,7 +113,7 @@ Deno.serve(async(req:Request)=>{
       const combined=pages.map((x:any)=>x.text).join(" ");
       const chars=combined.replace(/\s+/g,"").length;
       const scanned=pages.filter((x:any)=>x.method==="tesseract_ocr").length;
-      if(chars<150||!norm(combined).includes(norm(String(job.name))))
+      if(chars<150||!(norm(combined).includes(norm(String(job.name)))||(t.slug==="epsicap-nano"&&norm(combined).includes("epsilon 360"))))
         return fail(422,"document_identity_or_text_not_verified");
       if(JSON.stringify(pages).length>3500000)return fail(413,"too_large");
       const safePages=pages.filter((x:any)=>x.text.trim().length>0).map((x:any)=>({
