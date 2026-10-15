@@ -180,7 +180,30 @@
       "publishing_fields": {
         "risk_sri": 3,
         "recommended_holding_years": 10
-      }
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "pages": 28,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Eurion%20-%20%20Statuts%20%C3%A0%20jour%20-%2020260430%20%28site%20internet%29%201.pdf",
+          "sha256": "4a6ddd3ce759d848051cc96654a96ebc758d36ffa7a8b6ff10c5245ecfca136e",
+          "pages": 16,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ]
     },
     {
       "scpi_slug": "corum-origin",
@@ -353,7 +376,30 @@
       "publishing_fields": {
         "risk_sri": 3,
         "recommended_holding_years": 10
-      }
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "pages": 25,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Origin%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "sha256": "db820f5d66daa3bdc93a956bc61459dea529cd9d0c16a9b267ef6a74d6dfe46a",
+          "pages": 16,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ]
     },
     {
       "scpi_slug": "corum-usa",
@@ -523,7 +569,30 @@
       "publishing_fields": {
         "risk_sri": 4,
         "recommended_holding_years": 10
-      }
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "pages": 4,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "pages": 30,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf",
+          "sha256": "bd2877f8ed8ffe075752a07479b7ba36e6ceae1c9cb48ea656fdc91095178fb5",
+          "pages": 20,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ]
     },
     {
       "scpi_slug": "corum-xl",
@@ -686,7 +755,30 @@
       "publishing_fields": {
         "risk_sri": 4,
         "recommended_holding_years": 10
-      }
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "pages": 29,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20XL%20-%20%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "sha256": "db7d655c83ded50bc4b0abbecafc114f58f2fc65d9f55a28bc1cc3ca76736e16",
+          "pages": 15,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ]
     }
   ]
 }
