@@ -1,0 +1,1175 @@
+{
+  "generated_at": "2026-10-15",
+  "status": "private_staging_non_published",
+  "purpose": "Transversal prepublication shadow catalog. Financial statements must retain annual/quarter period semantics. Not an authorization to publish.",
+  "targets": [
+    "seo",
+    "comparateur",
+    "liquidite",
+    "simulateurs",
+    "analyse-radar",
+    "espace-client",
+    "sitemap"
+  ],
+  "scpi": [
+    {
+      "scpi_slug": "corum-eurion",
+      "name": "CORUM Eurion",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Eurion%20-%20%20Statuts%20%C3%A0%20jour%20-%2020260430%20%28site%20internet%29%201.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 12.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 14,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 18,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 6869531,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.73,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 2.75,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 42702,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 7135382,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 99.92,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "kind": "annual_report",
+          "pages": 27,
+          "period": "2025-RA",
+          "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627"
+        }
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "enjoyment_wait_months",
+          "value": 6,
+          "unit": "FIRST_DAY_OF_SIXTH_MONTH_FOLLOWING_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 10,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "qa": "qa_pass",
+          "evidence": "antérieurement créées. La date d’entrée en jouissance est fixée par la Société de Gestion au 1er jour du 6ème mois suivant la souscription et son rè glement et précisée dans le bulletin de souscription. Les modalités de jouissance des parts ne sont donc pas déterminées par les statuts mais sont fixées par la Société de Gestion ."
+        },
+        {
+          "metric": "minimum_initial_parts",
+          "value": 1,
+          "unit": "PARTS_INITIAL_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 10,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "qa": "qa_pass",
+          "evidence": "e pourra être accordée. 5 - NOMBRE MINIMUM DE PARTS A SOUSCRIRE Tout nouvel associé est tenu de souscrire au moins une (1) part sociale. Les anciens associés, ont la possibilité de souscrir e des fractions de parts. 6 - JOUISSANCE DES PARTS Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissan ce, elles sont entièrement assimilées aux parts antérieurement créées. La date d’entrée en jouissance e"
+        },
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "document_kind": "dic",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "qa": "qa_pass",
+          "evidence": "que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque de ce produit par rapport à d’autres. Il indique la probabilité que ce produit enregistre des pertes en cas de mouvements sur les marchés. À risque faible À risque plus élevé 1 2 "
+        },
+        {
+          "metric": "risk_sri",
+          "value": 3,
+          "unit": "SRI_1_TO_7",
+          "document_kind": "dic",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "qa": "qa_pass",
+          "evidence": "indicateur exact. Ce que vous obtiendrez dépendra de l’évolution du marché et de la durée pendant laquelle vous conserverez l’investissement ou le produit. Il n’est pas facile de sortir de ce produit. Si vous sortez de l’investissement avant la fin de période de détention recommandée, aucune garantie ne vous est donnée et vous pourriez subir des coûts supplémentaires. QUELS SONT LES RISQUES ET QU’EST-CE QUE CELA POURRAIT ME RAPPORTER ? Nous avons classé ce produit d"
+        },
+        {
+          "metric": "subscription_fees_pct",
+          "value": 12,
+          "unit": "PERCENT_OF_SUBSCRIPTION_PRICE",
+          "document_kind": "note",
+          "page": 11,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "qa": "qa_pass",
+          "evidence": "être libérées dans leur intégralité lors de la souscription. Conditions valables à compter du 1er juillet 2022 : • Prix de souscription des parts : 215,00 € • Valeur nominale : 160,00 € • Prime d’émission : 55,00 € dont commission de souscription due : • au titre des frais de collecte : 23,22 € • au titre des frais de recherche et d’investissement : 2,58 € Soit un prix de souscription net de tous autres frais : 215,00 € La Société de Gestion perçoit de la SCPI, à la"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 3,
+        "recommended_holding_years": 10,
+        "subscription_fees": 12,
+        "enjoyment_delay": 6,
+        "minimum_investment": 215,
+        "reconstitution_value": 222.12,
+        "capitalization_m": 1534.11,
+        "sector_allocation": {
+          "Bureaux": 73,
+          "Commerces": 7,
+          "Éducation et loisirs": 1,
+          "Hôtellerie": 11,
+          "Industrie et logistique": 8
+        },
+        "geographic_allocation": {
+          "Espagne": 6,
+          "Finlande": 8,
+          "France": 19,
+          "Irlande": 19,
+          "Italie": 1,
+          "Lettonie": 6,
+          "Pays-Bas": 27,
+          "Portugal": 14
+        },
+        "sector_class": "bureaux",
+        "geographic_scope": "europe"
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "pages": 28,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Eurion%20-%20%20Statuts%20%C3%A0%20jour%20-%2020260430%20%28site%20internet%29%201.pdf",
+          "sha256": "4a6ddd3ce759d848051cc96654a96ebc758d36ffa7a8b6ff10c5245ecfca136e",
+          "pages": 16,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ],
+      "publishing_sources": {
+        "risk_sri": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "page": 2,
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "verified_metric": "risk_sri"
+        },
+        "recommended_holding_years": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "page": 2,
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "verified_metric": "recommended_holding_years"
+        },
+        "subscription_fees": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "page": 11,
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "verified_metric": "subscription_fees_pct"
+        },
+        "enjoyment_delay": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "page": 10,
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "verified_metric": "enjoyment_wait_months"
+        },
+        "minimum_investment": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "page": 10,
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
+          "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
+        },
+        "reconstitution_value": {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "page": 10,
+          "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a",
+          "verified_metric": "valeur_reconstitution_par_part",
+          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+        },
+        "capitalization_m": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 3,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "nombre_parts x prix_souscription",
+          "derived": true,
+          "basis": "calculated_2026_06_30"
+        },
+        "sector_allocation": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "geographic_allocation": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "sector_class": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "geographic_scope": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        }
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "name": "CORUM Origin",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Origin%20Statuts%20-%2020260430%201%20%281%29.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 73.8,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 16,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 6,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 3342316,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 6.5,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 17.85,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "ASSOCIES_AU_30_06_2026",
+          "value": 76169,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 3563192,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "PARTS_ATTENTE_RETRAIT_AU_30_06_2026",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.77,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "kind": "annual_report",
+          "pages": 31,
+          "period": "2025-RA",
+          "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "period": "2026-T2",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "sha256": "1c6a537714151489b38c7591140040262129187124acb170a14b171b977ed1dc",
+          "pages": 12,
+          "ocr_pages": 12,
+          "text_characters": 22954,
+          "verification": "ocr_pages_verified"
+        }
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "enjoyment_wait_months",
+          "value": 6,
+          "unit": "FIRST_DAY_OF_SIXTH_MONTH_FOLLOWING_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 9,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "qa": "qa_pass",
+          "evidence": "NOTE D’INFORMATION P. 9 / 25 5 - NOMBRE MINIMUM DE PARTS À SOUSCRIRE Tout nouvel associé est tenu de souscrire au moins une (1) part sociale. Les anciens associés ont la possibilité de souscrire des fractions de parts. 6 - JOUISSANCE DES PARTS Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissan ce, elles sont entièrement assimilées aux parts antérieurement créées. La date d’entrée en jouissanc"
+        },
+        {
+          "metric": "minimum_initial_parts",
+          "value": 1,
+          "unit": "PARTS_INITIAL_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 9,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "qa": "qa_pass",
+          "evidence": "NOTE D’INFORMATION P. 9 / 25 5 - NOMBRE MINIMUM DE PARTS À SOUSCRIRE Tout nouvel associé est tenu de souscrire au moins une (1) part sociale. Les anciens associés ont la possibilité de souscrire des fractions de parts. 6 - JOUISSANCE DES PARTS Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissan ce, elles sont entièrement assimilées aux parts antérieurement créées. La date d’entrée en jouissanc"
+        },
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "document_kind": "dic",
+          "page": 3,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "qa": "qa_pass",
+          "evidence": "demande à conformite@ corumlepargne.fr. Vous pouvez formuler une réclamation en écrivant à l’adresse conformite@corumlepargne.fr. COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L’ARGENT DE FAÇON ANTICIPÉE ? PÉRIODE DE DÉTENTION RECOMMANDÉE : 10 ANS Il est possible de racheter ses parts au prix de retrait avant la fin de la période de détention recommandée. Il n’y a pas de frais de sortie ni de pénalité. La sortie n’est possible que s’il existe une contr"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 3,
+          "unit": "SRI_1_TO_7",
+          "document_kind": "dic",
+          "page": 1,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "qa": "qa_pass",
+          "evidence": "ÉMENTAIRES : La documentation légale obligatoire (statuts, note d’information, rapports annuels) et les documents de souscription sont disponibles sur www. corumbutler.com. Nous avons classé ce produit dans la classe de risque 3 sur 7, qui est une classe de risque moyenne. Autrement dit, les pertes potentielles liées aux futurs résultats du produit se situent à un niveau entre faible et moyen et, si la situation venait à se détériorer sur les marchés, il est peu pro"
+        },
+        {
+          "metric": "subscription_fees_pct",
+          "value": 11.964,
+          "unit": "PERCENT_OF_SUBSCRIPTION_PRICE",
+          "document_kind": "note",
+          "page": 9,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "qa": "qa_pass",
+          "evidence": "être lib érées dans leur intégralité lors de la souscription. Conditions valables depuis le 1er avril 2022 : • Prix de souscription des parts : 1 135,00 € • Valeur nominale : 862,00 € • Prime d’émission : 273,00 € dont commission de souscription due : • au titre des frais de collecte : 122,17 € • au titre des frais de recherche et d’investissement : 13,62 € Soit un prix de souscription net de tous autres frais : 1 135,00 € La Société de Gestion perçoit de la SCPI, à"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 3,
+        "recommended_holding_years": 10,
+        "subscription_fees": 11.964,
+        "enjoyment_delay": 6,
+        "minimum_investment": 1135,
+        "reconstitution_value": 1175.66,
+        "capitalization_m": 4044.22
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "pages": 25,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Origin%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "sha256": "db820f5d66daa3bdc93a956bc61459dea529cd9d0c16a9b267ef6a74d6dfe46a",
+          "pages": 16,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ],
+      "publishing_sources": {
+        "risk_sri": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "page": 1,
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "verified_metric": "risk_sri"
+        },
+        "recommended_holding_years": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "page": 3,
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "verified_metric": "recommended_holding_years"
+        },
+        "subscription_fees": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "page": 9,
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "verified_metric": "subscription_fees_pct"
+        },
+        "enjoyment_delay": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "page": 9,
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "verified_metric": "enjoyment_wait_months"
+        },
+        "minimum_investment": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "page": 9,
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
+          "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
+        },
+        "reconstitution_value": {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "page": 11,
+          "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61",
+          "verified_metric": "valeur_reconstitution_par_part",
+          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+        },
+        "capitalization_m": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "page": 3,
+          "sha256": "1c6a537714151489b38c7591140040262129187124acb170a14b171b977ed1dc",
+          "verified_metric": "nombre_parts x prix_souscription",
+          "derived": true,
+          "basis": "calculated_2026_06_30"
+        }
+      }
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "name": "CORUM USA",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 15.4,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 13,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 0,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 324739,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 7.7,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 3.27,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 4716,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 387121,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 100,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "kind": "annual_report",
+          "pages": 25,
+          "period": "2025-RA",
+          "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7"
+        }
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "enjoyment_wait_months",
+          "value": 6,
+          "unit": "FIRST_DAY_OF_SIXTH_MONTH_FOLLOWING_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 11,
+          "source": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "qa": "qa_pass",
+          "evidence": "ns une (1) part sociale. Les anciens associés, ont la possibilité de souscrire des fractions de parts. Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissance, elles sont entièrement assimilées aux parts antérieurement créées. La date d’entrée en jouissance est fixée par la Société de Gestion au 1er jour du 6ème mois suivant la souscription et son règlement est précisée dans le bulletin de sousc"
+        },
+        {
+          "metric": "minimum_initial_parts",
+          "value": 1,
+          "unit": "PARTS_INITIAL_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 11,
+          "source": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "qa": "qa_pass",
+          "evidence": "P.11/30 NOTE D’INFORMATION 5 - NOMBRE MINIMUM DE PARTS A SOUSCRIRE 6 - JOUISSANCE DES PARTS 7 - DÉTAIL DES CONDITIONS DE SOUSCRIPTION 8 - GARANTIE BANCAIRE Tout nouvel associé est tenu de souscrire au moins une (1) part sociale. Les anciens associés, ont la possibilité de souscrire des fractions de parts. Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissance, elles sont entièrement assimilées "
+        },
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "document_kind": "dic",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "qa": "qa_pass",
+          "evidence": "par le dépositaire ne seront pas affectés. En cas de défaillance du dépositaire, le risque de perte financière de CORUM USA est atténué en raison de la ségrégation légale des actifs du dépositaire de ceux de CORUM USA. L’investissement dans une SCPI n’est pas garanti ni couvert par un système national de compensation. INVESTISSEMENT 10 000€ 1 an 5 ans 10 ans SCÉNARIOS DURÉE DE DÉTENTION RECOMMANDÉE : 10 ans Scénario de tensions Scénario défavorable Scénario interméd"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 4,
+          "unit": "SRI_1_TO_7",
+          "document_kind": "dic",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "qa": "qa_pass",
+          "evidence": "P.2/4 DOCUMENTS D’INFORMATIONS CLÉS QUELS SONT LES RISQUES ET QU’EST-CE QUE CELA POURRAIT ME RAPPORTER ? L’indicateur synthétique de risque part de l’hypothèse que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque de ce produit par r"
+        },
+        {
+          "metric": "subscription_fees_pct",
+          "value": 12,
+          "unit": "PERCENT_OF_SUBSCRIPTION_PRICE",
+          "document_kind": "note",
+          "page": 15,
+          "source": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "qa": "qa_pass",
+          "evidence": "sement quelconque à quel que moment et pour quelle que cause que ce soit. CHAPITRE III - FRAIS 1 - COMMISSION DE SOUSCRIPTION 2 - COMMISSION DE GESTION La Société de Gestion perçoit lors des augmentations de capital une commission de souscription de 12 % TTC du prix de souscription, prélevée sur la prime d’émission. La commission de souscription supporte : • les frais de collecte à hauteur de 10,80 % TTC (commission de souscription exonérée de TVA conformément à l’a"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 4,
+        "recommended_holding_years": 10,
+        "subscription_fees": 12,
+        "enjoyment_delay": 6,
+        "minimum_investment": 200,
+        "reconstitution_value": 203.24,
+        "capitalization_m": 77.42
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "pages": 4,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "pages": 30,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf",
+          "sha256": "bd2877f8ed8ffe075752a07479b7ba36e6ceae1c9cb48ea656fdc91095178fb5",
+          "pages": 20,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ],
+      "publishing_sources": {
+        "risk_sri": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "page": 2,
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "verified_metric": "risk_sri"
+        },
+        "recommended_holding_years": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "page": 2,
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "verified_metric": "recommended_holding_years"
+        },
+        "subscription_fees": {
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "page": 15,
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "verified_metric": "subscription_fees_pct"
+        },
+        "enjoyment_delay": {
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "page": 11,
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "verified_metric": "enjoyment_wait_months"
+        },
+        "minimum_investment": {
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "page": 11,
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
+          "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
+        },
+        "reconstitution_value": {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "page": 9,
+          "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3",
+          "verified_metric": "valeur_reconstitution_par_part",
+          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+        },
+        "capitalization_m": {
+          "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "page": 3,
+          "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7",
+          "verified_metric": "nombre_parts x prix_souscription",
+          "derived": true,
+          "basis": "calculated_2026_06_30"
+        }
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "name": "CORUM XL",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 5,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20XL%20-%20%20Statuts%20-%2020260430%201%20%281%29.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 10.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 15,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 26,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 10970968,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.3,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "DIVIDENDE_BRUT_T2_2026_REALISE",
+          "value": 2.56,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 11117521,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "PARTS_ATTENTE_RETRAIT_AU_30_06_2026",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.6,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "kind": "annual_report",
+          "pages": 28,
+          "period": "2025-RA",
+          "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "period": "2026-T2",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+          "pages": 12,
+          "ocr_pages": 12,
+          "text_characters": 23576,
+          "verification": "ocr_pages_verified"
+        }
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "enjoyment_wait_months",
+          "value": 6,
+          "unit": "FIRST_DAY_OF_SIXTH_MONTH_FOLLOWING_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 10,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "qa": "qa_pass",
+          "evidence": "NOTE D’INFORMATION P. 10 / 29 6 - JOUISSANCE DES PARTS Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d’entrée en jouissan ce, elles sont entièrement assimilées aux parts antérieurement créées. La date d’entrée en jouissance est fixée par la Société de Gestion au 1er jour du 6ème mois suivant la souscription et son rè glement est précisée dans le bulletin de souscription. Les modalités de jouissance des parts"
+        },
+        {
+          "metric": "minimum_initial_parts",
+          "value": 1,
+          "unit": "PARTS_INITIAL_SUBSCRIPTION",
+          "document_kind": "note",
+          "page": 9,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "qa": "qa_pass",
+          "evidence": "ité entre tous les porteurs de parts de la SCPI, toutes les souscriptions sont effectuées selon les mêm es modalités et dans les mêmes conditions de prix et de frais. Aucune réduction ne pourra être accordée. 5 - NOMBRE MINIMUM DE PARTS À SOUSCRIRE Tout nouvel associé est tenu de souscrire au moins une (1) part sociale. Les anciens associés ont la possibilité de souscrire des fractions de parts."
+        },
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "document_kind": "dic",
+          "page": 3,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "qa": "qa_pass",
+          "evidence": "demande à conformite@ corumlepargne.fr. Vous pouvez formuler une réclamation en écrivant à l’adresse conformite@corumlepargne.fr. COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L’ARGENT DE FAÇON ANTICIPÉE ? PÉRIODE DE DÉTENTION RECOMMANDÉE : 10 ANS Il est possible de racheter ses parts au prix de retrait avant la fin de la période de détention recommandée. Il n’y a pas de frais de sortie ni de pénalité. La sortie n’est possible que s’il existe une contr"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 4,
+          "unit": "SRI_1_TO_7",
+          "document_kind": "dic",
+          "page": 1,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "qa": "qa_pass",
+          "evidence": "que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque de ce produit par rapport à d’autres. Il indique la probabilité que ce produit enregistre des pertes en cas de mouvements sur les marchés. Nous avons classé ce produit dans la cla"
+        },
+        {
+          "metric": "subscription_fees_pct",
+          "value": 12,
+          "unit": "PERCENT_OF_SUBSCRIPTION_PRICE",
+          "document_kind": "note",
+          "page": 10,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "qa": "qa_pass",
+          "evidence": "ront être lib érées dans leur intégralité lors de la souscription. Conditions valables depuis le 1er juin 2022 : • Prix de souscription des parts : 195,00 € • Valeur nominale : 150,00 € • Prime d’émission : 45,00 € dont commission de souscription due : • au titre des frais de collecte : 21,06 € • au titre des frais de recherche et d’investissement : 2,34 € Soit un prix de souscription net de tous autres frais : 195,00 € La Société de Gestion perçoit de la SCPI, à la"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 4,
+        "recommended_holding_years": 10,
+        "subscription_fees": 12,
+        "enjoyment_delay": 6,
+        "minimum_investment": 195,
+        "reconstitution_value": 189.37,
+        "capitalization_m": 2167.92
+      },
+      "regulatory_documents": [
+        {
+          "kind": "dic",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "pages": 3,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "note",
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "pages": 29,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        },
+        {
+          "kind": "statutes",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20XL%20-%20%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "sha256": "db7d655c83ded50bc4b0abbecafc114f58f2fc65d9f55a28bc1cc3ca76736e16",
+          "pages": 15,
+          "checked_at": "2026-10-15 15:31:08.424138+00"
+        }
+      ],
+      "publishing_sources": {
+        "risk_sri": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "page": 1,
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "verified_metric": "risk_sri"
+        },
+        "recommended_holding_years": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "page": 3,
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "verified_metric": "recommended_holding_years"
+        },
+        "subscription_fees": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "page": 10,
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "verified_metric": "subscription_fees_pct"
+        },
+        "enjoyment_delay": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "page": 10,
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "verified_metric": "enjoyment_wait_months"
+        },
+        "minimum_investment": {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "page": 9,
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
+          "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
+        },
+        "reconstitution_value": {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "page": 10,
+          "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff",
+          "verified_metric": "valeur_reconstitution_par_part",
+          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+        },
+        "capitalization_m": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "page": 3,
+          "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+          "verified_metric": "nombre_parts x prix_souscription",
+          "derived": true,
+          "basis": "calculated_2026_06_30"
+        }
+      }
+    }
+  ]
+}

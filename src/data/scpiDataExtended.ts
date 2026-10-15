@@ -1,4 +1,5 @@
 import certifiedScpiCohort from './certified_scpi_cohort.json';
+import { scpiData } from './scpiData';
 
 export interface SCPIExtended {
   id: number;
@@ -4047,8 +4048,65 @@ const toCertifiedScpiSlug = (name: string): string =>
 
 const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs);
 
-export const scpiDataExtended: SCPIExtended[] = baseSCPIData.filter((scpi) =>
+// Newly authorized SCPI reuse the public catalog as their SINGLE input.
+// Without a matching certified-cohort slug and a complete public catalog row
+// they stay invisible to the comparator, simulator and client selection.
+// The 61 historical extended descriptions are preserved exactly as-is.
+const historicalExtended = baseSCPIData.filter((scpi) =>
   certifiedScpiSlugSet.has(toCertifiedScpiSlug(scpi.name))
 );
+const historicalSlugs = new Set(historicalExtended.map((scpi) => toCertifiedScpiSlug(scpi.name)));
+const categoryLabels: Record<string, string> = {
+  bureaux: 'Bureaux', commerces: 'Commerces', residentiel: 'Résidentiel',
+  sante: 'Santé', logistique: 'Logistique', hotellerie: 'Hôtellerie',
+  diversifie: 'Diversifié'
+};
+const maxHistoricalId = Math.max(0, ...historicalExtended.map((s) => s.id));
+const newlyReleased = scpiData
+  .filter((scpi) => certifiedScpiSlugSet.has(toCertifiedScpiSlug(scpi.name)))
+  .filter((scpi) => !historicalSlugs.has(toCertifiedScpiSlug(scpi.name)))
+  .filter((scpi) =>
+    Number.isFinite(scpi.yield) && scpi.yield > 0 &&
+    Number.isFinite(scpi.price) && scpi.price > 0 &&
+    Number.isFinite(scpi.tof) && scpi.tof >= 0 && scpi.tof <= 100 &&
+    Number.isFinite(scpi.capitalization) && scpi.capitalization > 0 &&
+    Number.isFinite(scpi.minInvest) && scpi.minInvest > 0 &&
+    Array.isArray(scpi.repartitionSector) && scpi.repartitionSector.length > 0 &&
+    Array.isArray(scpi.repartitionGeo) && scpi.repartitionGeo.length > 0 &&
+    Number.isFinite(scpi.fees) && scpi.fees >= 0
+  )
+  .map((scpi, i): SCPIExtended => ({
+    id: maxHistoricalId + i + 1,
+    name: scpi.name, yield: scpi.yield, price: scpi.price,
+    minInvestment: scpi.minInvest,
+    category: categoryLabels[scpi.sector] || 'Diversifié',
+    managementCompany: scpi.company,
+    tof: scpi.tof,
+    capitalization: (scpi.capitalization / 1_000_000).toLocaleString('fr-FR', {maximumFractionDigits: 2}) + ' M€',
+    sectors: scpi.repartitionSector!,
+    geography: scpi.repartitionGeo!,
+    strategy: '',
+    reconstitutionValue: scpi.valeurReconstitution,
+    discount: scpi.discountQaStatus === 'publishable' ? scpi.discount : undefined,
+    discountQaStatus: scpi.discountQaStatus,
+    ltv: scpi.debt, hasWaitingShares: scpi.hasWaitingShares,
+    entryFees: scpi.fees, managementFees: scpi.fraisGestion,
+    delaiJouissance: scpi.delaiJouissance,
+    versementLoyers: scpi.versementLoyers,
+    dureeDetentionRecommandee: scpi.dureeDetentionRecommandee,
+    valeurRetrait: scpi.valeurRetrait, valeurRealisation: scpi.valeurRealisation,
+    distribution: scpi.distribution, sfdr: scpi.sfdr,
+    profilCible: scpi.profilCible, profilRisque: scpi.profilRisque,
+    nombreLocataires: scpi.nombreLocataires, walt: scpi.walt, walb: scpi.walb,
+    collecteNetteTrimestre: scpi.collecteNetteTrimestre,
+    nbCessionsTrimestre: scpi.nbCessionsTrimestre,
+    dataPeriod: scpi.maximusSourcePeriode,
+    dataSourceDocument: scpi.maximusSourceDocument,
+    dataStatus: scpi.maximusDataStatus,
+    dataUpdateDate: scpi.maximusUpdateDate,
+    liquidityNote: scpi.liquidite
+  }));
+
+export const scpiDataExtended: SCPIExtended[] = [...historicalExtended, ...newlyReleased];
 
 export default scpiDataExtended;

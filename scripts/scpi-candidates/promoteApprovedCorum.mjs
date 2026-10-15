@@ -1,0 +1,158 @@
+// The only supported candidate -> public catalog promotion path.
+// NO files are modified without both private Supabase release authorization and
+// 100%-complete, evidenced data/surface contract. No Netlify deploy.
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
+
+const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
+const get=(file)=>JSON.parse(fs.readFileSync(path.join(ROOT,file),'utf8'));
+const slug=(name)=>String(name).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const annual=(c,m)=>Number(c.evidence.find(e=>e.period==='2025-RA'&&e.metric===m&&e.qa==='qa_pass')?.value);
+const quarter=(c,m)=>Number(c.evidence.find(e=>e.period==='2026-T2'&&e.metric===m&&e.qa==='qa_pass')?.value);
+const num=(value,key,allowZero=false)=>{
+ if(typeof value!=='number'||!Number.isFinite(value)||(allowZero?value<0:value<=0))
+   throw Error('Missing verified numeric field: '+key);
+ return value;
+};
+const allocation=(record,key)=>{
+ if(!record||typeof record!=='object'||Array.isArray(record)||!Object.keys(record).length)
+  throw Error('Missing verified allocation: '+key);
+ const total=Object.values(record).reduce((sum,n)=>sum+num(n,key,true),0);
+ if(Math.abs(total-100)>1)throw Error('Allocation must total 100%: '+key+' '+total);
+ return record;
+};
+const sourceHint=(c,field)=>{
+ if(!c.publishing_sources||!/^https:\/\//.test(c.publishing_sources[field]?.url||'')
+   ||!(Number(c.publishing_sources[field]?.page)>0)
+   ||!(/^[a-f0-9]{64}$/.test(c.publishing_sources[field]?.sha256||'')))
+  throw Error('Missing current official PDF evidence for: '+c.scpi_slug+':'+field);
+};
+function rowFromCandidate(c) {
+ const x=c.publishing_fields||{};
+ const risky=['creation_year','minimum_investment','subscription_fees','management_fees',
+  'reconstitution_value','risk_sri','liquidity_basis','withdrawal_terms',
+  'enjoyment_delay','sector_allocation','geographic_allocation','sfdr',
+  'capitalization_m','sector_class','geographic_scope','label_isr',
+  'payment_frequency','risk_warnings','recommended_holding_years'];
+ for(const field of risky)sourceHint(c,field);
+ const price=quarter(c,'prix_souscription'), parts=quarter(c,'nombre_parts');
+ const cap=num(x.capitalization_m,'capitalization_m');
+ if(Math.abs(parts*price/1e6-cap)/cap>0.02)
+   throw Error('Capitalisation conflicts with parts x current subscription price for '+c.scpi_slug);
+ const sectors=allocation(x.sector_allocation,'sector_allocation'),
+       geography=allocation(x.geographic_allocation,'geographic_allocation');
+ const period='T2 2026';
+ const wait=quarter(c,'parts_attente_retrait');
+ if(wait<0||wait>parts)throw Error('Invalid waiting shares');
+ if(!['withdrawal_queue','secondary_market_order_book'].includes(x.liquidity_basis))
+   throw Error('Liquidity regime unqualified');
+ if(!Number.isInteger(x.risk_sri)||x.risk_sri<1||x.risk_sri>7)
+   throw Error('DIC SRI invalid');
+ if(x.risk_sri!==c.regulatory_metrics?.find(e=>e.metric==='risk_sri'&&e.qa==='qa_pass')?.value)
+   throw Error('DIC risk mismatch');
+ if(x.recommended_holding_years!==c.regulatory_metrics?.find(e=>e.metric==='recommended_holding_years')?.value)
+   throw Error('DIC holding period mismatch');
+ if(typeof x.withdrawal_terms!=='string'||x.withdrawal_terms.length<35)
+   throw Error('Withdrawal conditions not evidenced');
+ if(typeof x.label_isr!=='boolean')throw Error('Unknown ISR label');
+ if(!Array.isArray(x.risk_warnings)||x.risk_warnings.length<1||
+   x.risk_warnings.some(w=>typeof w!=='string'||w.length<24))
+   throw Error('Missing documented risk warnings');
+ if(!['Mensuelle','Trimestrielle'].includes(x.payment_frequency))
+   throw Error('Unverified income frequency');
+ if(!['Article 6','Article 8','Article 9'].includes(x.sfdr))
+   throw Error('SFDR classification not verified');
+ return {
+  'Nom SCPI':c.name,'Société de gestion':c.management_company,
+  'Année de création':num(x.creation_year,'creation_year'),
+  'Capitalisation (M€)':cap,
+  'Prix de souscription (€)':price,
+  'Valeur de reconstitution par part (€)':num(x.reconstitution_value,'reconstitution_value'),
+  // The 2025 appraisal and T2 2026 price have different dates.
+  'Décote/Surcote QA':'manual_review',
+  'Taux de distribution (%)':annual(c,'taux_distribution'),
+  'Distribution (€/part)':annual(c,'distribution_brute_par_part'),
+  'Endettement (%)':annual(c,'endettement_pct'),
+  'TOF (%)':quarter(c,'tof'),'Nombre de parts':parts,
+  'Parts en attente de retrait':wait,
+  'Minimum de souscription €':num(x.minimum_investment,'minimum_investment'),
+  'Frais de souscription (TTC/%)':num(x.subscription_fees,'subscription_fees',true),
+  'Frais de gestion (HT/%)':num(x.management_fees,'management_fees',true),
+  'Délai de jouissance (mois)':num(x.enjoyment_delay,'enjoyment_delay',true),
+  'Durée de détention recommandée (ans)':num(x.recommended_holding_years,'recommended_holding_years'),
+  'Versement des loyers':x.payment_frequency,
+  'Répartition Sectorielle JSON':sectors,
+  'Répartition Géographique JSON':geography,
+  'Label ISR':x.label_isr===true?'Oui':'Non',
+  'SFDR':x.sfdr,
+  'Profil_de_risque':{SRRI:x.risk_sri,Echelle:'1-7',Source:'DIC officiel',Verification:'qa_pass'},
+  'liquidite':x.withdrawal_terms+' Au '+period+' : '+wait+' parts en attente. Aucun délai de revente garanti.',
+  'liquidity_basis':x.liquidity_basis,
+  'Nombre d’associés':quarter(c,'nombre_associes')||undefined,
+  'Période bulletin trimestriel':period,'Date bulletin':'30/06/2026',
+  'maximus_data_status':'certified_and_final_reviewed',
+  'maximus_source_periode':'TD et dette : année 2025 ; données courantes : T2 2026',
+  'maximus_source_document':'Rapport annuel 2025 et Bulletin T2 2026 CORUM; DIC officiel',
+  'maximus_warnings':[
+    'Risque de perte en capital et de liquidité. Durée recommandée : 10 ans.',
+    ...x.risk_warnings
+  ],
+  'maximus_lifecycle_status':'normal'
+ };
+}
+async function liveApproval(candidates) {
+ const url=process.env.SUPABASE_URL||process.env.VITE_SUPABASE_URL;
+ const key=process.env.SUPABASE_SERVICE_ROLE_KEY;
+ if(!/^https:\/\//.test(url||'')||!key||key.length<30)
+   throw Error('Service-role authorization required; no anon key fallback');
+ const response=await fetch(url+'/rest/v1/rpc/maximus_candidate_release_clearance',{
+  method:'POST',
+  headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},
+  body:JSON.stringify({p_slugs:candidates.map(x=>x.scpi_slug)})
+ });
+ if(!response.ok)throw Error('Live release authorization HTTP '+response.status);
+ const live=await response.json();
+ if(!Array.isArray(live)||live.length!==candidates.length)throw Error('Live release coverage mismatch');
+ for(const candidate of candidates) {
+  const row=live.find(x=>x.scpi_slug===candidate.scpi_slug);
+  if(!row||!row.release_ready||!row.publication_authorized||
+    !row.analysis_certified||!row.live_indicators_ok||!row.liquidity_ok)
+   throw Error('Fail-closed: live release, client or liquidity gate incomplete for '+candidate.scpi_slug);
+ }
+}
+const preview=get('data-import/corum_candidates_prepublication_20261015.json');
+const report=auditSnapshot(preview);
+assertIntegrationTopology();
+const blockers=report.filter(x=>!x.ready);
+console.log('[CORUM] prepublication QA',JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
+if(!process.argv.includes('--apply')){
+ console.log('[CORUM] dry-run only: 61 public SCPI preserved; no release.');
+ process.exit(0);
+}
+if(blockers.length)throw Error('Cannot release CORUM: local full-surface QA still incomplete');
+await liveApproval(preview.scpi);
+const catalogPath=path.join(ROOT,'src/data/scpi_complet.json'),
+ cohortPath=path.join(ROOT,'src/data/certified_scpi_cohort.json');
+const catalog=JSON.parse(fs.readFileSync(catalogPath,'utf8'));
+const cohort=JSON.parse(fs.readFileSync(cohortPath,'utf8'));
+const slugs=new Set(cohort.slugs);
+const existing=new Set(catalog.map(x=>slug(x['Nom SCPI'])));
+for(const c of preview.scpi) {
+ if(slugs.has(c.scpi_slug)||existing.has(c.scpi_slug))
+  throw Error('Duplicate or partially released CORUM: '+c.scpi_slug);
+}
+const records=preview.scpi.map(rowFromCandidate);
+for(const c of preview.scpi)slugs.add(c.scpi_slug);
+const newCatalog=[...catalog,...records];
+const newCohort={...cohort,count:slugs.size,slugs:[...slugs].sort()};
+if(newCatalog.filter(x=>slugs.has(slug(x['Nom SCPI']))).length!==slugs.size)
+ throw Error('Sitemap/runtime cohort consistency check failed');
+const nextCatalog=JSON.stringify(newCatalog,null,2)+'\n';
+const nextCohort=JSON.stringify(newCohort,null,2)+'\n';
+// Both changes must be committed and tested together in the same release PR.
+// No deployment is initiated by this command.
+fs.writeFileSync(catalogPath,nextCatalog);
+fs.writeFileSync(cohortPath,nextCohort);
+console.log('[CORUM] 4 certified SCPI staged into PUBLIC SOURCE for PR, no Netlify deployment.');

@@ -82,3 +82,23 @@ Une correction est terminée uniquement si :
 | 05 | `agents/05-crm-relance.md` | CRM, relances, RGPD |
 
 Le superviseur ne délègue que la tâche Recovery active.
+
+## Règle durable — une nouvelle SCPI n'est terminée que lorsqu'elle fonctionne partout
+
+Cette règle s'applique aux **225 SCPI cibles**, sans exception, y compris aux quatre CORUM et aux futures SCPI de BNP Paribas REIM. Elle complète les règles de Recovery ; elle n'autorise **aucun** déploiement hors du processus de release.
+
+**Définition de Done produit = Done financier + Done application + Done publication.**
+Une extraction OCR, un rapport annuel identifié, des métriques `qa_pass` ou le franchissement d'un seuil SQL ne constituent **jamais** une SCPI intégrée.
+
+- **Données :** identité et statut juridique vérifiés ; DIC, note, statuts, rapport annuel et bulletin actuel officiels, horodatés et hachés ; chaque métrique publiée avec sa période, unité, page, empreinte et validation ; aucune confusion année/trimestre, rendement brut/net, TOF ponctuel/moyen, retraits exécutés/en attente.
+- **SEO :** page `/{slug}/` générée et rendue, titre/H1/méta description/canonical et structured data exacts, maillage interne, sitemap, lien 200 ; sans page factice, promesse de rendement ni fausse année.
+- **Comparateur :** recherche, filtres, sélection multiple, grille/cartes, classements, données live et déclenchement des analyses ; même SCPI et mêmes chiffres que la page SEO.
+- **Liquidité :** régime de capital, nombre de parts en attente, file de retraits/marché secondaire, comparabilité historique, transparence des données manquantes ; ne jamais interpréter zéro ou absence comme une liquidité garantie.
+- **Simulateurs :** direct, revente, démembrement, crédit et autres simulateurs qui sélectionnent une SCPI ; prix, distribution, jouissance, frais, revente et hypothèses correctement raccordés. Un outil incapable de traiter la SCPI doit être bloqué avec explication, jamais alimenté par un faux zéro.
+- **Analyse et espace client :** scoring, radar, trajectoire, patrimoine/secteurs/pays, historique, risque, portefeuille et sources ; validation de l'affichage et du parcours client.
+- **Go/No-Go :** PR et tests de parcours qui couvrent chaque consommateur monté ; contrôle final indépendant dette, liquidité, frais, DIC/SFDR, conformité et cohérence ; verrou privé `scpi_candidate_publication_gate_v1.release_ready=true` **et** autorisation de publication. Pas de production avant QA du rendu final, ni publication seulement parce que la source de données est complète.
+- **Un seul point d'entrée :** le catalogue public certifié et ses sources de provenance alimentent toutes les surfaces. Éviter les listes parallèles et modifications manuelles SCPI par SCPI. Une nouvelle SCPI est promue **atomiquement** : catalogue, cohorte, comparateur, SEO, sitemap, liquidité, simulateurs et espace client.
+- **Travail non terminé :** si une seule surface échoue ou une donnée critique n'est pas certifiée, la fiche reste `candidate`/hors ligne ; enregistrer précisément le blocage et continuer les vérifications, sans conclure au `100 %`.
+
+Les quatre CORUM servent de **lot pilote** ; leurs valeurs QA initiales sont stockées dans `data-import/corum_candidates_prepublication_20261015.json` et contrôlées par `scripts/scpi-candidates/auditCorumE2e.mjs`. Ce fichier est une preuve de préparation, jamais un catalogue public.
+
