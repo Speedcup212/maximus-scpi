@@ -955,7 +955,9 @@ const App: React.FC = () => {
             const slug = scpiLandingPages[key].slug;
             return slug === path || key === path;
           });
-          if (scpiKey) {
+          if (scpiKey && buildScpiLandingData(scpiKey)) {
+            // All public SCPI, including Iroko Atlas and future CORUM, use ONE template.
+            // Editorial metadata alone must never bypass the published catalog.
             setSelectedScpiKey(scpiKey);
             setCurrentView('scpi-optimized');
           } else {
@@ -1865,8 +1867,8 @@ const App: React.FC = () => {
       scpiLandingPages[key].slug === slug || key === slug
     );
     
-    if (scpiKey) {
-      // Utiliser OptimizedScpiLandingPage avec le comparateur FintechComparator
+    if (scpiKey && buildScpiLandingData(scpiKey)) {
+      // Exact Iroko Atlas template for every published SCPI, not a custom CORUM page.
       setSelectedScpiKey(scpiKey);
       setCurrentView('scpi-optimized');
     } else if (buildScpiLandingData(slug)) {
@@ -4521,29 +4523,19 @@ const App: React.FC = () => {
     );
   }
 
-  // Render Static SCPI Page (toutes les 63 SCPI automatiquement)
+  // No secondary SCPI template: unapproved / unknown products cannot render
+  // a different, possibly stale, static page. Iroko Atlas is the ONLY page model.
   if (currentView === 'scpi-static' && selectedScpiKey) {
     return (
-      <>
-        <Suspense fallback={<LoadingSpinner />}>
-          <StaticScpiPage
-            slug={selectedScpiKey}
-            onNavigateHome={handleBackToHome}
-            onNavigateToFaq={handleFaqClick}
-            onNavigateToAbout={handleAboutUsClick}
-            onNavigateToUnderstanding={handleComprendreClick}
-            onNavigateToScpi={handleScpiClick}
-            onContactClick={() => setIsRdvModalOpen(true)}
-            onArticlesClick={handleArticlesClick}
-            onActualitesClick={handleActualitesClick}
-            onComparateurClick={handleComparateurClick}
-            onSimulateurClick={handleSimulateurClick}
-            isDarkMode={isDarkMode}
-            toggleTheme={toggleTheme}
-          />
-        </Suspense>
-        {renderGlobalModals()}
-      </>
+      <div className="min-h-screen bg-slate-950 px-6 py-20 text-center text-white">
+        <h1 className="text-2xl font-bold">SCPI non disponible</h1>
+        <p className="mx-auto mt-4 max-w-lg text-slate-300">
+          Cette SCPI ne dispose pas encore d'une fiche publiée et certifiée sur MaximusSCPI.
+          Aucune donnée financière provisoire n'est affichée.
+        </p>
+        <button className="mt-8 rounded-xl bg-emerald-500 px-6 py-3 font-semibold text-slate-950"
+          onClick={handleBackToHome}>Retour à l'accueil</button>
+      </div>
     );
   }
 
