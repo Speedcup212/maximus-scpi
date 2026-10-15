@@ -18,8 +18,8 @@ import fitz
 
 BRIDGE = "https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-scpi-ocr-oidc"
 AUDIENCE = "maximus-scpi-ocr-ygvsddcpohsnaowofuwc"
-MAX_PDF_BYTES = 26 * 1024 * 1024
-MAX_PAGES = 50
+MAX_PDF_BYTES = 65 * 1024 * 1024
+MAX_PAGES = 240
 MIN_NATIVE_CHARS = 120
 LANGUAGES = "fra+eng"
 
@@ -122,7 +122,7 @@ def extract_pages(pdf: bytes) -> list[dict]:
                 scanned = ocr_page(page)
                 text = scanned if len(scanned.strip()) >= len(native.strip()) else native
                 method = "tesseract_ocr"
-            result.append({"page": index + 1, "text": text[:35000],
+            result.append({"page": index + 1, "text": text[:12000],
                            "method": method})
     return result
 

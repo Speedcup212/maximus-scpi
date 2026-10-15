@@ -1042,8 +1042,34 @@ Deno.serve(async(req:Request)=>{
   const eid=await startEvent(db,s);await reg(db,s.scpi_slug,{last_checked_at:new Date().toISOString(),next_check_at:later(1)});
   try{
     const c=await findBulletin(s);if(!c){const ec=(s.error_count||0)+1;await reg(db,s.scpi_slug,{verification_status:"manual_review_required",confidence_level:"low",last_error:"Aucun bulletin trimestriel pertinent détecté automatiquement.",error_count:ec,next_check_at:later(Math.min(168,12+ec*12))});await finish(db,eid,{status:"needs_review",step:"edge_discovery",message:"Bulletin introuvable"});return Response.json({ok:false,slug:s.scpi_slug,status:"needs_review"});}
-    let text="",hashPdf="",path:string|null=null;
+    let text="",hashPdf="",path:string|null=null,ocrRecovered=false;
     if(c.html){const html=await getText(c.pdf,10000);text=stripHtml(html);hashPdf=await shaText(html);}else{const bytes=await getPdf(c.pdf);hashPdf=await shaBytes(bytes);text=await extractPdfText(bytes);}
+    if(!c.html&&text.trim().length<200){
+      const {data:matched}=await db.from("scpi_bulletins").select("period")
+        .eq("scpi_slug",s.scpi_slug).eq("source_url",c.pdf)
+        .order("processed_at",{ascending:false}).limit(1).maybeSingle();
+      const ocrPeriod=matched?.period||period(c.label+" "+c.pdf)?.p;
+      if(ocrPeriod){
+        const {data:stored,error:readErr}=await db.rpc("scpi_ocr_read_verified_pages",{
+          p_slug:s.scpi_slug,p_period:ocrPeriod,p_kind:"quarterly_bulletin",
+          p_url:c.pdf,p_sha256:hashPdf
+        });
+        if(readErr)throw new Error("OCR cache: "+readErr.message);
+        if(stored?.length){text=stored.map((x:any)=>x.page_text).join(" ");ocrRecovered=true;}
+        else {
+          const {data:queue,error:queueErr}=await db.rpc("scpi_ocr_request_fallback",{
+            p_slug:s.scpi_slug,p_period:ocrPeriod,p_kind:"quarterly_bulletin",p_url:c.pdf
+          });
+          if(queueErr)throw new Error("OCR queue: "+queueErr.message);
+          if(["queued","existing_job","already_extracted"].includes(queue)){
+            await finish(db,eid,{status:"needs_review",step:"edge_ocr_pending",
+              bulletin_url:c.pdf,source_period:ocrPeriod,message:"PDF image requires private OCR; public promotion suspended."});
+            return Response.json({ok:false,slug:s.scpi_slug,status:"ocr_pending",
+              period:ocrPeriod,queue});
+          }
+        }
+      }
+    }
     if(text.trim().length<200)throw new Error("Texte source insuffisant");
     const {data:old}=await db.from("scpi_bulletins").select("id,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
     if(old?.id&&old.extraction_json?.parser_version===PARSER_VERSION){
@@ -1063,6 +1089,7 @@ Deno.serve(async(req:Request)=>{
     }
     const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
     const raw=c.html?parseHtmlMetrics(text):parseMetrics(text,pp.p),count=Object.keys(raw).length,confidence=Math.min(1,count/12);
+    if(ocrRecovered){await finish(db,eid,{status:"needs_review",step:"edge_ocr_qa_required",bulletin_url:c.pdf,source_period:pp.p,metrics_count:count,message:"Page OCR present; numeric values awaiting independent QA; no public promotion."});return Response.json({ok:true,slug:s.scpi_slug,status:"ocr_pending_independent_qa",period:pp.p,metrics:count});}
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
     const currentKey=period(String(cur?.source_period||""))?.k||0,incomingKey=pp.k||0;
     const canPromote=!currentKey||incomingKey>=currentKey;
