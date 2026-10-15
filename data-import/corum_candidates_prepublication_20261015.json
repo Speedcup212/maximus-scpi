@@ -290,6 +290,16 @@
           "pages": 31,
           "period": "2025-RA",
           "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "period": "2026-T2",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "sha256": "1c6a537714151489b38c7591140040262129187124acb170a14b171b977ed1dc",
+          "pages": 12,
+          "ocr_pages": 12,
+          "text_characters": 22954,
+          "verification": "ocr_pages_verified"
         }
       ]
     },
@@ -561,6 +571,16 @@
           "pages": 28,
           "period": "2025-RA",
           "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "period": "2026-T2",
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+          "pages": 12,
+          "ocr_pages": 12,
+          "text_characters": 23576,
+          "verification": "ocr_pages_verified"
         }
       ]
     }
