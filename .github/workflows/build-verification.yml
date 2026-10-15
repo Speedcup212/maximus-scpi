@@ -64,6 +64,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: SEO redirects and static shell regression
+        run: node --test scripts/test-execution-seo.mjs
+
       - name: Client space browser smoke
         run: node scripts/client-space-browser-smoke.mjs
 
