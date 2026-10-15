@@ -70,6 +70,8 @@ function rowFromCandidate(c) {
   'Capitalisation (M€)':cap,
   'Prix de souscription (€)':price,
   'Valeur de reconstitution par part (€)':num(x.reconstitution_value,'reconstitution_value'),
+  // The 2025 appraisal and T2 2026 price have different dates.
+  'Décote/Surcote QA':'manual_review',
   'Taux de distribution (%)':annual(c,'taux_distribution'),
   'Distribution (€/part)':annual(c,'distribution_brute_par_part'),
   'Endettement (%)':annual(c,'endettement_pct'),
