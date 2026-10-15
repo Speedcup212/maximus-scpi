@@ -31,6 +31,22 @@ Deno.serve(async(req:Request)=>{
     const body=await req.json().catch(()=>({}));
     if(body.op==="claim"){
       await sql`SELECT * FROM maximus_agents.scpi_ocr_seed_backlog(12)`;
+      // A native extraction or certified financial record can arrive after
+      // scheduling. Fail closed before claim; never repeat known-good work.
+      await sql`
+        UPDATE maximus_agents.scpi_ocr_jobs j
+        SET status=maximus_agents.scpi_ocr_preflight_reason(
+          j.scpi_slug,j.source_period,j.document_kind,d.direct_document_url),
+            finished_at=now(),lease_token=NULL,
+            result_note='Skipped: source already verified or natively extracted; no unreadable page evidence.'
+        FROM maximus_agents.scpi_candidate_document_index d
+        WHERE j.status='queued'
+          AND d.scpi_slug=j.scpi_slug AND d.source_period=j.source_period
+          AND d.document_kind=j.document_kind
+          AND maximus_agents.scpi_ocr_preflight_reason(
+            j.scpi_slug,j.source_period,j.document_kind,d.direct_document_url)
+            IN ('skipped_existing_verified','skipped_existing_extraction')
+      `;
       await sql`
         INSERT INTO maximus_agents.scpi_ocr_jobs (scpi_slug,source_period,document_kind)
         SELECT d.scpi_slug,d.source_period,d.document_kind
