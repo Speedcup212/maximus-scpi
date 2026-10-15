@@ -46,7 +46,19 @@ def secure_https(url: str) -> None:
             raise
 
 
-OFFICIAL_HISTORICAL_ALIASES = {\n    # Epsicap REIM, official name change announced 5 June 2025.\n    "epsicap-nano": ("Epsilon 360", "Epsilon 360°"),\n}\n\n\ndef document_identity_matches(slug: str, name: str, text: str) -> bool:\n    recovered = normalized(text)\n    permitted_names = (name, *OFFICIAL_HISTORICAL_ALIASES.get(slug, ()))\n    return any(normalized(alias) in recovered for alias in permitted_names)\n\n\ndef post_json(url: str, payload: dict, headers: dict[str, str], timeout: int = 35) -> dict:
+OFFICIAL_HISTORICAL_ALIASES = {
+    # Epsicap REIM, official name change announced 5 June 2025.
+    "epsicap-nano": ("Epsilon 360", "Epsilon 360°"),
+}
+
+
+def document_identity_matches(slug: str, name: str, text: str) -> bool:
+    recovered = normalized(text)
+    permitted_names = (name, *OFFICIAL_HISTORICAL_ALIASES.get(slug, ()))
+    return any(normalized(alias) in recovered for alias in permitted_names)
+
+
+def post_json(url: str, payload: dict, headers: dict[str, str], timeout: int = 35) -> dict:
     req = urllib.request.Request(url,
         data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
         headers={"Content-Type": "application/json", **headers}, method="POST")
