@@ -49,6 +49,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: CORUM end-to-end onboarding contract (unpublished candidates)
+        run: |
+          node --test scripts/scpi-candidates/auditCorumE2e.test.mjs
+          node scripts/scpi-candidates/auditCorumE2e.mjs
+
       - name: SCPI bulletin extraction test
         run: node --import tsx/esm --test scpi-ingestion/src/extractor.test.ts
 
