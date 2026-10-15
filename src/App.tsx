@@ -1921,7 +1921,7 @@ const App: React.FC = () => {
       // Convertir en SCPIExtended pour le tunnel
       const { scpiDataExtended } = await import('./data/scpiDataExtended');
       const extendedScpis = selectedScpis
-        .map(scpi => scpiDataExtended.find(ext => ext.id === scpi.id))
+        .map(scpi => scpiDataExtended.find(ext => ext.name === scpi.name) || scpiDataExtended.find(ext => ext.id === scpi.id && ext.name === scpi.name))
         .filter((scpi): scpi is typeof scpiDataExtended[0] => scpi !== undefined);
       
       if (extendedScpis.length === 0) {
