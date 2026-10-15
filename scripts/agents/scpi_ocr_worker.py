@@ -26,7 +26,7 @@ LANGUAGES = "fra+eng"
 
 def normalized(text: str) -> str:
     import unicodedata
-    text = unicodedata.normalize("NFD", text)
+    text = unicodedata.normalize("NFD", text.replace("œ", "oe").replace("Œ", "Oe").replace("æ", "ae").replace("Æ", "Ae"))
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9]+", " ",
                   "".join(c for c in text if not unicodedata.combining(c)).lower())).strip()
 
@@ -46,7 +46,7 @@ def secure_https(url: str) -> None:
             raise
 
 
-def post_json(url: str, payload: dict, headers: dict[str, str], timeout: int = 35) -> dict:
+OFFICIAL_HISTORICAL_ALIASES = {\n    # Epsicap REIM, official name change announced 5 June 2025.\n    "epsicap-nano": ("Epsilon 360", "Epsilon 360°"),\n}\n\n\ndef document_identity_matches(slug: str, name: str, text: str) -> bool:\n    recovered = normalized(text)\n    permitted_names = (name, *OFFICIAL_HISTORICAL_ALIASES.get(slug, ()))\n    return any(normalized(alias) in recovered for alias in permitted_names)\n\n\ndef post_json(url: str, payload: dict, headers: dict[str, str], timeout: int = 35) -> dict:
     req = urllib.request.Request(url,
         data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
         headers={"Content-Type": "application/json", **headers}, method="POST")
@@ -143,7 +143,7 @@ def self_test() -> None:
     pages = extract_pages(scanned.tobytes())
     assert pages[0]["method"] == "tesseract_ocr", pages
     assert "corum origin" in normalized(pages[0]["text"]), pages[0]["text"][:300]
-    # Also test native text path with enough characters.
+    assert document_identity_matches("coeur-d-europe", "Cœur d\u0027Europe", "COEUR D\u0027EUROPE")\n    assert document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsilon 360°")\n    assert not document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsicap Explore")\n    # Also test native text path with enough characters.
     p.insert_text((48, 270), "Verification documentaire trimestrielle " * 5)
     native = extract_pages(src.tobytes())
     assert native[0]["method"] == "native_pdf_text", native
@@ -163,7 +163,7 @@ def run_worker() -> None:
         sha = hashlib.sha256(pdf).hexdigest()
         pages = extract_pages(pdf)
         all_text = " ".join(p["text"] for p in pages)
-        if normalized(task["name"]) not in normalized(all_text):
+        if not document_identity_matches(task["slug"], task["name"], all_text):
             raise ValueError("document identity mismatch; no numbers published")
         if len(re.sub(r"\s+", "", all_text)) < 150:
             raise ValueError("no legible text after mandatory OCR")
