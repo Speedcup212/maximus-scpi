@@ -55,6 +55,9 @@ jobs:
       - name: Surveillance signal regression tests
         run: npx vitest run src/tests/surveillanceSignals.test.ts src/tests/scpiPublicationFreshness.test.ts
 
+      - name: SCPI certified liquidity gates and structural regime regression tests
+        run: npx vitest run src/tests/certifiedLiquidity.test.ts
+
       - name: SCPI fiscal simulator regression tests
         run: npx vitest run src/tests/simpleDirectFiscal.test.ts
 
