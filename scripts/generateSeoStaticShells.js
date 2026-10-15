@@ -221,18 +221,25 @@ for (const page of PAGES) {
   fs.writeFileSync(target,html,'utf-8');
   generated++;
 }
-// Unknown news paths must not fall through to the homepage SPA with HTTP 200.
-// A real static news page shadows this unforced 404 rule.
+// Unknown /actualites/:slug/ paths return 404, while existing static news pages
+// shadow the UNFORCED guard. Preserve the SPA fallback byte-for-byte.
 const redirectFile = path.join(distDir, '_redirects');
-if (fs.existsSync(redirectFile)) {
-  let rules = fs.readFileSync(redirectFile, 'utf8');
-  const guard = '/actualites/* /404.html 404';
-  const fallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
-  if (!rules.split(/\r?\n/).some(line => line.trim() === guard)) {
-    if (!fallback.test(rules)) throw new Error('SPA fallback missing: cannot protect /actualites/*');
-    rules = rules.replace(fallback, guard + '\n' + 'console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);');
-    fs.writeFileSync(redirectFile, rules, 'utf8');
-  }
+if (!fs.existsSync(redirectFile)) {
+  throw new Error('Missing generated _redirects: cannot guarantee correct routing');
+}
+let rules = fs.readFileSync(redirectFile, 'utf8');
+const unknownNewsGuard = '/actualites/* /404.html 404';
+const spaFallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
+if (!spaFallback.test(rules)) {
+  throw new Error('SPA fallback missing: refuse to ship invalid Netlify redirects');
+}
+if (!rules.split(/\r?\n/).some(line => line.trim() === unknownNewsGuard)) {
+  rules = rules.replace(spaFallback, original => unknownNewsGuard + '\n' + original);
+  fs.writeFileSync(redirectFile, rules, 'utf8');
+}
+if (rules.indexOf(unknownNewsGuard) < 0 ||
+    rules.indexOf(unknownNewsGuard) > rules.search(spaFallback)) {
+  throw new Error('Unknown-news 404 must precede unchanged SPA fallback');
 }
 console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);
 if (generated + skipped !== PAGES.length) process.exit(1);
