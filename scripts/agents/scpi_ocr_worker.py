@@ -155,7 +155,10 @@ def self_test() -> None:
     pages = extract_pages(scanned.tobytes())
     assert pages[0]["method"] == "tesseract_ocr", pages
     assert "corum origin" in normalized(pages[0]["text"]), pages[0]["text"][:300]
-    assert document_identity_matches("coeur-d-europe", "Cœur d\u0027Europe", "COEUR D\u0027EUROPE")\n    assert document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsilon 360°")\n    assert not document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsicap Explore")\n    # Also test native text path with enough characters.
+    assert document_identity_matches("coeur-d-europe", "Cœur d\u0027Europe", "COEUR D\u0027EUROPE")
+    assert document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsilon 360°")
+    assert not document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsicap Explore")
+    # Also test native text path with enough characters.
     p.insert_text((48, 270), "Verification documentaire trimestrielle " * 5)
     native = extract_pages(src.tobytes())
     assert native[0]["method"] == "native_pdf_text", native
