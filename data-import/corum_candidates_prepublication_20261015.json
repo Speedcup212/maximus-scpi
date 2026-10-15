@@ -219,7 +219,26 @@
         "enjoyment_delay": 6,
         "minimum_investment": 215,
         "reconstitution_value": 222.12,
-        "capitalization_m": 1534.11
+        "capitalization_m": 1534.11,
+        "sector_allocation": {
+          "Bureaux": 73,
+          "Commerces": 7,
+          "Éducation et loisirs": 1,
+          "Hôtellerie": 11,
+          "Industrie et logistique": 8
+        },
+        "geographic_allocation": {
+          "Espagne": 6,
+          "Finlande": 8,
+          "France": 19,
+          "Irlande": 19,
+          "Italie": 1,
+          "Lettonie": 6,
+          "Pays-Bas": 27,
+          "Portugal": 14
+        },
+        "sector_class": "bureaux",
+        "geographic_scope": "europe"
       },
       "regulatory_documents": [
         {
@@ -289,6 +308,30 @@
           "verified_metric": "nombre_parts x prix_souscription",
           "derived": true,
           "basis": "calculated_2026_06_30"
+        },
+        "sector_allocation": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "geographic_allocation": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "sector_class": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
+        },
+        "geographic_scope": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "page": 4,
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+          "verified_metric": "publisher_official_T2_2026_allocation_100pct"
         }
       }
     },
