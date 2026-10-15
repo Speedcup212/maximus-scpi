@@ -1,0 +1,568 @@
+{
+  "generated_at": "2026-10-15",
+  "status": "private_staging_non_published",
+  "purpose": "Transversal prepublication shadow catalog. Financial statements must retain annual/quarter period semantics. Not an authorization to publish.",
+  "targets": [
+    "seo",
+    "comparateur",
+    "liquidite",
+    "simulateurs",
+    "analyse-radar",
+    "espace-client",
+    "sitemap"
+  ],
+  "scpi": [
+    {
+      "scpi_slug": "corum-eurion",
+      "name": "CORUM Eurion",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Eurion%20-%20%20Statuts%20%C3%A0%20jour%20-%2020260430%20%28site%20internet%29%201.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 12.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 14,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 18,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 6869531,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.73,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 2.75,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 42702,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 7135382,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 99.92,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "kind": "annual_report",
+          "pages": 27,
+          "period": "2025-RA",
+          "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627"
+        }
+      ]
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "name": "CORUM Origin",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Origin%20Statuts%20-%2020260430%201%20%281%29.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 73.8,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 16,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 6,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 3342316,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 11,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 6.5,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 17.85,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "ASSOCIES_AU_30_06_2026",
+          "value": 76169,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 3563192,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "PARTS_ATTENTE_RETRAIT_AU_30_06_2026",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.77,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "kind": "annual_report",
+          "pages": 31,
+          "period": "2025-RA",
+          "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61"
+        }
+      ]
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "name": "CORUM USA",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 6,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 15.4,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 13,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 0,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 324739,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 9,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 7.7,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 3.27,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 4716,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 387121,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 100,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "kind": "annual_report",
+          "pages": 25,
+          "period": "2025-RA",
+          "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7"
+        }
+      ]
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "name": "CORUM XL",
+      "management_company": "CORUM Asset Management",
+      "publication_authorized": false,
+      "analysis_certified": false,
+      "release_ready": false,
+      "annual_fields_qa_pass": 5,
+      "quarter_fields_qa_pass": 5,
+      "regulatory_and_source_registry_verified": true,
+      "dic_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+      "note_information_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+      "statutes_url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20XL%20-%20%20Statuts%20-%2020260430%201%20%281%29.pdf",
+      "annual_report_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+      "bulletin_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+      "evidence": [
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 10.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 15,
+          "unit": "PERCENT",
+          "basis": "ANNUAL_RATIO_OF_BANK_LOANS_TO_REALISATION_31_12_2025",
+          "value": 26,
+          "metric": "endettement_pct",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 10970968,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 10,
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.3,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "source": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 2,
+          "unit": "EUR_PER_PART",
+          "basis": "DIVIDENDE_BRUT_T2_2026_REALISE",
+          "value": 2.56,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 11117521,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "PARTS",
+          "basis": "PARTS_ATTENTE_RETRAIT_AU_30_06_2026",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 3,
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        },
+        {
+          "qa": "qa_pass",
+          "page": 4,
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.6,
+          "metric": "tof",
+          "period": "2026-T2",
+          "source": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf"
+        }
+      ],
+      "pdfs": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "kind": "annual_report",
+          "pages": 28,
+          "period": "2025-RA",
+          "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff"
+        }
+      ]
+    }
+  ]
+}
