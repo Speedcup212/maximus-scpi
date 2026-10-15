@@ -129,8 +129,11 @@ def extract_pages(pdf: bytes) -> list[dict]:
             alphabetic = len(re.findall(r"[A-Za-zÀ-ÿ]", native))
             if len(normalized_native) >= MIN_NATIVE_CHARS and alphabetic >= 65:
                 text, method = native, "native_pdf_text"
+            elif not native.strip() and not page.get_images(full=True) and not page.get_drawings():
+                # Truly blank pages do not need OCR. Reuse native result.
+                text, method = native, "native_pdf_text"
             else:
-                # Mandatory fallback, including mixed image/text PDFs.
+                # OCR only on individual pages whose native content is poor.
                 scanned = ocr_page(page)
                 text = scanned if len(scanned.strip()) >= len(native.strip()) else native
                 method = "tesseract_ocr"
@@ -158,6 +161,10 @@ def self_test() -> None:
     assert document_identity_matches("coeur-d-europe", "Cœur d\u0027Europe", "COEUR D\u0027EUROPE")
     assert document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsilon 360°")
     assert not document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsicap Explore")
+    # Blank pages must not burn OCR CPU or pretend to provide new evidence.
+    empty = fitz.open()
+    empty.new_page()
+    assert extract_pages(empty.tobytes())[0]["method"] == "native_pdf_text"
     # Also test native text path with enough characters.
     p.insert_text((48, 270), "Verification documentaire trimestrielle " * 5)
     native = extract_pages(src.tobytes())
