@@ -1,0 +1,1174 @@
+{
+  "snapshot_date": "2026-10-15",
+  "description": "Source and QA snapshot, 10 candidate SCPI, all publication disabled; no guarantee of complete financial histories.",
+  "scpi": [
+    {
+      "name": "Accès Valeur Pierre",
+      "slug": "acces-valeur-pierre",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/DIC_ACCES%20VALEUR%20PIERRE_2026_FR_VBNPP%20AM%20vdef.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "4b21eb66c3dcf24f93bcb41a59c69dd5794f6bc2f1334718701498f897b9eacf"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/Acc%C3%A8s%20Valeur%20Pierre_Note%20d%27information_01012026.pdf",
+          "kind": "note",
+          "pages": 32,
+          "sha256": "b059fbe925fc507a10fb650f3282755cdfe8eb3d73a25d8007a35414e21d0d36"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/AVP%20-%20Statuts%20-%20AG%20170626.pdf",
+          "kind": "statutes",
+          "pages": 13,
+          "sha256": "2b8077276c9e3b011ed05b20c6810cf7cbb95255f3c0b817816f7b48f42613e2"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+          "kind": "annual_report",
+          "pages": 72,
+          "period": "2025-RA",
+          "sha256": "eecaa88894b8e7a900629e6b81012be34ca67e72a01d3b7afcd1f364211fe236"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "ef0480622e4a8ed94f37195158606e098f321dcc8d136f78b813924d96e275da"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 29.46,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 3.85,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 625.5,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 765.12,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_Q2_2026_POINT_IN_TIME",
+          "value": 87.07,
+          "metric": "tof_quarterly",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        }
+      ],
+      "management_company": "BNP Paribas REIM France",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "Accimmo Pierre",
+      "slug": "accimmo-pierre",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/DIC_ACCIMMO%20PIERRE_2026_FR_VBNPP%20AM.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "40274fb063780d629dca730e93e20bf568f81ea9169c76fe194b4402d2581136"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/Accimmo%20Pierre%20-%20Note%20d%27information%20-%2022062026%20-%20%5BAIFM%20II%20-%20Quorum%5D.pdf",
+          "kind": "note",
+          "pages": 33,
+          "sha256": "ec2f63cea535ea980d8692d8ebc4471139e5acaf9bc1d020dc114818b0ea7b48"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/Accimmo_Pierre_-_Statuts_-MAJ_22062026_%28Hors_Modifs_SGP%29_-_vDEF.pdf",
+          "kind": "statutes",
+          "pages": 13,
+          "sha256": "e461391f94a6cd8b658558a6d77bd6b29d4d0e0ce03ac5cd8888dadd32274783"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+          "kind": "annual_report",
+          "pages": 43,
+          "period": "2025-RA",
+          "sha256": "f548b268225d9d2fc7946f03b4d8053af9566762d7253330d2c47f6957d2d048"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "2adc825b6776f9ea55f6d4bc1d55a55142b01957b49d486fa2472cdec35abb20"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 6.72,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 4.77,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 112.18,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 136.27,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_Q2_2026_POINT_IN_TIME",
+          "value": 87.44,
+          "metric": "tof_quarterly",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        }
+      ],
+      "management_company": "BNP Paribas REIM",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "CORUM Eurion",
+      "slug": "corum-eurion",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+          "kind": "note",
+          "pages": 28,
+          "sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Eurion%20-%20%20Statuts%20%C3%A0%20jour%20-%2020260430%20%28site%20internet%29%201.pdf",
+          "kind": "statutes",
+          "pages": 16,
+          "sha256": "4a6ddd3ce759d848051cc96654a96ebc758d36ffa7a8b6ff10c5245ecfca136e"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "kind": "annual_report",
+          "pages": 27,
+          "period": "2025-RA",
+          "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 12.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 6869531,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.73,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 2.75,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 2
+        },
+        {
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 42702,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 7135382,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 215,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 99.92,
+          "metric": "tof",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_NATIVE_TOF_FINANCIAL_4",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+          "source_page": 4
+        }
+      ],
+      "management_company": "CORUM Asset Management",
+      "final_release_ready": false,
+      "financial_core_ready": true
+    },
+    {
+      "name": "CORUM Origin",
+      "slug": "corum-origin",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+          "kind": "note",
+          "pages": 25,
+          "sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20Origin%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "kind": "statutes",
+          "pages": 16,
+          "sha256": "db820f5d66daa3bdc93a956bc61459dea529cd9d0c16a9b267ef6a74d6dfe46a"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "kind": "annual_report",
+          "pages": 31,
+          "period": "2025-RA",
+          "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "pages": 12,
+          "period": "2026-T2",
+          "sha256": "1c6a537714151489b38c7591140040262129187124acb170a14b171b977ed1dc",
+          "status": "done",
+          "ocr_pages": 12
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 73.8,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "source_page": 11
+        },
+        {
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 3342316,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "source_page": 11
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "source_page": 11
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 6.5,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+          "source_page": 11
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 17.85,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 3563192,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 1135,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.77,
+          "metric": "tof",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+          "source_page": 4
+        }
+      ],
+      "management_company": "CORUM Asset Management",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "CORUM USA",
+      "slug": "corum-usa",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "kind": "dic",
+          "pages": 4,
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+          "kind": "note",
+          "pages": 30,
+          "sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf",
+          "kind": "statutes",
+          "pages": 20,
+          "sha256": "bd2877f8ed8ffe075752a07479b7ba36e6ceae1c9cb48ea656fdc91095178fb5"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "kind": "annual_report",
+          "pages": 25,
+          "period": "2025-RA",
+          "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 8,
+          "period": "2026-T2",
+          "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 15.4,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "source_page": 9
+        },
+        {
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 324739,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "source_page": 9
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "source_page": 9
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 7.7,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+          "source_page": 9
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "dividende_brut_2026_T2",
+          "value": 3.27,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 2
+        },
+        {
+          "unit": "COUNT",
+          "basis": "stock_2026_06_30",
+          "value": 4716,
+          "metric": "nombre_associes",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 387121,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 0,
+          "metric": "parts_attente_retrait",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 200,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_SECOND_EXTRACT_PER_PAGE_NUMERIC_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_SNAPSHOT_2026_06_30",
+          "value": 100,
+          "metric": "tof",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_OFFICIAL_NATIVE_TOF_FINANCIAL_4",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+          "source_page": 4
+        }
+      ],
+      "management_company": "CORUM Asset Management",
+      "final_release_ready": false,
+      "financial_core_ready": true
+    },
+    {
+      "name": "CORUM XL",
+      "slug": "corum-xl",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+          "kind": "note",
+          "pages": 29,
+          "sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/Corum%20XL%20-%20%20Statuts%20-%2020260430%201%20%281%29.pdf",
+          "kind": "statutes",
+          "pages": 15,
+          "sha256": "db7d655c83ded50bc4b0abbecafc114f58f2fc65d9f55a28bc1cc3ca76736e16"
+        },
+        {
+          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "kind": "annual_report",
+          "pages": 28,
+          "period": "2025-RA",
+          "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff"
+        },
+        {
+          "kind": "quarterly_bulletin",
+          "pages": 12,
+          "period": "2026-T2",
+          "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+          "status": "done",
+          "ocr_pages": 12
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "gross_annual_2025",
+          "value": 10.33,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "PARTS",
+          "basis": "year_end_2025",
+          "value": 10970968,
+          "metric": "nombre_parts",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "year_end_2025",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "annual_2025",
+          "value": 5.3,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_OFFICIAL_PDF_VISUAL_4_PAGES_ARITHMETIC_ORIGINAL_PUBLISHER",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+          "source_page": 10
+        },
+        {
+          "unit": "PARTS",
+          "basis": "stock_2026_06_30",
+          "value": 11117521,
+          "metric": "nombre_parts",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "prix_part_2026_06_30",
+          "value": 195,
+          "metric": "prix_souscription",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "source_page": 3
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "occupation_2026_06_30",
+          "value": 95.6,
+          "metric": "tof",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_CORUM_PDF_OCR_SECOND_SOURCE_NUMERIC_CROSSCHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "source_page": 4
+        }
+      ],
+      "management_company": "CORUM Asset Management",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "France Investipierre",
+      "slug": "france-investipierre",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/DIC_FRANCE%20INVESTIPIERRE_2026_FR_VBNPP%20AM%20VDEF.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "b514544978894da6c57561b2c05b6a08bbb789a2e63b836eef7d24bfc20bb2b6"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/FIP-Note%20information%20-%20Maj%2011%2006%202026%20vclean.pdf",
+          "kind": "note",
+          "pages": 19,
+          "sha256": "aa20bb4ddeacb38573b1afac1103e528ce5ff27843b1022d2b96ba89829df87a"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/260611%20-%20France%20Investipierre%20-%20Statuts%20MAJ%20-%20Clean.pdf",
+          "kind": "statutes",
+          "pages": 10,
+          "sha256": "618b2db62a31bceb0acccf0bd5c75edf9fbf04f80e2e95afb47ecfb630acb225"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/FRANCE%20INVESTIPIERRE_RA_FR_2025_def.pdf",
+          "kind": "annual_report",
+          "pages": 64,
+          "period": "2025-RA",
+          "sha256": "5173da9cca524c9ce7e76b6d2ef66aac50ef582ef038f6bdbb41e8a5baa309cb"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/FRANCE%20INVESTIPIERRE_BT_FR_T2%202026_DEF.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "113c5036efd1163e995b245da31e31876fb1ef9c0fbda2ec01f7c5817fc61599"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 13.1,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/FRANCE%20INVESTIPIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 7.14,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/FRANCE%20INVESTIPIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 268.17,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/FRANCE%20INVESTIPIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 319.66,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/FRANCE%20INVESTIPIERRE_RA_FR_2025_def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "DIVIDENDE_REEL_T2_2026",
+          "value": 3.25,
+          "metric": "dividende_verse_t2_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/FRANCE%20INVESTIPIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_MOYEN_S1_2026_SEMESTER_NOT_Q2",
+          "value": 78.5,
+          "metric": "tof_semestre_pct",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/FRANCE%20INVESTIPIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        }
+      ],
+      "management_company": "BNP Paribas REIM France",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "Imarea Pierre",
+      "slug": "imarea-pierre",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/IMAREA%20PIERRE_DIC_FR_06012026.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "1e4b75c65f3323ca27b320c6afb0f6c6d5881d8907895b38a8b4e0960a83e1b4"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/SCPI%20IP%20-%20NI%20-%20v09062026.pdf",
+          "kind": "note",
+          "pages": 34,
+          "sha256": "10191835f5b991a6a2f83eaf3826690526e31a6379c714ebfab665cbf0991229"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/IMAREA_PIERRE%20-%20Statuts%20-%20AG%20090626.pdf",
+          "kind": "statutes",
+          "pages": 13,
+          "sha256": "7146801e6c6a5be10c294445139495af3c879f550b27ad0b744e145d9e895b13"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/IP_RA2025_web.pdf",
+          "kind": "annual_report",
+          "pages": 60,
+          "period": "2025-RA",
+          "sha256": "edb06a5babd3285e7cebff58bf32db5c467b7e2a97075dff7575444f2f857e61"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/IMAREA%20PIERRE_BT_FR_T2%202026_def.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "13c3c669312cd9d7d2dee91a46c77df4a828a7c141ec07be2271d801ce2ce509"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 1.63,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/IP_RA2025_web.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 8.17,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/IP_RA2025_web.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 18.02,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/IP_RA2025_web.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 21.01,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/IP_RA2025_web.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "DISTRIBUTION_BRUTE_T2_2026",
+          "value": 0.58,
+          "metric": "distribution_brute_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/IMAREA%20PIERRE_BT_FR_T2%202026_def.pdf",
+          "source_page": 2
+        }
+      ],
+      "management_company": "BNP Paribas REIM",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "Opus Real",
+      "slug": "opus-real",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/OPUS%20REAL_DIC_FR_05032026-%20vdef.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "9ded0b03575d9895fd419ed9fc5dd2eaa0276499784e72c8aa1295aef3c4ef12"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+          "kind": "note",
+          "pages": 29,
+          "sha256": "4da86245c7814f5cb743407f357c94387cc254aec22db51430d97dc51fbb9ac6"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+          "kind": "statutes",
+          "pages": 12,
+          "sha256": "3448095ab3c154ee70989aba4a7bbbe801509462bc0a0d9d082ef8674b873b38"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "kind": "annual_report",
+          "pages": 29,
+          "period": "2025-RA",
+          "sha256": "ef9192613c9befd1b7b55f73beb77c2704a67edadb233395c60f01a7bee13e99"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/OPUS%20REAL_BT_FR_T2%202026_DEF.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "1409b98c8f741bd83b577c16dec60af2ff4f7c2b8e56257b6a61cc821db1d3e2"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 57.81,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 3.56,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 1179.84,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "source_page": 4
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 1436.35,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "source_page": 4
+        }
+      ],
+      "management_company": "BNP Paribas AM",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    },
+    {
+      "name": "Pierre Sélection",
+      "slug": "pierre-selection",
+      "stage": "primary_source_found",
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/DIC_PIERRE%20SELECTION_2026_FR_VBNPP%20AM%20VDEF.pdf",
+          "kind": "dic",
+          "pages": 3,
+          "sha256": "fa0215ec93fc03920a6b0b00dee189713019d962786ef9883f5939bd84aa9b44"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2025-08/Pierre%20S%C3%A9lection%20-%20Note%20d%27information%2027.08.2025%20VAG%20-%20CLEAN.pdf",
+          "kind": "note",
+          "pages": 30,
+          "sha256": "1b6cc86e57bc2dff9fca6425b579281fa72fc78f70dda431e836573cf942d3d8"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2025-10/PIERRE%20SELECTION%20STATUTS%20%20-%20MAJ%2001.07.2025%20VFINAL.pdf",
+          "kind": "statutes",
+          "pages": 13,
+          "sha256": "690405a8e73cfd30b3ab7aa8b680902f15e78060ffd939a0cef4a861da0c2fc6"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/PIERRE%20SELECTION%20RA%20FR%202025%20def.pdf",
+          "kind": "annual_report",
+          "pages": 60,
+          "period": "2025-RA",
+          "sha256": "728b4f613fadd154833a77c5502acdda37d76b3d1cffa0f0d16da3caf6635141"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/PIERRE%20SELECTION_BT_FR_T2%202026_DEF.pdf",
+          "kind": "quarterly_bulletin",
+          "pages": 7,
+          "period": "2026-T2",
+          "sha256": "f9437e66db2896b3255f51aa648788bba5556e9b0a80f43522404c9ad5cc55fa"
+        }
+      ],
+      "qa_metrics": [
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "ANNUAL_GROSS_DISTRIBUTION_2025",
+          "value": 17,
+          "metric": "distribution_brute_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/PIERRE%20SELECTION%20RA%20FR%202025%20def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "ANNUAL_DISTRIBUTION_RATE_2025",
+          "value": 7.98,
+          "metric": "taux_distribution",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/PIERRE%20SELECTION%20RA%20FR%202025%20def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 302.5,
+          "metric": "valeur_realisation_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/PIERRE%20SELECTION%20RA%20FR%202025%20def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "31_Dec_2025",
+          "value": 373.98,
+          "metric": "valeur_reconstitution_par_part",
+          "period": "2025-RA",
+          "reviewer": "QA_2026_10_15_BNP_DOUBLE_PDF_EXTRACTION_ANNUAL_TABLE",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/PIERRE%20SELECTION%20RA%20FR%202025%20def.pdf",
+          "source_page": 7
+        },
+        {
+          "unit": "EUR_PER_PART",
+          "basis": "DIVIDENDE_REEL_T2_2026",
+          "value": 4,
+          "metric": "dividende_verse_t2_par_part",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/PIERRE%20SELECTION_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        },
+        {
+          "unit": "PERCENT",
+          "basis": "TOF_MOYEN_S1_2026_SEMESTER_NOT_Q2",
+          "value": 92.7,
+          "metric": "tof_semestre_pct",
+          "period": "2026-T2",
+          "reviewer": "QA_2026_10_15_BNP_OFFICIAL_PDF_SOURCE_AND_PERIOD_CHECK",
+          "qa_status": "qa_pass",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/PIERRE%20SELECTION_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2
+        }
+      ],
+      "management_company": "BNP Paribas REIM",
+      "final_release_ready": false,
+      "financial_core_ready": false
+    }
+  ]
+}
