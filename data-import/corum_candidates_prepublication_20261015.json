@@ -154,7 +154,33 @@
           "period": "2026-T2",
           "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627"
         }
-      ]
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "qa": "qa_pass",
+          "evidence": "que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque de ce produit par rapport à d’autres. Il indique la probabilité que ce produit enregistre des pertes en cas de mouvements sur les marchés. À risque faible À ri"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 3,
+          "unit": "SRI_1_TO_7",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29%20-%202026.pdf",
+          "sha256": "f1e3a7fb2737f6bdcb19727b1ce3bff3b2f82f19bc68466e6d6ebace860a92f1",
+          "qa": "qa_pass",
+          "evidence": "indicateur exact. Ce que vous obtiendrez dépendra de l’évolution du marché et de la durée pendant laquelle vous conserverez l’investissement ou le produit. Il n’est pas facile de sortir de ce produit. Si vous sortez de l’investissement avant la fin de période de détention recommandée, aucune garantie ne vous est donnée et vous pourriez subir des coûts supplémentaires. QUELS SONT LES RISQUES ET QU’EST-CE QUE CELA POURRAIT ME RAPPORTER ? Nous avons"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 3,
+        "recommended_holding_years": 10
+      }
     },
     {
       "scpi_slug": "corum-origin",
@@ -301,7 +327,33 @@
           "text_characters": 22954,
           "verification": "ocr_pages_verified"
         }
-      ]
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "page": 3,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "qa": "qa_pass",
+          "evidence": "demande à conformite@ corumlepargne.fr. Vous pouvez formuler une réclamation en écrivant à l’adresse conformite@corumlepargne.fr. COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L’ARGENT DE FAÇON ANTICIPÉE ? PÉRIODE DE DÉTENTION RECOMMANDÉE : 10 ANS Il est possible de racheter ses parts au prix de retrait avant la fin de la période de détention recommandée. Il n’y a pas de frais de sortie ni de pénalité. La sortie n’est possible que s"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 3,
+          "unit": "SRI_1_TO_7",
+          "page": 1,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-%202026.pdf",
+          "sha256": "e46448c398fc741464e0f4cd3e64a9699e4de000d27a7164b0930de00b0babad",
+          "qa": "qa_pass",
+          "evidence": "ÉMENTAIRES : La documentation légale obligatoire (statuts, note d’information, rapports annuels) et les documents de souscription sont disponibles sur www. corumbutler.com. Nous avons classé ce produit dans la classe de risque 3 sur 7, qui est une classe de risque moyenne. Autrement dit, les pertes potentielles liées aux futurs résultats du produit se situent à un niveau entre faible et moyen et, si la situation venait à se détériorer sur les mar"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 3,
+        "recommended_holding_years": 10
+      }
     },
     {
       "scpi_slug": "corum-usa",
@@ -445,7 +497,33 @@
           "period": "2026-T2",
           "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7"
         }
-      ]
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "qa": "qa_pass",
+          "evidence": "par le dépositaire ne seront pas affectés. En cas de défaillance du dépositaire, le risque de perte financière de CORUM USA est atténué en raison de la ségrégation légale des actifs du dépositaire de ceux de CORUM USA. L’investissement dans une SCPI n’est pas garanti ni couvert par un système national de compensation. INVESTISSEMENT 10 000€ 1 an 5 ans 10 ans SCÉNARIOS DURÉE DE DÉTENTION RECOMMANDÉE : 10 ans Scénario de tensions Scénario défavorab"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 4,
+          "unit": "SRI_1_TO_7",
+          "page": 2,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20FR2%20-%20Document%20d%27Information%20Cl%C3%A9s%20-%202026.pdf",
+          "sha256": "e3c51c4038625fe410377c04005a88b7c488d3af00f269c4e5fe4c680e9b0650",
+          "qa": "qa_pass",
+          "evidence": "P.2/4 DOCUMENTS D’INFORMATIONS CLÉS QUELS SONT LES RISQUES ET QU’EST-CE QUE CELA POURRAIT ME RAPPORTER ? L’indicateur synthétique de risque part de l’hypothèse que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 4,
+        "recommended_holding_years": 10
+      }
     },
     {
       "scpi_slug": "corum-xl",
@@ -582,7 +660,33 @@
           "text_characters": 23576,
           "verification": "ocr_pages_verified"
         }
-      ]
+      ],
+      "regulatory_metrics": [
+        {
+          "metric": "recommended_holding_years",
+          "value": 10,
+          "unit": "YEARS",
+          "page": 3,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "qa": "qa_pass",
+          "evidence": "demande à conformite@ corumlepargne.fr. Vous pouvez formuler une réclamation en écrivant à l’adresse conformite@corumlepargne.fr. COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L’ARGENT DE FAÇON ANTICIPÉE ? PÉRIODE DE DÉTENTION RECOMMANDÉE : 10 ANS Il est possible de racheter ses parts au prix de retrait avant la fin de la période de détention recommandée. Il n’y a pas de frais de sortie ni de pénalité. La sortie n’est possible que s"
+        },
+        {
+          "metric": "risk_sri",
+          "value": 4,
+          "unit": "SRI_1_TO_7",
+          "page": 1,
+          "source": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20FR1%20-%20Document%20d%27Informations%20Cl%C3%A9s%20%28KID%29-2026.pdf",
+          "sha256": "ca423d98cf7b51d7ea281a51ac63f8ff2b482648b2d92600243d01f5f5ea913b",
+          "qa": "qa_pass",
+          "evidence": "que vous conservez le produit pendant 10 années. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui influera sensiblement sur le montant que vous percevrez en retour. L’indicateur synthétique de risque permet d’apprécier le niveau de risque de ce produit par rapport à d’autres. Il indique la probabilité que ce produit enregistre des pertes en cas de mouvements sur les marchés. Nous avons classé ce"
+        }
+      ],
+      "publishing_fields": {
+        "risk_sri": 4,
+        "recommended_holding_years": 10
+      }
     }
   ]
 }
