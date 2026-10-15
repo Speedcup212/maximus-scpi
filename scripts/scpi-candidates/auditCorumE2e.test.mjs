@@ -32,8 +32,10 @@ test('missing fees, risk, or liquidity blocks publication, never coerces to zero
   const r=auditCandidate({...candidate,release_ready:true,publication_authorized:true,analysis_certified:true,
    surface_tests:Object.fromEntries(['seo_page','sitemap','comparateur','liquidite','simulateur_direct','simulateur_revente','simulateur_demembrement','score_radar','espace_client','parcours_souscription'].map(k=>[k,'pass']))});
   assert.equal(r.ready,false);
-  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:risk_sri'));
+  assert.ok(!r.blockers.includes('dic_risque_non_verifie:risk_sri'));
+  assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:risk_sri'));
   assert.ok(r.blockers.includes('champ_affichage_non_qualifie:liquidity_basis'));
+  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:subscription_fees'));
  }
 });
 test('2025 gross distribution and 2026 quarter flows are never interchangeable',()=>{
@@ -58,4 +60,16 @@ test('duplicated or corrupt source-page evidence is rejected',()=>{
  const b=auditCandidate({...base,pdfs:[]});
  assert.ok(b.blockers.includes('document_empreinte_manquant:2025-RA'));
  assert.ok(b.blockers.includes('document_empreinte_manquant:2026-T2'));
+});
+test('the four DIC risk levels come from their own exact PDF fingerprints',()=>{
+ const expected={'corum-origin':3,'corum-eurion':3,'corum-xl':4,'corum-usa':4};
+ for(const candidate of source.scpi){
+  const dic=candidate.regulatory_documents.find(x=>x.kind==='dic');
+  const sri=candidate.regulatory_metrics.find(x=>x.metric==='risk_sri');
+  const hold=candidate.regulatory_metrics.find(x=>x.metric==='recommended_holding_years');
+  assert.equal(sri.value,expected[candidate.scpi_slug]);
+  assert.equal(sri.sha256,dic.sha256);
+  assert.equal(hold.value,10);
+  assert.equal(hold.sha256,dic.sha256);
+ }
 });
