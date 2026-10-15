@@ -66,7 +66,6 @@ const ScpiDetailPage = lazy(() => import('./components/ScpiDetailPage'));
 const ThematicLandingPage = lazy(() => import('./components/ThematicLandingPage'));
 const OptimizedScpiLandingPage = lazy(() => import('./components/OptimizedScpiLandingPage'));
 const OptimizedThematicLandingPage = lazy(() => import('./components/OptimizedThematicLandingPage'));
-const StaticScpiPage = lazy(() => import('./components/StaticScpiPage'));
 const FintechComparator = lazy(() => import('./components/fintech/FintechComparator'));
 const ComparisonTable = lazy(() => import('./components/ComparisonTable'));
 const GuidedJourney = lazy(() => import('./components/guidedJourney/GuidedJourney'));
@@ -1876,7 +1875,7 @@ const App: React.FC = () => {
       setSelectedScpiKey(slug);
       setCurrentView('scpi-optimized');
     } else {
-      // Fallback ultime vers StaticScpiPage si le slug ne correspond à aucune SCPI connue
+      // Aucune fiche alternative non certifiée : afficher la disponibilité, pas des chiffres obsolètes.
       setSelectedScpiKey(slug);
       setCurrentView('scpi-static');
     }
