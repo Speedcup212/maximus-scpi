@@ -27,7 +27,11 @@ concurrency:
 jobs:
   pdf-ocr:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        slot: [1, 2, 3]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
