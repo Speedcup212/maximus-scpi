@@ -22,6 +22,15 @@ import { Scpi } from '../types/scpi';
 
 const NA = 'Non disponible';
 
+// Candidate values from an older appraisal must NOT create a discount to the
+// current subscription price. Require an independently publishable comparability
+// verdict for every newly released product.
+function qualifiedDiscount(scpi: Scpi): string {
+  if (scpi.maximusDataStatus === 'certified_and_final_reviewed' &&
+      scpi.discountQaStatus !== 'publishable') return NA;
+  return formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution));
+}
+
 function formatCurrency(amount: number | null | undefined): string {
   if (typeof amount !== 'number' || !Number.isFinite(amount)) return NA;
   if (amount >= 1_000_000_000) return (amount / 1_000_000_000).toFixed(1) + ' Md€';
@@ -81,7 +90,7 @@ function enrichEditorialWithLive(editorial: ScpiLandingData, scpi?: Scpi): ScpiL
     prix_souscription: formatCurrency(scpi.price),
     rendement: formatPercent(scpi.yield),
     tof: formatPercent(scpi.tof),
-    decote: formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution)),
+    decote: qualifiedDiscount(scpi),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : editorial.endettement,
     frais_souscription: formatFees(scpi.fees),
     frequence_versement: scpi.versementLoyers || editorial.frequence_versement,
@@ -184,7 +193,7 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
     prix_souscription: formatCurrency(scpi.price),
     rendement: formatPercent(scpi.yield),
     tof: formatPercent(scpi.tof),
-    decote: formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution)),
+    decote: qualifiedDiscount(scpi),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : NA,
     frais_souscription: typeof scpi.fees === 'number' ? formatFees(scpi.fees) : NA,
     frequence_versement: scpi.versementLoyers || undefined,
