@@ -35,7 +35,7 @@ test('missing fees, risk, or liquidity blocks publication, never coerces to zero
   assert.ok(!r.blockers.includes('dic_risque_non_verifie:risk_sri'));
   assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:risk_sri'));
   assert.ok(r.blockers.includes('champ_affichage_non_qualifie:liquidity_basis'));
-  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:subscription_fees'));
+  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
  }
 });
 test('2025 gross distribution and 2026 quarter flows are never interchangeable',()=>{
