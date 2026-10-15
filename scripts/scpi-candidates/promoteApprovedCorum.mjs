@@ -34,7 +34,8 @@ function rowFromCandidate(c) {
  const risky=['creation_year','minimum_investment','subscription_fees','management_fees',
   'reconstitution_value','risk_sri','liquidity_basis','withdrawal_terms',
   'enjoyment_delay','sector_allocation','geographic_allocation','sfdr',
-  'capitalization_m','sector_class','geographic_scope'];
+  'capitalization_m','sector_class','geographic_scope','label_isr',
+  'payment_frequency','risk_warnings','recommended_holding_years'];
  for(const field of risky)sourceHint(c,field);
  const price=quarter(c,'prix_souscription'), parts=quarter(c,'nombre_parts');
  const cap=num(x.capitalization_m,'capitalization_m');
@@ -55,6 +56,14 @@ function rowFromCandidate(c) {
    throw Error('DIC holding period mismatch');
  if(typeof x.withdrawal_terms!=='string'||x.withdrawal_terms.length<35)
    throw Error('Withdrawal conditions not evidenced');
+ if(typeof x.label_isr!=='boolean')throw Error('Unknown ISR label');
+ if(!Array.isArray(x.risk_warnings)||x.risk_warnings.length<1||
+   x.risk_warnings.some(w=>typeof w!=='string'||w.length<24))
+   throw Error('Missing documented risk warnings');
+ if(!['Mensuelle','Trimestrielle'].includes(x.payment_frequency))
+   throw Error('Unverified income frequency');
+ if(!['Article 6','Article 8','Article 9'].includes(x.sfdr))
+   throw Error('SFDR classification not verified');
  return {
   'Nom SCPI':c.name,'Société de gestion':c.management_company,
   'Année de création':num(x.creation_year,'creation_year'),
