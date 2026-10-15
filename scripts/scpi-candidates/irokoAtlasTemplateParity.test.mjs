@@ -53,8 +53,8 @@ test('Public product data is the common source for comparateur and investment si
  assert.match(ext,/const newlyReleased = scpiData/);
  assert.match(ext,/certifiedScpiSlugSet/);
  assert.match(source('src/components/fintech/FintechComparator.tsx'),/scpiDataExtended/);
- assert.match(source('src/components/ScpiSecondaryMarketSimulator.tsx'),/from '..\\/data\\/scpiData'/);
- assert.match(template,/defaultYield=\\{landingData\\.simulator\\.defaultYield\\}/);
+ assert.ok(source('src/components/ScpiSecondaryMarketSimulator.tsx').includes("from '../data/scpiData'"));
+ assert.ok(template.includes('defaultYield={landingData.simulator.defaultYield}'));
 });
 
 test('Analyse, trajectoire, radar and client consume real slug-keyed data, not CORUM mock visuals',()=>{
