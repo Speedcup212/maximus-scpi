@@ -1,0 +1,58 @@
+name: MaximusSCPI - mandatory PDF OCR fallback
+
+on:
+  # Automatic processing of verified PDF candidates, including newly scanned PDFs.
+  schedule:
+    - cron: "12 5,11,17 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-scpi-ocr.yml"
+      - "scripts/agents/scpi_ocr_worker.py"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-scpi-ocr.yml"
+      - "scripts/agents/scpi_ocr_worker.py"
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: maximus-scpi-pdf-ocr
+  cancel-in-progress: false
+
+jobs:
+  pdf-ocr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Python OCR runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install local OCR engines
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
+          python -m pip install --disable-pip-version-check --no-input 'PyMuPDF==1.26.5'
+          tesseract --list-langs
+
+      - name: Crash test mixed/selectable/scanned PDF
+        run: python scripts/agents/scpi_ocr_worker.py --self-test
+
+      - name: OCR one queued official SCPI PDF through restricted OIDC bridge
+        if: github.event_name != 'pull_request'
+        run: python scripts/agents/scpi_ocr_worker.py --run
+
+      # No public publish, no marketing, no Netlify deploy.
+      # OCR pages and checksums are private. Numeric candidate validation
+      # remains pending independent QA.
