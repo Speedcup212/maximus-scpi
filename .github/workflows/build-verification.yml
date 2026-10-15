@@ -71,6 +71,9 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: CORUM atomic SEO sitemap release verification
+        run: node scripts/scpi-candidates/assertCorumReleaseSeo.mjs
+
       - name: SEO redirects and static shell regression
         run: node --test scripts/test-execution-seo.mjs
 
