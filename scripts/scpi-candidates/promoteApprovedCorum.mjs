@@ -112,6 +112,24 @@ async function liveApproval(candidates) {
   headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},
   body:JSON.stringify({p_slugs:candidates.map(x=>x.scpi_slug)})
  });
+ // A finance-only signature is insufficient: verify the six REAL tool streams
+ // for the exact same SCPI slug before modifying the public catalog.
+ const allTools=await fetch(url+'/rest/v1/rpc/maximus_candidate_tool_clearance',{
+  method:'POST',
+  headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},
+  body:JSON.stringify({p_slugs:candidates.map(x=>x.scpi_slug)})
+ });
+ if(!allTools.ok)throw Error('Live tool-parity clearance HTTP '+allTools.status);
+ const actualTools=await allTools.json();
+ if(!Array.isArray(actualTools)||actualTools.length!==candidates.length)
+  throw Error('Live tool coverage mismatch');
+ for(const candidate of candidates){
+  const t=actualTools.find(x=>x.scpi_slug===candidate.scpi_slug);
+  if(!t||!t.full_surface_ready||!t.catalog_and_simulator_ready||
+    !t.comparator_radar_ready||!t.client_card_ready||!t.analysis_ready||
+    !t.trajectory_ready||!t.liquidity_ready)
+   throw Error('Iroko Atlas feature parity incomplete (SEO/comparator/analysis/radar/trajectory/client/liquidity) for '+candidate.scpi_slug);
+ }
  if(!response.ok)throw Error('Live release authorization HTTP '+response.status);
  const live=await response.json();
  if(!Array.isArray(live)||live.length!==candidates.length)throw Error('Live release coverage mismatch');
