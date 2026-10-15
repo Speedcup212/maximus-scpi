@@ -141,7 +141,18 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
       { scpi_slug: 'transitions-europe', source_period: '2026-T2', parts_attente_retrait: 0, prix_retrait: 178, tof: 99 },
     ] }));
     fs.writeFileSync(path.join(fixture, 'dist/index.html'), '<!doctype html><html><head><title>Home</title><link rel="canonical" href="https://maximusscpi.com/"/><script type="module" src="/assets/app.js"></script><script type="application/ld+json">{"@type":"WebPage","url":"https://maximusscpi.com/"}</script></head><body><div id="root"><main><div><h1>SCPI Testez. Comparez. Décidez.</h1></div></main></div></body></html>');
+    const spaRedirect = '/* /index.html 200';
+    fs.writeFileSync(path.join(fixture, 'dist/_redirects'), '# Netlify SPA fallback\n' + spaRedirect + '\n', 'utf8');
     for (const script of ['generateOptimizedStaticPages.js', 'enrichScpiStaticHtml.mjs', 'generateSeoStaticShells.js']) execFileSync(process.execPath, [path.join(fixture, 'scripts', script)], { cwd: fixture });
+    const redirectsPath = path.join(fixture, 'dist/_redirects');
+    const rules = fs.readFileSync(redirectsPath, 'utf8');
+    const unknownNewsGuard = '/actualites/* /404.html 404';
+    assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === unknownNewsGuard).length, 1);
+    assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === spaRedirect).length, 1);
+    assert.ok(rules.indexOf(unknownNewsGuard) < rules.indexOf(spaRedirect));
+    assert.doesNotMatch(rules, /console\.log|generated|skipped|Rattrapage SEO/);
+    execFileSync(process.execPath, [path.join(fixture, 'scripts/generateSeoStaticShells.js')], { cwd: fixture });
+    assert.equal(fs.readFileSync(redirectsPath, 'utf8'), rules, 'rerun must not duplicate the news guard');
     const transitions = fs.readFileSync(path.join(fixture, 'dist/transitions-europe/index.html'), 'utf8');
     assert.match(transitions, /<h1>SCPI Transitions Europe : analyse, indicateurs et risques<\/h1>/);
     assert.doesNotMatch(transitions, /135 M€|Testez\. Comparez\. Décidez\.|\\n/);
