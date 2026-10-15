@@ -49,6 +49,19 @@ export function auditCandidate(candidate) {
   const partcount=metric('2026-T2','nombre_parts');
   if(queued&&partcount)checked(Number(queued.value)>=0&&Number(queued.value)<=Number(partcount.value),'liquidite_incoherente');
   for(const key of REG_DOCS)checked(/^https:\/\//.test(candidate[key]||''),'reglementaire_absent:'+key);
+  const regDocs=Array.isArray(candidate.regulatory_documents)?candidate.regulatory_documents:[];
+  for(const [kind,key] of [['dic','dic_url'],['note','note_information_url'],['statutes','statutes_url']]){
+    checked(regDocs.some(d=>d.kind===kind&&d.url===candidate[key]&&
+      /^[a-f0-9]{64}$/.test(d.sha256||'')&&d.pages>0),'reglementaire_empreinte_absente:'+kind);
+  }
+  const dic=regDocs.find(x=>x.kind==='dic');
+  for(const metric of ['risk_sri','recommended_holding_years']){
+    const proof=candidate.regulatory_metrics?.find(x=>x.metric===metric&&x.qa==='qa_pass'&&
+      x.sha256===dic?.sha256&&x.source===dic?.url&&x.page>0);
+    checked(!!proof,'dic_risque_non_verifie:'+metric);
+    checked(candidate.publishing_fields?.[metric]===proof?.value,
+      'dic_provenance_incoherente:'+metric);
+  }
   // Static source evidence is NOT an authorization to publish.
   checked(candidate.release_ready===true,'validation_finale_non_obtenue');
   checked(candidate.publication_authorized===true,'autorisation_publication_absente');
@@ -56,8 +69,10 @@ export function auditCandidate(candidate) {
   // Unknown fields must not silently become 0 or an optimistic description.
   const essentials=[
     'creation_year','minimum_investment','subscription_fees','management_fees',
-    'reconstitution_value','risk_sri','liquidity_basis','withdrawal_terms',
-    'enjoyment_delay','sector_allocation','geographic_allocation','sfdr'
+    'reconstitution_value','risk_sri','recommended_holding_years','liquidity_basis',
+    'withdrawal_terms','enjoyment_delay','sector_allocation','geographic_allocation',
+    'sfdr','capitalization_m','sector_class','geographic_scope','payment_frequency',
+    'risk_warnings','label_isr'
   ];
   for(const field of essentials){
     const v=candidate.publishing_fields?.[field];
@@ -65,6 +80,11 @@ export function auditCandidate(candidate) {
       (typeof v!=='number'||Number.isFinite(v))&&
       (!Array.isArray(v)||v.length>0),'champ_affichage_non_qualifie:'+field);
   }
+  for(const field of essentials)checked(
+    /^[a-f0-9]{64}$/.test(candidate.publishing_sources?.[field]?.sha256||'') &&
+    /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
+    Number(candidate.publishing_sources?.[field]?.page)>0,
+    'preuve_affichage_absente:'+field);
   for(const k of UI_SURFACES)checked(candidate.surface_tests?.[k]==='pass','parcours_non_teste:'+k);
   const dup=metrics.filter(e=>{const id=e.period+':'+e.metric;if(unique.has(id))return true;unique.add(id);return false});
   checked(dup.length===0,'indicateurs_dupliques');
