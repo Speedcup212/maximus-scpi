@@ -136,6 +136,7 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
       { 'Nom SCPI': 'Comète', maximus_source_periode: '2026-T2', maximus_editorial_news: news },
     ];
     fs.writeFileSync(path.join(fixture, 'src/data/scpi_complet.json'), JSON.stringify(catalog));
+    fs.writeFileSync(path.join(fixture, 'src/data/certified_scpi_cohort.json'), JSON.stringify({ count: 2, slugs: ['transitions-europe', 'comete'] }));
     fs.writeFileSync(path.join(fixture, 'src/data/scpiIndicatorHistory.json'), JSON.stringify({ rows: [
       { scpi_slug: 'transitions-europe', source_period: '2026-T1', parts_attente_retrait: 3, prix_retrait: 180, tof: 98 },
       { scpi_slug: 'transitions-europe', source_period: '2026-T2', parts_attente_retrait: 0, prix_retrait: 178, tof: 99 },
