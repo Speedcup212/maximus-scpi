@@ -241,9 +241,5 @@ if (rules.indexOf(unknownNewsGuard) < 0 ||
     rules.indexOf(unknownNewsGuard) > rules.search(spaFallback)) {
   throw new Error('Unknown-news 404 must precede unchanged SPA fallback');
 }
-console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);');
-    fs.writeFileSync(redirectFile, rules, 'utf8');
-  }
-}
 console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);
 if (generated + skipped !== PAGES.length) process.exit(1);
