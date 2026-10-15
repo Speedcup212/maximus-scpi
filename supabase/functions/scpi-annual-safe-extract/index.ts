@@ -23,14 +23,26 @@ function extract(ps:string[]){const out:Cand[]=[];ps.forEach((raw,ix)=>{const t=
  });return out;}
 Deno.serve(async(req:Request)=>{if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});const base=Deno.env.get("SUPABASE_URL")||"",key=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});const token=req.headers.get("x-annual-token")||"";const {data:cfg}=await db.from("scpi_bulletin_runtime_config").select("value").eq("key","annual_cron_token_sha256").maybeSingle();if(!token||!cfg||cfg.value!==await shaText(token))return Response.json({error:"unauthorized"},{status:401});let body:any={};try{body=await req.json();}catch{}const slug=String(body.slug||""),year=Number(body.year||2025);const {data:r}=await db.from("scpi_annual_reports").select("id,source_url,qa_status").eq("scpi_slug",slug).eq("fiscal_year",year).maybeSingle();if(!r||r.qa_status!=="source_verified_content")return Response.json({ok:false,status:"report_not_verified",slug,year});const {data:s}=await db.from("scpi_source_registry").select("official_scpi_page_url,source_domain").eq("scpi_slug",slug).maybeSingle();try{const b=await getPdf(r.source_url,s?.official_scpi_page_url||s?.source_domain);
 let ps=await pagesOf(b);let ocrRecovered=false;
-if(ps.join(" ").trim().length<600){
 const digest=await crypto.subtle.digest("SHA-256",b);
 const hash=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join("");
 const period=String(year)+"-RA";
-const {data:ocr,error:oe}=await db.rpc("scpi_ocr_read_verified_pages",{p_slug:slug,p_period:period,p_kind:"annual_report",p_url:r.source_url,p_sha256:hash});
-if(oe)throw oe;
-if(ocr?.length){const recovered=Array(ps.length).fill("");for(const x of ocr)if(x.page_number>0&&x.page_number<=recovered.length)recovered[x.page_number-1]=x.page_text;ps=recovered;ocrRecovered=true;}
-else {const {data:queue,error:qe}=await db.rpc("scpi_ocr_request_fallback",{p_slug:slug,p_period:period,p_kind:"annual_report",p_url:r.source_url});if(qe)throw qe;return Response.json({ok:false,status:"ocr_pending",slug,year,queue});}
+const {data:ocr,error:readErr}=await db.rpc("scpi_ocr_read_verified_pages",{
+ p_slug:slug,p_period:period,p_kind:"annual_report",p_url:r.source_url,p_sha256:hash
+});
+if(readErr)throw readErr;
+if(ocr?.length){
+  const recovered=Array(ps.length).fill("");
+  for(const x of ocr)if(x.page_number>0&&x.page_number<=recovered.length)recovered[x.page_number-1]=x.page_text;
+  ps=ps.map((x,i)=>recovered[i]||x);ocrRecovered=true;
+}else{
+  const sparse=ps.length>3&&ps.filter(x=>x.trim().length<50).length>ps.length*0.35;
+  if(ps.join(" ").trim().length<600||sparse){
+    const {data:queue,error:qe}=await db.rpc("scpi_ocr_request_fallback",{
+      p_slug:slug,p_period:period,p_kind:"annual_report",p_url:r.source_url
+    });
+    if(qe)throw qe;
+    return Response.json({ok:false,status:"ocr_pending",slug,year,queue});
+  }
 }
 const cs=extract(ps);await db.from("scpi_annual_metric_candidates").delete().eq("scpi_slug",slug).eq("fiscal_year",year);if(cs.length){await db.from("scpi_annual_metric_candidates").insert(cs.map(c=>({scpi_slug:slug,fiscal_year:year,metric:c.metric,value_numeric:c.value,unit:c.unit,source_page:c.page,evidence_text:c.evidence,confidence:c.confidence,status:'candidate',source_report_id:r.id})));}
  if(ocrRecovered)return Response.json({ok:true,status:"ocr_candidates_pending_independent_qa",slug,year,pages:ps.length,candidates:cs.length,promoted:[]});
