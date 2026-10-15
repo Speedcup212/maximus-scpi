@@ -9,7 +9,7 @@ import { Scpi } from '../types/scpi';
  * Source unique de la donnée alimentant le template `OptimizedScpiLandingPage`.
  *
  * Objectif : que TOUTE SCPI visible ait la même structure de page que les
- * anciennes (ex. /sofiprime), sans dupliquer le design.
+ * anciennes (modèle unique : /iroko-atlas/), sans dupliquer le design.
  *
  * - Si une fiche éditoriale existe (`scpiLandingPages`), on l'utilise telle quelle.
  * - Sinon, on GÉNÈRE une fiche par défaut depuis les données live (`scpiData`),

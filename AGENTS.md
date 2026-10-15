@@ -102,3 +102,27 @@ Une extraction OCR, un rapport annuel identifié, des métriques `qa_pass` ou le
 
 Les quatre CORUM servent de **lot pilote** ; leurs valeurs QA initiales sont stockées dans `data-import/corum_candidates_prepublication_20261015.json` et contrôlées par `scripts/scpi-candidates/auditCorumE2e.mjs`. Ce fichier est une preuve de préparation, jamais un catalogue public.
 
+
+## Design de référence obligatoire pour toutes les SCPI — Iroko Atlas
+
+**Le modèle unique est la fiche publique Iroko Atlas**, route `/iroko-atlas/`,
+servie par `OptimizedScpiLandingPage` et `buildScpiLandingData`.
+Les CORUM, BNP Paribas et les 225 SCPI doivent réutiliser **ce composant exact**
+et son comportement responsive, ses blocs, tableaux, cartes, graphiques, textes d'alerte,
+liens du comparateur, simulateurs, SEO et formulaire. **Ne jamais créer une page HTML,
+un microsite, une maquette parallèle ni une fiche CORUM spécifique** comme substitut.
+
+- Les 61 SCPI existantes et Iroko Atlas servent de référence de non-régression.
+- L'activation atomique via `scpi_complet.json` + `certified_scpi_cohort.json`
+  distribue la même identité à la fiche, au comparateur et aux simulateurs.
+- Les systèmes externes `scpi_indicators`, `scpi_bulletin_analysis`,
+  `scpi_trajectory_pilot_history`, `scpi_trajectory_pilot_liquidity`
+  alimentent respectivement les données live et scores/radar, l'analyse,
+  la trajectoire et la liquidité de l'espace client. Ce sont des **preuves
+  obligatoires de raccordement réel**, pas des données simulées.
+- Le verrou privé `scpi_candidate_tool_readiness.full_surface_ready` doit être
+  vrai en plus de l'audit final : il vérifie les circuits financiers et
+  applicatifs réellement alimentés. Ne pas transformer un manque en zéro.
+- Test de non-régression : `node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs`.
+  Ce test du câblage source ne remplace PAS les tests navigateur, les traces
+  de production, ni une vérification réelle par SCPI.
