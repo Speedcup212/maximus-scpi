@@ -22,7 +22,7 @@ begin
     and i.scope->>'execution_mode'='scoped_code_correction'
     and jsonb_typeof(i.scope->'files')='array'
     and case when jsonb_typeof(i.scope->'files')='array'
-      then jsonb_array_length(i.scope->'files') between 1 and 2 else false end
+      then jsonb_array_length(i.scope->'files') = 1 else false end
     and not exists (
       select 1 from maximus_agents.tasks t
       where i.id=any(t.issue_ids) and t.kind='execute' and t.status in ('pending','running')
@@ -87,7 +87,7 @@ BEGIN
   AND i.scope->>'execution_mode'='scoped_code_correction'
   AND jsonb_typeof(i.scope->'files')='array'
   AND CASE WHEN jsonb_typeof(i.scope->'files')='array'
-        THEN jsonb_array_length(i.scope->'files') BETWEEN 1 AND 2 ELSE FALSE END
+        THEN jsonb_array_length(i.scope->'files') = 1 ELSE FALSE END
   AND NOT EXISTS (SELECT 1 FROM unnest(x.depends_on) dep(id)
     LEFT JOIN maximus_agents.tasks parent ON parent.id=dep.id
     WHERE parent.id IS NULL OR parent.status<>'done')
