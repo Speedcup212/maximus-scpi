@@ -29,3 +29,10 @@ test('Expired execution leases are quarantined and cannot silently pass',()=>{
  assert.match(migration,/REVOKE ALL ON FUNCTION maximus_agents\.reconcile_expired_tasks\(\) FROM PUBLIC, anon, authenticated/);
  assert.doesNotMatch(migration,/update maximus_agents\.scpi_universe set publication_authorized=true/i);
 });
+
+test('Daily coordinator prioritizes pending execution and QA over redundant audits',()=>{
+ assert.match(migration,/CREATE OR REPLACE FUNCTION maximus_agents\.prepare_cycle\(\)/);
+ assert.match(migration,/audit_omitted','PENDING_EXECUTION_FIRST'/);
+ assert.match(migration,/kind in \('execute','verify'\) and status in \('pending','running'\)/);
+ assert.doesNotMatch(migration,/update maximus_agents\.tasks set status=case when attempts<2 then 'pending' else 'failed' end/);
+});
