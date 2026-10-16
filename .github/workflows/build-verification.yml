@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: 211 SCPI single-queue delivery gate and privacy regression
+        run: node --test scripts/scpi-candidates/delivery211Queue.test.mjs
+
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 
