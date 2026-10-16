@@ -143,3 +143,51 @@ begin
  return v_details;
 end
 $function$;
+
+-- Prioritize queued execution/QA over redundant daily audits; eliminate blind lease reset.
+CREATE OR REPLACE FUNCTION maximus_agents.prepare_cycle()
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SET search_path TO 'pg_catalog', 'maximus_agents'
+AS $function$
+declare d date := (now() at time zone 'Europe/Paris')::date; ids uuid[]; r text; snapshot jsonb;
+begin
+  perform pg_advisory_xact_lock(hashtext('maximus_agents:prepare'));
+  if not (select enabled from maximus_agents.settings where singleton) then
+    return jsonb_build_object('enabled',false);
+  end if;
+  -- Central recovery handles expired leases without re-running writes blindly.
+  perform maximus_agents.reconcile_expired_tasks();
+  -- Execute and verify tasks always take precedence over recurring observation.
+  if exists(select 1 from maximus_agents.tasks
+            where kind in ('execute','verify') and status in ('pending','running')) then
+    update maximus_agents.agents set heartbeat_at=now(),
+      last_summary=jsonb_build_object('cycle_date',d,'audit_omitted','PENDING_EXECUTION_FIRST')
+    where role='CONTROL';
+    return jsonb_build_object('enabled',true,'cycle_date',d,
+      'audit_omitted','PENDING_EXECUTION_FIRST',
+      'pending_execution',(select count(*) from maximus_agents.tasks
+         where kind in ('execute','verify') and status='pending'));
+  end if;
+  -- Never replay a stale daily audit. Historical failures remain visible in runs.
+  update maximus_agents.tasks set status='blocked',completed_at=now(),updated_at=now(),
+    result=jsonb_build_object('summary','Cycle dépassé : remplacer par un contrôle actuel','verdict','REVIEW','evidence',jsonb_build_array(jsonb_build_object('source','cycle_date','finding',cycle_date)))
+    where cycle_date<d and status='pending' and kind='audit';
+  select to_jsonb(h) into snapshot from public.scpi_chantier_health h limit 1;
+  if snapshot is null then raise exception 'SCPI health unavailable'; end if;
+  foreach r in array array['DATA','ANALYST','SEARCH'] loop
+    insert into maximus_agents.tasks(dedupe_key,cycle_date,role,title,payload)
+      values(d||':'||r,d,r,case r when 'DATA' then 'Contrôler données et pipeline des 61 SCPI'
+        when 'ANALYST' then 'Contrôler cohérence data, gates, trajectoires et analyses'
+        else 'Contrôler SEO technique et extractibilité des pages publiques' end,
+        jsonb_build_object('health_at_dispatch',snapshot,'scope','61 SCPI PSI','contract','agents/autonomous/worker-contract.md'))
+      on conflict(dedupe_key) do nothing;
+  end loop;
+  select array_agg(id order by role) into ids from maximus_agents.tasks where cycle_date=d and role in ('DATA','ANALYST','SEARCH') and dedupe_key in (d||':DATA',d||':ANALYST',d||':SEARCH');
+  insert into maximus_agents.tasks(dedupe_key,cycle_date,role,title,priority,depends_on,payload)
+    values(d||':QA',d,'QA','Revoir résultats indépendants et décision de release',20,ids,
+      jsonb_build_object('deploy_allowed',false,'contract','agents/autonomous/worker-contract.md')) on conflict(dedupe_key) do nothing;
+  update maximus_agents.agents set heartbeat_at=now(),last_summary=jsonb_build_object('cycle_date',d,'health',snapshot) where role='CONTROL';
+  return jsonb_build_object('enabled',true,'cycle_date',d,'health',snapshot,'tasks',
+    (select jsonb_agg(jsonb_build_object('role',role,'id',id,'status',status)) from maximus_agents.tasks where cycle_date=d));
+end $function$;
