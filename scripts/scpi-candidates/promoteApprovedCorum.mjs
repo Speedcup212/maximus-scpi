@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
 import {assertOfficial2026Valuation,official2026ValuationAnnouncementUrl} from './issuerValuationEvidence.mjs';
 import {assertExactGeography} from './officialAllocationParity.mjs';
+import {assertCanonicalFinancialEvidence} from './officialFinancialParity.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const get=(file)=>JSON.parse(fs.readFileSync(path.join(ROOT,file),'utf8'));
@@ -170,6 +171,16 @@ async function liveApproval(candidates) {
   if(!Array.isArray(liveEvidence)||!liveEvidence.some(r=>r.scpi_slug===candidate.scpi_slug&&Number(r.value_numeric)===expected&&r.source_url===official2026ValuationAnnouncementUrl&&r.verification_status==='official_issuer_statement_verified'))
    throw Error('Official 2026 Q2 valuation missing independently verified DB provenance: '+candidate.scpi_slug);
  }
+ // A QA_PASS tag inside a staging JSON file is not a financial certification.
+ // Compare EVERY published financial value, date, issuer URL and PDF page with
+ // the independent DB certification, not only the displayed reconstitution.
+ const certifiedResponse=await fetch(
+  url+'/rest/v1/scpi_metric_certifications?select=scpi_slug,source_period,metric,value_numeric,source_url,source_page,verification_status&scpi_slug=in.('+slugList+')',
+  {headers:apiHeaders});
+ if(!certifiedResponse.ok)throw Error('Independent financial metric ledger unavailable');
+ const certified=await certifiedResponse.json();
+ if(!Array.isArray(certified))throw Error('Invalid independent metric ledger response');
+ for(const candidate of candidates)assertCanonicalFinancialEvidence(candidate,certified);
  if(!response.ok)throw Error('Live release authorization HTTP '+response.status);
  const live=await response.json();
  if(!Array.isArray(live)||live.length!==candidates.length)throw Error('Live release coverage mismatch');
