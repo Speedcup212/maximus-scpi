@@ -40,3 +40,18 @@ test('Model request contains exact task scope and only one bounded API call payl
  assert.equal(request.messages.length,2);
  assert.match(request.messages[0].content,/Never disable tests/);
 });
+
+test('Only the exact approved migration can be used as immutable read-only context',()=>{
+ const contextFile='supabase/migrations/20261016_p0_strict_public_approval_gate.sql';
+ const selected=selectScope({...task,payload:{issues:[{...issue,scope:{...issue.scope,readonly_context_files:[contextFile]}}]}});
+ assert.deepEqual(selected.readonlyContextPaths,[contextFile]);
+ for(const forbidden of ['supabase/functions/server-secret.sql','src/data/scpi_complet.json','../../.env','supabase/migrations/other.sql']){
+  assert.throws(()=>selectScope({...task,payload:{issues:[{...issue,scope:{...issue.scope,readonly_context_files:[forbidden]}}]}}),/unapproved_readonly_context/);
+ }
+ assert.throws(()=>selectScope({...task,payload:{issues:[{...issue,scope:{...issue.scope,readonly_context_files:[contextFile,contextFile]}}]}}),/unapproved_readonly_context/);
+ const request=buildRequest({issue,filepath:issue.scope.files[0],source:'one file source',readonlyContext:[{path:contextFile,source:'u.strict_pass IS TRUE'}]});
+ const prompt=JSON.parse(request.messages[1].content);
+ assert.equal(prompt.readonly_context[0].path,contextFile);
+ assert.match(prompt.readonly_context[0].source,/strict_pass IS TRUE/);
+ assert.equal(prompt.file,issue.scope.files[0]);
+});

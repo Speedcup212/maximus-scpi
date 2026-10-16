@@ -7,6 +7,8 @@ import {fileURLToPath} from 'node:url';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const MAX_SOURCE=22000;
 const MAX_SNIPPET=5000;
+const READONLY_CONTEXT_ALLOWLIST=new Set(['supabase/migrations/20261016_p0_strict_public_approval_gate.sql']);
+const MAX_CONTEXT=8000;
 
 export function allowedCorrectiveFile(value){
  if(typeof value!=='string'||value.length>200||/[\\:%*?\[\]{}\x00-\x1f]/.test(value))return false;
@@ -29,7 +31,11 @@ export function selectScope(task){
     !allowedCorrectiveFile(scope.files[0]))throw Error('exact_single_safe_file_required');
  if(typeof issue.acceptance!=='string'||issue.acceptance.length<20)
    throw Error('missing_acceptance');
- return {issue,filepath:scope.files[0]};
+ const readonlyContextPaths=scope?.readonly_context_files||[];
+ if(!Array.isArray(readonlyContextPaths)||readonlyContextPaths.length>1||
+    readonlyContextPaths.some(f=>!READONLY_CONTEXT_ALLOWLIST.has(f)))
+   throw Error('unapproved_readonly_context');
+ return {issue,filepath:scope.files[0],readonlyContextPaths};
 }
 export function parseDeepSeekEdit(text,filename){
  if(typeof text!=='string'||text.length>22000)throw Error('malformed_model_reply');
@@ -59,7 +65,7 @@ function readSafe(file) {
  if(text.length>MAX_SOURCE)throw Error('source_too_large');
  return {real,text};
 }
-export function buildRequest({issue,filepath,source}){
+export function buildRequest({issue,filepath,source,readonlyContext=[]}){
  return {
   model:'deepseek-flash',thinking:{type:'disabled'},stream:false,max_tokens:3200,
   messages:[
@@ -70,12 +76,13 @@ export function buildRequest({issue,filepath,source}){
     'Return ONLY JSON: {"status":"edit","file":"EXACT_FILENAME","find":"EXACT_OLD_SUBSTRING","replace":"NEW_SUBSTRING","summary":"..."}.',
     'If a correct minimal replacement is impossible, return {"status":"cannot_fix","reason":"..."} instead.',
     'The exact old substring must appear ONCE in the supplied source. No separate commands or multiple files.',
+    'Read-only contextual files are evidence for a test. Do not edit them; propose a change to the single allowed test file only.',
     'Never disable tests, security checks, source gates, certification checks or publication restrictions.'
    ].join(' ')},
    {role:'user',content:JSON.stringify({
     task:'One small approved code correction, never financial certification',
     issue_key:issue.issue_key,title:issue.title,acceptance:issue.acceptance,
-    findings:issue.scope?.findings||[],file:filepath,source
+    findings:issue.scope?.findings||[],file:filepath,source,readonly_context:readonlyContext
    })}
   ]
  };
@@ -83,17 +90,18 @@ export function buildRequest({issue,filepath,source}){
 export async function run({taskPath,apiKey,fetcher=fetch}){
  if(!apiKey||apiKey.length<20)throw Error('DEEPSEEK_API_KEY_not_configured');
  const task=JSON.parse(fs.readFileSync(taskPath,'utf8'));
- const {issue,filepath}=selectScope(task);
+ const {issue,filepath,readonlyContextPaths}=selectScope(task);
  const {real,text}=readSafe(filepath);
+ const readonlyContext=readonlyContextPaths.map(p=>{const v=readSafe(p);if(v.text.length>MAX_CONTEXT)throw Error('readonly_context_too_large');return {path:p,source:v.text};});
  const response=await fetcher('https://api.deepseek.com/chat/completions',{
   method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},
-  body:JSON.stringify(buildRequest({issue,filepath,source:text})),
+  body:JSON.stringify(buildRequest({issue,filepath,source:text,readonlyContext})),
   signal:AbortSignal.timeout(120000)
  });
  if(!response.ok)throw Error('DeepSeek_HTTP_'+response.status);
  const json=await response.json();
  const edit=parseDeepSeekEdit(json?.choices?.[0]?.message?.content,filepath);
- if(edit.status==='cannot_fix')throw Error('model_cannot_fix');
+ if(edit.status==='cannot_fix')throw Error('model_cannot_fix: '+edit.reason.replace(/[\x00-\x1f\x7f]/g,' ').slice(0,110));
  const updated=applyExactReplacement(text,edit);
  fs.writeFileSync(real,updated,'utf8');
  fs.writeFileSync('/tmp/maximus-corrective-edit.json',
