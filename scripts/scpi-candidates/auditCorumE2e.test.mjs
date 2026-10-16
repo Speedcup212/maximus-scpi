@@ -35,7 +35,15 @@ test('missing fees, risk, or liquidity blocks publication, never coerces to zero
   assert.ok(!r.blockers.includes('dic_risque_non_verifie:risk_sri'));
   assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:risk_sri'));
   assert.ok(r.blockers.includes('champ_affichage_non_qualifie:liquidity_basis'));
-  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
+  if(candidate.scpi_slug==='corum-xl') {
+   assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
+   assert.ok(!r.blockers.includes('frais_gestion_tiers_invalides'));
+   const invalidFee={...candidate,publishing_fields:{...candidate.publishing_fields,
+     management_fees:{...candidate.publishing_fields.management_fees,blended_rate:14}}};
+   assert.ok(auditCandidate(invalidFee).blockers.includes('frais_gestion_taux_moyen_invente'));
+  }else{
+   assert.ok(r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
+  }
  }
 });
 test('2025 gross distribution and 2026 quarter flows are never interchangeable',()=>{
