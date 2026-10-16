@@ -1,5 +1,6 @@
 import certifiedScpiCohort from './certified_scpi_cohort.json';
 import { scpiData } from './scpiData';
+import type { ScpiManagementFeeDetails } from '../types/scpi';
 
 export interface SCPIExtended {
   id: number;
@@ -24,6 +25,7 @@ export interface SCPIExtended {
   withdrawalDelay?: string;
   entryFees?: number;
   managementFees?: number;
+  managementFeeDetails?: ScpiManagementFeeDetails;
   assetsCount?: number;
   // Champs supplémentaires depuis le fichier Excel
   delaiJouissance?: number; // Délai de jouissance en mois
@@ -4091,6 +4093,7 @@ const newlyReleased = scpiData
     discountQaStatus: scpi.discountQaStatus,
     ltv: scpi.debt, hasWaitingShares: scpi.hasWaitingShares,
     entryFees: scpi.fees, managementFees: scpi.fraisGestion,
+    managementFeeDetails: scpi.fraisGestionDetails,
     delaiJouissance: scpi.delaiJouissance,
     versementLoyers: scpi.versementLoyers,
     dureeDetentionRecommandee: scpi.dureeDetentionRecommandee,

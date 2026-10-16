@@ -29,8 +29,27 @@ const sourceHint=(c,field)=>{
    ||!(/^[a-f0-9]{64}$/.test(c.publishing_sources[field]?.sha256||'')))
   throw Error('Missing current official PDF evidence for: '+c.scpi_slug+':'+field);
 };
+// Preserve source-backed geographic fee tiers; never fabricate a blended percentage.
+function validatedManagementFees(c) {
+ const fees=c.publishing_fields?.management_fees;
+ if(typeof fees==='number')return {flat:num(fees,'management_fees',true),detail:null};
+ if(!fees||fees.kind!=='geographic_tiers'||fees.basis!=='HT'||
+    fees.revenue_basis!=='loyers encaissés'||fees.blended_rate!==null)
+  throw Error('Missing or ambiguous management fee structure: '+c.scpi_slug);
+ const euro=num(fees.euro_zone_percent,'euro_zone_percent');
+ const outside=num(fees.outside_euro_zone_percent,'outside_euro_zone_percent');
+ if(euro>=100||outside>=100||fees.source_period!=='2026-T2')
+  throw Error('Inconsistent geographic fee tiers: '+c.scpi_slug);
+ const doc=c.publishing_sources?.management_fees;
+ if(!doc||doc.page!==11||!/^[a-f0-9]{64}$/.test(doc.sha256||'')||
+    !/^https:\/\/www\.corum\.fr\//.test(doc.url||''))
+  throw Error('Geographic fees require primary PDF page and SHA evidence');
+ return {flat:null,detail:{...fees,source_url:doc.url,source_page:doc.page,source_sha256:doc.sha256}};
+}
+
 function rowFromCandidate(c) {
  const x=c.publishing_fields||{};
+ const managementFees=validatedManagementFees(c);
  const risky=['creation_year','minimum_investment','subscription_fees','management_fees',
   'reconstitution_value','risk_sri','liquidity_basis','withdrawal_terms',
   'enjoyment_delay','sector_allocation','geographic_allocation','sfdr',
@@ -79,7 +98,8 @@ function rowFromCandidate(c) {
   'Parts en attente de retrait':wait,
   'Minimum de souscription €':num(x.minimum_investment,'minimum_investment'),
   'Frais de souscription (TTC/%)':num(x.subscription_fees,'subscription_fees',true),
-  'Frais de gestion (HT/%)':num(x.management_fees,'management_fees',true),
+  'Frais de gestion (HT/%)':managementFees.flat,
+  'Frais de gestion (détail)':managementFees.detail,
   'Délai de jouissance (mois)':num(x.enjoyment_delay,'enjoyment_delay',true),
   'Durée de détention recommandée (ans)':num(x.recommended_holding_years,'recommended_holding_years'),
   'Versement des loyers':x.payment_frequency,

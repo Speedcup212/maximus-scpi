@@ -1098,7 +1098,16 @@
         "enjoyment_delay": 6,
         "minimum_investment": 195,
         "reconstitution_value": 189.37,
-        "capitalization_m": 2167.92
+        "capitalization_m": 2167.92,
+        "management_fees": {
+          "kind": "geographic_tiers",
+          "basis": "HT",
+          "revenue_basis": "loyers encaissés",
+          "euro_zone_percent": 12.4,
+          "outside_euro_zone_percent": 15.9,
+          "blended_rate": null,
+          "source_period": "2026-T2"
+        }
       },
       "regulatory_documents": [
         {
@@ -1168,6 +1177,11 @@
           "verified_metric": "nombre_parts x prix_souscription",
           "derived": true,
           "basis": "calculated_2026_06_30"
+        },
+        "management_fees": {
+          "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+          "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+          "page": 11
         }
       }
     }
