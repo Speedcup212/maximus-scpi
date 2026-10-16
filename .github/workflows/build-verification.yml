@@ -64,6 +64,9 @@ jobs:
       - name: SCPI official PDF exact period handoff and QA status transitions
         run: node --test scripts/scpi-candidates/scpiExactPeriodHandoff.test.mjs
 
+      - name: CORUM financial source period and territorial fee audit gate
+        run: node --test scripts/scpi-candidates/corumFinancialReconciliation.test.mjs
+
       - name: CORUM common certification schema parity with no premature release
         run: node --test scripts/scpi-candidates/corumCertificationsParity.test.mjs
 
