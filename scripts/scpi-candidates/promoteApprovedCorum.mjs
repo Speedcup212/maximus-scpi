@@ -8,6 +8,7 @@ import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
 import {assertOfficial2026Valuation,official2026ValuationAnnouncementUrl} from './issuerValuationEvidence.mjs';
 import {assertExactGeography} from './officialAllocationParity.mjs';
 import {assertCanonicalFinancialEvidence} from './officialFinancialParity.mjs';
+import {assertPrimaryTieredFeeSource,assertTieredFeesMatchIndependentLedger} from './officialTieredFeeEvidence.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const get=(file)=>JSON.parse(fs.readFileSync(path.join(ROOT,file),'utf8'));
@@ -44,11 +45,7 @@ function validatedManagementFees(c) {
  const outside=num(fees.outside_euro_zone_percent,'outside_euro_zone_percent');
  if(euro>=100||outside>=100||fees.source_period!=='2026-T2')
   throw Error('Inconsistent geographic fee tiers: '+c.scpi_slug);
- const doc=c.publishing_sources?.management_fees;
- if(!doc||doc.page!==11||!/^[a-f0-9]{64}$/.test(doc.sha256||'')||
-    !/^https:\/\/www\.corum\.fr\//.test(doc.url||''))
-  throw Error('Geographic fees require primary PDF page and SHA evidence');
- return {flat:null,detail:{...fees,source_url:doc.url,source_page:doc.page,source_sha256:doc.sha256}};
+ return assertPrimaryTieredFeeSource(c);
 }
 
 function rowFromCandidate(c) {
@@ -180,7 +177,10 @@ async function liveApproval(candidates) {
  if(!certifiedResponse.ok)throw Error('Independent financial metric ledger unavailable');
  const certified=await certifiedResponse.json();
  if(!Array.isArray(certified))throw Error('Invalid independent metric ledger response');
- for(const candidate of candidates)assertCanonicalFinancialEvidence(candidate,certified);
+ for(const candidate of candidates){
+  assertCanonicalFinancialEvidence(candidate,certified);
+  assertTieredFeesMatchIndependentLedger(candidate,certified);
+ }
  if(!response.ok)throw Error('Live release authorization HTTP '+response.status);
  const live=await response.json();
  if(!Array.isArray(live)||live.length!==candidates.length)throw Error('Live release coverage mismatch');
