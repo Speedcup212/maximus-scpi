@@ -218,7 +218,7 @@
         "subscription_fees": 12,
         "enjoyment_delay": 6,
         "minimum_investment": 215,
-        "reconstitution_value": 222.12,
+        "reconstitution_value": 224.07,
         "capitalization_m": 1534.11,
         "sector_allocation": {
           "Bureaux": 73,
@@ -295,11 +295,23 @@
           "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
         },
         "reconstitution_value": {
-          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
-          "page": 10,
-          "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a",
-          "verified_metric": "valeur_reconstitution_par_part",
-          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+          "url": "https://www.corum.fr/actus/premier-semestre-2026-pour-les-scpi-de-corum-tous-les-indicateurs-sont-en-hausse",
+          "kind": "official_issuer_html",
+          "source_date": "2026-09-10",
+          "as_of": "2026-06-30",
+          "verified_value": 224.07,
+          "unit": "EUR_PER_PART",
+          "verification_status": "official_issuer_statement_verified",
+          "metric": "valeur_reconstitution_par_part",
+          "historical_2025": {
+            "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+            "page": 10,
+            "sha256": "2ffd5a07eb8341258892bc86a450c34ae96df6484525bdb772e798625a55394a",
+            "verified_metric": "valeur_reconstitution_par_part",
+            "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026",
+            "verified_value": 222.12
+          },
+          "disclosure": "Dated 30 June 2026 value, official issuer press release published 10 September 2026; no invented PDF page or SHA"
         },
         "capitalization_m": {
           "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
@@ -544,7 +556,7 @@
         "subscription_fees": 11.964,
         "enjoyment_delay": 6,
         "minimum_investment": 1135,
-        "reconstitution_value": 1175.66,
+        "reconstitution_value": 1186.3,
         "capitalization_m": 4044.22
       },
       "regulatory_documents": [
@@ -602,11 +614,23 @@
           "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
         },
         "reconstitution_value": {
-          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
-          "page": 11,
-          "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61",
-          "verified_metric": "valeur_reconstitution_par_part",
-          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+          "url": "https://www.corum.fr/actus/premier-semestre-2026-pour-les-scpi-de-corum-tous-les-indicateurs-sont-en-hausse",
+          "kind": "official_issuer_html",
+          "source_date": "2026-09-10",
+          "as_of": "2026-06-30",
+          "verified_value": 1186.3,
+          "unit": "EUR_PER_PART",
+          "verification_status": "official_issuer_statement_verified",
+          "metric": "valeur_reconstitution_par_part",
+          "historical_2025": {
+            "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+            "page": 11,
+            "sha256": "af56eb9a36cc437081ea002d0f779cb9f3641d0662eceeb7af05b0d1c44a5e61",
+            "verified_metric": "valeur_reconstitution_par_part",
+            "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026",
+            "verified_value": 1175.66
+          },
+          "disclosure": "Dated 30 June 2026 value, official issuer press release published 10 September 2026; no invented PDF page or SHA"
         },
         "capitalization_m": {
           "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
@@ -824,7 +848,7 @@
         "subscription_fees": 12,
         "enjoyment_delay": 6,
         "minimum_investment": 200,
-        "reconstitution_value": 203.24,
+        "reconstitution_value": 216.34,
         "capitalization_m": 77.42
       },
       "regulatory_documents": [
@@ -882,11 +906,23 @@
           "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
         },
         "reconstitution_value": {
-          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
-          "page": 9,
-          "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3",
-          "verified_metric": "valeur_reconstitution_par_part",
-          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+          "url": "https://www.corum.fr/actus/premier-semestre-2026-pour-les-scpi-de-corum-tous-les-indicateurs-sont-en-hausse",
+          "kind": "official_issuer_html",
+          "source_date": "2026-09-10",
+          "as_of": "2026-06-30",
+          "verified_value": 216.34,
+          "unit": "EUR_PER_PART",
+          "verification_status": "official_issuer_statement_verified",
+          "metric": "valeur_reconstitution_par_part",
+          "historical_2025": {
+            "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+            "page": 9,
+            "sha256": "68c3b21bb4838128fb578ccf4f1802a6233fe365cdc75a724608c965bdd21bc3",
+            "verified_metric": "valeur_reconstitution_par_part",
+            "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026",
+            "verified_value": 203.24
+          },
+          "disclosure": "Dated 30 June 2026 value, official issuer press release published 10 September 2026; no invented PDF page or SHA"
         },
         "capitalization_m": {
           "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
@@ -1097,7 +1133,7 @@
         "subscription_fees": 12,
         "enjoyment_delay": 6,
         "minimum_investment": 195,
-        "reconstitution_value": 189.37,
+        "reconstitution_value": 194.27,
         "capitalization_m": 2167.92,
         "management_fees": {
           "kind": "geographic_tiers",
@@ -1164,11 +1200,23 @@
           "verified_metric": "minimum_initial_parts + 2026-T2 prix_souscription"
         },
         "reconstitution_value": {
-          "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
-          "page": 10,
-          "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff",
-          "verified_metric": "valeur_reconstitution_par_part",
-          "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026"
+          "url": "https://www.corum.fr/actus/premier-semestre-2026-pour-les-scpi-de-corum-tous-les-indicateurs-sont-en-hausse",
+          "kind": "official_issuer_html",
+          "source_date": "2026-09-10",
+          "as_of": "2026-06-30",
+          "verified_value": 194.27,
+          "unit": "EUR_PER_PART",
+          "verification_status": "official_issuer_statement_verified",
+          "metric": "valeur_reconstitution_par_part",
+          "historical_2025": {
+            "url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+            "page": 10,
+            "sha256": "3443183179506f953386dadc8d0ea90ef94542372e91dcd59a0ddaab98ef44ff",
+            "verified_metric": "valeur_reconstitution_par_part",
+            "basis": "2025_12_31_NOT_COMPARABLE_AUTOMATICALLY_WITH_T2_2026",
+            "verified_value": 189.37
+          },
+          "disclosure": "Dated 30 June 2026 value, official issuer press release published 10 September 2026; no invented PDF page or SHA"
         },
         "capitalization_m": {
           "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
