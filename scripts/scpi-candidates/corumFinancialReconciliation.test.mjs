@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+const annual=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_period_arithmetic_review_existing_final_review.sql',import.meta.url),'utf8');
 const sfdr=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_issuer_specific_sfdr_2026_document_proofs.sql',import.meta.url),'utf8');
 const sql=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_financial_source_reconciliation_and_unapproved_audits.sql',import.meta.url),'utf8');
 
@@ -42,4 +43,18 @@ test('SFDR uses dated issuer product evidence, never old group report as blanket
  assert.match(sfdr,/a\.audit_status='pending'/);
  assert.doesNotMatch(sfdr,/SET\s+publication_authorized\s*=/i);
  assert.doesNotMatch(sfdr,/SET\s+analysis_certified\s*=/i);
+});
+
+test('Annual and T1/T2 source arithmetic gets a positive check but NOT a final sign-off',()=>{
+ assert.match(annual,/round\(\(dividend_annual_2025\/price_annual_2025\*100\),2\)=annual_td_2025/);
+ assert.match(annual,/dividend_t1=proven_dividend_t1 AND dividend_t2=proven_dividend_t2/);
+ assert.match(annual,/debt_annual_2025=endettement/);
+ assert.match(annual,/reconstitution_annual_2025=prix_reconstitution/);
+ assert.match(annual,/abs\(capitalisation_millions-shares_t2\*prix_souscription\/1000000\.0\)/);
+ assert.match(annual,/legal_document_count=3/);
+ assert.match(annual,/INTO maximus_agents\.scpi_candidate_final_review/);
+ assert.match(annual,/audit_status='pending'/);
+ assert.match(annual,/independent_qa_reference IS NULL/);
+ assert.doesNotMatch(annual,/SET\s+publication_authorized\s*=/i);
+ assert.doesNotMatch(annual,/SET\s+analysis_certified\s*=/i);
 });
