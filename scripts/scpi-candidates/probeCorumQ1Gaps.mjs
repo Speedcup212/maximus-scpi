@@ -59,6 +59,7 @@ for(const d of docs){
   const record={slug:d.slug,provenance:'ISSUER_PDF_BYTE_SHA_AND_PAGES_MATCH',
    exact_document_sha:d.sha,complete_pages:parsed.numpages,total_characters:txt.length,
    price_page_contexts:price,tof_page_contexts:tof,
+   origin_page4_final_values:d.slug==='corum-origin' ? pageTexts[3].replace(/\s+/g,' ').slice(-2400) : undefined,
    qa_note:'Extracted contexts only; not verified values, requires exact-page proof before field approval'};
   console.log('CORUM_Q1_GAP_SOURCE_PROBE '+JSON.stringify(record));
  }catch(e){
