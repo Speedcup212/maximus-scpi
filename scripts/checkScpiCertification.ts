@@ -4,7 +4,11 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.warn('[SCPI certification] Supabase non configuré dans cet environnement : contrôle distant ignoré.');
+  if (process.env.REQUIRE_SUPABASE_CERTIFICATION === 'true') {
+    console.error('[SCPI certification] FAIL: required live Supabase certification unavailable; release blocked.');
+    process.exit(1);
+  }
+  console.warn('[SCPI certification] SKIPPED_REMOTE: local code build only; no live certification claimed.');
   process.exit(0);
 }
 
