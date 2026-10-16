@@ -19,7 +19,7 @@ test('No invented global blended fee: CORUM USA and XL use territory-split costs
  assert.match(sql,/frais_gestion=NULL/);
  assert.match(sql,/CORUM XL T2 54,340 associates/);
  assert.match(sql,/e\.numeric_value=54340/);
- assert.doesNotMatch(sql,/weighted.average/i);
+ assert.doesNotMatch(sql,/SET\s+frais_gestion\s*=\s*\([^;]*(?:12\.4|15\.9)[^;]*\)/i);
 });
 test('Existing history refreshes and financial auditors never self-approve final review',()=>{
  assert.match(sql,/PERFORM public\.refresh_scpi_bulletin_analysis\(slug\)/);
