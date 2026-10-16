@@ -74,6 +74,17 @@ export function auditCandidate(candidate) {
     'sfdr','capitalization_m','sector_class','geographic_scope','payment_frequency',
     'risk_warnings','label_isr'
   ];
+  // Distinct geographical management rates must never be collapsed into one scalar.
+  const fee=candidate.publishing_fields?.management_fees;
+  if(fee?.kind==='geographic_tiers'){
+    checked(fee.basis==='HT'&&fee.blended_rate===null,'frais_gestion_taux_moyen_invente');
+    checked(fee.euro_zone_percent>0&&fee.outside_euro_zone_percent>0&&
+      fee.euro_zone_percent<100&&fee.outside_euro_zone_percent<100,
+      'frais_gestion_tiers_invalides');
+    checked(candidate.publishing_sources?.management_fees?.page>0&&
+      /^[a-f0-9]{64}$/.test(candidate.publishing_sources?.management_fees?.sha256||''),
+      'frais_gestion_tiers_source_absente');
+  }
   for(const field of essentials){
     const v=candidate.publishing_fields?.[field];
     checked(v!==undefined&&v!==null&&v!==''&&
