@@ -52,6 +52,9 @@ jobs:
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 
+      - name: Candidate public Data API policy and view-security contract
+        run: node --test scripts/scpi-candidates/publicCandidateRls.test.mjs
+
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
