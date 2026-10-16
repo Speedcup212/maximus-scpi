@@ -58,6 +58,9 @@ jobs:
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
+      - name: CORUM common certification schema parity with no premature release
+        run: node --test scripts/scpi-candidates/corumCertificationsParity.test.mjs
+
       - name: CORUM geographic fee tiers validated against publisher, shared components and release gates
         run: node --test scripts/scpi-candidates/corumFeeTiers.test.mjs
 
