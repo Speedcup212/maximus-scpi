@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Baseline cohort isolation and worker recovery regression
+        run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
+
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
@@ -82,6 +85,21 @@ jobs:
 
       - name: Client space browser smoke
         run: node scripts/client-space-browser-smoke.mjs
+
+      # A source-code build is not an independent remote data certification.
+      # Fail closed only when a controlled release is explicitly requested.
+      - name: Release-only remote SCPI certification (fail closed)
+        if: >-
+          github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          (contains(github.event.head_commit.message, '[deploy]') ||
+           contains(github.event.head_commit.message, '[release]') ||
+           contains(github.event.head_commit.message, '[hotfix]') ||
+           contains(github.event.head_commit.message, 'DEPLOY_NOW'))
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          REQUIRE_SUPABASE_CERTIFICATION: 'true'
+        run: npx tsx scripts/checkScpiCertification.ts
 
       # Le packaging Netlify n'existe plus dans un second workflow concurrent.
       # Il ne s'exécute que sur un push réel de main, jamais sur une PR Recovery.
