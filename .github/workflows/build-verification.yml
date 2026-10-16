@@ -73,6 +73,9 @@ jobs:
       - name: CORUM geographic fee tiers validated against publisher, shared components and release gates
         run: node --test scripts/scpi-candidates/corumFeeTiers.test.mjs
 
+      - name: CORUM latest current valuation issuer-source and old-2025 exclusion
+        run: node --test scripts/scpi-candidates/issuerValuationEvidence.test.mjs
+
       - name: CORUM end-to-end onboarding contract (unpublished candidates)
         run: |
           node --test scripts/scpi-candidates/auditCorumE2e.test.mjs
