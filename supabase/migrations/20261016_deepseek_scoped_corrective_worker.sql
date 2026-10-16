@@ -52,7 +52,7 @@ begin
   end if;
   return jsonb_build_object('enabled',true,'open_issues',(select count(*) from maximus_agents.issues where status='open'),
     'pending_execution',(select count(*) from maximus_agents.tasks where kind in ('execute','verify') and status='pending'));
-end $function$
+end $function$;
 
 
 CREATE OR REPLACE FUNCTION maximus_agents.claim_scoped_corrective_task(p_role text)
