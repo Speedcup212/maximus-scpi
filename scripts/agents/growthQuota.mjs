@@ -25,6 +25,11 @@ export function dailyAllowance(runs,currentId,now,max=3) {
  if (!Array.isArray(runs)) throw Error('Missing complete GitHub run history');
  const current = runs.find(x=>Number(x.id)===Number(currentId));
  if (!current) throw Error('Current run absent from GitHub quota history');
+ // GitHub re-run uses the same run_id and a higher run_attempt. The first
+ // attempt already reserved its whole potential DeepSeek budget: never call again.
+ const attempt = Number(current.run_attempt ?? 1);
+ if (!Number.isSafeInteger(attempt) || attempt<1) throw Error('Invalid GitHub run attempt');
+ if (attempt>1) return {allowed:0,prior_reserved:max,max_daily:max,reason:'rerun_denied'};
  const date = parisDay(now);
  if (parisDay(current.created_at)!==date) return {allowed:0,prior_reserved:0,reason:'day_rollover'};
  const ordered = runs.filter(x=>x.created_at && parisDay(x.created_at)===date)

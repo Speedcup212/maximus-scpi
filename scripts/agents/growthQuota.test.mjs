@@ -48,3 +48,14 @@ test('Github API failures and absence of current run fail closed',async()=>{
  await assert.rejects(fetchRunHistory({token:'test',repository:'Speedcup212/maximus-scpi',runId:99,
   fetcher:async()=>({ok:true,json:async()=>({workflow_runs:[run(1)]})})}),/missing/);
 });
+
+test('GitHub reruns of the same ID never receive additional paid AI budget',()=>{
+ const original={...run(98,'schedule','2026-10-14T06:23:00Z'),run_attempt:1};
+ const retry={...original,run_attempt:2};
+ assert.equal(dailyAllowance([original],98,day).allowed,3);
+ const result=dailyAllowance([retry],98,day);
+ assert.equal(result.allowed,0);
+ assert.equal(result.reason,'rerun_denied');
+ assert.equal(dailyAllowance([{...original,event:'workflow_dispatch',run_attempt:3}],98,day).allowed,0);
+ assert.throws(()=>dailyAllowance([{...original,run_attempt:0}],98,day),/Invalid GitHub run attempt/);
+});
