@@ -70,6 +70,9 @@ jobs:
       - name: SCPI official PDF exact period handoff and QA status transitions
         run: node --test scripts/scpi-candidates/scpiExactPeriodHandoff.test.mjs
 
+      - name: CORUM T1 six fields per fund and AI-review versus final signoff
+        run: node --test scripts/scpi-candidates/corumQ1SecondSourceTechnicalReview.test.mjs
+
       - name: CORUM Q1 exact PDF price/TOF source gap and independent-review integrity
         run: node --test scripts/scpi-candidates/corumQ1FiveSourceGaps.test.mjs
 
