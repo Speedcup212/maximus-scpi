@@ -139,7 +139,7 @@ BEGIN
  SELECT count(*) INTO cnt FROM public.scpi_bulletins b
  WHERE b.scpi_slug IN ('corum-origin','corum-eurion','corum-usa','corum-xl')
    AND b.period='2026-T1' AND b.qa_status='candidate_page_checked_partial'
-   AND jsonb_object_length(b.extraction_json->'metrics')=6;
+   AND (SELECT count(*) FROM jsonb_object_keys(b.extraction_json->'metrics'))=6;
  IF cnt<>4 THEN RAISE EXCEPTION 'Official Q1 bulletin snapshots not 6/6: %',cnt; END IF;
  IF EXISTS(
   SELECT 1 FROM maximus_agents.scpi_universe u
