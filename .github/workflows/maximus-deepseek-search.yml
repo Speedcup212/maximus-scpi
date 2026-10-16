@@ -57,6 +57,50 @@ jobs:
           node --test scripts/agents/deepseekCorrectiveRunner.test.mjs
           node --test scripts/agents/deepseekWorkflowContract.test.mjs
 
+  # One-time diagnostic, only for a specially flagged merge; no DeepSeek calls.
+  pull_request_permission_smoke:
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[verify-pr-permission]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify GitHub Actions PR creation and clean up
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="qa/pr-permission-smoke-${GITHUB_RUN_ID}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          mkdir -p .github/pr-permission-smoke
+          printf 'Ephemeral PR permission check for run %s. No product changes.\n' "$GITHUB_RUN_ID" > ".github/pr-permission-smoke/${GITHUB_RUN_ID}.txt"
+          git add ".github/pr-permission-smoke/${GITHUB_RUN_ID}.txt"
+          git commit -m "test(ci): temporary Actions PR permission proof [no-deploy]"
+          git push origin "HEAD:refs/heads/$branch"
+          pr_url=""
+          cleanup() {
+            if [ -n "$pr_url" ]; then
+              gh pr close "$pr_url" --delete-branch || true
+            else
+              gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/$branch" || true
+            fi
+          }
+          trap cleanup EXIT
+          pr_url="$(gh pr create --draft --base main --head "$branch" \
+            --title "test(ci): temporary Actions PR permission verification" \
+            --body "Ephemeral permissions check only. No production/DeepSeek/SCPI/Netlify changes. Auto-closes.")"
+          test -n "$pr_url"
+          echo "GH_ACTIONS_PR_PERMISSION=PASS"
+          echo "Temporary PR created: $pr_url"
+
   corrective:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
