@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const migration=fs.readFileSync(new URL('../../supabase/migrations/20261016_current_scpi_qa_source_and_bulletin_recertification.sql',import.meta.url),'utf8');
+const registry=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_origin_xl_t2_official_identity_registry_from_completed_ocr.sql',import.meta.url),'utf8');
 const proof=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_xl_t2_quarterly_exact_core_and_48_proofs.sql',import.meta.url),'utf8');
 
 test('P0: current indicator QA and provenance transitions run the existing certified-analysis pipeline',()=>{
@@ -31,4 +32,17 @@ test('P0: XL 54340 associates repopulated ONLY with independently matched issuer
   assert.doesNotMatch(proof,/SET\s+publication_authorized\s*=/i);
   assert.doesNotMatch(proof,/SET\s+analysis_certified\s*=/i);
   assert.doesNotMatch(proof,/SET\s+qa_status\s*=/i);
+});
+
+test('P0: both previously missing T2 PDF identities are reconciled from complete primary OCR jobs, no recapture',()=>{
+  assert.match(registry,/j\.status='done' AND j\.total_pages=12 AND j\.pages_ocr=12/);
+  assert.match(registry,/d\.status='page_verified' AND d\.source_primary/);
+  assert.match(registry,/d\.verified_pdf_at IS NOT NULL/);
+  assert.match(registry,/b\.pdf_sha256~'\^\[a-f0-9\]\{64\}\$'/);
+  assert.match(registry,/o\.pdf_sha256=b\.pdf_sha256/);
+  assert.match(registry,/v\.document_identity_verified AND v\.page_count>0/);
+  assert.match(registry,/n<>8/);
+  assert.match(registry,/qa_status<>'candidate_page_checked_partial'/);
+  assert.doesNotMatch(registry,/SET\s+qa_status\s*=/i);
+  assert.doesNotMatch(registry,/SET\s+publication_authorized\s*=/i);
 });
