@@ -5,6 +5,7 @@ import {
  auditCandidate,assertPublicReleaseConsistency
 } from './auditCorumE2e.mjs';
 import {hasOfficial2026Valuation} from './issuerValuationEvidence.mjs';
+import {assertCanonicalFinancialEvidence} from './officialFinancialParity.mjs';
 import {assertExactGeography} from './officialAllocationParity.mjs';
 
 const read=(p)=>JSON.parse(fs.readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
@@ -105,4 +106,17 @@ test('CRASH-10: financial sources do NOT grant whole-product approval or site pu
   assert.ok(a.blockers.includes('autorisation_publication_absente'));
   assert.ok(a.blockers.includes('analyse_globale_non_certifiee'));
  }
+});
+
+test('CRASH-14: QA_PASS and valid official PDF URL cannot conceal a tampered numeric value',()=>{
+ const c=clone(privateSnapshot.scpi[0]);
+ const independentRows=c.evidence.map(e=>({
+  scpi_slug:c.scpi_slug,source_period:e.period,metric:e.metric,value_numeric:String(e.value),
+  source_url:e.source,source_page:e.page,verification_status:'manual_verified_official'
+ }));
+ assert.equal(assertCanonicalFinancialEvidence(c,independentRows),c.evidence.length);
+ c.evidence[0].value+=0.01; // A small false return, still on a real official PDF page
+ assert.equal(c.evidence[0].qa,'qa_pass');
+ assert.throws(()=>assertCanonicalFinancialEvidence(c,independentRows),
+  /audited PDF financial value\/source\/page differs/);
 });
