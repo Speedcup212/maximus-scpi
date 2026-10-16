@@ -24,15 +24,41 @@ for(const d of docs){
   if(!pdf.subarray(0,5).toString().startsWith('%PDF-'))throw Error('Source not PDF');
   const digest=createHash('sha256').update(pdf).digest('hex');
   if(digest!==d.sha)throw Error('Unexpected SHA: '+digest+' expected '+d.sha);
-  const parsed=await pdfParse(pdf);
-  if(parsed.numpages!==d.pages)throw Error('Page count '+parsed.numpages+' expected '+d.pages);
+  const pageTexts=[];
+  const parsed=await pdfParse(pdf,{pagerender:async(page)=>{
+    const tc=await page.getTextContent();
+    const out=tc.items.map(item=>item.str||'').join(' ');
+    pageTexts.push(out);
+    return out;
+  }});
+  if(parsed.numpages!==d.pages||pageTexts.length!==d.pages)
+    throw Error('Page count '+parsed.numpages+' expected '+d.pages+' extracted '+pageTexts.length);
   const txt=parsed.text.replace(/\s+/g,' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const snippets=(regex)=>[...txt.matchAll(regex)].slice(0,3).map(m=>txt.slice(Math.max(0,m.index-150),Math.min(txt.length,m.index+270)));
-  const price=snippets(/prix de (?:souscription|la part)|valeur de souscription|1[ .]135(?:[,.]00)? ?€|215(?:[,.]00)? ?€|200(?:[,.]00)? ?€|195(?:[,.]00)? ?€/gi);
-  const tof=snippets(/taux d.occupation financier|TOF|95[.,]77|99[.,]92/gi);
+  const excerpts=[];
+  for(let i=0;i<pageTexts.length;i++){
+    const t=pageTexts[i].replace(/\s+/g,' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const patterns=[
+      /PRIX DE SOUSCRIPTION DEPUIS/gi,/PRIX DE SOUSCRIPTION/gi,
+      /TAUX D.OCCUPATION FINANCIER \(TOF\)/gi,
+      /94[.,]83 ?%|95[.,]77 ?%|99[.,]92 ?%|100 ?%/gi,
+      /1 ?135[,.]00 ?€|215[,.]00 ?€|200[,.]00 ?€|195[,.]00 ?€/gi
+    ];
+    const matches=[];
+    for(const re of patterns){
+      for(const m of t.matchAll(re)){
+        const v=t.slice(Math.max(0,m.index-110),Math.min(t.length,m.index+450));
+        if(!matches.includes(v))matches.push(v);
+        if(matches.length>=7)break;
+      }
+      if(matches.length>=7)break;
+    }
+    if(matches.length)excerpts.push({page:i+1,extracts:matches.slice(0,7)});
+  }
+  const price=excerpts.filter(x=>x.extracts.some(t=>/prix de souscription|1 ?135[,.]00|215[,.]00|200[,.]00|195[,.]00/i.test(t)));
+  const tof=excerpts.filter(x=>x.extracts.some(t=>/taux d.occupation|tof|94[,.]83|95[,.]77|99[,.]92/i.test(t)));
   const record={slug:d.slug,provenance:'ISSUER_PDF_BYTE_SHA_AND_PAGES_MATCH',
    exact_document_sha:d.sha,complete_pages:parsed.numpages,total_characters:txt.length,
-   price_contexts:price,tof_contexts:tof,
+   price_page_contexts:price,tof_page_contexts:tof,
    qa_note:'Extracted contexts only; not verified values, requires exact-page proof before field approval'};
   console.log('CORUM_Q1_GAP_SOURCE_PROBE '+JSON.stringify(record));
  }catch(e){
