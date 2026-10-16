@@ -229,13 +229,13 @@
         },
         "geographic_allocation": {
           "Espagne": 6,
-          "Finlande": 8,
+          "Finlande": 6,
           "France": 19,
           "Irlande": 19,
-          "Italie": 1,
-          "Lettonie": 6,
+          "Italie": 14,
+          "Lettonie": 1,
           "Pays-Bas": 27,
-          "Portugal": 14
+          "Portugal": 8
         },
         "sector_class": "bureaux",
         "geographic_scope": "europe"
