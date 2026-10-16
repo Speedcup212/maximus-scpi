@@ -12,3 +12,11 @@ ALTER VIEW public.scpi_trajectory_pilot_liquidity SET (security_invoker=true);
 ALTER VIEW public.scpi_trajectory_pilot_readiness SET (security_invoker=true);
 ALTER VIEW public.scpi_trajectory_pilot_valuation_debt SET (security_invoker=true);
 ALTER VIEW public.scpi_trajectory_signal_gate SET (security_invoker=true);
+
+-- Protect auxiliary SCPI state views as well, while service-role remains unrestricted.
+ALTER VIEW public.scpi_annual_backfill_progress SET (security_invoker=true);
+ALTER VIEW public.scpi_automation_status SET (security_invoker=true);
+ALTER VIEW public.scpi_indicator_deltas SET (security_invoker=true);
+ALTER VIEW public.scpi_trajectory_agent_progress SET (security_invoker=true);
+ALTER VIEW public.scpi_trajectory_orchestrator_status SET (security_invoker=true);
+ALTER VIEW public.scpi_trajectory_work_plan SET (security_invoker=true);
