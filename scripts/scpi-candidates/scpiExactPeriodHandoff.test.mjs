@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const sql=fs.readFileSync(new URL('../../supabase/migrations/20261016_scpi_exact_period_evidence_handoff.sql',import.meta.url),'utf8');
+const rewire=fs.readFileSync(new URL('../../supabase/migrations/20261016_scpi_qa_status_trigger_rewire.sql',import.meta.url),'utf8');
 
 test('QA transitions trigger the ORIGINAL analysis chain automatically',()=>{
  assert.match(sql,/CREATE OR REPLACE FUNCTION public\.trg_refresh_analysis_on_scpi_evidence\(\)/);
@@ -35,4 +36,15 @@ test('Certifications, public cohort and Netlify deployment remain fail-closed',(
  assert.match(sql,/IF EXISTS \(SELECT 1 FROM public\.scpi_bulletin_analysis a/);
  assert.match(sql,/a\.current_source_certified OR a\.comparison_certified/);
  assert.match(sql,/RAISE EXCEPTION 'Refuse to bypass independent SCPI publication gate'/);
+});
+
+test('Existing bulletin trigger actually LISTENS to QA-only changes; not merely handler body',()=>{
+ assert.match(rewire,/DROP TRIGGER IF EXISTS trg_scpi_bulletin_evidence_refresh_analysis/);
+ assert.match(rewire,/AFTER UPDATE OF extraction_json,qa_status,pdf_sha256,source_url,period/);
+ assert.match(rewire,/EXECUTE FUNCTION public\.trg_refresh_analysis_on_scpi_evidence\(\)/);
+ assert.match(rewire,/AFTER INSERT OR UPDATE OF qa_status,source_url,source_period/);
+ assert.match(rewire,/PERFORM public\.certify_scpi_bulletin_analysis\(NEW\.scpi_slug\)/);
+ assert.match(rewire,/u\.lifecycle='candidate'/);
+ assert.doesNotMatch(rewire,/UPDATE\s+maximus_agents\.scpi_universe/i);
+ assert.doesNotMatch(rewire,/SET\s+qa_status\s*=/i);
 });
