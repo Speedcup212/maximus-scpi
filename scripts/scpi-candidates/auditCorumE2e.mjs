@@ -34,8 +34,16 @@ export function auditCandidate(candidate) {
   const unique=new Set();
   const metrics=Array.isArray(candidate.evidence)?candidate.evidence:[];
   const docs=Array.isArray(candidate.pdfs)?candidate.pdfs:[];
-  const metric=(period,key)=>metrics.find(e=>e.period===period&&e.metric===key&&e.qa==='qa_pass'
-    &&Number.isFinite(Number(e.value))&&e.page>0&&/^https:\/\//.test(e.source||''));
+  const metric=(period,key)=>metrics.find(e=>{
+    const matchingDoc=docs.find(d=>d.period===period&&d.url===e.source &&
+      /^[a-f0-9]{64}$/.test(d.sha256||'') &&
+      Number.isInteger(Number(d.pages)) && Number(d.pages)>0);
+    return e.period===period && e.metric===key && e.qa==='qa_pass' &&
+      typeof e.value==='number' && Number.isFinite(e.value) &&
+      typeof e.unit==='string' && e.unit.length>0 &&
+      matchingDoc && Number.isInteger(Number(e.page)) &&
+      Number(e.page)>0 && Number(e.page)<=Number(matchingDoc.pages);
+  });
   const checked=(predicate,msg)=>{if(!predicate)failures.push(msg)};
   checked(CANDIDATES.includes(candidate.scpi_slug),'hors_lot_corum');
   checked(nameSlug(candidate.name)===candidate.scpi_slug,'identite_slug');
@@ -99,7 +107,19 @@ export function auditCandidate(candidate) {
     /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
     Number(candidate.publishing_sources?.[field]?.page)>0),
     'preuve_affichage_absente:'+field);
-  for(const k of UI_SURFACES)checked(candidate.surface_tests?.[k]==='pass','parcours_non_teste:'+k);
+  // A typed "pass" in a JSON snapshot is NOT proof of a completed browser test.
+  // Require a CI run, exact code SHA and an executed timestamp for each surface.
+  for(const k of UI_SURFACES){
+    const t=candidate.surface_tests?.[k];
+    const evidenced=t && typeof t==='object' && t.status==='pass' &&
+      t.scpi_slug===candidate.scpi_slug && t.surface===k &&
+      /^[a-f0-9]{40}$/.test(t.commit_sha||'') &&
+      /^https:\/\/github\.com\/Speedcup212\/maximus-scpi\/actions\/runs\/\d+$/.test(t.run_url||'') &&
+      /^\d{4}-\d{2}-\d{2}T/.test(t.executed_at||'') &&
+      Number.isFinite(Date.parse(t.executed_at)) &&
+      Date.parse(t.executed_at)<=Date.now();
+    checked(evidenced,'parcours_non_teste:'+k);
+  }
   const dup=metrics.filter(e=>{const id=e.period+':'+e.metric;if(unique.has(id))return true;unique.add(id);return false});
   checked(dup.length===0,'indicateurs_dupliques');
   return {slug:candidate.scpi_slug,ready:failures.length===0,checked_metrics:metrics.length,
