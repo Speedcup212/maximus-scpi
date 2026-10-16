@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
+import {assertOfficial2026Valuation,official2026ValuationAnnouncementUrl} from './issuerValuationEvidence.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const get=(file)=>JSON.parse(fs.readFileSync(path.join(ROOT,file),'utf8'));
@@ -24,6 +25,7 @@ const allocation=(record,key)=>{
  return record;
 };
 const sourceHint=(c,field)=>{
+ if(field==='reconstitution_value')return assertOfficial2026Valuation(c);
  if(!c.publishing_sources||!/^https:\/\//.test(c.publishing_sources[field]?.url||'')
    ||!(Number(c.publishing_sources[field]?.page)>0)
    ||!(/^[a-f0-9]{64}$/.test(c.publishing_sources[field]?.sha256||'')))
@@ -149,6 +151,22 @@ async function liveApproval(candidates) {
     !t.comparator_radar_ready||!t.client_card_ready||!t.analysis_ready||
     !t.trajectory_ready||!t.liquidity_ready)
    throw Error('Iroko Atlas feature parity incomplete (SEO/comparator/analysis/radar/trajectory/client/liquidity) for '+candidate.scpi_slug);
+ }
+ // Never publish 31 Dec 2025 valuation as at 30 June 2026.
+ // A source-only JSON claim is insufficient: check exact live source and row.
+ const slugList=candidates.map(c=>c.scpi_slug).join(',');
+ const apiHeaders={apikey:key,Authorization:'Bearer '+key};
+ const liveValuesRequest=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,source_period,prix_reconstitution&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
+ const liveEvidenceRequest=await fetch(url+'/rest/v1/scpi_metric_certifications?select=scpi_slug,source_period,metric,value_numeric,source_url,verification_status&source_period=eq.2026-T2&metric=eq.valeur_reconstitution_par_part&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
+ if(!liveValuesRequest.ok||!liveEvidenceRequest.ok)
+  throw Error('Exact official 2026 valuation cannot be verified in live Supabase');
+ const liveValues=await liveValuesRequest.json(),liveEvidence=await liveEvidenceRequest.json();
+ for(const candidate of candidates){
+  const expected=assertOfficial2026Valuation(candidate);
+  if(!Array.isArray(liveValues)||!liveValues.some(r=>r.scpi_slug===candidate.scpi_slug&&r.source_period==='2026-T2'&&Number(r.prix_reconstitution)===expected))
+   throw Error('2026 valuation mismatch in canonical SCPI indicator: '+candidate.scpi_slug);
+  if(!Array.isArray(liveEvidence)||!liveEvidence.some(r=>r.scpi_slug===candidate.scpi_slug&&Number(r.value_numeric)===expected&&r.source_url===official2026ValuationAnnouncementUrl&&r.verification_status==='official_issuer_statement_verified'))
+   throw Error('Official 2026 Q2 valuation missing independently verified DB provenance: '+candidate.scpi_slug);
  }
  if(!response.ok)throw Error('Live release authorization HTTP '+response.status);
  const live=await response.json();
