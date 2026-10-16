@@ -61,6 +61,9 @@ jobs:
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
+      - name: SCPI official PDF exact period handoff and QA status transitions
+        run: node --test scripts/scpi-candidates/scpiExactPeriodHandoff.test.mjs
+
       - name: CORUM common certification schema parity with no premature release
         run: node --test scripts/scpi-candidates/corumCertificationsParity.test.mjs
 
