@@ -48,8 +48,13 @@ test('Same shared public template and comparator carry the structured fees',()=>
 test('DB gate checks both rates against the identical official hash-verified bulletin',()=>{
  assert.match(sql,/management_fee_euro_zone_ht/);
  assert.match(sql,/management_fee_non_euro_zone_ht/);
- assert.match(sql,/e1\.source_url=e2\.source_url|e2\.source_url=e1\.source_url/);
- assert.match(sql,/b\.pdf_sha256 ~ '\^\[a-f0-9\]\{64\}\$'/);
+ assert.match(sql,/e1\.source_url\s*=\s*e2\.source_url|e2\.source_url\s*=\s*e1\.source_url/);
+ assert.match(sql,/b\.pdf_sha256\s*~\s*'\^\[a-f0-9\]\{64\}\
+ assert.match(sql,/e1\.qa_status\s*=\s*'qa_pass'/);
+ assert.match(sql,/a\.certification_status\s*=\s*'certified'/);
+ assert.match(sql,/g\.release_ready IS TRUE/);
+});
+/);
  assert.match(sql,/e1\.qa_status='qa_pass'/);
  assert.match(sql,/a\.certification_status = 'certified'/);
  assert.match(sql,/g\.release_ready IS TRUE/);
