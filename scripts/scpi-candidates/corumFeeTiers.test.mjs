@@ -45,6 +45,15 @@ test('Same shared public template and comparator carry the structured fees',()=>
  assert.match(source('src/components/ScpiDetailPage.tsx'),/scpi\.fraisGestionDetails\.outside_euro_zone_percent/);
  assert.match(source('src/utils/buildScpiLandingData.ts'),/Frais de gestion géographiques distincts/);
 });
+test('Strict public approval gate quarantines failed histories and certifies only verified rows',()=>{
+ const gate=source('supabase/migrations/20261016_p0_strict_public_approval_gate.sql');
+ assert.match(gate,/u\.lifecycle='existing'/);
+ assert.match(gate,/u\.strict_pass IS TRUE/);
+ assert.match(gate,/u\.analysis_certified IS TRUE/);
+ assert.match(gate,/u\.publication_authorized IS TRUE/);
+ assert.match(gate,/'atream-hotel'/);
+ assert.match(gate,/'remake-uk-2025'/);
+});
 test('DB gate checks both rates against identical official hash-verified bulletin',()=>{
  assert.ok(sql.includes('management_fee_euro_zone_ht'));
  assert.ok(sql.includes('management_fee_non_euro_zone_ht'));
