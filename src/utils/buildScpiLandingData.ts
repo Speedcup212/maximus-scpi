@@ -127,6 +127,13 @@ function buildFactualWarnings(scpi: Scpi): string[] {
   if (typeof scpi.fees === 'number' && scpi.fees >= 10) {
     out.push(`Frais de souscription élevés (${formatPercent(scpi.fees)}).`);
   }
+  if (scpi.fraisGestionDetails?.kind === 'geographic_tiers') {
+    out.push('Frais de gestion géographiques distincts : ' +
+      scpi.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',') +
+      ' % HT zone euro / ' +
+      scpi.fraisGestionDetails.outside_euro_zone_percent.toFixed(2).replace('.', ',') +
+      ' % HT hors zone euro, sur loyers encaissés. Aucun taux moyen calculé.');
+  }
   const topSector = scpi.repartitionSector?.slice().sort((a, b) => b.value - a.value)[0];
   if (topSector && topSector.value >= 50) {
     out.push(`Concentration sectorielle : ${topSector.name} représente ${topSector.value.toFixed(0)} % du patrimoine.`);
