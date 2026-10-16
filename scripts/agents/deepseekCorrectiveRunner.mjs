@@ -15,7 +15,7 @@ export function allowedCorrectiveFile(value){
  if(!['src','scripts'].includes(parts[0]))return false;
  if(parts.some(x=>['node_modules','dist','build','__generated__'].includes(x)))return false;
  if(/(?:\.env|secret|credential|service.role|password|private.key|payment|stripe|billing|netlify|deploy)/i.test(value))return false;
- if(/^src\/data\//.test(value)||/^scripts\/agents\/.*(?:quota|runner|corrective)/i.test(value))return false;
+ if(/^src\/data\//.test(value)||/(?:^|\/)(?:[^/]*)(?:quota|runner|corrective)(?:[^/]*)\.(?:mjs|js|ts|tsx)$/i.test(value))return false;
  return /\.(?:js|mjs|ts|tsx|jsx|css|html)$/.test(value);
 }
 export function selectScope(task){
