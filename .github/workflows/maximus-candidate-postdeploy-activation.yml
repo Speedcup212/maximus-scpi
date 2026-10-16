@@ -1,0 +1,49 @@
+name: Postdeploy candidate activation (final protected step)
+on:
+  workflow_dispatch:
+    inputs:
+      release_sha:
+        description: Exact GitHub 40-char SHA already deployed to Netlify production
+        required: true
+        type: string
+      netlify_deploy_id:
+        description: Exact live ready Netlify deploy ID (24 hex chars)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: maximus-postdeploy-candidate-activation
+  cancel-in-progress: false
+jobs:
+  activate:
+    # No cron/push/PR path can ever flip public DB permissions.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    steps:
+      - name: Checkout EXACT approved release
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_sha }}
+          persist-credentials: false
+      - name: Verify exact checked-out SHA
+        run: test "$(git rev-parse HEAD)" = "${{ inputs.release_sha }}"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies for source checks
+        run: npm ci --ignore-scripts
+      - name: Verify Netlify is published, source and 4 routes are live, then atomically activate only fully approved candidates
+        env:
+          EXPECTED_RELEASE_SHA: ${{ inputs.release_sha }}
+          NETLIFY_DEPLOY_ID: ${{ inputs.netlify_deploy_id }}
+          NETLIFY_SITE_ID: e4f16f87-663d-4965-8de8-00f6840f1aa7
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: node scripts/scpi-candidates/activateApprovedBatchAfterNetlify.mjs

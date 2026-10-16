@@ -16,34 +16,37 @@ test('4 CORUM registered, source identities and page-level financial evidence su
   assert.ok(!item.blockers.some(x=>x.startsWith('t2_non_verifie:')));
  }
 });
-test('technical source approval cannot silently publish financial candidates',()=>{
+test('private candidate status is blocked, but a genuinely reviewed 65-fund cohort may pass',()=>{
+ const cohort=JSON.parse(fs.readFileSync(new URL('../../src/data/certified_scpi_cohort.json',import.meta.url),'utf8'));
+ const published=source.scpi.filter(c=>cohort.slugs.includes(c.scpi_slug)).length;
+ assert.ok([0,4].includes(published),'CORUM batch release must be atomic');
  for(const candidate of source.scpi){
   const r=auditCandidate(candidate);
-  assert.equal(r.ready,false);
-  assert.ok(r.blockers.includes('autorisation_publication_absente'));
-  assert.ok(r.blockers.includes('validation_finale_non_obtenue'));
-  assert.ok(r.blockers.includes('analyse_globale_non_certifiee'));
-  assert.ok(r.blockers.includes('parcours_non_teste:seo_page'));
-  assert.ok(r.blockers.includes('parcours_non_teste:espace_client'));
+  if(published===0){
+   assert.equal(r.ready,false);
+   for(const blocker of ['autorisation_publication_absente','validation_finale_non_obtenue',
+    'analyse_globale_non_certifiee','parcours_non_teste:seo_page','parcours_non_teste:espace_client'])
+    assert.ok(r.blockers.includes(blocker),blocker);
+  }else assert.equal(r.ready,true,'Live public candidate must pass all source+financial+surface gates');
  }
 });
-test('missing fees, risk, or liquidity blocks publication, never coerces to zero',()=>{
- for(const candidate of source.scpi){
-  const r=auditCandidate({...candidate,release_ready:true,publication_authorized:true,analysis_certified:true,
-   surface_tests:Object.fromEntries(['seo_page','sitemap','comparateur','liquidite','simulateur_direct','simulateur_revente','simulateur_demembrement','score_radar','espace_client','parcours_souscription'].map(k=>[k,'pass']))});
-  assert.equal(r.ready,false);
-  assert.ok(!r.blockers.includes('dic_risque_non_verifie:risk_sri'));
-  assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:risk_sri'));
-  assert.ok(r.blockers.includes('champ_affichage_non_qualifie:liquidity_basis'));
-  if(candidate.scpi_slug==='corum-xl') {
-   assert.ok(!r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
-   assert.ok(!r.blockers.includes('frais_gestion_tiers_invalides'));
-   const invalidFee={...candidate,publishing_fields:{...candidate.publishing_fields,
-     management_fees:{...candidate.publishing_fields.management_fees,blended_rate:14}}};
-   assert.ok(auditCandidate(invalidFee).blockers.includes('frais_gestion_taux_moyen_invente'));
-  }else{
-   assert.ok(r.blockers.includes('champ_affichage_non_qualifie:management_fees'));
+test('mutated absent fees, risk, or liquidity ALWAYS blocks, regardless of whether candidate is ready',()=>{
+ for(const c of source.scpi){
+  const approve=x=>({...x,release_ready:true,publication_authorized:true,
+    analysis_certified:true});
+  for(const field of ['management_fees','risk_sri','liquidity_basis']){
+   const x=structuredClone(c);
+   x.publishing_fields={...x.publishing_fields,[field]:null};
+   const result=auditCandidate(approve(x));
+   assert.equal(result.ready,false);
+   assert.ok(result.blockers.includes('champ_affichage_non_qualifie:'+field),c.scpi_slug+':'+field);
   }
+  const illiquid=structuredClone(c);
+  illiquid.publishing_fields={...illiquid.publishing_fields,
+    management_fees:{kind:'geographic_tiers',basis:'HT',revenue_basis:'loyers encaissés',
+      euro_zone_percent:12.4,outside_euro_zone_percent:15.9,blended_rate:14,
+      source_period:'2026-T2'}};
+  assert.ok(auditCandidate(approve(illiquid)).blockers.includes('frais_gestion_taux_moyen_invente'));
  }
 });
 test('2025 gross distribution and 2026 quarter flows are never interchangeable',()=>{
@@ -59,7 +62,8 @@ test('2025 gross distribution and 2026 quarter flows are never interchangeable',
 test('the shared public catalog is a single switch for SEO, comparator, simulators and client',()=>{
  const t=assertIntegrationTopology();
  assert.ok(t.surfaces>=11);
- assert.equal(t.cohort,61);
+ assert.equal(t.cohort,JSON.parse(fs.readFileSync(new URL('../../src/data/certified_scpi_cohort.json',import.meta.url),'utf8')).count);
+ assert.ok([0,4].includes(t.released_count));
 });
 test('duplicated or corrupt source-page evidence is rejected',()=>{
  const base=source.scpi[0];

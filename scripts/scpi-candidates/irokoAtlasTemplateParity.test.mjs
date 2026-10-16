@@ -35,11 +35,22 @@ test('Every new SCPI resolves to the very same Iroko Atlas template on publicati
  for(const product of candidate.scpi){
   assert.ok(product.scpi_slug.startsWith('corum-'));
   assert.equal(normalize(product.name),product.scpi_slug);
-  assert.ok(!cohort.slugs.includes(product.scpi_slug),
-   'Candidate must not leak into public cohort without full financial and tool QA');
-  assert.ok(!catalog.some(x=>normalize(x['Nom SCPI'])===product.scpi_slug));
+  // Candidate is private today, but must become public after real sign-off.
+  // Reject partial release and source/catalog disagreement, not a valid 65-fund cohort.
+  const inCohort=cohort.slugs.includes(product.scpi_slug);
+  const inCatalog=catalog.some(x=>normalize(x['Nom SCPI'])===product.scpi_slug);
+  assert.equal(inCohort,inCatalog,product.scpi_slug+' source/catalog mismatch');
   assert.ok(!editorials.includes("'"+product.scpi_slug+"':"),
    'Custom landing pages must not be substituted for Iroko Atlas model');
+ }
+ const published=candidate.scpi.filter(x=>cohort.slugs.includes(x.scpi_slug)).length;
+ assert.ok([0,4].includes(published),'candidate cohort must be all-or-none');
+ if(published===4){
+  // In a genuine deployment all candidate-specific release statuses must be
+  // evidenced; a mere imported name is not a completed SCPI.
+  assert.ok(candidate.scpi.every(x=>x.release_ready===true &&
+   x.publication_authorized===true && x.analysis_certified===true &&
+   Object.values(x.surface_tests||{}).filter(v=>v==='pass').length>=10));
  }
  assert.match(routes,/scpiKey && buildScpiLandingData\(scpiKey\)/);
  assert.match(routes,/buildScpiLandingData\(slug\)/);

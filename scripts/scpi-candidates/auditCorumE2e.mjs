@@ -34,8 +34,16 @@ export function auditCandidate(candidate) {
   const unique=new Set();
   const metrics=Array.isArray(candidate.evidence)?candidate.evidence:[];
   const docs=Array.isArray(candidate.pdfs)?candidate.pdfs:[];
-  const metric=(period,key)=>metrics.find(e=>e.period===period&&e.metric===key&&e.qa==='qa_pass'
-    &&Number.isFinite(Number(e.value))&&e.page>0&&/^https:\/\//.test(e.source||''));
+  const metric=(period,key)=>metrics.find(e=>{
+    const matchingDoc=docs.find(d=>d.period===period&&d.url===e.source &&
+      /^[a-f0-9]{64}$/.test(d.sha256||'') &&
+      Number.isInteger(Number(d.pages)) && Number(d.pages)>0);
+    return e.period===period && e.metric===key && e.qa==='qa_pass' &&
+      typeof e.value==='number' && Number.isFinite(e.value) &&
+      typeof e.unit==='string' && e.unit.length>0 &&
+      matchingDoc && Number.isInteger(Number(e.page)) &&
+      Number(e.page)>0 && Number(e.page)<=Number(matchingDoc.pages);
+  });
   const checked=(predicate,msg)=>{if(!predicate)failures.push(msg)};
   checked(CANDIDATES.includes(candidate.scpi_slug),'hors_lot_corum');
   checked(nameSlug(candidate.name)===candidate.scpi_slug,'identite_slug');
@@ -99,7 +107,19 @@ export function auditCandidate(candidate) {
     /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
     Number(candidate.publishing_sources?.[field]?.page)>0),
     'preuve_affichage_absente:'+field);
-  for(const k of UI_SURFACES)checked(candidate.surface_tests?.[k]==='pass','parcours_non_teste:'+k);
+  // A typed "pass" in a JSON snapshot is NOT proof of a completed browser test.
+  // Require a CI run, exact code SHA and an executed timestamp for each surface.
+  for(const k of UI_SURFACES){
+    const t=candidate.surface_tests?.[k];
+    const evidenced=t && typeof t==='object' && t.status==='pass' &&
+      t.scpi_slug===candidate.scpi_slug && t.surface===k &&
+      /^[a-f0-9]{40}$/.test(t.commit_sha||'') &&
+      /^https:\/\/github\.com\/Speedcup212\/maximus-scpi\/actions\/runs\/\d+$/.test(t.run_url||'') &&
+      /^\d{4}-\d{2}-\d{2}T/.test(t.executed_at||'') &&
+      Number.isFinite(Date.parse(t.executed_at)) &&
+      Date.parse(t.executed_at)<=Date.now();
+    checked(evidenced,'parcours_non_teste:'+k);
+  }
   const dup=metrics.filter(e=>{const id=e.period+':'+e.metric;if(unique.has(id))return true;unique.add(id);return false});
   checked(dup.length===0,'indicateurs_dupliques');
   return {slug:candidate.scpi_slug,ready:failures.length===0,checked_metrics:metrics.length,
@@ -111,21 +131,36 @@ export function auditSnapshot(snapshot) {
     new Set(snapshot.scpi.map(s=>s.scpi_slug)).size!==4)throw Error('Four distinct CORUM SCPI required');
   return snapshot.scpi.map(auditCandidate);
 }
+// One pure release-switch invariant for the 61-fund baseline AND future 65-fund release.
+// Tests must not hard-code "CORUM must be unpublished" or "exactly 61" forever.
+export function assertPublicReleaseConsistency(cohort, catalog, candidates=CANDIDATES) {
+  if(!cohort||!Array.isArray(cohort.slugs)||!Array.isArray(catalog))
+    throw Error('Invalid public source artifacts');
+  const slugs=new Set(cohort.slugs);
+  if(slugs.size!==cohort.slugs.length || cohort.count!==slugs.size)
+    throw Error('Public cohort duplicates or count drift');
+  const catalogNames=catalog.map(s=>nameSlug(s['Nom SCPI']));
+  const publicNames=new Set(catalogNames);
+  for(const slug of candidates){
+    if(slugs.has(slug)!==publicNames.has(slug))
+      throw Error('Partial publication (sitemap vs. product catalog): '+slug);
+    if(catalogNames.filter(name=>name===slug).length>1)
+      throw Error('Duplicate public product row: '+slug);
+  }
+  const released=candidates.filter(slug=>slugs.has(slug));
+  if(released.length!==0 && released.length!==candidates.length)
+    throw Error('Partially released CORUM batch: '+released.join(','));
+  return {cohort:slugs.size,released_count:released.length,
+    candidate_state:released.length===0?'private':'all_released'};
+}
 export function assertIntegrationTopology() {
   for(const relative of EXPECTED_TOOLS){
     if(!fs.existsSync(path.join(ROOT,relative)))throw Error('Required site tool absent: '+relative);
   }
-  const publicCohort=readJson('src/data/certified_scpi_cohort.json');
-  const publicSlugs=new Set(publicCohort.slugs||[]);
-  const publicCatalog=readJson('src/data/scpi_complet.json');
-  const publicNames=new Set(publicCatalog.map(s=>nameSlug(s['Nom SCPI'])));
-  // Fail-closed: public cohort and physical source catalog must agree.
-  for(const slug of CANDIDATES) {
-    if(publicSlugs.has(slug)!==publicNames.has(slug))
-      throw Error('Partial publication (sitemap vs. product catalog): '+slug);
-  }
-  if(publicCohort.count!==publicSlugs.size)throw Error('Public cohort count drift');
-  return {surfaces:EXPECTED_TOOLS.length,cohort:publicSlugs.size};
+  const result=assertPublicReleaseConsistency(
+    readJson('src/data/certified_scpi_cohort.json'),
+    readJson('src/data/scpi_complet.json'));
+  return {surfaces:EXPECTED_TOOLS.length,...result};
 }
 const invoked=process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(invoked){
