@@ -864,7 +864,14 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <strong>Durée recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
                 </p>
                 <p>
-                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC. Consultez la note d'information complète avant tout investissement.
+                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC.
+                  {realScpiData?.fraisGestionDetails?.kind === 'geographic_tiers' && (
+                    <span> Frais de gestion sur les loyers encaissés :
+                      {' '}{realScpiData.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',')} % HT (zone euro) /
+                      {' '}{realScpiData.fraisGestionDetails.outside_euro_zone_percent.toFixed(2).replace('.', ',')} % HT (hors zone euro).
+                      Aucun taux moyen unique ne peut être indiqué.
+                    </span>
+                  )}{' '}Consultez la note d'information complète avant tout investissement.
                 </p>
                 <p>
                   <strong>Conseiller :</strong> Eric Bellaiche - CIF enregistré à l'ORIAS sous le numéro 13001580.
