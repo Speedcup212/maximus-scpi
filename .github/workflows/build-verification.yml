@@ -61,6 +61,9 @@ jobs:
       - name: SCPI 61-to-65 adversarial release-process crash test (10 cases)
         run: node --test scripts/scpi-candidates/deliveryProcessCrashTest.mjs
 
+      - name: SCPI candidate stage, public lifecycle and post-Netlify activation regression
+        run: node --test scripts/scpi-candidates/stagedReleaseActivation.test.mjs
+
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
