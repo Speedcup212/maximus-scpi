@@ -52,6 +52,16 @@ OFFICIAL_HISTORICAL_ALIASES = {
 }
 
 
+def identity_failure_is_permanent(err: Exception) -> bool:
+    """Only a definite worker identity-verification failure is quarantined.
+
+    Transient HTTP, OCR runtime errors or a failed bridge remain retriable/failing.
+    """
+    return isinstance(err, ValueError) and str(err) == (
+        "document identity mismatch; no numbers published"
+    )
+
+
 def document_identity_matches(slug: str, name: str, text: str) -> bool:
     recovered = normalized(text)
     permitted_names = (name, *OFFICIAL_HISTORICAL_ALIASES.get(slug, ()))
@@ -161,6 +171,9 @@ def self_test() -> None:
     assert document_identity_matches("coeur-d-europe", "Cœur d\u0027Europe", "COEUR D\u0027EUROPE")
     assert document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsilon 360°")
     assert not document_identity_matches("epsicap-nano", "Epsicap Nano", "Epsicap Explore")
+    assert identity_failure_is_permanent(ValueError("document identity mismatch; no numbers published"))
+    assert not identity_failure_is_permanent(ValueError("no legible text after mandatory OCR"))
+    assert not identity_failure_is_permanent(RuntimeError("tesseract temporarily unavailable"))
     # Blank pages must not burn OCR CPU or pretend to provide new evidence.
     empty = fitz.open()
     empty.new_page()
@@ -195,11 +208,19 @@ def run_worker() -> None:
         if not outcome.get("ok"):
             raise RuntimeError("OCR completion not acknowledged")
     except Exception as err:
-        print("OCR failed:", type(err).__name__, str(err)[:200])
+        permanent = identity_failure_is_permanent(err)
+        print("OCR identity requires independent review:" if permanent else "OCR failed:",
+              type(err).__name__, str(err)[:200])
         try:
-            bridge({"op": "complete", "status": "failed", "task": task,
+            response = bridge({"op": "complete", "status": "failed", "task": task,
+                    "failure_code": "document_identity_mismatch" if permanent else "transient",
                     "error": type(err).__name__ + ": " + str(err)[:140],
                     "run_id": run_id})
+            if permanent and response.get("ok") is True and (
+                response.get("status") == "quarantined_identity_mismatch"
+            ):
+                print("OCR QUARANTINED: no numbers published; manual identity review required")
+                return
         except Exception as bridge_err:
             print("OCR failure could not be recorded:", type(bridge_err).__name__)
         raise

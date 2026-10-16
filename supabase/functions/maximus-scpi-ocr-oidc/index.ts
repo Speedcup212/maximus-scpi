@@ -109,13 +109,41 @@ Deno.serve(async(req:Request)=>{
       if(!job||job.status!=="running"||String(job.lease_token)!==t.lease_token)
         return fail(409,"stale_or_invalid_lease");
       if(body.status==="failed"){
+        const mismatch=body.failure_code==="document_identity_mismatch" &&
+          /^ValueError: document identity mismatch; no numbers published$/.test(cleanError(body.error));
+        if(mismatch){
+          await sql.begin(async(tx)=>{
+            const quarantined=await tx`
+              UPDATE maximus_agents.scpi_ocr_jobs
+                 SET status='quarantined_identity_mismatch',
+                     finished_at=now(),lease_token=NULL,
+                     result_note=${"Independent review: "+cleanError(body.error)+"; no financial values certified."}
+               WHERE scpi_slug=${t.slug} AND source_period=${t.period}
+                 AND document_kind=${t.kind}
+                 AND lease_token=${t.lease_token}::uuid
+                 AND status='running'
+              RETURNING scpi_slug
+            `;
+            if(quarantined.length!==1)throw new Error("stale_quarantine_lease");
+            await tx`
+              UPDATE maximus_agents.scpi_candidate_document_index
+                 SET status='rejected',
+                     review_note=${"OCR source identity not established; independent human document review required before extraction. "+cleanError(body.error)}
+               WHERE scpi_slug=${t.slug} AND source_period=${t.period}
+                 AND document_kind=${t.kind}
+                 AND status IN ('publisher_index_visible','direct_pdf_checked')
+            `;
+          });
+          return Response.json({ok:true,status:"quarantined_identity_mismatch"});
+        }
         await sql`
           UPDATE maximus_agents.scpi_ocr_jobs
-          SET status='failed',finished_at=now(),
-             next_try_at=now()+interval '2 hours',
-             result_note=${cleanError(body.error)}
-          WHERE scpi_slug=${t.slug} AND source_period=${t.period}
-           AND document_kind=${t.kind} AND lease_token=${t.lease_token}::uuid AND status='running'
+             SET status='failed',finished_at=now(),
+                 next_try_at=now()+interval '2 hours',
+                 result_note=${cleanError(body.error)}
+           WHERE scpi_slug=${t.slug} AND source_period=${t.period}
+             AND document_kind=${t.kind}
+             AND lease_token=${t.lease_token}::uuid AND status='running'
         `;
         return Response.json({ok:true,status:"failed"});
       }
