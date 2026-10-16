@@ -23,7 +23,9 @@ test('Financial provenance remains in addition to cohort filtering',()=>{
  assert.match(row,/NULLIF\\(btrim\\(evidence_text\\),''\\) IS NOT NULL/);
 });
 test('Trajectory public views are invoker-safe without removing private QA data',()=>{
- for(const name of ['scpi_trajectory_pilot_history','scpi_trajectory_pilot_liquidity'])
+ for(const name of ['scpi_trajectory_pilot_history','scpi_trajectory_pilot_liquidity',
+  'scpi_trajectory_pilot_readiness','scpi_trajectory_pilot_valuation_debt',
+  'scpi_trajectory_signal_gate'])
   assert.match(views,new RegExp('ALTER VIEW public\\.'+name+' SET \\(security_invoker=true\\)'));
  assert.match(views,/maximus_scpi_is_in_public_cohort\\(scpi_slug\\)/);
 });
