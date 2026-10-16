@@ -1,4 +1,4 @@
-import { Scpi } from '../types/scpi';
+import { Scpi, type ScpiManagementFeeDetails } from '../types/scpi';
 import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
 import scpiCompletJson from './scpi_complet.json';
 import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
@@ -215,6 +215,21 @@ const cleanNumericValue = (value: any): number | undefined => {
   return undefined;
 };
 
+// A geographic fee structure cannot be converted to one blended/flat rate.
+const parseManagementFeeDetails = (value: unknown): ScpiManagementFeeDetails | undefined => {
+  if(!value || typeof value !== 'object' || Array.isArray(value))return undefined;
+  const v=value as Partial<ScpiManagementFeeDetails>;
+  if(v.kind!=='geographic_tiers'||v.basis!=='HT'||v.blended_rate!==null||
+     v.revenue_basis!=='loyers encaissés'||
+     !Number.isFinite(v.euro_zone_percent)||!(Number(v.euro_zone_percent)>0)||
+     !Number.isFinite(v.outside_euro_zone_percent)||!(Number(v.outside_euro_zone_percent)>0)||
+     !/^https:\/\/www\.corum\.fr\//.test(v.source_url||'')||
+     !/^[a-f0-9]{64}$/.test(v.source_sha256||'')||
+     !Number.isInteger(v.source_page)||!(Number(v.source_page)>0))
+    return undefined;
+  return v as ScpiManagementFeeDetails;
+};
+
 // Convert JSON data to Scpi format
 // Utiliser le nouveau fichier scpi_complet.json s'il est disponible, sinon utiliser l'ancien
 const toCertifiedScpiSlug = (name: string): string =>
@@ -396,6 +411,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     versementLoyers: scpi['Versement des loyers'] || undefined,
     dureeDetentionRecommandee: cleanNumericValue(scpi['Durée de détention recommandée (ans)']),
     fraisGestion: cleanNumericValue(scpi['Frais de gestion (HT/%)']),
+    fraisGestionDetails: parseManagementFeeDetails(scpi['Frais de gestion (détail)']),
     valeurRetrait: cleanNumericValue(scpi['Valeur de retrait (€)']),
     // Priorité à la valeur de reconstitution PAR PART validée (QA) — même source que la décote/surcote affichée.
     valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution par part (€)']) ?? cleanNumericValue(scpi['Valeur de reconstitution (€)']),
