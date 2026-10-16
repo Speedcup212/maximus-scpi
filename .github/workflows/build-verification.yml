@@ -85,6 +85,9 @@ jobs:
       - name: CORUM issuer T2 sector and country allocations exact label parity
         run: node --test scripts/scpi-candidates/officialAllocationParity.test.mjs
 
+      - name: Verify official CORUM Q1 archived PDFs are LIVE and SHA-identical
+        run: node scripts/scpi-candidates/checkCorumQ1PrimaryLive.mjs
+
       - name: CORUM regulatory PDFs primary 2026 SHA and full-document extraction
         run: node scripts/scpi-candidates/verifyCorumCurrentDicFromPublisher.mjs
 
