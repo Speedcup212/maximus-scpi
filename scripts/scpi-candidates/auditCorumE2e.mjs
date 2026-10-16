@@ -111,21 +111,36 @@ export function auditSnapshot(snapshot) {
     new Set(snapshot.scpi.map(s=>s.scpi_slug)).size!==4)throw Error('Four distinct CORUM SCPI required');
   return snapshot.scpi.map(auditCandidate);
 }
+// One pure release-switch invariant for the 61-fund baseline AND future 65-fund release.
+// Tests must not hard-code "CORUM must be unpublished" or "exactly 61" forever.
+export function assertPublicReleaseConsistency(cohort, catalog, candidates=CANDIDATES) {
+  if(!cohort||!Array.isArray(cohort.slugs)||!Array.isArray(catalog))
+    throw Error('Invalid public source artifacts');
+  const slugs=new Set(cohort.slugs);
+  if(slugs.size!==cohort.slugs.length || cohort.count!==slugs.size)
+    throw Error('Public cohort duplicates or count drift');
+  const catalogNames=catalog.map(s=>nameSlug(s['Nom SCPI']));
+  const publicNames=new Set(catalogNames);
+  for(const slug of candidates){
+    if(slugs.has(slug)!==publicNames.has(slug))
+      throw Error('Partial publication (sitemap vs. product catalog): '+slug);
+    if(catalogNames.filter(name=>name===slug).length>1)
+      throw Error('Duplicate public product row: '+slug);
+  }
+  const released=candidates.filter(slug=>slugs.has(slug));
+  if(released.length!==0 && released.length!==candidates.length)
+    throw Error('Partially released CORUM batch: '+released.join(','));
+  return {cohort:slugs.size,released_count:released.length,
+    candidate_state:released.length===0?'private':'all_released'};
+}
 export function assertIntegrationTopology() {
   for(const relative of EXPECTED_TOOLS){
     if(!fs.existsSync(path.join(ROOT,relative)))throw Error('Required site tool absent: '+relative);
   }
-  const publicCohort=readJson('src/data/certified_scpi_cohort.json');
-  const publicSlugs=new Set(publicCohort.slugs||[]);
-  const publicCatalog=readJson('src/data/scpi_complet.json');
-  const publicNames=new Set(publicCatalog.map(s=>nameSlug(s['Nom SCPI'])));
-  // Fail-closed: public cohort and physical source catalog must agree.
-  for(const slug of CANDIDATES) {
-    if(publicSlugs.has(slug)!==publicNames.has(slug))
-      throw Error('Partial publication (sitemap vs. product catalog): '+slug);
-  }
-  if(publicCohort.count!==publicSlugs.size)throw Error('Public cohort count drift');
-  return {surfaces:EXPECTED_TOOLS.length,cohort:publicSlugs.size};
+  const result=assertPublicReleaseConsistency(
+    readJson('src/data/certified_scpi_cohort.json'),
+    readJson('src/data/scpi_complet.json'));
+  return {surfaces:EXPECTED_TOOLS.length,...result};
 }
 const invoked=process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url);
 if(invoked){
