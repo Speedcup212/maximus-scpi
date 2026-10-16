@@ -26,6 +26,7 @@ on:
       - ".github/workflows/maximus-deepseek-search.yml"
       - "scripts/agents/deepseekCorrectiveRunner.mjs"
       - "scripts/agents/deepseekCorrectiveRunner.test.mjs"
+      - "scripts/agents/deepseekWorkflowContract.test.mjs"
 
 permissions:
   contents: write
@@ -50,15 +51,16 @@ jobs:
         run: |
           node --check scripts/agents/deepseekCorrectiveRunner.mjs
           node --test scripts/agents/deepseekCorrectiveRunner.test.mjs
+          node --test scripts/agents/deepseekWorkflowContract.test.mjs
 
   corrective:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      DEEPSEEK_API_KEY: ${ secrets.DEEPSEEK_API_KEY }
-      CORRECTIVE_ROLE: ${ github.event_name == 'workflow_dispatch' && inputs.role || (github.event.schedule == '17 12 * * *' && 'SEARCH' || 'DATA') }
-      GH_TOKEN: ${ github.token }
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      CORRECTIVE_ROLE: ${{ github.event_name == 'workflow_dispatch' && inputs.role || (github.event.schedule == '17 12 * * *' && 'SEARCH' || 'DATA') }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout current source without automatic publication
         uses: actions/checkout@v4
