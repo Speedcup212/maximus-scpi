@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+const sfdr=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_issuer_specific_sfdr_2026_document_proofs.sql',import.meta.url),'utf8');
 const sql=fs.readFileSync(new URL('../../supabase/migrations/20261016_corum_financial_source_reconciliation_and_unapproved_audits.sql',import.meta.url),'utf8');
 
 test('Financial source reconciliation accepts only the four unapproved CORUM with 69 reviewed proofs',()=>{
@@ -30,4 +31,15 @@ test('Existing history refreshes and financial auditors never self-approve final
  assert.doesNotMatch(sql,/SET\s+publication_authorized\s*=\s*true/i);
  assert.doesNotMatch(sql,/SET\s+analysis_certified\s*=\s*true/i);
  assert.doesNotMatch(sql,/SET\s+qa_status\s*=\s*'manual_verified_official'/i);
+});
+
+test('SFDR uses dated issuer product evidence, never old group report as blanket truth',()=>{
+ assert.match(sfdr,/corum-origin','Article 6'/);
+ assert.match(sfdr,/corum-eurion','Article 8'/);
+ assert.match(sfdr,/corum-xl','Article 6'/);
+ assert.match(sfdr,/Issuer market-target sheet|issuer market-target sheet|documentation issuer CORUM market-target sheet/);
+ assert.match(sfdr,/CORUM USA remains NULL/);
+ assert.match(sfdr,/a\.audit_status='pending'/);
+ assert.doesNotMatch(sfdr,/SET\s+publication_authorized\s*=/i);
+ assert.doesNotMatch(sfdr,/SET\s+analysis_certified\s*=/i);
 });
