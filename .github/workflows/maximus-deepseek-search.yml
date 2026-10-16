@@ -20,6 +20,8 @@ on:
       - "scripts/agents/deepseekCorrectiveRunner.mjs"
       - "supabase/functions/maximus-search-agent-oidc/index.ts"
       - "supabase/migrations/20261016_deepseek_scoped_corrective_worker.sql"
+      - "supabase/migrations/20261016_p0_strict_public_approval_gate.sql"
+      - "scripts/scpi-candidates/corumFeeTiers.test.mjs"
   pull_request:
     branches: [main]
     paths:
@@ -27,6 +29,8 @@ on:
       - "scripts/agents/deepseekCorrectiveRunner.mjs"
       - "scripts/agents/deepseekCorrectiveRunner.test.mjs"
       - "scripts/agents/deepseekWorkflowContract.test.mjs"
+      - "supabase/migrations/20261016_p0_strict_public_approval_gate.sql"
+      - "scripts/scpi-candidates/corumFeeTiers.test.mjs"
 
 permissions:
   contents: write
