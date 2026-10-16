@@ -1,3 +1,16 @@
+export interface ScpiManagementFeeDetails {
+  kind: 'geographic_tiers';
+  basis: 'HT';
+  revenue_basis: 'loyers encaissés';
+  euro_zone_percent: number;
+  outside_euro_zone_percent: number;
+  blended_rate: null;
+  source_period: string;
+  source_url: string;
+  source_page: number;
+  source_sha256: string;
+}
+
 export interface ScpiRepartition {
   name: string;
   value: number;
@@ -32,7 +45,8 @@ export interface Scpi {
   delaiJouissance?: number; // Délai de jouissance en mois
   versementLoyers?: string; // Fréquence de versement des loyers (ex: "Trimestriel", "Mensuel")
   dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
-  fraisGestion?: number; // Frais de gestion (HT/%)
+  fraisGestion?: number; // Frais de gestion (HT/%) — only when one official flat rate exists
+  fraisGestionDetails?: ScpiManagementFeeDetails; // Separate euro/non-euro official tiers
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurReconstitution?: number; // Valeur de reconstitution (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
