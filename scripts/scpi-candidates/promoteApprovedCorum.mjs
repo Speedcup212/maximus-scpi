@@ -175,9 +175,14 @@ async function liveApproval(candidates) {
  if(!Array.isArray(live)||live.length!==candidates.length)throw Error('Live release coverage mismatch');
  for(const candidate of candidates) {
   const row=live.find(x=>x.scpi_slug===candidate.scpi_slug);
-  if(!row||!row.release_ready||!row.publication_authorized||
-    !row.analysis_certified||!row.live_indicators_ok||!row.liquidity_ok)
-   throw Error('Fail-closed: live release, client or liquidity gate incomplete for '+candidate.scpi_slug);
+  // Candidate lifecycle constraints *forbid* public/analysis flags until
+  // AFTER the Netlify production artifact is proven and postdeploy activated.
+  // Private release readiness comes from the independently signed
+  // candidate_final_release_v1 + complete surface tool clearance above.
+  if(!row||!row.release_ready||!row.live_indicators_ok||!row.liquidity_ok)
+   throw Error('Fail-closed: private final financial/client/liquidity gate incomplete for '+candidate.scpi_slug);
+  if(row.publication_authorized!==false||row.analysis_certified!==false)
+   throw Error('Candidate marked publicly activated before source release: '+candidate.scpi_slug);
  }
 }
 const preview=get('data-import/corum_candidates_prepublication_20261015.json');
