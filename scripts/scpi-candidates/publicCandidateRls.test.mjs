@@ -25,7 +25,10 @@ test('Financial provenance remains in addition to cohort filtering',()=>{
 test('Trajectory public views are invoker-safe without removing private QA data',()=>{
  for(const name of ['scpi_trajectory_pilot_history','scpi_trajectory_pilot_liquidity',
   'scpi_trajectory_pilot_readiness','scpi_trajectory_pilot_valuation_debt',
-  'scpi_trajectory_signal_gate'])
+  'scpi_trajectory_signal_gate',
+  'scpi_annual_backfill_progress','scpi_automation_status','scpi_indicator_deltas',
+  'scpi_trajectory_agent_progress','scpi_trajectory_orchestrator_status',
+  'scpi_trajectory_work_plan'])
   assert.match(views,new RegExp('ALTER VIEW public\\.'+name+' SET \\(security_invoker=true\\)'));
  assert.match(views,/maximus_scpi_is_in_public_cohort\\(scpi_slug\\)/);
 });
