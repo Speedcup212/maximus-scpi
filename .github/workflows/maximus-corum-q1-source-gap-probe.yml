@@ -1,0 +1,22 @@
+name: CORUM Q1 official source gap probe
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/scpi-candidates/probeCorumQ1Gaps.mjs
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Exact-byte issuer PDF fingerprint, targeted prior-quarter fields
+        run: node scripts/scpi-candidates/probeCorumQ1Gaps.mjs
