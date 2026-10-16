@@ -318,6 +318,14 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                       return <span className={`font-black text-sm ${d.colorClass}`}>{d.formatted}</span>;
                     })()}
                   </div>
+                  {scpi.fraisGestionDetails?.kind === 'geographic_tiers' && (
+                    <div className="p-2 bg-white dark:bg-gray-800 rounded-lg text-xs">
+                      <span className="font-semibold">Gestion sur loyers HT : </span>
+                      <span>{scpi.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',')} % zone euro /
+                        {' '}{scpi.fraisGestionDetails.outside_euro_zone_percent.toFixed(2).replace('.', ',')} % hors zone euro.</span>
+                      <span className="block text-gray-500">Taux géographiques distincts — pas de moyenne non sourcée.</span>
+                    </div>
+                  )}
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais</span>
                     <span className={`font-black text-sm ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
