@@ -16,15 +16,18 @@ test('4 CORUM registered, source identities and page-level financial evidence su
   assert.ok(!item.blockers.some(x=>x.startsWith('t2_non_verifie:')));
  }
 });
-test('technical source approval cannot silently publish financial candidates',()=>{
+test('private candidate status is blocked, but a genuinely reviewed 65-fund cohort may pass',()=>{
+ const cohort=JSON.parse(fs.readFileSync(new URL('../../src/data/certified_scpi_cohort.json',import.meta.url),'utf8'));
+ const published=source.scpi.filter(c=>cohort.slugs.includes(c.scpi_slug)).length;
+ assert.ok([0,4].includes(published),'CORUM batch release must be atomic');
  for(const candidate of source.scpi){
   const r=auditCandidate(candidate);
-  assert.equal(r.ready,false);
-  assert.ok(r.blockers.includes('autorisation_publication_absente'));
-  assert.ok(r.blockers.includes('validation_finale_non_obtenue'));
-  assert.ok(r.blockers.includes('analyse_globale_non_certifiee'));
-  assert.ok(r.blockers.includes('parcours_non_teste:seo_page'));
-  assert.ok(r.blockers.includes('parcours_non_teste:espace_client'));
+  if(published===0){
+   assert.equal(r.ready,false);
+   for(const blocker of ['autorisation_publication_absente','validation_finale_non_obtenue',
+    'analyse_globale_non_certifiee','parcours_non_teste:seo_page','parcours_non_teste:espace_client'])
+    assert.ok(r.blockers.includes(blocker),blocker);
+  }else assert.equal(r.ready,true,'Live public candidate must pass all source+financial+surface gates');
  }
 });
 test('missing fees, risk, or liquidity blocks publication, never coerces to zero',()=>{
@@ -59,7 +62,8 @@ test('2025 gross distribution and 2026 quarter flows are never interchangeable',
 test('the shared public catalog is a single switch for SEO, comparator, simulators and client',()=>{
  const t=assertIntegrationTopology();
  assert.ok(t.surfaces>=11);
- assert.equal(t.cohort,61);
+ assert.equal(t.cohort,JSON.parse(fs.readFileSync(new URL('../../src/data/certified_scpi_cohort.json',import.meta.url),'utf8')).count);
+ assert.ok([0,4].includes(t.released_count));
 });
 test('duplicated or corrupt source-page evidence is rejected',()=>{
  const base=source.scpi[0];
