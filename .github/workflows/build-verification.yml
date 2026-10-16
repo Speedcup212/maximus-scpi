@@ -82,6 +82,9 @@ jobs:
       - name: CORUM common certification schema parity with no premature release
         run: node --test scripts/scpi-candidates/corumCertificationsParity.test.mjs
 
+      - name: CORUM USA statutory management fee tiers map to comparator and radar
+        run: node --test scripts/scpi-candidates/issuerStatutesFeesToolParity.test.mjs
+
       - name: CORUM geographic fee tiers validated against publisher, shared components and release gates
         run: node --test scripts/scpi-candidates/corumFeeTiers.test.mjs
 
