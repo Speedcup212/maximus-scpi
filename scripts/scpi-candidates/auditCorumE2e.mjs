@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {hasOfficial2026Valuation} from './issuerValuationEvidence.mjs';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const CANDIDATES=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const METRICS_ANNUAL=['taux_distribution','distribution_brute_par_part','endettement_pct'];
@@ -92,9 +93,11 @@ export function auditCandidate(candidate) {
       (!Array.isArray(v)||v.length>0),'champ_affichage_non_qualifie:'+field);
   }
   for(const field of essentials)checked(
+    (field==='reconstitution_value' && hasOfficial2026Valuation(candidate)) ||
+    (field!=='reconstitution_value' &&
     /^[a-f0-9]{64}$/.test(candidate.publishing_sources?.[field]?.sha256||'') &&
     /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
-    Number(candidate.publishing_sources?.[field]?.page)>0,
+    Number(candidate.publishing_sources?.[field]?.page)>0),
     'preuve_affichage_absente:'+field);
   for(const k of UI_SURFACES)checked(candidate.surface_tests?.[k]==='pass','parcours_non_teste:'+k);
   const dup=metrics.filter(e=>{const id=e.period+':'+e.metric;if(unique.has(id))return true;unique.add(id);return false});
