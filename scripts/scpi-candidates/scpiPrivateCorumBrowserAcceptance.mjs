@@ -169,14 +169,18 @@ try{
         return spans.length===2 && /\/100$/.test(spans[1].textContent?.trim()||'');
       });
       const labels=scoreRows.map(row=>row.children[0].textContent?.trim()||'');
+      const modalText=modal?.textContent||'';
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
         radarFiveAxes:!!radarHeader&&['Rendement','Secteurs','Géographie','Qualité','Taille']
-          .every(axis=>labels.includes(axis))};
+          .every(axis=>labels.includes(axis)),
+        historical_financial_periods:modalText.includes('Taux de distribution brut 2025')&&
+          modalText.includes('Endettement (rapport annuel 2025)')};
     },name);
     return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
       rendered_recharts_radar:inspected.radarRendered,
-      five_source_score_axes_present:inspected.radarFiveAxes};
+      five_source_score_axes_present:inspected.radarFiveAxes,
+      source_year_visible_in_analysis:inspected.historical_financial_periods};
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{
