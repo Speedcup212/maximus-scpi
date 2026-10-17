@@ -67,6 +67,9 @@ jobs:
       - name: SCPI candidate stage, public lifecycle and post-Netlify activation regression
         run: node --test scripts/scpi-candidates/stagedReleaseActivation.test.mjs
 
+      - name: Candidate official allocations same-period PDF and atomic release blocker
+        run: node --test scripts/scpi-candidates/candidateAllocationReleaseGate.test.mjs
+
       - name: Iroko Atlas master SCPI template parity (all tools)
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
