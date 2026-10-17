@@ -7,6 +7,22 @@
 DO $verify$
 DECLARE n integer;
 BEGIN
+-- Replaying the already verified 17-field batch must never rewrite existing evidence.
+IF (SELECT count(*) FROM maximus_agents.scpi_candidate_allocations
+    WHERE scpi_slug IN ('corum-origin','corum-xl')
+      AND allocation_type='geography' AND source_period='2026-T2'
+      AND qa_status='qa_pass'
+      AND evidence_excerpt LIKE '2026-10-17 PREUVE PAR TRIANGULATION T2 2026:%')=17
+THEN
+  IF NOT EXISTS(SELECT 1 FROM maximus_agents.scpi_candidate_allocation_certification_v1
+                WHERE scpi_slug='corum-origin' AND allocations_verified)
+   OR NOT EXISTS(SELECT 1 FROM maximus_agents.scpi_candidate_allocation_certification_v1
+                 WHERE scpi_slug='corum-xl' AND allocations_verified)
+   OR EXISTS (SELECT 1 FROM maximus_agents.scpi_candidate_final_release_v1
+              WHERE scpi_slug IN ('corum-origin','corum-xl') AND final_release_ready)
+  THEN RAISE EXCEPTION 'Replay verified but release allocation gate inconsistent'; END IF;
+  RAISE NOTICE '17 independent-source geography crosschecks already applied';
+ELSE
 IF EXISTS (
   SELECT 1 FROM maximus_agents.scpi_universe
   WHERE scpi_slug IN ('corum-origin','corum-xl')
@@ -118,4 +134,5 @@ IF EXISTS(
   SELECT 1 FROM maximus_agents.scpi_candidate_final_release_v1
   WHERE scpi_slug IN ('corum-origin','corum-xl') AND final_release_ready
 ) THEN RAISE EXCEPTION 'Crosscheck must not authorize production'; END IF;
+END IF;
 END $verify$;
