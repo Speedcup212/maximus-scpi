@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distArticlesDir = path.join(__dirname, '../dist/articles');
 const manifestPath = path.join(distArticlesDir, 'react-prerender-manifest.json');
+const auditDir = path.join(distArticlesDir, '.prerender-audit');
 const strictPrerender = process.env.SEO_PRERENDER_STRICT === '1';
 
 const stripText = (html: string) => html
@@ -124,9 +125,21 @@ for (const article of templates) {
   if (!manifestEntry) {
     failures.push(`${article.slug}: absent du manifest React`);
   } else if (manifestEntry.rootHash !== hash(root.inner.trim())) {
-    failures.push(`${article.slug}: le HTML final diverge du rendu React capturé`);
+    const snapshot = path.join(auditDir, article.slug + '.html');
+    if (fs.existsSync(snapshot)) {
+      const initial = fs.readFileSync(snapshot, 'utf8').trim();
+      const actual = root.inner.trim();
+      let index = 0;
+      while (index < initial.length && index < actual.length && initial[index] === actual[index]) index++;
+      const before = initial.slice(index, index + 130).replace(/\\s+/g, ' ');
+      const after = actual.slice(index, index + 130).replace(/\\s+/g, ' ');
+      failures.push(`${article.slug}: différentiel à ${index} — AVANT=${JSON.stringify(before)} APRÈS=${JSON.stringify(after)}`);
+    } else failures.push(`${article.slug}: le HTML final diverge du rendu React capturé (baseline indisponible)`);
   }
 }
+
+// Les captures de comparaison ne font jamais partie de la production.
+if (fs.existsSync(auditDir)) fs.rmSync(auditDir, { recursive: true, force: true });
 
 if (failures.length) {
   finishWithFailures(failures);
