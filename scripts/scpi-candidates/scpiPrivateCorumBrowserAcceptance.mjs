@@ -33,6 +33,10 @@ const save=()=>fs.writeFileSync(path.join(OUT,'browser-matrix.json'),JSON.string
 let browser,page,failed=0;
 const visit=async(route,contains,timeout=13000)=>{
  const response=await page.goto(BASE+route,{waitUntil:'domcontentloaded',timeout:25000});
+ // The prerendered SCPI HTML shell is NOT evidence that the React product mounted.
+ if(/^\/corum-(eurion|origin|usa|xl)\/$/.test(route))
+   await page.waitForFunction(()=>document.body?.innerText?.includes('Obtenir mon analyse personnalisée'),
+     {timeout:18000});
  // Cookie choice is a REAL visible modal in Chromium; dismiss it with the
  // "Refuser tout" button rather than misdiagnosing the comparator as broken.
  await page.waitForFunction(()=>Boolean(document.querySelector('body')),
@@ -110,7 +114,7 @@ try{
     return {http_200:code===200,name_visible:normalized(body).includes(normalized(name)),
       page_title_or_h1:normalized(head.title+' '+head.h1).includes(normalized(name)),
       seo_description:head.description.length>40,
-      annual_reporting_year_visible:/2025/.test(body)};
+      annual_reporting_year_visible:/distribution[^\n]{0,90}2025/i.test(body)};
   });
   await caseRun(slug,'sitemap',async()=>{
     const s=await get('/sitemap.xml');
@@ -133,12 +137,13 @@ try{
   });
   await caseRun(slug,'analyse_detail',async()=>{
     await searchFor(name);
-    const candidates=await page.$('#scpi-grid button');
-    let clicked=false;
-    for(const button of candidates){
-      const label=await button.evaluate(e=>e.textContent?.trim()||'');
-      if(/^analyser$/i.test(label)){await button.click();clicked=true;break}
-    }
+    const clicked=await page.evaluate(()=>{
+      const container=document.querySelector('#scpi-grid');
+      const button=Array.from(container?.querySelectorAll('button')||[])
+        .find(x=>/^analyser$/i.test(x.textContent?.trim()||''));
+      if(button){button.click();return true;}
+      return false;
+    });
     if(!clicked)throw Error('No actual Analyser action on selected CORUM comparator card');
     // Verify the actual analysis modal and the five-dimension Recharts radar;
     // a search result containing the word "analyse" never counted as radar QA.
