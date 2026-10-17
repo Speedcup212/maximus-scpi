@@ -1,4 +1,5 @@
 import certifiedScpiCohort from './certified_scpi_cohort.json';
+import { sourceBackedPortfolioDescription } from '../utils/scpiSourcePortfolioDescription';
 import { scpiData } from './scpiData';
 import type { ScpiManagementFeeDetails } from '../types/scpi';
 
@@ -4087,7 +4088,11 @@ const newlyReleased = scpiData
     capitalization: (scpi.capitalization / 1_000_000).toLocaleString('fr-FR', {maximumFractionDigits: 2}) + ' M€',
     sectors: scpi.repartitionSector!,
     geography: scpi.repartitionGeo!,
-    strategy: '',
+    strategy: sourceBackedPortfolioDescription({
+      sectors: scpi.repartitionSector,
+      countries: scpi.repartitionGeo,
+      referencePeriod: scpi.periodeBulletinTrimestriel
+    }),
     reconstitutionValue: scpi.valeurReconstitution,
     discount: scpi.discountQaStatus === 'publishable' ? scpi.discount : undefined,
     discountQaStatus: scpi.discountQaStatus,
