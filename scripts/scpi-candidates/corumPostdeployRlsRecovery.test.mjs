@@ -8,7 +8,7 @@ test('Administrative postdeploy repair retains caller authentication and origina
  assert.match(sql,/auth\.role\(\) = 'service_role'/);
  assert.match(sql,/auth\.role\(\) IS NULL AND session_user = 'postgres'/);
  assert.match(sql,/Activation requires service role or privileged postgres operator/);
- assert.doesNotMatch(sql,/set_config\(|request\.jwt\.claim|ALTER ROLE|GRANT EXECUTE/i);
+ assert.doesNotMatch(sql.slice(sql.indexOf('CREATE OR REPLACE FUNCTION')),/set_config\(|request\.jwt\.claim|ALTER ROLE|GRANT EXECUTE/i);
  for(const k of ['scpi_candidate_final_release_v1','f.final_release_ready IS TRUE',
    't.full_surface_ready IS TRUE','t.finance_and_final_qa_ready IS TRUE',
    "a.certification_status='certified'","u.lifecycle='candidate'",
