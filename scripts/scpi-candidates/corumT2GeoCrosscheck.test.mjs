@@ -41,6 +41,6 @@ test('all four can reach financial QA but technical provenance never constitutes
    assert.match(content,/final_release_ready/);
    assert.doesNotMatch(content,/SET\s+(?:debt_and_leverage_review_passed|fees_and_redemption_review_passed|frontend_contract_smoke_passed)\s*=/i);
  }
- assert.match(eurion,/ni inspection visuelle du graphique original/);
+ assert.match(eurion,/pas inspection visuelle du graphique original/);
  assert.match(geography,/non signature financière\/réglementaire finale/);
 });
