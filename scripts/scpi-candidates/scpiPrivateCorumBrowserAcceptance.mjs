@@ -165,8 +165,11 @@ try{
       // five visible score rows in the exact open modal and require a rendered radar.
       const modal=heading?.closest('div.fixed');
       const scoreContent=modal?.textContent||'';
-      const allFiveScores=['Rendement','Secteurs','Géographie','Qualité','Taille']
-        .every(axis=>new RegExp(axis+'\\s*\\d+/100').test(scoreContent));
+      const tickLabels=Array.from(document.querySelectorAll('.recharts-polar-angle-axis text'))
+        .map(el=>el.textContent||'');
+      const allFiveScores=['Rendement','Secteurs','Géographie','Solidité','Capitalisation']
+        .every(axis=>tickLabels.includes(axis)) &&
+        scoreContent.includes('Solidité / valorisation');
       const modalText=modal?.textContent||'';
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
