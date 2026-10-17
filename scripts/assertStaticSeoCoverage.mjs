@@ -163,8 +163,8 @@ for (const url of urls) {
     for (const stale of ['23 €/mois', '279 €/an', '330 €/an', 'à 2,5 % garanti']) {
       if (html.includes(stale)) failures.push(slug + ' → projection financière périmée : ' + stale);
     }
-    const articleContent = html.match(/<article[^>]*class=["']article-prose["'][^>]*>([\\s\\S]*?)<\\/article>/i)?.[1] || '';
-    const wordCount = articleContent.replace(/<[^>]*>/g, ' ').split(/\\s+/).filter(Boolean).length;
+    const articleContent = html.match(/<article[^>]*class=["']article-prose["'][^>]*>([\s\S]*?)<\/article>/i)?.[1] || '';
+    const wordCount = articleContent.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
     if (wordCount < 700) failures.push(slug + ' → article approuvé trop court : ' + wordCount);
   }
 }
