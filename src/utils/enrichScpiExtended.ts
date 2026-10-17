@@ -22,15 +22,16 @@ export function enrichScpiExtended(
   const geographyFromScpiData = matchingScpi.repartitionGeo && matchingScpi.repartitionGeo.length > 0
     ? matchingScpi.repartitionGeo
     : scpiExtended.geography;
-  const valuationComparable = matchingScpi.discountQaStatus === 'publishable';
-
   return {
     ...scpiExtended,
     sectors: sectorsFromScpiData,
     geography: geographyFromScpiData,
-    reconstitutionValue: valuationComparable
-      ? (matchingScpi.valeurReconstitution ?? scpiExtended.reconstitutionValue)
-      : undefined,
+    // The official reconstruction VALUE is not the same indicator as a
+    // derived subscription discount. With QA='manual_review' only the
+    // discount/surcote must be suppressed by resolveScpiIndicator.
+    // Suppressing the source value as well fabricated N/A across all CORUM.
+    reconstitutionValue:
+      matchingScpi.valeurReconstitution ?? scpiExtended.reconstitutionValue,
     valeurRetrait: matchingScpi.valeurRetrait ?? scpiExtended.valeurRetrait,
     valeurRealisation: matchingScpi.valeurRealisation ?? scpiExtended.valeurRealisation,
     entryFees: scpiExtended.entryFees ?? matchingScpi.fees,

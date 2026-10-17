@@ -85,6 +85,9 @@ jobs:
       - name: CORUM issuer source facts without release bypass
         run: node --test scripts/scpi-candidates/corumIssuerPrimaryFacts.test.mjs
 
+      - name: LIVE CORUM crash guard - official reconstitution and substantive source-backed analysis
+        run: node --import tsx/esm --test scripts/scpi-candidates/realCorumDisplayCrash.test.ts
+
       - name: SCPI annual reporting periods distinct from quarterly indicators
         run: node --test scripts/scpi-candidates/annualReportingPeriodProvenance.test.mjs
 

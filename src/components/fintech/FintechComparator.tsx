@@ -158,7 +158,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     }
 
     if (filters.expertMode) {
-      if (scpi.reconstitutionValue) {
+      // A publisher-sourced reconstruction price can be displayed even when
+      // it is NOT approved as a comparable subscription discount.
+      if (scpi.reconstitutionValue && scpi.discountQaStatus === 'publishable') {
         const discount = calculateScpiDiscountPremium(scpi.price, scpi.reconstitutionValue);
         if (discount == null || discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
           return false;

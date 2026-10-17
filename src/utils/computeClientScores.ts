@@ -51,7 +51,12 @@ export function mapScpiExtendedToInput(scpi: SCPIExtended): ScpiInput {
     capitalisation: parseCapitalisationToMeur(scpi.capitalization),
     delai_jouissance: scpi.delaiJouissance ?? null,
     prix_souscription: Number.isFinite(scpi.price) ? scpi.price : null,
-    valeur_reconstitution: scpi.reconstitutionValue ?? null,
+    // The *value* may be disclosed from its own official source even if
+    // the derived discount is under review. Do not let a noncomparable
+    // reconstruction price influence the synthetic client score.
+    valeur_reconstitution: scpi.discountQaStatus === 'manual_review'
+      || scpi.discountQaStatus === 'excluded_non_scpi'
+      ? null : (scpi.reconstitutionValue ?? null),
     frais_gestion: scpi.managementFees ?? null,
     frais_souscription: scpi.entryFees ?? null,
     repartition_sectorielle: toMap(scpi.sectors),

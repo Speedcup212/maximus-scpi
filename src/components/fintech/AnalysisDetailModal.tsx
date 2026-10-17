@@ -91,6 +91,13 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     if (status.startsWith('extracted_')) {
       return { label: 'Source officielle intégrée', className: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' };
     }
+    if (status === 'certified_and_final_reviewed') {
+      const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined);
+      return {
+        label: partial ? 'Sources vérifiées · couverture partielle' : 'Sources vérifiées',
+        className: 'text-slate-300 bg-slate-700/40 border-slate-600'
+      };
+    }
     return { label: status, className: 'text-slate-300 bg-slate-700/40 border-slate-600' };
   })();
 
@@ -496,7 +503,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
         <div className="p-6 space-y-8">
           {/* 2. Analyse MaximusSCPI - Avantages et Points d'attention (interprétation) */}
-          {(advantages.length > 0 || pointsAttention.length > 0) && (
+          {(advantages.length > 0 || pointsAttention.length > 0 || scpi.strategy?.startsWith('Répartition publiée')) && (
             <div className="bg-purple-500/10 rounded-xl border-2 border-purple-500/30 p-6 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-purple-500/20 rounded-lg">
@@ -507,6 +514,11 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <p className="text-xs text-purple-300/70 mt-0.5">Lecture structurée et interprétation</p>
                 </div>
               </div>
+              {scpi.strategy?.startsWith('Répartition publiée') && (
+                <p data-testid="scpi-source-based-analysis" className="mb-5 rounded-lg border border-purple-500/25 bg-slate-900/40 p-4 text-sm leading-relaxed text-slate-200">
+                  {scpi.strategy}
+                </p>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Avantages */}
                 {advantages.length > 0 && (
@@ -837,19 +849,16 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-lg font-bold text-slate-500">N/A</div>
                     )}
                   </div>
+                  {nbImmeubles !== undefined && (
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                     <div className="flex items-center gap-2 mb-2">
                       <Building2 className="w-4 h-4 text-slate-400" />
                       <div className="text-xs text-slate-400">Immeubles</div>
                     </div>
-                    {nbImmeubles !== undefined ? (
-                      <div className="text-lg font-bold text-white">
-                        {nbImmeubles}
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
+                    <div className="text-lg font-bold text-white">{nbImmeubles}</div>
                   </div>
+                  )}
+
                   {scpi.versementLoyers && (
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
@@ -889,89 +898,56 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 </div>
               </div>
 
-              {/* Indicateurs Locatifs */}
-              <div>
+              {/* Only published metrics, no wall of N/A placeholders. */}
+              <div data-testid="scpi-rental-source-coverage">
                 <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">
                   <Building2 className="w-4 h-4" />
-                  Indicateurs Locatifs
+                  Indicateurs locatifs vérifiés
                 </h4>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Building2 className="w-4 h-4 text-cyan-400" />
+                {[nombreLocataires,walt,walb,collecteNetteTrimestre,nbCessionsTrimestre].every(v=>v===undefined) && (
+                  <p className="mb-4 rounded-lg border border-amber-500/20 bg-slate-900/30 p-4 text-xs text-slate-300">
+                    Nombre de locataires, WALT/WALB, collecte nette et cessions :
+                    valeurs non disponibles dans les données vérifiées de cette période.
+                    Aucune estimation n’est substituée aux sources officielles.
+                  </p>
+                )}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {nombreLocataires !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                       <div className="text-xs text-slate-400">Nombre de locataires</div>
+                      <div className="text-lg font-bold text-white">{nombreLocataires.toLocaleString('fr-FR')}</div>
                     </div>
-                    {nombreLocataires !== undefined ? (
-                      <div className="text-lg font-bold text-white">{nombreLocataires}</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-4 h-4 text-cyan-400" />
+                  )}
+                  {walt !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                       <div className="text-xs text-slate-400">WALT</div>
-                    </div>
-                    {walt !== undefined ? (
                       <div className="text-lg font-bold text-white">{walt.toFixed(1)} ans</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-4 h-4 text-cyan-400" />
+                    </div>
+                  )}
+                  {walb !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
                       <div className="text-xs text-slate-400">WALB</div>
-                    </div>
-                    {walb !== undefined ? (
                       <div className="text-lg font-bold text-white">{walb.toFixed(1)} ans</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                </div>
-                
-                {/* Données trimestrielles */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <DollarSign className="w-4 h-4 text-cyan-400" />
-                      <div className="text-xs text-slate-400">Collecte nette trimestre</div>
                     </div>
-                    {collecteNetteTrimestre !== undefined ? (
-                      <div className="text-lg font-bold text-white">
-                        {(collecteNetteTrimestre / 1000000).toFixed(1)}M€
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Tag className="w-4 h-4 text-cyan-400" />
-                      <div className="text-xs text-slate-400">Nb cessions trimestre</div>
+                  )}
+                  {collecteNetteTrimestre !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="text-xs text-slate-400">Collecte nette du trimestre</div>
+                      <div className="text-lg font-bold text-white">{(collecteNetteTrimestre/1_000_000).toFixed(1)} M€</div>
                     </div>
-                    {nbCessionsTrimestre !== undefined ? (
+                  )}
+                  {nbCessionsTrimestre !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="text-xs text-slate-400">Cessions du trimestre</div>
                       <div className="text-lg font-bold text-white">{nbCessionsTrimestre}</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Percent className="w-4 h-4 text-cyan-400" />
-                      <div className="text-xs text-slate-400">
-                        Endettement{debtYear!==null ? ` (rapport annuel ${debtYear})` : ''}
-                      </div>
                     </div>
-                    {scpi.ltv !== undefined || scpiForAnalysis?.debt !== undefined ? (
-                      <div className="text-lg font-bold text-white">
-                        {(scpi.ltv ?? scpiForAnalysis?.debt)?.toFixed(1)}%
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
+                  )}
+                  {(scpi.ltv !== undefined || scpiForAnalysis?.debt !== undefined) && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="text-xs text-slate-400">Endettement{debtYear!==null ? ` (rapport annuel ${debtYear})` : ''}</div>
+                      <div className="text-lg font-bold text-white">{(scpi.ltv ?? scpiForAnalysis?.debt)?.toFixed(1)} %</div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -984,17 +960,20 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                     <div className="flex items-center gap-2 mb-2">
                       <DollarSign className="w-4 h-4 text-emerald-400" />
-                      <div className="text-xs text-emerald-400 font-semibold">Val. Reconstitution</div>
+                      <div className="text-xs text-emerald-400 font-semibold">Val. Reconstitution (€/part)</div>
                     </div>
                     {scpi.reconstitutionValue !== undefined ? (
-                      <div className="text-lg font-bold text-emerald-400">
+                      <div data-testid="scpi-reconstitution-value" className="text-lg font-bold text-emerald-400">
                         {scpi.reconstitutionValue.toFixed(2)}€
+                          {scpi.discountQaStatus === 'manual_review' && (
+                            <div className="mt-1 text-[10px] font-normal text-slate-400">Valeur sourcée ; décote non certifiée</div>
+                          )}
                       </div>
                     ) : (
                       <div className="text-lg font-bold text-slate-500">N/A</div>
                     )}
                   </div>
-                  {(scpi.valeurRetrait !== undefined || scpi.reconstitutionValue !== undefined) && (
+                  {scpi.valeurRetrait !== undefined && (
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <Tag className="w-4 h-4 text-slate-400" />
@@ -1020,27 +999,22 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <DollarSign className="w-4 h-4 text-slate-400" />
-                        <div className="text-xs text-slate-400">Distribution (€/part)</div>
+                        <div className="text-xs text-slate-400">Distribution{distributionYear!==null ? ` annuelle ${distributionYear}` : ''} (€/part)</div>
                       </div>
                       <div className="text-lg font-bold text-white">{scpi.distribution.toFixed(2)}€</div>
                     </div>
                   )}
-                  <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Shield className="w-4 h-4 text-slate-400" />
-                      <div className="text-xs text-slate-400">Report à Nouveau</div>
-                    </div>
-                    {scpi.ranDays !== undefined ? (
+                  {scpi.ranDays !== undefined && (
+                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="text-xs text-slate-400">Report à nouveau</div>
                       <div className="text-lg font-bold text-white">{scpi.ranDays} jours</div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 shadow-md">
-                <div className="text-sm font-semibold text-slate-300 mb-3">Stratégie d'Investissement</div>
+                <div className="text-sm font-semibold text-slate-300 mb-3">{scpi.strategy?.startsWith('Répartition publiée') ? 'Répartition du patrimoine et risques associés' : "Stratégie d'Investissement"}</div>
                 <p className="text-sm text-slate-400 leading-relaxed">{scpi.strategy}</p>
               </div>
 

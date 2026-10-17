@@ -68,8 +68,11 @@ const caseRun=async(slug,surface,fn)=>{
 };
 const searchFor=async(name)=>{
  await visit('/comparateur-scpi/','comparateur');
- const q=await page.$('input[placeholder*="Rechercher"]');
- if(!q)throw Error('Search input absent from real comparator');
+ // React hydration after route navigation can lag the visible page heading.
+ // Require the real comparator input to become visible before interacting.
+ const q=await page.waitForSelector('input[placeholder*="Rechercher"]',
+   {timeout:12000,visible:true});
+ if(!q)throw Error('Search input absent from hydrated real comparator');
  await q.click({clickCount:3});await q.type(name,{delay:15});
  await page.waitForFunction(n=>document.body?.innerText?.toLowerCase()
   .normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(
@@ -155,7 +158,9 @@ try{
            .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'))) &&
          Boolean(document.querySelector('.recharts-radar'));
     },{timeout:15000},name);
-    const inspected=await page.evaluate((n,fundSlug)=>{
+    const expectedVr=Number(draft.scpi.find(x=>x.scpi_slug===slug)?.publishing_fields?.reconstitution_value);
+    if(!Number.isFinite(expectedVr)||expectedVr<=0)throw Error('Sourced official VR absent in private draft');
+    const inspected=await page.evaluate((n,fundSlug,officialVr)=>{
       const headings=Array.from(document.querySelectorAll('h2'));
       const heading=headings.find(el=>(el.textContent||'').includes('Analyse Détaillée - '+n));
       const radarHeader=Array.from(document.querySelectorAll('h3'))
@@ -171,6 +176,9 @@ try{
         .every(axis=>tickLabels.includes(axis)) &&
         scoreContent.includes('Solidité / valorisation');
       const modalText=modal?.textContent||'';
+      const sourceAnalysis=modal?.querySelector('[data-testid="scpi-source-based-analysis"]')?.textContent||'';
+      const reconstitution=modal?.querySelector('[data-testid="scpi-reconstitution-value"]')?.textContent||'';
+      const locativeCoverage=modal?.querySelector('[data-testid="scpi-rental-source-coverage"]')?.textContent||'';
       const feeNode=modal?.querySelector('[data-management-fee-basis="geo-tiered-ht"]');
       const feeText=(feeNode?.textContent||'').replace(/\\s+/g,' ');
       const hasBothSourcedTiers=feeText.includes('Zone euro :')
@@ -183,8 +191,15 @@ try{
         historical_financial_periods:modalText.includes('Taux de distribution brut 2025')&&
           modalText.includes('Endettement (rapport annuel 2025)'),
         sourced_geographic_fees:!['corum-usa','corum-xl'].includes(fundSlug)
-          ||Boolean(hasBothSourcedTiers)};
-    },name,slug);
+          ||Boolean(hasBothSourcedTiers),
+        sourced_reconstitution_number:reconstitution.includes(officialVr.toFixed(2)),
+        nonempty_source_based_analysis:sourceAnalysis.includes('Répartition publiée')
+          &&sourceAnalysis.includes('principaux secteurs')
+          &&sourceAnalysis.includes('principaux pays')
+          &&sourceAnalysis.includes('risque de perte en capital'),
+        missing_locative_indicators_explicit:locativeCoverage.includes('Aucune estimation n’est substituée')
+          ||['WALT','WALB','Nombre de locataires'].some(x=>locativeCoverage.includes(x))};
+    },name,slug,expectedVr);
     if(!inspected.radarFiveAxes){
       const diagnostic=await page.evaluate(()=>{
         const h=Array.from(document.querySelectorAll('h2'))
@@ -203,7 +218,10 @@ try{
       rendered_recharts_radar:inspected.radarRendered,
       five_source_score_axes_present:inspected.radarFiveAxes,
       source_year_visible_in_analysis:inspected.historical_financial_periods,
-      official_geo_fee_tiers_if_applicable:inspected.sourced_geographic_fees};
+      official_geo_fee_tiers_if_applicable:inspected.sourced_geographic_fees,
+      real_official_reconstitution_visible:inspected.sourced_reconstitution_number,
+      sourced_analysis_not_empty:inspected.nonempty_source_based_analysis,
+      locative_coverage_transparent:inspected.missing_locative_indicators_explicit};
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{
