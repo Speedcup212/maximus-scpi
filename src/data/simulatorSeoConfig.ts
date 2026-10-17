@@ -17,8 +17,8 @@ export const simulatorSeoConfig = {
     ],
   },
   'simulateur-revenus-nets': {
-    title: 'Simulateur SCPI 2026 : revenus nets après impôts | MaximusSCPI',
-    description: 'Estimez vos revenus SCPI en direct avec une fiscalité France explicite et un traitement international dépendant des conventions fiscales.',
+    title: 'Simulateur SCPI gratuit 2026 : revenus nets | MaximusSCPI',
+    description: 'Simulez gratuitement vos revenus SCPI bruts et nets selon le capital investi, le rendement, la fiscalité et le délai de jouissance. Sans inscription.',
     canonical: `${SITE}/simulateur-revenus-nets-scpi/`,
     app: { name: 'Simulateur Revenus Nets SCPI', description: 'Estimez les revenus d’une SCPI détenue en direct avec hypothèses fiscales explicites.', url: `${SITE}/simulateur-revenus-nets-scpi/` },
     breadcrumb: ['Accueil', 'Simulateurs', 'Revenus nets'],

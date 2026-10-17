@@ -58,6 +58,51 @@ for (const url of urls) {
   }
 }
 
+// Contrat SEO des pages prioritaires Windsor.ai : contrôler le HTML final
+// après tous les post-traitements, et pas uniquement les scripts générateurs.
+{
+  const comparator = path.join(distDir, 'comparateur-scpi', 'index.html');
+  if (!fs.existsSync(comparator)) {
+    failures.push('/comparateur-scpi/ → page commerciale absente');
+  } else {
+    const html = fs.readFileSync(comparator, 'utf8');
+    if (!html.includes('id="comparator-related-scpi"')) {
+      failures.push('/comparateur-scpi/ → section de fiches SCPI absente du HTML final');
+    }
+    for (const slug of ['comete', 'iroko-zen', 'transitions-europe', 'remake-live']) {
+      if (!html.includes(`href="/${slug}/"`)) {
+        failures.push(`/comparateur-scpi/ → lien certifié /${slug}/ absent du HTML final`);
+      }
+    }
+  }
+
+  const simulatorFile = path.join(distDir, 'simulateur-revenus-nets-scpi', 'index.html');
+  const simulatorConfig = path.join(__dirname, '../src/data/simulatorSeoConfig.ts');
+  if (!fs.existsSync(simulatorFile) || !fs.existsSync(simulatorConfig)) {
+    failures.push('/simulateur-revenus-nets-scpi/ → source de simulation ou HTML absent');
+  } else {
+    const html = fs.readFileSync(simulatorFile, 'utf8');
+    const config = fs.readFileSync(simulatorConfig, 'utf8');
+    const entry = config.match(/'simulateur-revenus-nets':\s*\{\s*title:\s*'([^']+)',\s*description:\s*'([^']+)'/);
+    if (!entry) {
+      failures.push('/simulateur-revenus-nets-scpi/ → metadata React introuvables');
+    } else {
+      const [, expectedTitle, expectedDescription] = entry;
+      const staticTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+      const staticDescription = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1] || '';
+      if (staticTitle !== expectedTitle) {
+        failures.push('/simulateur-revenus-nets-scpi/ → désalignement title React/HTML');
+      }
+      if (staticDescription !== expectedDescription) {
+        failures.push('/simulateur-revenus-nets-scpi/ → désalignement description React/HTML');
+      }
+      if (!/Simulateur SCPI gratuit/i.test(staticTitle)) {
+        failures.push('/simulateur-revenus-nets-scpi/ → intention de recherche absente du title');
+      }
+    }
+  }
+}
+
 if (failures.length) {
   console.error(`❌ Couverture SEO statique incomplète : ${failures.length} anomalie(s) sur ${urls.length} URLs`);
   failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));
