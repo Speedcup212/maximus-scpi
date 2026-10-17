@@ -94,8 +94,13 @@ export const getScpiAdvantages = (scpi: Scpi): string[] => {
     advantages.push(`Taux d'occupation de ${scpi.tof.toFixed(1)}%`);
   }
   
-  // Distribution
-  if (scpi.yield > 0) {
+  // Only disclose a payment cadence when a source-backed frequency is present.
+  // Annual distribution yield says nothing about whether cash is paid monthly
+  // or quarterly. Never infer "trimestrielle" from yield > 0.
+  const frequency=(scpi.versementLoyers||'').trim().toLowerCase();
+  if (scpi.yield > 0 && /^mensuell?e?$/.test(frequency)) {
+    advantages.push("Distribution mensuelle");
+  } else if (scpi.yield > 0 && /^trimestriell?e?$/.test(frequency)) {
     advantages.push("Distribution trimestrielle");
   }
   
