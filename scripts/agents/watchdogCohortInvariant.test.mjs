@@ -21,7 +21,7 @@ test('Certified cohort remains internally coherent and separated from provisiona
  if(included.length===4){
   const catalog=JSON.parse(read('src/data/scpi_complet.json'));
   const slug=name=>String(name).toLowerCase().normalize('NFD')
-    .replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    .replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   for(const id of corumIds){
     const matches=catalog.filter(row=>slug(row['Nom SCPI'])===id);
     assert.equal(matches.length,1,'An approved fund must have exactly one source-catalog row: '+id);
