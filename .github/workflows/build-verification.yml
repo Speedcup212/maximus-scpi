@@ -85,6 +85,9 @@ jobs:
       - name: CORUM issuer source facts without release bypass
         run: node --test scripts/scpi-candidates/corumIssuerPrimaryFacts.test.mjs
 
+      - name: Post-Netlify CORUM RLS activation and official financial QA safety
+        run: node --test scripts/scpi-candidates/corumPostdeployRlsRecovery.test.mjs
+
       - name: LIVE CORUM crash guard - official reconstitution and substantive source-backed analysis
         run: node --import tsx/esm --test scripts/scpi-candidates/realCorumDisplayCrash.test.ts
 
