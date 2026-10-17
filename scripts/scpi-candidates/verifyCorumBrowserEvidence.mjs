@@ -8,7 +8,7 @@ import {execFileSync} from 'node:child_process';
 export const CORUM=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 // A fund-specific test is required only where the tool consumes fund data.
 // Generic calculators, sign-in guard and common contact path run ONCE each.
-export const FUND_SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_revente','score_radar'];
+export const FUND_SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_revente','analyse_detail'];
 export const COMMON_SURFACES=['simulateur_direct','simulateur_demembrement','espace_client','parcours_souscription'];
 export const SURFACES=[...FUND_SURFACES,...COMMON_SURFACES];
 const REPO='Speedcup212/maximus-scpi';
