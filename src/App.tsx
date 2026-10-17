@@ -326,6 +326,16 @@ const App: React.FC = () => {
       return;
     }
 
+    // Legacy /education/ aliases must never render unsourced fiscal claims from
+    // retired components. Keep one canonical, versioned editorial React source.
+    if (path.startsWith('education/') && getTemplateBySlug(path.slice('education/'.length))) {
+      const slug = path.slice('education/'.length);
+      window.history.replaceState({}, '', `/articles/${slug}/`);
+      setCurrentArticleSlug(slug);
+      setCurrentView('dynamic-article');
+      return;
+    }
+
     if (path) {
       if (path.startsWith('app') || path.startsWith('espace')) {
         const segments = path.split('/');
