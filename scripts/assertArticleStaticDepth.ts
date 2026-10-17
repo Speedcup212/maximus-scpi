@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 const distArticlesDir = path.join(__dirname, '../dist/articles');
 const manifestPath = path.join(distArticlesDir, 'react-prerender-manifest.json');
 const auditDir = path.join(distArticlesDir, '.prerender-audit');
-const strictPrerender = process.env.SEO_PRERENDER_STRICT === '1';
+// Article React ↔ published static HTML parity is mandatory, never advisory.
+const strictPrerender = true;
 
 const stripText = (html: string) => html
   .replace(/<script[\s\S]*?<\/script>/gi, ' ')
