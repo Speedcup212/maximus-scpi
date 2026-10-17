@@ -166,7 +166,7 @@ try{
       const modal=heading?.closest('div.fixed');
       const scoreContent=modal?.textContent||'';
       const allFiveScores=['Rendement','Secteurs','Géographie','Qualité','Taille']
-        .every(axis=>new RegExp(axis+'\\\\s*\\\\d+/100').test(scoreContent));
+        .every(axis=>new RegExp(axis+'\\s*\\d+/100').test(scoreContent));
       const modalText=modal?.textContent||'';
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
