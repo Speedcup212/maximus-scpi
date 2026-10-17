@@ -67,6 +67,9 @@ jobs:
       - name: SCPI candidate stage, public lifecycle and post-Netlify activation regression
         run: node --test scripts/scpi-candidates/stagedReleaseActivation.test.mjs
 
+      - name: CORUM T2 regional allocation crosscheck and divergence provenance
+        run: node --test scripts/scpi-candidates/corumT2GeoCrosscheck.test.mjs
+
       - name: Official SCPI one-point source arbitration without bypassing final release
         run: node --test scripts/scpi-candidates/officialSourceArbitration.test.mjs
 
