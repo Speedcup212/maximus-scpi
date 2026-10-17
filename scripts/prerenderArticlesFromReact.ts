@@ -250,7 +250,7 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
   // post-prérendu sans publier de copie parallèle du contenu.
   const auditDir = path.join(articlesDir, '.prerender-audit');
   fs.mkdirSync(auditDir, { recursive: true });
-  fs.writeFileSync(path.join(auditDir, slug + '.html'), captured.html, 'utf-8');
+  fs.writeFileSync(path.join(auditDir, slug + '.baseline'), captured.html, 'utf-8');
 
   return {
     slug,
