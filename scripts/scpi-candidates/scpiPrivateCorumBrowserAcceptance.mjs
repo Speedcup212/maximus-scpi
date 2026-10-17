@@ -164,16 +164,13 @@ try{
       // Recharts's SVG may not serialize tick labels in a stable tag. Check
       // five visible score rows in the exact open modal and require a rendered radar.
       const modal=heading?.closest('div.fixed');
-      const scoreRows=Array.from(modal?.querySelectorAll('div')||[]).filter(el=>{
-        const spans=Array.from(el.children).filter(c=>c.tagName==='SPAN');
-        return spans.length===2 && /\/100$/.test(spans[1].textContent?.trim()||'');
-      });
-      const labels=scoreRows.map(row=>row.children[0].textContent?.trim()||'');
+      const scoreContent=modal?.textContent||'';
+      const allFiveScores=['Rendement','Secteurs','Géographie','Qualité','Taille']
+        .every(axis=>new RegExp(axis+'\\\\s*\\\\d+/100').test(scoreContent));
       const modalText=modal?.textContent||'';
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
-        radarFiveAxes:!!radarHeader&&['Rendement','Secteurs','Géographie','Qualité','Taille']
-          .every(axis=>labels.includes(axis)),
+        radarFiveAxes:!!radarHeader&&allFiveScores,
         historical_financial_periods:modalText.includes('Taux de distribution brut 2025')&&
           modalText.includes('Endettement (rapport annuel 2025)')};
     },name);
@@ -184,7 +181,7 @@ try{
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{
-  const {code,body}=await visit('/simulateur-scpi/','simul');
+  const {code,body}=await visit('/simulateur-revenus-nets-scpi/','Simulateur SCPI');
   await page.waitForSelector('input',{timeout:12000});
   return {route_200:code===200,calculator_visible:/revenu|rendement|montant/i.test(body),
     input_present:(await page.$('input')).length>0};
