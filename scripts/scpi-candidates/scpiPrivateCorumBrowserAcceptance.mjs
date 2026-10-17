@@ -114,7 +114,7 @@ try{
     return {http_200:code===200,name_visible:normalized(body).includes(normalized(name)),
       page_title_or_h1:normalized(head.title+' '+head.h1).includes(normalized(name)),
       seo_description:head.description.length>40,
-      annual_reporting_year_visible:/distribution[^\n]{0,90}2025/i.test(body)};
+      annual_reporting_year_visible:/Taux annuel publié pour 2025\s*\(rapport annuel\)/i.test(body)};
   });
   await caseRun(slug,'sitemap',async()=>{
     const s=await get('/sitemap.xml');
@@ -160,10 +160,13 @@ try{
       const heading=headings.find(el=>(el.textContent||'').includes('Analyse Détaillée - '+n));
       const radarHeader=Array.from(document.querySelectorAll('h3'))
         .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'));
+      const radarSvg=document.querySelector('.recharts-radar')?.closest('svg');
+      const displayedAxes=Array.from(radarSvg?.querySelectorAll('text')||[])
+        .map(x=>x.textContent||'').join(' ');
       return {headingMatches:!!heading,
-        radarRendered:!!document.querySelector('.recharts-radar'),
+        radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
         radarFiveAxes:!!radarHeader&&['Rendement','Secteurs','Géographie','Qualité','Taille']
-          .every(s=>radarHeader.closest('.rounded-xl')?.textContent?.includes(s))};
+          .every(axis=>displayedAxes.includes(axis))};
     },name);
     return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
       rendered_recharts_radar:inspected.radarRendered,
