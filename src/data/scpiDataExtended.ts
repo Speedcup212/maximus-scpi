@@ -28,6 +28,7 @@ export interface SCPIExtended {
   managementFees?: number;
   managementFeeDetails?: ScpiManagementFeeDetails;
   assetsCount?: number;
+  nombreAssocies?: number; // Associés, pas locataires
   // Champs supplémentaires depuis le fichier Excel
   delaiJouissance?: number; // Délai de jouissance en mois
   versementLoyers?: string; // Fréquence de versement des loyers
