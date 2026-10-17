@@ -172,7 +172,7 @@ async function liveApproval(candidates) {
  // A source-only JSON claim is insufficient: check exact live source and row.
  const slugList=candidates.map(c=>c.scpi_slug).join(',');
  const apiHeaders={apikey:key,Authorization:'Bearer '+key};
- const liveValuesRequest=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,source_period,prix_reconstitution,repartition_geographique&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
+ const liveValuesRequest=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,source_period,prix_reconstitution,repartition_geographique,annee_creation,versement_loyers,sfdr,label_isr,srri,frais_souscription,frais_gestion&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
  const liveEvidenceRequest=await fetch(url+'/rest/v1/scpi_metric_certifications?select=scpi_slug,source_period,metric,value_numeric,source_url,verification_status&source_period=eq.2026-T2&metric=eq.valeur_reconstitution_par_part&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
  if(!liveValuesRequest.ok||!liveEvidenceRequest.ok)
   throw Error('Exact official 2026 valuation cannot be verified in live Supabase');
@@ -181,7 +181,23 @@ async function liveApproval(candidates) {
   const expected=assertOfficial2026Valuation(candidate);
   if(!Array.isArray(liveValues)||!liveValues.some(r=>r.scpi_slug===candidate.scpi_slug&&r.source_period==='2026-T2'&&Number(r.prix_reconstitution)===expected))
    throw Error('2026 valuation mismatch in canonical SCPI indicator: '+candidate.scpi_slug);
-  assertExactGeography(candidate,liveValues.find(r=>r.scpi_slug===candidate.scpi_slug));
+  const canonical=liveValues.find(r=>r.scpi_slug===candidate.scpi_slug);
+  assertExactGeography(candidate,canonical);
+  const display=candidate.publishing_fields;
+  const expectedDisplay={
+    annee_creation:display.creation_year,
+    versement_loyers:display.payment_frequency==='Mensuelle'?'Mensuel':display.payment_frequency,
+    sfdr:display.sfdr,
+    label_isr:display.label_isr,
+    srri:display.risk_sri,
+    frais_souscription:display.subscription_fees,
+    frais_gestion:typeof display.management_fees==='number'?display.management_fees:null
+  };
+  for(const [field,wanted] of Object.entries(expectedDisplay)){
+    if(canonical?.[field]!==wanted)
+      throw Error('Current Supabase issuer or financial field diverged: '
+        +candidate.scpi_slug+':'+field);
+  }
   if(!Array.isArray(liveEvidence)||!liveEvidence.some(r=>r.scpi_slug===candidate.scpi_slug&&Number(r.value_numeric)===expected&&r.source_url===official2026ValuationAnnouncementUrl&&r.verification_status==='official_issuer_statement_verified'))
    throw Error('Official 2026 Q2 valuation missing independently verified DB provenance: '+candidate.scpi_slug);
  }
