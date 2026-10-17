@@ -83,13 +83,13 @@ for (const url of urls) {
   } else {
     const html = fs.readFileSync(simulatorFile, 'utf8');
     const config = fs.readFileSync(simulatorConfig, 'utf8');
-    const entry = config.match(/'simulateur-revenus-nets':\\s*\\{\\s*title:\\s*'([^']+)',\\s*description:\\s*'([^']+)'/);
+    const entry = config.match(/'simulateur-revenus-nets':\s*\{\s*title:\s*'([^']+)',\s*description:\s*'([^']+)'/);
     if (!entry) {
       failures.push('/simulateur-revenus-nets-scpi/ → metadata React introuvables');
     } else {
       const [, expectedTitle, expectedDescription] = entry;
-      const staticTitle = html.match(/<title>([\\s\\S]*?)<\\/title>/i)?.[1] || '';
-      const staticDescription = html.match(/<meta\\s+name=["']description["']\\s+content=["']([^"']+)["']/i)?.[1] || '';
+      const staticTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+      const staticDescription = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i)?.[1] || '';
       if (staticTitle !== expectedTitle) {
         failures.push('/simulateur-revenus-nets-scpi/ → désalignement title React/HTML');
       }
