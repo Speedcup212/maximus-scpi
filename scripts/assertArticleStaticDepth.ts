@@ -131,6 +131,10 @@ for (const article of templates) {
       const actual = root.inner.trim();
       let index = 0;
       while (index < initial.length && index < actual.length && initial[index] === actual[index]) index++;
+      if (initial === actual) {
+        failures.push(`${article.slug}: HTML identique au snapshot, mais manifest.rootHash=${manifestEntry.rootHash}, hash réel=${hash(actual)}`);
+        continue;
+      }
       const before = initial.slice(index, index + 130).replace(/\\s+/g, ' ');
       const after = actual.slice(index, index + 130).replace(/\\s+/g, ' ');
       failures.push(`${article.slug}: différentiel à ${index} — AVANT=${JSON.stringify(before)} APRÈS=${JSON.stringify(after)}`);
