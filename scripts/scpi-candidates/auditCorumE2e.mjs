@@ -73,8 +73,11 @@ export function auditCandidate(candidate) {
   }
   // Static source evidence is NOT an authorization to publish.
   checked(candidate.release_ready===true,'validation_finale_non_obtenue');
-  checked(candidate.publication_authorized===true,'autorisation_publication_absente');
-  checked(candidate.analysis_certified===true,'analyse_globale_non_certifiee');
+  // CRASH-15: pre-release stage and post-deploy activation are different states.
+  // The public/analysis flags MUST be false while this PRIVATE snapshot is reviewed.
+  // liveApproval() also requires both false; only post-Netlify activation flips them.
+  checked(candidate.publication_authorized===false,'activation_publique_prematuree');
+  checked(candidate.analysis_certified===false,'analyse_publique_prematuree');
   // Unknown fields must not silently become 0 or an optimistic description.
   const essentials=[
     'creation_year','minimum_investment','subscription_fees','management_fees',
