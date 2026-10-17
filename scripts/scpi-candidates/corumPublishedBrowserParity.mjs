@@ -8,19 +8,20 @@ import puppeteer from 'puppeteer';
 
 const CATALOG=JSON.parse(fs.readFileSync('src/data/scpi_complet.json','utf8'));
 const COHORT=JSON.parse(fs.readFileSync('src/data/certified_scpi_cohort.json','utf8'));
-const EXPECTED=[['corum-eurion','CORUM Eurion',224.07,54],
- ['corum-origin','CORUM Origin',1186.30,170],
- ['corum-usa','CORUM USA',216.34,null],
- ['corum-xl','CORUM XL',194.27,96]];
+const EXPECTED=[['corum-eurion','CORUM Eurion',224.07,54,42702],
+ ['corum-origin','CORUM Origin',1186.30,170,76169],
+ ['corum-usa','CORUM USA',216.34,null,4716],
+ ['corum-xl','CORUM XL',194.27,96,54340]];
 const OUT=path.resolve('test-results/corum-published-rendering');
 const PORT=4191,BASE='http://127.0.0.1:'+PORT;
 fs.mkdirSync(OUT,{recursive:true});
 if(COHORT.count!==65||COHORT.slugs.length!==65)throw Error('Production 65-fund cohort not built');
-for(const [slug,name,vr,buildings] of EXPECTED){
+for(const [slug,name,vr,buildings,investors] of EXPECTED){
  const row=CATALOG.find(x=>x['Nom SCPI']===name);
  if(!COHORT.slugs.includes(slug)||!row)throw Error('Published CORUM absent '+slug);
  if(row['Valeur de reconstitution par part (€)']!==vr)throw Error('Wrong official VR for '+slug);
  if((row["Nombre d'immeubles"]??null)!==buildings)throw Error('Missing certified properties for '+slug);
+ if(row['Nombre d’associés']!==investors)throw Error('Official T2 investor count absent '+slug);
 }
 const report={kind:'corum_real_published_catalog_consumers',commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
  executed_at:new Date().toISOString(),repo:'Speedcup212/maximus-scpi',not_private_overlay:true,cases:[]};
@@ -73,7 +74,7 @@ try{
  await page.setRequestInterception(true);
  page.on('request',req=>/^https?:\/\//.test(req.url())&&!req.url().startsWith(BASE)
   ?req.abort():req.continue());
- for(const [slug,name,vr,properties] of EXPECTED){
+ for(const [slug,name,vr,properties,investors] of EXPECTED){
   await test(slug,'official_public_profile',async()=>{
    const res=await navigate('/'+slug+'/',name);
    const body=await page.$eval('body',el=>el.innerText);
@@ -111,9 +112,10 @@ try{
        x=>x.textContent?.trim()==='Nombre d’immeubles' || x.textContent?.trim()==="Nombre d'immeubles");
      const sourceLabels=modal?.textContent||'';
      const renter=modal?.querySelector('[data-testid="scpi-rental-source-coverage"]');
+     const shareholders=modal?.querySelector('[data-testid="scpi-shareholders-count"]')?.textContent||'';
      return {hasHeading:!!heading,vrText,analysis,sourceLabels,
        visibleProperties:Boolean(tech),
-       renterText:renter?.textContent||'',
+       renterText:renter?.textContent||'',shareholders,
        favorable};
    },name);
    const euro=vr.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}).replace(/\u202f/g,' ');
@@ -127,6 +129,7 @@ try{
     official_building_count_displayed:properties==null?true:
        obj.sourceLabels.includes(String(properties)) && /immeubles?/i.test(obj.sourceLabels),
     unavailable_rentals_not_fake_numbers:!/Nombre de locataires\s*0(\D|$)/i.test(obj.renterText),
+    official_shareholder_count_visible:obj.shareholders.includes(investors.toLocaleString('fr-FR')),
     real_risks_explained:/liquidit|perte en capital/i.test(obj.favorable)
    };
   });
