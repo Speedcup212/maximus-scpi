@@ -13,6 +13,7 @@ import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { computeClientScores } from '../utils/computeClientScores';
 import { scpiDataExtended } from '../data/scpiDataExtended';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
+import { distributionYearLabel } from '../utils/scpiFinancialProvenance';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
@@ -82,7 +83,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
     },
     {
       question: `Quel est le taux de distribution de la SCPI ${scpi.name} ?`,
-      answer: `Le taux de distribution 2024 de la SCPI ${scpi.name} est de ${scpi.yield.toFixed(2)}%. Ce taux de distribution est calculé sur la base des dividendes distribués sur l'année.`
+      answer: `Le ${distributionYearLabel(scpi.distributionReferencePeriod).toLowerCase()} de la SCPI ${scpi.name} est de ${scpi.yield.toFixed(2)} %. Cette donnée annuelle est historique et ne garantit pas les distributions futures.`
     },
     {
       question: `Quel est le prix d'une part de ${scpi.name} ?`,
