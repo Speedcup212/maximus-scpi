@@ -9,10 +9,10 @@ import catalog from '../../src/data/scpi_complet.json';
 import cohort from '../../src/data/certified_scpi_cohort.json';
 
 const verified = [
-  { name: 'CORUM Eurion', reconstitution: 224.07, buildings: 54, distribution: 5.73 },
-  { name: 'CORUM Origin', reconstitution: 1186.30, buildings: 170, distribution: 6.50 },
-  { name: 'CORUM USA', reconstitution: 216.34, buildings: undefined, distribution: 7.70 },
-  { name: 'CORUM XL', reconstitution: 194.27, buildings: 96, distribution: 5.30 },
+  { name: 'CORUM Eurion', reconstitution: 224.07, buildings: 54, distribution: 5.73, investors: 42702 },
+  { name: 'CORUM Origin', reconstitution: 1186.30, buildings: 170, distribution: 6.50, investors: 76169 },
+  { name: 'CORUM USA', reconstitution: 216.34, buildings: undefined, distribution: 7.70, investors: 4716 },
+  { name: 'CORUM XL', reconstitution: 194.27, buildings: 96, distribution: 5.30, investors: 54340 },
 ];
 const enriched=enrichScpiExtendedArray(scpiDataExtended,scpiData);
 
@@ -27,6 +27,7 @@ test('Crash: production catalog has 65 published SCPI and EXACT source-certified
     assert.equal(row['debt_reference_period'],'2025-RA');
     assert.equal(row['Période bulletin trimestriel'],'T2 2026');
     assert.equal(row["Nombre d'immeubles"],item.buildings,item.name);
+    assert.equal(row['Nombre d’associés'],item.investors,item.name+' 2026-T2 source');
   }
 });
 
@@ -40,6 +41,8 @@ test('Crash: full live comparator mapping + modal analysis uses actual productio
     assert.equal(extended.reconstitutionValue,item.reconstitution,item.name+' comparator valuation');
     assert.equal(scpi.nbImmeubles,item.buildings,item.name+' source property count');
     assert.equal(extended.assetsCount,item.buildings,item.name+' comparator property count');
+    assert.equal(scpi.nombreAssocies,item.investors,item.name+' source investors');
+    assert.equal(extended.nombreAssocies,item.investors,item.name+' comparator investors');
     const detail=buildScpiForAnalysis(extended!,scpiData);
     assert.ok(detail,item.name+' analysis missing');
     assert.equal(detail.valeurReconstitution,item.reconstitution,item.name+' modal source valuation');
