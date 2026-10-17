@@ -86,6 +86,23 @@ export const trackFunnelEvent = (
     dataLayer.push({ event: eventName, ...safeMetadata });
   }
 
+  // GA4 receives a confirmed business milestone, not an unvalidated CTA click.
+  // Never send contact details, a request ID, or other personal identifiers to GA4.
+  // Only the published domain is eligible; local and preview browsing is excluded.
+  const ga4Event = eventName === 'lead_form_submitted'
+    ? 'generate_lead'
+    : eventName === 'calendly_booking_completed'
+      ? 'book_appointment'
+      : null;
+  const hostname = window.location.hostname.toLowerCase();
+  if (ga4Event && (hostname === 'maximusscpi.com' || hostname === 'www.maximusscpi.com')) {
+    window.gtag?.('event', ga4Event, {
+      form_type: safeMetadata.form_type || 'unknown',
+      lead_action: safeMetadata.action || 'unknown',
+      page_path: window.location.pathname,
+    });
+  }
+
   // First-party operational funnel log. Never blocks the user journey.
   void fetch('/api/funnel-event', {
     method: 'POST',
