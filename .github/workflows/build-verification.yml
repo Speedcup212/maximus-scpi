@@ -127,6 +127,9 @@ jobs:
       - name: CORUM latest current valuation issuer-source and old-2025 exclusion
         run: node --test scripts/scpi-candidates/issuerValuationEvidence.test.mjs
 
+      - name: Rebuild private CORUM release payload from canonical candidate registry and PDF evidence
+        run: node --test scripts/scpi-candidates/buildCurrentCorumReleaseInput.test.mjs
+
       - name: One proportional SCPI batch final review and safe private publication gate
         run: node --test scripts/scpi-candidates/proportionalBatchReleaseGate.test.mjs
 
