@@ -16,8 +16,12 @@ if (!fs.existsSync(sourcePath)) {
 
 let html = fs.readFileSync(sourcePath, 'utf-8');
 
-const title = 'Comparateur SCPI 2026 : comparez 61 SCPI | MaximusSCPI';
-const description = 'Comparez 61 SCPI sur rendement, TOF, frais, capitalisation, valorisation, dette et liquidité. Données sourcées et trajectoires MaximusSCPI.';
+const cohort = JSON.parse(fs.readFileSync(path.join(__dirname,'../src/data/certified_scpi_cohort.json'),'utf8'));
+const scpiCount=cohort.count;
+if(![61,65].includes(scpiCount)||cohort.slugs.length!==scpiCount)
+  throw Error('Invalid published SCPI cohort in comparator HTML');
+const title = `Comparateur SCPI 2026 : comparez ${scpiCount} SCPI | MaximusSCPI`;
+const description = `Comparez ${scpiCount} SCPI sur rendement, TOF, frais, capitalisation, valorisation, dette et liquidité. Données sourcées et trajectoires MaximusSCPI.`;
 const url = 'https://maximusscpi.com/comparateur-scpi/';
 
 html = html
@@ -101,7 +105,7 @@ const priorityScpiHtml = priorityScpiLinks
 const staticRoot = `<div id="root">
   <main style="min-height:100vh;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif">
     <section style="max-width:1100px;margin:0 auto;padding:48px 24px">
-      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026 : comparez 61 SCPI</h1>
+      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026 : comparez ${scpiCount} SCPI</h1>
       <p style="max-width:850px;color:#94a3b8;line-height:1.7;margin:0 0 32px">Comparez les SCPI selon leurs principaux indicateurs : taux de distribution, frais, TOF, capitalisation, valeur de reconstitution, décote ou surcote, endettement, secteurs, géographie et liquidité observée.</p>
 
       <section style="margin-top:36px">

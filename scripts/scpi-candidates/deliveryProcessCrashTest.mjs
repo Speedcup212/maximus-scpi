@@ -10,9 +10,18 @@ import {assertExactGeography} from './officialAllocationParity.mjs';
 
 const read=(p)=>JSON.parse(fs.readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
 const privateSnapshot=read('data-import/corum_candidates_prepublication_20261015.json');
-const baselineCohort=read('src/data/certified_scpi_cohort.json');
-const baselineCatalog=read('src/data/scpi_complet.json');
+const currentCohort=read('src/data/certified_scpi_cohort.json');
+const currentCatalog=read('src/data/scpi_complet.json');
 const fundSlugs=privateSnapshot.scpi.map(c=>c.scpi_slug);
+const slug=name=>String(name).toLowerCase().normalize('NFD')
+  .replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+// The adversarial fixture starts from the immutable 61-fund baseline, even if
+// the real 65-fund owner-approved release is staged in the same checkout.
+const baselineCohort={...currentCohort,count:61,
+ slugs:currentCohort.slugs.filter(id=>!fundSlugs.includes(id))};
+const baselineCatalog=currentCatalog.filter(row=>!fundSlugs.includes(slug(row['Nom SCPI'])));
+if(baselineCohort.slugs.length!==61)
+ throw Error('Crash test cannot extract the original 61-fund cohort');
 const clone=x=>structuredClone(x);
 const withPublicFunds=(n)=>{
  const cohort=clone(baselineCohort),catalog=clone(baselineCatalog);

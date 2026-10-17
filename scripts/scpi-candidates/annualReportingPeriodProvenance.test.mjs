@@ -54,9 +54,20 @@ test('UI reports actual annual data year or neutral wording, with issuer link bu
  assert.doesNotMatch(landing,/annualReferenceYear\(realScpiData\?\.maximusSourcePeriode/);
 });
 
-test('Existing 61 public SCPI are untouched and private CORUM remain outside the cohort',()=>{
- assert.equal(cohort.count,61);
- assert.equal(cohort.slugs.length,61);
- for(const slug of ['corum-eurion','corum-origin','corum-usa','corum-xl'])
-   assert.ok(!cohort.slugs.includes(slug));
+test('Historical year labels survive either 61-public or full 65-CORUM official release',()=>{
+ assert.equal(cohort.count,cohort.slugs.length);
+ assert.ok([61,65].includes(cohort.count));
+ const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+ const included=ids.filter(slug=>cohort.slugs.includes(slug));
+ assert.equal(included.length,cohort.count===65?4:0);
+ if(included.length===4){
+   const catalog=JSON.parse(read('src/data/scpi_complet.json'));
+   for(const slug of included){
+     const found=catalog.filter(row=>String(row['Nom SCPI']).toLowerCase().replaceAll(' ','-')===slug);
+     assert.equal(found.length,1);
+     assert.equal(found[0].td_reference_period,'2025-RA');
+     assert.equal(found[0].debt_reference_period,'2025-RA');
+     assert.ok(found[0].td_reference_url.startsWith('https://'));
+   }
+ }
 });

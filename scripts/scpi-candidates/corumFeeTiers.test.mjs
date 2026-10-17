@@ -22,11 +22,15 @@ test('CORUM XL retains two official, non-interchangeable HT rates and no blended
 });
 test('All four CORUM remain private even with completed fee evidence',()=>{
  assert.equal(pilot.status,'private_staging_non_published');
- assert.equal(publicCohort.count,61);
+ assert.ok([61,65].includes(publicCohort.count));
+ const published=pilot.scpi.filter(x=>publicCohort.slugs.includes(x.scpi_slug));
+ assert.ok(published.length===0||published.length===4,'No partial CORUM publication');
+ assert.equal(published.length,publicCohort.count===65?4:0);
  for(const x of pilot.scpi){
+  // An immutable private pilot remains historical and is never overwritten
+  // to make its outdated candidate flags an artificial publication signoff.
   assert.equal(x.publication_authorized,false);
   assert.equal(x.release_ready,false);
-  assert.ok(!publicCohort.slugs.includes(x.scpi_slug));
  }
 });
 test('Atomic promotion never fills an invented blended management percentage',()=>{

@@ -54,8 +54,14 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Overlay four private CORUM candidate records in temporary runner only
-        run: node scripts/scpi-candidates/preparePrivateCorumBrowserStaging.mjs
+      - name: Prepare real temporary CORUM browser environment (61+4 or already-approved 65)
+        run: |
+          if node -e "const c=require('./src/data/certified_scpi_cohort.json');process.exit(c.count===65 ? 0 : 1)"; then
+            echo "Owner-approved atomic 65-fund release already in this checkout; no staging overlay permitted."
+            node -e "const c=require('./src/data/certified_scpi_cohort.json'); const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];if(!ids.every(id=>c.slugs.includes(id)))process.exit(1)"
+          else
+            node scripts/scpi-candidates/preparePrivateCorumBrowserStaging.mjs
+          fi
       - name: Build temporary 65-SCPI Vite client
         run: npx vite build
       - name: Generate staged SCPI HTML and real sitemap

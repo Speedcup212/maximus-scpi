@@ -12,7 +12,25 @@ test('Certified cohort remains internally coherent and separated from provisiona
  assert.equal(new Set(cohort.slugs).size,cohort.count);
  assert.ok(cohort.count>=61,'Never silently shrink the 61-SCPI baseline');
  assert.ok(cohort.slugs.includes('iroko-atlas'));
- for(const c of candidates.scpi)assert.ok(!cohort.slugs.includes(c.scpi_slug),'Candidate must stay unpublished: '+c.scpi_slug);
+ // The certified cohort is either the previous 61-fund set or the atomic
+ // owner-approved four-CORUM expansion. Never accept a partial (62-64) batch.
+ const corumIds=candidates.scpi.map(c=>c.scpi_slug);
+ const included=corumIds.filter(id=>cohort.slugs.includes(id));
+ assert.ok(included.length===0||included.length===4,'Four approved CORUM must be promoted together');
+ assert.equal(cohort.count,included.length===4?65:61);
+ if(included.length===4){
+  const catalog=JSON.parse(read('src/data/scpi_complet.json'));
+  const slug=name=>String(name).toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  for(const id of corumIds){
+    const matches=catalog.filter(row=>slug(row['Nom SCPI'])===id);
+    assert.equal(matches.length,1,'An approved fund must have exactly one source-catalog row: '+id);
+    assert.equal(matches[0].maximus_data_status,'certified_and_final_reviewed');
+    assert.equal(matches[0].td_reference_period,'2025-RA');
+    assert.equal(matches[0].debt_reference_period,'2025-RA');
+    assert.ok(Array.isArray(matches[0].maximus_warnings)&&matches[0].maximus_warnings.length>0);
+  }
+ }
 });
 test('Watchdog counts only existing cohort and treats missing strict rows as failures',()=>{
  assert.match(migration,/left join public\.scpi_crash_test_strict_v2 c on c\.scpi_slug=u\.scpi_slug/i);

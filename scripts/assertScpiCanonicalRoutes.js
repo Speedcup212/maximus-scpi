@@ -41,7 +41,12 @@ const slugs = names.map(slugify);
 const unique = new Set(slugs);
 const errors = [];
 
-if (certifiedScpiCohort.count !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== 61) {
+const requiredCorum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+const corumCount=requiredCorum.filter(slug=>certifiedScpiSlugSet.has(slug)).length;
+const requiredSize=corumCount===4?65:61;
+if (![0,4].includes(corumCount) ||
+    certifiedScpiCohort.count !== certifiedScpiSlugSet.size ||
+    certifiedScpiSlugSet.size !== requiredSize) {
   errors.push('Cohorte certifiée invalide: count=' + certifiedScpiCohort.count + ', slugs=' + certifiedScpiSlugSet.size + '.');
 }
 if (unique.size !== certifiedScpiSlugSet.size) {
