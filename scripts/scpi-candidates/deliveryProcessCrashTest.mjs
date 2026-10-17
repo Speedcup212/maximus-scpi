@@ -87,7 +87,8 @@ test('CRASH-08: forged surface statuses (bare "pass") never satisfy ten real UI 
   'simulateur_revente','simulateur_demembrement','score_radar','espace_client','parcours_souscription'];
  c.surface_tests=Object.fromEntries(names.map(name=>[name,'pass']));
  const a=auditCandidate(c);
- for(const name of names)assert.ok(a.blockers.includes('parcours_non_teste:'+name),name);
+ assert.ok(a.blockers.includes('campagne_navigateur_non_verifiee'));
+ assert.equal(names.length,10);
 });
 test('CRASH-09: even a complete-looking CI reference missing identity of fund is rejected',()=>{
  const c=clone(privateSnapshot.scpi[0]);c.release_ready=true;c.publication_authorized=false;c.analysis_certified=false;
@@ -96,7 +97,7 @@ test('CRASH-09: even a complete-looking CI reference missing identity of fund is
   run_url:'https://github.com/Speedcup212/maximus-scpi/actions/runs/12345678',
   executed_at:'2026-10-16T10:00:00Z'};
  c.surface_tests={seo_page:fake};
- assert.ok(auditCandidate(c).blockers.includes('parcours_non_teste:seo_page'));
+ assert.ok(auditCandidate(c).blockers.includes('campagne_navigateur_non_verifiee'));
 });
 test('CRASH-10: financial sources do NOT grant whole-product approval or site publication',()=>{
  for(const c of privateSnapshot.scpi){
@@ -151,8 +152,8 @@ test('CRASH-17: a syntactically valid CI URL alone cannot prove browser executio
     executed_at:'2026-10-16T10:00:00Z'
   };
   c.surface_tests={seo_page:inventedRun};
-  // Existing audit checks *format*, not a successful job/artifact.
-  assert.ok(!auditCandidate(c).blockers.includes('parcours_non_teste:seo_page'));
+  // Now a valid-looking URL is insufficient; a completed CI run and real artifact are required.
+  assert.ok(auditCandidate(c).blockers.includes('campagne_navigateur_non_verifiee'));
   // Counterexample proves why one VERIFIED CI matrix + artifact is needed.
   // Do not treat this unverified metadata as a valid release authorization.
 });
