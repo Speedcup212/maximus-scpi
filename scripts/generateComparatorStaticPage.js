@@ -79,6 +79,25 @@ html = html.replace(
   `    <script type="application/ld+json">${JSON.stringify(schema)}</script>\n  </head>`
 );
 
+const priorityScpiLinks = [
+  ['comete', 'Comète'],
+  ['iroko-zen', 'Iroko Zen'],
+  ['transitions-europe', 'Transitions Europe'],
+  ['remake-live', 'Remake Live'],
+];
+const certifiedScpi = JSON.parse(fs.readFileSync(
+  path.join(__dirname, '../src/data/certified_scpi_cohort.json'), 'utf8'
+));
+const certifiedSlugs = new Set(certifiedScpi.slugs || []);
+for (const [slug] of priorityScpiLinks) {
+  if (!certifiedSlugs.has(slug)) {
+    throw new Error('Lien de comparaison non certifié : ' + slug);
+  }
+}
+const priorityScpiHtml = priorityScpiLinks
+  .map(([slug, label]) => '<a href="/' + slug + '/" style="color:#6ee7b7">' + label + '</a>')
+  .join(' · ');
+
 const staticRoot = `<div id="root">
   <main style="min-height:100vh;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif">
     <section style="max-width:1100px;margin:0 auto;padding:48px 24px">
@@ -103,6 +122,12 @@ const staticRoot = `<div id="root">
         <h2 style="font-size:22px;color:white;margin:0 0 10px">Méthodologie MaximusSCPI</h2>
         <p style="color:#cbd5e1;line-height:1.7">Les données sont consolidées à partir des documents publics des sociétés de gestion. La note MaximusSCPI et le radar de sélection sont des indicateurs propriétaires multicritères ; ils ne constituent ni une notation réglementaire, ni une garantie de performance ou de liquidité.</p>
         <p style="margin-top:12px"><a href="/methodologie-donnees/" style="color:#34d399">Voir la méthodologie des données</a> · <a href="/articles/revendre-parts-scpi-delais-marche-secondaire/" style="color:#34d399">Comprendre la revente des parts</a></p>
+      </section>
+      <section id="comparator-related-scpi" aria-label="Fiches SCPI à approfondir" style="margin-top:38px;padding:20px;border:1px solid #334155;border-radius:12px">
+        <h2 style="font-size:22px;color:white;margin:0 0 10px">Approfondir les SCPI à comparer</h2>
+        <p style="color:#cbd5e1;line-height:1.7">Consultez les fiches des SCPI suivies, puis confrontez leurs indicateurs et leurs risques dans le comparateur. Les performances passées et la liquidité ne sont pas garanties.</p>
+        <nav aria-label="Fiches SCPI" style="line-height:2.1;margin-top:12px">${priorityScpiHtml}</nav>
+        <p style="line-height:1.9;margin-top:12px"><a href="/simulateur-revenus-nets-scpi/" style="color:#6ee7b7">Simuler les revenus nets</a> · <a href="/articles/scpi-ou-etf-immobilier/" style="color:#6ee7b7">SCPI ou ETF immobilier</a></p>
       </section>
     </section>
   </main>

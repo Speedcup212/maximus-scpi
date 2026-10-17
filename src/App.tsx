@@ -4346,6 +4346,28 @@ const App: React.FC = () => {
                 />
               </Suspense>
 
+              <section
+                id="comparator-related-scpi"
+                aria-label="Fiches SCPI à approfondir"
+                className="max-w-5xl mx-auto mt-10 rounded-xl border border-slate-700 bg-slate-800/60 p-5 sm:p-6 text-slate-300"
+              >
+                <h2 className="text-xl font-bold text-white mb-2">Approfondir les SCPI à comparer</h2>
+                <p className="text-sm leading-relaxed text-slate-300 mb-4">
+                  Consultez les fiches des SCPI suivies, puis confrontez leurs indicateurs et leurs risques dans le comparateur.
+                  Les performances passées et la liquidité ne sont pas garanties.
+                </p>
+                <nav aria-label="Fiches SCPI" className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
+                  <a className="text-emerald-400 hover:underline" href="/comete/">Comète</a>
+                  <a className="text-emerald-400 hover:underline" href="/iroko-zen/">Iroko Zen</a>
+                  <a className="text-emerald-400 hover:underline" href="/transitions-europe/">Transitions Europe</a>
+                  <a className="text-emerald-400 hover:underline" href="/remake-live/">Remake Live</a>
+                </nav>
+                <div className="flex flex-wrap gap-x-5 gap-y-3 mt-4 text-sm">
+                  <a className="text-emerald-400 hover:underline" href="/simulateur-revenus-nets-scpi/">Simuler les revenus nets</a>
+                  <a className="text-emerald-400 hover:underline" href="/articles/scpi-ou-etf-immobilier/">SCPI ou ETF immobilier</a>
+                </div>
+              </section>
+
               <section className="max-w-5xl mx-auto mt-16 sm:mt-20 border-t border-slate-800 pt-10 text-slate-300">
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-white mb-3">Comment utiliser le comparateur SCPI ?</h2>
