@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
 import {verifyCompletedCorumBrowserRun} from './verifyCorumBrowserEvidence.mjs';
+import {buildPrivateReleaseInput} from './buildCurrentCorumReleaseInput.mjs';
 import {assertOfficial2026Valuation,official2026ValuationAnnouncementUrl} from './issuerValuationEvidence.mjs';
 import {assertExactGeography} from './officialAllocationParity.mjs';
 import {assertCanonicalFinancialEvidence} from './officialFinancialParity.mjs';
@@ -204,7 +205,9 @@ async function liveApproval(candidates) {
    throw Error('Candidate marked publicly activated before source release: '+candidate.scpi_slug);
  }
 }
-const preview=get('data-import/corum_candidates_prepublication_20261015.json');
+const preview=buildPrivateReleaseInput(
+ get('data-import/corum_candidates_prepublication_20261015.json'),
+ get('data-import/corum_private_browser_fixture_20261017.json'));
 // A single genuine 4x10 completed browser matrix replaces 40 editable tokens.
  // No CI URL or status in the local snapshot is ever enough by itself.
  const isApply=process.argv.includes('--apply');
