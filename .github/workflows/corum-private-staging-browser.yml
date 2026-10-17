@@ -8,6 +8,9 @@ on:
       - 'scripts/scpi-candidates/**'
       - 'scripts/generateSitemapFromDB.ts'
       - 'data-import/corum_private_browser_fixture_20261017.json'
+      - 'src/components/fintech/AnalysisDetailModal.tsx'
+      - 'src/utils/scpiFinancialProvenance.ts'
+      - 'src/utils/buildScpiForAnalysis.ts'
   push:
     branches: [main]
     paths:
@@ -15,6 +18,9 @@ on:
       - 'scripts/scpi-candidates/**'
       - 'scripts/generateSitemapFromDB.ts'
       - 'data-import/corum_private_browser_fixture_20261017.json'
+      - 'src/components/fintech/AnalysisDetailModal.tsx'
+      - 'src/utils/scpiFinancialProvenance.ts'
+      - 'src/utils/buildScpiForAnalysis.ts'
   workflow_dispatch:
 
 permissions:
