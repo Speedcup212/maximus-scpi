@@ -109,7 +109,8 @@ try{
     }));
     return {http_200:code===200,name_visible:normalized(body).includes(normalized(name)),
       page_title_or_h1:normalized(head.title+' '+head.h1).includes(normalized(name)),
-      seo_description:head.description.length>40};
+      seo_description:head.description.length>40,
+      annual_reporting_year_visible:/2025/.test(body)};
   });
   await caseRun(slug,'sitemap',async()=>{
     const s=await get('/sitemap.xml');
@@ -130,10 +131,22 @@ try{
     return {fund_name_in_resale_route:normalized(body).includes(normalized(name)),
       resale_input_available:(await page.$$('input')).length>0};
   });
-  await caseRun(slug,'score_radar',async()=>{
-    const body=await searchFor(name);
-    return {fund_search_on_radar_source:normalized(body).includes(normalized(name)),
-      actual_analysis_trigger:/analys|radar|score/i.test(body)};
+  await caseRun(slug,'analyse_detail',async()=>{
+    await searchFor(name);
+    const candidates=await page.$('#scpi-grid button');
+    let clicked=false;
+    for(const button of candidates){
+      const label=await button.evaluate(e=>e.textContent?.trim()||'');
+      if(/^analyser$/i.test(label)){await button.click();clicked=true;break}
+    }
+    if(!clicked)throw Error('No actual Analyser action on selected CORUM comparator card');
+    await page.waitForFunction(n=>document.body?.innerText?.includes(n)
+       &&document.body?.innerText?.includes('Analyse MaximusSCPI'),
+      {timeout:12000},name);
+    const text=await page.$eval('body',x=>x.innerText);
+    return {selected_fund_analysis_opened:clicked,
+      actual_modal_contains_name:normalized(text).includes(normalized(name)),
+      analysis_header_visible:/Analyse MaximusSCPI/i.test(text)};
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{
