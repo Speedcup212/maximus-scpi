@@ -21,7 +21,7 @@ Si deux publications de l'émetteur sont comparables (SCPI, périmètre, date, u
 
 L'écart devient `nonblocking_documentary_conflict_with_evidence` dans l'audit de la source. Ne pas appeler cette décision une signature indépendante de conformité. **Une divergence non comparable, non sourcée, supérieure à 1 point, ou impliquant un changement d'unité/périmètre reste une exception**. Ne pas résoudre automatiquement un pays dont les pourcentages sont permutés (exemple Eurion), même si la somme vaut 100 %.
 
-La publication finale reste régie par les cinq gates uniques (sources, calculs, exceptions, toutes les surfaces Iroko Atlas, Netlify atomique) et `scpi_candidate_final_release_v1`, qui ne doivent **jamais** être contournés.
+La publication finale reste régie par les cinq gates uniques (sources, calculs, exceptions, les surfaces existantes des SCPI certifiées (Iroko Atlas n'étant qu'un exemple), Netlify atomique) et `scpi_candidate_final_release_v1`, qui ne doivent **jamais** être contournés.
 
 ## Cas vérifié 17/10/2026 : CORUM XL, Bureaux
 

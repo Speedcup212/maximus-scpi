@@ -103,26 +103,38 @@ Une extraction OCR, un rapport annuel identifié, des métriques `qa_pass` ou le
 Les quatre CORUM servent de **lot pilote** ; leurs valeurs QA initiales sont stockées dans `data-import/corum_candidates_prepublication_20261015.json` et contrôlées par `scripts/scpi-candidates/auditCorumE2e.mjs`. Ce fichier est une preuve de préparation, jamais un catalogue public.
 
 
-## Design de référence obligatoire pour toutes les SCPI — Iroko Atlas
+## Référentiel d'intégration : l'ensemble des SCPI déjà publiées, et non Iroko Atlas seule
 
-**Le modèle unique est la fiche publique Iroko Atlas**, route `/iroko-atlas/`,
-servie par `OptimizedScpiLandingPage` et `buildScpiLandingData`.
-Les CORUM, BNP Paribas et les 225 SCPI doivent réutiliser **ce composant exact**
-et son comportement responsive, ses blocs, tableaux, cartes, graphiques, textes d'alerte,
-liens du comparateur, simulateurs, SEO et formulaire. **Ne jamais créer une page HTML,
-un microsite, une maquette parallèle ni une fiche CORUM spécifique** comme substitut.
+**Iroko Atlas a été citée comme un EXEMPLE de fiche existante, jamais comme modèle unique obligatoire.**
+Le périmètre de non-régression est **l'ensemble des 61 SCPI certifiées et de leurs parcours effectivement montés**.
+Préserver les comportements partagés ET les variantes fonctionnelles/éditoriales existantes, sans exiger
+que toutes les fiches aient le texte, le contenu ou une mise en page identique à une SCPI particulière.
 
-- Les 61 SCPI existantes et Iroko Atlas servent de référence de non-régression.
+- L'application dispose déjà du routage réutilisable `OptimizedScpiLandingPage` /
+  `buildScpiLandingData`. Il gère des fiches **éditoriales spécifiques** (exemples :
+  **Comète, Transitions Europe, Iroko Zen**) et des fiches **générées à partir des
+  données certifiées** (exemple : **Iroko Atlas**). La différence de contenu n'est
+  pas une anomalie : elle est conservée lorsque les données sont exactes et sourcées.
+- CORUM et les futures SCPI doivent s'intégrer au fonctionnement **déjà existant**
+  du catalogue, des fiches et de tous les outils, pas reproduire servilement
+  la seule fiche Iroko Atlas. Une SCPI ne doit pas avoir un microsite, une page
+  HTML parallèle ou un circuit de données détaché des parcours existants.
 - L'activation atomique via `scpi_complet.json` + `certified_scpi_cohort.json`
-  distribue la même identité à la fiche, au comparateur et aux simulateurs.
-- Les systèmes externes `scpi_indicators`, `scpi_bulletin_analysis`,
+  distribue la même identité aux fiches, comparateur et simulateurs. Les données
+  privées ou non validées ne doivent pas être visibles dans la cohorte publique.
+- Les systèmes `scpi_indicators`, `scpi_bulletin_analysis`,
   `scpi_trajectory_pilot_history`, `scpi_trajectory_pilot_liquidity`
-  alimentent respectivement les données live et scores/radar, l'analyse,
-  la trajectoire et la liquidité de l'espace client. Ce sont des **preuves
-  obligatoires de raccordement réel**, pas des données simulées.
-- Le verrou privé `scpi_candidate_tool_readiness.full_surface_ready` doit être
-  vrai en plus de l'audit final : il vérifie les circuits financiers et
-  applicatifs réellement alimentés. Ne pas transformer un manque en zéro.
-- Test de non-régression : `node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs`.
-  Ce test du câblage source ne remplace PAS les tests navigateur, les traces
-  de production, ni une vérification réelle par SCPI.
+  alimentent les indicateurs, analyses, trajectoires et informations de liquidité :
+  vérification concrète des consommateurs, par SCPI, sans données simulées.
+- Les références à tester sont **pluralisées** : exemples de fiche éditoriale,
+  de fiche générée et de SCPI aux régimes ou frais différents. Contrôler les
+  fiches, comparateur, simulateurs, radar, trajectoire, espace client, SEO,
+  liens, responsive et cas d'indisponibilité. Ne pas forcer l'égalité de
+  données entre SCPI différentes.
+- `scpi_candidate_tool_readiness.full_surface_ready` et l'audit final restent
+  obligatoires avant publication. Garder le verrou de publication atomique :
+  aucune correction d'interface n'est une autorisation financière ou Netlify.
+- Test historique de câblage (nom de fichier conservé pour compatibilité CI) :
+  `node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs`.
+  Il contrôle désormais plusieurs exemples de SCPI et ne remplace ni les
+  tests navigateur ni les contrôles en production par SCPI.
