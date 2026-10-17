@@ -127,6 +127,9 @@ jobs:
       - name: CORUM latest current valuation issuer-source and old-2025 exclusion
         run: node --test scripts/scpi-candidates/issuerValuationEvidence.test.mjs
 
+      - name: CORUM private-browser evidence handoff never approves financial release
+        run: node --test scripts/scpi-candidates/corumBrowserEvidenceHandoff.test.mjs
+
       - name: Authenticated CORUM browser artifact and release QA evidence
         run: node --test scripts/scpi-candidates/verifiedBrowserBatch.test.mjs
 
