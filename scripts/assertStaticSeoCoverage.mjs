@@ -114,12 +114,6 @@ for (const url of urls) {
       requiredLinks: ['/dic-scpi/', '/note-information-scpi/', '/orias-scpi/'],
       sourceLink: 'https://www.amf-france.org/fr/espace-epargnants/comprendre-les-produits-financiers/placements-collectifs/scpi-comment-bien-sinformer',
     },
-    {
-      slug: 'articles/investir-10000-euros-scpi',
-      title: "Investir 10 000 € en SCPI : revenus et risques | MaximusSCPI",
-      description: "Investir 10 000 € en SCPI : quels revenus potentiels, quels frais et quels risques ? Comprenez les critères à vérifier et simulez vos revenus.",
-      requiredLinks: [],
-    },
   ];
 
   for (const target of targets) {
