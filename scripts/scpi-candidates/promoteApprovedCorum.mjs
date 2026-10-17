@@ -3,6 +3,7 @@
 // 100%-complete, evidenced data/surface contract. No Netlify deploy.
 import fs from 'node:fs';
 import path from 'node:path';
+import {execFileSync} from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
 import {verifyCompletedCorumBrowserRun} from './verifyCorumBrowserEvidence.mjs';
@@ -232,22 +233,32 @@ async function liveApproval(candidates) {
 const preview=buildPrivateReleaseInput(
  get('data-import/corum_candidates_prepublication_20261015.json'),
  get('data-import/corum_private_browser_fixture_20261017.json'));
-// A single genuine 4x10 completed browser matrix replaces 40 editable tokens.
- // No CI URL or status in the local snapshot is ever enough by itself.
- const isApply=process.argv.includes('--apply');
- const verifiedBrowserBatch=isApply
-   ? (await verifyCompletedCorumBrowserRun(preview.browser_batch)).verified
-   : false;
- const report=auditSnapshot(preview,{verifiedBrowserBatch});
+// A single responsible batch signoff is read LIVE from Supabase. No cached
+// release_ready flag can pass a local QA gate or infer professional approval.
+const isApply=process.argv.includes('--apply');
+if(isApply) {
+ await liveApproval(preview.scpi);
+ for(const candidate of preview.scpi)candidate.release_ready=true;
+}
+// A real browser staging run must match the exact checked-out git SHA and
+// provide the ZIP SHA256 digest; the verifier downloads the GitHub artifact.
+const batch=isApply?{
+ run_id:Number(process.env.CORUM_BROWSER_RUN_ID),
+ commit_sha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+ artifact_sha256:process.env.CORUM_BROWSER_ARTIFACT_SHA256
+}:null;
+const verifiedBrowserBatch=isApply?
+ (await verifyCompletedCorumBrowserRun(batch)).verified:false;
+const report=auditSnapshot(preview,{verifiedBrowserBatch});
 assertIntegrationTopology();
 const blockers=report.filter(x=>!x.ready);
-console.log('[CORUM] prepublication QA',JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
-if(!process.argv.includes('--apply')){
+console.log('[CORUM] canonical private source review',
+ JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
+if(!isApply){
  console.log('[CORUM] dry-run only: 61 public SCPI preserved; no release.');
  process.exit(0);
 }
-if(blockers.length)throw Error('Cannot release CORUM: local full-surface QA still incomplete');
-await liveApproval(preview.scpi);
+if(blockers.length)throw Error('Cannot release CORUM: source and browser QA incomplete');
 const catalogPath=path.join(ROOT,'src/data/scpi_complet.json'),
  cohortPath=path.join(ROOT,'src/data/certified_scpi_cohort.json');
 const catalog=JSON.parse(fs.readFileSync(catalogPath,'utf8'));
