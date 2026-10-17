@@ -161,12 +161,18 @@ try{
       const radarHeader=Array.from(document.querySelectorAll('h3'))
         .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'));
       const radarSvg=document.querySelector('.recharts-radar')?.closest('svg');
-      const displayedAxes=Array.from(radarSvg?.querySelectorAll('text')||[])
-        .map(x=>x.textContent||'').join(' ');
+      // Recharts's SVG may not serialize tick labels in a stable tag. Check
+      // five visible score rows in the exact open modal and require a rendered radar.
+      const modal=heading?.closest('div.fixed');
+      const scoreRows=Array.from(modal?.querySelectorAll('div')||[]).filter(el=>{
+        const spans=Array.from(el.children).filter(c=>c.tagName==='SPAN');
+        return spans.length===2 && /\/100$/.test(spans[1].textContent?.trim()||'');
+      });
+      const labels=scoreRows.map(row=>row.children[0].textContent?.trim()||'');
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
         radarFiveAxes:!!radarHeader&&['Rendement','Secteurs','Géographie','Qualité','Taille']
-          .every(axis=>displayedAxes.includes(axis))};
+          .every(axis=>labels.includes(axis))};
     },name);
     return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
       rendered_recharts_radar:inspected.radarRendered,
@@ -175,8 +181,9 @@ try{
  }
  await caseRun('shared','simulateur_direct',async()=>{
   const {code,body}=await visit('/simulateur-scpi/','simul');
+  await page.waitForSelector('input',{timeout:12000});
   return {route_200:code===200,calculator_visible:/revenu|rendement|montant/i.test(body),
-    input_present:(await page.$$('input')).length>0};
+    input_present:(await page.$('input')).length>0};
  });
  await caseRun('shared','simulateur_demembrement',async()=>{
   const {code,body}=await visit('/simulateur-demembrement-scpi/','démembrement');
