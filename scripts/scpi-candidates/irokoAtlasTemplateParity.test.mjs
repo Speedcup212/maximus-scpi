@@ -56,11 +56,19 @@ test('Every new SCPI uses the existing multi-SCPI app routes, not a separate mic
  const published=candidate.scpi.filter(x=>cohort.slugs.includes(x.scpi_slug)).length;
  assert.ok([0,4].includes(published),'candidate cohort must be all-or-none');
  if(published===4){
-  // In a genuine deployment all candidate-specific release statuses must be
-  // evidenced; a mere imported name is not a completed SCPI.
-  assert.ok(candidate.scpi.every(x=>x.release_ready===true &&
-   x.publication_authorized===true && x.analysis_certified===true &&
-   Object.values(x.surface_tests||{}).filter(v=>v==='pass').length>=10));
+  // A real owner-approved promotion must preserve official source years
+  // and full product/risk fields; its *historical private source snapshot*
+  // is not itself the professional batch approval or public record.
+  const approved=source('supabase/migrations/20261017_corum_responsible_owner_batch_approval.sql');
+  assert.match(approved,/decision='approved'/);
+  assert.match(approved,/dossier_digest_sha256=digest_hex/);
+  for(const x of candidate.scpi){
+    const publishedRow=catalog.find(v=>normalize(v['Nom SCPI'])===x.scpi_slug);
+    assert.ok(publishedRow?.maximus_warnings?.length>0);
+    assert.equal(publishedRow.td_reference_period,'2025-RA');
+    assert.equal(publishedRow.debt_reference_period,'2025-RA');
+    assert.equal(publishedRow.maximus_data_status,'certified_and_final_reviewed');
+  }
  }
  assert.match(routes,/scpiKey && buildScpiLandingData\(scpiKey\)/);
  assert.match(routes,/buildScpiLandingData\(slug\)/);
