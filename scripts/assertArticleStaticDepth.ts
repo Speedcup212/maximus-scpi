@@ -125,7 +125,7 @@ for (const article of templates) {
   if (!manifestEntry) {
     failures.push(`${article.slug}: absent du manifest React`);
   } else if (manifestEntry.rootHash !== hash(root.inner.trim())) {
-    const snapshot = path.join(auditDir, article.slug + '.html');
+    const snapshot = path.join(auditDir, article.slug + '.baseline');
     if (fs.existsSync(snapshot)) {
       const initial = fs.readFileSync(snapshot, 'utf8').trim();
       const actual = root.inner.trim();
