@@ -67,7 +67,7 @@ test('Historical year labels survive either 61-public or full 65-CORUM official 
      assert.equal(found.length,1);
      assert.equal(found[0].td_reference_period,'2025-RA');
      assert.equal(found[0].debt_reference_period,'2025-RA');
-     assert.match(found[0].td_reference_url,/^https:\\/\\//);
+     assert.ok(found[0].td_reference_url.startsWith('https://'));
    }
  }
 });
