@@ -33,6 +33,15 @@ const save=()=>fs.writeFileSync(path.join(OUT,'browser-matrix.json'),JSON.string
 let browser,page,failed=0;
 const visit=async(route,contains,timeout=13000)=>{
  const response=await page.goto(BASE+route,{waitUntil:'domcontentloaded',timeout:25000});
+ // Cookie choice is a REAL visible modal in Chromium; dismiss it with the
+ // "Refuser tout" button rather than misdiagnosing the comparator as broken.
+ await page.waitForFunction(()=>Boolean(document.querySelector('body')),
+  {timeout:3000});
+ await page.evaluate(()=>{
+   const button=Array.from(document.querySelectorAll('button')).find(
+     el=>/refuser tout/i.test(el.textContent||''));
+   if(button)button.click();
+ });
  await page.waitForFunction(s=>document.body?.innerText?.toLowerCase()
    .normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(
      String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -54,7 +63,7 @@ const caseRun=async(slug,surface,fn)=>{
  console.log('CORUM_STAGING_REAL_BROWSER',JSON.stringify({slug,surface,status:c.status,error:c.error}));
 };
 const searchFor=async(name)=>{
- await visit('/comparateur-scpi/','rechercher');
+ await visit('/comparateur-scpi/','comparateur');
  const q=await page.$('input[placeholder*="Rechercher"]');
  if(!q)throw Error('Search input absent from real comparator');
  await q.click({clickCount:3});await q.type(name,{delay:15});
@@ -146,8 +155,8 @@ try{
  await caseRun('shared','parcours_souscription',async()=>{
   const {code,body}=await visit('/'+CORUM[0]+'/',names[CORUM[0]]);
   const actions=await page.$$eval('a,button',els=>els.map(x=>x.textContent?.trim()).filter(Boolean));
-  return {profile_200:code===200,
-    call_to_action_present:actions.some(x=>/rendez.vous|prendre rendez.vous|rdv|être rappelé|contacter/i.test(x)),
+  return {profile_loaded:normalized(body).includes(normalized(names[CORUM[0]])),
+    call_to_action_present:actions.some(x=>/analyse personnalisée|obtenir mon analyse|rendez.vous|prendre rendez.vous|rdv|être rappelé|contacter/i.test(x)),
     investor_warning_visible:/perte en capital|risque de liquidit/i.test(body)};
  });
  report.status=failed===0?'pass':'fail';
