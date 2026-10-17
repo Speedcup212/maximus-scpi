@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {scpiData} from '../../src/data/scpiData.ts';
 import {scpiDataExtended} from '../../src/data/scpiDataExtended.ts';
 import {enrichScpiExtended} from '../../src/utils/enrichScpiExtended.ts';
+import {mapScpiExtendedToInput} from '../../src/utils/computeClientScores.ts';
 import {resolveScpiIndicator} from '../../src/indicators/resolveScpiIndicator.ts';
 import {sourceBackedPortfolioDescription} from '../../src/utils/scpiSourcePortfolioDescription.ts';
 const catalog=JSON.parse(fs.readFileSync(new URL('../../src/data/scpi_complet.json',import.meta.url),'utf8'));
@@ -22,6 +23,7 @@ test('CRASH: four official values survive enrichment although discounts remain U
   assert.equal(parsed.discountQaStatus,'manual_review',name);
   const enriched=enrichScpiExtended(original,scpiData);
   assert.equal(enriched.reconstitutionValue,expected,name);
+  assert.equal(mapScpiExtendedToInput(enriched).valeur_reconstitution,null,name+' unsafe VR discount must not enter score');
   const discount=resolveScpiIndicator({
    price:enriched.price,reconstitutionValue:enriched.reconstitutionValue,
    discountQaStatus:enriched.discountQaStatus,discount:enriched.discount
@@ -57,4 +59,5 @@ test('CRASH: UI flags missing detailed rental KPIs and marks source dates withou
  assert.match(source,/décote non certifiée/);
  assert.match(source,/Distribution\{distributionYear!==null/);
  assert.match(source,/Valeur sourcée/);
+ assert.match(source,/scpi-reconstitution-value/);
 });
