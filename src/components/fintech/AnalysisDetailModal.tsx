@@ -963,7 +963,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-xs text-emerald-400 font-semibold">Val. Reconstitution (€/part)</div>
                     </div>
                     {scpi.reconstitutionValue !== undefined ? (
-                      <div className="text-lg font-bold text-emerald-400">
+                      <div data-testid="scpi-reconstitution-value" className="text-lg font-bold text-emerald-400">
                         {scpi.reconstitutionValue.toFixed(2)}€
                           {scpi.discountQaStatus === 'manual_review' && (
                             <div className="mt-1 text-[10px] font-normal text-slate-400">Valeur sourcée ; décote non certifiée</div>
