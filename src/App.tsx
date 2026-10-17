@@ -4004,9 +4004,9 @@ const App: React.FC = () => {
   if (currentView === 'amf-scpi') {
     return renderEducationalScpiPage(
       {
-        title: 'AMF SCPI : contrôle, réglementation et documents à vérifier',
+        title: 'SCPI et AMF : visa, agrément, risques | MaximusSCPI',
         description:
-          "Comprenez le rôle de l'AMF dans l'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.",
+          "SCPI et AMF : que vérifie le régulateur ? Visa, société de gestion, DIC, note d’information, conditions de retrait et risques pour l’épargnant.",
         keywords: ['AMF SCPI', 'agrément AMF', 'réglementation SCPI', 'documents réglementaires SCPI'],
         canonical: 'https://maximusscpi.com/amf-scpi/',
       },

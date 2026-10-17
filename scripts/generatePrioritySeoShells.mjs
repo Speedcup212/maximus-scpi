@@ -16,8 +16,8 @@ if (!fs.existsSync(sourcePath)) {
 const PAGES = [
   {
     slug: 'amf-scpi',
-    title: 'AMF et SCPI : agrément, visa, contrôles et limites | MaximusSCPI',
-    description: 'Comprendre le rôle de l’AMF pour les SCPI : sociétés de gestion, note d’information, visa, contrôles et ce que l’AMF ne garantit pas.',
+    title: 'SCPI et AMF : visa, agrément, risques | MaximusSCPI',
+    description: 'SCPI et AMF : que vérifie le régulateur ? Visa, société de gestion, DIC, note d’information, conditions de retrait et risques pour l’épargnant.',
     h1: 'AMF et SCPI : ce que le contrôle réglementaire signifie vraiment',
     intro: 'L’AMF encadre le marché et les sociétés de gestion. Son intervention ne constitue ni une garantie du capital, ni une garantie de rendement ou de liquidité.',
     sections: [
