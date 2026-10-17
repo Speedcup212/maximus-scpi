@@ -140,13 +140,29 @@ try{
       if(/^analyser$/i.test(label)){await button.click();clicked=true;break}
     }
     if(!clicked)throw Error('No actual Analyser action on selected CORUM comparator card');
-    await page.waitForFunction(n=>document.body?.innerText?.includes(n)
-       &&document.body?.innerText?.includes('Analyse MaximusSCPI'),
-      {timeout:12000},name);
-    const text=await page.$eval('body',x=>x.innerText);
-    return {selected_fund_analysis_opened:clicked,
-      actual_modal_contains_name:normalized(text).includes(normalized(name)),
-      analysis_header_visible:/Analyse MaximusSCPI/i.test(text)};
+    // Verify the actual analysis modal and the five-dimension Recharts radar;
+    // a search result containing the word "analyse" never counted as radar QA.
+    await page.waitForFunction(n=>{
+      const heading=Array.from(document.querySelectorAll('h2'))
+         .find(el=>(el.textContent||'').includes('Analyse Détaillée - '+n));
+      return Boolean(heading) &&
+         Boolean(Array.from(document.querySelectorAll('h3'))
+           .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'))) &&
+         Boolean(document.querySelector('.recharts-radar'));
+    },{timeout:15000},name);
+    const inspected=await page.evaluate(n=>{
+      const headings=Array.from(document.querySelectorAll('h2'));
+      const heading=headings.find(el=>(el.textContent||'').includes('Analyse Détaillée - '+n));
+      const radarHeader=Array.from(document.querySelectorAll('h3'))
+        .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'));
+      return {headingMatches:!!heading,
+        radarRendered:!!document.querySelector('.recharts-radar'),
+        radarFiveAxes:!!radarHeader&&['Rendement','Secteurs','Géographie','Qualité','Taille']
+          .every(s=>radarHeader.closest('.rounded-xl')?.textContent?.includes(s))};
+    },name);
+    return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
+      rendered_recharts_radar:inspected.radarRendered,
+      five_source_score_axes_present:inspected.radarFiveAxes};
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{
