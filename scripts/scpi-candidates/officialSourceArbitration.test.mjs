@@ -38,7 +38,7 @@ test('arbitration is audit-visible and does not alter any source number or relea
 
 test('policy limits the tolerance to allocation reporting differences, never financial metrics',()=>{
  assert.match(policy,/1 point de pourcentage maximum/);
- assert.match(policy,/bulletin trimestriel officiel figé/);
+ assert.match(policy,/bulletin trimestriel officiel figé/i);
  assert.match(policy,/libellé et pourcentage/);
  assert.match(policy,/les frais, la dette, la liquidité, DIC\/SFDR/);
  assert.match(policy,/Ne jamais modifier une valeur pour forcer le total à 100 %/);
