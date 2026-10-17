@@ -46,10 +46,6 @@ const dedupeH1 = (html) => {
 const pageFile = (slug) => path.join(distDir, ...slug.replace(/^\/+|\/+$/g, '').split('/'), 'index.html');
 
 const metadataFixes = {
-  'articles/investir-10000-euros-scpi': {
-    title: 'Investir 10 000 € en SCPI : revenus et risques | MaximusSCPI',
-    description: 'Investir 10 000 € en SCPI : quels revenus potentiels, quels frais et quels risques ? Comprenez les critères à vérifier et simulez vos revenus.'
-  },
   'articles/scpi-direct-ou-assurance-vie': {
     title: 'SCPI direct ou assurance-vie : que choisir ? | MaximusSCPI',
     description: 'SCPI en direct ou en assurance-vie : comparez fiscalité, frais, liquidité, IFI et transmission selon votre situation et votre horizon.'
