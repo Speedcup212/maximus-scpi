@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const sql=fs.readFileSync(new URL('../../supabase/migrations/20261017_corum_private_chromium_evidence_handoff.sql',import.meta.url),'utf8');
+test('four actual GitHub browser proofs are traceable, no forged financial approval',()=>{
+  assert.match(sql,/39021335373/);
+  assert.match(sql,/906eb9a413ebc8a444b06473d70ff31cefa501e1/);
+  assert.match(sql,/3e56be22006320fe5b22f6012c2c8a08fa293d382fa83eb4d14f5f2969f62c59/);
+  assert.match(sql,/'checks_passed',28/);
+  assert.match(sql,/'fund_specific_cases',24/);
+  assert.match(sql,/'shared_cases',4/);
+  assert.match(sql,/'independent_legal_financial_review',false/);
+  assert.match(sql,/'production_smoke',false/);
+  assert.match(sql,/'release_authorized',false/);
+  assert.match(sql,/a\.audit_status='pending'/);
+  assert.match(sql,/NOT r\.frontend_contract_smoke_passed/);
+  assert.match(sql,/changed<>4/);
+  assert.match(sql,/final_release_ready/);
+  assert.doesNotMatch(sql,/UPDATE\s+maximus_agents\.scpi_candidate_final_audit/i);
+  assert.doesNotMatch(sql,/SET\s+(?:reviewed_by|reviewed_at|audit_status|approved_by|publication_authorized|frontend_contract_smoke_passed)\s*=/i);
+});
