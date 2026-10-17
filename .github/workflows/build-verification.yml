@@ -124,6 +124,9 @@ jobs:
       - name: CORUM latest current valuation issuer-source and old-2025 exclusion
         run: node --test scripts/scpi-candidates/issuerValuationEvidence.test.mjs
 
+      - name: Authenticated CORUM browser artifact and release QA evidence
+        run: node --test scripts/scpi-candidates/verifiedBrowserBatch.test.mjs
+
       - name: CORUM end-to-end onboarding contract (unpublished candidates)
         run: |
           node --test scripts/scpi-candidates/auditCorumE2e.test.mjs

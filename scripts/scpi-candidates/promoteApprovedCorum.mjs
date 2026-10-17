@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
+import {verifyCompletedCorumBrowserRun} from './verifyCorumBrowserEvidence.mjs';
 import {assertOfficial2026Valuation,official2026ValuationAnnouncementUrl} from './issuerValuationEvidence.mjs';
 import {assertExactGeography} from './officialAllocationParity.mjs';
 import {assertCanonicalFinancialEvidence} from './officialFinancialParity.mjs';
@@ -52,7 +53,7 @@ function rowFromCandidate(c) {
  const x=c.publishing_fields||{};
  const managementFees=validatedManagementFees(c);
  const risky=['creation_year','minimum_investment','subscription_fees','management_fees',
-  'reconstitution_value','risk_sri','liquidity_basis','withdrawal_terms',
+  'reconstitution_value','risk_sri','liquidity_basis',
   'enjoyment_delay','sector_allocation','geographic_allocation','sfdr',
   'capitalization_m','sector_class','geographic_scope','label_isr',
   'payment_frequency','risk_warnings','recommended_holding_years'];
@@ -74,8 +75,10 @@ function rowFromCandidate(c) {
    throw Error('DIC risk mismatch');
  if(x.recommended_holding_years!==c.regulatory_metrics?.find(e=>e.metric==='recommended_holding_years')?.value)
    throw Error('DIC holding period mismatch');
- if(typeof x.withdrawal_terms!=='string'||x.withdrawal_terms.length<35)
-   throw Error('Withdrawal conditions not evidenced');
+ // Contractual withdrawal clauses are NOT a mandatory marketing-card field.
+ // Keep the source-backed mechanism and withdrawal queue, plus explicit non-guarantee.
+ if(!x.risk_warnings?.some(w=>typeof w==='string'&&/liquidit|retrait|revente/i.test(w)))
+   throw Error('Liquidity risk warnings from issuer note missing');
  if(typeof x.label_isr!=='boolean')throw Error('Unknown ISR label');
  if(!Array.isArray(x.risk_warnings)||x.risk_warnings.length<1||
    x.risk_warnings.some(w=>typeof w!=='string'||w.length<24))
@@ -109,7 +112,12 @@ function rowFromCandidate(c) {
   'Label ISR':x.label_isr===true?'Oui':'Non',
   'SFDR':x.sfdr,
   'Profil_de_risque':{SRRI:x.risk_sri,Echelle:'1-7',Source:'DIC officiel',Verification:'qa_pass'},
-  'liquidite':x.withdrawal_terms+' Au '+period+' : '+wait+' parts en attente. Aucun délai de revente garanti.',
+  'liquidite':(x.liquidity_basis==='withdrawal_queue'
+       ? 'Demandes de retrait selon les modalités de la société de gestion.'
+       : 'Revente sur marché secondaire selon les ordres disponibles.')
+      +' Au '+period+' : '+wait+' parts en attente selon le bulletin officiel. '
+      +'Aucun rachat, délai de revente ou prix de cession n’est garanti. '
+      +'Consulter la note d’information officielle avant de souscrire.',
   'liquidity_basis':x.liquidity_basis,
   'Nombre d’associés':quarter(c,'nombre_associes')||undefined,
   'Période bulletin trimestriel':period,'Date bulletin':'30/06/2026',
@@ -197,7 +205,13 @@ async function liveApproval(candidates) {
  }
 }
 const preview=get('data-import/corum_candidates_prepublication_20261015.json');
-const report=auditSnapshot(preview);
+// A single genuine 4x10 completed browser matrix replaces 40 editable tokens.
+ // No CI URL or status in the local snapshot is ever enough by itself.
+ const isApply=process.argv.includes('--apply');
+ const verifiedBrowserBatch=isApply
+   ? (await verifyCompletedCorumBrowserRun(preview.browser_batch)).verified
+   : false;
+ const report=auditSnapshot(preview,{verifiedBrowserBatch});
 assertIntegrationTopology();
 const blockers=report.filter(x=>!x.ready);
 console.log('[CORUM] prepublication QA',JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
