@@ -155,7 +155,7 @@ try{
            .find(el=>(el.textContent||'').includes('Radar MaximusSCPI'))) &&
          Boolean(document.querySelector('.recharts-radar'));
     },{timeout:15000},name);
-    const inspected=await page.evaluate(n=>{
+    const inspected=await page.evaluate((n,fundSlug)=>{
       const headings=Array.from(document.querySelectorAll('h2'));
       const heading=headings.find(el=>(el.textContent||'').includes('Analyse Détaillée - '+n));
       const radarHeader=Array.from(document.querySelectorAll('h3'))
@@ -171,12 +171,20 @@ try{
         .every(axis=>tickLabels.includes(axis)) &&
         scoreContent.includes('Solidité / valorisation');
       const modalText=modal?.textContent||'';
+      const feeNode=modal?.querySelector('[data-management-fee-basis="geo-tiered-ht"]');
+      const feeText=(feeNode?.textContent||'').replace(/\\s+/g,' ');
+      const hasBothSourcedTiers=feeText.includes('Zone euro :')
+        &&feeText.includes('12,40 % HT')&&feeText.includes('15,90 % HT')
+        &&feeText.includes('aucun taux moyen calculé')
+        &&feeNode?.querySelector('a[href*="www.corum.fr"]');
       return {headingMatches:!!heading,
         radarRendered:!!radarSvg&&!!document.querySelector('.recharts-radar'),
         radarFiveAxes:!!radarHeader&&allFiveScores,
         historical_financial_periods:modalText.includes('Taux de distribution brut 2025')&&
-          modalText.includes('Endettement (rapport annuel 2025)')};
-    },name);
+          modalText.includes('Endettement (rapport annuel 2025)'),
+        sourced_geographic_fees:!['corum-usa','corum-xl'].includes(fundSlug)
+          ||Boolean(hasBothSourcedTiers)};
+    },name,slug);
     if(!inspected.radarFiveAxes){
       const diagnostic=await page.evaluate(()=>{
         const h=Array.from(document.querySelectorAll('h2'))
@@ -194,7 +202,8 @@ try{
     return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
       rendered_recharts_radar:inspected.radarRendered,
       five_source_score_axes_present:inspected.radarFiveAxes,
-      source_year_visible_in_analysis:inspected.historical_financial_periods};
+      source_year_visible_in_analysis:inspected.historical_financial_periods,
+      official_geo_fee_tiers_if_applicable:inspected.sourced_geographic_fees};
   });
  }
  await caseRun('shared','simulateur_direct',async()=>{

@@ -796,13 +796,33 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <DollarSign className="w-4 h-4 text-slate-400" />
                       <div className="text-xs text-slate-400">Frais de gestion</div>
                     </div>
-                    {scpi.managementFees !== undefined ? (
-                      <div className="text-lg font-bold text-white">
-                        {scpi.managementFees}% TTC
-                      </div>
-                    ) : (
-                      <div className="text-lg font-bold text-slate-500">N/A</div>
-                    )}
+                    {(() => {
+                      const tiers = scpiForAnalysis?.fraisGestionDetails ?? scpi.managementFeeDetails;
+                      const sourcedTiers = tiers?.kind === 'geographic_tiers'
+                        && tiers.basis === 'HT'
+                        && tiers.revenue_basis === 'loyers encaissés'
+                        && tiers.blended_rate === null
+                        && Number.isFinite(tiers.euro_zone_percent)
+                        && Number.isFinite(tiers.outside_euro_zone_percent)
+                        && /^https:\/\/www\.corum\.fr\//.test(tiers.source_url);
+                      if (sourcedTiers && tiers) return (
+                        <div className="space-y-1 text-xs sm:text-sm text-white" data-management-fee-basis="geo-tiered-ht">
+                          <p><strong>Zone euro :</strong> {tiers.euro_zone_percent.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} % HT</p>
+                          <p><strong>Hors zone euro :</strong> {tiers.outside_euro_zone_percent.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} % HT</p>
+                          <p className="text-slate-400 text-[11px]">Sur les loyers encaissés ; aucun taux moyen calculé.</p>
+                          <a href={tiers.source_url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-emerald-400 text-xs">
+                            Document officiel
+                          </a>
+                        </div>
+                      );
+                      const flat = scpiForAnalysis?.fraisGestion ?? scpi.managementFees;
+                      if (flat !== undefined && Number.isFinite(flat)) return (
+                        <div className="text-lg font-bold text-white">
+                          {flat.toLocaleString('fr-FR')} % {scpiForAnalysis?.fraisGestion !== undefined ? 'HT' : ''}
+                        </div>
+                      );
+                      return <div className="text-lg font-bold text-slate-500">Non documenté</div>;
+                    })()}
                   </div>
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                     <div className="flex items-center gap-2 mb-2">

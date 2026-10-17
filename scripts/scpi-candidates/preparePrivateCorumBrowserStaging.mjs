@@ -15,6 +15,21 @@ const catalogPath=path.join(root,'src/data/scpi_complet.json'),
  cohortPath=path.join(root,'src/data/certified_scpi_cohort.json');
 const catalog=read('src/data/scpi_complet.json'),cohort=read('src/data/certified_scpi_cohort.json');
 const slugs=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+const OFFICIAL_TIER_PROOFS={
+ 'corum-usa':{
+  source_url:'https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR3%20-%20Statuts%20-%2020250125.pdf',
+  source_page:9,
+  source_sha256:'bd2877f8ed8ffe075752a07479b7ba36e6ceae1c9cb48ea656fdc91095178fb5'
+ },
+ 'corum-xl':{
+  source_url:'https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf',
+  source_page:11,
+  source_sha256:'fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd'
+ }
+};
+// Test-only proof identities independently checked against the official issuer
+// source registry. Never copy a proof from one fund into another.
+
 const slug=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const value=(a,period,metric)=>{
  const found=a.evidence?.filter(x=>x.period===period&&x.metric===metric&&x.qa==='qa_pass');
@@ -46,6 +61,12 @@ for(const scpiSlug of slugs){
   throw Error('No source-backed liquidity mechanism / warnings');
  const fee=typeof x.management_fees==='number'?x.management_fees:null;
  const fees=x.management_fees&&typeof x.management_fees==='object'?x.management_fees:null;
+ const proof=OFFICIAL_TIER_PROOFS[scpiSlug];
+ if(fees && (fees.kind!=='geographic_tiers'||fees.basis!=='HT'||
+   fees.source_period!=='2026-T2'||!proof||
+   fees.euro_zone_percent!==12.4||fees.outside_euro_zone_percent!==15.9))
+   throw Error('Geographic fee tiers cannot be shown without exact publisher ledger match: '+scpiSlug);
+ const detailedFees=fees?{...fees,...proof}:null;
  if(!Number.isFinite(value(a,'2026-T2','prix_souscription'))||
     value(a,'2026-T2','prix_souscription')!==a.publishing_fields.minimum_investment)
   throw Error('Preview does not have an exact source price');
@@ -72,7 +93,7 @@ for(const scpiSlug of slugs){
    'Minimum de souscription €':x.minimum_investment,
    'Frais de souscription (TTC/%)':x.subscription_fees,
    'Frais de gestion (HT/%)':fee,
-   'Frais de gestion (détail)':fees,
+   'Frais de gestion (détail)':detailedFees,
    'Délai de jouissance (mois)':x.enjoyment_delay,
    'Durée de détention recommandée (ans)':x.recommended_holding_years,
    'Versement des loyers':x.payment_frequency,
