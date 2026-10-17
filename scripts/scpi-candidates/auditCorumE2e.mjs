@@ -10,8 +10,11 @@ const CANDIDATES=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const METRICS_ANNUAL=['taux_distribution','distribution_brute_par_part','endettement_pct'];
 const METRICS_QUARTER=['prix_souscription','tof','nombre_parts','parts_attente_retrait','distribution_brute_par_part'];
 const REG_DOCS=['dic_url','note_information_url','statutes_url','annual_report_url','bulletin_url'];
+// Browser proof is ONE completed CI run with a verified artifact and per-SCPI matrix,
+// not 40 editable self-reported status strings.
 const UI_SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_direct','simulateur_revente',
   'simulateur_demembrement','score_radar','espace_client','parcours_souscription'];
+export const REQUIRED_CORUM_BROWSER_SURFACES=Object.freeze([...UI_SURFACES]);
 const EXPECTED_TOOLS=[
  'src/utils/buildScpiLandingData.ts',
  'scripts/generateOptimizedStaticPages.js',
@@ -29,7 +32,7 @@ const EXPECTED_TOOLS=[
 const readJson=(relative)=>JSON.parse(fs.readFileSync(path.join(ROOT,relative),'utf8'));
 const nameSlug=(v)=>String(v).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 
-export function auditCandidate(candidate) {
+export function auditCandidate(candidate,{verifiedBrowserBatch=false}={}) {
   const failures=[];
   const unique=new Set();
   const metrics=Array.isArray(candidate.evidence)?candidate.evidence:[];
@@ -82,7 +85,7 @@ export function auditCandidate(candidate) {
   const essentials=[
     'creation_year','minimum_investment','subscription_fees','management_fees',
     'reconstitution_value','risk_sri','recommended_holding_years','liquidity_basis',
-    'withdrawal_terms','enjoyment_delay','sector_allocation','geographic_allocation',
+    'enjoyment_delay','sector_allocation','geographic_allocation',
     'sfdr','capitalization_m','sector_class','geographic_scope','payment_frequency',
     'risk_warnings','label_isr'
   ];
@@ -110,29 +113,28 @@ export function auditCandidate(candidate) {
     /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
     Number(candidate.publishing_sources?.[field]?.page)>0),
     'preuve_affichage_absente:'+field);
-  // A typed "pass" in a JSON snapshot is NOT proof of a completed browser test.
-  // Require a CI run, exact code SHA and an executed timestamp for each surface.
-  for(const k of UI_SURFACES){
-    const t=candidate.surface_tests?.[k];
-    const evidenced=t && typeof t==='object' && t.status==='pass' &&
-      t.scpi_slug===candidate.scpi_slug && t.surface===k &&
-      /^[a-f0-9]{40}$/.test(t.commit_sha||'') &&
-      /^https:\/\/github\.com\/Speedcup212\/maximus-scpi\/actions\/runs\/\d+$/.test(t.run_url||'') &&
-      /^\d{4}-\d{2}-\d{2}T/.test(t.executed_at||'') &&
-      Number.isFinite(Date.parse(t.executed_at)) &&
-      Date.parse(t.executed_at)<=Date.now();
-    checked(evidenced,'parcours_non_teste:'+k);
-  }
+  // Never treat user-editable strings such as status: "pass" / GitHub-looking URLs
+  // as an attested browser execution. Promotion must first verify the GitHub run
+  // AND artifact, then supply this independently verified decision.
+  checked(verifiedBrowserBatch===true,'campagne_navigateur_non_verifiee');
+  // The long contractual withdrawal clause is OPTIONAL for a descriptive fiche:
+  // source-backed capital/liquidity mechanism + exact queued shares + risk warning
+  // remain compulsory; no guaranteed withdrawal date can be stated.
+  const warnings=candidate.publishing_fields?.risk_warnings;
+  checked(Array.isArray(warnings)&&warnings.some(x=>typeof x==='string' &&
+    /liquidit|retrait|revente/i.test(x)), 'avertissement_liquidite_manquant');
+  checked(['withdrawal_queue','secondary_market_order_book']
+    .includes(candidate.publishing_fields?.liquidity_basis), 'regime_liquidite_non_qualifie');
   const dup=metrics.filter(e=>{const id=e.period+':'+e.metric;if(unique.has(id))return true;unique.add(id);return false});
   checked(dup.length===0,'indicateurs_dupliques');
   return {slug:candidate.scpi_slug,ready:failures.length===0,checked_metrics:metrics.length,
     checked_documents:docs.length,blockers:failures};
 }
-export function auditSnapshot(snapshot) {
+export function auditSnapshot(snapshot,{verifiedBrowserBatch=false}={}) {
   if(snapshot?.status!=='private_staging_non_published')throw Error('Only a private, unpublished snapshot may be audited');
   if(!Array.isArray(snapshot.scpi)||snapshot.scpi.length!==4||
     new Set(snapshot.scpi.map(s=>s.scpi_slug)).size!==4)throw Error('Four distinct CORUM SCPI required');
-  return snapshot.scpi.map(auditCandidate);
+  return snapshot.scpi.map(c=>auditCandidate(c,{verifiedBrowserBatch}));
 }
 // One pure release-switch invariant for the 61-fund baseline AND future 65-fund release.
 // Tests must not hard-code "CORUM must be unpublished" or "exactly 61" forever.
