@@ -707,7 +707,7 @@ const getRelatedLinksHTML = (article) => {
 const generateHTML = (article, mgmtCompany = null, supabaseArticle = null) => {
   const baseUrl = 'https://maximusscpi.com';
   const pageUrl = `${baseUrl}/articles/${article.slug}/`;
-  const title = `${article.title} | MaximusSCPI`;
+  const title = article.title.endsWith(' | MaximusSCPI') ? article.title : `${article.title} | MaximusSCPI`;
   const keywordsStr = (article.keywords || []).join(', ');
   const isMgmt = !!mgmtCompany;
   const isSupabase = !!supabaseArticle && !!supabaseArticle.content_html;
