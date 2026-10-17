@@ -34,17 +34,22 @@ const visitIndexHtml = (dir, callback) => {
   const file = path.join(distDir, 'amf-scpi', 'index.html');
   if (!fs.existsSync(file)) throw new Error('Page /amf-scpi/ absente');
   let html = read(file);
-  const title = 'AMF et SCPI : contrôle, agrément et limites | MaximusSCPI';
+  const title = 'SCPI et AMF : visa, agrément, risques | MaximusSCPI';
+  const description = 'SCPI et AMF : que vérifie le régulateur ? Visa, société de gestion, DIC, note d’information, conditions de retrait et risques pour l’épargnant.';
   html = html
     .replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`)
+    .replace(/<meta\s+name=["']description["'][^>]*>/i, `<meta name="description" content="${description}" />`)
+    .replace(/<meta\s+property=["']og:description["'][^>]*>/i, `<meta property="og:description" content="${description}" />`)
+    .replace(/<meta\s+property=["']twitter:description["'][^>]*>/i, `<meta property="twitter:description" content="${description}" />`)
     .replace(/<meta\s+property=["']og:title["'][^>]*>/i, `<meta property="og:title" content="${title}" />`)
     .replace(/<meta\s+property=["']twitter:title["'][^>]*>/i, `<meta property="twitter:title" content="${title}" />`)
     .replace(/<section[^>]*data-final-seo-amf[^>]*>[\s\S]*?<\/section>/i, '');
 
-  const extra = `<section data-final-seo-amf="true"><h2>Ce qu’il faut vérifier avant une souscription</h2><p>L’encadrement de l’AMF porte sur le cadre réglementaire et les acteurs concernés, mais l’investisseur doit toujours examiner la SCPI elle-même. Il faut notamment rapprocher le DIC, la note d’information, les derniers bulletins trimestriels et le rapport annuel. Les indicateurs utiles comprennent le taux d’occupation financier, l’endettement, la capitalisation, la valeur de reconstitution, les frais et les conditions de retrait.</p><p>Une autorisation, un agrément ou un visa ne transforme donc pas une SCPI en placement garanti. La valeur des parts peut évoluer, les revenus distribués peuvent diminuer et la revente peut prendre du temps. Sur MaximusSCPI, le rôle du cadre réglementaire est distingué de l’analyse financière, immobilière et de liquidité afin d’éviter de confondre conformité du véhicule et qualité économique du placement.</p></section>`;
+  const extra = `<section data-final-seo-amf="true"><h2>Ce qu’il faut vérifier avant une souscription</h2><p>L’encadrement de l’AMF porte sur le cadre réglementaire et les acteurs concernés, mais l’investisseur doit toujours examiner la SCPI elle-même. Il faut notamment rapprocher le DIC, la note d’information, les derniers bulletins trimestriels et le rapport annuel. Les indicateurs utiles comprennent le taux d’occupation financier, l’endettement, la capitalisation, la valeur de reconstitution, les frais et les conditions de retrait.</p><p>Une autorisation, un agrément ou un visa ne transforme donc pas une SCPI en placement garanti. La valeur des parts peut évoluer, les revenus distribués peuvent diminuer et la revente peut prendre du temps. Sur MaximusSCPI, le rôle du cadre réglementaire est distingué de l’analyse financière, immobilière et de liquidité afin d’éviter de confondre conformité du véhicule et qualité économique du placement.</p><h2>Quelles pièces contrôler concrètement ?</h2><p>Un visa délivré par l’AMF sur une note d’information ne constitue pas une recommandation d’acheter la SCPI. Avant une souscription, vérifiez le DIC, la note d’information, les statuts, le dernier rapport annuel et les bulletins périodiques disponibles. Consultez également les modalités de retrait, les frais et les risques de liquidité.</p><nav aria-label="Documents réglementaires SCPI"><a href="/dic-scpi/">Comprendre le DIC</a> · <a href="/note-information-scpi/">Lire la note d’information</a> · <a href="/orias-scpi/">Vérifier un intermédiaire à l’ORIAS</a> · <a href="/comparateur-scpi/">Comparer les SCPI</a></nav><p>Source officielle : <a href="https://www.amf-france.org/fr/espace-epargnants/comprendre-les-produits-financiers/placements-collectifs/scpi-comment-bien-sinformer" rel="noopener noreferrer">AMF — SCPI : comment bien s’informer ?</a></p></section>`;
   html = html.replace('</main>', `${extra}</main>`);
   write(file, html);
   if (title.length > 60) throw new Error(`Title AMF trop long: ${title.length}`);
+  if (description.length < 110 || description.length > 160) throw new Error(`Meta AMF hors plage: ${description.length}`);
   if (wordCount(html) < 250) throw new Error(`Page AMF encore trop courte: ${wordCount(html)} mots`);
 }
 
