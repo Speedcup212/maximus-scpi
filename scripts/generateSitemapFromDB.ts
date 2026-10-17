@@ -112,10 +112,13 @@ async function generateSitemap() {
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
   }
-  // CI-only 65-fund preview uses the same generator without relaxing production's 61-fund guard.
-  const previewCount = process.env.GITHUB_ACTIONS === 'true' &&
-    process.env.CORUM_PRIVATE_BROWSER_FIXTURE === 'enabled' ? 65 : 61;
-  if (scpiSlugs.length !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== previewCount) {
+  // The approved public catalog may have exactly the historical 61 or the
+  // atomic 65-fund CORUM batch. Reject any partial 62/63/64 transition.
+  const corumIds = ['corum-eurion','corum-origin','corum-usa','corum-xl'];
+  const released = corumIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
+  if (![0,4].includes(released) ||
+      certifiedScpiSlugSet.size !== (released === 4 ? 65 : 61) ||
+      scpiSlugs.length !== certifiedScpiSlugSet.size) {
     throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
   }
 
