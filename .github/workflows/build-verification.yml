@@ -76,6 +76,9 @@ jobs:
       - name: Candidate official allocations same-period PDF and atomic release blocker
         run: node --test scripts/scpi-candidates/candidateAllocationReleaseGate.test.mjs
 
+      - name: CORUM primary issuer source SFDR/ISR QA vintage guard
+        run: node --test scripts/scpi-candidates/corumRegulatoryPublisherSource.test.mjs
+
       - name: CORUM issuer source facts without release bypass
         run: node --test scripts/scpi-candidates/corumIssuerPrimaryFacts.test.mjs
 
