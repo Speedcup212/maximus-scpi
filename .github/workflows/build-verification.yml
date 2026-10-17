@@ -79,6 +79,9 @@ jobs:
       - name: CORUM primary issuer source SFDR/ISR QA vintage guard
         run: node --test scripts/scpi-candidates/corumRegulatoryPublisherSource.test.mjs
 
+      - name: Payment cadence reflects the actual publisher source, never inferred from TD
+        run: node --import tsx/esm --test scripts/scpi-candidates/scpiPaymentCadence.test.ts
+
       - name: CORUM issuer source facts without release bypass
         run: node --test scripts/scpi-candidates/corumIssuerPrimaryFacts.test.mjs
 
