@@ -116,7 +116,9 @@
     "T1p2",
     "T2p2",
     "T2p4",
-    "T2p7"
+    "T2p7",
+    "T1p3",
+    "T2p3"
   ],
   "anomalies": [
     {
@@ -164,7 +166,32 @@
         "T1p3",
         "T2p3"
       ],
-      "finding": "387121-359289=27832 net parts, versus28294newparts T2 and0compensated/0gréàgré, residual462parts unexplained in these bulletins. Do not infer withdrawal number."
+      "finding": "Confirmed visually on complete native PDF pages3: T1 stock359289, T2stock387121; T2newparts28294; T2parts sold and compensated0; T2parts sold between investors0; T2parts pending withdrawal0. Netstock difference27832; creation-minus-net residual462. No other cancellation/adjustment line is displayed on those pages or elsewhere in reviewed native text. Pending withdrawals zero is NOT completed withdrawals zero. This is an unreconciled source rollforward, not proof of incorrect stock counts or proof of any particular withdrawal/cancellation.",
+      "visual_evidence": [
+        {
+          "period": "2026-T1",
+          "page": 3,
+          "render": "/tmp/review-usa-t1-p3.png",
+          "stock_parts": 359289,
+          "new_parts": 35106,
+          "sold_and_compensated_parts": 56,
+          "sold_between_investors_parts": 0,
+          "pending_withdrawal_parts": 0
+        },
+        {
+          "period": "2026-T2",
+          "page": 3,
+          "render": "/tmp/review-usa-t2-p3.png",
+          "stock_parts": 387121,
+          "new_parts": 28294,
+          "sold_and_compensated_parts": 0,
+          "sold_between_investors_parts": 0,
+          "pending_withdrawal_parts": 0
+        }
+      ],
+      "completed_withdrawals": null,
+      "unexplained_residual_parts": 462,
+      "conclusion": "Request precise issuer reconciliation only if validating comprehensive capital movements; do not change source stock or queue values; no invented balancing entry."
     }
   ],
   "missing_information": {
@@ -280,7 +307,8 @@
       ]
     }
   },
-  "qa_recommendation": "Complete source reading is traceable but retain review_required until source tax timeline/rate scope and capital residual are explicitly reconciled or formally excluded from published certified claims. This report is not an unqualified final audit or human approval.",
+  "qa_recommendation": "Complete source reading is traceable. For full financial/regulatory approval, resolve or explicitly scope out ambiguous tax timeline/rate claims and unreconciled capital rollforward. The462 residual is visually confirmed but does not prove incorrect source stocks or zero completed withdrawals. This report is not an unqualified final audit or human approval.",
   "database_writes": 0,
-  "ocr_performed": false
+  "ocr_performed": false,
+  "supplemental_visual_review_at": "2026-10-17T05:04:52.236842+00:00"
 }
