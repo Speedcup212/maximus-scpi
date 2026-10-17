@@ -85,6 +85,9 @@ jobs:
       - name: CORUM issuer source facts without release bypass
         run: node --test scripts/scpi-candidates/corumIssuerPrimaryFacts.test.mjs
 
+      - name: Verified dated CORUM T2 issuer building counts without inferred rental metrics
+        run: node --test scripts/scpi-candidates/corumDatedIssuerBuildings.test.mjs
+
       - name: Post-Netlify CORUM RLS activation and official financial QA safety
         run: node --test scripts/scpi-candidates/corumPostdeployRlsRecovery.test.mjs
 
