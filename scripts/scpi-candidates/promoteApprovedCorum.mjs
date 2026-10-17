@@ -3,6 +3,7 @@
 // 100%-complete, evidenced data/surface contract. No Netlify deploy.
 import fs from 'node:fs';
 import path from 'node:path';
+import {execFileSync} from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {auditSnapshot,assertIntegrationTopology} from './auditCorumE2e.mjs';
 import {verifyCompletedCorumBrowserRun} from './verifyCorumBrowserEvidence.mjs';
@@ -31,6 +32,14 @@ const allocation=(record,key)=>{
 };
 const sourceHint=(c,field)=>{
  if(field==='reconstitution_value')return assertOfficial2026Valuation(c);
+ // This set is checked against the PRIVATE ledger's authoritative fields by
+ // the live batch clearance. A publisher HTML claim is not a PDF page.
+ const derived=new Set(['creation_year','management_fees','liquidity_basis','sfdr',
+   'sector_class','geographic_scope','payment_frequency','risk_warnings','label_isr']);
+ if(c.release_ready===true&&derived.has(field)&&
+    c.private_registry_provenance?.source_period==='2026-T2'&&
+    c.private_registry_provenance?.status==='DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY')
+   return;
  if(!c.publishing_sources||!/^https:\/\//.test(c.publishing_sources[field]?.url||'')
    ||!(Number(c.publishing_sources[field]?.page)>0)
    ||!(/^[a-f0-9]{64}$/.test(c.publishing_sources[field]?.sha256||'')))
@@ -164,7 +173,7 @@ async function liveApproval(candidates) {
  // A source-only JSON claim is insufficient: check exact live source and row.
  const slugList=candidates.map(c=>c.scpi_slug).join(',');
  const apiHeaders={apikey:key,Authorization:'Bearer '+key};
- const liveValuesRequest=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,source_period,prix_reconstitution,repartition_geographique&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
+ const liveValuesRequest=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,source_period,prix_reconstitution,repartition_geographique,annee_creation,versement_loyers,sfdr,label_isr,srri,frais_souscription,frais_gestion&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
  const liveEvidenceRequest=await fetch(url+'/rest/v1/scpi_metric_certifications?select=scpi_slug,source_period,metric,value_numeric,source_url,verification_status&source_period=eq.2026-T2&metric=eq.valeur_reconstitution_par_part&scpi_slug=in.('+slugList+')',{headers:apiHeaders});
  if(!liveValuesRequest.ok||!liveEvidenceRequest.ok)
   throw Error('Exact official 2026 valuation cannot be verified in live Supabase');
@@ -173,7 +182,23 @@ async function liveApproval(candidates) {
   const expected=assertOfficial2026Valuation(candidate);
   if(!Array.isArray(liveValues)||!liveValues.some(r=>r.scpi_slug===candidate.scpi_slug&&r.source_period==='2026-T2'&&Number(r.prix_reconstitution)===expected))
    throw Error('2026 valuation mismatch in canonical SCPI indicator: '+candidate.scpi_slug);
-  assertExactGeography(candidate,liveValues.find(r=>r.scpi_slug===candidate.scpi_slug));
+  const canonical=liveValues.find(r=>r.scpi_slug===candidate.scpi_slug);
+  assertExactGeography(candidate,canonical);
+  const display=candidate.publishing_fields;
+  const expectedDisplay={
+    annee_creation:display.creation_year,
+    versement_loyers:display.payment_frequency==='Mensuelle'?'Mensuel':display.payment_frequency,
+    sfdr:display.sfdr,
+    label_isr:display.label_isr,
+    srri:display.risk_sri,
+    frais_souscription:display.subscription_fees,
+    frais_gestion:typeof display.management_fees==='number'?display.management_fees:null
+  };
+  for(const [field,wanted] of Object.entries(expectedDisplay)){
+    if(canonical?.[field]!==wanted)
+      throw Error('Current Supabase issuer or financial field diverged: '
+        +candidate.scpi_slug+':'+field);
+  }
   if(!Array.isArray(liveEvidence)||!liveEvidence.some(r=>r.scpi_slug===candidate.scpi_slug&&Number(r.value_numeric)===expected&&r.source_url===official2026ValuationAnnouncementUrl&&r.verification_status==='official_issuer_statement_verified'))
    throw Error('Official 2026 Q2 valuation missing independently verified DB provenance: '+candidate.scpi_slug);
  }
@@ -208,22 +233,32 @@ async function liveApproval(candidates) {
 const preview=buildPrivateReleaseInput(
  get('data-import/corum_candidates_prepublication_20261015.json'),
  get('data-import/corum_private_browser_fixture_20261017.json'));
-// A single genuine 4x10 completed browser matrix replaces 40 editable tokens.
- // No CI URL or status in the local snapshot is ever enough by itself.
- const isApply=process.argv.includes('--apply');
- const verifiedBrowserBatch=isApply
-   ? (await verifyCompletedCorumBrowserRun(preview.browser_batch)).verified
-   : false;
- const report=auditSnapshot(preview,{verifiedBrowserBatch});
+// A single responsible batch signoff is read LIVE from Supabase. No cached
+// release_ready flag can pass a local QA gate or infer professional approval.
+const isApply=process.argv.includes('--apply');
+if(isApply) {
+ await liveApproval(preview.scpi);
+ for(const candidate of preview.scpi)candidate.release_ready=true;
+}
+// A real browser staging run must match the exact checked-out git SHA and
+// provide the ZIP SHA256 digest; the verifier downloads the GitHub artifact.
+const batch=isApply?{
+ run_id:Number(process.env.CORUM_BROWSER_RUN_ID),
+ commit_sha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+ artifact_sha256:process.env.CORUM_BROWSER_ARTIFACT_SHA256
+}:null;
+const verifiedBrowserBatch=isApply?
+ (await verifyCompletedCorumBrowserRun(batch)).verified:false;
+const report=auditSnapshot(preview,{verifiedBrowserBatch});
 assertIntegrationTopology();
 const blockers=report.filter(x=>!x.ready);
-console.log('[CORUM] prepublication QA',JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
-if(!process.argv.includes('--apply')){
+console.log('[CORUM] canonical private source review',
+ JSON.stringify(report.map(x=>({slug:x.slug,ready:x.ready,blockers:x.blockers}))));
+if(!isApply){
  console.log('[CORUM] dry-run only: 61 public SCPI preserved; no release.');
  process.exit(0);
 }
-if(blockers.length)throw Error('Cannot release CORUM: local full-surface QA still incomplete');
-await liveApproval(preview.scpi);
+if(blockers.length)throw Error('Cannot release CORUM: source and browser QA incomplete');
 const catalogPath=path.join(ROOT,'src/data/scpi_complet.json'),
  cohortPath=path.join(ROOT,'src/data/certified_scpi_cohort.json');
 const catalog=JSON.parse(fs.readFileSync(catalogPath,'utf8'));

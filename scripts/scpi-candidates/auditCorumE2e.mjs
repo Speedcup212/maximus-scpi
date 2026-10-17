@@ -107,12 +107,23 @@ export function auditCandidate(candidate,{verifiedBrowserBatch=false}={}) {
       (typeof v!=='number'||Number.isFinite(v))&&
       (!Array.isArray(v)||v.length>0),'champ_affichage_non_qualifie:'+field);
   }
+  // Source-verified canonical private registry covers qualitative/derived fields
+  // that are NOT a PDF-on-a-specific-page (creation, payout cadence, ISR, etc.).
+  // Release remains fail-closed until the live Supabase professional batch decision.
+  const ledgerDerived=new Set(['creation_year','management_fees','liquidity_basis',
+    'sfdr','sector_class','geographic_scope','payment_frequency',
+    'risk_warnings','label_isr']);
+  const approvedRegistryProof=candidate.release_ready===true &&
+    candidate.private_registry_provenance?.source_period==='2026-T2' &&
+    candidate.private_registry_provenance?.status==='DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY' &&
+    candidate.private_registry_provenance?.source_registry===
+      'public.scpi_indicators + public.scpi_metric_certifications + regulatory_metric_evidence + liquidity';
   for(const field of essentials)checked(
     (field==='reconstitution_value' && hasOfficial2026Valuation(candidate)) ||
-    (field!=='reconstitution_value' &&
-    /^[a-f0-9]{64}$/.test(candidate.publishing_sources?.[field]?.sha256||'') &&
-    /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
-    Number(candidate.publishing_sources?.[field]?.page)>0),
+    (/^[a-f0-9]{64}$/.test(candidate.publishing_sources?.[field]?.sha256||'') &&
+      /^https:\/\//.test(candidate.publishing_sources?.[field]?.url||'') &&
+      Number(candidate.publishing_sources?.[field]?.page)>0) ||
+    (approvedRegistryProof&&ledgerDerived.has(field)),
     'preuve_affichage_absente:'+field);
   // Never treat user-editable strings such as status: "pass" / GitHub-looking URLs
   // as an attested browser execution. Promotion must first verify the GitHub run
