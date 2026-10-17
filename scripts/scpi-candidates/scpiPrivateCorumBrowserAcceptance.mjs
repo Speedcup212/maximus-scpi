@@ -201,7 +201,7 @@ try{
   const {code,body}=await visit('/simulateur-revenus-nets-scpi/','Simulateur SCPI');
   await page.waitForSelector('input',{timeout:12000});
   return {route_200:code===200,calculator_visible:/revenu|rendement|montant/i.test(body),
-    input_present:(await page.$('input')).length>0};
+    input_present:(await page.evaluate(()=>document.querySelectorAll('input').length))>0};
  });
  await caseRun('shared','simulateur_demembrement',async()=>{
   const {code,body}=await visit('/simulateur-demembrement-scpi/','démembrement');
