@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import puppeteer from 'puppeteer';
 
 const ROOT=path.resolve('.');
@@ -14,7 +14,9 @@ const REFERENCE=[['comete','Comète'],['transitions-europe','Transitions Europe'
 const cohort=JSON.parse(fs.readFileSync('src/data/certified_scpi_cohort.json','utf8'));
 const now=()=>new Date().toISOString();
 const report={kind:'existing_public_baseline_browser_smoke',purpose:'REFERENCE_NON_CORUM',
-  generated_at:now(),commit_sha:process.env.GITHUB_SHA||null,
+  generated_at:now(),
+  commit_sha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
+  github_event_sha:process.env.GITHUB_SHA||null,
   github_run_id:process.env.GITHUB_RUN_ID||null, cases:[],
   candidate_scpis_verified:[],corum_browser_coverage:'0/40',
   limitations:'Existing public route and sitemap only; NOT 40 CORUM end-to-end checks or independent compliance approval'};
