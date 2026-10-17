@@ -423,6 +423,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
     nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
+    nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']),
     walt: cleanNumericValue(scpi['WALT']),
     walb: cleanNumericValue(scpi['WALB']),
     collecteNetteTrimestre: cleanNumericValue(scpi['Collecte nette trimestre']),
