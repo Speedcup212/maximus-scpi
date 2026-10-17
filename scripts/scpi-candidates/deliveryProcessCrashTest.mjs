@@ -82,7 +82,7 @@ test('CRASH-07: 100% geographic weights with permuted country keys are blocked',
 });
 test('CRASH-08: forged surface statuses (bare "pass") never satisfy ten real UI workflows',()=>{
  const c=clone(privateSnapshot.scpi[0]);
- c.release_ready=true;c.publication_authorized=true;c.analysis_certified=true;
+ c.release_ready=true;c.publication_authorized=false;c.analysis_certified=false;
  const names=['seo_page','sitemap','comparateur','liquidite','simulateur_direct',
   'simulateur_revente','simulateur_demembrement','score_radar','espace_client','parcours_souscription'];
  c.surface_tests=Object.fromEntries(names.map(name=>[name,'pass']));
@@ -90,7 +90,7 @@ test('CRASH-08: forged surface statuses (bare "pass") never satisfy ten real UI 
  for(const name of names)assert.ok(a.blockers.includes('parcours_non_teste:'+name),name);
 });
 test('CRASH-09: even a complete-looking CI reference missing identity of fund is rejected',()=>{
- const c=clone(privateSnapshot.scpi[0]);c.release_ready=true;c.publication_authorized=true;c.analysis_certified=true;
+ const c=clone(privateSnapshot.scpi[0]);c.release_ready=true;c.publication_authorized=false;c.analysis_certified=false;
  const fake={status:'pass',scpi_slug:'wrong-fund',surface:'seo_page',
   commit_sha:'a'.repeat(40),
   run_url:'https://github.com/Speedcup212/maximus-scpi/actions/runs/12345678',
@@ -103,8 +103,8 @@ test('CRASH-10: financial sources do NOT grant whole-product approval or site pu
   const a=auditCandidate(c);
   assert.equal(a.ready,false);
   assert.ok(a.blockers.includes('validation_finale_non_obtenue'));
-  assert.ok(a.blockers.includes('autorisation_publication_absente'));
-  assert.ok(a.blockers.includes('analyse_globale_non_certifiee'));
+  assert.ok(!a.blockers.includes('activation_publique_prematuree'));
+  assert.ok(!a.blockers.includes('analyse_publique_prematuree'));
  }
 });
 
@@ -119,4 +119,40 @@ test('CRASH-14: QA_PASS and valid official PDF URL cannot conceal a tampered num
  assert.equal(c.evidence[0].qa,'qa_pass');
  assert.throws(()=>assertCanonicalFinancialEvidence(c,independentRows),
   /audited PDF financial value\/source\/page differs/);
+});
+
+test('CRASH-15: a completed PRIVATE source review does not demand forbidden published flags',()=>{
+  const c=clone(privateSnapshot.scpi[0]);
+  c.release_ready=true;
+  c.publication_authorized=false;
+  c.analysis_certified=false;
+  const result=auditCandidate(c);
+  assert.ok(!result.blockers.includes('validation_finale_non_obtenue'));
+  assert.ok(!result.blockers.includes('activation_publique_prematuree'));
+  assert.ok(!result.blockers.includes('analyse_publique_prematuree'));
+  // Other missing source/real-browser checks are intentionally still blocking.
+  assert.equal(result.ready,false);
+});
+test('CRASH-16: pre-activating a candidate before Netlify is rejected',()=>{
+  const c=clone(privateSnapshot.scpi[0]);
+  c.release_ready=true;
+  c.publication_authorized=true;
+  c.analysis_certified=true;
+  const a=auditCandidate(c);
+  assert.ok(a.blockers.includes('activation_publique_prematuree'));
+  assert.ok(a.blockers.includes('analyse_publique_prematuree'));
+});
+test('CRASH-17: a syntactically valid CI URL alone cannot prove browser execution',()=>{
+  const c=clone(privateSnapshot.scpi[0]);
+  const inventedRun={
+    status:'pass', scpi_slug:c.scpi_slug, surface:'seo_page',
+    commit_sha:'0'.repeat(40),
+    run_url:'https://github.com/Speedcup212/maximus-scpi/actions/runs/12345',
+    executed_at:'2026-10-16T10:00:00Z'
+  };
+  c.surface_tests={seo_page:inventedRun};
+  // Existing audit checks *format*, not a successful job/artifact.
+  assert.ok(!auditCandidate(c).blockers.includes('parcours_non_teste:seo_page'));
+  // Counterexample proves why one VERIFIED CI matrix + artifact is needed.
+  // Do not treat this unverified metadata as a valid release authorization.
 });
