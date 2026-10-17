@@ -16,24 +16,25 @@ test('4 CORUM registered, source identities and page-level financial evidence su
   assert.ok(!item.blockers.some(x=>x.startsWith('t2_non_verifie:')));
  }
 });
-test('private candidate status is blocked, but a genuinely reviewed 65-fund cohort may pass',()=>{
+test('private candidate can pass staging only after review, never with premature public flags',()=>{
  const cohort=JSON.parse(fs.readFileSync(new URL('../../src/data/certified_scpi_cohort.json',import.meta.url),'utf8'));
  const published=source.scpi.filter(c=>cohort.slugs.includes(c.scpi_slug)).length;
  assert.ok([0,4].includes(published),'CORUM batch release must be atomic');
  for(const candidate of source.scpi){
   const r=auditCandidate(candidate);
-  if(published===0){
-   assert.equal(r.ready,false);
-   for(const blocker of ['autorisation_publication_absente','validation_finale_non_obtenue',
-    'analyse_globale_non_certifiee','parcours_non_teste:seo_page','parcours_non_teste:espace_client'])
+  // This is a deliberately PRIVATE snapshot even if a future public cohort includes CORUM.
+  assert.equal(r.ready,false);
+  for(const blocker of ['validation_finale_non_obtenue',
+    'parcours_non_teste:seo_page','parcours_non_teste:espace_client'])
     assert.ok(r.blockers.includes(blocker),blocker);
-  }else assert.equal(r.ready,true,'Live public candidate must pass all source+financial+surface gates');
+  assert.ok(!r.blockers.includes('activation_publique_prematuree'));
+  assert.ok(!r.blockers.includes('analyse_publique_prematuree'));
  }
 });
 test('mutated absent fees, risk, or liquidity ALWAYS blocks, regardless of whether candidate is ready',()=>{
  for(const c of source.scpi){
-  const approve=x=>({...x,release_ready:true,publication_authorized:true,
-    analysis_certified:true});
+  const approve=x=>({...x,release_ready:true,publication_authorized:false,
+    analysis_certified:false});
   for(const field of ['management_fees','risk_sri','liquidity_basis']){
    const x=structuredClone(c);
    x.publishing_fields={...x.publishing_fields,[field]:null};

@@ -5,6 +5,7 @@ const read=file=>fs.readFileSync(new URL('../../'+file,import.meta.url),'utf8');
 const view=read('supabase/migrations/20261016_candidate_release_gate_no_impossible_universe_flags.sql');
 const activation=read('supabase/migrations/20261016_candidate_postdeploy_atomic_public_activation.sql');
 const promotion=read('scripts/scpi-candidates/promoteApprovedCorum.mjs');
+const privateAudit=read('scripts/scpi-candidates/auditCorumE2e.mjs');
 const postdeploy=read('scripts/scpi-candidates/activateApprovedBatchAfterNetlify.mjs');
 
 test('CRASH-11: private stage must NEVER demand forbidden public flags before deployment',()=>{
@@ -14,6 +15,8 @@ test('CRASH-11: private stage must NEVER demand forbidden public flags before de
  assert.match(promotion,/row\.publication_authorized!==false\|\|row\.analysis_certified!==false/);
  assert.match(promotion,/row\.release_ready/);
  assert.match(promotion,/t\.full_surface_ready/);
+ assert.match(privateAudit,/checked\(candidate\.publication_authorized===false,'activation_publique_prematuree'\)/);
+ assert.match(privateAudit,/checked\(candidate\.analysis_certified===false,'analyse_publique_prematuree'\)/);
 });
 test('CRASH-12: only a truly ready and site-proven batch can change candidate RLS lifecycle',()=>{
  assert.match(activation,/AUTHORIZATION|Activation requires server-side service role/i);
