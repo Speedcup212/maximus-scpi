@@ -904,13 +904,13 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 72,
     slug: 'amf-scpi',
-    title: 'AMF SCPI : contrôle, réglementation et documents à vérifier',
+    title: 'SCPI et AMF : visa, agrément, risques | MaximusSCPI',
     mainKeyword: 'AMF SCPI',
     searchIntent: 'comprendre le rôle de l\'AMF dans les SCPI',
     targetAudience: 'investisseurs SCPI tous niveaux',
     category: 'reglementation-transparence',
     wordCountTarget: 2500,
-    metaDescription: 'Comprenez le rôle de l\'AMF dans l\'univers des SCPI : agrément des sociétés de gestion, documents réglementaires, information des investisseurs et points à vérifier.',
+    metaDescription: 'SCPI et AMF : que vérifie le régulateur ? Visa, société de gestion, DIC, note d’information, conditions de retrait et risques pour l’épargnant.',
     keywords: ['AMF SCPI', 'agrément AMF', 'réglementation SCPI', 'documents réglementaires SCPI']
   },
   {
