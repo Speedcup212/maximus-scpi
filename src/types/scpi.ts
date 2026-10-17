@@ -60,6 +60,7 @@ export interface Scpi {
   valeurRealisation?: number; // Valeur de réalisation (€)
   distribution?: number; // Distribution par part (€/part)
   nbImmeubles?: number; // Nombre d'immeubles
+  nombreAssocies?: number; // Associés de la SCPI, distincts des locataires
   sfdr?: string; // Classification SFDR (ex: "Article 8", "Article 9")
   profilCible?: string; // Profil cible (ex: "Profil équilibré", "Profil prudent")
   profilRisque?: number; // Profil de risque de 1 à 7
