@@ -41,6 +41,14 @@ export interface Scpi {
   rating?: number;
   isRecommended?: boolean;
   debt?: number; // Ratio d'endettement en pourcentage
+  /** Période vérifiée du taux annuel (ex. 2025-RA), distincte du bulletin courant. */
+  distributionReferencePeriod?: string;
+  /** Période vérifiée du taux d'endettement (ex. 2025-RA). */
+  debtReferencePeriod?: string;
+  /** Source officielle propre au taux annuel, jamais déduite de la période trimestrielle. */
+  distributionReferenceUrl?: string;
+  /** Source officielle propre à l'endettement annuel. */
+  debtReferenceUrl?: string;
   // Champs supplémentaires depuis le fichier Excel
   delaiJouissance?: number; // Délai de jouissance en mois
   versementLoyers?: string; // Fréquence de versement des loyers (ex: "Trimestriel", "Mensuel")
