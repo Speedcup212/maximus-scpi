@@ -1,6 +1,7 @@
-// Guard the existing Iroko Atlas product experience as the one-and-only
-// public template. 4 CORUM candidates must use the SAME route after approval.
-// This is static wiring QA, NOT proof of real data or browser completion.
+// Guard the established certified SCPI catalogue, both editorial and generated.
+// Iroko Atlas is only ONE example; Comète and Transitions Europe are others.
+// CORUM must plug into EXISTING routes/tools without an isolated replica.
+// Static wiring QA only: does not prove real browser journeys or financial signoff.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -19,17 +20,26 @@ const routes=source('src/App.tsx');
 const editorials=source('src/data/landingPagesData.ts');
 const ext=source('src/data/scpiDataExtended.ts');
 
-test('Iroko Atlas is published via the generated OptimizedScpiLandingPage, not a special design',()=>{
- assert.ok(cohort.slugs.includes('iroko-atlas'));
- assert.ok(catalog.some(x=>normalize(x['Nom SCPI'])==='iroko-atlas'));
+test('Multiple published SCPI examples preserve both editorial and generated routes',()=>{
+ const publishedExamples=['iroko-atlas','comete','transitions-europe','iroko-zen'];
+ assert.equal(cohort.count,cohort.slugs.length,'certified catalogue size must agree with its cohort');
+ for(const slug of publishedExamples){
+  assert.ok(cohort.slugs.includes(slug),slug+' must be in the certified cohort');
+  assert.ok(catalog.some(x=>normalize(x['Nom SCPI'])===slug),slug+' must exist in public catalogue');
+ }
+ // Iroko Atlas is a generated fiche, while other established products are editorial.
  assert.ok(!editorials.includes("'iroko-atlas':"));
+ for(const slug of ['comete','transitions-europe','iroko-zen'])
+  assert.ok(editorials.includes("'"+slug+"':"),slug+' editorial example missing');
  assert.match(builder,/export function buildScpiLandingData\(/);
  assert.match(builder,/if \(!publicScpi\) return null;/);
+ assert.match(builder,/isEditorial: true/);
+ assert.match(builder,/isEditorial: false/);
  assert.match(template,/const built = buildScpiLandingData\(scpiKey\);/);
  assert.match(routes,/<OptimizedScpiLandingPage/);
 });
 
-test('Every new SCPI resolves to the very same Iroko Atlas template on publication',()=>{
+test('Every new SCPI uses the existing multi-SCPI app routes, not a separate microsite',()=>{
  assert.equal(candidate.scpi.length,4);
  assert.equal(candidate.status,'private_staging_non_published');
  for(const product of candidate.scpi){
@@ -41,7 +51,7 @@ test('Every new SCPI resolves to the very same Iroko Atlas template on publicati
   const inCatalog=catalog.some(x=>normalize(x['Nom SCPI'])===product.scpi_slug);
   assert.equal(inCohort,inCatalog,product.scpi_slug+' source/catalog mismatch');
   assert.ok(!editorials.includes("'"+product.scpi_slug+"':"),
-   'Custom landing pages must not be substituted for Iroko Atlas model');
+   'CORUM-specific one-off pages must not bypass the established SCPI catalogue routes');
  }
  const published=candidate.scpi.filter(x=>cohort.slugs.includes(x.scpi_slug)).length;
  assert.ok([0,4].includes(published),'candidate cohort must be all-or-none');
