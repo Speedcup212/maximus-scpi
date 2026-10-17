@@ -24,6 +24,7 @@ type IndicatorRow = {
   walt?: number | string | null;
   walb?: number | string | null;
   nombre_locataires?: number | string | null;
+  nombre_associes?: number | string | null;
   nombre_immeubles?: number | string | null;
   nombre_parts?: number | string | null;
   repartition_sectorielle?: Record<string, number | string> | null;
