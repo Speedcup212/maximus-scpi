@@ -68,8 +68,11 @@ const caseRun=async(slug,surface,fn)=>{
 };
 const searchFor=async(name)=>{
  await visit('/comparateur-scpi/','comparateur');
- const q=await page.$('input[placeholder*="Rechercher"]');
- if(!q)throw Error('Search input absent from real comparator');
+ // React hydration after route navigation can lag the visible page heading.
+ // Require the real comparator input to become visible before interacting.
+ const q=await page.waitForSelector('input[placeholder*="Rechercher"]',
+   {timeout:12000,visible:true});
+ if(!q)throw Error('Search input absent from hydrated real comparator');
  await q.click({clickCount:3});await q.type(name,{delay:15});
  await page.waitForFunction(n=>document.body?.innerText?.toLowerCase()
   .normalize('NFD').replace(/[\u0300-\u036f]/g,'').includes(
