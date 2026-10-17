@@ -28,6 +28,7 @@ export interface SCPIExtended {
   managementFees?: number;
   managementFeeDetails?: ScpiManagementFeeDetails;
   assetsCount?: number;
+  nombreAssocies?: number; // Associés, pas locataires
   // Champs supplémentaires depuis le fichier Excel
   delaiJouissance?: number; // Délai de jouissance en mois
   versementLoyers?: string; // Fréquence de versement des loyers
@@ -4105,6 +4106,7 @@ const newlyReleased = scpiData
     valeurRetrait: scpi.valeurRetrait, valeurRealisation: scpi.valeurRealisation,
     distribution: scpi.distribution, sfdr: scpi.sfdr,
     profilCible: scpi.profilCible, profilRisque: scpi.profilRisque,
+    nombreAssocies: scpi.nombreAssocies,
     nombreLocataires: scpi.nombreLocataires, walt: scpi.walt, walb: scpi.walb,
     collecteNetteTrimestre: scpi.collecteNetteTrimestre,
     nbCessionsTrimestre: scpi.nbCessionsTrimestre,

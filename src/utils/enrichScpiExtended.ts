@@ -43,6 +43,7 @@ export function enrichScpiExtended(
     dureeDetentionRecommandee: matchingScpi.dureeDetentionRecommandee ?? scpiExtended.dureeDetentionRecommandee,
     distribution: matchingScpi.distribution ?? scpiExtended.distribution,
     assetsCount: scpiExtended.assetsCount ?? matchingScpi.nbImmeubles,
+    nombreAssocies: matchingScpi.nombreAssocies ?? scpiExtended.nombreAssocies,
     sfdr: matchingScpi.sfdr ?? scpiExtended.sfdr,
     profilCible: matchingScpi.profilCible ?? scpiExtended.profilCible,
     discount: matchingScpi.discount,

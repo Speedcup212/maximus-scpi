@@ -849,6 +849,12 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-lg font-bold text-slate-500">N/A</div>
                     )}
                   </div>
+                  {scpi.nombreAssocies !== undefined && (
+                    <div data-testid="scpi-shareholders-count" className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
+                      <div className="text-xs text-slate-400">Associés (dernier bulletin)</div>
+                      <div className="text-lg font-bold text-white">{scpi.nombreAssocies.toLocaleString('fr-FR')}</div>
+                    </div>
+                  )}
                   {nbImmeubles !== undefined && (
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                     <div className="flex items-center gap-2 mb-2">
