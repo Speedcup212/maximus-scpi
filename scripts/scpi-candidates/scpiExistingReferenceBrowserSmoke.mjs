@@ -64,6 +64,19 @@ try {
  for(const [slug,name] of REFERENCE){
    try{
     const response=await page.goto(BASE+'/'+slug+'/',{waitUntil:'domcontentloaded',timeout:30000});
+    try {
+      await page.waitForFunction(expected=>{
+        const normalized=v=>String(v||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+        const text=document.body?.innerText||'';
+        const heading=Array.from(document.querySelectorAll('h1')).map(x=>x.textContent).join(' ');
+        return normalized(text).includes(normalized(expected))
+          && normalized(document.title+' '+heading).includes(normalized(expected));
+      },{timeout:15000},name);
+    }catch {
+      console.warn('Reference public page not ready / content mismatch',slug,
+        'documentTitle=',await page.title(),
+        'currentBody=',(await page.$eval('body',el=>el.innerText)).slice(0,600));
+    }
     const observation=await page.evaluate(()=>({
        title:document.title,
        h1:Array.from(document.querySelectorAll('h1')).map(x=>x.textContent?.trim()),
@@ -76,7 +89,9 @@ try {
     report.cases.push({slug,surface:'seo_page',type:'existing_public_browser',
       http_status:response?.status(),title:observation.title,main_heading:observation.h1,
       canonical:observation.canonical,status:ok?'pass':'fail',checked_at:now()});
-    if(!ok)throw Error('SCPI page failed real Chromium content/title assertion: '+slug);
+    if(!ok)throw Error('SCPI page failed real Chromium content/title assertion: '+slug
+      +' title='+observation.title+' h1='+observation.h1.join(' | ')
+      +' body='+observation.bodyText.slice(0,250));
    }catch(e){
     report.cases.push({slug,surface:'seo_page_error',type:'existing_public_browser',
        status:'fail',error:String(e),checked_at:now()});
