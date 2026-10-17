@@ -25,7 +25,7 @@ test('private candidate can pass staging only after review, never with premature
   // This is a deliberately PRIVATE snapshot even if a future public cohort includes CORUM.
   assert.equal(r.ready,false);
   for(const blocker of ['validation_finale_non_obtenue',
-    'parcours_non_teste:seo_page','parcours_non_teste:espace_client'])
+    'campagne_navigateur_non_verifiee'])
     assert.ok(r.blockers.includes(blocker),blocker);
   assert.ok(!r.blockers.includes('activation_publique_prematuree'));
   assert.ok(!r.blockers.includes('analyse_publique_prematuree'));
