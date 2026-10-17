@@ -5,7 +5,7 @@ const commitRef = process.env.COMMIT_REF || 'HEAD';
 const productionToken = /\[(deploy|release|hotfix)\]|DEPLOY_NOW/i;
 const previewToken = /\[(preview|deploy-preview)\]|PREVIEW_NOW/i;
 // Paid Netlify builds stay opt-in: release tokens are the production publication gate.
-// Release trigger: publish simulator simplification batch.
+// Release trigger: publish certified SEO + GA4 acquisition batch on 2026-10-17.
 
 let message = '';
 try {
