@@ -23,6 +23,7 @@ import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
 import { getLiveScpiData } from '../utils/scpiLiveData';
+import { annualReferenceYear, distributionYearLabel, distributionYearHelp, debtYearHelp, officialSourceHref } from '../utils/scpiFinancialProvenance';
 
 interface OptimizedScpiLandingPageProps {
   scpiKey: string;
@@ -267,12 +268,14 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
 
   const heroYieldValue = realScpiData ? realScpiData.yield : parseFloat(String(landingData.rendement).replace(',', '.'));
   const yieldQualif = qualifyYield(heroYieldValue);
+  const annualDistributionYear = annualReferenceYear(realScpiData?.distributionReferencePeriod);
+  const displayYieldLabel = distributionYearLabel(realScpiData?.distributionReferencePeriod);
 
   const getBadgeText = () => {
     if (landingData.frais_souscription === "0%") {
       return "0% de frais d'entrée - Votre capital investi à 100%";
     }
-    return `${landingData.rendement} de rendement - ${yieldQualif.label}`;
+    return `${landingData.rendement} de rendement${annualDistributionYear !== null ? ` (TD ${annualDistributionYear})` : ''} - ${yieldQualif.label}`;
   };
 
   const formatCurrency = (amount: number): string => {
@@ -325,7 +328,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
                 {landingData.h1_question || `SCPI ${landingData.nom}`}
                 <span className={`block text-3xl sm:text-4xl lg:text-5xl text-${colors.secondary}-100 mt-3`}>
-                  {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} de rendement
+                  {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} {annualDistributionYear !== null ? `· ${displayYieldLabel.toLowerCase()}` : 'de rendement'}
                 </span>
                 <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
                   {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : yieldQualif.label}
@@ -357,7 +360,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       {
                         label: 'Rendement',
                         value: formatPercentage(realScpiData.yield),
-                        help: 'Distribué sur l’année'
+                        help: distributionYearHelp(realScpiData.distributionReferencePeriod),
+                        sourceHref: officialSourceHref(realScpiData.distributionReferenceUrl)
                       },
                       {
                         label: 'Capitalisation',
@@ -386,7 +390,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       {
                         label: 'Endettement',
                         value: realScpiData.debt !== undefined ? formatPercentage(realScpiData.debt) : 'ND',
-                        help: 'Niveau de dette'
+                        help: debtYearHelp(realScpiData.debtReferencePeriod),
+                        sourceHref: officialSourceHref(realScpiData.debtReferenceUrl)
                       },
                       {
                         label: 'WALB / WALT',
@@ -435,6 +440,12 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
 
                         <div className="mt-2 text-xs sm:text-[13px] leading-snug text-white/65">
                           {metric.help}
+                          {'sourceHref' in metric && metric.sourceHref && (
+                            <a href={metric.sourceHref} target="_blank" rel="noopener noreferrer"
+                              className="block mt-1 underline underline-offset-2 text-white/80">
+                              Rapport officiel
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))}

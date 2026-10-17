@@ -389,6 +389,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     sector: sector,
     geography: geography,
     yield: scpi['Taux de distribution (%)'] || 0,
+    distributionReferencePeriod: typeof scpi['td_reference_period'] === 'string' ? scpi['td_reference_period'] : undefined,
+    distributionReferenceUrl: typeof scpi['td_reference_url'] === 'string' ? scpi['td_reference_url'] : undefined,
     capitalization: (scpi['Capitalisation (M€)'] || 0) * 1000000,
     tof: scpi['TOF (%)'] || 0,
     price: scpi['Prix de souscription (€)'] || 0,
@@ -406,6 +408,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     rating: undefined,
     isRecommended: recommended,
     debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined,
+    debtReferencePeriod: typeof scpi['debt_reference_period'] === 'string' ? scpi['debt_reference_period'] : undefined,
+    debtReferenceUrl: typeof scpi['debt_reference_url'] === 'string' ? scpi['debt_reference_url'] : undefined,
     // Champs supplémentaires depuis le fichier Excel
     delaiJouissance: cleanNumericValue(scpi['Délai de jouissance (mois)']),
     versementLoyers: scpi['Versement des loyers'] || undefined,
