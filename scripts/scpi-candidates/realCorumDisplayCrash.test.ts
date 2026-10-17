@@ -53,6 +53,7 @@ test('CRASH: no invented sector, country or metric when upstream source absent',
 });
 test('CRASH: UI flags missing detailed rental KPIs and marks source dates without changing finance',()=>{
  const source=fs.readFileSync(new URL('../../src/components/fintech/AnalysisDetailModal.tsx',import.meta.url),'utf8');
+ const comparator=fs.readFileSync(new URL('../../src/components/fintech/FintechComparator.tsx',import.meta.url),'utf8');
  assert.match(source,/scpi-source-based-analysis/);
  assert.match(source,/scpi-rental-source-coverage/);
  assert.match(source,/Aucune estimation n’est substituée/);
@@ -60,4 +61,5 @@ test('CRASH: UI flags missing detailed rental KPIs and marks source dates withou
  assert.match(source,/Distribution\{distributionYear!==null/);
  assert.match(source,/Valeur sourcée/);
  assert.match(source,/scpi-reconstitution-value/);
+ assert.match(comparator,/scpi\.discountQaStatus === 'publishable'/);
 });
