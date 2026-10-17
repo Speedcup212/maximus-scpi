@@ -174,6 +174,20 @@ try{
         historical_financial_periods:modalText.includes('Taux de distribution brut 2025')&&
           modalText.includes('Endettement (rapport annuel 2025)')};
     },name);
+    if(!inspected.radarFiveAxes){
+      const diagnostic=await page.evaluate(()=>{
+        const h=Array.from(document.querySelectorAll('h2'))
+           .find(x=>x.textContent?.includes('Analyse Détaillée -'));
+        const modal=h?.closest('div.fixed');
+        const radar=Array.from(document.querySelectorAll('h3'))
+           .find(x=>x.textContent?.includes('Radar MaximusSCPI'));
+        return {radarH3Found:!!radar,
+           modalTail:modal?.textContent?.slice(-2300),
+           radarText:radar?.parentElement?.parentElement?.parentElement?.textContent?.slice(0,1200),
+           tickLabels:Array.from(document.querySelectorAll('.recharts-polar-angle-axis text')).map(x=>x.textContent)};
+      });
+      console.warn('CORUM_RADAR_DOM_DIAGNOSTIC',slug,JSON.stringify(diagnostic));
+    }
     return {fund_analysis_modal_opened:clicked&&inspected.headingMatches,
       rendered_recharts_radar:inspected.radarRendered,
       five_source_score_axes_present:inspected.radarFiveAxes,
