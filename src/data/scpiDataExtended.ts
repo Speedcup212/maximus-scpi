@@ -4106,6 +4106,7 @@ const newlyReleased = scpiData
     valeurRetrait: scpi.valeurRetrait, valeurRealisation: scpi.valeurRealisation,
     distribution: scpi.distribution, sfdr: scpi.sfdr,
     profilCible: scpi.profilCible, profilRisque: scpi.profilRisque,
+    nombreAssocies: scpi.nombreAssocies,
     nombreLocataires: scpi.nombreLocataires, walt: scpi.walt, walb: scpi.walb,
     collecteNetteTrimestre: scpi.collecteNetteTrimestre,
     nbCessionsTrimestre: scpi.nbCessionsTrimestre,
