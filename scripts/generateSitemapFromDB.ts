@@ -13,6 +13,7 @@ import { articleTemplates } from '../src/data/articleTemplatesConfig';
 const STATIC_COLLECTION_SLUGS = [
   'articles',                              // Index /articles
   'articles/construire-portefeuille-scpi',  // Hub collection
+  'articles/investir-10000-euros-scpi',      // Guide 10 000 € validé et versionné
 ];
 
 const __filename = fileURLToPath(import.meta.url);
