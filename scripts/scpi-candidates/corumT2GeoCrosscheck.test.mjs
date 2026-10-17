@@ -6,7 +6,7 @@ const eurion=fs.readFileSync(new URL('../../supabase/migrations/20261017_corum_e
 test('17 original-PDF-anchored country fields require two distinct exact-dated publisher transcriptions',()=>{
   assert.match(geography,/n<>17/);
   assert.match(geography,/length\(p\.page_text\)>1000/);
-  assert.match(geography,/original PDF page 4/i);
+  assert.match(geography,/original archived PDF page 4/i);
   assert.match(geography,/ateispatrimoine.com/);
   assert.match(geography,/2ndmarket.fr/);
   assert.match(geography,/immobilierpassif.com/);
@@ -41,6 +41,6 @@ test('all four can reach financial QA but technical provenance never constitutes
    assert.match(content,/final_release_ready/);
    assert.doesNotMatch(content,/SET\s+(?:debt_and_leverage_review_passed|fees_and_redemption_review_passed|frontend_contract_smoke_passed)\s*=/i);
  }
- assert.match(eurion,/not inspection visuelle du graphique original/);
+ assert.match(eurion,/ni inspection visuelle du graphique original/);
  assert.match(geography,/non signature financière\/réglementaire finale/);
 });
