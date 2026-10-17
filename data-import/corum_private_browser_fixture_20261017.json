@@ -1,0 +1,259 @@
+{
+  "kind": "private_staging_browser_fixture_not_release_source",
+  "source": "maximus_agents.scpi_candidate_publication_draft_v1",
+  "snapshot_reference": "2026-10-17",
+  "not_approved": true,
+  "not_for_production": true,
+  "scpi": [
+    {
+      "scpi_slug": "corum-eurion",
+      "nom": "CORUM Eurion",
+      "source_period": "2026-T2",
+      "publishing_fields": {
+        "sfdr": "Article 8",
+        "risk_sri": 3,
+        "label_isr": true,
+        "sector_class": "bureaux",
+        "creation_year": 2020,
+        "risk_warnings": [
+          "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
+          "La durée de détention recommandée ne constitue pas une garantie de revente ou de revenu."
+        ],
+        "enjoyment_delay": 6,
+        "liquidity_basis": "withdrawal_queue",
+        "management_fees": 12.4,
+        "capitalization_m": 1534.10713,
+        "geographic_scope": "europe",
+        "withdrawal_terms": null,
+        "payment_frequency": "Mensuelle",
+        "sector_allocation": {
+          "Bureaux": 73,
+          "Commerces": 7,
+          "Hôtellerie": 11,
+          "Éducation et loisirs": 1,
+          "Industrie et logistique": 8
+        },
+        "subscription_fees": 12,
+        "minimum_investment": 215,
+        "reconstitution_value": 224.07,
+        "geographic_allocation": {
+          "France": 19,
+          "Italie": 14,
+          "Espagne": 6,
+          "Irlande": 19,
+          "Finlande": 6,
+          "Lettonie": 1,
+          "Pays-Bas": 27,
+          "Portugal": 8
+        },
+        "recommended_holding_years": 10
+      },
+      "provenance": {
+        "status": "DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY",
+        "source_period": "2026-T2",
+        "source_registry": "public.scpi_indicators + public.scpi_metric_certifications + regulatory_metric_evidence + liquidity",
+        "source_limitations": "Field presence is not sufficient. Official document/page QA, risk disclosure and independent approval remain mandatory.",
+        "annual_debt_reference": "2025-RA",
+        "risk_warning_note_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
+        "annual_yield_reference": "2025-RA"
+      },
+      "populated_field_count": 18,
+      "unresolved_field_keys": [
+        "withdrawal_terms"
+      ],
+      "final_release_approved": false
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "nom": "CORUM Origin",
+      "source_period": "2026-T2",
+      "publishing_fields": {
+        "sfdr": "Article 6",
+        "risk_sri": 3,
+        "label_isr": false,
+        "sector_class": "bureaux",
+        "creation_year": 2012,
+        "risk_warnings": [
+          "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
+          "La durée de détention recommandée ne constitue pas une garantie de revente ou de revenu."
+        ],
+        "enjoyment_delay": 6,
+        "liquidity_basis": "withdrawal_queue",
+        "management_fees": 12.4,
+        "capitalization_m": 4044.22292,
+        "geographic_scope": "europe",
+        "withdrawal_terms": null,
+        "payment_frequency": "Mensuelle",
+        "sector_allocation": {
+          "Santé": 1,
+          "Bureaux": 60,
+          "Commerces": 24,
+          "Activités": 2,
+          "Logistique": 4,
+          "Hôtellerie": 8,
+          "Éducation et loisirs": 1
+        },
+        "subscription_fees": 11.964,
+        "minimum_investment": 1135,
+        "reconstitution_value": 1186.3,
+        "geographic_allocation": {
+          "France": 7,
+          "Italie": 16,
+          "Espagne": 9,
+          "Estonie": 1,
+          "Irlande": 12,
+          "Belgique": 7,
+          "Finlande": 9,
+          "Lettonie": 1,
+          "Lituanie": 2,
+          "Pays-Bas": 27,
+          "Portugal": 2,
+          "Allemagne": 5,
+          "Slovénie": 2
+        },
+        "recommended_holding_years": 10
+      },
+      "provenance": {
+        "status": "DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY",
+        "source_period": "2026-T2",
+        "source_registry": "public.scpi_indicators + public.scpi_metric_certifications + regulatory_metric_evidence + liquidity",
+        "source_limitations": "Field presence is not sufficient. Official document/page QA, risk disclosure and independent approval remain mandatory.",
+        "annual_debt_reference": "2025-RA",
+        "risk_warning_note_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
+        "annual_yield_reference": "2025-RA"
+      },
+      "populated_field_count": 18,
+      "unresolved_field_keys": [
+        "withdrawal_terms"
+      ],
+      "final_release_approved": false
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "nom": "CORUM USA",
+      "source_period": "2026-T2",
+      "publishing_fields": {
+        "sfdr": "Article 6",
+        "risk_sri": 4,
+        "label_isr": false,
+        "sector_class": "commerces",
+        "creation_year": 2024,
+        "risk_warnings": [
+          "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
+          "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
+        ],
+        "enjoyment_delay": 6,
+        "liquidity_basis": "withdrawal_queue",
+        "management_fees": {
+          "kind": "geographic_tiers",
+          "basis": "HT",
+          "blended_rate": null,
+          "revenue_basis": "loyers encaissés",
+          "source_period": "2026-T2",
+          "euro_zone_percent": 12.4,
+          "outside_euro_zone_percent": 15.9
+        },
+        "capitalization_m": 77.4242,
+        "geographic_scope": "usa",
+        "withdrawal_terms": null,
+        "payment_frequency": "Mensuelle",
+        "sector_allocation": {
+          "Santé": 47,
+          "Commerces": 53
+        },
+        "subscription_fees": 12,
+        "minimum_investment": 200,
+        "reconstitution_value": 216.34,
+        "geographic_allocation": {
+          "États-Unis": 100
+        },
+        "recommended_holding_years": 10
+      },
+      "provenance": {
+        "status": "DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY",
+        "source_period": "2026-T2",
+        "source_registry": "public.scpi_indicators + public.scpi_metric_certifications + regulatory_metric_evidence + liquidity",
+        "source_limitations": "Field presence is not sufficient. Official document/page QA, risk disclosure and independent approval remain mandatory.",
+        "annual_debt_reference": "2025-RA",
+        "risk_warning_note_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
+        "annual_yield_reference": "2025-RA"
+      },
+      "populated_field_count": 18,
+      "unresolved_field_keys": [
+        "withdrawal_terms"
+      ],
+      "final_release_approved": false
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "nom": "CORUM XL",
+      "source_period": "2026-T2",
+      "publishing_fields": {
+        "sfdr": "Article 6",
+        "risk_sri": 4,
+        "label_isr": false,
+        "sector_class": "bureaux",
+        "creation_year": 2017,
+        "risk_warnings": [
+          "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
+          "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
+        ],
+        "enjoyment_delay": 6,
+        "liquidity_basis": "withdrawal_queue",
+        "management_fees": {
+          "kind": "geographic_tiers",
+          "basis": "HT",
+          "blended_rate": null,
+          "revenue_basis": "loyers encaissés",
+          "source_period": "2026-T2",
+          "euro_zone_percent": 12.4,
+          "outside_euro_zone_percent": 15.9
+        },
+        "capitalization_m": 2167.916595,
+        "geographic_scope": "international",
+        "withdrawal_terms": null,
+        "payment_frequency": "Mensuelle",
+        "sector_allocation": {
+          "Santé": 4,
+          "Bureaux": 55,
+          "Parking": 1,
+          "Commerces": 18,
+          "Hôtellerie": 14,
+          "Éducation et loisirs": 2,
+          "Industrie et logistique": 6
+        },
+        "subscription_fees": 12,
+        "minimum_investment": 195,
+        "reconstitution_value": 194.27,
+        "geographic_allocation": {
+          "Canada": 1,
+          "Italie": 3,
+          "Espagne": 3,
+          "Irlande": 4,
+          "Pologne": 21,
+          "Belgique": 1,
+          "Norvège": 2,
+          "Pays-Bas": 9,
+          "Portugal": 1,
+          "Allemagne": 1,
+          "Royaume-Uni": 54
+        },
+        "recommended_holding_years": 10
+      },
+      "provenance": {
+        "status": "DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY",
+        "source_period": "2026-T2",
+        "source_registry": "public.scpi_indicators + public.scpi_metric_certifications + regulatory_metric_evidence + liquidity",
+        "source_limitations": "Field presence is not sufficient. Official document/page QA, risk disclosure and independent approval remain mandatory.",
+        "annual_debt_reference": "2025-RA",
+        "risk_warning_note_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
+        "annual_yield_reference": "2025-RA"
+      },
+      "populated_field_count": 18,
+      "unresolved_field_keys": [
+        "withdrawal_terms"
+      ],
+      "final_release_approved": false
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { formatScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
+import { annualReferenceYear } from '../../utils/scpiFinancialProvenance';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import type { ScpiScores } from '../../utils/scpiScoring';
 
@@ -111,6 +112,10 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   );
 
 
+  // Annual distribution and debt belong to the source-year, not the current bulletin.
+  const distributionYear=annualReferenceYear(scpiForAnalysis?.distributionReferencePeriod);
+  const debtYear=annualReferenceYear(scpiForAnalysis?.debtReferencePeriod);
+
   // Récupérer les avantages et inconvénients
   const advantages = scpiForAnalysis ? getScpiAdvantages(scpiForAnalysis) : [];
   const pointsAttention = scpiForAnalysis ? getScpiPointsAttention(scpiForAnalysis) : [];
@@ -203,7 +208,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
               <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
-                  <div className="text-xs text-slate-400">Taux de distribution brut</div>
+                  <div className="text-xs text-slate-400">
+                    Taux de distribution brut{distributionYear!==null ? ` ${distributionYear}` : ''}
+                  </div>
                 </div>
                 <div className="text-2xl font-bold text-emerald-400">
                   {(scpiForAnalysis?.yield ?? scpi.yield).toFixed(2)}%
@@ -933,7 +940,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                     <div className="flex items-center gap-2 mb-2">
                       <Percent className="w-4 h-4 text-cyan-400" />
-                      <div className="text-xs text-slate-400">Endettement</div>
+                      <div className="text-xs text-slate-400">
+                        Endettement{debtYear!==null ? ` (rapport annuel ${debtYear})` : ''}
+                      </div>
                     </div>
                     {scpi.ltv !== undefined || scpiForAnalysis?.debt !== undefined ? (
                       <div className="text-lg font-bold text-white">

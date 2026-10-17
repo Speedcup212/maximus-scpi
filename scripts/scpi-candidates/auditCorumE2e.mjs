@@ -10,11 +10,12 @@ const CANDIDATES=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const METRICS_ANNUAL=['taux_distribution','distribution_brute_par_part','endettement_pct'];
 const METRICS_QUARTER=['prix_souscription','tof','nombre_parts','parts_attente_retrait','distribution_brute_par_part'];
 const REG_DOCS=['dic_url','note_information_url','statutes_url','annual_report_url','bulletin_url'];
-// Browser proof is ONE completed CI run with a verified artifact and per-SCPI matrix,
-// not 40 editable self-reported status strings.
-const UI_SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_direct','simulateur_revente',
-  'simulateur_demembrement','score_radar','espace_client','parcours_souscription'];
-export const REQUIRED_CORUM_BROWSER_SURFACES=Object.freeze([...UI_SURFACES]);
+// Browser QA is one real CI run. Six fund consumers are tested PER SCPI;
+// generic calculators/authorization/contact only ONCE. No editable pass tags.
+import {FUND_SURFACES,COMMON_SURFACES} from './verifyCorumBrowserEvidence.mjs';
+export const REQUIRED_CORUM_BROWSER_SURFACES=Object.freeze({
+ per_fund:[...FUND_SURFACES],shared:[...COMMON_SURFACES]
+});
 const EXPECTED_TOOLS=[
  'src/utils/buildScpiLandingData.ts',
  'scripts/generateOptimizedStaticPages.js',

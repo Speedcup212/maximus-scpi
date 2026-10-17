@@ -6,9 +6,11 @@ import {inflateRawSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
 
 export const CORUM=['corum-eurion','corum-origin','corum-usa','corum-xl'];
-export const SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_direct',
- 'simulateur_revente','simulateur_demembrement','score_radar','espace_client',
- 'parcours_souscription'];
+// A fund-specific test is required only where the tool consumes fund data.
+// Generic calculators, sign-in guard and common contact path run ONCE each.
+export const FUND_SURFACES=['seo_page','sitemap','comparateur','liquidite','simulateur_revente','analyse_detail'];
+export const COMMON_SURFACES=['simulateur_direct','simulateur_demembrement','espace_client','parcours_souscription'];
+export const SURFACES=[...FUND_SURFACES,...COMMON_SURFACES];
 const REPO='Speedcup212/maximus-scpi';
 const sha256=b=>createHash('sha256').update(b).digest('hex');
 const hex=(s,n)=>typeof s==='string'&&new RegExp('^[0-9a-f]{'+n+'}$').test(s);
@@ -45,21 +47,23 @@ export function assertCompleteCorumMatrix(m,runId,commit){
  if(m?.kind!=='corum_private_staging_browser_matrix'||
    String(m.github_run_id)!==String(runId)||m.commit_sha!==commit)
    throw Error('Rapport navigateur non lié au vrai run/commit');
- if(!Array.isArray(m.cases)||m.cases.length!==CORUM.length*SURFACES.length)
-   throw Error('La campagne navigateur CORUM doit couvrir exactement 4 x 10 parcours');
+ const expected=CORUM.flatMap(slug=>FUND_SURFACES.map(surface=>slug+':'+surface))
+   .concat(COMMON_SURFACES.map(surface=>'shared:'+surface));
+ if(!Array.isArray(m.cases)||m.cases.length!==expected.length)
+   throw Error('La campagne SCPI doit couvrir 4 x 6 consommateurs individuels + 4 parcours communs');
  const seen=new Set();
  for(const c of m.cases){
-  if(!CORUM.includes(c.slug)||!SURFACES.includes(c.surface)||
-     c.status!=='pass'||!c.assertions||typeof c.assertions!=='object'
-     ||Object.values(c.assertions).some(v=>v!==true))
-   throw Error('Test CORUM réel manquant/échoué/incomplet');
+  const isFund=CORUM.includes(c.slug)&&FUND_SURFACES.includes(c.surface);
+  const isShared=c.slug==='shared'&&COMMON_SURFACES.includes(c.surface);
+  if((!isFund&&!isShared)||c.status!=='pass'||!c.assertions||
+     typeof c.assertions!=='object'||Object.values(c.assertions).some(v=>v!==true))
+    throw Error('Test réel SCPI manquant/échoué/incomplet');
   if(!Object.keys(c.assertions).length)throw Error('Aucune assertion navigateur constatée');
   const key=c.slug+':'+c.surface;
   if(seen.has(key))throw Error('Test navigateur dupliqué : '+key);
   seen.add(key);
  }
- for(const slug of CORUM)for(const surface of SURFACES)
-  if(!seen.has(slug+':'+surface))throw Error('Test manquant '+slug+':'+surface);
+ for(const key of expected)if(!seen.has(key))throw Error('Test manquant '+key);
  if(m.candidate_scpis_verified?.length!==4||!CORUM.every(s=>m.candidate_scpis_verified.includes(s)))
    throw Error('Une ou plusieurs SCPI candidates ne sont pas vérifiées');
  return true;

@@ -112,7 +112,10 @@ async function generateSitemap() {
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
   }
-  if (scpiSlugs.length !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== 61) {
+  // CI-only 65-fund preview uses the same generator without relaxing production's 61-fund guard.
+  const previewCount = process.env.GITHUB_ACTIONS === 'true' &&
+    process.env.CORUM_PRIVATE_BROWSER_FIXTURE === 'enabled' ? 65 : 61;
+  if (scpiSlugs.length !== certifiedScpiSlugSet.size || certifiedScpiSlugSet.size !== previewCount) {
     throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
   }
 

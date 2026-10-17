@@ -178,6 +178,8 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
   const name = String(scpi['Nom SCPI'] || '').trim();
   const company = String(scpi['Société de gestion'] || '').trim();
   const yieldValue = Number(scpi['Taux de distribution (%)']);
+  const annualYear = /^(20\d{2})-RA$/.exec(String(scpi['td_reference_period'] || ''))?.[1];
+  const yieldMetricLabel=annualYear ? 'Taux de distribution '+annualYear : 'Taux de distribution';
   const cap = Number(scpi['Capitalisation (M€)']);
   const price = Number(scpi['Prix de souscription (€)']);
 
@@ -185,7 +187,7 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
 
   const metrics = [
     Number.isFinite(yieldValue)
-      ? '<div class="scpi-shell-card"><span>Taux de distribution</span><strong>' + escapeHtml(yieldValue.toFixed(2).replace('.00', '') + '%') + '</strong></div>'
+      ? '<div class="scpi-shell-card"><span>' + escapeHtml(yieldMetricLabel) + '</span><strong>' + escapeHtml(yieldValue.toFixed(2).replace('.00', '') + '%') + '</strong></div>'
       : '',
     Number.isFinite(price)
       ? '<div class="scpi-shell-card"><span>Prix de la part</span><strong>' + escapeHtml(String(price) + ' €') + '</strong></div>'

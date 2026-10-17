@@ -1,0 +1,75 @@
+name: CORUM private staging browser acceptance
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/corum-private-staging-browser.yml'
+      - 'scripts/scpi-candidates/**'
+      - 'scripts/generateSitemapFromDB.ts'
+      - 'data-import/corum_private_browser_fixture_20261017.json'
+      - 'src/components/fintech/AnalysisDetailModal.tsx'
+      - 'src/utils/scpiFinancialProvenance.ts'
+      - 'src/utils/buildScpiForAnalysis.ts'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/corum-private-staging-browser.yml'
+      - 'scripts/scpi-candidates/**'
+      - 'scripts/generateSitemapFromDB.ts'
+      - 'data-import/corum_private_browser_fixture_20261017.json'
+      - 'src/components/fintech/AnalysisDetailModal.tsx'
+      - 'src/utils/scpiFinancialProvenance.ts'
+      - 'src/utils/buildScpiForAnalysis.ts'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: corum-staging-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CORUM_PRIVATE_BROWSER_FIXTURE: enabled
+      VITE_SUPABASE_URL: https://smoke-test.supabase.co
+      VITE_SUPABASE_ANON_KEY: smoke-test-publishable-key
+    steps:
+      - name: Check out exact candidate code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+      - name: Confirm exact checked-out commit
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Overlay four private CORUM candidate records in temporary runner only
+        run: node scripts/scpi-candidates/preparePrivateCorumBrowserStaging.mjs
+      - name: Build temporary 65-SCPI Vite client
+        run: npx vite build
+      - name: Generate staged SCPI HTML and real sitemap
+        run: |
+          node scripts/generateOptimizedStaticPages.js
+          npx tsx scripts/generateSitemapFromDB.ts
+          cp public/sitemap.xml dist/sitemap.xml
+      - name: Real Chromium matrix for CORUM candidates and shared workflows
+        run: node scripts/scpi-candidates/scpiPrivateCorumBrowserAcceptance.mjs
+      - name: Upload genuine private-browser matrix, including failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: corum-private-browser-${{ github.run_id }}
+          path: test-results/corum-private-browser/
+          retention-days: 14
+          if-no-files-found: warn
