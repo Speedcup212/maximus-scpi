@@ -31,6 +31,14 @@ const allocation=(record,key)=>{
 };
 const sourceHint=(c,field)=>{
  if(field==='reconstitution_value')return assertOfficial2026Valuation(c);
+ // This set is checked against the PRIVATE ledger's authoritative fields by
+ // the live batch clearance. A publisher HTML claim is not a PDF page.
+ const derived=new Set(['creation_year','management_fees','liquidity_basis','sfdr',
+   'sector_class','geographic_scope','payment_frequency','risk_warnings','label_isr']);
+ if(c.release_ready===true&&derived.has(field)&&
+    c.private_registry_provenance?.source_period==='2026-T2'&&
+    c.private_registry_provenance?.status==='DRAFT_ONLY_NEVER_AUTOMATICALLY_CERTIFY')
+   return;
  if(!c.publishing_sources||!/^https:\/\//.test(c.publishing_sources[field]?.url||'')
    ||!(Number(c.publishing_sources[field]?.page)>0)
    ||!(/^[a-f0-9]{64}$/.test(c.publishing_sources[field]?.sha256||'')))
