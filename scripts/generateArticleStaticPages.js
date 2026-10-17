@@ -65,6 +65,40 @@ if (supabaseUrl && supabaseKey) {
 }
 
 console.log(`📄 ${articles.length} articles provenant de Supabase`);
+// Une édition financière approuvée doit être disponible même en CI (sans secrets Supabase).
+// L'édition versionnée est autoritaire pour le slug concerné : Supabase peut compléter
+// les autres articles mais ne peut pas réintroduire des chiffres financiers périmés ici.
+const approvedEditorialPath = path.join(__dirname, '../src/data/approvedEditorialArticles.json');
+const approvedEditorial = JSON.parse(fs.readFileSync(approvedEditorialPath, 'utf8'));
+for (const approved of approvedEditorial.articles || []) {
+  if (!/^[a-z0-9-]+$/.test(approved.slug)
+    || !approved.content_html?.includes('<h1>')
+    || approved.content_html.length < 3000
+    || !approved.meta_description) {
+    throw new Error('Édition approuvée invalide ou incomplète : ' + approved.slug);
+  }
+  supabaseArticles[approved.slug] = approved;
+  const entry = {
+    id: approved.slug,
+    slug: approved.slug,
+    title: approved.title,
+    mainKeyword: approved.main_keyword || '',
+    searchIntent: approved.search_intent || '',
+    targetAudience: approved.target_audience || '',
+    category: approved.category || 'Guides pratiques',
+    wordCountTarget: approved.word_count || 1000,
+    featured: approved.featured || false,
+    indexable: true,
+    metaDescription: approved.meta_description,
+    keywords: approved.keywords || [],
+  };
+  const old = articles.findIndex((row) => row.slug === approved.slug);
+  if (old >= 0) articles[old] = entry;
+  else articles.push(entry);
+}
+console.log(`✅ Éditions financières approuvées et versionnées : ${approvedEditorial.articles?.length || 0}`);
+
+
 
 // Helpers de parsing (utilisés par managementCompanyArticlesConfig)
 const extractObjects = (text) => {
