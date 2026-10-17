@@ -76,7 +76,7 @@ jobs:
       - name: Candidate official allocations same-period PDF and atomic release blocker
         run: node --test scripts/scpi-candidates/candidateAllocationReleaseGate.test.mjs
 
-      - name: Iroko Atlas master SCPI template parity (all tools)
+      - name: Existing certified SCPI pages and consumer tools parity
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
       - name: SCPI official PDF exact period handoff and QA status transitions
