@@ -33,6 +33,10 @@ type IndicatorRow = {
   distribution_par_part?: number | string | null;
   versement_loyers?: string | null;
   source_period?: string | null;
+  td_reference_period?: string | null;
+  debt_reference_period?: string | null;
+  td_reference_url?: string | null;
+  debt_reference_url?: string | null;
   source_confidence?: number | string | null;
   source_document?: string | null;
   source_url?: string | null;
@@ -62,7 +66,8 @@ const INDICATOR_SELECT = [
   'frais_souscription','frais_gestion','srri','duree_detention_recommandee','endettement',
   'delai_jouissance','walt','walb','nombre_locataires','nombre_immeubles','nombre_parts',
   'repartition_sectorielle','repartition_geographique','collecte_nette','nb_cessions_trimestre',
-  'distribution_par_part','versement_loyers','source_period','source_confidence','source_document',
+  'distribution_par_part','versement_loyers','source_period','td_reference_period',
+  'debt_reference_period','td_reference_url','debt_reference_url','source_confidence','source_document',
   'source_url','qa_status','parts_attente_retrait','capital_type','updated_at',
 ].join(',');
 
@@ -124,6 +129,10 @@ export function mergeScpiWithLiveIndicators(
     company: row.societe_gestion || scpi.company,
     creation: toNumber(row.annee_creation) ?? scpi.creation,
     yield: toNumber(row.td) ?? scpi.yield,
+    distributionReferencePeriod: toNumber(row.td) !== undefined && row.td_reference_period
+      ? row.td_reference_period : scpi.distributionReferencePeriod,
+    distributionReferenceUrl: toNumber(row.td) !== undefined && row.td_reference_period
+      ? row.td_reference_url || undefined : scpi.distributionReferenceUrl,
     tof: toNumber(row.tof) ?? scpi.tof,
     capitalization: toNumber(row.capitalisation) !== undefined
       ? (toNumber(row.capitalisation) as number) * 1_000_000
@@ -143,6 +152,10 @@ export function mergeScpiWithLiveIndicators(
     profilRisque: toNumber(row.srri) ?? scpi.profilRisque,
     dureeDetentionRecommandee: toNumber(row.duree_detention_recommandee) ?? scpi.dureeDetentionRecommandee,
     debt: toNumber(row.endettement) ?? scpi.debt,
+    debtReferencePeriod: toNumber(row.endettement) !== undefined && row.debt_reference_period
+      ? row.debt_reference_period : scpi.debtReferencePeriod,
+    debtReferenceUrl: toNumber(row.endettement) !== undefined && row.debt_reference_period
+      ? row.debt_reference_url || undefined : scpi.debtReferenceUrl,
     delaiJouissance: toNumber(row.delai_jouissance) ?? scpi.delaiJouissance,
     walt: toNumber(row.walt) ?? scpi.walt,
     walb: toNumber(row.walb) ?? scpi.walb,
