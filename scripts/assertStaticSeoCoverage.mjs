@@ -103,6 +103,50 @@ for (const url of urls) {
   }
 }
 
+// Contrôle du contenu SERP ciblé à partir des impressions Windsor.ai.
+// Les titres et descriptions doivent survivre à TOUTES les phases de nettoyage.
+{
+  const targets = [
+    {
+      slug: 'amf-scpi',
+      title: "SCPI et AMF : visa, agrément, risques | MaximusSCPI",
+      description: "SCPI et AMF : que vérifie le régulateur ? Visa, société de gestion, DIC, note d’information, conditions de retrait et risques pour l’épargnant.",
+      requiredLinks: ['/dic-scpi/', '/note-information-scpi/', '/orias-scpi/'],
+      sourceLink: 'https://www.amf-france.org/fr/espace-epargnants/comprendre-les-produits-financiers/placements-collectifs/scpi-comment-bien-sinformer',
+    },
+    {
+      slug: 'articles/investir-10000-euros-scpi',
+      title: "Investir 10 000 € en SCPI : revenus et risques | MaximusSCPI",
+      description: "Investir 10 000 € en SCPI : quels revenus potentiels, quels frais et quels risques ? Comprenez les critères à vérifier et simulez vos revenus.",
+      requiredLinks: [],
+    },
+  ];
+
+  for (const target of targets) {
+    const file = path.join(distDir, ...target.slug.split('/'), 'index.html');
+    if (!fs.existsSync(file)) {
+      failures.push(\`/\${target.slug}/ → HTML cible Windsor.ai manquant\`);
+      continue;
+    }
+    const html = fs.readFileSync(file, 'utf8');
+    const title = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+    const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] || '';
+    if (title !== target.title) failures.push(\`/\${target.slug}/ → title SERP incorrect\`);
+    if (description !== target.description) failures.push(\`/\${target.slug}/ → description SERP incorrecte\`);
+    if (!html.includes(\`href="https://maximusscpi.com/\${target.slug}/"\`)) {
+      failures.push(\`/\${target.slug}/ → canonical propre absent\`);
+    }
+    for (const link of target.requiredLinks) {
+      if (!html.includes(\`href="\${link}"\`)) {
+        failures.push(\`/\${target.slug}/ → lien réglementaire \${link} manquant\`);
+      }
+    }
+    if (target.sourceLink && !html.includes(\`href="\${target.sourceLink}"\`)) {
+      failures.push(\`/\${target.slug}/ → source officielle AMF absente\`);
+    }
+  }
+}
+
 if (failures.length) {
   console.error(`❌ Couverture SEO statique incomplète : ${failures.length} anomalie(s) sur ${urls.length} URLs`);
   failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));
