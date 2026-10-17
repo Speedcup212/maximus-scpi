@@ -125,24 +125,24 @@ for (const url of urls) {
   for (const target of targets) {
     const file = path.join(distDir, ...target.slug.split('/'), 'index.html');
     if (!fs.existsSync(file)) {
-      failures.push(\`/\${target.slug}/ → HTML cible Windsor.ai manquant\`);
+      failures.push(`/${target.slug}/ → HTML cible Windsor.ai manquant`);
       continue;
     }
     const html = fs.readFileSync(file, 'utf8');
     const title = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
     const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i)?.[1] || '';
-    if (title !== target.title) failures.push(\`/\${target.slug}/ → title SERP incorrect\`);
-    if (description !== target.description) failures.push(\`/\${target.slug}/ → description SERP incorrecte\`);
-    if (!html.includes(\`href="https://maximusscpi.com/\${target.slug}/"\`)) {
-      failures.push(\`/\${target.slug}/ → canonical propre absent\`);
+    if (title !== target.title) failures.push(`/${target.slug}/ → title SERP incorrect`);
+    if (description !== target.description) failures.push(`/${target.slug}/ → description SERP incorrecte`);
+    if (!html.includes(`href="https://maximusscpi.com/${target.slug}/"`)) {
+      failures.push(`/${target.slug}/ → canonical propre absent`);
     }
     for (const link of target.requiredLinks) {
-      if (!html.includes(\`href="\${link}"\`)) {
-        failures.push(\`/\${target.slug}/ → lien réglementaire \${link} manquant\`);
+      if (!html.includes(`href="${link}"`)) {
+        failures.push(`/${target.slug}/ → lien réglementaire ${link} manquant`);
       }
     }
-    if (target.sourceLink && !html.includes(\`href="\${target.sourceLink}"\`)) {
-      failures.push(\`/\${target.slug}/ → source officielle AMF absente\`);
+    if (target.sourceLink && !html.includes(`href="${target.sourceLink}"`)) {
+      failures.push(`/${target.slug}/ → source officielle AMF absente`);
     }
   }
 }
