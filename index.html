@@ -128,8 +128,10 @@
       });
     </script>
 
-    <!-- Google Tag Manager - deferred off the critical rendering path -->
+    <!-- Google Tag Manager - production domain only, deferred off the critical rendering path -->
     <script>
+      // Prevent localhost, staging and Deploy Previews from polluting GA4 acquisition reports.
+      if (window.location.hostname === 'maximusscpi.com' || window.location.hostname === 'www.maximusscpi.com') {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
       window.addEventListener('load', function () {
@@ -147,6 +149,7 @@
         });
         setTimeout(loadGtm, 6000);
       }, { once: true });
+      }
     </script>
     <!-- End Google Tag Manager -->
   </head>
