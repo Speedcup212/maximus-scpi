@@ -50,6 +50,17 @@ export function buildPrivateReleaseInput(old,canonical){
        Number(e.page)>=1&&Number(e.page)<=d.pages);
      if(!matching)throw Error('Issuer PDF evidence corrupt: '+scpi_slug+':'+e.metric);
    }
+   const proofSources={...historical.publishing_sources};
+   // USA statutory Article 9 is the issuer's verified primary fee source,
+   // not the quarterly document (which is XL's source).
+   if(scpi_slug==='corum-usa'&&now.management_fees?.kind==='geographic_tiers'){
+     const statutes=historical.regulatory_documents?.find(d=>
+       d.kind==='statutes'&&d.pages>=9&&
+       /^https:\/\/www\.corum\.fr\//.test(d.url)&&/^[a-f0-9]{64}$/.test(d.sha256));
+     if(!statutes)throw Error('CORUM USA official statutes unavailable for tiered fees');
+     proofSources.management_fees={url:statutes.url,sha256:statutes.sha256,page:9,
+       verified_metric:'official_statutes_fees_HT_per_rents'};
+   }
    return {
      ...historical,
      release_ready:false,
@@ -58,7 +69,7 @@ export function buildPrivateReleaseInput(old,canonical){
      publishing_fields:{...now},
      // Preserve publisher PDFs/page signatures but do not forge a PDF page
      // for webpage-sourced data; require a live review before publication.
-     publishing_sources:{...historical.publishing_sources},
+     publishing_sources:proofSources,
      private_registry_provenance:current.provenance,
      release_payload_status:'AWAITING_AUTHENTICATED_BATCH_DECISION_AND_FULL_SOURCE_PARITY'
    };
