@@ -326,6 +326,16 @@ const App: React.FC = () => {
       return;
     }
 
+    // Legacy /education/ aliases must never render unsourced fiscal claims from
+    // retired components. Keep one canonical, versioned editorial React source.
+    if (path.startsWith('education/') && getTemplateBySlug(path.slice('education/'.length))) {
+      const slug = path.slice('education/'.length);
+      window.history.replaceState({}, '', `/articles/${slug}/`);
+      setCurrentArticleSlug(slug);
+      setCurrentView('dynamic-article');
+      return;
+    }
+
     if (path) {
       if (path.startsWith('app') || path.startsWith('espace')) {
         const segments = path.split('/');
@@ -690,6 +700,14 @@ const App: React.FC = () => {
         setCurrentView('article-premier-investissement');
       } else if (path === 'education/investir-scpi-jeune-actif-25-35-ans') {
         setCurrentView('article-scpi-jeune-actif');
+      } else if (path.startsWith('articles/') && getTemplateBySlug(path.slice('articles/'.length))) {
+        // The public canonical article route always uses the audited React template.
+        // Older article-specific routes include outdated fiscal projections and
+        // must not shadow the sole React source for /articles/<slug>/.
+        const slug = path.slice('articles/'.length);
+        setCurrentArticleSlug(slug);
+        setCurrentView('dynamic-article');
+        return;
       } else if (path === 'articles/fonds-euros-ou-scpi') {
         setCurrentArticleSlug('fonds-euros-ou-scpi');
         setCurrentView('dynamic-article');

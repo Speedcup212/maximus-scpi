@@ -141,6 +141,34 @@ for (const url of urls) {
   }
 }
 
+// Conformité et existence de la page restaurée : le succès Supabase seul ne suffit pas.
+{
+  const slug = 'articles/investir-10000-euros-scpi';
+  const file = path.join(distDir, 'articles', 'investir-10000-euros-scpi', 'index.html');
+  const url = 'https://maximusscpi.com/articles/investir-10000-euros-scpi/';
+  if (!sitemap.includes('<loc>' + url + '</loc>')) {
+    failures.push(slug + ' → absent du sitemap');
+  }
+  if (!fs.existsSync(file)) {
+    failures.push(slug + ' → page HTML absente du livrable');
+  } else {
+    const html = fs.readFileSync(file, 'utf8');
+    if (!html.includes('Investir 10 000 € en SCPI : revenus et risques')
+      || !html.includes('href="' + url + '"')) {
+      failures.push(slug + ' → titre ou canonical non conforme au texte financier approuvé');
+    }
+    for (const link of ['/comparateur-scpi/', '/simulateur-revenus-nets-scpi/', 'https://www.amf-france.org/']) {
+      if (!html.includes(link)) failures.push(slug + ' → lien obligatoire absent : ' + link);
+    }
+    for (const stale of ['23 €/mois', '279 €/an', '330 €/an', 'à 2,5 % garanti']) {
+      if (html.includes(stale)) failures.push(slug + ' → projection financière périmée : ' + stale);
+    }
+    const articleContent = html.match(/<article[^>]*class=["']article-prose["'][^>]*>([\s\S]*?)<\/article>/i)?.[1] || '';
+    const wordCount = articleContent.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length;
+    if (wordCount < 700) failures.push(slug + ' → article approuvé trop court : ' + wordCount);
+  }
+}
+
 if (failures.length) {
   console.error(`❌ Couverture SEO statique incomplète : ${failures.length} anomalie(s) sur ${urls.length} URLs`);
   failures.slice(0, 60).forEach((failure) => console.error(`   - ${failure}`));

@@ -13,6 +13,7 @@ import { articleTemplates } from '../src/data/articleTemplatesConfig';
 const STATIC_COLLECTION_SLUGS = [
   'articles',                              // Index /articles
   'articles/construire-portefeuille-scpi',  // Hub collection
+  'articles/investir-10000-euros-scpi',      // Guide 10 000 € validé et versionné
 ];
 
 const __filename = fileURLToPath(import.meta.url);
@@ -134,6 +135,7 @@ async function generateSitemap() {
     ...resaleArticleSlugs.map(s => ({ path: s, priority: '0.7' as const, changefreq: 'weekly' as const })),
     { path: 'articles', priority: '0.8', changefreq: 'weekly' },
     { path: 'articles/construire-portefeuille-scpi', priority: '0.8', changefreq: 'weekly' },
+    { path: 'investir-10000-euros-scpi', priority: '0.7', changefreq: 'monthly' },
   ];
 
   // ── 3. Supabase complète uniquement les articles.

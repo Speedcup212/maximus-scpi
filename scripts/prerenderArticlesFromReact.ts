@@ -246,6 +246,11 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
   const pageDir = path.join(articlesDir, slug);
   fs.mkdirSync(pageDir, { recursive: true });
   fs.writeFileSync(path.join(pageDir, 'index.html'), finalHtml, 'utf-8');
+  // Audit temporaire détruit par la QA finale : diagnostiquer toute mutation
+  // post-prérendu sans publier de copie parallèle du contenu.
+  const auditDir = path.join(articlesDir, '.prerender-audit');
+  fs.mkdirSync(auditDir, { recursive: true });
+  fs.writeFileSync(path.join(auditDir, slug + '.baseline'), captured.html, 'utf-8');
 
   return {
     slug,
