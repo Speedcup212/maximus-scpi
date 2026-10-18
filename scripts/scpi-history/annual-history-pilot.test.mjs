@@ -42,3 +42,19 @@ test('Pas de rétrogradation du 2026-T2 vers les valeurs 2025',()=>{
   const origin2024=data.find(r=>r.scpi_slug==='corum-origin'&&r.fiscal_year===2024);
   assert.equal(origin2024?.valeur_reconstitution_par_part,1172.41);
 });
+
+
+test('Archives CORUM : séries XL 2017–2021 et Origin 2020–2022, sans interpolation', () => {
+  assert.equal(data.filter(r=>r.scpi_slug.startsWith('corum-')).length,21);
+  const xl = data.filter(r=>r.scpi_slug==='corum-xl').sort((a,b)=>a.fiscal_year-b.fiscal_year);
+  assert.deepEqual(xl.map(r=>r.fiscal_year),[2017,2018,2019,2020,2021,2023,2024,2025]);
+  assert.equal(xl.find(r=>r.fiscal_year===2017)?.valeur_reconstitution_par_part,192.17);
+  assert.equal(xl.find(r=>r.fiscal_year===2021)?.valeur_reconstitution_par_part,199.25);
+  const origin = data.filter(r=>r.scpi_slug==='corum-origin').sort((a,b)=>a.fiscal_year-b.fiscal_year);
+  assert.deepEqual(origin.map(r=>r.fiscal_year),[2020,2021,2022,2023,2024,2025]);
+  assert.equal(origin.find(r=>r.fiscal_year===2021)?.valeur_realisation_par_part,962.66);
+  assert.equal(origin.find(r=>r.fiscal_year===2019),undefined,
+    'Le conflit 67,88 vs 67,53 EUR sur 2019 doit bloquer la certification');
+  assert.equal(cov.find(r=>r.scpi_slug==='corum-origin')?.core_historical_ready,false);
+  assert.equal(cov.find(r=>r.scpi_slug==='corum-xl')?.core_historical_ready,false);
+});
