@@ -737,8 +737,10 @@ function extractIndicateursLocatifs(text: string): IndicateursLocatifs {
     if (v !== null) result.taux_occupation_physique = v;
   }
 
-  // WALB
+  // WALB : la durée moyenne d'engagement publiée par CORUM est un proxy
+  // et non une WALT. La pondération contractuelle n'est pas explicitée.
   const walbStr = firstMatch(src, [
+    /dur[eé]e\s+moyenne\s+pendant\s+laquelle\s+les\s+locataires\s+sont\s+engag[eé]s\s+[aà]\s+payer\s+leur\s+loyer\s*[:=\-]?\s*([\d,.]+\s*ann[eé]es?)/i,
     /W\.?A\.?L\.?B\.?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
     /dur[eé]e\s+r[eé]siduelle\s+(?:des?\s+baux?)?\s*(?:au\s+(?:premier\s+)?break)?\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
     /dur[eé]e\s+(?:moyenne\s+)?ferme\s*[:\-=]?\s*([\d,\.]+\s*ans?)/i,
