@@ -35,6 +35,10 @@ export interface SCPIExtended {
   dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
+  historyStatus?: string;
+  historyYearsExpected?: number;
+  historyYearsVerified?: number;
+  historyStartYearStatus?: string;
   distribution?: number; // Distribution par part (€/part)
   sfdr?: string; // Classification SFDR
   profilCible?: string; // Profil cible
