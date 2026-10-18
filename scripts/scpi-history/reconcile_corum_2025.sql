@@ -20,9 +20,24 @@ BEGIN
  ) x;
  IF n<>4 THEN RAISE EXCEPTION 'CORUM_2025_RECONCILIATION_BLOCKED: expected 4 complete verified sets, got %',n; END IF;
 
- SELECT count(*) INTO bad FROM public.scpi_annual_fundamentals
- WHERE fiscal_year=2025 AND scpi_slug IN ('corum-origin','corum-xl','corum-eurion','corum-usa');
- IF bad>0 THEN RAISE EXCEPTION 'Existing 2025 annual rows must be reconciled separately, not overwritten'; END IF;
+ SELECT count(*) INTO bad
+ FROM public.scpi_annual_fundamentals f
+ JOIN public.scpi_metric_certifications d
+   ON d.scpi_slug=f.scpi_slug AND d.source_period='2025-RA'
+   AND d.metric='distribution_brute_par_part'
+ JOIN public.scpi_metric_certifications vr
+   ON vr.scpi_slug=f.scpi_slug AND vr.source_period='2025-RA'
+   AND vr.metric='valeur_realisation_par_part'
+ JOIN public.scpi_metric_certifications rc
+   ON rc.scpi_slug=f.scpi_slug AND rc.source_period='2025-RA'
+   AND rc.metric='valeur_reconstitution_par_part'
+ WHERE f.fiscal_year=2025
+   AND f.scpi_slug IN ('corum-origin','corum-xl','corum-eurion','corum-usa')
+   AND (f.qa_status IS DISTINCT FROM 'manual_verified_official'
+        OR f.distribution_totale_par_part IS DISTINCT FROM d.value_numeric
+        OR f.valeur_realisation_par_part IS DISTINCT FROM vr.value_numeric
+        OR f.valeur_reconstitution_par_part IS DISTINCT FROM rc.value_numeric);
+ IF bad>0 THEN RAISE EXCEPTION 'CORUM_2025_RECONCILIATION_BLOCKED: divergent annual rows'; END IF;
 END $check$;
 
 WITH src AS (
@@ -93,6 +108,7 @@ UPDATE public.scpi_annual_backfill_queue q
 SET status='extracted',updated_at=now()
 WHERE q.scpi_slug IN ('corum-origin','corum-xl','corum-eurion','corum-usa')
  AND q.fiscal_year=2025
+ AND q.status<>'extracted'
  AND EXISTS (
  SELECT 1 FROM public.scpi_history_year_audit_v1 y
  WHERE y.scpi_slug=q.scpi_slug AND y.fiscal_year=2025
