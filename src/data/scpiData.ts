@@ -426,6 +426,12 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     historyYearsVerified: cleanNumericValue(scpi.maximus_history_years_verified),
     historyStartYearStatus: typeof scpi.maximus_history_start_year_status === 'string'
       ? scpi.maximus_history_start_year_status : 'missing',
+    historyStatus: typeof scpi.maximus_history_status === 'string'
+      ? scpi.maximus_history_status : 'NOT_ASSESSED',
+    historyYearsExpected: cleanNumericValue(scpi.maximus_history_years_expected),
+    historyYearsVerified: cleanNumericValue(scpi.maximus_history_years_verified),
+    historyStartYearStatus: typeof scpi.maximus_history_start_year_status === 'string'
+      ? scpi.maximus_history_start_year_status : 'missing',
     valeurRealisationReferenceDate: typeof scpi['maximus_valeur_realisation_reference_date'] === 'string'
       ? scpi['maximus_valeur_realisation_reference_date'] : undefined,
     walbReferenceDate: typeof scpi['maximus_walb_reference_date'] === 'string'
