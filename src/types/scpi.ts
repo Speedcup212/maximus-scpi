@@ -58,6 +58,11 @@ export interface Scpi {
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurReconstitution?: number; // Valeur de reconstitution (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
+  /** Date effective de la valeur de réalisation, distincte de la date du bulletin. */
+  valeurRealisationReferenceDate?: string;
+  /** Date et qualification de la durée d'engagement locatif assimilée WALB. */
+  walbReferenceDate?: string;
+  walbDefinition?: string;
   distribution?: number; // Distribution par part (€/part)
   nbImmeubles?: number; // Nombre d'immeubles
   nombreAssocies?: number; // Associés de la SCPI, distincts des locataires
