@@ -58,6 +58,11 @@ export interface Scpi {
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurReconstitution?: number; // Valeur de reconstitution (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
+  /** Historique annuel : distinct des contrôles des indicateurs courants. */
+  historyStatus?: string;
+  historyYearsExpected?: number;
+  historyYearsVerified?: number;
+  historyStartYearStatus?: string;
   /** Date effective de la valeur de réalisation, distincte de la date du bulletin. */
   valeurRealisationReferenceDate?: string;
   /** Date et qualification de la durée d'engagement locatif assimilée WALB. */
