@@ -44,7 +44,7 @@ const rows = (annuals.data || []).filter((r: any) => allowed.has(r.scpi_slug) &&
     const ev = r.evidence || {};
     const keys = ['distribution_totale_par_part','valeur_realisation_par_part','valeur_reconstitution_par_part'];
     const values = [d, real, recon];
-    if (r.qa_status !== 'manual_verified_official' || readNum(r.source_confidence)! < 0.95 ||
+    if (r.qa_status !== 'manual_verified_official' || (readNum(r.source_confidence) ?? 0) < 0.95 ||
       !/^https:\/\//.test(String(r.source_url || ''))) {
       fail('QA/source non certifiée ' + r.scpi_slug + '/' + r.fiscal_year);
     }
