@@ -1,0 +1,222 @@
+{
+  "generated_at": "2026-10-18",
+  "source": "Official CORUM reports audited in Supabase; regenerated at build",
+  "rows": [
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2020,
+      "distribution_totale_par_part": 20.79,
+      "valeur_realisation_par_part": 172.55,
+      "valeur_reconstitution_par_part": 209.74,
+      "distribution_basis": "annualized_inception_year_gross_dividend_reference",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20Eurion%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 17,
+        "realisation": 22,
+        "reconstitution": 22
+      }
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2021,
+      "distribution_totale_par_part": 12.23,
+      "valeur_realisation_par_part": 180.82,
+      "valeur_reconstitution_par_part": 225.41,
+      "distribution_basis": "gross_dividend_annual_full_entitlement",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20Eurion%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 17,
+        "realisation": 22,
+        "reconstitution": 22
+      }
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2022,
+      "distribution_totale_par_part": 13.19,
+      "valeur_realisation_par_part": 180.93,
+      "valeur_reconstitution_par_part": 222.55,
+      "distribution_basis": "gross_dividend_annual_full_entitlement",
+      "source_url": "https://www.corum.fr/sites/default/files/2023-03/CORUM%20Eurion%20-%20Rapport%20annuel%202022.pdf",
+      "evidence_pages": {
+        "distribution": 17,
+        "realisation": 22,
+        "reconstitution": 22
+      }
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2023,
+      "distribution_totale_par_part": 12.19,
+      "valeur_realisation_par_part": 180.89,
+      "valeur_reconstitution_par_part": 223.23,
+      "distribution_basis": "gross_dividend_annual_full_entitlement",
+      "source_url": "https://www.corum.fr/sites/default/files/2024-04/Rapport%20annuel%20CORUM%20Eurion%202023.pdf",
+      "evidence_pages": {
+        "distribution": 16,
+        "realisation": 21,
+        "reconstitution": 21
+      }
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2024,
+      "distribution_totale_par_part": 11.88,
+      "valeur_realisation_par_part": 184.76,
+      "valeur_reconstitution_par_part": 229.29,
+      "distribution_basis": "gross_dividend_annual_full_entitlement",
+      "source_url": "https://www.corum.fr/sites/default/files/2025-03/Rapport%20annuel%20CORUM%20Eurion%202024-avec%20compression.pdf",
+      "evidence_pages": {
+        "distribution": 12,
+        "realisation": 17,
+        "reconstitution": 17
+      }
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "fiscal_year": 2025,
+      "distribution_totale_par_part": 12.33,
+      "valeur_realisation_par_part": 177.1,
+      "valeur_reconstitution_par_part": 222.12,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
+      "evidence_pages": {
+        "distribution": 10,
+        "realisation": 10,
+        "reconstitution": 10
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "fiscal_year": 2023,
+      "distribution_totale_par_part": 68.8,
+      "valeur_realisation_par_part": 932.52,
+      "valeur_reconstitution_par_part": 1146.42,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2025-03/Rapport%20annuel%20CORUM%20Origin%202024-compress%C3%A9.pdf",
+      "evidence_pages": {
+        "distribution": 14,
+        "realisation": 19,
+        "reconstitution": 19
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "fiscal_year": 2024,
+      "distribution_totale_par_part": 68.62,
+      "valeur_realisation_par_part": 953.35,
+      "valeur_reconstitution_par_part": 1172.41,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2025-03/Rapport%20annuel%20CORUM%20Origin%202024-compress%C3%A9.pdf",
+      "evidence_pages": {
+        "distribution": 14,
+        "realisation": 19,
+        "reconstitution": 19
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "fiscal_year": 2025,
+      "distribution_totale_par_part": 73.8,
+      "valeur_realisation_par_part": 959.47,
+      "valeur_reconstitution_par_part": 1175.66,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
+      "evidence_pages": {
+        "distribution": 11,
+        "realisation": 11,
+        "reconstitution": 11
+      }
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "fiscal_year": 2025,
+      "distribution_totale_par_part": 15.4,
+      "valeur_realisation_par_part": 177.04,
+      "valeur_reconstitution_par_part": 203.24,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
+      "evidence_pages": {
+        "distribution": 9,
+        "realisation": 9,
+        "reconstitution": 9
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2023,
+      "distribution_totale_par_part": 10.53,
+      "valeur_realisation_par_part": 151.69,
+      "valeur_reconstitution_par_part": 185.8,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2025-03/Rapport%20annuel%20CORUM%20XL%202024%20F-avec%20compression.pdf",
+      "evidence_pages": {
+        "distribution": 13,
+        "realisation": 18,
+        "reconstitution": 18
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2024,
+      "distribution_totale_par_part": 10.78,
+      "valeur_realisation_par_part": 154.71,
+      "valeur_reconstitution_par_part": 189.88,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2025-03/Rapport%20annuel%20CORUM%20XL%202024%20F-avec%20compression.pdf",
+      "evidence_pages": {
+        "distribution": 13,
+        "realisation": 18,
+        "reconstitution": 18
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2025,
+      "distribution_totale_par_part": 10.33,
+      "valeur_realisation_par_part": 153.86,
+      "valeur_reconstitution_par_part": 189.37,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
+      "evidence_pages": {
+        "distribution": 10,
+        "realisation": 10,
+        "reconstitution": 10
+      }
+    }
+  ],
+  "coverage": [
+    {
+      "scpi_slug": "corum-eurion",
+      "years_expected": 6,
+      "years_fully_verified": 6,
+      "metrics_missing": 0,
+      "historical_status": "CORE_HISTORY_VERIFIED",
+      "core_historical_ready": true
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "years_expected": 14,
+      "years_fully_verified": 3,
+      "metrics_missing": 33,
+      "historical_status": "HISTORY_INCOMPLETE",
+      "core_historical_ready": false
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "years_expected": 2,
+      "years_fully_verified": 1,
+      "metrics_missing": 3,
+      "historical_status": "HISTORY_INCOMPLETE",
+      "core_historical_ready": false
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "years_expected": 9,
+      "years_fully_verified": 3,
+      "metrics_missing": 18,
+      "historical_status": "HISTORY_INCOMPLETE",
+      "core_historical_ready": false
+    }
+  ]
+}
