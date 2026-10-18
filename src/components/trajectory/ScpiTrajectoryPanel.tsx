@@ -150,7 +150,13 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     );
   }
 
-  if (history.length < 2) return null;
+  if (history.length < 2) {
+    return annualRows.length ? (
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ScpiAnnualHistorySection scpiSlug={scpiSlug} />
+      </div>
+    ) : null;
+  }
 
   const renderChart = () => {
     if (activeMetric === 'liquidite') {
