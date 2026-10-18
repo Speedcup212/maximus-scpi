@@ -58,10 +58,6 @@ export interface Scpi {
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurReconstitution?: number; // Valeur de reconstitution (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
-  historyStatus?: string;
-  historyYearsExpected?: number;
-  historyYearsVerified?: number;
-  historyStartYearStatus?: string;
   /** Historique annuel : distinct des contrôles des indicateurs courants. */
   historyStatus?: string;
   historyYearsExpected?: number;
