@@ -174,7 +174,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
         </ResponsiveContainer>
       );
     }
-    if (activeMetric === 'valorisation' && annualChartData.length >= 2) {
+    if (activeMetric === 'valorisation' && annualChartData.length > 0) {
       // Pas de point artificiel à T1/T2 : chaque observation reflète le 31/12
       // de son exercice. Les métriques trimestrielles restent dans le tableau.
       return (
@@ -330,10 +330,13 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             ))}
           </div>
 
-          {activeMetric === 'valorisation' && annualChartData.length >= 2 && (
+          {activeMetric === 'valorisation' && annualChartData.length > 0 && (
             <p className="mb-3 text-xs leading-5 text-slate-400">
-              Historique annuel certifié, valorisations arrêtées au 31 décembre. Les références plus récentes
-              des bulletins trimestriels figurent séparément ci-dessous : elles ne sont pas reportées artificiellement sur les exercices anciens.
+              {annualChartData.length === 1
+                ? 'Un seul exercice annuel vérifié : un point de valorisation est affiché, sans courbe ni extrapolation. '
+                : 'Historique annuel vérifié, valorisations arrêtées au 31 décembre. '}
+              Les références plus récentes des bulletins trimestriels figurent séparément ci-dessous :
+              elles ne sont pas reportées artificiellement sur les exercices anciens.
             </p>
           )}
           <div className="h-[300px] w-full sm:h-[360px]">{renderChart()}</div>
