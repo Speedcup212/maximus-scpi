@@ -372,7 +372,15 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                       </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}</td>
-                      <td className="px-4 py-3 text-right">{numberFormatter(row.valeur_realisation, ' €')}</td>
+                      <td className="px-4 py-3 text-right">
+                          {numberFormatter(row.valeur_realisation, ' €')}
+                          {row.valeur_realisation !== null &&
+                            annualRows.some(a => a.fiscal_year === 2025
+                              && Math.abs(a.valeur_realisation_par_part - row.valeur_realisation!) < 0.001) &&
+                            <span className="block text-[10px] text-slate-400">
+                              Valorisation arrêtée au 31/12/2025
+                            </span>}
+                        </td>
                       <td className="px-4 py-3 text-right" title={row.endettement === null ? 'Taux non renseigné ou non validé pour ce trimestre' : 'Taux publié sur la période indiquée'}>{row.endettement === null ? <span className="text-slate-500">—</span> : numberFormatter(row.endettement, ' %')}</td>
                       <td className="px-4 py-3">
                         {row.source_url ? (
