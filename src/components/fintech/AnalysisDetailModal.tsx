@@ -999,9 +999,13 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <Tag className="w-4 h-4 text-slate-400" />
-                        <div className="text-xs text-slate-400">Val. Réalisation</div>
+                        <div className="text-xs text-slate-400">Val. Réalisation (€/part)</div>
                       </div>
                       <div className="text-lg font-bold text-white">{scpi.valeurRealisation.toFixed(2)}€</div>
+                      {scpiForAnalysis?.valeurRealisationReferenceDate &&
+                        scpiForAnalysis.valeurRealisation === scpi.valeurRealisation && (
+                          <div className="mt-1 text-[10px] text-slate-400">Au 31/12/2025</div>
+                        )}
                     </div>
                   )}
                   {scpi.distribution !== undefined && (
