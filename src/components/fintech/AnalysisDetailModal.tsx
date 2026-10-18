@@ -92,7 +92,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
       return { label: 'Source officielle intégrée', className: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' };
     }
     if (status === 'certified_and_final_reviewed') {
-      const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined);
+      const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined) || scpi.historyStatus !== 'CORE_HISTORY_VERIFIED';
       return {
         label: partial ? 'Sources vérifiées · couverture partielle' : 'Sources vérifiées',
         className: 'text-slate-300 bg-slate-700/40 border-slate-600'
@@ -904,6 +904,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 </div>
               </div>
 
+              {/* Le suivi historique est distinct de la certification des indicateurs courants. */}
+              <div data-testid="scpi-history-coverage" className="rounded-lg border border-slate-600 bg-slate-800/40 px-4 py-3">
+                <div className="text-xs font-semibold text-slate-200">Couverture historique annuelle</div>
+                <p className="mt-1 text-xs text-slate-300">
+                  {scpi.historyYearsExpected != null
+                    ? String(scpi.historyYearsVerified ?? 0) + '/' + String(scpi.historyYearsExpected) + ' exercices avec les trois séries financières vérifiées.'
+                    : 'Couverture historique non déterminée.'}
+                  {scpi.historyStatus === 'CORE_HISTORY_VERIFIED'
+                    ? ' Noyau historique vérifié ; cela ne certifie pas tous les indicateurs.'
+                    : ' Historique non certifié intégralement ; données courantes contrôlées séparément.'}
+                </p>
+              </div>
               {/* Only published metrics, no wall of N/A placeholders. */}
               <div data-testid="scpi-rental-source-coverage">
                 <h4 className="text-sm font-semibold text-cyan-400 mb-3 flex items-center gap-2">

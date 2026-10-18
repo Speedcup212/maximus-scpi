@@ -35,6 +35,10 @@ export interface SCPIExtended {
   dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
   valeurRetrait?: number; // Valeur de retrait (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
+  historyStatus?: string;
+  historyYearsExpected?: number;
+  historyYearsVerified?: number;
+  historyStartYearStatus?: string;
   distribution?: number; // Distribution par part (€/part)
   sfdr?: string; // Classification SFDR
   profilCible?: string; // Profil cible
@@ -4104,6 +4108,10 @@ const newlyReleased = scpiData
     versementLoyers: scpi.versementLoyers,
     dureeDetentionRecommandee: scpi.dureeDetentionRecommandee,
     valeurRetrait: scpi.valeurRetrait, valeurRealisation: scpi.valeurRealisation,
+    historyStatus: scpi.historyStatus,
+    historyYearsExpected: scpi.historyYearsExpected,
+    historyYearsVerified: scpi.historyYearsVerified,
+    historyStartYearStatus: scpi.historyStartYearStatus,
     distribution: scpi.distribution, sfdr: scpi.sfdr,
     profilCible: scpi.profilCible, profilRisque: scpi.profilRisque,
     nombreAssocies: scpi.nombreAssocies,

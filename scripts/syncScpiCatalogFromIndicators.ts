@@ -51,6 +51,26 @@ if (bulletinError) {
 const bySlug = new Map((data || []).map((row: any) => [row.scpi_slug, row]));
 const certificationBySlug = new Map((analysisData || []).map((row: any) => [row.scpi_slug, row]));
 const bulletinById = new Map((bulletinData || []).map((row: any) => [row.id, row]));
+// Le registre historique est privé : le consulter uniquement avec la clé serveur.
+// Ne JAMAIS assimiler une QA courante à une certification depuis la création.
+const historyKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const historyClient = historyKey
+  ? createClient(supabaseUrl, historyKey, { auth: { persistSession: false, autoRefreshToken: false } })
+  : null;
+const historyRead = historyClient
+  ? await historyClient.from('scpi_history_readiness_v1')
+    .select('scpi_slug,start_year_status,years_expected,years_fully_verified,years_documented,metrics_missing,historical_status,core_historical_ready')
+    .limit(5000)
+  : null;
+if (historyRead?.error && process.env.REQUIRE_HISTORY_READINESS === 'true') {
+  console.error('[SCPI history] Registre de complétude inaccessible :', historyRead.error.message);
+  process.exit(1);
+}
+if (!historyClient && process.env.REQUIRE_HISTORY_READINESS === 'true') {
+  console.error('[SCPI history] Clé serveur absente : aucun statut historique ne peut être certifié.');
+  process.exit(1);
+}
+const historyBySlug = new Map((historyRead?.data || []).map((row: any) => [row.scpi_slug, row]));
 let editorialSummaries = 0;
 
 const assign = (target: Record<string, any>, key: string, value: unknown) => {
@@ -68,6 +88,15 @@ for (const scpi of catalog) {
   // the current metrics' period, source or technical update timestamp.
   scpi.maximus_editorial_news = buildScpiEditorialNews(certification, bulletin);
   if (scpi.maximus_editorial_news) editorialSummaries++;
+  // Publier un statut séparé, jamais PASS_100 par propagation des données courantes.
+  const h: any = historyBySlug.get(slug);
+  scpi.maximus_history_status = h?.historical_status || 'NOT_ASSESSED';
+  scpi.maximus_history_start_year_status = h?.start_year_status || 'missing';
+  scpi.maximus_history_years_expected = h?.years_expected ?? null;
+  scpi.maximus_history_years_verified = h?.years_fully_verified ?? null;
+  scpi.maximus_history_years_documented = h?.years_documented ?? null;
+  scpi.maximus_history_metrics_missing = h?.metrics_missing ?? null;
+  scpi.maximus_history_core_ready = h?.core_historical_ready === true;
   if (!row) continue;
 
   assign(scpi, 'Taux de distribution (%)', row.td);
