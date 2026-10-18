@@ -11,6 +11,8 @@ import {
 } from 'recharts';
 import { Activity, Database, LineChart as LineChartIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { getVerifiedAnnualRows } from './scpiAnnualHistoryData';
+import { ScpiAnnualHistorySection } from './ScpiAnnualHistorySection';
 import {
   CERTIFIED_HISTORY_SELECT,
   CertifiedLiquiditySnapshot,
@@ -104,6 +106,12 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     };
   }, [scpiSlug]);
 
+  const annualRows = useMemo(() => getVerifiedAnnualRows(scpiSlug), [scpiSlug]);
+  const annualChartData = useMemo(() => annualRows.map(r => ({
+    year: String(r.fiscal_year),
+    valeur_realisation: r.valeur_realisation_par_part,
+    prix_reconstitution: r.valeur_reconstitution_par_part,
+  })), [annualRows]);
   const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquidity, signalGate), [rows, liquidity, signalGate]);
   const recentHistory = useMemo(() => history.slice(-16), [history]);
   const latest = history[history.length - 1] || null;
@@ -156,6 +164,29 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             <Legend wrapperStyle={{ fontSize: 12 }} />
             <Line type="linear" dataKey="retrait_attente_pct" name="File de retraits (%)" connectNulls={false} stroke="#f59e0b" strokeWidth={2.6} dot={{ r: 2.8 }} />
             <Line type="linear" dataKey="secondary_pressure_pct" name="Pression du marché secondaire (%)" connectNulls={false} stroke="#38bdf8" strokeWidth={2.6} dot={{ r: 2.8 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    }
+    if (activeMetric === 'valorisation' && annualChartData.length >= 2) {
+      // Pas de point artificiel à T1/T2 : chaque observation reflète le 31/12
+      // de son exercice. Les métriques trimestrielles restent dans le tableau.
+      return (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={annualChartData} margin={{ top: 24, right: 24, left: 4, bottom: 6 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.14)" />
+            <XAxis dataKey="year" tick={{ fill: '#94a3b8', fontSize: 11 }} />
+            <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} width={62}
+              domain={[(min: number) => Math.floor(min - Math.max(5,(Math.abs(min)*0.03))),
+                (max: number) => Math.ceil(max + Math.max(5,(Math.abs(max)*0.03)))]} />
+            <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 10 }}
+              labelStyle={{ color: '#e2e8f0' }}
+              formatter={(v: any) => [Number(v).toLocaleString('fr-FR', {maximumFractionDigits:2}) + ' € / part', 'Valeur']} />
+            <Legend wrapperStyle={{ fontSize: 12 }} />
+            <Line type="monotone" dataKey="prix_reconstitution" name="Valeur de reconstitution (31/12)"
+              stroke="#34d399" strokeWidth={2.8} dot={{r:4}} activeDot={{r:6}} isAnimationActive={false} connectNulls={false} />
+            <Line type="monotone" dataKey="valeur_realisation" name="Valeur de réalisation (31/12)"
+              stroke="#fbbf24" strokeWidth={2.8} dot={{r:4}} activeDot={{r:6}} isAnimationActive={false} connectNulls={false} />
           </LineChart>
         </ResponsiveContainer>
       );
@@ -293,8 +324,15 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             ))}
           </div>
 
+          {activeMetric === 'valorisation' && annualChartData.length >= 2 && (
+            <p className="mb-3 text-xs leading-5 text-slate-400">
+              Historique annuel certifié, valorisations arrêtées au 31 décembre. Les références plus récentes
+              des bulletins trimestriels figurent séparément ci-dessous : elles ne sont pas reportées artificiellement sur les exercices anciens.
+            </p>
+          )}
           <div className="h-[300px] w-full sm:h-[360px]">{renderChart()}</div>
         </div>
+        <ScpiAnnualHistorySection scpiSlug={scpiSlug} />
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
           <div className="flex items-center gap-2 border-b border-slate-800 px-4 py-3 text-sm font-semibold text-white sm:px-5">
