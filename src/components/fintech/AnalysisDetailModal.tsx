@@ -92,7 +92,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
       return { label: 'Source officielle intégrée', className: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' };
     }
     if (status === 'certified_and_final_reviewed') {
-      const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined);
+      const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined) || scpi.historyStatus !== 'CORE_HISTORY_VERIFIED';
       return {
         label: partial ? 'Sources vérifiées · couverture partielle' : 'Sources vérifiées',
         className: 'text-slate-300 bg-slate-700/40 border-slate-600'
