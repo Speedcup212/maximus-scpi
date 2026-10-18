@@ -60,3 +60,26 @@ Locataires 94 21 - 115
   assert.equal(result.maximus_indicators.distribution_par_part, 5.56);
   assert.equal(result.maximus_indicators.parts_attente_retrait, 0);
 });
+
+
+test('CORUM T2 2026 : reconnaît la durée d’engagement locatif sans inventer de WALT', () => {
+  for (const [nom, duree] of [
+    ['CORUM Origin', 6.05],
+    ['CORUM XL', 7.45],
+    ['CORUM Eurion', 6.36],
+    ['CORUM USA', 8.88],
+  ] as const) {
+    const extrait = [
+      nom,
+      'Le profil du patrimoine',
+      'Durée moyenne pendant laquelle les locataires',
+      'sont engagés à payer leur loyer',
+      duree.toFixed(2).replace('.', ',') + ' ANNÉES',
+      'SOIT JUSQU’EN NOVEMBRE 2032',
+    ].join('\n');
+    const donnees = extractFromText(extrait);
+    assert.equal(donnees.indicateurs_locatifs.walb, duree, nom);
+    assert.equal(donnees.indicateurs_locatifs.duree_bail_restante, duree, nom);
+    assert.equal(donnees.indicateurs_locatifs.walt, undefined, nom);
+  }
+});
