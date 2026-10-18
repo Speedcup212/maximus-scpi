@@ -32,14 +32,14 @@ La vue `scpi_history_metric_audit_v1` examine **année × indicateur**. La vue `
 - XL : 2017–2025 = **9** exercices.
 - Eurion : 2020–2025 = **6** exercices.
 - USA : 2024–2025 = **2** exercices.
-- Total : **31 exercices, 93 contrôles financiers de base**. **31 lignes** sont placées dans `scpi_annual_backfill_queue` au statut `to_discover` sans lancement d'agent ni achat d'API.
-- Les preuves CORUM 2025 déjà inscrites dans `scpi_metric_certifications` doivent être réconciliées **en premier**, pas re-téléchargées et re-certifiées indistinctement.
+- Total : **31 exercices, 93 contrôles financiers de base**. **31 lignes** ont été créées dans `scpi_annual_backfill_queue`, sans lancement d'agent ni achat d'API. Après réconciliation 2025, **4 lignes sont `extracted` et 27 restent `to_discover`**.
+- **Exécuté :** les 12 valeurs CORUM 2025 déjà vérifiées dans `scpi_metric_certifications` ont été rapprochées de `scpi_annual_reports` et `scpi_annual_fundamentals` (distribution brute, réalisation, reconstitution). Relecture : **4/4 exercices 2025** ont trois séries vérifiées. Script rejouable : `scripts/scpi-history/reconcile_corum_2025.sql`. Ne pas re-télécharger et re-certifier indistinctement.
 - Pour les années antérieures : utiliser d'abord les tableaux comparatifs des rapports déjà identifiés, contrôler chaque colonne/année, puis chercher uniquement les rapports complémentaires nécessaires. Ne jamais dater artificiellement une valeur 2025 en 2018.
 - Le moteur `scpi-annual-safe-extract` doit traiter les anciens exercices comme **candidats en attente de QA de colonne**, pas faire une promotion implicite.
 
 ## Traiter les 61 existantes puis généraliser aux 211–225
 
-Au 18/10/2026, le registre courant couvre **65 SCPI** : 54 années de départ provenant du catalogue sont enregistrées comme **provisoires** ; 11 sont à retrouver ; aucune année de départ n'est encore officiellement validée dans le registre de lancement. Sur les 54 périmètres calculables, la couverture provisoire couvre 897 exercices, dont 13 disposent des trois métriques annuelles acceptées avec preuves par page selon la règle stricte. Ne jamais confondre ces chiffres avec 897 documents à télécharger : les tableaux pluriannuels peuvent couvrir plusieurs exercices.
+Au 18/10/2026, le registre courant couvre **65 SCPI** : 54 années de départ provenant du catalogue sont enregistrées comme **provisoires** ; 11 sont à retrouver ; aucune année de départ n'est encore officiellement validée dans le registre de lancement. Sur les 54 périmètres calculables, la couverture provisoire couvre 897 exercices, dont 17 disposent des trois métriques annuelles acceptées avec preuves par page selon la règle stricte. Ne jamais confondre ces chiffres avec 897 documents à télécharger : les tableaux pluriannuels peuvent couvrir plusieurs exercices.
 
 Traiter les manques par priorité documentaire **sans repartir à zéro** : d'abord données certifiées dans un autre registre, ensuite PDF déjà présent, ensuite document à découvrir ; certification des années de départ ; QA et tests. L'extension à d'autres SCPI ne démarre qu'après un **pilote CORUM complet et testé**, réutilisable sans correctifs manuels SCPI par SCPI.
 
