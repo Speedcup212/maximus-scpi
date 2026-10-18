@@ -7,11 +7,16 @@ export interface VerifiedAnnualScpiRow {
   valeur_realisation_par_part: number;
   valeur_reconstitution_par_part: number;
   distribution_basis: string;
+  /** Divergence financière conservée, avec arbitrage documentaire explicite. */
+  distribution_arbitration?: string | null;
   source_url: string;
   evidence_pages: { distribution: number; realisation: number; reconstitution: number };
 }
 export interface AnnualHistoryCoverage {
   scpi_slug: string;
+  launch_year?: number | null;
+  first_fiscal_year?: number | null;
+  first_fiscal_year_note?: string | null;
   years_expected: number;
   years_fully_verified: number;
   metrics_missing: number;

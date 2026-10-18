@@ -17,25 +17,44 @@ const catalog = JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPa
   '../src/data/certified_scpi_cohort.json'), 'utf8'));
 const allowed = new Set<string>((catalog.slugs || []).map(String));
 const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } });
-const [annuals, auditedYears, readiness] = await Promise.all([
-  db.from('scpi_annual_fundamentals_certified')
-    .select('scpi_slug,fiscal_year,distribution_totale_par_part,valeur_realisation_par_part,valeur_reconstitution_par_part,qa_status,source_confidence,source_url,evidence')
-    .limit(5000),
-  db.from('scpi_history_year_audit_v1').select('scpi_slug,fiscal_year,all_three_verified').eq('all_three_verified', true).limit(5000),
-  db.from('scpi_history_readiness_v1')
-    .select('scpi_slug,years_expected,years_fully_verified,metrics_missing,historical_status,core_historical_ready')
-    .limit(5000),
+// Pagination explicite : éviter les 1000 lignes par défaut et les séries tronquées
+// lorsque le catalogue passera des 65 SCPI actuelles à 225+.
+const fetchPaged = async (table: string, select: string, orderColumns: string[], filter?: (q: any) => any) => {
+  const result: any[] = [];
+  const size = 800;
+  for (let start = 0; start < 50000; start += size) {
+    let query: any = db.from(table).select(select);
+    if (filter) query = filter(query);
+    for (const column of orderColumns) query = query.order(column, { ascending: true });
+    const page = await query.range(start, start + size - 1);
+    if (page.error) fail(table + ' : ' + page.error.message);
+    const items = page.data || [];
+    result.push(...items);
+    if (items.length < size) return result;
+  }
+  fail(table + ' : plus de 50 000 lignes, pagination à redimensionner');
+};
+const [annualRecords, auditedYearRecords, readinessRecords, yearScopes] = await Promise.all([
+  fetchPaged('scpi_annual_fundamentals_certified',
+    'scpi_slug,fiscal_year,distribution_totale_par_part,valeur_realisation_par_part,valeur_reconstitution_par_part,qa_status,source_confidence,source_url,evidence',
+    ['scpi_slug','fiscal_year']),
+  fetchPaged('scpi_history_year_audit_v1',
+    'scpi_slug,fiscal_year,all_three_verified', ['scpi_slug','fiscal_year'],
+    (query: any) => query.eq('all_three_verified', true)),
+  fetchPaged('scpi_history_readiness_v1',
+    'scpi_slug,years_expected,years_fully_verified,metrics_missing,historical_status,core_historical_ready',
+    ['scpi_slug']),
+  fetchPaged('scpi_history_scope',
+    'scpi_slug,start_year,first_fiscal_year,first_fiscal_year_evidence', ['scpi_slug']),
 ]);
-if (annuals.error || auditedYears.error || readiness.error) {
-  fail([annuals.error?.message,auditedYears.error?.message,readiness.error?.message].filter(Boolean).join(' | '));
-}
-const verified = new Set((auditedYears.data || []).map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
+const yearScopeBySlug = new Map(yearScopes.map((r: any) => [r.scpi_slug, r]));
+const verified = new Set(auditedYearRecords.map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
 const readNum = (v: unknown): number | null => {
   if (v === null || v === undefined || v === '') return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
-const rows = (annuals.data || []).filter((r: any) => allowed.has(r.scpi_slug) &&
+const rows = annualRecords.filter((r: any) => allowed.has(r.scpi_slug) &&
   verified.has(r.scpi_slug + ':' + r.fiscal_year))
   .map((r: any) => {
     const d = readNum(r.distribution_totale_par_part);
@@ -47,6 +66,11 @@ const rows = (annuals.data || []).filter((r: any) => allowed.has(r.scpi_slug) &&
     if (r.qa_status !== 'manual_verified_official' || (readNum(r.source_confidence) ?? 0) < 0.95 ||
       !/^https:\/\//.test(String(r.source_url || ''))) {
       fail('QA/source non certifiée ' + r.scpi_slug + '/' + r.fiscal_year);
+    }
+    if (ev.distribution_totale_par_part?.editorial_discrepancy_eur_per_share != null &&
+      (!ev.distribution_totale_par_part.arbitration ||
+       (ev.distribution_totale_par_part.crosscheck_urls || []).length < 2)) {
+      fail('Arbitrage financier insuffisant : ' + r.scpi_slug + '/' + r.fiscal_year);
     }
     keys.forEach((key, i) => {
       if (values[i] === null || !(Number(ev[key]?.page) > 0) ||
@@ -62,6 +86,7 @@ const rows = (annuals.data || []).filter((r: any) => allowed.has(r.scpi_slug) &&
       valeur_realisation_par_part: real,
       valeur_reconstitution_par_part: recon,
       distribution_basis: String(ev.distribution_totale_par_part?.basis || 'gross_annual_distribution'),
+      distribution_arbitration: ev.distribution_totale_par_part?.arbitration || null,
       source_url: r.source_url,
       evidence_pages: {
         distribution: Number(ev.distribution_totale_par_part.page),
@@ -73,9 +98,12 @@ const rows = (annuals.data || []).filter((r: any) => allowed.has(r.scpi_slug) &&
   .sort((a: any,b: any) => a.scpi_slug.localeCompare(b.scpi_slug,'fr') || a.fiscal_year-b.fiscal_year);
 const uniq = new Set(rows.map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
 if (uniq.size !== rows.length) fail('Deux exercices annuels identiques.');
-const coverage = (readiness.data || []).filter((r: any) => allowed.has(r.scpi_slug))
+const coverage = readinessRecords.filter((r: any) => allowed.has(r.scpi_slug))
   .map((r: any) => ({
     scpi_slug: r.scpi_slug,
+    launch_year: yearScopeBySlug.get(r.scpi_slug)?.start_year ?? null,
+    first_fiscal_year: yearScopeBySlug.get(r.scpi_slug)?.first_fiscal_year ?? null,
+    first_fiscal_year_note: yearScopeBySlug.get(r.scpi_slug)?.first_fiscal_year_evidence ?? null,
     years_expected: r.years_expected,
     years_fully_verified: r.years_fully_verified,
     metrics_missing: r.metrics_missing,
