@@ -420,6 +420,12 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     // Priorité à la valeur de reconstitution PAR PART validée (QA) — même source que la décote/surcote affichée.
     valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution par part (€)']) ?? cleanNumericValue(scpi['Valeur de reconstitution (€)']),
     valeurRealisation: cleanNumericValue(scpi['Valeur de réalisation (€)']),
+    valeurRealisationReferenceDate: typeof scpi['maximus_valeur_realisation_reference_date'] === 'string'
+      ? scpi['maximus_valeur_realisation_reference_date'] : undefined,
+    walbReferenceDate: typeof scpi['maximus_walb_reference_date'] === 'string'
+      ? scpi['maximus_walb_reference_date'] : undefined,
+    walbDefinition: typeof scpi['maximus_walb_definition'] === 'string'
+      ? scpi['maximus_walb_definition'] : undefined,
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
     nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
