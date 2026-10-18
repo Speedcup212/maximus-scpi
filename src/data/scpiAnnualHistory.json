@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-10-18",
-  "source": "Official CORUM reports audited in Supabase; regenerated at build",
+  "source": "Official CORUM annual reports; checked against Supabase evidence audit, rebuilt at Netlify prebuild",
   "rows": [
     {
       "scpi_slug": "corum-eurion",
@@ -88,6 +88,48 @@
     },
     {
       "scpi_slug": "corum-origin",
+      "fiscal_year": 2020,
+      "distribution_totale_par_part": 65.4,
+      "valeur_realisation_par_part": 919.75,
+      "valeur_reconstitution_par_part": 1117.1,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20Origin%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 17,
+        "realisation": 17,
+        "reconstitution": 17
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "fiscal_year": 2021,
+      "distribution_totale_par_part": 76.62,
+      "valeur_realisation_par_part": 962.66,
+      "valeur_reconstitution_par_part": 1177.43,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20Origin%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 17,
+        "realisation": 17,
+        "reconstitution": 17
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "fiscal_year": 2022,
+      "distribution_totale_par_part": 75.01,
+      "valeur_realisation_par_part": 956.28,
+      "valeur_reconstitution_par_part": 1171.9,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2023-04/CORUM%20Origin%20-%20Rapport%20Annuel%202022..pdf",
+      "evidence_pages": {
+        "distribution": 19,
+        "realisation": 24,
+        "reconstitution": 24
+      }
+    },
+    {
+      "scpi_slug": "corum-origin",
       "fiscal_year": 2023,
       "distribution_totale_par_part": 68.8,
       "valeur_realisation_par_part": 932.52,
@@ -140,6 +182,76 @@
         "distribution": 9,
         "realisation": 9,
         "reconstitution": 9
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2017,
+      "distribution_totale_par_part": 9.13,
+      "valeur_realisation_par_part": 159.36,
+      "valeur_reconstitution_par_part": 192.17,
+      "distribution_basis": "gross_dividend_inception_partial_year",
+      "source_url": "https://www.corum.fr/sites/default/files/2019-04/CORUM%20XL%20-%20Rapport%20Annuel%202017.pdf",
+      "evidence_pages": {
+        "distribution": 31,
+        "realisation": 31,
+        "reconstitution": 31
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2018,
+      "distribution_totale_par_part": 14.85,
+      "valeur_realisation_par_part": 157.9,
+      "valeur_reconstitution_par_part": 191.28,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20XL%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 16,
+        "realisation": 16,
+        "reconstitution": 16
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2019,
+      "distribution_totale_par_part": 11.83,
+      "valeur_realisation_par_part": 163.71,
+      "valeur_reconstitution_par_part": 197.36,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20XL%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 16,
+        "realisation": 16,
+        "reconstitution": 16
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2020,
+      "distribution_totale_par_part": 10.69,
+      "valeur_realisation_par_part": 153.11,
+      "valeur_reconstitution_par_part": 188.85,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20XL%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 16,
+        "realisation": 16,
+        "reconstitution": 16
+      }
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "fiscal_year": 2021,
+      "distribution_totale_par_part": 11.03,
+      "valeur_realisation_par_part": 163.63,
+      "valeur_reconstitution_par_part": 199.25,
+      "distribution_basis": "gross_annual_distribution",
+      "source_url": "https://www.corum.fr/sites/default/files/2022-03/CORUM%20XL%20-%20Rapport%20annuel%202021.pdf",
+      "evidence_pages": {
+        "distribution": 16,
+        "realisation": 16,
+        "reconstitution": 16
       }
     },
     {
@@ -197,8 +309,8 @@
     {
       "scpi_slug": "corum-origin",
       "years_expected": 14,
-      "years_fully_verified": 3,
-      "metrics_missing": 33,
+      "years_fully_verified": 6,
+      "metrics_missing": 24,
       "historical_status": "HISTORY_INCOMPLETE",
       "core_historical_ready": false
     },
@@ -213,8 +325,8 @@
     {
       "scpi_slug": "corum-xl",
       "years_expected": 9,
-      "years_fully_verified": 3,
-      "metrics_missing": 18,
+      "years_fully_verified": 8,
+      "metrics_missing": 3,
       "historical_status": "HISTORY_INCOMPLETE",
       "core_historical_ready": false
     }
