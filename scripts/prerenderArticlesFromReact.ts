@@ -233,6 +233,11 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
     return {
       html: clone.innerHTML.trim(),
       text: (root.innerText || '').replace(/\s+/g, ' ').trim(),
+      // Le contenu éditorial capturé est la source du Markdown destiné aux IA.
+      // Évite de réutiliser un ancien article Supabase après le pré-rendu React.
+      articleText: ((root.querySelector('main article') ||
+        root.querySelector('article') ||
+        root.querySelector('main') || root) as HTMLElement).innerText?.trim() || '',
       h1Count: clone.querySelectorAll('h1').length,
       h2Count: clone.querySelectorAll('h2').length
     };
@@ -246,6 +251,18 @@ const processArticle = async (page: any, template: (typeof templates)[number], a
   const pageDir = path.join(articlesDir, slug);
   fs.mkdirSync(pageDir, { recursive: true });
   fs.writeFileSync(path.join(pageDir, 'index.html'), finalHtml, 'utf-8');
+
+  // Une seule source éditoriale : le Markdown existant est synchronisé avec le
+  // contenu React réellement capturé, au lieu de conserver le brouillon Supabase.
+  const markdown = [
+    `# ${template.title}`,
+    template.metaDescription,
+    captured.articleText,
+    `Source : ${expectedCanonical}`,
+    'Les SCPI comportent un risque de perte en capital et de liquidité.',
+  ].filter(Boolean).join('\n\n') + '\n';
+  fs.writeFileSync(path.join(pageDir, 'index.md'), markdown, 'utf-8');
+
   // Audit temporaire détruit par la QA finale : diagnostiquer toute mutation
   // post-prérendu sans publier de copie parallèle du contenu.
   const auditDir = path.join(articlesDir, '.prerender-audit');
