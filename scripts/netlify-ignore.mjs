@@ -5,6 +5,7 @@ const commitRef = process.env.COMMIT_REF || 'HEAD';
 const productionToken = /\[(deploy|release|hotfix)\]|DEPLOY_NOW/i;
 const previewToken = /\[(preview|deploy-preview)\]|PREVIEW_NOW/i;
 // Paid Netlify builds stay opt-in: release tokens are the production publication gate.
+// Publication groupée validée : pivots premium Comparateur et Analyses, PR #207, CI #1163 PASS (2026-10-19).
 // Release trigger: publish validated 109/109 article prerender parity and the reviewed 10 000 EUR SCPI guide (2026-10-17).
 
 let message = '';
