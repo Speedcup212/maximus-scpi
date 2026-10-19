@@ -68,6 +68,7 @@ export interface Scpi {
   /** Date et qualification de la durée d'engagement locatif assimilée WALB. */
   walbReferenceDate?: string;
   walbDefinition?: string;
+  walbSourceUrl?: string; // Bulletin officiel du KPI de durée locative
   distribution?: number; // Distribution par part (€/part)
   nbImmeubles?: number; // Nombre d'immeubles
   nombreAssocies?: number; // Associés de la SCPI, distincts des locataires
