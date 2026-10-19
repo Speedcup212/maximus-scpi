@@ -105,7 +105,7 @@ const priorityScpiHtml = priorityScpiLinks
 const staticRoot = `<div id="root">
   <main style="min-height:100vh;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif">
     <section style="max-width:1100px;margin:0 auto;padding:48px 24px">
-      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026</h1>
+      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026 : comparez ${scpiCount} SCPI</h1>
       <p style="max-width:850px;color:#94a3b8;line-height:1.7;margin:0 0 32px">Comparez ${scpiCount} SCPI sur des indicateurs documentés : distribution, frais, TOF, prix et valeur de reconstitution, dette, diversification et liquidité. Examinez ensuite le Radar, l’Historique, la Trajectoire et la Surveillance sur les fiches, sans réduire la sélection au rendement.</p>
 
       <section style="margin-top:36px">
