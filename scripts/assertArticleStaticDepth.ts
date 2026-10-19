@@ -109,6 +109,19 @@ for (const article of templates) {
     }
   }
 
+  const htmlTitle = fs.readFileSync(filePath, 'utf8').match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+  if (htmlTitle !== article.title) {
+    failures.push(`${article.slug}: title HTML différent du SEOHead React`);
+  }
+
+  // Les anciens tableaux de « TDVM 2026 » sont obsolètes depuis la réforme ASPIM.
+  if (article.slug === 'rendement-scpi-2025-tdvm-taux-distribution') {
+    const published = fs.readFileSync(filePath, 'utf8');
+    if (/TDVM\\s+(?:moyen|202[2-9]|brut)|TDVM\\s+2026\\s+réaliste/i.test(published)) {
+      failures.push(`${article.slug}: ancienne définition TDVM présentée comme actuelle`);
+    }
+  }
+
   const html = fs.readFileSync(filePath, 'utf-8');
   let root;
   try {
