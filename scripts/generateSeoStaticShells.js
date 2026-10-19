@@ -38,8 +38,8 @@ const SECTORS = [
 const PAGES = [
   {
     slug:'analyses',
-    title:'Analyses SCPI : indicateurs, trajectoires et risques | MaximusSCPI',
-    description:'Consultez les analyses SCPI : occupation, valorisation, dette, liquidité et évolution des indicateurs. Sources et limites à vérifier pour chaque fonds.',
+    title:'Analyses SCPI | MaximusSCPI Research',
+    description:'MaximusSCPI Research : analyses SCPI, radar multi-critères, signaux d’alerte, liquidité, valorisation, dette et méthodologie des données.',
     h1:'Analyses SCPI : indicateurs, trajectoires et risques',
     intro:'Comparez les fondamentaux des SCPI et leur évolution à partir des indicateurs documentés. Chaque analyse distingue les chiffres disponibles, leur période et les éléments qui restent à vérifier.',
     sections:[['Lire les indicateurs','Occupation financière, valorisation, endettement et liquidité complètent le taux de distribution historique.'],['Observer les trajectoires','Les évolutions se lisent sur des périodes comparables. Un changement de mécanisme de sortie peut empêcher certaines comparaisons.'],['Vérifier les sources et les limites','Consultez les périodes et documents de chaque fiche. Une donnée absente ne constitue pas une preuve d’absence de risque.']],
@@ -48,7 +48,7 @@ const PAGES = [
   {
     slug:'surveillance',
     title:'Surveillance SCPI : alertes, liquidité, TOF et risques | MaximusSCPI',
-    description:'Surveillez les 61 SCPI suivies par MaximusSCPI : signaux certifiés sur le TOF, la liquidité, la valorisation, la dette et les changements structurels.',
+    description:'Surveillez les SCPI suivies par MaximusSCPI : signaux certifiés sur le TOF, la liquidité, la valorisation, la dette et les changements structurels.',
     h1:'Surveillance SCPI : les signaux qui méritent une attention immédiate',
     intro:'MaximusSCPI priorise les variations et événements qui justifient une vérification : occupation, liquidité, valorisation, endettement et changements de régime. Les données non comparables restent neutralisées.',
     sections:[['Prioriser les vigilances','Les signaux forts remontent d’abord afin de concentrer la lecture sur les SCPI qui présentent une dégradation ou une tension documentée.'],['Respecter les régimes de liquidité','Une file de retraits, un carnet d’ordres et un changement de régime ne sont jamais mélangés dans un même indicateur.'],['Éviter les faux signaux','Les gates de certification neutralisent les périodes insuffisantes, les ruptures structurelles et les ratios non comparables.']],
