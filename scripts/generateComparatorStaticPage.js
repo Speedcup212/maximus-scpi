@@ -20,8 +20,8 @@ const cohort = JSON.parse(fs.readFileSync(path.join(__dirname,'../src/data/certi
 const scpiCount=cohort.count;
 if(![61,65].includes(scpiCount)||cohort.slugs.length!==scpiCount)
   throw Error('Invalid published SCPI cohort in comparator HTML');
-const title = `Comparateur SCPI 2026 : comparez ${scpiCount} SCPI | MaximusSCPI`;
-const description = `Comparez ${scpiCount} SCPI sur rendement, TOF, frais, capitalisation, valorisation, dette et liquidité. Données sourcées et trajectoires MaximusSCPI.`;
+const title = 'Comparateur SCPI 2026 : rendement et risques | MaximusSCPI';
+const description = 'Comparateur SCPI : confrontez rendement, frais, valeur de reconstitution, TOF, dette et liquidité. Historique, Radar et Trajectoire sourcés.';
 const url = 'https://maximusscpi.com/comparateur-scpi/';
 
 html = html
@@ -105,8 +105,8 @@ const priorityScpiHtml = priorityScpiLinks
 const staticRoot = `<div id="root">
   <main style="min-height:100vh;background:#0f172a;color:#e2e8f0;font-family:system-ui,-apple-system,sans-serif">
     <section style="max-width:1100px;margin:0 auto;padding:48px 24px">
-      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026 : comparez ${scpiCount} SCPI</h1>
-      <p style="max-width:850px;color:#94a3b8;line-height:1.7;margin:0 0 32px">Comparez les SCPI selon leurs principaux indicateurs : taux de distribution, frais, TOF, capitalisation, valeur de reconstitution, décote ou surcote, endettement, secteurs, géographie et liquidité observée.</p>
+      <h1 style="font-size:32px;line-height:1.2;margin:0 0 12px;font-weight:800;color:white">Comparateur SCPI 2026</h1>
+      <p style="max-width:850px;color:#94a3b8;line-height:1.7;margin:0 0 32px">Comparez ${scpiCount} SCPI sur des indicateurs documentés : distribution, frais, TOF, prix et valeur de reconstitution, dette, diversification et liquidité. Examinez ensuite le Radar, l’Historique, la Trajectoire et la Surveillance sur les fiches, sans réduire la sélection au rendement.</p>
 
       <section style="margin-top:36px">
         <h2 style="font-size:24px;color:white;margin-bottom:12px">Comment comparer des SCPI ?</h2>
@@ -122,10 +122,23 @@ const staticRoot = `<div id="root">
         <article style="border:1px solid #334155;border-radius:12px;padding:18px"><h3 style="color:white;margin:0 0 8px">Diversification</h3><p style="color:#94a3b8;line-height:1.6">Secteurs, pays, sociétés de gestion et locataires doivent être analysés ensemble pour apprécier les concentrations.</p></article>
       </section>
 
+      <section id="comparateur-analyse-360" style="margin-top:36px;padding:22px;border:1px solid #334155;border-radius:12px;background:#111c2d">
+        <h2 style="font-size:22px;color:white;margin:0 0 12px">Comment passer du comparateur à une décision documentée ?</h2>
+        <p style="color:#cbd5e1;line-height:1.75">Le comparateur répond à la première question : quelles SCPI sont comparables sur un même indicateur et une même période ? Les outils MaximusSCPI prolongent l'examen sans attribuer une note réglementaire ni prévoir un rendement.</p>
+        <ol style="color:#cbd5e1;line-height:1.85;padding-left:24px">
+          <li><strong>Historique :</strong> replacer distribution, prix de part, valorisation et occupation sur des périodes identifiées, sans mélanger TD et ancien TDVM.</li>
+          <li><strong>Radar :</strong> confronter plusieurs dimensions de qualité et de risque sur la fiche ; une note ne dispense pas de lire ses critères et ses limites.</li>
+          <li><strong>Trajectoire :</strong> repérer les changements de tendance documentés et les ruptures de comparabilité.</li>
+          <li><strong>Surveillance :</strong> contrôler l'évolution du TOF, de la dette, des valeurs et des mécanismes de retrait ; l'absence de signal n'est pas une garantie.</li>
+        </ol>
+        <p style="color:#cbd5e1;line-height:1.75">Exemple de méthode : face à deux distributions proches, examiner d'abord l'écart entre prix de souscription et valeur de reconstitution, puis la qualité locative et le régime de liquidité. Une donnée manquante demeure « non publiée », jamais assimilée à zéro.</p>
+        <nav aria-label="Poursuivre l'analyse multicritère" style="line-height:2;margin-top:10px"><a href="/analyses/" style="color:#6ee7b7">Ouvrir les analyses et trajectoires</a> · <a href="/surveillance/" style="color:#6ee7b7">Surveiller les signaux</a> · <a href="/methodologie-donnees-scpi/" style="color:#6ee7b7">Lire les règles de calcul</a></nav>
+      </section>
+
       <section style="margin-top:36px;padding:20px;border:1px solid #065f46;border-radius:12px;background:#052e2b">
         <h2 style="font-size:22px;color:white;margin:0 0 10px">Méthodologie MaximusSCPI</h2>
         <p style="color:#cbd5e1;line-height:1.7">Les données sont consolidées à partir des documents publics des sociétés de gestion. La note MaximusSCPI et le radar de sélection sont des indicateurs propriétaires multicritères ; ils ne constituent ni une notation réglementaire, ni une garantie de performance ou de liquidité.</p>
-        <p style="margin-top:12px"><a href="/methodologie-donnees/" style="color:#34d399">Voir la méthodologie des données</a> · <a href="/articles/revendre-parts-scpi-delais-marche-secondaire/" style="color:#34d399">Comprendre la revente des parts</a></p>
+        <p style="margin-top:12px"><a href="/methodologie-donnees-scpi/" style="color:#34d399">Voir la méthodologie des données</a> · <a href="/articles/revendre-parts-scpi-delais-marche-secondaire/" style="color:#34d399">Comprendre la revente des parts</a></p>
       </section>
       <section id="comparator-related-scpi" aria-label="Fiches SCPI à approfondir" style="margin-top:38px;padding:20px;border:1px solid #334155;border-radius:12px">
         <h2 style="font-size:22px;color:white;margin:0 0 10px">Approfondir les SCPI à comparer</h2>

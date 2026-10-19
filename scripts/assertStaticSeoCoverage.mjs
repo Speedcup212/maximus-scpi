@@ -102,6 +102,22 @@ for (const url of urls) {
     if (!html.includes('id="comparator-related-scpi"')) {
       failures.push('/comparateur-scpi/ → section de fiches SCPI absente du HTML final');
     }
+    if (!html.includes('id="comparateur-analyse-360"')) {
+      failures.push('/comparateur-scpi/ → parcours premium Historique/Radar/Trajectoire/Surveillance absent');
+    }
+    for (const route of ['/analyses/', '/surveillance/', '/methodologie-donnees-scpi/']) {
+      if (!html.includes(`href="${route}"`)) failures.push(`/comparateur-scpi/ → lien pivot ${route} absent`);
+    }
+    const comparatorReact = fs.readFileSync(path.join(__dirname, '../src/App.tsx'), 'utf8');
+    const comparatorRoute = comparatorReact.split("if (currentView === 'comparateur') {")[1]?.split('if (currentView === ')[0] || '';
+    const reactHead = comparatorRoute.match(/<SEOHead\b([\s\S]*?)schemaData=/)?.[1] || '';
+    const reactTitle = reactHead.match(/\btitle="([^"]+)"/)?.[1] || '';
+    const reactDescription = reactHead.match(/\bdescription="([^"]+)"/)?.[1] || '';
+    const staticTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+    const staticDescription = html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] || '';
+    if (!reactTitle || staticTitle !== reactTitle) failures.push('/comparateur-scpi/ → title HTML/React incohérent');
+    if (!reactDescription || staticDescription !== reactDescription) failures.push('/comparateur-scpi/ → description HTML/React incohérente');
+
     for (const slug of ['comete', 'iroko-zen', 'transitions-europe', 'remake-live']) {
       if (!html.includes(`href="/${slug}/"`)) {
         failures.push(`/comparateur-scpi/ → lien certifié /${slug}/ absent du HTML final`);
@@ -174,6 +190,15 @@ for (const url of urls) {
     const staticCanonical = canonicalTag.match(/\bhref=["']([^"']+)["']/i)?.[1] || '';
 
     if (staticTitle !== reactTitle) failures.push(`/${slug}/ → title HTML/React différent`);
+    if (slug === 'analyses') {
+      if (!html.includes('id="analyses-methodologie-360"')) {
+        failures.push('/analyses/ → méthode 360 absente du HTML indexable');
+      }
+      for (const route of ['/comparateur-scpi/', '/surveillance/', '/methodologie-donnees-scpi/']) {
+        if (!html.includes(`href="${route}"`)) failures.push(`/analyses/ → lien ${route} absent`);
+      }
+    }
+
     if (staticDescription !== reactDescription) failures.push(`/${slug}/ → description HTML/React différente`);
     if (normalizeCanonical(staticCanonical) !== normalizeCanonical(reactCanonical)) {
       failures.push(`/${slug}/ → URL canonique HTML/React différente`);

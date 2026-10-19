@@ -4272,8 +4272,8 @@ const App: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-900">
         <SEOHead
-          title="Comparateur SCPI 2026 : rendement, TOF, frais et risques"
-          description="Comparez les SCPI selon taux de distribution, TOF, frais, capitalisation, décote, endettement, secteurs, géographie et liquidité observée."
+          title="Comparateur SCPI 2026 : rendement et risques | MaximusSCPI"
+          description="Comparateur SCPI : confrontez rendement, frais, valeur de reconstitution, TOF, dette et liquidité. Historique, Radar et Trajectoire sourcés."
           keywords={['comparateur SCPI', 'comparatif SCPI', 'comparer SCPI', 'rendement SCPI', 'TOF SCPI', 'frais SCPI', 'liquidité SCPI']}
           canonical="https://maximusscpi.com/comparateur-scpi/"
           schemaData={{
@@ -4347,7 +4347,7 @@ const App: React.FC = () => {
                   Comparateur SCPI 2026
                 </h1>
                 <p className="mt-1 text-sm text-slate-400 max-w-3xl">
-                  Comparez les SCPI selon leurs indicateurs clés : rendement, frais, TOF, capitalisation, secteurs et zones géographiques.
+                  Comparez les SCPI sur des indicateurs documentés : distribution, frais, TOF, valorisation, dette et liquidité. Approfondissez chaque fiche avec l’Historique, le Radar, la Trajectoire et la Surveillance.
                 </p>
               </div>
 
@@ -4384,6 +4384,27 @@ const App: React.FC = () => {
                   <a className="text-emerald-400 hover:underline" href="/simulateur-revenus-nets-scpi/">Simuler les revenus nets</a>
                   <a className="text-emerald-400 hover:underline" href="/articles/scpi-ou-etf-immobilier/">SCPI ou ETF immobilier</a>
                 </div>
+              </section>
+
+              <section id="comparateur-analyse-360" className="max-w-5xl mx-auto mt-8 rounded-xl border border-slate-700 bg-slate-800/60 p-5 sm:p-6 text-slate-300">
+                <h2 className="text-xl font-bold text-white mb-3">Comment passer du comparateur à une décision documentée ?</h2>
+                <p className="text-sm leading-7 text-slate-300 mb-3">
+                  Le comparateur identifie les SCPI comparables sur une même période. Les outils MaximusSCPI approfondissent la lecture sans promettre de rendement et sans transformer le Radar en notation réglementaire.
+                </p>
+                <ol className="list-decimal pl-6 space-y-2 text-sm leading-7 text-slate-300">
+                  <li><strong className="text-white">Historique :</strong> observer distribution, prix de part, valorisation et occupation avec leurs périodes, sans confondre TD et ancien TDVM.</li>
+                  <li><strong className="text-white">Radar :</strong> examiner plusieurs dimensions de qualité et de risque sur les fiches, avec les limites de chaque indicateur.</li>
+                  <li><strong className="text-white">Trajectoire :</strong> étudier les évolutions documentées sans extrapoler une performance future.</li>
+                  <li><strong className="text-white">Surveillance :</strong> contrôler TOF, dette, valorisation et mécanismes de retrait ; l'absence de signal ne garantit rien.</li>
+                </ol>
+                <p className="mt-3 text-sm leading-7 text-slate-300">
+                  À distributions comparables, rapprochez d'abord le prix de souscription de la valeur de reconstitution, puis l'occupation, les baux et le régime de liquidité. Une valeur non publiée ne doit pas être assimilée à zéro.
+                </p>
+                <nav aria-label="Approfondir l'analyse SCPI" className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  <a href="/analyses/" className="text-emerald-400 hover:underline">Historique, Radar et Trajectoire</a>
+                  <a href="/surveillance/" className="text-emerald-400 hover:underline">Surveillance des risques</a>
+                  <a href="/methodologie-donnees-scpi/" className="text-emerald-400 hover:underline">Sources et méthodologie</a>
+                </nav>
               </section>
 
               <section className="max-w-5xl mx-auto mt-16 sm:mt-20 border-t border-slate-800 pt-10 text-slate-300">
@@ -4427,7 +4448,7 @@ const App: React.FC = () => {
                     Les données sont consolidées à partir des documents publics des sociétés de gestion : bulletins trimestriels, rapports annuels, DIC, notes d’information et communications officielles. La période de référence est affichée sur les cartes lorsqu’elle est disponible. La note MaximusSCPI est un indicateur propriétaire multicritères et ne constitue ni une notation réglementaire, ni une prévision de performance.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-4 text-sm">
-                    <a href="/methodologie-donnees/" className="text-emerald-400 hover:text-emerald-300">Voir la méthodologie des données →</a>
+                    <a href="/methodologie-donnees-scpi/" className="text-emerald-400 hover:text-emerald-300">Voir la méthodologie des données →</a>
                     <a href="/articles/revendre-parts-scpi-delais-marche-secondaire/" className="text-emerald-400 hover:text-emerald-300">Comprendre la revente des parts →</a>
                     <a href="/risques-scpi/" className="text-emerald-400 hover:text-emerald-300">Voir les principaux risques →</a>
                   </div>

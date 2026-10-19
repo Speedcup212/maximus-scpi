@@ -168,7 +168,8 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
     assert.match(comete, /https:\/\/example\.com\/bulletin-2025-t3\.pdf/);
     const analyses = fs.readFileSync(path.join(fixture, 'dist/analyses/index.html'), 'utf8');
     assert.match(analyses, /<link rel="canonical" href="https:\/\/maximusscpi\.com\/analyses\/"/);
-    assert.match(analyses, /<h1>Analyses SCPI : indicateurs, trajectoires et risques<\/h1>/);
+    assert.match(analyses, /<h1>Analyse SCPI : Historique, Radar, Trajectoire et Surveillance<\/h1>/);
+    assert.match(analyses, /id="analyses-methodologie-360"/);
     assert.equal((analyses.match(/<h1\b/g) || []).length, 1);
     assert.equal((analyses.match(/type="application\/ld\+json"/g) || []).length, 1);
     assert.match(analyses, /href="\/comete\/"/);
