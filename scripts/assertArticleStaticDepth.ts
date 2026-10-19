@@ -117,7 +117,7 @@ for (const article of templates) {
   // Les anciens tableaux de « TDVM 2026 » sont obsolètes depuis la réforme ASPIM.
   if (article.slug === 'rendement-scpi-2025-tdvm-taux-distribution') {
     const published = fs.readFileSync(filePath, 'utf8');
-    if (/TDVM\\s+(?:moyen|202[2-9]|brut)|TDVM\\s+2026\\s+réaliste/i.test(published)) {
+    if (/TDVM\s+(?:moyen|202[2-9]|brut)|TDVM\s+2026\s+réaliste/i.test(published)) {
       failures.push(`${article.slug}: ancienne définition TDVM présentée comme actuelle`);
     }
   }
