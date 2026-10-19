@@ -34,6 +34,10 @@ export interface SCPIExtended {
   versementLoyers?: string; // Fréquence de versement des loyers
   dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
   valeurRetrait?: number; // Valeur de retrait (€)
+  retraitSourceUrl?: string;
+  retraitSourcePage?: number;
+  retraitReferencePeriod?: string;
+  retraitDefinition?: string;
   valeurRealisation?: number; // Valeur de réalisation (€)
   historyStatus?: string;
   historyYearsExpected?: number;
