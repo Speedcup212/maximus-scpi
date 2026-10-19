@@ -93,6 +93,40 @@ for (const article of templates) {
     continue;
   }
 
+  // Le Markdown accessible aux agents doit provenir du même rendu React.
+  // Il ne peut pas conserver un titre Supabase historique divergent.
+  const markdownPath = path.join(distArticlesDir, article.slug, 'index.md');
+  if (!fs.existsSync(markdownPath)) {
+    failures.push(`${article.slug}: version Markdown absente`);
+  } else {
+    const markdown = fs.readFileSync(markdownPath, 'utf8');
+    const expectedStart = `# ${article.title}\n\n${article.metaDescription}\n\n`;
+    if (!markdown.startsWith(expectedStart)) {
+      failures.push(`${article.slug}: Markdown non aligné avec la source éditoriale React`);
+    }
+    if (markdown.length < 1200) {
+      failures.push(`${article.slug}: Markdown trop court pour restituer l'article React`);
+    }
+  }
+
+  // Certaines pages possèdent des overrides SEO validés après le pré-rendu.
+  // Le contrôle strict title React/HTML est activé sur l'article corrigé,
+  // sans bloquer les autres overrides historiques de la chaîne existante.
+  if (article.slug === 'rendement-scpi-2025-tdvm-taux-distribution') {
+    const htmlTitle = fs.readFileSync(filePath, 'utf8').match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
+    if (htmlTitle !== article.title) {
+      failures.push(`${article.slug}: title HTML différent du SEOHead React`);
+    }
+  }
+
+  // Les anciens tableaux de « TDVM 2026 » sont obsolètes depuis la réforme ASPIM.
+  if (article.slug === 'rendement-scpi-2025-tdvm-taux-distribution') {
+    const published = fs.readFileSync(filePath, 'utf8');
+    if (/TDVM\s+(?:moyen|202[2-9]|brut)|TDVM\s+2026\s+réaliste/i.test(published)) {
+      failures.push(`${article.slug}: ancienne définition TDVM présentée comme actuelle`);
+    }
+  }
+
   const html = fs.readFileSync(filePath, 'utf-8');
   let root;
   try {

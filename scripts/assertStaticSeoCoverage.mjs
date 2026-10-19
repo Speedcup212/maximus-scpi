@@ -58,6 +58,39 @@ for (const url of urls) {
   }
 }
 
+// Préserver les fiches SCPI existantes : chaque fiche du lot certifié doit
+// exposer des faits HTML, les sources et les chemins vers les outils existants.
+// On n'essaie pas de recalculer ici Radar, Trajectoire ou Surveillance.
+{
+  const cohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
+  if (!fs.existsSync(cohortPath)) {
+    failures.push('SCPI → cohorte certifiée introuvable');
+  } else {
+    const cohort = JSON.parse(fs.readFileSync(cohortPath, 'utf8'));
+    for (const slug of cohort.slugs || []) {
+      const file = path.join(distDir, slug, 'index.html');
+      if (!fs.existsSync(file)) {
+        failures.push(`/${slug}/ → HTML certifié absent`);
+        continue;
+      }
+      const html = fs.readFileSync(file, 'utf8');
+      if (!html.includes('id="scpi-static-dashboard"')) {
+        failures.push(`/${slug}/ → indicateurs certifiés absents du HTML initial`);
+      }
+      for (const route of [
+        '/methodologie-donnees-scpi/',
+        '/analyses/',
+        '/surveillance/',
+        '/comparateur-scpi/',
+      ]) {
+        if (!html.includes(`href="${route}"`)) {
+          failures.push(`/${slug}/ → maillage vers ${route} absent du HTML initial`);
+        }
+      }
+    }
+  }
+}
+
 // Contrat SEO des pages prioritaires Windsor.ai : contrôler le HTML final
 // après tous les post-traitements, et pas uniquement les scripts générateurs.
 {
@@ -99,6 +132,51 @@ for (const url of urls) {
       if (!/Simulateur SCPI gratuit/i.test(staticTitle)) {
         failures.push('/simulateur-revenus-nets-scpi/ → intention de recherche absente du title');
       }
+    }
+  }
+}
+
+// Contrat de parité des deux hubs analytiques : les métadonnées de l'application
+// React et celles du HTML livré doivent rester identiques. Réutilise les
+// sources existantes, sans nouveau générateur SEO ni valeurs copiées à la main.
+{
+  const hubs = [
+    { slug: 'analyses', source: 'AnalysesApp.tsx' },
+    { slug: 'surveillance', source: 'SurveillanceApp.tsx' },
+  ];
+
+  for (const { slug, source } of hubs) {
+    const sourcePath = path.join(__dirname, '../src', source);
+    const htmlPath = path.join(distDir, slug, 'index.html');
+    if (!fs.existsSync(sourcePath) || !fs.existsSync(htmlPath)) {
+      failures.push(`/${slug}/ → source React ou HTML final absent`);
+      continue;
+    }
+
+    const react = fs.readFileSync(sourcePath, 'utf8');
+    const seoHead = react.match(/<SEOHead\b([\s\S]*?)\/>/)?.[1] || '';
+    const reactValue = (prop) =>
+      seoHead.match(new RegExp(`\\b${prop}=["']([^"']+)["']`))?.[1] || '';
+    const reactTitle = reactValue('title');
+    const reactDescription = reactValue('description');
+    const reactCanonical = reactValue('canonical');
+
+    if (!reactTitle || !reactDescription || !reactCanonical) {
+      failures.push(`/${slug}/ → métadonnées SEOHead React non contrôlables`);
+      continue;
+    }
+
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    const staticTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim() || '';
+    const metaTag = html.match(/<meta\b[^>]*\bname=["']description["'][^>]*>/i)?.[0] || '';
+    const staticDescription = metaTag.match(/\bcontent=["']([^"']*)["']/i)?.[1] || '';
+    const canonicalTag = html.match(/<link\b[^>]*\brel=["']canonical["'][^>]*>/i)?.[0] || '';
+    const staticCanonical = canonicalTag.match(/\bhref=["']([^"']+)["']/i)?.[1] || '';
+
+    if (staticTitle !== reactTitle) failures.push(`/${slug}/ → title HTML/React différent`);
+    if (staticDescription !== reactDescription) failures.push(`/${slug}/ → description HTML/React différente`);
+    if (normalizeCanonical(staticCanonical) !== normalizeCanonical(reactCanonical)) {
+      failures.push(`/${slug}/ → URL canonique HTML/React différente`);
     }
   }
 }

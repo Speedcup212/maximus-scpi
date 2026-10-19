@@ -63,7 +63,7 @@ const DynamicArticlePage: React.FC<DynamicArticlePageProps> = ({ slug }) => {
   return (
     <>
       <SEOHead
-        title={`${template.title} | MaximusSCPI`}
+        title={template.title}
         description={template.metaDescription}
         keywords={template.keywords}
         canonical={`https://maximusscpi.com/articles/${slug}/`}
