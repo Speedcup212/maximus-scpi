@@ -20,7 +20,7 @@ test('les 4 prix de retrait CORUM existent et correspondent aux frais contractue
    assert.equal(row.maximus_prix_retrait_source_page,page);
    assert.equal(row.maximus_prix_retrait_reference_period,'2026-T2');
    assert.match(row.maximus_prix_retrait_source_url,/^https:\/\//);
-   assert.match(row.maximus_prix_retrait_definition,/sans garantie/i);
+   assert.match(row.maximus_prix_retrait_definition,/(sans garantie|non garanti)/i);
    assert.ok(retrait>0&&retrait<prix);
    vals.add(name);
  }
