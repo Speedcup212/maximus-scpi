@@ -26,6 +26,12 @@ const client = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
+
+const historyKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const historyClient = historyKey
+  ? createClient(supabaseUrl, historyKey, { auth: { persistSession: false, autoRefreshToken: false } })
+  : null;
+
 const [{ data, error }, { data: analysisData, error: analysisError }, { data: bulletinData, error: bulletinError }, { data: retraitProofs, error: retraitError }] = await Promise.all([
   client.from('scpi_indicators').select('*').limit(5000),
   client
@@ -33,10 +39,12 @@ const [{ data, error }, { data: analysisData, error: analysisError }, { data: bu
     .select('scpi_slug,certification_status,current_source_certified,structural_event_detected,current_period,current_snapshot,certified_source_url')
     .limit(5000),
   client.from('scpi_bulletins').select('id,scpi_slug,period,source_url,extraction_json').limit(5000),
-  client.from('scpi_metric_certifications')
-    .select('scpi_slug,source_period,metric,value_numeric,source_url,source_page,verification_status')
-    .eq('metric','prix_retrait').eq('source_period','2026-T2')
-    .eq('verification_status','manual_verified_official').limit(5000),
+  historyClient
+    ? historyClient.from('scpi_metric_certifications')
+        .select('scpi_slug,source_period,metric,value_numeric,source_url,source_page,verification_status')
+        .eq('metric','prix_retrait').eq('source_period','2026-T2')
+        .eq('verification_status','manual_verified_official').limit(5000)
+    : Promise.resolve({ data: [], error: null }),
 ]);
 
 if (error) {
@@ -62,10 +70,7 @@ const bulletinById = new Map((bulletinData || []).map((row: any) => [row.id, row
 const retraitBySlug = new Map((retraitProofs || []).map((row: any) => [row.scpi_slug,row]));
 // Le registre historique est privé : le consulter uniquement avec la clé serveur.
 // Ne JAMAIS assimiler une QA courante à une certification depuis la création.
-const historyKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const historyClient = historyKey
-  ? createClient(supabaseUrl, historyKey, { auth: { persistSession: false, autoRefreshToken: false } })
-  : null;
+
 const historyRead = historyClient
   ? await historyClient.from('scpi_history_readiness_v1')
     .select('scpi_slug,start_year_status,years_expected,years_fully_verified,years_documented,metrics_missing,historical_status,core_historical_ready')
