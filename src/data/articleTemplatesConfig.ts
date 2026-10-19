@@ -357,13 +357,13 @@ export const articleTemplates: ArticleTemplate[] = [
   {
     id: 23,
     slug: 'rendement-scpi-2025-tdvm-taux-distribution',
-    title: 'Rendement SCPI 2026 : comprendre le TDVM et le taux de distribution',
+    title: 'Rendement SCPI 2026 : taux de distribution, TOF et risques',
     mainKeyword: 'rendement SCPI 2026',
     searchIntent: 'comprendre les indicateurs de performance',
     targetAudience: 'investisseurs analysant rendements',
     category: 'analyse',
     wordCountTarget: 2500,
-    metaDescription: 'Rendement SCPI 2026 : TDVM 4-6,5%, taux distribution sur VR. Calculs, comparaisons, top 10 SCPI rendement 2026.',
+    metaDescription: 'Taux de distribution ASPIM depuis 2022 : calcul, TOF, RAN, risques, valeur de part et ancien TDVM. Comparez les SCPI sur des périodes et sources cohérentes.',
     keywords: ['rendement SCPI', 'TDVM', 'taux distribution', '2026', 'performance']
   },
   {
