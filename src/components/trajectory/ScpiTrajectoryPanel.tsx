@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { Activity, Database, LineChart as LineChartIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { scpiData } from '../../data/scpiData';
 import { getVerifiedAnnualRows } from './scpiAnnualHistoryData';
 import { ScpiAnnualHistorySection } from './ScpiAnnualHistorySection';
 import { ScpiLeaseDurations } from './ScpiLeaseDurations';
@@ -107,6 +108,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     };
   }, [scpiSlug]);
 
+  const currentScpi = useMemo(() => scpiData.find((row) =>
+    row.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') === scpiSlug
+  ), [scpiSlug]);
   const annualRows = useMemo(() => getVerifiedAnnualRows(scpiSlug), [scpiSlug]);
   const annualChartData = useMemo(() => annualRows.map(r => ({
     year: String(r.fiscal_year),
@@ -288,6 +293,18 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
               {numberFormatter(latest?.prix_souscription ?? null, ' €', 0)} / {numberFormatter(latest?.prix_reconstitution ?? null, ' €')}
             </div>
             <div className="mt-1 text-xs text-slate-400">Écart {formatSigned(valuationGap, ' %')}</div>
+            {currentScpi?.valeurRetrait !== undefined && (
+              <div data-testid="trajectory-withdrawal-current" className="mt-2 border-t border-slate-700 pt-2 text-xs text-slate-200">
+                Retrait par part : <strong>{numberFormatter(currentScpi.valeurRetrait, ' €')}</strong>
+                <span className="block text-[10px] text-slate-400">
+                  {currentScpi.retraitReferencePeriod || 'Conditions de retrait en vigueur'} · montant non garanti lors d'un retrait non compensé
+                </span>
+                {currentScpi.retraitSourceUrl && (
+                  <a href={currentScpi.retraitSourceUrl} target="_blank" rel="noopener noreferrer"
+                     className="mt-1 inline-block text-[10px] text-sky-300 underline">Source CORUM</a>
+                )}
+              </div>
+            )}
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Distribution / part</div>
