@@ -108,15 +108,37 @@ for (const url of urls) {
     for (const route of ['/analyses/', '/surveillance/', '/methodologie-donnees-scpi/']) {
       if (!html.includes(`href="${route}"`)) failures.push(`/comparateur-scpi/ → lien pivot ${route} absent`);
     }
-    const comparatorReact = fs.readFileSync(path.join(__dirname, '../src/App.tsx'), 'utf8');
-    const comparatorRoute = comparatorReact.split("if (currentView === 'comparateur') {")[1]?.split('if (currentView === ')[0] || '';
-    const reactHead = comparatorRoute.match(/<SEOHead\b([\s\S]*?)schemaData=/)?.[1] || '';
+    // Le comparateur public utilise ComparatorAppEnhanced -> ComparatorApp,
+    // et NON le composant legacy App.tsx : tester le véritable point d'entrée.
+    const mainEntry = fs.readFileSync(path.join(__dirname, '../src/main.tsx'), 'utf8');
+    const enhanced = fs.readFileSync(path.join(__dirname, '../src/ComparatorAppEnhanced.tsx'), 'utf8');
+    const comparatorReact = fs.readFileSync(path.join(__dirname, '../src/ComparatorApp.tsx'), 'utf8');
+    if (!mainEntry.includes("import('./ComparatorAppEnhanced')") || !enhanced.includes("import ComparatorApp from './ComparatorApp'")) {
+      failures.push('/comparateur-scpi/ → le chemin React public a changé : revoir le contrat SEO');
+    }
+    const reactHead = comparatorReact.match(/<SEOHead\b([\s\S]*?)schemaData=/)?.[1] || '';
     const reactTitle = reactHead.match(/\btitle="([^"]+)"/)?.[1] || '';
     const reactDescription = reactHead.match(/\bdescription="([^"]+)"/)?.[1] || '';
     const staticTitle = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '';
     const staticDescription = html.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1] || '';
-    if (!reactTitle || staticTitle !== reactTitle) failures.push('/comparateur-scpi/ → title HTML/React incohérent');
-    if (!reactDescription || staticDescription !== reactDescription) failures.push('/comparateur-scpi/ → description HTML/React incohérente');
+    if (!reactTitle || staticTitle !== reactTitle) failures.push('/comparateur-scpi/ → title HTML/React actif incohérent');
+    if (!reactDescription || staticDescription !== reactDescription) failures.push('/comparateur-scpi/ → description HTML/React actif incohérente');
+
+    const certified = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/certified_scpi_cohort.json'), 'utf8'));
+    const expectedHeading = `Comparateur SCPI 2026 : comparez ${certified.count} SCPI`;
+    if (!html.includes(`>${expectedHeading}</h1>`)) {
+      failures.push('/comparateur-scpi/ → H1 statique non aligné sur la cohorte certifiée');
+    }
+    if (!comparatorReact.includes('comparez {certifiedScpiCohort.count} SCPI') ||
+        !comparatorReact.includes("import certifiedScpiCohort from './data/certified_scpi_cohort.json'")) {
+      failures.push('/comparateur-scpi/ → H1 React ne reprend pas le nombre de SCPI certifiées');
+    }
+    if (!comparatorReact.includes('id="comparateur-analyse-360"')) {
+      failures.push('/comparateur-scpi/ → parcours premium absent de la vraie application React');
+    }
+    if (/comparez 61 SCPI|Comparez 61 SCPI/.test(comparatorReact)) {
+      failures.push('/comparateur-scpi/ → ancienne mention figée 61 SCPI encore présente');
+    }
 
     for (const slug of ['comete', 'iroko-zen', 'transitions-europe', 'remake-live']) {
       if (!html.includes(`href="/${slug}/"`)) {
