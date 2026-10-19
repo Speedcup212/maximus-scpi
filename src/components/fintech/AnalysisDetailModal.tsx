@@ -325,10 +325,12 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           </div>
         </div>
 
-        <div className="px-6 pb-6">
-          <ScpiLeaseDurations scpiSlug={scpi.name.toLowerCase().normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
-        </div>
+        {(scpi.name.toLowerCase().startsWith('corum') || walb !== undefined || walt !== undefined) && (
+          <div className="px-6 pb-6">
+            <ScpiLeaseDurations scpiSlug={scpi.name.toLowerCase().normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+          </div>
+        )}
 
         {(scpi.dataSourceDocument || scpi.dataPeriod || scpi.dataDate || scpi.dataUpdateDate || scpi.liquidityNote) && (
           <div className="px-6 pb-6">
