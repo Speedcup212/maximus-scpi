@@ -417,6 +417,14 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     fraisGestion: cleanNumericValue(scpi['Frais de gestion (HT/%)']),
     fraisGestionDetails: parseManagementFeeDetails(scpi['Frais de gestion (détail)']),
     valeurRetrait: cleanNumericValue(scpi['Valeur de retrait (€)']),
+    retraitSourceUrl: typeof scpi.maximus_prix_retrait_source_url === 'string'
+      && /^https:\/\//.test(scpi.maximus_prix_retrait_source_url)
+      ? scpi.maximus_prix_retrait_source_url : undefined,
+    retraitSourcePage: cleanNumericValue(scpi.maximus_prix_retrait_source_page),
+    retraitReferencePeriod: typeof scpi.maximus_prix_retrait_reference_period === 'string'
+      ? scpi.maximus_prix_retrait_reference_period : undefined,
+    retraitDefinition: typeof scpi.maximus_prix_retrait_definition === 'string'
+      ? scpi.maximus_prix_retrait_definition : undefined,
     // Priorité à la valeur de reconstitution PAR PART validée (QA) — même source que la décote/surcote affichée.
     valeurReconstitution: cleanNumericValue(scpi['Valeur de reconstitution par part (€)']) ?? cleanNumericValue(scpi['Valeur de reconstitution (€)']),
     valeurRealisation: cleanNumericValue(scpi['Valeur de réalisation (€)']),

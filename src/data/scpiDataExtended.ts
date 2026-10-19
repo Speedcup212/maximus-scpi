@@ -34,6 +34,10 @@ export interface SCPIExtended {
   versementLoyers?: string; // Fréquence de versement des loyers
   dureeDetentionRecommandee?: number; // Durée de détention recommandée en années
   valeurRetrait?: number; // Valeur de retrait (€)
+  retraitSourceUrl?: string;
+  retraitSourcePage?: number;
+  retraitReferencePeriod?: string;
+  retraitDefinition?: string;
   valeurRealisation?: number; // Valeur de réalisation (€)
   historyStatus?: string;
   historyYearsExpected?: number;
@@ -4108,6 +4112,10 @@ const newlyReleased = scpiData
     versementLoyers: scpi.versementLoyers,
     dureeDetentionRecommandee: scpi.dureeDetentionRecommandee,
     valeurRetrait: scpi.valeurRetrait, valeurRealisation: scpi.valeurRealisation,
+    retraitSourceUrl: scpi.retraitSourceUrl,
+    retraitSourcePage: scpi.retraitSourcePage,
+    retraitReferencePeriod: scpi.retraitReferencePeriod,
+    retraitDefinition: scpi.retraitDefinition,
     historyStatus: scpi.historyStatus,
     historyYearsExpected: scpi.historyYearsExpected,
     historyYearsVerified: scpi.historyYearsVerified,

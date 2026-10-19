@@ -26,13 +26,25 @@ const client = createClient(supabaseUrl, supabaseKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
-const [{ data, error }, { data: analysisData, error: analysisError }, { data: bulletinData, error: bulletinError }] = await Promise.all([
+
+const historyKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const historyClient = historyKey
+  ? createClient(supabaseUrl, historyKey, { auth: { persistSession: false, autoRefreshToken: false } })
+  : null;
+
+const [{ data, error }, { data: analysisData, error: analysisError }, { data: bulletinData, error: bulletinError }, { data: retraitProofs, error: retraitError }] = await Promise.all([
   client.from('scpi_indicators').select('*').limit(5000),
   client
     .from('scpi_bulletin_analysis')
     .select('scpi_slug,certification_status,current_source_certified,structural_event_detected,current_period,current_snapshot,certified_source_url')
     .limit(5000),
   client.from('scpi_bulletins').select('id,scpi_slug,period,source_url,extraction_json').limit(5000),
+  historyClient
+    ? historyClient.from('scpi_metric_certifications')
+        .select('scpi_slug,source_period,metric,value_numeric,source_url,source_page,verification_status')
+        .eq('metric','prix_retrait').eq('source_period','2026-T2')
+        .eq('verification_status','manual_verified_official').limit(5000)
+    : Promise.resolve({ data: [], error: null }),
 ]);
 
 if (error) {
@@ -47,16 +59,18 @@ if (bulletinError) {
   console.error('[SCPI catalog] Lecture des preuves éditoriales impossible :', bulletinError.message);
   process.exit(1);
 }
+if (retraitError) {
+  console.error('[SCPI catalog] Lecture des certifications de retrait impossible :', retraitError.message);
+  process.exit(1);
+}
 
 const bySlug = new Map((data || []).map((row: any) => [row.scpi_slug, row]));
 const certificationBySlug = new Map((analysisData || []).map((row: any) => [row.scpi_slug, row]));
 const bulletinById = new Map((bulletinData || []).map((row: any) => [row.id, row]));
+const retraitBySlug = new Map((retraitProofs || []).map((row: any) => [row.scpi_slug,row]));
 // Le registre historique est privé : le consulter uniquement avec la clé serveur.
 // Ne JAMAIS assimiler une QA courante à une certification depuis la création.
-const historyKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const historyClient = historyKey
-  ? createClient(supabaseUrl, historyKey, { auth: { persistSession: false, autoRefreshToken: false } })
-  : null;
+
 const historyRead = historyClient
   ? await historyClient.from('scpi_history_readiness_v1')
     .select('scpi_slug,start_year_status,years_expected,years_fully_verified,years_documented,metrics_missing,historical_status,core_historical_ready')
@@ -106,6 +120,23 @@ for (const scpi of catalog) {
   assign(scpi, 'Prix de souscription (€)', row.prix_souscription);
   assign(scpi, 'Valeur de reconstitution par part (€)', row.prix_reconstitution);
   assign(scpi, 'Valeur de retrait (€)', row.prix_retrait);
+  // Documentation du prix de retrait, à la source et période qui lui sont propres.
+  // La présence de frais de souscription ne suffit pas à certifier une valeur de retrait.
+  const retraitProof: any = retraitBySlug.get(slug);
+  if (row.prix_retrait !== null && row.prix_retrait !== undefined &&
+      retraitProof && Number(retraitProof.value_numeric) === Number(row.prix_retrait) &&
+      Number(retraitProof.source_page) > 0 && /^https:\/\//.test(String(retraitProof.source_url))) {
+    scpi.maximus_prix_retrait_source_url = retraitProof.source_url;
+    scpi.maximus_prix_retrait_source_page = retraitProof.source_page;
+    scpi.maximus_prix_retrait_reference_period = retraitProof.source_period;
+    scpi.maximus_prix_retrait_definition =
+      'Prix de retrait par compensation, sans garantie de délai ni de remboursement ; valeur susceptible de varier selon les conditions contractuelles.';
+  } else {
+    delete scpi.maximus_prix_retrait_source_url;
+    delete scpi.maximus_prix_retrait_source_page;
+    delete scpi.maximus_prix_retrait_reference_period;
+    delete scpi.maximus_prix_retrait_definition;
+  }
   assign(scpi, 'Valeur de réalisation (€)', row.valeur_realisation);
   assign(scpi, 'Frais de souscription (TTC/%)', row.frais_souscription);
   assign(scpi, 'Frais de gestion (HT/%)', row.frais_gestion);

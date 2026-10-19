@@ -56,6 +56,11 @@ export interface Scpi {
   fraisGestion?: number; // Frais de gestion (HT/%) — only when one official flat rate exists
   fraisGestionDetails?: ScpiManagementFeeDetails; // Separate euro/non-euro official tiers
   valeurRetrait?: number; // Valeur de retrait (€)
+  /** Documentation du prix de retrait de la période, distincte du prix de souscription. */
+  retraitSourceUrl?: string;
+  retraitSourcePage?: number;
+  retraitReferencePeriod?: string;
+  retraitDefinition?: string;
   valeurReconstitution?: number; // Valeur de reconstitution (€)
   valeurRealisation?: number; // Valeur de réalisation (€)
   /** Historique annuel : distinct des contrôles des indicateurs courants. */

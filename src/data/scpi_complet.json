@@ -3962,7 +3962,12 @@
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
       "La durée de détention recommandée ne constitue pas une garantie de revente ou de revenu."
     ],
-    "maximus_lifecycle_status": "normal"
+    "maximus_lifecycle_status": "normal",
+    "Valeur de retrait (€)": 189.2,
+    "maximus_prix_retrait_source_url": "https://epargne.corum.fr/docs/cgv-scpi-2023.pdf",
+    "maximus_prix_retrait_source_page": 3,
+    "maximus_prix_retrait_reference_period": "2026-T2",
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
   },
   {
     "Nom SCPI": "CORUM Origin",
@@ -4044,7 +4049,12 @@
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
       "La durée de détention recommandée ne constitue pas une garantie de revente ou de revenu."
     ],
-    "maximus_lifecycle_status": "normal"
+    "maximus_lifecycle_status": "normal",
+    "Valeur de retrait (€)": 999.21,
+    "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-Origin-FR2-Note-dinformation-2024.02.12.pdf",
+    "maximus_prix_retrait_source_page": 11,
+    "maximus_prix_retrait_reference_period": "2026-T2",
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
   },
   {
     "Nom SCPI": "CORUM USA",
@@ -4119,7 +4129,12 @@
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
       "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
     ],
-    "maximus_lifecycle_status": "normal"
+    "maximus_lifecycle_status": "normal",
+    "Valeur de retrait (€)": 176,
+    "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-USA-FR1-Note-information-20250124.pdf",
+    "maximus_prix_retrait_source_page": 13,
+    "maximus_prix_retrait_reference_period": "2026-T2",
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
   },
   {
     "Nom SCPI": "CORUM XL",
@@ -4210,6 +4225,11 @@
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
       "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
     ],
-    "maximus_lifecycle_status": "normal"
+    "maximus_lifecycle_status": "normal",
+    "Valeur de retrait (€)": 171.6,
+    "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-XL-FR8-Plan-epargne-immobilier-2022.07.pdf",
+    "maximus_prix_retrait_source_page": 2,
+    "maximus_prix_retrait_reference_period": "2026-T2",
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
   }
 ]

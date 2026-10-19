@@ -33,6 +33,10 @@ export function enrichScpiExtended(
     reconstitutionValue:
       matchingScpi.valeurReconstitution ?? scpiExtended.reconstitutionValue,
     valeurRetrait: matchingScpi.valeurRetrait ?? scpiExtended.valeurRetrait,
+    retraitSourceUrl: matchingScpi.retraitSourceUrl ?? scpiExtended.retraitSourceUrl,
+    retraitSourcePage: matchingScpi.retraitSourcePage ?? scpiExtended.retraitSourcePage,
+    retraitReferencePeriod: matchingScpi.retraitReferencePeriod ?? scpiExtended.retraitReferencePeriod,
+    retraitDefinition: matchingScpi.retraitDefinition ?? scpiExtended.retraitDefinition,
     valeurRealisation: matchingScpi.valeurRealisation ?? scpiExtended.valeurRealisation,
     historyStatus: matchingScpi.historyStatus ?? scpiExtended.historyStatus,
     historyYearsExpected: matchingScpi.historyYearsExpected ?? scpiExtended.historyYearsExpected,
