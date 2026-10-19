@@ -34,8 +34,8 @@ const AnalysesApp: React.FC = () => {
   return (
     <div className={isDarkMode ? 'dark' : ''}>
       <SEOHead
-        title="Analyses SCPI | MaximusSCPI Research"
-        description="MaximusSCPI Research : analyses SCPI, radar multi-critères, signaux d’alerte, liquidité, valorisation, dette et méthodologie des données."
+        title="Analyse SCPI 360° : Radar et Trajectoire | MaximusSCPI"
+        description="Analysez les SCPI au-delà du rendement : Historique, Radar, Trajectoire et Surveillance. Sources officielles, risques, valorisation et liquidité."
         keywords={[
           'analyse SCPI',
           'MaximusSCPI Research',
