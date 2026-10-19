@@ -10,7 +10,7 @@ Réutiliser l'unique chaîne CORUM : identité du fonds → clôtures officielle
 |---|---|---:|---:|---|
 | 1 | Iroko Atlas | 1 (2025) | **1** | Périmètre officiellement corrigé. Complétude des trois séries seulement |
 | 2 | Remake UK 2025 | 1 (2025) | 1 | Contrôler les dates effectives 31/12 des valorisations ; premier millésime à capital fixe ; lancement 2025 provisoire |
-| 3 | Transitions Europe | 3 (2023–2025) | 2 | Constitué 2022, **deux exercices distincts clos 31/03/2023 et 31/12/2023** : le modèle une ligne / année ne décrit pas les deux clôtures |
+| 3 | Transitions Europe | 3 (2023–2025) | 2 | **BLOCKED_MULTIPLE_FISCAL_CLOSINGS** : constitué 2022, deux exercices distincts clos 31/03/2023 et 31/12/2023 ; le modèle une ligne / année ne décrit pas les deux clôtures |
 | 4 | Comète | 3 (2023–2025) | 0 | 3 rapports, métriques partielles ; année de lancement à certifier |
 | 5 | Cœur d'Europe | 5 (2021–2025) | 1 | 5 rapports, absence distribution annuelle sur certains exercices |
 | 6 | Épargne Pierre Europe | 4 (2022–2025) | 0 | 4 rapports, recoupement distribution brute / valeurs par part |
@@ -25,7 +25,7 @@ Attention : les **41 lignes civiles ne sont pas équivalentes à 41 exercices so
 ## Corrections déjà opérées dans Supabase
 
 - **Iroko Atlas :** l'année de lancement 2024 enregistrée à tort devient **2025** (source officielle Iroko, lancement le 16 septembre 2025). Premier exercice 2025, 1/1 année complète et `CORE_HISTORY_VERIFIED` sur les trois séries. Aucun exercice 2024 artificiel.
-- **Transitions Europe :** création juridique le 16/11/2022, premier exercice social clos le 31/03/2023 (16/11/2022–31/03/2023), second exercice du 01/04/2023 au 31/12/2023. `first_fiscal_year=2023`, trois années civiles attendues, 2/3 documentées avec trois séries. **La certification complète reste bloquée** tant que les deux clôtures 2023 ne sont pas représentées correctement.
+- **Transitions Europe :** création juridique le 16/11/2022, premier exercice social clos le 31/03/2023 (16/11/2022–31/03/2023), second exercice du 01/04/2023 au 31/12/2023. `first_fiscal_year=2023`, trois années civiles attendues, 2/3 documentées avec trois séries. **Blocage technique effectivement installé en base** : `history_periodization_status=multiple_closings_unmodeled`, `historical_status=BLOCKED_MULTIPLE_FISCAL_CLOSINGS`, `core_historical_ready=false` même si les trois séries 2023 venaient à être remplies ; voir `supabase/migrations/20261019_guard_multiple_fiscal_closings.sql`.
 - SQL transactionnel et contrôles après correction : `scripts/scpi-history/batch10-correct-start-years-20261019.sql`.
 - Iroko Atlas `Année de création` synchronisée à 2025 dans `src/data/scpi_complet.json`. Une PR et un build de production ultérieurs sont requis pour que le public voie cette correction.
 
