@@ -20,10 +20,10 @@ const AnalysesPage: React.FC = () => {
                 MaximusSCPI Research
               </div>
               <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-                Analyses SCPI : signaux actuels et trajectoires historiques des SCPI
+                Analyse SCPI : Historique, Radar, Trajectoire et Surveillance
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-400 sm:text-base">
-                Une lecture opérationnelle des fondamentaux : occupation, liquidité, valorisation, dette et évolution dans le temps. Les données insuffisamment fiables restent neutralisées.
+                Quatre lectures complémentaires pour comparer les SCPI au-delà du rendement : données historiques sourcées, Radar multicritère sur les fiches, trajectoires documentées et signaux de surveillance. Les données non fiables restent neutralisées.
               </p>
             </div>
 
@@ -44,6 +44,22 @@ const AnalysesPage: React.FC = () => {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section aria-label="Les quatre analyses MaximusSCPI" className="border-b border-slate-800 bg-slate-950">
+        <div className="mx-auto grid max-w-[1500px] gap-3 px-4 py-5 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
+          {[
+            ['Historique', 'Comparer des indicateurs datés sans mélanger TD et ancien TDVM.'],
+            ['Radar', 'Lire plusieurs dimensions de risque sur chaque fiche SCPI, sans notation réglementaire.'],
+            ['Trajectoire', 'Observer les évolutions vérifiables sans prédire les rendements futurs.'],
+            ['Surveillance', 'Identifier les changements de liquidité, TOF, valorisation et dette.'],
+          ].map(([name,detail]) => (
+            <div key={name} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
+              <h2 className="text-sm font-bold text-white">{name}</h2>
+              <p className="mt-1 text-xs leading-5 text-slate-400">{detail}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -79,6 +95,23 @@ const AnalysesPage: React.FC = () => {
       <div id="analyses-scpi">
         {activeView === 'signals' ? <AnalysesLiveFeed /> : <TrajectorySurveillanceTable />}
       </div>
+
+      <section id="analyses-methodologie-360" className="border-t border-slate-800 bg-slate-950">
+        <div className="mx-auto max-w-[1500px] px-4 py-9 sm:px-6 lg:px-8">
+          <h2 className="text-xl font-bold text-white">Quelle analyse mener avant de comparer deux SCPI ?</h2>
+          <p className="mt-3 max-w-5xl text-sm leading-7 text-slate-300">
+            Deux SCPI présentant une distribution similaire peuvent avoir des niveaux de valorisation, d'endettement et de liquidité très différents. Vérifiez d'abord la période et la définition de chaque indicateur, puis rapprochez le prix de souscription de la valeur de reconstitution et l'occupation des caractéristiques des baux.
+          </p>
+          <p className="mt-3 max-w-5xl text-sm leading-7 text-slate-300">
+            Le Radar propose une synthèse propriétaire multicritère sur les fiches, la Trajectoire éclaire les variations documentées et la Surveillance aide à repérer les changements. Aucun signal isolé ne vaut conseil personnalisé. L'absence d'alerte ne garantit pas l'absence de risque ; un chiffre non publié ne doit pas être traité comme zéro.
+          </p>
+          <nav aria-label="Parcours d'analyse SCPI" className="mt-4 flex flex-wrap gap-4 text-sm">
+            <a href="/comparateur-scpi/" className="font-semibold text-emerald-300 hover:underline">Comparer les SCPI</a>
+            <a href="/surveillance/" className="font-semibold text-emerald-300 hover:underline">Examiner la Surveillance</a>
+            <a href="/methodologie-donnees-scpi/" className="font-semibold text-emerald-300 hover:underline">Consulter sources et méthodologie</a>
+          </nav>
+        </div>
+      </section>
 
       <section className="border-t border-slate-800 bg-slate-950">
         <div className="mx-auto grid max-w-[1500px] gap-3 px-4 py-6 sm:px-6 md:grid-cols-3 lg:px-8">
