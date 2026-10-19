@@ -53,11 +53,24 @@ test('Crash: full live comparator mapping + modal analysis uses actual productio
   }
 });
 
-test('Crash: missing tenant / lease indicators remain missing rather than invented',()=>{
+test('Crash: source-documented CORUM lease commitment is visible as a WALB proxy, never as an invented WALT',()=>{
+ const publishedLeaseCommitment: Record<string, number> = {
+   'CORUM Eurion': 6.36,
+   'CORUM Origin': 6.05,
+   'CORUM USA': 8.88,
+   'CORUM XL': 7.45,
+ };
  for(const item of verified){
   const src=scpiData.find(s=>s.name===item.name)!;
-  for(const key of ['nombreLocataires','walt','walb','collecteNetteTrimestre','nbCessionsTrimestre'] as const){
-    assert.equal(src[key],undefined,item.name+' '+key+' should not be estimated');
+  const row=catalog.find(r=>r['Nom SCPI']===item.name)!;
+  assert.equal(src.walb,publishedLeaseCommitment[item.name],item.name+' published lease proxy');
+  assert.equal(row.WALB,publishedLeaseCommitment[item.name],item.name+' source catalog parity');
+  assert.equal(src.walbReferenceDate,'2026-06-30',item.name+' lease source period');
+  assert.match(src.walbSourceUrl || '',/^https:\/\/www\.corum\.fr\//,item.name+' issuer PDF source');
+  assert.match(src.walbDefinition || '',/proxy WALB|pondération non communiquée/,item.name+' methodology caveat');
+  assert.equal(src.walt,undefined,item.name+' WALT must not be invented');
+  for(const key of ['nombreLocataires','collecteNetteTrimestre','nbCessionsTrimestre'] as const){
+    assert.equal(src[key],undefined,item.name+' undocumented field must remain missing');
   }
  }
 });
