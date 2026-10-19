@@ -314,6 +314,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             </p>
         )}
 
+        <ScpiLeaseDurations scpiSlug={scpiSlug} className="mb-4" />
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6">
           <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
             {metricTabs.map((tab) => (
@@ -343,7 +344,6 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
           )}
           <div className="h-[300px] w-full sm:h-[360px]">{renderChart()}</div>
         </div>
-        <ScpiLeaseDurations scpiSlug={scpiSlug} className="mb-4" />
         <ScpiAnnualHistorySection scpiSlug={scpiSlug} />
 
         <div className="mt-6 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
