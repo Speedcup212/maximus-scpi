@@ -1003,15 +1003,25 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     )}
                   </div>
                   {scpi.valeurRetrait !== undefined && (
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
+                    <div data-testid="scpi-withdrawal-value" className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <Tag className="w-4 h-4 text-slate-400" />
-                        <div className="text-xs text-slate-400">Val. Retrait</div>
+                        <div className="text-xs text-slate-400">Valeur de retrait (€/part)</div>
                       </div>
-                      {scpi.valeurRetrait !== undefined ? (
-                        <div className="text-lg font-bold text-white">{scpi.valeurRetrait.toFixed(2)}€</div>
-                      ) : (
-                        <div className="text-lg font-bold text-slate-500">N/A</div>
+                      <div className="text-lg font-bold text-white">{scpi.valeurRetrait.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €</div>
+                      {scpi.retraitReferencePeriod && (
+                        <div className="mt-1 text-[10px] text-slate-400">Conditions en vigueur · {scpi.retraitReferencePeriod}</div>
+                      )}
+                      {scpi.retraitSourceUrl && (
+                        <a href={scpi.retraitSourceUrl} target="_blank" rel="noopener noreferrer"
+                          className="mt-1 block text-[10px] text-sky-300 underline underline-offset-2">
+                          Document officiel{scpi.retraitSourcePage ? ` · p. ${scpi.retraitSourcePage}` : ''}
+                        </a>
+                      )}
+                      {scpi.retraitDefinition && (
+                        <p className="mt-2 text-[10px] leading-4 text-slate-400">
+                          Prix de retrait par compensation, sans garantie de liquidité ni de délai.
+                        </p>
                       )}
                     </div>
                   )}
