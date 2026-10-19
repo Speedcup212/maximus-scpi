@@ -93,6 +93,22 @@ for (const article of templates) {
     continue;
   }
 
+  // Le Markdown accessible aux agents doit provenir du même rendu React.
+  // Il ne peut pas conserver un titre Supabase historique divergent.
+  const markdownPath = path.join(distArticlesDir, article.slug, 'index.md');
+  if (!fs.existsSync(markdownPath)) {
+    failures.push(`${article.slug}: version Markdown absente`);
+  } else {
+    const markdown = fs.readFileSync(markdownPath, 'utf8');
+    const expectedStart = `# ${article.title}\n\n${article.metaDescription}\n\n`;
+    if (!markdown.startsWith(expectedStart)) {
+      failures.push(`${article.slug}: Markdown non aligné avec la source éditoriale React`);
+    }
+    if (markdown.length < 2200) {
+      failures.push(`${article.slug}: Markdown trop court pour restituer l'article React`);
+    }
+  }
+
   const html = fs.readFileSync(filePath, 'utf-8');
   let root;
   try {
