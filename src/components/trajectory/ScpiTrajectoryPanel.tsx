@@ -13,6 +13,7 @@ import { Activity, Database, LineChart as LineChartIcon } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { getVerifiedAnnualRows } from './scpiAnnualHistoryData';
 import { ScpiAnnualHistorySection } from './ScpiAnnualHistorySection';
+import { ScpiLeaseDurations } from './ScpiLeaseDurations';
 import {
   CERTIFIED_HISTORY_SELECT,
   CertifiedLiquiditySnapshot,
@@ -153,6 +154,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
   if (history.length < 2) {
     return annualRows.length ? (
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ScpiLeaseDurations scpiSlug={scpiSlug} className="mb-4" />
         <ScpiAnnualHistorySection scpiSlug={scpiSlug} />
       </div>
     ) : null;
@@ -312,6 +314,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             </p>
         )}
 
+        <ScpiLeaseDurations scpiSlug={scpiSlug} className="mb-4" />
         <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6">
           <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
             {metricTabs.map((tab) => (
