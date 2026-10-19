@@ -58,6 +58,39 @@ for (const url of urls) {
   }
 }
 
+// Préserver les fiches SCPI existantes : chaque fiche du lot certifié doit
+// exposer des faits HTML, les sources et les chemins vers les outils existants.
+// On n'essaie pas de recalculer ici Radar, Trajectoire ou Surveillance.
+{
+  const cohortPath = path.join(__dirname, '../src/data/certified_scpi_cohort.json');
+  if (!fs.existsSync(cohortPath)) {
+    failures.push('SCPI → cohorte certifiée introuvable');
+  } else {
+    const cohort = JSON.parse(fs.readFileSync(cohortPath, 'utf8'));
+    for (const slug of cohort.slugs || []) {
+      const file = path.join(distDir, slug, 'index.html');
+      if (!fs.existsSync(file)) {
+        failures.push(`/${slug}/ → HTML certifié absent`);
+        continue;
+      }
+      const html = fs.readFileSync(file, 'utf8');
+      if (!html.includes('id="scpi-static-dashboard"')) {
+        failures.push(`/${slug}/ → indicateurs certifiés absents du HTML initial`);
+      }
+      for (const route of [
+        '/methodologie-donnees-scpi/',
+        '/analyses/',
+        '/surveillance/',
+        '/comparateur-scpi/',
+      ]) {
+        if (!html.includes(`href="${route}"`)) {
+          failures.push(`/${slug}/ → maillage vers ${route} absent du HTML initial`);
+        }
+      }
+    }
+  }
+}
+
 // Contrat SEO des pages prioritaires Windsor.ai : contrôler le HTML final
 // après tous les post-traitements, et pas uniquement les scripts générateurs.
 {
