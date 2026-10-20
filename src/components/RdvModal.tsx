@@ -240,14 +240,8 @@ const RdvModal: React.FC<RdvModalProps> = ({
 
       if (!result.ok) throw new Error(result.error || 'Erreur insertion');
 
-      // Only a server-confirmed lead counts as a lead; merely opening the form does not.
-      // Identifying data and the internal lead request ID are intentionally excluded.
-      trackFunnelEvent('lead_form_submitted', {
-        form_type: isPortfolioFlow
-          ? 'portfolio_validation'
-          : isSimulatorLanding ? 'lead_simulation' : 'lead_rdv',
-        action,
-      });
+      // submitLead() has already emitted exactly one lead_form_submitted event
+      // after persistence (or a confirmed fallback). Never fire it twice here.
 
       if (action === 'calendly') {
         setStatus('Coordonnées enregistrées. Choisissez maintenant votre créneau.');
