@@ -83,7 +83,12 @@ export const trackFunnelEvent = (
   // GTM / GA4 can consume the exact same event names.
   const dataLayer = (window as Window & { dataLayer?: unknown[] }).dataLayer;
   if (Array.isArray(dataLayer)) {
-    dataLayer.push({ event: eventName, ...safeMetadata });
+    // The request UUID belongs exclusively in our first-party audit log.
+    // Third-party GTM tags must never receive a contact-submission identifier.
+    const publicMetadata = Object.fromEntries(
+      Object.entries(safeMetadata).filter(([key]) => key !== 'lead_request_id'),
+    );
+    dataLayer.push({ event: eventName, ...publicMetadata });
   }
 
   // GA4 receives a confirmed business milestone, not an unvalidated CTA click.
