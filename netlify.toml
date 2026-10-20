@@ -27,6 +27,13 @@
   status = 301
   force = true
 
+# ── Funnel analytics: existing Supabase table via validated function ──
+[[redirects]]
+  from = "/api/funnel-event"
+  to = "/.netlify/functions/funnel-event"
+  status = 200
+  force = true
+
 # ── SPA fallback ──
 [[redirects]]
   from = "/*"
