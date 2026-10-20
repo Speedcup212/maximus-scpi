@@ -163,7 +163,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
     if (filters.expertMode) {
       // Une décote non certifiée ne constitue pas un motif automatique d'exclusion.
-      if (scpi.reconstitutionValue && scpi.discountQaStatus === 'publishable') {
+      const discountFilterChanged = filters.discountRange[0] !== -15 || filters.discountRange[1] !== 10;
+      if (discountFilterChanged && scpi.reconstitutionValue && scpi.discountQaStatus === 'publishable') {
         const discount = calculateScpiDiscountPremium(scpi.price, scpi.reconstitutionValue);
         if (discount == null || discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
           reasons.push(`Décote/surcote hors de ${filters.discountRange[0]} à +${filters.discountRange[1]} %`);
