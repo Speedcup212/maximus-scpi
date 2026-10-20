@@ -49,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Marketing conversion tracking deduplication, consent and GA4 privacy
+        run: node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs
+
       - name: 211 SCPI single-queue delivery gate and privacy regression
         run: node --test scripts/scpi-candidates/delivery211Queue.test.mjs
 
