@@ -173,6 +173,9 @@ jobs:
       - name: SCPI fiscal simulator regression tests
         run: npx vitest run src/tests/simpleDirectFiscal.test.ts
 
+      - name: Comparator 65 SCPI cohort and four CORUM regression
+        run: npx vitest run src/tests/comparatorCatalogCount.test.ts
+
       - name: Production build
         run: npm run build
 
