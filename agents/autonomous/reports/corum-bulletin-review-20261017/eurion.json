@@ -1,0 +1,221 @@
+{
+  "reviewer": "/root/corum_full_bulletin_review17/review_eurion",
+  "reviewer_type": "independent_AI_source_reader",
+  "human_signature": false,
+  "scpi_slug": "corum-eurion",
+  "review_method": "Official PDFs downloaded curl, exact SHA256 verification; native pdftotext -layout all 15 pages read; visual rendered T2 pages 3,4,7 checked. No OCR performed.",
+  "previous_access_block_resolved": true,
+  "documents": [
+    {
+      "period": "2026-T1",
+      "url": "https://www.corum.fr/sites/default/files/2026-04/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T1%20%28Alias%29.pdf",
+      "sha256": "fcc3e7a0c48812fe5274474d2dab0727d863b780113a665e910b1e3626e0e68e",
+      "page_count": 7,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "pdf_path": "/tmp/eurion-review17/T1.pdf",
+      "text_path": "/tmp/eurion-review17/T1.txt",
+      "page_findings": [
+        {
+          "page": 1,
+          "finding": "N25 publié23/04/2026, premier trimestre données31/03/2026 valide01/04-30/06."
+        },
+        {
+          "page": 2,
+          "finding": "Identité Eurion et risques: immobilier long terme, liquidité limitée, horizon 10 ans, perte en capital, revenus et rachat non garantis; performance passée non prédictive. TRI depuis création 6,49 %, rendement/taux de distribution 2025 5,73 %, performance globale annuelle 2025 5,73 % distincts du dividende trimestriel. Série 2020-2025 et objectif annuel 4,5 % non garanti: ne pas annualiser les dividendes T1/T2 ni réattribuer rendement 2025 à 2026. Dividende T1 2,88 EUR; loyers T1 24M EUR."
+        },
+        {
+          "page": 3,
+          "finding": "Dividendes nets en trois acomptes mensuels, retenues étrangères séparées du brut; objectif annuel 9,68 EUR brut non garanti. Prix 215 EUR depuis 01/07/2022; retrait/revente 189,20 EUR. Frais collecte 23,22 et recherche/investissement 2,58 EUR = commission 25,80 EUR; frais acquisition immeubles 29,20 EUR distincts. Valeurs référence 177,10 réalisation /222,12 reconstitution /189,20 IFI explicitement datées 31/12/2025, PAS 30/06/2026. Définition capitalisation, nominal, reconstitution, IFI et fiscalité étrangère expliquées. T1 brut2,88=net2,45+impôt0,43; acomptes0,91/0,79/0,75; 41173 associés,7007362 parts,0 attente,capitalisation1,507Md nominal1,121Md."
+        },
+        {
+          "page": 4,
+          "finding": "TOF inclut franchises: ne pas confondre TOF et occupation physique. Europe et huit pays explicitement nommés, dont France20% T1 et19% T2, Italie14% T1/T2; aucune transposition géographie depuis simple ordre extrait. Aucun immeuble vendu au trimestre. T1 52immeubles120locataires,518271m² dont19291vacants;6,27ans baux;TOF99,92%,franchise3,86%,vacance physique3,72%. Répartition typologique73/11/8/6/2 et géographique23/20/20/14/9/7/6/1."
+        },
+        {
+          "page": 5,
+          "finding": "Acquisition Lille bureau BPCE14/01/2026,23,5M EUR,7,3% rendement acquisition,7,1ans,16500m². Ce rendement immeuble exclut frais SCPI et ne préjuge pas performance annuelle."
+        },
+        {
+          "page": 6,
+          "finding": "Frais souscription12%TTC prix part; cession/transfert parts0EUR et retrait anticipé0%; gestion12,40%HT loyers encaissés zone euro; pilotage travaux0%,acquisition0%; cession immeubles5%TTI prix net vendeur si plus-value supérieure5%prix vente; pasbrokerage. Dividendes mensuels non garantis nets frais; frais gestion non prélevés directement sur capital. Horizon8-10ans amortissement frais ne remplace pas recommandation10ans risques."
+        },
+        {
+          "page": 7,
+          "finding": "Jouissance premier jour du6e mois après souscription et règlement intégral. Capital variable, remboursement conditionné souscriptions équivalentes/supérieures en absence fonds remboursement; registre chronologique, notification courrier et certificats, annulation parts;189,20EUR. Gréàgré libre acquéreur à trouver, pasagrément, droits enregistrement acquéreur malgré frais gestionnaire0. Fiscalité source: plus-values françaises19%+17,2%,abattements22/30ans et surtaxe2-6%;revenus financiersPFU30% et dispense selon RFR;étranger crédit/taux effectif, fiscalité situation individuelle susceptiblemodifier. Crédit: intérêts/capital dus même rendement insuffisant/perte. Identité RCS880811567 immatriculation21/01/2020,AMF20-04,gestionnaireGP11000012. Aucun taux dette fonds, SFDR, ISR explicitement fourni."
+        }
+      ]
+    },
+    {
+      "period": "2026-T2",
+      "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+      "sha256": "e4ca37f3accb67dbc8090284e4c64f2bafc3f199d742884ebb266749fe60c627",
+      "page_count": 8,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "pdf_path": "/tmp/eurion-review17/T2.pdf",
+      "text_path": "/tmp/eurion-review17/T2.txt",
+      "page_findings": [
+        {
+          "page": 1,
+          "finding": "N26 couverture publié16/07/2026, deuxième trimestre données30/06/2026 valide01/07-30/09. Footer dernière page indique15/07/2026; incohérence éditoriale source consignée."
+        },
+        {
+          "page": 2,
+          "finding": "Identité Eurion et risques: immobilier long terme, liquidité limitée, horizon 10 ans, perte en capital, revenus et rachat non garantis; performance passée non prédictive. TRI depuis création 6,49 %, rendement/taux de distribution 2025 5,73 %, performance globale annuelle 2025 5,73 % distincts du dividende trimestriel. Série 2020-2025 et objectif annuel 4,5 % non garanti: ne pas annualiser les dividendes T1/T2 ni réattribuer rendement 2025 à 2026. Dividende T2 2,75 EUR; loyers T2 23M EUR."
+        },
+        {
+          "page": 3,
+          "finding": "Dividendes nets en trois acomptes mensuels, retenues étrangères séparées du brut; objectif annuel 9,68 EUR brut non garanti. Prix 215 EUR depuis 01/07/2022; retrait/revente 189,20 EUR. Frais collecte 23,22 et recherche/investissement 2,58 EUR = commission 25,80 EUR; frais acquisition immeubles 29,20 EUR distincts. Valeurs référence 177,10 réalisation /222,12 reconstitution /189,20 IFI explicitement datées 31/12/2025, PAS 30/06/2026. Définition capitalisation, nominal, reconstitution, IFI et fiscalité étrangère expliquées. T2 brut2,75=net2,31+impôt0,44; acomptes0,76/0,78/0,77;42702 associés,7135382 parts,0 attente,capitalisation1,534Md nominal1,142Md."
+        },
+        {
+          "page": 4,
+          "finding": "TOF inclut franchises: ne pas confondre TOF et occupation physique. Europe et huit pays explicitement nommés, dont France20% T1 et19% T2, Italie14% T1/T2; aucune transposition géographie depuis simple ordre extrait. Aucun immeuble vendu au trimestre. T2 54immeubles129locataires,541793m² dont18992vacants;6,36ans baux;TOF99,92%,franchise3,20%,vacance physique affichée3,58%. Répartition typologique73/11/8/7/1 et géographique27/19/19/14/8/6/6/1."
+        },
+        {
+          "page": 5,
+          "finding": "Apeldoorn commerce28/05/2026,26,1M EUR,7,7% rendement acquisition,4,6ans,12753m²; LaHaye bureau12/06/2026,51,8M EUR,7,5ans,15327m², rendement CONFIDENTIEL donc NULL. Avertissement rendement immobilier hors frais SCPI et non prédictif."
+        },
+        {
+          "page": 6,
+          "finding": "Gestion locative Hengelo acquis décembre2024, bail renouvelé mai2026 Prénatal10ans sans départ anticipé,1540m² occupation100% de cet immeuble seulement; opération ne préjuge pas performance future."
+        },
+        {
+          "page": 7,
+          "finding": "Frais souscription12%TTC prix part; cession/transfert parts0EUR et retrait anticipé0%; gestion12,40%HT loyers encaissés zone euro; pilotage travaux0%,acquisition0%; cession immeubles5%TTI prix net vendeur si plus-value supérieure5%prix vente; pasbrokerage. Dividendes mensuels non garantis nets frais; frais gestion non prélevés directement sur capital. Horizon8-10ans amortissement frais ne remplace pas recommandation10ans risques."
+        },
+        {
+          "page": 8,
+          "finding": "Jouissance premier jour du6e mois après souscription et règlement intégral. Capital variable, remboursement conditionné souscriptions équivalentes/supérieures en absence fonds remboursement; registre chronologique, notification courrier et certificats, annulation parts;189,20EUR. Gréàgré libre acquéreur à trouver, pasagrément, droits enregistrement acquéreur malgré frais gestionnaire0. Fiscalité source: plus-values françaises19%+17,2%,abattements22/30ans et surtaxe2-6%;revenus financiersPFU30% et dispense selon RFR;étranger crédit/taux effectif, fiscalité situation individuelle susceptiblemodifier. Crédit: intérêts/capital dus même rendement insuffisant/perte. Identité RCS880811567 immatriculation21/01/2020,AMF20-04,gestionnaireGP11000012. Aucun taux dette fonds, SFDR, ISR explicitement fourni."
+        }
+      ]
+    }
+  ],
+  "source_review_complete": true,
+  "strong_source_qa_recommendation": "PASS_WITH_DOCUMENTED_SOURCE_CAVEATS",
+  "publishing_fields": {
+    "creation_year": {
+      "value": 2020,
+      "sources": [
+        "T1p2",
+        "T1p7",
+        "T2p2",
+        "T2p8"
+      ]
+    },
+    "liquidity_basis": {
+      "value": "withdrawal_queue",
+      "sources": [
+        "T1p3",
+        "T1p7",
+        "T2p3",
+        "T2p8"
+      ]
+    },
+    "withdrawal_terms": {
+      "value": "Capital variable; rachat non garanti; en absence de fonds de remboursement, compensation par souscriptions au moins équivalentes; registre chronologique; prix de retrait189,20EUR depuis01/07/2022.",
+      "sources": [
+        "T1p7",
+        "T2p8"
+      ]
+    },
+    "sfdr": null,
+    "label_isr": null,
+    "payment_frequency": {
+      "value": "monthly",
+      "sources": [
+        "T1p3",
+        "T1p6",
+        "T2p3",
+        "T2p7"
+      ]
+    },
+    "risk_warnings": {
+      "value": [
+        "capital_loss",
+        "limited_liquidity",
+        "income_not_guaranteed",
+        "redemption_not_guaranteed",
+        "past_performance_not_predictive",
+        "borrowing_repayment_risk"
+      ],
+      "sources": [
+        "T1p2",
+        "T1p7",
+        "T2p2",
+        "T2p8"
+      ]
+    },
+    "management_fees": {
+      "value": 12.4,
+      "unit": "percent_HT_of_rents_collected_eurozone",
+      "sources": [
+        "T1p6",
+        "T2p7"
+      ]
+    },
+    "fund_debt_ratio": null,
+    "currency": {
+      "value": "EUR amounts and eurozone fees disclosed; no exhaustive currency-hedging claim",
+      "sources": [
+        "T1p3",
+        "T1p6",
+        "T2p3",
+        "T2p7"
+      ]
+    }
+  },
+  "database_mutations": 0,
+  "source_caveats": [
+    {
+      "period": "2026-T2",
+      "pages": [
+        1,
+        8
+      ],
+      "issue": "publication date source16/07 cover versus15/07 footer; period identity unaffected; retain both, do not invent canonicaldate."
+    },
+    {
+      "period": "2026-T2",
+      "pages": [
+        4
+      ],
+      "issue": "Source physical vacancy3,58% does not equal18992/541793=3,5054%; preserve source and distinguish calculation. Not one of six engine metrics; do not silently recalculate source."
+    },
+    {
+      "period": "2026-T1/T2",
+      "pages": [
+        3
+      ],
+      "issue": "Valuations177.10/222.12/189.20 explicitly31/12/2025 in both bulletins. Any distinct30/06reconstitution must retain separate alreadyverified source."
+    },
+    {
+      "period": "2026-T1/T2",
+      "pages": [
+        7,
+        8
+      ],
+      "issue": "Debt ratio not disclosed; keepNULL, not0. Fiscality wording is bulletin evidence, not independent legal currency certification."
+    }
+  ],
+  "scope_limitations": [
+    "Source review complete for both bulletins, not approval of final fund audit, DIC, investor suitability, public interface, or Netlify release.",
+    "No fabricated human reviewer.",
+    "Publication date and physical-vacancy caveats must be retained; strong source QA limited to faithful evidenced extraction."
+  ]
+}

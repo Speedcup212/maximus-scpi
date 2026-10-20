@@ -1,0 +1,203 @@
+{
+  "scpi_slug": "corum-xl",
+  "reviewer": "AI agent /root/corum_full_bulletin_review17/review_xl",
+  "reviewer_type": "independent_ai_source_review_not_human_signature",
+  "reviewed_at_utc": "2026-10-17T05:01:32.870124+00:00",
+  "scope": "Complete read-only financial/regulatory bulletin source review. No claim/write/approval/status mutation. Existing 48 metrics not re-audited as database parity.",
+  "method": "Official publisher PDFs downloaded via curl; SHA-256 equals registered PDF. T1 full native text all eight pages read; T2 existing OCR all 11 rows read then every one of twelve original PDF pages rendered and visually read, including photo-only pages 5 and 9; no OCR rerun.",
+  "source_review_complete": true,
+  "strong_source_qa_supported": true,
+  "final_release_approved": false,
+  "human_cif_signature": null,
+  "documents": [
+    {
+      "period": "2026-T1",
+      "url": "https://www.corum.fr/sites/default/files/2026-04/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T1%20%28Alias%29.pdf",
+      "sha256": "5ff8c827cfd1f1e25a5d8c3bf8a4ddbf4e00eeeecbe5a5cff3d8676b40128037",
+      "local_pdf": "/tmp/review-xl-t1.pdf",
+      "page_count": 8,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "source_date": "2026-03-31",
+      "published": "2026-04-23",
+      "page_findings": [
+        {
+          "page": 1,
+          "finding": "CORUM XL N35, first quarter 2026, data 31 March; valid 1 April-30 June; published 23 April 2026."
+        },
+        {
+          "page": 2,
+          "finding": "Limited liquidity, ten-year horizon, capital-loss/non-guaranteed performance/income/redemption and FX warnings. Q1 gross dividend EUR2.47 and rents EUR41m; 5.77% since-inception IRR; 5.30% distribution/performance refers to 2025, not annualized Q1. Historical bar chart distinguishes distribution and share revaluation. 5% annual objective non-guaranteed. Distribution denominator Jan1 subscription price; IRR and global annual performance definitions stated."
+        },
+        {
+          "page": 3,
+          "finding": "Q1 gross EUR2.47 = net1.91 + foreign tax0.56; monthly net instalments0.63 Feb10,0.64 Mar10,0.64 Apr10. Next payment May11. EUR9.75 annual forecast based on non-guaranteed5% objective. 53886 associates;940 newcomers;139262 new shares;63469 compensated withdrawals;2839 bilateral transfers;0 pending withdrawal shares. 11046757 shares;capitalisation2.154bn, nominal1.657bn. Subscription195 since June2022;nominal150;premium45;subscription fees21.06+2.34;acquisition-related21.60. Withdrawal171.60. Realisation153.86/reconstitution189.37/IFI171.60 explicitly dated31Dec2025. Foreign tax credited/effective-rate treatment described; not net French-tax-free income. Metric definitions include liabilities deducted from realisation."
+        },
+        {
+          "page": 4,
+          "finding": "91 buildings,233 tenants,WALT7.34years,746515sqm,61668 vacant. Typologies58/17/13/5/4/2/1 offices/retail/hotels/logistics/health/education/parking. Countries UK54,Poland20,Netherlands9,Ireland4,Spain4,Italy3,Norway2,Belgium1,Canada1,Portugal1,Germany1 percent. TOF94.83%,rent-free3.6%,unlet financial5.17%;physical vacancy8.3%,49 units listed. No Q1 sales; financial and physical vacancy denominators differ."
+        },
+        {
+          "page": 5,
+          "finding": "Acquisitions Tuscany health21Jan2026 EUR3.8m,8.9%,17y,1985sqm;Canterbury offices6Feb2026 EUR15.5m,7.3%,5.2y,6573sqm. Acquisition yields exclude SCPI fees and do not predict annual fund performance."
+        },
+        {
+          "page": 6,
+          "finding": "FX investment mechanism described with adverse/favourable GBP effects on dividends and property values, independent twice-yearly valuations; no hedging/guarantee assumed. GBP1=EUR1.15 at31Mar2026 and mean UK acquisition, versus1.21 at31Dec2024. Numerical yield examples illustrative only."
+        },
+        {
+          "page": 7,
+          "finding": "Subscription12%TTC. No SCPI transfer/early-withdrawal/acquisition/work-monitoring/brokerage fees. Management12.40%HT eurozone rents and15.90%HT outside eurozone rents. Asset-sale fee5%TTI net selling price only if gain exceeds5% of selling price. Dividends/objectives net fund fees, not net personal tax; suggested8-10year fee amortisation."
+        },
+        {
+          "page": 8,
+          "finding": "Jouissance first day sixth month after full payment. Capital variable,withdrawal contingent equivalent subscriptions absent reimbursement fund,chronological queue;withdrawal171.60. Bilateral sale buyer located by investor;registration tax may apply despite zero manager transfer fee. Ten-year horizon,capital and FX risk,no guaranteed redemption. Tax wording dated rates1Jan2023:French real estate gains19+17.2=36.2%,abatements22/30years,surtax2-6% above50k;financial incomePFU30%,advance/exemption conditions,foreign income treaty credit/effective-rate,nonresident individual treatment. Loan repayment risk explicit,SCPI income cannot be sole loan resource. AMF/entity identification and annual reporting documents referenced. No quantified fund leverage/debt ratio disclosed in bulletin."
+        }
+      ]
+    },
+    {
+      "period": "2026-T2",
+      "url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+      "sha256": "fbac6a2efac56bc75bd90f4548656a7bdff86ab22f6d81e0a3c715e21cd819cd",
+      "local_pdf": "/tmp/review-xl-t2.pdf",
+      "page_count": 12,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "source_date": "2026-06-30",
+      "published_cover": "2026-07-16",
+      "published_legal_footer": "2026-07-15",
+      "page_findings": [
+        {
+          "page": 1,
+          "finding": "CORUM XL N36 second quarter2026,data30June,valid1July-30September. Cover publication16July2026."
+        },
+        {
+          "page": 2,
+          "finding": "Same limited liquidity,10year horizon,capital/income/FX/redemption warnings. Q2 gross2.56/share,rents37m;IRR5.77%since creation,2025distribution5.30% and global annual5.30%;non-guaranteed5%objective and historic chart not quarterly yield."
+        },
+        {
+          "page": 3,
+          "finding": "Gross2.56=net1.96+foreign tax0.60;monthly instalments0.66May11,0.64Jun10,0.66Jul10;nextAug10. Annual forecast9.75/non-guaranteed5%.54340 associates,454new;176279new shares,105472compensatedwithdrawals,1298bilateral,0pending.11117521shares,capitalisation2.168bn,nominal1.668bn.195subscription,171.60withdrawal;153.86realisation/189.37reconstitution/171.60IFI are dated31Dec2025, not June2026. Fee breakdown and metric/taxdefinitions asT1."
+        },
+        {
+          "page": 4,
+          "finding": "96buildings,239tenants,WALT7.45years,773761sqm,65235vacant. Typologies55/18/14/6/4/2/1. CountriesUK54,Poland21,Netherlands9,Ireland4,Spain3,Italy3,Norway2,Belgium1,Canada1,Portugal1,Germany1%. TOF95.60% includes5.2%rent-free;4.4%financialunlet;8.4%physical vacancy53units detailed. No Q2sales."
+        },
+        {
+          "page": 5,
+          "finding": "Entire original page rendered: photograph and bulletin footer only; no financial/regulatory text. Missing OCR row is not missing financial content."
+        },
+        {
+          "page": 6,
+          "finding": "Gdansk hotel/casino10Apr2026 EUR15.6m7.3%14y3826sqm;WilczaGora logistics30Apr2026 EUR30.2m6.8%14.2y18334sqm. Narrative property business information is publisher commentary,not independent guarantee. Acquisition yield risk disclaimer."
+        },
+        {
+          "page": 7,
+          "finding": "Stockport ASDA retail15May2026 EUR12.8m7.3%13.3y4182sqm;Bournemouth PremierInn hotel19May2026 EUR14.7m7.5%12.5y5338sqm. Acquisition return excludes SCPIfees,not forecast fund annual return. OCR125year corrected by visual to12.5year,Asda revenue21.7bn GBP not217bn."
+        },
+        {
+          "page": 8,
+          "finding": "Lease examples Rotterdam Normal,10y1246sqm100%,reletMar2026;Cork Motorola15y1380sqm100%,reletJuly2026 (post-quarter event explicitly dated);GhentHuawei3y998sqm100%,renewedMar2026. Do not treat July Cork asJune30 occupancy measurement. No performance guarantee."
+        },
+        {
+          "page": 9,
+          "finding": "Entire original page rendered: property photograph and footer only; OCR footer-only is accurate."
+        },
+        {
+          "page": 10,
+          "finding": "FX explanatory chart and warnings same asT1;GBP1=EUR1.15 June30 andmeanUKpurchase. Illustrative yields6.84/7.19/6.59% not fund target or performance."
+        },
+        {
+          "page": 11,
+          "finding": "Fees read visually:subscription12%TTC,management12.40%HTeurozone/15.90%HToutsidezone,rentbasis. Transfer0,earlywithdrawal0,acquisition0,workmonitoring0,brokerage0. Property disposal5%TTI onlyifcapitalgain>5%netprice. Zero these specified commissions does not mean zero all investor expenses. Objectives/dividends netfundfees,not netpersonaltax."
+        },
+        {
+          "page": 12,
+          "finding": "Full legal page visually read. Jouissancefirstdaysixthmonth;variablecapital,withdrawalsmatchedbysubscriptions,chronologicalqueue,no guaranteedbuyback,171.60notOCR174.80. Bilateraltransactiontaxseparate. Fiscal disclosuresasT1 with historicalratesdates,foreignincometreaties and taxdependentindividualcircumstances. Loanpaymentrisks/non-guaranteeincome/FX. EntityAMFdetails;footerstatespublication15July2026 vscover16July(minoreditorialdiscrepancy). NoquantifiedSCPIdebt/leverage ratio present."
+        }
+      ]
+    }
+  ],
+  "anomalies": [
+    {
+      "severity": "nonblocking_source_editorial",
+      "period": "2026-T2",
+      "pages": [
+        1,
+        12
+      ],
+      "finding": "Publication date cover16July2026 vs footer15July2026; period and data date unaffected. Store both and do not invent a unique date."
+    },
+    {
+      "severity": "ocr_not_source",
+      "period": "2026-T2",
+      "finding": "Missingp5 andfooteronlyp9 visuallyverifiedphoto-only. Multiple OCR decimal/name errors corrected by visual review; do not reuse OCR prose unchecked."
+    }
+  ],
+  "limits": [
+    "Complete bulletin review supports source QA only; it does not sign final_audit/final_review or approve public release.",
+    "Debt ratio absent in bothbulletins:NULL, never0.",
+    "SFDR/ISR absent in these reviewed bulletins:NULL; obtain from already-reviewedDIC/annualdocuments if needed.",
+    "Reconstitution189.37 onbulletinp3 isdated31Dec2025; donot overwrite separately verified30June2026 evidence.",
+    "Tax reviewed asdisclosed inpublisherdocuments; not an independent currentlegalopinion or personalrecommendation."
+  ],
+  "publishing_fields": {
+    "creation_year": {
+      "value": 2017,
+      "source": "T1p2,p6;T2p2,p10 explicitly launched2017"
+    },
+    "liquidity_basis": {
+      "value": "withdrawal_queue",
+      "source": "T1p8,T2p12 capitalvariable;T1p3/T2p3 pendingwithdrawals0 with sharebases11046757/11117521"
+    },
+    "withdrawal_terms": {
+      "value": "Withdrawal conditional on matching subscriptions absent reimbursement fund; chronological register; manager does not guarantee repurchase. EUR171.60/share withdrawal price since1June2022; bilateral sale possible without guaranteed buyer.",
+      "source": "T1p8,T2p12"
+    },
+    "sfdr": null,
+    "payment_frequency": {
+      "value": "monthly",
+      "source": "T1p3,p7;T2p3,p11 monthly instalments"
+    },
+    "risk_warnings": {
+      "value": [
+        "capital loss",
+        "income and performance not guaranteed",
+        "limited liquidity and repurchase not guaranteed",
+        "foreign exchange risk",
+        "long horizon10years",
+        "credit repayment remains due if distributions insufficient"
+      ],
+      "source": "T1p2,p6,p8;T2p2,p10,p12"
+    },
+    "label_isr": null,
+    "sector_class": {
+      "value": "Diversified;offices predominant",
+      "source": "T1p4 offices58%;T2p4 offices55%,retail18%,hotel14%,logistics6%,health4%,education2%,parking1%"
+    },
+    "geographic_scope": {
+      "value": "Europe and NorthAmerica(Canada), eurozone and non-eurozone exposure",
+      "source": "T1p4;T2p4 UK54%,Poland21%,Canada1%among11countries"
+    }
+  }
+}

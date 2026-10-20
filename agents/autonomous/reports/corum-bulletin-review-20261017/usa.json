@@ -1,0 +1,314 @@
+{
+  "reviewer": "/root/corum_full_bulletin_review17/review_usa",
+  "reviewer_type": "independent_AI_source_reader_no_human_signature",
+  "reviewed_at": "2026-10-17T05:02:31.654623+00:00",
+  "scpi_slug": "corum-usa",
+  "status": "FULL_SOURCE_READ_WITH_RESERVATIONS",
+  "supersedes": "Earlier blocked report: curl succeeded, exact hashes confirmed; previous inaccessible-source conclusion withdrawn.",
+  "documents": [
+    {
+      "period": "2026-T1",
+      "url": "https://www.corum.fr/sites/default/files/2026-04/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T1%20%28Alias%29.pdf",
+      "sha256": "3f281dfcb0ddef36cc6c4fc1e765ffe749a5feb48c36fb7581b725c141a8b878",
+      "page_count": 7,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "page_review": [
+        {
+          "page": 1,
+          "finding": "Couverture N6: publié23/04/2026, T1, données31/03/2026, validité1/04-30/06."
+        },
+        {
+          "page": 2,
+          "finding": "Dividende brut2,55EUR; net étranger1,92EUR; impôt étranger0,63EUR; acomptes0,63/0,62/0,67 en février/mars/avril2026. Schéma fiscal cas personne physique FR sans dispense: crédit maximal0,58EUR, fiscalité personnelle variable; schéma années2025/2026 erroné face période2026. PFU31,4%=12,8+18,6 déclaré source, pas validé comme règle fiscale générale. Risques explicites capital/liquidité/devises."
+        },
+        {
+          "page": 3,
+          "finding": "Trimestre2,55EUR et loyers861000EUR distincts rendement2025=7,7% et TRIobjectif4,5%10ans non garanti. Performance2026 non stabilisée délai jouissance. Stocks4419associés,359289parts,72Mcapitalisation/57Mnominal;0parts attente;35106nouvelles,56compensées,0gréàgré. Prix200EUR;nominal160;prime40;commission21,60+2,40;retrait176. Références31/12/2025 réalisation177,04,reconstitution203,24,IFI158,24, pas31/03/2026. Définitions distribution brute/PGA/TRI/valeurs lues."
+        },
+        {
+          "page": 4,
+          "finding": "Patrimoine31/03:4immeubles,5locataires,9,40années engagement août2035,7898m2,vacance0m2. TOF100% comprend franchises. Santé58%,commerce42%,ÉtatsUnis100%."
+        },
+        {
+          "page": 5,
+          "finding": "Acquisition20/03/2026 NewYork commerce multilocataires6,35MUSD,10%rendement immobilier acquisition non rendement SCPI,9,1ansbail,545m2;définitionrendementetavertissementfrais lus."
+        },
+        {
+          "page": 6,
+          "finding": "Souscription12%TTC; cession parts0EUR; retrait anticipé0%; gestion12,40%HT loyers zone euro et15,90%HT hors zone euro; travaux0%; acquisition0%; cession immeubles5%TTC prix net vendeur si plus-value>5% du prix de vente; pas brokerage. Dividendes mensuels nets de ces frais, sans garantie."
+        },
+        {
+          "page": 7,
+          "finding": "Jouissance1erjour6emois après souscription et paiement; placement10ans, capital/revenus/rachat non garantis, risque dollar. Retrait capital variable conditionné souscriptions compensatrices, registre chronologique, prix176EUR depuis4/11/2024; gréàgré sans aide obligatoire de gestion, droits enregistrement acquéreur; plafond capital2MdEUR. Produits financiers: acompteIR12,8%,PS17,2% mentionnés; dispense annuelle30/11. Crédit: échéances non couvertes nécessairement par revenus. RCS934348020, immatriculation17/10/2024, visa24-11 9/07/2024, AMFgestionGP-11000012. Capital nominal31/03/2026=57486328EUR;datepublication23/04/2026."
+        }
+      ],
+      "source_read_complete": true,
+      "extraction_method": "native_text",
+      "native_text_path": "/tmp/review-usa-t1.txt",
+      "pdf_path": "/tmp/review-usa-t1.pdf",
+      "strong_unqualified_financial_regulatory_approval": false
+    },
+    {
+      "period": "2026-T2",
+      "url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+      "sha256": "1efe2f05d6fc6c4364bd35093a8fb2beb6ef508aedc00ad1685c793ca7a373b7",
+      "page_count": 8,
+      "pages_reviewed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "page_review": [
+        {
+          "page": 1,
+          "finding": "Couverture N7: publié16/07/2026,T2,données30/06/2026,validité1/07-30/09;footer final dit15/07/2026."
+        },
+        {
+          "page": 2,
+          "finding": "Dividende brut3,27EUR;netétranger2,61;impôtétranger0,66;acomptes0,68/0,68/1,25mai/juin/juillet2026. Créditmaximal0,59EUR, situation personnelle variable. Schéma fiscal années2025/2026 malgré dividendeT2/2026, confirmé visuellement. PFU31,4%=12,8+18,6 source seulement, pas règle générale validée. Risquescapital/liquidité/devises."
+        },
+        {
+          "page": 3,
+          "finding": "Trimestre3,27EUR et loyers1,017MEUR distincts rendement2025=7,7%,TRIobjectif4,5%10ans. Performance2026nonstabilisée. Stocks4716associés,387121parts,77Mcapitalisation,62Mnominal,0attente;28294nouvelles,0compensée,0gréàgré. Prix200/retrait176;références réalisation177,04/reconstitution203,24/IFI158,24 datées31/12/2025. Définitions/PGA/TRI/valeurs lues."
+        },
+        {
+          "page": 4,
+          "finding": "Patrimoine30/06:5immeubles,12locataires,8,88annéesengagementmai2035,19588m2,vacance0m2. TOF100% comprendfranchises;commerce53%,santé47%,ÉtatsUnis100%. Carte inclutIllinois/Chicago mais titre cite seulementTexasCalifornieNewYork;carte et texte acquisition prévalent sur titre incomplet."
+        },
+        {
+          "page": 5,
+          "finding": "Acquisition19/06/2026 commerceChicago/Lombard RooseveltPlaza15,9MUSD,8,6%rendementimmobiliernonSCPI,8,1ansbail,11690m2. Septenseignes,2locataires50%loyers,statistiques2025visiteurs1,3M et croissance2023vs2025 distinctes du trimestre. Frais avertissement/définition lus."
+        },
+        {
+          "page": 6,
+          "finding": "Souscription12%TTC; cession parts0EUR; retrait anticipé0%; gestion12,40%HT loyers zone euro et15,90%HT hors zone euro; travaux0%; acquisition0%; cession immeubles5%TTC prix net vendeur si plus-value>5% du prix de vente; pas brokerage. Dividendes mensuels nets de ces frais, sans garantie."
+        },
+        {
+          "page": 7,
+          "finding": "Page7 photographique Chicago, sans données financières. Rendue visuellement pour exclure texte manquant."
+        },
+        {
+          "page": 8,
+          "finding": "Jouissance1erjour6emois après souscription et paiement; placement10ans, capital/revenus/rachat non garantis, risque dollar. Retrait capital variable conditionné souscriptions compensatrices, registre chronologique, prix176EUR depuis4/11/2024; gréàgré sans aide obligatoire de gestion, droits enregistrement acquéreur; plafond capital2MdEUR. Produits financiers: acompteIR12,8%,PS17,2% mentionnés; dispense annuelle30/11. Crédit: échéances non couvertes nécessairement par revenus. RCS934348020, immatriculation17/10/2024, visa24-11 9/07/2024, AMFgestionGP-11000012. Capitalnominal30/06/2026=61939377EUR;footerpublication15/07/2026 différentcover16/07."
+        }
+      ],
+      "source_read_complete": true,
+      "extraction_method": "native_text",
+      "native_text_path": "/tmp/review-usa-t2.txt",
+      "pdf_path": "/tmp/review-usa-t2.pdf",
+      "strong_unqualified_financial_regulatory_approval": false
+    }
+  ],
+  "visual_pages": [
+    "T1p2",
+    "T2p2",
+    "T2p4",
+    "T2p7",
+    "T1p3",
+    "T2p3"
+  ],
+  "anomalies": [
+    {
+      "code": "SOURCE_TAX_TIMELINE",
+      "severity": "review_required",
+      "pages": [
+        "T1p2",
+        "T2p2"
+      ],
+      "finding": "Source labels2025/2026 on tax timeline while actual distribution quarter2026; do not republish these labels as accurate fiscal dates."
+    },
+    {
+      "code": "TAX_RATES_SCOPE",
+      "severity": "review_required",
+      "pages": [
+        "T1p2",
+        "T1p7",
+        "T2p2",
+        "T2p8"
+      ],
+      "finding": "Source depicts18.6%PS in dividend scheme and17.2%PS on financial products. Distinct bases may explain scope; current legal accuracy not established. Do not generalise either to all investment revenue."
+    },
+    {
+      "code": "T2_PUBLICATION_DATE",
+      "severity": "minor_source_discrepancy",
+      "pages": [
+        "T2p1",
+        "T2p8"
+      ],
+      "finding": "Cover16/07/2026 vsfooter15/07/2026; retain quarter unambiguous and both dates in provenance."
+    },
+    {
+      "code": "T2_MAP_HEADING",
+      "severity": "minor_source_discrepancy",
+      "pages": [
+        "T2p4",
+        "T2p5"
+      ],
+      "finding": "MapheadingomitsIllinois, but mapandacquisitionexplicitlyshowChicago;country100%US unaffected."
+    },
+    {
+      "code": "T2_CAPITAL_MOVEMENT_UNRECONCILED",
+      "severity": "review_required",
+      "pages": [
+        "T1p3",
+        "T2p3"
+      ],
+      "finding": "Confirmed visually on complete native PDF pages3: T1 stock359289, T2stock387121; T2newparts28294; T2parts sold and compensated0; T2parts sold between investors0; T2parts pending withdrawal0. Netstock difference27832; creation-minus-net residual462. No other cancellation/adjustment line is displayed on those pages or elsewhere in reviewed native text. Pending withdrawals zero is NOT completed withdrawals zero. This is an unreconciled source rollforward, not proof of incorrect stock counts or proof of any particular withdrawal/cancellation.",
+      "visual_evidence": [
+        {
+          "period": "2026-T1",
+          "page": 3,
+          "render": "/tmp/review-usa-t1-p3.png",
+          "stock_parts": 359289,
+          "new_parts": 35106,
+          "sold_and_compensated_parts": 56,
+          "sold_between_investors_parts": 0,
+          "pending_withdrawal_parts": 0
+        },
+        {
+          "period": "2026-T2",
+          "page": 3,
+          "render": "/tmp/review-usa-t2-p3.png",
+          "stock_parts": 387121,
+          "new_parts": 28294,
+          "sold_and_compensated_parts": 0,
+          "sold_between_investors_parts": 0,
+          "pending_withdrawal_parts": 0
+        }
+      ],
+      "completed_withdrawals": null,
+      "unexplained_residual_parts": 462,
+      "conclusion": "Request precise issuer reconciliation only if validating comprehensive capital movements; do not change source stock or queue values; no invented balancing entry."
+    }
+  ],
+  "missing_information": {
+    "debt_ratio": null,
+    "sfdr": null,
+    "label_isr": null,
+    "reason": "Not disclosed in reviewed bulletins; absence is not zero/no-label confirmation."
+  },
+  "publishing_fields": {
+    "creation_year": {
+      "value": 2024,
+      "source_pages": [
+        "T1p7",
+        "T2p8"
+      ],
+      "basis": "RCS registration17/10/2024"
+    },
+    "liquidity_basis": {
+      "value": "withdrawal_queue",
+      "source_pages": [
+        "T1p7",
+        "T2p8"
+      ]
+    },
+    "withdrawal_terms": {
+      "value": "Retrait sur souscriptions compensatrices, registre chronologique; prix de retrait176EUR depuis4/11/2024, rachat non garanti; cession gréàgré possible.",
+      "source_pages": [
+        "T1p7",
+        "T2p8"
+      ]
+    },
+    "sfdr": null,
+    "payment_frequency": {
+      "value": "monthly",
+      "source_pages": [
+        "T1p2",
+        "T1p6",
+        "T2p2",
+        "T2p6"
+      ]
+    },
+    "risk_warnings": {
+      "value": [
+        "capital_loss",
+        "income_not_guaranteed",
+        "limited_liquidity",
+        "repurchase_not_guaranteed",
+        "USD_exchange_rate",
+        "past_performance_not_predictive",
+        "ten_year_horizon",
+        "2026_distribution_not_stabilized"
+      ],
+      "source_pages": [
+        "T1p2",
+        "T1p3",
+        "T1p7",
+        "T2p2",
+        "T2p3",
+        "T2p8"
+      ]
+    },
+    "label_isr": null,
+    "management_fees": {
+      "value": [
+        {
+          "scope": "eurozone",
+          "percent": 12.4,
+          "tax_basis": "HT",
+          "base": "rents_collected"
+        },
+        {
+          "scope": "outside_eurozone",
+          "percent": 15.9,
+          "tax_basis": "HT",
+          "base": "rents_collected"
+        }
+      ],
+      "source_pages": [
+        "T1p6",
+        "T2p6"
+      ]
+    },
+    "sector_class": {
+      "value": "diversified_commerce_health",
+      "source_pages": [
+        "T1p4",
+        "T2p4"
+      ],
+      "as_of": "2026-06-30",
+      "allocations_percent": {
+        "commerce": 53,
+        "health": 47
+      }
+    },
+    "geographic_scope": {
+      "value": "United States",
+      "percent": 100,
+      "source_pages": [
+        "T1p4",
+        "T2p4"
+      ]
+    },
+    "currency": {
+      "display": "EUR",
+      "asset_risk": "USD",
+      "source_pages": [
+        "T1p2",
+        "T1p5",
+        "T1p7",
+        "T2p2",
+        "T2p5",
+        "T2p8"
+      ]
+    }
+  },
+  "qa_recommendation": "Complete source reading is traceable. For full financial/regulatory approval, resolve or explicitly scope out ambiguous tax timeline/rate claims and unreconciled capital rollforward. The462 residual is visually confirmed but does not prove incorrect source stocks or zero completed withdrawals. This report is not an unqualified final audit or human approval.",
+  "database_writes": 0,
+  "ocr_performed": false,
+  "supplemental_visual_review_at": "2026-10-17T05:04:52.236842+00:00"
+}
