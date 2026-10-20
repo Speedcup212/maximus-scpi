@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
+import certifiedScpiCohort from '../../data/certified_scpi_cohort.json';
 import { calculateScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
@@ -118,79 +119,84 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     });
   };
 
-  const applyFilters = (scpi: SCPIExtended): boolean => {
-    if (scpi.yield < filters.minYield) return false;
+  // Diagnostic unique pour le comptage ET le rendu : aucun motif d'exclusion silencieux.
+  const getExclusionReasons = (scpi: SCPIExtended): string[] => {
+    const reasons: string[] = [];
+    const query = searchQuery.trim().toLocaleLowerCase('fr');
+    if (query && !(
+      scpi.name.toLocaleLowerCase('fr').includes(query) ||
+      scpi.category.toLocaleLowerCase('fr').includes(query) ||
+      scpi.managementCompany.toLocaleLowerCase('fr').includes(query)
+    )) {
+      reasons.push('Recherche textuelle');
+    }
+
+    if (scpi.yield < filters.minYield) reasons.push(`Distribution inférieure à ${filters.minYield} %`);
 
     if (filters.priceRange !== 'all') {
-      if (filters.priceRange === 'accessible' && scpi.price >= 300) return false;
-      if (filters.priceRange === 'standard' && (scpi.price < 300 || scpi.price > 1000)) return false;
-      if (filters.priceRange === 'premium' && scpi.price <= 1000) return false;
+      if (filters.priceRange === 'accessible' && scpi.price >= 300) reasons.push('Prix de part : moins de 300 €');
+      if (filters.priceRange === 'standard' && (scpi.price < 300 || scpi.price > 1000)) reasons.push('Prix de part : 300 à 1 000 €');
+      if (filters.priceRange === 'premium' && scpi.price <= 1000) reasons.push('Prix de part : plus de 1 000 €');
     }
 
     if (filters.geographies.length > 0) {
       const hasMatchingGeo = scpi.geography.some(geo => {
         const geoName = geo.name.toLowerCase();
         if (filters.geographies.includes('France') &&
-            (geoName.includes('france') || geoName.includes('paris') || geoName.includes('région'))) {
-          return true;
-        }
+            (geoName.includes('france') || geoName.includes('paris') || geoName.includes('région'))) return true;
         if (filters.geographies.includes('Europe') &&
             !geoName.includes('france') && !geoName.includes('paris') &&
             (geoName.includes('europe') || geoName.includes('allemagne') || geoName.includes('espagne') ||
              geoName.includes('italie') || geoName.includes('belgique') || geoName.includes('pays-bas') ||
-             geoName.includes('irlande') || geoName.includes('portugal') || geoName.includes('pologne'))) {
-          return true;
-        }
+             geoName.includes('irlande') || geoName.includes('portugal') || geoName.includes('pologne'))) return true;
         if (filters.geographies.includes('International') &&
-            (geoName.includes('royaume') || geoName.includes('étranger') || geoName.includes('ocde'))) {
-          return true;
-        }
+            (geoName.includes('royaume') || geoName.includes('étranger') || geoName.includes('ocde'))) return true;
         return false;
       });
-      if (!hasMatchingGeo) return false;
+      if (!hasMatchingGeo) reasons.push('Zone géographique');
     }
 
-    if (filters.sectors.length > 0) {
-      // Utiliser la nouvelle logique de filtrage avec seuil
-      if (!matchesSectorFilter(scpi, filters.sectors, filters.sectorThreshold)) {
-        return false;
-      }
+    if (filters.sectors.length > 0 &&
+        !matchesSectorFilter(scpi, filters.sectors, filters.sectorThreshold)) {
+      reasons.push('Secteur et seuil d’exposition');
     }
 
     if (filters.expertMode) {
-      // A publisher-sourced reconstruction price can be displayed even when
-      // it is NOT approved as a comparable subscription discount.
+      // Une décote non certifiée ne constitue pas un motif automatique d'exclusion.
       if (scpi.reconstitutionValue && scpi.discountQaStatus === 'publishable') {
         const discount = calculateScpiDiscountPremium(scpi.price, scpi.reconstitutionValue);
         if (discount == null || discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
-          return false;
+          reasons.push(`Décote/surcote hors de ${filters.discountRange[0]} à +${filters.discountRange[1]} %`);
         }
       }
-
       if (scpi.ranDays !== undefined && scpi.ranDays < filters.minRanDays) {
-        return false;
+        reasons.push('Report à nouveau insuffisant');
       }
-
       if (scpi.ltv !== undefined && scpi.ltv > filters.maxLtv) {
-        return false;
+        reasons.push(`Endettement supérieur à ${filters.maxLtv} %`);
       }
-
       if (filters.noWaitingShares && scpi.hasWaitingShares) {
-        return false;
+        reasons.push('Parts en attente de retrait');
       }
     }
 
-    return true;
+    return reasons;
   };
 
-  // Créer une copie profonde pour éviter les mutations sur des tableaux gelés en production
-  // Utiliser les données enrichies avec les informations du fichier Excel
-  let filteredData = [...enrichedScpiData].filter(scpi =>
-    (scpi.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    scpi.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    scpi.managementCompany.toLowerCase().includes(searchQuery.toLowerCase())) &&
-    applyFilters(scpi)
-  );
+  // Même prédicat pour les cartes et le diagnostic des exclusions.
+  const filterDiagnostics = enrichedScpiData.map(scpi => ({
+    scpi,
+    reasons: getExclusionReasons(scpi)
+  }));
+  let filteredData = filterDiagnostics
+    .filter(({ reasons }) => reasons.length === 0)
+    .map(({ scpi }) => scpi);
+  const excludedScpis = filterDiagnostics
+    .filter(({ reasons }) => reasons.length > 0)
+    .map(({ scpi, reasons }) => ({ name: scpi.name, reasons }));
+  const catalogueCount = certifiedScpiCohort.count;
+  const loadedCount = enrichedScpiData.length;
+  const missingFromLoaded = Math.max(0, catalogueCount - loadedCount);
 
   // Tri : priorité fiscale Europe à TMI >= 30 %, puis pertinence sectorielle si active,
   // puis critère choisi par l'utilisateur.
@@ -279,10 +285,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-sm text-slate-400">
-                {filteredData.length} SCPI disponibles • Page {currentPage} sur {totalPages}
+                {filteredData.length} SCPI affichées sur {catalogueCount} référencées • Page {currentPage} sur {Math.max(1, totalPages)}
               </p>
               <p className="mt-1 text-[11px] text-slate-500">
-                {sortDescription} — ce tri ne constitue pas un classement de qualité.
+                {excludedScpis.length > 0 ? `${excludedScpis.length} exclue(s) par la recherche ou les filtres. ` : ''}{missingFromLoaded > 0 ? `${missingFromLoaded} fiche(s) non chargée(s). ` : ''}{sortDescription} — ce tri ne constitue pas un classement de qualité.
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -598,6 +604,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
             filters={filters}
             onFiltersChange={setFilters}
             resultCount={filteredData.length}
+            catalogueCount={catalogueCount}
+            loadedCount={loadedCount}
+            excludedScpis={excludedScpis}
+            onClearSearch={() => setSearchQuery('')}
           />
         </Suspense>
       )}
