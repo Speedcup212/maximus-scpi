@@ -65,6 +65,9 @@ const buildScpiCanonicalRedirects = () => {
 const generateRedirects = () => {
   let redirectsContent = `# Netlify/Vercel redirects for SPA routing with SSG
 
+# Collecte first-party des événements : avant tout fallback SPA.
+/api/funnel-event /.netlify/functions/funnel-event 200!
+
 # Redirections 301 pour anciens slugs d'articles (PRIORITAIRES)
 /fonds-euros-ou-scpi-2026 /fonds-euros-ou-scpi 301
 /scpi-direct-ou-assurance-vie /scpi-en-direct-ou-assurance-vie 301
