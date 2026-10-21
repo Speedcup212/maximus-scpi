@@ -27,6 +27,10 @@ interface FilterPanelProps {
   filters: FilterState;
   onFiltersChange: (filters: FilterState) => void;
   resultCount: number;
+  catalogueCount: number;
+  loadedCount: number;
+  excludedScpis: Array<{ name: string; reasons: string[] }>;
+  onClearSearch: () => void;
 }
 
 const GEOGRAPHY_OPTIONS = ['France', 'Europe', 'International'];
@@ -47,7 +51,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   onClose,
   filters,
   onFiltersChange,
-  resultCount
+  resultCount,
+  catalogueCount,
+  loadedCount,
+  excludedScpis,
+  onClearSearch
 }) => {
   if (!isOpen) return null;
 
@@ -70,6 +78,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   const handleReset = () => {
+    onClearSearch();
     onFiltersChange({
       tmi: null,
       minYield: 0,
@@ -199,8 +208,27 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           <div className="bg-slate-700/50 rounded-xl p-4 border border-slate-600">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-slate-300">Résultats trouvés</span>
-              <span className="text-2xl font-bold text-emerald-400">{resultCount}</span>
+              <span className="text-2xl font-bold text-emerald-400">{resultCount} / {catalogueCount}</span>
             </div>
+            <p className="mt-2 text-xs text-slate-400">
+              {excludedScpis.length} SCPI exclue(s) par les critères ou la recherche.
+              {loadedCount < catalogueCount ? ` ${catalogueCount - loadedCount} fiche(s) référencée(s), mais non chargée(s) : contrôle technique requis.` : ''}
+            </p>
+            {excludedScpis.length > 0 && (
+              <details className="mt-3 text-xs text-slate-300">
+                <summary className="cursor-pointer font-semibold text-emerald-300 hover:text-emerald-200">
+                  Voir les SCPI exclues et pourquoi
+                </summary>
+                <ul className="mt-2 max-h-48 overflow-y-auto space-y-2 pr-2">
+                  {excludedScpis.slice(0, 20).map(({ name, reasons }) => (
+                    <li key={name} className="border-t border-slate-600 pt-2">
+                      <span className="font-semibold text-white">{name}</span> — {reasons.join(' ; ')}
+                    </li>
+                  ))}
+                </ul>
+                {excludedScpis.length > 20 && <p className="mt-2 text-slate-400">Et {excludedScpis.length - 20} autre(s) SCPI.</p>}
+              </details>
+            )}
           </div>
 
           <div className="bg-gradient-to-r from-amber-900/30 to-amber-800/30 rounded-xl p-4 border border-amber-700/50">
