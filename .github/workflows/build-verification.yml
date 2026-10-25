@@ -168,7 +168,7 @@ jobs:
         run: node --import tsx/esm --test scpi-ingestion/src/extractor.test.ts
 
       - name: Surveillance signal regression tests
-        run: npx vitest run src/tests/surveillanceSignals.test.ts src/tests/scpiPublicationFreshness.test.ts
+        run: npx vitest run src/tests/surveillanceSignals.test.ts src/tests/scpiPublicationFreshness.test.ts src/tests/certifiedLiquidity.test.ts
 
       - name: SCPI certified liquidity gates and structural regime regression tests
         run: npx vitest run src/tests/certifiedLiquidity.test.ts

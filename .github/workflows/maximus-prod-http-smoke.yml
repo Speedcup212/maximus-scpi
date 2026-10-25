@@ -1,0 +1,32 @@
+name: MaximusSCPI production HTTP smoke
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-prod-http-smoke.yml"
+      - "scripts/agents/verifyProductionHttp.mjs"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-prod-http-smoke.yml"
+      - "scripts/agents/verifyProductionHttp.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Live production routes and source HTML
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check true 404, homepage H1, analysis H1 and canonicals
+        run: node scripts/agents/verifyProductionHttp.mjs
