@@ -13,7 +13,7 @@ import fitz
 
 FUNDS={'corum-origin':('CORUM Origin','corum-origin'), 'corum-xl':('CORUM XL','corum-xl'),
        'corum-eurion':('CORUM Eurion','eurion'), 'corum-usa':('CORUM USA','corum-usa')}
-VERSION='corum-dual-pdf-20261027-v2'
+VERSION='corum-dual-pdf-20261027-v4'
 UA='Mozilla/5.0 (compatible; MaximusSCPI-OfficialArchive/1.0)'
 MAX_BYTES=65*1024*1024
 
@@ -66,6 +66,15 @@ def discover(slug):
  p=Links();p.feed(fetch(url).decode('utf8'))
  return [dict(slug=slug,index_url=url,url=u,period=period,kind=kind) for u in sorted(set(p.urls)) for period,kind in [classify(u)] if period]
 
+def validate_url_identity(slug,url,period):
+ name=compact(urllib.parse.unquote(urllib.parse.urlsplit(url).path.rsplit('/',1)[-1]))
+ expected={'corum-origin':'corumorigin','corum-xl':'corumxl','corum-eurion':'eurion','corum-usa':'corumusa'}[slug]
+ if expected in name:return
+ if slug=='corum-xl' and norm(urllib.parse.unquote(url).rsplit('/',1)[-1]).startswith('xl - fil '):return
+ # Official historical name of Origin, before the product-family rename.
+ if slug=='corum-origin' and int(period[:4])<=2017 and 'corum' in name and not any(x in name for x in ['corumxl','eurion','corumusa']):return
+ raise ValueError('document_url_product_mismatch')
+
 def validate_issue(slug,period,pages,kind):
  head=norm(' '.join(pages[:8]))
  aliases=[FUNDS[slug][0]]
@@ -79,8 +88,8 @@ def validate_issue(slug,period,pages,kind):
   return
  year,q=period.split('-T');q=int(q)
  # Cover issue, not future validity dates or a historical performance chart.
- cover=norm(pages[0])[:1500]
- patterns=[rf'\b{q}\s*(?:er|e|eme|[°º][^a-z0-9\s]{0,3})?\s*trimestre\s*{year}',rf'\b{q}\s*t\s*{year}',rf'\b{year}\s*[-/]?\s*t\s*{q}\b']
+ cover=re.sub(r'\b(20\d)\s+(\d)\b',r'\1\2',norm(pages[0])[:1500])
+ patterns=[rf'\b{q}\s*(?:er|e|eme|ee|[°º][^a-z0-9\s]{{0,3}})?\s*trimestre\s*{year}',rf'\b{q}\s*t\s*{year}',rf'\b{year}\s*[-/]?\s*t\s*{q}\b']
  if not any(re.search(p,cover) for p in patterns):raise ValueError('quarter_issue_mismatch')
 
 # A word is (x0,y0,x1,y1,text). Both engines feed the same geometry checks.
@@ -185,7 +194,7 @@ def mupdf(pdf):
  if not pdf.startswith(b'%PDF'):raise ValueError('not_pdf')
  with fitz.open(stream=pdf,filetype='pdf') as d:
   if not 1<=len(d)<=240:raise ValueError('page_count_limit')
-  return ([p.get_text('text',sort=True) for p in d],[[tuple(w[:5]) for w in p.get_text('words')] for p in d],[p.rect.width for p in d])
+  return ([p.get_text('text') for p in d],[[tuple(w[:5]) for w in p.get_text('words')] for p in d],[p.rect.width for p in d])
 
 def poppler(path):
  r=subprocess.run(['pdftotext','-bbox',str(path),'-'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True,timeout=60)
@@ -211,6 +220,7 @@ def inspect(item,cache):
  result={**item,'parser_version':VERSION,'run_reference':'github:'+os.environ.get('GITHUB_RUN_ID','local')+':'+os.environ.get('GITHUB_SHA','working-tree'),'metrics':{},'evidence':{},'anomalies':[]}
  path=cache/(hashlib.sha256(item['url'].encode()).hexdigest()+'.pdf')
  try:
+  validate_url_identity(item['slug'],item['url'],item['period'])
   if path.exists():pdf=path.read_bytes()
   else:
    pdf=fetch(item['url'])
@@ -232,8 +242,16 @@ def inspect(item,cache):
    a[0][0]=cover;b[0][0]=cover;result['cover_method']='tesseract_ocr_identity_only';result['cover_excerpt']=cover[:1800]
    try:
     validate_issue(item['slug'],item['period'],a[0],item['kind']);validate_issue(item['slug'],item['period'],b[0],item['kind'])
-   except ValueError:
-    recovered=ocr.extract_pages(pdf);result['ocr_pages']=recovered
+   except ValueError as cover_error:
+    if str(cover_error)!='document_identity_mismatch':raise
+    ocrpath=path.with_suffix('.ocr.json')
+    cached=json.loads(ocrpath.read_text()) if ocrpath.exists() else {}
+    if cached.get('sha256')==result['sha256'] and len(cached.get('pages',[]))==result['page_count']:
+     recovered=cached['pages']
+    else:
+     recovered=ocr.extract_pages(pdf)
+     temporary=ocrpath.with_suffix('.download');temporary.write_text(json.dumps({'sha256':result['sha256'],'pages':recovered},ensure_ascii=False));temporary.replace(ocrpath)
+    result['ocr_pages']=recovered
     a[0][:]=[p['text'] for p in recovered];b[0][:]=a[0][:]
     result['cover_method']='tesseract_ocr_full_document_identity'
     validate_issue(item['slug'],item['period'],a[0],item['kind']);validate_issue(item['slug'],item['period'],b[0],item['kind'])

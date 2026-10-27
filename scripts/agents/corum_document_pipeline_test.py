@@ -15,6 +15,15 @@ class PipelineTest(unittest.TestCase):
    a=c.mupdf(pdf);b=c.poppler(path)
    c.validate_issue('corum-origin','2025-T1',a[0],'quarterly_bulletin')
    m,e,_=c.reconcile(c.parse_core(*a),c.parse_core(*b));self.assertEqual(m,{'tof':96.24,'nombre_parts':2973611,'parts_attente_retrait':0});self.assertEqual(e['tof']['page'],1)
+ def test_ocr_ordinal_from_real_scanned_cover(self):
+  c.validate_issue('corum-origin','2026-T2',['N.57 2°" TRIMESTRE 2026 / DONNEES AU 30 JUIN 2026','CORUM Origin'],'quarterly_bulletin')
+ def test_other_corum_url_is_not_identity_evidence(self):
+  with self.assertRaisesRegex(ValueError,'product'):c.validate_url_identity('corum-origin','https://www.corum.fr/sites/default/files/CORUM%20XL%202025-T1.pdf','2025-T1')
+  c.validate_url_identity('corum-origin','https://www.corum.fr/sites/default/files/CORUM%20BTI%201T16.pdf','2016-T1')
+ def test_ocr_year_spacing_keeps_observed_digits(self):
+  c.validate_issue('corum-origin','2014-T1',['CORUM Origin 1 trimestre 201 4'],'quarterly_bulletin')
+ def test_historical_xl_publisher_filename(self):
+  c.validate_url_identity('corum-xl',"https://www.corum.fr/sites/default/files/2020-04/XL%20-%20Fil%20d%27actualites%201T2020.pdf",'2020-T1')
  def test_wrong_fund_rejected(self):
   with self.assertRaisesRegex(ValueError,'identity'):c.validate_issue('corum-xl','2025-T1',['CORUM Origin 1er trimestre 2025'],'quarterly_bulletin')
  def test_wrong_period_rejected(self):
@@ -50,7 +59,7 @@ class PipelineTest(unittest.TestCase):
   self.assertNotIn('tof',c.parse_core(*c.mupdf(d.tobytes())))
  def test_interruption_cache_unchanged(self):
   with tempfile.TemporaryDirectory() as td:
-   cache=pathlib.Path(td);item={'slug':'corum-origin','period':'2025-T1','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/fixture.pdf'}
+   cache=pathlib.Path(td);item={'slug':'corum-origin','period':'2025-T1','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/CORUM-Origin-fixture.pdf'}
    path=cache/(hashlib.sha256(item['url'].encode()).hexdigest()+'.pdf');path.write_bytes(self.fixture())
    a=c.inspect(item,cache);b=c.inspect(item,cache);self.assertEqual(a,b);self.assertEqual(a['status'],'certified_core')
 if __name__=='__main__':unittest.main()

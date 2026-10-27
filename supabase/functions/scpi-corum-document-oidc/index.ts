@@ -35,6 +35,11 @@ Deno.serve(async(req:Request)=>{
    if(registryError||!registry?.automation_enabled||registry.ingestion_driver!=='corum_dual_pdf_v1')return fail(409,'driver disabled');
    const {data,error}=await db.rpc('scpi_corum_record_document',{p_doc:body.doc});
    if(error)throw error;
+   const checked=new Date().toISOString();
+   const progress:any={last_checked_at:checked,next_check_at:new Date(Date.now()+24*3600*1000).toISOString()};
+   if(['certified_core','certified_core_existing','source_verified','unchanged','duplicate_sha256'].includes(String(data?.status)))progress.last_success_at=checked;
+   const {error:progressError}=await db.from('scpi_source_registry').update(progress).eq('scpi_slug',body.doc.slug);
+   if(progressError)throw progressError;
    return Response.json(data,{headers:{'Cache-Control':'no-store'}});
   }
   return fail(400,'invalid operation');
