@@ -14,6 +14,7 @@ on:
       - '.github/workflows/maximus-corum-document-pipeline.yml'
 permissions:
   contents: read
+  id-token: write
 concurrency:
   group: corum-official-document-pipeline
   cancel-in-progress: false
@@ -43,9 +44,6 @@ jobs:
           restore-keys: corum-pdf-cache-v1-
       - name: Ingest only enabled CORUM funds; no thresholds or annual values overwritten
         if: github.event_name != 'pull_request'
-        env:
-          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python scripts/agents/corum_document_pipeline.py --out test-results/corum-document-pipeline --apply
       - name: Preserve per-document audit evidence
         if: always()

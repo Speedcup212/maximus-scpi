@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse, concurrent.futures, hashlib, html.parser, json, os, pathlib, re
 import subprocess, tempfile, time, unicodedata, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
+import urllib.error
 import fitz
 
 FUNDS={'corum-origin':('CORUM Origin','corum-origin'), 'corum-xl':('CORUM XL','corum-xl'),
@@ -200,16 +201,24 @@ def inspect(item,cache):
  except Exception as e:result['status']='rejected' if isinstance(e,ValueError) else 'retry';result['anomalies']=[str(e)[:300]]
  return result
 
-def enabled_funds():
- base=os.environ['SUPABASE_URL'].rstrip('/');key=os.environ['SUPABASE_SERVICE_ROLE_KEY']
- query='/rest/v1/scpi_source_registry?select=scpi_slug,bulletin_url,annual_report_url,official_scpi_page_url&automation_enabled=eq.true&ingestion_driver=eq.corum_dual_pdf_v1'
- req=urllib.request.Request(base+query,headers={'apikey':key,'Authorization':'Bearer '+key})
- with urllib.request.urlopen(req,timeout=30) as r:return json.load(r)
+PROJECT_URL='https://ygvsddcpohsnaowofuwc.supabase.co'
+OIDC_CACHE=(0,'')
+def oidc_bridge(payload):
+ global OIDC_CACHE
+ if time.time()-OIDC_CACHE[0]>120:
+  url=os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'];url+=('&' if '?' in url else '?')+urllib.parse.urlencode({'audience':'maximus-corum-documents-ygvsddcpohsnaowofuwc'})
+  req=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
+  with urllib.request.urlopen(req,timeout=25) as r:token=json.load(r)['value']
+  OIDC_CACHE=(time.time(),token)
+ req=urllib.request.Request(PROJECT_URL+'/functions/v1/scpi-corum-document-oidc',data=json.dumps(payload,ensure_ascii=False).encode(),headers={'Authorization':'Bearer '+OIDC_CACHE[1],'Content-Type':'application/json'},method='POST')
+ try:
+  with urllib.request.urlopen(req,timeout=45) as r:return json.load(r)
+ except urllib.error.HTTPError as e:
+  # Response is a bounded error from the protected bridge; never log tokens.
+  raise RuntimeError('CORUM bridge HTTP '+str(e.code)+': '+e.read(1500).decode('utf8','replace')) from None
 
-def rpc(body):
- base=os.environ['SUPABASE_URL'].rstrip('/');key=os.environ['SUPABASE_SERVICE_ROLE_KEY']
- req=urllib.request.Request(base+'/rest/v1/rpc/scpi_corum_record_document',data=json.dumps({'p_doc':body},ensure_ascii=False).encode(),headers={'apikey':key,'Authorization':'Bearer '+key,'Content-Type':'application/json'},method='POST')
- with urllib.request.urlopen(req,timeout=45) as r:return json.load(r)
+def enabled_funds():return oidc_bridge({'op':'registry'})['registry']
+def rpc(body):return oidc_bridge({'op':'record','doc':body})
 
 def main():
  arg=argparse.ArgumentParser();arg.add_argument('--out',required=True);arg.add_argument('--apply',action='store_true');arg.add_argument('--manifest');args=arg.parse_args()
