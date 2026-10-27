@@ -25,10 +25,10 @@ import {
   formatPeriod,
   formatLiquidityPercent,
   formatSigned,
-  latestDelta,
+  latestMetricSnapshot,
+  latestValuationSnapshot,
   liquidityLabel,
   normalizeAndDedupeHistory,
-  valuationGapPct,
 } from './trajectoryData';
 
 type MetricKey = 'tof' | 'liquidite' | 'valorisation' | 'distribution' | 'dette';
@@ -138,13 +138,21 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     [recentHistory],
   );
 
-  const tofDelta = latestDelta(history, 'tof', 4);
+  const tofSnapshot = latestMetricSnapshot(history, 'tof');
+  const distributionSnapshot = latestMetricSnapshot(history, 'distribution_par_part');
+  const debtSnapshot = latestMetricSnapshot(history, 'endettement');
+  const valuationSnapshot = latestValuationSnapshot(history);
   const { value: liquidityValue, delta: liquidityDelta } = currentCertifiedLiquidity(history, liquidity, signalGate);
-  const debtDelta = latestDelta(history, 'endettement', 4);
-  const distributionDelta = latestDelta(history, 'distribution_par_part', 4);
-  const valuationGap = latest
-    ? valuationGapPct(latest.prix_souscription, latest.prix_reconstitution)
-    : null;
+
+  const reference = (snapshot: { period: string | null; sourceUrl: string | null; isLastKnown: boolean } | null) => (
+    <div className="mt-2 text-[11px] leading-4 text-slate-400">
+      {snapshot ? <>
+        <span className="block">{snapshot.isLastKnown ? 'Dernière valeur connue · ' : 'Observation · '}{formatPeriod(snapshot.period)}</span>
+        {snapshot.isLastKnown && <span className="block text-amber-300">{formatPeriod(latest?.source_period)} : donnée non renseignée ou non validée</span>}
+        {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">Source officielle ↗</a>}
+      </> : 'Aucune observation disponible'}
+    </div>
+  );
 
   if (loading) {
     return (
@@ -216,9 +224,9 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
               labelStyle={{ color: '#e2e8f0' }}
             />
             <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Line type="monotone" dataKey="prix_souscription" name="Prix de part" connectNulls stroke="#38bdf8" strokeWidth={2.4} dot={{ r: 2.5 }} />
-            <Line type="monotone" dataKey="prix_reconstitution" name="Valeur de reconstitution" connectNulls stroke="#34d399" strokeWidth={2.4} dot={{ r: 2.5 }} />
-            <Line type="monotone" dataKey="valeur_realisation" name="Valeur de réalisation" connectNulls stroke="#fbbf24" strokeWidth={2.1} dot={{ r: 2.2 }} />
+            <Line type="monotone" dataKey="prix_souscription" name="Prix de part" connectNulls={false} stroke="#38bdf8" strokeWidth={2.4} dot={{ r: 2.5 }} />
+            <Line type="monotone" dataKey="prix_reconstitution" name="Valeur de reconstitution" connectNulls={false} stroke="#34d399" strokeWidth={2.4} dot={{ r: 2.5 }} />
+            <Line type="monotone" dataKey="valeur_realisation" name="Valeur de réalisation" connectNulls={false} stroke="#fbbf24" strokeWidth={2.1} dot={{ r: 2.2 }} />
           </LineChart>
         </ResponsiveContainer>
       );
@@ -245,7 +253,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             type="monotone"
             dataKey={config.dataKey}
             name={config.name}
-            connectNulls
+            connectNulls={false}
             stroke={config.stroke}
             strokeWidth={2.6}
             dot={{ r: 2.8 }}
@@ -278,9 +286,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
 
         <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-            <div className="text-xs text-slate-500">TOF actuel</div>
-            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.tof ?? null, ' %')}</div>
-            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(tofDelta, ' pt')}</div>
+            <div className="text-xs text-slate-500">TOF observé</div>
+            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(tofSnapshot?.value ?? null, ' %')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation annuelle à cette date : {formatSigned(tofSnapshot?.annualDelta ?? null, ' pt')}</div>
+            {reference(tofSnapshot)}
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">{liquidityLabel(latest?.liquidity_basis)}</div>
@@ -290,9 +299,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Prix / reconstitution</div>
             <div className="mt-1 text-xl font-bold text-white">
-              {numberFormatter(latest?.prix_souscription ?? null, ' €', 0)} / {numberFormatter(latest?.prix_reconstitution ?? null, ' €')}
+              {numberFormatter(valuationSnapshot?.price ?? null, ' €', 0)} / {numberFormatter(valuationSnapshot?.reconstitution ?? null, ' €')}
             </div>
-            <div className="mt-1 text-xs text-slate-400">Écart {formatSigned(valuationGap, ' %')}</div>
+            <div className="mt-1 text-xs text-slate-400">Écart {formatSigned(valuationSnapshot?.gap ?? null, ' %')}</div>
+            {reference(valuationSnapshot)}
             {currentScpi?.valeurRetrait !== undefined && (
               <div data-testid="trajectory-withdrawal-current" className="mt-2 border-t border-slate-700 pt-2 text-xs text-slate-200">
                 Retrait par part : <strong>{numberFormatter(currentScpi.valeurRetrait, ' €')}</strong>
@@ -307,14 +317,16 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             )}
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-            <div className="text-xs text-slate-500">Distribution / part</div>
-            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.distribution_par_part ?? null, ' €')}</div>
-            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(distributionDelta, ' €')}</div>
+            <div className="text-xs text-slate-500">Distribution trimestrielle / part</div>
+            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(distributionSnapshot?.value ?? null, ' €')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation annuelle à cette date : {formatSigned(distributionSnapshot?.annualDelta ?? null, ' €')}</div>
+            {reference(distributionSnapshot)}
           </div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
             <div className="text-xs text-slate-500">Endettement</div>
-            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(latest?.endettement ?? null, ' %')}</div>
-            <div className="mt-1 text-xs text-slate-400">Variation sur un an : {formatSigned(debtDelta, ' pt')}</div>
+            <div className="mt-1 text-xl font-bold text-white">{numberFormatter(debtSnapshot?.value ?? null, ' %')}</div>
+            <div className="mt-1 text-xs text-slate-400">Variation annuelle à cette date : {formatSigned(debtSnapshot?.annualDelta ?? null, ' pt')}</div>
+            {reference(debtSnapshot)}
           </div>
         </div>
 
