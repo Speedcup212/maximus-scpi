@@ -325,12 +325,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
           </div>
         </div>
 
-        {(scpi.name.toLowerCase().startsWith('corum') || walb !== undefined || walt !== undefined) && (
-          <div className="px-6 pb-6">
-            <ScpiLeaseDurations scpiSlug={scpi.name.toLowerCase().normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
-          </div>
-        )}
+
 
         {(scpi.dataSourceDocument || scpi.dataPeriod || scpi.dataDate || scpi.dataUpdateDate || scpi.liquidityNote) && (
           <div className="px-6 pb-6">
@@ -930,6 +925,12 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   <Building2 className="w-4 h-4" />
                   Indicateurs locatifs vérifiés
                 </h4>
+        {(scpi.name.toLowerCase().startsWith('corum') || walb !== undefined || walt !== undefined) && (
+          <div className="mb-4">
+            <ScpiLeaseDurations scpiSlug={scpi.name.toLowerCase().normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} />
+          </div>
+        )}
                 {[nombreLocataires,walt,walb,collecteNetteTrimestre,nbCessionsTrimestre].every(v=>v===undefined) && (
                   <p className="mb-4 rounded-lg border border-amber-500/20 bg-slate-900/30 p-4 text-xs text-slate-300">
                     Nombre de locataires, WALT/WALB, collecte nette et cessions :
@@ -955,7 +956,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       <div className="text-xs text-slate-400">{scpiForAnalysis?.walbDefinition ? 'Engagement locatif (assimilé WALB)' : 'WALB'}</div>
                       <div className="text-lg font-bold text-white">{walb.toFixed(2)} ans</div>
                       {scpiForAnalysis?.walbDefinition && scpiForAnalysis.walb === walb && (
-                        <div className="mt-1 text-[10px] text-slate-400">Au 30/06/2026 · pondération non précisée</div>
+                        <div className="mt-1 text-[10px] text-slate-400">Au {metricDateLabel(scpi.metricProvenance?.walb?.reference_date || scpiForAnalysis.walbReferenceDate)} · pondération non précisée</div>
                       )}
                     </div>
                   )}
