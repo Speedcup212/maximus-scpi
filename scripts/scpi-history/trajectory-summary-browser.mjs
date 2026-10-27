@@ -23,7 +23,7 @@ browser = await puppeteer.launch({headless:true,args:['--no-sandbox','--disable-
       if(r.url().includes('scpi_trajectory_pilot_history')) data=rows;
       else if(r.url().includes('scpi_trajectory_pilot_liquidity')) data={scpi_slug:'corum-usa',source_period:'2026-T3',liquidity_basis:'withdrawal_queue',retrait_attente_pct:0,liquidity_pressure_pct:0,regime_changed:false,signal_certification:'trajectory_certified'};
       else if(r.url().includes('scpi_trajectory_signal_gate')) data={scpi_slug:'corum-usa',data_gate:'PASS',structural_gate:'PASS',semantic_gate:'PASS',liquidity_gate:'PASS',liquidity_signal_eligible:true};
-      return r.respond({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
+      return r.respond({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*','access-control-allow-methods':'GET,OPTIONS','access-control-allow-headers':'apikey,authorization,content-type,accept-profile,x-client-info'},body:JSON.stringify(data)});
     }
     if(!r.url().startsWith(origin)) return r.abort();
     return r.continue();
