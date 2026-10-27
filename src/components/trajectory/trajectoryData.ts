@@ -1,5 +1,6 @@
 export type ScpiHistoryRow = {
   scpi_slug: string;
+  metric_provenance?: import('../../types/scpi').Scpi['metricProvenance'];
   snapshot_at: string | null;
   source_period: string | null;
   source_url: string | null;
@@ -57,7 +58,7 @@ export type NormalizedHistoryRow = Omit<
 };
 
 export const HISTORY_SELECT = [
-  'scpi_slug', 'snapshot_at', 'source_period', 'source_url', 'qa_status', 'source_confidence',
+  'metric_provenance', 'scpi_slug', 'snapshot_at', 'source_period', 'source_url', 'qa_status', 'source_confidence',
   'tof', 'td', 'capitalisation', 'prix_souscription', 'prix_reconstitution', 'prix_retrait',
   'valeur_realisation', 'endettement', 'distribution_par_part', 'parts_attente_retrait', 'nombre_parts',
   'capital_type', 'liquidity_basis',
@@ -320,7 +321,7 @@ export const valuationGapPct = (price: number | null, reconstitution: number | n
  * Liquidity is deliberately excluded: its certified current regime remains authoritative.
  */
 export type SummaryMetricKey = 'tof' | 'prix_souscription' | 'prix_reconstitution'
-  | 'distribution_par_part' | 'endettement';
+  | 'distribution_par_part' | 'endettement' | 'valeur_realisation';
 
 export const latestMetricSnapshot = (rows: NormalizedHistoryRow[], key: SummaryMetricKey) => {
   for (let index = rows.length - 1; index >= 0; index -= 1) {
@@ -330,6 +331,7 @@ export const latestMetricSnapshot = (rows: NormalizedHistoryRow[], key: SummaryM
       value,
       period: rows[index].source_period,
       sourceUrl: rows[index].source_url,
+      referenceDate: rows[index].metric_provenance?.[key]?.reference_date,
       isLastKnown: index !== rows.length - 1,
       annualDelta: latestDelta(rows.slice(0, index + 1), key, 4),
     };
@@ -345,6 +347,7 @@ export const latestValuationSnapshot = (rows: NormalizedHistoryRow[]) => {
     if (gap === null) continue;
     return { price: row.prix_souscription!, reconstitution: row.prix_reconstitution!,
       gap, period: row.source_period, sourceUrl: row.source_url,
+      referenceDate: row.metric_provenance?.prix_reconstitution?.reference_date,
       isLastKnown: index !== rows.length - 1 };
   }
   return null;

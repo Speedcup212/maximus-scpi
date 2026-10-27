@@ -138,6 +138,13 @@ for (const scpi of catalog) {
     delete scpi.maximus_prix_retrait_definition;
   }
   assign(scpi, 'Valeur de réalisation (€)', row.valeur_realisation);
+  assign(scpi, 'maximus_metric_provenance', row.metric_provenance);
+  assign(scpi, 'maximus_valeur_realisation_reference_date', row.metric_provenance?.valeur_realisation?.reference_date);
+  assign(scpi, 'maximus_valeur_realisation_source_url', row.metric_provenance?.valeur_realisation?.source_url);
+  assign(scpi, 'maximus_valeur_realisation_source_page', row.metric_provenance?.valeur_realisation?.source_page);
+  assign(scpi, 'maximus_walb_reference_date', row.metric_provenance?.walb?.reference_date);
+  assign(scpi, 'maximus_walb_source_url', row.metric_provenance?.walb?.source_url);
+
   assign(scpi, 'Frais de souscription (TTC/%)', row.frais_souscription);
   assign(scpi, 'Frais de gestion (HT/%)', row.frais_gestion);
   assign(scpi, 'Endettement (%)', row.endettement);
@@ -145,6 +152,7 @@ for (const scpi of catalog) {
   assign(scpi, 'WALT', row.walt);
   assign(scpi, 'WALB', row.walb);
   assign(scpi, 'Nombre de locataires', row.nombre_locataires);
+  assign(scpi, 'Nombre d’associés', row.nombre_associes);
   assign(scpi, "Nombre d'immeubles", row.nombre_immeubles);
   assign(scpi, 'Nombre de parts', row.nombre_parts);
   assign(scpi, 'Collecte nette trimestre', row.collecte_nette);

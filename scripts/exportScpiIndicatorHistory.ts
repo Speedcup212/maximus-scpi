@@ -115,6 +115,7 @@ const { data, error } = await supabase
   .from('scpi_trajectory_pilot_history')
   .select(
     [
+      'metric_provenance',
       'scpi_slug',
       'source_period',
       'source_type',

@@ -8,7 +8,7 @@ const base = {scpi_slug:'corum-usa',snapshot_at:'2026-10-27',source_url:'https:/
   tof:100,td:null,capitalisation:null,prix_souscription:null,prix_reconstitution:null,prix_retrait:null,valeur_realisation:null,endettement:null,
   distribution_par_part:null,parts_attente_retrait:0,nombre_parts:412240,capital_type:'variable',liquidity_basis:'withdrawal_queue',retrait_attente_pct:0};
 const rows = [{...base,source_period:'2026-T2',prix_souscription:200,prix_reconstitution:216.34,distribution_par_part:3.27,endettement:0},
-  {...base,source_period:'2026-T3',prix_souscription:200,distribution_par_part:3.15}];
+  {...base,source_period:'2026-T3',prix_souscription:200,distribution_par_part:3.15,prix_reconstitution:216.34,valeur_realisation:187.67,metric_provenance:{prix_reconstitution:{reference_date:'2026-06-30'},valeur_realisation:{reference_date:'2026-06-30'}}}];
 const fixture = new URL('../../trajectory-summary-check.html',import.meta.url);
 await writeFile(fixture,`<div id="root"></div><script type="module">import React from 'react';import {createRoot} from 'react-dom/client';import Panel from '/src/components/trajectory/ScpiTrajectoryPanel.tsx';import '/src/index.css';createRoot(document.getElementById('root')).render(React.createElement(Panel,{scpiSlug:'corum-usa'}));</script>`);
 let browser;
@@ -34,7 +34,9 @@ browser = await puppeteer.launch({headless:true,args:['--no-sandbox','--disable-
     await page.waitForFunction(()=>document.body.innerText.includes('Dernière valeur connue'));
     const cards=await page.$$eval('#trajectoire-scpi .grid > div',es=>es.slice(0,5).map(e=>e.innerText));
     assert.match(cards[2],/200 € \/ 216,34 €/);
-    assert.match(cards[2],/Dernière valeur connue · T2 2026/);
+    assert.match(cards[2],/Observation · T3 2026/);
+    assert.match(cards[2],/187,67 €/);
+    assert.match(cards[2],/Valeur arrêtée au 30\/06\/2026/);
     assert.match(cards[3],/3,15 €/);
     assert.match(cards[3],/Observation · T3 2026/);
     assert.match(cards[4],/0 %/);

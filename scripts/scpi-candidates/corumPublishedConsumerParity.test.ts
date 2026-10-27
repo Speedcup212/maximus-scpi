@@ -9,10 +9,10 @@ import catalog from '../../src/data/scpi_complet.json';
 import cohort from '../../src/data/certified_scpi_cohort.json';
 
 const verified = [
-  { name: 'CORUM Eurion', reconstitution: 224.07, buildings: 54, distribution: 5.73, investors: 42702 },
-  { name: 'CORUM Origin', reconstitution: 1186.30, buildings: 170, distribution: 6.50, investors: 76169 },
-  { name: 'CORUM USA', reconstitution: 216.34, buildings: undefined, distribution: 7.70, investors: 4716 },
-  { name: 'CORUM XL', reconstitution: 194.27, buildings: 96, distribution: 5.30, investors: 54340 },
+  { name: 'CORUM Eurion', reconstitution: 224.07, buildings: 55, distribution: 5.73, investors: 43470 },
+  { name: 'CORUM Origin', reconstitution: 1186.30, buildings: 170, distribution: 6.50, investors: 79547 },
+  { name: 'CORUM USA', reconstitution: 216.34, buildings: 6, distribution: 7.70, investors: 5009 },
+  { name: 'CORUM XL', reconstitution: 194.27, buildings: 98, distribution: 5.30, investors: 54648 },
 ];
 const enriched=enrichScpiExtendedArray(scpiDataExtended,scpiData);
 
@@ -25,7 +25,7 @@ test('Crash: production catalog has 65 published SCPI and EXACT source-certified
     assert.equal(row['Taux de distribution (%)'],item.distribution,item.name);
     assert.equal(row['td_reference_period'],'2025-RA');
     assert.equal(row['debt_reference_period'],'2025-RA');
-    assert.equal(row['Période bulletin trimestriel'],'T2 2026');
+    assert.equal(row['Période bulletin trimestriel'],'2026-T3');
     assert.equal(row["Nombre d'immeubles"],item.buildings,item.name);
     assert.equal(row['Nombre d’associés'],item.investors,item.name+' 2026-T2 source');
   }
@@ -55,21 +55,22 @@ test('Crash: full live comparator mapping + modal analysis uses actual productio
 
 test('Crash: source-documented CORUM lease commitment is visible as a WALB proxy, never as an invented WALT',()=>{
  const publishedLeaseCommitment: Record<string, number> = {
-   'CORUM Eurion': 6.36,
-   'CORUM Origin': 6.05,
-   'CORUM USA': 8.88,
-   'CORUM XL': 7.45,
+   'CORUM Eurion': 6.43,
+   'CORUM Origin': 5.8,
+   'CORUM USA': 9.41,
+   'CORUM XL': 7.25,
  };
  for(const item of verified){
   const src=scpiData.find(s=>s.name===item.name)!;
   const row=catalog.find(r=>r['Nom SCPI']===item.name)!;
   assert.equal(src.walb,publishedLeaseCommitment[item.name],item.name+' published lease proxy');
   assert.equal(row.WALB,publishedLeaseCommitment[item.name],item.name+' source catalog parity');
-  assert.equal(src.walbReferenceDate,'2026-06-30',item.name+' lease source period');
+  assert.equal(src.walbReferenceDate,'2026-09-30',item.name+' lease source period');
   assert.match(src.walbSourceUrl || '',/^https:\/\/www\.corum\.fr\//,item.name+' issuer PDF source');
   assert.match(src.walbDefinition || '',/proxy WALB|pondération non communiquée/,item.name+' methodology caveat');
+  assert.equal(src.nombreLocataires,({'CORUM Eurion':131,'CORUM Origin':444,'CORUM USA':13,'CORUM XL':251} as Record<string,number>)[item.name]);
   assert.equal(src.walt,undefined,item.name+' WALT must not be invented');
-  for(const key of ['nombreLocataires','collecteNetteTrimestre','nbCessionsTrimestre'] as const){
+  for(const key of ['collecteNetteTrimestre','nbCessionsTrimestre'] as const){
     assert.equal(src[key],undefined,item.name+' undocumented field must remain missing');
   }
  }

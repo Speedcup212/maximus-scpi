@@ -8,10 +8,10 @@ import puppeteer from 'puppeteer';
 
 const CATALOG=JSON.parse(fs.readFileSync('src/data/scpi_complet.json','utf8'));
 const COHORT=JSON.parse(fs.readFileSync('src/data/certified_scpi_cohort.json','utf8'));
-const EXPECTED=[['corum-eurion','CORUM Eurion',224.07,54,42702],
- ['corum-origin','CORUM Origin',1186.30,170,76169],
- ['corum-usa','CORUM USA',216.34,null,4716],
- ['corum-xl','CORUM XL',194.27,96,54340]];
+const EXPECTED=[['corum-eurion','CORUM Eurion',224.07,55,43470],
+ ['corum-origin','CORUM Origin',1186.30,170,79547],
+ ['corum-usa','CORUM USA',216.34,6,5009],
+ ['corum-xl','CORUM XL',194.27,98,54648]];
 const OUT=path.resolve('test-results/corum-published-rendering');
 const PORT=4191,BASE='http://127.0.0.1:'+PORT;
 fs.mkdirSync(OUT,{recursive:true});
@@ -21,7 +21,7 @@ for(const [slug,name,vr,buildings,investors] of EXPECTED){
  if(!COHORT.slugs.includes(slug)||!row)throw Error('Published CORUM absent '+slug);
  if(row['Valeur de reconstitution par part (€)']!==vr)throw Error('Wrong official VR for '+slug);
  if((row["Nombre d'immeubles"]??null)!==buildings)throw Error('Missing certified properties for '+slug);
- if(row['Nombre d’associés']!==investors)throw Error('Official T2 investor count absent '+slug);
+ if(row['Nombre d’associés']!==investors)throw Error('Official T3 investor count absent '+slug);
 }
 const report={kind:'corum_real_published_catalog_consumers',commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
  executed_at:new Date().toISOString(),repo:'Speedcup212/maximus-scpi',not_private_overlay:true,cases:[]};

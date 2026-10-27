@@ -10,10 +10,11 @@ import subprocess, tempfile, time, unicodedata, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
 import urllib.error
 import fitz
+import corum_bulletin_fields as extended
 
 FUNDS={'corum-origin':('CORUM Origin','corum-origin'), 'corum-xl':('CORUM XL','corum-xl'),
        'corum-eurion':('CORUM Eurion','eurion'), 'corum-usa':('CORUM USA','corum-usa')}
-VERSION='corum-dual-pdf-20261027-v4'
+VERSION='corum-dual-pdf-20261027-v6-extended'
 UA='Mozilla/5.0 (compatible; MaximusSCPI-OfficialArchive/1.0)'
 MAX_BYTES=65*1024*1024
 
@@ -260,6 +261,7 @@ def inspect(item,cache):
   result['issue_excerpt']=norm(a[0][0])[:1500]
   if item['kind']=='annual_report':result['status']='source_verified';return result
   result['metrics'],result['evidence'],result['anomalies']=reconcile(parse_core(*a,period=item['period']),parse_core(*b,period=item['period']))
+  result['extended_metrics'],result['extended_evidence'],result['field_coverage']=extended.reconcile_extended(extended.extract(*a,period=item['period']),extended.extract(*b,period=item['period']),result['metrics'])
   complete=all(k in result['metrics'] for k in ['tof','nombre_parts','parts_attente_retrait'])
   result['anomalies'] += ['missing_core:'+k for k in ['tof','nombre_parts','parts_attente_retrait'] if k not in result['metrics']]
   result['status']='certified_core' if complete else ('ocr_pending' if 'ocr_pages' in result or sum(len(compact(p)) for p in a[0])/len(a[0])<120 else 'partial_review')

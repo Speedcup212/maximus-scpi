@@ -65,3 +65,13 @@ rapprochement SQL sourcé CORUM USA T3 et étape CI des tests de trajectoire.
 Critères : valeurs datées par métrique, aucun remplissage des séries, liquidité inchangée,
 valorisation sur une même observation, double lecture du bulletin, tests et build PASS.
 État : validation en cours ; aucun statut global de readiness modifié.
+
+## RECOVERY-007 — Extraction de toutes les données publiées, 27/10/2026
+
+Correction demandée : la réalisation et la reconstitution présentes dans le T3
+CORUM USA ne remontaient pas dans le comparateur. Étendre le driver et tracer
+la couverture par champ ; ne pas masquer le problème par des valeurs antérieures.
+Branche : recovery/scpi-bulletin-completeness-20261027.
+Périmètre : driver CORUM, RPC, provenance, catalogue, mapping, trajectoire et modal.
+État : données T3 des quatre CORUM rapprochées ; code et tests en validation.
+Preuves : reports/trajectory/RECOVERY-007-20261027.md.

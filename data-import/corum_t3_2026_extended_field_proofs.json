@@ -1,0 +1,986 @@
+[
+  {
+    "slug": "corum-eurion",
+    "period": "2026-T3",
+    "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "kind": "quarterly_bulletin",
+    "status": "certified_core",
+    "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+    "identity_verified": true,
+    "period_verified": true,
+    "parser_version": "corum-dual-pdf-20261027-v6-extended",
+    "metrics": {
+      "nombre_parts": 7257900,
+      "parts_attente_retrait": 0,
+      "tof": 99.92
+    },
+    "evidence": {
+      "nombre_parts": {
+        "page": 3,
+        "text": "7 257 900 Nombre de parts",
+        "poppler_text": "7 257 900 Nombre de parts",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "parts_attente_retrait": {
+        "page": 3,
+        "text": "0 part en attente de retrait",
+        "poppler_text": "0 part en attente de retrait",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "tof": {
+        "page": 4,
+        "text": "FINANCIER (TOF) 99,92 % 3,36 % Dont de loyers sous Soit 0,08 % en recherche N.27 - BULLETIN",
+        "poppler_text": "FINANCIER (TOF) 99,92 %  3,36 % D ont de loyers sous S  oit 0,08 % en recherche N.27 - BULLETIN",
+        "unit": "%",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 145,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      }
+    },
+    "extended_metrics": {
+      "prix_souscription": 215.0,
+      "prix_reconstitution": 224.07,
+      "valeur_realisation": 177.78,
+      "prix_retrait": 189.2,
+      "distribution_par_part": 2.79,
+      "capitalisation": 1560.0,
+      "nombre_immeubles": 55.0,
+      "nombre_locataires": 131.0,
+      "nombre_associes": 43470.0,
+      "walb": 6.43
+    },
+    "extended_evidence": {
+      "prix_souscription": {
+        "value": 215.0,
+        "page": 3,
+        "text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 215,00 €",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 215,00 €",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_reconstitution": {
+        "value": 224.07,
+        "page": 3,
+        "text": "Valeur de reconstitution (par part) 224,07 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de reconstitution 6 (par part) 224,07 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "valeur_realisation": {
+        "value": 177.78,
+        "page": 3,
+        "text": "Valeur de réalisation (par part) 177,78 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de réalisation 5 (par part) 177,78 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_retrait": {
+        "value": 189.2,
+        "page": 3,
+        "text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 189,20 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1er jour du trimestre.",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 189,20 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1 er jour du trimestre.",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "distribution_par_part": {
+        "value": 2.79,
+        "page": 2,
+        "text": "Dividende BRUT TRIMESTRIEL : 2,79 € par part",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Dividende BRUT TRIMESTRIEL : 2,79 € par part",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "capitalisation": {
+        "value": 1560.0,
+        "page": 3,
+        "text": "Capitalisation en prix de souscription : Évolution du capital 1,560 milliard d'euros",
+        "reference_date": "2026-09-30",
+        "unit": "MEUR",
+        "definition": null,
+        "poppler_text": "Capitalisation en prix de souscription : Évolution du capital 1,560 milliard d'euros",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_immeubles": {
+        "value": 55.0,
+        "page": 4,
+        "text": "Nombre d’immeubles : 55",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’immeubles : 55",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_locataires": {
+        "value": 131.0,
+        "page": 4,
+        "text": "Nombre de locataires : 131",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre de locataires : 131",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_associes": {
+        "value": 43470.0,
+        "page": 3,
+        "text": "Nombre d’associés à la date du bulletin : Évolution 43 470",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’associés à la date du bulletin : Évolution 43 470",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "walb": {
+        "value": 6.43,
+        "page": 4,
+        "text": "Engagement locatif, pondération non précisée : 6,43 ANNÉES SOIT JUSQU'EN MARS 2033",
+        "reference_date": "2026-09-30",
+        "unit": "years",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "poppler_text": "Engagement locatif, pondération non précisée : 6,43 ANNÉES SOIT JUSQU'EN MARS 2033",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      }
+    },
+    "field_coverage": {
+      "prix_souscription": "verified",
+      "prix_reconstitution": "verified",
+      "valeur_realisation": "verified",
+      "prix_retrait": "verified",
+      "distribution_par_part": "verified",
+      "capitalisation": "verified",
+      "nombre_immeubles": "verified",
+      "nombre_locataires": "verified",
+      "nombre_associes": "verified",
+      "walb": "verified",
+      "tof": "verified_core",
+      "nombre_parts": "verified_core",
+      "parts_attente_retrait": "verified_core",
+      "endettement": "not_extracted",
+      "walt": "not_extracted",
+      "collecte_nette": "not_extracted",
+      "retraits_executes_trimestre": "not_extracted",
+      "repartition_sectorielle": "not_extracted",
+      "repartition_geographique": "not_extracted",
+      "frais_gestion": "not_extracted",
+      "frais_souscription": "not_extracted",
+      "delai_jouissance": "not_extracted"
+    },
+    "anomalies": []
+  },
+  {
+    "slug": "corum-origin",
+    "period": "2026-T3",
+    "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+    "kind": "quarterly_bulletin",
+    "status": "certified_core",
+    "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+    "identity_verified": true,
+    "period_verified": true,
+    "parser_version": "corum-dual-pdf-20261027-v6-extended",
+    "metrics": {
+      "nombre_parts": 3670342,
+      "parts_attente_retrait": 0,
+      "tof": 95.48
+    },
+    "evidence": {
+      "nombre_parts": {
+        "page": 3,
+        "text": "3 670 342 Nombre de parts",
+        "poppler_text": "3 670 342 Nombre de parts",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "parts_attente_retrait": {
+        "page": 3,
+        "text": "0 part en attente de retrait",
+        "poppler_text": "0 part en attente de retrait",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "tof": {
+        "page": 4,
+        "text": "FINANCIER (TOF) 95,48 % 3,50 % Dont de loyers sous Soit 4,52 % en recherche N.58 - BULLETIN",
+        "poppler_text": "FINANCIER (TOF) 95,48 %  3,50 % D ont de loyers sous S  oit 4,52 % en recherche N.58 - BULLETIN",
+        "unit": "%",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 145,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      }
+    },
+    "extended_metrics": {
+      "prix_souscription": 1135.0,
+      "prix_reconstitution": 1186.3,
+      "valeur_realisation": 968.75,
+      "prix_retrait": 999.21,
+      "distribution_par_part": 18.25,
+      "capitalisation": 4165.0,
+      "nombre_immeubles": 170.0,
+      "nombre_locataires": 444.0,
+      "nombre_associes": 79547.0,
+      "walb": 5.8
+    },
+    "extended_evidence": {
+      "prix_souscription": {
+        "value": 1135.0,
+        "page": 3,
+        "text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 1 135,00 €",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 1 135,00 €",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_reconstitution": {
+        "value": 1186.3,
+        "page": 3,
+        "text": "Valeur de reconstitution (par part) 1 186,30 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de reconstitution 6 (par part) 1 186,30 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "valeur_realisation": {
+        "value": 968.75,
+        "page": 3,
+        "text": "Valeur de réalisation (par part) 968,75 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de réalisation 5 (par part) 968,75 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_retrait": {
+        "value": 999.21,
+        "page": 3,
+        "text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 999,21 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1er jour du trimestre.",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 999,21 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1 er jour du trimestre.",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "distribution_par_part": {
+        "value": 18.25,
+        "page": 2,
+        "text": "Dividende BRUT TRIMESTRIEL : 18,25 € par part",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Dividende BRUT TRIMESTRIEL : 18,25 € par part",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "capitalisation": {
+        "value": 4165.0,
+        "page": 3,
+        "text": "Capitalisation en prix de souscription : Évolution du capital 4,165 milliards d'euros",
+        "reference_date": "2026-09-30",
+        "unit": "MEUR",
+        "definition": null,
+        "poppler_text": "Capitalisation en prix de souscription : Évolution du capital 4,165 milliards d'euros",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_immeubles": {
+        "value": 170.0,
+        "page": 4,
+        "text": "Nombre d’immeubles : 170",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’immeubles : 170",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_locataires": {
+        "value": 444.0,
+        "page": 4,
+        "text": "Nombre de locataires : 444",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre de locataires : 444",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_associes": {
+        "value": 79547.0,
+        "page": 3,
+        "text": "Nombre d’associés à la date du bulletin : Évolution de 79 547",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’associés à la date du bulletin : Évolution de 79 547",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "walb": {
+        "value": 5.8,
+        "page": 4,
+        "text": "Engagement locatif, pondération non précisée : 5,80 ANNÉES SOIT JUSQU'EN JUILLET 2032",
+        "reference_date": "2026-09-30",
+        "unit": "years",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "poppler_text": "Engagement locatif, pondération non précisée : 5,80 ANNÉES SOIT JUSQU'EN JUILLET 2032",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      }
+    },
+    "field_coverage": {
+      "prix_souscription": "verified",
+      "prix_reconstitution": "verified",
+      "valeur_realisation": "verified",
+      "prix_retrait": "verified",
+      "distribution_par_part": "verified",
+      "capitalisation": "verified",
+      "nombre_immeubles": "verified",
+      "nombre_locataires": "verified",
+      "nombre_associes": "verified",
+      "walb": "verified",
+      "tof": "verified_core",
+      "nombre_parts": "verified_core",
+      "parts_attente_retrait": "verified_core",
+      "endettement": "not_extracted",
+      "walt": "not_extracted",
+      "collecte_nette": "not_extracted",
+      "retraits_executes_trimestre": "not_extracted",
+      "repartition_sectorielle": "not_extracted",
+      "repartition_geographique": "not_extracted",
+      "frais_gestion": "not_extracted",
+      "frais_souscription": "not_extracted",
+      "delai_jouissance": "not_extracted"
+    },
+    "anomalies": []
+  },
+  {
+    "slug": "corum-usa",
+    "period": "2026-T3",
+    "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+    "kind": "quarterly_bulletin",
+    "status": "certified_core",
+    "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+    "identity_verified": true,
+    "period_verified": true,
+    "parser_version": "corum-dual-pdf-20261027-v6-extended",
+    "metrics": {
+      "nombre_parts": 412240,
+      "parts_attente_retrait": 0,
+      "tof": 100.0
+    },
+    "evidence": {
+      "nombre_parts": {
+        "page": 3,
+        "text": "412 240 Nombre de parts",
+        "poppler_text": "412 240 Nombre de parts",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "parts_attente_retrait": {
+        "page": 3,
+        "text": "0 part en attente de retrait",
+        "poppler_text": "0 part en attente de retrait",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "tof": {
+        "page": 4,
+        "text": "FINANCIER (TOF) 100 %",
+        "poppler_text": "FINANCIER (TOF) 100 %",
+        "unit": "%",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 145,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      }
+    },
+    "extended_metrics": {
+      "prix_souscription": 200.0,
+      "prix_reconstitution": 216.34,
+      "valeur_realisation": 187.67,
+      "prix_retrait": 176.0,
+      "distribution_par_part": 3.15,
+      "capitalisation": 82.0,
+      "nombre_immeubles": 6.0,
+      "nombre_locataires": 13.0,
+      "nombre_associes": 5009.0,
+      "walb": 9.41
+    },
+    "extended_evidence": {
+      "prix_souscription": {
+        "value": 200.0,
+        "page": 3,
+        "text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 200,00 €",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 200,00 €",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_reconstitution": {
+        "value": 216.34,
+        "page": 3,
+        "text": "Valeur de reconstitution (par part) 216,34 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de reconstitution 7 (par part) 216,34 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "valeur_realisation": {
+        "value": 187.67,
+        "page": 3,
+        "text": "Valeur de réalisation (par part) 187,67 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de réalisation 6 (par part) 187,67 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_retrait": {
+        "value": 176.0,
+        "page": 3,
+        "text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 176,00 € commission de souscription versée à la société de gestion. entre le prix de souscription au 1er janvier de l’année N+1 et le prix de souscription",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 176,00 € commission de souscription versée à la société de gestion. entre le prix de souscription au 1 er janvier de l’année N+1 et le prix de souscription",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "distribution_par_part": {
+        "value": 3.15,
+        "page": 3,
+        "text": "Dividende BRUT TRIMESTRIEL : L’essentiel de 3,15 € par part",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Dividende BRUT TRIMESTRIEL : L’essentiel de 3,15 € par part",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "capitalisation": {
+        "value": 82.0,
+        "page": 3,
+        "text": "Capitalisation en prix de souscription : Évolution du capital 82 millions d'euros",
+        "reference_date": "2026-09-30",
+        "unit": "MEUR",
+        "definition": null,
+        "poppler_text": "Capitalisation en prix de souscription : Évolution du capital 82 millions d'euros",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_immeubles": {
+        "value": 6.0,
+        "page": 4,
+        "text": "Nombre d’immeubles : 6",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’immeubles : 6",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_locataires": {
+        "value": 13.0,
+        "page": 4,
+        "text": "Nombre de locataires : 13",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre de locataires : 13",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_associes": {
+        "value": 5009.0,
+        "page": 3,
+        "text": "Nombre d’associés à la date du bulletin : 5 009",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’associés à la date du bulletin : 5 009",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "walb": {
+        "value": 9.41,
+        "page": 4,
+        "text": "Engagement locatif, pondération non précisée : 9,41 ANNÉES SOIT JUSQU'EN FÉVRIER 2036",
+        "reference_date": "2026-09-30",
+        "unit": "years",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "poppler_text": "Engagement locatif, pondération non précisée : 9,41 ANNÉES SOIT JUSQU'EN FÉVRIER 2036",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      }
+    },
+    "field_coverage": {
+      "prix_souscription": "verified",
+      "prix_reconstitution": "verified",
+      "valeur_realisation": "verified",
+      "prix_retrait": "verified",
+      "distribution_par_part": "verified",
+      "capitalisation": "verified",
+      "nombre_immeubles": "verified",
+      "nombre_locataires": "verified",
+      "nombre_associes": "verified",
+      "walb": "verified",
+      "tof": "verified_core",
+      "nombre_parts": "verified_core",
+      "parts_attente_retrait": "verified_core",
+      "endettement": "not_extracted",
+      "walt": "not_extracted",
+      "collecte_nette": "not_extracted",
+      "retraits_executes_trimestre": "not_extracted",
+      "repartition_sectorielle": "not_extracted",
+      "repartition_geographique": "not_extracted",
+      "frais_gestion": "not_extracted",
+      "frais_souscription": "not_extracted",
+      "delai_jouissance": "not_extracted"
+    },
+    "anomalies": []
+  },
+  {
+    "slug": "corum-xl",
+    "period": "2026-T3",
+    "url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "kind": "quarterly_bulletin",
+    "status": "certified_core",
+    "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+    "identity_verified": true,
+    "period_verified": true,
+    "parser_version": "corum-dual-pdf-20261027-v6-extended",
+    "metrics": {
+      "nombre_parts": 11203915,
+      "parts_attente_retrait": 0,
+      "tof": 95.44
+    },
+    "evidence": {
+      "nombre_parts": {
+        "page": 3,
+        "text": "11 203 915 Nombre de parts",
+        "poppler_text": "11 203 915 Nombre de parts",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "parts_attente_retrait": {
+        "page": 3,
+        "text": "0 part en attente de retrait",
+        "poppler_text": "0 part en attente de retrait",
+        "unit": "parts",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 45,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      },
+      "tof": {
+        "page": 4,
+        "text": "FINANCIER (TOF) 95,44 % 4,48 % Dont de loyers sous Soit 4,56 % en recherche N.37 - BULLETIN",
+        "poppler_text": "FINANCIER (TOF) 95,44 %  4,48 % D ont de loyers sous S  oit 4,56 % en recherche N.37 - BULLETIN",
+        "unit": "%",
+        "method": "pdf_page_text_match",
+        "value_match": true,
+        "distance": 145,
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ]
+      }
+    },
+    "extended_metrics": {
+      "prix_souscription": 195.0,
+      "prix_reconstitution": 194.27,
+      "valeur_realisation": 157.73,
+      "prix_retrait": 171.6,
+      "distribution_par_part": 2.49,
+      "capitalisation": 2185.0,
+      "nombre_immeubles": 98.0,
+      "nombre_locataires": 251.0,
+      "nombre_associes": 54648.0,
+      "walb": 7.25
+    },
+    "extended_evidence": {
+      "prix_souscription": {
+        "value": 195.0,
+        "page": 3,
+        "text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 195,00 €",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Une part, frais et commission inclus : (frais et commission de souscription inclus) 195,00 €",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_reconstitution": {
+        "value": 194.27,
+        "page": 3,
+        "text": "Valeur de reconstitution (par part) 194,27 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de reconstitution 6 (par part) 194,27 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "valeur_realisation": {
+        "value": 157.73,
+        "page": 3,
+        "text": "Valeur de réalisation (par part) 157,73 €; 2026-06-30",
+        "reference_date": "2026-06-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Valeur de réalisation 5 (par part) 157,73 €; 2026-06-30",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "prix_retrait": {
+        "value": 171.6,
+        "page": 3,
+        "text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 171,60 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1er jour du trimestre.",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Prix de revente par compensation : Prix de souscription de la part en vigueur diminué de la 171,60 € commission de souscription versée à la société de gestion. et s’entend pour un associé ayant la jouissance de ses parts au 1 er jour du trimestre.",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "distribution_par_part": {
+        "value": 2.49,
+        "page": 2,
+        "text": "Dividende BRUT TRIMESTRIEL : 2,49 € par part",
+        "reference_date": "2026-09-30",
+        "unit": "EUR_PER_PART",
+        "definition": null,
+        "poppler_text": "Dividende BRUT TRIMESTRIEL : 2,49 € par part",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "capitalisation": {
+        "value": 2185.0,
+        "page": 3,
+        "text": "Capitalisation en prix de souscription : Évolution du capital 2,185 milliards d'euros",
+        "reference_date": "2026-09-30",
+        "unit": "MEUR",
+        "definition": null,
+        "poppler_text": "Capitalisation en prix de souscription : Évolution du capital 2,185 milliards d'euros",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_immeubles": {
+        "value": 98.0,
+        "page": 4,
+        "text": "Nombre d’immeubles : 98",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’immeubles : 98",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_locataires": {
+        "value": 251.0,
+        "page": 4,
+        "text": "Nombre de locataires : 251",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre de locataires : 251",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "nombre_associes": {
+        "value": 54648.0,
+        "page": 3,
+        "text": "Nombre d’associés à la date du bulletin : Évolution 54 648",
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "definition": null,
+        "poppler_text": "Nombre d’associés à la date du bulletin : Évolution 54 648",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      },
+      "walb": {
+        "value": 7.25,
+        "page": 4,
+        "text": "Engagement locatif, pondération non précisée : 7,25 ANNÉES SOIT JUSQU'EN DÉCEMBRE 2033",
+        "reference_date": "2026-09-30",
+        "unit": "years",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "poppler_text": "Engagement locatif, pondération non précisée : 7,25 ANNÉES SOIT JUSQU'EN DÉCEMBRE 2033",
+        "independent_engines": [
+          "MuPDF",
+          "Poppler"
+        ],
+        "method": "pdf_page_text_match",
+        "value_match": true
+      }
+    },
+    "field_coverage": {
+      "prix_souscription": "verified",
+      "prix_reconstitution": "verified",
+      "valeur_realisation": "verified",
+      "prix_retrait": "verified",
+      "distribution_par_part": "verified",
+      "capitalisation": "verified",
+      "nombre_immeubles": "verified",
+      "nombre_locataires": "verified",
+      "nombre_associes": "verified",
+      "walb": "verified",
+      "tof": "verified_core",
+      "nombre_parts": "verified_core",
+      "parts_attente_retrait": "verified_core",
+      "endettement": "not_extracted",
+      "walt": "not_extracted",
+      "collecte_nette": "not_extracted",
+      "retraits_executes_trimestre": "not_extracted",
+      "repartition_sectorielle": "not_extracted",
+      "repartition_geographique": "not_extracted",
+      "frais_gestion": "not_extracted",
+      "frais_souscription": "not_extracted",
+      "delai_jouissance": "not_extracted"
+    },
+    "anomalies": []
+  }
+]

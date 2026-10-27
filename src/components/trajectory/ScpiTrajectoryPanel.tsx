@@ -15,6 +15,7 @@ import { scpiData } from '../../data/scpiData';
 import { getVerifiedAnnualRows } from './scpiAnnualHistoryData';
 import { ScpiAnnualHistorySection } from './ScpiAnnualHistorySection';
 import { ScpiLeaseDurations } from './ScpiLeaseDurations';
+import { metricDateLabel } from '../../utils/scpiFinancialProvenance';
 import {
   CERTIFIED_HISTORY_SELECT,
   CertifiedLiquiditySnapshot,
@@ -142,12 +143,14 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
   const distributionSnapshot = latestMetricSnapshot(history, 'distribution_par_part');
   const debtSnapshot = latestMetricSnapshot(history, 'endettement');
   const valuationSnapshot = latestValuationSnapshot(history);
+  const realisationSnapshot = latestMetricSnapshot(history, 'valeur_realisation');
   const { value: liquidityValue, delta: liquidityDelta } = currentCertifiedLiquidity(history, liquidity, signalGate);
 
-  const reference = (snapshot: { period: string | null; sourceUrl: string | null; isLastKnown: boolean } | null) => (
+  const reference = (snapshot: { period: string | null; sourceUrl: string | null; isLastKnown: boolean; referenceDate?: string } | null) => (
     <div className="mt-2 text-[11px] leading-4 text-slate-400">
       {snapshot ? <>
         <span className="block">{snapshot.isLastKnown ? 'Dernière valeur connue · ' : 'Observation · '}{formatPeriod(snapshot.period)}</span>
+        {snapshot.referenceDate && <span className="block">Valeur arrêtée au {metricDateLabel(snapshot.referenceDate)}</span>}
         {snapshot.isLastKnown && <span className="block text-amber-300">{formatPeriod(latest?.source_period)} : donnée non renseignée ou non validée</span>}
         {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">Source officielle ↗</a>}
       </> : 'Aucune observation disponible'}
@@ -303,6 +306,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             </div>
             <div className="mt-1 text-xs text-slate-400">Écart {formatSigned(valuationSnapshot?.gap ?? null, ' %')}</div>
             {reference(valuationSnapshot)}
+            <div className="mt-2 border-t border-slate-700 pt-2 text-xs text-slate-300">
+              Réalisation : <strong>{numberFormatter(realisationSnapshot?.value ?? null, ' €')}</strong>
+              {reference(realisationSnapshot)}
+            </div>
             {currentScpi?.valeurRetrait !== undefined && (
               <div data-testid="trajectory-withdrawal-current" className="mt-2 border-t border-slate-700 pt-2 text-xs text-slate-200">
                 Retrait par part : <strong>{numberFormatter(currentScpi.valeurRetrait, ' €')}</strong>
@@ -412,10 +419,11 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                         <span className="block text-[10px] text-slate-500">{liquidityLabel(row.liquidity_basis)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
-                      <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}</td>
+                      <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}<span className="block text-[10px] text-slate-400">{metricDateLabel(row.metric_provenance?.prix_reconstitution?.reference_date)}</span></td>
                       <td className="px-4 py-3 text-right">
                           {numberFormatter(row.valeur_realisation, ' €')}
-                          {row.valeur_realisation !== null &&
+                          {row.metric_provenance?.valeur_realisation?.reference_date && <span className="block text-[10px] text-slate-400">Au {metricDateLabel(row.metric_provenance.valeur_realisation.reference_date)}</span>}
+                          {!row.metric_provenance?.valeur_realisation && row.valeur_realisation !== null &&
                             annualRows.some(a => a.fiscal_year === 2025
                               && Math.abs(a.valeur_realisation_par_part - row.valeur_realisation!) < 0.001) &&
                             <span className="block text-[10px] text-slate-400">

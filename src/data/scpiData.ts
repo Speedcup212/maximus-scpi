@@ -385,6 +385,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
 
   return {
     id: index + 1,
+    metricProvenance: scpi.maximus_metric_provenance || undefined,
     name: scpi['Nom SCPI'],
     sector: sector,
     geography: geography,

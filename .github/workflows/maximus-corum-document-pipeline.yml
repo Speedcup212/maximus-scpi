@@ -7,10 +7,12 @@ on:
     branches: [main, recovery/corum-backfill-20261027]
     paths:
       - 'scripts/agents/corum_document_pipeline*'
+      - 'scripts/agents/corum_bulletin_fields*'
       - '.github/workflows/maximus-corum-document-pipeline.yml'
   pull_request:
     paths:
       - 'scripts/agents/corum_document_pipeline*'
+      - 'scripts/agents/corum_bulletin_fields*'
       - '.github/workflows/maximus-corum-document-pipeline.yml'
 permissions:
   contents: read
@@ -35,7 +37,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
       - name: Adversarial crash tests, including actual scanned PDF
-        run: python -m unittest discover -s scripts/agents -p 'corum_document_pipeline_test.py' -v
+        run: python -m unittest discover -s scripts/agents -p 'corum*_test.py' -v
       - uses: actions/cache@v4
         if: github.event_name != 'pull_request'
         with:

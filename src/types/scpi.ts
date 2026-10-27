@@ -17,6 +17,7 @@ export interface ScpiRepartition {
 }
 
 export interface Scpi {
+  metricProvenance?: Record<string, { reference_date?: string; document_period?: string; source_url?: string; source_page?: number }>;
   id: number;
   name: string;
   sector: 'bureaux' | 'commerces' | 'residentiel' | 'sante' | 'logistique' | 'hotellerie' | 'diversifie';

@@ -4,18 +4,18 @@ import { readFileSync } from 'node:fs';
 
 const raw = JSON.parse(readFileSync(new URL('../../src/data/scpi_complet.json', import.meta.url), 'utf8'));
 const cases = [
-  ['CORUM Origin', 6.05],
-  ['CORUM XL', 7.45],
-  ['CORUM Eurion', 6.36],
-  ['CORUM USA', 8.88],
+  ['CORUM Origin', 5.8],
+  ['CORUM XL', 7.25],
+  ['CORUM Eurion', 6.43],
+  ['CORUM USA', 9.41],
 ];
-test('CORUM T2 2026 : toutes les durées locatives sourcées sans WALT inventée', () => {
+test('CORUM T3 2026 : toutes les durées locatives sourcées sans WALT inventée', () => {
   for (const [name, expectedWalb] of cases) {
     const r = raw.find((row) => row['Nom SCPI'] === name);
     assert.ok(r, name + ' absent');
     assert.equal(r.WALB, expectedWalb, name);
     assert.equal(r.WALT, undefined, name + ' ne doit pas contenir de WALT fictive');
-    assert.equal(r.maximus_walb_reference_date, '2026-06-30');
+    assert.equal(r.maximus_walb_reference_date, '2026-09-30');
     assert.match(r.maximus_walb_definition, /proxy WALB|pondération non communiquée/);
     assert.match(r.maximus_walb_source_url, /^https:\/\/www\.corum\.fr\//);
   }
