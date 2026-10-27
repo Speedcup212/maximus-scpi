@@ -7,7 +7,7 @@ Resource bounds are concurrency/checkpoints, never a document-count cutoff.
 """
 from __future__ import annotations
 import argparse, concurrent.futures, datetime, hashlib, html, json, os, pathlib, re
-import subprocess, tempfile, time, unicodedata, urllib.error, urllib.parse, urllib.request
+import subprocess, tempfile, time, unicodedata, urllib.error, urllib.parse, urllib.request, threading
 import xml.etree.ElementTree as ET
 import ipaddress
 import fitz
@@ -73,7 +73,7 @@ def fetch_source(item, cache):
             req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept':'application/pdf,text/html;q=0.8'})
             with PUBLIC_OPENER.open(req, timeout=45) as resp:
                 # Disk checkpoint supports documents of any size without an in-memory read cap.
-                tmp = path.with_suffix('.download')
+                tmp = path.with_suffix('.'+str(os.getpid())+'-'+str(threading.get_ident())+'.download')
                 with tmp.open('wb') as target:
                     while chunk := resp.read(1024 * 1024):
                         target.write(chunk)
