@@ -4,6 +4,7 @@ import { scpiData } from './scpiData';
 import type { ScpiManagementFeeDetails } from '../types/scpi';
 
 export interface SCPIExtended {
+  metricProvenance?: import('../types/scpi').Scpi['metricProvenance'];
   id: number;
   name: string;
   yield: number;
@@ -4089,6 +4090,7 @@ const newlyReleased = scpiData
   )
   .map((scpi, i): SCPIExtended => ({
     id: maxHistoricalId + i + 1,
+    metricProvenance: scpi.metricProvenance,
     name: scpi.name, yield: scpi.yield, price: scpi.price,
     minInvestment: scpi.minInvest,
     category: categoryLabels[scpi.sector] || 'Diversifié',
@@ -4100,7 +4102,7 @@ const newlyReleased = scpiData
     strategy: sourceBackedPortfolioDescription({
       sectors: scpi.repartitionSector,
       countries: scpi.repartitionGeo,
-      referencePeriod: scpi.periodeBulletinTrimestriel
+      referencePeriod: scpi.metricProvenance?.repartition_sectorielle?.document_period || scpi.periodeBulletinTrimestriel
     }),
     reconstitutionValue: scpi.valeurReconstitution,
     discount: scpi.discountQaStatus === 'publishable' ? scpi.discount : undefined,

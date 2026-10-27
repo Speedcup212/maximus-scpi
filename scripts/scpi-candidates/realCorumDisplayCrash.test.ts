@@ -35,7 +35,7 @@ test('CRASH: new 2026 CORUM analyses never have a blank published strategy',()=>
  for(const [name] of cases){
   const scpi=scpiDataExtended.find(x=>x.name===name);
   assert.ok(scpi,name);
-  assert.ok(scpi.strategy.startsWith('Répartition publiée (T2 2026)'),name);
+  assert.ok(scpi.strategy.startsWith('Répartition publiée (2026-T2)'),name);
   assert.ok(scpi.strategy.includes('Risque de perte en capital') || scpi.strategy.includes('risque de perte en capital'),name);
   assert.ok(scpi.strategy.includes('pays :'),name);
   assert.ok(scpi.strategy.includes('secteurs :'),name);
@@ -58,7 +58,7 @@ test('CRASH: UI flags missing detailed rental KPIs and marks source dates withou
  assert.match(source,/scpi-rental-source-coverage/);
  assert.match(source,/Aucune estimation n’est substituée/);
  assert.match(source,/décote non certifiée/);
- assert.match(source,/Distribution\{distributionYear!==null/);
+ assert.match(source,/Distribution\{scpi.metricProvenance/);
  assert.match(source,/Valeur sourcée/);
  assert.match(source,/scpi-reconstitution-value/);
  assert.match(comparator,/scpi\.discountQaStatus === 'publishable'/);

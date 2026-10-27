@@ -1,0 +1,24 @@
+import unittest,sys
+import corum_bulletin_fields as f
+class ExtendedFieldsTest(unittest.TestCase):
+ def test_dates_are_not_bulletin_quarters(self):
+  self.assertEqual(f.valuation_date('VALEURS DE RÉFÉRENCE AU 30 JUIN 2026'),'2026-06-30')
+  self.assertEqual(f.quarter_date('2026-T3'),'2026-09-30')
+  self.assertIsNone(f.valuation_date('T3 2026'))
+ def test_engines_must_agree_on_value_and_date(self):
+  p={'value':187.67,'page':3,'text':'Valeur de réalisation 187,67 EUR','reference_date':'2026-06-30','unit':'EUR_PER_PART'}
+  for change in [{'value':177.04},{'reference_date':'2025-12-31'},{'page':2}]:
+   m,_,cov=f.reconcile_extended(({'valeur_realisation':p},{'valeur_realisation'}),({'valeur_realisation':{**p,**change}},{'valeur_realisation'}),{})
+   self.assertNotIn('valeur_realisation',m);self.assertEqual(cov['valeur_realisation'],'needs_review')
+ def test_missing_debt_never_becomes_zero_or_complete(self):
+  m,p,cov=f.reconcile_extended(({},set()),({},set()),{'tof':100,'nombre_parts':10,'parts_attente_retrait':0})
+  self.assertNotIn('endettement',m);self.assertEqual(cov['endettement'],'not_extracted');self.assertEqual(cov['tof'],'verified_core')
+ def test_footnote_number_does_not_replace_euro_value(self):
+  words=[(10,10,30,20,'Valeur'),(32,10,38,20,'de'),(40,10,100,20,'réalisation'),(101,8,104,15,'6'),(110,10,130,20,'(par'),(132,10,150,20,'part)'),(300,10,340,20,'187,67'),(342,10,350,20,'€')]
+  a,_=f.extract(['VALEURS DE RÉFÉRENCE AU 30 JUIN 2026'],[words],[400],'2026-T3')
+  self.assertEqual(a['valeur_realisation']['value'],187.67);self.assertEqual(a['valeur_realisation']['reference_date'],'2026-06-30')
+ def test_future_reference_date_not_published(self):
+  words=[(10,10,30,20,'Valeur'),(32,10,38,20,'de'),(40,10,100,20,'réalisation'),(300,10,340,20,'187,67'),(342,10,350,20,'€')]
+  a,_=f.extract(['VALEURS DE RÉFÉRENCE AU 31 DÉCEMBRE 2026'],[words],[400],'2026-T3')
+  self.assertNotIn('valeur_realisation',a)
+if __name__=='__main__':unittest.main()

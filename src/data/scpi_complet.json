@@ -3893,25 +3893,25 @@
     "Nom SCPI": "CORUM Eurion",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2020,
-    "Capitalisation (M€)": 1534.10713,
-    "Prix de souscription (€)": 215,
+    "Capitalisation (M€)": 1560.0,
+    "Prix de souscription (€)": 215.0,
     "Valeur de reconstitution par part (€)": 224.07,
-    "Valeur de réalisation (€)": 177.1,
-    "WALB": 6.36,
-    "maximus_valeur_realisation_reference_date": "2025-12-31",
-    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
-    "maximus_valeur_realisation_source_page": 10,
-    "maximus_walb_reference_date": "2026-06-30",
-    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+    "Valeur de réalisation (€)": 177.78,
+    "WALB": 6.43,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "maximus_valeur_realisation_source_page": 3,
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
     "maximus_walb_source_page": 4,
     "maximus_walb_definition": "Durée moyenne d'engagement à payer le loyer (proxy WALB ; pondération non communiquée)",
-    "Nombre d'immeubles": 54,
+    "Nombre d'immeubles": 55,
     "Décote/Surcote QA": "manual_review",
     "Taux de distribution (%)": 5.73,
-    "Distribution (€/part)": 12.33,
+    "Distribution (€/part)": 2.79,
     "Endettement (%)": 18,
     "TOF (%)": 99.92,
-    "Nombre de parts": 7135382,
+    "Nombre de parts": 7257900,
     "Parts en attente de retrait": 0,
     "Minimum de souscription €": 215,
     "Frais de souscription (TTC/%)": 12,
@@ -3947,16 +3947,16 @@
     },
     "liquidite": "Demandes de retrait selon les modalités de la société de gestion. Au T2 2026 : 0 parts en attente selon le bulletin officiel. Aucun rachat, délai de revente ou prix de cession n’est garanti. Consulter la note d’information officielle avant de souscrire.",
     "liquidity_basis": "withdrawal_queue",
-    "Nombre d’associés": 42702,
-    "Période bulletin trimestriel": "T2 2026",
-    "Date bulletin": "30/06/2026",
+    "Nombre d’associés": 43470,
+    "Période bulletin trimestriel": "2026-T3",
+    "Date bulletin": "30/09/2026",
     "td_reference_period": "2025-RA",
     "debt_reference_period": "2025-RA",
     "td_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
     "debt_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Eurion%202025.pdf",
     "maximus_data_status": "certified_and_final_reviewed",
-    "maximus_source_periode": "TD et dette : année 2025 ; données courantes : T2 2026",
-    "maximus_source_document": "Rapport annuel 2025 et Bulletin T2 2026 CORUM; DIC officiel",
+    "maximus_source_periode": "2026-T3",
+    "maximus_source_document": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
     "maximus_warnings": [
       "Risque de perte en capital et de liquidité. Durée recommandée : 10 ans.",
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
@@ -3967,31 +3967,154 @@
     "maximus_prix_retrait_source_url": "https://epargne.corum.fr/docs/cgv-scpi-2023.pdf",
     "maximus_prix_retrait_source_page": 3,
     "maximus_prix_retrait_reference_period": "2026-T2",
-    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché.",
+    "Nombre de locataires": 131,
+    "maximus_metric_provenance": {
+      "tof": {
+        "unit": "%",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "walb": {
+        "unit": "years",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_parts": {
+        "unit": "parts",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_retrait": {
+        "unit": "EUR_PER_PART",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "capitalisation": {
+        "unit": "MEUR",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_immeubles": {
+        "unit": "count",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_locataires": {
+        "unit": "count",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_souscription": {
+        "unit": "EUR_PER_PART",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "valeur_realisation": {
+        "unit": "EUR_PER_PART",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "prix_reconstitution": {
+        "unit": "EUR_PER_PART",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "distribution_par_part": {
+        "unit": "EUR_PER_PART",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 2,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "parts_attente_retrait": {
+        "unit": "parts",
+        "sha256": "e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+        "document_period": "2026-T2"
+      },
+      "repartition_geographique": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2.pdf",
+        "document_period": "2026-T2"
+      },
+      "nombre_associes": {
+        "page": 3,
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "document_period": "2026-T3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf"
+      }
+    }
   },
   {
     "Nom SCPI": "CORUM Origin",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2012,
-    "Capitalisation (M€)": 4044.22292,
-    "Prix de souscription (€)": 1135,
+    "Capitalisation (M€)": 4165.0,
+    "Prix de souscription (€)": 1135.0,
     "Valeur de reconstitution par part (€)": 1186.3,
-    "Valeur de réalisation (€)": 959.47,
-    "WALB": 6.05,
-    "maximus_valeur_realisation_reference_date": "2025-12-31",
-    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
-    "maximus_valeur_realisation_source_page": 11,
-    "maximus_walb_reference_date": "2026-06-30",
-    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+    "Valeur de réalisation (€)": 968.75,
+    "WALB": 5.8,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+    "maximus_valeur_realisation_source_page": 3,
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
     "maximus_walb_source_page": 4,
     "maximus_walb_definition": "Durée moyenne d'engagement à payer le loyer (proxy WALB ; pondération non communiquée)",
     "Nombre d'immeubles": 170,
     "Décote/Surcote QA": "manual_review",
     "Taux de distribution (%)": 6.5,
-    "Distribution (€/part)": 73.8,
+    "Distribution (€/part)": 18.25,
     "Endettement (%)": 6,
     "TOF (%)": 95.77,
-    "Nombre de parts": 3563192,
+    "Nombre de parts": 3670342,
     "Parts en attente de retrait": 0,
     "Minimum de souscription €": 1135,
     "Frais de souscription (TTC/%)": 11.964,
@@ -4034,16 +4157,16 @@
     },
     "liquidite": "Demandes de retrait selon les modalités de la société de gestion. Au T2 2026 : 0 parts en attente selon le bulletin officiel. Aucun rachat, délai de revente ou prix de cession n’est garanti. Consulter la note d’information officielle avant de souscrire.",
     "liquidity_basis": "withdrawal_queue",
-    "Nombre d’associés": 76169,
-    "Période bulletin trimestriel": "T2 2026",
-    "Date bulletin": "30/06/2026",
+    "Nombre d’associés": 79547,
+    "Période bulletin trimestriel": "2026-T3",
+    "Date bulletin": "30/09/2026",
     "td_reference_period": "2025-RA",
     "debt_reference_period": "2025-RA",
     "td_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
     "debt_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20Origin%202025_0.pdf",
     "maximus_data_status": "certified_and_final_reviewed",
-    "maximus_source_periode": "TD et dette : année 2025 ; données courantes : T2 2026",
-    "maximus_source_document": "Rapport annuel 2025 et Bulletin T2 2026 CORUM; DIC officiel",
+    "maximus_source_periode": "2026-T3",
+    "maximus_source_document": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
     "maximus_warnings": [
       "Risque de perte en capital et de liquidité. Durée recommandée : 10 ans.",
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
@@ -4054,30 +4177,153 @@
     "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-Origin-FR2-Note-dinformation-2024.02.12.pdf",
     "maximus_prix_retrait_source_page": 11,
     "maximus_prix_retrait_reference_period": "2026-T2",
-    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché.",
+    "Nombre de locataires": 444,
+    "maximus_metric_provenance": {
+      "tof": {
+        "unit": "%",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "walb": {
+        "unit": "years",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_parts": {
+        "unit": "parts",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_retrait": {
+        "unit": "EUR_PER_PART",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "capitalisation": {
+        "unit": "MEUR",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_immeubles": {
+        "unit": "count",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_locataires": {
+        "unit": "count",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_souscription": {
+        "unit": "EUR_PER_PART",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "valeur_realisation": {
+        "unit": "EUR_PER_PART",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "prix_reconstitution": {
+        "unit": "EUR_PER_PART",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "distribution_par_part": {
+        "unit": "EUR_PER_PART",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 2,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "parts_attente_retrait": {
+        "unit": "parts",
+        "sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+        "document_period": "2026-T2"
+      },
+      "repartition_geographique": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T2_V5-web%201.pdf",
+        "document_period": "2026-T2"
+      },
+      "nombre_associes": {
+        "page": 3,
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "document_period": "2026-T3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf"
+      }
+    }
   },
   {
     "Nom SCPI": "CORUM USA",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2024,
-    "Capitalisation (M€)": 77.4242,
-    "Prix de souscription (€)": 200,
+    "Capitalisation (M€)": 82.0,
+    "Prix de souscription (€)": 200.0,
     "Valeur de reconstitution par part (€)": 216.34,
-    "Valeur de réalisation (€)": 177.04,
-    "WALB": 8.88,
-    "maximus_valeur_realisation_reference_date": "2025-12-31",
-    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
-    "maximus_valeur_realisation_source_page": 9,
-    "maximus_walb_reference_date": "2026-06-30",
-    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+    "Valeur de réalisation (€)": 187.67,
+    "WALB": 9.41,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+    "maximus_valeur_realisation_source_page": 3,
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
     "maximus_walb_source_page": 4,
     "maximus_walb_definition": "Durée moyenne d'engagement à payer le loyer (proxy WALB ; pondération non communiquée)",
     "Décote/Surcote QA": "manual_review",
     "Taux de distribution (%)": 7.7,
-    "Distribution (€/part)": 15.4,
+    "Distribution (€/part)": 3.15,
     "Endettement (%)": 0,
     "TOF (%)": 100,
-    "Nombre de parts": 387121,
+    "Nombre de parts": 412240,
     "Parts en attente de retrait": 0,
     "Minimum de souscription €": 200,
     "Frais de souscription (TTC/%)": 12,
@@ -4114,51 +4360,175 @@
     },
     "liquidite": "Demandes de retrait selon les modalités de la société de gestion. Au T2 2026 : 0 parts en attente selon le bulletin officiel. Aucun rachat, délai de revente ou prix de cession n’est garanti. Consulter la note d’information officielle avant de souscrire.",
     "liquidity_basis": "withdrawal_queue",
-    "Nombre d’associés": 4716,
-    "Période bulletin trimestriel": "T2 2026",
-    "Date bulletin": "30/06/2026",
+    "Nombre d’associés": 5009,
+    "Période bulletin trimestriel": "2026-T3",
+    "Date bulletin": "30/09/2026",
     "td_reference_period": "2025-RA",
     "debt_reference_period": "2025-RA",
     "td_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
     "debt_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20USA%202025.pdf",
     "maximus_data_status": "certified_and_final_reviewed",
-    "maximus_source_periode": "TD et dette : année 2025 ; données courantes : T2 2026",
-    "maximus_source_document": "Rapport annuel 2025 et Bulletin T2 2026 CORUM; DIC officiel",
+    "maximus_source_periode": "2026-T3",
+    "maximus_source_document": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
     "maximus_warnings": [
       "Risque de perte en capital et de liquidité. Durée recommandée : 10 ans.",
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
       "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
     ],
     "maximus_lifecycle_status": "normal",
-    "Valeur de retrait (€)": 176,
+    "Valeur de retrait (€)": 176.0,
     "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-USA-FR1-Note-information-20250124.pdf",
     "maximus_prix_retrait_source_page": 13,
     "maximus_prix_retrait_reference_period": "2026-T2",
-    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché.",
+    "Nombre de locataires": 13,
+    "Nombre d'immeubles": 6,
+    "maximus_metric_provenance": {
+      "tof": {
+        "unit": "%",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "walb": {
+        "unit": "years",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_parts": {
+        "unit": "parts",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_retrait": {
+        "unit": "EUR_PER_PART",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "capitalisation": {
+        "unit": "MEUR",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_immeubles": {
+        "unit": "count",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_locataires": {
+        "unit": "count",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_souscription": {
+        "unit": "EUR_PER_PART",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "valeur_realisation": {
+        "unit": "EUR_PER_PART",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "prix_reconstitution": {
+        "unit": "EUR_PER_PART",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "distribution_par_part": {
+        "unit": "EUR_PER_PART",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "parts_attente_retrait": {
+        "unit": "parts",
+        "sha256": "680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+        "document_period": "2026-T2"
+      },
+      "repartition_geographique": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-09/CORUM%20USA%20-%20Fil%20d%27Actualite%CC%81s%202026-T2_V5-web%20%282%29.pdf",
+        "document_period": "2026-T2"
+      },
+      "nombre_associes": {
+        "page": 3,
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "document_period": "2026-T3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf"
+      }
+    }
   },
   {
     "Nom SCPI": "CORUM XL",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2017,
-    "Capitalisation (M€)": 2167.916595,
-    "Prix de souscription (€)": 195,
+    "Capitalisation (M€)": 2185.0,
+    "Prix de souscription (€)": 195.0,
     "Valeur de reconstitution par part (€)": 194.27,
-    "Valeur de réalisation (€)": 153.86,
-    "WALB": 7.45,
-    "maximus_valeur_realisation_reference_date": "2025-12-31",
-    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
-    "maximus_valeur_realisation_source_page": 10,
-    "maximus_walb_reference_date": "2026-06-30",
-    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+    "Valeur de réalisation (€)": 157.73,
+    "WALB": 7.25,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_valeur_realisation_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "maximus_valeur_realisation_source_page": 3,
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
     "maximus_walb_source_page": 4,
     "maximus_walb_definition": "Durée moyenne d'engagement à payer le loyer (proxy WALB ; pondération non communiquée)",
-    "Nombre d'immeubles": 96,
+    "Nombre d'immeubles": 98,
     "Décote/Surcote QA": "manual_review",
     "Taux de distribution (%)": 5.3,
-    "Distribution (€/part)": 10.33,
+    "Distribution (€/part)": 2.49,
     "Endettement (%)": 26,
     "TOF (%)": 95.6,
-    "Nombre de parts": 11117521,
+    "Nombre de parts": 11203915,
     "Parts en attente de retrait": 0,
     "Minimum de souscription €": 195,
     "Frais de souscription (TTC/%)": 12,
@@ -4210,16 +4580,16 @@
     },
     "liquidite": "Demandes de retrait selon les modalités de la société de gestion. Au T2 2026 : 0 parts en attente selon le bulletin officiel. Aucun rachat, délai de revente ou prix de cession n’est garanti. Consulter la note d’information officielle avant de souscrire.",
     "liquidity_basis": "withdrawal_queue",
-    "Nombre d’associés": 54340,
-    "Période bulletin trimestriel": "T2 2026",
-    "Date bulletin": "30/06/2026",
+    "Nombre d’associés": 54648,
+    "Période bulletin trimestriel": "2026-T3",
+    "Date bulletin": "30/09/2026",
     "td_reference_period": "2025-RA",
     "debt_reference_period": "2025-RA",
     "td_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
     "debt_reference_url": "https://www.corum.fr/sites/default/files/2026-04/Rapport%20annuel%20CORUM%20XL%202025.pdf",
     "maximus_data_status": "certified_and_final_reviewed",
-    "maximus_source_periode": "TD et dette : année 2025 ; données courantes : T2 2026",
-    "maximus_source_document": "Rapport annuel 2025 et Bulletin T2 2026 CORUM; DIC officiel",
+    "maximus_source_periode": "2026-T3",
+    "maximus_source_document": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
     "maximus_warnings": [
       "Risque de perte en capital et de liquidité. Durée recommandée : 10 ans.",
       "Risque de perte en capital, liquidité limitée, et revenus non garantis, selon la note officielle de la SCPI.",
@@ -4230,6 +4600,129 @@
     "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-XL-FR8-Plan-epargne-immobilier-2022.07.pdf",
     "maximus_prix_retrait_source_page": 2,
     "maximus_prix_retrait_reference_period": "2026-T2",
-    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché."
+    "maximus_prix_retrait_definition": "Prix de retrait par compensation, prix de souscription moins commission de souscription ; remboursement non garanti, valeur susceptible d'évoluer selon les conditions de marché.",
+    "Nombre de locataires": 251,
+    "maximus_metric_provenance": {
+      "tof": {
+        "unit": "%",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "walb": {
+        "unit": "years",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": "lease_commitment_proxy_not_normalized_walb",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_parts": {
+        "unit": "parts",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_retrait": {
+        "unit": "EUR_PER_PART",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "capitalisation": {
+        "unit": "MEUR",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_immeubles": {
+        "unit": "count",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "nombre_locataires": {
+        "unit": "count",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 4,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "prix_souscription": {
+        "unit": "EUR_PER_PART",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "valeur_realisation": {
+        "unit": "EUR_PER_PART",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "prix_reconstitution": {
+        "unit": "EUR_PER_PART",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-06-30",
+        "document_period": "2026-T3"
+      },
+      "distribution_par_part": {
+        "unit": "EUR_PER_PART",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "definition": null,
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 2,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "parts_attente_retrait": {
+        "unit": "parts",
+        "sha256": "7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+        "source_page": 3,
+        "reference_date": "2026-09-30",
+        "document_period": "2026-T3"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+        "document_period": "2026-T2"
+      },
+      "repartition_geographique": {
+        "source_url": "https://www.corum.fr/sites/default/files/2026-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T2%202%20%281%29.pdf",
+        "document_period": "2026-T2"
+      },
+      "nombre_associes": {
+        "page": 3,
+        "reference_date": "2026-09-30",
+        "unit": "count",
+        "document_period": "2026-T3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf"
+      }
+    }
   }
 ]

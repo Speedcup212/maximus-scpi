@@ -203,3 +203,9 @@ describe('dated last-known summary observations', () => {
     expect(latestMetricSnapshot(history, 'endettement')).toMatchObject({ value: 5, period: '2026-T2', sourceUrl: 'https://example.com/bulletin.pdf' });
   });
 });
+
+it('retains June valuation dates inside the T3 reporting observation', () => {
+  const history=normalizeAndDedupeHistory([row('2026-T3',{prix_souscription:200,prix_reconstitution:216.34,valeur_realisation:187.67,metric_provenance:{prix_reconstitution:{reference_date:'2026-06-30'},valeur_realisation:{reference_date:'2026-06-30'}}})]);
+  expect(latestValuationSnapshot(history)).toMatchObject({reconstitution:216.34,period:'2026-T3',referenceDate:'2026-06-30'});
+  expect(latestMetricSnapshot(history,'valeur_realisation')).toMatchObject({value:187.67,referenceDate:'2026-06-30'});
+});

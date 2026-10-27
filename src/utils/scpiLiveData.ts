@@ -5,6 +5,7 @@ import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from 
 
 type IndicatorRow = {
   scpi_slug: string;
+  metric_provenance?: Scpi['metricProvenance'];
   nom?: string | null;
   societe_gestion?: string | null;
   annee_creation?: number | string | null;
@@ -62,7 +63,7 @@ type GateRow = {
 };
 
 const INDICATOR_SELECT = [
-  'scpi_slug','nom','societe_gestion','annee_creation','td','tof','capitalisation',
+  'metric_provenance','scpi_slug','nom','societe_gestion','annee_creation','td','tof','capitalisation',
   'prix_souscription','prix_reconstitution','prix_retrait','valeur_realisation',
   'frais_souscription','frais_gestion','srri','duree_detention_recommandee','endettement',
   'delai_jouissance','walt','walb','nombre_locataires','nombre_associes','nombre_immeubles','nombre_parts',
@@ -126,6 +127,7 @@ export function mergeScpiWithLiveIndicators(
 
   return {
     ...scpi,
+    metricProvenance: row.metric_provenance ?? scpi.metricProvenance,
     name: row.nom || scpi.name,
     company: row.societe_gestion || scpi.company,
     creation: toNumber(row.annee_creation) ?? scpi.creation,
@@ -142,6 +144,7 @@ export function mergeScpiWithLiveIndicators(
     valeurReconstitution: reconstitution,
     valeurRetrait: toNumber(row.prix_retrait) ?? scpi.valeurRetrait,
     valeurRealisation: toNumber(row.valeur_realisation) ?? scpi.valeurRealisation,
+    valeurRealisationReferenceDate: row.metric_provenance?.valeur_realisation?.reference_date ?? scpi.valeurRealisationReferenceDate,
     discount: liveDiscount ?? scpi.discount,
     discountQaStatus: comparableDiscount && liveDiscount !== undefined ? 'publishable' : 'manual_review',
     capitalType: row.capital_type || scpi.capitalType,

@@ -30,3 +30,9 @@ export function officialSourceHref(url: string | null | undefined): string | und
     return undefined;
   }
 }
+
+/** Format a metric date without replacing it with its bulletin's quarter. */
+export function metricDateLabel(date: string | null | undefined): string | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date || '');
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : null;
+}

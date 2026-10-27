@@ -11,7 +11,7 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { formatScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
-import { annualReferenceYear } from '../../utils/scpiFinancialProvenance';
+import { annualReferenceYear, metricDateLabel } from '../../utils/scpiFinancialProvenance';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import type { ScpiScores } from '../../utils/scpiScoring';
 
@@ -1032,9 +1032,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                         <div className="text-xs text-slate-400">Val. Réalisation (€/part)</div>
                       </div>
                       <div className="text-lg font-bold text-white">{scpi.valeurRealisation.toFixed(2)}€</div>
-                      {scpiForAnalysis?.valeurRealisationReferenceDate &&
-                        scpiForAnalysis.valeurRealisation === scpi.valeurRealisation && (
-                          <div className="mt-1 text-[10px] text-slate-400">Au 31/12/2025</div>
+                      {(scpi.metricProvenance?.valeur_realisation?.reference_date || scpiForAnalysis?.valeurRealisationReferenceDate) &&
+                        scpiForAnalysis?.valeurRealisation === scpi.valeurRealisation && (
+                          <div className="mt-1 text-[10px] text-slate-400">Au {metricDateLabel(scpi.metricProvenance?.valeur_realisation?.reference_date || scpiForAnalysis.valeurRealisationReferenceDate)}</div>
                         )}
                     </div>
                   )}
@@ -1042,7 +1042,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                       <div className="flex items-center gap-2 mb-2">
                         <DollarSign className="w-4 h-4 text-slate-400" />
-                        <div className="text-xs text-slate-400">Distribution{distributionYear!==null ? ` annuelle ${distributionYear}` : ''} (€/part)</div>
+                        <div className="text-xs text-slate-400">Distribution{scpi.metricProvenance?.distribution_par_part?.document_period ? ` trimestrielle ${scpi.metricProvenance.distribution_par_part.document_period}` : ''} (€/part)</div>
                       </div>
                       <div className="text-lg font-bold text-white">{scpi.distribution.toFixed(2)}€</div>
                     </div>
