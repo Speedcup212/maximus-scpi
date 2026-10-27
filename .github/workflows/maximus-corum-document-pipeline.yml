@@ -1,0 +1,54 @@
+name: CORUM official document ingestion
+on:
+  schedule:
+    - cron: '37 5 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main, recovery/corum-backfill-20261027]
+    paths:
+      - 'scripts/agents/corum_document_pipeline*'
+      - '.github/workflows/maximus-corum-document-pipeline.yml'
+  pull_request:
+    paths:
+      - 'scripts/agents/corum_document_pipeline*'
+      - '.github/workflows/maximus-corum-document-pipeline.yml'
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: corum-official-document-pipeline
+  cancel-in-progress: false
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF engines and local OCR
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Adversarial crash tests, including actual scanned PDF
+        run: python -m unittest discover -s scripts/agents -p 'corum_document_pipeline_test.py' -v
+      - uses: actions/cache@v4
+        if: github.event_name != 'pull_request'
+        with:
+          path: test-results/corum-document-pipeline/pdf-cache
+          key: corum-pdf-cache-v1-${{ github.run_id }}
+          restore-keys: corum-pdf-cache-v1-
+      - name: Ingest only enabled CORUM funds; no thresholds or annual values overwritten
+        if: github.event_name != 'pull_request'
+        run: python scripts/agents/corum_document_pipeline.py --out test-results/corum-document-pipeline --apply
+      - name: Preserve per-document audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: corum-document-pipeline-${{ github.run_id }}
+          path: test-results/corum-document-pipeline/results.json
+          if-no-files-found: ignore
