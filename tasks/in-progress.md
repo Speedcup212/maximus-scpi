@@ -83,3 +83,22 @@ Cause : enfant indépendant sans ordre CSS, placé avant les enfants order=10+.
 Correction : bloc inclus dans scpi-rental-source-coverage du tableau technique ;
 assertion Chromium vérifiant sa présence dans ce groupe et après Chiffres clés.
 Branche : fix/walb-rental-section-20261027. Validation puis contrôle public requis.
+
+Publication RECOVERY-008 vérifiée le 27/10/2026 : commit b9cfca2, Netlify
+6ae0a05f8587ceac6444147c ready ; chiffres clés premiers, bloc détaillé dans les
+indicateurs locatifs. Tests navigateur sur quatre CORUM PASS. Tâche clôturée.
+
+## RECOVERY-009 — Tous les bulletins des 65 SCPI, 27/10/2026
+
+Demande explicite : retraiter tous les bulletins disponibles, archives comprises,
+pour toutes les SCPI, sans plafond fonctionnel ni sélection du dernier trimestre.
+Branche : recovery/all-bulletins-completeness-20261027.
+Périmètre : inventaire documentaire actif, extraction complète par champ/date/page,
+OCR des pages illisibles, reprise idempotente, écriture historique et indicateurs,
+suivi de complétude documentaire et orchestration GitHub OIDC protégée.
+Conserver les certifications contradictoires en revue, NULL réels et bases de
+liquidité. Un SHA déjà connu ou trois champs extraits ne valent pas complétude.
+Critères : chaque document connu possède une tentative/version et un résultat
+explicite ; aucune donnée publiée omise par limite de lot, de page ou de période ;
+preuves par champ, tests adversariaux et contrôle des consommateurs.
+État : inventaire et reprise en cours.

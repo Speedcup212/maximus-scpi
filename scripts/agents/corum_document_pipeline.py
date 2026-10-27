@@ -14,7 +14,7 @@ import corum_bulletin_fields as extended
 
 FUNDS={'corum-origin':('CORUM Origin','corum-origin'), 'corum-xl':('CORUM XL','corum-xl'),
        'corum-eurion':('CORUM Eurion','eurion'), 'corum-usa':('CORUM USA','corum-usa')}
-VERSION='corum-dual-pdf-20261027-v6-extended'
+VERSION='corum-dual-pdf-20261027-v7-extended'
 UA='Mozilla/5.0 (compatible; MaximusSCPI-OfficialArchive/1.0)'
 MAX_BYTES=65*1024*1024
 

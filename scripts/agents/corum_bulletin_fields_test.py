@@ -1,6 +1,10 @@
 import unittest,sys
 import corum_bulletin_fields as f
 class ExtendedFieldsTest(unittest.TestCase):
+ def test_capitalisation_preserves_thousands_in_millions(self):
+  words=[(10,50,80,60,'Capitalisation'),(10,20,15,30,'1'),(17,20,32,30,'148'),(34,20,70,30,'millions'),(72,20,100,30,"d'euros")]
+  a,_=f.extract(['Capitalisation 1 148 millions d’euros'],[words],[400],'2023-T4')
+  self.assertEqual(a['capitalisation']['value'],1148)
  def test_dates_are_not_bulletin_quarters(self):
   self.assertEqual(f.valuation_date('VALEURS DE RÉFÉRENCE AU 30 JUIN 2026'),'2026-06-30')
   self.assertEqual(f.quarter_date('2026-T3'),'2026-09-30')

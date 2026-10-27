@@ -1,0 +1,57 @@
+name: All SCPI bulletins - complete archive replay
+on:
+  schedule:
+    - cron: '43 5,11,17 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main, recovery/all-bulletins-completeness-20261027]
+    paths:
+      - scripts/agents/bulletin_complete_pipeline*
+      - scripts/agents/bulletin_fields.py
+      - .github/workflows/maximus-all-bulletins-replay.yml
+  pull_request:
+    paths:
+      - scripts/agents/bulletin_complete_pipeline*
+      - scripts/agents/bulletin_fields.py
+      - .github/workflows/maximus-all-bulletins-replay.yml
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: all-scpi-bulletin-replay
+  cancel-in-progress: false
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        slot: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent native PDF readers and complete-page OCR
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Adversarial financial field and source tests
+        run: |
+          python -m unittest discover -s scripts/agents -p 'bulletin*_test.py' -v
+          python -m unittest discover -s scripts/agents -p 'corum*_test.py' -v
+      - name: Drain durable queue - all 65 SCPI and all registered periods
+        if: github.event_name != 'pull_request'
+        run: python scripts/agents/bulletin_complete_pipeline.py --run --out test-results/bulletin-replay-${{ matrix.slot }}
+      - name: Keep document outcomes and checkpoints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bulletin-replay-${{ github.run_id }}-${{ matrix.slot }}
+          path: test-results/bulletin-replay-${{ matrix.slot }}/run-summary.json
+          if-no-files-found: ignore
+      # No readiness override, public release, marketing or Netlify deployment.
